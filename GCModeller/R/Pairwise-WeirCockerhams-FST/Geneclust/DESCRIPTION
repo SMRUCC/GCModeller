@@ -1,0 +1,15 @@
+Package: Geneclust
+Title: Simulation and analysis of spatial structure of population
+        genetics data
+Version: 1.0.1
+Author: Sophie Ancelet
+Description: Simulation and analysis of spatial structure of population
+        genetics data
+Depends: deldir, fields, spatial
+Maintainer: Sophie Ancelet <Sophie.Ancelet@orange.fr> , Gilles Guillot
+        <gigu@imm.dtu.dk>
+URL: http://www.sophie-ancelet.com/
+License: GPL
+Packaged: 2010-08-05 07:50:29 UTC; gilles
+Repository: CRAN
+Date/Publication: 2010-08-05 08:04:28

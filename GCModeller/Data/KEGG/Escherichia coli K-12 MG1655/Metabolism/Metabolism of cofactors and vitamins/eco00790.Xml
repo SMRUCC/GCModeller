@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00790" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Folate biosynthesis - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00126" Value="Tetrahydrofolate biosynthesis, GTP =&gt; THF [PATH:eco00790]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00044" Value="GTP" />
+    <hashEntry Key="C00101" Value="Tetrahydrofolate" />
+    <hashEntry Key="C00251" Value="Chorismate" />
+    <hashEntry Key="C00266" Value="Glycolaldehyde" />
+    <hashEntry Key="C00268" Value="Dihydrobiopterin" />
+    <hashEntry Key="C00272" Value="Tetrahydrobiopterin" />
+    <hashEntry Key="C00415" Value="Dihydrofolate" />
+    <hashEntry Key="C00504" Value="Folate" />
+    <hashEntry Key="C00568" Value="4-Aminobenzoate" />
+    <hashEntry Key="C00921" Value="Dihydropteroate" />
+    <hashEntry Key="C01217" Value="5,6,7,8-Tetrahydromethanopterin" />
+    <hashEntry Key="C01300" Value="2-Amino-4-hydroxy-6-hydroxymethyl-7,8-dihydropteridine" />
+    <hashEntry Key="C02587" Value="Pyrimidodiazepine" />
+    <hashEntry Key="C03541" Value="THF-polyglutamate" />
+    <hashEntry Key="C03684" Value="6-Pyruvoyltetrahydropterin" />
+    <hashEntry Key="C04244" Value="6-Lactoyl-5,6,7,8-tetrahydropterin" />
+    <hashEntry Key="C04807" Value="2-Amino-7,8-dihydro-4-hydroxy-6-(diphosphooxymethyl)pteridine" />
+    <hashEntry Key="C04874" Value="2-Amino-4-hydroxy-6-(D-erythro-1,2,3-trihydroxypropyl)-7,8-dihydropteridine" />
+    <hashEntry Key="C04895" Value="7,8-Dihydroneopterin 3'-triphosphate" />
+    <hashEntry Key="C05922" Value="Formamidopyrimidine nucleoside triphosphate" />
+    <hashEntry Key="C05923" Value="2,5-Diaminopyrimidine nucleoside triphosphate" />
+    <hashEntry Key="C05924" Value="Molybdopterin" />
+    <hashEntry Key="C05925" Value="Dihydroneopterin phosphate" />
+    <hashEntry Key="C05926" Value="Neopterin" />
+    <hashEntry Key="C05927" Value="7,8-Dihydromethanopterin" />
+    <hashEntry Key="C06148" Value="2,5-Diamino-6-(5'-triphosphoryl-3',4'-trihydroxy-2'-oxopentyl)-amino-4-oxopyrimidine" />
+    <hashEntry Key="C06149" Value="6-(3'-Triphosphoryl-1'-methylglyceryl)-7-methyl-7,8-dihydrobiopterin" />
+    <hashEntry Key="C09332" Value="THF-L-glutamate" />
+    <hashEntry Key="C11355" Value="4-Amino-4-deoxychorismate" />
+    <hashEntry Key="C15996" Value="7-Cyano-7-carbaguanine" />
+    <hashEntry Key="C16675" Value="7-Aminomethyl-7-carbaguanine" />
+    <hashEntry Key="C18239" Value="Precursor Z" />
+    <hashEntry Key="C18802" Value="Tetrahydrosarcinapterin" />
+    <hashEntry Key="C20239" Value="6-Carboxy-5,6,7,8-tetrahydropterin" />
+    <hashEntry Key="C20248" Value="7-Carboxy-7-carbaguanine" />
+  </Compound>
+  <PathwayMap Key="eco00790" Value="Folate biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0048" Value="folA; dihydrofolate reductase (EC:1.5.1.3); K00287 dihydrofolate reductase [EC:1.5.1.3]" />
+    <hashEntry Key="eco:b0142" Value="folK; 2-amino-4-hydroxy-6-hydroxymethyldihyropteridine pyrophosphokinase (EC:2.7.6.3); K00950 2-amin" />
+    <hashEntry Key="eco:b0383" Value="phoA; bacterial alkaline phosphatase (EC:3.1.3.1); K01077 alkaline phosphatase [EC:3.1.3.1]" />
+    <hashEntry Key="eco:b0444" Value="queC; 7-cyano-7-deazaguanine (preQ0) synthase; queuosine biosynthesis; K06920 7-cyano-7-deazaguanine" />
+    <hashEntry Key="eco:b0781" Value="moaA; molybdopterin biosynthesis protein A; K03639 cyclic pyranopterin phosphate synthase [EC:4.1.99" />
+    <hashEntry Key="eco:b0783" Value="moaC; molybdopterin biosynthesis, protein C; K03637 cyclic pyranopterin phosphate synthase [EC:4.1.9" />
+    <hashEntry Key="eco:b0784" Value="moaD; molybdopterin synthase, small subunit; K03636 molybdopterin synthase sulfur carrier subunit" />
+    <hashEntry Key="eco:b0785" Value="moaE; molybdopterin synthase, large subunit; K03635 molybdopterin synthase catalytic subunit [EC:2.8" />
+    <hashEntry Key="eco:b1096" Value="pabC; 4-amino-4-deoxychorismate lyase component of para-aminobenzoate synthase multienzyme complex (" />
+    <hashEntry Key="eco:b1606" Value="folM; dihydromonapterin reductase, NADPH-dependent; dihydrofolate reductase isozyme (EC:1.5.1.3); K1" />
+    <hashEntry Key="eco:b1812" Value="pabB; aminodeoxychorismate synthase, subunit I (EC:2.6.1.85); K01665 para-aminobenzoate synthetase c" />
+    <hashEntry Key="eco:b1865" Value="nudB; dihydroneopterin triphosphate pyrophosphatase (EC:3.6.1.-); K08310 dihydroneopterin triphospha" />
+    <hashEntry Key="eco:b2153" Value="folE; GTP cyclohydrolase I (EC:3.5.4.16); K01495 GTP cyclohydrolase I [EC:3.5.4.16]" />
+    <hashEntry Key="eco:b2315" Value="folC; bifunctional folylpolyglutamate synthase/dihydrofolate synthase (EC:6.3.2.12 6.3.2.17); K11754" />
+    <hashEntry Key="eco:b2765" Value="queD; 6-pyruvoyl tetrahydrobiopterin synthase (PTPS); K01737 6-pyruvoyltetrahydropterin/6-carboxytet" />
+    <hashEntry Key="eco:b2777" Value="queE; 7-carboxy-7-deazaguanine synthase; queosine biosynthesis; K10026 7-carboxy-7-deazaguanine synt" />
+    <hashEntry Key="eco:b2794" Value="queF; 7-cyano-7-deazaguanine reductase (NADPH-dependent) (EC:1.7.1.-); K06879 7-cyano-7-deazaguanine" />
+    <hashEntry Key="eco:b3058" Value="folB; bifunctional dihydroneopterin aldolase/dihydroneopterin triphosphate 2&amp;#39;-epimerase (EC:4.1.2.25" />
+    <hashEntry Key="eco:b3177" Value="folP; 7,8-dihydropteroate synthase (EC:2.5.1.15); K00796 dihydropteroate synthase [EC:2.5.1.15]" />
+    <hashEntry Key="eco:b3360" Value="pabA; aminodeoxychorismate synthase, subunit II (EC:2.6.1.85); K01664 para-aminobenzoate synthetase" />
+  </Genes>
+</KEGG.PathwayBrief>

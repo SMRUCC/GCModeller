@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00052" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Galactose metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00279" Value="PTS system, galactitol-specific II component [PATH:eco00052]" />
+    <hashEntry Key="eco_M00552" Value="D-galactonate degradation, De Ley-Doudoroff pathway, D-galactonate =&gt; glycerate-3P [PATH:eco00052]" />
+    <hashEntry Key="eco_M00554" Value="Nucleotide sugar biosynthesis, galactose =&gt; UDP-galactose [PATH:eco00052]" />
+    <hashEntry Key="eco_M00632" Value="Galactose degradation, Leloir pathway, galactose =&gt; alpha-D-glucose-1P [PATH:eco00052]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00029" Value="UDP-glucose" />
+    <hashEntry Key="C00031" Value="D-Glucose" />
+    <hashEntry Key="C00052" Value="UDP-alpha-D-galactose" />
+    <hashEntry Key="C00089" Value="Sucrose" />
+    <hashEntry Key="C00095" Value="D-Fructose" />
+    <hashEntry Key="C00103" Value="D-Glucose 1-phosphate" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00116" Value="Glycerol" />
+    <hashEntry Key="C00118" Value="D-Glyceraldehyde 3-phosphate" />
+    <hashEntry Key="C00124" Value="D-Galactose" />
+    <hashEntry Key="C00137" Value="myo-Inositol" />
+    <hashEntry Key="C00159" Value="D-Mannose" />
+    <hashEntry Key="C00243" Value="Lactose" />
+    <hashEntry Key="C00267" Value="alpha-D-Glucose" />
+    <hashEntry Key="C00446" Value="alpha-D-Galactose 1-phosphate" />
+    <hashEntry Key="C00492" Value="Raffinose" />
+    <hashEntry Key="C00577" Value="D-Glyceraldehyde" />
+    <hashEntry Key="C00668" Value="alpha-D-Glucose 6-phosphate" />
+    <hashEntry Key="C00794" Value="D-Sorbitol" />
+    <hashEntry Key="C00795" Value="D-Tagatose" />
+    <hashEntry Key="C00880" Value="D-Galactonate" />
+    <hashEntry Key="C00984" Value="alpha-D-Galactose" />
+    <hashEntry Key="C01097" Value="D-Tagatose 6-phosphate" />
+    <hashEntry Key="C01113" Value="D-Galactose 6-phosphate" />
+    <hashEntry Key="C01132" Value="N-Acetyl-D-galactosamine" />
+    <hashEntry Key="C01216" Value="2-Dehydro-3-deoxy-D-galactonate" />
+    <hashEntry Key="C01235" Value="alpha-D-Galactosyl-(1-&gt;3)-1D-myo-inositol" />
+    <hashEntry Key="C01286" Value="2-Dehydro-3-deoxy-6-phospho-D-galactonate" />
+    <hashEntry Key="C01613" Value="Stachyose" />
+    <hashEntry Key="C01697" Value="Galactitol" />
+    <hashEntry Key="C02262" Value="D-Galactosamine" />
+    <hashEntry Key="C02669" Value="D-Galactono-1,5-lactone" />
+    <hashEntry Key="C03383" Value="D-Galactono-1,4-lactone" />
+    <hashEntry Key="C03733" Value="UDP-alpha-D-galactofuranose" />
+    <hashEntry Key="C03785" Value="D-Tagatose 1,6-bisphosphate" />
+    <hashEntry Key="C05396" Value="Lactose 6'-phosphate" />
+    <hashEntry Key="C05399" Value="Melibiitol" />
+    <hashEntry Key="C05400" Value="Epimelibiose" />
+    <hashEntry Key="C05401" Value="3-beta-D-Galactosyl-sn-glycerol" />
+    <hashEntry Key="C05402" Value="Melibiose" />
+    <hashEntry Key="C05404" Value="D-Gal alpha 1-&gt;6D-Gal alpha 1-&gt;6D-Glucose" />
+    <hashEntry Key="C05796" Value="Galactan" />
+    <hashEntry Key="C06311" Value="Galactitol 1-phosphate" />
+    <hashEntry Key="C06376" Value="N-Acetyl-D-galactosamine 6-phosphate" />
+    <hashEntry Key="C06377" Value="D-Galactosamine 6-phosphate" />
+  </Compound>
+  <PathwayMap Key="eco00052" Value="Galactose metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0344" Value="lacZ; beta-D-galactosidase (EC:3.2.1.23); K01190 beta-galactosidase [EC:3.2.1.23]" />
+    <hashEntry Key="eco:b0403" Value="malZ; maltodextrin glucosidase (EC:3.2.1.20); K01187 alpha-glucosidase [EC:3.2.1.20]" />
+    <hashEntry Key="eco:b0688" Value="pgm; phosphoglucomutase (EC:5.4.2.2); K01835 phosphoglucomutase [EC:5.4.2.2]" />
+    <hashEntry Key="eco:b0756" Value="galM; aldose 1-epimerase; type-1 mutarotase (EC:5.1.3.3); K01785 aldose 1-epimerase [EC:5.1.3.3]" />
+    <hashEntry Key="eco:b0757" Value="galK; galactokinase (EC:2.7.1.6); K00849 galactokinase [EC:2.7.1.6]" />
+    <hashEntry Key="eco:b0758" Value="galT; galactose-1-phosphate uridylyltransferase (EC:2.7.7.10); K00965 UDPglucose--hexose-1-phosphate" />
+    <hashEntry Key="eco:b0759" Value="galE; UDP-galactose-4-epimerase (EC:5.1.3.2); K01784 UDP-glucose 4-epimerase [EC:5.1.3.2]" />
+    <hashEntry Key="eco:b1236" Value="galU; glucose-1-phosphate uridylyltransferase (EC:2.7.7.9); K00963 UTP--glucose-1-phosphate uridylyl" />
+    <hashEntry Key="eco:b1723" Value="pfkB; 6-phosphofructokinase II (EC:2.7.1.11); K16370 6-phosphofructokinase 2 [EC:2.7.1.11]" />
+    <hashEntry Key="eco:b2036" Value="glf; UDP-galactopyranose mutase, FAD/NAD(P)-binding (EC:5.4.99.9); K01854 UDP-galactopyranose mutase" />
+    <hashEntry Key="eco:b2042" Value="wcaN; putative regulatory subunit for GalU; K00963 UTP--glucose-1-phosphate uridylyltransferase [EC:" />
+    <hashEntry Key="eco:b2091" Value="gatD; galactitol-1-phosphate dehydrogenase, Zn-dependent and NAD(P)-binding (EC:1.1.1.251); K00094 g" />
+    <hashEntry Key="eco:b2093" Value="gatB; galactitol-specific enzyme IIB component of PTS (EC:2.7.1.69); K02774 PTS system, galactitol-s" />
+    <hashEntry Key="eco:b2094" Value="gatA; galactitol-specific enzyme IIA component of PTS (EC:2.7.1.69); K02773 PTS system, galactitol-s" />
+    <hashEntry Key="eco:b2095" Value="gatZ; D-tagatose 1,6-bisphosphate aldolase 2, subunit (EC:4.1.2.40); K16371 D-tagatose-1,6-bisphosph" />
+    <hashEntry Key="eco:b2096" Value="gatY; D-tagatose 1,6-bisphosphate aldolase 2, catalytic subunit (EC:4.1.2.40); K08302 tagatose 1,6-d" />
+    <hashEntry Key="eco:b2388" Value="glk; glucokinase (EC:2.7.1.2); K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="eco:b3076" Value="ebgA; evolved beta-D-galactosidase, alpha subunit (EC:3.2.1.23); K12111 evolved beta-galactosidase s" />
+    <hashEntry Key="eco:b3077" Value="ebgC; evolved beta-D-galactosidase, beta subunit; cupin superfamily; K12112 evolved beta-galactosida" />
+    <hashEntry Key="eco:b3132" Value="kbaZ; tagatose 6-phosphate aldolase 1, kbaZ subunit (EC:4.1.2.40); K16371 D-tagatose-1,6-bisphosphat" />
+    <hashEntry Key="eco:b3133" Value="agaV; N-acetylgalactosamine-specific enzyme IIB component of PTS (EC:2.7.1.69); K02745 PTS system, N" />
+    <hashEntry Key="eco:b3137" Value="kbaY; tagatose 6-phosphate aldolase 1, kbaY subunit (EC:4.1.2.40); K08302 tagatose 1,6-diphosphate a" />
+    <hashEntry Key="eco:b3138" Value="agaB; N-acetylgalactosamine-specific enzyme IIB component of PTS (EC:2.7.1.69); K10984 PTS system, g" />
+    <hashEntry Key="eco:b3139" Value="agaC; N-acetylgalactosamine-specific enzyme IIC component of PTS (EC:2.7.1.69); K10985 PTS system, g" />
+    <hashEntry Key="eco:b3140" Value="agaD; N-acetylgalactosamine-specific enzyme IID component of PTS (EC:2.7.1.69); K10986 PTS system, g" />
+    <hashEntry Key="eco:b3141" Value="agaI; galactosamine-6-phosphate isomerase; K02080 galactosamine-6-phosphate isomerase [EC:5.3.1.-]" />
+    <hashEntry Key="eco:b3693" Value="dgoK; 2-oxo-3-deoxygalactonate kinase (EC:2.7.1.58); K00883 2-dehydro-3-deoxygalactonokinase [EC:2.7" />
+    <hashEntry Key="eco:b3878" Value="yihQ; alpha-glucosidase; K15922 alpha-glucosidase [EC:3.2.1.20]" />
+    <hashEntry Key="eco:b3879" Value="yihR; mutarotase superfamily protein, YihR family; K01785 aldose 1-epimerase [EC:5.1.3.3]" />
+    <hashEntry Key="eco:b3916" Value="pfkA; 6-phosphofructokinase I (EC:2.7.1.11); K00850 6-phosphofructokinase 1 [EC:2.7.1.11]" />
+    <hashEntry Key="eco:b4119" Value="melA; alpha-galactosidase, NAD(P)-binding (EC:3.2.1.22); K07406 alpha-galactosidase [EC:3.2.1.22]" />
+    <hashEntry Key="eco:b4302" Value="sgcA; putative phosphotransferase enzyme IIA component; K02773 PTS system, galactitol-specific IIA c" />
+    <hashEntry Key="eco:b4304" Value="sgcC; putative PTS system EIIC permease component; K02775 PTS system, galactitol-specific IIC compon" />
+    <hashEntry Key="eco:b4477" Value="dgoA; 2-oxo-3-deoxygalactonate 6-phosphate aldolase (EC:4.1.2.21); K01631 2-dehydro-3-deoxyphosphoga" />
+    <hashEntry Key="eco:b4478" Value="dgoD; galactonate dehydratase (EC:4.2.1.6); K01684 galactonate dehydratase [EC:4.2.1.6]" />
+    <hashEntry Key="eco:b4565" Value="sgcB; putative enzyme IIB component of PTS; K02774 PTS system, galactitol-specific IIB component [EC" />
+  </Genes>
+</KEGG.PathwayBrief>

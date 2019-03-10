@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00660" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>C5-Branched dibasic acid metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00033" Value="Acetate" />
+    <hashEntry Key="C00048" Value="Glyoxylate" />
+    <hashEntry Key="C00100" Value="Propanoyl-CoA" />
+    <hashEntry Key="C00109" Value="2-Oxobutanoate" />
+    <hashEntry Key="C00417" Value="cis-Aconitate" />
+    <hashEntry Key="C00490" Value="Itaconate" />
+    <hashEntry Key="C00531" Value="Itaconyl-CoA" />
+    <hashEntry Key="C00651" Value="4-Methylene-L-glutamate" />
+    <hashEntry Key="C00810" Value="(R)-Acetoin" />
+    <hashEntry Key="C01011" Value="(3S)-Citramalyl-CoA" />
+    <hashEntry Key="C01109" Value="4-Methylene-L-glutamine" />
+    <hashEntry Key="C01732" Value="Mesaconate" />
+    <hashEntry Key="C02226" Value="2-Methylmaleate" />
+    <hashEntry Key="C02612" Value="(R)-2-Methylmalate" />
+    <hashEntry Key="C02614" Value="(S)-2-Methylmalate" />
+    <hashEntry Key="C02630" Value="2-Hydroxyglutarate" />
+    <hashEntry Key="C02876" Value="Propanoyl phosphate" />
+    <hashEntry Key="C03618" Value="L-threo-3-Methylaspartate" />
+    <hashEntry Key="C06010" Value="(S)-2-Acetolactate" />
+    <hashEntry Key="C06027" Value="L-erythro-3-Methylmalyl-CoA" />
+    <hashEntry Key="C06028" Value="2-Methylfumaryl-CoA" />
+    <hashEntry Key="C06029" Value="L-threo-3-Methylmalate" />
+    <hashEntry Key="C06030" Value="Methyloxaloacetate" />
+    <hashEntry Key="C06031" Value="D-threo-3-Methylmalate" />
+    <hashEntry Key="C06032" Value="D-erythro-3-Methylmalate" />
+    <hashEntry Key="C06033" Value="Parapyruvate" />
+    <hashEntry Key="C06034" Value="4-Hydroxy-4-methylglutamate" />
+    <hashEntry Key="C06035" Value="4-Methylene-2-oxoglutarate" />
+    <hashEntry Key="C06234" Value="4-Methyl-L-glutamate" />
+  </Compound>
+  <PathwayMap Key="eco00660" Value="C5-Branched dibasic acid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0071" Value="leuD; 3-isopropylmalate dehydratase small subunit (EC:4.2.1.33); K01704 3-isopropylmalate/(R)-2-meth" />
+    <hashEntry Key="eco:b0072" Value="leuC; 3-isopropylmalate dehydratase large subunit (EC:4.2.1.33); K01703 3-isopropylmalate/(R)-2-meth" />
+    <hashEntry Key="eco:b0073" Value="leuB; 3-isopropylmalate dehydrogenase, NAD(+)-dependent (EC:1.1.1.85); K00052 3-isopropylmalate dehy" />
+    <hashEntry Key="eco:b0077" Value="ilvI; acetolactate synthase 3 large subunit (EC:2.2.1.6); K01652 acetolactate synthase I/II/III larg" />
+    <hashEntry Key="eco:b0078" Value="ilvH; acetolactate synthase 3, small subunit, valine-sensitive (EC:2.2.1.6); K01653 acetolactate syn" />
+    <hashEntry Key="eco:b0728" Value="sucC; succinyl-CoA synthetase, beta subunit (EC:6.2.1.5); K01903 succinyl-CoA synthetase beta subuni" />
+    <hashEntry Key="eco:b0729" Value="sucD; succinyl-CoA synthetase, NAD(P)-binding, alpha subunit (EC:6.2.1.5); K01902 succinyl-CoA synth" />
+    <hashEntry Key="eco:b3670" Value="ilvN; acetolactate synthase 1 small subunit (EC:2.2.1.6); K01653 acetolactate synthase I/III small s" />
+    <hashEntry Key="eco:b3671" Value="ilvB; acetolactate synthase 2 large subunit (EC:2.2.1.6); K01652 acetolactate synthase I/II/III larg" />
+    <hashEntry Key="eco:b3769" Value="ilvM; acetolactate synthase 2 small subunit (EC:2.2.1.6); K11258 acetolactate synthase II small subu" />
+  </Genes>
+</KEGG.PathwayBrief>

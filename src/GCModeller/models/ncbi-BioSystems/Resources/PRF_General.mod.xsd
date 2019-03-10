@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqblock.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "PRF-General"
+================================================= -->
+<!--
+**********************************************************************
+ PRF specific definition
+    PRF is a protein sequence database crated and maintained by
+    Protein Research Foundation, Minoo-city, Osaka, Japan.
+
+    Written by A.Ogiwara, Inst.Chem.Res. (Dr.Kanehisa's Lab),
+            Kyoto Univ., Japan
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          PRF-block -->
+
+<!-- ============================================ -->
+
+
+
+<xs:element name="PRF-block">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="PRF-block_extra-src" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PRF-ExtraSrc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PRF-block_keywords" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="PRF-block_keywords_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="PRF-ExtraSrc">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="PRF-ExtraSrc_host" type="xs:string" minOccurs="0"/>
+      <xs:element name="PRF-ExtraSrc_part" type="xs:string" minOccurs="0"/>
+      <xs:element name="PRF-ExtraSrc_state" type="xs:string" minOccurs="0"/>
+      <xs:element name="PRF-ExtraSrc_strain" type="xs:string" minOccurs="0"/>
+      <xs:element name="PRF-ExtraSrc_taxon" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

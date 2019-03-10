@@ -1,0 +1,10 @@
+[submodule "mysqli.vb"]
+	path = src/runtime/mysqli
+	url = https://github.com/xieguigang/mysqli.vb.git
+	branch = master
+[submodule "src/R-sharp"]
+	path = src/R-sharp
+	url = https://github.com/SMRUCC/R-sharp.git
+[submodule "src/runtime/Darwinism"]
+	path = src/runtime/Darwinism
+	url = https://github.com/xieguigang/Darwinism.git

@@ -1,0 +1,3 @@
+AB513793.1	Hepatitis A virus gene for polyprotein, partial cds, isolate: acute hepatitis 1
+AB513794.1	Hepatitis A virus gene for polyprotein, partial cds, isolate: acute hepatitis 2
+AB513795.1	Hepatitis A virus gene for polyprotein, partial cds, isolate: acute hepatitis 3

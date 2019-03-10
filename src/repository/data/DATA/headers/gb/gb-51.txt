@@ -1,0 +1,4 @@
+AY669853.1	Acute bee paralysis virus isolate V299 nonstructural protein gene, partial cds
+JX416713.1	Lates calcarifer nervous necrosis virus isolate Acute-268 coat protein gene, partial cds
+JX416715.1	Lates calcarifer nervous necrosis virus isolate Acute-214 coat protein gene, partial cds
+JX416717.1	Lates calcarifer nervous necrosis virus isolate Acute-241 coat protein gene, partial cds

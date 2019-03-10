@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LANS.SystemsBiology.DatabaseServices.DEG.Workflows" Collapsed="true">
+    <Position X="27.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DEG\Annotations.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.DEG.Annotations" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAggAAAAAGCAAAEAAAAAAAAAAAAgAIgEAAAAAgAAAA=</HashCode>
+      <FileName>DEG\Annotations.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.DEG.DEG_AminoAcidSequence" Collapsed="true">
+    <Position X="29.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAggAQAAACAAAQAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>DEG\Annotations.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.My.MySettings" Collapsed="true">
+    <Position X="27.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MySQLDbReflector" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MySQLDbReflector.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.TranscriptionFactors" Collapsed="true">
+    <Position X="24.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.BacteriaGenome" Collapsed="true">
+    <Position X="26" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEAAACAAAI=</HashCode>
+      <FileName>RegulonDatabase\Regprecise\WebServices\WebParser\BacteriaGenome.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.Database" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQgEAAAAAAAAEAAAAAQAAAAAAAAAACAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\Regtransbase.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Dictionaries.Dictionary" Collapsed="true">
+    <Position X="5.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\Dictionary.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Dictionaries.Genomes" Collapsed="true">
+    <Position X="5.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\Dictionary.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.ExpArticle" Collapsed="true">
+    <Position X="31.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kQAAAAAgQAAAAAAAAMAADIAAAABEAACAAAACAAACRAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\ExpArticle.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.ExpPackage" Collapsed="true">
+    <Position X="26" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCAIAAQAAAAAAAAAAAAAAQAABAAAAEhAAAAAAEADE=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\ExpPackage.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Relations_of_regulatory_elements" Collapsed="true">
+    <Position X="27.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EABAAAAIAAAAQAAAAAAAAACACAAABAAAAAACAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\ExpPackage.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Experminent_object" Collapsed="true">
+    <Position X="24.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EABAAAAAgAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\ExpPackage.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.ExpTypes_object" Collapsed="true">
+    <Position X="29.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EABAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\ExpPackage.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.ExpSubObject_object" Collapsed="true">
+    <Position X="27.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EABAAAAAAABAQAAAAAASAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\ExpPackage.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.RegulatoryElement" Collapsed="true">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAEEAAAAAAQQAAAABBAAAAABAAAAAQA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Effector" Collapsed="true">
+    <Position X="1.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Regulator" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACABIAAiAAAEAAAAIAQAAAAABAAACAEAAEABBAI=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Sites" Collapsed="true">
+    <Position X="10.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAACAAAgAAAIAAAEAAAEAIFgAACCEAMAEEEAE=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Gene" Collapsed="true">
+    <Position X="12.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAIAAQAAQAACCAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Transcript" Collapsed="true">
+    <Position X="15" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAEgCAACAAAAgAAAAAACAAAABAAAAAAAAgAAQAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Operon" Collapsed="true">
+    <Position X="17.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Locuses" Collapsed="true">
+    <Position X="19.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Regulon" Collapsed="true">
+    <Position X="21.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.sec_structures" Collapsed="true">
+    <Position X="3.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAEgCAACAAAAgAAAAAAAAAAABAAAAQAAAgAAQAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.helices" Collapsed="true">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAABAAEAAAAAACABAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.ObjSynonyms" Collapsed="true">
+    <Position X="29.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EABAAAAAAAAAAAAAAAIEAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.RegPreciseTFFamily" Collapsed="true">
+    <Position X="31.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.TranscriptionFactorFamily" Collapsed="true">
+    <Position X="31.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BQAgAAAAAAAAAAAEEAAAAQAAAAAAAAAADAAAgAAABAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.Regulogs" Collapsed="true">
+    <Position X="26" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAwAAAgAAAAIAAABBQAAAAAAAAAAAIAAAAEAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.Regulator" Collapsed="true">
+    <Position X="24.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAFAAAQAAAAAAAAAAAAIEAAAAAiAIAAAAEBBA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.FastaObject" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAgkAACAAAQAAAAAAAAIAAAIAEAAQAg=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.WebServiceHandler" Collapsed="true">
+    <Position X="26" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAgAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\Regtransbase\WebServices\WebServiceHandler.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.RegulonDB" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>RegulonDatabase\RegulonDB\RegulonDB.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.CsvData.CompoundSpecie" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="27.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAABAAEAAAAEAAAIAAABAAAAAACACAAAAAAAARA=</HashCode>
+      <FileName>SABIORK KineticLaws\CsvData.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.CsvData.ModifierKinetics" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAARAACAAAAAAAECAAAAAAIAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>SABIORK KineticLaws\CsvData.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.CsvData.KineticLawModel" Collapsed="true">
+    <Position X="24.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAEAAAAAAAABAAAAAAAIEAAAAgCAAACEIAAAAAA=</HashCode>
+      <FileName>SABIORK KineticLaws\CsvData.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.SABIORK" Collapsed="true">
+    <Position X="29.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQABAAAAQABAEAAEgEAAIAAIACBAAAAAAAEAAgIAQQA=</HashCode>
+      <FileName>SABIORK KineticLaws\SABIORK.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.My.Resources.Resources" Collapsed="true">
+    <Position X="26" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.My.MySettingsProperty" Collapsed="true">
+    <Position X="24.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

@@ -1,0 +1,1 @@
+../../../GCModeller/bin/GCModeller.exe /nt.repository.query /query "./repository-query.csv" /DATA "./DATA"

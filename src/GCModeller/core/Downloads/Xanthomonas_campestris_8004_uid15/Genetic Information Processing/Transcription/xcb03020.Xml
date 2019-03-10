@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb03020" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>RNA polymerase - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00183" Value="RNA polymerase, bacteria [PATH:xcb03020]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xcb03020" Value="RNA polymerase&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0957" Value="DNA-directed RNA polymerase subunit omega (EC:2.7.7.6); K03060 DNA-directed RNA polymerase subunit o" />
+    <hashEntry Key="xcb:XC_3316" Value="DNA-directed RNA polymerase subunit alpha (EC:2.7.7.6); K03040 DNA-directed RNA polymerase subunit a" />
+    <hashEntry Key="xcb:XC_3346" Value="DNA-directed RNA polymerase subunit beta&amp;#39; (EC:2.7.7.6); K03046 DNA-directed RNA polymerase subunit b" />
+    <hashEntry Key="xcb:XC_3347" Value="rpoB; DNA-directed RNA polymerase subunit beta (EC:2.7.7.6); K03043 DNA-directed RNA polymerase subu" />
+  </Genes>
+</KEGG.PathwayBrief>

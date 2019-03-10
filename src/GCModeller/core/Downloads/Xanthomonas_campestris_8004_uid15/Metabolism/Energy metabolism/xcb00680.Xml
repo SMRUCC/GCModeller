@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00680" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Methane is metabolized principally by methanotrophs and methanogens in the global carbon cycle. Methanotrophs consume methane as the only source of carbon, while methanogens produce methane as a metabolic byproduct. Methylotrophs, which are microorganisms that can obtain energy for growth by oxidizing one-carbon compounds, such as methanol and methane, are situated between methanotrophs and methanogens. Methanogens can obtain energy for growth by converting a limited number of substrates to methane under anaerobic conditions. Three types of methanogenic pathways are known: CO2 to methane [MD:M00567], methanol to methane [MD:M00356], and acetate to methane [MD:M00357]. Methanogens use 2-mercaptoethanesulfonate (CoM; coenzyme M) as the terminal methyl carrier in methanogenesis and have four enzymes for CoM biosynthesis [MD:M00358]. Coenzyme B-Coenzyme M heterodisulfide reductase (Hdr), requiring for the final reaction steps of methanogenic pathway, is divided into two types: cytoplasmic HdrABC in most methanogens and membrane-bound HdrED in Methanosarcina species. In methanotrophs and methyltrophs methane is oxidized to form formaldehyde, which is at the diverging point for further oxidation to CO2 for energy source and assimilation for biosynthesis. There are three pathways that convert formaldehyde to C2 or C3 compounds: serine pathway [MD:M00346], ribulose monophosphate pathway [MD:M00345], and xylulose monophosphate pathway [MD:M00344]. The first two pathways are found in prokaryotes and the third is found in yeast. As a special case of methylotrophs, various amines can be used as carbon sources in trimethylamine metabolism [MD:M00563].&lt;br&gt;</Description>
+  <Name>Methane metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00011" Value="CO2" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00033" Value="Acetate" />
+    <hashEntry Key="C00036" Value="Oxaloacetate" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00048" Value="Glyoxylate" />
+    <hashEntry Key="C00058" Value="Formate" />
+    <hashEntry Key="C00065" Value="L-Serine" />
+    <hashEntry Key="C00067" Value="Formaldehyde" />
+    <hashEntry Key="C00074" Value="Phosphoenolpyruvate" />
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00085" Value="D-Fructose 6-phosphate" />
+    <hashEntry Key="C00101" Value="Tetrahydrofolate" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00118" Value="D-Glyceraldehyde 3-phosphate" />
+    <hashEntry Key="C00132" Value="Methanol" />
+    <hashEntry Key="C00143" Value="5,10-Methylenetetrahydrofolate" />
+    <hashEntry Key="C00149" Value="(S)-Malate" />
+    <hashEntry Key="C00168" Value="Hydroxypyruvate" />
+    <hashEntry Key="C00184" Value="Glycerone" />
+    <hashEntry Key="C00197" Value="3-Phospho-D-glycerate" />
+    <hashEntry Key="C00199" Value="D-Ribulose 5-phosphate" />
+    <hashEntry Key="C00218" Value="Methylamine" />
+    <hashEntry Key="C00227" Value="Acetyl phosphate" />
+    <hashEntry Key="C00231" Value="D-Xylulose 5-phosphate" />
+    <hashEntry Key="C00237" Value="CO" />
+    <hashEntry Key="C00258" Value="D-Glycerate" />
+    <hashEntry Key="C00322" Value="2-Oxoadipate" />
+    <hashEntry Key="C00354" Value="D-Fructose 1,6-bisphosphate" />
+    <hashEntry Key="C00483" Value="Tyramine" />
+    <hashEntry Key="C00543" Value="Dimethylamine" />
+    <hashEntry Key="C00565" Value="Trimethylamine" />
+    <hashEntry Key="C00593" Value="Sulfoacetaldehyde" />
+    <hashEntry Key="C00631" Value="2-Phospho-D-glycerate" />
+    <hashEntry Key="C00862" Value="Methanofuran" />
+    <hashEntry Key="C00876" Value="Coenzyme F420" />
+    <hashEntry Key="C01001" Value="Formylmethanofuran" />
+    <hashEntry Key="C01005" Value="O-Phospho-L-serine" />
+    <hashEntry Key="C01031" Value="S-Formylglutathione" />
+    <hashEntry Key="C01046" Value="N-Methyl-L-glutamate" />
+    <hashEntry Key="C01080" Value="Reduced coenzyme F420" />
+    <hashEntry Key="C01104" Value="Trimethylamine N-oxide" />
+    <hashEntry Key="C01179" Value="3-(4-Hydroxyphenyl)pyruvate" />
+    <hashEntry Key="C01217" Value="5,6,7,8-Tetrahydromethanopterin" />
+    <hashEntry Key="C01274" Value="5-Formyl-5,6,7,8-tetrahydromethanopterin" />
+    <hashEntry Key="C01438" Value="Methane" />
+    <hashEntry Key="C03232" Value="3-Phosphonooxypyruvate" />
+    <hashEntry Key="C03576" Value="Coenzyme M" />
+    <hashEntry Key="C03920" Value="2-(Methylthio)ethanesulfonate" />
+    <hashEntry Key="C04330" Value="5,10-Methenyltetrahydromethanopterin" />
+    <hashEntry Key="C04348" Value="L-Malyl-CoA" />
+    <hashEntry Key="C04377" Value="5,10-Methylenetetrahydromethanopterin" />
+    <hashEntry Key="C04488" Value="5-Methyl-5,6,7,8-tetrahydromethanopterin" />
+    <hashEntry Key="C04628" Value="Coenzyme B" />
+    <hashEntry Key="C04732" Value="5-Amino-6-(1-D-ribitylamino)uracil" />
+    <hashEntry Key="C04832" Value="Coenzyme M 7-mercaptoheptanoylthreonine-phosphate heterodisulfide" />
+    <hashEntry Key="C05528" Value="3-Sulfopyruvate" />
+    <hashEntry Key="C06019" Value="D-arabino-Hex-3-ulose 6-phosphate" />
+    <hashEntry Key="C11536" Value="(2R)-O-Phospho-3-sulfolactate" />
+    <hashEntry Key="C11537" Value="(2R)-3-Sulfolactate" />
+    <hashEntry Key="C14180" Value="S-(Hydroxymethyl)glutathione" />
+    <hashEntry Key="C16583" Value="(R)-(Homo)2-citrate" />
+    <hashEntry Key="C16588" Value="2-Oxopimelate" />
+    <hashEntry Key="C16589" Value="2-Oxosuberate" />
+    <hashEntry Key="C16590" Value="7-Oxoheptanoic acid" />
+    <hashEntry Key="C16593" Value="7-Mercaptoheptanoic acid" />
+    <hashEntry Key="C16594" Value="7-Mercaptoheptanoylthreonine" />
+    <hashEntry Key="C16597" Value="(-)-threo-Iso(homo)2-citrate" />
+    <hashEntry Key="C16598" Value="(R)-(Homo)3-citrate" />
+    <hashEntry Key="C16600" Value="(-)-threo-Iso(homo)3-citrate" />
+    <hashEntry Key="C19151" Value="Coenzyme F420-3" />
+    <hashEntry Key="C19152" Value="Coenzyme F420-1" />
+    <hashEntry Key="C19153" Value="Coenzyme F420-0" />
+    <hashEntry Key="C19154" Value="7,8-Didemethyl-8-hydroxy-5-deazariboflavin" />
+    <hashEntry Key="C19155" Value="(2S)-Lactyl-2-diphospho-5'-guanosine" />
+    <hashEntry Key="C19156" Value="(2S)-2-Phospholactate" />
+    <hashEntry Key="C20581" Value="cis-(Homo)2-aconitate" />
+    <hashEntry Key="C20582" Value="cis-(Homo)3-aconitate" />
+    <hashEntry Key="C20926" Value="gamma-Glutamyltyramine" />
+    <hashEntry Key="C20954" Value="(5-Formylfuran-3-yl)methyl phosphate" />
+    <hashEntry Key="C21068" Value="[5-(Aminomethyl)furan-3-yl]methyl phosphate" />
+    <hashEntry Key="C21069" Value="[5-(Aminomethyl)furan-3-yl]methyl diphosphate" />
+    <hashEntry Key="C21070" Value="(4-{4-[2-(gamma-L-Glutamylamino)ethyl]phenoxymethyl}furan-2-yl)methanamine" />
+  </Compound>
+  <PathwayMap Key="xcb00680" Value="Methane metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0020" Value="D-3-phosphoglycerate dehydrogenase; K00058 D-3-phosphoglycerate dehydrogenase [EC:1.1.1.95]" />
+    <hashEntry Key="xcb:XC_0098" Value="fructose-1,6-bisphosphatase (EC:3.1.3.11); K03841 fructose-1,6-bisphosphatase I [EC:3.1.3.11]" />
+    <hashEntry Key="xcb:XC_0686" Value="alcohol dehydrogenase; K00121 S-(hydroxymethyl)glutathione dehydrogenase / alcohol dehydrogenase [EC" />
+    <hashEntry Key="xcb:XC_0775" Value="alcohol dehydrogenase; K00121 S-(hydroxymethyl)glutathione dehydrogenase / alcohol dehydrogenase [EC" />
+    <hashEntry Key="xcb:XC_0776" Value="glutathione-dependent formaldehyde-activating protein; K03396 S-(hydroxymethyl)glutathione synthase" />
+    <hashEntry Key="xcb:XC_0777" Value="esterase; K01070 S-formylglutathione hydrolase [EC:3.1.2.12]" />
+    <hashEntry Key="xcb:XC_0872" Value="6-phosphofructokinase (EC:2.7.1.11); K00850 6-phosphofructokinase 1 [EC:2.7.1.11]" />
+    <hashEntry Key="xcb:XC_0979" Value="fructose-bisphosphate aldolase; K01623 fructose-bisphosphate aldolase, class I [EC:4.1.2.13]" />
+    <hashEntry Key="xcb:XC_1404" Value="gpmA; phosphoglyceromutase; K01834 2,3-bisphosphoglycerate-dependent phosphoglycerate mutase [EC:5.4" />
+    <hashEntry Key="xcb:XC_1452" Value="formate dehydrogenase-like protein; K00123 formate dehydrogenase major subunit [EC:1.2.1.2]" />
+    <hashEntry Key="xcb:XC_1952" Value="phosphoenolpyruvate synthase (EC:2.7.9.2); K01007 pyruvate, water dikinase [EC:2.7.9.2]" />
+    <hashEntry Key="xcb:XC_2364" Value="D-3-phosphoglycerate dehydrogenase; K00058 D-3-phosphoglycerate dehydrogenase [EC:1.1.1.95]" />
+    <hashEntry Key="xcb:XC_2531" Value="eno; phosphopyruvate hydratase (EC:4.2.1.11); K01689 enolase [EC:4.2.1.11]" />
+    <hashEntry Key="xcb:XC_2645" Value="phosphoserine aminotransferase (EC:2.6.1.52); K00831 phosphoserine aminotransferase [EC:2.6.1.52]" />
+    <hashEntry Key="xcb:XC_3287" Value="phosphoglycerate mutase; K15634 probable phosphoglycerate mutase [EC:5.4.2.12]" />
+    <hashEntry Key="xcb:XC_3307" Value="malate dehydrogenase (EC:1.1.1.37); K00024 malate dehydrogenase [EC:1.1.1.37]" />
+    <hashEntry Key="xcb:XC_3479" Value="phosphoenolpyruvate carboxylase (EC:4.1.1.31); K01595 phosphoenolpyruvate carboxylase [EC:4.1.1.31]" />
+    <hashEntry Key="xcb:XC_3488" Value="phosphoglycerate mutase; K01834 2,3-bisphosphoglycerate-dependent phosphoglycerate mutase [EC:5.4.2." />
+    <hashEntry Key="xcb:XC_3544" Value="glyA; serine hydroxymethyltransferase (EC:2.1.2.1); K00600 glycine hydroxymethyltransferase [EC:2.1." />
+    <hashEntry Key="xcb:XC_4149" Value="acetyl-CoA synthetase (EC:6.2.1.1); K01895 acetyl-CoA synthetase [EC:6.2.1.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

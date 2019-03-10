@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor01230" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>This map presents a modular architecture of the biosynthesis pathways of twenty amino acids, which may be viewed as consisting of the core part and its extensions. The core part is the KEGG module for conversion of three-carbon compounds from glyceraldehyde-3P to pyruvate [MD:M00002], together with the pathways around serine and glycine. This KEGG module is the most conserved one in the KEGG MODULE database and is found in almost all the completely sequenced genomes. The extensions are the pathways containing the reaction modules RM001, RM033, RM032, and RM002 for biosynthesis of branched-chain amino acids (left) and basic amino acids (bottom), and the pathways for biosynthesis of histidine and aromatic amino acids (top right). It is interesting to note that the so-called essential amino acids that cannot be synthesized in human and other organisms generally appear in these extensions. Furthermore, the bottom extension of basic amino acids appears to be most divergent containing multiple pathways for lysine biosynthesis and multiple gene sets for arginine biosynthesis.&lt;br&gt;</Description>
+  <Name>Biosynthesis of amino acids - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00002" Value="Glycolysis, core module involving three-carbon compounds [PATH:xor01230]" />
+    <hashEntry Key="xor_M00005" Value="PRPP biosynthesis, ribose 5P =&gt; PRPP [PATH:xor01230]" />
+    <hashEntry Key="xor_M00007" Value="Pentose phosphate pathway, non-oxidative phase, fructose 6P =&gt; ribose 5P [PATH:xor01230]" />
+    <hashEntry Key="xor_M00010" Value="Citrate cycle, first carbon oxidation, oxaloacetate =&gt; 2-oxoglutarate [PATH:xor01230]" />
+    <hashEntry Key="xor_M00015" Value="Proline biosynthesis, glutamate =&gt; proline [PATH:xor01230]" />
+    <hashEntry Key="xor_M00016" Value="Lysine biosynthesis, succinyl-DAP pathway, aspartate =&gt; lysine [PATH:xor01230]" />
+    <hashEntry Key="xor_M00018" Value="Threonine biosynthesis, aspartate =&gt; homoserine =&gt; threonine [PATH:xor01230]" />
+    <hashEntry Key="xor_M00019" Value="Valine/isoleucine biosynthesis, pyruvate =&gt; valine / 2-oxobutanoate =&gt; isoleucine [PATH:xor01230]" />
+    <hashEntry Key="xor_M00022" Value="Shikimate pathway, phosphoenolpyruvate + erythrose-4P =&gt; chorismate [PATH:xor01230]" />
+    <hashEntry Key="xor_M00023" Value="Tryptophan biosynthesis, chorismate =&gt; tryptophan [PATH:xor01230]" />
+    <hashEntry Key="xor_M00024" Value="Phenylalanine biosynthesis, chorismate =&gt; phenylalanine [PATH:xor01230]" />
+    <hashEntry Key="xor_M00025" Value="Tyrosine biosynthesis, chorismate =&gt; tyrosine [PATH:xor01230]" />
+    <hashEntry Key="xor_M00026" Value="Histidine biosynthesis, PRPP =&gt; histidine [PATH:xor01230]" />
+    <hashEntry Key="xor_M00338" Value="Cysteine biosynthesis, homocysteine + serine =&gt; cysteine [PATH:xor01230]" />
+    <hashEntry Key="xor_M00432" Value="Leucine biosynthesis, 2-oxoisovalerate =&gt; 2-oxoisocaproate [PATH:xor01230]" />
+    <hashEntry Key="xor_M00570" Value="Isoleucine biosynthesis, threonine =&gt; 2-oxobutanoate =&gt; isoleucine [PATH:xor01230]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xor01230" Value="Biosynthesis of amino acids&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0060" Value="D-3-phosphoglycerate dehydrogenase; K00058 D-3-phosphoglycerate dehydrogenase [EC:1.1.1.95]" />
+    <hashEntry Key="xor:XOC_0134" Value="glutamate synthase; K00266 glutamate synthase (NADPH/NADH) small chain [EC:1.4.1.13 1.4.1.14]" />
+    <hashEntry Key="xor:XOC_0135" Value="glutamate synthase; K00265 glutamate synthase (NADPH/NADH) large chain [EC:1.4.1.13 1.4.1.14]" />
+    <hashEntry Key="xor:XOC_0156" Value="aspC; aspartate aminotransferase; K00832 aromatic-amino-acid transaminase [EC:2.6.1.57]" />
+    <hashEntry Key="xor:XOC_0260" Value="phhA; phenylalanine-4-hydroxylase; K00500 phenylalanine-4-hydroxylase [EC:1.14.16.1]" />
+    <hashEntry Key="xor:XOC_0293" Value="glnA; glutamine synthetase, type I; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xor:XOC_0592" Value="isocitrate dehydrogenase, NADP-dependent; K00031 isocitrate dehydrogenase [EC:1.1.1.42]" />
+    <hashEntry Key="xor:XOC_0620" Value="phospho-2-dehydro-3-deoxyheptonate aldolase; K01626 3-deoxy-7-phosphoheptulonate synthase [EC:2.5.1." />
+    <hashEntry Key="xor:XOC_0694" Value="dapF; diaminopimelate epimerase; K01778 diaminopimelate epimerase [EC:5.1.1.7]" />
+    <hashEntry Key="xor:XOC_0806" Value="glyA; serine hydroxymethyltransferase; K00600 glycine hydroxymethyltransferase [EC:2.1.2.1]" />
+    <hashEntry Key="xor:XOC_0878" Value="metK; S-adenosylmethionine synthetase; K00789 S-adenosylmethionine synthetase [EC:2.5.1.6]" />
+    <hashEntry Key="xor:XOC_0954" Value="talB; transaldolase B; K00616 transaldolase [EC:2.2.1.2]" />
+    <hashEntry Key="xor:XOC_0982" Value="ilvE; branched-chain amino acid aminotransferase; K00826 branched-chain amino acid aminotransferase" />
+    <hashEntry Key="xor:XOC_1005" Value="prsA; ribose-phosphate pyrophosphokinase; K00948 ribose-phosphate pyrophosphokinase [EC:2.7.6.1]" />
+    <hashEntry Key="xor:XOC_1062" Value="3-deoxy-7-phosphoheptulonate synthase; K01626 3-deoxy-7-phosphoheptulonate synthase [EC:2.5.1.54]" />
+    <hashEntry Key="xor:XOC_1100" Value="phosphoglycerate mutase; K15634 probable phosphoglycerate mutase [EC:5.4.2.12]" />
+    <hashEntry Key="xor:XOC_1121" Value="isocitrate dehydrogenase; K00030 isocitrate dehydrogenase (NAD+) [EC:1.1.1.41]" />
+    <hashEntry Key="xor:XOC_1178" Value="pabB; para-aminobenzoate synthase component I; K01657 anthranilate synthase component I [EC:4.1.3.27" />
+    <hashEntry Key="xor:XOC_1188" Value="acnD; 2-methylisocitrate dehydratase, Fe-S-dependent; K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="xor:XOC_1389" Value="aroB; 3-dehydroquinate synthase; K01735 3-dehydroquinate synthase [EC:4.2.3.4]" />
+    <hashEntry Key="xor:XOC_1390" Value="aroK; shikimate kinase; K00891 shikimate kinase [EC:2.7.1.71]" />
+    <hashEntry Key="xor:XOC_1485" Value="proC; pyrroline-5-carboxylate reductase; K00286 pyrroline-5-carboxylate reductase [EC:1.5.1.2]" />
+    <hashEntry Key="xor:XOC_1504" Value="bifunctional diaminopimelate decarboxylase-asparta; K12526 bifunctional diaminopimelate decarboxylas" />
+    <hashEntry Key="xor:XOC_1554" Value="2,3-bisphosphoglycerate-dependent phosphoglycerate mutase; K01834 2,3-bisphosphoglycerate-dependent" />
+    <hashEntry Key="xor:XOC_1743" Value="prephenate dehydrogenase; K04517 prephenate dehydrogenase [EC:1.3.1.12]" />
+    <hashEntry Key="xor:XOC_1782" Value="methionine synthase; K00548 5-methyltetrahydrofolate--homocysteine methyltransferase [EC:2.1.1.13]" />
+    <hashEntry Key="xor:XOC_1783" Value="methionine synthase; K00548 5-methyltetrahydrofolate--homocysteine methyltransferase [EC:2.1.1.13]" />
+    <hashEntry Key="xor:XOC_1784" Value="methionine synthase; K00548 5-methyltetrahydrofolate--homocysteine methyltransferase [EC:2.1.1.13]" />
+    <hashEntry Key="xor:XOC_1786" Value="methionine synthase (5-methyltetrahydrofolate--homocysteine methyltransferase) vitamin-B12 dependent" />
+    <hashEntry Key="xor:XOC_1909" Value="dihydrodipicolinate synthetase; K01714 4-hydroxy-tetrahydrodipicolinate synthase [EC:4.3.3.7]" />
+    <hashEntry Key="xor:XOC_1996" Value="gamma-glutamylputrescine synthetase; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xor:XOC_1999" Value="glnA; glutamine synthetase; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xor:XOC_2070" Value="pyridoxal-5&amp;#39;-phosphate-dependent enzyme, beta subunit:Ornithine cyclodeaminase-mu-crystallin; K01750" />
+    <hashEntry Key="xor:XOC_2071" Value="cysteine synthase (O-acetylserine sulfhydrylase); K01738 cysteine synthase A [EC:2.5.1.47]" />
+    <hashEntry Key="xor:XOC_2147" Value="dapA; dihydrodipicolinate synthase; K01714 4-hydroxy-tetrahydrodipicolinate synthase [EC:4.3.3.7]" />
+    <hashEntry Key="xor:XOC_2197" Value="bifunctional aspartokinase-homoserine dehydrogenase (ak-hd); K12524 bifunctional aspartokinase / hom" />
+    <hashEntry Key="xor:XOC_2198" Value="thrB; homoserine kinase; K00872 homoserine kinase [EC:2.7.1.39]" />
+    <hashEntry Key="xor:XOC_2208" Value="thrC; threonine synthase; K01733 threonine synthase [EC:4.2.3.1]" />
+    <hashEntry Key="xor:XOC_2215" Value="hisG; ATP phosphoribosyltransferase; K00765 ATP phosphoribosyltransferase [EC:2.4.2.17]" />
+    <hashEntry Key="xor:XOC_2216" Value="hisD; histidinol dehydrogenase; K00013 histidinol dehydrogenase [EC:1.1.1.23]" />
+    <hashEntry Key="xor:XOC_2217" Value="hisC; histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1." />
+    <hashEntry Key="xor:XOC_2218" Value="hisB; histidine biosynthesis bifunctional protein HisB; K01089 imidazoleglycerol-phosphate dehydrata" />
+    <hashEntry Key="xor:XOC_2219" Value="hisH; imidazole glycerol phosphate synthase, glutamine amidotransferase subunit; K02501 glutamine am" />
+    <hashEntry Key="xor:XOC_2220" Value="hisA; phosphoribosylformimino-5-aminoimidazole carboxamide ribotide isomerase; K01814 phosphoribosyl" />
+    <hashEntry Key="xor:XOC_2221" Value="hisF; imidazoleglycerol phosphate synthase, cyclase subunit; K02500 cyclase [EC:4.1.3.-]" />
+    <hashEntry Key="xor:XOC_2222" Value="histidine biosynthesis bifunctional protein hisIE; K11755 phosphoribosyl-ATP pyrophosphohydrolase /" />
+    <hashEntry Key="xor:XOC_2232" Value="D-3-phosphoglycerate dehydrogenase; K00058 D-3-phosphoglycerate dehydrogenase [EC:1.1.1.95]" />
+    <hashEntry Key="xor:XOC_2247" Value="valine-pyruvate aminotransferase; K05825 2-aminoadipate transaminase [EC:2.6.1.-]" />
+    <hashEntry Key="xor:XOC_2249" Value="dapB; dihydrodipicolinate reductase; K00215 4-hydroxy-tetrahydrodipicolinate reductase [EC:1.17.1.8]" />
+    <hashEntry Key="xor:XOC_2270" Value="rpfA; aconitate hydratase 1; K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="xor:XOC_2273" Value="acnB; aconitate hydratase 2; K01682 aconitate hydratase 2 / 2-methylisocitrate dehydratase [EC:4.2.1" />
+    <hashEntry Key="xor:XOC_2740" Value="proA; gamma-glutamyl phosphate reductase; K00147 glutamate-5-semialdehyde dehydrogenase [EC:1.2.1.41" />
+    <hashEntry Key="xor:XOC_2741" Value="proB; glutamate 5-kinase; K00931 glutamate 5-kinase [EC:2.7.2.11]" />
+    <hashEntry Key="xor:XOC_2744" Value="argH; argininosuccinate lyase; K01755 argininosuccinate lyase [EC:4.3.2.1]" />
+    <hashEntry Key="xor:XOC_2745" Value="argC; N-acetyl-gamma-glutamyl-phosphate reductase; K00145 N-acetyl-gamma-glutamyl-phosphate reductas" />
+    <hashEntry Key="xor:XOC_2747" Value="argB; acetylglutamate kinase; K00930 acetylglutamate kinase [EC:2.7.2.8]" />
+    <hashEntry Key="xor:XOC_2748" Value="acetylornithine deacetylase; K01438 acetylornithine deacetylase [EC:3.5.1.16]" />
+    <hashEntry Key="xor:XOC_2750" Value="argG; argininosuccinate synthase; K01940 argininosuccinate synthase [EC:6.3.4.5]" />
+    <hashEntry Key="xor:XOC_2794" Value="eno; phosphopyruvate hydratase; K01689 enolase [EC:4.2.1.11]" />
+    <hashEntry Key="xor:XOC_2876" Value="aroA; 3-phosphoshikimate 1-carboxyvinyltransferase; K00800 3-phosphoshikimate 1-carboxyvinyltransfer" />
+    <hashEntry Key="xor:XOC_2877" Value="P-protein; K14170 chorismate mutase / prephenate dehydratase [EC:5.4.99.5 4.2.1.51]" />
+    <hashEntry Key="xor:XOC_2878" Value="serC; phosphoserine aminotransferase; K00831 phosphoserine aminotransferase [EC:2.6.1.52]" />
+    <hashEntry Key="xor:XOC_2940" Value="tpiA; triosephosphate isomerase; K01803 triosephosphate isomerase (TIM) [EC:5.3.1.1]" />
+    <hashEntry Key="xor:XOC_2950" Value="trpA; tryptophan synthase, alpha subunit; K01695 tryptophan synthase alpha chain [EC:4.2.1.20]" />
+    <hashEntry Key="xor:XOC_2952" Value="trpB; tryptophan synthase, beta subunit; K01696 tryptophan synthase beta chain [EC:4.2.1.20]" />
+    <hashEntry Key="xor:XOC_2954" Value="trpF; N-(5&amp;#39;phosphoribosyl)anthranilate isomerase; K01817 phosphoribosylanthranilate isomerase [EC:5." />
+    <hashEntry Key="xor:XOC_2959" Value="asd; aspartate-semialdehyde dehydrogenase; K00133 aspartate-semialdehyde dehydrogenase [EC:1.2.1.11]" />
+    <hashEntry Key="xor:XOC_2961" Value="aroC; chorismate synthase; K01736 chorismate synthase [EC:4.2.3.5]" />
+    <hashEntry Key="xor:XOC_3055" Value="dapE; succinyl-diaminopimelate desuccinylase; K01439 succinyl-diaminopimelate desuccinylase [EC:3.5." />
+    <hashEntry Key="xor:XOC_3059" Value="2,3,4,5-tetrahydropyridine-2-carboxylate N-succin; K00674 2,3,4,5-tetrahydropyridine-2-carboxylate N" />
+    <hashEntry Key="xor:XOC_3215" Value="sdaA; L-serine ammonia-lyase; K01752 L-serine dehydratase [EC:4.3.1.17]" />
+    <hashEntry Key="xor:XOC_3216" Value="homoserine dehydrogenase; K00003 homoserine dehydrogenase [EC:1.1.1.3]" />
+    <hashEntry Key="xor:XOC_3218" Value="metB; cystathionine gamma-lyase-like protein; K01739 cystathionine gamma-synthase [EC:2.5.1.48]" />
+    <hashEntry Key="xor:XOC_3391" Value="diaminopimelate decarboxylase; K01586 diaminopimelate decarboxylase [EC:4.1.1.20]" />
+    <hashEntry Key="xor:XOC_3581" Value="cysK; cysteine synthase A; K01738 cysteine synthase A [EC:2.5.1.47]" />
+    <hashEntry Key="xor:XOC_3585" Value="fructose-bisphosphate aldolase class-I; K01623 fructose-bisphosphate aldolase, class I [EC:4.1.2.13]" />
+    <hashEntry Key="xor:XOC_3587" Value="pyk; pyruvate kinase; K00873 pyruvate kinase [EC:2.7.1.40]" />
+    <hashEntry Key="xor:XOC_3589" Value="pgk; phosphoglycerate kinase; K00927 phosphoglycerate kinase [EC:2.7.2.3]" />
+    <hashEntry Key="xor:XOC_3592" Value="gap; glyceraldehyde-3-phosphate dehydrogenase, type I; K00134 glyceraldehyde 3-phosphate dehydrogena" />
+    <hashEntry Key="xor:XOC_3624" Value="tkt; transketolase; K00615 transketolase [EC:2.2.1.1]" />
+    <hashEntry Key="xor:XOC_3645" Value="gltA; citrate synthase I; K01647 citrate synthase [EC:2.3.3.1]" />
+    <hashEntry Key="xor:XOC_3668" Value="rpiA; ribose 5-phosphate isomerase A; K01807 ribose 5-phosphate isomerase A [EC:5.3.1.6]" />
+    <hashEntry Key="xor:XOC_3680" Value="histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xor:XOC_3681" Value="histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xor:XOC_3682" Value="histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xor:XOC_3688" Value="argD; acetylornithine aminotransferase; K00821 acetylornithine/N-succinyldiaminopimelate aminotransf" />
+    <hashEntry Key="xor:XOC_3700" Value="6-phosphofructokinase; K00850 6-phosphofructokinase 1 [EC:2.7.1.11]" />
+    <hashEntry Key="xor:XOC_3713" Value="ilvC; ketol-acid reductoisomerase; K00053 ketol-acid reductoisomerase [EC:1.1.1.86]" />
+    <hashEntry Key="xor:XOC_3714" Value="ilvB; acetolactate synthase, large subunit, biosynthetic type; K01652 acetolactate synthase I/II/III" />
+    <hashEntry Key="xor:XOC_3715" Value="acetolactate synthase isozyme II small subunit; K11258 acetolactate synthase II small subunit [EC:2." />
+    <hashEntry Key="xor:XOC_3716" Value="threonine dehydratase; K01754 threonine dehydratase [EC:4.3.1.19]" />
+    <hashEntry Key="xor:XOC_3717" Value="leuA; 2-isopropylmalate synthase; K01649 2-isopropylmalate synthase [EC:2.3.3.13]" />
+    <hashEntry Key="xor:XOC_3718" Value="leuB; 3-isopropylmalate dehydrogenase; K00052 3-isopropylmalate dehydrogenase [EC:1.1.1.85]" />
+    <hashEntry Key="xor:XOC_3720" Value="leuD; 3-isopropylmalate dehydratase, small subunit; K01704 3-isopropylmalate/(R)-2-methylmalate dehy" />
+    <hashEntry Key="xor:XOC_3721" Value="leuC; 3-isopropylmalate dehydratase, large subunit; K01703 3-isopropylmalate/(R)-2-methylmalate dehy" />
+    <hashEntry Key="xor:XOC_3762" Value="putative aspartate aminotransferase; K14260 alanine-synthesizing transaminase [EC:2.6.1.66 2.6.1.2]" />
+    <hashEntry Key="xor:XOC_3870" Value="metB; cystathionine gamma-lyase-like protein; K01758 cystathionine gamma-lyase [EC:4.4.1.1]" />
+    <hashEntry Key="xor:XOC_3871" Value="cysB; cystathionine beta-synthase; K01697 cystathionine beta-synthase [EC:4.2.1.22]" />
+    <hashEntry Key="xor:XOC_3893" Value="cysteine synthase; K01738 cysteine synthase A [EC:2.5.1.47]" />
+    <hashEntry Key="xor:XOC_3912" Value="chorismate mutase, prephenate dehydratase; K04093 chorismate mutase [EC:5.4.99.5]" />
+    <hashEntry Key="xor:XOC_4156" Value="3-dehydroquinate dehydratase; K03786 3-dehydroquinate dehydratase II [EC:4.2.1.10]" />
+    <hashEntry Key="xor:XOC_4204" Value="trpC; indole-3-glycerol phosphate synthase; K01609 indole-3-glycerol phosphate synthase [EC:4.1.1.48" />
+    <hashEntry Key="xor:XOC_4205" Value="trpD; anthranilate phosphoribosyltransferase; K00766 anthranilate phosphoribosyltransferase [EC:2.4." />
+    <hashEntry Key="xor:XOC_4208" Value="anthranilate synthase component II; K01658 anthranilate synthase component II [EC:4.1.3.27]" />
+    <hashEntry Key="xor:XOC_4210" Value="threonine aldolase; K01620 threonine aldolase [EC:4.1.2.48]" />
+    <hashEntry Key="xor:XOC_4211" Value="trpE; anthranilate synthase component I; K01657 anthranilate synthase component I [EC:4.1.3.27]" />
+    <hashEntry Key="xor:XOC_4214" Value="rpe; ribulose-phosphate 3-epimerase; K01783 ribulose-phosphate 3-epimerase [EC:5.1.3.1]" />
+    <hashEntry Key="xor:XOC_4304" Value="rocF; arginase; K01476 arginase [EC:3.5.3.1]" />
+    <hashEntry Key="xor:XOC_4333" Value="aroE; shikimate 5-dehydrogenase; K00014 shikimate dehydrogenase [EC:1.1.1.25]" />
+    <hashEntry Key="xor:XOC_4351" Value="5-methyltetrahydropteroyltriglutamate-homocysteine methyltransferase; K00549 5-methyltetrahydroptero" />
+    <hashEntry Key="xor:XOC_4521" Value="threonine dehydratase; K01754 threonine dehydratase [EC:4.3.1.19]" />
+    <hashEntry Key="xor:XOC_4569" Value="ilvD; dihydroxy-acid dehydratase; K01687 dihydroxy-acid dehydratase [EC:4.2.1.9]" />
+  </Genes>
+</KEGG.PathwayBrief>

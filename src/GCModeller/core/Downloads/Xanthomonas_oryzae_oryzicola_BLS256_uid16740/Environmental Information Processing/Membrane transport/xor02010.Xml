@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor02010" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The ATP-binding cassette (ABC) transporters form one of the largest known protein families, and are widespread in bacteria, archaea, and eukaryotes. They couple ATP hydrolysis to active transport of a wide variety of substrates such as ions, sugars, lipids, sterols, peptides, proteins, and drugs. The structure of a prokaryotic ABC transporter usually consists of three components; typically two integral membrane proteins each having six transmembrane segments, two peripheral proteins that bind and hydrolyze ATP, and a periplasmic (or lipoprotein) substrate-binding protein. Many of the genes for the three components form operons as in fact observed in many bacterial and archaeal genomes. On the other hand, in a typical eukaryotic ABC transporter, the membrane spanning protein and the ATP-binding protein are fused, forming a multi-domain protein with the membrane-spanning domain (MSD) and the nucleotide-binding domain (NBD).&lt;br&gt;</Description>
+  <Name>ABC transporters - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00185" Value="Sulfate transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00189" Value="Molybdate transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00201" Value="alpha-Glucoside transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00209" Value="Osmoprotectant transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00210" Value="Phospholipid transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00222" Value="Phosphate transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00238" Value="D-Methionine transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00250" Value="Lipopolysaccharide transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00253" Value="Sodium transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00255" Value="Lipoprotein-releasing system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00256" Value="Cell division transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00259" Value="Heme transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00300" Value="Putrescine transport system [PATH:xor02010]" />
+    <hashEntry Key="xor_M00320" Value="Lipopolysaccharide export system [PATH:xor02010]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00009" Value="Orthophosphate" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00031" Value="D-Glucose" />
+    <hashEntry Key="C00032" Value="Heme" />
+    <hashEntry Key="C00034" Value="Manganese" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00038" Value="Zinc cation" />
+    <hashEntry Key="C00041" Value="L-Alanine" />
+    <hashEntry Key="C00045" Value="Amino acid" />
+    <hashEntry Key="C00047" Value="L-Lysine" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00051" Value="Glutathione" />
+    <hashEntry Key="C00059" Value="Sulfate" />
+    <hashEntry Key="C00062" Value="L-Arginine" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00065" Value="L-Serine" />
+    <hashEntry Key="C00070" Value="Copper" />
+    <hashEntry Key="C00077" Value="L-Ornithine" />
+    <hashEntry Key="C00079" Value="L-Phenylalanine" />
+    <hashEntry Key="C00086" Value="Urea" />
+    <hashEntry Key="C00088" Value="Nitrite" />
+    <hashEntry Key="C00089" Value="Sucrose" />
+    <hashEntry Key="C00093" Value="sn-Glycerol 3-phosphate" />
+    <hashEntry Key="C00095" Value="D-Fructose" />
+    <hashEntry Key="C00098" Value="Oligopeptide" />
+    <hashEntry Key="C00107" Value="Dipeptide" />
+    <hashEntry Key="C00114" Value="Choline" />
+    <hashEntry Key="C00116" Value="Glycerol" />
+    <hashEntry Key="C00120" Value="Biotin" />
+    <hashEntry Key="C00121" Value="D-Ribose" />
+    <hashEntry Key="C00123" Value="L-Leucine" />
+    <hashEntry Key="C00134" Value="Putrescine" />
+    <hashEntry Key="C00135" Value="L-Histidine" />
+    <hashEntry Key="C00137" Value="myo-Inositol" />
+    <hashEntry Key="C00140" Value="N-Acetyl-D-glucosamine" />
+    <hashEntry Key="C00148" Value="L-Proline" />
+    <hashEntry Key="C00151" Value="L-Amino acid" />
+    <hashEntry Key="C00159" Value="D-Mannose" />
+    <hashEntry Key="C00175" Value="Cobalt ion" />
+    <hashEntry Key="C00181" Value="D-Xylose" />
+    <hashEntry Key="C00183" Value="L-Valine" />
+    <hashEntry Key="C00185" Value="Cellobiose" />
+    <hashEntry Key="C00188" Value="L-Threonine" />
+    <hashEntry Key="C00208" Value="Maltose" />
+    <hashEntry Key="C00243" Value="Lactose" />
+    <hashEntry Key="C00244" Value="Nitrate" />
+    <hashEntry Key="C00245" Value="Taurine" />
+    <hashEntry Key="C00259" Value="L-Arabinose" />
+    <hashEntry Key="C00288" Value="HCO3-" />
+    <hashEntry Key="C00291" Value="Nickel" />
+    <hashEntry Key="C00315" Value="Spermidine" />
+    <hashEntry Key="C00320" Value="Thiosulfate" />
+    <hashEntry Key="C00333" Value="D-Galacturonate" />
+    <hashEntry Key="C00338" Value="Lipopolysaccharide" />
+    <hashEntry Key="C00378" Value="Thiamine" />
+    <hashEntry Key="C00379" Value="Xylitol" />
+    <hashEntry Key="C00392" Value="Mannitol" />
+    <hashEntry Key="C00407" Value="L-Isoleucine" />
+    <hashEntry Key="C00430" Value="5-Aminolevulinate" />
+    <hashEntry Key="C00470" Value="Pectate" />
+    <hashEntry Key="C00487" Value="Carnitine" />
+    <hashEntry Key="C00491" Value="L-Cystine" />
+    <hashEntry Key="C00492" Value="Raffinose" />
+    <hashEntry Key="C00503" Value="Erythritol" />
+    <hashEntry Key="C00719" Value="Betaine" />
+    <hashEntry Key="C00753" Value="Tungsten" />
+    <hashEntry Key="C00794" Value="D-Sorbitol" />
+    <hashEntry Key="C00855" Value="D-Methionine" />
+    <hashEntry Key="C00865" Value="Phospholipid" />
+    <hashEntry Key="C00919" Value="Choline sulfate" />
+    <hashEntry Key="C00973" Value="Cyclomaltodextrin" />
+    <hashEntry Key="C01083" Value="alpha,alpha-Trehalose" />
+    <hashEntry Key="C01153" Value="Orthophosphoric monoester" />
+    <hashEntry Key="C01177" Value="Inositol 1-phosphate" />
+    <hashEntry Key="C01181" Value="4-Trimethylammoniobutanoate" />
+    <hashEntry Key="C01279" Value="4-Amino-5-hydroxymethyl-2-methylpyrimidine" />
+    <hashEntry Key="C01330" Value="Sodium cation" />
+    <hashEntry Key="C01417" Value="Cyanate" />
+    <hashEntry Key="C01487" Value="D-Allose" />
+    <hashEntry Key="C01606" Value="Phthalate" />
+    <hashEntry Key="C01630" Value="Xylobiose" />
+    <hashEntry Key="C01667" Value="Bacitracin" />
+    <hashEntry Key="C01674" Value="Chitobiose" />
+    <hashEntry Key="C01682" Value="Nopaline" />
+    <hashEntry Key="C01684" Value="D-Rhamnose" />
+    <hashEntry Key="C01834" Value="Lipoprotein" />
+    <hashEntry Key="C01835" Value="Maltotriose" />
+    <hashEntry Key="C01935" Value="Maltodextrin" />
+    <hashEntry Key="C01946" Value="Oleandomycin" />
+    <hashEntry Key="C02160" Value="Isomaltotriose" />
+    <hashEntry Key="C02273" Value="Digalacturonate" />
+    <hashEntry Key="C03557" Value="2-Aminoethylphosphonate" />
+    <hashEntry Key="C03611" Value="Galactose oligosaccharide" />
+    <hashEntry Key="C03619" Value="Methyl beta-D-galactoside" />
+    <hashEntry Key="C04114" Value="(E)-4-(Trimethylammonio)but-2-enoate" />
+    <hashEntry Key="C04137" Value="D-Octopine" />
+    <hashEntry Key="C05349" Value="Ciprofloxacin" />
+    <hashEntry Key="C05402" Value="Melibiose" />
+    <hashEntry Key="C05776" Value="Vitamin B12" />
+    <hashEntry Key="C06227" Value="Fe(III)hydroxamate" />
+    <hashEntry Key="C06228" Value="Ferrichrome" />
+    <hashEntry Key="C06229" Value="Fe(III)dicitrate" />
+    <hashEntry Key="C06230" Value="Fe-enterobactin" />
+    <hashEntry Key="C06232" Value="Molybdate" />
+    <hashEntry Key="C06687" Value="Norfloxacin" />
+    <hashEntry Key="C06704" Value="Iron chelate" />
+    <hashEntry Key="C06705" Value="Capsular polysaccharide" />
+    <hashEntry Key="C06706" Value="Lipo-oligosaccharide" />
+    <hashEntry Key="C06707" Value="Teichoic acid" />
+    <hashEntry Key="C06767" Value="Hemine" />
+    <hashEntry Key="C07662" Value="Sparfloxacin" />
+    <hashEntry Key="C07663" Value="Moxifloxacin" />
+    <hashEntry Key="C11612" Value="Polymyxin B" />
+    <hashEntry Key="C13768" Value="Colistin sulfate" />
+    <hashEntry Key="C14818" Value="Fe2+" />
+    <hashEntry Key="C14819" Value="Fe3+" />
+    <hashEntry Key="C15521" Value="Alkanesulfonate" />
+    <hashEntry Key="C16059" Value="Defensin beta-1" />
+    <hashEntry Key="C16421" Value="AI-2" />
+    <hashEntry Key="C16692" Value="Mannopine" />
+    <hashEntry Key="C19609" Value="Nickel(2+)" />
+    <hashEntry Key="C19872" Value="N-Formyl-4-amino-5-aminomethyl-2-methylpyrimidine" />
+    <hashEntry Key="C20570" Value="alpha-1,5-L-Arabinobiose" />
+    <hashEntry Key="C20571" Value="alpha-1,5-L-Arabinotriose" />
+    <hashEntry Key="C20572" Value="alpha-1,5-L-Arabinotetraose" />
+    <hashEntry Key="C20573" Value="Aldotetraouronic acidD02224 Protamine sulfate (JP17/USP/INN)G00457 Maltotetraose" />
+  </Compound>
+  <PathwayMap Key="xor02010" Value="ABC transporters&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0040" Value="colicin V secretion ABC transporter ATP-binding protein; K13409 ATP-binding cassette, subfamily B, b" />
+    <hashEntry Key="xor:XOC_0113" Value="ABC transporter ATP-binding protein; K02065 phospholipid/cholesterol/gamma-HCH transport system ATP-" />
+    <hashEntry Key="xor:XOC_0114" Value="ABC transporter permease; K02066 phospholipid/cholesterol/gamma-HCH transport system permease protei" />
+    <hashEntry Key="xor:XOC_0115" Value="toluene tolerance protein; K02067 phospholipid/cholesterol/gamma-HCH transport system substrate-bind" />
+    <hashEntry Key="xor:XOC_0116" Value="ttg2D; toluene tolerance protein Ttg2D; K07323 phospholipid transport system substrate-binding prote" />
+    <hashEntry Key="xor:XOC_0117" Value="hypothetical protein; K07122 phospholipid transport system transporter-binding protein" />
+    <hashEntry Key="xor:XOC_0266" Value="ABC transporter ATP-binding protein; K02013 iron complex transport system ATP-binding protein [EC:3." />
+    <hashEntry Key="xor:XOC_0269" Value="ABC transporter ATP-binding protein; K05847 osmoprotectant transport system ATP-binding protein" />
+    <hashEntry Key="xor:XOC_0270" Value="ABC transporter amino acid permease; K05845 osmoprotectant transport system substrate-binding protei" />
+    <hashEntry Key="xor:XOC_0601" Value="ftsE; cell division ATP-binding protein FtsE; K09812 cell division transport system ATP-binding prot" />
+    <hashEntry Key="xor:XOC_0602" Value="cell division protein; K09811 cell division transport system permease protein" />
+    <hashEntry Key="xor:XOC_1090" Value="ABC transporter sulfate binding protein; K02048 sulfate transport system substrate-binding protein" />
+    <hashEntry Key="xor:XOC_1091" Value="cysT; sulfate ABC transporter, permease protein CysT; K02046 sulfate transport system permease prote" />
+    <hashEntry Key="xor:XOC_1092" Value="cysW; sulfate ABC transporter, permease protein CysW; K02047 sulfate transport system permease prote" />
+    <hashEntry Key="xor:XOC_1093" Value="cysA; sulfate-thiosulfate import ATP-binding protein CysA; K02045 sulfate transport system ATP-bindi" />
+    <hashEntry Key="xor:XOC_1278" Value="raxB; colicin V secretion-processing ATP-binding protein CvaB-putative ABC transporter protein RaxB;" />
+    <hashEntry Key="xor:XOC_1440" Value="ABC transporter ATP-binding protein; K06861 lipopolysaccharide export system ATP-binding protein [EC" />
+    <hashEntry Key="xor:XOC_1799" Value="pstB; phosphate ABC transporter, ATP-binding protein; K02036 phosphate transport system ATP-binding" />
+    <hashEntry Key="xor:XOC_1801" Value="pstA; phosphate ABC transporter, permease protein PstA; K02038 phosphate transport system permease p" />
+    <hashEntry Key="xor:XOC_1802" Value="pstC; phosphate ABC transporter, permease protein PstC; K02037 phosphate transport system permease p" />
+    <hashEntry Key="xor:XOC_1803" Value="pstS; phosphate ABC transporter, phosphate-binding protein PstS; K02040 phosphate transport system s" />
+    <hashEntry Key="xor:XOC_1804" Value="pstS; phosphate ABC transporter, phosphate-binding protein PstS; K02040 phosphate transport system s" />
+    <hashEntry Key="xor:XOC_2016" Value="periplasmic putrescine-binding protein; K11073 putrescine transport system substrate-binding protein" />
+    <hashEntry Key="xor:XOC_2020" Value="ATP-binding component of putrescine transport system; K11076 putrescine transport system ATP-binding" />
+    <hashEntry Key="xor:XOC_2021" Value="putrescine ABC transporter permease; K11075 putrescine transport system permease protein" />
+    <hashEntry Key="xor:XOC_2022" Value="putrescine transport protein, permease; K11074 putrescine transport system permease protein" />
+    <hashEntry Key="xor:XOC_2119" Value="phosphate-binding protein; K02044 phosphonate transport system substrate-binding protein" />
+    <hashEntry Key="xor:XOC_2589" Value="msbA; lipid A export permease-ATP-binding protein MsbA; K11085 ATP-binding cassette, subfamily B, ba" />
+    <hashEntry Key="xor:XOC_2596" Value="lolD; lipoprotein releasing system, ATP-binding protein; K09810 lipoprotein-releasing system ATP-bin" />
+    <hashEntry Key="xor:XOC_2597" Value="lipoprotein releasing system transmembrane protein; K09808 lipoprotein-releasing system permease pro" />
+    <hashEntry Key="xor:XOC_2606" Value="sugar ABC transporter ATP-binding protein; K10112 multiple sugar transport system ATP-binding protei" />
+    <hashEntry Key="xor:XOC_2634" Value="colicin V secretion-processing ATP-binding protein CvaB; K13409 ATP-binding cassette, subfamily B, b" />
+    <hashEntry Key="xor:XOC_2719" Value="ccmA; heme ABC exporter, ATP-binding protein CcmA; K02193 heme exporter protein A [EC:3.6.3.41]" />
+    <hashEntry Key="xor:XOC_2720" Value="ccmB; heme exporter protein CcmB; K02194 heme exporter protein B" />
+    <hashEntry Key="xor:XOC_2721" Value="ABC transporter heme permease; K02195 heme exporter protein C" />
+    <hashEntry Key="xor:XOC_2722" Value="hypothetical protein; K02196 heme exporter protein D" />
+    <hashEntry Key="xor:XOC_2731" Value="ABC transporter, CydDC cysteine exporter (CydDC-E) family, permease-ATP-binding protein CydC; K16012" />
+    <hashEntry Key="xor:XOC_2732" Value="cydD; ABC transporter, CydDC cysteine exporter (CydDC-E) family, permease-ATP-binding protein CydD;" />
+    <hashEntry Key="xor:XOC_2812" Value="ABC transporter ATP-binding protein; K06148 ATP-binding cassette, subfamily C, bacterial" />
+    <hashEntry Key="xor:XOC_2837" Value="heme exporter protein C, cytochromeC-type biogenesis protein; K02195 heme exporter protein C" />
+    <hashEntry Key="xor:XOC_2838" Value="hypothetical protein; K02196 heme exporter protein D" />
+    <hashEntry Key="xor:XOC_3262" Value="colicin V secretion-processing ATP-binding protein CvaB; K13409 ATP-binding cassette, subfamily B, b" />
+    <hashEntry Key="xor:XOC_3597" Value="modA; molybdate ABC transporter, periplasmic molybdate-binding protein; K02020 molybdate transport s" />
+    <hashEntry Key="xor:XOC_3598" Value="modB; molybdate ABC transporter, permease protein; K02018 molybdate transport system permease protei" />
+    <hashEntry Key="xor:XOC_3599" Value="molybdenum import ATP-binding protein ModC; K02017 molybdate transport system ATP-binding protein [E" />
+    <hashEntry Key="xor:XOC_3742" Value="extracellular solute-binding protein, family 1; K02020 molybdate transport system substrate-binding" />
+    <hashEntry Key="xor:XOC_3746" Value="periplasmic iron-binding protein; K02012 iron(III) transport system substrate-binding protein" />
+    <hashEntry Key="xor:XOC_3815" Value="putative permease, YjgP-YjgQ family; K11720 lipopolysaccharide export system permease protein" />
+    <hashEntry Key="xor:XOC_3816" Value="putative permease, YjgP-YjgQ family; K07091 lipopolysaccharide export system permease protein" />
+    <hashEntry Key="xor:XOC_3832" Value="ABC transporter permease; K02066 phospholipid/cholesterol/gamma-HCH transport system permease protei" />
+    <hashEntry Key="xor:XOC_3833" Value="ABC transporter ATP-binding protein; K02065 phospholipid/cholesterol/gamma-HCH transport system ATP-" />
+    <hashEntry Key="xor:XOC_3834" Value="ABC transporter substrate-binding protein; K02067 phospholipid/cholesterol/gamma-HCH transport syste" />
+    <hashEntry Key="xor:XOC_3868" Value="wzt; polysaccharide ABC transporter, ATP-binding protein; K09691 lipopolysaccharide transport system" />
+    <hashEntry Key="xor:XOC_3869" Value="wzm; ABC transporter permease; K09690 lipopolysaccharide transport system permease protein" />
+    <hashEntry Key="xor:XOC_3935" Value="outer membrane protein; K02073 D-methionine transport system substrate-binding protein" />
+    <hashEntry Key="xor:XOC_3936" Value="ABC transporter permease; K02072 D-methionine transport system permease protein" />
+    <hashEntry Key="xor:XOC_3937" Value="ABC transporter ATP-binding protein; K02071 D-methionine transport system ATP-binding protein" />
+    <hashEntry Key="xor:XOC_4105" Value="sodium ABC transporter ATP-binding protein; K09697 sodium transport system ATP-binding protein [EC:3" />
+    <hashEntry Key="xor:XOC_4106" Value="ABC transporter sodium permease; K09696 sodium transport system permease protein" />
+  </Genes>
+</KEGG.PathwayBrief>

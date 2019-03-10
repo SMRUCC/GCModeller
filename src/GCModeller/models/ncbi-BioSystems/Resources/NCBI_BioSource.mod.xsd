@@ -1,0 +1,278 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqfeat.asn"
+     ::DATATOOL:: by application DATATOOL version 1.9.0
+     ::DATATOOL:: on 08/18/2008 23:06:56
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-BioSource"
+================================================= -->
+<!--
+**********************************************************************
+
+  NCBI BioSource
+  by James Ostell, 1994
+  version 3.0
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          BioSource -->
+
+<!-- Elements referenced from other modules:
+          Org-ref FROM NCBI-Organism -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+********************************************************************
+
+ BioSource gives the source of the biological material
+   for sequences
+
+********************************************************************
+-->
+<xs:element name="BioSource">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="BioSource_genome" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional" default="unknown">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="unknown" ncbi:intvalue="0"/>
+                    <xs:enumeration value="genomic" ncbi:intvalue="1"/>
+                    <xs:enumeration value="chloroplast" ncbi:intvalue="2"/>
+                    <xs:enumeration value="chromoplast" ncbi:intvalue="3"/>
+                    <xs:enumeration value="kinetoplast" ncbi:intvalue="4"/>
+                    <xs:enumeration value="mitochondrion" ncbi:intvalue="5"/>
+                    <xs:enumeration value="plastid" ncbi:intvalue="6"/>
+                    <xs:enumeration value="macronuclear" ncbi:intvalue="7"/>
+                    <xs:enumeration value="extrachrom" ncbi:intvalue="8"/>
+                    <xs:enumeration value="plasmid" ncbi:intvalue="9"/>
+                    <xs:enumeration value="transposon" ncbi:intvalue="10"/>
+                    <xs:enumeration value="insertion-seq" ncbi:intvalue="11"/>
+                    <xs:enumeration value="cyanelle" ncbi:intvalue="12"/>
+                    <xs:enumeration value="proviral" ncbi:intvalue="13"/>
+                    <xs:enumeration value="virion" ncbi:intvalue="14"/>
+                    <xs:enumeration value="nucleomorph" ncbi:intvalue="15"/>
+                    <xs:enumeration value="apicoplast" ncbi:intvalue="16"/>
+                    <xs:enumeration value="leucoplast" ncbi:intvalue="17"/>
+                    <xs:enumeration value="proplastid" ncbi:intvalue="18"/>
+                    <xs:enumeration value="endogenous-virus" ncbi:intvalue="19"/>
+                    <xs:enumeration value="hydrogenosome" ncbi:intvalue="20"/>
+                    <xs:enumeration value="chromosome" ncbi:intvalue="21"/>
+                    <xs:enumeration value="chromatophore" ncbi:intvalue="22"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="BioSource_origin" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional" default="unknown">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+<!--
+    natural	-  normal biological entity
+    natmut	-  naturally occurring mutant
+    mut	-  artificially mutagenized
+    artificial	-  artificially engineered
+    synthetic	-  purely synthetic
+-->
+                    <xs:enumeration value="unknown" ncbi:intvalue="0"/>
+                    <xs:enumeration value="natural" ncbi:intvalue="1"/>
+                    <xs:enumeration value="natmut" ncbi:intvalue="2"/>
+                    <xs:enumeration value="mut" ncbi:intvalue="3"/>
+                    <xs:enumeration value="artificial" ncbi:intvalue="4"/>
+                    <xs:enumeration value="synthetic" ncbi:intvalue="5"/>
+                    <xs:enumeration value="other" ncbi:intvalue="255"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="BioSource_org">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Org-ref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="BioSource_subtype" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="SubSource"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- to distinguish biological focus -->
+      <xs:element name="BioSource_is-focus" minOccurs="0">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="BioSource_pcr-primers" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PCRReactionSet"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="PCRReactionSet">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="PCRReaction"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="PCRReaction">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="PCRReaction_forward" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PCRPrimerSet"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PCRReaction_reverse" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PCRPrimerSet"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="PCRPrimerSet">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="PCRPrimer"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="PCRPrimer">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="PCRPrimer_seq" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PCRPrimerSeq"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PCRPrimer_name" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PCRPrimerName"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="PCRPrimerSeq" type="xs:string"/>
+
+<xs:element name="PCRPrimerName" type="xs:string"/>
+
+<xs:element name="SubSource">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="SubSource_subtype">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+<!--
+    lat-lon	-  +/- decimal degrees
+    collection-date	-  DD-MMM-YYYY format
+    collected-by	-  name of person who collected the sample
+    identified-by	-  name of person who identified the sample
+    fwd-primer-seq	-  sequence (possibly more than one; semicolon-separated)
+    rev-primer-seq	-  sequence (possibly more than one; semicolon-separated)
+-->
+                    <xs:enumeration value="chromosome" ncbi:intvalue="1"/>
+                    <xs:enumeration value="map" ncbi:intvalue="2"/>
+                    <xs:enumeration value="clone" ncbi:intvalue="3"/>
+                    <xs:enumeration value="subclone" ncbi:intvalue="4"/>
+                    <xs:enumeration value="haplotype" ncbi:intvalue="5"/>
+                    <xs:enumeration value="genotype" ncbi:intvalue="6"/>
+                    <xs:enumeration value="sex" ncbi:intvalue="7"/>
+                    <xs:enumeration value="cell-line" ncbi:intvalue="8"/>
+                    <xs:enumeration value="cell-type" ncbi:intvalue="9"/>
+                    <xs:enumeration value="tissue-type" ncbi:intvalue="10"/>
+                    <xs:enumeration value="clone-lib" ncbi:intvalue="11"/>
+                    <xs:enumeration value="dev-stage" ncbi:intvalue="12"/>
+                    <xs:enumeration value="frequency" ncbi:intvalue="13"/>
+                    <xs:enumeration value="germline" ncbi:intvalue="14"/>
+                    <xs:enumeration value="rearranged" ncbi:intvalue="15"/>
+                    <xs:enumeration value="lab-host" ncbi:intvalue="16"/>
+                    <xs:enumeration value="pop-variant" ncbi:intvalue="17"/>
+                    <xs:enumeration value="tissue-lib" ncbi:intvalue="18"/>
+                    <xs:enumeration value="plasmid-name" ncbi:intvalue="19"/>
+                    <xs:enumeration value="transposon-name" ncbi:intvalue="20"/>
+                    <xs:enumeration value="insertion-seq-name" ncbi:intvalue="21"/>
+                    <xs:enumeration value="plastid-name" ncbi:intvalue="22"/>
+                    <xs:enumeration value="country" ncbi:intvalue="23"/>
+                    <xs:enumeration value="segment" ncbi:intvalue="24"/>
+                    <xs:enumeration value="endogenous-virus-name" ncbi:intvalue="25"/>
+                    <xs:enumeration value="transgenic" ncbi:intvalue="26"/>
+                    <xs:enumeration value="environmental-sample" ncbi:intvalue="27"/>
+                    <xs:enumeration value="isolation-source" ncbi:intvalue="28"/>
+                    <xs:enumeration value="lat-lon" ncbi:intvalue="29"/>
+                    <xs:enumeration value="collection-date" ncbi:intvalue="30"/>
+                    <xs:enumeration value="collected-by" ncbi:intvalue="31"/>
+                    <xs:enumeration value="identified-by" ncbi:intvalue="32"/>
+                    <xs:enumeration value="fwd-primer-seq" ncbi:intvalue="33"/>
+                    <xs:enumeration value="rev-primer-seq" ncbi:intvalue="34"/>
+                    <xs:enumeration value="fwd-primer-name" ncbi:intvalue="35"/>
+                    <xs:enumeration value="rev-primer-name" ncbi:intvalue="36"/>
+                    <xs:enumeration value="metagenomic" ncbi:intvalue="37"/>
+                    <xs:enumeration value="mating-type" ncbi:intvalue="38"/>
+                    <xs:enumeration value="linkage-group" ncbi:intvalue="39"/>
+                    <xs:enumeration value="haplogroup" ncbi:intvalue="40"/>
+                    <xs:enumeration value="other" ncbi:intvalue="255"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SubSource_name" type="xs:string"/>
+<!-- attribution/source of this name -->
+      <xs:element name="SubSource_attrib" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

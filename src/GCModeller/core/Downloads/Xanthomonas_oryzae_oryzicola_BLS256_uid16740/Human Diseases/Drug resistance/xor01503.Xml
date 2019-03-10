@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor01503" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Cationic antimicrobial peptides (CAMPs) play an important role in host defense against microbial infection and are key components of the innate immune response. These are found among all classes of life ranging from prokaryotes to humans. In addition to the natural peptides, thousands of synthetic variants have been produced. CAMPs weaken the integrity of the bacterial inner and outer membranes and subsequently kill bacterial cells. On the other hand, bacteria have developed a number of mechanisms against CAMPs. These resistance mechanisms include decreased affinity to CAMPs by substitution of anionic cell surface constituents with cationic molecules; biosynthesis and crosslinking of cell envelope components; external trapping mechanisms that bind or neutralize the CAMPs by direct secretion of proteins, or the release of CAMPs binding molecules from the host cell surface; membrane efflux pumps; and production of peptidases.&lt;br&gt;</Description>
+  <Name>Cationic antimicrobial peptide (CAMP) resistance - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xor01503" Value="Cationic antimicrobial peptide (CAMP) resistance&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0775" Value="thiol:disulfide interchange protein; K03673 thiol:disulfide interchange protein DsbA" />
+    <hashEntry Key="xor:XOC_0776" Value="disulfide oxidoreductase; K03673 thiol:disulfide interchange protein DsbA" />
+    <hashEntry Key="xor:XOC_1283" Value="inner membrane protein; K03760 lipid A ethanolaminephosphotransferase [EC:2.7.8.-]" />
+    <hashEntry Key="xor:XOC_1978" Value="AcrB protein; K18138 multidrug efflux pump" />
+    <hashEntry Key="xor:XOC_1979" Value="multidrug resistance protein; K03585 membrane fusion protein, multidrug efflux system" />
+    <hashEntry Key="xor:XOC_2094" Value="N-acetylmuramoyl-L-alanine amidase; K01448 N-acetylmuramoyl-L-alanine amidase [EC:3.5.1.28]" />
+    <hashEntry Key="xor:XOC_2163" Value="N-acetylmuramoyl-L-alanine amidase; K01448 N-acetylmuramoyl-L-alanine amidase [EC:3.5.1.28]" />
+    <hashEntry Key="xor:XOC_3082" Value="acyl-(acyl-carrier-protein)--UDP-N-acetylglucosamine O-acyltransferase; K00677 UDP-N-acetylglucosami" />
+    <hashEntry Key="xor:XOC_3126" Value="oxacillin resistance-associated protein fmtc; K14205 phosphatidylglycerol lysyltransferase [EC:2.3.2" />
+    <hashEntry Key="xor:XOC_3186" Value="periplasmic protease; K04771 serine protease Do [EC:3.4.21.107]" />
+    <hashEntry Key="xor:XOC_3566" Value="acriflavin resistance protein; K18138 multidrug efflux pump" />
+    <hashEntry Key="xor:XOC_3567" Value="RND efflux membrane fusion protein; K03585 membrane fusion protein, multidrug efflux system" />
+    <hashEntry Key="xor:XOC_3726" Value="raxC; outer membrane protein RaxC; K12340 outer membrane protein" />
+    <hashEntry Key="xor:XOC_4318" Value="phoQ; two-component system sensor protein PhoQ; K07637 two-component system, OmpR family, sensor his" />
+    <hashEntry Key="xor:XOC_4319" Value="phoP; two-component system regulatory protein PhoP; K07660 two-component system, OmpR family, respon" />
+  </Genes>
+</KEGG.PathwayBrief>

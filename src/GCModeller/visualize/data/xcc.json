@@ -1,0 +1,24 @@
+{  
+  "Extension": null,
+  "Margin": {
+    "height": 25,
+    "width": 25
+  },
+  "Meta": "G:\/Xanthomonas_campestris_8004_uid15\/Ortholog.SSDB_BBH.Xanthomonadales.Xml",
+  "Orders": [ "xcb", "xor" ],
+  "PTT": [
+    {
+      "Key": "xcb",
+      "Value": "G:\/Xanthomonas_campestris_8004_uid15\/Xanthomonadales\/Xanthomonas_campestris_8004_uid57595\/NC_007086.ptt"
+    },
+    {
+      "Key": "xor",
+      "Value": "G:\/Xanthomonas_campestris_8004_uid15\/Xanthomonadales\/Xanthomonas_oryzae_oryzicola_BLS256_uid54411\/NC_017267.ptt"
+    }
+  ],
+  "Size": {
+    "height": 1600,
+    "width": 1920
+  },
+  "penWidth": 3
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb01220" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Microorganisms are known to be capable of degrading diverse chemical substances including man-made chemicals in the environment that are mostly aromatic compounds. This diagram illustrates combination patterns of reaction modules for biodegradation of aromatic compounds, consisting of three main types of ring dihydroxylation modules, followed by meta- or ortho-cleavage modules, together with an optional preprocessing module for converting methyl group to carboxyl group on the aromatic ring.&lt;br&gt;</Description>
+  <Name>Degradation of aromatic compounds - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xcb01220" Value="Degradation of aromatic compounds&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0154" Value="2-keto-4-pentenoate hydratase; K02554 2-keto-4-pentenoate hydratase [EC:4.2.1.80]" />
+    <hashEntry Key="xcb:XC_0366" Value="benzaldehyde dehydrogenase II; K00141 benzaldehyde dehydrogenase (NAD) [EC:1.2.1.28]" />
+    <hashEntry Key="xcb:XC_0368" Value="4-hydroxybenzoate 3-monooxygenase (EC:1.14.13.2); K00481 p-hydroxybenzoate 3-monooxygenase [EC:1.14." />
+    <hashEntry Key="xcb:XC_0379" Value="protocatechuate 3,4-dioxygenase subunit beta; K00449 protocatechuate 3,4-dioxygenase, beta subunit [" />
+    <hashEntry Key="xcb:XC_0380" Value="protocatechuate 3,4-dioxygenase alpha chain; K00448 protocatechuate 3,4-dioxygenase, alpha subunit [" />
+    <hashEntry Key="xcb:XC_0381" Value="3-carboxy-cis,cis-muconate cycloisomerase (EC:5.5.1.2); K01857 3-carboxy-cis,cis-muconate cycloisome" />
+    <hashEntry Key="xcb:XC_0382" Value="b-ketoadipate enol-lactone hydrolase; K01055 3-oxoadipate enol-lactonase [EC:3.1.1.24]" />
+    <hashEntry Key="xcb:XC_0383" Value="4-carboxymuconolactone decarboxylase; K01607 4-carboxymuconolactone decarboxylase [EC:4.1.1.44]" />
+    <hashEntry Key="xcb:XC_0553" Value="gluconolactonase; K01053 gluconolactonase [EC:3.1.1.17]" />
+    <hashEntry Key="xcb:XC_0686" Value="alcohol dehydrogenase; K00121 S-(hydroxymethyl)glutathione dehydrogenase / alcohol dehydrogenase [EC" />
+    <hashEntry Key="xcb:XC_0775" Value="alcohol dehydrogenase; K00121 S-(hydroxymethyl)glutathione dehydrogenase / alcohol dehydrogenase [EC" />
+    <hashEntry Key="xcb:XC_0953" Value="ketoglutarate semialdehyde dehydrogenase; K14519 NADP-dependent aldehyde dehydrogenase [EC:1.2.1.4]" />
+    <hashEntry Key="xcb:XC_1342" Value="benzene 1,2-dioxygenase, ferredoxin protein; K05710 3-phenylpropionate/trans-cinnamate dioxygenase f" />
+    <hashEntry Key="xcb:XC_1702" Value="ketoglutarate semialdehyde dehydrogenase; K14519 NADP-dependent aldehyde dehydrogenase [EC:1.2.1.4]" />
+    <hashEntry Key="xcb:XC_4205" Value="gluconolactonase; K01053 gluconolactonase [EC:3.1.1.17]" />
+  </Genes>
+</KEGG.PathwayBrief>

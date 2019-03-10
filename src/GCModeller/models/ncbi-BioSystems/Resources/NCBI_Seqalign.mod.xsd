@@ -1,0 +1,833 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqalign.asn"
+     ::DATATOOL:: by application DATATOOL version 1.9.2
+     ::DATATOOL:: on 06/02/2009 23:05:02
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Seqalign"
+================================================= -->
+<!--
+$Revision: 161965 $
+**********************************************************************
+
+  NCBI Sequence Alignment elements
+  by James Ostell, 1990
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          Seq-align,
+          Score,
+          Score-set,
+          Seq-align-set -->
+
+<!-- Elements referenced from other modules:
+          Seq-id,
+          Seq-loc,
+          Na-strand FROM NCBI-Seqloc,
+          User-object,
+          Object-id FROM NCBI-General -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+*** Sequence Alignment ********************************
+*
+-->
+<xs:element name="Seq-align-set">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="Seq-align"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Seq-align">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Seq-align_type">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    diags	-  unbroken, but not ordered, diagonals
+    partial	-  mapping pieces together
+    disc	-  discontinuous alignment
+-->
+                <xs:enumeration value="not-set"/>
+                <xs:enumeration value="global"/>
+                <xs:enumeration value="diags"/>
+                <xs:enumeration value="partial"/>
+                <xs:enumeration value="disc"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- dimensionality -->
+      <xs:element name="Seq-align_dim" type="xs:integer" minOccurs="0"/>
+<!-- for whole alignment -->
+      <xs:element name="Seq-align_score" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Score"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-align_segs">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="Seq-align_segs_dendiag">
+              <xs:complexType>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="Dense-diag"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Seq-align_segs_denseg">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Dense-seg"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Seq-align_segs_std">
+              <xs:complexType>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="Std-seg"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Seq-align_segs_packed">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Packed-seg"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Seq-align_segs_disc">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Seq-align-set"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Seq-align_segs_spliced">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Spliced-seg"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Seq-align_segs_sparse">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Sparse-seg"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+<!--
+ regions of sequence over which align
+  was computed
+-->
+      <xs:element name="Seq-align_bounds" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- alignment id -->
+      <xs:element name="Seq-align_id" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Object-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!--extra info -->
+      <xs:element name="Seq-align_ext" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="User-object"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- for (multiway) diagonals -->
+<xs:element name="Dense-diag">
+  <xs:complexType>
+    <xs:sequence>
+<!-- dimensionality -->
+      <xs:element name="Dense-diag_dim" type="xs:integer" default="2"/>
+<!-- sequences in order -->
+      <xs:element name="Dense-diag_ids">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- start OFFSETS in ids order -->
+      <xs:element name="Dense-diag_starts">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Dense-diag_starts_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- len of aligned segments -->
+      <xs:element name="Dense-diag_len" type="xs:integer"/>
+      <xs:element name="Dense-diag_strands" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Na-strand"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Dense-diag_scores" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Score"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ Dense-seg: the densist packing for sequence alignments only.
+            a start of -1 indicates a gap for that sequence of
+            length lens.
+
+ id=100  AAGGCCTTTTAGAGATGATGATGATGATGA
+ id=200  AAGGCCTTTTAG.......GATGATGATGA
+ id=300  ....CCTTTTAGAGATGATGAT....ATGA
+
+ dim = 3, numseg = 6, ids = { 100, 200, 300 }
+ starts = { 0,0,-1, 4,4,0, 12,-1,8, 19,12,15, 22,15,-1, 26,19,18 }
+ lens = { 4, 8, 7, 3, 4, 4 }
+
+ for (multiway) global or partial alignments
+-->
+<xs:element name="Dense-seg">
+  <xs:complexType>
+    <xs:sequence>
+<!-- dimensionality -->
+      <xs:element name="Dense-seg_dim" type="xs:integer" default="2"/>
+<!-- number of segments here -->
+      <xs:element name="Dense-seg_numseg" type="xs:integer"/>
+<!-- sequences in order -->
+      <xs:element name="Dense-seg_ids">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- start OFFSETS in ids order within segs -->
+      <xs:element name="Dense-seg_starts">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Dense-seg_starts_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- lengths in ids order within segs -->
+      <xs:element name="Dense-seg_lens">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Dense-seg_lens_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Dense-seg_strands" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Na-strand"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- score for each seg -->
+      <xs:element name="Dense-seg_scores" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Score"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- for (multiway) global or partial alignments -->
+<xs:element name="Packed-seg">
+  <xs:complexType>
+    <xs:sequence>
+<!-- dimensionality -->
+      <xs:element name="Packed-seg_dim" type="xs:integer" default="2"/>
+<!-- number of segments here -->
+      <xs:element name="Packed-seg_numseg" type="xs:integer"/>
+<!-- sequences in order -->
+      <xs:element name="Packed-seg_ids">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- start OFFSETS in ids order for whole alignment -->
+      <xs:element name="Packed-seg_starts">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Packed-seg_starts_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!--
+ Boolean if each sequence present or absent in
+   each segment
+-->
+      <xs:element name="Packed-seg_present" type="xs:hexBinary"/>
+<!-- length of each segment -->
+      <xs:element name="Packed-seg_lens">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Packed-seg_lens_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Packed-seg_strands" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Na-strand"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- score for each segment -->
+      <xs:element name="Packed-seg_scores" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Score"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Std-seg">
+  <xs:complexType>
+    <xs:sequence>
+<!-- dimensionality -->
+      <xs:element name="Std-seg_dim" type="xs:integer" default="2"/>
+      <xs:element name="Std-seg_ids" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Std-seg_loc">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Std-seg_scores" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Score"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Spliced-seg">
+  <xs:complexType>
+    <xs:sequence>
+<!-- product is either protein or transcript (cDNA) -->
+      <xs:element name="Spliced-seg_product-id" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Spliced-seg_genomic-id" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- should be 'plus' or 'minus' -->
+      <xs:element name="Spliced-seg_product-strand" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Na-strand"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Spliced-seg_genomic-strand" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Na-strand"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Spliced-seg_product-type">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="transcript"/>
+                <xs:enumeration value="protein"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!--
+ set of segments involved
+ each segment corresponds to one exon
+ exons are always in biological order
+-->
+      <xs:element name="Spliced-seg_exons">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Spliced-exon"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!--
+ start of poly(A) tail on the transcript
+ For sense transcripts:
+   aligned product positions < poly-a <= product-length
+   poly-a == product-length indicates inferred poly(A) tail at transcript's end
+ For antisense transcripts:
+   -1 <= poly-a < aligned product positions
+   poly-a == -1 indicates inferred poly(A) tail at transcript's start
+-->
+      <xs:element name="Spliced-seg_poly-a" type="xs:integer" minOccurs="0"/>
+<!--
+ length of the product, in bases/residues
+ from this (or from poly-a if present), a 3' unaligned length can be extracted
+-->
+      <xs:element name="Spliced-seg_product-length" type="xs:integer" minOccurs="0"/>
+<!--
+ alignment descriptors / modifiers
+ this provides us a set for extension
+-->
+      <xs:element name="Spliced-seg_modifiers" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Spliced-seg-modifier"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Spliced-seg-modifier">
+  <xs:complexType>
+    <xs:choice>
+<!--
+ protein aligns from the start and the first codon 
+ on both product and genomic is start codon
+-->
+      <xs:element name="Spliced-seg-modifier_start-codon-found">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!--
+ protein aligns to it's end and there is stop codon 
+ on the genomic right after the alignment
+-->
+      <xs:element name="Spliced-seg-modifier_stop-codon-found">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ complete or partial exon
+ two consecutive Spliced-exons may belong to one exon
+-->
+<xs:element name="Spliced-exon">
+  <xs:complexType>
+    <xs:sequence>
+<!-- product-end >= product-start -->
+      <xs:element name="Spliced-exon_product-start">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Product-pos"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Spliced-exon_product-end">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Product-pos"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- genomic-end >= genomic-start -->
+      <xs:element name="Spliced-exon_genomic-start" type="xs:integer"/>
+      <xs:element name="Spliced-exon_genomic-end" type="xs:integer"/>
+<!-- product is either protein or transcript (cDNA) -->
+      <xs:element name="Spliced-exon_product-id" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Spliced-exon_genomic-id" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- should be 'plus' or 'minus' -->
+      <xs:element name="Spliced-exon_product-strand" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Na-strand"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- genomic-strand represents the strand of translation -->
+      <xs:element name="Spliced-exon_genomic-strand" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Na-strand"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- basic seqments always are in biologic order -->
+      <xs:element name="Spliced-exon_parts" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Spliced-exon-chunk"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- scores for this exon -->
+      <xs:element name="Spliced-exon_scores" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Score-set"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- splice sites -->
+      <xs:element name="Spliced-exon_acceptor-before-exon" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Splice-site"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Spliced-exon_donor-after-exon" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Splice-site"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- flag: is this exon complete or partial? -->
+      <xs:element name="Spliced-exon_partial" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!--extra info -->
+      <xs:element name="Spliced-exon_ext" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="User-object"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Product-pos">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element name="Product-pos_nucpos" type="xs:integer"/>
+      <xs:element name="Product-pos_protpos">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Prot-pos"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!-- codon based position on protein (1/3 of aminoacid) -->
+<xs:element name="Prot-pos">
+  <xs:complexType>
+    <xs:sequence>
+<!-- standard protein position -->
+      <xs:element name="Prot-pos_amin" type="xs:integer"/>
+<!--
+ 0, 1, 2, or 3 as for Cdregion
+ 0 = not set
+ 1, 2, 3 = actual frame
+-->
+      <xs:element name="Prot-pos_frame" type="xs:integer" default="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ Spliced-exon-chunk: piece of an exon
+ lengths are given in nucleotide bases (1/3 of aminoacid when product is a
+ protein)
+-->
+<xs:element name="Spliced-exon-chunk">
+  <xs:complexType>
+    <xs:choice>
+<!-- both sequences represented, product and genomic sequences match -->
+      <xs:element name="Spliced-exon-chunk_match" type="xs:integer"/>
+<!-- both sequences represented, product and genomic sequences do not match -->
+      <xs:element name="Spliced-exon-chunk_mismatch" type="xs:integer"/>
+<!--
+ both sequences are represented, there is sufficient similarity 
+ between product and genomic sequences. Can be used to replace stretches
+ of matches and mismatches, mostly for protein to genomic where 
+ definition of match or mismatch depends on translation table
+-->
+      <xs:element name="Spliced-exon-chunk_diag" type="xs:integer"/>
+<!-- insertion in product sequence (i.e. gap in the genomic sequence) -->
+      <xs:element name="Spliced-exon-chunk_product-ins" type="xs:integer"/>
+<!-- insertion in genomic sequence (i.e. gap in the product sequence) -->
+      <xs:element name="Spliced-exon-chunk_genomic-ins" type="xs:integer"/>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!-- site involved in splice -->
+<xs:element name="Splice-site">
+  <xs:complexType>
+    <xs:sequence>
+<!--
+ typically two bases in the intronic region, always
+ in IUPAC format
+-->
+      <xs:element name="Splice-site_bases" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ ==========================================================================
+
+ Sparse-seg follows the semantics of dense-seg and is more optimal for
+ representing sparse multiple alignments
+
+ ==========================================================================
+-->
+<xs:element name="Sparse-seg">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Sparse-seg_master-id" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- pairwise alignments constituting this multiple alignment -->
+      <xs:element name="Sparse-seg_rows">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Sparse-align"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- per-row scores -->
+      <xs:element name="Sparse-seg_row-scores" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Score"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- index of extra items -->
+      <xs:element name="Sparse-seg_ext" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Sparse-seg-ext"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Sparse-align">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Sparse-align_first-id">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Sparse-align_second-id">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!--number of segments -->
+      <xs:element name="Sparse-align_numseg" type="xs:integer"/>
+<!--starts on the first sequence [numseg] -->
+      <xs:element name="Sparse-align_first-starts">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Sparse-align_first-starts_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!--starts on the second sequence [numseg] -->
+      <xs:element name="Sparse-align_second-starts">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Sparse-align_second-starts_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!--lengths of segments [numseg] -->
+      <xs:element name="Sparse-align_lens">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Sparse-align_lens_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Sparse-align_second-strands" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Na-strand"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- per-segment scores -->
+      <xs:element name="Sparse-align_seg-scores" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Score"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Sparse-seg-ext">
+  <xs:complexType>
+    <xs:sequence>
+<!--
+seg-ext SET OF {
+    index INTEGER,
+    data User-field
+ }
+-->
+      <xs:element name="Sparse-seg-ext_index" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- use of Score is discouraged for external ASN.1 specifications -->
+<xs:element name="Score">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Score_id" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Object-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Score_value">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="Score_value_real" type="xs:double"/>
+            <xs:element name="Score_value_int" type="xs:integer"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- use of Score-set is encouraged for external ASN.1 specifications -->
+<xs:element name="Score-set">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="Score"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

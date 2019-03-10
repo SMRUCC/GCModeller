@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00330" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Arginine and proline metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00015" Value="Proline biosynthesis, glutamate =&gt; proline [PATH:xor00330]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00012" Value="Peptide" />
+    <hashEntry Key="C00019" Value="S-Adenosyl-L-methionine" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00048" Value="Glyoxylate" />
+    <hashEntry Key="C00062" Value="L-Arginine" />
+    <hashEntry Key="C00077" Value="L-Ornithine" />
+    <hashEntry Key="C00086" Value="Urea" />
+    <hashEntry Key="C00134" Value="Putrescine" />
+    <hashEntry Key="C00148" Value="L-Proline" />
+    <hashEntry Key="C00179" Value="Agmatine" />
+    <hashEntry Key="C00213" Value="Sarcosine" />
+    <hashEntry Key="C00223" Value="p-Coumaroyl-CoA" />
+    <hashEntry Key="C00300" Value="Creatine" />
+    <hashEntry Key="C00315" Value="Spermidine" />
+    <hashEntry Key="C00334" Value="4-Aminobutanoate" />
+    <hashEntry Key="C00406" Value="Feruloyl-CoA" />
+    <hashEntry Key="C00431" Value="5-Aminopentanoate" />
+    <hashEntry Key="C00433" Value="2,5-Dioxopentanoate" />
+    <hashEntry Key="C00436" Value="N-Carbamoylputrescine" />
+    <hashEntry Key="C00441" Value="L-Aspartate 4-semialdehyde" />
+    <hashEntry Key="C00533" Value="Nitric oxide" />
+    <hashEntry Key="C00555" Value="4-Aminobutyraldehyde" />
+    <hashEntry Key="C00581" Value="Guanidinoacetate" />
+    <hashEntry Key="C00750" Value="Spermine" />
+    <hashEntry Key="C00763" Value="D-Proline" />
+    <hashEntry Key="C00791" Value="Creatinine" />
+    <hashEntry Key="C00884" Value="Homocarnosine" />
+    <hashEntry Key="C00986" Value="1,3-Diaminopropane" />
+    <hashEntry Key="C01035" Value="4-Guanidinobutanoate" />
+    <hashEntry Key="C01043" Value="N-Carbamoylsarcosine" />
+    <hashEntry Key="C01110" Value="5-Amino-2-oxopentanoic acid" />
+    <hashEntry Key="C01137" Value="S-Adenosylmethioninamine" />
+    <hashEntry Key="C01157" Value="Hydroxyproline" />
+    <hashEntry Key="C01165" Value="L-Glutamate 5-semialdehyde" />
+    <hashEntry Key="C01682" Value="Nopaline" />
+    <hashEntry Key="C01877" Value="4-Oxoproline" />
+    <hashEntry Key="C02305" Value="Phosphocreatine" />
+    <hashEntry Key="C02565" Value="N-Methylhydantoin" />
+    <hashEntry Key="C02647" Value="4-Guanidinobutanal" />
+    <hashEntry Key="C02714" Value="N-Acetylputrescine" />
+    <hashEntry Key="C02946" Value="4-Acetamidobutanoate" />
+    <hashEntry Key="C03078" Value="4-Guanidinobutanamide" />
+    <hashEntry Key="C03166" Value="Phosphoguanidinoacetate" />
+    <hashEntry Key="C03287" Value="L-Glutamyl 5-phosphate" />
+    <hashEntry Key="C03296" Value="N2-Succinyl-L-arginine" />
+    <hashEntry Key="C03375" Value="Norspermidine" />
+    <hashEntry Key="C03415" Value="N2-Succinyl-L-ornithine" />
+    <hashEntry Key="C03440" Value="cis-4-Hydroxy-D-proline" />
+    <hashEntry Key="C03564" Value="1-Pyrroline-2-carboxylate" />
+    <hashEntry Key="C03771" Value="5-Guanidino-2-oxopentanoate" />
+    <hashEntry Key="C03912" Value="(S)-1-Pyrroline-5-carboxylate" />
+    <hashEntry Key="C04137" Value="D-Octopine" />
+    <hashEntry Key="C04281" Value="L-1-Pyrroline-3-hydroxy-5-carboxylate" />
+    <hashEntry Key="C04282" Value="1-Pyrroline-4-hydroxy-2-carboxylate" />
+    <hashEntry Key="C04498" Value="p-Coumaroylagmatine" />
+    <hashEntry Key="C05147" Value="trans-3-Hydroxy-L-proline" />
+    <hashEntry Key="C05931" Value="N-Succinyl-L-glutamate" />
+    <hashEntry Key="C05932" Value="N-Succinyl-L-glutamate 5-semialdehyde" />
+    <hashEntry Key="C05933" Value="N(omega)-Hydroxyarginine" />
+    <hashEntry Key="C05936" Value="N4-Acetylaminobutanal" />
+    <hashEntry Key="C05938" Value="L-4-Hydroxyglutamate semialdehyde" />
+    <hashEntry Key="C05939" Value="Linatine" />
+    <hashEntry Key="C05941" Value="2-Oxo-4-hydroxy-5-aminovalerate" />
+    <hashEntry Key="C05942" Value="Pyrrole-2-carboxylate" />
+    <hashEntry Key="C05945" Value="L-Arginine phosphate" />
+    <hashEntry Key="C05946" Value="(4R)-4-Hydroxy-2-oxoglutarate" />
+    <hashEntry Key="C05947" Value="L-erythro-4-Hydroxyglutamate" />
+    <hashEntry Key="C10497" Value="Feruloylputrescine" />
+    <hashEntry Key="C15699" Value="gamma-L-Glutamylputrescine" />
+    <hashEntry Key="C15700" Value="gamma-Glutamyl-gamma-aminobutyraldehyde" />
+    <hashEntry Key="C15767" Value="4-(L-gamma-Glutamylamino)butanoate" />
+    <hashEntry Key="C18172" Value="Carboxyspermidine" />
+    <hashEntry Key="C18174" Value="Carboxynorspermidine" />
+    <hashEntry Key="C18325" Value="Feruloylagmatine" />
+    <hashEntry Key="C18326" Value="p-Coumaroylputrescine" />
+  </Compound>
+  <PathwayMap Key="xor00330" Value="Arginine and proline metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0531" Value="bifunctional PutA protein; K13821 RHH-type transcriptional regulator, proline utilization regulon re" />
+    <hashEntry Key="xor:XOC_0700" Value="cytosine deaminase; K01485 cytosine deaminase [EC:3.5.4.1]" />
+    <hashEntry Key="xor:XOC_0933" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xor:XOC_0963" Value="pip; proline iminopeptidase; K01259 proline iminopeptidase [EC:3.4.11.5]" />
+    <hashEntry Key="xor:XOC_1064" Value="glu-trnAgln amidotransferase a subunit; K01426 amidase [EC:3.5.1.4]" />
+    <hashEntry Key="xor:XOC_1485" Value="proC; pyrroline-5-carboxylate reductase; K00286 pyrroline-5-carboxylate reductase [EC:1.5.1.2]" />
+    <hashEntry Key="xor:XOC_1995" Value="gamma-glutamylputrescine oxidoreductase; K09471 gamma-glutamylputrescine oxidase [EC:1.4.3.-]" />
+    <hashEntry Key="xor:XOC_2015" Value="adenosylmethionine-8-amino-7-oxononanoate aminotransferase; K12256 putrescine aminotransferase [EC:2" />
+    <hashEntry Key="xor:XOC_2070" Value="pyridoxal-5&amp;#39;-phosphate-dependent enzyme, beta subunit:Ornithine cyclodeaminase-mu-crystallin; K01750" />
+    <hashEntry Key="xor:XOC_2193" Value="piperideine-6-carboxylate dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xor:XOC_2698" Value="beta-alanine synthetase; K12251 N-carbamoylputrescine amidase [EC:3.5.1.53]" />
+    <hashEntry Key="xor:XOC_2740" Value="proA; gamma-glutamyl phosphate reductase; K00147 glutamate-5-semialdehyde dehydrogenase [EC:1.2.1.41" />
+    <hashEntry Key="xor:XOC_2741" Value="proB; glutamate 5-kinase; K00931 glutamate 5-kinase [EC:2.7.2.11]" />
+    <hashEntry Key="xor:XOC_3685" Value="amine oxidase; K00274 monoamine oxidase [EC:1.4.3.4]" />
+    <hashEntry Key="xor:XOC_4201" Value="samDC; S-adenosylmethionine decarboxylase proenzyme (AdoMetDC); K01611 S-adenosylmethionine decarbox" />
+    <hashEntry Key="xor:XOC_4241" Value="speA; arginine decarboxylase; K01585 arginine decarboxylase [EC:4.1.1.19]" />
+    <hashEntry Key="xor:XOC_4242" Value="speE; spermidine synthase; K00797 spermidine synthase [EC:2.5.1.16]" />
+    <hashEntry Key="xor:XOC_4304" Value="rocF; arginase; K01476 arginase [EC:3.5.3.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

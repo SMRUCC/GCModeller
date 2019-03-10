@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor02030" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Chemotaxis is the process by which cells sense chemical gradients in their environment and then move towards more favorable conditions. In chemotaxis, events at the receptors control autophosphorylation of the CheA histidine kinase, and the phosphohistidine is the substrate for the response regulator CheY, which catalyzes the transfer of the phosphoryl group to a conserved aspartate. The resulting CheY-P can interact with the switch mechanism in the motor. This interaction causes a change in behavior, such as in direction or speed of rotation of flagella.&lt;br&gt;</Description>
+  <Name>Bacterial chemotaxis - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00506" Value="CheA-CheYBV (chemotaxis) two-component regulatory system [PATH:xor02030]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00107" Value="Dipeptide" />
+    <hashEntry Key="C00121" Value="D-Ribose" />
+    <hashEntry Key="C00124" Value="D-Galactose" />
+    <hashEntry Key="C00208" Value="Maltose" />
+    <hashEntry Key="C00716" Value="Serine" />
+  </Compound>
+  <PathwayMap Key="xor02030" Value="Bacterial chemotaxis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_1588" Value="two-component system response regulatory protein; K03412 two-component system, chemotaxis family, re" />
+    <hashEntry Key="xor:XOC_1589" Value="cheR; CheR methyltransferase, SAM binding domain protein; K00575 chemotaxis protein methyltransferas" />
+    <hashEntry Key="xor:XOC_1591" Value="chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xor:XOC_1592" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xor:XOC_1593" Value="two-component system sensor protein; K03407 two-component system, chemotaxis family, sensor kinase C" />
+    <hashEntry Key="xor:XOC_2048" Value="methyl-accepting chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xor:XOC_2049" Value="chemotaxis signal transduction protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xor:XOC_2278" Value="two-component system response regulatory protein; K03412 two-component system, chemotaxis family, re" />
+    <hashEntry Key="xor:XOC_2279" Value="chemotaxis protein; K03411 chemotaxis protein CheD [EC:3.5.1.44]" />
+    <hashEntry Key="xor:XOC_2280" Value="chemotaxis protein methyltransferase 2; K00575 chemotaxis protein methyltransferase CheR [EC:2.1.1.8" />
+    <hashEntry Key="xor:XOC_2282" Value="methyl-accepting chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xor:XOC_2284" Value="chemotaxis signal transduction protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xor:XOC_2289" Value="methyl-accepting chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xor:XOC_2293" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xor:XOC_2295" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xor:XOC_2297" Value="methyl-accepting chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xor:XOC_2303" Value="two-component system sensor protein; K03407 two-component system, chemotaxis family, sensor kinase C" />
+    <hashEntry Key="xor:XOC_2304" Value="two-component system response regulatory protein; K03413 two-component system, chemotaxis family, re" />
+    <hashEntry Key="xor:XOC_2306" Value="chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xor:XOC_2308" Value="flagellar motor protein MotB; K02557 chemotaxis protein MotB" />
+    <hashEntry Key="xor:XOC_2309" Value="MotA protein; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="xor:XOC_2326" Value="two-component system sensor protein CheA; K03407 two-component system, chemotaxis family, sensor kin" />
+    <hashEntry Key="xor:XOC_2327" Value="chemotaxis phosphatase CheZ; K03414 chemotaxis protein CheZ" />
+    <hashEntry Key="xor:XOC_2328" Value="two-component system response regulatory protein; K03413 two-component system, chemotaxis family, re" />
+    <hashEntry Key="xor:XOC_2344" Value="flagellar protein; K02417 flagellar motor switch protein FliN/FliY" />
+    <hashEntry Key="xor:XOC_2345" Value="fliM; flagellar motor switch protein FliM; K02416 flagellar motor switch protein FliM" />
+    <hashEntry Key="xor:XOC_2351" Value="fliG; flagellar motor switch protein FliG; K02410 flagellar motor switch protein FliG" />
+    <hashEntry Key="xor:XOC_2387" Value="two-component system response regulatory protein; K03415 two-component system, chemotaxis family, re" />
+    <hashEntry Key="xor:XOC_2399" Value="methyl-accepting chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xor:XOC_2669" Value="methyl-accepting chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xor:XOC_3493" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xor:XOC_3964" Value="flagellar motor component MotA; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="xor:XOC_3965" Value="chemotaxis MotB protein; K02557 chemotaxis protein MotB" />
+    <hashEntry Key="xor:XOC_4001" Value="methyltransferase; K13924 two-component system, chemotaxis family, CheB/CheR fusion protein [EC:2.1." />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00562" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Inositol phosphate metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00092" Value="D-Glucose 6-phosphate" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00118" Value="D-Glyceraldehyde 3-phosphate" />
+    <hashEntry Key="C00137" Value="myo-Inositol" />
+    <hashEntry Key="C00191" Value="D-Glucuronate" />
+    <hashEntry Key="C00222" Value="3-Oxopropanoate" />
+    <hashEntry Key="C00641" Value="1,2-Diacyl-sn-glycerol" />
+    <hashEntry Key="C00691" Value="2,4,6/3,5-Pentahydroxycyclohexanone" />
+    <hashEntry Key="C01177" Value="Inositol 1-phosphate" />
+    <hashEntry Key="C01194" Value="1-Phosphatidyl-D-myo-inositol" />
+    <hashEntry Key="C01204" Value="Phytic acid" />
+    <hashEntry Key="C01220" Value="1D-myo-Inositol 1,4-bisphosphate" />
+    <hashEntry Key="C01243" Value="1D-myo-Inositol 1,3,4-trisphosphate" />
+    <hashEntry Key="C01245" Value="D-myo-Inositol 1,4,5-trisphosphate" />
+    <hashEntry Key="C01272" Value="1D-myo-Inositol 1,3,4,5-tetrakisphosphate" />
+    <hashEntry Key="C01277" Value="1-Phosphatidyl-1D-myo-inositol 4-phosphate" />
+    <hashEntry Key="C01284" Value="1D-myo-Inositol 1,3,4,5,6-pentakisphosphate" />
+    <hashEntry Key="C03546" Value="myo-Inositol 4-phosphate" />
+    <hashEntry Key="C03659" Value="D-Bornesitol" />
+    <hashEntry Key="C03660" Value="L-Bornesitol" />
+    <hashEntry Key="C04006" Value="1D-myo-Inositol 3-phosphate" />
+    <hashEntry Key="C04062" Value="D-myo-Inositol 1,3-bisphosphate" />
+    <hashEntry Key="C04063" Value="D-myo-Inositol 3,4-bisphosphate" />
+    <hashEntry Key="C04287" Value="3D-3,5/4-Trihydroxycyclohexane-1,2-dione" />
+    <hashEntry Key="C04477" Value="1D-myo-Inositol 1,3,4,6-tetrakisphosphate" />
+    <hashEntry Key="C04520" Value="1D-myo-Inositol 3,4,5,6-tetrakisphosphate" />
+    <hashEntry Key="C04549" Value="1-Phosphatidyl-1D-myo-inositol 3-phosphate" />
+    <hashEntry Key="C04563" Value="D-myo-Inositol 1,2,4,5,6-pentakisphosphate" />
+    <hashEntry Key="C04579" Value="Inositol 1,2,3,5,6-pentakisphosphate" />
+    <hashEntry Key="C04637" Value="1-Phosphatidyl-D-myo-inositol 4,5-bisphosphate" />
+    <hashEntry Key="C05981" Value="Phosphatidylinositol-3,4,5-trisphosphate" />
+    <hashEntry Key="C06153" Value="scyllo-Inositol" />
+    <hashEntry Key="C06892" Value="2-Deoxy-5-keto-D-gluconic acid" />
+    <hashEntry Key="C06893" Value="2-Deoxy-5-keto-D-gluconic acid 6-phosphate" />
+    <hashEntry Key="C11554" Value="1-Phosphatidyl-1D-myo-inositol 3,4-bisphosphate" />
+    <hashEntry Key="C11555" Value="1D-myo-Inositol 1,4,5,6-tetrakisphosphate" />
+    <hashEntry Key="C11556" Value="1-Phosphatidyl-1D-myo-inositol 3,5-bisphosphate" />
+    <hashEntry Key="C11557" Value="1-Phosphatidyl-1D-myo-inositol 5-phosphate" />
+    <hashEntry Key="C16737" Value="5-Deoxy-D-glucuronate" />
+    <hashEntry Key="C19794" Value="CDP-1L-myo-inositol" />
+    <hashEntry Key="C19799" Value="Bis(1L-myo-inositol)-3,1'-phosphate 1-phosphate" />
+    <hashEntry Key="C19891" Value="1D-chiro-Inositol" />
+    <hashEntry Key="C20251" Value="1-Keto-D-chiro-inositol" />
+  </Compound>
+  <PathwayMap Key="xor00562" Value="Inositol phosphate metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0877" Value="phosphoanhydride phosphohydrolase; K01093 4-phytase / acid phosphatase [EC:3.1.3.26 3.1.3.2]" />
+    <hashEntry Key="xor:XOC_1097" Value="Non-hemolytic phospholipase C; K01114 phospholipase C [EC:3.1.4.3]" />
+    <hashEntry Key="xor:XOC_1947" Value="putative phytase; K01083 3-phytase [EC:3.1.3.8]" />
+    <hashEntry Key="xor:XOC_2117" Value="inositol-1-monophosphatase; K01092 myo-inositol-1(or 4)-monophosphatase [EC:3.1.3.25]" />
+    <hashEntry Key="xor:XOC_2940" Value="tpiA; triosephosphate isomerase; K01803 triosephosphate isomerase (TIM) [EC:5.3.1.1]" />
+    <hashEntry Key="xor:XOC_3196" Value="mmsA; methylmalonate-semialdehyde dehydrogenase; K00140 malonate-semialdehyde dehydrogenase (acetyla" />
+    <hashEntry Key="xor:XOC_3369" Value="Non-hemolytic phospholipase C; K01114 phospholipase C [EC:3.1.4.3]" />
+  </Genes>
+</KEGG.PathwayBrief>

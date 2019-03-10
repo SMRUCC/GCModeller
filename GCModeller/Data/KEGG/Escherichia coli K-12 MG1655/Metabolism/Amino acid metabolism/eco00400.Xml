@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00400" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Phenylalanine, tyrosine and tryptophan biosynthesis - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00022" Value="Shikimate pathway, phosphoenolpyruvate + erythrose-4P =&gt; chorismate [PATH:eco00400]" />
+    <hashEntry Key="eco_M00023" Value="Tryptophan biosynthesis, chorismate =&gt; tryptophan [PATH:eco00400]" />
+    <hashEntry Key="eco_M00024" Value="Phenylalanine biosynthesis, chorismate =&gt; phenylalanine [PATH:eco00400]" />
+    <hashEntry Key="eco_M00025" Value="Tyrosine biosynthesis, chorismate =&gt; tyrosine [PATH:eco00400]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00074" Value="Phosphoenolpyruvate" />
+    <hashEntry Key="C00078" Value="L-Tryptophan" />
+    <hashEntry Key="C00079" Value="L-Phenylalanine" />
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00108" Value="Anthranilate" />
+    <hashEntry Key="C00119" Value="5-Phospho-alpha-D-ribose 1-diphosphate" />
+    <hashEntry Key="C00166" Value="Phenylpyruvate" />
+    <hashEntry Key="C00230" Value="3,4-Dihydroxybenzoate" />
+    <hashEntry Key="C00251" Value="Chorismate" />
+    <hashEntry Key="C00254" Value="Prephenate" />
+    <hashEntry Key="C00279" Value="D-Erythrose 4-phosphate" />
+    <hashEntry Key="C00296" Value="Quinate" />
+    <hashEntry Key="C00354" Value="D-Fructose 1,6-bisphosphate" />
+    <hashEntry Key="C00441" Value="L-Aspartate 4-semialdehyde" />
+    <hashEntry Key="C00463" Value="Indole" />
+    <hashEntry Key="C00493" Value="Shikimate" />
+    <hashEntry Key="C00587" Value="3-Hydroxybenzoate" />
+    <hashEntry Key="C00826" Value="L-Arogenate" />
+    <hashEntry Key="C00944" Value="3-Dehydroquinate" />
+    <hashEntry Key="C01094" Value="D-Fructose 1-phosphate" />
+    <hashEntry Key="C01179" Value="3-(4-Hydroxyphenyl)pyruvate" />
+    <hashEntry Key="C01269" Value="5-O-(1-Carboxyvinyl)-3-phosphoshikimate" />
+    <hashEntry Key="C01302" Value="1-(2-Carboxyphenylamino)-1-deoxy-D-ribulose 5-phosphate" />
+    <hashEntry Key="C02637" Value="3-Dehydroshikimate" />
+    <hashEntry Key="C03175" Value="Shikimate 3-phosphate" />
+    <hashEntry Key="C03506" Value="Indoleglycerol phosphate" />
+    <hashEntry Key="C04302" Value="N-(5-Phospho-D-ribosyl)anthranilate" />
+    <hashEntry Key="C04691" Value="2-Dehydro-3-deoxy-D-arabino-heptonate 7-phosphate" />
+    <hashEntry Key="C16848" Value="6-Deoxy-5-ketofructose 1-phosphate" />
+    <hashEntry Key="C16850" Value="2-Amino-3,7-dideoxy-D-threo-hept-6-ulosonic acid" />
+    <hashEntry Key="C17235" Value="L-Homophenylalanine" />
+    <hashEntry Key="C20327" Value="2-Oxo-4-phenylbutyric acid" />
+    <hashEntry Key="C20653" Value="2-Benzylmalic acid" />
+    <hashEntry Key="C20654" Value="3-Benzylmalic acid" />
+    <hashEntry Key="C20710" Value="(4R,5R)-4,5-Dihydroxycyclohexa-1(6),2-diene-1-carboxylate" />
+  </Compound>
+  <PathwayMap Key="eco00400" Value="Phenylalanine, tyrosine and tryptophan biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0388" Value="aroL; shikimate kinase II (EC:2.7.1.71); K00891 shikimate kinase [EC:2.7.1.71]" />
+    <hashEntry Key="eco:b0754" Value="aroG; 3-deoxy-D-arabino-heptulosonate-7-phosphate synthase, phenylalanine repressible (EC:2.5.1.54);" />
+    <hashEntry Key="eco:b0908" Value="aroA; 5-enolpyruvylshikimate-3-phosphate synthetase (EC:2.5.1.19); K00800 3-phosphoshikimate 1-carbo" />
+    <hashEntry Key="eco:b0928" Value="aspC; aspartate aminotransferase, PLP-dependent (EC:2.6.1.1); K00813 aspartate aminotransferase [EC:" />
+    <hashEntry Key="eco:b1260" Value="trpA; tryptophan synthase, alpha subunit (EC:4.2.1.20); K01695 tryptophan synthase alpha chain [EC:4" />
+    <hashEntry Key="eco:b1261" Value="trpB; tryptophan synthase, beta subunit (EC:4.2.1.20); K01696 tryptophan synthase beta chain [EC:4.2" />
+    <hashEntry Key="eco:b1262" Value="trpC; fused indole-3-glycerolphosphate synthetase/N-(5-phosphoribosyl)anthranilate isomerase (EC:4.1" />
+    <hashEntry Key="eco:b1263" Value="trpD; fused glutamine amidotransferase (component II) of anthranilate synthase/anthranilate phosphor" />
+    <hashEntry Key="eco:b1264" Value="trpE; component I of anthranilate synthase (EC:4.1.3.27); K01657 anthranilate synthase component I [" />
+    <hashEntry Key="eco:b1692" Value="ydiB; quinate/shikimate 5-dehydrogenase, NAD(P)-binding (EC:1.1.1.25); K05887 quinate/shikimate dehy" />
+    <hashEntry Key="eco:b1693" Value="aroD; 3-dehydroquinate dehydratase (EC:4.2.1.10); K03785 3-dehydroquinate dehydratase I [EC:4.2.1.10" />
+    <hashEntry Key="eco:b1704" Value="aroH; 3-deoxy-D-arabino-heptulosonate-7-phosphate synthase, tryptophan repressible (EC:2.5.1.54); K0" />
+    <hashEntry Key="eco:b2021" Value="hisC; histidinol-phosphate aminotransferase (EC:2.6.1.9); K00817 histidinol-phosphate aminotransfera" />
+    <hashEntry Key="eco:b2329" Value="aroC; chorismate synthase (EC:4.2.3.5); K01736 chorismate synthase [EC:4.2.3.5]" />
+    <hashEntry Key="eco:b2599" Value="pheA; chorismate mutase and prephenate dehydratase, P-protein (EC:4.2.1.51 5.4.99.5); K14170 chorism" />
+    <hashEntry Key="eco:b2600" Value="tyrA; fused chorismate mutase T/prephenate dehydrogenase (EC:1.3.1.12 5.4.99.5); K14187 chorismate m" />
+    <hashEntry Key="eco:b2601" Value="aroF; 3-deoxy-D-arabino-heptulosonate-7-phosphate synthase, tyrosine-repressible (EC:2.5.1.54); K016" />
+    <hashEntry Key="eco:b3281" Value="aroE; dehydroshikimate reductase, NAD(P)-binding (EC:1.1.1.25); K00014 shikimate dehydrogenase [EC:1" />
+    <hashEntry Key="eco:b3389" Value="aroB; 3-dehydroquinate synthase (EC:4.2.3.4); K01735 3-dehydroquinate synthase [EC:4.2.3.4]" />
+    <hashEntry Key="eco:b3390" Value="aroK; shikimate kinase I (EC:2.7.1.71); K00891 shikimate kinase [EC:2.7.1.71]" />
+    <hashEntry Key="eco:b4054" Value="tyrB; tyrosine aminotransferase, tyrosine-repressible, PLP-dependent (EC:2.6.1.57); K00832 aromatic-" />
+  </Genes>
+</KEGG.PathwayBrief>

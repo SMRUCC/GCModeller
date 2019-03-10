@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00360" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Phenylalanine metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00079" Value="L-Phenylalanine" />
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00083" Value="Malonyl-CoA" />
+    <hashEntry Key="C00084" Value="Acetaldehyde" />
+    <hashEntry Key="C00091" Value="Succinyl-CoA" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00156" Value="4-Hydroxybenzoate" />
+    <hashEntry Key="C00166" Value="Phenylpyruvate" />
+    <hashEntry Key="C00180" Value="Benzoate" />
+    <hashEntry Key="C00223" Value="p-Coumaroyl-CoA" />
+    <hashEntry Key="C00323" Value="Caffeoyl-CoA" />
+    <hashEntry Key="C00406" Value="Feruloyl-CoA" />
+    <hashEntry Key="C00423" Value="trans-Cinnamate" />
+    <hashEntry Key="C00512" Value="S-Benzoate coenzyme A" />
+    <hashEntry Key="C00582" Value="Phenylacetyl-CoA" />
+    <hashEntry Key="C00596" Value="2-Hydroxy-2,4-pentadienoate" />
+    <hashEntry Key="C00601" Value="Phenylacetaldehyde" />
+    <hashEntry Key="C00630" Value="2-Methylpropanoyl-CoA" />
+    <hashEntry Key="C00642" Value="4-Hydroxyphenylacetate" />
+    <hashEntry Key="C00755" Value="4-Hydroxy-3-methoxy-benzaldehyde" />
+    <hashEntry Key="C00805" Value="Salicylate" />
+    <hashEntry Key="C00811" Value="4-Coumarate" />
+    <hashEntry Key="C01198" Value="3-(2-Hydroxyphenyl)propanoate" />
+    <hashEntry Key="C01575" Value="Ephedrine" />
+    <hashEntry Key="C01586" Value="Hippurate" />
+    <hashEntry Key="C01772" Value="trans-2-Hydroxycinnamate" />
+    <hashEntry Key="C02137" Value="alpha-Oxo-benzeneacetic acid" />
+    <hashEntry Key="C02232" Value="3-Oxoadipyl-CoA" />
+    <hashEntry Key="C02265" Value="D-Phenylalanine" />
+    <hashEntry Key="C02505" Value="2-Phenylacetamide" />
+    <hashEntry Key="C02763" Value="2-Hydroxy-3-phenylpropenoate" />
+    <hashEntry Key="C02765" Value="(+)-Pseudoephedrine" />
+    <hashEntry Key="C03519" Value="N-Acetyl-L-phenylalanine" />
+    <hashEntry Key="C03589" Value="4-Hydroxy-2-oxopentanoate" />
+    <hashEntry Key="C04044" Value="3-(2,3-Dihydroxyphenyl)propanoate" />
+    <hashEntry Key="C04148" Value="Phenylacetylglutamine" />
+    <hashEntry Key="C04351" Value="(R)-2-Methylimino-1-phenylpropan-1-ol" />
+    <hashEntry Key="C04479" Value="2-Hydroxy-6-oxonona-2,4-diene-1,9-dioate" />
+    <hashEntry Key="C05332" Value="Phenethylamine" />
+    <hashEntry Key="C05593" Value="3-Hydroxyphenylacetate" />
+    <hashEntry Key="C05598" Value="Phenylacetylglycine" />
+    <hashEntry Key="C05607" Value="Phenyllactate" />
+    <hashEntry Key="C05620" Value="N-Acetyl-D-phenylalanine" />
+    <hashEntry Key="C05629" Value="Phenylpropanoate" />
+    <hashEntry Key="C05852" Value="2-Hydroxyphenylacetate" />
+    <hashEntry Key="C05853" Value="Phenylethyl alcohol" />
+    <hashEntry Key="C06207" Value="2,6-Dihydroxyphenylacetate" />
+    <hashEntry Key="C06866" Value="Capsaicin" />
+    <hashEntry Key="C07086" Value="Phenylacetic acid" />
+    <hashEntry Key="C07303" Value="4-Hydroxy-3-methoxyphenyl-beta-hydroxypropanoyl-CoA" />
+    <hashEntry Key="C08300" Value="D-Cathine" />
+    <hashEntry Key="C08301" Value="D-Cathinone" />
+    <hashEntry Key="C11457" Value="3-(3-Hydroxyphenyl)propanoic acid" />
+    <hashEntry Key="C11588" Value="cis-3-(Carboxy-ethyl)-3,5-cyclo-hexadiene-1,2-diol" />
+    <hashEntry Key="C12621" Value="trans-3-Hydroxycinnamate" />
+    <hashEntry Key="C12622" Value="cis-3-(3-Carboxyethenyl)-3,5-cyclohexadiene-1,2-diol" />
+    <hashEntry Key="C12623" Value="trans-2,3-Dihydroxycinnamate" />
+    <hashEntry Key="C12624" Value="2-Hydroxy-6-ketononatrienedioate" />
+    <hashEntry Key="C14144" Value="5-Carboxy-2-pentenoyl-CoA" />
+    <hashEntry Key="C14145" Value="(3S)-3-Hydroxyadipyl-CoA" />
+    <hashEntry Key="C15524" Value="Phenylglyoxylyl-CoA" />
+    <hashEntry Key="C16666" Value="Vanillylamine" />
+    <hashEntry Key="C16719" Value="(-)-Norephedrine" />
+    <hashEntry Key="C17268" Value="Pyruvophenone" />
+    <hashEntry Key="C18202" Value="8-Methyl-6-nonenoic acid" />
+    <hashEntry Key="C19945" Value="3-Oxo-5,6-dehydrosuberyl-CoA" />
+    <hashEntry Key="C19946" Value="3-Oxo-5,6-dehydrosuberyl-CoA semialdehyde" />
+    <hashEntry Key="C19975" Value="2-Oxepin-2(3H)-ylideneacetyl-CoA" />
+    <hashEntry Key="C20062" Value="2-(1,2-Epoxy-1,2-dihydrophenyl)acetyl-CoA" />
+  </Compound>
+  <PathwayMap Key="xcb00360" Value="Phenylalanine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0100" Value="aromatic amino acid aminotransferase (EC:2.6.1.57); K00832 aromatic-amino-acid transaminase [EC:2.6." />
+    <hashEntry Key="xcb:XC_0154" Value="2-keto-4-pentenoate hydratase; K02554 2-keto-4-pentenoate hydratase [EC:4.2.1.80]" />
+    <hashEntry Key="xcb:XC_0165" Value="phhA; phenylalanine 4-monooxygenase (EC:1.14.16.1); K00500 phenylalanine-4-hydroxylase [EC:1.14.16.1" />
+    <hashEntry Key="xcb:XC_0450" Value="4-hydroxyphenylpyruvate dioxygenase; K00457 4-hydroxyphenylpyruvate dioxygenase [EC:1.13.11.27]" />
+    <hashEntry Key="xcb:XC_0886" Value="flavin monoamine oxidase-like protein; K00274 monoamine oxidase [EC:1.4.3.4]" />
+    <hashEntry Key="xcb:XC_0889" Value="aminotransferase (EC:2.6.1.9); K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xcb:XC_1342" Value="benzene 1,2-dioxygenase, ferredoxin protein; K05710 3-phenylpropionate/trans-cinnamate dioxygenase f" />
+    <hashEntry Key="xcb:XC_1538" Value="D-amino acid dehydrogenase subunit; K00285 D-amino-acid dehydrogenase [EC:1.4.5.1]" />
+    <hashEntry Key="xcb:XC_2379" Value="histidinol-phosphate aminotransferase (EC:2.6.1.9); K00817 histidinol-phosphate aminotransferase [EC" />
+    <hashEntry Key="xcb:XC_2665" Value="aminotransferase (EC:2.6.1.9); K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xcb:XC_3037" Value="catalase/peroxidase; K03782 catalase-peroxidase [EC:1.11.1.21]" />
+    <hashEntry Key="xcb:XC_3311" Value="amidase (EC:3.5.1.4); K01426 amidase [EC:3.5.1.4]" />
+    <hashEntry Key="xcb:XC_3420" Value="p-hydroxycinnamoyl CoA hydratase/lyase (EC:4.2.1.17); K18383 trans-feruloyl-CoA hydratase / vanillin" />
+    <hashEntry Key="xcb:XC_3719" Value="D-amino acid dehydrogenase small subunit (EC:1.4.99.1); K00285 D-amino-acid dehydrogenase [EC:1.4.5." />
+  </Genes>
+</KEGG.PathwayBrief>

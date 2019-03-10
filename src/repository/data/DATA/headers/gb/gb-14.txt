@@ -1,0 +1,12 @@
+AF263724.1	Acute bee paralysis virus isolate 950404c-2 structural protein gene, partial cds
+AF263733.1	Acute bee paralysis virus isolate 950411b-2 structural protein gene, partial cds
+AF263734.1	Acute bee paralysis virus isolate 950411b-4 structural protein gene, partial cds
+AF263735.1	Acute bee paralysis virus isolate 950411b-5 structural protein gene, partial cds
+AF263736.1	Acute bee paralysis virus isolate 950411b-6 structural protein gene, partial cds
+AF264689.1	Acute bee paralysis virus isolate ballapv6 structural protein gene, partial cds
+AF264688.1	Acute bee paralysis virus isolate ballapv5 structural protein gene, partial cds
+AF264690.1	Acute bee paralysis virus isolate ballapv7 structural protein gene, partial cds
+AF264691.1	Acute bee paralysis virus isolate ballapv8 structural protein gene, partial cds
+AF264692.1	Acute bee paralysis virus isolate ballapv12 structural protein gene, partial cds
+EF570888.1	Acute bee paralysis virus isolate HFB nov 2005 3 nonstructural protein gene, partial cds
+DQ490107.1	Israel acute paralysis virus of bees genomic sequence containing integrated Apis mellifera sequence

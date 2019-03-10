@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00040" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Pentose and glucuronate interconversions - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00061" Value="D-Glucuronate degradation, D-glucuronate =&gt; pyruvate + D-glyceraldehyde 3P [PATH:xcb00040]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00029" Value="UDP-glucose" />
+    <hashEntry Key="C00103" Value="D-Glucose 1-phosphate" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00116" Value="Glycerol" />
+    <hashEntry Key="C00167" Value="UDP-glucuronate" />
+    <hashEntry Key="C00181" Value="D-Xylose" />
+    <hashEntry Key="C00191" Value="D-Glucuronate" />
+    <hashEntry Key="C00199" Value="D-Ribulose 5-phosphate" />
+    <hashEntry Key="C00204" Value="2-Dehydro-3-deoxy-D-gluconate" />
+    <hashEntry Key="C00231" Value="D-Xylulose 5-phosphate" />
+    <hashEntry Key="C00259" Value="L-Arabinose" />
+    <hashEntry Key="C00266" Value="Glycolaldehyde" />
+    <hashEntry Key="C00309" Value="D-Ribulose" />
+    <hashEntry Key="C00310" Value="D-Xylulose" />
+    <hashEntry Key="C00312" Value="L-Xylulose" />
+    <hashEntry Key="C00333" Value="D-Galacturonate" />
+    <hashEntry Key="C00379" Value="Xylitol" />
+    <hashEntry Key="C00433" Value="2,5-Dioxopentanoate" />
+    <hashEntry Key="C00470" Value="Pectate" />
+    <hashEntry Key="C00474" Value="Ribitol" />
+    <hashEntry Key="C00476" Value="D-Lyxose" />
+    <hashEntry Key="C00502" Value="D-Xylonate" />
+    <hashEntry Key="C00508" Value="L-Ribulose" />
+    <hashEntry Key="C00514" Value="D-Mannonate" />
+    <hashEntry Key="C00532" Value="L-Arabitol" />
+    <hashEntry Key="C00558" Value="D-Tagaturonate" />
+    <hashEntry Key="C00618" Value="3-Dehydro-L-gulonate" />
+    <hashEntry Key="C00714" Value="Pectin" />
+    <hashEntry Key="C00789" Value="CDP-ribitol" />
+    <hashEntry Key="C00800" Value="L-Gulonate" />
+    <hashEntry Key="C00817" Value="D-Altronate" />
+    <hashEntry Key="C00905" Value="D-Fructuronate" />
+    <hashEntry Key="C01068" Value="D-Ribitol 5-phosphate" />
+    <hashEntry Key="C01101" Value="L-Ribulose 5-phosphate" />
+    <hashEntry Key="C01508" Value="L-Lyxose" />
+    <hashEntry Key="C01904" Value="D-Arabitol" />
+    <hashEntry Key="C02266" Value="D-Xylonolactone" />
+    <hashEntry Key="C02273" Value="Digalacturonate" />
+    <hashEntry Key="C02426" Value="L-Glyceraldehyde" />
+    <hashEntry Key="C03033" Value="beta-D-Glucuronoside" />
+    <hashEntry Key="C03291" Value="L-Xylulose 5-phosphate" />
+    <hashEntry Key="C03826" Value="2-Dehydro-3-deoxy-D-xylonate" />
+    <hashEntry Key="C04053" Value="5-Dehydro-4-deoxy-D-glucuronate" />
+    <hashEntry Key="C04349" Value="(4S)-4,6-Dihydroxy-2,5-dioxohexanoate" />
+    <hashEntry Key="C04575" Value="(4R,5S)-4,5,6-Trihydroxy-2,3-dioxohexanoate" />
+    <hashEntry Key="C05385" Value="D-Glucuronate 1-phosphate" />
+    <hashEntry Key="C05411" Value="L-Xylonate" />
+    <hashEntry Key="C05412" Value="L-Lyxonate" />
+    <hashEntry Key="C06118" Value="4-(4-Deoxy-alpha-D-gluc-4-enuronosyl)-D-galacturonate" />
+    <hashEntry Key="C06441" Value="L-Xylulose 1-phosphate" />
+    <hashEntry Key="C14899" Value="3-Dehydro-L-gulonate 6-phosphate" />
+    <hashEntry Key="C15930" Value="L-Galactonate" />
+    <hashEntry Key="C20680" Value="2-Dehydro-3-deoxy-L-galactonate" />
+  </Compound>
+  <PathwayMap Key="xcb00040" Value="Pentose and glucuronate interconversions&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0125" Value="pectin methylesterase-like protein; K01051 pectinesterase [EC:3.1.1.11]" />
+    <hashEntry Key="xcb:XC_0160" Value="5-keto-4-deoxyuronate isomerase (EC:5.3.1.17); K01815 4-deoxy-L-threo-5-hexosulose-uronate ketol-iso" />
+    <hashEntry Key="xcb:XC_0161" Value="short chain dehydrogenase; K00065 2-deoxy-D-gluconate 3-dehydrogenase [EC:1.1.1.125]" />
+    <hashEntry Key="xcb:XC_0469" Value="ribulose-phosphate 3-epimerase (EC:5.1.3.1); K01783 ribulose-phosphate 3-epimerase [EC:5.1.3.1]" />
+    <hashEntry Key="xcb:XC_0705" Value="endopolygalacturonase; K01184 polygalacturonase [EC:3.2.1.15]" />
+    <hashEntry Key="xcb:XC_1298" Value="pectate lyase II; K01728 pectate lyase [EC:4.2.2.2]" />
+    <hashEntry Key="xcb:XC_1849" Value="polygalacturonase; K01184 polygalacturonase [EC:3.2.1.15]" />
+    <hashEntry Key="xcb:XC_1850" Value="pectinesterase; K01051 pectinesterase [EC:3.1.1.11]" />
+    <hashEntry Key="xcb:XC_1930" Value="UTP-glucose-1-phosphate uridylyltransferase; K00963 UTP--glucose-1-phosphate uridylyltransferase [EC" />
+    <hashEntry Key="xcb:XC_2445" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xcb:XC_2477" Value="xylose isomerase (EC:5.3.1.5); K01805 xylose isomerase [EC:5.3.1.5]" />
+    <hashEntry Key="xcb:XC_2478" Value="D-xylulokinase; K00854 xylulokinase [EC:2.7.1.17]" />
+    <hashEntry Key="xcb:XC_2733" Value="UDP-glucose dehydrogenase; K00012 UDPglucose 6-dehydrogenase [EC:1.1.1.22]" />
+    <hashEntry Key="xcb:XC_3421" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xcb:XC_3590" Value="pectate lyase; K01728 pectate lyase [EC:4.2.2.2]" />
+    <hashEntry Key="xcb:XC_3591" Value="pectate lyase; K01728 pectate lyase [EC:4.2.2.2]" />
+    <hashEntry Key="xcb:XC_4191" Value="xylose isomerase (EC:5.3.1.5); K01805 xylose isomerase [EC:5.3.1.5]" />
+    <hashEntry Key="xcb:XC_4195" Value="starvation sensing protein; K08323 mannonate dehydratase [EC:4.2.1.8]" />
+    <hashEntry Key="xcb:XC_4198" Value="mannitol dehydrogenase; K00040 fructuronate reductase [EC:1.1.1.57]" />
+    <hashEntry Key="xcb:XC_4209" Value="glucuronate isomerase (EC:5.3.1.12); K01812 glucuronate isomerase [EC:5.3.1.12]" />
+  </Genes>
+</KEGG.PathwayBrief>

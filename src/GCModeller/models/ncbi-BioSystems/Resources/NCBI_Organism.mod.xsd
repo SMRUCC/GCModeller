@@ -1,0 +1,283 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqfeat.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Organism"
+================================================= -->
+<!--
+**********************************************************************
+
+  NCBI Organism
+  by James Ostell, 1994
+  version 3.0
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          Org-ref -->
+
+<!-- Elements referenced from other modules:
+          Dbtag FROM NCBI-General -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+*** Org-ref ***********************************************
+*
+*  Reference to an organism
+*     defines only the organism.. lower levels of detail for biological
+*     molecules are provided by the Source object
+*
+-->
+<xs:element name="Org-ref">
+  <xs:complexType>
+    <xs:sequence>
+<!-- preferred formal name -->
+      <xs:element name="Org-ref_taxname" type="xs:string" minOccurs="0"/>
+<!-- common name -->
+      <xs:element name="Org-ref_common" type="xs:string" minOccurs="0"/>
+<!-- unstructured modifiers -->
+      <xs:element name="Org-ref_mod" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Org-ref_mod_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- ids in taxonomic or culture dbases -->
+      <xs:element name="Org-ref_db" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- synonyms for taxname or common -->
+      <xs:element name="Org-ref_syn" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Org-ref_syn_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Org-ref_orgname" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="OrgName"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="OrgName">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="OrgName_name" minOccurs="0">
+        <xs:complexType>
+          <xs:choice>
+<!-- genus/species type name -->
+            <xs:element name="OrgName_name_binomial">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="BinomialOrgName"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+<!-- virus names are different -->
+            <xs:element name="OrgName_name_virus" type="xs:string"/>
+<!-- hybrid between organisms -->
+            <xs:element name="OrgName_name_hybrid">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="MultiOrgName"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+<!-- some hybrids have genus x species name -->
+            <xs:element name="OrgName_name_namedhybrid">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="BinomialOrgName"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+<!-- when genus not known -->
+            <xs:element name="OrgName_name_partial">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="PartialOrgName"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+<!-- attribution of name -->
+      <xs:element name="OrgName_attrib" type="xs:string" minOccurs="0"/>
+      <xs:element name="OrgName_mod" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="OrgMod"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- lineage with semicolon separators -->
+      <xs:element name="OrgName_lineage" type="xs:string" minOccurs="0"/>
+<!-- genetic code (see CdRegion) -->
+      <xs:element name="OrgName_gcode" type="xs:integer" minOccurs="0"/>
+<!-- mitochondrial genetic code -->
+      <xs:element name="OrgName_mgcode" type="xs:integer" minOccurs="0"/>
+<!-- GenBank division code -->
+      <xs:element name="OrgName_div" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="OrgMod">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="OrgMod_subtype">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+<!--
+    dosage	-  chromosome dosage of hybrid
+    nat-host	-  natural host of this specimen
+    gb-acronym	-  used by taxonomy database
+    gb-anamorph	-  used by taxonomy database
+    gb-synonym	-  used by taxonomy database
+    other	-  ASN5: old-name (254) will be added to next spec
+-->
+                    <xs:enumeration value="strain" ncbi:intvalue="2"/>
+                    <xs:enumeration value="substrain" ncbi:intvalue="3"/>
+                    <xs:enumeration value="type" ncbi:intvalue="4"/>
+                    <xs:enumeration value="subtype" ncbi:intvalue="5"/>
+                    <xs:enumeration value="variety" ncbi:intvalue="6"/>
+                    <xs:enumeration value="serotype" ncbi:intvalue="7"/>
+                    <xs:enumeration value="serogroup" ncbi:intvalue="8"/>
+                    <xs:enumeration value="serovar" ncbi:intvalue="9"/>
+                    <xs:enumeration value="cultivar" ncbi:intvalue="10"/>
+                    <xs:enumeration value="pathovar" ncbi:intvalue="11"/>
+                    <xs:enumeration value="chemovar" ncbi:intvalue="12"/>
+                    <xs:enumeration value="biovar" ncbi:intvalue="13"/>
+                    <xs:enumeration value="biotype" ncbi:intvalue="14"/>
+                    <xs:enumeration value="group" ncbi:intvalue="15"/>
+                    <xs:enumeration value="subgroup" ncbi:intvalue="16"/>
+                    <xs:enumeration value="isolate" ncbi:intvalue="17"/>
+                    <xs:enumeration value="common" ncbi:intvalue="18"/>
+                    <xs:enumeration value="acronym" ncbi:intvalue="19"/>
+                    <xs:enumeration value="dosage" ncbi:intvalue="20"/>
+                    <xs:enumeration value="nat-host" ncbi:intvalue="21"/>
+                    <xs:enumeration value="sub-species" ncbi:intvalue="22"/>
+                    <xs:enumeration value="specimen-voucher" ncbi:intvalue="23"/>
+                    <xs:enumeration value="authority" ncbi:intvalue="24"/>
+                    <xs:enumeration value="forma" ncbi:intvalue="25"/>
+                    <xs:enumeration value="forma-specialis" ncbi:intvalue="26"/>
+                    <xs:enumeration value="ecotype" ncbi:intvalue="27"/>
+                    <xs:enumeration value="synonym" ncbi:intvalue="28"/>
+                    <xs:enumeration value="anamorph" ncbi:intvalue="29"/>
+                    <xs:enumeration value="teleomorph" ncbi:intvalue="30"/>
+                    <xs:enumeration value="breed" ncbi:intvalue="31"/>
+                    <xs:enumeration value="gb-acronym" ncbi:intvalue="32"/>
+                    <xs:enumeration value="gb-anamorph" ncbi:intvalue="33"/>
+                    <xs:enumeration value="gb-synonym" ncbi:intvalue="34"/>
+                    <xs:enumeration value="culture-collection" ncbi:intvalue="35"/>
+                    <xs:enumeration value="bio-material" ncbi:intvalue="36"/>
+                    <xs:enumeration value="metagenome-source" ncbi:intvalue="37"/>
+                    <xs:enumeration value="old-lineage" ncbi:intvalue="253"/>
+                    <xs:enumeration value="old-name" ncbi:intvalue="254"/>
+                    <xs:enumeration value="other" ncbi:intvalue="255"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OrgMod_subname" type="xs:string"/>
+<!-- attribution/source of name -->
+      <xs:element name="OrgMod_attrib" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="BinomialOrgName">
+  <xs:complexType>
+    <xs:sequence>
+<!-- required -->
+      <xs:element name="BinomialOrgName_genus" type="xs:string"/>
+<!-- species required if subspecies used -->
+      <xs:element name="BinomialOrgName_species" type="xs:string" minOccurs="0"/>
+      <xs:element name="BinomialOrgName_subspecies" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- the first will be used to assign division -->
+<xs:element name="MultiOrgName">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="OrgName"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- when we don't know the genus -->
+<xs:element name="PartialOrgName">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="TaxElement"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="TaxElement">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="TaxElement_fixed-level">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+<!--
+    other	-  level must be set in string
+-->
+                    <xs:enumeration value="other" ncbi:intvalue="0"/>
+                    <xs:enumeration value="family" ncbi:intvalue="1"/>
+                    <xs:enumeration value="order" ncbi:intvalue="2"/>
+                    <xs:enumeration value="class" ncbi:intvalue="3"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="TaxElement_level" type="xs:string" minOccurs="0"/>
+      <xs:element name="TaxElement_name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

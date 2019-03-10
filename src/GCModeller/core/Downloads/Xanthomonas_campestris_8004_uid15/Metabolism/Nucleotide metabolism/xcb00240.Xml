@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00240" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Pyrimidine metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00052" Value="Pyrimidine ribonucleotide biosynthesis, UMP =&gt; UDP/UTP,CDP/CTP [PATH:xcb00240]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00015" Value="UDP" />
+    <hashEntry Key="C00029" Value="UDP-glucose" />
+    <hashEntry Key="C00039" Value="DNA" />
+    <hashEntry Key="C00046" Value="RNA" />
+    <hashEntry Key="C00055" Value="CMP" />
+    <hashEntry Key="C00063" Value="CTP" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00075" Value="UTP" />
+    <hashEntry Key="C00086" Value="Urea" />
+    <hashEntry Key="C00099" Value="beta-Alanine" />
+    <hashEntry Key="C00105" Value="UMP" />
+    <hashEntry Key="C00106" Value="Uracil" />
+    <hashEntry Key="C00112" Value="CDP" />
+    <hashEntry Key="C00119" Value="5-Phospho-alpha-D-ribose 1-diphosphate" />
+    <hashEntry Key="C00169" Value="Carbamoyl phosphate" />
+    <hashEntry Key="C00178" Value="Thymine" />
+    <hashEntry Key="C00214" Value="Thymidine" />
+    <hashEntry Key="C00222" Value="3-Oxopropanoate" />
+    <hashEntry Key="C00239" Value="dCMP" />
+    <hashEntry Key="C00295" Value="Orotate" />
+    <hashEntry Key="C00299" Value="Uridine" />
+    <hashEntry Key="C00337" Value="(S)-Dihydroorotate" />
+    <hashEntry Key="C00342" Value="Thioredoxin" />
+    <hashEntry Key="C00343" Value="Thioredoxin disulfide" />
+    <hashEntry Key="C00363" Value="dTDP" />
+    <hashEntry Key="C00364" Value="dTMP" />
+    <hashEntry Key="C00365" Value="dUMP" />
+    <hashEntry Key="C00380" Value="Cytosine" />
+    <hashEntry Key="C00383" Value="Malonate" />
+    <hashEntry Key="C00429" Value="5,6-Dihydrouracil" />
+    <hashEntry Key="C00438" Value="N-Carbamoyl-L-aspartate" />
+    <hashEntry Key="C00458" Value="dCTP" />
+    <hashEntry Key="C00459" Value="dTTP" />
+    <hashEntry Key="C00460" Value="dUTP" />
+    <hashEntry Key="C00475" Value="Cytidine" />
+    <hashEntry Key="C00526" Value="Deoxyuridine" />
+    <hashEntry Key="C00672" Value="2-Deoxy-D-ribose 1-phosphate" />
+    <hashEntry Key="C00705" Value="dCDP" />
+    <hashEntry Key="C00813" Value="Barbiturate" />
+    <hashEntry Key="C00881" Value="Deoxycytidine" />
+    <hashEntry Key="C01013" Value="3-Hydroxypropanoate" />
+    <hashEntry Key="C01103" Value="Orotidine 5'-phosphate" />
+    <hashEntry Key="C01168" Value="Pseudouridine 5'-phosphate" />
+    <hashEntry Key="C01205" Value="(R)-3-Amino-2-methylpropanoate" />
+    <hashEntry Key="C01346" Value="dUDP" />
+    <hashEntry Key="C01368" Value="3'-UMP" />
+    <hashEntry Key="C01563" Value="Carbamate" />
+    <hashEntry Key="C02067" Value="Pseudouridine" />
+    <hashEntry Key="C02170" Value="Methylmalonate" />
+    <hashEntry Key="C02354" Value="2',3'-Cyclic CMP" />
+    <hashEntry Key="C02355" Value="2',3'-Cyclic UMP" />
+    <hashEntry Key="C02376" Value="5-Methylcytosine" />
+    <hashEntry Key="C02642" Value="3-Ureidopropionate" />
+    <hashEntry Key="C03997" Value="5-Hydroxymethyldeoxycytidylate" />
+    <hashEntry Key="C05281" Value="5-Methylbarbiturate" />
+    <hashEntry Key="C05822" Value="3'-CMP" />
+    <hashEntry Key="C06198" Value="P1,P4-Bis(5'-uridyl) tetraphosphate" />
+    <hashEntry Key="C11038" Value="2'-Deoxy-5-hydroxymethylcytidine-5'-diphosphate" />
+    <hashEntry Key="C11039" Value="2'-Deoxy-5-hydroxymethylcytidine-5'-triphosphate" />
+    <hashEntry Key="C15607" Value="3-Oxo-3-ureidopropanoate" />
+    <hashEntry Key="C20231" Value="(Z)-3-Ureidoacrylate peracid" />
+    <hashEntry Key="C20249" Value="(Z)-3-Peroxyaminoacrylate" />
+    <hashEntry Key="C20253" Value="Aminoacrylate" />
+    <hashEntry Key="C20254" Value="Ureidoacrylate" />
+    <hashEntry Key="C20846" Value="3-Oxo-3-ureidoisobutyrate" />
+    <hashEntry Key="C21028" Value="(R)-5,6-Dihydrothymine" />
+    <hashEntry Key="C21029" Value="(R)-3-Ureidoisobutyrate" />
+    <hashEntry Key="C21031" Value="DNA 5-hydroxymethylcytosine" />
+  </Compound>
+  <PathwayMap Key="xcb00240" Value="Pyrimidine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0002" Value="DNA polymerase III subunit beta (EC:2.7.7.7); K02338 DNA polymerase III subunit beta [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_0132" Value="deoxycytidylate deaminase; K01493 dCMP deaminase [EC:3.5.4.12]" />
+    <hashEntry Key="xcb:XC_0568" Value="hypothetical protein; K09019 3-hydroxypropanoate dehydrogenase [EC:1.1.1.-]" />
+    <hashEntry Key="xcb:XC_0670" Value="cytosine deaminase; K01485 cytosine deaminase [EC:3.5.4.1]" />
+    <hashEntry Key="xcb:XC_0957" Value="DNA-directed RNA polymerase subunit omega (EC:2.7.7.6); K03060 DNA-directed RNA polymerase subunit o" />
+    <hashEntry Key="xcb:XC_1228" Value="mazG; nucleoside triphosphate pyrophosphohydrolase (EC:3.6.1.19); K04765 ATP diphosphatase [EC:3.6.1" />
+    <hashEntry Key="xcb:XC_1367" Value="pyrB; aspartate carbamoyltransferase (EC:2.1.3.2); K00609 aspartate carbamoyltransferase catalytic s" />
+    <hashEntry Key="xcb:XC_1499" Value="holA; DNA polymerase III subunit delta; K02340 DNA polymerase III subunit delta [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_1548" Value="dcd; deoxycytidine triphosphate deaminase (EC:3.5.4.13); K01494 dCTP deaminase [EC:3.5.4.13]" />
+    <hashEntry Key="xcb:XC_1609" Value="polynucleotide phosphorylase; K00962 polyribonucleotide nucleotidyltransferase [EC:2.7.7.8]" />
+    <hashEntry Key="xcb:XC_1728" Value="upp; uracil phosphoribosyltransferase (EC:2.4.2.9); K00761 uracil phosphoribosyltransferase [EC:2.4." />
+    <hashEntry Key="xcb:XC_1858" Value="dihydroorotase (EC:3.5.2.3); K01465 dihydroorotase [EC:3.5.2.3]" />
+    <hashEntry Key="xcb:XC_1923" Value="cmk; cytidylate kinase (EC:2.7.4.14); K00945 cytidylate kinase [EC:2.7.4.14]" />
+    <hashEntry Key="xcb:XC_2203" Value="ndk; nucleoside diphosphate kinase (EC:2.7.4.6); K00940 nucleoside-diphosphate kinase [EC:2.7.4.6]" />
+    <hashEntry Key="xcb:XC_2214" Value="thioredoxin reductase; K00384 thioredoxin reductase (NADPH) [EC:1.8.1.9]" />
+    <hashEntry Key="xcb:XC_2346" Value="carB; carbamoyl phosphate synthase large subunit (EC:6.3.5.5); K01955 carbamoyl-phosphate synthase l" />
+    <hashEntry Key="xcb:XC_2348" Value="carbamoyl phosphate synthase small subunit (EC:6.3.5.5); K01956 carbamoyl-phosphate synthase small s" />
+    <hashEntry Key="xcb:XC_2448" Value="dihydroorotate dehydrogenase 2 (EC:1.3.3.1); K00254 dihydroorotate dehydrogenase [EC:1.3.5.2]" />
+    <hashEntry Key="xcb:XC_2525" Value="surE; stationary phase survival protein SurE (EC:3.1.3.2); K03787 5&amp;#39;-nucleotidase [EC:3.1.3.5]" />
+    <hashEntry Key="xcb:XC_2534" Value="pyrG; CTP synthetase (EC:6.3.4.2); K01937 CTP synthase [EC:6.3.4.2]" />
+    <hashEntry Key="xcb:XC_2687" Value="5&amp;#39;-nucleotidase; K01081 5&amp;#39;-nucleotidase [EC:3.1.3.5]" />
+    <hashEntry Key="xcb:XC_2867" Value="pyrH; uridylate kinase; K09903 uridylate kinase [EC:2.7.4.22]" />
+    <hashEntry Key="xcb:XC_2880" Value="dnaE; DNA polymerase III subunit alpha (EC:2.7.7.7); K02337 DNA polymerase III subunit alpha [EC:2.7" />
+    <hashEntry Key="xcb:XC_3165" Value="thioredoxin reductase; K00384 thioredoxin reductase (NADPH) [EC:1.8.1.9]" />
+    <hashEntry Key="xcb:XC_3222" Value="DNA polymerase III subunit delta&amp;#39; (EC:2.7.7.7); K02341 DNA polymerase III subunit delta&amp;#39; [EC:2.7.7.7" />
+    <hashEntry Key="xcb:XC_3244" Value="DNA polymerase III subunits gamma and tau (EC:2.7.7.7); K02343 DNA polymerase III subunit gamma/tau" />
+    <hashEntry Key="xcb:XC_3255" Value="DNA polymerase III subunit epsilon; K02342 DNA polymerase III subunit epsilon [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_3316" Value="DNA-directed RNA polymerase subunit alpha (EC:2.7.7.6); K03040 DNA-directed RNA polymerase subunit a" />
+    <hashEntry Key="xcb:XC_3346" Value="DNA-directed RNA polymerase subunit beta&amp;#39; (EC:2.7.7.6); K03046 DNA-directed RNA polymerase subunit b" />
+    <hashEntry Key="xcb:XC_3347" Value="rpoB; DNA-directed RNA polymerase subunit beta (EC:2.7.7.6); K03043 DNA-directed RNA polymerase subu" />
+    <hashEntry Key="xcb:XC_3444" Value="thyA; thymidylate synthase (EC:2.1.1.45); K00560 thymidylate synthase [EC:2.1.1.45]" />
+    <hashEntry Key="xcb:XC_3586" Value="DNA polymerase III subunit chi; K02339 DNA polymerase III subunit chi [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_3931" Value="pyrE; orotate phosphoribosyltransferase (EC:2.4.2.10); K00762 orotate phosphoribosyltransferase [EC:" />
+    <hashEntry Key="xcb:XC_3942" Value="dut; deoxyuridine 5&amp;#39;-triphosphate nucleotidohydrolase (EC:3.6.1.23); K01520 dUTP pyrophosphatase [EC" />
+    <hashEntry Key="xcb:XC_4020" Value="tmk; thymidylate kinase (EC:2.7.4.9); K00943 dTMP kinase [EC:2.7.4.9]" />
+    <hashEntry Key="xcb:XC_4075" Value="nrdF; ribonucleotide-diphosphate reductase subunit beta (EC:1.17.4.1); K00526 ribonucleoside-diphosp" />
+    <hashEntry Key="xcb:XC_4076" Value="ribonucleotide-diphosphate reductase subunit alpha (EC:1.17.4.1); K00525 ribonucleoside-diphosphate" />
+    <hashEntry Key="xcb:XC_4109" Value="DNA polymerase I; K02335 DNA polymerase I [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_4226" Value="orotidine 5&amp;#39;-phosphate decarboxylase (EC:4.1.1.23); K01591 orotidine-5&amp;#39;-phosphate decarboxylase [EC:" />
+    <hashEntry Key="xcb:XC_4235" Value="thymidine kinase (EC:2.7.1.21); K00857 thymidine kinase [EC:2.7.1.21]" />
+  </Genes>
+</KEGG.PathwayBrief>

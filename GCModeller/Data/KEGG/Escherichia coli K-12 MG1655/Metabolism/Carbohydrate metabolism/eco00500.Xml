@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00500" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Starch and sucrose metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00266" Value="PTS system, maltose/glucose-specific II component [PATH:eco00500]" />
+    <hashEntry Key="eco_M00270" Value="PTS system, trehalose-specific II component [PATH:eco00500]" />
+    <hashEntry Key="eco_M00565" Value="Trehalose biosynthesis, D-glucose 1P =&gt; trehalose [PATH:eco00500]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00029" Value="UDP-glucose" />
+    <hashEntry Key="C00031" Value="D-Glucose" />
+    <hashEntry Key="C00089" Value="Sucrose" />
+    <hashEntry Key="C00092" Value="D-Glucose 6-phosphate" />
+    <hashEntry Key="C00095" Value="D-Fructose" />
+    <hashEntry Key="C00103" Value="D-Glucose 1-phosphate" />
+    <hashEntry Key="C00167" Value="UDP-glucuronate" />
+    <hashEntry Key="C00181" Value="D-Xylose" />
+    <hashEntry Key="C00185" Value="Cellobiose" />
+    <hashEntry Key="C00190" Value="UDP-D-xylose" />
+    <hashEntry Key="C00191" Value="D-Glucuronate" />
+    <hashEntry Key="C00208" Value="Maltose" />
+    <hashEntry Key="C00221" Value="beta-D-Glucose" />
+    <hashEntry Key="C00252" Value="Isomaltose" />
+    <hashEntry Key="C00267" Value="alpha-D-Glucose" />
+    <hashEntry Key="C00333" Value="D-Galacturonate" />
+    <hashEntry Key="C00369" Value="Starch" />
+    <hashEntry Key="C00394" Value="GDP-glucose" />
+    <hashEntry Key="C00470" Value="Pectate" />
+    <hashEntry Key="C00498" Value="ADP-glucose" />
+    <hashEntry Key="C00501" Value="CDP-glucose" />
+    <hashEntry Key="C00617" Value="UDP-D-galacturonate" />
+    <hashEntry Key="C00663" Value="beta-D-Glucose 1-phosphate" />
+    <hashEntry Key="C00668" Value="alpha-D-Glucose 6-phosphate" />
+    <hashEntry Key="C00689" Value="alpha,alpha'-Trehalose 6-phosphate" />
+    <hashEntry Key="C00714" Value="Pectin" />
+    <hashEntry Key="C00718" Value="Amylose" />
+    <hashEntry Key="C00721" Value="Dextrin" />
+    <hashEntry Key="C00760" Value="Cellulose" />
+    <hashEntry Key="C00965" Value="1,3-beta-D-Glucan" />
+    <hashEntry Key="C00973" Value="Cyclomaltodextrin" />
+    <hashEntry Key="C01083" Value="alpha,alpha-Trehalose" />
+    <hashEntry Key="C01172" Value="beta-D-Glucose 6-phosphate" />
+    <hashEntry Key="C01231" Value="alpha-D-Glucose 1,6-bisphosphate" />
+    <hashEntry Key="C01798" Value="D-Glucoside" />
+    <hashEntry Key="C01935" Value="Maltodextrin" />
+    <hashEntry Key="C02013" Value="Cellotetraose" />
+    <hashEntry Key="C02336" Value="beta-D-Fructose" />
+    <hashEntry Key="C02352" Value="1,4-beta-D-Xylan" />
+    <hashEntry Key="C02591" Value="Sucrose 6'-phosphate" />
+    <hashEntry Key="C02995" Value="Maltose 6'-phosphate" />
+    <hashEntry Key="C03033" Value="beta-D-Glucuronoside" />
+    <hashEntry Key="C05345" Value="beta-D-Fructose 6-phosphate" />
+    <hashEntry Key="C05731" Value="3-Ketosucrose" />
+    <hashEntry Key="C06215" Value="Levan" />
+    <hashEntry Key="C06216" Value="Celloheptaose" />
+    <hashEntry Key="C06217" Value="Cellohexaose" />
+    <hashEntry Key="C06218" Value="Cellopentaose" />
+    <hashEntry Key="C06219" Value="Cellotriose" />
+    <hashEntry Key="C16688" Value="Sucrose 6-phosphate" />
+    <hashEntry Key="C20237" Value="alpha-Maltose 1-phosphate" />
+  </Compound>
+  <PathwayMap Key="eco00500" Value="Starch and sucrose metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0271" Value="yagH; CP4-6 prophage; putative xylosidase/arabinosidase; K01198 xylan 1,4-beta-xylosidase [EC:3.2.1." />
+    <hashEntry Key="eco:b0394" Value="mak; manno(fructo)kinase (EC:2.7.1.4); K00847 fructokinase [EC:2.7.1.4]" />
+    <hashEntry Key="eco:b0403" Value="malZ; maltodextrin glucosidase (EC:3.2.1.20); K01187 alpha-glucosidase [EC:3.2.1.20]" />
+    <hashEntry Key="eco:b0688" Value="pgm; phosphoglucomutase (EC:5.4.2.2); K01835 phosphoglucomutase [EC:5.4.2.2]" />
+    <hashEntry Key="eco:b0772" Value="ybhC; acyl-CoA thioesterase, lipoprotein; K01051 pectinesterase [EC:3.1.1.11]" />
+    <hashEntry Key="eco:b1197" Value="treA; periplasmic trehalase (EC:3.2.1.28); K01194 alpha,alpha-trehalase [EC:3.2.1.28]" />
+    <hashEntry Key="eco:b1236" Value="galU; glucose-1-phosphate uridylyltransferase (EC:2.7.7.9); K00963 UTP--glucose-1-phosphate uridylyl" />
+    <hashEntry Key="eco:b1309" Value="ycjM; alpha amylase catalytic domain family protein; K00690 sucrose phosphorylase [EC:2.4.1.7]" />
+    <hashEntry Key="eco:b1317" Value="ycjU; beta-phosphoglucomutase; K01838 beta-phosphoglucomutase [EC:5.4.2.6]" />
+    <hashEntry Key="eco:b1617" Value="uidA; beta-D-glucuronidase (EC:3.2.1.31); K01195 beta-glucuronidase [EC:3.2.1.31]" />
+    <hashEntry Key="eco:b1621" Value="malX; fused maltose and glucose-specific PTS enzymes: IIB component, IIC component (EC:2.7.1.69); K0" />
+    <hashEntry Key="eco:b1896" Value="otsA; trehalose-6-phosphate synthase (EC:2.4.1.15); K00697 trehalose 6-phosphate synthase [EC:2.4.1." />
+    <hashEntry Key="eco:b1897" Value="otsB; trehalose-6-phosphate phosphatase, biosynthetic (EC:3.1.3.12); K01087 trehalose 6-phosphate ph" />
+    <hashEntry Key="eco:b1927" Value="amyA; cytoplasmic alpha-amylase (EC:3.2.1.1); K01176 alpha-amylase [EC:3.2.1.1]" />
+    <hashEntry Key="eco:b2028" Value="ugd; UDP-glucose 6-dehydrogenase (EC:1.1.1.22); K00012 UDPglucose 6-dehydrogenase [EC:1.1.1.22]" />
+    <hashEntry Key="eco:b2042" Value="wcaN; putative regulatory subunit for GalU; K00963 UTP--glucose-1-phosphate uridylyltransferase [EC:" />
+    <hashEntry Key="eco:b2132" Value="bglX; beta-D-glucoside glucohydrolase, periplasmic (EC:3.2.1.21); K05349 beta-glucosidase [EC:3.2.1." />
+    <hashEntry Key="eco:b2388" Value="glk; glucokinase (EC:2.7.1.2); K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="eco:b2417" Value="crr; glucose-specific enzyme IIA component of PTS (EC:2.7.1.69); K02777 PTS system, sugar-specific I" />
+    <hashEntry Key="eco:b3416" Value="malQ; 4-alpha-glucanotransferase (amylomaltase) (EC:2.4.1.25); K00705 4-alpha-glucanotransferase [EC" />
+    <hashEntry Key="eco:b3417" Value="malP; maltodextrin phosphorylase (EC:2.4.1.1); K00688 starch phosphorylase [EC:2.4.1.1]" />
+    <hashEntry Key="eco:b3428" Value="glgP; glycogen phosphorylase (EC:2.4.1.1); K00688 starch phosphorylase [EC:2.4.1.1]" />
+    <hashEntry Key="eco:b3429" Value="glgA; glycogen synthase (EC:2.4.1.21); K00703 starch synthase [EC:2.4.1.21]" />
+    <hashEntry Key="eco:b3430" Value="glgC; glucose-1-phosphate adenylyltransferase (EC:2.7.7.27); K00975 glucose-1-phosphate adenylyltran" />
+    <hashEntry Key="eco:b3431" Value="glgX; glycogen debranching enzyme (EC:3.2.1.-); K02438 glycogen operon protein [EC:3.2.1.-]" />
+    <hashEntry Key="eco:b3432" Value="glgB; 1,4-alpha-glucan branching enzyme (EC:2.4.1.18); K00700 1,4-alpha-glucan branching enzyme [EC:" />
+    <hashEntry Key="eco:b3519" Value="treF; cytoplasmic trehalase (EC:3.2.1.28); K01194 alpha,alpha-trehalase [EC:3.2.1.28]" />
+    <hashEntry Key="eco:b3531" Value="bcsZ; endo-1,4-D-glucanase (EC:3.2.1.4); K01179 endoglucanase [EC:3.2.1.4]" />
+    <hashEntry Key="eco:b3533" Value="bcsA; cellulose synthase, catalytic subunit (EC:2.4.1.12); K00694 cellulose synthase (UDP-forming) [" />
+    <hashEntry Key="eco:b3571" Value="malS; alpha-amylase (EC:3.2.1.1); K01176 alpha-amylase [EC:3.2.1.1]" />
+    <hashEntry Key="eco:b3878" Value="yihQ; alpha-glucosidase; K15922 alpha-glucosidase [EC:3.2.1.20]" />
+    <hashEntry Key="eco:b4025" Value="pgi; glucosephosphate isomerase (EC:5.3.1.9); K01810 glucose-6-phosphate isomerase [EC:5.3.1.9]" />
+    <hashEntry Key="eco:b4239" Value="treC; trehalose-6-P hydrolase (EC:3.2.1.93); K01226 trehalose-6-phosphate hydrolase [EC:3.2.1.93]" />
+    <hashEntry Key="eco:b4240" Value="treB; fused trehalose(maltose)-specific PTS enzyme: IIB component/IIC component; K02818 PTS system," />
+  </Genes>
+</KEGG.PathwayBrief>

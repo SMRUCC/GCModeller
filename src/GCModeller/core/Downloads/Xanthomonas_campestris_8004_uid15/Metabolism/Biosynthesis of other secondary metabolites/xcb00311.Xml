@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00311" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Penicillins (Penams) and cephalosporins (cephems) are beta-lactam antibiotics containing 6-aminopenicillanate (6-APA) and 7-aminocephalosporanate (7-ACA) nuclei, respectively. 6-APA and 7-ACA are key intermediates for a variety of semisynthetic penicillin and cephalosporin derivatives. Penicillins are produced only by fungi, while cephalosporins (including cephamycins) are produced by fungi and bacteria. Both antibiotics are synthesized from L-2-aminoadipate, L-cysteine and L-valine through a common pathway. It starts with the condensation of these three amino acids by the non-ribosomal peptide synthetase to form the tripeptide delta-(L-2-aminoadipyl)-L-cysteinyl-D-valine (ACV). The linear ACV tripeptide is then converted to bicyclic isopenicillin N by isopenicillin N synthase, in which the beta-lactam ring is formed. Isopenicillin N is the branch point of penicillin [MD:M00672] and cephalosporin [MD:M00673] pathways.&lt;br&gt;</Description>
+  <Name>Penicillin and cephalosporin biosynthesis - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00183" Value="L-Valine" />
+    <hashEntry Key="C00395" Value="Penicillin" />
+    <hashEntry Key="C00916" Value="Cephalosporin C" />
+    <hashEntry Key="C00956" Value="L-2-Aminoadipate" />
+    <hashEntry Key="C02954" Value="6-Aminopenicillanate" />
+    <hashEntry Key="C03112" Value="Deacetylcephalosporin C" />
+    <hashEntry Key="C04712" Value="(7R)-7-(5-Carboxy-5-oxopentanoyl)aminocephalosporinate" />
+    <hashEntry Key="C05556" Value="delta-(L-2-Aminoadipyl)-L-cysteinyl-D-valine" />
+    <hashEntry Key="C05557" Value="Isopenicillin N" />
+    <hashEntry Key="C06564" Value="Penicillin N" />
+    <hashEntry Key="C06565" Value="Deacetoxycephalosporin C" />
+    <hashEntry Key="C06566" Value="Cephamycin C" />
+    <hashEntry Key="C06567" Value="Penicilloic acid" />
+    <hashEntry Key="C06568" Value="O-Carbamoyl-deacetylcephalosporin C" />
+    <hashEntry Key="C06569" Value="7a-Hydroxy-O-carbamoyl-deacetylcephalosporin C" />
+    <hashEntry Key="C07756" Value="7-Aminocephalosporanic acid" />
+    <hashEntry Key="C15666" Value="(7R)-7-(4-Carboxybutanamido)cephalosporanate" />
+  </Compound>
+  <PathwayMap Key="xcb00311" Value="Penicillin and cephalosporin biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_1119" Value="beta lactamase; K17836 beta-lactamase class A [EC:3.5.2.6]" />
+    <hashEntry Key="xcb:XC_2845" Value="penicillin acylase II; K01434 penicillin amidase [EC:3.5.1.11]" />
+    <hashEntry Key="xcb:XC_3030" Value="isopenicillin N epimerase; K04127 isopenicillin-N epimerase [EC:5.1.1.17]" />
+  </Genes>
+</KEGG.PathwayBrief>

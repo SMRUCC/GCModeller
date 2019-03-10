@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00627" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Aminobenzoate degradation - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00090" Value="Catechol" />
+    <hashEntry Key="C00108" Value="Anthranilate" />
+    <hashEntry Key="C00146" Value="Phenol" />
+    <hashEntry Key="C00156" Value="4-Hydroxybenzoate" />
+    <hashEntry Key="C00180" Value="Benzoate" />
+    <hashEntry Key="C00196" Value="2,3-Dihydroxybenzoate" />
+    <hashEntry Key="C00230" Value="3,4-Dihydroxybenzoate" />
+    <hashEntry Key="C00261" Value="Benzaldehyde" />
+    <hashEntry Key="C00292" Value="Aniline" />
+    <hashEntry Key="C00472" Value="p-Benzoquinone" />
+    <hashEntry Key="C00512" Value="S-Benzoate coenzyme A" />
+    <hashEntry Key="C00530" Value="Hydroquinone" />
+    <hashEntry Key="C00568" Value="4-Aminobenzoate" />
+    <hashEntry Key="C00632" Value="3-Hydroxyanthranilate" />
+    <hashEntry Key="C00633" Value="4-Hydroxybenzaldehyde" />
+    <hashEntry Key="C00755" Value="4-Hydroxy-3-methoxy-benzaldehyde" />
+    <hashEntry Key="C00870" Value="4-Nitrophenol" />
+    <hashEntry Key="C00877" Value="Crotonoyl-CoA" />
+    <hashEntry Key="C01108" Value="1,2,3-Trihydroxybenzene" />
+    <hashEntry Key="C01144" Value="(S)-3-Hydroxybutanoyl-CoA" />
+    <hashEntry Key="C01424" Value="Gallate" />
+    <hashEntry Key="C01983" Value="(R)-Mandelate" />
+    <hashEntry Key="C01984" Value="(S)-Mandelate" />
+    <hashEntry Key="C01987" Value="2-Aminophenol" />
+    <hashEntry Key="C02137" Value="alpha-Oxo-benzeneacetic acid" />
+    <hashEntry Key="C02183" Value="Phloroglucinol" />
+    <hashEntry Key="C02222" Value="2-Maleylacetate" />
+    <hashEntry Key="C02235" Value="4-Nitrocatechol" />
+    <hashEntry Key="C02247" Value="Anthraniloyl-CoA" />
+    <hashEntry Key="C02372" Value="4-Hydroxyaniline" />
+    <hashEntry Key="C02720" Value="Hydroxylaminobenzene" />
+    <hashEntry Key="C02734" Value="Phenolic phosphate" />
+    <hashEntry Key="C02814" Value="Benzene-1,2,4-triol" />
+    <hashEntry Key="C02949" Value="4-Hydroxybenzoyl-CoA" />
+    <hashEntry Key="C03198" Value="(S)-4-Hydroxymandelate" />
+    <hashEntry Key="C03360" Value="4-Nitrophenyl phosphate" />
+    <hashEntry Key="C03590" Value="4-Hydroxyphenylglyoxylate" />
+    <hashEntry Key="C03671" Value="2-Pyrone-4,6-dicarboxylate" />
+    <hashEntry Key="C03824" Value="2-Aminomuconate semialdehyde" />
+    <hashEntry Key="C04434" Value="(1E)-4-Oxobut-1-ene-1,2,4-tricarboxylate" />
+    <hashEntry Key="C04484" Value="4-Carboxy-2-hydroxymuconate semialdehyde" />
+    <hashEntry Key="C05165" Value="2-Amino-5-oxocyclohex-1-enecarbonyl-CoA" />
+    <hashEntry Key="C05616" Value="3-O-Methylgallate" />
+    <hashEntry Key="C06206" Value="Benzoyl phosphate" />
+    <hashEntry Key="C06317" Value="Vanillyl alcohol" />
+    <hashEntry Key="C06335" Value="4-Aminobenzenesulfonate" />
+    <hashEntry Key="C06337" Value="Terephthalate" />
+    <hashEntry Key="C06604" Value="Parathion" />
+    <hashEntry Key="C06605" Value="Aminoparathion" />
+    <hashEntry Key="C06606" Value="Paraoxon" />
+    <hashEntry Key="C06607" Value="Diethylthiophosphoric acid" />
+    <hashEntry Key="C06608" Value="Diethylphosphoric acid" />
+    <hashEntry Key="C06672" Value="Vanillate" />
+    <hashEntry Key="C06673" Value="4-Carboxy-4'-sulfoazobenzene" />
+    <hashEntry Key="C06674" Value="4-Sulfocatechol" />
+    <hashEntry Key="C06675" Value="3-Sulfomuconate" />
+    <hashEntry Key="C06676" Value="4-Sulfolactone" />
+    <hashEntry Key="C06719" Value="Dihydrophloroglucinol" />
+    <hashEntry Key="C06813" Value="Nitrobenzene" />
+    <hashEntry Key="C06876" Value="Nitrosobenzene" />
+    <hashEntry Key="C07103" Value="2-Hydroxy-1,4-benzoquinone" />
+    <hashEntry Key="C07301" Value="(R)-Mandelamide" />
+    <hashEntry Key="C08063" Value="1,4-Cyclohexanedione" />
+    <hashEntry Key="C09814" Value="Benzonitrile" />
+    <hashEntry Key="C09815" Value="Benzamide" />
+    <hashEntry Key="C10833" Value="Syringic acid" />
+    <hashEntry Key="C14418" Value="3-Nitrophenol" />
+    <hashEntry Key="C14602" Value="3-Hydroxyaminophenol" />
+    <hashEntry Key="C14604" Value="Aminohydroquinone" />
+    <hashEntry Key="C16200" Value="Phenylboronic acid" />
+    <hashEntry Key="C16234" Value="o-Nitrobenzoate" />
+    <hashEntry Key="C16235" Value="o-Hydroxylaminobenzoate" />
+    <hashEntry Key="C16267" Value="Cyclopropanecarboxylate" />
+    <hashEntry Key="C16268" Value="Cyclopropanecarboxyl-CoA" />
+    <hashEntry Key="C16272" Value="3-Hydroxy-5-oxohexanoate" />
+    <hashEntry Key="C16273" Value="3-Hydroxy-5-oxohexanoyl-CoA" />
+    <hashEntry Key="C16281" Value="Thiobenzamide" />
+    <hashEntry Key="C16283" Value="Thiobenzamide S-oxide" />
+    <hashEntry Key="C16285" Value="Thiobenzamide S,S-dioxide" />
+    <hashEntry Key="C18338" Value="5-Carboxyvanillic acid" />
+    <hashEntry Key="C18345" Value="4-Carboxy-2-hydroxy-6-methoxy-6-oxohexa-2,4-dienoate" />
+    <hashEntry Key="C18347" Value="5,5'-Dehydrodivanillate" />
+    <hashEntry Key="C18348" Value="2,2',3-Trihydroxy-3'-methoxy-5,5'-dicarboxybiphenyl" />
+    <hashEntry Key="C18349" Value="4-[2-(5-Carboxy-2-hydroxy-3-methoxyphenyl)-2-oxoethylidene]-2-hydroxy-2-pentenedioate" />
+    <hashEntry Key="C18351" Value="4-Aminocatechol" />
+  </Compound>
+  <PathwayMap Key="xor00627" Value="Aminobenzoate degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0375" Value="alkaline phosphatase; K01113 alkaline phosphatase D [EC:3.1.3.1]" />
+    <hashEntry Key="xor:XOC_0376" Value="alkaline phosphatase D; K01113 alkaline phosphatase D [EC:3.1.3.1]" />
+    <hashEntry Key="xor:XOC_0877" Value="phosphoanhydride phosphohydrolase; K01093 4-phytase / acid phosphatase [EC:3.1.3.26 3.1.3.2]" />
+    <hashEntry Key="xor:XOC_0929" Value="protocatechuate 3,4-dioxygenase beta chain; K04101 protocatechuate 4,5-dioxygenase, beta chain [EC:1" />
+    <hashEntry Key="xor:XOC_0930" Value="protocatechuate degradation protein; K04100 protocatechuate 4,5-dioxygenase, alpha chain [EC:1.13.11" />
+    <hashEntry Key="xor:XOC_0992" Value="acylphosphatase; K01512 acylphosphatase [EC:3.6.1.7]" />
+    <hashEntry Key="xor:XOC_1064" Value="glu-trnAgln amidotransferase a subunit; K01426 amidase [EC:3.5.1.4]" />
+    <hashEntry Key="xor:XOC_1692" Value="alkaline phosphatase, placental type; K01077 alkaline phosphatase [EC:3.1.3.1]" />
+    <hashEntry Key="xor:XOC_4549" Value="vanillate O-demethylase oxygenase subunit; K03862 vanillate monooxygenase [EC:1.14.13.82]" />
+    <hashEntry Key="xor:XOC_4550" Value="phenoxybenzoate dioxygenase beta subunit; K03863 vanillate monooxygenase ferredoxin subunit" />
+    <hashEntry Key="xor:XOC_4559" Value="AreC; K00141 benzaldehyde dehydrogenase (NAD) [EC:1.2.1.28]" />
+    <hashEntry Key="xor:XOC_4684" Value="phosphatase; K09474 acid phosphatase (class A) [EC:3.1.3.2]" />
+  </Genes>
+</KEGG.PathwayBrief>

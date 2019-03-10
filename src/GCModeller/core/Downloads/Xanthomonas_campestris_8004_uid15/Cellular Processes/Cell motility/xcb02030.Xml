@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb02030" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Chemotaxis is the process by which cells sense chemical gradients in their environment and then move towards more favorable conditions. In chemotaxis, events at the receptors control autophosphorylation of the CheA histidine kinase, and the phosphohistidine is the substrate for the response regulator CheY, which catalyzes the transfer of the phosphoryl group to a conserved aspartate. The resulting CheY-P can interact with the switch mechanism in the motor. This interaction causes a change in behavior, such as in direction or speed of rotation of flagella.&lt;br&gt;</Description>
+  <Name>Bacterial chemotaxis - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00506" Value="CheA-CheYBV (chemotaxis) two-component regulatory system [PATH:xcb02030]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00107" Value="Dipeptide" />
+    <hashEntry Key="C00121" Value="D-Ribose" />
+    <hashEntry Key="C00124" Value="D-Galactose" />
+    <hashEntry Key="C00208" Value="Maltose" />
+    <hashEntry Key="C00716" Value="Serine" />
+  </Compound>
+  <PathwayMap Key="xcb02030" Value="Bacterial chemotaxis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0286" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_0336" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_0638" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_0843" Value="chemotaxis protein; K05875 methyl-accepting chemotaxis protein II, aspartate sensor receptor" />
+    <hashEntry Key="xcb:XC_1074" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_1290" Value="protein-glutamate methylesterase (CheB); K03412 two-component system, chemotaxis family, response re" />
+    <hashEntry Key="xcb:XC_1409" Value="chemotaxis-specific methylesterase (EC:3.1.1.61); K03412 two-component system, chemotaxis family, re" />
+    <hashEntry Key="xcb:XC_1410" Value="response regulator for chemotaxis; K00575 chemotaxis protein methyltransferase CheR [EC:2.1.1.80]" />
+    <hashEntry Key="xcb:XC_1412" Value="chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xcb:XC_1413" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_1414" Value="chemotaxis histidine protein kinase; K03407 two-component system, chemotaxis family, sensor kinase C" />
+    <hashEntry Key="xcb:XC_1801" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_1802" Value="chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xcb:XC_1937" Value="methyl-accepting chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_2130" Value="response regulator; K03413 two-component system, chemotaxis family, response regulator CheY" />
+    <hashEntry Key="xcb:XC_2136" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2163" Value="protein-glutamate methylesterase; K03412 two-component system, chemotaxis family, response regulator" />
+    <hashEntry Key="xcb:XC_2223" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_2233" Value="chemotaxis protein; K03415 two-component system, chemotaxis family, response regulator CheV" />
+    <hashEntry Key="xcb:XC_2261" Value="flagellar protein; K02410 flagellar motor switch protein FliG" />
+    <hashEntry Key="xcb:XC_2267" Value="fliM; flagellar motor switch protein FliM; K02416 flagellar motor switch protein FliM" />
+    <hashEntry Key="xcb:XC_2268" Value="flagellar protein; K02417 flagellar motor switch protein FliN/FliY" />
+    <hashEntry Key="xcb:XC_2282" Value="chemotaxis protein; K03413 two-component system, chemotaxis family, response regulator CheY" />
+    <hashEntry Key="xcb:XC_2283" Value="chemotaxis related protein; K03414 chemotaxis protein CheZ" />
+    <hashEntry Key="xcb:XC_2284" Value="chemotaxis related protein; K03407 two-component system, chemotaxis family, sensor kinase CheA [EC:2" />
+    <hashEntry Key="xcb:XC_2297" Value="motC; flagellar motor protein; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="xcb:XC_2298" Value="flagellar motor protein MotD; K02557 chemotaxis protein MotB" />
+    <hashEntry Key="xcb:XC_2300" Value="chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xcb:XC_2302" Value="chemotaxis response regulator; K03413 two-component system, chemotaxis family, response regulator Ch" />
+    <hashEntry Key="xcb:XC_2303" Value="chemotaxis protein; K03407 two-component system, chemotaxis family, sensor kinase CheA [EC:2.7.13.3]" />
+    <hashEntry Key="xcb:XC_2304" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2307" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2308" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2309" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2311" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2313" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2314" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2315" Value="methyl-accepting chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_2316" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2318" Value="chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xcb:XC_2320" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2321" Value="chemotaxis protein methyltransferase; K00575 chemotaxis protein methyltransferase CheR [EC:2.1.1.80]" />
+    <hashEntry Key="xcb:XC_2322" Value="chemoreceptor glutamine deamidase CheD; K03411 chemotaxis protein CheD [EC:3.5.1.44]" />
+    <hashEntry Key="xcb:XC_2323" Value="chemotaxis-specific methylesterase (EC:3.1.1.61); K03412 two-component system, chemotaxis family, re" />
+    <hashEntry Key="xcb:XC_2504" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_3058" Value="chemotaxis protein; K00575 chemotaxis protein methyltransferase CheR [EC:2.1.1.80]" />
+    <hashEntry Key="xcb:XC_3059" Value="protein-glutamate methylesterase; K03412 two-component system, chemotaxis family, response regulator" />
+    <hashEntry Key="xcb:XC_3724" Value="flagellar motor protein MotA; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="xcb:XC_3725" Value="motB; flagellar motor protein MotB; K02557 chemotaxis protein MotB" />
+    <hashEntry Key="xcb:XC_3757" Value="methyltransferase; K13924 two-component system, chemotaxis family, CheB/CheR fusion protein [EC:2.1." />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00261" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Monobactams are beta-lactam antibiotics containing a monocyclic beta-lactam nucleus, which is structurally different from penicillin and cephalosporin core structures with another fused ring. This diagram shows biosynthesis of nocardicin A, a naturally occurring monobactam, via the pentapeptide formed by condensation of L-4-hydroxyphenylglycine (L-pHPG), L-arginine and L-serine [MD:M00736]. Other naturally occurring monobactams are also shown but the biosynthetic pathway is not yet fully characterized. Sulfazecin and other 3-aminomonobactamic acid derivatives are derived from serine or threonine, and tabtoxinine-beta-lactam is a phytotoxin. Aztreonam, a synthetic monobactam originally isolated as SQ 26,180 from Chromobacterium violaceum, is the first clinically used monobactam.&lt;br&gt;</Description>
+  <Name>Monobactam biosynthesis - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00019" Value="S-Adenosyl-L-methionine" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00059" Value="Sulfate" />
+    <hashEntry Key="C00062" Value="L-Arginine" />
+    <hashEntry Key="C00065" Value="L-Serine" />
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00188" Value="L-Threonine" />
+    <hashEntry Key="C00224" Value="Adenylyl sulfate" />
+    <hashEntry Key="C00441" Value="L-Aspartate 4-semialdehyde" />
+    <hashEntry Key="C00927" Value="Isonocardicin A" />
+    <hashEntry Key="C01179" Value="3-(4-Hydroxyphenyl)pyruvate" />
+    <hashEntry Key="C01739" Value="Nocardicin E" />
+    <hashEntry Key="C01941" Value="Nocardicin A" />
+    <hashEntry Key="C03082" Value="4-Phospho-L-aspartate" />
+    <hashEntry Key="C03198" Value="(S)-4-Hydroxymandelate" />
+    <hashEntry Key="C03590" Value="4-Hydroxyphenylglyoxylate" />
+    <hashEntry Key="C03972" Value="2,3,4,5-Tetrahydrodipicolinate" />
+    <hashEntry Key="C05539" Value="N-Acetyl-L-2-amino-6-oxopimelate" />
+    <hashEntry Key="C12323" Value="L-4-Hydroxyphenylglycine" />
+    <hashEntry Key="C16842" Value="SQ 26180" />
+    <hashEntry Key="C17351" Value="Nocardicin C" />
+    <hashEntry Key="C17352" Value="Isonocardicin C" />
+    <hashEntry Key="C17355" Value="Nocardicin G" />
+    <hashEntry Key="C20258" Value="(2S,4S)-4-Hydroxy-2,3,4,5-tetrahydrodipicolinate" />
+    <hashEntry Key="C20911" Value="" />
+    <hashEntry Key="C20911&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20912&quot;&gt;C20912&lt;/a&gt;" />
+    <hashEntry Key="C20912&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20913&quot;&gt;C20913&lt;/a&gt;" />
+    <hashEntry Key="C20913&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20914&quot;&gt;C20914&lt;/a&gt;" />
+    <hashEntry Key="C20914&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20915&quot;&gt;C20915&lt;/a&gt;" />
+    <hashEntry Key="C20915&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20916&quot;&gt;C20916&lt;/a&gt;" />
+    <hashEntry Key="C20916&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20917&quot;&gt;C20917&lt;/a&gt; Tabtoxin" />
+    <hashEntry Key="C20918" Value="Tabtoxinine-beta-lactam" />
+    <hashEntry Key="C20919" Value="Isotabtoxin" />
+    <hashEntry Key="C20920" Value="Tabtoxinine-delta-lactam" />
+    <hashEntry Key="C20921" Value="N1-Acetyl-tabtoxinine-beta-lactam" />
+    <hashEntry Key="C20927" Value="Sulfazecin" />
+    <hashEntry Key="C20928" Value="MM 42842" />
+    <hashEntry Key="C20929" Value="3alpha-Hydroxy-3-aminoacylmonobactamic acid" />
+  </Compound>
+  <PathwayMap Key="xor00261" Value="Monobactam biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_1504" Value="bifunctional diaminopimelate decarboxylase-asparta; K12526 bifunctional diaminopimelate decarboxylas" />
+    <hashEntry Key="xor:XOC_1909" Value="dihydrodipicolinate synthetase; K01714 4-hydroxy-tetrahydrodipicolinate synthase [EC:4.3.3.7]" />
+    <hashEntry Key="xor:XOC_2147" Value="dapA; dihydrodipicolinate synthase; K01714 4-hydroxy-tetrahydrodipicolinate synthase [EC:4.3.3.7]" />
+    <hashEntry Key="xor:XOC_2197" Value="bifunctional aspartokinase-homoserine dehydrogenase (ak-hd); K12524 bifunctional aspartokinase / hom" />
+    <hashEntry Key="xor:XOC_2249" Value="dapB; dihydrodipicolinate reductase; K00215 4-hydroxy-tetrahydrodipicolinate reductase [EC:1.17.1.8]" />
+    <hashEntry Key="xor:XOC_2959" Value="asd; aspartate-semialdehyde dehydrogenase; K00133 aspartate-semialdehyde dehydrogenase [EC:1.2.1.11]" />
+    <hashEntry Key="xor:XOC_3568" Value="raxQ; CysN-CysC bifunctional enzyme RaxQ; K00955 bifunctional enzyme CysN/CysC [EC:2.7.7.4 2.7.1.25]" />
+    <hashEntry Key="xor:XOC_3569" Value="raxP; sulfate adenylyltransferase subunit 2 RaxP; K00957 sulfate adenylyltransferase subunit 2 [EC:2" />
+  </Genes>
+</KEGG.PathwayBrief>

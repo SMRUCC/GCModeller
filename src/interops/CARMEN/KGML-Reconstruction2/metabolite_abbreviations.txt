@@ -1,0 +1,137 @@
+C00001	H2O	Water			
+C00002	ATP	Adenosine 5'-triphosphate			
+C00003	NAD+	Nicotinamide adenine dinucleotide			
+C00004	NADH	1,4-Dihydronicotinamide adenine dinucleotide	DPNH		
+C00005	NADPH	Dihydronicotinamide adenine dinucleotide phosphate	TPNH		
+C00006	NADP+	Nicotinamide adenine dinucleotide phosphate			
+C00008	ADP	Adenosine 5'-diphosphate			
+C00009	P	Phosphate			
+C00011	CO2	Carbon dioxide			
+C00016	FAD	Flavin adenine dinucleotide			
+C01352	FADH2				
+C00020	AMP	Adenosine 5'-monophosphate			
+C00575	cAMP	3',5'-Cyclic AMP			
+C00080	H+	Hydron 	hydrogen cation		
+C00044	GTP	Guanosine 5'-triphosphate			
+C00035	GDP	Guanosine 5'-diphosphate	
+C00144	GMP	Guanosine 5'-phosphate	
+C00063	CTP	Cytidine 5'-triphosphate	
+C00112	CDP	Cytidine 5'-diphosphate	
+C00055	CMP	Cytidine 5'-monophosphate	
+C00459	TTP	Deoxythymidine 5'-triphosphate	dTTP
+C00363	TDP	Deoxythymidine 5'-diphosphate	dTDP
+C00364	TMP	Thymidine 5'-phosphate	dTMP
+C00075	UTP	Uridine 5'-triphosphate	
+C00015	UDP	Uridine 5'-diphosphate	
+C00105	UMP	Uridine 5'-monophosphate	Uridylic acid
+C00041	Ala 	Alanine 	
+C00062	Arg 	Arginine 	
+C00152	Asn 	Asparagine 	
+C00049	Asp 	Aspartic acid 	
+C00097	Cys 	Cysteine 
+C00064	Gln 	Glutamine 
+C00025	Glu 	Glutamic acid 
+C00037	Gly  	Glycine  
+C00135	His 	Histidine 
+C00407	Ile 	Isoleucine 
+C00123	Leu 	Leucine 
+C00047	Lys 	Lysine 
+C00073	Met 	Methionine 
+C00079	Phe 	Phenylalanine 
+C00148	Pro 	Proline 
+C00065	Ser 	Serine 
+C00188	Thr 	Threonine 
+C00078	Trp 	Tryptophan 
+C00082	Tyr 	Tyrosine 
+C00183	Val 	Valine 
+C00031	Glc	D-Glucose	
+C00267	Glc	alpha-D-Glucose	
+C00221	Glc	beta-D-Glucose	
+C00095	Fru	D-Fructose	D-arabino-Hexulose
+C02336	Fru	beta-D-Fructose	beta-D-arabino-Hexulose
+C01487	All	D-Allose	
+C06464	Alt	D-Altrose	
+C00124	Gal	D-Galactose	
+C06466	Ido	D-Idose	
+C00159	Man	D-Mannose	
+C06467	Tal	D-Talose	
+C00216	Ara	D-Arabinose	
+C00259	LAra	L-Arabinose	L-Arabinopyranose
+C00476	Lyx	D-Lyxose	
+C00121	Rib	D-Ribose	
+C00181	Xyl	D-Xylose	
+C01684	Rha	D-Rhamnose	6-Deoxy-D-mannose
+C00507	LRha	D-Rhamnose	6-Deoxy-L-mannose
+C01018	Fuc	D-Fucose	6-Deoxy-D-galactose
+C02095	Fuc	beta-D-Fucose	6-Deoxy-D-galactose
+C01019	LFuc	L-Fucose	6-Deoxy-L-galactose
+C00382	Fuc	Fucose	6-Deoxygalactose
+C06469	Neu	Neuraminic acid	5-Amino-3,5-dideoxy-D-glycero-D-galacto-2-nonulosonic acid
+C06470	Mur	Muramic acid	2-Amino-3-O-D-1-carboxyethyl-2-deoxy-D-glucose
+C00191	GlcA	Glucuronic acid	D-Glucuronate
+C16245	GlcA	Glucuronic acid	
+C01083	Tre	Trehalose	
+C00689	Tre6P	Trehalose 6-phosphate	
+C00208	Mal	Maltose	alpha-D-Glucopyranosyl-(1->4)-D-glucopyranose
+C00089	Suc	Sucrose	1-alpha-D-Glucopyranosyl-2-beta-D-fructofuranoside
+C00668	Glc6P	alpha-D-Glucose 6-phosphate	
+C00103	Glc1P	alpha-D-Glucose 1-phosphate	
+C00085	Fru6P	"D-Fructose 6-phosphate;"	
+C05345	Fru6P	beta-D-Fructose 6-phosphate	
+C01094	Fru1P	D-Fructose 1-phosphate	
+C05378	FruP2	beta-D-Fructose 1,6-bisphosphate	
+C00111	DHAP	Glycerone phosphate	Dihydroxyacetone phosphate
+C00118	GAP	D-Glyceraldehyde 3-phosphate	
+C00236	P2GA	3-Phospho-D-glyceroyl phosphate	
+C00197	3PGA	3-Phospho-D-glycerate	
+C00631	2PGA	2-Phospho-D-glycerate	
+C00074	PEP	Phosphoenolpyruvate	
+C00022	Pyr	Pyruvate	
+C00345	PGluA	6-Phospho-D-gluconate	
+C04442	KDPG	2-Dehydro-3-deoxy-6-phospho-D-gluconate	2-Keto-3-deoxy-6-phosphogluconate
+C00199	Rul5P	D-Ribulose 5-phosphate	
+C00231	Xyl5P	D-Xylulose 5-phosphate	
+C00117	Rib5P	D-Ribose 5-phosphate	
+C05382	Hep7P	D-Sedoheptulose 7-phosphate	
+C00279	Ery4P	D-Erythrose 4-phosphate	
+C00399	CoQ	Coenzyme Q	
+C00257	GluA	D-Gluconic acid	D-Gluconate
+C00119	PRPP	5-Phospho-alpha-D-ribose 1-diphosphate	
+C00275	Man6P	D-Mannose 6-phosphate	
+C00636	Man1P	D-Mannose 1-phosphate	
+C00029	UDPglc	UDP-glucose	Uridine diphosphate glucose
+C00498	ADPglc	ADP-glucose	
+C00842	TDPglc	dTDP-glucose	
+C00501	CDPglc	CDP-glucose	
+C00167	UDPglcA	UDP-glucuronate	Uridine diphophate glucuronic acid
+C00617	UDPgalA	UDP-galacturonate	Uridine diphophate galacturonic acid
+C00096	GDPman	GDP-mannose	
+C03117	GDPrha	GDP-D-rhamnose	GDP-6-deoxy-D-mannose
+C03319	TDPLrha	dTDP-L-rhamnose	dTDP-6-deoxy-L-mannose
+C02962	All6P	D-Allose 6-phosphate	
+C01112	Ara5P	D-Arabinose 5-phosphate	
+C00935	UDPLara	UDP-L-arabinose	
+C02985	LFuc1P	L-Fucose 1-phosphate	
+C00325	GDPfuc	GDP-L-fucose	
+C07277	TDPLfuc	dTDP-D-fucose	
+C02995	Mal6P	Maltose 6-phosphate	
+C05737	Mal6P	Maltose 6-phosphate	
+C02591	Suc6P	Sucrose 6-phosphate	
+C16688	Suc6P	Sucrose 6-phosphate	
+C00256	LacA	Lactate	
+C00033	Ac	Acetate	
+C00024	AcCoA	Acetyl coenzyme A	Acetyl-CoA
+C00158	CitA	Citrate	Citric acid
+C00311	ICA	Isocitrate	Isocitric acid
+C00417	AcoA	cis-Aconitate	cis-Aconitic acid
+C00149	MalA	Malate	Malic acid
+C00122	FumA	Fumarate	Fumaric acid
+C00042	SucA	Succinate	
+C00026	OAA	2-Oxoglutarate	alpha-Ketoglutaric acid
+C00068	TPP	Thiamin diphosphate	Thiamin pyrophosphate
+C00120	Bio	Biotin	
+C00083	MalCoA	Malonyl-CoA	Malonyl coenzyme A
+C01187	KDO	3-Deoxy-D-manno-octulosonate	3-Deoxyoctulosonic acid
+C04121	CMP-KDO	CMP-3-deoxy-D-manno-octulosonate	
+C00378	Thia	Thiamine	Thiamin
+C00369	Starch	Starch	

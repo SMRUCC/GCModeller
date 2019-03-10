@@ -1,0 +1,100 @@
+[
+  {
+    "Description": "hypothetical protein",
+    "Domains": [
+      {
+        "CommonName": null,
+        "Describes": "A-kinase anchoring protein 95 (AKAP95)\u000a",
+        "Id": 0,
+        "Identifier": "pf:AKAP95",
+        "SequenceData": null,
+        "Title": null,
+        "BitScore": "-",
+        "EValue": "0.012",
+        "Location": {
+          "Left": 0,
+          "Right": 0
+        },
+        "Position": {
+          "Left": 6,
+          "Right": 81
+        }
+      },
+      {
+        "CommonName": null,
+        "Describes": "&nbsp;",
+        "Id": 0,
+        "Identifier": "pf:Trns_repr_metal",
+        "SequenceData": null,
+        "Title": null,
+        "BitScore": "-",
+        "EValue": "4.5E-21",
+        "Location": {
+          "Left": 0,
+          "Right": 0
+        },
+        "Position": {
+          "Left": 7,
+          "Right": 86
+        }
+      },
+      {
+        "CommonName": null,
+        "Describes": "Mitochondrial large subunit ribosomal protein (Img2)\u000a",
+        "Id": 0,
+        "Identifier": "pf:Img2",
+        "SequenceData": null,
+        "Title": null,
+        "BitScore": "-",
+        "EValue": "0.0081",
+        "Location": {
+          "Left": 0,
+          "Right": 0
+        },
+        "Position": {
+          "Left": 7,
+          "Right": 39
+        }
+      },
+      {
+        "CommonName": null,
+        "Describes": "Bacterial membrane-spanning protein N-terminus\u000a",
+        "Id": 0,
+        "Identifier": "pf:YojJ",
+        "SequenceData": null,
+        "Title": null,
+        "BitScore": "-",
+        "EValue": "0.22",
+        "Location": {
+          "Left": 0,
+          "Right": 0
+        },
+        "Position": {
+          "Left": 8,
+          "Right": 42
+        }
+      },
+      {
+        "CommonName": null,
+        "Describes": "RhoGAP domain\u000a",
+        "Id": 0,
+        "Identifier": "pf:RhoGAP",
+        "SequenceData": null,
+        "Title": null,
+        "BitScore": "-",
+        "EValue": "0.11",
+        "Location": {
+          "Left": 0,
+          "Right": 0
+        },
+        "Position": {
+          "Left": 39,
+          "Right": 89
+        }
+      }
+    ],
+    "Identifier": "XC_4063",
+    "Organism": "Xanthomonas campestris pv. campestris 8004",
+    "SequenceData": null
+  }
+]

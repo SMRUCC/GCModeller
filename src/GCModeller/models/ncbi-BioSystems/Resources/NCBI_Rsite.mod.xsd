@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqfeat.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Rsite"
+================================================= -->
+<!--
+**********************************************************************
+
+  NCBI Restriction Sites
+  by James Ostell, 1990
+  version 0.8
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          Rsite-ref -->
+
+<!-- Elements referenced from other modules:
+          Dbtag FROM NCBI-General -->
+
+<!-- ============================================ -->
+
+
+
+<xs:element name="Rsite-ref">
+  <xs:complexType>
+    <xs:choice>
+<!-- may be unparsable -->
+      <xs:element name="Rsite-ref_str" type="xs:string"/>
+<!-- pointer to a restriction site database -->
+      <xs:element name="Rsite-ref_db">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

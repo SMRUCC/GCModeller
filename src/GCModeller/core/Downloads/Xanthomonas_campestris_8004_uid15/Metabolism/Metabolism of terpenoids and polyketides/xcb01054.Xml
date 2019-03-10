@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb01054" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Nonribosomal peptide structures - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C01540" Value="Viomycin" />
+    <hashEntry Key="C01895" Value="Bleomycin B2" />
+    <hashEntry Key="C05371" Value="Microcystin LR" />
+    <hashEntry Key="C11218" Value="Gramicidin S" />
+    <hashEntry Key="C11615" Value="Pristinamycin IA" />
+    <hashEntry Key="C12030" Value="Mycosubtilin" />
+    <hashEntry Key="C12041" Value="Tyrocidine" />
+    <hashEntry Key="C12042" Value="Fengycin" />
+    <hashEntry Key="C12043" Value="Surfactin" />
+    <hashEntry Key="C12265" Value="Lichenysin D" />
+    <hashEntry Key="C12266" Value="Iturin A" />
+    <hashEntry Key="C12267" Value="Bacillomycin D" />
+    <hashEntry Key="C12268" Value="Syringomycin" />
+    <hashEntry Key="C15482" Value="Bacitracin A" />
+  </Compound>
+  <PathwayMap Key="xcb01054" Value="Nonribosomal peptide structures&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_2451" Value="resistance protein; K01779 aspartate racemase [EC:5.1.1.13]" />
+  </Genes>
+</KEGG.PathwayBrief>

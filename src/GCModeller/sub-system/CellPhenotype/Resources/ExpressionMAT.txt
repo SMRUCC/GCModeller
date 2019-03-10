@@ -1,0 +1,9 @@
+imports Analysis_Tools.Phenotype.Regulations
+imports Framework.Extensions
+
+$dir
+$gene
+
+csv <- $dir -> expressionmatrix.create
+$csv > ./Export/$gene.MAT.csv
+ 

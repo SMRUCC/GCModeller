@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00190" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Oxidative phosphorylation - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00144" Value="NADH:quinone oxidoreductase, prokaryotes [PATH:xor00190]" />
+    <hashEntry Key="xor_M00149" Value="Succinate dehydrogenase, prokaryotes [PATH:xor00190]" />
+    <hashEntry Key="xor_M00151" Value="Cytochrome bc1 complex respiratory unit [PATH:xor00190]" />
+    <hashEntry Key="xor_M00153" Value="Cytochrome d ubiquinol oxidase [PATH:xor00190]" />
+    <hashEntry Key="xor_M00155" Value="Cytochrome c oxidase, prokaryotes [PATH:xor00190]" />
+    <hashEntry Key="xor_M00157" Value="F-type ATPase, prokaryotes and chloroplasts [PATH:xor00190]" />
+    <hashEntry Key="xor_M00417" Value="Cytochrome o ubiquinol oxidase [PATH:xor00190]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00001" Value="H2O" />
+    <hashEntry Key="C00002" Value="ATP" />
+    <hashEntry Key="C00003" Value="NAD+" />
+    <hashEntry Key="C00004" Value="NADH" />
+    <hashEntry Key="C00007" Value="Oxygen" />
+    <hashEntry Key="C00008" Value="ADP" />
+    <hashEntry Key="C00009" Value="Orthophosphate" />
+    <hashEntry Key="C00013" Value="Diphosphate" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00061" Value="FMN" />
+    <hashEntry Key="C00080" Value="H+" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00390" Value="Ubiquinol" />
+    <hashEntry Key="C00399" Value="Ubiquinone" />
+    <hashEntry Key="C00524" Value="Cytochrome c" />
+    <hashEntry Key="C00536" Value="Triphosphate" />
+  </Compound>
+  <PathwayMap Key="xor00190" Value="Oxidative phosphorylation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0533" Value="coxB; cytochromec oxidase, subunit II; K02275 cytochrome c oxidase subunit II [EC:1.9.3.1]" />
+    <hashEntry Key="xor:XOC_0534" Value="ctaD; cytochromec oxidase, subunit I; K02274 cytochrome c oxidase subunit I [EC:1.9.3.1]" />
+    <hashEntry Key="xor:XOC_0536" Value="cytochromeC oxidase assembly protein CtaG; K02258 cytochrome c oxidase assembly protein subunit 11" />
+    <hashEntry Key="xor:XOC_0537" Value="cytochromeC oxidase subunit III; K02276 cytochrome c oxidase subunit III [EC:1.9.3.1]" />
+    <hashEntry Key="xor:XOC_0541" Value="cytochrome oxidase assembly protein; K02259 cytochrome c oxidase assembly protein subunit 15" />
+    <hashEntry Key="xor:XOC_0542" Value="cyoE; protoheme IX farnesyltransferase; K02301 protoheme IX farnesyltransferase [EC:2.5.1.-]" />
+    <hashEntry Key="xor:XOC_0607" Value="NADH dehydrogenase; K03885 NADH dehydrogenase [EC:1.6.99.3]" />
+    <hashEntry Key="xor:XOC_1114" Value="ppk; polyphosphate kinase; K00937 polyphosphate kinase [EC:2.7.4.1]" />
+    <hashEntry Key="xor:XOC_1426" Value="cytochromeD ubiquinol oxidase subunit I; K00425 cytochrome d ubiquinol oxidase subunit I [EC:1.10.3." />
+    <hashEntry Key="xor:XOC_1427" Value="cydB; cytochromeD ubiquinol oxidase, subunit II; K00426 cytochrome d ubiquinol oxidase subunit II [E" />
+    <hashEntry Key="xor:XOC_2037" Value="petA; ubiquinol-cytochromec reductase, iron-sulfur subunit; K00411 ubiquinol-cytochrome c reductase" />
+    <hashEntry Key="xor:XOC_2038" Value="ubiquinol cytochromeC oxidoreductase, cytochromeB subunit; K00412 ubiquinol-cytochrome c reductase c" />
+    <hashEntry Key="xor:XOC_2039" Value="ubiquinol cytochromeC oxidoreductase, cytochromeC1 subunit; K00413 ubiquinol-cytochrome c reductase" />
+    <hashEntry Key="xor:XOC_2600" Value="succinate dehydrogenase iron-sulfur protein; K00240 succinate dehydrogenase / fumarate reductase, ir" />
+    <hashEntry Key="xor:XOC_2602" Value="sdhA; succinate dehydrogenase, flavoprotein subunit; K00239 succinate dehydrogenase / fumarate reduc" />
+    <hashEntry Key="xor:XOC_2603" Value="sdhD; succinate dehydrogenase, hydrophobic membrane anchor protein; K00242 succinate dehydrogenase /" />
+    <hashEntry Key="xor:XOC_2604" Value="sdhC; succinate dehydrogenase, cytochrome b556 subunit; K00241 succinate dehydrogenase / fumarate re" />
+    <hashEntry Key="xor:XOC_2677" Value="NADH dehydrogenase; K05577 NAD(P)H-quinone oxidoreductase subunit 5 [EC:1.6.5.3]" />
+    <hashEntry Key="xor:XOC_2733" Value="cytochromeD ubiquinol oxidase subunit I; K00425 cytochrome d ubiquinol oxidase subunit I [EC:1.10.3." />
+    <hashEntry Key="xor:XOC_2735" Value="cytochromebd-II oxidase subunit II; K00426 cytochrome d ubiquinol oxidase subunit II [EC:1.10.3.14]" />
+    <hashEntry Key="xor:XOC_2924" Value="NADH-ubiquinone oxidoreductase Nqo14 subunit; K00343 NADH-quinone oxidoreductase subunit N [EC:1.6.5" />
+    <hashEntry Key="xor:XOC_2925" Value="NADH-ubiquinone oxidoreductase Nqo13 subunit; K00342 NADH-quinone oxidoreductase subunit M [EC:1.6.5" />
+    <hashEntry Key="xor:XOC_2926" Value="NADH-quinone oxidoreductase chain l; K00341 NADH-quinone oxidoreductase subunit L [EC:1.6.5.3]" />
+    <hashEntry Key="xor:XOC_2927" Value="NADH-quinone oxidoreductase chain 11; K00340 NADH-quinone oxidoreductase subunit K [EC:1.6.5.3]" />
+    <hashEntry Key="xor:XOC_2928" Value="NADH-ubiquinone oxidoreductase Nqo10 subunit; K00339 NADH-quinone oxidoreductase subunit J [EC:1.6.5" />
+    <hashEntry Key="xor:XOC_2929" Value="NADH-quinone oxidoreductase chain 9; K00338 NADH-quinone oxidoreductase subunit I [EC:1.6.5.3]" />
+    <hashEntry Key="xor:XOC_2930" Value="NADH-ubiquinone oxidoreductase chain 1; K00337 NADH-quinone oxidoreductase subunit H [EC:1.6.5.3]" />
+    <hashEntry Key="xor:XOC_2931" Value="NADH-quinone oxidoreductase, chain g; K00336 NADH-quinone oxidoreductase subunit G [EC:1.6.5.3]" />
+    <hashEntry Key="xor:XOC_2932" Value="nuoF; NADH-quinone oxidoreductase, f subunit; K00335 NADH-quinone oxidoreductase subunit F [EC:1.6.5" />
+    <hashEntry Key="xor:XOC_2933" Value="NADH-quinone oxidoreductase chain e; K00334 NADH-quinone oxidoreductase subunit E [EC:1.6.5.3]" />
+    <hashEntry Key="xor:XOC_2934" Value="nuoD; NADH dehydrogenase i, d subunit; K00333 NADH-quinone oxidoreductase subunit D [EC:1.6.5.3]" />
+    <hashEntry Key="xor:XOC_2935" Value="NADH-quinone oxidoreductase chain c; K00332 NADH-quinone oxidoreductase subunit C [EC:1.6.5.3]" />
+    <hashEntry Key="xor:XOC_2936" Value="NADH-ubiquinone oxidoreductase 20 kda subunit; K00331 NADH-quinone oxidoreductase subunit B [EC:1.6." />
+    <hashEntry Key="xor:XOC_2937" Value="NADH-quinone oxidoreductase chain a; K00330 NADH-quinone oxidoreductase subunit A [EC:1.6.5.3]" />
+    <hashEntry Key="xor:XOC_3454" Value="cyoD; cytochrome o ubiquinol oxidase subunit IV; K02300 cytochrome o ubiquinol oxidase subunit IV" />
+    <hashEntry Key="xor:XOC_3455" Value="cyoC; cytochrome o ubiquinol oxidase, subunit III; K02299 cytochrome o ubiquinol oxidase subunit III" />
+    <hashEntry Key="xor:XOC_3456" Value="cyoB; cytochrome o ubiquinol oxidase, subunit I; K02298 cytochrome o ubiquinol oxidase subunit I [EC" />
+    <hashEntry Key="xor:XOC_3457" Value="cyoA; ubiquinol oxidase, subunit II; K02297 cytochrome o ubiquinol oxidase subunit II [EC:1.10.3.10]" />
+    <hashEntry Key="xor:XOC_3705" Value="V-type H(+)-translocating pyrophosphatase; K15987 K(+)-stimulated pyrophosphate-energized sodium pum" />
+    <hashEntry Key="xor:XOC_3707" Value="ppa; inorganic pyrophosphatase; K01507 inorganic pyrophosphatase [EC:3.6.1.1]" />
+    <hashEntry Key="xor:XOC_3914" Value="atpC; ATP synthase F1, epsilon subunit; K02114 F-type H+-transporting ATPase subunit epsilon" />
+    <hashEntry Key="xor:XOC_3915" Value="atpD; ATP synthase F1, beta subunit; K02112 F-type H+-transporting ATPase subunit beta [EC:3.6.3.14]" />
+    <hashEntry Key="xor:XOC_3916" Value="atpG; ATP synthase F1, gamma subunit; K02115 F-type H+-transporting ATPase subunit gamma" />
+    <hashEntry Key="xor:XOC_3917" Value="atpA; ATP synthase F1, alpha subunit; K02111 F-type H+-transporting ATPase subunit alpha [EC:3.6.3.1" />
+    <hashEntry Key="xor:XOC_3918" Value="atpH; ATP synthase F1, delta subunit; K02113 F-type H+-transporting ATPase subunit delta" />
+    <hashEntry Key="xor:XOC_3919" Value="atpF; ATP synthase F0, B subunit; K02109 F-type H+-transporting ATPase subunit b" />
+    <hashEntry Key="xor:XOC_3920" Value="ATP synthase C chain; K02110 F-type H+-transporting ATPase subunit c" />
+    <hashEntry Key="xor:XOC_3921" Value="atpB; ATP synthase F0, A subunit; K02108 F-type H+-transporting ATPase subunit a" />
+    <hashEntry Key="xor:XOC_4006" Value="cytochromeD ubiquinol oxidase subunit I; K00425 cytochrome d ubiquinol oxidase subunit I [EC:1.10.3." />
+    <hashEntry Key="xor:XOC_4007" Value="cydB; cytochromeD ubiquinol oxidase, subunit II; K00426 cytochrome d ubiquinol oxidase subunit II [E" />
+  </Genes>
+</KEGG.PathwayBrief>

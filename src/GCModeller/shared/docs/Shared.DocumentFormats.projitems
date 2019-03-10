@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>5c8e0644-b4d7-464a-908c-a383f52cce1f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Shared.DocumentFormats</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Views.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExprConsistency.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtProperty.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Transcript.vb" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,948 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "biblio.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Biblio"
+================================================= -->
+<!--
+$Revision: 6.2 $
+****************************************************************
+
+  NCBI Bibliographic data elements
+  by James Ostell, 1990
+
+  Taken from the American National Standard for
+      Bibliographic References
+      ANSI Z39.29-1977
+  Version 3.0 - June 1994
+  PubMedId added in 1996
+  ArticleIds and eprint elements added in 1999
+
+****************************************************************
+-->
+<!-- Elements used by other modules:
+          Cit-art,
+          Cit-jour,
+          Cit-book,
+          Cit-pat,
+          Cit-let,
+          Id-pat,
+          Cit-gen,
+          Cit-proc,
+          Cit-sub,
+          Title,
+          Author,
+          PubMedId -->
+
+<!-- Elements referenced from other modules:
+          Person-id,
+          Date,
+          Dbtag FROM NCBI-General -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+ Article Ids
+ can be many ids for an article
+-->
+<xs:element name="ArticleId">
+  <xs:complexType>
+    <xs:choice>
+<!-- see types below -->
+      <xs:element name="ArticleId_pubmed">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PubMedId"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ArticleId_medline">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="MedlineUID"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ArticleId_doi">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="DOI"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ArticleId_pii">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PII"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ArticleId_pmcid">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PmcID"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ArticleId_pmcpid">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PmcPid"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ArticleId_pmpid">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PmPid"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- generic catch all -->
+      <xs:element name="ArticleId_other">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!-- Id from the PubMed database at NCBI -->
+<xs:element name="PubMedId" type="xs:integer"/>
+
+<!-- Id from MEDLINE -->
+<xs:element name="MedlineUID" type="xs:integer"/>
+
+<!-- Document Object Identifier -->
+<xs:element name="DOI" type="xs:string"/>
+
+<!-- Controlled Publisher Identifier -->
+<xs:element name="PII" type="xs:string"/>
+
+<!-- PubMed Central Id -->
+<xs:element name="PmcID" type="xs:integer"/>
+
+<!-- Publisher Id supplied to PubMed Central -->
+<xs:element name="PmcPid" type="xs:string"/>
+
+<!-- Publisher Id supplied to PubMed -->
+<xs:element name="PmPid" type="xs:string"/>
+
+<xs:element name="ArticleIdSet">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="ArticleId"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ Status Dates
+ points of publication
+-->
+<xs:element name="PubStatus">
+  <xs:complexType>
+    <xs:simpleContent>
+      <xs:extension base="xs:integer">
+        <xs:attribute name="value" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+<!--
+    received	-  date manuscript received for review
+    accepted	-  accepted for publication
+    epublish	-  published electronically by publisher
+    ppublish	-  published in print by publisher
+    revised	-  article revised by publisher/author
+    pmc	-  article first appeared in PubMed Central
+    pmcr	-  article revision in PubMed Central
+    pubmed	-  article citation first appeared in PubMed
+    pubmedr	-  article citation revision in PubMed
+    aheadofprint	-  epublish, but will be followed by print
+    premedline	-  date into PreMedline status
+    medline	-  date made a MEDLINE record
+-->
+              <xs:enumeration value="received" ncbi:intvalue="1"/>
+              <xs:enumeration value="accepted" ncbi:intvalue="2"/>
+              <xs:enumeration value="epublish" ncbi:intvalue="3"/>
+              <xs:enumeration value="ppublish" ncbi:intvalue="4"/>
+              <xs:enumeration value="revised" ncbi:intvalue="5"/>
+              <xs:enumeration value="pmc" ncbi:intvalue="6"/>
+              <xs:enumeration value="pmcr" ncbi:intvalue="7"/>
+              <xs:enumeration value="pubmed" ncbi:intvalue="8"/>
+              <xs:enumeration value="pubmedr" ncbi:intvalue="9"/>
+              <xs:enumeration value="aheadofprint" ncbi:intvalue="10"/>
+              <xs:enumeration value="premedline" ncbi:intvalue="11"/>
+              <xs:enumeration value="medline" ncbi:intvalue="12"/>
+              <xs:enumeration value="other" ncbi:intvalue="255"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:element>
+
+<!-- done as a structure so fields can be added -->
+<xs:element name="PubStatusDate">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="PubStatusDate_pubstatus">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PubStatus"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- time may be added later -->
+      <xs:element name="PubStatusDate_date">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="PubStatusDateSet">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="PubStatusDate"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ Citation Types
+ article in journal or book
+-->
+<xs:element name="Cit-art">
+  <xs:complexType>
+    <xs:sequence>
+<!-- title of paper (ANSI requires) -->
+      <xs:element name="Cit-art_title" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Title"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- authors (ANSI requires) -->
+      <xs:element name="Cit-art_authors" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Auth-list"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Cit-art_from">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="Cit-art_from_journal">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Cit-jour"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Cit-art_from_book">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Cit-book"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Cit-art_from_proc">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Cit-proc"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+<!-- lots of ids -->
+      <xs:element name="Cit-art_ids" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ArticleIdSet"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- Journal citation -->
+<xs:element name="Cit-jour">
+  <xs:complexType>
+    <xs:sequence>
+<!-- title of journal -->
+      <xs:element name="Cit-jour_title">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Title"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Cit-jour_imp">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Imprint"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- Book citation -->
+<xs:element name="Cit-book">
+  <xs:complexType>
+    <xs:sequence>
+<!-- Title of book -->
+      <xs:element name="Cit-book_title">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Title"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- part of a collection -->
+      <xs:element name="Cit-book_coll" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Title"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- authors -->
+      <xs:element name="Cit-book_authors">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Auth-list"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Cit-book_imp">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Imprint"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- Meeting proceedings -->
+<xs:element name="Cit-proc">
+  <xs:complexType>
+    <xs:sequence>
+<!-- citation to meeting -->
+      <xs:element name="Cit-proc_book">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cit-book"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- time and location of meeting -->
+      <xs:element name="Cit-proc_meet">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Meeting"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ Patent number and date-issue were made optional in 1997 to
+   support patent applications being issued from the USPTO
+   Semantically a Cit-pat must have either a patent number or
+   an application number (or both) to be valid
+ patent citation
+-->
+<xs:element name="Cit-pat">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Cit-pat_title" type="xs:string"/>
+<!-- author/inventor -->
+      <xs:element name="Cit-pat_authors">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Auth-list"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Patent Document Country -->
+      <xs:element name="Cit-pat_country" type="xs:string"/>
+<!-- Patent Document Type -->
+      <xs:element name="Cit-pat_doc-type" type="xs:string"/>
+<!-- Patent Document Number -->
+      <xs:element name="Cit-pat_number" type="xs:string" minOccurs="0"/>
+<!-- Patent Issue/Pub Date -->
+      <xs:element name="Cit-pat_date-issue" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Patent Doc Class Code  -->
+      <xs:element name="Cit-pat_class" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Cit-pat_class_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Patent Doc Appl Number -->
+      <xs:element name="Cit-pat_app-number" type="xs:string" minOccurs="0"/>
+<!-- Patent Appl File Date -->
+      <xs:element name="Cit-pat_app-date" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Applicants -->
+      <xs:element name="Cit-pat_applicants" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Auth-list"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Assignees -->
+      <xs:element name="Cit-pat_assignees" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Auth-list"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Priorities -->
+      <xs:element name="Cit-pat_priority" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Patent-priority"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- abstract of patent -->
+      <xs:element name="Cit-pat_abstract" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Patent-priority">
+  <xs:complexType>
+    <xs:sequence>
+<!-- Patent country code -->
+      <xs:element name="Patent-priority_country" type="xs:string"/>
+<!-- number assigned in that country -->
+      <xs:element name="Patent-priority_number" type="xs:string"/>
+<!-- date of application -->
+      <xs:element name="Patent-priority_date">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- just to identify a patent -->
+<xs:element name="Id-pat">
+  <xs:complexType>
+    <xs:sequence>
+<!-- Patent Document Country -->
+      <xs:element name="Id-pat_country" type="xs:string"/>
+      <xs:element name="Id-pat_id">
+        <xs:complexType>
+          <xs:choice>
+<!-- Patent Document Number -->
+            <xs:element name="Id-pat_id_number" type="xs:string"/>
+<!-- Patent Doc Appl Number -->
+            <xs:element name="Id-pat_id_app-number" type="xs:string"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+<!-- Patent Doc Type -->
+      <xs:element name="Id-pat_doc-type" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- letter, thesis, or manuscript -->
+<xs:element name="Cit-let">
+  <xs:complexType>
+    <xs:sequence>
+<!-- same fields as a book -->
+      <xs:element name="Cit-let_cit">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cit-book"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Manuscript identifier -->
+      <xs:element name="Cit-let_man-id" type="xs:string" minOccurs="0"/>
+      <xs:element name="Cit-let_type" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="manuscript"/>
+                <xs:enumeration value="letter"/>
+                <xs:enumeration value="thesis"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ NOTE: this is just to cite a
+ direct data submission, see NCBI-Submit
+ for the form of a sequence submission
+ citation for a direct submission
+-->
+<xs:element name="Cit-sub">
+  <xs:complexType>
+    <xs:sequence>
+<!-- not necessarily authors of the paper -->
+      <xs:element name="Cit-sub_authors">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Auth-list"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- this only used to get date.. will go -->
+      <xs:element name="Cit-sub_imp" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Imprint"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Cit-sub_medium" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="paper"/>
+                <xs:enumeration value="tape"/>
+                <xs:enumeration value="floppy"/>
+                <xs:enumeration value="email"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- replaces imp, will become required -->
+      <xs:element name="Cit-sub_date" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- description of changes for public view -->
+      <xs:element name="Cit-sub_descr" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- NOT from ANSI, this is a catchall -->
+<xs:element name="Cit-gen">
+  <xs:complexType>
+    <xs:sequence>
+<!-- anything, not parsable -->
+      <xs:element name="Cit-gen_cit" type="xs:string" minOccurs="0"/>
+      <xs:element name="Cit-gen_authors" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Auth-list"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- medline uid -->
+      <xs:element name="Cit-gen_muid" type="xs:integer" minOccurs="0"/>
+      <xs:element name="Cit-gen_journal" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Title"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Cit-gen_volume" type="xs:string" minOccurs="0"/>
+      <xs:element name="Cit-gen_issue" type="xs:string" minOccurs="0"/>
+      <xs:element name="Cit-gen_pages" type="xs:string" minOccurs="0"/>
+      <xs:element name="Cit-gen_date" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- for GenBank style references -->
+      <xs:element name="Cit-gen_serial-number" type="xs:integer" minOccurs="0"/>
+<!-- eg. cit="unpublished",title="title" -->
+      <xs:element name="Cit-gen_title" type="xs:string" minOccurs="0"/>
+<!-- PubMed Id -->
+      <xs:element name="Cit-gen_pmid" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PubMedId"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- Authorship Group -->
+<xs:element name="Auth-list">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Auth-list_names">
+        <xs:complexType>
+          <xs:choice>
+<!-- full citations -->
+            <xs:element name="Auth-list_names_std">
+              <xs:complexType>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="Author"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+<!-- MEDLINE, semi-structured -->
+            <xs:element name="Auth-list_names_ml">
+              <xs:complexType>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                  <xs:element name="Auth-list_names_ml_E" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+<!-- free for all -->
+            <xs:element name="Auth-list_names_str">
+              <xs:complexType>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                  <xs:element name="Auth-list_names_str_E" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+<!-- author affiliation -->
+      <xs:element name="Auth-list_affil" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Affil"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Author">
+  <xs:complexType>
+    <xs:sequence>
+<!-- Author, Primary or Secondary -->
+      <xs:element name="Author_name">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Person-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Author_level" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="primary"/>
+                <xs:enumeration value="secondary"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Author_role" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="compiler"/>
+                <xs:enumeration value="editor"/>
+                <xs:enumeration value="patent-assignee"/>
+                <xs:enumeration value="translator"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Author_affil" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Affil"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- TRUE if corresponding author -->
+      <xs:element name="Author_is-corr" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Affil">
+  <xs:complexType>
+    <xs:choice>
+<!-- unparsed string -->
+      <xs:element name="Affil_str" type="xs:string"/>
+      <xs:element name="Affil_std">
+        <xs:complexType>
+          <xs:sequence>
+<!-- Author Affiliation, Name -->
+            <xs:element name="Affil_std_affil" type="xs:string" minOccurs="0"/>
+<!-- Author Affiliation, Division -->
+            <xs:element name="Affil_std_div" type="xs:string" minOccurs="0"/>
+<!-- Author Affiliation, City -->
+            <xs:element name="Affil_std_city" type="xs:string" minOccurs="0"/>
+<!-- Author Affiliation, County Sub -->
+            <xs:element name="Affil_std_sub" type="xs:string" minOccurs="0"/>
+<!-- Author Affiliation, Country -->
+            <xs:element name="Affil_std_country" type="xs:string" minOccurs="0"/>
+<!-- street address, not ANSI -->
+            <xs:element name="Affil_std_street" type="xs:string" minOccurs="0"/>
+            <xs:element name="Affil_std_email" type="xs:string" minOccurs="0"/>
+            <xs:element name="Affil_std_fax" type="xs:string" minOccurs="0"/>
+            <xs:element name="Affil_std_phone" type="xs:string" minOccurs="0"/>
+            <xs:element name="Affil_std_postal-code" type="xs:string" minOccurs="0"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ Title Group
+ Valid for = A = Analytic (Cit-art)
+             J = Journals (Cit-jour)
+             B = Book (Cit-book)
+ Valid for:
+-->
+<xs:element name="Title">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="Title_E">
+        <xs:complexType>
+          <xs:choice>
+<!-- Title, Anal,Coll,Mono    AJB -->
+            <xs:element name="Title_E_name" type="xs:string"/>
+<!-- Title, Subordinate       A B -->
+            <xs:element name="Title_E_tsub" type="xs:string"/>
+<!-- Title, Translated        AJB -->
+            <xs:element name="Title_E_trans" type="xs:string"/>
+<!-- Title, Abbreviated        J -->
+            <xs:element name="Title_E_jta" type="xs:string"/>
+<!-- specifically ISO jta      J -->
+            <xs:element name="Title_E_iso-jta" type="xs:string"/>
+<!-- specifically MEDLINE jta  J -->
+            <xs:element name="Title_E_ml-jta" type="xs:string"/>
+<!-- a coden                   J -->
+            <xs:element name="Title_E_coden" type="xs:string"/>
+<!-- ISSN                      J -->
+            <xs:element name="Title_E_issn" type="xs:string"/>
+<!-- Title, Abbreviated         B -->
+            <xs:element name="Title_E_abr" type="xs:string"/>
+<!-- ISBN                       B -->
+            <xs:element name="Title_E_isbn" type="xs:string"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- Imprint group -->
+<xs:element name="Imprint">
+  <xs:complexType>
+    <xs:sequence>
+<!-- date of publication -->
+      <xs:element name="Imprint_date">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Imprint_volume" type="xs:string" minOccurs="0"/>
+      <xs:element name="Imprint_issue" type="xs:string" minOccurs="0"/>
+      <xs:element name="Imprint_pages" type="xs:string" minOccurs="0"/>
+      <xs:element name="Imprint_section" type="xs:string" minOccurs="0"/>
+<!-- publisher, required for book -->
+      <xs:element name="Imprint_pub" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Affil"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- copyright date, "    "   " -->
+      <xs:element name="Imprint_cprt" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- part/sup of volume -->
+      <xs:element name="Imprint_part-sup" type="xs:string" minOccurs="0"/>
+<!-- put here for simplicity -->
+      <xs:element name="Imprint_language" type="xs:string" default="ENG"/>
+      <xs:element name="Imprint_prepub" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    submitted	-  submitted, not accepted
+    in-press	-  accepted, not published
+-->
+                <xs:enumeration value="submitted"/>
+                <xs:enumeration value="in-press"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- part/sup on issue -->
+      <xs:element name="Imprint_part-supi" type="xs:string" minOccurs="0"/>
+<!-- retraction info -->
+      <xs:element name="Imprint_retract" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="CitRetract"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- current status of this publication -->
+      <xs:element name="Imprint_pubstatus" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PubStatus"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- dates for this record -->
+      <xs:element name="Imprint_history" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PubStatusDateSet"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="CitRetract">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="CitRetract_type">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    retracted	-  this citation retracted
+    notice	-  this citation is a retraction notice
+    in-error	-  an erratum was published about this
+    erratum	-  this is a published erratum
+-->
+                <xs:enumeration value="retracted"/>
+                <xs:enumeration value="notice"/>
+                <xs:enumeration value="in-error"/>
+                <xs:enumeration value="erratum"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- citation and/or explanation -->
+      <xs:element name="CitRetract_exp" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Meeting">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Meeting_number" type="xs:string"/>
+      <xs:element name="Meeting_date">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Meeting_place" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Affil"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

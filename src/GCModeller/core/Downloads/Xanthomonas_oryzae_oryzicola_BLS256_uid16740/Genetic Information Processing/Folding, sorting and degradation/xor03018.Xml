@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor03018" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The correct processing, quality control and turnover of cellular RNA molecules are critical to many aspects in the expression of genetic information. In eukaryotes, two major pathways of mRNA decay exist and both pathways are initiated by poly(A) shortening of the mRNA. In the 5' to 3' pathway, this is followed by decapping which then permits the 5' to 3' exonucleolytic degradation of transcripts. In the 3' to 5' pathway, the exosome, a large multisubunit complex, plays a key role. The exosome exists in archaeal cells, too. In bacteria, endoribonuclease E, a key enzyme involved in RNA decay and processing, organizes a protein complex called degradosome. RNase E or R interacts with the phosphate-dependent exoribonuclease polynucleotide phosphorylase, DEAD-box helicases, and additional factors in the RNA-degrading complex.&lt;br&gt;</Description>
+  <Name>RNA degradation - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00394" Value="RNA degradosome [PATH:xor03018]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xor03018" Value="RNA degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0597" Value="rho; transcription termination factor Rho; K03628 transcription termination factor Rho" />
+    <hashEntry Key="xor:XOC_0600" Value="ATP-dependent RNA helicase RhlB; K03732 ATP-dependent RNA helicase RhlB [EC:3.6.4.13]" />
+    <hashEntry Key="xor:XOC_0616" Value="groL; chaperonin GroL; K04077 chaperonin GroEL" />
+    <hashEntry Key="xor:XOC_1114" Value="ppk; polyphosphate kinase; K00937 polyphosphate kinase [EC:2.7.4.1]" />
+    <hashEntry Key="xor:XOC_1632" Value="ATP-dependent RNA helicase; K05592 ATP-dependent RNA helicase DeaD [EC:3.6.4.13]" />
+    <hashEntry Key="xor:XOC_1740" Value="dnaK; chaperone protein DnaK; K04043 molecular chaperone DnaK" />
+    <hashEntry Key="xor:XOC_1792" Value="rnr; ribonuclease R; K12573 ribonuclease R [EC:3.1.-.-]" />
+    <hashEntry Key="xor:XOC_2167" Value="poly(A) polymerase; K00970 poly(A) polymerase [EC:2.7.7.19]" />
+    <hashEntry Key="xor:XOC_2565" Value="ribonuclease E; K08300 ribonuclease E [EC:3.1.26.12]" />
+    <hashEntry Key="xor:XOC_2778" Value="hfq; RNA chaperone Hfq; K03666 host factor-I protein" />
+    <hashEntry Key="xor:XOC_2794" Value="eno; phosphopyruvate hydratase; K01689 enolase [EC:4.2.1.11]" />
+    <hashEntry Key="xor:XOC_2915" Value="pnp; polyribonucleotide nucleotidyltransferase; K00962 polyribonucleotide nucleotidyltransferase [EC" />
+    <hashEntry Key="xor:XOC_3331" Value="recQ; ATP-dependent DNA helicase RecQ; K03654 ATP-dependent DNA helicase RecQ [EC:3.6.4.12]" />
+    <hashEntry Key="xor:XOC_3700" Value="6-phosphofructokinase; K00850 6-phosphofructokinase 1 [EC:2.7.1.11]" />
+    <hashEntry Key="xor:XOC_3880" Value="ATP-dependent RNA helicase; K11927 ATP-dependent RNA helicase RhlE [EC:3.6.4.13]" />
+    <hashEntry Key="xor:XOC_4194" Value="pyrophosphatase, MutT-nudix family; K08311 putative (di)nucleoside polyphosphate hydrolase [EC:3.6.1" />
+  </Genes>
+</KEGG.PathwayBrief>

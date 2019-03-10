@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00350" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Tyrosine metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00146" Value="Phenol" />
+    <hashEntry Key="C00164" Value="Acetoacetate" />
+    <hashEntry Key="C00232" Value="Succinate semialdehyde" />
+    <hashEntry Key="C00355" Value="3,4-Dihydroxy-L-phenylalanine" />
+    <hashEntry Key="C00483" Value="Tyramine" />
+    <hashEntry Key="C00530" Value="Hydroquinone" />
+    <hashEntry Key="C00544" Value="Homogentisate" />
+    <hashEntry Key="C00547" Value="L-Noradrenaline" />
+    <hashEntry Key="C00628" Value="2,5-Dihydroxybenzoate" />
+    <hashEntry Key="C00642" Value="4-Hydroxyphenylacetate" />
+    <hashEntry Key="C00788" Value="L-Adrenaline" />
+    <hashEntry Key="C00811" Value="4-Coumarate" />
+    <hashEntry Key="C00822" Value="Dopaquinone" />
+    <hashEntry Key="C01036" Value="4-Maleylacetoacetate" />
+    <hashEntry Key="C01060" Value="3,5-Diiodo-L-tyrosine" />
+    <hashEntry Key="C01061" Value="4-Fumarylacetoacetate" />
+    <hashEntry Key="C01161" Value="3,4-Dihydroxyphenylacetate" />
+    <hashEntry Key="C01179" Value="3-(4-Hydroxyphenyl)pyruvate" />
+    <hashEntry Key="C01207" Value="3-(3,4-Dihydroxyphenyl)lactate" />
+    <hashEntry Key="C01693" Value="L-Dopachrome" />
+    <hashEntry Key="C01829" Value="Thyroxine" />
+    <hashEntry Key="C01850" Value="Rosmarinate" />
+    <hashEntry Key="C02167" Value="Maleylpyruvate" />
+    <hashEntry Key="C02442" Value="N-Methyltyramine" />
+    <hashEntry Key="C02465" Value="Triiodothyronine" />
+    <hashEntry Key="C02514" Value="3-Fumarylpyruvate" />
+    <hashEntry Key="C02515" Value="3-Iodo-L-tyrosine" />
+    <hashEntry Key="C03063" Value="2-Oxohept-3-enedioate" />
+    <hashEntry Key="C03077" Value="4-Chlorophenylacetate" />
+    <hashEntry Key="C03672" Value="3-(4-Hydroxyphenyl)lactate" />
+    <hashEntry Key="C03758" Value="Dopamine" />
+    <hashEntry Key="C03765" Value="4-Hydroxyphenylacetaldehyde" />
+    <hashEntry Key="C04043" Value="3,4-Dihydroxyphenylacetaldehyde" />
+    <hashEntry Key="C04045" Value="3-(3,4-Dihydroxyphenyl)pyruvate" />
+    <hashEntry Key="C04052" Value="5-Carboxy-2-oxohept-3-enedioate" />
+    <hashEntry Key="C04185" Value="5,6-Dihydroxyindole-2-carboxylate" />
+    <hashEntry Key="C04186" Value="5-Carboxymethyl-2-hydroxymuconate" />
+    <hashEntry Key="C04368" Value="3-Amino-3-(4-hydroxyphenyl)propanoate" />
+    <hashEntry Key="C04642" Value="2-Hydroxy-5-carboxymethylmuconate semialdehyde" />
+    <hashEntry Key="C04796" Value="4-(L-Alanin-3-yl)-2-hydroxy-cis,cis-muconate 6-semialdehyde" />
+    <hashEntry Key="C04797" Value="5-(L-Alanin-3-yl)-2-hydroxy-cis,cis-muconate 6-semialdehyde" />
+    <hashEntry Key="C05338" Value="4-Hydroxyphenylacetyl-CoA" />
+    <hashEntry Key="C05350" Value="2-Hydroxy-3-(4-hydroxyphenyl)propenoate" />
+    <hashEntry Key="C05576" Value="3,4-Dihydroxyphenylethyleneglycol" />
+    <hashEntry Key="C05577" Value="3,4-Dihydroxymandelaldehyde" />
+    <hashEntry Key="C05578" Value="5,6-Dihydroxyindole" />
+    <hashEntry Key="C05579" Value="Indole-5,6-quinone" />
+    <hashEntry Key="C05580" Value="3,4-Dihydroxymandelate" />
+    <hashEntry Key="C05581" Value="3-Methoxy-4-hydroxyphenylacetaldehyde" />
+    <hashEntry Key="C05582" Value="Homovanillate" />
+    <hashEntry Key="C05583" Value="3-Methoxy-4-hydroxyphenylglycolaldehyde" />
+    <hashEntry Key="C05584" Value="3-Methoxy-4-hydroxymandelate" />
+    <hashEntry Key="C05585" Value="Gentisate aldehyde" />
+    <hashEntry Key="C05587" Value="3-Methoxytyramine" />
+    <hashEntry Key="C05588" Value="L-Metanephrine" />
+    <hashEntry Key="C05589" Value="L-Normetanephrine" />
+    <hashEntry Key="C05593" Value="3-Hydroxyphenylacetate" />
+    <hashEntry Key="C05594" Value="3-Methoxy-4-hydroxyphenylethyleneglycol" />
+    <hashEntry Key="C05595" Value="4-Hydroxyphenylacetylglutamic acid" />
+    <hashEntry Key="C05596" Value="p-Hydroxyphenylacetylglycine" />
+    <hashEntry Key="C05600" Value="2-Hydroxyhepta-2,4-dienedioate" />
+    <hashEntry Key="C05604" Value="2-Carboxy-2,3-dihydro-5,6-dihydroxyindole" />
+    <hashEntry Key="C06044" Value="4-Hydroxyphenylethanol" />
+    <hashEntry Key="C06046" Value="Salidroside" />
+    <hashEntry Key="C06047" Value="Stizolobate" />
+    <hashEntry Key="C06048" Value="Stizolobinate" />
+    <hashEntry Key="C06199" Value="Hordenine" />
+    <hashEntry Key="C06201" Value="2,4-Dihydroxyhept-2-enedioate" />
+    <hashEntry Key="C10447" Value="3,4-Dihydroxyphenylpropanoate" />
+    <hashEntry Key="C17935" Value="Cysteinyldopa" />
+    <hashEntry Key="C17936" Value="Phaeomelanin" />
+    <hashEntry Key="C17937" Value="Eumelanin" />
+    <hashEntry Key="C17938" Value="5,6-Indolequinone-2-carboxylic acid" />
+  </Compound>
+  <PathwayMap Key="xcb00350" Value="Tyrosine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0100" Value="aromatic amino acid aminotransferase (EC:2.6.1.57); K00832 aromatic-amino-acid transaminase [EC:2.6." />
+    <hashEntry Key="xcb:XC_0450" Value="4-hydroxyphenylpyruvate dioxygenase; K00457 4-hydroxyphenylpyruvate dioxygenase [EC:1.13.11.27]" />
+    <hashEntry Key="xcb:XC_0452" Value="homogentisate 1,2-dioxygenase (EC:1.13.11.5); K00451 homogentisate 1,2-dioxygenase [EC:1.13.11.5]" />
+    <hashEntry Key="xcb:XC_0686" Value="alcohol dehydrogenase; K00121 S-(hydroxymethyl)glutathione dehydrogenase / alcohol dehydrogenase [EC" />
+    <hashEntry Key="xcb:XC_0775" Value="alcohol dehydrogenase; K00121 S-(hydroxymethyl)glutathione dehydrogenase / alcohol dehydrogenase [EC" />
+    <hashEntry Key="xcb:XC_0886" Value="flavin monoamine oxidase-like protein; K00274 monoamine oxidase [EC:1.4.3.4]" />
+    <hashEntry Key="xcb:XC_0889" Value="aminotransferase (EC:2.6.1.9); K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xcb:XC_1109" Value="4-hydroxy-2-oxovalerate aldolase; K02510 4-hydroxy-2-oxoheptanedioate aldolase [EC:4.1.2.52]" />
+    <hashEntry Key="xcb:XC_1780" Value="succinate-semialdehyde dehydrogenase; K00135 succinate-semialdehyde dehydrogenase / glutarate-semial" />
+    <hashEntry Key="xcb:XC_2379" Value="histidinol-phosphate aminotransferase (EC:2.6.1.9); K00817 histidinol-phosphate aminotransferase [EC" />
+    <hashEntry Key="xcb:XC_2665" Value="aminotransferase (EC:2.6.1.9); K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xcb:XC_3641" Value="maleylacetoacetate isomerase; K01800 maleylacetoacetate isomerase [EC:5.2.1.2]" />
+    <hashEntry Key="xcb:XC_3642" Value="fumarylacetoacetate hydrolase; K16171 fumarylacetoacetate (FAA) hydrolase [EC:3.7.1.2]" />
+  </Genes>
+</KEGG.PathwayBrief>

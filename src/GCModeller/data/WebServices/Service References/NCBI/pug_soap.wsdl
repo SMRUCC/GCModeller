@@ -1,0 +1,1343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:tns="http://pubchem.ncbi.nlm.nih.gov/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pubchem.ncbi.nlm.nih.gov/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://pubchem.ncbi.nlm.nih.gov/">
+      <s:element name="InputStructure">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="structure" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="format" type="tns:FormatType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="FormatType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eFormat_ASNB" />
+          <s:enumeration value="eFormat_ASNT" />
+          <s:enumeration value="eFormat_XML" />
+          <s:enumeration value="eFormat_SDF" />
+          <s:enumeration value="eFormat_SMILES" />
+          <s:enumeration value="eFormat_InChI" />
+          <s:enumeration value="eFormat_Image" />
+          <s:enumeration value="eFormat_Thumbnail" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="InputStructureResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StrKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InputStructureBase64">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="structure" type="s:base64Binary" />
+            <s:element minOccurs="1" maxOccurs="1" name="format" type="tns:FormatType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InputStructureBase64Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StrKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InputList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ids" type="tns:ArrayOfInt" />
+            <s:element minOccurs="1" maxOccurs="1" name="idType" type="tns:PCIDType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PCIDType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eID_CID" />
+          <s:enumeration value="eID_SID" />
+          <s:enumeration value="eID_AID" />
+          <s:enumeration value="eID_TID" />
+          <s:enumeration value="eID_ConformerID" />
+          <s:enumeration value="eID_SourceID" />
+          <s:enumeration value="eID_InChI" />
+          <s:enumeration value="eID_InChIKey" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="InputListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InputListString">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="strids" type="tns:ArrayOfString" />
+            <s:element minOccurs="1" maxOccurs="1" name="idType" type="tns:PCIDType" />
+            <s:element minOccurs="0" maxOccurs="1" name="SourceName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InputListStringResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InputListText">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ids" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="idType" type="tns:PCIDType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InputListTextResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InputEntrez">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="EntrezKey" type="tns:EntrezKey" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="EntrezKey">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="db" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="key" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="webenv" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="InputEntrezResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IdentitySearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StrKey" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="idOptions" type="tns:IdentitySearchOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="limits" type="tns:LimitsType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="IdentitySearchOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="eIdentity" type="tns:IdentityType" />
+          <s:element minOccurs="0" maxOccurs="1" name="ToWebEnv" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="IdentityType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eIdentity_SameConnectivity" />
+          <s:enumeration value="eIdentity_AnyTautomer" />
+          <s:enumeration value="eIdentity_SameStereo" />
+          <s:enumeration value="eIdentity_SameIsotope" />
+          <s:enumeration value="eIdentity_SameStereoIsotope" />
+          <s:enumeration value="eIdentity_SameNonconflictStereo" />
+          <s:enumeration value="eIdentity_SameIsotopeNonconflictStereo" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="LimitsType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="seconds" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="maxRecords" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ListKey" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="IdentitySearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubstructureSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StrKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ssOptions" type="tns:StructureSearchOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="limits" type="tns:LimitsType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="StructureSearchOptions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MatchIsotopes" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="MatchCharges" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="MatchTautomers" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="RingsNotEmbedded" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="SingeDoubleBondsMatch" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ChainsMatchRings" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="StripHydrogen" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="eStereo" type="tns:StereoType" />
+          <s:element minOccurs="0" maxOccurs="1" name="ToWebEnv" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="StereoType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eStereo_Ignore" />
+          <s:enumeration value="eStereo_Exact" />
+          <s:enumeration value="eStereo_Relative" />
+          <s:enumeration value="eStereo_NonConflicting" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="SubstructureSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SuperstructureSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StrKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ssOptions" type="tns:StructureSearchOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="limits" type="tns:LimitsType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SuperstructureSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SimilaritySearch2D">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StrKey" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="simOptions" type="tns:SimilaritySearchOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="limits" type="tns:LimitsType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SimilaritySearchOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="threshold" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ToWebEnv" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SimilaritySearch2DResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MFSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MF" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mfOptions" type="tns:MFSearchOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="limits" type="tns:LimitsType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="MFSearchOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="AllowOtherElements" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ToWebEnv" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="MFSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Standardize">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StrKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StandardizeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StrKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStandardizedCID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StrKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStandardizedCIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStandardizedStructure">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StrKey" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="format" type="tns:FormatType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStandardizedStructureResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="structure" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStandardizedStructureBase64">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StrKey" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="format" type="tns:FormatType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStandardizedStructureBase64Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="structure" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOperationStatus" type="tns:AnyKeyType" />
+      <s:complexType name="AnyKeyType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="AnyKey" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetOperationStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="status" type="tns:StatusType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="StatusType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eStatus_Unknown" />
+          <s:enumeration value="eStatus_Success" />
+          <s:enumeration value="eStatus_ServerError" />
+          <s:enumeration value="eStatus_HitLimit" />
+          <s:enumeration value="eStatus_TimeLimit" />
+          <s:enumeration value="eStatus_InputError" />
+          <s:enumeration value="eStatus_DataError" />
+          <s:enumeration value="eStatus_Stopped" />
+          <s:enumeration value="eStatus_Running" />
+          <s:enumeration value="eStatus_Queued" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetStatusMessage" type="tns:AnyKeyType" />
+      <s:element name="GetStatusMessageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListItemsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListItemsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEntrezKey">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEntrezKeyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="EntrezKey" type="tns:EntrezKey" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEntrezUrl">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="EntrezKey" type="tns:EntrezKey" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEntrezUrlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="url" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Download">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="eFormat" type="tns:FormatType" />
+            <s:element minOccurs="0" maxOccurs="1" name="eCompress" type="tns:CompressType" />
+            <s:element minOccurs="0" maxOccurs="1" name="Use3D" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="N3DConformers" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="SynchronousSingleRecord" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="CompressType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eCompress_None" />
+          <s:enumeration value="eCompress_GZip" />
+          <s:enumeration value="eCompress_BZip2" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="DownloadResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DownloadKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DataBlob" type="tns:DataBlobType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DataBlobType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Data" type="s:base64Binary" />
+          <s:element minOccurs="0" maxOccurs="1" name="BlobFormat" type="tns:BlobFormatType" />
+          <s:element minOccurs="0" maxOccurs="1" name="eCompress" type="tns:CompressType" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="BlobFormatType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eBlobFormat_Unspecified" />
+          <s:enumeration value="eBlobFormat_ASNB" />
+          <s:enumeration value="eBlobFormat_ASNT" />
+          <s:enumeration value="eBlobFormat_XML" />
+          <s:enumeration value="eBlobFormat_SDF" />
+          <s:enumeration value="eBlobFormat_CSV" />
+          <s:enumeration value="eBlobFormat_Text" />
+          <s:enumeration value="eBlobFormat_HTML" />
+          <s:enumeration value="eBlobFormat_PNG" />
+          <s:enumeration value="eBlobFormat_Other" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetDownloadUrl">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DownloadKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDownloadUrlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="url" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetIDList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Start" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Count" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetIDListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IDList" type="tns:ArrayOfInt" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAssayDescription">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetVersion" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetCounts" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetFullDataBlob" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="eFormat" type="tns:FormatType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAssayDescriptionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AssayDescription" type="tns:AssayDescriptionType" />
+            <s:element minOccurs="0" maxOccurs="1" name="DataBlob" type="tns:DataBlobType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AssayDescriptionType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="Protocol" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="Comment" type="tns:ArrayOfString" />
+          <s:element minOccurs="1" maxOccurs="1" name="NumberOfTIDs" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="HasScore" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Method" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Targets" type="tns:ArrayOfTargets" />
+          <s:element minOccurs="0" maxOccurs="1" name="Version" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Revision" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastDataChange" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SIDCountAll" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SIDCountActive" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SIDCountInactive" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SIDCountInconclusive" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SIDCountUnspecified" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SIDCountProbe" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CIDCountAll" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CIDCountActive" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CIDCountInactive" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CIDCountInconclusive" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CIDCountUnspecified" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CIDCountProbe" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="unbounded" name="string" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTargets">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="unbounded" name="Target" type="tns:AssayTargetType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AssayTargetType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="gi" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAssayColumnDescription">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Heading" type="tns:HeadingType" />
+            <s:element minOccurs="0" maxOccurs="1" name="TID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="HeadingType">
+        <s:restriction base="s:string">
+          <s:enumeration value="TID" />
+          <s:enumeration value="outcome" />
+          <s:enumeration value="score" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetAssayColumnDescriptionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ColumnDescription" type="tns:ColumnDescriptionType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ColumnDescriptionType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Heading" type="tns:HeadingType" />
+          <s:element minOccurs="0" maxOccurs="1" name="TID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="tns:ArrayOfString" />
+          <s:element minOccurs="1" maxOccurs="1" name="Type" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TestedConcentration" type="tns:TestedConcentrationType" />
+          <s:element minOccurs="0" maxOccurs="1" name="ActiveConcentration" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TestedConcentrationType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Concentration" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Unit" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAssayColumnDescriptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAssayColumnDescriptionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="unbounded" name="ColumnDescription" type="tns:ColumnDescriptionType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InputAssay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Columns" type="tns:AssayColumnsType" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListKeyTIDs" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListKeySCIDs" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OutcomeFilter" type="tns:AssayOutcomeFilterType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="AssayColumnsType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eAssayColumns_Complete" />
+          <s:enumeration value="eAssayColumns_Concise" />
+          <s:enumeration value="eAssayColumns_TIDs" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AssayOutcomeFilterType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eAssayOutcome_All" />
+          <s:enumeration value="eAssayOutcome_Inactive" />
+          <s:enumeration value="eAssayOutcome_Active" />
+          <s:enumeration value="eAssayOutcome_Inconclusive" />
+          <s:enumeration value="eAssayOutcome_Unspecified" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="InputAssayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AssayKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AssayDownload">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AssayKey" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="AssayFormat" type="tns:AssayFormatType" />
+            <s:element minOccurs="0" maxOccurs="1" name="eCompress" type="tns:CompressType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="AssayFormatType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eAssayFormat_XML" />
+          <s:enumeration value="eAssayFormat_ASN_Text" />
+          <s:enumeration value="eAssayFormat_ASN_Binary" />
+          <s:enumeration value="eAssayFormat_CSV" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="AssayDownloadResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DownloadKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ScoreMatrix">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SecondaryListKey" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ScoreType" type="tns:ScoreTypeType" />
+            <s:element minOccurs="1" maxOccurs="1" name="MatrixFormat" type="tns:MatrixFormatType" />
+            <s:element minOccurs="0" maxOccurs="1" name="eCompress" type="tns:CompressType" />
+            <s:element minOccurs="0" maxOccurs="1" name="N3DConformers" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="No3DParent" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="ScoreTypeType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eScoreType_Sim2DSubs" />
+          <s:enumeration value="eScoreType_ShapeOpt3D" />
+          <s:enumeration value="eScoreType_FeatureOpt3D" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="MatrixFormatType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eMatrixFormat_CSV" />
+          <s:enumeration value="eMatrixFormat_IdIdScore" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="ScoreMatrixResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DownloadKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IDExchange">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InputListKey" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Operation" type="tns:IDOperationType" />
+            <s:element minOccurs="1" maxOccurs="1" name="OutputType" type="tns:PCIDType" />
+            <s:element minOccurs="0" maxOccurs="1" name="OutputSourceName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="OutputFormat" type="tns:IDOutputFormatType" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToWebEnv" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="eCompress" type="tns:CompressType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="IDOperationType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eIDOperation_Same" />
+          <s:enumeration value="eIDOperation_SameStereo" />
+          <s:enumeration value="eIDOperation_SameIsotope" />
+          <s:enumeration value="eIDOperation_SameConnectivity" />
+          <s:enumeration value="eIDOperation_SameParent" />
+          <s:enumeration value="eIDOperation_SameParentStereo" />
+          <s:enumeration value="eIDOperation_SameParentIsotope" />
+          <s:enumeration value="eIDOperation_SameParentConnectivity" />
+          <s:enumeration value="eIDOperation_Similar2D" />
+          <s:enumeration value="eIDOperation_Similar3D" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="IDOutputFormatType">
+        <s:restriction base="s:string">
+          <s:enumeration value="eIDOutputFormat_Entrez" />
+          <s:enumeration value="eIDOutputFormat_FileList" />
+          <s:enumeration value="eIDOutputFormat_FilePair" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="IDExchangeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DownloadKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="InputStructureSoapIn">
+    <wsdl:part name="parameters" element="tns:InputStructure" />
+  </wsdl:message>
+  <wsdl:message name="InputStructureSoapOut">
+    <wsdl:part name="parameters" element="tns:InputStructureResponse" />
+  </wsdl:message>
+  <wsdl:message name="InputStructureBase64SoapIn">
+    <wsdl:part name="parameters" element="tns:InputStructureBase64" />
+  </wsdl:message>
+  <wsdl:message name="InputStructureBase64SoapOut">
+    <wsdl:part name="parameters" element="tns:InputStructureBase64Response" />
+  </wsdl:message>
+  <wsdl:message name="InputListSoapIn">
+    <wsdl:part name="parameters" element="tns:InputList" />
+  </wsdl:message>
+  <wsdl:message name="InputListSoapOut">
+    <wsdl:part name="parameters" element="tns:InputListResponse" />
+  </wsdl:message>
+  <wsdl:message name="InputListStringSoapIn">
+    <wsdl:part name="parameters" element="tns:InputListString" />
+  </wsdl:message>
+  <wsdl:message name="InputListStringSoapOut">
+    <wsdl:part name="parameters" element="tns:InputListStringResponse" />
+  </wsdl:message>
+  <wsdl:message name="InputListTextSoapIn">
+    <wsdl:part name="parameters" element="tns:InputListText" />
+  </wsdl:message>
+  <wsdl:message name="InputListTextSoapOut">
+    <wsdl:part name="parameters" element="tns:InputListTextResponse" />
+  </wsdl:message>
+  <wsdl:message name="InputEntrezSoapIn">
+    <wsdl:part name="parameters" element="tns:InputEntrez" />
+  </wsdl:message>
+  <wsdl:message name="InputEntrezSoapOut">
+    <wsdl:part name="parameters" element="tns:InputEntrezResponse" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySearchSoapIn">
+    <wsdl:part name="parameters" element="tns:IdentitySearch" />
+  </wsdl:message>
+  <wsdl:message name="IdentitySearchSoapOut">
+    <wsdl:part name="parameters" element="tns:IdentitySearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="SubstructureSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:SubstructureSearch" />
+  </wsdl:message>
+  <wsdl:message name="SubstructureSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:SubstructureSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="SuperstructureSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:SuperstructureSearch" />
+  </wsdl:message>
+  <wsdl:message name="SuperstructureSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:SuperstructureSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="SimilaritySearch2DSoapIn">
+    <wsdl:part name="parameters" element="tns:SimilaritySearch2D" />
+  </wsdl:message>
+  <wsdl:message name="SimilaritySearch2DSoapOut">
+    <wsdl:part name="parameters" element="tns:SimilaritySearch2DResponse" />
+  </wsdl:message>
+  <wsdl:message name="MFSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:MFSearch" />
+  </wsdl:message>
+  <wsdl:message name="MFSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:MFSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="StandardizeSoapIn">
+    <wsdl:part name="parameters" element="tns:Standardize" />
+  </wsdl:message>
+  <wsdl:message name="StandardizeSoapOut">
+    <wsdl:part name="parameters" element="tns:StandardizeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStandardizedCIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStandardizedCID" />
+  </wsdl:message>
+  <wsdl:message name="GetStandardizedCIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStandardizedCIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStandardizedStructureSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStandardizedStructure" />
+  </wsdl:message>
+  <wsdl:message name="GetStandardizedStructureSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStandardizedStructureResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStandardizedStructureBase64SoapIn">
+    <wsdl:part name="parameters" element="tns:GetStandardizedStructureBase64" />
+  </wsdl:message>
+  <wsdl:message name="GetStandardizedStructureBase64SoapOut">
+    <wsdl:part name="parameters" element="tns:GetStandardizedStructureBase64Response" />
+  </wsdl:message>
+  <wsdl:message name="GetOperationStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetOperationStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOperationStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatusMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatusMessage" />
+  </wsdl:message>
+  <wsdl:message name="GetStatusMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatusMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetListItemsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetListItemsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetListItemsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetListItemsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEntrezKeySoapIn">
+    <wsdl:part name="parameters" element="tns:GetEntrezKey" />
+  </wsdl:message>
+  <wsdl:message name="GetEntrezKeySoapOut">
+    <wsdl:part name="parameters" element="tns:GetEntrezKeyResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEntrezUrlSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEntrezUrl" />
+  </wsdl:message>
+  <wsdl:message name="GetEntrezUrlSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEntrezUrlResponse" />
+  </wsdl:message>
+  <wsdl:message name="DownloadSoapIn">
+    <wsdl:part name="parameters" element="tns:Download" />
+  </wsdl:message>
+  <wsdl:message name="DownloadSoapOut">
+    <wsdl:part name="parameters" element="tns:DownloadResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDownloadUrlSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDownloadUrl" />
+  </wsdl:message>
+  <wsdl:message name="GetDownloadUrlSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDownloadUrlResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetIDListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetIDList" />
+  </wsdl:message>
+  <wsdl:message name="GetIDListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetIDListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAssayDescriptionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAssayDescription" />
+  </wsdl:message>
+  <wsdl:message name="GetAssayDescriptionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAssayDescriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAssayColumnDescriptionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAssayColumnDescription" />
+  </wsdl:message>
+  <wsdl:message name="GetAssayColumnDescriptionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAssayColumnDescriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAssayColumnDescriptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAssayColumnDescriptions" />
+  </wsdl:message>
+  <wsdl:message name="GetAssayColumnDescriptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAssayColumnDescriptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="InputAssaySoapIn">
+    <wsdl:part name="parameters" element="tns:InputAssay" />
+  </wsdl:message>
+  <wsdl:message name="InputAssaySoapOut">
+    <wsdl:part name="parameters" element="tns:InputAssayResponse" />
+  </wsdl:message>
+  <wsdl:message name="AssayDownloadSoapIn">
+    <wsdl:part name="parameters" element="tns:AssayDownload" />
+  </wsdl:message>
+  <wsdl:message name="AssayDownloadSoapOut">
+    <wsdl:part name="parameters" element="tns:AssayDownloadResponse" />
+  </wsdl:message>
+  <wsdl:message name="ScoreMatrixSoapIn">
+    <wsdl:part name="parameters" element="tns:ScoreMatrix" />
+  </wsdl:message>
+  <wsdl:message name="ScoreMatrixSoapOut">
+    <wsdl:part name="parameters" element="tns:ScoreMatrixResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDExchangeSoapIn">
+    <wsdl:part name="parameters" element="tns:IDExchange" />
+  </wsdl:message>
+  <wsdl:message name="IDExchangeSoapOut">
+    <wsdl:part name="parameters" element="tns:IDExchangeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="PUGSoap">
+    <wsdl:operation name="AssayDownload">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Given an assay key, prepare for download a file containing an assay data table in the selected format. See the assay query section of the PUG service documentation (http://pubchem.ncbi.nlm.nih.gov/pug/pughelp.html) for more detail on the supported formats. Compression is optional and defaults to gzip (.gz). Returns a download key. Asynchronous.</wsdl:documentation>
+      <wsdl:input message="tns:AssayDownloadSoapIn" />
+      <wsdl:output message="tns:AssayDownloadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Download">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Given a list key, prepare for download a file containing those records in the selected format. See the web download service documentation (http://pubchem.ncbi.nlm.nih.gov/pc_fetch/pc_fetch-help.html) for more detail on the supported formats and file types. Returns a download key. Asynchronous. Note that if SynchronousSingleRecord is set to true, and the ListKey contains only a single ID, then a Base64 string of data is returned synchronously in the response, instead of going through the download file.</wsdl:documentation>
+      <wsdl:input message="tns:DownloadSoapIn" />
+      <wsdl:output message="tns:DownloadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAssayColumnDescription">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the description of column (readout) in a BioAssay, which may be the outcome, score, or a TID from the given AID. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetAssayColumnDescriptionSoapIn" />
+      <wsdl:output message="tns:GetAssayColumnDescriptionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAssayColumnDescriptions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the description of all columns (readouts) in a BioAssay. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetAssayColumnDescriptionsSoapIn" />
+      <wsdl:output message="tns:GetAssayColumnDescriptionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAssayDescription">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the descriptive information for a BioAssay, including the number of user-specified readouts (TIDs) and whether a score readout is present. Optionally get version and SID/CID count information. If GetFullDataBlob is set to true, then a Base64 string of data is returned in the response instead, containing the full PubChem Assay description in the requested format (ASN or XML only). Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetAssayDescriptionSoapIn" />
+      <wsdl:output message="tns:GetAssayDescriptionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDownloadUrl">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Given a download key, return an FTP URL that may be used to download the requested file. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetDownloadUrlSoapIn" />
+      <wsdl:output message="tns:GetDownloadUrlSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEntrezKey">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Given a list key, return an Entrez history key (db, query key, and WebEnv) corresponding to that list. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetEntrezKeySoapIn" />
+      <wsdl:output message="tns:GetEntrezKeySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEntrezUrl">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Given an Entrez history key (db, query key, and WebEnv), return an HTTP URL that may be used to view the list in Entrez. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetEntrezUrlSoapIn" />
+      <wsdl:output message="tns:GetEntrezUrlSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetIDList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Given a list key, return the identifiers as an array of integers. Note that this method expects there to be at least one identifier in the list, and will fault if the list is empty; see GetListItemsCount, which can be used to check for an empty list prior to calling GetIDList. The optional Start (zero-based) and Count parameters can be used to return smaller portions of the list, useful especially for large lists. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetIDListSoapIn" />
+      <wsdl:output message="tns:GetIDListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListItemsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return the number of IDs in the set represented by the given list key. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetListItemsCountSoapIn" />
+      <wsdl:output message="tns:GetListItemsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOperationStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Given a key for any asynchronous operation, return the status of that operation. Possible return values are: Success, the operation completed normally; HitLimit, TimeLimit: the operation finished normally, but one of the limits was reached (e.g. before the entire database was searched); ServerError, InputError, DataError, Stopped: there was a problem with the input or on the server, and the job has died; Queued: the operation is waiting its turn in the public queue; Running: the operation is in progress. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetOperationStatusSoapIn" />
+      <wsdl:output message="tns:GetOperationStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStandardizedCID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Given a structure key that has been processed by Standardize, return the corresponding PubChem Compound database CID, or an empty value if the structure is not present in PubChem. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetStandardizedCIDSoapIn" />
+      <wsdl:output message="tns:GetStandardizedCIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStandardizedStructure">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Given a structure key that has been processed by Standardize, return the chemical structure in as SMILES or InChI strings. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetStandardizedStructureSoapIn" />
+      <wsdl:output message="tns:GetStandardizedStructureSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStandardizedStructureBase64">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Given a structure key that has been processed by Standardize, return the chemical structure as ASN, XML, or SDF, returned as a Base64-encoded string. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetStandardizedStructureBase64SoapIn" />
+      <wsdl:output message="tns:GetStandardizedStructureBase64SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatusMessage">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Given a key for any asynchronous operation, return any system messages (error messages, job info, etc.) associated with the operation, if any. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:GetStatusMessageSoapIn" />
+      <wsdl:output message="tns:GetStatusMessageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySearch">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search PubChem Compound for structures identical to the one given by the structure key input, based on a user-selected level of chemical identity: connectivity only, match isotopes and/or stereo, etc. The search may be limited by elapsed time or number of records found, or restricted to search only within a previous result set (given by a list key). Returns a list key. Asynchronous.</wsdl:documentation>
+      <wsdl:input message="tns:IdentitySearchSoapIn" />
+      <wsdl:output message="tns:IdentitySearchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IDExchange">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Convert IDs from one type to another, using any one of a variety of CID matching algorithms. Output can be a list or a downloaded file; download file compression is optional and defaults to gzip (.gz). Returns a list or download key. Asynchronous.</wsdl:documentation>
+      <wsdl:input message="tns:IDExchangeSoapIn" />
+      <wsdl:output message="tns:IDExchangeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InputAssay">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Specify an assay table from a BioAssay AID. The table may be complete, concise, or include a ListKey-specified set of readouts (TIDs). By default, all tested substances are included, but can be restricted to a ListKey-specified set of SIDs or CIDs. Returns an assay key. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:InputAssaySoapIn" />
+      <wsdl:output message="tns:InputAssaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InputEntrez">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Input an Entrez history key (db, query key, and WebEnv). Returns a list key. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:InputEntrezSoapIn" />
+      <wsdl:output message="tns:InputEntrezSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InputList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Input a set of identifiers for a PubChem database, as an array of integers. Returns a list key. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:InputListSoapIn" />
+      <wsdl:output message="tns:InputListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InputListString">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Input a set of identifiers for a PubChem database, as an array of strings. Returns a list key. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:InputListStringSoapIn" />
+      <wsdl:output message="tns:InputListStringSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InputListText">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Input a set of identifiers for a PubChem database, as a simple string of integer values separated by commas and/or whitespace. Returns a list key. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:InputListTextSoapIn" />
+      <wsdl:output message="tns:InputListTextSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InputStructure">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Input a chemical structure as a simple (one-line) string, either SMILES or InChI. Returns a structure key. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:InputStructureSoapIn" />
+      <wsdl:output message="tns:InputStructureSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InputStructureBase64">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Input a chemical structure in ASN.1 (text or binary), XML, or SDF format. The structure must be encoded as a Base64 string. Currently only single structures are supported. Returns a structure key. Synchronous.</wsdl:documentation>
+      <wsdl:input message="tns:InputStructureBase64SoapIn" />
+      <wsdl:output message="tns:InputStructureBase64SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MFSearch">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search PubChem Compound for structures of a given molecular formula, optionally allowing elements not specified to be present. The search may be limited by elapsed time or number of records found, or restricted to search only within a previous result set (given by a list key). Returns a list key. Asynchronous.</wsdl:documentation>
+      <wsdl:input message="tns:MFSearchSoapIn" />
+      <wsdl:output message="tns:MFSearchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ScoreMatrix">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Compute a matrix of scores from one or two lists of IDs (if one, the IDs will be self-scored), of the selected type and in the selected format. Compression is optional and defaults to gzip (.gz). Returns a download key. Asynchronous.</wsdl:documentation>
+      <wsdl:input message="tns:ScoreMatrixSoapIn" />
+      <wsdl:output message="tns:ScoreMatrixSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SimilaritySearch2D">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search PubChem Compound for structures similar to the one given by the structure key input, based on the given Tanimoto-based similarity score. The search may be limited by elapsed time or number of records found, or restricted to search only within a previous result set (given by a list key). Returns a list key. Asynchronous.</wsdl:documentation>
+      <wsdl:input message="tns:SimilaritySearch2DSoapIn" />
+      <wsdl:output message="tns:SimilaritySearch2DSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Standardize">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Standardize the structure given by the structure key input, using the same algorithm PubChem uses to construct the Compound database. Returns a structure key. Asynchronous.</wsdl:documentation>
+      <wsdl:input message="tns:StandardizeSoapIn" />
+      <wsdl:output message="tns:StandardizeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SubstructureSearch">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search PubChem Compound for structures containing the one given by the structure key input, based on a user-selected level of chemical identity: connectivity only, match isotopes and/or stereo, etc. The search may be limited by elapsed time or number of records found, or restricted to search only within a previous result set (given by a list key). Returns a list key. Asynchronous.</wsdl:documentation>
+      <wsdl:input message="tns:SubstructureSearchSoapIn" />
+      <wsdl:output message="tns:SubstructureSearchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SuperstructureSearch">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search PubChem Compound for structures contained within the one given by the structure key input, based on a user-selected level of chemical identity: connectivity only, match isotopes and/or stereo, etc. The search may be limited by elapsed time or number of records found, or restricted to search only within a previous result set (given by a list key). Returns a list key. Asynchronous.</wsdl:documentation>
+      <wsdl:input message="tns:SuperstructureSearchSoapIn" />
+      <wsdl:output message="tns:SuperstructureSearchSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PUGSoap" type="tns:PUGSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AssayDownload">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/AssayDownload" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Download">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/Download" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAssayColumnDescription">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetAssayColumnDescription" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAssayColumnDescriptions">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetAssayColumnDescriptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAssayDescription">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetAssayDescription" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDownloadUrl">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetDownloadUrl" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEntrezKey">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetEntrezKey" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEntrezUrl">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetEntrezUrl" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIDList">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetIDList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListItemsCount">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetListItemsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOperationStatus">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetOperationStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStandardizedCID">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetStandardizedCID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStandardizedStructure">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetStandardizedStructure" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStandardizedStructureBase64">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetStandardizedStructureBase64" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatusMessage">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/GetStatusMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IdentitySearch">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/IdentitySearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IDExchange">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/IDExchange" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InputAssay">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/InputAssay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InputEntrez">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/InputEntrez" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InputList">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/InputList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InputListString">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/InputListString" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InputListText">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/InputListText" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InputStructure">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/InputStructure" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InputStructureBase64">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/InputStructureBase64" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MFSearch">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/MFSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ScoreMatrix">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/ScoreMatrix" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SimilaritySearch2D">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/SimilaritySearch2D" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Standardize">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/Standardize" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubstructureSearch">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/SubstructureSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuperstructureSearch">
+      <soap:operation soapAction="http://pubchem.ncbi.nlm.nih.gov/SuperstructureSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PUG">
+    <wsdl:port name="PUGSoap" binding="tns:PUGSoap">
+      <soap:address location="http://pubchem.ncbi.nlm.nih.gov/pug_soap/pug_soap.cgi" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

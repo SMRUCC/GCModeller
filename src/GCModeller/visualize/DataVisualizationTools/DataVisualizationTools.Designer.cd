@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="SMRUCC.genomics.Visualize.MapModelCommon" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="SMRUCC.genomics.Visualize.GeneticClock.ColorRender" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAABAAAAACEQAQAAAYAAAAAkAIIAAAAAAAAAgQ=</HashCode>
+      <FileName>GeneticClockDiagram\ColorRender.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Visualize.GeneticClock.DrawingDevice" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneticClockDiagram\DrawingDevice.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Visualize.GeneticClock.DopplerEffect" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneticClockDiagram\DopplerEffect.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Visualize.My.MySettings" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Visualize.NCBIBlastResult.OrthologyProfile" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAQAAAAAAAAAAASAA=</HashCode>
+      <FileName>NCBIBlastResult\OrthologyProfiles.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Module Name="SMRUCC.genomics.Visualize.RegulationSerials" Collapsed="true">
+    <Position X="2.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAEAACAAAQAAAAAABAAAAEAAAIAAAQAQAA=</HashCode>
+      <FileName>GeneticClockDiagram\RegulationSerials.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Visualize.GeneticClock.ShellScriptAPI" Collapsed="true">
+    <Position X="5.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAEAAAAEAAAAAAAAAAAAAQAAAiEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneticClockDiagram\ShellScriptAPI.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Visualize.NCBIBlastResult.BlastVisualize" Collapsed="true">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACIQQCAkCAACAAAAAgAAAAAAAAGAUAAAIAEAYAQ=</HashCode>
+      <FileName>NCBIBlastResult\BlastVisualize.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Visualize.NCBIBlastResult.VennBesthit" Collapsed="true">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEACAAAAAAAIAA=</HashCode>
+      <FileName>NCBIBlastResult\VennBesthit.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Visualize.GCPlot" Collapsed="true">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAgAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GC.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Visualize.TextureResourceLoader" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>TextureResourceLoader.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Visualize.My.Resources.Resources" Collapsed="true">
+    <Position X="4" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Visualize.My.MySettingsProperty" Collapsed="true">
+    <Position X="5.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Visualize.NCBIBlastResult.ColorSchema" Collapsed="true">
+    <Position X="2.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAACAAAEACAECAAA=</HashCode>
+      <FileName>NCBIBlastResult\ColorSchema.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Visualize.NCBIBlastResult.OrthologyProfiles" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAEAAAAAAA=</HashCode>
+      <FileName>NCBIBlastResult\OrthologyProfiles.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Ubuntu" Size="9" />
+</ClassDiagram>

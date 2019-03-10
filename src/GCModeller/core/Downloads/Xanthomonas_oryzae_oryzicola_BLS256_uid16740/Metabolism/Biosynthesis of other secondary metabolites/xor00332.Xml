@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00332" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Carbapenems are broad-spectrum beta-lactam antibiotics, which are often considered as the antibiotics of last resort. A naturally occurring carbapenem, thienamycin, was first discovered in Streptomyces cattleya. This diagram shows how a simple carbapenem, carbapenem-3-carboxylate, is synthesized from malonyl-CoA and pyrroline-5-carboxylate [MD:M00675]. For structurally complex carbapenems, such as thienamycin, olivanic acid, epi-thienamycin and carbapenems of the OA-6129 group, uncertainty remains about the mechanism and timing for the inversion of the C-5 carbapenam bridgehead, the desaturation of the C-2/C-3 bond and the attachment of the C-2 and C-6 side chains.&lt;br&gt;</Description>
+  <Name>Carbapenem biosynthesis - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00010" Value="CoA" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00083" Value="Malonyl-CoA" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00148" Value="L-Proline" />
+    <hashEntry Key="C00831" Value="Pantetheine" />
+    <hashEntry Key="C01134" Value="Pantetheine 4'-phosphate" />
+    <hashEntry Key="C01165" Value="L-Glutamate 5-semialdehyde" />
+    <hashEntry Key="C03287" Value="L-Glutamyl 5-phosphate" />
+    <hashEntry Key="C03912" Value="(S)-1-Pyrroline-5-carboxylate" />
+    <hashEntry Key="C06664" Value="Thienamycin" />
+    <hashEntry Key="C06669" Value="(5R)-Carbapen-2-em-3-carboxylate" />
+    <hashEntry Key="C11755" Value="Epithienamycin E" />
+    <hashEntry Key="C17366" Value="(2S,5S)-trans-Carboxymethylproline" />
+    <hashEntry Key="C17367" Value="(3S,5S)-Carbapenam-3-carboxylic acid" />
+    <hashEntry Key="C17368" Value="8-Dehydroxythienamycin" />
+    <hashEntry Key="C17369" Value="Northienamycin" />
+    <hashEntry Key="C17373" Value="OA-6129 B1" />
+    <hashEntry Key="C17374" Value="OA-6129 B2" />
+    <hashEntry Key="C17377" Value="N-Acetylthienamycin" />
+    <hashEntry Key="C17399" Value="Epithienamycin F" />
+    <hashEntry Key="C20813" Value="OA-6129 A" />
+    <hashEntry Key="C20814" Value="OA-6129 C" />
+    <hashEntry Key="C20815" Value="MM 4550" />
+    <hashEntry Key="C20816" Value="Deacetylepithienamycin F" />
+    <hashEntry Key="C20817" Value="" />
+    <hashEntry Key="C20817&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20818&quot;&gt;C20818&lt;/a&gt;" />
+    <hashEntry Key="C20818&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20819&quot;&gt;C20819&lt;/a&gt;" />
+    <hashEntry Key="C20819&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20820&quot;&gt;C20820&lt;/a&gt; 2,3-Dihydrothienamycin" />
+    <hashEntry Key="C20821" Value="" />
+    <hashEntry Key="C20821&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20822&quot;&gt;C20822&lt;/a&gt;" />
+    <hashEntry Key="C20822&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20823&quot;&gt;C20823&lt;/a&gt; C20823" />
+  </Compound>
+  <PathwayMap Key="xor00332" Value="Carbapenem biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_2740" Value="proA; gamma-glutamyl phosphate reductase; K00147 glutamate-5-semialdehyde dehydrogenase [EC:1.2.1.41" />
+    <hashEntry Key="xor:XOC_2741" Value="proB; glutamate 5-kinase; K00931 glutamate 5-kinase [EC:2.7.2.11]" />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00460" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Cyanoamino acid metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00014" Value="Ammonia" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00065" Value="L-Serine" />
+    <hashEntry Key="C00079" Value="L-Phenylalanine" />
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00152" Value="L-Asparagine" />
+    <hashEntry Key="C00183" Value="L-Valine" />
+    <hashEntry Key="C00302" Value="Glutamate" />
+    <hashEntry Key="C00407" Value="L-Isoleucine" />
+    <hashEntry Key="C00488" Value="Formamide" />
+    <hashEntry Key="C00561" Value="Mandelonitrile" />
+    <hashEntry Key="C00844" Value="Prunasin" />
+    <hashEntry Key="C01326" Value="Hydrogen cyanide" />
+    <hashEntry Key="C01401" Value="Alanine" />
+    <hashEntry Key="C01594" Value="Linamarin" />
+    <hashEntry Key="C02512" Value="3-Cyano-L-alanine" />
+    <hashEntry Key="C02659" Value="Acetone cyanohydrin" />
+    <hashEntry Key="C03004" Value="N-Hydroxy-L-tyrosine" />
+    <hashEntry Key="C03219" Value="(E)-2-Methylpropanal oxime" />
+    <hashEntry Key="C03742" Value="(S)-4-Hydroxymandelonitrile" />
+    <hashEntry Key="C04353" Value="(Z)-4-Hydroxyphenylacetaldehyde oxime" />
+    <hashEntry Key="C05143" Value="Dhurrin" />
+    <hashEntry Key="C05670" Value="3-Aminopropiononitrile" />
+    <hashEntry Key="C05711" Value="gamma-Glutamyl-beta-cyanoalanine" />
+    <hashEntry Key="C05714" Value="alpha-Aminopropiononitrile" />
+    <hashEntry Key="C05715" Value="gamma-Amino-gamma-cyanobutanoate" />
+    <hashEntry Key="C06114" Value="gamma-Glutamyl-beta-aminopropiononitrile" />
+    <hashEntry Key="C08325" Value="Amygdalin" />
+    <hashEntry Key="C08334" Value="Lotaustralin" />
+    <hashEntry Key="C15503" Value="N,N-Dihydroxy-L-tyrosine" />
+    <hashEntry Key="C16074" Value="Phenylacetonitrile" />
+    <hashEntry Key="C16075" Value="(Z)-Phenylacetaldehyde oxime" />
+    <hashEntry Key="C18796" Value="(2R)-2-Hydroxy-2-methylbutanenitrile" />
+    <hashEntry Key="C19491" Value="(E)-2-Methylbutanal oxime" />
+    <hashEntry Key="C19712" Value="N-Hydroxy-L-phenylalanine" />
+    <hashEntry Key="C19714" Value="(E)-Phenylacetaldoxime" />
+    <hashEntry Key="C19715" Value="N,N-Dihydroxy-L-phenylalanine" />
+    <hashEntry Key="C20310" Value="N-Hydroxy-L-isoleucine" />
+    <hashEntry Key="C20311" Value="N,N-Dihydroxy-L-isoleucine" />
+    <hashEntry Key="C20312" Value="(Z)-2-Methylbutanal oxime" />
+    <hashEntry Key="C20313" Value="N-Hydroxy-L-valine" />
+    <hashEntry Key="C20314" Value="N,N-Dihydroxy-L-valine" />
+    <hashEntry Key="C20315" Value="(Z)-2-Methylpropanal oxime" />
+  </Compound>
+  <PathwayMap Key="eco00460" Value="Cyanoamino acid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b1767" Value="ansA; cytoplasmic L-asparaginase 1 (EC:3.5.1.1); K01424 L-asparaginase [EC:3.5.1.1]" />
+    <hashEntry Key="eco:b2132" Value="bglX; beta-D-glucoside glucohydrolase, periplasmic (EC:3.2.1.21); K05349 beta-glucosidase [EC:3.2.1." />
+    <hashEntry Key="eco:b2551" Value="glyA; serine hydroxymethyltransferase (EC:2.1.2.1); K00600 glycine hydroxymethyltransferase [EC:2.1." />
+    <hashEntry Key="eco:b2957" Value="ansB; periplasmic L-asparaginase 2 (EC:3.5.1.1); K01424 L-asparaginase [EC:3.5.1.1]" />
+    <hashEntry Key="eco:b3447" Value="ggt; gamma-glutamyltranspeptidase (EC:2.3.2.2); K00681 gamma-glutamyltranspeptidase / glutathione hy" />
+    <hashEntry Key="eco:b3744" Value="asnA; asparagine synthetase A (EC:6.3.1.1); K01914 aspartate--ammonia ligase [EC:6.3.1.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

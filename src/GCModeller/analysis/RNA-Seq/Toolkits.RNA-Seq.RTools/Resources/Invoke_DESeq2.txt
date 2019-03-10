@@ -1,0 +1,26 @@
+library('DESeq2')
+
+dir.source                  <- "<DIR.Source>",
+
+sampleFiles                 <- c(<*.SAM_FILE_LIST>);
+sampleCondition             <- c(<Conditions_Corresponding_TO_SampleFiles>);
+sampleTable                 <- data.frame(sampleName=sampleFiles, fileName=sampleFiles, condition=sampleCondition)
+ddsHTSeq                    <- DESeqDataSetFromHTSeqCount(sampleTable=sampleTable, directory=dir.source, design=~condition)
+colData(ddsHTSeq)$condition <- factor(colData(ddsHTSeq)$condition, levels=c(<Condition_Levels>))
+
+dds                         <- DESeq(ddsHTSeq)
+res                         <- results(dds)
+res                         <- res[order(res$padj),]
+
+head(res)
+
+plotMA(dds,ylim=c(-2,2),main="DESeq2")
+dev.copy(png,"<MAplot.png>")
+dev.off()
+
+mcols(res,use.names=TRUE)
+write.csv(as.data.frame(res),file="<SAVED_RESULT_CSV>")
+
+# rld <-rlogTransformation(dds, blind=TRUE)
+# vsd <-varianceStabilizingTransformation(dds, blind=TRUE)
+

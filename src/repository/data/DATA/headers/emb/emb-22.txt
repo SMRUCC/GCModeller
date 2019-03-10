@@ -1,0 +1,6 @@
+Y13988.1	Mus musculus mRNA for immunoglobulin VH domain of anti-viral haemorrhagic septicaemia virus, clone 3F1A2
+Y13989.1	Mus musculus mRNA for immunoglobulin VH domain of anti-viral haemorrhagic septicaemia virus, clone 3F1H10
+Y13990.1	Mus musculus mRNA for immunoglobulin VH domain of anti-viral haemorrhagic septicaemia virus, clone 1P1H3
+Y13991.1	Mus musculus mRNA for immunoglobulin VK domain of anti-viral haemorrhagic septicaemia virus, clone 3F1H10
+Y13992.1	Mus musculus mRNA for immunoglobulin VK domain of anti-viral haemorrhagic septicaemia virus, clone 3F1A2
+Y13993.1	Mus musculus mRNA for immunoglobulin VK domain of anti-viral haemorrhagic septicaemia virus, clone IP1H3

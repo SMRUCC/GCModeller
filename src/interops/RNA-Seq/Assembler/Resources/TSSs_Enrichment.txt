@@ -1,0 +1,7 @@
+Imports Assembler
+Imports Assembler.TSSs
+
+  Dim reads       <- {reads.csv} As String                      # The reads mapping csv data file.
+      reads       <- $reads -> load.reads.blastnmapping /Trim   # Only perfect alignment and unique alignment data will be used to downstream analysis
+      transcripts <- TSSs.Shared.Enrichment mappings $reads
+call $transcripts -> Write.Csv.Transcripts SaveTo {saved.csv}

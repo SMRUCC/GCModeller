@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00270" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Cysteine and methionine are sulfur-containing amino acids. Cysteine is synthesized from serine through different pathways in different organism groups. In bacteria and plants, cysteine is converted from serine (via acetylserine) by transfer of hydrogen sulfide [MD:M00021]. In animals, methionine-derived homocysteine is used as sulfur source and its condensation product with serine (cystathionine) is converted to cysteine [MD:M00338]. Cysteine is metabolized to pyruvate in multiple routes. Methionine is an essential amino acid, which animals cannot synthesize. In bacteria and plants, methionine is synthesized from aspartate [MD:M00017]. S-Adenosylmethionine (SAM), synthesized from methionine and ATP, is a methyl group donor in many important transfer reactions including DNA methylation for regulation of gene expression. SAM may also be used to regenerate methionine in the methionine salvage pathway [MD:M00034].&lt;br&gt;</Description>
+  <Name>Cysteine and methionine metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00017" Value="Methionine biosynthesis, apartate =&gt; homoserine =&gt; methionine [PATH:eco00270]" />
+    <hashEntry Key="eco_M00021" Value="Cysteine biosynthesis, serine =&gt; cysteine [PATH:eco00270]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00019" Value="S-Adenosyl-L-methionine" />
+    <hashEntry Key="C00021" Value="S-Adenosyl-L-homocysteine" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00041" Value="L-Alanine" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00051" Value="Glutathione" />
+    <hashEntry Key="C00059" Value="Sulfate" />
+    <hashEntry Key="C00065" Value="L-Serine" />
+    <hashEntry Key="C00073" Value="L-Methionine" />
+    <hashEntry Key="C00094" Value="Sulfite" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00109" Value="2-Oxobutanoate" />
+    <hashEntry Key="C00155" Value="L-Homocysteine" />
+    <hashEntry Key="C00170" Value="5'-Methylthioadenosine" />
+    <hashEntry Key="C00263" Value="L-Homoserine" />
+    <hashEntry Key="C00283" Value="Hydrogen sulfide" />
+    <hashEntry Key="C00320" Value="Thiosulfate" />
+    <hashEntry Key="C00409" Value="Methanethiol" />
+    <hashEntry Key="C00441" Value="L-Aspartate 4-semialdehyde" />
+    <hashEntry Key="C00491" Value="L-Cystine" />
+    <hashEntry Key="C00506" Value="L-Cysteate" />
+    <hashEntry Key="C00606" Value="3-Sulfino-L-alanine" />
+    <hashEntry Key="C00793" Value="D-Cysteine" />
+    <hashEntry Key="C00957" Value="Mercaptopyruvate" />
+    <hashEntry Key="C00979" Value="O-Acetyl-L-serine" />
+    <hashEntry Key="C01005" Value="O-Phospho-L-serine" />
+    <hashEntry Key="C01077" Value="O-Acetyl-L-homoserine" />
+    <hashEntry Key="C01118" Value="O-Succinyl-L-homoserine" />
+    <hashEntry Key="C01137" Value="S-Adenosylmethioninamine" />
+    <hashEntry Key="C01180" Value="4-Methylthio-2-oxobutanoic acid" />
+    <hashEntry Key="C01234" Value="1-Aminocyclopropane-1-carboxylate" />
+    <hashEntry Key="C01817" Value="L-Homocystine" />
+    <hashEntry Key="C01962" Value="Thiocysteine" />
+    <hashEntry Key="C02218" Value="Dehydroalanine" />
+    <hashEntry Key="C02291" Value="L-Cystathionine" />
+    <hashEntry Key="C02356" Value="(S)-2-Aminobutanoate" />
+    <hashEntry Key="C02989" Value="L-Methionine S-oxide" />
+    <hashEntry Key="C03082" Value="4-Phospho-L-aspartate" />
+    <hashEntry Key="C03089" Value="5-Methylthio-D-ribose" />
+    <hashEntry Key="C03145" Value="N-Formylmethionine" />
+    <hashEntry Key="C03539" Value="S-Ribosyl-L-homocysteine" />
+    <hashEntry Key="C04188" Value="S-Methyl-5-thio-D-ribose 1-phosphate" />
+    <hashEntry Key="C04582" Value="S-Methyl-5-thio-D-ribulose 1-phosphate" />
+    <hashEntry Key="C05524" Value="Aminoacyl-L-methionine" />
+    <hashEntry Key="C05526" Value="S-Glutathionyl-L-cysteine" />
+    <hashEntry Key="C05527" Value="3-Sulfinylpyruvate" />
+    <hashEntry Key="C05528" Value="3-Sulfopyruvate" />
+    <hashEntry Key="C05823" Value="3-Mercaptolactate" />
+    <hashEntry Key="C05824" Value="S-Sulfo-L-cysteine" />
+    <hashEntry Key="C06547" Value="Ethylene" />
+    <hashEntry Key="C08276" Value="3-(Methylthio)propanoate" />
+    <hashEntry Key="C09306" Value="Sulfur dioxide" />
+    <hashEntry Key="C11481" Value="HSO3-" />
+    <hashEntry Key="C11499" Value="(S)-3-Sulfolactate" />
+    <hashEntry Key="C11537" Value="(2R)-3-Sulfolactate" />
+    <hashEntry Key="C15606" Value="1,2-Dihydroxy-5-(methylthio)pent-1-en-3-one" />
+    <hashEntry Key="C15650" Value="2,3-Diketo-5-methylthiopentyl-1-phosphate" />
+    <hashEntry Key="C15651" Value="2-Hydroxy-3-keto-5-methylthiopentenyl-1-phosphate" />
+    <hashEntry Key="C18049" Value="N-Acyl-L-homoserine lactone" />
+    <hashEntry Key="C19787" Value="5'-S-Methyl-5'-thioinosine" />
+    <hashEntry Key="C21015" Value="gamma-L-Glutamyl-L-2-aminobutyrate" />
+    <hashEntry Key="C21016" Value="Ophthalmate" />
+  </Compound>
+  <PathwayMap Key="eco00270" Value="Cysteine and methionine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0002" Value="thrA; Bifunctional aspartokinase/homoserine dehydrogenase 1 (EC:1.1.1.3 2.7.2.4); K12524 bifunctiona" />
+    <hashEntry Key="eco:b0120" Value="speD; S-adenosylmethionine decarboxylase (EC:4.1.1.50); K01611 S-adenosylmethionine decarboxylase [E" />
+    <hashEntry Key="eco:b0121" Value="speE; spermidine synthase (putrescine aminopropyltransferase) (EC:2.5.1.16); K00797 spermidine synth" />
+    <hashEntry Key="eco:b0159" Value="mtn; 5&amp;#39;-methylthioadenosine/S-adenosylhomocysteine nucleosidase (EC:3.2.2.16 3.2.2.9); K01243 adenos" />
+    <hashEntry Key="eco:b0261" Value="mmuM; CP4-6 prophage; S-methylmethionine:homocysteine methyltransferase (EC:2.1.1.10); K00547 homocy" />
+    <hashEntry Key="eco:b0928" Value="aspC; aspartate aminotransferase, PLP-dependent (EC:2.6.1.1); K00813 aspartate aminotransferase [EC:" />
+    <hashEntry Key="eco:b1622" Value="malY; bifunctional beta-cystathionase, PLP-dependent/regulator of maltose regulon (EC:4.4.1.8); K141" />
+    <hashEntry Key="eco:b1757" Value="ynjE; molybdopterin synthase sulfurtransferase; K01011 thiosulfate/3-mercaptopyruvate sulfurtransfer" />
+    <hashEntry Key="eco:b1814" Value="sdaA; L-serine dehydratase 1 (EC:4.3.1.17); K01752 L-serine dehydratase [EC:4.3.1.17]" />
+    <hashEntry Key="eco:b1919" Value="dcyD; D-cysteine desulfhydrase, PLP-dependent (EC:4.4.1.15); K05396 D-cysteine desulfhydrase [EC:4.4" />
+    <hashEntry Key="eco:b1961" Value="dcm; DNA cytosine methyltransferase (EC:2.1.1.37); K00558 DNA (cytosine-5)-methyltransferase 1 [EC:2" />
+    <hashEntry Key="eco:b2414" Value="cysK; cysteine synthase A, O-acetylserine sulfhydrolase A subunit (EC:2.5.1.47); K01738 cysteine syn" />
+    <hashEntry Key="eco:b2421" Value="cysM; cysteine synthase B (O-acetylserine sulfhydrolase B) (EC:2.5.1.47); K12339 cysteine synthase B" />
+    <hashEntry Key="eco:b2521" Value="sseA; 3-mercaptopyruvate sulfurtransferase (EC:2.8.1.2); K01011 thiosulfate/3-mercaptopyruvate sulfu" />
+    <hashEntry Key="eco:b2687" Value="luxS; S-ribosylhomocysteine lyase; K07173 S-ribosylhomocysteine lyase [EC:4.4.1.21]" />
+    <hashEntry Key="eco:b2688" Value="gshA; glutamate-cysteine ligase (EC:6.3.2.2); K01919 glutamate--cysteine ligase [EC:6.3.2.2]" />
+    <hashEntry Key="eco:b2797" Value="sdaB; L-serine dehydratase 2 (EC:4.3.1.17); K01752 L-serine dehydratase [EC:4.3.1.17]" />
+    <hashEntry Key="eco:b2942" Value="metK; S-adenosylmethionine synthetase (EC:2.5.1.6); K00789 S-adenosylmethionine synthetase [EC:2.5.1" />
+    <hashEntry Key="eco:b2947" Value="gshB; glutathione synthetase (EC:6.3.2.3); K01920 glutathione synthase [EC:6.3.2.3]" />
+    <hashEntry Key="eco:b3008" Value="metC; cystathionine beta-lyase, PLP-dependent (EC:4.4.1.8); K01760 cystathionine beta-lyase [EC:4.4." />
+    <hashEntry Key="eco:b3236" Value="mdh; malate dehydrogenase, NAD(P)-binding (EC:1.1.1.37); K00024 malate dehydrogenase [EC:1.1.1.37]" />
+    <hashEntry Key="eco:b3433" Value="asd; aspartate-semialdehyde dehydrogenase, NAD(P)-binding (EC:1.2.1.11); K00133 aspartate-semialdehy" />
+    <hashEntry Key="eco:b3607" Value="cysE; serine acetyltransferase (EC:2.3.1.30); K00640 serine O-acetyltransferase [EC:2.3.1.30]" />
+    <hashEntry Key="eco:b3770" Value="ilvE; branched-chain amino-acid aminotransferase (EC:2.6.1.42); K00826 branched-chain amino acid ami" />
+    <hashEntry Key="eco:b3829" Value="metE; 5-methyltetrahydropteroyltriglutamate-homocysteine S-methyltransferase (EC:2.1.1.14); K00549 5" />
+    <hashEntry Key="eco:b3939" Value="metB; cystathionine gamma-synthase, PLP-dependent (EC:2.5.1.48); K01739 cystathionine gamma-synthase" />
+    <hashEntry Key="eco:b3940" Value="metL; Bifunctional aspartokinase/homoserine dehydrogenase 2 (EC:1.1.1.3 2.7.2.4); K12525 bifunctiona" />
+    <hashEntry Key="eco:b4013" Value="metA; homoserine O-transsuccinylase (EC:2.3.1.46); K00651 homoserine O-succinyltransferase [EC:2.3.1" />
+    <hashEntry Key="eco:b4019" Value="metH; homocysteine-N5-methyltetrahydrofolate transmethylase, B12-dependent (EC:2.1.1.13); K00548 5-m" />
+    <hashEntry Key="eco:b4024" Value="lysC; lysine-sensitive aspartokinase 3 (EC:2.7.2.4); K00928 aspartate kinase [EC:2.7.2.4]" />
+    <hashEntry Key="eco:b4054" Value="tyrB; tyrosine aminotransferase, tyrosine-repressible, PLP-dependent (EC:2.6.1.57); K00832 aromatic-" />
+    <hashEntry Key="eco:b4471" Value="tdcG; L-serine dehydratase 3, anaerobic (EC:4.3.1.17); K01752 L-serine dehydratase [EC:4.3.1.17]" />
+  </Genes>
+</KEGG.PathwayBrief>

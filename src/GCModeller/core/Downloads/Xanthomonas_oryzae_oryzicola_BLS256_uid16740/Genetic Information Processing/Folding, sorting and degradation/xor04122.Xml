@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor04122" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Ubiquitin and ubiquitin-like proteins (Ubls) are signalling messengers that control many cellular functions, such as cell proliferation, apoptosis, and DNA repair. It is suggested that Ub-protein modification evolved from prokaryotic sulfurtransfer systems. Molybdenum cofactor (Moco) and thiamin are sulfur-containing cofactors whose biosynthesis includes a key sulfur transfer step that uses unique sulfur carrier proteins, MoaD and ThiS. Ubiquitin, MoaD, and ThiS are all structurally related proteins whose C-termini are activated through adenylation by homologous E1-like enzymes. s2T biosynthesis may share similar chemistry with Moco and thiamin synthesis. In Saccharomyces cerevisiae, Urm1 and Uba4 function as part of a ubl protein conjugation system, though they have sequence homology to bacterial sulfur-transfer enzymes and the ability to function in sulfur transfer.&lt;br&gt;</Description>
+  <Name>Sulfur relay system - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00019" Value="S-Adenosyl-L-methionine" />
+    <hashEntry Key="C00041" Value="L-Alanine" />
+    <hashEntry Key="C00044" Value="GTP" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00378" Value="Thiamine" />
+    <hashEntry Key="C00868" Value="tRNA uridine" />
+    <hashEntry Key="C05924" Value="Molybdopterin" />
+    <hashEntry Key="C17322" Value="tRNA containing 2-thiouridine" />
+    <hashEntry Key="C18237" Value="Molybdoenzyme molybdenum cofactor" />
+    <hashEntry Key="C18239" Value="Precursor Z" />
+  </Compound>
+  <PathwayMap Key="xor04122" Value="Sulfur relay system&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_1152" Value="moaA; molybdenum cofactor biosynthesis protein A; K03639 cyclic pyranopterin phosphate synthase [EC:" />
+    <hashEntry Key="xor:XOC_1154" Value="moaC; molybdenum cofactor biosynthesis protein C; K03637 cyclic pyranopterin phosphate synthase [EC:" />
+    <hashEntry Key="xor:XOC_1155" Value="moaD; molybdopterin converting factor, subunit 1; K03636 molybdopterin synthase sulfur carrier subun" />
+    <hashEntry Key="xor:XOC_1156" Value="moaE; molybdopterin converting factor, subunit 2; K03635 molybdopterin synthase catalytic subunit [E" />
+    <hashEntry Key="xor:XOC_1815" Value="rhodanese domain protein; K01011 thiosulfate/3-mercaptopyruvate sulfurtransferase [EC:2.8.1.1 2.8.1." />
+    <hashEntry Key="xor:XOC_2401" Value="trmU; tRNA (5-methylaminomethyl-2-thiouridylate)-methyltransferase; K00566 tRNA-specific 2-thiouridy" />
+    <hashEntry Key="xor:XOC_3544" Value="thiS; thiamine biosynthesis protein ThiS; K03154 sulfur carrier protein" />
+  </Genes>
+</KEGG.PathwayBrief>

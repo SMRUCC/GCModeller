@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00903" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Limonene and pinene degradation - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00521" Value="(-)-Limonene" />
+    <hashEntry Key="C00964" Value="(-)-trans-Carveol" />
+    <hashEntry Key="C01767" Value="(-)-Carvone" />
+    <hashEntry Key="C02452" Value="Perillyl alcohol" />
+    <hashEntry Key="C02576" Value="Perillyl aldehyde" />
+    <hashEntry Key="C02759" Value="alpha-Pinene-oxide" />
+    <hashEntry Key="C04435" Value="(Z)-2-Methyl-5-isopropylhexa-2,5-dienal" />
+    <hashEntry Key="C06099" Value="d-Limonene" />
+    <hashEntry Key="C07271" Value="Limonene-1,2-epoxide" />
+    <hashEntry Key="C07276" Value="Limonene-1,2-diol" />
+    <hashEntry Key="C09880" Value="alpha-Pinene" />
+    <hashEntry Key="C09884" Value="Pinocarvone" />
+    <hashEntry Key="C11383" Value="(+)-(S)-Carvone" />
+    <hashEntry Key="C11395" Value="(4R,6R)-cis-Carveol" />
+    <hashEntry Key="C11396" Value="(1R,2R,4R)-Dihydrocarveol" />
+    <hashEntry Key="C11397" Value="(1R,2S,4R)-Neo-dihydrocarveol" />
+    <hashEntry Key="C11398" Value="(1R,4R)-Dihydrocarvone" />
+    <hashEntry Key="C11399" Value="(1S,2S,4R)-Iso-dihydrocarveol" />
+    <hashEntry Key="C11400" Value="(1S,2R,4R)-Neoiso-dihydrocarveol" />
+    <hashEntry Key="C11401" Value="(1S,4R)-Iso-dihydrocarvone" />
+    <hashEntry Key="C11402" Value="(4R,7R)-4-Isopropenyl-7-methyl-2-oxo-oxepanone" />
+    <hashEntry Key="C11403" Value="(3S,6R)-6-Isopropenyl-3-methyl-2-oxo-oxepanone" />
+    <hashEntry Key="C11404" Value="(3R)-6-Hydroxy-3-isopropenyl-heptanoate" />
+    <hashEntry Key="C11405" Value="(3R)-3-Isopropenyl-6-oxoheptanoate" />
+    <hashEntry Key="C11406" Value="(5R)-6-Hydroxy-5-isopropenyl-2-methylhexanoate" />
+    <hashEntry Key="C11407" Value="(3R)-3-Isopropenyl-6-oxoheptanoyl-CoA" />
+    <hashEntry Key="C11408" Value="(4S,6S)-cis-Carveol" />
+    <hashEntry Key="C11409" Value="(+)-trans-Carveol" />
+    <hashEntry Key="C11410" Value="(1R,2S,4S)- Neoiso-dihydrocarveol" />
+    <hashEntry Key="C11411" Value="(1R,2R,4S)-Iso-dihydrocarveol" />
+    <hashEntry Key="C11412" Value="(1R,4S)-Iso-dihydrocarvone" />
+    <hashEntry Key="C11413" Value="(1S,2S,4S)-Dihydrocarveol" />
+    <hashEntry Key="C11414" Value="(4S,7R)-4-Isopropenyl-7-methyl-2-oxo-oxepanone" />
+    <hashEntry Key="C11415" Value="(1S,4S)-Dihydrocarvone" />
+    <hashEntry Key="C11416" Value="(1S,2R,4S)-Neo-dihydrocarveol" />
+    <hashEntry Key="C11417" Value="(3S)-6-Hydroxy-3-isopropenyl-heptanoate" />
+    <hashEntry Key="C11418" Value="(3S,6S)-6-Isopropenyl-3-methyl-2-oxo-oxepanone" />
+    <hashEntry Key="C11419" Value="(3S)-3-Isopropenyl-6-oxoheptanoate" />
+    <hashEntry Key="C11420" Value="(5S)-6-Hydroxy-5-isopropenyl-2-methylhexanoate" />
+    <hashEntry Key="C11421" Value="(3S)-3-Isopropenyl-6-oxoheptanoyl-CoA" />
+    <hashEntry Key="C11924" Value="Perillic acid" />
+    <hashEntry Key="C11929" Value="Perillyl-CoA" />
+    <hashEntry Key="C11934" Value="2-Hydroxy-4-isopropenylcyclohexane-1-carboxyl-CoA" />
+    <hashEntry Key="C11935" Value="4-Isopropenyl-2-oxy-cyclohexanecarboxyl-CoA" />
+    <hashEntry Key="C11936" Value="3-Isopropenylpimelyl-CoA" />
+    <hashEntry Key="C11937" Value="(1S,4R)-1-Hydroxy-2-oxolimonene" />
+    <hashEntry Key="C11938" Value="Myrtenol" />
+    <hashEntry Key="C11939" Value="Myrtenal" />
+    <hashEntry Key="C11940" Value="Myrtenic acid" />
+    <hashEntry Key="C11941" Value="Pinocarveol" />
+    <hashEntry Key="C11942" Value="trans-2-Methyl-5-isopropylhexa-2,5-dienal" />
+    <hashEntry Key="C11943" Value="trans-2-Methyl-5-isopropylhexa-2,5-dienoic acid" />
+    <hashEntry Key="C11944" Value="cis-2-Methyl-5-isopropylhexa-2,5-dienoic acid" />
+    <hashEntry Key="C11945" Value="trans-2-Methyl-5-isopropylhexa-2,5-dienoyl-CoA" />
+    <hashEntry Key="C11946" Value="cis-2-Methyl-5-isopropylhexa-2,5-dienoyl-CoA" />
+    <hashEntry Key="C11947" Value="3-Hydroxy-2,6-dimethyl-5-methylene-heptanoyl-CoA" />
+    <hashEntry Key="C11948" Value="2,6-Dimethyl-5-methylene-3-oxo-heptanoyl-CoA" />
+    <hashEntry Key="C11949" Value="3-Isopropylbut-3-enoyl-CoA" />
+    <hashEntry Key="C11950" Value="3-Isopropyl-3-butenoic acid" />
+    <hashEntry Key="C19079" Value="(4R)-7-Hydroxy-4-isopropenyl-7-methyl-2-oxo-oxepanone" />
+    <hashEntry Key="C19081" Value="(4S)-Limonene-1,2-epoxide" />
+    <hashEntry Key="C19082" Value="(1R,2R,4S)-Limonene-1,2-diol" />
+    <hashEntry Key="C19083" Value="(1R,4S)-1-Hydroxy-2-oxolimonene" />
+    <hashEntry Key="C19084" Value="(4S)-7-Hydroxy-4-isopropenyl-7-methyl-2-oxo-oxepanone" />
+  </Compound>
+  <PathwayMap Key="xor00903" Value="Limonene and pinene degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0933" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xor:XOC_2193" Value="piperideine-6-carboxylate dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xor:XOC_3189" Value="fatty oxidation complex alpha subunit; K01782 3-hydroxyacyl-CoA dehydrogenase / enoyl-CoA hydratase" />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00471" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>D-Glutamine and D-glutamate metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00217" Value="D-Glutamate" />
+    <hashEntry Key="C00692" Value="UDP-N-acetylmuramoyl-L-alanyl-D-glutamate" />
+    <hashEntry Key="C00819" Value="D-Glutamine" />
+    <hashEntry Key="C01050" Value="UDP-N-acetylmuramate" />
+    <hashEntry Key="C01212" Value="UDP-N-acetylmuramoyl-L-alanine" />
+    <hashEntry Key="C02237" Value="5-Oxo-D-proline" />
+    <hashEntry Key="C02671" Value="D-Glutamyl-peptide" />
+    <hashEntry Key="C03933" Value="5-D-Glutamyl-D-glutamyl-peptide" />
+    <hashEntry Key="C05723" Value="Poly-gamma-D-glutamate" />
+  </Compound>
+  <PathwayMap Key="xor00471" Value="D-Glutamine and D-glutamate metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0844" Value="murC; UDP-N-acetylmuramate--alanine ligase; K01924 UDP-N-acetylmuramate--alanine ligase [EC:6.3.2.8]" />
+    <hashEntry Key="xor:XOC_1508" Value="murD; UDP-N-acetylmuramoylalanine--D-glutamate ligase; K01925 UDP-N-acetylmuramoylalanine--D-glutama" />
+  </Genes>
+</KEGG.PathwayBrief>

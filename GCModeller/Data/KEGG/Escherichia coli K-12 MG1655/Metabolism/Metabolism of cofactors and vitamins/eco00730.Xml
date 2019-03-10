@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00730" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Thiamine metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00127" Value="Thiamine biosynthesis, AIR =&gt; thiamine-P/thiamine-2P [PATH:eco00730]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00003" Value="NAD+" />
+    <hashEntry Key="C00018" Value="Pyridoxal phosphate" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00068" Value="Thiamin diphosphate" />
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00118" Value="D-Glyceraldehyde 3-phosphate" />
+    <hashEntry Key="C00378" Value="Thiamine" />
+    <hashEntry Key="C01081" Value="Thiamin monophosphate" />
+    <hashEntry Key="C01279" Value="4-Amino-5-hydroxymethyl-2-methylpyrimidine" />
+    <hashEntry Key="C02691" Value="Heteropyrithiamine" />
+    <hashEntry Key="C02892" Value="Thiamine acetic acid" />
+    <hashEntry Key="C03028" Value="Thiamin triphosphate" />
+    <hashEntry Key="C03373" Value="Aminoimidazole ribotide" />
+    <hashEntry Key="C04294" Value="5-(2-Hydroxyethyl)-4-methylthiazole" />
+    <hashEntry Key="C04327" Value="4-Methyl-5-(2-phosphoethyl)thiazole" />
+    <hashEntry Key="C04556" Value="4-Amino-2-methyl-5-phosphomethylpyrimidine" />
+    <hashEntry Key="C04752" Value="2-Methyl-4-amino-5-hydroxymethylpyrimidine diphosphate" />
+    <hashEntry Key="C05856" Value="Thiamine aldehyde" />
+    <hashEntry Key="C11437" Value="1-Deoxy-D-xylulose 5-phosphate" />
+    <hashEntry Key="C15809" Value="Iminoglycine" />
+    <hashEntry Key="C15810" Value="" />
+    <hashEntry Key="C15810&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C15811&quot;&gt;C15811&lt;/a&gt; [Enzyme]-cysteine" />
+    <hashEntry Key="C15812" Value="[Enzyme]-S-sulfanylcysteine" />
+    <hashEntry Key="C15813" Value="" />
+    <hashEntry Key="C15813&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C15814&quot;&gt;C15814&lt;/a&gt;" />
+    <hashEntry Key="C15814&lt;/a&gt;" Value="a href=&quot;/dbget-bin/www_bget?cpd:C20246&quot;&gt;C20246&lt;/a&gt; 2-[(2R,5Z)-2-Carboxy-4-methylthiazol-5(2H)-ylidene]ethyl phosphate" />
+    <hashEntry Key="C20247" Value="2-(2-Carboxy-4-methylthiazol-5-yl)ethyl phosphate" />
+    <hashEntry Key="C20784" Value="ADP-5-ethyl-4-methylthiazole-2-carboxylate" />
+  </Compound>
+  <PathwayMap Key="eco00730" Value="Thiamine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0417" Value="thiL; thiamine monophosphate kinase (EC:2.7.4.16); K00946 thiamine-monophosphate kinase [EC:2.7.4.16" />
+    <hashEntry Key="eco:b0420" Value="dxs; 1-deoxyxylulose-5-phosphate synthase, thiamine triphosphate-binding, FAD-requiring (EC:2.2.1.7)" />
+    <hashEntry Key="eco:b0423" Value="thiI; tRNA s(4)U8 sulfurtransferase; K03151 thiamine biosynthesis protein ThiI" />
+    <hashEntry Key="eco:b1106" Value="thiK; thiamine kinase (EC:2.7.1.89); K07251 thiamine kinase [EC:2.7.1.89]" />
+    <hashEntry Key="eco:b2103" Value="thiD; bifunctional hydroxy-methylpyrimidine kinase/hydroxy-phosphomethylpyrimidine kinase (EC:2.7.1." />
+    <hashEntry Key="eco:b2104" Value="thiM; hydoxyethylthiazole kinase (EC:2.7.1.50); K00878 hydroxyethylthiazole kinase [EC:2.7.1.50]" />
+    <hashEntry Key="eco:b2530" Value="iscS; cysteine desulfurase (tRNA sulfurtransferase), PLP-dependent (EC:2.8.1.7); K04487 cysteine des" />
+    <hashEntry Key="eco:b3990" Value="thiH; tyrosine lyase, involved in thiamine-thiazole moiety synthesis; K03150 2-iminoacetate synthase" />
+    <hashEntry Key="eco:b3991" Value="thiG; thiamine biosynthesis ThiGH complex subunit; K03149 thiazole synthase [EC:2.8.1.10]" />
+    <hashEntry Key="eco:b3992" Value="thiF; adenylyltransferase, modifies ThiS C-terminus (EC:2.7.7.-); K03148 sulfur carrier protein ThiS" />
+    <hashEntry Key="eco:b3993" Value="thiE; thiamine phosphate synthase (thiamine phosphate pyrophosphorylase) (EC:2.5.1.3); K00788 thiami" />
+    <hashEntry Key="eco:b3994" Value="thiC; phosphomethylpyrimidine synthase (EC:4.1.99.17); K03147 phosphomethylpyrimidine synthase [EC:4" />
+  </Genes>
+</KEGG.PathwayBrief>

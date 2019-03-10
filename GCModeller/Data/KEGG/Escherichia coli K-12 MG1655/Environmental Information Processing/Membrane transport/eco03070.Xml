@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco03070" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Gram-negative bacteria secrete a wide range of proteins whose functions include biogenesis of organelles, such as pilli and flagella, nutrient acquisition, virulence, and efflux of drugs and other toxins. Six distinct secretion systems have been shown to mediate protein export through the inner and outer membranes of Gram-negative bacteria. These pathways are highly conserved throughout the Gram-negative bacterial species. In Gram-positive bacteria, secreted proteins are commonly translocated across the single membrane by the Sec pathway or the two-arginine (Tat) pathway.&lt;br&gt;</Description>
+  <Name>Bacterial secretion system - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00331" Value="Type II general secretion pathway [PATH:eco03070]" />
+    <hashEntry Key="eco_M00335" Value="Sec (secretion) system [PATH:eco03070]" />
+    <hashEntry Key="eco_M00336" Value="Twin-arginine translocation (Tat) system [PATH:eco03070]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00002" Value="ATP" />
+  </Compound>
+  <PathwayMap Key="eco03070" Value="Bacterial secretion system&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0097" Value="secM; regulator of secA translation; K13301 secretion monitor" />
+    <hashEntry Key="eco:b0098" Value="secA; preprotein translocase subunit, ATPase; K03070 preprotein translocase subunit SecA" />
+    <hashEntry Key="eco:b0407" Value="yajC; SecYEG protein translocase auxillary subunit; K03210 preprotein translocase subunit YajC" />
+    <hashEntry Key="eco:b0408" Value="secD; SecYEG protein translocase auxillary subunit; K03072 preprotein translocase subunit SecD" />
+    <hashEntry Key="eco:b0409" Value="secF; SecYEG protein translocase auxillary subunit; K03074 preprotein translocase subunit SecF" />
+    <hashEntry Key="eco:b0627" Value="tatE; TatABCE protein translocation system subunit; K03425 sec-independent protein translocase prote" />
+    <hashEntry Key="eco:b2610" Value="ffh; Signal Recognition Particle (SRP) component with 4.5S RNA (ffs); K03106 signal recognition part" />
+    <hashEntry Key="eco:b2968" Value="yghD; putative membrane-anchored secretion pathway M-type protein; K02462 general secretion pathway" />
+    <hashEntry Key="eco:b3035" Value="tolC; transport channel; K12340 outer membrane protein" />
+    <hashEntry Key="eco:b3175" Value="secG; preprotein translocase membrane subunit; K03075 preprotein translocase subunit SecG" />
+    <hashEntry Key="eco:b3300" Value="secY; preprotein translocase membrane subunit; K03076 preprotein translocase subunit SecY" />
+    <hashEntry Key="eco:b3324" Value="gspC; general secretory pathway component, cryptic; K02452 general secretion pathway protein C" />
+    <hashEntry Key="eco:b3325" Value="gspD; general secretory pathway component, cryptic; K02453 general secretion pathway protein D" />
+    <hashEntry Key="eco:b3326" Value="gspE; general secretory pathway component, cryptic; K02454 general secretion pathway protein E" />
+    <hashEntry Key="eco:b3327" Value="gspF; general secretory pathway component, cryptic; K02455 general secretion pathway protein F" />
+    <hashEntry Key="eco:b3328" Value="gspG; pseudopilin, cryptic, general secretion pathway; K02456 general secretion pathway protein G" />
+    <hashEntry Key="eco:b3329" Value="gspH; putative general secretory pathway component, cryptic; K02457 general secretion pathway protei" />
+    <hashEntry Key="eco:b3330" Value="gspI; general secretory pathway component, cryptic; K02458 general secretion pathway protein I" />
+    <hashEntry Key="eco:b3331" Value="gspJ; putative general secretory pathway component, cryptic; K02459 general secretion pathway protei" />
+    <hashEntry Key="eco:b3332" Value="gspK; general secretory pathway component, cryptic; K02460 general secretion pathway protein K" />
+    <hashEntry Key="eco:b3333" Value="gspL; general secretory pathway component, cryptic; K02461 general secretion pathway protein L" />
+    <hashEntry Key="eco:b3334" Value="gspM; general secretory pathway component, cryptic; K02462 general secretion pathway protein M" />
+    <hashEntry Key="eco:b3335" Value="gspO; bifunctional prepilin leader peptidase/methylase (EC:2.1.1.- 3.4.23.43); K02464 general secret" />
+    <hashEntry Key="eco:b3464" Value="ftsY; Signal Recognition Particle (SRP) receptor; K03110 fused signal recognition particle receptor" />
+    <hashEntry Key="eco:b3609" Value="secB; protein export chaperone; K03071 preprotein translocase subunit SecB" />
+    <hashEntry Key="eco:b3705" Value="yidC; membrane protein insertase; K03217 YidC/Oxa1 family membrane protein insertase" />
+    <hashEntry Key="eco:b3836" Value="tatA; TatABCE protein translocation system subunit; K03116 sec-independent protein translocase prote" />
+    <hashEntry Key="eco:b3838" Value="tatB; TatABCE protein translocation system subunit; K03117 sec-independent protein translocase prote" />
+    <hashEntry Key="eco:b3839" Value="tatC; TatABCE protein translocation system subunit; K03118 sec-independent protein translocase prote" />
+    <hashEntry Key="eco:b3981" Value="secE; preprotein translocase membrane subunit; K03073 preprotein translocase subunit SecE" />
+  </Genes>
+</KEGG.PathwayBrief>

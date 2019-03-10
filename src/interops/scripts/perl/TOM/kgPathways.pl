@@ -1,0 +1,9 @@
+system("perl ./tomQuery.pl ~/TOM/2015.12.21.RegPrecise/kgPathways/100 ~/TOM/Matrix ~/TOM/TomQuery/2015.12.21.RegPrecise/kgPathways/100");
+system("perl ./tomQuery.pl ~/TOM/2015.12.21.RegPrecise/kgPathways/150 ~/TOM/Matrix ~/TOM/TomQuery/2015.12.21.RegPrecise/kgPathways/150");
+system("perl ./tomQuery.pl ~/TOM/2015.12.21.RegPrecise/kgPathways/200 ~/TOM/Matrix ~/TOM/TomQuery/2015.12.21.RegPrecise/kgPathways/200");
+system("perl ./tomQuery.pl ~/TOM/2015.12.21.RegPrecise/kgPathways/250 ~/TOM/Matrix ~/TOM/TomQuery/2015.12.21.RegPrecise/kgPathways/250");
+system("perl ./tomQuery.pl ~/TOM/2015.12.21.RegPrecise/kgPathways/300 ~/TOM/Matrix ~/TOM/TomQuery/2015.12.21.RegPrecise/kgPathways/300");
+system("perl ./tomQuery.pl ~/TOM/2015.12.21.RegPrecise/kgPathways/350 ~/TOM/Matrix ~/TOM/TomQuery/2015.12.21.RegPrecise/kgPathways/350");
+system("perl ./tomQuery.pl ~/TOM/2015.12.21.RegPrecise/kgPathways/400 ~/TOM/Matrix ~/TOM/TomQuery/2015.12.21.RegPrecise/kgPathways/400");
+system("perl ./tomQuery.pl ~/TOM/2015.12.21.RegPrecise/kgPathways/450 ~/TOM/Matrix ~/TOM/TomQuery/2015.12.21.RegPrecise/kgPathways/450");
+system("perl ./tomQuery.pl ~/TOM/2015.12.21.RegPrecise/kgPathways/500 ~/TOM/Matrix ~/TOM/TomQuery/2015.12.21.RegPrecise/kgPathways/500");

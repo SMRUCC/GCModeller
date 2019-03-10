@@ -1,0 +1,1 @@
+seqtools /Palindrome.Workflow /in "F:\Sequence-Patterns-Toolkit\data\seq-features-workflow-test\ZIKV_Human_51_mafft.fasta" /max 6

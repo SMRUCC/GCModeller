@@ -1,0 +1,3 @@
+X73873.1	Haemorrhagic septicaemia virus N, M1, M2, G, putative NV, and partial L genes
+X66694.1	OMSK haemorrhagic fever virus gene for envelope glycoprotein
+HE963222.1	Rabbit haemorrhagic disease virus mRNA for VP60 protein (VP60 gene)

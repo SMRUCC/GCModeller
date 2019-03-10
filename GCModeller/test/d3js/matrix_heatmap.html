@@ -1,0 +1,38 @@
+<style>
+@import url(style.css);
+
+.background {
+  fill: #eee;
+}
+
+line {
+  stroke: #fff;
+}
+
+body{TEXT-ALIGN: center;}
+#center{ MARGIN-RIGHT: auto;
+MARGIN-LEFT: auto;
+height:200px;
+background:#F00;
+width:400px;
+vertical-align:middle;
+line-height:200px;
+}
+</style>
+<script src="http://d3js.org/d3.v2.min.js" charset="utf-8"></script>
+
+<aside style="margin-top:80px;">
+<p>Order: <select id="order">
+  <option value="name">by Name</option>
+  <option value="count">by Frequency</option>
+  <option value="group">by Cluster</option>
+</select>
+</aside>
+
+<script src="./matrix.js"></script>
+
+<div id="center">
+<script>
+matrix_net("./miserables.json")
+</script>
+</div>

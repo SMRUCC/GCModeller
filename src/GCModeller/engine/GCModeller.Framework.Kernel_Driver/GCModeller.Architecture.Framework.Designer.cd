@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Compiler(Of TModel)" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAACAAAAAMAWEAAAAAAAACAAAAAAAAUgAAAEA=</HashCode>
+      <FileName>Compiler.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.ModelBaseType" Collapsed="true">
+    <Position X="16" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAEAAAAAAAEAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>DataServices\Model.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.My.MySettings" Collapsed="true">
+    <Position X="17.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IterationMathEngine(Of T_Model)">
+    <Position X="4.75" Y="12.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAACQEAAAAAAAAAAAAAIAAAAI=</HashCode>
+      <FileName>Driver\Engine.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.ReactorMachine(Of DataType, ExpressionType)">
+    <Position X="4.5" Y="9.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAQAAAAAgAAgEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Driver\Engine.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.ObjectStatusReader">
+    <Position X="0.5" Y="12.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Driver\Engine.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Expression" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAACAAAAAAAAAAAgAAAAAAAAIAQAAgAgAAQAA=</HashCode>
+      <FileName>Driver\Engine.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Variable" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAIAAAAgAgAAQAA=</HashCode>
+      <FileName>Driver\Engine.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.KernelDriver(Of T, Dynamics, Kernel)" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAgAAICAAAABIAAAQAAQAAQAAABAAAQAAAgAAAAI=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataSourceHandler(Of TValue)">
+    <Position X="3" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAEAAAAAAAAAAAAAAIAAAAgAAAAAAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.TransitionStateSample">
+    <Position X="3.25" Y="8" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.EntityQuantitySample">
+    <Position X="5.75" Y="8" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.StateEnumerationsSample">
+    <Position X="0.75" Y="8" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataAdapter(Of T, TDataSource)">
+    <Position X="0.75" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIIAAAAAEAAAAAAAAABAAAAAAAAAAAABACAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage(Of T, TDataSource)">
+    <Position X="10" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAgAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.MySQLService(Of T)">
+    <Position X="8.5" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.CsvChunk(Of T)">
+    <Position X="11.25" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAACgAAAAAAAAAAgQAAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Kernel.DataAdapter(Of ModelType)" Collapsed="true">
+    <Position X="16" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAgAAAAAAAQAAAAAAgAAQAA=</HashCode>
+      <FileName>DataServices\DataAdapter.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.DataSerials(Of T)">
+    <Position X="4" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAQAAEAAAAAAAAAAAAAAIgAAAAAgACQAA=</HashCode>
+      <FileName>DataServices\DataStorage.FileModel.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.CHUNK_BUFFER_TransitionStates">
+    <Position X="0.75" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataServices\DataStorage.FileModel.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.CHUNK_BUFFER_EntityQuantities">
+    <Position X="3.75" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataServices\DataStorage.FileModel.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.CHUNK_BUFFER_StateEnumerations">
+    <Position X="6.75" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataServices\DataStorage.FileModel.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAIAAAAAAgAAQAA=</HashCode>
+      <FileName>DataServices\DataStorage.FileModel.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.PBS" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>PBS.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IObjectStatus" Collapsed="true">
+    <Position X="14.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Driver\Engine.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IReactorMachine" Collapsed="true">
+    <Position X="16" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAEAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Driver\Engine.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of DataType)" Collapsed="true">
+    <Position X="16" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAQAAgAAAAAAA=</HashCode>
+      <FileName>Driver\Engine.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IDataSource(Of THandle, TValue)" Collapsed="true">
+    <Position X="14.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAgAAAAAAA=</HashCode>
+      <FileName>Driver\Engine.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IKernelDriver" Collapsed="true">
+    <Position X="17.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAIAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IDriver_DataSource_Adapter(Of T)" Collapsed="true">
+    <Position X="14.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IDataSourceHandle" Collapsed="true">
+    <Position X="16" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IDataStorage" Collapsed="true">
+    <Position X="17.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Driver\KernelDriver.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Module Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.My.Resources.Resources" Collapsed="true">
+    <Position X="16" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.My.MySettingsProperty" Collapsed="true">
+    <Position X="14.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DriverAPI" Collapsed="true">
+    <Position X="14.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQQAAAAAAACAAAAAAAAAAAAAAgAAAAAAEAAIAEAAA=</HashCode>
+      <FileName>DriverAPI.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Extensions" Collapsed="true">
+    <Position X="16" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.Extensions" Collapsed="true">
+    <Position X="17.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAABAAAAAEAAAAAAAAAAAAAAAAAACCAAAAA=</HashCode>
+      <FileName>DataServices\DataStorage.FileModel.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Calibri" Size="8.25" />
+</ClassDiagram>

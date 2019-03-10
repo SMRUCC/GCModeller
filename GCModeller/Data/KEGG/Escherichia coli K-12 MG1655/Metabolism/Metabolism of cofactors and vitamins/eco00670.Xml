@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00670" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>One carbon pool by folate - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00126" Value="Tetrahydrofolate biosynthesis, GTP =&gt; THF [PATH:eco00670]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00101" Value="Tetrahydrofolate" />
+    <hashEntry Key="C00143" Value="5,10-Methylenetetrahydrofolate" />
+    <hashEntry Key="C00234" Value="10-Formyltetrahydrofolate" />
+    <hashEntry Key="C00415" Value="Dihydrofolate" />
+    <hashEntry Key="C00440" Value="5-Methyltetrahydrofolate" />
+    <hashEntry Key="C00445" Value="5,10-Methenyltetrahydrofolate" />
+    <hashEntry Key="C00504" Value="Folate" />
+    <hashEntry Key="C00664" Value="5-Formiminotetrahydrofolate" />
+    <hashEntry Key="C03479" Value="Folinic acid" />
+  </Compound>
+  <PathwayMap Key="eco00670" Value="One carbon pool by folate&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0048" Value="folA; dihydrofolate reductase (EC:1.5.1.3); K00287 dihydrofolate reductase [EC:1.5.1.3]" />
+    <hashEntry Key="eco:b0529" Value="folD; bifunctional 5,10-methylene-tetrahydrofolate dehydrogenase/5,10-methylene-tetrahydrofolate cyc" />
+    <hashEntry Key="eco:b1232" Value="purU; formyltetrahydrofolate hydrolase (EC:3.5.1.10); K01433 formyltetrahydrofolate deformylase [EC:" />
+    <hashEntry Key="eco:b1606" Value="folM; dihydromonapterin reductase, NADPH-dependent; dihydrofolate reductase isozyme (EC:1.5.1.3); K1" />
+    <hashEntry Key="eco:b1849" Value="purT; phosphoribosylglycinamide formyltransferase 2 (EC:2.7.2.1); K08289 phosphoribosylglycinamide f" />
+    <hashEntry Key="eco:b2500" Value="purN; phosphoribosylglycinamide formyltransferase 1 (EC:2.1.2.2); K11175 phosphoribosylglycinamide f" />
+    <hashEntry Key="eco:b2551" Value="glyA; serine hydroxymethyltransferase (EC:2.1.2.1); K00600 glycine hydroxymethyltransferase [EC:2.1." />
+    <hashEntry Key="eco:b2827" Value="thyA; thymidylate synthetase (EC:2.1.1.45); K00560 thymidylate synthase [EC:2.1.1.45]" />
+    <hashEntry Key="eco:b2905" Value="gcvT; aminomethyltransferase, tetrahydrofolate-dependent, subunit (T protein) of glycine cleavage co" />
+    <hashEntry Key="eco:b2912" Value="fau; 5-formyltetrahydrofolate cyclo-ligase family protein; K01934 5-formyltetrahydrofolate cyclo-lig" />
+    <hashEntry Key="eco:b3288" Value="fmt; 10-formyltetrahydrofolate:L-methionyl-tRNA(fMet) N-formyltransferase (EC:2.1.2.9); K00604 methi" />
+    <hashEntry Key="eco:b3941" Value="metF; 5,10-methylenetetrahydrofolate reductase (EC:1.5.1.20); K00297 methylenetetrahydrofolate reduc" />
+    <hashEntry Key="eco:b4006" Value="purH; fused IMP cyclohydrolase/phosphoribosylaminoimidazolecarboxamide formyltransferase (EC:2.1.2.3" />
+    <hashEntry Key="eco:b4019" Value="metH; homocysteine-N5-methyltetrahydrofolate transmethylase, B12-dependent (EC:2.1.1.13); K00548 5-m" />
+  </Genes>
+</KEGG.PathwayBrief>

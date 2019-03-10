@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor03430" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>DNA mismatch repair (MMR) is a highly conserved biological pathway that plays a key role in maintaining genomic stability. MMR corrects DNA mismatches generated during DNA replication, thereby preventing mutations from becoming permanent in dividing cells. MMR also suppresses homologous recombination and was recently shown to play a role in DNA damage signaling. Defects in MMR are associated with genome-wide instability, predisposition to certain types of cancer including HNPCC, resistance to certain chemotherapeutic agents, and abnormalities in meiosis and sterility in mammalian systems.&lt;br&gt; The Escherichia coli MMR pathway has been extensively studied and is well characterized. In E. coli, the mismatch-activated MutS-MutL-ATP complex licenses MutH to incise the nearest unmethylated GATC sequence. UvrD and an exonuclease generate a gap. This gap is filled by pol III and DNA ligase. The GATC sites are then methylated by Dam. Several human MMR proteins have been identified based on their homology to E. coli MMR proteins. These include human homologs of MutS and MutL. Although E. coli MutS and MutL proteins are homodimers, human MutS and MutL homologs are heterodimers. The role of hemimethylated dGATC sites as a signal for strand discrimination is not conserved from E. coli to human. Human MMR is presumed to be nick-directed in vivo, and is thought to discriminate daughter and template strands using a strand-specific nick.&lt;br&gt;</Description>
+  <Name>Mismatch repair - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00260" Value="DNA polymerase III complex, bacteria [PATH:xor03430]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xor03430" Value="Mismatch repair&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0003" Value="dnaN; DNA polymerase III, beta subunit; K02338 DNA polymerase III subunit beta [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_0020" Value="site-specific DNA methylase; K06223 DNA adenine methylase [EC:2.1.1.72]" />
+    <hashEntry Key="xor:XOC_0391" Value="uvrD; DNA helicase II; K03657 DNA helicase II / ATP-dependent DNA helicase PcrA [EC:3.6.4.12]" />
+    <hashEntry Key="xor:XOC_1145" Value="dnaQ; DNA polymerase III, epsilon subunit; K02342 DNA polymerase III subunit epsilon [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1159" Value="DNA polymerase III subunit gamma-tau; K02343 DNA polymerase III subunit gamma/tau [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1180" Value="DNA polymerase III delta&amp;#39; subunit; K02341 DNA polymerase III subunit delta&amp;#39; [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1514" Value="single-stranded DNA binding protein; K03111 single-strand DNA-binding protein" />
+    <hashEntry Key="xor:XOC_1668" Value="holA; DNA polymerase III, delta subunit; K02340 DNA polymerase III subunit delta [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1690" Value="xseB; exodeoxyribonuclease VII, small subunit; K03602 exodeoxyribonuclease VII small subunit [EC:3.1" />
+    <hashEntry Key="xor:XOC_1829" Value="exodeoxyribonuclease I; K01141 exodeoxyribonuclease I [EC:3.1.11.1]" />
+    <hashEntry Key="xor:XOC_1849" Value="DNA ligase; K01972 DNA ligase (NAD+) [EC:6.5.1.2]" />
+    <hashEntry Key="xor:XOC_2090" Value="xseA; exodeoxyribonuclease VII, large subunit; K03601 exodeoxyribonuclease VII large subunit [EC:3.1" />
+    <hashEntry Key="xor:XOC_2095" Value="mutL; DNA mismatch repair protein MutL; K03572 DNA mismatch repair protein MutL" />
+    <hashEntry Key="xor:XOC_2256" Value="recJ; single-stranded-DNA-specific exonuclease RecJ; K07462 single-stranded-DNA-specific exonuclease" />
+    <hashEntry Key="xor:XOC_3085" Value="DNA polymerase III alpha subunit; K02337 DNA polymerase III subunit alpha [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_3163" Value="DNA ligase; K10747 DNA ligase 1 [EC:6.5.1.1 6.5.1.6 6.5.1.7]" />
+    <hashEntry Key="xor:XOC_3287" Value="site-specific DNA methylase; K06223 DNA adenine methylase [EC:2.1.1.72]" />
+    <hashEntry Key="xor:XOC_3407" Value="mutS; DNA mismatch repair protein MutS; K03555 DNA mismatch repair protein MutS" />
+    <hashEntry Key="xor:XOC_3819" Value="DNA polymerase III holoenzyme chi subunit; K02339 DNA polymerase III subunit chi [EC:2.7.7.7]" />
+  </Genes>
+</KEGG.PathwayBrief>

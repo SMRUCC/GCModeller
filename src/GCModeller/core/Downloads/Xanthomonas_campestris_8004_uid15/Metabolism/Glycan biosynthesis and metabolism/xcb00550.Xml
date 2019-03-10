@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00550" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Peptidoglycan is a macromolecule made of long aminosugar strands cross-linked by short peptides. It forms the cell wall in bacteria surrounding the cytoplasmic membrane. The glycan strands are typically comprised of repeating N-acetylglucosamine (GlcNAc) and N-acetylmuramic acid (MurNAc) disaccharides. Each MurNAc is linked to a peptide of three to five amino acid residues. Disaccharide subunits are first assembled on the cytoplasmic side of the bacterial membrane on a polyisoprenoid anchor (lipid I and II). Polymerization of disaccharide subunits by transglycosylases and cross-linking of glycan strands by transpeptidases occur on the other side of the membrane. Bacterial cell wall biosynthesis inhibitors form a major class of antibiotics.&lt;br&gt;</Description>
+  <Name>Peptidoglycan biosynthesis - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00009" Value="Orthophosphate" />
+    <hashEntry Key="C00043" Value="UDP-N-acetyl-alpha-D-glucosamine" />
+    <hashEntry Key="C00105" Value="UMP" />
+    <hashEntry Key="C00133" Value="D-Alanine" />
+    <hashEntry Key="C00692" Value="UDP-N-acetylmuramoyl-L-alanyl-D-glutamate" />
+    <hashEntry Key="C00993" Value="D-Alanyl-D-alanine" />
+    <hashEntry Key="C01050" Value="UDP-N-acetylmuramate" />
+    <hashEntry Key="C01212" Value="UDP-N-acetylmuramoyl-L-alanine" />
+    <hashEntry Key="C04574" Value="di-trans,poly-cis-Undecaprenyl diphosphate" />
+    <hashEntry Key="C04631" Value="UDP-N-acetyl-3-(1-carboxyvinyl)-D-glucosamine" />
+    <hashEntry Key="C04702" Value="UDPMurNAc(oyl-L-Ala-D-gamma-Glu-L-Lys-D-Ala-D-Ala)" />
+    <hashEntry Key="C04851" Value="MurAc(oyl-L-Ala-D-gamma-Glu-L-Lys-D-Ala-D-Ala)-diphospho-undecaprenol" />
+    <hashEntry Key="C04877" Value="UDP-N-acetylmuramoyl-L-alanyl-gamma-D-glutamyl-meso-2,6-diaminopimelate" />
+    <hashEntry Key="C04882" Value="UDP-N-acetylmuramoyl-L-alanyl-D-glutamyl-6-carboxy-L-lysyl-D-alanyl-D-alanine" />
+    <hashEntry Key="C05892" Value="UDP-N-acetylmuramoyl-L-alanyl-gamma-D-glutamyl-L-lysine" />
+    <hashEntry Key="C05893" Value="Undecaprenyl-diphospho-N-acetylmuramoyl-(N-acetylglucosamine)-L-alanyl-gamma-D-glutamyl-L-lysyl-D-alanyl-D-alanine" />
+    <hashEntry Key="C05894" Value="Undecaprenyl-diphospho-N-acetylmuramoyl-(N-acetylglucosamine)-L-alanyl-D-isoglutaminyl-L-lysyl-D-alanyl-D-alanine" />
+    <hashEntry Key="C05895" Value="Undecaprenyl-diphospho-N-acetylmuramoyl-(N-acetylglucosamine)-L-alanyl-D-isoglutaminyl-L-lysyl-(glycyl)5-D-alanyl-D-alanine" />
+    <hashEntry Key="C05896" Value="Crosslinked peptideglycan" />
+    <hashEntry Key="C05897" Value="Undecaprenyl-diphospho-N-acetylmuramoyl-L-alanyl-D-glutamyl-meso-2,6-diaminopimeloyl-D-alanyl-D-alanine" />
+    <hashEntry Key="C05898" Value="Undecaprenyl-diphospho-N-acetylmuramoyl-(N-acetylglucosamine)-L-alanyl-D-glutamyl-meso-2,6-diaminopimeloyl-D-alanyl-D-alanine" />
+    <hashEntry Key="C17541" Value="Undecaprenyl-diphospho-N-acetylmuramoyl-(N-acetylglucosamine)-L-alanyl-D-isoglutaminyl-L-lysyl-(glycyl)-D-alanyl-D-alanine" />
+    <hashEntry Key="C17542" Value="Undecaprenyl-diphospho-N-acetylmuramoyl-(N-acetylglucosamine)-L-alanyl-D-isoglutaminyl-L-lysyl-(glycyl)3-D-alanyl-D-alanine" />
+    <hashEntry Key="C17549" Value="Undecaprenyl-diphospho-N-acetylmuramoyl-(N-acetylglucosamine)-L-alanyl-gamma-D-glutamyl-L-lysyl-(L-alanyl-L-alanyl)-D-alanyl-D-alanine" />
+    <hashEntry Key="C17550" Value="Undecaprenyl-diphospho-N-acetylmuramoyl-(N-acetylglucosamine)-L-alanyl-gamma-D-glutamyl-L-lysyl-(L-alanyl)-D-alanyl-D-alanine" />
+    <hashEntry Key="C17556" Value="di-trans,poly-cis-Undecaprenyl phosphate" />
+    <hashEntry Key="C17558" Value="di-trans,poly-cis-Undecaprenol" />
+  </Compound>
+  <PathwayMap Key="xcb00550" Value="Peptidoglycan biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0193" Value="uppP; undecaprenyl pyrophosphate phosphatase (EC:3.6.1.27); K06153 undecaprenyl-diphosphatase [EC:3." />
+    <hashEntry Key="xcb:XC_0232" Value="ddl; D-alanyl-alanine synthetase A (EC:6.3.2.4); K01921 D-alanine-D-alanine ligase [EC:6.3.2.4]" />
+    <hashEntry Key="xcb:XC_0694" Value="penicillin-binding protein 2; K05515 penicillin-binding protein 2" />
+    <hashEntry Key="xcb:XC_0708" Value="penicillin-binding protein 6; K07258 D-alanyl-D-alanine carboxypeptidase (penicillin-binding protein" />
+    <hashEntry Key="xcb:XC_0942" Value="penicillin-binding protein 1A; K05366 penicillin-binding protein 1A [EC:2.4.1.- 3.4.-.-]" />
+    <hashEntry Key="xcb:XC_1176" Value="penicillin-binding protein 1B; K05365 penicillin-binding protein 1B [EC:2.4.1.129 3.4.-.-]" />
+    <hashEntry Key="xcb:XC_1244" Value="mtgA; monofunctional biosynthetic peptidoglycan transglycosylase; K03814 monofunctional biosynthetic" />
+    <hashEntry Key="xcb:XC_1318" Value="UDP-N-acetylglucosamine 1-carboxyvinyltransferase (EC:2.5.1.7); K00790 UDP-N-acetylglucosamine 1-car" />
+    <hashEntry Key="xcb:XC_1375" Value="murD; UDP-N-acetylmuramoyl-L-alanyl-D-glutamate synthetase (EC:6.3.2.9); K01925 UDP-N-acetylmuramoyl" />
+    <hashEntry Key="xcb:XC_2449" Value="murB; UDP-N-acetylenolpyruvoylglucosamine reductase (EC:1.1.1.158); K00075 UDP-N-acetylmuramate dehy" />
+    <hashEntry Key="xcb:XC_2454" Value="phosphatidylglycerophosphatase B; K19302 undecaprenyl-diphosphatase [EC:3.6.1.27]" />
+    <hashEntry Key="xcb:XC_3089" Value="virulence factor; K03980 putative peptidoglycan lipid II flippase" />
+    <hashEntry Key="xcb:XC_3111" Value="hypothetical protein; K07260 D-alanyl-D-alanine carboxypeptidase [EC:3.4.16.4]" />
+    <hashEntry Key="xcb:XC_3202" Value="penicillin-binding protein 1C; K05367 penicillin-binding protein 1C [EC:2.4.1.-]" />
+    <hashEntry Key="xcb:XC_3277" Value="hypothetical protein; K19302 undecaprenyl-diphosphatase [EC:3.6.1.27]" />
+    <hashEntry Key="xcb:XC_3508" Value="ddl; D-alanine--D-alanine ligase (EC:6.3.2.4); K01921 D-alanine-D-alanine ligase [EC:6.3.2.4]" />
+    <hashEntry Key="xcb:XC_3509" Value="murC; UDP-N-acetylmuramate--L-alanine ligase (EC:6.3.2.8); K01924 UDP-N-acetylmuramate--alanine liga" />
+    <hashEntry Key="xcb:XC_3510" Value="murG; undecaprenyldiphospho-muramoylpentapeptide beta-N-acetylglucosaminyltransferase (EC:2.4.1.227)" />
+    <hashEntry Key="xcb:XC_3512" Value="mraY; phospho-N-acetylmuramoyl-pentapeptide-transferase (EC:2.7.8.13); K01000 phospho-N-acetylmuramo" />
+    <hashEntry Key="xcb:XC_3513" Value="UDP-N-acetylmuramoyl-tripeptide--D-alanyl-D-alanine ligase; K01929 UDP-N-acetylmuramoyl-tripeptide--" />
+    <hashEntry Key="xcb:XC_3514" Value="murE; UDP-N-acetylmuramoylalanyl-D-glutamate--2,6-diaminopimelate ligase (EC:6.3.2.13); K01928 UDP-N" />
+    <hashEntry Key="xcb:XC_3515" Value="penicillin-binding protein 3; K03587 cell division protein FtsI (penicillin-binding protein 3)" />
+  </Genes>
+</KEGG.PathwayBrief>

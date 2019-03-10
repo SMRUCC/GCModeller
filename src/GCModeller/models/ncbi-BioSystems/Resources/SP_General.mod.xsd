@@ -1,0 +1,143 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqblock.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "SP-General"
+================================================= -->
+<!--
+*********************************************************************
+
+  SWISSPROT specific data
+  This block of specifications was developed by Mark Cavanaugh of
+      NCBI working with Amos Bairoch of SWISSPROT
+
+*********************************************************************
+-->
+<!-- Elements used by other modules:
+          SP-block -->
+
+<!-- Elements referenced from other modules:
+          Date,
+          Dbtag FROM NCBI-General,
+          Seq-id FROM NCBI-Seqloc -->
+
+<!-- ============================================ -->
+
+
+
+<!-- SWISSPROT specific descriptions -->
+<xs:element name="SP-block">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="SP-block_class">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    standard	-  conforms to all SWISSPROT checks
+    prelim	-  only seq and biblio checked
+-->
+                <xs:enumeration value="not-set"/>
+                <xs:enumeration value="standard"/>
+                <xs:enumeration value="prelim"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- old SWISSPROT ids -->
+      <xs:element name="SP-block_extra-acc" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SP-block_extra-acc_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- seq known to start with Met -->
+      <xs:element name="SP-block_imeth" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="false">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- plasmid names carrying gene -->
+      <xs:element name="SP-block_plasnm" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SP-block_plasnm_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- xref to other sequences -->
+      <xs:element name="SP-block_seqref" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- xref to non-sequence dbases -->
+      <xs:element name="SP-block_dbref" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- keywords -->
+      <xs:element name="SP-block_keywords" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SP-block_keywords_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- creation date -->
+      <xs:element name="SP-block_created" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- sequence update -->
+      <xs:element name="SP-block_sequpd" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- annotation update -->
+      <xs:element name="SP-block_annotupd" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb02040" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Flagellar assembly - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xcb02040" Value="Flagellar assembly&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_2231" Value="flagellar protein; K02398 negative regulator of flagellin synthesis FlgM" />
+    <hashEntry Key="xcb:XC_2232" Value="flgA; flagellar basal body P-ring biosynthesis protein FlgA; K02386 flagella basal body P-ring forma" />
+    <hashEntry Key="xcb:XC_2234" Value="flgB; flagellar basal-body rod protein FlgB; K02387 flagellar basal-body rod protein FlgB" />
+    <hashEntry Key="xcb:XC_2235" Value="flgC; flagellar basal body rod protein FlgC; K02388 flagellar basal-body rod protein FlgC" />
+    <hashEntry Key="xcb:XC_2236" Value="flgD; flagellar basal body rod modification protein; K02389 flagellar basal-body rod modification pr" />
+    <hashEntry Key="xcb:XC_2237" Value="flgE; flagellar hook protein FlgE; K02390 flagellar hook protein FlgE" />
+    <hashEntry Key="xcb:XC_2238" Value="flgF; flagellar basal body rod protein FlgF; K02391 flagellar basal-body rod protein FlgF" />
+    <hashEntry Key="xcb:XC_2239" Value="flgG; flagellar basal body rod protein FlgG; K02392 flagellar basal-body rod protein FlgG" />
+    <hashEntry Key="xcb:XC_2240" Value="flgH; flagellar basal body L-ring protein; K02393 flagellar L-ring protein precursor FlgH" />
+    <hashEntry Key="xcb:XC_2241" Value="flgI; flagellar basal body P-ring biosynthesis protein FlgA; K02394 flagellar P-ring protein precurs" />
+    <hashEntry Key="xcb:XC_2243" Value="flgK; flagellar hook-associated protein FlgK; K02396 flagellar hook-associated protein 1 FlgK" />
+    <hashEntry Key="xcb:XC_2244" Value="flgL; flagellar hook-associated protein FlgL; K02397 flagellar hook-associated protein 3 FlgL" />
+    <hashEntry Key="xcb:XC_2245" Value="flagellin; K02406 flagellin" />
+    <hashEntry Key="xcb:XC_2246" Value="flagellar protein; K02407 flagellar hook-associated protein 2" />
+    <hashEntry Key="xcb:XC_2247" Value="flagellar protein; K02422 flagellar protein FliS" />
+    <hashEntry Key="xcb:XC_2259" Value="flagellar protein; K02408 flagellar hook-basal body complex protein FliE" />
+    <hashEntry Key="xcb:XC_2260" Value="fliF; flagellar MS-ring protein; K02409 flagellar M-ring protein FliF" />
+    <hashEntry Key="xcb:XC_2261" Value="flagellar protein; K02410 flagellar motor switch protein FliG" />
+    <hashEntry Key="xcb:XC_2262" Value="flagellar protein; K02411 flagellar assembly protein FliH" />
+    <hashEntry Key="xcb:XC_2263" Value="flagellar protein; K02412 flagellum-specific ATP synthase [EC:3.6.3.14]" />
+    <hashEntry Key="xcb:XC_2264" Value="flagellar FliJ protein; K02413 flagellar FliJ protein" />
+    <hashEntry Key="xcb:XC_2265" Value="flagellar protein; K02414 flagellar hook-length control protein FliK" />
+    <hashEntry Key="xcb:XC_2267" Value="fliM; flagellar motor switch protein FliM; K02416 flagellar motor switch protein FliM" />
+    <hashEntry Key="xcb:XC_2268" Value="flagellar protein; K02417 flagellar motor switch protein FliN/FliY" />
+    <hashEntry Key="xcb:XC_2269" Value="flagellar protein; K02418 flagellar protein FliO/FliZ" />
+    <hashEntry Key="xcb:XC_2270" Value="fliP; flagellar biosynthesis protein FliP; K02419 flagellar biosynthetic protein FliP" />
+    <hashEntry Key="xcb:XC_2272" Value="flagellar biosynthesis; K02420 flagellar biosynthetic protein FliQ" />
+    <hashEntry Key="xcb:XC_2273" Value="flagellar biosynthetic protein; K02421 flagellar biosynthetic protein FliR" />
+    <hashEntry Key="xcb:XC_2277" Value="flhB; flagellar biosynthesis protein FlhB; K02401 flagellar biosynthetic protein FlhB" />
+    <hashEntry Key="xcb:XC_2278" Value="flhA; flagellar biosynthesis protein FlhA; K02400 flagellar biosynthesis protein FlhA" />
+    <hashEntry Key="xcb:XC_2297" Value="motC; flagellar motor protein; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="xcb:XC_2298" Value="flagellar motor protein MotD; K02557 chemotaxis protein MotB" />
+    <hashEntry Key="xcb:XC_3724" Value="flagellar motor protein MotA; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="xcb:XC_3725" Value="motB; flagellar motor protein MotB; K02557 chemotaxis protein MotB" />
+  </Genes>
+</KEGG.PathwayBrief>

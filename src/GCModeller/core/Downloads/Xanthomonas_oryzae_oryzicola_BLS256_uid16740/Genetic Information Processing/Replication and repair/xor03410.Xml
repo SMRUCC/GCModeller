@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor03410" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Base excision repair (BER) is the predominant DNA damage repair pathway for the processing of small base lesions, derived from oxidation and alkylation damages. BER is normally defined as DNA repair initiated by lesion-specific DNA glycosylases and completed by either of the two sub-pathways: short-patch BER where only one nucleotide is replaced and long-patch BER where 2-13 nucleotides are replaced. Each sub-pathway of BER relies on the formation of protein complexes that assemble at the site of the DNA lesion and facilitate repair in a coordinated fashion. This process of complex formation appears to provide an increase in specificity and efficiency to the BER pathway, thereby facilitating the maintenance of genome integrity by preventing the accumulation of highly toxic repair intermediates.&lt;br&gt;</Description>
+  <Name>Base excision repair - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xor03410" Value="Base excision repair&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0070" Value="mutM; formamidopyrimidine-DNA glycosylase; K10563 formamidopyrimidine-DNA glycosylase [EC:3.2.2.23 4" />
+    <hashEntry Key="xor:XOC_0371" Value="xth; exodeoxyribonuclease III; K01142 exodeoxyribonuclease III [EC:3.1.11.2]" />
+    <hashEntry Key="xor:XOC_0405" Value="polA; DNA polymerase I; K02335 DNA polymerase I [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_0518" Value="xth; exodeoxyribonuclease III; K01142 exodeoxyribonuclease III [EC:3.1.11.2]" />
+    <hashEntry Key="xor:XOC_0604" Value="ung; uracil-DNA glycosylase; K03648 uracil-DNA glycosylase [EC:3.2.2.27]" />
+    <hashEntry Key="xor:XOC_0662" Value="endonuclease; K05522 endonuclease VIII [EC:3.2.2.- 4.2.99.18]" />
+    <hashEntry Key="xor:XOC_1298" Value="mpg; DNA-3-methyladenine glycosylase; K01247 DNA-3-methyladenine glycosylase II [EC:3.2.2.21]" />
+    <hashEntry Key="xor:XOC_1491" Value="DNA-3-methyladenine glycosylase I; K01246 DNA-3-methyladenine glycosylase I [EC:3.2.2.20]" />
+    <hashEntry Key="xor:XOC_1624" Value="DNA methylation and regulatory protein; K13529 AraC family transcriptional regulator, regulatory pro" />
+    <hashEntry Key="xor:XOC_1809" Value="nth; endonuclease III; K10773 endonuclease III [EC:4.2.99.18]" />
+    <hashEntry Key="xor:XOC_1849" Value="DNA ligase; K01972 DNA ligase (NAD+) [EC:6.5.1.2]" />
+    <hashEntry Key="xor:XOC_1901" Value="mutY; A-G-specific adenine glycosylase; K03575 A/G-specific adenine glycosylase [EC:3.2.2.-]" />
+    <hashEntry Key="xor:XOC_2256" Value="recJ; single-stranded-DNA-specific exonuclease RecJ; K07462 single-stranded-DNA-specific exonuclease" />
+    <hashEntry Key="xor:XOC_3163" Value="DNA ligase; K10747 DNA ligase 1 [EC:6.5.1.1 6.5.1.6 6.5.1.7]" />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,20 @@
+
+ROSSLER system, recast as a GMA.
+
+RXN X1=X2 - X3
+RXN X2=0.36* X2 - X1
+RXN X3=X1 *X3 - 22.5* X3 - 49.6 *X1 + 1117.8
+
+INIT X1=19
+INIT X2=50 - 3 
+INIT X3=25* sqrt(4)
+INIT x=0
+INIT y=0
+INIT z=0
+
+RXN x=X1 - 18
+RXN y=X2 - 50
+RXN z=X3 - 50
+
+FINALTIME 200
+

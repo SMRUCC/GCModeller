@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00760" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Nicotinate and nicotinamide metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00115" Value="NAD biosynthesis, aspartate =&gt; NAD [PATH:eco00760]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00003" Value="NAD+" />
+    <hashEntry Key="C00006" Value="NADP+" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00153" Value="Nicotinamide" />
+    <hashEntry Key="C00163" Value="Propanoate" />
+    <hashEntry Key="C00232" Value="Succinate semialdehyde" />
+    <hashEntry Key="C00253" Value="Nicotinate" />
+    <hashEntry Key="C00334" Value="4-Aminobutanoate" />
+    <hashEntry Key="C00455" Value="Nicotinamide D-ribonucleotide" />
+    <hashEntry Key="C00857" Value="Deamino-NAD+" />
+    <hashEntry Key="C00922" Value="2,3-Dimethylmaleate" />
+    <hashEntry Key="C01004" Value="N-Methylnicotinate" />
+    <hashEntry Key="C01020" Value="6-Hydroxynicotinate" />
+    <hashEntry Key="C01056" Value="(S)-6-Hydroxynicotine" />
+    <hashEntry Key="C01059" Value="2,5-Dihydroxypyridine" />
+    <hashEntry Key="C01185" Value="Nicotinate D-ribonucleotide" />
+    <hashEntry Key="C01297" Value="6-Hydroxypseudooxynicotine" />
+    <hashEntry Key="C01384" Value="Maleic acid" />
+    <hashEntry Key="C01596" Value="Maleamate" />
+    <hashEntry Key="C02295" Value="Methylitaconate" />
+    <hashEntry Key="C02918" Value="1-Methylnicotinamide" />
+    <hashEntry Key="C02930" Value="2-Methyleneglutarate" />
+    <hashEntry Key="C03043" Value="(R)-6-Hydroxynicotine" />
+    <hashEntry Key="C03056" Value="2,6-Dihydroxypyridine" />
+    <hashEntry Key="C03150" Value="Nicotinamide-beta-riboside" />
+    <hashEntry Key="C03458" Value="2,3,6-Trihydroxypyridine" />
+    <hashEntry Key="C03652" Value="(2R,3S)-2,3-Dimethylmalate" />
+    <hashEntry Key="C03722" Value="Quinolinate" />
+    <hashEntry Key="C04226" Value="6-Oxo-1,4,5,6-tetrahydronicotinate" />
+    <hashEntry Key="C05380" Value="Nicotinurate" />
+    <hashEntry Key="C05840" Value="Iminoaspartate" />
+    <hashEntry Key="C05841" Value="Nicotinate D-ribonucleoside" />
+    <hashEntry Key="C05842" Value="N1-Methyl-2-pyridone-5-carboxamide" />
+    <hashEntry Key="C05843" Value="N1-Methyl-4-pyridone-5-carboxamide" />
+    <hashEntry Key="C06178" Value="1-Methylpyrrolinium" />
+    <hashEntry Key="C15523" Value="2,6-Dihydroxynicotinate" />
+    <hashEntry Key="C15986" Value="2,6-Dihydroxypseudooxynicotine" />
+    <hashEntry Key="C15987" Value="4-Methylaminobutyrate" />
+    <hashEntry Key="C16150" Value="(R,S)-Nicotine" />
+    <hashEntry Key="C16151" Value="2,6-Dihydroxy-N-methylmyosmine" />
+    <hashEntry Key="C16152" Value="Blue pigment" />
+    <hashEntry Key="C16159" Value="2-Formylglutarate" />
+    <hashEntry Key="C16390" Value="(S)-2-(Hydroxymethyl)glutarate" />
+    <hashEntry Key="C18232" Value="N-Formylmaleamic acid" />
+    <hashEntry Key="C19567" Value="4-Oxo-1-(3-pyridyl)-1-butanone" />
+    <hashEntry Key="C19569" Value="3-Succinoylpyridine" />
+    <hashEntry Key="C19631" Value="6-Hydroxy-3-succinoylpyridine" />
+    <hashEntry Key="C20361" Value="Pseudooxynicotine" />
+    <hashEntry Key="C20381" Value="3,3'-Bipyridine-2,2',5,5',6,6'-hexol" />
+    <hashEntry Key="C21075" Value="5-(N-Methyl-4,5-dihydro-1H-pyrrol-2-yl)pyridin-2-ol" />
+    <hashEntry Key="C21154" Value="N-Methylmyosmine" />
+  </Compound>
+  <PathwayMap Key="eco00760" Value="Nicotinate and nicotinamide metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0109" Value="nadC; quinolinate phosphoribosyltransferase (EC:2.4.2.19); K00767 nicotinate-nucleotide pyrophosphor" />
+    <hashEntry Key="eco:b0480" Value="ushA; bifunctional UDP-sugar hydrolase/5&amp;#39;-nucleotidase (EC:3.6.1.45); K11751 5&amp;#39;-nucleotidase / UDP-s" />
+    <hashEntry Key="eco:b0639" Value="nadD; nicotinic acid mononucleotide adenylyltransferase, NAD(P)-dependent (EC:2.7.7.18); K00969 nico" />
+    <hashEntry Key="eco:b0750" Value="nadA; quinolinate synthase, subunit A; K03517 quinolinate synthase [EC:2.5.1.72]" />
+    <hashEntry Key="eco:b0931" Value="pncB; nicotinate phosphoribosyltransferase (EC:6.3.4.21); K00763 nicotinate phosphoribosyltransferas" />
+    <hashEntry Key="eco:b1525" Value="sad; succinate semialdehyde dehydrogenase, NAD(P)+-dependent (EC:1.2.1.24); K08324 succinate-semiald" />
+    <hashEntry Key="eco:b1602" Value="pntB; pyridine nucleotide transhydrogenase, beta subunit (EC:1.6.1.2); K00325 NAD(P) transhydrogenas" />
+    <hashEntry Key="eco:b1603" Value="pntA; pyridine nucleotide transhydrogenase, alpha subunit (EC:1.6.1.2); K00324 NAD(P) transhydrogena" />
+    <hashEntry Key="eco:b1740" Value="nadE; NAD synthetase, NH3/glutamine-dependent (EC:6.3.5.1); K01916 NAD+ synthase [EC:6.3.1.5]" />
+    <hashEntry Key="eco:b1768" Value="pncA; nicotinamidase/pyrazinamidase (EC:3.5.1.- 3.5.1.19); K08281 nicotinamidase/pyrazinamidase [EC:" />
+    <hashEntry Key="eco:b2574" Value="nadB; quinolinate synthase, L-aspartate oxidase (B protein) subunit (EC:1.4.3.16); K00278 L-aspartat" />
+    <hashEntry Key="eco:b2615" Value="nadK; NAD kinase (EC:2.7.1.23); K00858 NAD+ kinase [EC:2.7.1.23]" />
+    <hashEntry Key="eco:b2661" Value="gabD; succinate-semialdehyde dehydrogenase I, NADP-dependent (EC:1.2.1.16); K00135 succinate-semiald" />
+    <hashEntry Key="eco:b2700" Value="pncC; nicotinamide-nucleotide amidohydrolase; NMN amidohydrolase (EC:3.5.1.42); K03743 nicotinamide-" />
+    <hashEntry Key="eco:b2744" Value="umpG; broad specificity 5&amp;#39;(3&amp;#39;)-nucleotidase and polyphosphatase; K03787 5&amp;#39;-nucleotidase [EC:3.1.3.5]" />
+    <hashEntry Key="eco:b3962" Value="sthA; pyridine nucleotide transhydrogenase, soluble (EC:1.6.1.1); K00322 NAD(P) transhydrogenase [EC" />
+    <hashEntry Key="eco:b3996" Value="nudC; NADH pyrophosphatase; K03426 NAD+ diphosphatase [EC:3.6.1.22]" />
+    <hashEntry Key="eco:b4374" Value="yjjG; dUMP phosphatase; K08723 5&amp;#39;-nucleotidase [EC:3.1.3.5]" />
+    <hashEntry Key="eco:b4384" Value="deoD; purine-nucleoside phosphorylase (EC:2.4.2.1); K03784 purine-nucleoside phosphorylase [EC:2.4.2" />
+    <hashEntry Key="eco:b4390" Value="nadR; trifunctional protein: nicotinamide mononucleotide adenylyltransferase, ribosylnicotinamide ki" />
+  </Genes>
+</KEGG.PathwayBrief>

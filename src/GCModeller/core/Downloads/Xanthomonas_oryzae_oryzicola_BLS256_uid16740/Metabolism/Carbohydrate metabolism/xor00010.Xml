@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00010" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Glycolysis is the process of converting glucose into pyruvate and generating small amounts of ATP (energy) and NADH (reducing power). It is a central pathway that produces important precursor metabolites: six-carbon compounds of glucose-6P and fructose-6P and three-carbon compounds of glycerone-P, glyceraldehyde-3P, glycerate-3P, phosphoenolpyruvate, and pyruvate [MD:M00001]. Acetyl-CoA, another important precursor metabolite, is produced by oxidative decarboxylation of pyruvate [MD:M00307]. When the enzyme genes of this pathway are examined in completely sequenced genomes, the reaction steps of three-carbon compounds from glycerone-P to pyruvate form a conserved core module [MD:M00002], which is found in almost all organisms and which sometimes contains operon structures in bacterial genomes. Gluconeogenesis is a synthesis pathway of glucose from noncarbohydrate precursors. It is essentially a reversal of glycolysis with minor variations of alternative paths [MD:M00003].&lt;br&gt;</Description>
+  <Name>Glycolysis / Gluconeogenesis - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00001" Value="Glycolysis (Embden-Meyerhof pathway), glucose =&gt; pyruvate [PATH:xor00010]" />
+    <hashEntry Key="xor_M00002" Value="Glycolysis, core module involving three-carbon compounds [PATH:xor00010]" />
+    <hashEntry Key="xor_M00307" Value="Pyruvate oxidation, pyruvate =&gt; acetyl-CoA [PATH:xor00010]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00031" Value="D-Glucose" />
+    <hashEntry Key="C00033" Value="Acetate" />
+    <hashEntry Key="C00036" Value="Oxaloacetate" />
+    <hashEntry Key="C00068" Value="Thiamin diphosphate" />
+    <hashEntry Key="C00074" Value="Phosphoenolpyruvate" />
+    <hashEntry Key="C00084" Value="Acetaldehyde" />
+    <hashEntry Key="C00103" Value="D-Glucose 1-phosphate" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00118" Value="D-Glyceraldehyde 3-phosphate" />
+    <hashEntry Key="C00186" Value="(S)-Lactate" />
+    <hashEntry Key="C00197" Value="3-Phospho-D-glycerate" />
+    <hashEntry Key="C00221" Value="beta-D-Glucose" />
+    <hashEntry Key="C00236" Value="3-Phospho-D-glyceroyl phosphate" />
+    <hashEntry Key="C00267" Value="alpha-D-Glucose" />
+    <hashEntry Key="C00469" Value="Ethanol" />
+    <hashEntry Key="C00631" Value="2-Phospho-D-glycerate" />
+    <hashEntry Key="C00668" Value="alpha-D-Glucose 6-phosphate" />
+    <hashEntry Key="C01159" Value="2,3-Bisphospho-D-glycerate" />
+    <hashEntry Key="C01172" Value="beta-D-Glucose 6-phosphate" />
+    <hashEntry Key="C01451" Value="Salicin" />
+    <hashEntry Key="C05125" Value="2-(alpha-Hydroxyethyl)thiamine diphosphate" />
+    <hashEntry Key="C05345" Value="beta-D-Fructose 6-phosphate" />
+    <hashEntry Key="C05378" Value="beta-D-Fructose 1,6-bisphosphate" />
+    <hashEntry Key="C06186" Value="Arbutin" />
+    <hashEntry Key="C06187" Value="Arbutin 6-phosphate" />
+    <hashEntry Key="C06188" Value="Salicin 6-phosphate" />
+    <hashEntry Key="C15972" Value="Enzyme N6-(lipoyl)lysine" />
+    <hashEntry Key="C15973" Value="Enzyme N6-(dihydrolipoyl)lysine" />
+    <hashEntry Key="C16255" Value="[Dihydrolipoyllysine-residue acetyltransferase] S-acetyldihydrolipoyllysine" />
+  </Compound>
+  <PathwayMap Key="xor00010" Value="Glycolysis / Gluconeogenesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0154" Value="fbp; fructose-1,6-bisphosphatase; K03841 fructose-1,6-bisphosphatase I [EC:3.1.3.11]" />
+    <hashEntry Key="xor:XOC_0225" Value="transglycosylase, epimerase; K01792 glucose-6-phosphate 1-epimerase [EC:5.1.3.15]" />
+    <hashEntry Key="xor:XOC_0366" Value="acsA; acetate--CoA ligase; K01895 acetyl-CoA synthetase [EC:6.2.1.1]" />
+    <hashEntry Key="xor:XOC_0489" Value="dihydrolipoamide acyltransferase; K00627 pyruvate dehydrogenase E2 component (dihydrolipoamide acety" />
+    <hashEntry Key="xor:XOC_0491" Value="2-oxoacid dehydrogenase E1 component, beta subunit; K00162 pyruvate dehydrogenase E1 component beta" />
+    <hashEntry Key="xor:XOC_0492" Value="pyruvate dehydrogenase E1 alpha subunit; K00161 pyruvate dehydrogenase E1 component alpha subunit [E" />
+    <hashEntry Key="xor:XOC_0794" Value="S-(hydroxymethyl)glutathione dehydrogenase-class III alcohol dehydrogenase; K00121 S-(hydroxymethyl)" />
+    <hashEntry Key="xor:XOC_0933" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xor:XOC_1100" Value="phosphoglycerate mutase; K15634 probable phosphoglycerate mutase [EC:5.4.2.12]" />
+    <hashEntry Key="xor:XOC_1554" Value="2,3-bisphosphoglycerate-dependent phosphoglycerate mutase; K01834 2,3-bisphosphoglycerate-dependent" />
+    <hashEntry Key="xor:XOC_1619" Value="alcohol dehydrogenase; K00001 alcohol dehydrogenase [EC:1.1.1.1]" />
+    <hashEntry Key="xor:XOC_1751" Value="lpdA; dihydrolipoamide dehydrogenase; K00382 dihydrolipoamide dehydrogenase [EC:1.8.1.4]" />
+    <hashEntry Key="xor:XOC_2172" Value="pgi; glucose-6-phosphate isomerase; K01810 glucose-6-phosphate isomerase [EC:5.3.1.9]" />
+    <hashEntry Key="xor:XOC_2193" Value="piperideine-6-carboxylate dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xor:XOC_2608" Value="glk; glucokinase; K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="xor:XOC_2794" Value="eno; phosphopyruvate hydratase; K01689 enolase [EC:4.2.1.11]" />
+    <hashEntry Key="xor:XOC_2940" Value="tpiA; triosephosphate isomerase; K01803 triosephosphate isomerase (TIM) [EC:5.3.1.1]" />
+    <hashEntry Key="xor:XOC_3255" Value="glk; glucokinase; K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="xor:XOC_3327" Value="glucose kinase; K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="xor:XOC_3425" Value="aldose 1-epimerase; K01785 aldose 1-epimerase [EC:5.1.3.3]" />
+    <hashEntry Key="xor:XOC_3585" Value="fructose-bisphosphate aldolase class-I; K01623 fructose-bisphosphate aldolase, class I [EC:4.1.2.13]" />
+    <hashEntry Key="xor:XOC_3587" Value="pyk; pyruvate kinase; K00873 pyruvate kinase [EC:2.7.1.40]" />
+    <hashEntry Key="xor:XOC_3589" Value="pgk; phosphoglycerate kinase; K00927 phosphoglycerate kinase [EC:2.7.2.3]" />
+    <hashEntry Key="xor:XOC_3592" Value="gap; glyceraldehyde-3-phosphate dehydrogenase, type I; K00134 glyceraldehyde 3-phosphate dehydrogena" />
+    <hashEntry Key="xor:XOC_3700" Value="6-phosphofructokinase; K00850 6-phosphofructokinase 1 [EC:2.7.1.11]" />
+    <hashEntry Key="xor:XOC_3841" Value="xanA; phosphohexose mutase; K15778 phosphomannomutase / phosphoglucomutase [EC:5.4.2.8 5.4.2.2]" />
+    <hashEntry Key="xor:XOC_3925" Value="lpdA; dihydrolipoamide dehydrogenase; K00382 dihydrolipoamide dehydrogenase [EC:1.8.1.4]" />
+    <hashEntry Key="xor:XOC_3927" Value="aceF; pyruvate dehydrogenase complex dihydrolipoamide acetyltransferase; K00627 pyruvate dehydrogena" />
+    <hashEntry Key="xor:XOC_4044" Value="pyruvate dehydrogenase E1 component; K00163 pyruvate dehydrogenase E1 component [EC:1.2.4.1]" />
+    <hashEntry Key="xor:XOC_4230" Value="phosphomannomutase; K15778 phosphomannomutase / phosphoglucomutase [EC:5.4.2.8 5.4.2.2]" />
+  </Genes>
+</KEGG.PathwayBrief>

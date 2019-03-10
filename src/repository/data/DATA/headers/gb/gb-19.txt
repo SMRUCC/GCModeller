@@ -1,0 +1,30 @@
+AY053366.1	Acute bee paralysis virus isolate Austria 1 capsid protein gene, complete cds
+AY053367.1	Acute bee paralysis virus isolate Germany 1 capsid protein gene, complete cds
+AY053368.1	Acute bee paralysis virus isolate Germany 2 capsid protein gene, complete cds
+AY053370.1	Acute bee paralysis virus isolate Poland 2 capsid protein gene, complete cds
+AY053371.1	Acute bee paralysis virus isolate Poland 3 capsid protein gene, complete cds
+AY053372.1	Acute bee paralysis virus isolate Hungary 2 capsid protein gene, complete cds
+AY053374.1	Acute bee paralysis virus isolate Hungary 3 capsid protein gene, complete cds
+AY053375.1	Acute bee paralysis virus isolate Hungary 4 capsid protein gene, complete cds
+AY053376.1	Acute bee paralysis virus isolate Poland 4 capsid protein gene, partial cds
+AY053377.1	Acute bee paralysis virus isolate Hungary 5 capsid protein gene, partial cds
+AY053378.1	Acute bee paralysis virus isolate Hungary 6 capsid protein gene, partial cds
+AY053379.1	Acute bee paralysis virus isolate Hungary 7 capsid protein gene, partial cds
+AY053380.1	Acute bee paralysis virus isolate Hungary 8 capsid protein gene, partial cds
+AY053381.1	Acute bee paralysis virus isolate Hungary 9 capsid protein gene, partial cds
+AY053383.1	Acute bee paralysis virus isolate Hungary 11 capsid protein gene, partial cds
+AY053382.1	Acute bee paralysis virus isolate Hungary 10 capsid protein gene, partial cds
+AY053384.1	Acute bee paralysis virus isolate Hungary 12 capsid protein gene, partial cds
+AY053385.1	Acute bee paralysis virus isolate Hungary 13 capsid protein gene, partial cds
+EU779937.1	Acute bee paralysis virus isolate 14A nonfunctional polyprotein gene, partial sequence
+EU779946.1	Acute bee paralysis virus isolate 8A nonfunctional polyprotein gene, partial sequence
+EU779947.1	Acute bee paralysis virus isolate 5A nonfunctional polyprotein gene, partial sequence
+EU604006.1	Israel acute paralysis virus of bees isolate 5.1 RNA-dependent RNA polymerase and structural protein genes, partial cds
+EU604009.1	Israel acute paralysis virus of bees isolate 5.2 RNA-dependent RNA polymerase and structural protein genes, partial cds
+EU604007.1	Israel acute paralysis virus of bees isolate 57.2 RNA-dependent RNA polymerase and structural protein genes, partial cds
+EU604008.1	Israel acute paralysis virus of bees isolate 59.1 RNA-dependent RNA polymerase and structural protein genes, partial cds
+EU604010.1	Israel acute paralysis virus of bees isolate 56.4 RNA-dependent RNA polymerase and structural protein genes, partial cds
+EU375538.1	Israel acute paralysis virus of bees isolate IF1 polyprotein gene, partial cds
+EU375539.1	Israel acute paralysis virus of bees isolate IF31 polyprotein gene, partial cds
+EU375540.1	Israel acute paralysis virus of bees isolate IF55 polyprotein gene, partial cds
+EU375541.1	Israel acute paralysis virus of bees isolate IF56 polyprotein gene, partial cds
