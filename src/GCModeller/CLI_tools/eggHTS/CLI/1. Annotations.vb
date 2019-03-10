@@ -704,6 +704,7 @@ Partial Module CLI
                               ' 取匹配度最高的结果
                               Return g.OrderByDescending(Function(h) h.identities).First
                           End Function)
+        Dim uniqueSubjects As New Index(Of String)
 
         For Each protein As EntityObject In dataset
             ' 可能是一个proteinGroup

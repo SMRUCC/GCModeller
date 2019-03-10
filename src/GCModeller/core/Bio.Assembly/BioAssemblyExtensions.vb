@@ -61,6 +61,16 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 <Package("Bio.Extensions", Publisher:="xie.guigang@gcmodeller.org")>
 Public Module BioAssemblyExtensions
 
+    ''' <summary>
+    ''' 在这里移除序列编号之中的版本号
+    ''' </summary>
+    ''' <param name="accession">``XXXXX.1``</param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function TrimAccessionVersion(accession As String) As String
+        Return accession.Split("."c)(Scan0)
+    End Function
+
     <Extension> Public Function IsNullOrEmpty(compound As bGetObject.Compound) As Boolean
         If compound Is Nothing Then
             Return True

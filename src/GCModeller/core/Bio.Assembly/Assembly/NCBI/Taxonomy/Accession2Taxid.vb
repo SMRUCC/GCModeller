@@ -134,16 +134,6 @@ Namespace Assembly.NCBI.Taxonomy
         Public Const Acc2Taxid_Header As String = "accession" & vbTab & "accession.version" & vbTab & "taxid" & vbTab & "gi"
 
         ''' <summary>
-        ''' 在这里移除版本号
-        ''' </summary>
-        ''' <param name="accession"></param>
-        ''' <returns></returns>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function TrimAccessionVersion(accession As String) As String
-            Return accession.Split("."c)(Scan0)
-        End Function
-
-        ''' <summary>
         ''' 做数据库的subset操作。这个函数所返回来的数据之中是包含有表头的
         ''' </summary>
         ''' <param name="acc_list"></param>
