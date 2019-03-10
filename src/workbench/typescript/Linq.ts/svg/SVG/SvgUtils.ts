@@ -1,4 +1,31 @@
+/// <reference path="../../../build/linq.d.ts"/>
+
 module SvgUtils {
+
+    /**
+     * è¿™ä¸ªå‡½æ•°ä¼šç›´æ¥ä»ç›®æ ‡çš„widthå’Œheightå±æ€§æ¥è·å–å€¼
+    */
+    export function getSize(container: HTMLElement, defaultSize: number[] | Canvas.Size = size(960, 600)): Canvas.Size {
+        var w = container.getAttribute("width");
+        var h = container.getAttribute("height");
+
+        if (Array.isArray(defaultSize)) {
+            defaultSize = size(defaultSize[0], defaultSize[1]);
+        }
+
+        if (isNullOrUndefined(w) || Strings.Empty(w, true)) {
+            w = defaultSize.width.toString();
+        }
+        if (isNullOrUndefined(h) || Strings.Empty(h, true)) {
+            h = defaultSize.height.toString();
+        }
+
+        return size(Strings.parseInt(w), Strings.parseInt(h));
+    }
+
+    export function size(width: number, height: number): Canvas.Size {
+        return new Canvas.Size(width, height);
+    }
 
     /**
      * https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
@@ -13,7 +40,7 @@ module SvgUtils {
     export const HTML5svgFeature: string = "http://www.w3.org/TR/SVG2/feature#GraphicsAttribute";
 
     /**
-     * ²âÊÔµ±Ç°µÄä¯ÀÀÆ÷ÊÇ·ñÖ§³ÖHTML5µÄ¸ß¼¶ÌØĞÔ
+     * æµ‹è¯•å½“å‰çš„æµè§ˆå™¨æ˜¯å¦æ”¯æŒHTML5çš„é«˜çº§ç‰¹æ€§
     */
     export function hasSVG2Feature(): boolean {
         return document.implementation.hasFeature(HTML5svgFeature, "2.0");

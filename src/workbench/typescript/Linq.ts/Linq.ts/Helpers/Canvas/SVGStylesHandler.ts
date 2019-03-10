@@ -42,7 +42,9 @@
                 try {
                     rules = (<any>sheets[i]).cssRules;
                 } catch (e) {
-                    console.warn("Stylesheet could not be loaded: " + sheets[i].href);
+                    if (Internal.outputWarning()) {
+                        console.warn("Stylesheet could not be loaded: " + sheets[i].href);
+                    }
                     continue;
                 }
 
@@ -76,7 +78,9 @@
                 try {
                     selectorText = rule.selectorText;
                 } catch (err) {
-                    console.warn(`The following CSS rule has an invalid selector: "${rule}"`, err);
+                    if (Internal.outputWarning()) {
+                        console.warn(`The following CSS rule has an invalid selector: "${rule}"`, err);
+                    }
                 }
 
                 try {
@@ -84,7 +88,9 @@
                         match = el.querySelector(selectorText) || (<HTMLElement>el.parentNode).querySelector(selectorText);
                     }
                 } catch (err) {
-                    console.warn(`Invalid CSS selector "${selectorText}"`, err);
+                    if (Internal.outputWarning()) {
+                        console.warn(`Invalid CSS selector "${selectorText}"`, err);
+                    }
                 }
 
                 if (match) {
@@ -179,8 +185,10 @@
                 }
 
                 function transferFailed(e) {
-                    console.warn('Failed to load font from: ' + font.url);
-                    console.warn(e)
+                    if (Internal.outputWarning()) {
+                        console.warn('Failed to load font from: ' + font.url);
+                        console.warn(e)
+                    }
                     css += font.text + '\n';
                     style.processFontQueue(queue, css, cssLoadedCallback);
                 }
