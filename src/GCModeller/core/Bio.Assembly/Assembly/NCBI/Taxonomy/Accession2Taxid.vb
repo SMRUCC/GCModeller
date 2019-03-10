@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.NCBI.Taxonomy
 
