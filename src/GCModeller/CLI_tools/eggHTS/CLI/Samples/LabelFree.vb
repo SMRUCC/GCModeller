@@ -241,6 +241,7 @@ Partial Module CLI
                     Next
                 End Function(controls + treatments).ToArray
 
+            Call subMatrix.SaveTo($"{out}/{analysis.Title}.csv")
         Next
 
         Return 0
