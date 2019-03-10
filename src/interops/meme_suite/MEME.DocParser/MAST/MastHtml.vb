@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::b0b76c64228fd68dd877085fcbe76918, meme_suite\MEME.DocParser\MAST\MastHtml.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class MASTHtml
-    ' 
-    '         Properties: MatchedSites
-    ' 
-    '     Class MatchedSite
-    ' 
-    '         Properties: Ends, EValue, Headers, MotifId, PValue
-    '                     SequenceData, SequenceId, Starts, Strand
-    ' 
-    '         Function: ToString, TryParse
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class MASTHtml
+' 
+'         Properties: MatchedSites
+' 
+'     Class MatchedSite
+' 
+'         Properties: Ends, EValue, Headers, MotifId, PValue
+'                     SequenceData, SequenceId, Starts, Strand
+' 
+'         Function: ToString, TryParse
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -93,8 +93,8 @@ Namespace DocumentFormat.MAST.HTML
         End Function
 
         Public Shared Function TryParse(strData As String) As MatchedSite()
-            Dim Tokens As String() = (From match As Match In Regex.Matches(strData, "<td>[^<]+</td>", RegexOptions.Singleline) Select match.Value).ToArray
-            Dim SequenceId As String = Tokens(0).GetValue, EValue = Tokens(1).GetValue
+            Dim tokens As String() = (From match As Match In Regex.Matches(strData, "<td>[^<]+</td>", RegexOptions.Singleline) Select match.Value).ToArray
+            Dim SequenceId As String = tokens(0).GetValue, EValue = tokens(1).GetValue
             Dim Matches = (From m As Match In Regex.Matches(strData, "title=""[^""]+?""") Select m.Value).ToArray
 
             If Matches.Length < 2 Then
