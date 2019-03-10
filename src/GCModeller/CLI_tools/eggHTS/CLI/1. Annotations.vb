@@ -731,6 +731,7 @@ Partial Module CLI
 
                     If hitUniprot.identities = 1.0 AndAlso hitUniprot.HitName <> IBlastOutput.HITS_NOT_FOUND Then
                         protein.ID = hitUniprot.HitName
+                        protein!Description = hitUniprot!description
                         bestHit = True
                         uniqueSubjects += hitUniprot.HitName
                         Exit For
@@ -745,6 +746,7 @@ Partial Module CLI
             If Not bestHit Then
                 If top.identities > 0 Then
                     protein.ID = top.HitName
+                    protein!Description = top!description
                     uniqueSubjects += top.HitName
                 Else
                     protein.ID = proteinGroup.First
