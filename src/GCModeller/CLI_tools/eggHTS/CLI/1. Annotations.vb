@@ -723,9 +723,16 @@ Partial Module CLI
                 If alignHits.ContainsKey(id) Then
                     Dim hitUniprot = alignHits(id)
 
+                    If uniqueSubjects(hitUniprot.HitName) > -1 Then
+                        ' 不是unique,则说明前面已经有query被分配为这个结果了
+                        ' 跳过
+                        Continue For
+                    End If
+
                     If hitUniprot.identities = 1.0 AndAlso hitUniprot.HitName <> IBlastOutput.HITS_NOT_FOUND Then
                         protein.ID = hitUniprot.HitName
                         bestHit = True
+                        uniqueSubjects += hitUniprot.HitName
                         Exit For
                     Else
                         If hitUniprot.identities > top.identities Then
@@ -738,6 +745,7 @@ Partial Module CLI
             If Not bestHit Then
                 If top.identities > 0 Then
                     protein.ID = top.HitName
+                    uniqueSubjects += top.HitName
                 Else
                     protein.ID = proteinGroup.First
                 End If
