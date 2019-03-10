@@ -680,7 +680,7 @@ Partial Module CLI
     <ExportAPI("/ID.Replace.bbh")>
     <Description("LabelFree result helper: replace the source ID to a unify organism protein ID by using ``bbh`` method. 
         This tools required the protein in ``datatset.csv`` associated with the alignment result in ``bbh.csv`` by using the ``query_name`` property.")>
-    <Usage("/ID.Replace.bbh /in <dataset.csv> /bbh <bbh/sbh.csv> [/out <ID.replaced.csv>]")>
+    <Usage("/ID.Replace.bbh /in <dataset.csv> /bbh <bbh/sbh.csv> [/description <fieldName, default=Description> /out <ID.replaced.csv>]")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function BBHReplace(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -689,6 +689,8 @@ Partial Module CLI
         Dim dataset As EntityObject() = EntityObject _
             .LoadDataSet([in]) _
             .ToArray
+        Dim fieldDesc$ = args("/description") Or "Description"
+
         ' 2019-03-10 一般是使用这个函数将自定义的序列编号映射到Uniprot之上
         ' 所以在这里应该尝试解析的是uniprot的编号
         Dim accessionParser As New ITryParse(AddressOf TryGetUniProtAccession)
@@ -728,7 +730,7 @@ Partial Module CLI
                 Dim hitUniProt = allHits(Scan0)
 
                 protein.ID = hitUniProt.HitName
-                protein!Description = hitUniProt!description
+                protein(fieldDesc) = (hitUniProt!description)
             Else
                 ' 没有比对结果,则取出原来的第一个id
                 protein.ID = proteinGroup.First
