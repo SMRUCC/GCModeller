@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed1a9e13ed9ff6a77f7666bb140d57a6, Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb"
+﻿#Region "Microsoft.VisualBasic::79d545035949381d4f64a2f0252915fb, Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb"
 
     ' Author:
     ' 
@@ -36,10 +36,13 @@
     '         Properties: Taxonomy
     ' 
     '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: __ascendantsWithRanksAndNames, __descendants, __preorderTraversal, __preorderTraversalOnlyLeaves, flatten
     '                   (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren, GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves
     '                   GetLeavesWithRanksAndNames, GetName, GetParent, GetRank, GetTaxidsAtRank
     '                   preorderTraversal
+    ' 
+    '         Sub: loadTree
     ' 
     ' 
     ' /********************************************************************************/
@@ -145,8 +148,8 @@ Namespace Assembly.NCBI.Taxonomy
         ''' + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
         ''' 
         ''' </summary>
-        Sub New(DIR As String)
-            Call Me.New(DIR & "/nodes.dmp", DIR & "/names.dmp")
+        Sub New(directory As String)
+            Call Me.New(directory & "/nodes.dmp", directory & "/names.dmp")
         End Sub
 
         ''' <summary>
@@ -161,24 +164,30 @@ Namespace Assembly.NCBI.Taxonomy
         ''' + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
         ''' 
         ''' </summary>
-        ''' <param name="nodes_filename"></param>
-        ''' <param name="names_filename"></param>
-        Sub New(nodes_filename As String, names_filename As String)
-            If (Not nodes_filename.FileExists) OrElse (Not names_filename.FileExists) Then
-                Throw New Exception
+        ''' <param name="nodes"></param>
+        ''' <param name="names"></param>
+        Sub New(nodes$, names$)
+            If (Not nodes.FileExists) OrElse (Not names.FileExists) Then
+                Throw New Exception("Missing file ""node.dmp"" or ""names.dmp"".")
+            Else
+                Call "NcbiTaxonomyTree building ...".__DEBUG_ECHO
+                Call loadTree(names, nodes, Taxonomy)
+                Call "NcbiTaxonomyTree built".__DEBUG_ECHO
             End If
+        End Sub
 
-            Call "NcbiTaxonomyTree building ...".__DEBUG_ECHO
-
+        Private Shared Sub loadTree(names$, nodes$, taxonomy As Dictionary(Of Integer, TaxonomyNode))
             Dim taxid2name As New Dictionary(Of Integer, String)
             Dim taxid As Integer
             Dim parent_taxid As Integer
 
-            Call $"{names_filename.ToFileURL} parsing ...".__DEBUG_ECHO
+            Call $"{names.ToFileURL} parsing ...".__DEBUG_ECHO
 
-            For Each line In names_filename.IterateAllLines
+            For Each line As String In names.IterateAllLines
                 Dim lineToken$() = line.Replace(ASCII.TAB, "").Split("|"c)
 
+                ' 读取名称数据
+                ' 将taxid和scientific name之间进行一一对应
                 If lineToken(3).TextEquals(sciNdeli) Then
                     taxid = CInt(lineToken(0))
                     taxid2name(taxid) = lineToken(1)
@@ -186,23 +195,43 @@ Namespace Assembly.NCBI.Taxonomy
             Next
 
             Call "names.dmp parsed".__DEBUG_ECHO
-            Call $"{nodes_filename} parsing ...".__DEBUG_ECHO
+            Call $"{nodes} parsing ...".__DEBUG_ECHO
 
-            For Each line As String In nodes_filename.IterateAllLines
+            For Each line As String In nodes.IterateAllLines
                 Dim lineTokens$() = line.Replace(ASCII.TAB, "").Split("|"c)
+
+                ' nodes.dmp
+                ' ---------
+                ' 
+                ' this file represents taxonomy nodes. The description for each node includes 
+                ' the following fields
+                '
+                '     tax_id                   -- node id in GenBank taxonomy database
+                '     parent tax_id            -- parent node id in GenBank taxonomy database
+                '     rank                     -- rank Of this node (superkingdom, kingdom, ...) 
+                ' 	  embl code                -- locus-name prefix; Not unique
+                '     division id                        -- see division.dmp file
+                '     inherited div flag  (1 Or 0)		 -- 1 if node inherits division from parent
+                ' 	  genetic code id				     -- see gencode.dmp file
+                '     inherited GC  flag  (1 Or 0)		 -- 1 if node inherits genetic code from parent
+                ' 	  mitochondrial genetic code id		 -- see gencode.dmp file
+                '     inherited MGC flag  (1 Or 0)	  	 -- 1 if node inherits mitochondrial gencode from parent
+                ' 	  GenBank hidden flag (1 Or 0)       -- 1 if name Is suppressed in GenBank entry lineage
+                ' 	  hidden subtree root flag (1 Or 0)  -- 1 if this subtree has no sequence data yet
+                ' 	  comments                           -- Free-Text comments And citations
 
                 taxid = CInt(lineTokens(0))
                 parent_taxid = CInt(lineTokens(1))
 
                 ' : # 18204/1308852
-                If Taxonomy.ContainsKey(taxid) Then
-                    With Taxonomy(taxid)
+                If taxonomy.ContainsKey(taxid) Then
+                    With taxonomy(taxid)
                         .rank = lineTokens(2)
                         .parent = parent_taxid
                     End With
                 Else
                     ' : # 1290648/1308852
-                    Taxonomy(taxid) = New TaxonomyNode With {
+                    taxonomy(taxid) = New TaxonomyNode With {
                         .name = taxid2name(taxid),
                         .rank = lineTokens(2),
                         .parent = parent_taxid,
@@ -212,10 +241,10 @@ Namespace Assembly.NCBI.Taxonomy
                     Call taxid2name.Remove(taxid)
                 End If
 
-                If Taxonomy.ContainsKey(parent_taxid) Then
-                    Taxonomy(parent_taxid).children.Add(taxid)
+                If taxonomy.ContainsKey(parent_taxid) Then
+                    taxonomy(parent_taxid).children.Add(taxid)
                 Else
-                    Taxonomy(parent_taxid) = New TaxonomyNode With {
+                    taxonomy(parent_taxid) = New TaxonomyNode With {
                         .name = taxid2name(parent_taxid),
                         .rank = Nothing,
                         .parent = Nothing,
@@ -229,16 +258,14 @@ Namespace Assembly.NCBI.Taxonomy
 
             Call "nodes.dmp parsed".__DEBUG_ECHO
 
-            ' # To avoid infinite Loop
-            Dim root_children = Taxonomy(1).children
-            root_children.Remove(1)
+            ' To avoid infinite Loop
+            Dim root_children = taxonomy(1).children
+            Call root_children.Remove(1)
 
-            With Taxonomy(1)
+            With taxonomy(1)
                 .parent = Nothing
                 .children = root_children
             End With
-
-            Call "NcbiTaxonomyTree built".__DEBUG_ECHO
         End Sub
 
         ''' <summary>

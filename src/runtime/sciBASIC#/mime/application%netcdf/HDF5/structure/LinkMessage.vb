@@ -1,3 +1,49 @@
+﻿#Region "Microsoft.VisualBasic::8dab30ea0ca0ab5f1ddd4433626d13cb, mime\application%netcdf\HDF5\structure\LinkMessage.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class LinkMessage
+    ' 
+    '         Properties: address, creationOrder, encoding, flags, link
+    '                     linkAddress, linkName, linkType, version
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: printValues
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 
 '
 ' * Mostly copied from NETCDF4 source code.
@@ -15,8 +61,8 @@ Namespace HDF5.[Structure]
         Private m_address As Long
 
         Private m_version As Integer
-        Private m_flags As SByte
-        Private m_encoding As SByte
+        Private m_flags As Byte
+        Private m_encoding As Byte
         Private m_linkType As Integer
         ' 0=hard, 1=soft, 64 = external
         Private m_creationOrder As Long
@@ -74,13 +120,13 @@ Namespace HDF5.[Structure]
             End Get
         End Property
 
-        Public Overridable ReadOnly Property flags() As SByte
+        Public Overridable ReadOnly Property flags() As Byte
             Get
                 Return Me.m_flags
             End Get
         End Property
 
-        Public Overridable ReadOnly Property encoding() As SByte
+        Public Overridable ReadOnly Property encoding() As Byte
             Get
                 Return Me.m_encoding
             End Get
@@ -134,3 +180,4 @@ Namespace HDF5.[Structure]
     End Class
 
 End Namespace
+

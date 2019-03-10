@@ -1,3 +1,48 @@
+﻿#Region "Microsoft.VisualBasic::ccf5aa5cec92a31b78fde241f83b76b8, mime\application%netcdf\HDF5\structure\BLinkTreeNode.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class BLinkTreeNode
+    ' 
+    '         Properties: signature, totalBLinkTreeNodeSize, validSignature
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: printValues
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 
 '
 ' * Mostly copied from NETCDF4 source code.
@@ -16,9 +61,9 @@ Namespace HDF5.[Structure]
 
 
     Public Class BLinkTreeNode
-        Public Shared ReadOnly BLINKTREENODE_SIGNATURE As SByte() = New CharStream() From {"T"c, "R"c, "E"c, "E"c}
+        Public Shared ReadOnly BLINKTREENODE_SIGNATURE As Byte() = New CharStream() From {"T"c, "R"c, "E"c, "E"c}
 
-        Private m_signature As SByte()
+        Private m_signature As Byte()
         Private m_nodeType As Integer
         Private m_nodeLevel As Integer
         Private m_entriesUsed As Integer
@@ -26,17 +71,17 @@ Namespace HDF5.[Structure]
         Private m_addressOfLeftSibling As Long
         Private m_addressOfRightSibling As Long
 
-        Private m_offsetToLocalHeap As List(Of System.Nullable(Of Long))
-        Private m_keyOfChild As List(Of SByte())
+        Private m_offsetToLocalHeap As List(Of Long)
+        Private m_keyOfChild As List(Of Byte())
 
-        Private m_addressOfChild As List(Of System.Nullable(Of Long))
+        Private m_addressOfChild As List(Of Long)
 
         Private m_totalBLinkTreeNodeSize As Integer
 
         Public Sub New([in] As BinaryReader, sb As Superblock)
 
             ' signature
-            Me.m_signature = New SByte(3) {}
+            Me.m_signature = New Byte(3) {}
 
             For i As Integer = 0 To 3
                 Me.m_signature(i) = [in].readByte()
@@ -57,13 +102,13 @@ Namespace HDF5.[Structure]
 
             Me.m_totalBLinkTreeNodeSize += sb.sizeOfOffsets * 2
 
-            Me.m_offsetToLocalHeap = New List(Of System.Nullable(Of Long))()
-            Me.m_keyOfChild = New List(Of SByte())()
-            Me.m_addressOfChild = New List(Of System.Nullable(Of Long))()
+            Me.m_offsetToLocalHeap = New List(Of Long)()
+            Me.m_keyOfChild = New List(Of Byte())()
+            Me.m_addressOfChild = New List(Of Long)()
 
             For i As Integer = 0 To Me.m_entriesUsed - 1
                 If Me.m_nodeType = 0 Then
-                    Dim key As System.Nullable(Of Long) = ReadHelper.readL([in], sb)
+                    Dim key As Long = ReadHelper.readL([in], sb)
                     Me.m_offsetToLocalHeap.Add(key)
                 ElseIf Me.m_nodeType = 1 Then
                     Dim chunksize As Integer = [in].readInt()
@@ -74,7 +119,7 @@ Namespace HDF5.[Structure]
             Next
         End Sub
 
-        Public Overridable ReadOnly Property signature() As SByte()
+        Public Overridable ReadOnly Property signature() As Byte()
             Get
                 Return Me.m_signature
             End Get
@@ -114,3 +159,4 @@ Namespace HDF5.[Structure]
     End Class
 
 End Namespace
+

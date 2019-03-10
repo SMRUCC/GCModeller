@@ -85,6 +85,7 @@ Module AnalysisCommon
                 End With
             End SyncLock
 
+            ' vector shadows dynamics language feature
             With CObj(.ByRef)
 
                 test = (Math.Log(level, 2) <= Vector.Abs(log2FC)) & (p <= pvalue)

@@ -56,35 +56,54 @@ class TypeInfo {
     }
 
     /**
-     * 获取某一个对象的类型信息
+     * 获取得到类型名称
     */
-    public static typeof<T>(obj: T): TypeInfo {
+    public static getClass(obj: any): string {
         var type = typeof obj;
         var isObject: boolean = type == "object";
         var isArray: boolean = Array.isArray(obj);
-        var className: string = "";
         var isNull: boolean = isNullOrUndefined(obj);
 
+        return TypeInfo.getClassInternal(obj, isArray, isObject, isNull);
+    }
+
+    private static getClassInternal(obj: any, isArray: boolean, isObject: boolean, isNull: boolean): string {
         if (isArray) {
             var x = (<any>obj)[0];
+            var className: string;
 
             if ((className = typeof x) == "object") {
                 className = x.constructor.name;
             } else {
                 // do nothing
             }
+
+            return className;
         } else if (isObject) {
             if (isNull) {
-                console.warn("Object is nothing! [https://docs.microsoft.com/en-us/dotnet/visual-basic/language-reference/nothing]");
-                className = "null";
+                if (Internal.outputWarning()) {
+                    console.warn(TypeExtensions.objectIsNothing);
+                }
+
+                return "null";
             } else {
-                className = (<any>obj.constructor).name;
+                return (<any>obj.constructor).name;
             }
         } else {
-            className = "";
+            return "";
         }
+    }
 
+    /**
+     * 获取某一个对象的类型信息
+    */
+    public static typeof<T>(obj: T): TypeInfo {
+        var type = typeof obj;
+        var isObject: boolean = type == "object";
+        var isArray: boolean = Array.isArray(obj);
+        var isNull: boolean = isNullOrUndefined(obj);
         var typeInfo: TypeInfo = new TypeInfo;
+        var className: string = TypeInfo.getClassInternal(obj, isArray, isObject, isNull);
 
         typeInfo.typeOf = isArray ? "array" : type;
         typeInfo.class = className;
@@ -146,14 +165,14 @@ class TypeInfo {
     */
     public static CreateObject<V>(nameValues: NamedValue<V>[] |
         IEnumerator<NamedValue<V>> |
-        Map<string, V>[] |
-        IEnumerator<Map<string, V>>): object {
+        MapTuple<string, V>[] |
+        IEnumerator<MapTuple<string, V>>): object {
 
         var obj: object = {};
         var type = TypeInfo.typeof(nameValues);
 
-        if (type.IsArray && type.class == "Map") {
-            (<Map<string, V>[]>nameValues).forEach(map => obj[map.key] = map.value);
+        if (type.IsArray && type.class == "MapTuple") {
+            (<MapTuple<string, V>[]>nameValues).forEach(map => obj[map.key] = map.value);
         } else if (type.IsArray && type.class == "NamedValue") {
             (<NamedValue<V>[]>nameValues).forEach(nv => obj[nv.name] = nv.value);
         } else if (type.class == "IEnumerator") {
@@ -161,8 +180,8 @@ class TypeInfo {
 
             type = seq.ElementType;
 
-            if (type.class == "Map") {
-                (<IEnumerator<Map<string, V>>>nameValues)
+            if (type.class == "MapTuple") {
+                (<IEnumerator<MapTuple<string, V>>>nameValues)
                     .ForEach(map => {
                         obj[map.key] = map.value;
                     });

@@ -47,6 +47,7 @@ Module Program
     End Sub
 
     Public Function Main() As Integer
+        ' Call Module2.Main()
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 End Module

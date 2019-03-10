@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1da4ca4fadbec2a8d255737be3941103, Bio.Assembly\Metagenomics\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::e8626c8e0d4bb62cec5b74bbc7e85a9a, Bio.Assembly\Metagenomics\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -111,6 +111,11 @@ Namespace Metagenomics
             family = lineage(NcbiTaxonomyTree.family)
             genus = lineage(NcbiTaxonomyTree.genus)
             species = lineage(NcbiTaxonomyTree.species)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(taxonomyNodes As IEnumerable(Of TaxonomyNode))
+            Call Me.New(taxonomyNodes.ToDictionary(Function(t) t.rank, Function(t) t.name))
         End Sub
 
         Shared ReadOnly DescRanks$() = NcbiTaxonomyTree.stdranks.Reverse.ToArray
@@ -299,6 +304,14 @@ Namespace Metagenomics
             tax += BIOMPrefixAlt(++i) & Me.species
 
             Return tax.JoinBy(";")
+        End Function
+
+        Public Overloads Function ToString(BIOMstyle As Boolean) As String
+            If BIOMstyle Then
+                Return Me.ToArray.TaxonomyString
+            Else
+                Return Me.ToString
+            End If
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3356928d61006f9605795b4c6b89612f, Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
+﻿#Region "Microsoft.VisualBasic::53a03ddebcd862c62fd86c272ea3ec75, Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
 
     ' Author:
     ' 

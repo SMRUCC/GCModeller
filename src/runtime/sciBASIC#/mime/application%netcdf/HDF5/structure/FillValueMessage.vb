@@ -1,3 +1,49 @@
+﻿#Region "Microsoft.VisualBasic::66ccb8dedc3ea9cef2a286452f8c7590, mime\application%netcdf\HDF5\structure\FillValueMessage.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class FillValueMessage
+    ' 
+    '         Properties: address, fillWriteTime, flags, hasFillValue, size
+    '                     spaceAllocateTime, value, version
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: printValues
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 
 '
 ' * Mostly copied from NETCDF4 source code.
@@ -21,7 +67,7 @@ Namespace HDF5.[Structure]
         Private m_fillWriteTime As Integer
         Private m_hasFillValue As Boolean
         Private m_size As Integer
-        Private m_value As SByte()
+        Private m_value As Byte()
 
         Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
             [in].offset = address
@@ -37,8 +83,8 @@ Namespace HDF5.[Structure]
                 Me.m_hasFillValue = ([in].readByte() <> 0)
             Else
                 Me.m_flags = [in].readByte()
-                Me.m_spaceAllocateTime = CSByte(Me.m_flags And 3)
-                Me.m_fillWriteTime = CSByte((Me.m_flags >> 2) And 3)
+                Me.m_spaceAllocateTime = CByte(Me.m_flags And 3)
+                Me.m_fillWriteTime = CByte((Me.m_flags >> 2) And 3)
                 Me.m_hasFillValue = (Me.m_flags And 32) <> 0
             End If
 
@@ -95,7 +141,7 @@ Namespace HDF5.[Structure]
             End Get
         End Property
 
-        Public Overridable ReadOnly Property value() As SByte()
+        Public Overridable ReadOnly Property value() As Byte()
             Get
                 Return Me.m_value
             End Get
@@ -116,3 +162,4 @@ Namespace HDF5.[Structure]
     End Class
 
 End Namespace
+

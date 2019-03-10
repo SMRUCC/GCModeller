@@ -15,32 +15,20 @@ module DataExtensions {
         return window.btoa(binary);
     }
 
+    /**
+     * 将uri之中的base64字符串数据转换为一个byte数据流
+    */
     export function uriToBlob(uri: string): Blob {
         var byteString = window.atob(uri.split(',')[1]);
         var mimeString = uri.split(',')[0].split(':')[1].split(';')[0]
         var buffer = new ArrayBuffer(byteString.length);
         var intArray = new Uint8Array(buffer);
+
         for (var i = 0; i < byteString.length; i++) {
             intArray[i] = byteString.charCodeAt(i);
         }
+
         return new Blob([buffer], { type: mimeString });
-    }
-
-    export function getCook(cookiename: string): string {
-        // Get name followed by anything except a semicolon
-        var cookie: string = document.cookie;
-        var cookiestring = RegExp("" + cookiename + "[^;]+").exec(cookie);
-        var value: string;
-
-        // Return everything after the equal sign, 
-        // or an empty string if the cookie name not found
-        if (!!cookiestring) {
-            value = cookiestring.toString().replace(/^[^=]+./, "");
-        } else {
-            value = "";
-        }
-
-        return decodeURIComponent(value);
     }
 
     /**

@@ -1,3 +1,49 @@
+﻿#Region "Microsoft.VisualBasic::2f88b265ac918023317b81738f59c205, mime\application%netcdf\HDF5\structure\DataNode.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DataNode
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: [next], hasNext
+    ' 
+    '         Sub: first
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 
 '
 ' * Mostly copied from NETCDF4 source code.
@@ -16,7 +62,7 @@ Namespace HDF5.[Structure]
 
     Public Class DataNode
 
-        Public Shared ReadOnly SIGNATURE As SByte() = New CharStream() From {"T"c, "R"c, "E"c, "E"c}
+        Public Shared ReadOnly SIGNATURE As Byte() = New CharStream() From {"T"c, "R"c, "E"c, "E"c}
 
         Private m_address As Long
         Private m_layout As Layout
@@ -42,7 +88,7 @@ Namespace HDF5.[Structure]
 
             Me.m_address = address
             Me.m_layout = layout
-            Dim signature__1 As SByte() = [in].readBytes(4)
+            Dim signature__1 As Byte() = [in].readBytes(4)
 
             For i As Integer = 0 To 3
                 If signature__1(i) <> SIGNATURE(i) Then
@@ -150,3 +196,4 @@ Namespace HDF5.[Structure]
     End Class
 
 End Namespace
+

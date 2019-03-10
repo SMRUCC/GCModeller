@@ -1,7 +1,8 @@
 namespace data {
 
     /**
-     * 一个数值范围
+     * A numeric range model.
+     * (一个数值范围)
     */
     export class NumericRange implements DoubleRange {
 
@@ -27,15 +28,28 @@ namespace data {
 
         // #region Constructors (1)
 
-        public constructor(min: number, max: number) {
-            this.min = min;
-            this.max = max;
+        /**
+         * Create a new numeric range object
+        */
+        public constructor(min: number | DoubleRange, max: number = null) {
+            if (typeof min == "number" && (!isNullOrUndefined(max))) {
+                this.min = min;
+                this.max = max;
+            } else {
+                var range = <DoubleRange>min;
+
+                this.min = range.min;
+                this.max = range.max;
+            }
         }
 
         // #endregion
 
         // #region Public Accessors (1)
 
+        /**
+         * The delta length between the max and the min value.
+        */
         public get Length(): number {
             return this.max - this.min;
         }
@@ -46,6 +60,8 @@ namespace data {
 
         /**
          * 从一个数值序列之中创建改数值序列的值范围
+         * 
+         * @param numbers A given numeric data sequence.
         */
         public static Create(numbers: number[] | IEnumerator<number>): NumericRange {
             var seq: IEnumerator<number> =
@@ -67,6 +83,16 @@ namespace data {
         */
         public IsInside(x: number): boolean {
             return x >= this.min && x <= this.max;
+        }
+
+        /**
+         * 将一个位于此区间内的实数映射到另外一个区间之中
+        */
+        public ScaleMapping(x: number, range: DoubleRange): number {
+            var percentage = (x - this.min) / this.Length;
+            var y = percentage * (range.max - range.min) + range.min;
+
+            return y;
         }
 
         /**

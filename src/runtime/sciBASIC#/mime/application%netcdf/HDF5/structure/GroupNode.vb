@@ -1,3 +1,49 @@
+﻿#Region "Microsoft.VisualBasic::37cc68465faa6d0326350b20ed091e32, mime\application%netcdf\HDF5\structure\GroupNode.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class GroupNode
+    ' 
+    '         Properties: address, entryNumber, signature, symbols, validSignature
+    '                     version
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: printValues
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 
 '
 ' * Mostly copied from NETCDF4 source code.
@@ -15,10 +61,10 @@ Namespace HDF5.[Structure]
 
     Public Class GroupNode
 
-        Public Shared ReadOnly GROUPNODE_SIGNATURE As SByte() = New CharStream() From {"S"c, "N"c, "O"c, "D"c}
+        Public Shared ReadOnly GROUPNODE_SIGNATURE As Byte() = New CharStream() From {"S"c, "N"c, "O"c, "D"c}
 
         Private m_address As Long
-        Private m_signature As SByte()
+        Private m_signature As Byte()
         Private m_version As Integer
         Private m_entryNumber As Integer
 
@@ -68,7 +114,7 @@ Namespace HDF5.[Structure]
             End Get
         End Property
 
-        Public Overridable ReadOnly Property signature() As SByte()
+        Public Overridable ReadOnly Property signature() As Byte()
             Get
                 Return Me.m_signature
             End Get
@@ -109,3 +155,4 @@ Namespace HDF5.[Structure]
     End Class
 
 End Namespace
+
