@@ -257,12 +257,11 @@ Namespace LocalBLAST.Application
         ''' <summary>
         ''' 为每一个query都赋值一个唯一的hit结果,如果需要比较真实的比对结果,则可以使用包含有重复值的besthit导出方法
         ''' </summary>
-        ''' <typeparam name="T"></typeparam>
         ''' <param name="blast">假设query和hit的id编号都是已经经过修剪了的</param>
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function UniqueAlignment(Of T)(blast As IEnumerable(Of BBHIndex)) As Dictionary(Of String, BBHIndex)
+        Public Function UniqueAlignment(blast As IEnumerable(Of BBHIndex)) As Dictionary(Of String, BBHIndex)
             ' 按照query来分组
             Dim alignhits As Dictionary(Of String, BBHIndex()) = blast _
                 .GroupBy(Function(q) q.QueryName) _
