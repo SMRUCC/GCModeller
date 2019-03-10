@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea9b595cfcd807a837c97b973e69fd74, Bio.Assembly\test\KEGGRefMaps.vb"
+﻿#Region "Microsoft.VisualBasic::2a9f287920671a86424f4cd83402c851, Bio.Assembly\test\KEGGRefMaps.vb"
 
     ' Author:
     ' 

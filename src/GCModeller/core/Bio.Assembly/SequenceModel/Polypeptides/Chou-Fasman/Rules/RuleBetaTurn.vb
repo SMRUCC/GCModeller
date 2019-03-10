@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::724eae5f19e0a4361a64bb82eccb5cae, Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleBetaTurn.vb"
+﻿#Region "Microsoft.VisualBasic::9dd5e7c37b1ef76caf844f004a08b473, Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleBetaTurn.vb"
 
     ' Author:
     ' 

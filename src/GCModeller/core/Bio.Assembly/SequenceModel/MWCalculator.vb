@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf2ef4c732834a46a0a8f9b24adbf6ad, Bio.Assembly\SequenceModel\MWCalculator.vb"
+﻿#Region "Microsoft.VisualBasic::bbd19ec6a775ab1269d51b6236921fe3, Bio.Assembly\SequenceModel\MWCalculator.vb"
 
     ' Author:
     ' 

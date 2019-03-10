@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b94dd325e5e61bd704be0ce3b14cb36c, Bio.Assembly\ComponentModel\Equations\Equivalence.vb"
+﻿#Region "Microsoft.VisualBasic::9353f17bec8b7642a311becc6f8dfb8d, Bio.Assembly\ComponentModel\Equations\Equivalence.vb"
 
     ' Author:
     ' 

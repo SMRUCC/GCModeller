@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01613c18a2db2f069530be9597eacbbd, Bio.Assembly\ContextModel\Promoter\PromoterRegionParser.vb"
+﻿#Region "Microsoft.VisualBasic::b1342ed3c709e50706eebb39331d90b6, Bio.Assembly\ContextModel\Promoter\PromoterRegionParser.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::891d4219d640832e5f2c0f8799f5ee0a, Bio.Assembly\ContextModel\Algorithm\Descriptions.vb"
+﻿#Region "Microsoft.VisualBasic::6a4c17e7a9f32aa2b8e46f84aa6e5723, Bio.Assembly\ContextModel\Algorithm\Descriptions.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bdbba134a5b40937ca3c44a63b10253, Bio.Assembly\Assembly\MetaCyc\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::271088afe0e2c2760f6fed160a8dc26c, Bio.Assembly\Assembly\MetaCyc\Extensions.vb"
 
     ' Author:
     ' 

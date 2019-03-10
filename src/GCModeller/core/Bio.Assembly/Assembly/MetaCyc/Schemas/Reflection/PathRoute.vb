@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60fcdee20670f553e0756fcf162944c7, Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\PathRoute.vb"
+﻿#Region "Microsoft.VisualBasic::aeddf02e363a08642a10e283f322479a, Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\PathRoute.vb"
 
     ' Author:
     ' 
