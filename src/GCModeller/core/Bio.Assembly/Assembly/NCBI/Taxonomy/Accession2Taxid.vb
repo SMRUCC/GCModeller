@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27ece93826795ef5ccd69c4eb2acffb3, Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
+﻿#Region "Microsoft.VisualBasic::0710a1558d5f01a1e19ef81192974b05, Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Accession2Taxid
     ' 
-    '         Function: __loadData, LoadAll, Matchs, ReadFile, TrimAccessionVersion
+    '         Function: __loadData, LoadAll, Matchs, ReadFile
     ' 
     ' 
     ' /********************************************************************************/

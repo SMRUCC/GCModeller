@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1219638eca54607e608e425b6289037e, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::f3df8493de8a43bb46e696dac5d9fa13, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\Extensions.vb"
 
     ' Author:
     ' 

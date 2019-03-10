@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbd05913390b72c5981dd11480b86b84, Bio.Assembly\Metagenomics\TaxonomyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::e2f50eb60a504c96f9983c966b3f840d, Bio.Assembly\Metagenomics\TaxonomyExtensions.vb"
 
     ' Author:
     ' 

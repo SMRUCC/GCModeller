@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7db25a759dce09f73d1a21d37b29ef8e, Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\Schema.vb"
+﻿#Region "Microsoft.VisualBasic::52455d0be5dc786403cd98ec174feb76, Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\Schema.vb"
 
     ' Author:
     ' 

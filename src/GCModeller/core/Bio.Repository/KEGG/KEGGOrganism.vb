@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16b7e1a822dcc932242d4a6916d8fecd, Bio.Repository\KEGG\KEGGOrganism.vb"
+﻿#Region "Microsoft.VisualBasic::8f0e61d38a66c5ee0cac219155cd2b08, Bio.Repository\KEGG\KEGGOrganism.vb"
 
     ' Author:
     ' 

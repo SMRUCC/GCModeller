@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff144369e2662fef7ddfd43d463e2f28, Bio.Assembly\Assembly\EBI\ChEBI\Database\DataModels\NameOf.vb"
+﻿#Region "Microsoft.VisualBasic::63ac6deef5943079a4ebcc15e6a0410e, Bio.Assembly\Assembly\EBI\ChEBI\Database\DataModels\NameOf.vb"
 
     ' Author:
     ' 
