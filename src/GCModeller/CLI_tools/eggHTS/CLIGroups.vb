@@ -57,6 +57,7 @@ Friend NotInheritable Class CLIGroups
     Public Const Repository_CLI$ = "Repository data tools"
 
     Public Const iTraqTool$ = "iTraq data analysis tool"
+    Public Const LabelFreeTool$ = "Label Free data analysis tools"
     Public Const DataVisualize_cli$ = "Data visualization tool"
 
     Private Sub New()

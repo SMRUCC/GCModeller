@@ -145,12 +145,37 @@ Public Module Extensions
             .ToDictionary
     End Function
 
+    ''' <summary>
+    ''' 取出所有的<see cref="SampleGroup.sample_name"/>
+    ''' </summary>
+    ''' <param name="sampleInfo"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function SampleNames(sampleInfo As IEnumerable(Of SampleGroup)) As String()
         Return sampleInfo _
             .Select(Function(sample) sample.sample_name) _
             .ToArray
+    End Function
+
+    ''' <summary>
+    ''' 取出<see cref="SampleInfo.ID"/>
+    ''' </summary>
+    ''' <param name="sampleInfo"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function SampleIDs(sampleInfo As IEnumerable(Of SampleInfo), Optional group$ = Nothing) As List(Of String)
+        Return sampleInfo _
+            .Where(Function(sample)
+                       If group.StringEmpty Then
+                           Return True
+                       Else
+                           Return sample.sample_group = group
+                       End If
+                   End Function) _
+            .Select(Function(sample) sample.ID) _
+            .AsList
     End Function
 
     ''' <summary>

@@ -123,6 +123,7 @@ Partial Module CLI
 
     <ExportAPI("/labelFree.matrix")>
     <Usage("/labelFree.matrix /in <*.csv/*.xlsx> [/sheet <default=proteinGroups> /intensity /uniprot <uniprot.Xml> /organism <scientificName> /out <out.csv>]")>
+    <Group(CLIGroups.LabelFreeTool)>
     Public Function LabelFreeMatrix(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim isIntensity As Boolean = args("/intensity")
@@ -192,8 +193,14 @@ Partial Module CLI
 
     End Function
 
+    ''' <summary>
+    ''' 计算差异蛋白
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/labelFree.t.test")>
-    <Usage("/labelFree.t.test /in <matrix.csv> /sampleInfo <sampleInfo.csv> /design <analysis_designer.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    <Usage("/labelFree.t.test /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis_designer.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    <Group(CLIGroups.LabelFreeTool)>
     Public Function labelFreeTtest(args As CommandLine) As Integer
         Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in") _
             .SimulateMissingValues(byRow:=False, infer:=InferMethods.Min) _
@@ -204,7 +211,7 @@ Partial Module CLI
         Dim FDR# = args.GetValue("/FDR", 0.05)
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".log2FC.t.test.csv")
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
-        Dim designer As AnalysisDesigner = (args <= "/design").LoadCsv(Of AnalysisDesigner).First
+        Dim designer As AnalysisDesigner = (args <= "/designer").LoadCsv(Of AnalysisDesigner).First
         Dim DEPs As DEP_iTraq() = data.logFCtest(designer, sampleInfo, level, pvalue, FDR)
 
         Return DEPs _
@@ -212,5 +219,30 @@ Partial Module CLI
             .ToArray _
             .SaveDataSet(out) _
             .CLICode
+    End Function
+
+    <ExportAPI("/labelFree.matrix.split")>
+    <Usage("/labelFree.matrix.split /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis_designer.csv> [/out <directory>]")>
+    <Group(CLIGroups.LabelFreeTool)>
+    Public Function LabelFreeMatrixSplit(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.matrix/"
+        Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+        Dim designer As AnalysisDesigner() = (args <= "/designer").LoadCsv(Of AnalysisDesigner)
+
+        For Each analysis As AnalysisDesigner In designer
+            Dim controls = sampleInfo.SampleIDs(analysis.Controls)
+            Dim treatments = sampleInfo.SampleIDs(analysis.Treatment)
+            Dim subMatrix As DataSet() =
+                Iterator Function(projection As String()) As IEnumerable(Of DataSet)
+                    For Each protein In matrix
+                        Yield protein.SubSet(projection)
+                    Next
+                End Function(controls + treatments).ToArray
+
+        Next
+
+        Return 0
     End Function
 End Module
