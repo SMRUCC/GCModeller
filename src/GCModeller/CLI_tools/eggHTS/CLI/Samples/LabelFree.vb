@@ -199,7 +199,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/labelFree.t.test")>
-    <Usage("/labelFree.t.test /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis_designer.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    <Usage("/labelFree.t.test /in <matrix.csv> /sampleInfo <sampleInfo.csv> /control <groupName> /treatment <groupName> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
     <Group(CLIGroups.LabelFreeTool)>
     Public Function labelFreeTtest(args As CommandLine) As Integer
         Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in") _
@@ -211,11 +211,13 @@ Partial Module CLI
         Dim FDR# = args.GetValue("/FDR", 0.05)
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".log2FC.t.test.csv")
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
-        Dim designer As AnalysisDesigner = (args <= "/designer").LoadCsv(Of AnalysisDesigner).First
+        Dim designer As New AnalysisDesigner With {
+            .Controls = args <= "/control",
+            .Treatment = args <= "/treatment"
+        }
         Dim DEPs As DEP_iTraq() = data.logFCtest(designer, sampleInfo, level, pvalue, FDR)
 
         Return DEPs _
-            .Where(Function(x) x.log2FC <> 0R) _
             .ToArray _
             .SaveDataSet(out) _
             .CLICode
@@ -240,6 +242,11 @@ Partial Module CLI
                         Yield protein.SubSet(projection)
                     Next
                 End Function(controls + treatments).ToArray
+
+            Dim controlGroup = sampleInfo.TakeGroup(analysis.Controls).AsList
+            Dim treatmentGroup As SampleInfo() = sampleInfo.TakeGroup(analysis.Treatment)
+
+            names(subMatrix) = controlGroup + treatmentGroup
 
             Call subMatrix.SaveTo($"{out}/{analysis.Title}.csv")
         Next
