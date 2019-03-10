@@ -1,9 +1,16 @@
-/// <reference path="Data/sprintf.ts" />
-/// <reference path="Linq/Collections/Enumerator.ts" />
-/// <reference path="Linq/TsQuery/TsQuery.ts" />
+/// <reference path="Data/StringHelpers/sprintf.ts" />
+/// <reference path="Collections/Abstract/Enumerator.ts" />
+/// <reference path="Framework/Define/Handlers/Handlers.ts" />
 /// <reference path="Helpers/Extensions.ts" />
 /// <reference path="Helpers/Strings.ts" />
 /// <reference path="Type.ts" />
+/// <reference path="Data/Encoder/MD5.ts" />
+/// <reference path="Framework/Define/Internal.ts" />
+
+// note: 2018-12-25
+// this module just working on browser, some of the DOM api
+// related function may not works as expected on server side 
+// ``nodejs`` Environment.
 
 if (typeof String.prototype['startsWith'] != 'function') {
     String.prototype['startsWith'] = function (str) {
@@ -12,45 +19,49 @@ if (typeof String.prototype['startsWith'] != 'function') {
 }
 
 /**
- * 对于这个函数的返回值还需要做类型转换
+ * 动态加载脚本文件，然后在完成脚本文件的加载操作之后，执行一个指定的函数操作
  * 
- * 如果是节点查询或者创建的话，可以使用``asExtends``属性来获取``HTMLTsElememnt``拓展对象
+ * @param callback 如果这个函数之中存在有HTML文档的操作，则可能会需要将代码放在``$ts(() => {...})``之中，
+ *     等待整个html文档加载完毕之后再做程序的执行，才可能会得到正确的执行结果
 */
-function $ts<T>(any: (() => void) | T | T[], args: object = null): IEnumerator<T> | void | any {
-    var type: TypeInfo = TypeInfo.typeof(any);
-    var typeOf: string = type.typeOf;
-    var handle = Linq.TsQuery.handler;
-    var eval: any = typeOf in handle ? handle[typeOf]() : null;
+function $imports(jsURL: string | string[],
+    callback: () => void = DoNothing,
+    onErrorResumeNext: boolean = false,
+    echo: boolean = false): void {
 
-    if (type.IsArray) {
-        // 转化为序列集合对象，相当于from函数
-        var creator = <Linq.TsQuery.arrayEval<T>>eval;
-        return <IEnumerator<T>>creator.doEval(<T[]>any, type, args);
-    } else if (type.typeOf == "function") {
-        // 当html文档加载完毕之后就会执行传递进来的这个
-        // 函数进行初始化
-        Linq.DOM.ready(<() => void>any);
-    } else {
-        // 对html文档之中的节点元素进行查询操作
-        // 或者创建新的节点
-        return (<Linq.TsQuery.IEval<T>>eval).doEval(<T>any, type, args);
-    }
+    return new HttpHelpers
+        .Imports(jsURL, onErrorResumeNext, echo)
+        .doLoad(callback);
 }
 
 /**
- * ### Javascript sprintf
- * 
- * > http://www.webtoolkit.info/javascript-sprintf.html#.W5sf9FozaM8
- *  
- * Several programming languages implement a sprintf function, to output a 
- * formatted string. It originated from the C programming language, printf 
- * function. Its a string manipulation function.
- *
- * This is limited sprintf Javascript implementation. Function returns a 
- * string formatted by the usual printf conventions. See below for more details. 
- * You must specify the string and how to format the variables in it.
+ * 使用script标签进行脚本文件的加载
+ * 因为需要向body添加script标签，所以这个函数会需要等到文档加载完成之后才会被执行
 */
-const sprintf = data.sprintf.doFormat;
+function $include(jsURL: string | string[]) {
+    if (typeof jsURL == "string") {
+        jsURL = [jsURL];
+    }
+
+    $ts(() => (<string[]>jsURL).forEach(js => {
+        var script: HTMLElement = <HTMLElement>$ts("<script>", {
+            type: "text/javascript",
+            src: js
+        });
+
+        script.onload = function () {
+            document.body.removeChild(script);
+        }
+        document.body.appendChild(script);
+    }));
+}
+
+/**
+ * 计算字符串的MD5值字符串
+*/
+function md5(string: string, key: string = null, raw: string = null): string {
+    return MD5.calculate(string, key, raw);
+}
 
 /**
  * Linq数据流程管线的起始函数
@@ -69,22 +80,9 @@ function CharEnumerator(str: string): IEnumerator<string> {
 }
 
 /**
- * Query meta tag content value by name
-*/
-function metaValue(name: string, Default: string = null): string {
-    var meta = document.querySelector(`meta[name~="${name}"]`);
-    var content: string;
-
-    if (meta) {
-        content = meta.getAttribute("content");
-        return content ? content : Default;
-    } else {
-        return Default;
-    }
-}
-
-/**
  * 判断目标对象集合是否是空的？
+ * 
+ * 这个函数也包含有``isNullOrUndefined``函数的判断功能
  * 
  * @param array 如果这个数组对象是空值或者未定义，都会被判定为空，如果长度为零，则同样也会被判定为空值
 */
@@ -113,6 +111,8 @@ function isNullOrUndefined(obj: any): boolean {
 
 /**
  * HTML/Javascript: how to access JSON data loaded in a script tag.
+ * 
+ * @param id 节点的id值，不带有``#``符号前缀的
 */
 function LoadJson(id: string): any {
     return JSON.parse(LoadText(id));
@@ -142,9 +142,22 @@ function getAllUrlParams(url: string = window.location.href): Dictionary<string>
 
 /**
  * 调用这个函数会从当前的页面跳转到指定URL的页面
+ * 
+ * 如果当前的这个页面是一个iframe页面，则会通过父页面进行跳转
+ * 
+ * @param url 这个参数支持对meta标签数据的查询操作
+ * @param currentFrame 如果这个参数为true，则不会进行父页面的跳转操作
 */
-function Goto(url: string): void {
-    window.location.href = url;
+function Goto(url: string, currentFrame: boolean = false): void {
+    var win: Window = window;
+
+    if (!currentFrame) {
+        // 从最顶层的文档页面进行跳转
+        // https://developer.mozilla.org/en-US/docs/Web/API/Window/top
+        win = window.top;
+    }
+
+    win.location.href = Internal.urlSolver(url, currentFrame);
 }
 
 /**
@@ -166,4 +179,60 @@ function base64_decode(stream: string): string {
 */
 function DoNothing(): any {
     return null;
+}
+
+/**
+ * 将指定的SVG节点保存为png图片
+ * 
+ * @param svg 需要进行保存为图片的svg节点的对象实例或者对象的节点id值
+ * @param name 所保存的文件名
+ * @param options 配置参数，直接留空使用默认值就好了
+*/
+function saveSvgAsPng(
+    svg: string | SVGElement,
+    name: string,
+    options: CanvasHelper.saveSvgAsPng.Options = CanvasHelper.saveSvgAsPng.Options.Default()) {
+
+    return CanvasHelper.saveSvgAsPng.Encoder.saveSvgAsPng(svg, name, options);
+}
+
+/**
+ * ### Javascript sprintf
+ * 
+ * > http://www.webtoolkit.info/javascript-sprintf.html#.W5sf9FozaM8
+ *  
+ * Several programming languages implement a sprintf function, to output a 
+ * formatted string. It originated from the C programming language, printf 
+ * function. Its a string manipulation function.
+ *
+ * This is limited sprintf Javascript implementation. Function returns a 
+ * string formatted by the usual printf conventions. See below for more details. 
+ * You must specify the string and how to format the variables in it.
+*/
+const sprintf = data.sprintf.doFormat;
+const executeJavaScript: string = "javascript:void(0);";
+
+/**
+ * 对于这个函数的返回值还需要做类型转换
+ * 
+ * 如果是节点查询或者创建的话，可以使用``asExtends``属性来获取``HTMLTsElememnt``拓展对象
+*/
+const $ts: Internal.TypeScript = Internal.Static();
+
+/**
+ * 从文档之中查询或者创建一个新的图像标签元素
+*/
+function $image(query: string, args?: Internal.TypeScriptArgument): IHTMLImageElement {
+    return Internal.StringEval.doEval(query, null, args);
+}
+
+/**
+ * 从文档之中查询或者创建一个新的输入标签元素
+*/
+function $input(query: string, args?: Internal.TypeScriptArgument): IHTMLInputElement {
+    return Internal.StringEval.doEval(query, null, args);
+}
+
+function $link(query: string, args?: Internal.TypeScriptArgument): IHTMLLinkElement {
+    return Internal.StringEval.doEval(query, null, args);
 }

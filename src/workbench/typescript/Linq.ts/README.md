@@ -1,2 +1,2 @@
 # data.ts
-Data sequence extension for TypeScript.
+Linq Data Extension for TypeScript programming.

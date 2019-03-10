@@ -1,14 +1,14 @@
 namespace TsLinq {
 
     /**
-     * 这个对象可以自动的将调用者的函数名称作为键名进行对应的键值的读取操作
+     * 杩欎釜瀵硅薄鍙互鑷姩鐨勫皢璋冪敤鑰呯殑鍑芥暟鍚嶇О浣滀负閿悕杩涜瀵瑰簲鐨勯敭鍊肩殑璇诲彇鎿嶄綔
     */
     export class MetaReader {
 
         /**
-         * 字典对象
+         * 瀛楀吀瀵硅薄
          * 
-         * > 在这里不使用Dictionary对象是因为该对象为一个强类型约束对象
+         * > 鍦ㄨ繖閲屼笉浣跨敤Dictionary瀵硅薄鏄洜涓鸿瀵硅薄涓轰竴涓己绫诲瀷绾︽潫瀵硅薄
         */
         private readonly meta: object;
 

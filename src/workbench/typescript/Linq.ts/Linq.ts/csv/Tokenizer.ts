@@ -1,4 +1,4 @@
-/// <reference path="../Linq/Collections/Pointer.ts" />
+/// <reference path="../Collections/Pointer.ts" />
 
 namespace csv {
 
