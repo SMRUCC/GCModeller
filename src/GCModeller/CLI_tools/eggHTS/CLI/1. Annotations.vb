@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Parser
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
@@ -67,12 +68,14 @@ Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.Uniprot
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
@@ -678,7 +681,7 @@ Partial Module CLI
     <ExportAPI("/ID.Replace.bbh")>
     <Description("LabelFree result helper: replace the source ID to a unify organism protein ID by using ``bbh`` method. 
         This tools required the protein in ``datatset.csv`` associated with the alignment result in ``bbh.csv`` by using the ``query_name`` property.")>
-    <Usage("/ID.Replace.bbh /in <dataset.csv> /bbh <bbh/sbh.csv> [/out <ID.replaced.csv>]")>
+    <Usage("/ID.Replace.bbh /in <dataset.csv> /bbh <bbh/sbh.csv> [/description <fieldName, default=Description> /out <ID.replaced.csv>]")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function BBHReplace(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -687,23 +690,27 @@ Partial Module CLI
         Dim dataset As EntityObject() = EntityObject _
             .LoadDataSet([in]) _
             .ToArray
-        Dim alignHits As Dictionary(Of String, BBHIndex) = bbh _
-            .LoadCsv(Of BBHIndex) _
-            .GroupBy(Function(x)
-                         If Not x.HitName.StringEmpty AndAlso x.HitName.IndexOf("|"c) > -1 Then
-                             x.HitName = x.HitName.Split("|"c)(1)
-                         End If
-                         If x.QueryName.IndexOf("|"c) > -1 Then
-                             Return x.QueryName.Split("|"c)(1).Split("."c).First
-                         Else
-                             Return x.QueryName.Split("."c).First
-                         End If
-                     End Function) _
-            .ToDictionary(Function(g) g.Key,
-                          Function(g)
-                              ' 取匹配度最高的结果
-                              Return g.OrderByDescending(Function(h) h.identities).First
-                          End Function)
+        Dim fieldDesc$ = args("/description") Or "Description"
+
+        ' 2019-03-10 一般是使用这个函数将自定义的序列编号映射到Uniprot之上
+        ' 所以在这里应该尝试解析的是uniprot的编号
+        Dim accessionParser As New ITryParse(AddressOf TryGetUniProtAccession)
+        Dim alignments As IEnumerable(Of BBHIndex) =
+            Iterator Function(input As IEnumerable(Of BBHIndex)) As IEnumerable(Of BBHIndex)
+                For Each x As BBHIndex In input
+                    x.HitName = accessionParser.TryParse(x.HitName, TryParseOptions.Source)
+
+                    If x.QueryName.IndexOf("|"c) > -1 Then
+                        x.QueryName = TrimAccessionVersion(x.QueryName.Split("|"c)(1))
+                    Else
+                        x.QueryName = TrimAccessionVersion(x.QueryName)
+                    End If
+
+                    Yield x
+                Next
+            End Function(bbh.LoadCsv(Of BBHIndex))
+        ' 这里面的比对结果已经全部都是唯一的了
+        Dim alignHits As Dictionary(Of String, BBHIndex) = alignments.UniqueAlignment
 
         For Each protein As EntityObject In dataset
             ' 可能是一个proteinGroup
@@ -712,31 +719,22 @@ Partial Module CLI
                 .StringSplit("\s*;\s*") _
                 .Select(Function(id) id.Split("."c).First) _
                 .ToArray
-            Dim top As New BBHIndex With {.identities = 0}
-            Dim bestHit As Boolean = False
+            ' 选出所有的唯一的比对结果
+            Dim allHits As BBHIndex() = proteinGroup _
+                .Where(Function(id) alignHits.ContainsKey(id)) _
+                .Select(Function(id) alignHits(id)) _
+                .OrderByDescending(Function(hit) hit.identities) _
+                .ToArray
 
-            For Each id As String In proteinGroup
-                If alignHits.ContainsKey(id) Then
-                    Dim hitUniprot = alignHits(id)
+            If allHits.Length > 0 Then
+                ' 有比对结果, 因为是降序排序,所以直接取第一个
+                Dim hitUniProt = allHits(Scan0)
 
-                    If hitUniprot.identities = 1.0 AndAlso hitUniprot.HitName <> IBlastOutput.HITS_NOT_FOUND Then
-                        protein.ID = hitUniprot.HitName
-                        bestHit = True
-                        Exit For
-                    Else
-                        If hitUniprot.identities > top.identities Then
-                            top = hitUniprot
-                        End If
-                    End If
-                End If
-            Next
-
-            If Not bestHit Then
-                If top.identities > 0 Then
-                    protein.ID = top.HitName
-                Else
-                    protein.ID = proteinGroup.First
-                End If
+                protein.ID = hitUniProt.HitName
+                protein(fieldDesc) = UniprotFasta.ParseHeader(hitUniProt!description, hitUniProt.HitName).ProtName
+            Else
+                ' 没有比对结果,则取出原来的第一个id
+                protein.ID = proteinGroup.First
             End If
         Next
 
