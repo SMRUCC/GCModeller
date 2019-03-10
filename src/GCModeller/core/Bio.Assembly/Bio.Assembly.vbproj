@@ -673,6 +673,7 @@
     <Compile Include="SequenceModel\FASTA\Extensions.vb" />
     <Compile Include="SequenceModel\FASTA\IO\KSeq.vb" />
     <Compile Include="SequenceModel\FASTA\IO\StreamIterator.vb" />
+    <Compile Include="SequenceModel\FASTA\HeaderFormats.vb" />
     <Compile Include="SequenceModel\ISequenceModel.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\Conversion.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\DegenerateBases.vb" />
