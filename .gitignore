@@ -246,3 +246,4 @@ pip-log.txt
 /src/runtime/sciBASIC#/CLI_tools/Apps
 /src/.vs/ProjectSettings.json
 /.vs/GCModeller/v16/Preview
+*.RData
