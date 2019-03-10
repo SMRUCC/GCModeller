@@ -1,62 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::380792b272e3f55375e3fc2c376439f2, Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module FastaExportMethods
-    ' 
-    '         Function: __seqCorrupted, Complement, (+3 Overloads) Export, FastaCorrupted, FastaTrimCorrupt
-    '                   Load, LoadFastaToken, (+3 Overloads) Merge, Reverse
-    '         Class SchemaCache
-    ' 
-    '             Properties: attributes, TitleFormat
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: GetTitleFormat
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module FastaExportMethods
+' 
+'         Function: __seqCorrupted, Complement, (+3 Overloads) Export, FastaCorrupted, FastaTrimCorrupt
+'                   Load, LoadFastaToken, (+3 Overloads) Merge, Reverse
+'         Class SchemaCache
+' 
+'             Properties: attributes, TitleFormat
+' 
+'             Constructor: (+1 Overloads) Sub New
+'             Function: GetTitleFormat
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace SequenceModel.FASTA.Reflection
 
@@ -71,17 +70,19 @@ Namespace SequenceModel.FASTA.Reflection
         ''' <summary>
         ''' 将某一个FASTA序列集合中的序列进行互补操作，对于蛋白质序列，则返回空值
         ''' </summary>
-        ''' <param name="FASTA2"></param>
-        ''' <returns></returns>
+        ''' <param name="nt">这里应该输入的是核酸序列,因为只有核酸序列才可以进行互补,蛋白序列则不行</param>
+        ''' <returns>返回互补链序列集合</returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Complement"), Extension>
-        Public Function Complement(FASTA2 As FastaFile) As FastaFile
-            Dim LQuery = From FASTA In FASTA2.AsParallel
-                         Let cpFASTA = FastaSeq.Complement(FASTA)
-                         Where Not cpFASTA Is Nothing
-                         Select cpFASTA
-                         Order By cpFASTA.ToString Ascending  '
+        Public Function Complement(nt As FastaFile) As FastaFile
+            Dim LQuery = From fa As SeqValue(Of FastaSeq)
+                         In nt.SeqIterator.AsParallel
+                         Let cp = FastaSeq.Complement(fa)
+                         Where Not cp Is Nothing
+                         Order By fa.i Ascending
+                         Select cp
+
             Return New FastaFile(LQuery)
         End Function
 
@@ -93,11 +94,13 @@ Namespace SequenceModel.FASTA.Reflection
         ''' 
         <ExportAPI("Reverse")>
         <Extension>
-        Public Function Reverse(fa As FastaFile) As FastaFile
-            Dim LQuery = From FASTA As FastaSeq In fa.AsParallel
-                         Let rvFASTA = FASTA.Reverse
-                         Select rvFASTA
-                         Order By rvFASTA.ToString Ascending '
+        Public Function Reverse(fasta As FastaFile) As FastaFile
+            Dim LQuery = From fa As SeqValue(Of FastaSeq)
+                         In fasta.SeqIterator.AsParallel
+                         Let rev As FastaSeq = fa.value.Reverse
+                         Order By fa.i Ascending
+                         Select rev
+
             Return New FastaFile(LQuery)
         End Function
 
@@ -114,7 +117,7 @@ Namespace SequenceModel.FASTA.Reflection
             Dim mergeFa As FastaSeq() =
                 LinqAPI.Exec(Of FastaSeq) <= From file As String
                                                In list.AsParallel
-                                               Select FastaFile.Read(file)
+                                             Select FastaFile.Read(file)
 
             If Trim Then
                 Dim setValue =
