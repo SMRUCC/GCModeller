@@ -268,4 +268,28 @@ Partial Module CLI
 
         Return matrix.SaveTo(out).CLICode
     End Function
+
+    <ExportAPI("/Matrix.Normalization")>
+    <Usage("/Matrix.Normalization /in <matrix.csv> /infer <min/avg, default=min> [/out <normalized.csv>]")>
+    <Group(CLIGroups.LabelFreeTool)>
+    Public Function MatrixNormalize(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim infer$ = args("/infer") Or "min"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.normalized.csv"
+        Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim method As InferMethods
+
+        If infer.TextEquals("min") Then
+            method = InferMethods.Min
+        Else
+            method = InferMethods.Average
+        End If
+
+        matrix = matrix _
+            .SimulateMissingValues(byRow:=False, infer:=method) _
+            .TotalSumNormalize _
+            .ToArray
+
+        Return matrix.SaveTo(out).CLICode
+    End Function
 End Module
