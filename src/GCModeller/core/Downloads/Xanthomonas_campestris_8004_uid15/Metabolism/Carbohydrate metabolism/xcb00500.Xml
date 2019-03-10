@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00500" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Starch and sucrose metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00029" Value="UDP-glucose" />
+    <hashEntry Key="C00031" Value="D-Glucose" />
+    <hashEntry Key="C00089" Value="Sucrose" />
+    <hashEntry Key="C00092" Value="D-Glucose 6-phosphate" />
+    <hashEntry Key="C00095" Value="D-Fructose" />
+    <hashEntry Key="C00103" Value="D-Glucose 1-phosphate" />
+    <hashEntry Key="C00167" Value="UDP-glucuronate" />
+    <hashEntry Key="C00181" Value="D-Xylose" />
+    <hashEntry Key="C00185" Value="Cellobiose" />
+    <hashEntry Key="C00190" Value="UDP-D-xylose" />
+    <hashEntry Key="C00191" Value="D-Glucuronate" />
+    <hashEntry Key="C00208" Value="Maltose" />
+    <hashEntry Key="C00221" Value="beta-D-Glucose" />
+    <hashEntry Key="C00252" Value="Isomaltose" />
+    <hashEntry Key="C00267" Value="alpha-D-Glucose" />
+    <hashEntry Key="C00333" Value="D-Galacturonate" />
+    <hashEntry Key="C00369" Value="Starch" />
+    <hashEntry Key="C00394" Value="GDP-glucose" />
+    <hashEntry Key="C00470" Value="Pectate" />
+    <hashEntry Key="C00498" Value="ADP-glucose" />
+    <hashEntry Key="C00501" Value="CDP-glucose" />
+    <hashEntry Key="C00617" Value="UDP-D-galacturonate" />
+    <hashEntry Key="C00663" Value="beta-D-Glucose 1-phosphate" />
+    <hashEntry Key="C00668" Value="alpha-D-Glucose 6-phosphate" />
+    <hashEntry Key="C00689" Value="alpha,alpha'-Trehalose 6-phosphate" />
+    <hashEntry Key="C00714" Value="Pectin" />
+    <hashEntry Key="C00718" Value="Amylose" />
+    <hashEntry Key="C00721" Value="Dextrin" />
+    <hashEntry Key="C00760" Value="Cellulose" />
+    <hashEntry Key="C00965" Value="1,3-beta-D-Glucan" />
+    <hashEntry Key="C00973" Value="Cyclomaltodextrin" />
+    <hashEntry Key="C01083" Value="alpha,alpha-Trehalose" />
+    <hashEntry Key="C01172" Value="beta-D-Glucose 6-phosphate" />
+    <hashEntry Key="C01231" Value="alpha-D-Glucose 1,6-bisphosphate" />
+    <hashEntry Key="C01798" Value="D-Glucoside" />
+    <hashEntry Key="C01935" Value="Maltodextrin" />
+    <hashEntry Key="C02013" Value="Cellotetraose" />
+    <hashEntry Key="C02336" Value="beta-D-Fructose" />
+    <hashEntry Key="C02352" Value="1,4-beta-D-Xylan" />
+    <hashEntry Key="C02591" Value="Sucrose 6'-phosphate" />
+    <hashEntry Key="C02995" Value="Maltose 6'-phosphate" />
+    <hashEntry Key="C03033" Value="beta-D-Glucuronoside" />
+    <hashEntry Key="C05345" Value="beta-D-Fructose 6-phosphate" />
+    <hashEntry Key="C05731" Value="3-Ketosucrose" />
+    <hashEntry Key="C06215" Value="Levan" />
+    <hashEntry Key="C06216" Value="Celloheptaose" />
+    <hashEntry Key="C06217" Value="Cellohexaose" />
+    <hashEntry Key="C06218" Value="Cellopentaose" />
+    <hashEntry Key="C06219" Value="Cellotriose" />
+    <hashEntry Key="C16688" Value="Sucrose 6-phosphate" />
+    <hashEntry Key="C20237" Value="alpha-Maltose 1-phosphate" />
+  </Compound>
+  <PathwayMap Key="xcb00500" Value="Starch and sucrose metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0026" Value="cellulase; K01179 endoglucanase [EC:3.2.1.4]" />
+    <hashEntry Key="xcb:XC_0027" Value="cellulase; K01179 endoglucanase [EC:3.2.1.4]" />
+    <hashEntry Key="xcb:XC_0028" Value="cellulase; K01179 endoglucanase [EC:3.2.1.4]" />
+    <hashEntry Key="xcb:XC_0125" Value="pectin methylesterase-like protein; K01051 pectinesterase [EC:3.1.1.11]" />
+    <hashEntry Key="xcb:XC_0141" Value="alpha-amylase; K16147 starch synthase (maltosyl-transferring) [EC:2.4.99.16]" />
+    <hashEntry Key="xcb:XC_0142" Value="trehalose synthase; K05343 maltose alpha-D-glucosyltransferase/ alpha-amylase [EC:5.4.99.16 3.2.1.1]" />
+    <hashEntry Key="xcb:XC_0143" Value="glycogen branching protein (EC:2.4.1.18); K00700 1,4-alpha-glucan branching enzyme [EC:2.4.1.18]" />
+    <hashEntry Key="xcb:XC_0421" Value="glgA; glycogen synthase (EC:2.4.1.21); K00703 starch synthase [EC:2.4.1.21]" />
+    <hashEntry Key="xcb:XC_0422" Value="glycogen branching protein (EC:2.4.1.18); K00700 1,4-alpha-glucan branching enzyme [EC:2.4.1.18]" />
+    <hashEntry Key="xcb:XC_0423" Value="malto-oligosyltrehalose trehalohydrolase; K01236 maltooligosyltrehalose trehalohydrolase [EC:3.2.1.1" />
+    <hashEntry Key="xcb:XC_0424" Value="4-alpha-glucanotransferase; K00705 4-alpha-glucanotransferase [EC:2.4.1.25]" />
+    <hashEntry Key="xcb:XC_0425" Value="malto-oligosyltrehalose synthase; K06044 (1-&amp;gt;4)-alpha-D-glucan 1-alpha-D-glucosylmutase [EC:5.4.99.1" />
+    <hashEntry Key="xcb:XC_0427" Value="glycogen debranching protein; K02438 glycogen operon protein [EC:3.2.1.-]" />
+    <hashEntry Key="xcb:XC_0626" Value="1,4-beta-cellobiosidase; K19668 cellulose 1,4-beta-cellobiosidase [EC:3.2.1.91]" />
+    <hashEntry Key="xcb:XC_0631" Value="treA; trehalase (EC:3.2.1.28); K01194 alpha,alpha-trehalase [EC:3.2.1.28]" />
+    <hashEntry Key="xcb:XC_0639" Value="cellulase; K01179 endoglucanase [EC:3.2.1.4]" />
+    <hashEntry Key="xcb:XC_0705" Value="endopolygalacturonase; K01184 polygalacturonase [EC:3.2.1.15]" />
+    <hashEntry Key="xcb:XC_0805" Value="amylosucrase or alpha amylase; K05341 amylosucrase [EC:2.4.1.4]" />
+    <hashEntry Key="xcb:XC_1002" Value="alpha-glucosidase; K01187 alpha-glucosidase [EC:3.2.1.20]" />
+    <hashEntry Key="xcb:XC_1005" Value="1,4-beta-cellobiosidase; K19668 cellulose 1,4-beta-cellobiosidase [EC:3.2.1.91]" />
+    <hashEntry Key="xcb:XC_1047" Value="glycogen debranching protein; K02438 glycogen operon protein [EC:3.2.1.-]" />
+    <hashEntry Key="xcb:XC_1076" Value="trehalose-6-phosphate synthase; K00697 trehalose 6-phosphate synthase [EC:2.4.1.15]" />
+    <hashEntry Key="xcb:XC_1078" Value="trehalose-6-phosphate phosphatase; K01087 trehalose 6-phosphate phosphatase [EC:3.1.3.12]" />
+    <hashEntry Key="xcb:XC_1166" Value="glucokinase (EC:2.7.1.2); K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="xcb:XC_1217" Value="glucan 1,4-beta-glucosidase; K05349 beta-glucosidase [EC:3.2.1.21]" />
+    <hashEntry Key="xcb:XC_1223" Value="glucokinase (EC:2.7.1.2); K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="xcb:XC_1642" Value="alpha-glucosidase; K01187 alpha-glucosidase [EC:3.2.1.20]" />
+    <hashEntry Key="xcb:XC_1645" Value="alpha-glucosidase; K01187 alpha-glucosidase [EC:3.2.1.20]" />
+    <hashEntry Key="xcb:XC_1727" Value="cellulase; K01179 endoglucanase [EC:3.2.1.4]" />
+    <hashEntry Key="xcb:XC_1849" Value="polygalacturonase; K01184 polygalacturonase [EC:3.2.1.15]" />
+    <hashEntry Key="xcb:XC_1850" Value="pectinesterase; K01051 pectinesterase [EC:3.1.1.11]" />
+    <hashEntry Key="xcb:XC_1930" Value="UTP-glucose-1-phosphate uridylyltransferase; K00963 UTP--glucose-1-phosphate uridylyltransferase [EC" />
+    <hashEntry Key="xcb:XC_1976" Value="glk; glucokinase (EC:2.7.1.2); K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="xcb:XC_2169" Value="glucose-1-phosphate cytidylyltransferase; K00978 glucose-1-phosphate cytidylyltransferase [EC:2.7.7." />
+    <hashEntry Key="xcb:XC_2461" Value="glucan 1,4-beta-glucosidase; K05349 beta-glucosidase [EC:3.2.1.21]" />
+    <hashEntry Key="xcb:XC_2465" Value="pgi; glucose-6-phosphate isomerase (EC:5.3.1.9); K01810 glucose-6-phosphate isomerase [EC:5.3.1.9]" />
+    <hashEntry Key="xcb:XC_2727" Value="fructokinase; K00847 fructokinase [EC:2.7.1.4]" />
+    <hashEntry Key="xcb:XC_2733" Value="UDP-glucose dehydrogenase; K00012 UDPglucose 6-dehydrogenase [EC:1.1.1.22]" />
+    <hashEntry Key="xcb:XC_2834" Value="beta-glucosidase; K05349 beta-glucosidase [EC:3.2.1.21]" />
+    <hashEntry Key="xcb:XC_3064" Value="xylosidase/arabinosidase; K01198 xylan 1,4-beta-xylosidase [EC:3.2.1.37] K01209 alpha-N-arabinofuran" />
+    <hashEntry Key="xcb:XC_3159" Value="beta-glucosidase; K05349 beta-glucosidase [EC:3.2.1.21]" />
+    <hashEntry Key="xcb:XC_3487" Value="alpha-amylase; K01176 alpha-amylase [EC:3.2.1.1]" />
+    <hashEntry Key="xcb:XC_3608" Value="phosphoglucomutase; phosphomannomutase; K15778 phosphomannomutase / phosphoglucomutase [EC:5.4.2.8 5" />
+    <hashEntry Key="xcb:XC_3886" Value="beta-glucosidase; K05349 beta-glucosidase [EC:3.2.1.21]" />
+    <hashEntry Key="xcb:XC_3937" Value="nucleotide sugar epimerase; K08679 UDP-glucuronate 4-epimerase [EC:5.1.3.6]" />
+    <hashEntry Key="xcb:XC_3941" Value="phosphomannomutase; K15778 phosphomannomutase / phosphoglucomutase [EC:5.4.2.8 5.4.2.2]" />
+    <hashEntry Key="xcb:XC_4065" Value="beta-xylosidase; K01198 xylan 1,4-beta-xylosidase [EC:3.2.1.37]" />
+    <hashEntry Key="xcb:XC_4154" Value="xylosidase; K01198 xylan 1,4-beta-xylosidase [EC:3.2.1.37]" />
+    <hashEntry Key="xcb:XC_4196" Value="xylosidase/arabinosidase; K01198 xylan 1,4-beta-xylosidase [EC:3.2.1.37] K01209 alpha-N-arabinofuran" />
+    <hashEntry Key="xcb:XC_4197" Value="glucan 1,4-beta-glucosidase; K05349 beta-glucosidase [EC:3.2.1.21]" />
+  </Genes>
+</KEGG.PathwayBrief>

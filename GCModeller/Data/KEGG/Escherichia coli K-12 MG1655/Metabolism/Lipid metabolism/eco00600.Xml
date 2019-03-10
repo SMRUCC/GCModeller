@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00600" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Sphingolipid metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00065" Value="L-Serine" />
+    <hashEntry Key="C00154" Value="Palmitoyl-CoA" />
+    <hashEntry Key="C00195" Value="N-Acylsphingosine" />
+    <hashEntry Key="C00319" Value="Sphingosine" />
+    <hashEntry Key="C00346" Value="Ethanolamine phosphate" />
+    <hashEntry Key="C00550" Value="Sphingomyelin" />
+    <hashEntry Key="C00836" Value="Sphinganine" />
+    <hashEntry Key="C01120" Value="Sphinganine 1-phosphate" />
+    <hashEntry Key="C01190" Value="beta-D-Glucosyl-(1&lt;-&gt;1)-ceramide" />
+    <hashEntry Key="C01290" Value="beta-D-Galactosyl-(1-&gt;4)-beta-D-glucosyl-(1&lt;-&gt;1)-ceramide" />
+    <hashEntry Key="C01747" Value="Psychosine" />
+    <hashEntry Key="C02686" Value="Galactosylceramide" />
+    <hashEntry Key="C02934" Value="3-Dehydrosphinganine" />
+    <hashEntry Key="C02960" Value="Ceramide 1-phosphate" />
+    <hashEntry Key="C03640" Value="Sphingosyl-phosphocholine" />
+    <hashEntry Key="C05681" Value="Ceramide 2-aminoethylphosphonate" />
+    <hashEntry Key="C06062" Value="Ceramide phosphoethanolamine" />
+    <hashEntry Key="C06124" Value="Sphingosine 1-phosphate" />
+    <hashEntry Key="C06125" Value="Sulfatide" />
+    <hashEntry Key="C06126" Value="Digalactosylceramide" />
+    <hashEntry Key="C06127" Value="Digalactosylceramide sulfate" />
+    <hashEntry Key="C06128" Value="GM4" />
+    <hashEntry Key="C12126" Value="Dihydroceramide" />
+    <hashEntry Key="C12144" Value="Phytosphingosine" />
+    <hashEntry Key="C12145" Value="Phytoceramide" />
+  </Compound>
+  <PathwayMap Key="eco00600" Value="Sphingolipid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0344" Value="lacZ; beta-D-galactosidase (EC:3.2.1.23); K01190 beta-galactosidase [EC:3.2.1.23]" />
+    <hashEntry Key="eco:b3801" Value="aslA; putative Ser-type periplasmic non-aryl sulfatase (EC:3.1.6.1); K01130 arylsulfatase [EC:3.1.6." />
+    <hashEntry Key="eco:b4119" Value="melA; alpha-galactosidase, NAD(P)-binding (EC:3.2.1.22); K07406 alpha-galactosidase [EC:3.2.1.22]" />
+  </Genes>
+</KEGG.PathwayBrief>

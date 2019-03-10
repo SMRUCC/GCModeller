@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00071" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Fatty acid degradation - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00086" Value="beta-Oxidation, acyl-CoA synthesis [PATH:xcb00071]" />
+    <hashEntry Key="xcb_M00087" Value="beta-Oxidation [PATH:xcb00071]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00010" Value="CoA" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00071" Value="Aldehyde" />
+    <hashEntry Key="C00136" Value="Butanoyl-CoA" />
+    <hashEntry Key="C00154" Value="Palmitoyl-CoA" />
+    <hashEntry Key="C00162" Value="Fatty acid" />
+    <hashEntry Key="C00226" Value="Primary alcohol" />
+    <hashEntry Key="C00229" Value="Acyl-carrier protein" />
+    <hashEntry Key="C00249" Value="Hexadecanoic acid" />
+    <hashEntry Key="C00332" Value="Acetoacetyl-CoA" />
+    <hashEntry Key="C00340" Value="Reduced rubredoxin" />
+    <hashEntry Key="C00435" Value="Oxidized rubredoxin" />
+    <hashEntry Key="C00489" Value="Glutarate" />
+    <hashEntry Key="C00517" Value="Hexadecanal" />
+    <hashEntry Key="C00527" Value="Glutaryl-CoA" />
+    <hashEntry Key="C00638" Value="Long-chain fatty acid" />
+    <hashEntry Key="C00823" Value="1-Hexadecanol" />
+    <hashEntry Key="C00877" Value="Crotonoyl-CoA" />
+    <hashEntry Key="C01144" Value="(S)-3-Hydroxybutanoyl-CoA" />
+    <hashEntry Key="C01371" Value="Alkane" />
+    <hashEntry Key="C01832" Value="Lauroyl-CoA" />
+    <hashEntry Key="C01944" Value="Octanoyl-CoA" />
+    <hashEntry Key="C02593" Value="Tetradecanoyl-CoA" />
+    <hashEntry Key="C02990" Value="L-Palmitoylcarnitine" />
+    <hashEntry Key="C03221" Value="2-trans-Dodecenoyl-CoA" />
+    <hashEntry Key="C03547" Value="omega-Hydroxy fatty acid" />
+    <hashEntry Key="C03561" Value="(R)-3-Hydroxybutanoyl-CoA" />
+    <hashEntry Key="C05102" Value="alpha-Hydroxy fatty acid" />
+    <hashEntry Key="C05258" Value="(S)-3-Hydroxyhexadecanoyl-CoA" />
+    <hashEntry Key="C05259" Value="3-Oxopalmitoyl-CoA" />
+    <hashEntry Key="C05260" Value="(S)-3-Hydroxytetradecanoyl-CoA" />
+    <hashEntry Key="C05261" Value="3-Oxotetradecanoyl-CoA" />
+    <hashEntry Key="C05262" Value="(S)-3-Hydroxydodecanoyl-CoA" />
+    <hashEntry Key="C05263" Value="3-Oxododecanoyl-CoA" />
+    <hashEntry Key="C05264" Value="(S)-Hydroxydecanoyl-CoA" />
+    <hashEntry Key="C05265" Value="3-Oxodecanoyl-CoA" />
+    <hashEntry Key="C05266" Value="(S)-3-Hydroxyoctanoyl-CoA" />
+    <hashEntry Key="C05267" Value="3-Oxooctanoyl-CoA" />
+    <hashEntry Key="C05268" Value="(S)-Hydroxyhexanoyl-CoA" />
+    <hashEntry Key="C05269" Value="3-Oxohexanoyl-CoA" />
+    <hashEntry Key="C05270" Value="Hexanoyl-CoA" />
+    <hashEntry Key="C05271" Value="trans-Hex-2-enoyl-CoA" />
+    <hashEntry Key="C05272" Value="trans-Hexadec-2-enoyl-CoA" />
+    <hashEntry Key="C05273" Value="trans-Tetradec-2-enoyl-CoA" />
+    <hashEntry Key="C05274" Value="Decanoyl-CoA" />
+    <hashEntry Key="C05275" Value="trans-Dec-2-enoyl-CoA" />
+    <hashEntry Key="C05276" Value="trans-Oct-2-enoyl-CoA" />
+    <hashEntry Key="C05279" Value="trans,cis-Lauro-2,6-dienoyl-CoA" />
+    <hashEntry Key="C05280" Value="cis,cis-3,6-Dodecadienoyl-CoA" />
+    <hashEntry Key="C20683" Value="Long-chain acyl-[acyl-carrier protein]" />
+  </Compound>
+  <PathwayMap Key="xcb00071" Value="Fatty acid degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0204" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_0686" Value="alcohol dehydrogenase; K00121 S-(hydroxymethyl)glutathione dehydrogenase / alcohol dehydrogenase [EC" />
+    <hashEntry Key="xcb:XC_0775" Value="alcohol dehydrogenase; K00121 S-(hydroxymethyl)glutathione dehydrogenase / alcohol dehydrogenase [EC" />
+    <hashEntry Key="xcb:XC_1238" Value="fadE; acyl-CoA dehydrogenase (EC:1.3.99.3); K06445 acyl-CoA dehydrogenase [EC:1.3.99.-]" />
+    <hashEntry Key="xcb:XC_2205" Value="3-hydroxyacyl-CoA dehydrogenase; K07516 3-hydroxyacyl-CoA dehydrogenase [EC:1.1.1.35]" />
+    <hashEntry Key="xcb:XC_2206" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00632 acetyl-CoA acyltransferase [EC:2.3.1.16]" />
+    <hashEntry Key="xcb:XC_2331" Value="long-chain fatty acyl CoA ligase; K01897 long-chain acyl-CoA synthetase [EC:6.2.1.3]" />
+    <hashEntry Key="xcb:XC_2445" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xcb:XC_2809" Value="glutaryl-CoA dehydrogenase; K00252 glutaryl-CoA dehydrogenase [EC:1.3.8.6]" />
+    <hashEntry Key="xcb:XC_2943" Value="acetoacetyl-CoA thiolase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_2975" Value="3-hydroxyacyl-CoA dehydrogenase; K01782 3-hydroxyacyl-CoA dehydrogenase / enoyl-CoA hydratase / 3-hy" />
+    <hashEntry Key="xcb:XC_3421" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+  </Genes>
+</KEGG.PathwayBrief>

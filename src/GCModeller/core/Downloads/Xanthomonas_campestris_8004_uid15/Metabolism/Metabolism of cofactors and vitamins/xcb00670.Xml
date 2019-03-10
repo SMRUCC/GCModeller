@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00670" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>One carbon pool by folate - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00126" Value="Tetrahydrofolate biosynthesis, GTP =&gt; THF [PATH:xcb00670]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00101" Value="Tetrahydrofolate" />
+    <hashEntry Key="C00143" Value="5,10-Methylenetetrahydrofolate" />
+    <hashEntry Key="C00234" Value="10-Formyltetrahydrofolate" />
+    <hashEntry Key="C00415" Value="Dihydrofolate" />
+    <hashEntry Key="C00440" Value="5-Methyltetrahydrofolate" />
+    <hashEntry Key="C00445" Value="5,10-Methenyltetrahydrofolate" />
+    <hashEntry Key="C00504" Value="Folate" />
+    <hashEntry Key="C00664" Value="5-Formiminotetrahydrofolate" />
+    <hashEntry Key="C03479" Value="Folinic acid" />
+  </Compound>
+  <PathwayMap Key="xcb00670" Value="One carbon pool by folate&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0322" Value="purU; formyltetrahydrofolate deformylase (EC:3.5.1.10); K01433 formyltetrahydrofolate deformylase [E" />
+    <hashEntry Key="xcb:XC_0326" Value="5,10-methylenetetrahydrofolate reductase; K00297 methylenetetrahydrofolate reductase (NADPH) [EC:1.5" />
+    <hashEntry Key="xcb:XC_0510" Value="purH; bifunctional phosphoribosylaminoimidazolecarboxamide formyltransferase/IMP cyclohydrolase (EC:" />
+    <hashEntry Key="xcb:XC_0901" Value="hypothetical protein; K01934 5-formyltetrahydrofolate cyclo-ligase [EC:6.3.3.2]" />
+    <hashEntry Key="xcb:XC_1232" Value="gcvT; glycine cleavage system aminomethyltransferase T (EC:2.1.2.10); K00605 aminomethyltransferase" />
+    <hashEntry Key="xcb:XC_1322" Value="purN; phosphoribosylglycinamide formyltransferase (EC:2.1.2.2); K11175 phosphoribosylglycinamide for" />
+    <hashEntry Key="xcb:XC_1933" Value="bifunctional 5,10-methylene-tetrahydrofolate dehydrogenase/5,10-methylene-tetrahydrofolate cyclohydr" />
+    <hashEntry Key="xcb:XC_2724" Value="5-methyltetrahydrofolate--homocysteine methyltransferase; K00548 5-methyltetrahydrofolate--homocyste" />
+    <hashEntry Key="xcb:XC_2725" Value="5-methyltetrahydrofolate--homocysteine methyltransferase; K00548 5-methyltetrahydrofolate--homocyste" />
+    <hashEntry Key="xcb:XC_3106" Value="purT; phosphoribosylglycinamide formyltransferase 2; K08289 phosphoribosylglycinamide formyltransfer" />
+    <hashEntry Key="xcb:XC_3443" Value="dihydrofolate reductase type III; K00287 dihydrofolate reductase [EC:1.5.1.3]" />
+    <hashEntry Key="xcb:XC_3444" Value="thyA; thymidylate synthase (EC:2.1.1.45); K00560 thymidylate synthase [EC:2.1.1.45]" />
+    <hashEntry Key="xcb:XC_3496" Value="5,10-methylenetetrahydrofolate reductase; K00297 methylenetetrahydrofolate reductase (NADPH) [EC:1.5" />
+    <hashEntry Key="xcb:XC_3544" Value="glyA; serine hydroxymethyltransferase (EC:2.1.2.1); K00600 glycine hydroxymethyltransferase [EC:2.1." />
+    <hashEntry Key="xcb:XC_3818" Value="fmt; methionyl-tRNA formyltransferase (EC:2.1.2.9); K00604 methionyl-tRNA formyltransferase [EC:2.1." />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "systems.asn"
+     ::DATATOOL:: by application DATATOOL version 1.9.3
+     ::DATATOOL:: on 09/17/2009 11:55:37
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- NCBI_Systems.xsd
+  This file is built from a series of basic modules.
+  The actual declarations are in the modules.
+  This file is used to put them together.
+-->
+<xs:include schemaLocation="EMBL_General.mod.xsd"/>
+<xs:include schemaLocation="GenBank_General.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Biblio.mod.xsd"/>
+<xs:include schemaLocation="NCBI_BioSource.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Gene.mod.xsd"/>
+<xs:include schemaLocation="NCBI_General.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Medline.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Organism.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Protein.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Pub.mod.xsd"/>
+<xs:include schemaLocation="NCBI_RNA.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Rsite.mod.xsd"/>
+<xs:include schemaLocation="NCBI_SeqTable.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Seqalign.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Seqfeat.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Seqloc.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Seqres.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Sequence.mod.xsd"/>
+<xs:include schemaLocation="NCBI_Systems.mod.xsd"/>
+<xs:include schemaLocation="NCBI_TxInit.mod.xsd"/>
+<xs:include schemaLocation="PDB_General.mod.xsd"/>
+<xs:include schemaLocation="PIR_General.mod.xsd"/>
+<xs:include schemaLocation="PRF_General.mod.xsd"/>
+<xs:include schemaLocation="SP_General.mod.xsd"/>
+</xs:schema>

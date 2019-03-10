@@ -1,0 +1,2942 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<uniprot xmlns="http://uniprot.org/uniprot" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd">
+  <entry dataset="TrEMBL" created="2015-07-22" modified="2016-11-30" version="10">
+    <accession>A0A0F8AYY8</accession>
+    <name>A0A0F8AYY8_LARCR</name>
+    <protein>
+      <submittedName>
+        <fullName evidence="6">Calpain-9</fullName>
+      </submittedName>
+    </protein>
+    <gene>
+      <name type="ORF" evidence="6">EH28_01017</name>
+    </gene>
+    <organism evidence="6 7">
+      <name type="scientific">Larimichthys crocea</name>
+      <name type="common">Large yellow croaker</name>
+      <name type="synonym">Pseudosciaena crocea</name>
+      <dbReference type="NCBI Taxonomy" id="215358"/>
+      <lineage>
+        <taxon>Eukaryota</taxon>
+        <taxon>Metazoa</taxon>
+        <taxon>Chordata</taxon>
+        <taxon>Craniata</taxon>
+        <taxon>Vertebrata</taxon>
+        <taxon>Euteleostomi</taxon>
+        <taxon>Actinopterygii</taxon>
+        <taxon>Neopterygii</taxon>
+        <taxon>Teleostei</taxon>
+        <taxon>Neoteleostei</taxon>
+        <taxon>Acanthomorphata</taxon>
+        <taxon>Eupercaria</taxon>
+        <taxon>Sciaenidae</taxon>
+        <taxon>Larimichthys</taxon>
+      </lineage>
+    </organism>
+    <reference key="1" evidence="6 7">
+      <citation type="journal article" date="2015" name="PLoS Genet." volume="11" first="E1005118" last="E1005118">
+        <title>Genome Sequencing of the Perciform Fish Larimichthys crocea Provides Insights into Molecular and Genetic Mechanisms of Stress Adaptation.</title>
+        <authorList>
+          <person name="Ao J."/>
+          <person name="Mu Y."/>
+          <person name="Xiang L.X."/>
+          <person name="Fan D."/>
+          <person name="Feng M."/>
+          <person name="Zhang S."/>
+          <person name="Shi Q."/>
+          <person name="Zhu L.Y."/>
+          <person name="Li T."/>
+          <person name="Ding Y."/>
+          <person name="Nie L."/>
+          <person name="Li Q."/>
+          <person name="Dong W.R."/>
+          <person name="Jiang L."/>
+          <person name="Sun B."/>
+          <person name="Zhang X."/>
+          <person name="Li M."/>
+          <person name="Zhang H.Q."/>
+          <person name="Xie S."/>
+          <person name="Zhu Y."/>
+          <person name="Jiang X."/>
+          <person name="Wang X."/>
+          <person name="Mu P."/>
+          <person name="Chen W."/>
+          <person name="Yue Z."/>
+          <person name="Wang Z."/>
+          <person name="Wang J."/>
+          <person name="Shao J.Z."/>
+          <person name="Chen X."/>
+        </authorList>
+        <dbReference type="PubMed" id="25835551"/>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA]</scope>
+      <source>
+        <strain evidence="6">SSNF</strain>
+        <tissue evidence="6">Blood</tissue>
+      </source>
+    </reference>
+    <comment type="similarity">
+      <text evidence="1">Belongs to the peptidase C2 family.</text>
+    </comment>
+    <dbReference type="EMBL" id="KQ042248">
+      <property type="protein sequence ID" value="KKF17079.1"/>
+      <property type="molecule type" value="Genomic_DNA"/>
+    </dbReference>
+    <dbReference type="Proteomes" id="UP000054355">
+      <property type="component" value="Unassembled WGS sequence"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005622">
+      <property type="term" value="C:intracellular"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005509">
+      <property type="term" value="F:calcium ion binding"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0004198">
+      <property type="term" value="F:calcium-dependent cysteine-type endopeptidase activity"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00214">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00044">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00051">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Gene3D" id="1.10.238.10">
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR033883">
+      <property type="entry name" value="C2_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022684">
+      <property type="entry name" value="Calpain_cysteine_protease"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022682">
+      <property type="entry name" value="Calpain_domain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022683">
+      <property type="entry name" value="Calpain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR011992">
+      <property type="entry name" value="EF-hand-dom_pair"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR018247">
+      <property type="entry name" value="EF_Hand_1_Ca_BS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR002048">
+      <property type="entry name" value="EF_hand_dom"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR000169">
+      <property type="entry name" value="Pept_cys_AS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR001300">
+      <property type="entry name" value="Peptidase_C2_calpain_cat"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF01067">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF00648">
+      <property type="entry name" value="Peptidase_C2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PRINTS" id="PR00704">
+      <property type="entry name" value="CALPAIN"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00720">
+      <property type="entry name" value="calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00230">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF47473">
+      <property type="entry name" value="SSF47473"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF49758">
+      <property type="entry name" value="SSF49758"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50203">
+      <property type="entry name" value="CALPAIN_CAT"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00018">
+      <property type="entry name" value="EF_HAND_1"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50222">
+      <property type="entry name" value="EF_HAND_2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00139">
+      <property type="entry name" value="THIOL_PROTEASE_CYS"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <proteinExistence type="inferred from homology"/>
+    <keyword id="KW-0175" evidence="3">Coiled coil</keyword>
+    <keyword id="KW-0181" evidence="7">Complete proteome</keyword>
+    <keyword id="KW-0378" evidence="2">Hydrolase</keyword>
+    <keyword id="KW-0645" evidence="2">Protease</keyword>
+    <keyword id="KW-1185" evidence="7">Reference proteome</keyword>
+    <keyword id="KW-0788" evidence="2">Thiol protease</keyword>
+    <feature type="domain" description="Calpain catalytic" evidence="4">
+      <location>
+        <begin position="40"/>
+        <end position="334"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="5">
+      <location>
+        <begin position="569"/>
+        <end position="604"/>
+      </location>
+    </feature>
+    <feature type="coiled-coil region" evidence="3">
+      <location>
+        <begin position="708"/>
+        <end position="751"/>
+      </location>
+    </feature>
+    <evidence key="1" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586566"/>
+      </source>
+    </evidence>
+    <evidence key="2" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586567"/>
+      </source>
+    </evidence>
+    <evidence key="3" type="ECO:0000256">
+      <source>
+        <dbReference type="SAM" id="Coils"/>
+      </source>
+    </evidence>
+    <evidence key="4" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50203"/>
+      </source>
+    </evidence>
+    <evidence key="5" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50222"/>
+      </source>
+    </evidence>
+    <evidence key="6" type="ECO:0000313">
+      <source>
+        <dbReference type="EMBL" id="KKF17079.1"/>
+      </source>
+    </evidence>
+    <evidence key="7" type="ECO:0000313">
+      <source>
+        <dbReference type="Proteomes" id="UP000054355"/>
+      </source>
+    </evidence>
+    <sequence length="763" mass="87656" checksum="7EA43D58866B6FA3" modified="2015-07-22" version="1">
+      MPLQSTLSGRSSSSIQVEDTQSDGKSFEELRQECLSKGVLFEDPDFPAVDSSLFFSQSVP
+      VQIEWKRPKELCDNPKFIVGGADRTDICQGQLGDCWLLAAIASLTLKKEALARVVPHDQD
+      FDYKYAGIFHFQFWQHNKWLDIVVDDRLPSVRNQLIMLHSASNNEFWSALLEKAYAKLHG
+      SYESLKGGSTMEAMEDFTGGVGEMYDTKQAPDNLFSIMKKALDRGSMMGCSIDISSSAES
+      EAKTTTGLVKGHAYSITGLEQVNYRGRTVQLIRIRNPWGQVEWNGPWSDNSSEWGYVDSA
+      EKKRILNNSEDGEFWMEFEDFKRNYDKVEICNMTPDDLTDNTKRHWEVSMFEGNWIRGST
+      AGGCRNYIDTFWTNPQFKLQLKDADDDDDVCSVVIALMQKNRRKLRKEGLDMETIGFTVY
+      EAPDEEDQVGKDFFRYHASKARSKTYINMREVSERFTLPPGKYLLIPTTFQPHHEADFLI
+      RVFSEKQATALEMGSNVDADLPDPPPPSAPEEETDEEKGLRRLFEQLAGEDQAISVRELK
+      QMLDGVLSRLNQVDNTGKLEFQEFKVFWEKMKKWIMLFLSFDTDRSGKMSSYELRIALKA
+      AGINLNNKLLQLIGLRFADSNYDIDFDDYLTCIVRLENMFRVFQAMDKYKRGRVNMNMMQ
+      PKPIRVSSKTGIPLDVLPARGLTAKQAERMTKINDSDLPRVSTQPRSKDESKEERKARKQ
+      AIKEERKERRVEKKANQMAFKEEKVRQEKQMLNLRTNVQGLKL
+    </sequence>
+  </entry>
+  <entry dataset="TrEMBL" created="2015-07-22" modified="2016-11-30" version="10">
+    <accession>A0A0F8APH3</accession>
+    <name>A0A0F8APH3_LARCR</name>
+    <protein>
+      <submittedName>
+        <fullName evidence="6">Calpain-9</fullName>
+      </submittedName>
+    </protein>
+    <gene>
+      <name type="ORF" evidence="6">EH28_08558</name>
+    </gene>
+    <organism evidence="6 7">
+      <name type="scientific">Larimichthys crocea</name>
+      <name type="common">Large yellow croaker</name>
+      <name type="synonym">Pseudosciaena crocea</name>
+      <dbReference type="NCBI Taxonomy" id="215358"/>
+      <lineage>
+        <taxon>Eukaryota</taxon>
+        <taxon>Metazoa</taxon>
+        <taxon>Chordata</taxon>
+        <taxon>Craniata</taxon>
+        <taxon>Vertebrata</taxon>
+        <taxon>Euteleostomi</taxon>
+        <taxon>Actinopterygii</taxon>
+        <taxon>Neopterygii</taxon>
+        <taxon>Teleostei</taxon>
+        <taxon>Neoteleostei</taxon>
+        <taxon>Acanthomorphata</taxon>
+        <taxon>Eupercaria</taxon>
+        <taxon>Sciaenidae</taxon>
+        <taxon>Larimichthys</taxon>
+      </lineage>
+    </organism>
+    <reference key="1" evidence="6 7">
+      <citation type="journal article" date="2015" name="PLoS Genet." volume="11" first="E1005118" last="E1005118">
+        <title>Genome Sequencing of the Perciform Fish Larimichthys crocea Provides Insights into Molecular and Genetic Mechanisms of Stress Adaptation.</title>
+        <authorList>
+          <person name="Ao J."/>
+          <person name="Mu Y."/>
+          <person name="Xiang L.X."/>
+          <person name="Fan D."/>
+          <person name="Feng M."/>
+          <person name="Zhang S."/>
+          <person name="Shi Q."/>
+          <person name="Zhu L.Y."/>
+          <person name="Li T."/>
+          <person name="Ding Y."/>
+          <person name="Nie L."/>
+          <person name="Li Q."/>
+          <person name="Dong W.R."/>
+          <person name="Jiang L."/>
+          <person name="Sun B."/>
+          <person name="Zhang X."/>
+          <person name="Li M."/>
+          <person name="Zhang H.Q."/>
+          <person name="Xie S."/>
+          <person name="Zhu Y."/>
+          <person name="Jiang X."/>
+          <person name="Wang X."/>
+          <person name="Mu P."/>
+          <person name="Chen W."/>
+          <person name="Yue Z."/>
+          <person name="Wang Z."/>
+          <person name="Wang J."/>
+          <person name="Shao J.Z."/>
+          <person name="Chen X."/>
+        </authorList>
+        <dbReference type="PubMed" id="25835551"/>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA]</scope>
+      <source>
+        <strain evidence="6">SSNF</strain>
+        <tissue evidence="6">Blood</tissue>
+      </source>
+    </reference>
+    <comment type="similarity">
+      <text evidence="1">Belongs to the peptidase C2 family.</text>
+    </comment>
+    <dbReference type="EMBL" id="KQ041256">
+      <property type="protein sequence ID" value="KKF28988.1"/>
+      <property type="molecule type" value="Genomic_DNA"/>
+    </dbReference>
+    <dbReference type="Proteomes" id="UP000054355">
+      <property type="component" value="Unassembled WGS sequence"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005622">
+      <property type="term" value="C:intracellular"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005509">
+      <property type="term" value="F:calcium ion binding"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0004198">
+      <property type="term" value="F:calcium-dependent cysteine-type endopeptidase activity"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00214">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00044">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Gene3D" id="1.10.238.10">
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR033883">
+      <property type="entry name" value="C2_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022684">
+      <property type="entry name" value="Calpain_cysteine_protease"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022682">
+      <property type="entry name" value="Calpain_domain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022683">
+      <property type="entry name" value="Calpain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR011992">
+      <property type="entry name" value="EF-hand-dom_pair"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR018247">
+      <property type="entry name" value="EF_Hand_1_Ca_BS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR002048">
+      <property type="entry name" value="EF_hand_dom"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR007307">
+      <property type="entry name" value="LTV"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR000169">
+      <property type="entry name" value="Pept_cys_AS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR001300">
+      <property type="entry name" value="Peptidase_C2_calpain_cat"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF01067">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF04180">
+      <property type="entry name" value="LTV"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF00648">
+      <property type="entry name" value="Peptidase_C2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PRINTS" id="PR00704">
+      <property type="entry name" value="CALPAIN"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00720">
+      <property type="entry name" value="calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00230">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF47473">
+      <property type="entry name" value="SSF47473"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF49758">
+      <property type="entry name" value="SSF49758"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50203">
+      <property type="entry name" value="CALPAIN_CAT"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00018">
+      <property type="entry name" value="EF_HAND_1"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50222">
+      <property type="entry name" value="EF_HAND_2"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00139">
+      <property type="entry name" value="THIOL_PROTEASE_CYS"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <proteinExistence type="inferred from homology"/>
+    <keyword id="KW-0175" evidence="3">Coiled coil</keyword>
+    <keyword id="KW-0181" evidence="7">Complete proteome</keyword>
+    <keyword id="KW-0378" evidence="2">Hydrolase</keyword>
+    <keyword id="KW-0645" evidence="2">Protease</keyword>
+    <keyword id="KW-1185" evidence="7">Reference proteome</keyword>
+    <keyword id="KW-0788" evidence="2">Thiol protease</keyword>
+    <feature type="domain" description="Calpain catalytic" evidence="4">
+      <location>
+        <begin position="40"/>
+        <end position="334"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="5">
+      <location>
+        <begin position="569"/>
+        <end position="604"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="5">
+      <location>
+        <begin position="922"/>
+        <end position="957"/>
+      </location>
+    </feature>
+    <feature type="coiled-coil region" evidence="3">
+      <location>
+        <begin position="1083"/>
+        <end position="1126"/>
+      </location>
+    </feature>
+    <evidence key="1" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586566"/>
+      </source>
+    </evidence>
+    <evidence key="2" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586567"/>
+      </source>
+    </evidence>
+    <evidence key="3" type="ECO:0000256">
+      <source>
+        <dbReference type="SAM" id="Coils"/>
+      </source>
+    </evidence>
+    <evidence key="4" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50203"/>
+      </source>
+    </evidence>
+    <evidence key="5" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50222"/>
+      </source>
+    </evidence>
+    <evidence key="6" type="ECO:0000313">
+      <source>
+        <dbReference type="EMBL" id="KKF28988.1"/>
+      </source>
+    </evidence>
+    <evidence key="7" type="ECO:0000313">
+      <source>
+        <dbReference type="Proteomes" id="UP000054355"/>
+      </source>
+    </evidence>
+    <sequence length="1138" mass="130608" checksum="3233E7DC0ADDEF66" modified="2015-07-22" version="1">
+      MPLQSTLSGRSSSSIQVEDTQSDGKSFEELRQECLSKGVLFEDPDFPAVDSSLFFSQSVP
+      VQIEWKRPKELCDNPKFIVGGADRTDICQGQLGDCWLLAAIASLTLKKEALARVVPHDQD
+      FDYKYAGIFHFQFWQHNKWLDIVVDDRLPSVRNQLIMLHSASNNEFWSALLEKAYAKLHG
+      SYESLKGGSTMEAMEDFTGGVGEMYDTKQAPDNLFSIMKKALDRGSMMGCSIDISSSAES
+      EAKTTTGLVKGHAYSITGLEQVNYRGRTVQLIRIRNPWGQVEWNGPWSDNSSEWGYVDSA
+      EKKRILNNSEDGEFWMEFEDFKRNYDKVEICNMTPDDLTDNTKRHWEVSMFEGNWIRGST
+      AGGCRNYIDTFWTNPQFKLQLKDADDDDDVCSVVIALMQKNRRKLRKEGLDMETIGFTVY
+      EAPDEEDQVGKDFFRYHASKARSKTYINMREVSERFTLPPGKYLLIPTTFQPHHEADFLI
+      RVFSEKQATALEMGSNVDADLPDPPPPSAPEEETDEEKGLRRLFEQLAGEDQAISVRELK
+      QMLDGVLSRLNQVDNTGKLEFQEFKVFWEKMKKWIMLFLSFDTDRSGKMSSYELRIALKA
+      AGINLNNKLLQLIGLRFADSNYDIDFDDYLTCIVRLENMFRVFQAMDKYKRGRVNMNMMQ
+      PHRKKKSFIEKKKAVTFHLVHRSQRDPLAADEKAPQHVLLPATKAEAEKRREEQREFGVF
+      FDDDYNYLQHLKEASGTVELVAAGPSHTDRPPIHLRDEDEESDEESQEEGDTDKVIPASS
+      INLPSSVFASEFEEEVGLLNKAAPISGPRLDMDPDIVAALDEDFDYEDPDNILDDDFIFK
+      ANSGAVGTQGDDEDNDDGDDDEWEDTDEEGDFDSEGGFSDDEDTKGGGHGREFLFMDEET
+      KSRFTEYSMTSSVMRRNEQLTLLDDRFEKFYEQFDDDEIGALDNAELEGFIEPDSARLEE
+      IIKDYFIQKEKEYQRPDDLGPKELPVVKEEEEEEEEEELETVVREAPEEKWDCETIISTY
+      SNIYNRPKVIEDPPKPKPIRVSSKTGIPLDVLPARGLTAKQAERMTKINDSDLPRVSTQP
+      RSKDESKEERKARKQAIKEERKERRVEKKANQMAFKEEKVRQEKQMLNLRTNVQGLKL
+    </sequence>
+  </entry>
+  <entry dataset="TrEMBL" created="2016-10-05" modified="2016-11-30" version="2">
+    <accession>A0A1A8AV97</accession>
+    <name>A0A1A8AV97_NOTFU</name>
+    <protein>
+      <submittedName>
+        <fullName evidence="2">Calpain 9</fullName>
+      </submittedName>
+    </protein>
+    <gene>
+      <name type="primary" evidence="2">CAPN9</name>
+    </gene>
+    <organism evidence="2">
+      <name type="scientific">Nothobranchius furzeri</name>
+      <name type="common">Turquoise killifish</name>
+      <dbReference type="NCBI Taxonomy" id="105023"/>
+      <lineage>
+        <taxon>Eukaryota</taxon>
+        <taxon>Metazoa</taxon>
+        <taxon>Chordata</taxon>
+        <taxon>Craniata</taxon>
+        <taxon>Vertebrata</taxon>
+        <taxon>Euteleostomi</taxon>
+        <taxon>Actinopterygii</taxon>
+        <taxon>Neopterygii</taxon>
+        <taxon>Teleostei</taxon>
+        <taxon>Neoteleostei</taxon>
+        <taxon>Acanthomorphata</taxon>
+        <taxon>Ovalentaria</taxon>
+        <taxon>Atherinomorphae</taxon>
+        <taxon>Cyprinodontiformes</taxon>
+        <taxon>Nothobranchiidae</taxon>
+        <taxon>Nothobranchius</taxon>
+      </lineage>
+    </organism>
+    <reference key="1" evidence="2">
+      <citation type="submission" date="2016-05" db="EMBL/GenBank/DDBJ databases">
+        <authorList>
+          <person name="Lavstsen T."/>
+          <person name="Jespersen J.S."/>
+        </authorList>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE</scope>
+      <source>
+        <tissue evidence="2">Brain</tissue>
+      </source>
+    </reference>
+    <reference key="2" evidence="2">
+      <citation type="submission" date="2016-06" db="EMBL/GenBank/DDBJ databases">
+        <title>The genome of a short-lived fish provides insights into sex chromosome evolution and the genetic control of aging.</title>
+        <authorList>
+          <person name="Reichwald K."/>
+          <person name="Felder M."/>
+          <person name="Petzold A."/>
+          <person name="Koch P."/>
+          <person name="Groth M."/>
+          <person name="Platzer M."/>
+        </authorList>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE</scope>
+      <source>
+        <tissue evidence="2">Brain</tissue>
+      </source>
+    </reference>
+    <comment type="similarity">
+      <text evidence="1">Belongs to the peptidase C2 family.</text>
+    </comment>
+    <dbReference type="EMBL" id="HADY01019680">
+      <property type="protein sequence ID" value="SBP58165.1"/>
+      <property type="molecule type" value="Transcribed_RNA"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005622">
+      <property type="term" value="C:intracellular"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005509">
+      <property type="term" value="F:calcium ion binding"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0004198">
+      <property type="term" value="F:calcium-dependent cysteine-type endopeptidase activity"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00214">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Gene3D" id="1.10.238.10">
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR033883">
+      <property type="entry name" value="C2_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022684">
+      <property type="entry name" value="Calpain_cysteine_protease"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022682">
+      <property type="entry name" value="Calpain_domain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022683">
+      <property type="entry name" value="Calpain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR011992">
+      <property type="entry name" value="EF-hand-dom_pair"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR018247">
+      <property type="entry name" value="EF_Hand_1_Ca_BS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR002048">
+      <property type="entry name" value="EF_hand_dom"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR001300">
+      <property type="entry name" value="Peptidase_C2_calpain_cat"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF01067">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF13833">
+      <property type="entry name" value="EF-hand_8"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF00648">
+      <property type="entry name" value="Peptidase_C2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PRINTS" id="PR00704">
+      <property type="entry name" value="CALPAIN"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00720">
+      <property type="entry name" value="calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00230">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00054">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="3"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF47473">
+      <property type="entry name" value="SSF47473"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF49758">
+      <property type="entry name" value="SSF49758"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50203">
+      <property type="entry name" value="CALPAIN_CAT"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00018">
+      <property type="entry name" value="EF_HAND_1"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50222">
+      <property type="entry name" value="EF_HAND_2"/>
+      <property type="match status" value="3"/>
+    </dbReference>
+    <proteinExistence type="inferred from homology"/>
+    <feature type="non-terminal residue" evidence="2">
+      <location>
+        <position position="1"/>
+      </location>
+    </feature>
+    <evidence key="1" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586566"/>
+      </source>
+    </evidence>
+    <evidence key="2" type="ECO:0000313">
+      <source>
+        <dbReference type="EMBL" id="SBP58165.1"/>
+      </source>
+    </evidence>
+    <sequence length="486" mass="56005" checksum="E108A25022D3C092" modified="2016-10-05" version="1" fragment="single">
+      ETYETKSAPENLFLIMKKALDRGSMMGCSIDITSSAESEAKTSTGLVKGHAYSITGVDEV
+      SFRGQKVKMVRIRNPWGQVEWNGPWSDNSREWNYVDSAEKSRLQQNSSDDGEFWMEFEDF
+      KKNYDKVEICNMTPDALSDDTMYKWTINTFEGNWIRGSTAGGCRNYIDTFWTNPQFKLEL
+      KDADDNHHLCSVVIALMQKNRRKLRKEGLDLETIGFAMYQAPDDDDHMGKDFFRYNASKA
+      RSRTYINMREVAERFSLPPGKYLLVPTTFQPHQEADFLIRIFSEKKAGAVEMGTTVDADL
+      PDPPMPSPPEEETSEEKSLRRLFEQLAGSDNAISVRELQQMLNGVLSRRKEIKFDGLSLS
+      TCHSIINLMDVDNTGKLEFQEFKVFWEKMKKWIMLFLAFDTDRSGKMSSYELRNALKAAG
+      MQLNNRLLQLVGLRFADDDYEIDFDDYLTCIVRLENMFRVFQALDTSNKGKVNMNIMQFL
+      MLSMNV
+    </sequence>
+  </entry>
+  <entry dataset="TrEMBL" created="2016-10-05" modified="2016-11-30" version="2">
+    <accession>A0A1A8U8S2</accession>
+    <name>A0A1A8U8S2_NOTFU</name>
+    <protein>
+      <submittedName>
+        <fullName evidence="2">Calpain 9</fullName>
+      </submittedName>
+    </protein>
+    <gene>
+      <name type="primary" evidence="2">CAPN9</name>
+    </gene>
+    <organism evidence="2">
+      <name type="scientific">Nothobranchius furzeri</name>
+      <name type="common">Turquoise killifish</name>
+      <dbReference type="NCBI Taxonomy" id="105023"/>
+      <lineage>
+        <taxon>Eukaryota</taxon>
+        <taxon>Metazoa</taxon>
+        <taxon>Chordata</taxon>
+        <taxon>Craniata</taxon>
+        <taxon>Vertebrata</taxon>
+        <taxon>Euteleostomi</taxon>
+        <taxon>Actinopterygii</taxon>
+        <taxon>Neopterygii</taxon>
+        <taxon>Teleostei</taxon>
+        <taxon>Neoteleostei</taxon>
+        <taxon>Acanthomorphata</taxon>
+        <taxon>Ovalentaria</taxon>
+        <taxon>Atherinomorphae</taxon>
+        <taxon>Cyprinodontiformes</taxon>
+        <taxon>Nothobranchiidae</taxon>
+        <taxon>Nothobranchius</taxon>
+      </lineage>
+    </organism>
+    <reference key="1" evidence="2">
+      <citation type="submission" date="2016-05" db="EMBL/GenBank/DDBJ databases">
+        <authorList>
+          <person name="Lavstsen T."/>
+          <person name="Jespersen J.S."/>
+        </authorList>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE</scope>
+      <source>
+        <tissue evidence="2">Brain</tissue>
+      </source>
+    </reference>
+    <reference key="2" evidence="2">
+      <citation type="submission" date="2016-06" db="EMBL/GenBank/DDBJ databases">
+        <title>The genome of a short-lived fish provides insights into sex chromosome evolution and the genetic control of aging.</title>
+        <authorList>
+          <person name="Reichwald K."/>
+          <person name="Felder M."/>
+          <person name="Petzold A."/>
+          <person name="Koch P."/>
+          <person name="Groth M."/>
+          <person name="Platzer M."/>
+        </authorList>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE</scope>
+      <source>
+        <tissue evidence="2">Brain</tissue>
+      </source>
+    </reference>
+    <comment type="similarity">
+      <text evidence="1">Belongs to the peptidase C2 family.</text>
+    </comment>
+    <dbReference type="EMBL" id="HAEJ01004058">
+      <property type="protein sequence ID" value="SBS44515.1"/>
+      <property type="molecule type" value="Transcribed_RNA"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005622">
+      <property type="term" value="C:intracellular"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005509">
+      <property type="term" value="F:calcium ion binding"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0004198">
+      <property type="term" value="F:calcium-dependent cysteine-type endopeptidase activity"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00214">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00044">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Gene3D" id="1.10.238.10">
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR033883">
+      <property type="entry name" value="C2_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022684">
+      <property type="entry name" value="Calpain_cysteine_protease"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022682">
+      <property type="entry name" value="Calpain_domain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022683">
+      <property type="entry name" value="Calpain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR011992">
+      <property type="entry name" value="EF-hand-dom_pair"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR018247">
+      <property type="entry name" value="EF_Hand_1_Ca_BS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR002048">
+      <property type="entry name" value="EF_hand_dom"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR001300">
+      <property type="entry name" value="Peptidase_C2_calpain_cat"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF01067">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF13833">
+      <property type="entry name" value="EF-hand_8"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF00648">
+      <property type="entry name" value="Peptidase_C2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PRINTS" id="PR00704">
+      <property type="entry name" value="CALPAIN"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00720">
+      <property type="entry name" value="calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00230">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00054">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="3"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF47473">
+      <property type="entry name" value="SSF47473"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF49758">
+      <property type="entry name" value="SSF49758"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50203">
+      <property type="entry name" value="CALPAIN_CAT"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00018">
+      <property type="entry name" value="EF_HAND_1"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50222">
+      <property type="entry name" value="EF_HAND_2"/>
+      <property type="match status" value="3"/>
+    </dbReference>
+    <proteinExistence type="inferred from homology"/>
+    <feature type="non-terminal residue" evidence="2">
+      <location>
+        <position position="1"/>
+      </location>
+    </feature>
+    <evidence key="1" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586566"/>
+      </source>
+    </evidence>
+    <evidence key="2" type="ECO:0000313">
+      <source>
+        <dbReference type="EMBL" id="SBS44515.1"/>
+      </source>
+    </evidence>
+    <sequence length="561" mass="64595" checksum="1AD2A941094F4834" modified="2016-10-05" version="1" fragment="single">
+      IFHFQFWQHNKWLDVVVDDRLPTVRNNLIMLHSASNNEFWSALMEKAYAKLNGSYEALKG
+      GSTMEAMEDFTGGVGETYETKSAPENLFLIMKKALDRGSMMGCSIDITSSAESEAKTSTG
+      LVKGHAYSITGVDEVSFRGQKVKMVRIRNPWGQVEWNGPWSDNSREWNYVDSAEKSRLQQ
+      NSSDDGEFWMEFEDFKKNYDKVEICNMTPDALSDDTMYKWTINTFEGNWRRGSTAGGCRN
+      YIDTFWTNPQFKLELKDADDNHHLCSVVIALMQKNRRKLRKEGLDLETIGFAMYQAPDDD
+      DHMGKDFFRYNASKARSRTYINMREVAERFSLPPGKYLLVPTTFQPHQEADFLIRIFSEK
+      KAGAVEMGTTVDADLPDPPMPSPPEEETSEEKSLRRLFEQLAGSDNAISVRELQQMLNGV
+      LSRRKEIKFDGLSLSTCHSIINLMDVDNTGKLEFQEFKVFWEKMKKWIMLFLAFDTDRSG
+      KMSSYELRNALKAAGMQLNNRLLQLVGLRFADDDYEIDFDDYLTCIVRLENMFRVFQALD
+      TSNKGKVNMNIMQFLMLSMNV
+    </sequence>
+  </entry>
+  <entry dataset="TrEMBL" created="2012-07-11" modified="2016-11-30" version="32">
+    <accession>I3ITW3</accession>
+    <name>I3ITW3_ORENI</name>
+    <protein>
+      <submittedName>
+        <fullName evidence="5">Uncharacterized protein</fullName>
+      </submittedName>
+    </protein>
+    <gene>
+      <name type="primary" evidence="5">capn9</name>
+    </gene>
+    <organism evidence="5 6">
+      <name type="scientific">Oreochromis niloticus</name>
+      <name type="common">Nile tilapia</name>
+      <name type="synonym">Tilapia nilotica</name>
+      <dbReference type="NCBI Taxonomy" id="8128"/>
+      <lineage>
+        <taxon>Eukaryota</taxon>
+        <taxon>Metazoa</taxon>
+        <taxon>Chordata</taxon>
+        <taxon>Craniata</taxon>
+        <taxon>Vertebrata</taxon>
+        <taxon>Euteleostomi</taxon>
+        <taxon>Actinopterygii</taxon>
+        <taxon>Neopterygii</taxon>
+        <taxon>Teleostei</taxon>
+        <taxon>Neoteleostei</taxon>
+        <taxon>Acanthomorphata</taxon>
+        <taxon>Ovalentaria</taxon>
+        <taxon>Cichlomorphae</taxon>
+        <taxon>Cichliformes</taxon>
+        <taxon>Cichlidae</taxon>
+        <taxon>African cichlids</taxon>
+        <taxon>Pseudocrenilabrinae</taxon>
+        <taxon>Oreochromini</taxon>
+        <taxon>Oreochromis</taxon>
+      </lineage>
+    </organism>
+    <reference key="1" evidence="5">
+      <citation type="submission" date="2012-05" db="UniProtKB">
+        <authorList>
+          <consortium name="Ensembl"/>
+        </authorList>
+      </citation>
+      <scope>IDENTIFICATION</scope>
+    </reference>
+    <reference key="2" evidence="6">
+      <citation type="journal article" date="2014" name="Nature" volume="513" first="375" last="381">
+        <title>The genomic substrate for adaptive radiation in African cichlid fish.</title>
+        <authorList>
+          <person name="Brawand D."/>
+          <person name="Wagner C.E."/>
+          <person name="Li Y.I."/>
+          <person name="Malinsky M."/>
+          <person name="Keller I."/>
+          <person name="Fan S."/>
+          <person name="Simakov O."/>
+          <person name="Ng A.Y."/>
+          <person name="Lim Z.W."/>
+          <person name="Bezault E."/>
+          <person name="Turner-Maier J."/>
+          <person name="Johnson J."/>
+          <person name="Alcazar R."/>
+          <person name="Noh H.J."/>
+          <person name="Russell P."/>
+          <person name="Aken B."/>
+          <person name="Alfoldi J."/>
+          <person name="Amemiya C."/>
+          <person name="Azzouzi N."/>
+          <person name="Baroiller J.F."/>
+          <person name="Barloy-Hubler F."/>
+          <person name="Berlin A."/>
+          <person name="Bloomquist R."/>
+          <person name="Carleton K.L."/>
+          <person name="Conte M.A."/>
+          <person name="D'Cotta H."/>
+          <person name="Eshel O."/>
+          <person name="Gaffney L."/>
+          <person name="Galibert F."/>
+          <person name="Gante H.F."/>
+          <person name="Gnerre S."/>
+          <person name="Greuter L."/>
+          <person name="Guyon R."/>
+          <person name="Haddad N.S."/>
+          <person name="Haerty W."/>
+          <person name="Harris R.M."/>
+          <person name="Hofmann H.A."/>
+          <person name="Hourlier T."/>
+          <person name="Hulata G."/>
+          <person name="Jaffe D.B."/>
+          <person name="Lara M."/>
+          <person name="Lee A.P."/>
+          <person name="MacCallum I."/>
+          <person name="Mwaiko S."/>
+          <person name="Nikaido M."/>
+          <person name="Nishihara H."/>
+          <person name="Ozouf-Costaz C."/>
+          <person name="Penman D.J."/>
+          <person name="Przybylski D."/>
+          <person name="Rakotomanga M."/>
+          <person name="Renn S.C."/>
+          <person name="Ribeiro F.J."/>
+          <person name="Ron M."/>
+          <person name="Salzburger W."/>
+          <person name="Sanchez-Pulido L."/>
+          <person name="Santos M.E."/>
+          <person name="Searle S."/>
+          <person name="Sharpe T."/>
+          <person name="Swofford R."/>
+          <person name="Tan F.J."/>
+          <person name="Williams L."/>
+          <person name="Young S."/>
+          <person name="Yin S."/>
+          <person name="Okada N."/>
+          <person name="Kocher T.D."/>
+          <person name="Miska E.A."/>
+          <person name="Lander E.S."/>
+          <person name="Venkatesh B."/>
+          <person name="Fernald R.D."/>
+          <person name="Meyer A."/>
+          <person name="Ponting C.P."/>
+          <person name="Streelman J.T."/>
+          <person name="Lindblad-Toh K."/>
+          <person name="Seehausen O."/>
+          <person name="Di Palma F."/>
+        </authorList>
+        <dbReference type="PubMed" id="25186727"/>
+        <dbReference type="DOI" id="10.1038/nature13726"/>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA]</scope>
+    </reference>
+    <comment type="similarity">
+      <text evidence="1">Belongs to the peptidase C2 family.</text>
+    </comment>
+    <comment type="caution">
+      <text evidence="5">The sequence shown here is derived from an Ensembl automatic analysis pipeline and should be considered as preliminary data.</text>
+    </comment>
+    <dbReference type="EMBL" id="AERX01032852">
+      <property type="status" value="NOT_ANNOTATED_CDS"/>
+      <property type="molecule type" value="Genomic_DNA"/>
+    </dbReference>
+    <dbReference type="EMBL" id="AERX01032853">
+      <property type="status" value="NOT_ANNOTATED_CDS"/>
+      <property type="molecule type" value="Genomic_DNA"/>
+    </dbReference>
+    <dbReference type="EMBL" id="AERX01032854">
+      <property type="status" value="NOT_ANNOTATED_CDS"/>
+      <property type="molecule type" value="Genomic_DNA"/>
+    </dbReference>
+    <dbReference type="RefSeq" id="XP_003454134.1">
+      <property type="nucleotide sequence ID" value="XM_003454086.3"/>
+    </dbReference>
+    <dbReference type="STRING" id="8128.ENSONIP00000000052"/>
+    <dbReference type="MEROPS" id="C02.006"/>
+    <dbReference type="Ensembl" id="ENSONIT00000000052">
+      <property type="protein sequence ID" value="ENSONIP00000000052"/>
+      <property type="gene ID" value="ENSONIG00000000043"/>
+    </dbReference>
+    <dbReference type="GeneID" id="100701034"/>
+    <dbReference type="CTD" id="10753"/>
+    <dbReference type="eggNOG" id="KOG0045">
+      <property type="taxonomic scope" value="Eukaryota"/>
+    </dbReference>
+    <dbReference type="eggNOG" id="ENOG410XP0B">
+      <property type="taxonomic scope" value="LUCA"/>
+    </dbReference>
+    <dbReference type="GeneTree" id="ENSGT00760000118971"/>
+    <dbReference type="InParanoid" id="I3ITW3"/>
+    <dbReference type="OMA" id="HEIAENP"/>
+    <dbReference type="OrthoDB" id="EOG091G049E"/>
+    <dbReference type="TreeFam" id="TF314748"/>
+    <dbReference type="Proteomes" id="UP000005207">
+      <property type="component" value="Unassembled WGS sequence"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005622">
+      <property type="term" value="C:intracellular"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005509">
+      <property type="term" value="F:calcium ion binding"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0004198">
+      <property type="term" value="F:calcium-dependent cysteine-type endopeptidase activity"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00214">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00044">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00051">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Gene3D" id="1.10.238.10">
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR033883">
+      <property type="entry name" value="C2_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022684">
+      <property type="entry name" value="Calpain_cysteine_protease"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022682">
+      <property type="entry name" value="Calpain_domain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022683">
+      <property type="entry name" value="Calpain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR011992">
+      <property type="entry name" value="EF-hand-dom_pair"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR018247">
+      <property type="entry name" value="EF_Hand_1_Ca_BS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR002048">
+      <property type="entry name" value="EF_hand_dom"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR000169">
+      <property type="entry name" value="Pept_cys_AS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR001300">
+      <property type="entry name" value="Peptidase_C2_calpain_cat"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF01067">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF13833">
+      <property type="entry name" value="EF-hand_8"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF00648">
+      <property type="entry name" value="Peptidase_C2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PRINTS" id="PR00704">
+      <property type="entry name" value="CALPAIN"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00720">
+      <property type="entry name" value="calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00230">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00054">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF47473">
+      <property type="entry name" value="SSF47473"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF49758">
+      <property type="entry name" value="SSF49758"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50203">
+      <property type="entry name" value="CALPAIN_CAT"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00018">
+      <property type="entry name" value="EF_HAND_1"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50222">
+      <property type="entry name" value="EF_HAND_2"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00139">
+      <property type="entry name" value="THIOL_PROTEASE_CYS"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <proteinExistence type="inferred from homology"/>
+    <keyword id="KW-0181" evidence="6">Complete proteome</keyword>
+    <keyword id="KW-0378" evidence="2">Hydrolase</keyword>
+    <keyword id="KW-0645" evidence="2">Protease</keyword>
+    <keyword id="KW-1185" evidence="6">Reference proteome</keyword>
+    <keyword id="KW-0788" evidence="2">Thiol protease</keyword>
+    <feature type="domain" description="Calpain catalytic" evidence="3">
+      <location>
+        <begin position="29"/>
+        <end position="324"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="4">
+      <location>
+        <begin position="547"/>
+        <end position="575"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="4">
+      <location>
+        <begin position="577"/>
+        <end position="612"/>
+      </location>
+    </feature>
+    <evidence key="1" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586566"/>
+      </source>
+    </evidence>
+    <evidence key="2" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586567"/>
+      </source>
+    </evidence>
+    <evidence key="3" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50203"/>
+      </source>
+    </evidence>
+    <evidence key="4" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50222"/>
+      </source>
+    </evidence>
+    <evidence key="5" type="ECO:0000313">
+      <source>
+        <dbReference type="Ensembl" id="ENSONIP00000000052"/>
+      </source>
+    </evidence>
+    <evidence key="6" type="ECO:0000313">
+      <source>
+        <dbReference type="Proteomes" id="UP000005207"/>
+      </source>
+    </evidence>
+    <sequence length="676" mass="77246" checksum="D752669978751378" modified="2012-07-11" version="1">
+      MSTSQAENTQSDGKSFEQLRHECLMKGVLFEDPDFPAKDSSLFFSEKVPVQIEWKRPTEI
+      CKNPKFILDGADRTDICQGQLGDCWLLAAVASLTMKKEALARVVPPDQEFDQRYAGIFHF
+      QFWNHNKWLDVVVDDRLPTVRNQLIMLHSASSNEFWSALLEKAYAKLNGSYEALKGGSTM
+      EAMEDFTGGVGEMYETKAAPGDLFNIMKKALDRGSMMGCSIDISSSAESEAKTSTGLVKG
+      HAYSITGVEEVNARGQKVKLVRIRNPWGQVEWNGAWSDNSREWNYVDSAEKTRILQNSAD
+      DGEFWMEFEDFKRNYDKVEICNMSPDSLTEDTKHQWAVNVFEGNWIRGSTAGGCRNYIDT
+      FWTNPQFKLLLNDADGDNTCSVVIALMQKNRRKLRKEGLDLETIGFAVYEAPEGEDHVGK
+      DFFRYNASKARSRTYINMREVAERFTLPPGHYLLVPTTFQPHHEADFLIRVFSETKAEAL
+      EMGSNVDADLPDPPMPSPPEEETKEEKGLRRLFEQLAGSDQAISVRELQEMLNGVLSRRK
+      EIKFDGLSLSTCHSIINLMDVDNTGKIEFQEFKVFWEKMKKWIMLFLSFDTDRSGKMSSY
+      ELRGALKAAGMQLNNQLLQLVGLRFADENYEIDFDDYLTCIVRLENMFRVFQAMDKFNRG
+      RVQMNIMQFLMLSMNV
+    </sequence>
+  </entry>
+  <entry dataset="TrEMBL" created="2016-03-16" modified="2016-11-30" version="4">
+    <accession>A0A0U4TJT5</accession>
+    <name>A0A0U4TJT5_ICTPU</name>
+    <protein>
+      <submittedName>
+        <fullName evidence="5">Neutral protease calpain 9a</fullName>
+      </submittedName>
+    </protein>
+    <gene>
+      <name type="primary" evidence="5">CAPN9a</name>
+    </gene>
+    <organism evidence="5">
+      <name type="scientific">Ictalurus punctatus</name>
+      <name type="common">Channel catfish</name>
+      <name type="synonym">Silurus punctatus</name>
+      <dbReference type="NCBI Taxonomy" id="7998"/>
+      <lineage>
+        <taxon>Eukaryota</taxon>
+        <taxon>Metazoa</taxon>
+        <taxon>Chordata</taxon>
+        <taxon>Craniata</taxon>
+        <taxon>Vertebrata</taxon>
+        <taxon>Euteleostomi</taxon>
+        <taxon>Actinopterygii</taxon>
+        <taxon>Neopterygii</taxon>
+        <taxon>Teleostei</taxon>
+        <taxon>Ostariophysi</taxon>
+        <taxon>Siluriformes</taxon>
+        <taxon>Ictaluridae</taxon>
+        <taxon>Ictalurus</taxon>
+      </lineage>
+    </organism>
+    <reference key="1" evidence="5">
+      <citation type="journal article" date="2015" name="Nat Sci (Irvine)" volume="7" first="143" last="150">
+        <title>Phylogenetic Analysis and Taste Cell Expression of Calpain 9 in Catfish (Ictalurus punctatus).</title>
+        <authorList>
+          <person name="Ookura T."/>
+          <person name="Koyama E."/>
+          <person name="Hansen A."/>
+          <person name="Teeter J.H."/>
+          <person name="Kawamura Y."/>
+          <person name="Brand J.G."/>
+        </authorList>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE</scope>
+      <source>
+        <tissue evidence="5">Barbel epithelium</tissue>
+      </source>
+    </reference>
+    <comment type="similarity">
+      <text evidence="1">Belongs to the peptidase C2 family.</text>
+    </comment>
+    <dbReference type="EMBL" id="AB574186">
+      <property type="protein sequence ID" value="BAR42584.1"/>
+      <property type="molecule type" value="mRNA"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005622">
+      <property type="term" value="C:intracellular"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005509">
+      <property type="term" value="F:calcium ion binding"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0004198">
+      <property type="term" value="F:calcium-dependent cysteine-type endopeptidase activity"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00214">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00044">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00051">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Gene3D" id="1.10.238.10">
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR033883">
+      <property type="entry name" value="C2_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022684">
+      <property type="entry name" value="Calpain_cysteine_protease"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022682">
+      <property type="entry name" value="Calpain_domain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022683">
+      <property type="entry name" value="Calpain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR011992">
+      <property type="entry name" value="EF-hand-dom_pair"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR018247">
+      <property type="entry name" value="EF_Hand_1_Ca_BS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR002048">
+      <property type="entry name" value="EF_hand_dom"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR000169">
+      <property type="entry name" value="Pept_cys_AS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR001300">
+      <property type="entry name" value="Peptidase_C2_calpain_cat"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF01067">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF13833">
+      <property type="entry name" value="EF-hand_8"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF00648">
+      <property type="entry name" value="Peptidase_C2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PRINTS" id="PR00704">
+      <property type="entry name" value="CALPAIN"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00720">
+      <property type="entry name" value="calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00230">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00054">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF47473">
+      <property type="entry name" value="SSF47473"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF49758">
+      <property type="entry name" value="SSF49758"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50203">
+      <property type="entry name" value="CALPAIN_CAT"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00018">
+      <property type="entry name" value="EF_HAND_1"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50222">
+      <property type="entry name" value="EF_HAND_2"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00139">
+      <property type="entry name" value="THIOL_PROTEASE_CYS"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <proteinExistence type="evidence at transcript level"/>
+    <keyword id="KW-0378" evidence="2">Hydrolase</keyword>
+    <keyword id="KW-0645" evidence="2">Protease</keyword>
+    <keyword id="KW-0788" evidence="2">Thiol protease</keyword>
+    <feature type="domain" description="Calpain catalytic" evidence="3">
+      <location>
+        <begin position="40"/>
+        <end position="335"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="4">
+      <location>
+        <begin position="558"/>
+        <end position="586"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="4">
+      <location>
+        <begin position="588"/>
+        <end position="623"/>
+      </location>
+    </feature>
+    <evidence key="1" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586566"/>
+      </source>
+    </evidence>
+    <evidence key="2" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586567"/>
+      </source>
+    </evidence>
+    <evidence key="3" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50203"/>
+      </source>
+    </evidence>
+    <evidence key="4" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50222"/>
+      </source>
+    </evidence>
+    <evidence key="5" type="ECO:0000313">
+      <source>
+        <dbReference type="EMBL" id="BAR42584.1"/>
+      </source>
+    </evidence>
+    <sequence length="687" mass="78349" checksum="3C60940787DC69D6" modified="2016-03-16" version="1">
+      MPSASTLFSTSGNKIQAESTQADGKTYEQLRKECLQRKQLFEDPDFPAKGSSLFYSQSVP
+      VNFEWKRPGEICKDPKFIVGGADRTDICQGQLGDCWLLAAIASLTLHKEILTRVVPPDQS
+      FDLGYAGIFHFQFWQHNRWLDVVIDDRLPCVRNSLVFLHSAENNEFWSALLEKAYAKLNG
+      SYEALKGGSTLEAMEDFTGGVGETYETKKAPADLFIILKKALDRGSMLGCSIDITSSAES
+      EAQTSTGLVKGHAYSITGLEEVNYRGGKVRLIRIRNPWGQVEWNGPWSDNSREWNNADKA
+      DKIRLLENATDDGEFWMEFEDFKVNYDKVELCNLTPDSLTDDTKKKWVMNILEGSWIRGS
+      TAGGCRNYIDTFWTNPQFKLKLEEPGKDNQCNVIVALMQKNRRKLRKEGLDLETIGFAIY
+      QCADHEDHADKDFFRFNGSKARSRTYVNTREVSERFTLPPGNYLLVPTTFQPHQEADFLV
+      RIFSETKAGALEMGTTVDANLPDPPCRLCLEKETDEEKGLRKLFEQIAGSDQAISAHELQ
+      DVLNGVLSRRKEIKFDGVSLNTCHSIINLMDVDCSGMIEFQEFKVFWEKLKKWMMLFLSF
+      DTDRSGRMSTYELRSALKAAGMQLNNQLLQLLALRFGDERYEIDFDDYLTCIVRLENMFR
+      VFQALDTQNRGEVNMNFQQFLLLAMNV
+    </sequence>
+  </entry>
+  <entry dataset="TrEMBL" created="2016-03-16" modified="2016-11-30" version="4">
+    <accession>A0A0U4TJT6</accession>
+    <name>A0A0U4TJT6_ICTPU</name>
+    <protein>
+      <submittedName>
+        <fullName evidence="5">Neutral protease calpain 9b</fullName>
+      </submittedName>
+    </protein>
+    <gene>
+      <name type="primary" evidence="5">CAPN9b</name>
+    </gene>
+    <organism evidence="5">
+      <name type="scientific">Ictalurus punctatus</name>
+      <name type="common">Channel catfish</name>
+      <name type="synonym">Silurus punctatus</name>
+      <dbReference type="NCBI Taxonomy" id="7998"/>
+      <lineage>
+        <taxon>Eukaryota</taxon>
+        <taxon>Metazoa</taxon>
+        <taxon>Chordata</taxon>
+        <taxon>Craniata</taxon>
+        <taxon>Vertebrata</taxon>
+        <taxon>Euteleostomi</taxon>
+        <taxon>Actinopterygii</taxon>
+        <taxon>Neopterygii</taxon>
+        <taxon>Teleostei</taxon>
+        <taxon>Ostariophysi</taxon>
+        <taxon>Siluriformes</taxon>
+        <taxon>Ictaluridae</taxon>
+        <taxon>Ictalurus</taxon>
+      </lineage>
+    </organism>
+    <reference key="1" evidence="5">
+      <citation type="journal article" date="2015" name="Nat Sci (Irvine)" volume="7" first="143" last="150">
+        <title>Phylogenetic Analysis and Taste Cell Expression of Calpain 9 in Catfish (Ictalurus punctatus).</title>
+        <authorList>
+          <person name="Ookura T."/>
+          <person name="Koyama E."/>
+          <person name="Hansen A."/>
+          <person name="Teeter J.H."/>
+          <person name="Kawamura Y."/>
+          <person name="Brand J.G."/>
+        </authorList>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE</scope>
+      <source>
+        <tissue evidence="5">Barbel epithelium</tissue>
+      </source>
+    </reference>
+    <comment type="similarity">
+      <text evidence="1">Belongs to the peptidase C2 family.</text>
+    </comment>
+    <dbReference type="EMBL" id="AB574187">
+      <property type="protein sequence ID" value="BAR42585.1"/>
+      <property type="molecule type" value="mRNA"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005622">
+      <property type="term" value="C:intracellular"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005509">
+      <property type="term" value="F:calcium ion binding"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0004198">
+      <property type="term" value="F:calcium-dependent cysteine-type endopeptidase activity"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00214">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00044">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00051">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Gene3D" id="1.10.238.10">
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR033883">
+      <property type="entry name" value="C2_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022684">
+      <property type="entry name" value="Calpain_cysteine_protease"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022682">
+      <property type="entry name" value="Calpain_domain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022683">
+      <property type="entry name" value="Calpain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR011992">
+      <property type="entry name" value="EF-hand-dom_pair"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR018247">
+      <property type="entry name" value="EF_Hand_1_Ca_BS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR002048">
+      <property type="entry name" value="EF_hand_dom"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR000169">
+      <property type="entry name" value="Pept_cys_AS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR001300">
+      <property type="entry name" value="Peptidase_C2_calpain_cat"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF01067">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF13833">
+      <property type="entry name" value="EF-hand_8"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF00648">
+      <property type="entry name" value="Peptidase_C2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PRINTS" id="PR00704">
+      <property type="entry name" value="CALPAIN"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00720">
+      <property type="entry name" value="calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00230">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00054">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF47473">
+      <property type="entry name" value="SSF47473"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF49758">
+      <property type="entry name" value="SSF49758"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50203">
+      <property type="entry name" value="CALPAIN_CAT"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00018">
+      <property type="entry name" value="EF_HAND_1"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50222">
+      <property type="entry name" value="EF_HAND_2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00139">
+      <property type="entry name" value="THIOL_PROTEASE_CYS"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <proteinExistence type="evidence at transcript level"/>
+    <keyword id="KW-0378" evidence="2">Hydrolase</keyword>
+    <keyword id="KW-0645" evidence="2">Protease</keyword>
+    <keyword id="KW-0788" evidence="2">Thiol protease</keyword>
+    <feature type="domain" description="Calpain catalytic" evidence="3">
+      <location>
+        <begin position="28"/>
+        <end position="297"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="4">
+      <location>
+        <begin position="520"/>
+        <end position="555"/>
+      </location>
+    </feature>
+    <evidence key="1" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586566"/>
+      </source>
+    </evidence>
+    <evidence key="2" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586567"/>
+      </source>
+    </evidence>
+    <evidence key="3" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50203"/>
+      </source>
+    </evidence>
+    <evidence key="4" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50222"/>
+      </source>
+    </evidence>
+    <evidence key="5" type="ECO:0000313">
+      <source>
+        <dbReference type="EMBL" id="BAR42585.1"/>
+      </source>
+    </evidence>
+    <sequence length="586" mass="66394" checksum="FEC677AD734EFAC7" modified="2016-03-16" version="1">
+      MDSVGDTRVKSVNTYLSSAEFCSNQEKKKPGEICKDPKFIVGGADRTDICQGQLGDCWLL
+      AAIASLTLHKEILTRVVPPDQSFDLGYAGIFHFQFWQHNRWLDVVIDDRLPCVRNSLVFL
+      HSAENNEFWSALLEKAYAKLNGSYEALKGGSTLEAMEDFTGGVGETYETKKAPADLFIIL
+      KKALDRGSMLGCSIDITSSAESEAQTSTGLVKGHAYSITGLEEVNYRGGKVRLIRIRNPW
+      GQVEWNGPWSDNSREWNNADKADKIRLLENATDDGEFWMEFEDFKVNYDKVELCNLTPDS
+      LTDDTKKKWVMNILEGSWIRGSTAGGCRNYIDTFWTNPQFKLKLEEPGKDNQCNVIVALM
+      QKNRRKLRKEGLDLETIGFAIYQCADHEDHADKDFFRFNGSKARSRTYVNTREVSERFTL
+      PPGNYLLVPTTFQPHQEADFLVRIFSETKAGTLEMGTTVDANLPDPPMPTLPEKETDEEK
+      GLRKLFEQIAGSDQAISAHELQDVLNGVLSRRKEIKFDGVSLNTCHSIINLMDVDCSGMI
+      EFQEFKVFWEKLKKWMMLFLSFDTDRSGRMSTYEPVCSQGSRDATE
+    </sequence>
+  </entry>
+  <entry dataset="TrEMBL" created="2016-06-08" modified="2016-11-30" version="5">
+    <accession>A0A147A103</accession>
+    <name>A0A147A103_FUNHE</name>
+    <protein>
+      <submittedName>
+        <fullName evidence="5">Calpain-2 catalytic subunit</fullName>
+      </submittedName>
+      <submittedName>
+        <fullName evidence="6">Calpain-9</fullName>
+      </submittedName>
+    </protein>
+    <organism evidence="6">
+      <name type="scientific">Fundulus heteroclitus</name>
+      <name type="common">Killifish</name>
+      <name type="synonym">Mummichog</name>
+      <dbReference type="NCBI Taxonomy" id="8078"/>
+      <lineage>
+        <taxon>Eukaryota</taxon>
+        <taxon>Metazoa</taxon>
+        <taxon>Chordata</taxon>
+        <taxon>Craniata</taxon>
+        <taxon>Vertebrata</taxon>
+        <taxon>Euteleostomi</taxon>
+        <taxon>Actinopterygii</taxon>
+        <taxon>Neopterygii</taxon>
+        <taxon>Teleostei</taxon>
+        <taxon>Neoteleostei</taxon>
+        <taxon>Acanthomorphata</taxon>
+        <taxon>Ovalentaria</taxon>
+        <taxon>Atherinomorphae</taxon>
+        <taxon>Cyprinodontiformes</taxon>
+        <taxon>Fundulidae</taxon>
+        <taxon>Fundulus</taxon>
+      </lineage>
+    </organism>
+    <reference key="1" evidence="6">
+      <citation type="submission" date="2015-01" db="EMBL/GenBank/DDBJ databases">
+        <title>EvidentialGene: Evidence-directed Construction of Complete mRNA Transcriptomes without Genomes.</title>
+        <authorList>
+          <person name="Gilbert D.G."/>
+        </authorList>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE</scope>
+    </reference>
+    <comment type="similarity">
+      <text evidence="1">Belongs to the peptidase C2 family.</text>
+    </comment>
+    <dbReference type="EMBL" id="GCES01129582">
+      <property type="protein sequence ID" value="JAQ56740.1"/>
+      <property type="molecule type" value="Transcribed_RNA"/>
+    </dbReference>
+    <dbReference type="EMBL" id="GCES01014063">
+      <property type="protein sequence ID" value="JAR72260.1"/>
+      <property type="molecule type" value="Transcribed_RNA"/>
+    </dbReference>
+    <dbReference type="RefSeq" id="XP_012725285.1">
+      <property type="nucleotide sequence ID" value="XM_012869831.1"/>
+    </dbReference>
+    <dbReference type="RefSeq" id="XP_012725286.1">
+      <property type="nucleotide sequence ID" value="XM_012869832.1"/>
+    </dbReference>
+    <dbReference type="GeneID" id="105931236"/>
+    <dbReference type="CTD" id="10753"/>
+    <dbReference type="GO" id="GO:0005622">
+      <property type="term" value="C:intracellular"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005509">
+      <property type="term" value="F:calcium ion binding"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0004198">
+      <property type="term" value="F:calcium-dependent cysteine-type endopeptidase activity"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00214">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00044">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Gene3D" id="1.10.238.10">
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR033883">
+      <property type="entry name" value="C2_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022684">
+      <property type="entry name" value="Calpain_cysteine_protease"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022682">
+      <property type="entry name" value="Calpain_domain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022683">
+      <property type="entry name" value="Calpain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR011992">
+      <property type="entry name" value="EF-hand-dom_pair"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR018247">
+      <property type="entry name" value="EF_Hand_1_Ca_BS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR002048">
+      <property type="entry name" value="EF_hand_dom"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR000169">
+      <property type="entry name" value="Pept_cys_AS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR001300">
+      <property type="entry name" value="Peptidase_C2_calpain_cat"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF01067">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF00648">
+      <property type="entry name" value="Peptidase_C2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PRINTS" id="PR00704">
+      <property type="entry name" value="CALPAIN"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00720">
+      <property type="entry name" value="calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00230">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00054">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF47473">
+      <property type="entry name" value="SSF47473"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF49758">
+      <property type="entry name" value="SSF49758"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50203">
+      <property type="entry name" value="CALPAIN_CAT"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00018">
+      <property type="entry name" value="EF_HAND_1"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50222">
+      <property type="entry name" value="EF_HAND_2"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00139">
+      <property type="entry name" value="THIOL_PROTEASE_CYS"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <proteinExistence type="inferred from homology"/>
+    <keyword id="KW-0378" evidence="2">Hydrolase</keyword>
+    <keyword id="KW-0645" evidence="2">Protease</keyword>
+    <keyword id="KW-0788" evidence="2">Thiol protease</keyword>
+    <feature type="domain" description="Calpain catalytic" evidence="3">
+      <location>
+        <begin position="40"/>
+        <end position="335"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="4">
+      <location>
+        <begin position="559"/>
+        <end position="587"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="4">
+      <location>
+        <begin position="589"/>
+        <end position="624"/>
+      </location>
+    </feature>
+    <evidence key="1" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586566"/>
+      </source>
+    </evidence>
+    <evidence key="2" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586567"/>
+      </source>
+    </evidence>
+    <evidence key="3" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50203"/>
+      </source>
+    </evidence>
+    <evidence key="4" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50222"/>
+      </source>
+    </evidence>
+    <evidence key="5" type="ECO:0000313">
+      <source>
+        <dbReference type="EMBL" id="JAQ56740.1"/>
+      </source>
+    </evidence>
+    <evidence key="6" type="ECO:0000313">
+      <source>
+        <dbReference type="EMBL" id="JAR72260.1"/>
+      </source>
+    </evidence>
+    <sequence length="688" mass="79063" checksum="45C66375D417495B" modified="2016-06-08" version="1">
+      MPLQSTLSGRKSDSIQAVSTQWDGKSFEQLRQECLQKGVLFEDPDFPATDSSLFFSESVP
+      VQIEWKRPTEICKNPKFIVGGADRTDICQGQLGDCWLLAAIASLTLKKEALARVVPPDQS
+      FDQGYAGIFHFQFWNHNKWLDVVVDDRLPTVRNQLIMLHSASNDEFWSALLEKAYAKVYG
+      SYESLKGGSTMEAMEDFTGGVGEVYETKKAPDNLFEIMKKALDRGSMMGCSIDISSSAES
+      EAKTSTGLVKGHAYSITGLEEVNFRGQKVQLIRIRNPWGQVEWNGRWSDNSREWDYVDKA
+      EKTRILQNSTDDGEFWMEFEDFKRNYDKAEICNMTPDALDDSTKRHWEVNVFEGNWIRGS
+      TAGGCRNYIDTFWTNPQFRLKLEDADDDDDVCSVVIALMQKNRRKLRKEGLDLETIGFAV
+      YEAPDEEDHVGKDFFRYHPSKARSRTYINMREVSERFTLPPGNYLLVPTTFQPHHEADFL
+      IRIFSEKKAEAIEMGTNVDADLPEPPMPSPPEEETDEEKGLRRLFEQLAGSDSAISVREL
+      QQMLNGVLSRRKEIKFDGLSLSTCHSIINLMDVDNTGKMEFQEFKVFWDKMKKWIMLFLS
+      YDTDRSGKMSSYELRIALKAAGMHLDNKLLQLVGLRFADENYDIDFDDYLTCIVRLENMF
+      RVFQAMDDRNRGRVKMNIMQFLMLSMNV
+    </sequence>
+  </entry>
+  <entry dataset="TrEMBL" created="2013-05-01" modified="2016-11-30" version="27">
+    <accession>M4ANX3</accession>
+    <name>M4ANX3_XIPMA</name>
+    <protein>
+      <submittedName>
+        <fullName evidence="5">Uncharacterized protein</fullName>
+      </submittedName>
+    </protein>
+    <organism evidence="5 6">
+      <name type="scientific">Xiphophorus maculatus</name>
+      <name type="common">Southern platyfish</name>
+      <name type="synonym">Platypoecilus maculatus</name>
+      <dbReference type="NCBI Taxonomy" id="8083"/>
+      <lineage>
+        <taxon>Eukaryota</taxon>
+        <taxon>Metazoa</taxon>
+        <taxon>Chordata</taxon>
+        <taxon>Craniata</taxon>
+        <taxon>Vertebrata</taxon>
+        <taxon>Euteleostomi</taxon>
+        <taxon>Actinopterygii</taxon>
+        <taxon>Neopterygii</taxon>
+        <taxon>Teleostei</taxon>
+        <taxon>Neoteleostei</taxon>
+        <taxon>Acanthomorphata</taxon>
+        <taxon>Ovalentaria</taxon>
+        <taxon>Atherinomorphae</taxon>
+        <taxon>Cyprinodontiformes</taxon>
+        <taxon>Poeciliidae</taxon>
+        <taxon>Poeciliinae</taxon>
+        <taxon>Xiphophorus</taxon>
+      </lineage>
+    </organism>
+    <reference key="1" evidence="5">
+      <citation type="submission" date="2012-01" db="EMBL/GenBank/DDBJ databases">
+        <authorList>
+          <person name="Walter R."/>
+          <person name="Schartl M."/>
+          <person name="Warren W."/>
+        </authorList>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA]</scope>
+      <source>
+        <strain evidence="5">JP 163 A</strain>
+      </source>
+    </reference>
+    <reference key="2" evidence="5">
+      <citation type="submission" date="2013-03" db="UniProtKB">
+        <authorList>
+          <consortium name="Ensembl"/>
+        </authorList>
+      </citation>
+      <scope>IDENTIFICATION</scope>
+      <source>
+        <strain evidence="5">JP 163 A</strain>
+      </source>
+    </reference>
+    <comment type="similarity">
+      <text evidence="1">Belongs to the peptidase C2 family.</text>
+    </comment>
+    <comment type="caution">
+      <text evidence="5">The sequence shown here is derived from an Ensembl automatic analysis pipeline and should be considered as preliminary data.</text>
+    </comment>
+    <dbReference type="EMBL" id="AGAJ01028725">
+      <property type="status" value="NOT_ANNOTATED_CDS"/>
+      <property type="molecule type" value="Genomic_DNA"/>
+    </dbReference>
+    <dbReference type="EMBL" id="AGAJ01028726">
+      <property type="status" value="NOT_ANNOTATED_CDS"/>
+      <property type="molecule type" value="Genomic_DNA"/>
+    </dbReference>
+    <dbReference type="STRING" id="8083.ENSXMAP00000016168"/>
+    <dbReference type="MEROPS" id="C02.006"/>
+    <dbReference type="Ensembl" id="ENSXMAT00000016192">
+      <property type="protein sequence ID" value="ENSXMAP00000016168"/>
+      <property type="gene ID" value="ENSXMAG00000016015"/>
+    </dbReference>
+    <dbReference type="eggNOG" id="KOG0045">
+      <property type="taxonomic scope" value="Eukaryota"/>
+    </dbReference>
+    <dbReference type="eggNOG" id="ENOG410XP0B">
+      <property type="taxonomic scope" value="LUCA"/>
+    </dbReference>
+    <dbReference type="GeneTree" id="ENSGT00760000118971"/>
+    <dbReference type="InParanoid" id="M4ANX3"/>
+    <dbReference type="OMA" id="HEIAENP"/>
+    <dbReference type="OrthoDB" id="EOG091G049E"/>
+    <dbReference type="Proteomes" id="UP000002852">
+      <property type="component" value="Unassembled WGS sequence"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005622">
+      <property type="term" value="C:intracellular"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005509">
+      <property type="term" value="F:calcium ion binding"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0004198">
+      <property type="term" value="F:calcium-dependent cysteine-type endopeptidase activity"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00214">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00044">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Gene3D" id="1.10.238.10">
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR033883">
+      <property type="entry name" value="C2_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022684">
+      <property type="entry name" value="Calpain_cysteine_protease"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022682">
+      <property type="entry name" value="Calpain_domain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022683">
+      <property type="entry name" value="Calpain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR011992">
+      <property type="entry name" value="EF-hand-dom_pair"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR018247">
+      <property type="entry name" value="EF_Hand_1_Ca_BS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR002048">
+      <property type="entry name" value="EF_hand_dom"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR000169">
+      <property type="entry name" value="Pept_cys_AS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR001300">
+      <property type="entry name" value="Peptidase_C2_calpain_cat"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF01067">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF00648">
+      <property type="entry name" value="Peptidase_C2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PRINTS" id="PR00704">
+      <property type="entry name" value="CALPAIN"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00720">
+      <property type="entry name" value="calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00230">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00054">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF47473">
+      <property type="entry name" value="SSF47473"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF49758">
+      <property type="entry name" value="SSF49758"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50203">
+      <property type="entry name" value="CALPAIN_CAT"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00018">
+      <property type="entry name" value="EF_HAND_1"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50222">
+      <property type="entry name" value="EF_HAND_2"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00139">
+      <property type="entry name" value="THIOL_PROTEASE_CYS"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <proteinExistence type="inferred from homology"/>
+    <keyword id="KW-0181" evidence="6">Complete proteome</keyword>
+    <keyword id="KW-0378" evidence="2">Hydrolase</keyword>
+    <keyword id="KW-0645" evidence="2">Protease</keyword>
+    <keyword id="KW-1185" evidence="6">Reference proteome</keyword>
+    <keyword id="KW-0788" evidence="2">Thiol protease</keyword>
+    <feature type="domain" description="Calpain catalytic" evidence="3">
+      <location>
+        <begin position="40"/>
+        <end position="335"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="4">
+      <location>
+        <begin position="559"/>
+        <end position="587"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="4">
+      <location>
+        <begin position="589"/>
+        <end position="624"/>
+      </location>
+    </feature>
+    <evidence key="1" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586566"/>
+      </source>
+    </evidence>
+    <evidence key="2" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586567"/>
+      </source>
+    </evidence>
+    <evidence key="3" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50203"/>
+      </source>
+    </evidence>
+    <evidence key="4" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50222"/>
+      </source>
+    </evidence>
+    <evidence key="5" type="ECO:0000313">
+      <source>
+        <dbReference type="Ensembl" id="ENSXMAP00000016168"/>
+      </source>
+    </evidence>
+    <evidence key="6" type="ECO:0000313">
+      <source>
+        <dbReference type="Proteomes" id="UP000002852"/>
+      </source>
+    </evidence>
+    <sequence length="688" mass="79060" checksum="F4F4BEE382ABD37D" modified="2013-05-01" version="1">
+      MPVQSTLSGKNSDSNQVVSSQWDGKSFEQLRQECLQKGVLFEDPDFPAADASLFFSQSVP
+      VQIEWKRPKEICQNPKFIVGGADRTDICQGQLGDCWLLAAIASLTIKKEALARVVPHDQD
+      FDRGYAGIFHFQFWQHNKWLDVVVDDRLPTVRNRLIMLHSASSDEFWSALLEKAYAKVHG
+      SYESLKGGSTMEAMEDFTGGVGEMYETKSAPDDLFTIMKKALDRGSMMGCSIDITSSAES
+      EARTSTGLVKGHAYSITGLEEVHFRGQTVKLIRIRNPWGQVEWNGRWSDNSREWDYVDKA
+      EKTRILQNSTDDGEFWMEFEDFKRNYDKVEICNMSPDALDDDTKRHWEVNVFEGNWIRGS
+      TAGGCRNYIDTFWTNPQFKLQLEDADDDDDVCSVVIALMQKNRRKLRKEGLDLETIGFAV
+      YEAPDEEDQVGKDFFRYHPSKARSRTYINMREVSERFTLPPGKYLLVPTTFQPHQEADFI
+      IRIFSEKKAEAIEMGTNVDADLPEPPMPSAPEEETEEEKGLRRLFDQLAGSDKAICVMEL
+      QEMLNGVLSRRKEIKFDGLSLSTCHSIINLMDVDNTGKMEFQEFKVFWDKMKKWIMLFLS
+      FDTDRSGKMSSYELRTALTAAGMNLNNQLLQLIGLRFADDNYEIDFDDYLTCIVRLENMF
+      RVFQALDEHKRGRVRMNMMQFLLLSMNV
+    </sequence>
+  </entry>
+  <entry dataset="TrEMBL" created="2011-05-03" modified="2016-11-30" version="45">
+    <accession>F1RCJ4</accession>
+    <name>F1RCJ4_DANRE</name>
+    <protein>
+      <submittedName>
+        <fullName evidence="6">Uncharacterized protein</fullName>
+      </submittedName>
+    </protein>
+    <gene>
+      <name type="primary" evidence="6 8">capn9</name>
+    </gene>
+    <organism evidence="6 7">
+      <name type="scientific">Danio rerio</name>
+      <name type="common">Zebrafish</name>
+      <name type="synonym">Brachydanio rerio</name>
+      <dbReference type="NCBI Taxonomy" id="7955"/>
+      <lineage>
+        <taxon>Eukaryota</taxon>
+        <taxon>Metazoa</taxon>
+        <taxon>Chordata</taxon>
+        <taxon>Craniata</taxon>
+        <taxon>Vertebrata</taxon>
+        <taxon>Euteleostomi</taxon>
+        <taxon>Actinopterygii</taxon>
+        <taxon>Neopterygii</taxon>
+        <taxon>Teleostei</taxon>
+        <taxon>Ostariophysi</taxon>
+        <taxon>Cypriniformes</taxon>
+        <taxon>Cyprinidae</taxon>
+        <taxon>Danio</taxon>
+      </lineage>
+    </organism>
+    <reference key="1" evidence="6">
+      <citation type="submission" date="2011-07" db="UniProtKB">
+        <authorList>
+          <consortium name="Ensembl"/>
+        </authorList>
+      </citation>
+      <scope>IDENTIFICATION</scope>
+      <source>
+        <strain evidence="6">Tuebingen</strain>
+      </source>
+    </reference>
+    <reference key="2" evidence="6 7">
+      <citation type="journal article" date="2013" name="Nature" volume="496" first="498" last="503">
+        <title>The zebrafish reference genome sequence and its relationship to the human genome.</title>
+        <authorList>
+          <person name="Howe K."/>
+          <person name="Clark M.D."/>
+          <person name="Torroja C.F."/>
+          <person name="Torrance J."/>
+          <person name="Berthelot C."/>
+          <person name="Muffato M."/>
+          <person name="Collins J.E."/>
+          <person name="Humphray S."/>
+          <person name="McLaren K."/>
+          <person name="Matthews L."/>
+          <person name="McLaren S."/>
+          <person name="Sealy I."/>
+          <person name="Caccamo M."/>
+          <person name="Churcher C."/>
+          <person name="Scott C."/>
+          <person name="Barrett J.C."/>
+          <person name="Koch R."/>
+          <person name="Rauch G.J."/>
+          <person name="White S."/>
+          <person name="Chow W."/>
+          <person name="Kilian B."/>
+          <person name="Quintais L.T."/>
+          <person name="Guerra-Assuncao J.A."/>
+          <person name="Zhou Y."/>
+          <person name="Gu Y."/>
+          <person name="Yen J."/>
+          <person name="Vogel J.H."/>
+          <person name="Eyre T."/>
+          <person name="Redmond S."/>
+          <person name="Banerjee R."/>
+          <person name="Chi J."/>
+          <person name="Fu B."/>
+          <person name="Langley E."/>
+          <person name="Maguire S.F."/>
+          <person name="Laird G.K."/>
+          <person name="Lloyd D."/>
+          <person name="Kenyon E."/>
+          <person name="Donaldson S."/>
+          <person name="Sehra H."/>
+          <person name="Almeida-King J."/>
+          <person name="Loveland J."/>
+          <person name="Trevanion S."/>
+          <person name="Jones M."/>
+          <person name="Quail M."/>
+          <person name="Willey D."/>
+          <person name="Hunt A."/>
+          <person name="Burton J."/>
+          <person name="Sims S."/>
+          <person name="McLay K."/>
+          <person name="Plumb B."/>
+          <person name="Davis J."/>
+          <person name="Clee C."/>
+          <person name="Oliver K."/>
+          <person name="Clark R."/>
+          <person name="Riddle C."/>
+          <person name="Elliot D."/>
+          <person name="Threadgold G."/>
+          <person name="Harden G."/>
+          <person name="Ware D."/>
+          <person name="Begum S."/>
+          <person name="Mortimore B."/>
+          <person name="Kerry G."/>
+          <person name="Heath P."/>
+          <person name="Phillimore B."/>
+          <person name="Tracey A."/>
+          <person name="Corby N."/>
+          <person name="Dunn M."/>
+          <person name="Johnson C."/>
+          <person name="Wood J."/>
+          <person name="Clark S."/>
+          <person name="Pelan S."/>
+          <person name="Griffiths G."/>
+          <person name="Smith M."/>
+          <person name="Glithero R."/>
+          <person name="Howden P."/>
+          <person name="Barker N."/>
+          <person name="Lloyd C."/>
+          <person name="Stevens C."/>
+          <person name="Harley J."/>
+          <person name="Holt K."/>
+          <person name="Panagiotidis G."/>
+          <person name="Lovell J."/>
+          <person name="Beasley H."/>
+          <person name="Henderson C."/>
+          <person name="Gordon D."/>
+          <person name="Auger K."/>
+          <person name="Wright D."/>
+          <person name="Collins J."/>
+          <person name="Raisen C."/>
+          <person name="Dyer L."/>
+          <person name="Leung K."/>
+          <person name="Robertson L."/>
+          <person name="Ambridge K."/>
+          <person name="Leongamornlert D."/>
+          <person name="McGuire S."/>
+          <person name="Gilderthorp R."/>
+          <person name="Griffiths C."/>
+          <person name="Manthravadi D."/>
+          <person name="Nichol S."/>
+          <person name="Barker G."/>
+          <person name="Whitehead S."/>
+          <person name="Kay M."/>
+          <person name="Brown J."/>
+          <person name="Murnane C."/>
+          <person name="Gray E."/>
+          <person name="Humphries M."/>
+          <person name="Sycamore N."/>
+          <person name="Barker D."/>
+          <person name="Saunders D."/>
+          <person name="Wallis J."/>
+          <person name="Babbage A."/>
+          <person name="Hammond S."/>
+          <person name="Mashreghi-Mohammadi M."/>
+          <person name="Barr L."/>
+          <person name="Martin S."/>
+          <person name="Wray P."/>
+          <person name="Ellington A."/>
+          <person name="Matthews N."/>
+          <person name="Ellwood M."/>
+          <person name="Woodmansey R."/>
+          <person name="Clark G."/>
+          <person name="Cooper J."/>
+          <person name="Tromans A."/>
+          <person name="Grafham D."/>
+          <person name="Skuce C."/>
+          <person name="Pandian R."/>
+          <person name="Andrews R."/>
+          <person name="Harrison E."/>
+          <person name="Kimberley A."/>
+          <person name="Garnett J."/>
+          <person name="Fosker N."/>
+          <person name="Hall R."/>
+          <person name="Garner P."/>
+          <person name="Kelly D."/>
+          <person name="Bird C."/>
+          <person name="Palmer S."/>
+          <person name="Gehring I."/>
+          <person name="Berger A."/>
+          <person name="Dooley C.M."/>
+          <person name="Ersan-Urun Z."/>
+          <person name="Eser C."/>
+          <person name="Geiger H."/>
+          <person name="Geisler M."/>
+          <person name="Karotki L."/>
+          <person name="Kirn A."/>
+          <person name="Konantz J."/>
+          <person name="Konantz M."/>
+          <person name="Oberlander M."/>
+          <person name="Rudolph-Geiger S."/>
+          <person name="Teucke M."/>
+          <person name="Lanz C."/>
+          <person name="Raddatz G."/>
+          <person name="Osoegawa K."/>
+          <person name="Zhu B."/>
+          <person name="Rapp A."/>
+          <person name="Widaa S."/>
+          <person name="Langford C."/>
+          <person name="Yang F."/>
+          <person name="Schuster S.C."/>
+          <person name="Carter N.P."/>
+          <person name="Harrow J."/>
+          <person name="Ning Z."/>
+          <person name="Herrero J."/>
+          <person name="Searle S.M."/>
+          <person name="Enright A."/>
+          <person name="Geisler R."/>
+          <person name="Plasterk R.H."/>
+          <person name="Lee C."/>
+          <person name="Westerfield M."/>
+          <person name="de Jong P.J."/>
+          <person name="Zon L.I."/>
+          <person name="Postlethwait J.H."/>
+          <person name="Nusslein-Volhard C."/>
+          <person name="Hubbard T.J."/>
+          <person name="Roest Crollius H."/>
+          <person name="Rogers J."/>
+          <person name="Stemple D.L."/>
+        </authorList>
+        <dbReference type="PubMed" id="23594743"/>
+        <dbReference type="DOI" id="10.1038/nature12111"/>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA]</scope>
+      <source>
+        <strain evidence="6 7">Tuebingen</strain>
+      </source>
+    </reference>
+    <comment type="similarity">
+      <text evidence="2">Belongs to the peptidase C2 family.</text>
+    </comment>
+    <comment type="caution">
+      <text evidence="6">The sequence shown here is derived from an Ensembl automatic analysis pipeline and should be considered as preliminary data.</text>
+    </comment>
+    <dbReference type="EMBL" id="CU467834">
+      <property type="status" value="NOT_ANNOTATED_CDS"/>
+      <property type="molecule type" value="Genomic_DNA"/>
+    </dbReference>
+    <dbReference type="EMBL" id="FP017162">
+      <property type="status" value="NOT_ANNOTATED_CDS"/>
+      <property type="molecule type" value="Genomic_DNA"/>
+    </dbReference>
+    <dbReference type="ProteinModelPortal" id="F1RCJ4"/>
+    <dbReference type="STRING" id="7955.ENSDARP00000016353"/>
+    <dbReference type="MEROPS" id="C02.006"/>
+    <dbReference type="PaxDb" id="F1RCJ4"/>
+    <dbReference type="Ensembl" id="ENSDART00000007732">
+      <property type="protein sequence ID" value="ENSDARP00000016353"/>
+      <property type="gene ID" value="ENSDARG00000012341"/>
+    </dbReference>
+    <dbReference type="ZFIN" id="ZDB-GENE-010724-2">
+      <property type="gene designation" value="capn9"/>
+    </dbReference>
+    <dbReference type="eggNOG" id="KOG0045">
+      <property type="taxonomic scope" value="Eukaryota"/>
+    </dbReference>
+    <dbReference type="eggNOG" id="ENOG410XP0B">
+      <property type="taxonomic scope" value="LUCA"/>
+    </dbReference>
+    <dbReference type="GeneTree" id="ENSGT00760000118971"/>
+    <dbReference type="InParanoid" id="F1RCJ4"/>
+    <dbReference type="OMA" id="HEIAENP"/>
+    <dbReference type="OrthoDB" id="EOG091G049E"/>
+    <dbReference type="TreeFam" id="TF314748"/>
+    <dbReference type="Proteomes" id="UP000000437">
+      <property type="component" value="Chromosome 1"/>
+    </dbReference>
+    <dbReference type="Bgee" id="ENSDARG00000012341"/>
+    <dbReference type="GO" id="GO:0005737">
+      <property type="term" value="C:cytoplasm"/>
+      <property type="evidence" value="ECO:0000318"/>
+      <property type="project" value="GO_Central"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005509">
+      <property type="term" value="F:calcium ion binding"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0004198">
+      <property type="term" value="F:calcium-dependent cysteine-type endopeptidase activity"/>
+      <property type="evidence" value="ECO:0000318"/>
+      <property type="project" value="GO_Central"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0006508">
+      <property type="term" value="P:proteolysis"/>
+      <property type="evidence" value="ECO:0000318"/>
+      <property type="project" value="GO_Central"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00214">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00044">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Gene3D" id="1.10.238.10">
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR033883">
+      <property type="entry name" value="C2_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022684">
+      <property type="entry name" value="Calpain_cysteine_protease"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022682">
+      <property type="entry name" value="Calpain_domain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022683">
+      <property type="entry name" value="Calpain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR011992">
+      <property type="entry name" value="EF-hand-dom_pair"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR018247">
+      <property type="entry name" value="EF_Hand_1_Ca_BS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR002048">
+      <property type="entry name" value="EF_hand_dom"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR000169">
+      <property type="entry name" value="Pept_cys_AS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR001300">
+      <property type="entry name" value="Peptidase_C2_calpain_cat"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF01067">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF13833">
+      <property type="entry name" value="EF-hand_8"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF00648">
+      <property type="entry name" value="Peptidase_C2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PRINTS" id="PR00704">
+      <property type="entry name" value="CALPAIN"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00720">
+      <property type="entry name" value="calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00230">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00054">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF47473">
+      <property type="entry name" value="SSF47473"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF49758">
+      <property type="entry name" value="SSF49758"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50203">
+      <property type="entry name" value="CALPAIN_CAT"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00018">
+      <property type="entry name" value="EF_HAND_1"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50222">
+      <property type="entry name" value="EF_HAND_2"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00139">
+      <property type="entry name" value="THIOL_PROTEASE_CYS"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <proteinExistence type="evidence at protein level"/>
+    <keyword id="KW-0181" evidence="7">Complete proteome</keyword>
+    <keyword id="KW-0378" evidence="3">Hydrolase</keyword>
+    <keyword id="KW-0645" evidence="3">Protease</keyword>
+    <keyword id="KW-1267" evidence="1">Proteomics identification</keyword>
+    <keyword id="KW-1185" evidence="7">Reference proteome</keyword>
+    <keyword id="KW-0788" evidence="3">Thiol protease</keyword>
+    <feature type="domain" description="Calpain catalytic" evidence="4">
+      <location>
+        <begin position="40"/>
+        <end position="335"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="5">
+      <location>
+        <begin position="559"/>
+        <end position="587"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="5">
+      <location>
+        <begin position="589"/>
+        <end position="624"/>
+      </location>
+    </feature>
+    <evidence key="1" type="ECO:0000213">
+      <source>
+        <dbReference type="PeptideAtlas" id="F1RCJ4"/>
+      </source>
+    </evidence>
+    <evidence key="2" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586566"/>
+      </source>
+    </evidence>
+    <evidence key="3" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586567"/>
+      </source>
+    </evidence>
+    <evidence key="4" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50203"/>
+      </source>
+    </evidence>
+    <evidence key="5" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50222"/>
+      </source>
+    </evidence>
+    <evidence key="6" type="ECO:0000313">
+      <source>
+        <dbReference type="Ensembl" id="ENSDARP00000016353"/>
+      </source>
+    </evidence>
+    <evidence key="7" type="ECO:0000313">
+      <source>
+        <dbReference type="Proteomes" id="UP000000437"/>
+      </source>
+    </evidence>
+    <evidence key="8" type="ECO:0000313">
+      <source>
+        <dbReference type="ZFIN" id="ZDB-GENE-010724-2"/>
+      </source>
+    </evidence>
+    <sequence length="688" mass="78252" checksum="9C0A6FC6E59D880F" modified="2011-05-03" version="1">
+      MPYSVTLPGSSGQTAVVESTQADGKTYEQLRRECLEKGKLFEDPDFPAVDGSLFYSQRVP
+      VNFEWKRPGEICKEPQFITGGATRTDICQGQLGDCWLLAAIASLTLKEETLNRVVPNDQT
+      FDRGYAGIFHFQFWQHNKWMDVVVDDRLPCVRDKLVFLHSADNNEFWSALLEKAYAKLNG
+      SYEALKGGSTMEAMEDFTGGVGEMYETKNGPNNLFLILKKAIERGSMLGCSIDITSSAES
+      EAQTSTGLVKGHAYSVTGVEEVNYRGAKVQLIRVRNPWGQVEWNGPWSDNSREWTVIDSS
+      EKKRLLQNSLDDGEFWMEFGDFKSNYDKVEICNLSPDALSDDVSKQWAVNLFEGSWIRGS
+      TAGGCRNYIDTFWTNPQFKLHLENPDDGDKLCSVIVALMQKNRRRLRKEGLDLETIGFAI
+      YEAPDDQDHQGKDFFRYNPSKARSRTYINVREVSERFRLPPGNYLLVPTTFQPHKEADFL
+      IRLFSEKKAGAIEVGNKIEADLPEPPKPNPPEEETDEEKGLRKLFEQVAGPDNVISAREL
+      QHVLNNVLGRRKEVKFDGLSLNTCISIINLMDVDGSGMMEFSEFKVFWDKLKKWIMLFLS
+      YDVDRSGTMSSYELRSALNAAGMKLNNRILQLLGLRFADEKLEIDFDDYLTCIVRLENMF
+      RIFQALDAQKKGEVSLNMHQFLLLTMNV
+    </sequence>
+  </entry>
+  <entry dataset="TrEMBL" created="2004-08-16" modified="2016-11-30" version="114">
+    <accession>Q6DG44</accession>
+    <name>Q6DG44_DANRE</name>
+    <protein>
+      <submittedName>
+        <fullName evidence="5">Calpain 9</fullName>
+      </submittedName>
+      <submittedName>
+        <fullName evidence="6">Capn9 protein</fullName>
+      </submittedName>
+    </protein>
+    <gene>
+      <name type="primary" evidence="5 7">capn9</name>
+    </gene>
+    <organism evidence="5">
+      <name type="scientific">Danio rerio</name>
+      <name type="common">Zebrafish</name>
+      <name type="synonym">Brachydanio rerio</name>
+      <dbReference type="NCBI Taxonomy" id="7955"/>
+      <lineage>
+        <taxon>Eukaryota</taxon>
+        <taxon>Metazoa</taxon>
+        <taxon>Chordata</taxon>
+        <taxon>Craniata</taxon>
+        <taxon>Vertebrata</taxon>
+        <taxon>Euteleostomi</taxon>
+        <taxon>Actinopterygii</taxon>
+        <taxon>Neopterygii</taxon>
+        <taxon>Teleostei</taxon>
+        <taxon>Ostariophysi</taxon>
+        <taxon>Cypriniformes</taxon>
+        <taxon>Cyprinidae</taxon>
+        <taxon>Danio</taxon>
+      </lineage>
+    </organism>
+    <reference key="1" evidence="5">
+      <citation type="submission" date="2004-07" db="EMBL/GenBank/DDBJ databases">
+        <authorList>
+          <consortium name="NIH - Zebrafish Gene Collection (ZGC) project"/>
+        </authorList>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE [LARGE SCALE MRNA]</scope>
+      <source>
+        <tissue evidence="5">Whole</tissue>
+      </source>
+    </reference>
+    <reference key="2" evidence="6">
+      <citation type="submission" date="2008-04" db="EMBL/GenBank/DDBJ databases">
+        <authorList>
+          <consortium name="NIH - Zebrafish Gene Collection (ZGC) project"/>
+        </authorList>
+      </citation>
+      <scope>NUCLEOTIDE SEQUENCE [LARGE SCALE MRNA]</scope>
+      <source>
+        <tissue evidence="6">PCR rescue</tissue>
+      </source>
+    </reference>
+    <comment type="similarity">
+      <text evidence="1">Belongs to the peptidase C2 family.</text>
+    </comment>
+    <dbReference type="EMBL" id="BC076509">
+      <property type="protein sequence ID" value="AAH76509.1"/>
+      <property type="molecule type" value="mRNA"/>
+    </dbReference>
+    <dbReference type="EMBL" id="BC165218">
+      <property type="protein sequence ID" value="AAI65218.1"/>
+      <property type="molecule type" value="mRNA"/>
+    </dbReference>
+    <dbReference type="RefSeq" id="NP_001003501.1">
+      <property type="nucleotide sequence ID" value="NM_001003501.1"/>
+    </dbReference>
+    <dbReference type="UniGene" id="Dr.77287"/>
+    <dbReference type="STRING" id="7955.ENSDARP00000016353"/>
+    <dbReference type="MEROPS" id="C02.006"/>
+    <dbReference type="GeneID" id="445107"/>
+    <dbReference type="KEGG" id="dre:445107"/>
+    <dbReference type="CTD" id="10753"/>
+    <dbReference type="ZFIN" id="ZDB-GENE-010724-2">
+      <property type="gene designation" value="capn9"/>
+    </dbReference>
+    <dbReference type="eggNOG" id="KOG0045">
+      <property type="taxonomic scope" value="Eukaryota"/>
+    </dbReference>
+    <dbReference type="eggNOG" id="ENOG410XP0B">
+      <property type="taxonomic scope" value="LUCA"/>
+    </dbReference>
+    <dbReference type="HOGENOM" id="HOG000232035"/>
+    <dbReference type="HOVERGEN" id="HBG012645"/>
+    <dbReference type="KO" id="K08578"/>
+    <dbReference type="GO" id="GO:0005622">
+      <property type="term" value="C:intracellular"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0005509">
+      <property type="term" value="F:calcium ion binding"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="GO" id="GO:0004198">
+      <property type="term" value="F:calcium-dependent cysteine-type endopeptidase activity"/>
+      <property type="evidence" value="ECO:0000501"/>
+      <property type="project" value="InterPro"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00214">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="CDD" id="cd00044">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Gene3D" id="1.10.238.10">
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR033883">
+      <property type="entry name" value="C2_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022684">
+      <property type="entry name" value="Calpain_cysteine_protease"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022682">
+      <property type="entry name" value="Calpain_domain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR022683">
+      <property type="entry name" value="Calpain_III"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR011992">
+      <property type="entry name" value="EF-hand-dom_pair"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR018247">
+      <property type="entry name" value="EF_Hand_1_Ca_BS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR002048">
+      <property type="entry name" value="EF_hand_dom"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR000169">
+      <property type="entry name" value="Pept_cys_AS"/>
+    </dbReference>
+    <dbReference type="InterPro" id="IPR001300">
+      <property type="entry name" value="Peptidase_C2_calpain_cat"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF01067">
+      <property type="entry name" value="Calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF13833">
+      <property type="entry name" value="EF-hand_8"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="Pfam" id="PF00648">
+      <property type="entry name" value="Peptidase_C2"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PRINTS" id="PR00704">
+      <property type="entry name" value="CALPAIN"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00720">
+      <property type="entry name" value="calpain_III"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00230">
+      <property type="entry name" value="CysPc"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SMART" id="SM00054">
+      <property type="entry name" value="EFh"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF47473">
+      <property type="entry name" value="SSF47473"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="SUPFAM" id="SSF49758">
+      <property type="entry name" value="SSF49758"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50203">
+      <property type="entry name" value="CALPAIN_CAT"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00018">
+      <property type="entry name" value="EF_HAND_1"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS50222">
+      <property type="entry name" value="EF_HAND_2"/>
+      <property type="match status" value="2"/>
+    </dbReference>
+    <dbReference type="PROSITE" id="PS00139">
+      <property type="entry name" value="THIOL_PROTEASE_CYS"/>
+      <property type="match status" value="1"/>
+    </dbReference>
+    <proteinExistence type="evidence at transcript level"/>
+    <keyword id="KW-0378" evidence="2">Hydrolase</keyword>
+    <keyword id="KW-0645" evidence="2">Protease</keyword>
+    <keyword id="KW-0788" evidence="2">Thiol protease</keyword>
+    <feature type="domain" description="Calpain catalytic" evidence="3">
+      <location>
+        <begin position="40"/>
+        <end position="335"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="4">
+      <location>
+        <begin position="559"/>
+        <end position="587"/>
+      </location>
+    </feature>
+    <feature type="domain" description="EF-hand" evidence="4">
+      <location>
+        <begin position="589"/>
+        <end position="624"/>
+      </location>
+    </feature>
+    <evidence key="1" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586566"/>
+      </source>
+    </evidence>
+    <evidence key="2" type="ECO:0000256">
+      <source>
+        <dbReference type="SAAS" id="SAAS00586567"/>
+      </source>
+    </evidence>
+    <evidence key="3" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50203"/>
+      </source>
+    </evidence>
+    <evidence key="4" type="ECO:0000259">
+      <source>
+        <dbReference type="PROSITE" id="PS50222"/>
+      </source>
+    </evidence>
+    <evidence key="5" type="ECO:0000313">
+      <source>
+        <dbReference type="EMBL" id="AAH76509.1"/>
+      </source>
+    </evidence>
+    <evidence key="6" type="ECO:0000313">
+      <source>
+        <dbReference type="EMBL" id="AAI65218.1"/>
+      </source>
+    </evidence>
+    <evidence key="7" type="ECO:0000313">
+      <source>
+        <dbReference type="ZFIN" id="ZDB-GENE-010724-2"/>
+      </source>
+    </evidence>
+    <sequence length="688" mass="78224" checksum="FB16C2638749A12D" modified="2004-08-16" version="1">
+      MPYSVTLPGSSGQTAVVESTQADGKTYEQLRRECLQKGKLFEDPDFPAVDGSLFYSQRVP
+      VNFEWKRPGEICKEPQFITGGATRTDICQGQLGDCWLLAAIASLTLKEETLNRVVPNDQT
+      FDRGYAGIFHFQFWQHNKWMDVVVDDRLPCVRDKLVFLHSADNNEFWSALLEKAYAKLNG
+      SYEALKGGSTMEAMEDFTGGVGEMYETKNGPSNLFLILKKAIERGSMLGCSIDITSSAES
+      EAQTSTGLVKGHAYSVTGVEEVNYRGAKVQLIRVRNPWGQVEWNGPWSDNSREWTVIDSS
+      EKKRLLQNSLDDGEFWMEFGDFKSNYDKVEICNLSPDALSDDVSKQWAVNLFEGSWIRGS
+      TAGGCRNYIDTFWTNPQFKLHLENPDDGDKLCSVIVALMQKNRRRLRKEGLDLETIGFAI
+      YEAPDDQDHQGKDFFRYNPSKARSRTYINVREVSERFRLPPGNYLLVPTTFQPHKEADFL
+      IRLFSEKKAGAIEVGNKIEADLPEPPKPNPPEEETDEEKGLRKLFEQVAGPDNVISAREL
+      QHVLNNVLGRRKEVKFDGLSLNTCISIINLMDVDGSGMMEFSEFKVFWDKLKKWIMLFLS
+      YDVDRSGTMSSYELRSALNAAGMKLNNRILQLLGLRFADEKLEIDFDDYLTCIVRLENMF
+      RIFQALDAQKKGEVSLNMHQFLLLTMNV
+    </sequence>
+  </entry>
+  <copyright>
+    Copyrighted by the UniProt Consortium, see http://www.uniprot.org/terms
+    Distributed under the Creative Commons Attribution-NoDerivs License
+  </copyright>
+</uniprot>

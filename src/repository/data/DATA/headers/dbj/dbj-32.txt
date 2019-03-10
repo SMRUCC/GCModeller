@@ -1,0 +1,5 @@
+AB002691.1	Subacute sclerosing panencephalitis virus pseudogene for M protein, strain Osaka-3, viral complementary strand
+AB009381.1	Subacute sclerosing panencephalitis virus gene for nucleocapsid protein, partial cds, strain Osaka-1, viral complementary strand
+AB009382.1	Subacute sclerosing panencephalitis virus gene for nucleocapsid protein, partial cds, strain Osaka-2, viral complementary strand
+AB009383.1	Subacute sclerosing panencephalitis virus gene for nucleocapsid protein, partial cds, strain Osaka-3, viral complementary strand
+AB620058.1	Israel acute paralysis virus of bees gene for structural polyprotein, partial cds, strain: IS4-JAPAN-2010

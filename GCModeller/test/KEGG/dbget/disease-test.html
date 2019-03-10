@@ -1,0 +1,327 @@
+<!doctype html>
+<html><head>
+<title>KEGG DISEASE: Retinoblastoma</title>
+<link type="text/css" rel="stylesheet" href="/css/gn2.css">
+<link rel="stylesheet" href="/css/bget.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="/css/bgetm.css" media="only screen and (max-width: 768px)">
+<style>.kcfd{display:none;}</style>
+<script>
+<!--
+var getElementsByClassName = document.getElementsByClassName ?
+  function (cl){
+    return document.getElementsByClassName(cl);
+  } :
+  function (cl){
+    var elms = [];
+    var objs = document.getElementsByTagName('*');
+    for(var i=0;i<objs.length;i++){
+      var obj = objs[i];
+      if(obj.className == cl){
+        elms.push(obj);
+      }
+    }
+    return elms;
+  };
+function toggleField(clk,cl,show,hide){
+  var objs = getElementsByClassName(cl);
+  for(var i=0;i<objs.length;i++){
+    var obj = objs[i];
+    if(!obj.style.display||obj.style.display == 'none'){
+      obj.style.display = 'block';
+      clk.innerHTML = '&nbsp;&laquo; '+hide;
+    }
+    else{
+      obj.style.display = 'none';
+      clk.innerHTML = '&nbsp;&raquo; '+show;
+    }
+  }
+}
+function toggleData(bobj,e){
+  var id = bobj.id.replace(/[^0-9]/g,'');
+  var dt = document.getElementById('kcfd'+id);
+  if(!dt.style.display||dt.style.display == 'none'){
+    bobj.name = 'hide_kcf';
+    bobj.alt = 'Hide';
+    bobj.src = '/Fig/bget/button_Hib.gif';
+    dt.style.display = 'block';
+  }
+  else{
+    bobj.name = 'show_kcf';
+    bobj.alt = 'Show';
+    bobj.src = '/Fig/bget/button_Sb.gif';
+    dt.style.display = 'none';
+  }
+}
+function btn(bobj,img) {
+  bobj.src = "/Fig/bget/button_" + img + ".gif";
+}
+function btn_e(e) {
+  e = e || event;
+  var obj = e.target;
+  var img = e.target.src;
+  var img_base = img.replace(/\\/g,'/').replace(/(b|bd|bh)\.gif$/,'');
+  if(e.type == 'mousedown'||e.type == 'touchstart'){
+    obj.src = img_base +'bd.gif';
+  }
+  else if(e.type == 'mouseover'){
+    obj.src = img_base +'bh.gif';
+  }
+  else if(e.type == 'mouseup'||e.type == 'touchend'){
+    obj.src = img_base +'b.gif';
+  }
+  else if(e.type == 'mouseout'){
+    obj.src = img_base +'b.gif';
+  }
+}
+function init(){
+  for(var i=1;i<=1;i++){
+    if(document.getElementById('kcfb'+i)){
+      document.getElementById('kcfb'+i).onclick = function(e){toggleData(this,e);};
+      document.getElementById('kcfb'+i).onmousedown = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseover = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseout = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseup = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).ontouchstart = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).ontouchend = function(e){btn_e(e);};
+    }
+  }
+}
+function Link_XtrctSeq2(form) {
+    var dna_from;
+    var dna_to;
+    var dna_len;
+    var plus_up   = Number(form.XtrctSeq_UP.value) ;
+    var plus_down = Number(form.XtrctSeq_DOWN.value);
+    var vector    = Number(form.VECTOR.value);
+    var org       = form.ORG.value;
+    var chr       = form.CHR.value;
+    var kid       = form.KEGGID.value;
+    var url;
+
+    if (plus_up == 0 && plus_down == 0) {
+	url = "/dbget-bin/www_bget?-f+-n+n+" + kid;
+    }
+    else {
+	if (vector == 1) {
+	    dna_from  = Number(form.FROM.value)  - plus_up;
+	    dna_to    = Number(form.TO.value) + plus_down;
+	} else {
+	    dna_from  = Number(form.FROM.value)  - plus_down;
+	    dna_to    = Number(form.TO.value) + plus_up;
+	}
+
+	url = "http://www.genome.jp/dbget-bin/cut_sequence_genes.pl?FROM=" + dna_from + "&TO=" + dna_to +"&VECTOR=" + vector + "&ORG=" + org;
+	if (chr) url += "&CHR=" + chr;
+    }
+    //window.open( url, "_self" );
+    location.href = url;
+}
+function go_taxonomy(form,params){
+  for(var key in params){
+    if(form[key]){
+      form.setAttribute(key,params[key]);
+    }
+    else{
+      var obj = document.createElement('input');
+      obj.setAttribute('type','hidden');
+      obj.setAttribute('name',key);
+      obj.setAttribute('value',params[key]);
+      form.appendChild(obj);
+    }
+  }
+  form.submit();
+}
+window.onload=function(){window.focus();init();};
+//--->
+</script>
+
+</head>
+<body>
+<div>
+
+<table border=0 cellpadding=0 cellspacing=0><tr><td>
+<table border=0 cellpadding=0 cellspacing=0 width="650"><tr><td width=70><a href="/kegg/disease"><img align="middle" alt="KEGG" border=0 src="/Fig/bget/kegg5.gif"></a></td><td>&nbsp;&nbsp;&nbsp;</td><td><a name="disease:H01513"></a><font class="title5">DISEASE: Retinoblastoma</font></td><td align="right" valign="bottom"><a href="javascript:void(window.open('/kegg/document/help_bget_disease.html','KEGG_Help','toolbar=no,location=no,directories=no,width=720,height=640,resizable=yes,scrollbars=yes'))"><img align="middle" alt="Help" border="0" name="help" onmousedown="btn(this,'Hbd')" onmouseout="btn(this,'Hb')" onmouseover="btn(this,'Hbh')" onmouseup="btn(this,'Hb')" ontouchend="btn(this,'Hb')" ontouchstart="btn(this,'Hbd')" src="/Fig/bget/button_Hb.gif"></a></td></tr></table><form method="post" action="/dbget-bin/www_bget" enctype="application/x-www-form-urlencoded" name="form1"><table border=0 cellpadding=1 cellspacing=0>
+<tr>
+<td class="fr5">
+<table border=0 cellpadding=2 cellspacing=0 style="border-bottom:#000 1px solid">
+
+<tr><th class="th50" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Entry</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="left"><code><nobr>H01513&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disease&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+</nobr></code></td><td align="right"><br></td></tr></table></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Name</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Retinoblastoma<br>
+</div></div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Description</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">The retinoblastoma is an eye tumor of childhood that arises in the retina and represents the most common intraocular malignancy of infancy and childhood. Tumor formation usually begins with mutation in both alleles of the retinoblastoma tumor suppressor gene RB1, followed by a series of other genetic alterations that correlate with the clinical stage and pathologic findings of the tumor. In retinoblastoma, mutation of RB1 leads to dysfunction or absence of the Rb protein. These mutations promote tumour development by deregulating the E2F family of transcription factors leading to uncontrolled cell cycle progression.<br>
+</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Category</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Cancer<br>
+</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Brite</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><nobr>Human diseases [BR:<a href="/kegg-bin/get_htext?br08402+H01513">br08402</a>]<br>
+&nbsp;Cancers<br>
+&nbsp;&nbsp;Cancers of eye, brain, and central nervous system<br>
+&nbsp;&nbsp;&nbsp;H01513&nbsp;&nbsp;Retinoblastoma<br>
+Human diseases in ICD-10 classification [BR:<a href="/kegg-bin/get_htext?br08403+H01513">br08403</a>]<br>
+&nbsp;2. Neoplasms (C00-D48)<br>
+&nbsp;&nbsp;C69-C72&nbsp;&nbsp;Malignant neoplasms of eye, brain and other parts of central nervous system<br>
+&nbsp;&nbsp;&nbsp;C69&nbsp;&nbsp;Malignant neoplasm of eye and adnexa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;H01513&nbsp;&nbsp;Retinoblastoma<br>
+</nobr></div><a href="/kegg-bin/search_brite?option=-a&amp;search_string=H01513"><img align="middle" alt="BRITE hierarchy" border="0" name="BRH" onmousedown="btn(this,'BHbd')" onmouseout="btn(this,'BHb')" onmouseover="btn(this,'BHbh')" onmouseup="btn(this,'BHb')" ontouchend="btn(this,'BHb')" ontouchstart="btn(this,'BHbd')" src="/Fig/bget/button_BHb.gif"></a></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Pathway</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table width=555 border=0 cellspacing=0 cellpadding=0><tr><td align="left" valign="top" style="width:5.5em"><div><nobr><a href="/kegg-bin/show_pathway?hsa04110+5925">hsa04110</a> Cell cycle&nbsp;&nbsp;</nobr></div></td><td align="left"><div>&nbsp;</div></td></tr></table></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Gene</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">RB1 (mutation) [HSA:<a href="/dbget-bin/www_bget?hsa:5925">5925</a>] [KO:<a href="/dbget-bin/www_bget?ko:K06618">K06618</a>]<br>
+MDM4 (amplification) [HSA:<a href="/dbget-bin/www_bget?hsa:4194">4194</a>] [KO:<a href="/dbget-bin/www_bget?ko:K10127">K10127</a>]<br>
+MDM2 (amplification) [HSA:<a href="/dbget-bin/www_bget?hsa:4193">4193</a>] [KO:<a href="/dbget-bin/www_bget?ko:K06643">K06643</a>]<br>
+KIF14 (amplification) [HSA:<a href="/dbget-bin/www_bget?hsa:9928">9928</a>] [KO:<a href="/dbget-bin/www_bget?ko:K17915">K17915</a>]<br>
+CDH11 (loss) [HSA:<a href="/dbget-bin/www_bget?hsa:1009">1009</a>] [KO:<a href="/dbget-bin/www_bget?ko:K06803">K06803</a>]<br>
+p16/INK (loss) [HSA:<a href="/dbget-bin/www_bget?hsa:1029">1029</a>] [KO:<a href="/dbget-bin/www_bget?ko:K06621">K06621</a>]<br>
+</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Marker</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">RB1 [HSA:<a href="/dbget-bin/www_bget?hsa:5925">5925</a>] [KO:<a href="/dbget-bin/www_bget?ko:K06618">K06618</a>]<br>
+</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Drug</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Vincristine [DG:<a href="/dbget-bin/www_bget?dg:DG00690">DG00690</a>]<br>
+Carboplatin [DR:<a href="/dbget-bin/www_bget?dr:D01363">D01363</a>]<br>
+Etoposide [DG:<a href="/dbget-bin/www_bget?dg:DG00693">DG00693</a>]<br>
+</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Comment</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">ICD-O-3: 9510/3 Retinoblastoma, NOS<br>
+ICD-O-3: 9511/3 Retinoblastoma, differentiated<br>
+ICD-O-3: 9512/3 Retinoblastoma, undifferentiated<br>
+ICD-O-3: 9513/3 Retinoblastoma, diffuse<br>
+ICD-O-3: 9514/1 Retinoblastoma, spontaneously regressed<br>
+</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Other DBs</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="float:left">ICD-10:&nbsp;</div><div style="margin-left:4.5em"><a href="/kegg-bin/get_htext?br08403+H01513">C69.2</a></div><div style="float:left">MeSH:&nbsp;</div><div style="margin-left:3.5em"><a href="https://www.ncbi.nlm.nih.gov/mesh/68012175">D012175</a></div></div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/26310174">26310174</a> (description, pathway, gene, drug)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Mendoza PR, Grossniklaus HE</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">The Biology of Retinoblastoma.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Prog Mol Biol Transl Sci 134:503-16 (2015)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/25940424">25940424</a> (description, drug)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Jenkinson H</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Retinoblastoma: diagnosis and management--the UK perspective.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Arch Dis Child 100:1070-5 (2015)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/22414599">22414599</a> (pathway, gene, marker, drug)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Dimaras H, Kimani K, Dimba EA, Gronsdahl P, White A, Chan HS, Gallie BL</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Retinoblastoma.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Lancet 379:1436-46 (2012)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/23154492">23154492</a> (gene)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Eagle RC Jr</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">The pathology of ocular cancer.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Eye (Lond) 27:128-36 (2013)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/25621664">25621664</a> (gene)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Benavente CA, Dyer MA</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Genetics and epigenetics of human retinoblastoma.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Annu Rev Pathol 10:547-62 (2015)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/15306814">15306814</a> (description)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Hernando E, Nahle Z, Juan G, Diaz-Rodriguez E, Alaminos M, Hemann M, Michel L, Mittal V, Gerald W, Benezra R, Lowe SW, Cordon-Cardo C</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Rb inactivation promotes genomic instability by uncoupling cell cycle progression from mitotic control.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Nature 430:797-802 (2004)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>LinkDB</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><a href="http://www.genome.jp/dbget-bin/get_linkdb?disease+H01513"><img align="middle" alt="All DBs" border="0" name="alldbs" onmousedown="btn(this,'ADbd')" onmouseout="btn(this,'ADb')" onmouseover="btn(this,'ADbh')" onmouseup="btn(this,'ADb')" ontouchend="btn(this,'ADb')" ontouchstart="btn(this,'ADbd')" src="/Fig/bget/button_ADb.gif"></a></td></tr>
+
+</table></td></tr></table>
+<br><span style="font-size:12px"><a href="/dbget-bin/www_bget?ds_ja:H01513">&raquo; Japanese version</a></span><br><br></form></td></tr></table>
+
+
+<a href="/dbget/">DBGET</a> integrated database retrieval system</div>
+
+</body>
+</html>

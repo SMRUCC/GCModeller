@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArticleProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <title>Regulation of the Type II Secretion Structural Gene xpsE in Xanthomonas campestris Pathovar campestris by the Global Transcription Regulator Clp</title>
+  <URL>https://cn.bing.com/academic/profile?id=732082a136d84836712d91b89d10827d&amp;encoded=0&amp;v=paper_preview&amp;mkt=zh-cn</URL>
+  <authors>
+    <link title="Chao Ge" attr="ID=SERP,5097.1">/academic/search?q=Chao+Ge&amp;amp;mkt=zh-cn</link>
+    <link title="Chaozu He" attr="ID=SERP,5098.1">/academic/search?q=Chaozu+He&amp;amp;mkt=zh-cn</link>
+  </authors>
+  <abstract>GspE is an important component of the type II secretion system (T2SS) in Gram-negative bacteria that supplies energy for the process of protein secretion. The role of GspE and its interactions with other components have been intensively studied. However, regulation of the gspE gene is poorly understood. In this study, we demonstrated that the transcription of xpsE, a homologue of gspE in Xanthomonas campestris pathovar campestris (Xcc), is upregulated by Clp, a homologue of the cyclic AMP-receptor protein, by directly binding to the xpsE promoter region. Overexpression of the clp gene in Xcc wild-type strain 8004 enhanced the production of XpsE as well as endoglucanase and extracellular polysaccharide (EPS).</abstract>
+  <pub-date>2008-01-01T00:00:00</pub-date>
+  <journal title="Current Microbiology" attr="ID=SERP,5102.1">/academic/search?q=Current+Microbiology</journal>
+  <DOI>10.1007/s00284-007-9081-9</DOI>
+  <keywords>
+    <link title="Transcriptional regulation" attr="ID=SERP,5099.1">/academic/profile?id=27153228&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Secretory protein" attr="ID=SERP,5100.1">/academic/profile?id=156399914&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Wild type" attr="ID=SERP,5101.1">/academic/profile?id=207583985&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+  </keywords>
+  <cites>
+    <cites date="2010" volumn="2" />
+    <cites date="2011" volumn="1" />
+    <cites date="2012" volumn="1" />
+    <cites date="2014" volumn="1" />
+  </cites>
+  <pages>122-127</pages>
+  <volume>56</volume>
+  <issue>2</issue>
+  <source>
+    <link title="link.springer.com" attr="ID=SERP,5103.1">http://link.springer.com/article/10.1007/s00284-007-9081-9</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5104.1">https://www.ncbi.nlm.nih.gov/pubmed/18175178</link>
+    <link title="link.springer.com" attr="ID=SERP,5105.1">http://link.springer.com/article/10.1007/s00284-007-9081-9/fulltext.html</link>
+    <link title="link.springer.com" attr="ID=SERP,5106.1">http://link.springer.com/content/pdf/10.1007%2Fs00284-007-9081-9.pdf</link>
+    <link title="link.springer.com" attr="ID=SERP,5107.1">http://link.springer.com/article/10.1007/s00284-007-9081-9?view=classic</link>
+    <link title="link.springer.com" attr="ID=SERP,5108.1">https://link.springer.com/article/10.1007/s00284-007-9081-9</link>
+    <link title="link.springer.com" attr="ID=SERP,5103.2">http://link.springer.com/article/10.1007/s00284-007-9081-9</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5104.2">https://www.ncbi.nlm.nih.gov/pubmed/18175178</link>
+    <link title="link.springer.com" attr="ID=SERP,5105.2">http://link.springer.com/article/10.1007/s00284-007-9081-9/fulltext.html</link>
+    <link title="link.springer.com" attr="ID=SERP,5106.2">http://link.springer.com/content/pdf/10.1007%2Fs00284-007-9081-9.pdf</link>
+    <link title="link.springer.com" attr="ID=SERP,5107.2">http://link.springer.com/article/10.1007/s00284-007-9081-9?view=classic</link>
+    <link title="link.springer.com" attr="ID=SERP,5108.2">https://link.springer.com/article/10.1007/s00284-007-9081-9</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5109.1">http://www.ncbi.nlm.nih.gov/pubmed/18175178</link>
+    <link title="rd.springer.com" attr="ID=SERP,5110.1">http://rd.springer.com/article/10.1007/s00284-007-9081-9</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5111.1">https://www.ncbi.nlm.nih.gov/pubmed/18175178?access_num=18175178&amp;amp;link_type=MED</link>
+    <link title="link.springer.com" attr="ID=SERP,5112.1">https://link.springer.com/content/pdf/10.1007%2Fs00284-007-9081-9.pdf</link>
+    <link title="link.springer.com" attr="ID=SERP,5113.1">http://link.springer.com/10.1007%2Fs00284-007-9081-9</link>
+    <link title="rd.springer.com" attr="ID=SERP,5114.1">http://rd.springer.com/content/pdf/10.1007%2Fs00284-007-9081-9.pdf</link>
+    <link title="www.im.ac.cn" attr="ID=SERP,5115.1">http://www.im.ac.cn/UserFiles/File/2008/200806/Current%20Microbiology%2056-122%20hecz.pdf</link>
+  </source>
+</ArticleProfile>

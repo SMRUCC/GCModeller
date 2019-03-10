@@ -1,0 +1,1 @@
+samtools view -h -o out.sam in.bam

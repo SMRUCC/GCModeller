@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00380" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Tryptophan metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00078" Value="L-Tryptophan" />
+    <hashEntry Key="C00108" Value="Anthranilate" />
+    <hashEntry Key="C00322" Value="2-Oxoadipate" />
+    <hashEntry Key="C00328" Value="L-Kynurenine" />
+    <hashEntry Key="C00331" Value="Indolepyruvate" />
+    <hashEntry Key="C00332" Value="Acetoacetyl-CoA" />
+    <hashEntry Key="C00398" Value="Tryptamine" />
+    <hashEntry Key="C00463" Value="Indole" />
+    <hashEntry Key="C00527" Value="Glutaryl-CoA" />
+    <hashEntry Key="C00632" Value="3-Hydroxyanthranilate" />
+    <hashEntry Key="C00637" Value="Indole-3-acetaldehyde" />
+    <hashEntry Key="C00643" Value="5-Hydroxy-L-tryptophan" />
+    <hashEntry Key="C00780" Value="Serotonin" />
+    <hashEntry Key="C00877" Value="Crotonoyl-CoA" />
+    <hashEntry Key="C00954" Value="Indole-3-acetate" />
+    <hashEntry Key="C00955" Value="Indole-3-ethanol" />
+    <hashEntry Key="C00978" Value="N-Acetylserotonin" />
+    <hashEntry Key="C01111" Value="7,8-Dihydroxykynurenate" />
+    <hashEntry Key="C01144" Value="(S)-3-Hydroxybutanoyl-CoA" />
+    <hashEntry Key="C01249" Value="7,8-Dihydro-7,8-dihydroxykynurenate" />
+    <hashEntry Key="C01252" Value="4-(2-Aminophenyl)-2,4-dioxobutanoate" />
+    <hashEntry Key="C01598" Value="Melatonin" />
+    <hashEntry Key="C01717" Value="4-Hydroxy-2-quinolinecarboxylic acid" />
+    <hashEntry Key="C01987" Value="2-Aminophenol" />
+    <hashEntry Key="C02043" Value="Indolelactate" />
+    <hashEntry Key="C02161" Value="2-Aminophenoxazin-3-one" />
+    <hashEntry Key="C02172" Value="N-Acetylisatin" />
+    <hashEntry Key="C02220" Value="2-Aminomuconate" />
+    <hashEntry Key="C02298" Value="N-Acetylindoxyl" />
+    <hashEntry Key="C02470" Value="Xanthurenic acid" />
+    <hashEntry Key="C02693" Value="(Indol-3-yl)acetamide" />
+    <hashEntry Key="C02700" Value="L-Formylkynurenine" />
+    <hashEntry Key="C02775" Value="2,3-Dihydroxyindole" />
+    <hashEntry Key="C02937" Value="Indole-3-acetaldehyde oxime" />
+    <hashEntry Key="C02938" Value="3-Indoleacetonitrile" />
+    <hashEntry Key="C03227" Value="3-Hydroxy-L-kynurenine" />
+    <hashEntry Key="C03230" Value="(Indol-3-yl)glycolaldehyde" />
+    <hashEntry Key="C03453" Value="gamma-Oxalocrotonate" />
+    <hashEntry Key="C03574" Value="2-Formylaminobenzaldehyde" />
+    <hashEntry Key="C03722" Value="Quinolinate" />
+    <hashEntry Key="C03824" Value="2-Aminomuconate semialdehyde" />
+    <hashEntry Key="C04409" Value="2-Amino-3-carboxymuconate semialdehyde" />
+    <hashEntry Key="C05634" Value="5-Hydroxyindoleacetaldehyde" />
+    <hashEntry Key="C05635" Value="5-Hydroxyindoleacetate" />
+    <hashEntry Key="C05636" Value="3-Hydroxykynurenamine" />
+    <hashEntry Key="C05637" Value="4,8-Dihydroxyquinoline" />
+    <hashEntry Key="C05638" Value="5-Hydroxykynurenamine" />
+    <hashEntry Key="C05639" Value="4,6-Dihydroxyquinoline" />
+    <hashEntry Key="C05640" Value="Cinnavalininate" />
+    <hashEntry Key="C05641" Value="5-(3'-Carboxy-3'-oxopropenyl)-4,6-dihydroxypicolinate" />
+    <hashEntry Key="C05642" Value="Formyl-N-acetyl-5-methoxykynurenamine" />
+    <hashEntry Key="C05643" Value="6-Hydroxymelatonin" />
+    <hashEntry Key="C05644" Value="3-Methylindolepyruvate" />
+    <hashEntry Key="C05645" Value="4-(2-Amino-3-hydroxyphenyl)-2,4-dioxobutanoate" />
+    <hashEntry Key="C05646" Value="5-Hydroxyindolepyruvate" />
+    <hashEntry Key="C05647" Value="Formyl-5-hydroxykynurenamine" />
+    <hashEntry Key="C05648" Value="5-Hydroxy-N-formylkynurenine" />
+    <hashEntry Key="C05651" Value="5-Hydroxykynurenine" />
+    <hashEntry Key="C05652" Value="4-(2-Amino-5-hydroxyphenyl)-2,4-dioxobutanoate" />
+    <hashEntry Key="C05653" Value="Formylanthranilate" />
+    <hashEntry Key="C05654" Value="5-(2'-Formylethyl)-4,6-dihydroxypicolinate" />
+    <hashEntry Key="C05655" Value="5-(2'-Carboxyethyl)-4,6-dihydroxypicolinate" />
+    <hashEntry Key="C05656" Value="5-(3'-Carboxy-3'-oxopropyl)-4,6-dihydroxypicolinate" />
+    <hashEntry Key="C05658" Value="Indoxyl" />
+    <hashEntry Key="C05659" Value="5-Methoxytryptamine" />
+    <hashEntry Key="C05660" Value="5-Methoxyindoleacetate" />
+    <hashEntry Key="C05663" Value="6-Hydroxykynurenate" />
+    <hashEntry Key="C05830" Value="8-Methoxykynurenate" />
+    <hashEntry Key="C05831" Value="3-Methoxyanthranilate" />
+    <hashEntry Key="C05832" Value="5-Hydroxyindoleacetylglycine" />
+    <hashEntry Key="C05834" Value="3-Methyldioxyindole" />
+    <hashEntry Key="C05835" Value="2-Formaminobenzoylacetate" />
+    <hashEntry Key="C05837" Value="Glucobrassicin" />
+    <hashEntry Key="C06212" Value="N-Methylserotonin" />
+    <hashEntry Key="C06213" Value="N-Methyltryptamine" />
+    <hashEntry Key="C10164" Value="Picolinic acid" />
+    <hashEntry Key="C16516" Value="Indolylmethylthiohydroximate" />
+    <hashEntry Key="C16517" Value="Indolylmethyl-desulfoglucosinolate" />
+    <hashEntry Key="C16518" Value="S-(Indolylmethylthiohydroximoyl)-L-cysteine" />
+    <hashEntry Key="C17203" Value="N-Hydroxyl-tryptamine" />
+  </Compound>
+  <PathwayMap Key="eco00380" Value="Tryptophan metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0726" Value="sucA; 2-oxoglutarate decarboxylase, thiamine triphosphate-binding (EC:1.2.4.2); K00164 2-oxoglutarat" />
+    <hashEntry Key="eco:b1393" Value="paaF; 2,3-dehydroadipyl-CoA hydratase (EC:4.2.1.17); K01692 enoyl-CoA hydratase [EC:4.2.1.17]" />
+    <hashEntry Key="eco:b1732" Value="katE; catalase HPII, heme d-containing (EC:1.11.1.6); K03781 catalase [EC:1.11.1.6]" />
+    <hashEntry Key="eco:b2224" Value="atoB; acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b2341" Value="fadJ; fused enoyl-CoA hydratase and epimerase and isomerase/3-hydroxyacyl-CoA dehydrogenase (EC:1.1." />
+    <hashEntry Key="eco:b2844" Value="yqeF; short chain acyltransferase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b3708" Value="tnaA; tryptophanase/L-cysteine desulfhydrase, PLP-dependent (EC:4.1.99.1); K01667 tryptophanase [EC:" />
+    <hashEntry Key="eco:b3846" Value="fadB; fused 3-hydroxybutyryl-CoA epimerase/delta(3)-cis-delta(2)-trans-enoyl-CoA isomerase/enoyl-CoA" />
+    <hashEntry Key="eco:b3942" Value="katG; catalase-peroxidase HPI, heme b-containing (EC:1.11.1.6); K03782 catalase-peroxidase [EC:1.11." />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>36ee8dc2-3d23-45b7-8ce4-1942916a02aa</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Settings.FileSystem</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)FileSystem.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)KEGG\Directories.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Regprecise\Directories.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xfam\Pfam.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xfam\Rfam.vb" />
+  </ItemGroup>
+</Project>

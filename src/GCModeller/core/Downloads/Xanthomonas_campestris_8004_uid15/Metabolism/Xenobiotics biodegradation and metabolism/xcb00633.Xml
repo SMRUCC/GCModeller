@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00633" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Nitrotoluene degradation - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C01468" Value="4-Cresol" />
+    <hashEntry Key="C06002" Value="(S)-Methylmalonate semialdehyde" />
+    <hashEntry Key="C11006" Value="2,4-Dinitrotoluene" />
+    <hashEntry Key="C14401" Value="2,4-Diaminotoluene" />
+    <hashEntry Key="C16391" Value="Trinitrotoluene" />
+    <hashEntry Key="C16392" Value="4-Hydroxylamino-2,6-dinitrotoluene" />
+    <hashEntry Key="C16393" Value="2-Hydroxylamino-4,6-dinitrotoluene" />
+    <hashEntry Key="C16394" Value="4-Amino-2,6-dinitrotoluene" />
+    <hashEntry Key="C16395" Value="2-Amino-4,6-dinitrotoluene" />
+    <hashEntry Key="C16396" Value="2,4-Diamino-6-nitrotoluene" />
+    <hashEntry Key="C16397" Value="2,6-Diamino-4-nitrotoluene" />
+    <hashEntry Key="C16398" Value="2-Amino-4-nitrotoluene" />
+    <hashEntry Key="C16399" Value="2,4-Diamino-6-hydroxylaminotoluene" />
+    <hashEntry Key="C16400" Value="2,4,6-Triaminotoluene" />
+    <hashEntry Key="C16401" Value="2,4,6-Trihydroxytoluene" />
+    <hashEntry Key="C16402" Value="2,4-Dihydroxylamino-6-nitrotoluene" />
+    <hashEntry Key="C16403" Value="4-Amino-2-hydroxylamino-6-nitrotoluene" />
+    <hashEntry Key="C16411" Value="4,4',6,6'-Tetranitro-2,2'-azoxytoluene" />
+    <hashEntry Key="C16412" Value="2,4',6,6'-Tetranitro-2',4-azoxytoluene" />
+    <hashEntry Key="C16413" Value="2,2',6,6'-Tetranitro-4,4'-azoxytoluene" />
+    <hashEntry Key="C16414" Value="2-Amino-5-hydroxyl-4-hydroxylamino-6-nitrotoluene" />
+    <hashEntry Key="C16420" Value="4-Acetamido-2-amino-6-nitrotoluene" />
+    <hashEntry Key="C18315" Value="4-Methyl-5-nitrocatechol" />
+    <hashEntry Key="C18316" Value="2-Hydroxy-5-methylquinone" />
+    <hashEntry Key="C18317" Value="2,4,5-Trihydroxytoluene" />
+    <hashEntry Key="C18318" Value="cis,cis-2,4-Dihydroxy-5-methyl-6-oxo-2,4-hexadienoate" />
+    <hashEntry Key="C18320" Value="4-Amino-2-nitrotoluene" />
+  </Compound>
+  <PathwayMap Key="xcb00633" Value="Nitrotoluene degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_2924" Value="GTN reductase; K10680 N-ethylmaleimide reductase [EC:1.-.-.-]" />
+  </Genes>
+</KEGG.PathwayBrief>

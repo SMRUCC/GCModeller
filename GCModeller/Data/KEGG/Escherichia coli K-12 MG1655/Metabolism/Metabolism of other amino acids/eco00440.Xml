@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00440" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Natural products containing carbon-phosphorous bonds, so-called C-P compounds, are derivatives of phosphonate and phosphinate with substitution of alkyl group for hydrogen of phosphorus-hydrogen bonds. C-P compounds have been found in many organisms, but only protists and bacteria, mostly Actinobacteria, have biosynthetic capacity. A common reaction in the biosynthetic pathway is C-P bond forming reaction from phosphoenolpyruvate (PEP) to phosphonopyruvate (PnPy) catalyzed by PEP phosphomutase. 2-Aminoethylphosphonate (AEP) is the most abundant C-P compound in the natural world. AEP derivatives include phosphonoprotein, phosphonoglycan, and phosphonolipid. Other known C-P compounds are bioactive substances used in medicine (antibiotics) and agriculture (herbicide) such as fosfomycin, FR-33289, rhizocticin, and bialaphos.&lt;br&gt;</Description>
+  <Name>Phosphonate and phosphinate metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00033" Value="Acetate" />
+    <hashEntry Key="C00074" Value="Phosphoenolpyruvate" />
+    <hashEntry Key="C00084" Value="Acetaldehyde" />
+    <hashEntry Key="C00189" Value="Ethanolamine" />
+    <hashEntry Key="C01151" Value="D-Ribose 1,5-bisphosphate" />
+    <hashEntry Key="C02798" Value="3-Phosphonopyruvate" />
+    <hashEntry Key="C03167" Value="Phosphonoacetaldehyde" />
+    <hashEntry Key="C03557" Value="2-Aminoethylphosphonate" />
+    <hashEntry Key="C05042" Value="Glufosinate" />
+    <hashEntry Key="C05672" Value="2-Amino-3-phosphonopropanoate" />
+    <hashEntry Key="C05673" Value="CMP-2-aminoethylphosphonate" />
+    <hashEntry Key="C05674" Value="CMP-N-trimethyl-2-aminoethylphosphonate" />
+    <hashEntry Key="C05675" Value="Diacylglyceryl-2-aminoethylphosphonate" />
+    <hashEntry Key="C05676" Value="Diacylglyceryl-N-trimethyl-2-aminoethylphosphonate" />
+    <hashEntry Key="C05677" Value="Lipophosphonoglycan" />
+    <hashEntry Key="C05678" Value="1-Hydroxy-2-aminoethylphosphonate" />
+    <hashEntry Key="C05679" Value="N-Monomethyl-2-aminoethylphosphonate" />
+    <hashEntry Key="C05680" Value="N-Dimethyl-2-aminoethylphosphonate" />
+    <hashEntry Key="C05681" Value="Ceramide 2-aminoethylphosphonate" />
+    <hashEntry Key="C05682" Value="Phosphonoacetate" />
+    <hashEntry Key="C05683" Value="2-Aminoethylphosphocholate" />
+    <hashEntry Key="C06367" Value="1-Carboxyvinyl carboxyphosphonate" />
+    <hashEntry Key="C06368" Value="3-(Hydrohydroxyphosphoryl)pyruvate" />
+    <hashEntry Key="C06451" Value="2-Hydroxyethylphosphonate" />
+    <hashEntry Key="C06452" Value="(S)-2-Hydroxypropylphosphonate" />
+    <hashEntry Key="C06454" Value="Fosfomycin" />
+    <hashEntry Key="C06455" Value="Hydroxymethylphosphonate" />
+    <hashEntry Key="C06456" Value="Phosphonoformate" />
+    <hashEntry Key="C06457" Value="Bialaphos" />
+    <hashEntry Key="C06459" Value="N-Trimethyl-2-aminoethylphosphonate" />
+    <hashEntry Key="C17940" Value="Rhizocticin B" />
+    <hashEntry Key="C17941" Value="2-Oxo-4-phosphonobutanoate" />
+    <hashEntry Key="C17942" Value="FR 900098" />
+    <hashEntry Key="C17943" Value="Formylphosphonate" />
+    <hashEntry Key="C17944" Value="Rhizocticin A" />
+    <hashEntry Key="C17945" Value="Phosphonoformyl-CMP" />
+    <hashEntry Key="C17946" Value="Carboxyphosphonopyruvate" />
+    <hashEntry Key="C17947" Value="2-Phosphinomethylmalate" />
+    <hashEntry Key="C17948" Value="Deamino-alpha-keto-demethylphosphinothricin" />
+    <hashEntry Key="C17949" Value="N-Acetyldemethylphosphinothricin" />
+    <hashEntry Key="C17950" Value="N-Acetyldemethylphosphinothricin tripeptide" />
+    <hashEntry Key="C17951" Value="N-Acetylbialaphos" />
+    <hashEntry Key="C17952" Value="N-Acetylphosphinothricin" />
+    <hashEntry Key="C17960" Value="Rhizocticin C" />
+    <hashEntry Key="C17961" Value="Rhizocticin D" />
+    <hashEntry Key="C17962" Value="Demethylphosphinothricin" />
+    <hashEntry Key="C20396" Value="Methylphosphonate" />
+    <hashEntry Key="C20422" Value="alpha-D-Ribose 1-methylphosphonate 5-triphosphate" />
+    <hashEntry Key="C20423" Value="alpha-D-Ribose 1-methylphosphonate 5-phosphate" />
+    <hashEntry Key="C20440" Value="alpha-D-Ribose 1,2-cyclic phosphate 5-phosphate" />
+  </Compound>
+  <PathwayMap Key="eco00440" Value="Phosphonate and phosphinate metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b1448" Value="mnaT; methionine N-acyltransferase; L-amino acid N-acyltransferase; K03823 phosphinothricin acetyltr" />
+    <hashEntry Key="eco:b4092" Value="phnP; 5-phospho-alpha-D-ribosyl 1,2-cyclic phosphate phosphodiesterase; K06167 phosphoribosyl 1,2-cy" />
+    <hashEntry Key="eco:b4095" Value="phnM; ribophosphonate triphosphate hydrolase; K06162 alpha-D-ribose 1-methylphosphonate 5-triphospha" />
+    <hashEntry Key="eco:b4096" Value="phnL; ribophosphonate triphosphate synthase subunit; putative ABC transporter ATP-binding protein; K" />
+    <hashEntry Key="eco:b4098" Value="phnJ; carbon-phosphorus lyase, SAM-dependent; K06163 alpha-D-ribose 1-methylphosphonate 5-phosphate" />
+    <hashEntry Key="eco:b4099" Value="phnI; ribophosphonate triphosphate synthase complex putative catalytic subunit; K06164 alpha-D-ribos" />
+    <hashEntry Key="eco:b4100" Value="phnH; ribophosphonate triphosphate synthase subunit; K06165 alpha-D-ribose 1-methylphosphonate 5-tri" />
+    <hashEntry Key="eco:b4101" Value="phnG; ribophosphonate triphosphate synthase subunit; K06166 alpha-D-ribose 1-methylphosphonate 5-tri" />
+  </Genes>
+</KEGG.PathwayBrief>

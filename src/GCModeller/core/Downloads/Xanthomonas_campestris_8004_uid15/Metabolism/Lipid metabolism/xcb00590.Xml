@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00590" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Arachidonic acid metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00157" Value="Phosphatidylcholine" />
+    <hashEntry Key="C00219" Value="Arachidonate" />
+    <hashEntry Key="C00427" Value="Prostaglandin H2" />
+    <hashEntry Key="C00584" Value="Prostaglandin E2" />
+    <hashEntry Key="C00639" Value="Prostaglandin F2alpha" />
+    <hashEntry Key="C00696" Value="Prostaglandin D2" />
+    <hashEntry Key="C00909" Value="Leukotriene A4" />
+    <hashEntry Key="C01312" Value="Prostaglandin I2" />
+    <hashEntry Key="C02165" Value="Leukotriene B4" />
+    <hashEntry Key="C02166" Value="Leukotriene C4" />
+    <hashEntry Key="C02198" Value="Thromboxane A2" />
+    <hashEntry Key="C03577" Value="20-Hydroxyleukotriene E4" />
+    <hashEntry Key="C04577" Value="15-OxoETE" />
+    <hashEntry Key="C04742" Value="(15S)-15-Hydroxy-5,8,11-cis-13-trans-eicosatetraenoate" />
+    <hashEntry Key="C04805" Value="5(S)-HETE" />
+    <hashEntry Key="C04822" Value="8(R)-HPETE" />
+    <hashEntry Key="C04853" Value="20-OH-Leukotriene B4" />
+    <hashEntry Key="C05356" Value="5(S)-HPETE" />
+    <hashEntry Key="C05949" Value="12-Keto-leukotriene B4" />
+    <hashEntry Key="C05950" Value="20-COOH-Leukotriene B4" />
+    <hashEntry Key="C05951" Value="Leukotriene D4" />
+    <hashEntry Key="C05952" Value="Leukotriene E4" />
+    <hashEntry Key="C05953" Value="Prostaglandin A2" />
+    <hashEntry Key="C05954" Value="Prostaglandin B2" />
+    <hashEntry Key="C05955" Value="Prostaglandin C2" />
+    <hashEntry Key="C05956" Value="Prostaglandin G2" />
+    <hashEntry Key="C05957" Value="Prostaglandin J2" />
+    <hashEntry Key="C05958" Value="delta-12-Prostaglandin J2" />
+    <hashEntry Key="C05959" Value="11-epi-Prostaglandin F2alpha" />
+    <hashEntry Key="C05960" Value="15-Keto-prostaglandin F2alpha" />
+    <hashEntry Key="C05961" Value="6-Keto-prostaglandin F1alpha" />
+    <hashEntry Key="C05962" Value="6-Keto-prostaglandin E1" />
+    <hashEntry Key="C05963" Value="Thromboxane B2" />
+    <hashEntry Key="C05964" Value="11-Dehydro-thromboxane B2" />
+    <hashEntry Key="C05965" Value="12(S)-HPETE" />
+    <hashEntry Key="C05966" Value="15(S)-HPETE" />
+    <hashEntry Key="C06314" Value="Lipoxin A4" />
+    <hashEntry Key="C06315" Value="Lipoxin B4" />
+    <hashEntry Key="C06462" Value="Leukotriene F4" />
+    <hashEntry Key="C13809" Value="9,11,15-Trihydroxy-prosta-5,13-dien-1-oic acid" />
+    <hashEntry Key="C14717" Value="15-Deoxy-delta-12,14-PGJ2" />
+    <hashEntry Key="C14732" Value="5-OxoETE" />
+    <hashEntry Key="C14748" Value="20-HETE" />
+    <hashEntry Key="C14749" Value="19(S)-HETE" />
+    <hashEntry Key="C14768" Value="5,6-EET" />
+    <hashEntry Key="C14769" Value="8,9-EET" />
+    <hashEntry Key="C14770" Value="11,12-EET" />
+    <hashEntry Key="C14771" Value="14,15-EET" />
+    <hashEntry Key="C14772" Value="5,6-DHET" />
+    <hashEntry Key="C14773" Value="8,9-DHET" />
+    <hashEntry Key="C14774" Value="11,12-DHET" />
+    <hashEntry Key="C14775" Value="14,15-DHET" />
+    <hashEntry Key="C14776" Value="8(S)-HETE" />
+    <hashEntry Key="C14777" Value="12(S)-HETE" />
+    <hashEntry Key="C14778" Value="16(R)-HETE" />
+    <hashEntry Key="C14779" Value="9(S)-HETE" />
+    <hashEntry Key="C14780" Value="11(R)-HETE" />
+    <hashEntry Key="C14781" Value="15H-11,12-EETA" />
+    <hashEntry Key="C14782" Value="11,12,15-THETA" />
+    <hashEntry Key="C14794" Value="2,3-Dinor-8-iso prostaglandin F2alpha" />
+    <hashEntry Key="C14795" Value="2,3-Dinor-8-iso prostaglandin F1alpha" />
+    <hashEntry Key="C14807" Value="12-OxoETE" />
+    <hashEntry Key="C14808" Value="Hepoxilin A3" />
+    <hashEntry Key="C14809" Value="Trioxilin A3" />
+    <hashEntry Key="C14810" Value="Hepoxilin B3" />
+    <hashEntry Key="C14811" Value="Trioxilin B3" />
+    <hashEntry Key="C14812" Value="12(R)-HPETE" />
+    <hashEntry Key="C14813" Value="11H-14,15-EETA" />
+    <hashEntry Key="C14814" Value="11,14,15-THETA" />
+    <hashEntry Key="C14815" Value="5,6-Epoxytetraene" />
+    <hashEntry Key="C14820" Value="11(R)-HPETE" />
+    <hashEntry Key="C14821" Value="9(S)-HPETE" />
+    <hashEntry Key="C14822" Value="12(R)-HETE" />
+    <hashEntry Key="C14823" Value="8(S)-HPETE" />
+    <hashEntry Key="C14824" Value="8(R)-HETE" />
+  </Compound>
+  <PathwayMap Key="xcb00590" Value="Arachidonic acid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_2735" Value="ABC transporter vitamin B12 uptake permease; K00432 glutathione peroxidase [EC:1.11.1.9]" />
+    <hashEntry Key="xcb:XC_2818" Value="phospholipase; K01058 phospholipase A1 [EC:3.1.1.32 3.1.1.4]" />
+    <hashEntry Key="xcb:XC_2825" Value="glutathione peroxidase; K00432 glutathione peroxidase [EC:1.11.1.9]" />
+    <hashEntry Key="xcb:XC_4302" Value="glutathione peroxidase; K00432 glutathione peroxidase [EC:1.11.1.9]" />
+  </Genes>
+</KEGG.PathwayBrief>

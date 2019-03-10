@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00401" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Novobiocin biosynthesis - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00148" Value="L-Proline" />
+    <hashEntry Key="C00254" Value="Prephenate" />
+    <hashEntry Key="C01179" Value="3-(4-Hydroxyphenyl)pyruvate" />
+    <hashEntry Key="C05073" Value="Coumermycin A1" />
+    <hashEntry Key="C05080" Value="Novobiocin" />
+    <hashEntry Key="C12032" Value="Clorobiocin" />
+    <hashEntry Key="C12456" Value="3-Dimethylallyl-4-hydroxyphenylpyruvate" />
+    <hashEntry Key="C12457" Value="3-Dimethylallyl-4-hydroxymandelic acid" />
+    <hashEntry Key="C12458" Value="3-Dimethylallyl-4-hydroxybenzoate" />
+    <hashEntry Key="C12459" Value="3-Dimethylallyl-4-hydroxybenzaldehyde" />
+    <hashEntry Key="C12460" Value="3-Dimethylallyl-beta-hydroxy-L-tyrosyl-[pcp]" />
+    <hashEntry Key="C12461" Value="L-Tyrosyl-[pcp]" />
+    <hashEntry Key="C12462" Value="beta-Hydroxy-L-tyrosyl-[pcp]" />
+    <hashEntry Key="C12463" Value="beta-Keto-L-tyrosyl-[pcp]" />
+    <hashEntry Key="C12467" Value="2-Hydroxy-beta-keto-L-tyrosyl-[pcp]" />
+    <hashEntry Key="C12468" Value="3-Amino-4,7-dihydroxycoumarin" />
+    <hashEntry Key="C12469" Value="3-Amino-4,7-dihydroxy-8-chlorocoumarin" />
+    <hashEntry Key="C12470" Value="L-Prolyl-[pcp]" />
+    <hashEntry Key="C12471" Value="Chlorobiocic acid" />
+    <hashEntry Key="C12472" Value="Novclobiocin 105" />
+    <hashEntry Key="C12473" Value="Novclobiocin 104" />
+    <hashEntry Key="C12474" Value="Novobiocic acid" />
+    <hashEntry Key="C12475" Value="Demethyldecarbamoylnovobiocin" />
+    <hashEntry Key="C12476" Value="Decarbamoylnovobiocin" />
+    <hashEntry Key="C12477" Value="3-Methylpyrrole-2,4-dicarboxylic acid" />
+    <hashEntry Key="C12479" Value="Coumermic acid" />
+    <hashEntry Key="C12480" Value="Coumermycin D" />
+    <hashEntry Key="C12481" Value="dTDP-5-dimethyl-L-lyxose" />
+    <hashEntry Key="C12483" Value="Pyrrole-2-carbonyl-[pcp]" />
+    <hashEntry Key="C20629" Value="8-Demethylnovobiocic acid" />
+    <hashEntry Key="C20637" Value="5-[[(4,7-Dihydroxy-2-oxo-2H-1-benzopyran-3-yl)amino]carbonyl]-4-methyl-1H-pyrrole-3-carboxylate" />
+  </Compound>
+  <PathwayMap Key="eco00401" Value="Novobiocin biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0928" Value="aspC; aspartate aminotransferase, PLP-dependent (EC:2.6.1.1); K00813 aspartate aminotransferase [EC:" />
+    <hashEntry Key="eco:b2021" Value="hisC; histidinol-phosphate aminotransferase (EC:2.6.1.9); K00817 histidinol-phosphate aminotransfera" />
+    <hashEntry Key="eco:b2600" Value="tyrA; fused chorismate mutase T/prephenate dehydrogenase (EC:1.3.1.12 5.4.99.5); K14187 chorismate m" />
+    <hashEntry Key="eco:b4054" Value="tyrB; tyrosine aminotransferase, tyrosine-repressible, PLP-dependent (EC:2.6.1.57); K00832 aromatic-" />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00630" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Glyoxylate and dicarboxylate metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00012" Value="Glyoxylate cycle [PATH:eco00630]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00007" Value="Oxygen" />
+    <hashEntry Key="C00011" Value="CO2" />
+    <hashEntry Key="C00014" Value="Ammonia" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00027" Value="Hydrogen peroxide" />
+    <hashEntry Key="C00036" Value="Oxaloacetate" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00048" Value="Glyoxylate" />
+    <hashEntry Key="C00058" Value="Formate" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00065" Value="L-Serine" />
+    <hashEntry Key="C00091" Value="Succinyl-CoA" />
+    <hashEntry Key="C00100" Value="Propanoyl-CoA" />
+    <hashEntry Key="C00136" Value="Butanoyl-CoA" />
+    <hashEntry Key="C00149" Value="(S)-Malate" />
+    <hashEntry Key="C00158" Value="Citrate" />
+    <hashEntry Key="C00160" Value="Glycolate" />
+    <hashEntry Key="C00168" Value="Hydroxypyruvate" />
+    <hashEntry Key="C00197" Value="3-Phospho-D-glycerate" />
+    <hashEntry Key="C00209" Value="Oxalate" />
+    <hashEntry Key="C00258" Value="D-Glycerate" />
+    <hashEntry Key="C00266" Value="Glycolaldehyde" />
+    <hashEntry Key="C00311" Value="Isocitrate" />
+    <hashEntry Key="C00313" Value="Oxalyl-CoA" />
+    <hashEntry Key="C00332" Value="Acetoacetyl-CoA" />
+    <hashEntry Key="C00417" Value="cis-Aconitate" />
+    <hashEntry Key="C00552" Value="meso-Tartaric acid" />
+    <hashEntry Key="C00683" Value="(S)-Methylmalonyl-CoA" />
+    <hashEntry Key="C00798" Value="Formyl-CoA" />
+    <hashEntry Key="C00877" Value="Crotonoyl-CoA" />
+    <hashEntry Key="C00888" Value="Pentanoyl-CoA" />
+    <hashEntry Key="C00898" Value="(R,R)-Tartaric acid" />
+    <hashEntry Key="C00975" Value="Dihydroxyfumarate" />
+    <hashEntry Key="C00988" Value="2-Phosphoglycolate" />
+    <hashEntry Key="C01127" Value="4-Hydroxy-2-oxoglutarate" />
+    <hashEntry Key="C01146" Value="2-Hydroxy-3-oxopropanoate" />
+    <hashEntry Key="C01182" Value="D-Ribulose 1,5-bisphosphate" />
+    <hashEntry Key="C01213" Value="(R)-Methylmalonyl-CoA" />
+    <hashEntry Key="C01380" Value="Ethylene glycol" />
+    <hashEntry Key="C01732" Value="Mesaconate" />
+    <hashEntry Key="C01989" Value="3-Ethylmalate" />
+    <hashEntry Key="C01990" Value="3-Oxalomalate" />
+    <hashEntry Key="C02123" Value="3-Propylmalate" />
+    <hashEntry Key="C02405" Value="Formyl phosphate" />
+    <hashEntry Key="C03217" Value="2-Hydroxy-3-oxoadipate" />
+    <hashEntry Key="C03459" Value="2-Hydroxy-3-oxosuccinate" />
+    <hashEntry Key="C03548" Value="trans-2,3-Epoxysuccinate" />
+    <hashEntry Key="C03561" Value="(R)-3-Hydroxybutanoyl-CoA" />
+    <hashEntry Key="C03618" Value="L-threo-3-Methylaspartate" />
+    <hashEntry Key="C04348" Value="L-Malyl-CoA" />
+    <hashEntry Key="C06027" Value="L-erythro-3-Methylmalyl-CoA" />
+    <hashEntry Key="C06028" Value="2-Methylfumaryl-CoA" />
+    <hashEntry Key="C06049" Value="N-Formylderivatives" />
+    <hashEntry Key="C18026" Value="(2S)-Ethylmalonyl-CoA" />
+    <hashEntry Key="C18324" Value="(2S)-Methylsuccinyl-CoA" />
+    <hashEntry Key="C20238" Value="(2R)-Ethylmalonyl-CoA" />
+  </Compound>
+  <PathwayMap Key="eco00630" Value="Glyoxylate and dicarboxylate metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0116" Value="lpd; lipoamide dehydrogenase, E3 component is part of three enzyme complexes (EC:1.8.1.4); K00382 di" />
+    <hashEntry Key="eco:b0118" Value="acnB; bifunctional aconitate hydratase 2/2-methylisocitrate dehydratase (EC:4.2.1.3 4.2.1.99); K0168" />
+    <hashEntry Key="eco:b0507" Value="gcl; glyoxylate carboligase (EC:4.1.1.47); K01608 tartronate-semialdehyde synthase [EC:4.1.1.47]" />
+    <hashEntry Key="eco:b0508" Value="hyi; hydroxypyruvate isomerase (EC:5.3.1.22); K01816 hydroxypyruvate isomerase [EC:5.3.1.22]" />
+    <hashEntry Key="eco:b0509" Value="glxR; tartronate semialdehyde reductase, NADH-dependent (EC:1.1.1.60); K00042 2-hydroxy-3-oxopropion" />
+    <hashEntry Key="eco:b0514" Value="glxK; glycerate kinase II (EC:2.7.1.31); K00865 glycerate kinase [EC:2.7.1.31]" />
+    <hashEntry Key="eco:b0720" Value="gltA; citrate synthase (EC:2.3.3.1); K01647 citrate synthase [EC:2.3.3.1]" />
+    <hashEntry Key="eco:b0771" Value="ybhJ; putative hydratase; K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="eco:b1033" Value="ghrA; glyoxylate/hydroxypyruvate reductase A (EC:1.1.1.79); K12972 glyoxylate/hydroxypyruvate reduct" />
+    <hashEntry Key="eco:b1232" Value="purU; formyltetrahydrofolate hydrolase (EC:3.5.1.10); K01433 formyltetrahydrofolate deformylase [EC:" />
+    <hashEntry Key="eco:b1276" Value="acnA; aconitate hydratase 1 (EC:4.2.1.3); K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="eco:b1415" Value="aldA; aldehyde dehydrogenase A, NAD-linked (EC:1.2.1.22); K07248 lactaldehyde dehydrogenase / glycol" />
+    <hashEntry Key="eco:b1732" Value="katE; catalase HPII, heme d-containing (EC:1.11.1.6); K03781 catalase [EC:1.11.1.6]" />
+    <hashEntry Key="eco:b1800" Value="dmlA; D-malate oxidase, NAD-dependent; putative tartrate dehydrogenase; K07246 tartrate dehydrogenas" />
+    <hashEntry Key="eco:b1850" Value="eda; multifunctional 2-keto-3-deoxygluconate 6-phosphate aldolase and 2-keto-4-hydroxyglutarate aldo" />
+    <hashEntry Key="eco:b2224" Value="atoB; acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b2373" Value="oxc; oxalyl CoA decarboxylase, ThDP-dependent; K01577 oxalyl-CoA decarboxylase [EC:4.1.1.8]" />
+    <hashEntry Key="eco:b2551" Value="glyA; serine hydroxymethyltransferase (EC:2.1.2.1); K00600 glycine hydroxymethyltransferase [EC:2.1." />
+    <hashEntry Key="eco:b2799" Value="fucO; L-1,2-propanediol oxidoreductase (EC:1.1.1.77); K00048 lactaldehyde reductase [EC:1.1.1.77]" />
+    <hashEntry Key="eco:b2844" Value="yqeF; short chain acyltransferase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b2903" Value="gcvP; glycine decarboxylase, PLP-dependent, subunit (protein P) of glycine cleavage complex (EC:1.4." />
+    <hashEntry Key="eco:b2904" Value="gcvH; glycine cleavage complex lipoylprotein; K02437 glycine cleavage system H protein" />
+    <hashEntry Key="eco:b2905" Value="gcvT; aminomethyltransferase, tetrahydrofolate-dependent, subunit (T protein) of glycine cleavage co" />
+    <hashEntry Key="eco:b2917" Value="scpA; methylmalonyl-CoA mutase (EC:5.4.99.2); K01847 methylmalonyl-CoA mutase [EC:5.4.99.2]" />
+    <hashEntry Key="eco:b2976" Value="glcB; malate synthase G (EC:2.3.3.9); K01638 malate synthase [EC:2.3.3.9]" />
+    <hashEntry Key="eco:b2979" Value="glcD; glycolate oxidase subunit, FAD-linked; K00104 glycolate oxidase [EC:1.1.3.15]" />
+    <hashEntry Key="eco:b3061" Value="ttdA; L-tartrate dehydratase, alpha subunit (EC:4.2.1.32); K03779 L(+)-tartrate dehydratase alpha su" />
+    <hashEntry Key="eco:b3062" Value="ttdB; L-tartrate dehydratase, beta subunit (EC:4.2.1.32); K03780 L(+)-tartrate dehydratase beta subu" />
+    <hashEntry Key="eco:b3124" Value="garK; glycerate kinase I (EC:2.7.1.165); K00865 glycerate kinase [EC:2.7.1.31]" />
+    <hashEntry Key="eco:b3125" Value="garR; tartronate semialdehyde reductase (EC:1.1.1.60); K00042 2-hydroxy-3-oxopropionate reductase [E" />
+    <hashEntry Key="eco:b3236" Value="mdh; malate dehydrogenase, NAD(P)-binding (EC:1.1.1.37); K00024 malate dehydrogenase [EC:1.1.1.37]" />
+    <hashEntry Key="eco:b3385" Value="gph; phosphoglycolate phosphatase (EC:3.1.3.18); K01091 phosphoglycolate phosphatase [EC:3.1.3.18]" />
+    <hashEntry Key="eco:b3870" Value="glnA; glutamine synthetase (EC:6.3.1.2); K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="eco:b3892" Value="fdoI; formate dehydrogenase-O, cytochrome b556 subunit; K00127 formate dehydrogenase subunit gamma" />
+    <hashEntry Key="eco:b3893" Value="fdoH; formate dehydrogenase-O, Fe-S subunit; K00124 formate dehydrogenase iron-sulfur subunit" />
+    <hashEntry Key="eco:b3894" Value="fdoG; formate dehydrogenase-O, large subunit (EC:1.2.1.2); K00123 formate dehydrogenase major subuni" />
+    <hashEntry Key="eco:b4014" Value="aceB; malate synthase A (EC:2.3.3.9); K01638 malate synthase [EC:2.3.3.9]" />
+    <hashEntry Key="eco:b4015" Value="aceA; isocitrate lyase (EC:4.1.3.1); K01637 isocitrate lyase [EC:4.1.3.1]" />
+    <hashEntry Key="eco:b4079" Value="fdhF; formate dehydrogenase-H, selenopolypeptide subunit (EC:1.2.1.2); K00123 formate dehydrogenase" />
+    <hashEntry Key="eco:b4467" Value="glcF; glycolate oxidase 4Fe-4S iron-sulfur cluster subunit; K11473 glycolate oxidase iron-sulfur sub" />
+    <hashEntry Key="eco:b4468" Value="glcE; glycolate oxidase FAD binding subunit; K11472 glycolate oxidase FAD binding subunit" />
+  </Genes>
+</KEGG.PathwayBrief>

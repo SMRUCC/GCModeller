@@ -1,0 +1,1 @@
+S68010.1	VP3=inner capsid protein {segment 3} [epizootic haemorrhagic disease of deer virus EHDV, Australian serotype 2, Genomic RNA Complete, 2768 nt]

@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.My.MySettings" Collapsed="true">
+    <Position X="14.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.SQLEngines.MySQLIndex">
+    <Position X="5.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>SQLEngine\MySQLIndex.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.SQLEngines.SQLiteIndex">
+    <Position X="0.5" Y="11.75" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEACAAAAAAAAABAEAAhAAAAASAABA=</HashCode>
+      <FileName>SQLEngine\SQLiteIndex.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.Tables.GenbankEntryInfo">
+    <Position X="9.5" Y="6.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>BAAEAAAAAAAABAAEAAAAAAAAABACAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Tables\GenbankEntryInfo.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.Tables.UserSecurity" Collapsed="true">
+    <Position X="16" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAEAAAAAAAAAAAAAAACAQAAAAAAAAA=</HashCode>
+      <FileName>Tables\UserSecurity.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.SQLEngines.SQLEngine">
+    <Position X="2.75" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>SQLEngine\MySQLIndex.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject">
+    <Position X="5" Y="0.5" Width="3.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Interface Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.DescriptionData">
+        <TypeIdentifier>
+          <NewMemberFileName>Tables\DbFileSystemObject.vb</NewMemberFileName>
+        </TypeIdentifier>
+      </Interface>
+      <Interface Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel">
+        <TypeIdentifier>
+          <NewMemberFileName>Tables\DbFileSystemObject.vb</NewMemberFileName>
+        </TypeIdentifier>
+      </Interface>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAFAAAgAAAAAEACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tables\DbFileSystemObject.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise">
+    <Position X="0.75" Y="6.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAEAAAAAAAAAAAAAAIASggAAAAAAAAAABIA=</HashCode>
+      <FileName>Tables\Regprecise.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.Uniprot">
+    <Position X="5" Y="6.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAECACAAAAAAAAAAAAACAgAAAAAgAAAAAAg=</HashCode>
+      <FileName>Tables\Uniprot.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Module Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.My.Resources.Resources" Collapsed="true">
+    <Position X="14.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.My.MySettingsProperty" Collapsed="true">
+    <Position X="16" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.ShellScriptAPI" Collapsed="true">
+    <Position X="16" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kAAgAAAAAQAAAQAEACAAAAREAAAAAAAQAAAAAAAQAAQ=</HashCode>
+      <FileName>ShellScriptAPI.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.DBInit" Collapsed="true">
+    <Position X="14.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DBInit.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Calibri" Size="8.25" />
+</ClassDiagram>

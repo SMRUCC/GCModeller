@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor01210" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>2-Oxocarboxylic acids, also called 2-oxo acids and alpha-keto acids, are the most elementary set of metabolites that includes pyruvate (2-oxopropanoate), 2-oxobutanoate, oxaloacetate (2-oxosuccinate) and 2-oxoglutarate. This diagram illustrates the architecture of chain extension and modification reaction modules for 2-oxocarboxylic acids. The chain extension module RM001 is a tricarboxylic pathway where acetyl-CoA derived carbon is used to extend the chain length by one. The chain modification modules RM002 (including RM032) and RM033, together with a reductive amination step (RC00006 or RC00036), generate basic and branched-chain amino acids, respectively. The modification module RM030 is used in the biosynthesis of glucosinolates, a class of plant secondary metabolites, for conversion to oxime followed by addition of thio-glucose moiety. Furthermore, the chain extension from 2-oxoadipate to 2-oxosuberate is followed by coenzyme B biosynthesis in methonogenic archaea.&lt;br&gt;</Description>
+  <Name>2-Oxocarboxylic acid metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00010" Value="Citrate cycle, first carbon oxidation, oxaloacetate =&gt; 2-oxoglutarate [PATH:xor01210]" />
+    <hashEntry Key="xor_M00019" Value="Valine/isoleucine biosynthesis, pyruvate =&gt; valine / 2-oxobutanoate =&gt; isoleucine [PATH:xor01210]" />
+    <hashEntry Key="xor_M00432" Value="Leucine biosynthesis, 2-oxoisovalerate =&gt; 2-oxoisocaproate [PATH:xor01210]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xor01210" Value="2-Oxocarboxylic acid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0592" Value="isocitrate dehydrogenase, NADP-dependent; K00031 isocitrate dehydrogenase [EC:1.1.1.42]" />
+    <hashEntry Key="xor:XOC_0982" Value="ilvE; branched-chain amino acid aminotransferase; K00826 branched-chain amino acid aminotransferase" />
+    <hashEntry Key="xor:XOC_1121" Value="isocitrate dehydrogenase; K00030 isocitrate dehydrogenase (NAD+) [EC:1.1.1.41]" />
+    <hashEntry Key="xor:XOC_1188" Value="acnD; 2-methylisocitrate dehydratase, Fe-S-dependent; K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="xor:XOC_2247" Value="valine-pyruvate aminotransferase; K05825 2-aminoadipate transaminase [EC:2.6.1.-]" />
+    <hashEntry Key="xor:XOC_2270" Value="rpfA; aconitate hydratase 1; K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="xor:XOC_2273" Value="acnB; aconitate hydratase 2; K01682 aconitate hydratase 2 / 2-methylisocitrate dehydratase [EC:4.2.1" />
+    <hashEntry Key="xor:XOC_2745" Value="argC; N-acetyl-gamma-glutamyl-phosphate reductase; K00145 N-acetyl-gamma-glutamyl-phosphate reductas" />
+    <hashEntry Key="xor:XOC_2747" Value="argB; acetylglutamate kinase; K00930 acetylglutamate kinase [EC:2.7.2.8]" />
+    <hashEntry Key="xor:XOC_2748" Value="acetylornithine deacetylase; K01438 acetylornithine deacetylase [EC:3.5.1.16]" />
+    <hashEntry Key="xor:XOC_2959" Value="asd; aspartate-semialdehyde dehydrogenase; K00133 aspartate-semialdehyde dehydrogenase [EC:1.2.1.11]" />
+    <hashEntry Key="xor:XOC_3645" Value="gltA; citrate synthase I; K01647 citrate synthase [EC:2.3.3.1]" />
+    <hashEntry Key="xor:XOC_3688" Value="argD; acetylornithine aminotransferase; K00821 acetylornithine/N-succinyldiaminopimelate aminotransf" />
+    <hashEntry Key="xor:XOC_3713" Value="ilvC; ketol-acid reductoisomerase; K00053 ketol-acid reductoisomerase [EC:1.1.1.86]" />
+    <hashEntry Key="xor:XOC_3714" Value="ilvB; acetolactate synthase, large subunit, biosynthetic type; K01652 acetolactate synthase I/II/III" />
+    <hashEntry Key="xor:XOC_3715" Value="acetolactate synthase isozyme II small subunit; K11258 acetolactate synthase II small subunit [EC:2." />
+    <hashEntry Key="xor:XOC_3717" Value="leuA; 2-isopropylmalate synthase; K01649 2-isopropylmalate synthase [EC:2.3.3.13]" />
+    <hashEntry Key="xor:XOC_3718" Value="leuB; 3-isopropylmalate dehydrogenase; K00052 3-isopropylmalate dehydrogenase [EC:1.1.1.85]" />
+    <hashEntry Key="xor:XOC_3720" Value="leuD; 3-isopropylmalate dehydratase, small subunit; K01704 3-isopropylmalate/(R)-2-methylmalate dehy" />
+    <hashEntry Key="xor:XOC_3721" Value="leuC; 3-isopropylmalate dehydratase, large subunit; K01703 3-isopropylmalate/(R)-2-methylmalate dehy" />
+    <hashEntry Key="xor:XOC_3762" Value="putative aspartate aminotransferase; K14260 alanine-synthesizing transaminase [EC:2.6.1.66 2.6.1.2]" />
+    <hashEntry Key="xor:XOC_4569" Value="ilvD; dihydroxy-acid dehydratase; K01687 dihydroxy-acid dehydratase [EC:4.2.1.9]" />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00400" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Phenylalanine, tyrosine and tryptophan biosynthesis - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00022" Value="Shikimate pathway, phosphoenolpyruvate + erythrose-4P =&gt; chorismate [PATH:xor00400]" />
+    <hashEntry Key="xor_M00023" Value="Tryptophan biosynthesis, chorismate =&gt; tryptophan [PATH:xor00400]" />
+    <hashEntry Key="xor_M00024" Value="Phenylalanine biosynthesis, chorismate =&gt; phenylalanine [PATH:xor00400]" />
+    <hashEntry Key="xor_M00025" Value="Tyrosine biosynthesis, chorismate =&gt; tyrosine [PATH:xor00400]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00074" Value="Phosphoenolpyruvate" />
+    <hashEntry Key="C00078" Value="L-Tryptophan" />
+    <hashEntry Key="C00079" Value="L-Phenylalanine" />
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00108" Value="Anthranilate" />
+    <hashEntry Key="C00119" Value="5-Phospho-alpha-D-ribose 1-diphosphate" />
+    <hashEntry Key="C00166" Value="Phenylpyruvate" />
+    <hashEntry Key="C00230" Value="3,4-Dihydroxybenzoate" />
+    <hashEntry Key="C00251" Value="Chorismate" />
+    <hashEntry Key="C00254" Value="Prephenate" />
+    <hashEntry Key="C00279" Value="D-Erythrose 4-phosphate" />
+    <hashEntry Key="C00296" Value="Quinate" />
+    <hashEntry Key="C00354" Value="D-Fructose 1,6-bisphosphate" />
+    <hashEntry Key="C00441" Value="L-Aspartate 4-semialdehyde" />
+    <hashEntry Key="C00463" Value="Indole" />
+    <hashEntry Key="C00493" Value="Shikimate" />
+    <hashEntry Key="C00587" Value="3-Hydroxybenzoate" />
+    <hashEntry Key="C00826" Value="L-Arogenate" />
+    <hashEntry Key="C00944" Value="3-Dehydroquinate" />
+    <hashEntry Key="C01094" Value="D-Fructose 1-phosphate" />
+    <hashEntry Key="C01179" Value="3-(4-Hydroxyphenyl)pyruvate" />
+    <hashEntry Key="C01269" Value="5-O-(1-Carboxyvinyl)-3-phosphoshikimate" />
+    <hashEntry Key="C01302" Value="1-(2-Carboxyphenylamino)-1-deoxy-D-ribulose 5-phosphate" />
+    <hashEntry Key="C02637" Value="3-Dehydroshikimate" />
+    <hashEntry Key="C03175" Value="Shikimate 3-phosphate" />
+    <hashEntry Key="C03506" Value="Indoleglycerol phosphate" />
+    <hashEntry Key="C04302" Value="N-(5-Phospho-D-ribosyl)anthranilate" />
+    <hashEntry Key="C04691" Value="2-Dehydro-3-deoxy-D-arabino-heptonate 7-phosphate" />
+    <hashEntry Key="C16848" Value="6-Deoxy-5-ketofructose 1-phosphate" />
+    <hashEntry Key="C16850" Value="2-Amino-3,7-dideoxy-D-threo-hept-6-ulosonic acid" />
+    <hashEntry Key="C17235" Value="L-Homophenylalanine" />
+    <hashEntry Key="C20327" Value="2-Oxo-4-phenylbutyric acid" />
+    <hashEntry Key="C20653" Value="2-Benzylmalic acid" />
+    <hashEntry Key="C20654" Value="3-Benzylmalic acid" />
+    <hashEntry Key="C20710" Value="(4R,5R)-4,5-Dihydroxycyclohexa-1(6),2-diene-1-carboxylate" />
+  </Compound>
+  <PathwayMap Key="xor00400" Value="Phenylalanine, tyrosine and tryptophan biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0156" Value="aspC; aspartate aminotransferase; K00832 aromatic-amino-acid transaminase [EC:2.6.1.57]" />
+    <hashEntry Key="xor:XOC_0260" Value="phhA; phenylalanine-4-hydroxylase; K00500 phenylalanine-4-hydroxylase [EC:1.14.16.1]" />
+    <hashEntry Key="xor:XOC_0424" Value="pigB; xanthomonadin biosynthesis pteridine-dependent deoxygenase like protein; K18240 chorismate lya" />
+    <hashEntry Key="xor:XOC_0620" Value="phospho-2-dehydro-3-deoxyheptonate aldolase; K01626 3-deoxy-7-phosphoheptulonate synthase [EC:2.5.1." />
+    <hashEntry Key="xor:XOC_1062" Value="3-deoxy-7-phosphoheptulonate synthase; K01626 3-deoxy-7-phosphoheptulonate synthase [EC:2.5.1.54]" />
+    <hashEntry Key="xor:XOC_1178" Value="pabB; para-aminobenzoate synthase component I; K01657 anthranilate synthase component I [EC:4.1.3.27" />
+    <hashEntry Key="xor:XOC_1389" Value="aroB; 3-dehydroquinate synthase; K01735 3-dehydroquinate synthase [EC:4.2.3.4]" />
+    <hashEntry Key="xor:XOC_1390" Value="aroK; shikimate kinase; K00891 shikimate kinase [EC:2.7.1.71]" />
+    <hashEntry Key="xor:XOC_1743" Value="prephenate dehydrogenase; K04517 prephenate dehydrogenase [EC:1.3.1.12]" />
+    <hashEntry Key="xor:XOC_2217" Value="hisC; histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1." />
+    <hashEntry Key="xor:XOC_2876" Value="aroA; 3-phosphoshikimate 1-carboxyvinyltransferase; K00800 3-phosphoshikimate 1-carboxyvinyltransfer" />
+    <hashEntry Key="xor:XOC_2877" Value="P-protein; K14170 chorismate mutase / prephenate dehydratase [EC:5.4.99.5 4.2.1.51]" />
+    <hashEntry Key="xor:XOC_2950" Value="trpA; tryptophan synthase, alpha subunit; K01695 tryptophan synthase alpha chain [EC:4.2.1.20]" />
+    <hashEntry Key="xor:XOC_2952" Value="trpB; tryptophan synthase, beta subunit; K01696 tryptophan synthase beta chain [EC:4.2.1.20]" />
+    <hashEntry Key="xor:XOC_2954" Value="trpF; N-(5&amp;#39;phosphoribosyl)anthranilate isomerase; K01817 phosphoribosylanthranilate isomerase [EC:5." />
+    <hashEntry Key="xor:XOC_2961" Value="aroC; chorismate synthase; K01736 chorismate synthase [EC:4.2.3.5]" />
+    <hashEntry Key="xor:XOC_3680" Value="histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xor:XOC_3681" Value="histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xor:XOC_3682" Value="histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xor:XOC_3912" Value="chorismate mutase, prephenate dehydratase; K04093 chorismate mutase [EC:5.4.99.5]" />
+    <hashEntry Key="xor:XOC_4156" Value="3-dehydroquinate dehydratase; K03786 3-dehydroquinate dehydratase II [EC:4.2.1.10]" />
+    <hashEntry Key="xor:XOC_4204" Value="trpC; indole-3-glycerol phosphate synthase; K01609 indole-3-glycerol phosphate synthase [EC:4.1.1.48" />
+    <hashEntry Key="xor:XOC_4205" Value="trpD; anthranilate phosphoribosyltransferase; K00766 anthranilate phosphoribosyltransferase [EC:2.4." />
+    <hashEntry Key="xor:XOC_4208" Value="anthranilate synthase component II; K01658 anthranilate synthase component II [EC:4.1.3.27]" />
+    <hashEntry Key="xor:XOC_4211" Value="trpE; anthranilate synthase component I; K01657 anthranilate synthase component I [EC:4.1.3.27]" />
+    <hashEntry Key="xor:XOC_4333" Value="aroE; shikimate 5-dehydrogenase; K00014 shikimate dehydrogenase [EC:1.1.1.25]" />
+  </Genes>
+</KEGG.PathwayBrief>

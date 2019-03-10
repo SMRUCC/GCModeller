@@ -1,0 +1,15 @@
+JN857323.1	Israel acute paralysis virus of bees isolate IAPV-TJ nonstructural polyprotein gene, partial cds
+JQ435732.1	Israel acute paralysis virus of bees isolate Spain1 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435739.1	Israel acute paralysis virus of bees isolate Spain8 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435733.1	Israel acute paralysis virus of bees isolate Spain2 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435734.1	Israel acute paralysis virus of bees isolate Spain3 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435737.1	Israel acute paralysis virus of bees isolate Spain6 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435735.1	Israel acute paralysis virus of bees isolate Spain4 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435736.1	Israel acute paralysis virus of bees isolate Spain5 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435738.1	Israel acute paralysis virus of bees isolate Spain7 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435740.1	Israel acute paralysis virus of bees isolate Spain9 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435741.1	Israel acute paralysis virus of bees isolate Spain10 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435742.1	Israel acute paralysis virus of bees isolate Spain11 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435743.1	Israel acute paralysis virus of bees isolate Spain12 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435744.1	Israel acute paralysis virus of bees isolate Spain13 RNA-dependent RNA polymerase and structural protein genes, partial cds
+JQ435745.1	Israel acute paralysis virus of bees isolate Spain14-Navarra RNA-dependent RNA polymerase and structural protein genes, partial cds

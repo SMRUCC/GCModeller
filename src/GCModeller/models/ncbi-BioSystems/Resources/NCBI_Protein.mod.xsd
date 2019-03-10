@@ -1,0 +1,100 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqfeat.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Protein"
+================================================= -->
+<!--
+**********************************************************************
+
+  NCBI Protein
+  by James Ostell, 1990
+  version 0.8
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          Prot-ref -->
+
+<!-- Elements referenced from other modules:
+          Dbtag FROM NCBI-General -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+*** Prot-ref ***********************************************
+*
+*  Reference to a protein name
+*
+-->
+<xs:element name="Prot-ref">
+  <xs:complexType>
+    <xs:sequence>
+<!-- protein name -->
+      <xs:element name="Prot-ref_name" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Prot-ref_name_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- description (instead of name) -->
+      <xs:element name="Prot-ref_desc" type="xs:string" minOccurs="0"/>
+<!-- E.C. number(s) -->
+      <xs:element name="Prot-ref_ec" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Prot-ref_ec_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- activities -->
+      <xs:element name="Prot-ref_activity" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Prot-ref_activity_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- ids in other dbases -->
+      <xs:element name="Prot-ref_db" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Prot-ref_processed" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="not-set">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="not-set"/>
+                <xs:enumeration value="preprotein"/>
+                <xs:enumeration value="mature"/>
+                <xs:enumeration value="signal-peptide"/>
+                <xs:enumeration value="transit-peptide"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

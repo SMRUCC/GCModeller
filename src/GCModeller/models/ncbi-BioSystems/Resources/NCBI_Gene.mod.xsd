@@ -1,0 +1,127 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqfeat.asn"
+     ::DATATOOL:: by application DATATOOL version 1.9.0
+     ::DATATOOL:: on 10/09/2008 23:08:21
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Gene"
+================================================= -->
+<!--
+**********************************************************************
+
+  NCBI Genes
+  by James Ostell, 1990
+  version 0.8
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          Gene-ref,
+          Gene-nomenclature -->
+
+<!-- Elements referenced from other modules:
+          Dbtag FROM NCBI-General -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+*** Gene ***********************************************
+*
+*  reference to a gene
+*
+-->
+<xs:element name="Gene-ref">
+  <xs:complexType>
+    <xs:sequence>
+<!-- Official gene symbol -->
+      <xs:element name="Gene-ref_locus" type="xs:string" minOccurs="0"/>
+<!-- Official allele designation -->
+      <xs:element name="Gene-ref_allele" type="xs:string" minOccurs="0"/>
+<!-- descriptive name -->
+      <xs:element name="Gene-ref_desc" type="xs:string" minOccurs="0"/>
+<!-- descriptive map location -->
+      <xs:element name="Gene-ref_maploc" type="xs:string" minOccurs="0"/>
+<!-- pseudogene -->
+      <xs:element name="Gene-ref_pseudo" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="false">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- ids in other dbases -->
+      <xs:element name="Gene-ref_db" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- synonyms for locus -->
+      <xs:element name="Gene-ref_syn" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Gene-ref_syn_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- systematic gene name (e.g., MI0001, ORF0069) -->
+      <xs:element name="Gene-ref_locus-tag" type="xs:string" minOccurs="0"/>
+      <xs:element name="Gene-ref_formal-name" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Gene-nomenclature"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Gene-nomenclature">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Gene-nomenclature_status">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="unknown"/>
+                <xs:enumeration value="official"/>
+                <xs:enumeration value="interim"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Gene-nomenclature_symbol" type="xs:string" minOccurs="0"/>
+      <xs:element name="Gene-nomenclature_name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Gene-nomenclature_source" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

@@ -1,0 +1,584 @@
+********************************************************************************
+MEME - Motif discovery tool
+********************************************************************************
+MEME version 4.9.1 (Release date: Fri Aug 23 16:49:42 2013 +1000)
+
+For further information on how to interpret these results or to get
+a copy of the MEME software please access http://meme.nbcr.net.
+
+This file may be used as input to the MAST algorithm for searching
+sequence databases for matches to groups of motifs.  MAST is available
+for interactive use and downloading at http://meme.nbcr.net.
+********************************************************************************
+
+
+********************************************************************************
+REFERENCE
+********************************************************************************
+If you use this program in your research, please cite:
+
+Timothy L. Bailey and Charles Elkan,
+"Fitting a mixture model by expectation maximization to discover
+motifs in biopolymers", Proceedings of the Second International
+Conference on Intelligent Systems for Molecular Biology, pp. 28-36,
+AAAI Press, Menlo Park, California, 1994.
+********************************************************************************
+
+
+********************************************************************************
+TRAINING SET
+********************************************************************************
+DATAFILE= /home/xieguigang/330/MotifSites/MotifSites//Staphylococcaceae_LexA___Staphylococcaceae.fasta
+ALPHABET= ACGT
+Sequence name            Weight Length  Sequence name            Weight Length  
+-------------            ------ ------  -------------            ------ ------  
+SA0684:-124              1.0000     20  SA1749:-133              1.0000     20  
+SA1975:-66               1.0000     20  SA1180:-31               1.0000     20  
+SA0713:-107              1.0000     20  SA1196:-79               1.0000     20  
+SA1196:-51               1.0000     20  SA1738:-51               1.0000     20  
+SA1128:-102              1.0000     20  SA1128:-145              1.0000     20  
+SA1174:-74               1.0000     20  SA1188:-32               1.0000     20  
+SA1174:-132              1.0000     20  STACA0001_0273:-126      1.0000     20  
+STACA0001_1610:-78       1.0000     20  STACA0001_1610:-49       1.0000     20  
+STACA0001_1975:-52       1.0000     20  STACA0001_1593:-33       1.0000     20  
+STACA0001_1306:-65       1.0000     20  STACA0001_1989:-125      1.0000     20  
+STACA0001_0299:-123      1.0000     20  STACA0001_2334:-103      1.0000     20  
+STACA0001_1582:-132      1.0000     20  STACA0001_1582:-103      1.0000     20  
+STACA0001_1582:-74       1.0000     20  STACA0001_1601:-33       1.0000     20  
+STACA0001_2334:-146      1.0000     20  SE1046:-77               1.0000     20  
+SE1046:-48               1.0000     20  SE1605:-52               1.0000     20  
+SE0541:-130              1.0000     20  SE1028:-33               1.0000     20  
+SE1762:-66               1.0000     20  SE0963:-102              1.0000     20  
+SE0511:-116              1.0000     20  SE1627:-127              1.0000     20  
+SE0963:-145              1.0000     20  SE1036:-33               1.0000     20  
+SE1022:-517              1.0000     20  SE1022:-459              1.0000     20  
+Sca_0980:-132            1.0000     20  Sca_0980:-103            1.0000     20  
+Sca_0980:-74             1.0000     20  Sca_0995:-35             1.0000     20  
+Sca_0926:-102            1.0000     20  Sca_0377:-126            1.0000     20  
+Sca_1672:-68             1.0000     20  Sca_0407:-267            1.0000     20  
+Sca_1008:-82             1.0000     20  Sca_1008:-53             1.0000     20  
+Sca_1497:-59             1.0000     20  SH1018:-129              1.0000     20  
+SH2164:-124              1.0000     20  SH1628:-105              1.0000     20  
+SH1568:-132              1.0000     20  SH1568:-103              1.0000     20  
+SH1568:-74               1.0000     20  SH1554:-32               1.0000     20  
+SH0869:-66               1.0000     20  SH1562:-31               1.0000     20  
+SH2131:-266              1.0000     20  SH1545:-81               1.0000     20  
+SH1545:-52               1.0000     20  SH0364:-39               1.0000     20  
+SSP0868:-51              1.0000     20  SSP1388:-51              1.0000     20  
+SSP1388:-80              1.0000     20  SSP1959:-176             1.0000     20  
+SSP1412:-33              1.0000     20  SSP0715:-66              1.0000     20  
+SSP0853:-135             1.0000     20  SSP1988:-125             1.0000     20  
+SSP1480:-104             1.0000     20  SSP1418:-131             1.0000     20  
+SSP1418:-102             1.0000     20  SSP1418:-73              1.0000     20  
+SSP1404:-33              1.0000     20  MCCL_1665:-34            1.0000     20  
+MCCL_1033:-10            1.0000     20  MCCL_0875:-132           1.0000     20  
+MCCL_0509:-67            1.0000     20  MCCL_1033:-38            1.0000     20  
+MCCL_1011:-31            1.0000     20  MCCL_0995:-77            1.0000     20  
+MCCL_0995:-135           1.0000     20  
+********************************************************************************
+
+********************************************************************************
+COMMAND LINE SUMMARY
+********************************************************************************
+This information can also be useful in the event you wish to report a
+problem with the MEME software.
+
+command: meme /home/xieguigang/330/MotifSites/MotifSites//Staphylococcaceae_LexA___Staphylococcaceae.fasta -dna -maxsize 1000000000 -maxw 50 -mod zoops -nmotifs 100 -evt 10 -oc /home/xieguigang/330/MotifSites.MEME/MotifSites//Staphylococcaceae_LexA___Staphylococcaceae/ 
+
+model:  mod=         zoops    nmotifs=       100    evt=            10
+object function=  E-value of product of p-values
+width:  minw=            8    maxw=           20    minic=        0.00
+width:  wg=             11    ws=              1    endgaps=       yes
+nsites: minsites=        2    maxsites=       85    wnsites=       0.8
+theta:  prob=            1    spmap=         uni    spfuzz=        0.5
+global: substring=     yes    branching=      no    wbranch=        no
+em:     prior=   dirichlet    b=            0.01    maxiter=        50
+        distance=    1e-05
+data:   n=            1700    N=              85
+strands: +
+sample: seed=            0    seqfrac=         1
+Letter frequencies in dataset:
+A 0.351 C 0.156 G 0.172 T 0.321 
+Background letter frequencies (from dataset with add-one prior applied):
+A 0.350 C 0.156 G 0.173 T 0.321 
+********************************************************************************
+
+
+********************************************************************************
+MOTIF  1	width =   20   sites =  85   llr = 1266   E-value = 8.6e-494
+********************************************************************************
+--------------------------------------------------------------------------------
+	Motif 1 Description
+--------------------------------------------------------------------------------
+Simplified        A  7645:aa1747:1::::162
+pos.-specific     C  1125:::9:::2:::7:2::
+probability       G  ::1:a:::3:1:9:::8:11
+matrix            T  232::::::538:aa32636
+
+         bits    2.7                     
+                 2.4     *               
+                 2.1     *  *    *       
+                 1.9     *  *    *       
+Relative         1.6     * **    *** *   
+Entropy          1.3     ****    *****   
+(21.5 bits)      1.1    ******  ******   
+                 0.8    ******  ******   
+                 0.5    ******  ******** 
+                 0.3 ** *****************
+                 0.0 --------------------
+
+Multilevel           AAACGAACATATGTTCGTAT
+consensus             TCA    GATC   TTCTA
+sequence               T                 
+                                         
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 sites sorted by position p-value
+--------------------------------------------------------------------------------
+Sequence name             Start   P-value                    Site      
+-------------             ----- ---------            --------------------
+SA1749:-133                   1  6.30e-11          . AACAGAACATATGTTCGTAT           
+SE1605:-52                    1  1.55e-10          . AACAGAACAAATGTTCGTAT           
+SH1545:-52                    1  2.55e-10          . AAAAGAACAAATGTTCGTAT           
+SH2164:-124                   1  4.14e-10          . AACAGAACATTTGTTCGTAT           
+SH1018:-129                   1  4.14e-10          . AAACGAACAAATGTTCGCTT           
+MCCL_1665:-34                 1  5.29e-10          . AACAGAACGTACGTTCGTAT           
+SSP0868:-51                   1  1.01e-09          . AATAGAACGTATGTTCGTAT           
+STACA0001_1975:-52            1  1.23e-09          . AATAGAACAAATGTTCGTAT           
+SE0511:-116                   1  1.50e-09          . AAGCGAACATTTGTTCGTTT           
+Sca_1008:-53                  1  1.82e-09          . ATAAGAACAAATGTTCGCAT           
+SSP0853:-135                  1  2.64e-09          . AACAGAACGTGTGTTCGTAT           
+SSP1388:-51                   1  2.64e-09          . AATAGAACATTTGTTCGTAT           
+SE0541:-130                   1  2.64e-09          . AAGCGAACAAATGTTTGTAT           
+SA1738:-51                    1  2.64e-09          . AACAGAACACATGTTCGTAT           
+STACA0001_1593:-33            1  3.74e-09          . ATACGAACAAATGTTCTTAT           
+SE1028:-33                    1  4.39e-09          . AAACGAACAAACGTTCTTAT           
+SH2131:-266                   1  7.06e-09          . AAGCGAACAAACGTTTGTAT           
+STACA0001_1582:-74            1  7.06e-09          . AAACGAACAAACGTTTGTTT           
+SSP1404:-33                   1  8.22e-09          . AAACGAACGTACGTTTGTAG           
+SH1554:-32                    1  8.22e-09          . AAACGAACGTACGTTTGTAG           
+STACA0001_1601:-33            1  8.22e-09          . AAACGAACGTACGTTTGTAG           
+Sca_0377:-126                 1  9.52e-09          . AACAGAACATATGTTCGATT           
+SE1046:-77                    1  1.26e-08          . ATAAGAACAAATGTTCTTAT           
+SSP1418:-73                   1  1.45e-08          . AAACGAACAAACGTTTGTAA           
+SA1188:-32                    1  1.45e-08          . AAACGAACGTACGTTTGCAG           
+SA1174:-74                    1  1.66e-08          . TAACGAACAAATGTTTGTTT           
+Sca_1497:-59                  1  1.89e-08          . TAGCGAACAAGTGTTCGTAT           
+Sca_0995:-35                  1  1.89e-08          . TAACGAACGTATGTTTGTAG           
+SSP1959:-176                  1  2.15e-08          . CTACGAACAAATGTTTGTTT           
+MCCL_0995:-77                 1  2.75e-08          . ATACGAACAAATGTTTGTTA           
+SH0869:-66                    1  2.75e-08          . CACCGAAAATATGTTCGTAT           
+STACA0001_0273:-126           1  2.75e-08          . AAGCGAACAAACGTTTGCTT           
+SSP1988:-125                  1  3.49e-08          . TACAGAACATTTGTTCGTGT           
+Sca_0980:-103                 1  3.92e-08          . ATCAGAACGATTGTTCGCTG           
+SE1036:-33                    1  3.92e-08          . TAACGAACGTACGTTTGTAG           
+SH1568:-74                    1  4.40e-08          . AAACGAACAAATGTTTGTTC           
+Sca_0980:-74                  1  5.48e-08          . TTACGAACAAATGTTTGTAA           
+Sca_0980:-132                 1  6.09e-08          . CCCAGAACATTTGTTTGCAT           
+SA1196:-51                    1  6.09e-08          . AATAGAACACGTGTTCGTAT           
+Sca_1008:-82                  1  6.77e-08          . AACAGAACATTTGTTCTTTA           
+STACA0001_0299:-123           1  6.77e-08          . AACAGAACATGTGTTCGTGA           
+MCCL_1011:-31                 1  7.51e-08          . TTTCGAACGTATGTTTGTAG           
+SE1627:-127                   1  8.32e-08          . AACAGAACGTATGTTCTGTT           
+STACA0001_1989:-125           1  8.32e-08          . TATAGAACATATGTTCGCTA           
+STACA0001_1306:-65            1  9.20e-08          . ACACGAAAGTATGTTCGCTT           
+SA0713:-107                   1  9.20e-08          . TTACGAACAAACGTTTGCTT           
+MCCL_0995:-135                1  1.01e-07          . CCTAGAACATTTGTTTGTAT           
+SE1022:-459                   1  1.01e-07          . TTACGAACAAATGTTTGTTA           
+SE1022:-517                   1  1.01e-07          . CCTAGAACATTTGTTTGTAT           
+SA1174:-132                   1  1.01e-07          . CCTAGAACATTTGTTTGTAT           
+SA1975:-66                    1  1.01e-07          . ACCCGAAAATATGTTCGTGT           
+SSP1418:-131                  1  1.23e-07          . CCTAGAACGTTTGTTTGTAT           
+STACA0001_1582:-132           1  1.23e-07          . CCTAGAACGTTTGTTTGTAT           
+MCCL_0509:-67                 1  1.35e-07          . TTACGAACAAATGTTTGTAC           
+SH1568:-132                   1  1.35e-07          . TCTAGAACATTTGTTTGTAT           
+SE0963:-102                   1  1.35e-07          . ATACGAACAAATATTCGCAA           
+SA1128:-102                   1  1.35e-07          . ATACGAACAAATATTCGCAA           
+SSP0715:-66                   1  1.48e-07          . TTACGAAAGTATGTTCGCAT           
+SH1562:-31                    1  1.48e-07          . ACACGAACAAATGTTCTAAA           
+SH1628:-105                   1  1.48e-07          . AAGCGAACAAATATTCGCAA           
+STACA0001_2334:-103           1  1.48e-07          . ACACGAACAAATATTCGCAA           
+SSP1412:-33                   1  1.78e-07          . ATACGAACAAACGTTCTAAG           
+SA1196:-79                    1  2.12e-07          . AACAGAACATTTGTTCTAAA           
+MCCL_1033:-38                 1  2.31e-07          . ATAAGAACATACGTTCTATT           
+SH1568:-103                   1  2.31e-07          . AACAGAACATCTGTTCTTAG           
+STACA0001_1610:-49            1  2.31e-07          . ATAAGAACACGTGTTCTTAT           
+STACA0001_1610:-78            1  2.31e-07          . AATAGAACATTCGTTCTTGT           
+SA0684:-124                   1  2.31e-07          . CACAGAACGTTTGTTCGGTA           
+Sca_1672:-68                  1  2.51e-07          . GACCGAAAATATGTTCGTTT           
+SA1180:-31                    1  2.51e-07          . AAGCGAACAAATGTTCTATA           
+Sca_0926:-102                 1  2.73e-07          . AATCGAACAAACATTCGCAA           
+SE1046:-48                    1  2.73e-07          . AATAGAACACGTGTTCTTAT           
+SA1128:-145                   1  2.73e-07          . ATAAGCACGTTTGTTCGTTT           
+SH0364:-39                    1  2.97e-07          . ATGCGAACATATGTTCTATA           
+SE0963:-145                   1  2.97e-07          . ATAAGTACGTTTGTTCGTTT           
+STACA0001_1582:-103           1  3.50e-07          . ATCAGAACGAATGTTCTGTG           
+MCCL_1033:-10                 1  4.09e-07          . AATAGAACGTATGTTCTGGT           
+SSP1418:-102                  1  4.09e-07          . ATCAGAACATTTGTTCTATG           
+SSP1480:-104                  1  4.09e-07          . TAGCGAACAAATATTCGCAA           
+SE1762:-66                    1  4.43e-07          . GTACGAAAGTATGTTCGCAT           
+SSP1388:-80                   1  5.57e-07          . ATTGGAACATTTGTTCTTAT           
+Sca_0407:-267                 1  8.59e-07          . CTGCGAACAGATGTTTGTAC           
+STACA0001_2334:-146           1  1.13e-06          . ATAAGTACGTTTGTTCGATT           
+SH1545:-81                    1  1.38e-06          . TAAAGAACATTAGTTCTTAT           
+MCCL_0875:-132                1  1.67e-06          . ATACAAACAGACGTTCGCAT           
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 block diagrams
+--------------------------------------------------------------------------------
+SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+SA1749:-133                       6.3e-11  [+1]
+SE1605:-52                        1.5e-10  [+1]
+SH1545:-52                        2.6e-10  [+1]
+SH2164:-124                       4.1e-10  [+1]
+SH1018:-129                       4.1e-10  [+1]
+MCCL_1665:-34                     5.3e-10  [+1]
+SSP0868:-51                         1e-09  [+1]
+STACA0001_1975:-52                1.2e-09  [+1]
+SE0511:-116                       1.5e-09  [+1]
+Sca_1008:-53                      1.8e-09  [+1]
+SSP0853:-135                      2.6e-09  [+1]
+SSP1388:-51                       2.6e-09  [+1]
+SE0541:-130                       2.6e-09  [+1]
+SA1738:-51                        2.6e-09  [+1]
+STACA0001_1593:-33                3.7e-09  [+1]
+SE1028:-33                        4.4e-09  [+1]
+SH2131:-266                       7.1e-09  [+1]
+STACA0001_1582:-74                7.1e-09  [+1]
+SSP1404:-33                       8.2e-09  [+1]
+SH1554:-32                        8.2e-09  [+1]
+STACA0001_1601:-33                8.2e-09  [+1]
+Sca_0377:-126                     9.5e-09  [+1]
+SE1046:-77                        1.3e-08  [+1]
+SSP1418:-73                       1.4e-08  [+1]
+SA1188:-32                        1.4e-08  [+1]
+SA1174:-74                        1.7e-08  [+1]
+Sca_1497:-59                      1.9e-08  [+1]
+Sca_0995:-35                      1.9e-08  [+1]
+SSP1959:-176                      2.1e-08  [+1]
+MCCL_0995:-77                     2.8e-08  [+1]
+SH0869:-66                        2.8e-08  [+1]
+STACA0001_0273:-126               2.8e-08  [+1]
+SSP1988:-125                      3.5e-08  [+1]
+Sca_0980:-103                     3.9e-08  [+1]
+SE1036:-33                        3.9e-08  [+1]
+SH1568:-74                        4.4e-08  [+1]
+Sca_0980:-74                      5.5e-08  [+1]
+Sca_0980:-132                     6.1e-08  [+1]
+SA1196:-51                        6.1e-08  [+1]
+Sca_1008:-82                      6.8e-08  [+1]
+STACA0001_0299:-123               6.8e-08  [+1]
+MCCL_1011:-31                     7.5e-08  [+1]
+SE1627:-127                       8.3e-08  [+1]
+STACA0001_1989:-125               8.3e-08  [+1]
+STACA0001_1306:-65                9.2e-08  [+1]
+SA0713:-107                       9.2e-08  [+1]
+MCCL_0995:-135                      1e-07  [+1]
+SE1022:-459                         1e-07  [+1]
+SE1022:-517                         1e-07  [+1]
+SA1174:-132                         1e-07  [+1]
+SA1975:-66                          1e-07  [+1]
+SSP1418:-131                      1.2e-07  [+1]
+STACA0001_1582:-132               1.2e-07  [+1]
+MCCL_0509:-67                     1.3e-07  [+1]
+SH1568:-132                       1.3e-07  [+1]
+SE0963:-102                       1.3e-07  [+1]
+SA1128:-102                       1.3e-07  [+1]
+SSP0715:-66                       1.5e-07  [+1]
+SH1562:-31                        1.5e-07  [+1]
+SH1628:-105                       1.5e-07  [+1]
+STACA0001_2334:-103               1.5e-07  [+1]
+SSP1412:-33                       1.8e-07  [+1]
+SA1196:-79                        2.1e-07  [+1]
+MCCL_1033:-38                     2.3e-07  [+1]
+SH1568:-103                       2.3e-07  [+1]
+STACA0001_1610:-49                2.3e-07  [+1]
+STACA0001_1610:-78                2.3e-07  [+1]
+SA0684:-124                       2.3e-07  [+1]
+Sca_1672:-68                      2.5e-07  [+1]
+SA1180:-31                        2.5e-07  [+1]
+Sca_0926:-102                     2.7e-07  [+1]
+SE1046:-48                        2.7e-07  [+1]
+SA1128:-145                       2.7e-07  [+1]
+SH0364:-39                          3e-07  [+1]
+SE0963:-145                         3e-07  [+1]
+STACA0001_1582:-103               3.5e-07  [+1]
+MCCL_1033:-10                     4.1e-07  [+1]
+SSP1418:-102                      4.1e-07  [+1]
+SSP1480:-104                      4.1e-07  [+1]
+SE1762:-66                        4.4e-07  [+1]
+SSP1388:-80                       5.6e-07  [+1]
+Sca_0407:-267                     8.6e-07  [+1]
+STACA0001_2334:-146               1.1e-06  [+1]
+SH1545:-81                        1.4e-06  [+1]
+MCCL_0875:-132                    1.7e-06  [+1]
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 in BLOCKS format
+--------------------------------------------------------------------------------
+BL   MOTIF 1 width=20 seqs=85
+SA1749:-133              (    1) AACAGAACATATGTTCGTAT  1 
+SE1605:-52               (    1) AACAGAACAAATGTTCGTAT  1 
+SH1545:-52               (    1) AAAAGAACAAATGTTCGTAT  1 
+SH2164:-124              (    1) AACAGAACATTTGTTCGTAT  1 
+SH1018:-129              (    1) AAACGAACAAATGTTCGCTT  1 
+MCCL_1665:-34            (    1) AACAGAACGTACGTTCGTAT  1 
+SSP0868:-51              (    1) AATAGAACGTATGTTCGTAT  1 
+STACA0001_1975:-52       (    1) AATAGAACAAATGTTCGTAT  1 
+SE0511:-116              (    1) AAGCGAACATTTGTTCGTTT  1 
+Sca_1008:-53             (    1) ATAAGAACAAATGTTCGCAT  1 
+SSP0853:-135             (    1) AACAGAACGTGTGTTCGTAT  1 
+SSP1388:-51              (    1) AATAGAACATTTGTTCGTAT  1 
+SE0541:-130              (    1) AAGCGAACAAATGTTTGTAT  1 
+SA1738:-51               (    1) AACAGAACACATGTTCGTAT  1 
+STACA0001_1593:-33       (    1) ATACGAACAAATGTTCTTAT  1 
+SE1028:-33               (    1) AAACGAACAAACGTTCTTAT  1 
+SH2131:-266              (    1) AAGCGAACAAACGTTTGTAT  1 
+STACA0001_1582:-74       (    1) AAACGAACAAACGTTTGTTT  1 
+SSP1404:-33              (    1) AAACGAACGTACGTTTGTAG  1 
+SH1554:-32               (    1) AAACGAACGTACGTTTGTAG  1 
+STACA0001_1601:-33       (    1) AAACGAACGTACGTTTGTAG  1 
+Sca_0377:-126            (    1) AACAGAACATATGTTCGATT  1 
+SE1046:-77               (    1) ATAAGAACAAATGTTCTTAT  1 
+SSP1418:-73              (    1) AAACGAACAAACGTTTGTAA  1 
+SA1188:-32               (    1) AAACGAACGTACGTTTGCAG  1 
+SA1174:-74               (    1) TAACGAACAAATGTTTGTTT  1 
+Sca_1497:-59             (    1) TAGCGAACAAGTGTTCGTAT  1 
+Sca_0995:-35             (    1) TAACGAACGTATGTTTGTAG  1 
+SSP1959:-176             (    1) CTACGAACAAATGTTTGTTT  1 
+MCCL_0995:-77            (    1) ATACGAACAAATGTTTGTTA  1 
+SH0869:-66               (    1) CACCGAAAATATGTTCGTAT  1 
+STACA0001_0273:-126      (    1) AAGCGAACAAACGTTTGCTT  1 
+SSP1988:-125             (    1) TACAGAACATTTGTTCGTGT  1 
+Sca_0980:-103            (    1) ATCAGAACGATTGTTCGCTG  1 
+SE1036:-33               (    1) TAACGAACGTACGTTTGTAG  1 
+SH1568:-74               (    1) AAACGAACAAATGTTTGTTC  1 
+Sca_0980:-74             (    1) TTACGAACAAATGTTTGTAA  1 
+Sca_0980:-132            (    1) CCCAGAACATTTGTTTGCAT  1 
+SA1196:-51               (    1) AATAGAACACGTGTTCGTAT  1 
+Sca_1008:-82             (    1) AACAGAACATTTGTTCTTTA  1 
+STACA0001_0299:-123      (    1) AACAGAACATGTGTTCGTGA  1 
+MCCL_1011:-31            (    1) TTTCGAACGTATGTTTGTAG  1 
+SE1627:-127              (    1) AACAGAACGTATGTTCTGTT  1 
+STACA0001_1989:-125      (    1) TATAGAACATATGTTCGCTA  1 
+STACA0001_1306:-65       (    1) ACACGAAAGTATGTTCGCTT  1 
+SA0713:-107              (    1) TTACGAACAAACGTTTGCTT  1 
+MCCL_0995:-135           (    1) CCTAGAACATTTGTTTGTAT  1 
+SE1022:-459              (    1) TTACGAACAAATGTTTGTTA  1 
+SE1022:-517              (    1) CCTAGAACATTTGTTTGTAT  1 
+SA1174:-132              (    1) CCTAGAACATTTGTTTGTAT  1 
+SA1975:-66               (    1) ACCCGAAAATATGTTCGTGT  1 
+SSP1418:-131             (    1) CCTAGAACGTTTGTTTGTAT  1 
+STACA0001_1582:-132      (    1) CCTAGAACGTTTGTTTGTAT  1 
+MCCL_0509:-67            (    1) TTACGAACAAATGTTTGTAC  1 
+SH1568:-132              (    1) TCTAGAACATTTGTTTGTAT  1 
+SE0963:-102              (    1) ATACGAACAAATATTCGCAA  1 
+SA1128:-102              (    1) ATACGAACAAATATTCGCAA  1 
+SSP0715:-66              (    1) TTACGAAAGTATGTTCGCAT  1 
+SH1562:-31               (    1) ACACGAACAAATGTTCTAAA  1 
+SH1628:-105              (    1) AAGCGAACAAATATTCGCAA  1 
+STACA0001_2334:-103      (    1) ACACGAACAAATATTCGCAA  1 
+SSP1412:-33              (    1) ATACGAACAAACGTTCTAAG  1 
+SA1196:-79               (    1) AACAGAACATTTGTTCTAAA  1 
+MCCL_1033:-38            (    1) ATAAGAACATACGTTCTATT  1 
+SH1568:-103              (    1) AACAGAACATCTGTTCTTAG  1 
+STACA0001_1610:-49       (    1) ATAAGAACACGTGTTCTTAT  1 
+STACA0001_1610:-78       (    1) AATAGAACATTCGTTCTTGT  1 
+SA0684:-124              (    1) CACAGAACGTTTGTTCGGTA  1 
+Sca_1672:-68             (    1) GACCGAAAATATGTTCGTTT  1 
+SA1180:-31               (    1) AAGCGAACAAATGTTCTATA  1 
+Sca_0926:-102            (    1) AATCGAACAAACATTCGCAA  1 
+SE1046:-48               (    1) AATAGAACACGTGTTCTTAT  1 
+SA1128:-145              (    1) ATAAGCACGTTTGTTCGTTT  1 
+SH0364:-39               (    1) ATGCGAACATATGTTCTATA  1 
+SE0963:-145              (    1) ATAAGTACGTTTGTTCGTTT  1 
+STACA0001_1582:-103      (    1) ATCAGAACGAATGTTCTGTG  1 
+MCCL_1033:-10            (    1) AATAGAACGTATGTTCTGGT  1 
+SSP1418:-102             (    1) ATCAGAACATTTGTTCTATG  1 
+SSP1480:-104             (    1) TAGCGAACAAATATTCGCAA  1 
+SE1762:-66               (    1) GTACGAAAGTATGTTCGCAT  1 
+SSP1388:-80              (    1) ATTGGAACATTTGTTCTTAT  1 
+Sca_0407:-267            (    1) CTGCGAACAGATGTTTGTAC  1 
+STACA0001_2334:-146      (    1) ATAAGTACGTTTGTTCGATT  1 
+SH1545:-81               (    1) TAAAGAACATTAGTTCTTAT  1 
+MCCL_0875:-132           (    1) ATACAAACAGACGTTCGCAT  1 
+//
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific scoring matrix
+--------------------------------------------------------------------------------
+log-odds matrix: alength= 4 w= 20 n= 85 bayes= 1.83588 E= 8.6e-494 
+    96    -41   -287    -86 
+    66    -27  -1305     -2 
+    31     66    -55    -68 
+    46    170   -387  -1305 
+  -489  -1305    252  -1305 
+   146   -373  -1305   -377 
+   151  -1305  -1305  -1305 
+  -231    257  -1305  -1305 
+   106  -1305     65  -1305 
+    15   -173   -287     75 
+    91   -373   -129    -31 
+  -489     36  -1305    130 
+  -231  -1305    243  -1305 
+ -1305  -1305  -1305    164 
+ -1305  -1305  -1305    164 
+ -1305    210  -1305      4 
+ -1305  -1305    215    -45 
+  -173     44   -187     98 
+    86  -1305   -155     -7 
+   -73   -214    -29     93 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific probability matrix
+--------------------------------------------------------------------------------
+letter-probability matrix: alength= 4 w= 20 nsites= 85 E= 8.6e-494 
+ 0.682353  0.117647  0.023529  0.176471 
+ 0.552941  0.129412  0.000000  0.317647 
+ 0.435294  0.247059  0.117647  0.200000 
+ 0.482353  0.505882  0.011765  0.000000 
+ 0.011765  0.000000  0.988235  0.000000 
+ 0.964706  0.011765  0.000000  0.023529 
+ 1.000000  0.000000  0.000000  0.000000 
+ 0.070588  0.929412  0.000000  0.000000 
+ 0.729412  0.000000  0.270588  0.000000 
+ 0.388235  0.047059  0.023529  0.541176 
+ 0.658824  0.011765  0.070588  0.258824 
+ 0.011765  0.200000  0.000000  0.788235 
+ 0.070588  0.000000  0.929412  0.000000 
+ 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  0.670588  0.000000  0.329412 
+ 0.000000  0.000000  0.764706  0.235294 
+ 0.105882  0.211765  0.047059  0.635294 
+ 0.635294  0.000000  0.058824  0.305882 
+ 0.211765  0.035294  0.141176  0.611765 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 regular expression
+--------------------------------------------------------------------------------
+A[AT][ACT][CA]GAAC[AG][TA][AT][TC]GTT[CT][GT][TC][AT][TA]
+--------------------------------------------------------------------------------
+
+
+
+
+Time  0.61 secs.
+
+********************************************************************************
+
+
+********************************************************************************
+SUMMARY OF MOTIFS
+********************************************************************************
+
+--------------------------------------------------------------------------------
+	Combined block diagrams: non-overlapping sites with p-value < 0.0001
+--------------------------------------------------------------------------------
+SEQUENCE NAME            COMBINED P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+SA0684:-124                      2.31e-07  [+1(2.31e-07)]
+SA1749:-133                      6.30e-11  [+1(6.30e-11)]
+SA1975:-66                       1.01e-07  [+1(1.01e-07)]
+SA1180:-31                       2.51e-07  [+1(2.51e-07)]
+SA0713:-107                      9.20e-08  [+1(9.20e-08)]
+SA1196:-79                       2.12e-07  [+1(2.12e-07)]
+SA1196:-51                       6.09e-08  [+1(6.09e-08)]
+SA1738:-51                       2.64e-09  [+1(2.64e-09)]
+SA1128:-102                      1.35e-07  [+1(1.35e-07)]
+SA1128:-145                      2.73e-07  [+1(2.73e-07)]
+SA1174:-74                       1.66e-08  [+1(1.66e-08)]
+SA1188:-32                       1.45e-08  [+1(1.45e-08)]
+SA1174:-132                      1.01e-07  [+1(1.01e-07)]
+STACA0001_0273:-126              2.75e-08  [+1(2.75e-08)]
+STACA0001_1610:-78               2.31e-07  [+1(2.31e-07)]
+STACA0001_1610:-49               2.31e-07  [+1(2.31e-07)]
+STACA0001_1975:-52               1.23e-09  [+1(1.23e-09)]
+STACA0001_1593:-33               3.74e-09  [+1(3.74e-09)]
+STACA0001_1306:-65               9.20e-08  [+1(9.20e-08)]
+STACA0001_1989:-125              8.32e-08  [+1(8.32e-08)]
+STACA0001_0299:-123              6.77e-08  [+1(6.77e-08)]
+STACA0001_2334:-103              1.48e-07  [+1(1.48e-07)]
+STACA0001_1582:-132              1.23e-07  [+1(1.23e-07)]
+STACA0001_1582:-103              3.50e-07  [+1(3.50e-07)]
+STACA0001_1582:-74               7.06e-09  [+1(7.06e-09)]
+STACA0001_1601:-33               8.22e-09  [+1(8.22e-09)]
+STACA0001_2334:-146              1.13e-06  [+1(1.13e-06)]
+SE1046:-77                       1.26e-08  [+1(1.26e-08)]
+SE1046:-48                       2.73e-07  [+1(2.73e-07)]
+SE1605:-52                       1.55e-10  [+1(1.55e-10)]
+SE0541:-130                      2.64e-09  [+1(2.64e-09)]
+SE1028:-33                       4.39e-09  [+1(4.39e-09)]
+SE1762:-66                       4.43e-07  [+1(4.43e-07)]
+SE0963:-102                      1.35e-07  [+1(1.35e-07)]
+SE0511:-116                      1.50e-09  [+1(1.50e-09)]
+SE1627:-127                      8.32e-08  [+1(8.32e-08)]
+SE0963:-145                      2.97e-07  [+1(2.97e-07)]
+SE1036:-33                       3.92e-08  [+1(3.92e-08)]
+SE1022:-517                      1.01e-07  [+1(1.01e-07)]
+SE1022:-459                      1.01e-07  [+1(1.01e-07)]
+Sca_0980:-132                    6.09e-08  [+1(6.09e-08)]
+Sca_0980:-103                    3.92e-08  [+1(3.92e-08)]
+Sca_0980:-74                     5.48e-08  [+1(5.48e-08)]
+Sca_0995:-35                     1.89e-08  [+1(1.89e-08)]
+Sca_0926:-102                    2.73e-07  [+1(2.73e-07)]
+Sca_0377:-126                    9.52e-09  [+1(9.52e-09)]
+Sca_1672:-68                     2.51e-07  [+1(2.51e-07)]
+Sca_0407:-267                    8.59e-07  [+1(8.59e-07)]
+Sca_1008:-82                     6.77e-08  [+1(6.77e-08)]
+Sca_1008:-53                     1.82e-09  [+1(1.82e-09)]
+Sca_1497:-59                     1.89e-08  [+1(1.89e-08)]
+SH1018:-129                      4.14e-10  [+1(4.14e-10)]
+SH2164:-124                      4.14e-10  [+1(4.14e-10)]
+SH1628:-105                      1.48e-07  [+1(1.48e-07)]
+SH1568:-132                      1.35e-07  [+1(1.35e-07)]
+SH1568:-103                      2.31e-07  [+1(2.31e-07)]
+SH1568:-74                       4.40e-08  [+1(4.40e-08)]
+SH1554:-32                       8.22e-09  [+1(8.22e-09)]
+SH0869:-66                       2.75e-08  [+1(2.75e-08)]
+SH1562:-31                       1.48e-07  [+1(1.48e-07)]
+SH2131:-266                      7.06e-09  [+1(7.06e-09)]
+SH1545:-81                       1.38e-06  [+1(1.38e-06)]
+SH1545:-52                       2.55e-10  [+1(2.55e-10)]
+SH0364:-39                       2.97e-07  [+1(2.97e-07)]
+SSP0868:-51                      1.01e-09  [+1(1.01e-09)]
+SSP1388:-51                      2.64e-09  [+1(2.64e-09)]
+SSP1388:-80                      5.57e-07  [+1(5.57e-07)]
+SSP1959:-176                     2.15e-08  [+1(2.15e-08)]
+SSP1412:-33                      1.78e-07  [+1(1.78e-07)]
+SSP0715:-66                      1.48e-07  [+1(1.48e-07)]
+SSP0853:-135                     2.64e-09  [+1(2.64e-09)]
+SSP1988:-125                     3.49e-08  [+1(3.49e-08)]
+SSP1480:-104                     4.09e-07  [+1(4.09e-07)]
+SSP1418:-131                     1.23e-07  [+1(1.23e-07)]
+SSP1418:-102                     4.09e-07  [+1(4.09e-07)]
+SSP1418:-73                      1.45e-08  [+1(1.45e-08)]
+SSP1404:-33                      8.22e-09  [+1(8.22e-09)]
+MCCL_1665:-34                    5.29e-10  [+1(5.29e-10)]
+MCCL_1033:-10                    4.09e-07  [+1(4.09e-07)]
+MCCL_0875:-132                   1.67e-06  [+1(1.67e-06)]
+MCCL_0509:-67                    1.35e-07  [+1(1.35e-07)]
+MCCL_1033:-38                    2.31e-07  [+1(2.31e-07)]
+MCCL_1011:-31                    7.51e-08  [+1(7.51e-08)]
+MCCL_0995:-77                    2.75e-08  [+1(2.75e-08)]
+MCCL_0995:-135                   1.01e-07  [+1(1.01e-07)]
+--------------------------------------------------------------------------------
+
+********************************************************************************
+
+
+********************************************************************************
+Stopped because couldn't find any more starting points for EM.
+********************************************************************************
+
+CPU: xieguigang-ubuntu-vbox
+
+********************************************************************************

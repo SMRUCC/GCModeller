@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco03420" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Nucleotide excision repair (NER) is a mechanism to recognize and repair bulky DNA damage caused by compounds, environmental carcinogens, and exposure to UV-light. In humans hereditary defects in the NER pathway are linked to at least three diseases: xeroderma pigmentosum (XP), Cockayne syndrome (CS), and trichothiodystrophy (TTD). The repair of damaged DNA involves at least 30 polypeptides within two different sub-pathways of NER known as transcription-coupled repair (TCR-NER) and global genome repair (GGR-NER). TCR refers to the expedited repair of lesions located in the actively transcribed strand of genes by RNA polymerase II (RNAP II). In GGR-NER the first step of damage recognition involves XPC-hHR23B complex together with XPE complex (in prokaryotes, uvrAB complex). The following steps of GGR-NER and TCR-NER are similar.&lt;br&gt;</Description>
+  <Name>Nucleotide excision repair - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="eco03420" Value="Nucleotide excision repair&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0779" Value="uvrB; excinulease of nucleotide excision repair, DNA damage recognition component; K03702 excinuclea" />
+    <hashEntry Key="eco:b1114" Value="mfd; transcription-repair coupling factor; K03723 transcription-repair coupling factor (superfamily" />
+    <hashEntry Key="eco:b1913" Value="uvrC; excinuclease UvrABC, endonuclease subunit; K03703 excinuclease ABC subunit C" />
+    <hashEntry Key="eco:b2411" Value="ligA; DNA ligase, NAD(+)-dependent (EC:6.5.1.2); K01972 DNA ligase (NAD+) [EC:6.5.1.2]" />
+    <hashEntry Key="eco:b3647" Value="ligB; DNA ligase, NAD(+)-dependent; K01972 DNA ligase (NAD+) [EC:6.5.1.2]" />
+    <hashEntry Key="eco:b3813" Value="uvrD; DNA-dependent ATPase I and helicase II (EC:3.6.1.-); K03657 DNA helicase II / ATP-dependent DN" />
+    <hashEntry Key="eco:b3863" Value="polA; fused DNA polymerase I 5&amp;#39;-&amp;gt;3&amp;#39; polymerase/3&amp;#39;-&amp;gt;5&amp;#39; exonuclease/5&amp;#39;-&amp;gt;3&amp;#39; exonuclease (EC:2.7.7.7); K" />
+    <hashEntry Key="eco:b4058" Value="uvrA; ATPase and DNA damage recognition protein of nucleotide excision repair excinuclease UvrABC; K" />
+  </Genes>
+</KEGG.PathwayBrief>

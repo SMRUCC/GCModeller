@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00561" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Glycerolipid metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00029" Value="UDP-glucose" />
+    <hashEntry Key="C00040" Value="Acyl-CoA" />
+    <hashEntry Key="C00093" Value="sn-Glycerol 3-phosphate" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00116" Value="Glycerol" />
+    <hashEntry Key="C00162" Value="Fatty acid" />
+    <hashEntry Key="C00184" Value="Glycerone" />
+    <hashEntry Key="C00197" Value="3-Phospho-D-glycerate" />
+    <hashEntry Key="C00258" Value="D-Glycerate" />
+    <hashEntry Key="C00416" Value="Phosphatidate" />
+    <hashEntry Key="C00422" Value="Triacylglycerol" />
+    <hashEntry Key="C00577" Value="D-Glyceraldehyde" />
+    <hashEntry Key="C00641" Value="1,2-Diacyl-sn-glycerol" />
+    <hashEntry Key="C00681" Value="1-Acyl-sn-glycerol 3-phosphate" />
+    <hashEntry Key="C00969" Value="3-Hydroxypropanal" />
+    <hashEntry Key="C01885" Value="1-Acylglycerol" />
+    <hashEntry Key="C02457" Value="Propane-1,3-diol" />
+    <hashEntry Key="C03692" Value="1,2-Diacyl-3-beta-D-galactosyl-sn-glycerol" />
+    <hashEntry Key="C04046" Value="3-D-Glucosyl-1,2-diacylglycerol" />
+    <hashEntry Key="C04315" Value="2-Acyl-3-O-(beta-D-galactosyl)-sn-glycerol" />
+    <hashEntry Key="C04872" Value="1,2-Diacyl-3-[3-(alpha-D-N-acetylneuraminyl)-beta-D-galactosyl]-sn-glycerol" />
+    <hashEntry Key="C05401" Value="3-beta-D-Galactosyl-sn-glycerol" />
+    <hashEntry Key="C06037" Value="Digalactosyl-diacylglycerol" />
+    <hashEntry Key="C06038" Value="Acyl1-monogalactosyl-diacylglycerol" />
+    <hashEntry Key="C06040" Value="Diglucosyldiacylglycerol" />
+    <hashEntry Key="C06041" Value="Glycerophosphoglycoglycerolipid" />
+    <hashEntry Key="C06042" Value="Lipoteichoic acid" />
+    <hashEntry Key="C06364" Value="1,2-Diacyl-3-alpha-D-glucosyl-sn-glycerol" />
+    <hashEntry Key="C06365" Value="alpha-Kojibiosyldiacylglycerol" />
+    <hashEntry Key="C11521" Value="UDP-6-sulfoquinovose" />
+    <hashEntry Key="C13508" Value="Sulfoquinovosyldiacylglycerol" />
+    <hashEntry Key="C20897" Value="Glycerophosphoglycoglycerolipid" />
+    <hashEntry Key="C20898" Value="Lipoteichoic acid" />
+    <hashEntry Key="C20991" Value="1,2-Diacyl-3-O-[beta-D-galactosyl-(1-&gt;6)-beta-D-galactosyl]-sn-glycerol" />
+  </Compound>
+  <PathwayMap Key="eco00561" Value="Glycerolipid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0514" Value="glxK; glycerate kinase II (EC:2.7.1.31); K00865 glycerate kinase [EC:2.7.1.31]" />
+    <hashEntry Key="eco:b1090" Value="plsX; putative phosphate acyltransferase; K03621 glycerol-3-phosphate acyltransferase PlsX [EC:2.3.1" />
+    <hashEntry Key="eco:b1199" Value="dhaL; dihydroxyacetone kinase, C-terminal domain; K05879 dihydroxyacetone kinase, C-terminal domain" />
+    <hashEntry Key="eco:b1200" Value="dhaK; dihydroxyacetone kinase, PTS-dependent, dihydroxyacetone-binding subunit; K05878 dihydroxyacet" />
+    <hashEntry Key="eco:b3018" Value="plsC; 1-acyl-sn-glycerol-3-phosphate acyltransferase (EC:2.3.1.51); K00655 1-acyl-sn-glycerol-3-phos" />
+    <hashEntry Key="eco:b3059" Value="plsY; putative glycerol-3-phosphate acyltransferase; K08591 glycerol-3-phosphate acyltransferase Pls" />
+    <hashEntry Key="eco:b3124" Value="garK; glycerate kinase I (EC:2.7.1.165); K00865 glycerate kinase [EC:2.7.1.31]" />
+    <hashEntry Key="eco:b3926" Value="glpK; glycerol kinase (EC:2.7.1.30); K00864 glycerol kinase [EC:2.7.1.30]" />
+    <hashEntry Key="eco:b3945" Value="gldA; glycerol dehydrogenase, NAD+ dependent; 1,2-propanediol:NAD+ oxidoreductase (EC:1.1.1.6); K000" />
+    <hashEntry Key="eco:b4041" Value="plsB; glycerol-3-phosphate O-acyltransferase (EC:2.3.1.15); K00631 glycerol-3-phosphate O-acyltransf" />
+    <hashEntry Key="eco:b4042" Value="dgkA; diacylglycerol kinase (EC:2.7.1.107); K00901 diacylglycerol kinase (ATP) [EC:2.7.1.107]" />
+    <hashEntry Key="eco:b4119" Value="melA; alpha-galactosidase, NAD(P)-binding (EC:3.2.1.22); K07406 alpha-galactosidase [EC:3.2.1.22]" />
+  </Genes>
+</KEGG.PathwayBrief>

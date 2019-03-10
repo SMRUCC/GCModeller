@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00250" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Alanine, aspartate and glutamate metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00014" Value="Ammonia" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00036" Value="Oxaloacetate" />
+    <hashEntry Key="C00041" Value="L-Alanine" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00152" Value="L-Asparagine" />
+    <hashEntry Key="C00158" Value="Citrate" />
+    <hashEntry Key="C00169" Value="Carbamoyl phosphate" />
+    <hashEntry Key="C00232" Value="Succinate semialdehyde" />
+    <hashEntry Key="C00334" Value="4-Aminobutanoate" />
+    <hashEntry Key="C00352" Value="D-Glucosamine 6-phosphate" />
+    <hashEntry Key="C00402" Value="D-Aspartate" />
+    <hashEntry Key="C00438" Value="N-Carbamoyl-L-aspartate" />
+    <hashEntry Key="C00940" Value="2-Oxoglutaramate" />
+    <hashEntry Key="C01042" Value="N-Acetyl-L-aspartate" />
+    <hashEntry Key="C02362" Value="2-Oxosuccinamate" />
+    <hashEntry Key="C03090" Value="5-Phosphoribosylamine" />
+    <hashEntry Key="C03406" Value="N-(L-Arginino)succinate" />
+    <hashEntry Key="C03794" Value="N6-(1,2-Dicarboxyethyl)-AMP" />
+    <hashEntry Key="C03912" Value="(S)-1-Pyrroline-5-carboxylate" />
+    <hashEntry Key="C12270" Value="N-Acetylaspartylglutamate" />
+    <hashEntry Key="C20775" Value="beta-Citryl-L-glutamate" />
+    <hashEntry Key="C20776" Value="N-Acetylaspartylglutamylglutamate" />
+  </Compound>
+  <PathwayMap Key="xor00250" Value="Alanine, aspartate and glutamate metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0134" Value="glutamate synthase; K00266 glutamate synthase (NADPH/NADH) small chain [EC:1.4.1.13 1.4.1.14]" />
+    <hashEntry Key="xor:XOC_0135" Value="glutamate synthase; K00265 glutamate synthase (NADPH/NADH) large chain [EC:1.4.1.13 1.4.1.14]" />
+    <hashEntry Key="xor:XOC_0293" Value="glnA; glutamine synthetase, type I; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xor:XOC_0531" Value="bifunctional PutA protein; K13821 RHH-type transcriptional regulator, proline utilization regulon re" />
+    <hashEntry Key="xor:XOC_0762" Value="glucosamine-fructose-6-phosphate aminotransferase; K00820 glucosamine--fructose-6-phosphate aminotra" />
+    <hashEntry Key="xor:XOC_0985" Value="asparaginase; K01424 L-asparaginase [EC:3.5.1.1]" />
+    <hashEntry Key="xor:XOC_1105" Value="purF; amidophosphoribosyltransferase; K00764 amidophosphoribosyltransferase [EC:2.4.2.14]" />
+    <hashEntry Key="xor:XOC_1213" Value="purA; adenylosuccinate synthetase; K01939 adenylosuccinate synthase [EC:6.3.4.4]" />
+    <hashEntry Key="xor:XOC_1497" Value="pyrB; aspartate carbamoyltransferase; K00609 aspartate carbamoyltransferase catalytic subunit [EC:2." />
+    <hashEntry Key="xor:XOC_1758" Value="purB; adenylosuccinate lyase; K01756 adenylosuccinate lyase [EC:4.3.2.2]" />
+    <hashEntry Key="xor:XOC_1981" Value="NAD-glutamate dehydrogenase; K15371 glutamate dehydrogenase [EC:1.4.1.2]" />
+    <hashEntry Key="xor:XOC_1996" Value="gamma-glutamylputrescine synthetase; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xor:XOC_1999" Value="glnA; glutamine synthetase; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xor:XOC_2024" Value="aldehyde-dehydrogenase like protein YneI; K00135 succinate-semialdehyde dehydrogenase / glutarate-se" />
+    <hashEntry Key="xor:XOC_2251" Value="carA; carbamoyl-phosphate synthase, small subunit; K01956 carbamoyl-phosphate synthase small subunit" />
+    <hashEntry Key="xor:XOC_2253" Value="carB; carbamoyl-phosphate synthase, large subunit; K01955 carbamoyl-phosphate synthase large subunit" />
+    <hashEntry Key="xor:XOC_2744" Value="argH; argininosuccinate lyase; K01755 argininosuccinate lyase [EC:4.3.2.1]" />
+    <hashEntry Key="xor:XOC_2750" Value="argG; argininosuccinate synthase; K01940 argininosuccinate synthase [EC:6.3.4.5]" />
+    <hashEntry Key="xor:XOC_2999" Value="asnB; asparagine synthase (glutamine-hydrolyzing); K01953 asparagine synthase (glutamine-hydrolysing" />
+    <hashEntry Key="xor:XOC_3054" Value="asnB; asparagine synthase (glutamine-hydrolyzing); K01953 asparagine synthase (glutamine-hydrolysing" />
+    <hashEntry Key="xor:XOC_3762" Value="putative aspartate aminotransferase; K14260 alanine-synthesizing transaminase [EC:2.6.1.66 2.6.1.2]" />
+    <hashEntry Key="xor:XOC_3901" Value="glmS; glucosamine--fructose-6-phosphate aminotransferase, isomerizing; K00820 glucosamine--fructose-" />
+  </Genes>
+</KEGG.PathwayBrief>

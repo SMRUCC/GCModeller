@@ -1,0 +1,526 @@
+
+           _/_/_/_/      _/_/_/_/_/     _/_/_/       _/      _/
+          _/      _/    _/           _/      _/     _/_/  _/_/ 
+         _/      _/    _/           _/      _/     _/  _/  _/  
+        _/_/_/_/      _/_/_/_/     _/_/_/_/_/     _/      _/   
+       _/            _/           _/      _/     _/      _/    
+      _/            _/           _/      _/     _/      _/     
+     _/            _/           _/      _/     _/      _/      
+
+
+
+
+
+  This document currently includes a more detailed description of the
+  fields used in the Pfam database.  The format of Pfam entries has
+  become stricter and we now enforce some ordering of the fields.
+  Pfam entries are composed of four sections shown in the figure
+  below.
+
+                 __________________________________
+                 |                                |
+                 |        Header Section          |
+                 |                                |
+                 |________________________________|
+                 |                                |
+                 |       Reference Section        |
+                 |                                |
+                 |________________________________|
+                 |                                |
+                 |        Comment Section         |
+                 |                                |
+                 |________________________________|
+                 |                                |
+                 |       Alignment Section        |
+                 |                                |
+                 |________________________________|
+
+
+
+
+  Header Section:
+  ---------------
+
+  The header section mainly contains compulsory fields.  These include
+  Pfam specific information such as accession numbers and identifiers,
+  as well as a short description of the family.  The only
+  non-compulsory field in the header section is the PI field.  All the
+  fields in this section are described below.
+
+  AC   Accession number:          PFxxxxx or PBxxxxxx
+
+       The Pfam-A accession numbers PFxxxxx are the stable identifier
+       for each Pfam families.  The Pfam-B accession PBxxxxxx numbers
+       are not stable between releases of Pfam.
+
+       PFxxxxx for Pfam entries
+       PBxxxxxx for Pfam-B entries
+
+  ID   Identification:            15 characters or less
+
+       This field is designed to be a meaningful identifier for the
+       family.
+
+       Capitalisation of the first letter will be
+       preferred. Underscores are used in place of space, and hyphens
+       are only used to mean hyphens.
+
+  DE   Definition:                80 characters or less
+
+       This must be a one line description of the Pfam family.
+
+  AU   Author:
+
+       Author of the entry.
+
+       The format for this record is shown below, this is a comma
+       separated list on a single line.
+
+       AU   Bloggs JJ, Bloggs JE
+
+  BM   HMM building command lines.  
+
+       See the HMMER3 user's manual for full instructions on building
+       HMMs. Also see URL:
+
+       http://hmmer.janelia.org
+
+       An example of the BM lines from a single entry
+
+       BM   hmmbuild  -o /dev/null HMM SEED
+ 
+  SM   HMM searching command line
+
+       See the HMMER3 user's manual for full instructions on building
+       HMMs. Also see URL:
+
+       http://hmmer.janelia.org
+     
+       An example of the SM line for a family:
+
+       SM   hmmsearch -Z 9421015 -E 1000 HMM pfamseq
+
+  SE   Source of seed:    
+
+       The source suggesting seed members belong to a family.
+
+  GA   Gathering threshold:   
+
+       Search threshold to build the full alignment.
+
+       GA lines are the thresholds in bits used in the hmmsearch
+       command line.  An example GA line is shown below:
+
+       GA   25.00 15.00;
+
+       The order of the thresholds is sequence, domain
+
+       The corresponding hmmsearch command line for the HMM
+       would be:
+
+       hmmsearch -T 25 --domT 15 HMM DB
+
+       The -T option specifies the whole sequence score in bits, and
+       the --domT option specifies the per-domain threshold in bits.
+
+  NC   Noise cutoff:
+
+       This field refers to the bit scores of the highest scoring
+       match not in the full alignment.
+
+       An example NC line is shown below
+
+       NC   19.50 18.10;
+
+       As with the GA line, this field contains two numbers - the
+       first number in the set refers to the highest whole sequence
+       score in bits of a match not in the full alignment, and the
+       second number specifies the highest per-domain score in bits of
+       a match not in the full alignment.  These two scores may not
+       refer to the same sequence.
+
+  TC   Trusted cutoff:
+
+       This field refers to the bit scores of the lowest scoring match
+       in the full alignment.
+
+       An example TC line is shown below
+
+       TC   23.00 16.10;
+
+       As with the GA line, this field contains two numbers - the
+       first set refers to the lowest whole sequence score in bits of
+       a match in the full alignment, and the second number specifies
+       the lowest per-domain score in bits of a match in the full
+       alignment.  These two scores may not refer to the same
+       sequence.
+
+  TP   Type field:                 Single word
+
+       The type field is a compulsory field describing the type of
+       family.  At present it can be one of:
+
+       TP   Family
+       TP   Domain
+       TP   Repeat
+       TP   Motif
+
+  PI   Previous IDs:               Semi-colon list
+
+      The most recent names are stored on the left.  This field is
+      non-compulsory.
+
+
+  Reference Section:
+  ------------------
+
+  The reference section mainly contains cross-links to other
+  databases, and literature references.  All the fields in this
+  section are described below.
+
+
+  WK   Wikipedia Reference:        A special database reference for wikipedia.
+
+       This is the name of the wikipedia article.  All of the articles
+       we cite are from the English version of wikipedia.  Therefore
+       the name needs to be appended to http://en.wikipedia.org/wiki/.
+       For example:
+
+       KW   Piwi;
+
+       Thus, the corresponding page in wikipedia would be
+       http://en.wikipedia.org/wiki/Piwi.
+
+  DC   Database Comment:           Comment for database reference.
+
+  DR   Database Reference:         Reference to external database.
+
+       All DR lines end in a semicolon.  Pfam carries links to a
+       variety of databases, this information is found in DR lines.
+       The format is
+
+       DR   Database; Primary-id;
+
+       For SCOP links a third field is added indicating the level of
+       placement in the SCOP hierarchy. Examples of each database link
+       are shown below.
+
+       For PDB links the second field contains the PDB identifier and
+       chain identifier if present. The third and fourth fields contain
+       the start and end points within the PDB entry.
+
+       Examples:
+
+       DR   EXPERT; jeisen@leland.stanford.edu;
+       DR   MIM; 236200;
+       DR   PFAMB; PB000001;
+       DR   PRINTS; PR00012;
+       DR   PROSITE; PDOC00017;
+       DR   PROSITE_PROFILE; PS50225;
+       DR   SCOP; 7rxn; sf;
+       DR   SCOP; 1pii; fa;
+       DR   PDB; 2nad A; 123; 332;
+       DR   SMART; CBS;
+       DR   URL; http://www.gcrdb.uthscsa.edu/;
+       DR   LOAD; ku;
+       DR   HOMSTRAD; gdh;
+
+       Links to PDBSUM at are also derived from the SCOP DR lines.
+
+  RC   Reference Comment:          
+
+       Comment for literature reference.
+
+  RN   Reference Number:           Digit in square brackets
+
+       Reference numbers are used to precede literature references,
+       which have multiple line entries
+
+       RN   [1]
+
+  RM   Reference Medline:          Eight digit number
+
+       An example RM line is shown below
+
+       RM   91006031
+
+       The number can be found as the UI number in pubmed
+       http://www.ncbi.nlm.nih.gov/PubMed/
+
+  RT   Reference Title:                    
+
+       Title of paper.
+
+  RA   Reference Author:
+
+       All RA lines use the following format
+
+       RA   Bateman A, Eddy SR, Mesyanzhinov VV;
+
+  RL   Reference Location:
+
+       The reference line is in the format below.
+       RL  Journal abbreviation year;volume:page-page.
+
+       RL   Virus Genes 1997;14:163-165.
+       RL   J Mol Biol 1994;242:309-320.
+
+       Journal abbreviations can be checked at
+       http://expasy.hcuge.ch/cgi-bin/jourlist?jourlist.txt. Journal
+       abbreviation have no full stops, and page numbers are not
+       abbreviated.
+
+
+  Comment Section:
+  ----------------
+
+  The comment section contains functional information about the Pfam
+  family.  The only field in the comment section is the CC field.
+
+  CC   Comment:
+ 
+       Comment lines provide annotation and other information.
+       Annotation in CC lines does not have a strict format.
+
+       Links to Pfam families can be provided with the following
+       syntax:
+
+       Pfam:PFxxxxx.
+
+       Links to SWISS-PROT and SP-TrEMBL sequences can be provided
+       with the following syntax: 
+
+       Swiss:Accession.
+
+       Links to the enzyme classification database (EC) can be provided
+       with the following syntax:
+
+       EC:X.X.X.X 
+
+
+  Alignment Section:
+  ------------------
+
+  NE   Pfam accession;         Pfam family <accession> may be nested within this
+                               family.  Family <accession> aand this family are
+                               allowed to overlap.
+
+  NL   Sequence/start-stop;    Indicates the location of the nested domain
+                               within the full alignment.  Tied to a sequence
+
+  SQ   Sequence:               Number of sequences, start of alignment.
+
+  //                           End of alignment
+
+
+
+
+
+  The alignment is in Stockholm format.  This includes mark-ups of four
+  types:
+
+     #=GF <featurename> <Generic per-File annotation, free text>
+     #=GC <featurename> <Generic per-Column annotation, exactly 1 char per column>
+     #=GS <seqname> <featurename> <Generic per-Sequence annotation, free text>
+     #=GR <seqname> <featurename> <Generic per-Sequence AND per-Column mark up, exactly 1 char per column>
+
+  Recommended placements:
+
+     #=GF Above the alignment
+     #=GC Below the alignment
+     #=GS Above the alignment or just below the corresponding sequence
+     #=GR Just below the corresponding sequence
+
+  The alignment formats have the following size limits:
+
+     <aligned sequence>: max 4096 characters.
+     <seqname>: max 50 characters.
+     <featurename> max 50 characters.
+
+  These details can also be found on the web, see URL:
+
+     http://sonnhammer.sbc.su.se/Stockholm.html
+
+  Structural mark ups are provided by Pfam.  For each sequence of
+  known structure we provide #=GR lines with feuturenames SS
+  for secondary structure. For the whole family we provide
+  consensus #=GC lines with feature names SS_cons.
+
+  Pfam marks up active site residues in the multiple sequence
+  alignments.  Active site residues are derived from the Swiss-Prot
+  feature table.  Active sites which are not annotated in the Swiss-Prot
+  feature table as being probable, potential or by similarity are
+  given the feature name AS.  
+
+  Pfam predicts a residue to be an active site residue if it aligns
+  in a Pfam alignment with a Swiss-Prot annotated active site, and is of
+  the same amino acid type.  Active sites which are predicted by Pfam
+  are given the feature name pAS.
+
+  Active site residues which are annotated in Swiss-Prot as being
+  probable, potential or by similarity are marked as predicted active
+  sites, as long as they do no overlap with a Pfam predicted active site.
+  Active sites which are annotated as probable, potential or by
+  similarity by Swiss-Prot are given the feature name sAS.
+
+  In all cases, active sites are marked with an asterix.  Below is an example: 
+
+
+     #=GR SERA_ECOLI/12-325 AS      ...........*..............
+     #=GR SERA_ECO57/12-325 pAS     ...........*..............
+     #=GR YN14_YEAST/124-327 sAS    ........*.................
+
+
+  The consensus sequence for both the SEED and full alignment are provided by
+  Pfam, denoted by #=GC seq_cons at the beginning of the line.  In all cases 
+  a threshold of 60% is used (i.e 60% or above, of the amino acids in this
+  column belong to this class of residue). Below is the key to the alignment 
+  mark up.  The program used was orginally from the Consensus program by Nigel
+  Brown of the EMBL.
+  
+    class           key  residues
+    A               A    A
+    C               C    C
+    D               D    D
+    E               E    E
+    F               F    F
+    G               G    G
+    H               H    H
+    I               I    I
+    K               K    K
+    L               L    L
+    M               M    M
+    N               N    N
+    P               P    P
+    Q               Q    Q
+    R               R    R
+    S               S    S
+    T               T    T
+    V               V    V
+    W               W    W
+    Y               Y    Y
+    alcohol         o    S,T
+    aliphatic       l    I,L,V
+    any             .    A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y
+    aromatic        a    F,H,W,Y
+    charged         c    D,E,H,K,R
+    hydrophobic     h    A,C,F,G,H,I,K,L,M,R,T,V,W,Y
+    negative        -    D,E
+    polar           p    C,D,E,H,K,N,Q,R,S,T
+    positive        +    H,K,R
+    small           s    A,C,D,G,N,P,S,T,V
+    tiny            u    A,G,S
+    turnlike        t    A,C,D,E,G,H,K,N,Q,R,S,T
+
+
+
+
+
+  Flat-files:
+  -----------
+
+  Historically, the Pfam library of HMMs has been searched against the
+  UniProtKB database.  As of release 22.0, we have started providing
+  Pfam domain annotations for sequences from metagenomics projects and
+  sequences from the NCBI NR database.  The flat-files called
+  Pfam-A.full and Pfam-A.seed are based on the UniProtKB database.
+  Additional files for the NCBI NR and metagenomics sequences are
+  outlined below.
+
+  We also provide two tab-delimited files, Pfam-A.regions.tsv and
+  Pfam-A.clans.tsv, containing a summary of all Pfam-A regions and a 
+  summary of all Pfam clans respectively.  These failes are detailed
+  below.
+
+
+  NCBI GenPept sequences
+
+  We download a fasta file of the non-redundant (NR) protein sequences 
+  from the NCBI ftp site and can be found on the Pfam ftp site.  All
+  NR protein sequences which score above the curated threshold for each
+  Pfam-A family are included the in the full alignment for that family.
+  The alignments for the NR data can be found in the file
+  'Pfam-A.full.ncbi'.
+
+  For release 23.0, for this dataset we resolved overlaps between clan
+  members.  For release 24.0 we have not done this and we do not plan
+  to for future releases.  This means there will inevitably be some
+  overlapping hits between families that belong to the same clan.
+
+  There may also be some overlaps between Pfam-A families that are not
+  in the same clan.  However, since we curate Pfam-A domain thresholds
+  in a conservative manner to ensure high specificity (at the expense
+  of some sensitivity), we expect the number these overlaps to be low.
+
+  The file 'genpeptpfam' is depricated.
+
+  Metagenomics
+
+  The file 'metaseq' contains a fasta file of metagenomics sequences
+  that we have collected from various sources.  All metagenomics
+  sequences which score above the curated threshold for each Pfam-A
+  family are included the in the full alignment for that family.  The
+  alignments for the metagenomics data can be found in the file
+  'Pfam-A.full.metagenomics'.  
+
+  As with the NR protein data, we have not resolved any overlaps, which
+  means that there will inevitably be some overlapping hits between
+  families that belong to the same clan, and there may be a low number
+  of overlaps between families that do not belong to the same clan.
+
+  The file 'metagenomicspfam' is deprecated.
+
+  Pfam-A.regions.tsv
+
+  This file contains a list of all Pfam-A regions. The columns are:
+  sequence accession, sequence version, CRC64, MD5 checksum, Pfam-A
+  accession, start residue for the match, end residue for the match.
+
+  Pfam-A.clans.tsv
+
+  This file contains a list of all Pfam-A families that are in clans.
+  The columns are: Pfam-A accession, clan accession, clan ID, Pfam-A
+  ID, Pfam-A description.
+
+
+  Redundant Versions of Pfam-A families
+  -------------------------------------
+
+  Representative Proteomes (RPs), are proteomes that are selected from 
+  Representative Proteome Groups (RPGs) containing similar proteomes 
+  calculated based on co-membership in UniRef50 clusters. Representative 
+  Proteome is the proteome that can best represent all the proteomes in 
+  its group in terms of the majority of the sequence space and information. 
+
+  RPs at 75%, 55%, 35% and 15% co-membership threshold are provided to 
+  allow users to decrease or increase the granularity of the sequence space 
+  based on their requirements (Chen et al., 2011).
+
+  As of release 27.0, full alignments are provided on each set (where sequences
+  are present), providing increasing redundant versions of each family
+  alignment.
+
+  Pfam-A.full.rp75 - Pfam-A matches against RP75, 75% co-membership threshold. 
+  Pfam-A.full.rp55 - Pfam-A matches against RP55, 55% co-membership threshold.
+  Pfam-A.full.rp55 - Pfam-A matches against RP35, 35% co-membership threshold.
+  Pfam-A.full.rp15 - Pfam-A matches against RP15, 15% co-membership threshold,
+                     the most redundant set..
+
+  Chen C, Natale DA, Finn RD, Huang H, Zhang J, Wu CH, Mazumder R. 
+  Representative proteomes: a stable, scalable and unbiased proteome set 
+  for sequence analysis and functional annotation. 
+  PLoS One. 2011 Apr 27;6(4):e18910.
+
+  Active site alignments
+
+  As of release 22.0 we have added an option in the program
+  pfam_scan.pl to predict active sites.  
+
+
+  Deprecated stockholm tags:
+
+  AM   buildmethod             This tag was previously used to denote
+                               the order in which matches from the two
+                               HMMER2 models (global and fragment)) were aligned 
+                               to give the full alignment.
+

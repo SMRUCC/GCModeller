@@ -1,0 +1,116 @@
+AY059372.1	Acute bee paralysis virus isolate Hungary 1 capsid protein gene, partial cds
+EU436440.1	Israel acute paralysis virus of bees strain 1-OP3-PA-USA-2006 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436424.1	Israel acute paralysis virus of bees strain OP2-FL/PA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436425.1	Israel acute paralysis virus of bees strain DVE34-OP2-CA/PA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436442.1	Israel acute paralysis virus of bees strain 21-OP3-PA-USA-2006 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436426.1	Israel acute paralysis virus of bees strain DVE35-OP2-CA/PA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436427.1	Israel acute paralysis virus of bees strain 4-4-NB-CANADA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436428.1	Israel acute paralysis virus of bees strain 3-3-BC-CANADA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436429.1	Israel acute paralysis virus of bees strain 29-3-WI-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436430.1	Israel acute paralysis virus of bees strain DVE36-OP2-CA/PA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436431.1	Israel acute paralysis virus of bees strain DVE37-OP2-CA/PA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436432.1	Israel acute paralysis virus of bees strain 57-OP9-MT/CA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436433.1	Israel acute paralysis virus of bees strain AS2-TX-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436434.1	Israel acute paralysis virus of bees strain C320-OP12-TX-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436436.1	Israel acute paralysis virus of bees strain DVE25-OP3-PA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436435.1	Israel acute paralysis virus of bees strain DVE21-OP3-PA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436437.1	Israel acute paralysis virus of bees strain DVE27-OP3-PA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436438.1	Israel acute paralysis virus of bees strain DVE28-OP3-PA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436439.1	Israel acute paralysis virus of bees strain DVE31-OP3-PA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436441.1	Israel acute paralysis virus of bees strain 20-OP3-PA-USA-2006 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436443.1	Israel acute paralysis virus of bees strain OP2-FL/PA-USA-2007B RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436444.1	Israel acute paralysis virus of bees strain OP9-MT/CA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436445.1	Israel acute paralysis virus of bees strain OZ1-AUSTRALIA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436446.1	Israel acute paralysis virus of bees strain OZ4-AUSTRALIA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436447.1	Israel acute paralysis virus of bees strain 0Z5-AUSTRALIA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436448.1	Israel acute paralysis virus of bees strain OZ6-AUSTRALIA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436449.1	Israel acute paralysis virus of bees strain IS1-ISRAEL-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436450.1	Israel acute paralysis virus of bees strain IS2-ISRAEL-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436451.1	Israel acute paralysis virus of bees strain IS6-ISRAEL-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436452.1	Israel acute paralysis virus of bees strain 45-OP10-WA/CA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436453.1	Israel acute paralysis virus of bees strain 46-OP10-WA/CA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436454.1	Israel acute paralysis virus of bees strain 47-OP10-WA/CA-USA-2007 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU436457.1	Israel acute paralysis virus of bees strain OZ2-AUSTRALIA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436458.1	Israel acute paralysis virus of bees strain 4-4-NB-CANADA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436459.1	Israel acute paralysis virus of bees strain 7-5-NB-CANADA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436460.1	Israel acute paralysis virus of bees strain 1W-OP2-PA-USA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436461.1	Israel acute paralysis virus of bees strain 3W-CUOP-PA-USA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436462.1	Israel acute paralysis virus of bees strain DVE31-OP3-PA-USA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436463.1	Israel acute paralysis virus of bees strain DVE26-OP3-PA-USA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436464.1	Israel acute paralysis virus of bees strain C16-OP12-TX-USA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436465.1	Israel acute paralysis virus of bees strain C11-OP12-TX-USA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436466.1	Israel acute paralysis virus of bees strain DVE38-OP2-CA/PA-USA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436467.1	Israel acute paralysis virus of bees strain DVE37-OP2-CA/PA-USA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436468.1	Israel acute paralysis virus of bees strain 0Z5-AUSTRALIA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436469.1	Israel acute paralysis virus of bees strain OZ6-AUSTRALIA-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436470.1	Israel acute paralysis virus of bees strain IS1-ISRAEL-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436471.1	Israel acute paralysis virus of bees strain IS2-ISRAEL-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436472.1	Israel acute paralysis virus of bees strain IS6-ISRAEL-2007 RNA-dependent RNA polymerase gene, partial cds
+EU436473.1	Israel acute paralysis virus of bees strain DVE27-OP3-PA-USA-2007 helicase gene, partial cds
+EU436474.1	Israel acute paralysis virus of bees strain DVE21-OP4-FL/GA-2007 helicase gene, partial cds
+EU436475.1	Israel acute paralysis virus of bees strain 1-OP3-PA-USA-2006 helicase gene, partial cds
+EU436476.1	Israel acute paralysis virus of bees strain DVE29-OP3-PA-USA-2007 helicase gene, partial cds
+EU436477.1	Israel acute paralysis virus of bees strain DVE21-OP3-PA-USA-2007 helicase gene, partial cds
+EU436478.1	Israel acute paralysis virus of bees strain OP10-WA/CA-USA-2007 helicase gene, partial cds
+EU436479.1	Israel acute paralysis virus of bees strain 44-OP10-WA/CA-USA-2007 helicase gene, partial cds
+EU436480.1	Israel acute paralysis virus of bees strain DVE28-OP3-PA-USA-2007 helicase gene, partial cds
+EU436481.1	Israel acute paralysis virus of bees strain 45-OP10-WA/CA-USA-2007 helicase gene, partial cds
+EU436482.1	Israel acute paralysis virus of bees strain DVE25-OP3-PA-USA-2007 helicase gene, partial cds
+EU436483.1	Israel acute paralysis virus of bees strain 20-OP3-PA-USA-2006 helicase gene, partial cds
+EU436484.1	Israel acute paralysis virus of bees strain DVE37-OP2-CA/PA-USA-2007 helicase gene, partial cds
+EU436485.1	Israel acute paralysis virus of bees strain 46-OP10-WA/CA-USA-2007 helicase gene, partial cds
+EU436486.1	Israel acute paralysis virus of bees strain 47-OP10-WA/CA-USA-2007 helicase gene, partial cds
+EU436487.1	Israel acute paralysis virus of bees strain DVE31-OP3-PA-USA-2007 helicase gene, partial cds
+EU436488.1	Israel acute paralysis virus of bees strain 57-OP9-MT/CA-USA-2007 helicase gene, partial cds
+EU436489.1	Israel acute paralysis virus of bees strain OP2-FL/PA-USA-2007 helicase gene, partial cds
+EU436490.1	Israel acute paralysis virus of bees strain OZ1-AUSTRALIA-2007 helicase gene, partial cds
+EU436491.1	Israel acute paralysis virus of bees strain OZ4-AUSTRALIA-2007 helicase gene, partial cds
+EU436492.1	Israel acute paralysis virus of bees strain OZ6-AUSTRALIA-2007 helicase gene, partial cds
+EU436493.1	Israel acute paralysis virus of bees strain 0Z5-AUSTRALIA-2007 helicase gene, partial cds
+EU436494.1	Israel acute paralysis virus of bees strain C22-OP12-TX-USA-2007 helicase gene, partial cds
+EU436495.1	Israel acute paralysis virus of bees strain IS1-ISRAEL-2007 helicase gene, partial cds
+EU436496.1	Israel acute paralysis virus of bees strain IS2-ISRAEL-2007 helicase gene, partial cds
+EU436497.1	Israel acute paralysis virus of bees strain IS6-ISRAEL-2007 helicase gene, partial cds
+EU436498.1	Israel acute paralysis virus of bees strain 29-3-WI-USA-2007 helicase gene, partial cds
+EU436499.1	Israel acute paralysis virus of bees strain DVE21-OP4-FL/GA-2007 capsid protein gene, partial cds
+EU436500.1	Israel acute paralysis virus of bees strain DVE27-OP3-PA-USA-2007 capsid protein gene, partial cds
+EU436501.1	Israel acute paralysis virus of bees strain DVE28-OP3-PA-USA-2007 capsid protein gene, partial cds
+EU436502.1	Israel acute paralysis virus of bees strain DVE31-OP3-PA-USA-2007 capsid protein gene, partial cds
+EU436503.1	Israel acute paralysis virus of bees strain 1-OP3-PA-USA-2006 capsid protein gene, partial cds
+EU436504.1	Israel acute paralysis virus of bees strain 20-OP3-PA-USA-2006 capsid protein gene, partial cds
+EU436507.1	Israel acute paralysis virus of bees strain OZ1-AUSTRALIA-2007 capsid protein gene, partial cds
+EU436508.1	Israel acute paralysis virus of bees strain OZ4-AUSTRALIA-2007 capsid protein gene, partial cds
+EU436509.1	Israel acute paralysis virus of bees strain 0Z5-AUSTRALIA-2007 capsid protein gene, partial cds
+EU436510.1	Israel acute paralysis virus of bees strain OZ6-AUSTRALIA-2007 capsid protein gene, partial cds
+EU436511.1	Israel acute paralysis virus of bees strain DVE34-OP2-CA/PA-USA-2007 capsid protein gene, partial cds
+EU436512.1	Israel acute paralysis virus of bees strain DVE35-OP2-CA/PA-USA-2007 capsid protein gene, partial cds
+EU436505.1	Israel acute paralysis virus of bees strain OP2-FL/PA-USA-2007 capsid protein gene, partial cds
+EU436513.1	Israel acute paralysis virus of bees strain DVE36-OP2-CA/PA-USA-2007 capsid protein gene, partial cds
+EU436514.1	Israel acute paralysis virus of bees strain DVE37-OP2-CA/PA-USA-2007 capsid protein gene, partial cds
+EU436515.1	Israel acute paralysis virus of bees strain DVE38-OP2-CA/PA-USA-2007 capsid protein gene, partial cds
+EU436516.1	Israel acute paralysis virus of bees strain DVE39-OP2-CA/PA-USA-2007 capsid protein gene, partial cds
+EU436517.1	Israel acute paralysis virus of bees strain 25-OP6-CA-USA-2007 capsid protein gene, partial cds
+EU436518.1	Israel acute paralysis virus of bees strain 32-OP6-CA-USA-2007 capsid protein gene, partial cds
+EU436519.1	Israel acute paralysis virus of bees strain 56-OP9-MT/CA-USA-2007 capsid protein gene, partial cds
+EU436506.1	Israel acute paralysis virus of bees strain OP9-MT/CA-USA-2007 capsid protein gene, partial cds
+EU436520.1	Israel acute paralysis virus of bees strain 57-OP9-MT/CA-USA-2007 capsid protein gene, partial cds
+EU436521.1	Israel acute paralysis virus of bees strain C22-OP12-TX-USA-2007 capsid protein gene, partial cds
+EU436534.1	Israel acute paralysis virus of bees strain 60-OP9-MT/CA-USA-2007 capsid protein gene, partial cds
+EU436522.1	Israel acute paralysis virus of bees strain C221-OP12-TX-USA-2007 capsid protein gene, partial cds
+EU436523.1	Israel acute paralysis virus of bees strain C25-OP12-TX-USA-2007 capsid protein gene, partial cds
+EU436524.1	Israel acute paralysis virus of bees strain C11-OP12-TX-USA-2007 capsid protein gene, partial cds
+EU436525.1	Israel acute paralysis virus of bees strain C16-OP12-TX-USA-2007 capsid protein gene, partial cds
+EU436526.1	Israel acute paralysis virus of bees strain C320-OP12-TX-USA-2007 capsid protein gene, partial cds
+EU436527.1	Israel acute paralysis virus of bees strain IS1-ISRAEL-2007 capsid protein gene, partial cds
+EU436528.1	Israel acute paralysis virus of bees strain IS2-ISRAEL-2007 capsid protein gene, partial cds
+EU436529.1	Israel acute paralysis virus of bees strain IS6-ISRAEL-2007 capsid protein gene, partial cds
+EU436530.1	Israel acute paralysis virus of bees strain 45-OP10-WA/CA-USA-2007 capsid protein gene, partial cds
+EU436531.1	Israel acute paralysis virus of bees strain 46-OP10-WA/CA-USA-2007 capsid protein gene, partial cds
+EU436532.1	Israel acute paralysis virus of bees strain 47-OP10-WA/CA-USA-2007 capsid protein gene, partial cds
+EU436533.1	Israel acute paralysis virus of bees strain 55-OP9-MT/CA-USA-2007 capsid protein gene, partial cds
+EU436535.1	Israel acute paralysis virus of bees strain 29-3-WI-USA-2007 capsid protein gene, partial cds
+EU436536.1	Israel acute paralysis virus of bees strain 1-2-BC-CANADA-2007 capsid protein gene, partial cds
+EU436537.1	Israel acute paralysis virus of bees strain 3-3-BC-CANADA-2007 capsid protein gene, partial cds
+EU436423.1	Israel acute paralysis virus of bees strain DVE31-OP3-PA-USA-2007, complete genome
+EU436455.1	Israel acute paralysis virus of bees strain IS1-ISRAEL-2007, complete genome
+EU436456.1	Israel acute paralysis virus of bees strain OZ6-AUSTRALIA-2007, complete genome

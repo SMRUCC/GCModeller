@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00473" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>D-Alanine metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00041" Value="L-Alanine" />
+    <hashEntry Key="C00133" Value="D-Alanine" />
+    <hashEntry Key="C00993" Value="D-Alanyl-D-alanine" />
+    <hashEntry Key="C04260" Value="O-D-Alanyl-poly(ribitol phosphate)" />
+    <hashEntry Key="C04457" Value="D-Alanyl-alanyl-poly(glycerolphosphate)" />
+  </Compound>
+  <PathwayMap Key="xor00473" Value="D-Alanine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0337" Value="D-alanine--D-alanine ligase A; K01921 D-alanine-D-alanine ligase [EC:6.3.2.4]" />
+    <hashEntry Key="xor:XOC_0845" Value="D-alanine--D-alanine ligase; K01921 D-alanine-D-alanine ligase [EC:6.3.2.4]" />
+    <hashEntry Key="xor:XOC_3958" Value="alr; alanine racemase; K01775 alanine racemase [EC:5.1.1.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

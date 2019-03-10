@@ -1,0 +1,387 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "general.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-General"
+================================================= -->
+<!--
+$Revision: 99135 $
+**********************************************************************
+
+  NCBI General Data elements
+  by James Ostell, 1990
+  Version 3.0 - June 1994
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          Date,
+          Person-id,
+          Object-id,
+          Dbtag,
+          Int-fuzz,
+          User-object,
+          User-field -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+ StringStore is really a VisibleString.  It is used to define very
+   long strings which may need to be stored by the receiving program
+   in special structures, such as a ByteStore, but it's just a hint.
+   AsnTool stores StringStores in ByteStore structures.
+ OCTET STRINGs are also stored in ByteStores by AsnTool
+ 
+ typedef struct bsunit {             /* for building multiline strings 
+ Nlm_Handle str;            /* the string piece 
+ Nlm_Int2 len_avail,
+ len;
+ struct bsunit PNTR next; }       /* the next one 
+ Nlm_BSUnit, PNTR Nlm_BSUnitPtr;
+ 
+ typedef struct bytestore {
+ Nlm_Int4 seekptr,       /* current position 
+ totlen,             /* total stored data length in bytes 
+ chain_offset;       /* offset in ByteStore of first byte in curchain 
+ Nlm_BSUnitPtr chain,       /* chain of elements 
+ curchain;           /* the BSUnit containing seekptr 
+ } Nlm_ByteStore, PNTR Nlm_ByteStorePtr;
+
+ AsnTool incorporates this as a primitive type, so the definition
+   is here just for completeness
+ 
+  StringStore ::= [APPLICATION 1] IMPLICIT OCTET STRING
+
+ BigInt is really an INTEGER. It is used to warn the receiving code to expect
+   a value bigger than Int4 (actually Int8). It will be stored in DataVal.bigintvalue
+
+   Like StringStore, AsnTool incorporates it as a primitive. The definition would be:
+   BigInt ::= [APPLICATION 2] IMPLICIT INTEGER
+
+ Date is used to replace the (overly complex) UTCTtime, GeneralizedTime
+  of ASN.1
+  It stores only a date
+
+-->
+<xs:element name="Date">
+  <xs:complexType>
+    <xs:choice>
+<!-- for those unparsed dates -->
+      <xs:element name="Date_str" type="xs:string"/>
+<!-- use this if you can -->
+      <xs:element name="Date_std">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date-std"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!-- NOTE: this is NOT a unix tm struct -->
+<xs:element name="Date-std">
+  <xs:complexType>
+    <xs:sequence>
+<!-- full year (including 1900) -->
+      <xs:element name="Date-std_year" type="xs:integer"/>
+<!-- month (1-12) -->
+      <xs:element name="Date-std_month" type="xs:integer" minOccurs="0"/>
+<!-- day of month (1-31) -->
+      <xs:element name="Date-std_day" type="xs:integer" minOccurs="0"/>
+<!-- for "spring", "may-june", etc -->
+      <xs:element name="Date-std_season" type="xs:string" minOccurs="0"/>
+<!-- hour of day (0-23) -->
+      <xs:element name="Date-std_hour" type="xs:integer" minOccurs="0"/>
+<!-- minute of hour (0-59) -->
+      <xs:element name="Date-std_minute" type="xs:integer" minOccurs="0"/>
+<!-- second of minute (0-59) -->
+      <xs:element name="Date-std_second" type="xs:integer" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ Dbtag is generalized for tagging
+ eg. { "Social Security", str "023-79-8841" }
+ or  { "member", id 8882224 }
+-->
+<xs:element name="Dbtag">
+  <xs:complexType>
+    <xs:sequence>
+<!-- name of database or system -->
+      <xs:element name="Dbtag_db" type="xs:string"/>
+<!-- appropriate tag -->
+      <xs:element name="Dbtag_tag">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Object-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ Object-id can tag or name anything
+
+-->
+<xs:element name="Object-id">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element name="Object-id_id" type="xs:integer"/>
+      <xs:element name="Object-id_str" type="xs:string"/>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ Person-id is to define a std element for people
+
+-->
+<xs:element name="Person-id">
+  <xs:complexType>
+    <xs:choice>
+<!-- any defined database tag -->
+      <xs:element name="Person-id_dbtag">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- structured name -->
+      <xs:element name="Person-id_name">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Name-std"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!--
+ MEDLINE name (semi-structured)
+    eg. "Jones RM"
+-->
+      <xs:element name="Person-id_ml" type="xs:string"/>
+<!-- unstructured name -->
+      <xs:element name="Person-id_str" type="xs:string"/>
+<!-- consortium name -->
+      <xs:element name="Person-id_consortium" type="xs:string"/>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!-- Structured names -->
+<xs:element name="Name-std">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Name-std_last" type="xs:string"/>
+      <xs:element name="Name-std_first" type="xs:string" minOccurs="0"/>
+      <xs:element name="Name-std_middle" type="xs:string" minOccurs="0"/>
+<!-- full name eg. "J. John Smith, Esq" -->
+      <xs:element name="Name-std_full" type="xs:string" minOccurs="0"/>
+<!-- first + middle initials -->
+      <xs:element name="Name-std_initials" type="xs:string" minOccurs="0"/>
+<!-- Jr, Sr, III -->
+      <xs:element name="Name-std_suffix" type="xs:string" minOccurs="0"/>
+<!-- Dr., Sister, etc -->
+      <xs:element name="Name-std_title" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+**** Int-fuzz **********************************************
+*
+*   uncertainties in integer values
+-->
+<xs:element name="Int-fuzz">
+  <xs:complexType>
+    <xs:choice>
+<!-- plus or minus fixed amount -->
+      <xs:element name="Int-fuzz_p-m" type="xs:integer"/>
+      <xs:element name="Int-fuzz_range">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Int-fuzz_range_max" type="xs:integer"/>
+            <xs:element name="Int-fuzz_range_min" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- % plus or minus (x10) 0-1000 -->
+      <xs:element name="Int-fuzz_pct" type="xs:integer"/>
+      <xs:element name="Int-fuzz_lim">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    unk	-  unknown
+    gt	-  greater than
+    lt	-  less than
+    tr	-  space to right of position
+    tl	-  space to left of position
+    circle	-  artificial break at origin of circle
+    other	-  something else
+-->
+                <xs:enumeration value="unk"/>
+                <xs:enumeration value="gt"/>
+                <xs:enumeration value="lt"/>
+                <xs:enumeration value="tr"/>
+                <xs:enumeration value="tl"/>
+                <xs:enumeration value="circle"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- set of alternatives for the integer -->
+      <xs:element name="Int-fuzz_alt">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Int-fuzz_alt_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!--
+**** User-object **********************************************
+*
+*   a general object for a user defined structured data item
+*    used by Seq-feat and Seq-descr
+-->
+<xs:element name="User-object">
+  <xs:complexType>
+    <xs:sequence>
+<!-- endeavor which designed this object -->
+      <xs:element name="User-object_class" type="xs:string" minOccurs="0"/>
+<!-- type of object within class -->
+      <xs:element name="User-object_type">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Object-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- the object itself -->
+      <xs:element name="User-object_data">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="User-field"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="User-field">
+  <xs:complexType>
+    <xs:sequence>
+<!-- field label -->
+      <xs:element name="User-field_label">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Object-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- required for strs, ints, reals, oss -->
+      <xs:element name="User-field_num" type="xs:integer" minOccurs="0"/>
+      <xs:element name="User-field_data">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="User-field_data_str" type="xs:string"/>
+            <xs:element name="User-field_data_int" type="xs:integer"/>
+            <xs:element name="User-field_data_real" type="xs:double"/>
+            <xs:element name="User-field_data_bool">
+              <xs:complexType>
+                <xs:attribute name="value" use="required">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="true"/>
+                      <xs:enumeration value="false"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="User-field_data_os" type="xs:hexBinary"/>
+<!-- for using other definitions -->
+            <xs:element name="User-field_data_object">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="User-object"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="User-field_data_strs">
+              <xs:complexType>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                  <xs:element name="User-field_data_strs_E" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="User-field_data_ints">
+              <xs:complexType>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                  <xs:element name="User-field_data_ints_E" type="xs:integer"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="User-field_data_reals">
+              <xs:complexType>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                  <xs:element name="User-field_data_reals_E" type="xs:double"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="User-field_data_oss">
+              <xs:complexType>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                  <xs:element name="User-field_data_oss_E" type="xs:hexBinary"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="User-field_data_fields">
+              <xs:complexType>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="User-field"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="User-field_data_objects">
+              <xs:complexType>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="User-object"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

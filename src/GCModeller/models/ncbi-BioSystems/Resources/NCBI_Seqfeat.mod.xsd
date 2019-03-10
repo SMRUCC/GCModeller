@@ -1,0 +1,819 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqfeat.asn"
+     ::DATATOOL:: by application DATATOOL version 1.9.2
+     ::DATATOOL:: on 04/27/2009 23:05:21
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Seqfeat"
+================================================= -->
+<!--
+$Revision: 158548 $
+**********************************************************************
+
+  NCBI Sequence Feature elements
+  by James Ostell, 1990
+  Version 3.0 - June 1994
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          Seq-feat,
+          Feat-id,
+          Genetic-code -->
+
+<!-- Elements referenced from other modules:
+          Gene-ref FROM NCBI-Gene,
+          Prot-ref FROM NCBI-Protein,
+          Org-ref FROM NCBI-Organism,
+          BioSource FROM NCBI-BioSource,
+          RNA-ref FROM NCBI-RNA,
+          Seq-loc,
+          Giimport-id FROM NCBI-Seqloc,
+          Pubdesc,
+          Numbering,
+          Heterogen FROM NCBI-Sequence,
+          Rsite-ref FROM NCBI-Rsite,
+          Txinit FROM NCBI-TxInit,
+          Pub-set FROM NCBI-Pub,
+          Object-id,
+          Dbtag,
+          User-object FROM NCBI-General -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+*** Feature identifiers ********************************
+*
+-->
+<xs:element name="Feat-id">
+  <xs:complexType>
+    <xs:choice>
+<!-- geninfo backbone -->
+      <xs:element name="Feat-id_gibb" type="xs:integer"/>
+<!-- geninfo import -->
+      <xs:element name="Feat-id_giim">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Giimport-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- for local software use -->
+      <xs:element name="Feat-id_local">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Object-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- for use by various databases -->
+      <xs:element name="Feat-id_general">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!--
+*** Seq-feat *******************************************
+*  sequence feature generalization
+-->
+<xs:element name="Seq-feat">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Seq-feat_id" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Feat-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- the specific data -->
+      <xs:element name="Seq-feat_data">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="SeqFeatData"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- incomplete in some way? -->
+      <xs:element name="Seq-feat_partial" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- something funny about this? -->
+      <xs:element name="Seq-feat_except" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-feat_comment" type="xs:string" minOccurs="0"/>
+<!-- product of process -->
+      <xs:element name="Seq-feat_product" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- feature made from -->
+      <xs:element name="Seq-feat_location">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- qualifiers -->
+      <xs:element name="Seq-feat_qual" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Gb-qual"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- for user defined label -->
+      <xs:element name="Seq-feat_title" type="xs:string" minOccurs="0"/>
+<!-- user defined structure extension -->
+      <xs:element name="Seq-feat_ext" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="User-object"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- citations for this feature -->
+      <xs:element name="Seq-feat_cit" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Pub-set"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-feat_exp-ev" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    experimental	-  any reasonable experimental check
+    not-experimental	-  similarity, pattern, etc
+-->
+                <xs:enumeration value="experimental"/>
+                <xs:enumeration value="not-experimental"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- cite other relevant features -->
+      <xs:element name="Seq-feat_xref" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="SeqFeatXref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- support for xref to other databases -->
+      <xs:element name="Seq-feat_dbxref" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- annotated on pseudogene? -->
+      <xs:element name="Seq-feat_pseudo" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- explain if except=TRUE -->
+      <xs:element name="Seq-feat_except-text" type="xs:string" minOccurs="0"/>
+<!-- set of Ids; will replace 'id' field -->
+      <xs:element name="Seq-feat_ids" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Feat-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- set of extensions; will replace 'ext' field -->
+      <xs:element name="Seq-feat_exts" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="User-object"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="SeqFeatData">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element name="SeqFeatData_gene">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Gene-ref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqFeatData_org">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Org-ref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqFeatData_cdregion">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cdregion"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqFeatData_prot">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Prot-ref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqFeatData_rna">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="RNA-ref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- publication applies to this seq  -->
+      <xs:element name="SeqFeatData_pub">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Pubdesc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- to annotate origin from another seq -->
+      <xs:element name="SeqFeatData_seq">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqFeatData_imp">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Imp-feat"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- named region (globin locus) -->
+      <xs:element name="SeqFeatData_region" type="xs:string"/>
+<!-- just a comment -->
+      <xs:element name="SeqFeatData_comment">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="SeqFeatData_bond">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="disulfide"/>
+                <xs:enumeration value="thiolester"/>
+                <xs:enumeration value="xlink"/>
+                <xs:enumeration value="thioether"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqFeatData_site">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="active"/>
+                <xs:enumeration value="binding"/>
+                <xs:enumeration value="cleavage"/>
+                <xs:enumeration value="inhibit"/>
+                <xs:enumeration value="modified"/>
+                <xs:enumeration value="glycosylation"/>
+                <xs:enumeration value="myristoylation"/>
+                <xs:enumeration value="mutagenized"/>
+                <xs:enumeration value="metal-binding"/>
+                <xs:enumeration value="phosphorylation"/>
+                <xs:enumeration value="acetylation"/>
+                <xs:enumeration value="amidation"/>
+                <xs:enumeration value="methylation"/>
+                <xs:enumeration value="hydroxylation"/>
+                <xs:enumeration value="sulfatation"/>
+                <xs:enumeration value="oxidative-deamination"/>
+                <xs:enumeration value="pyrrolidone-carboxylic-acid"/>
+                <xs:enumeration value="gamma-carboxyglutamic-acid"/>
+                <xs:enumeration value="blocked"/>
+                <xs:enumeration value="lipid-binding"/>
+                <xs:enumeration value="np-binding"/>
+                <xs:enumeration value="dna-binding"/>
+                <xs:enumeration value="signal-peptide"/>
+                <xs:enumeration value="transit-peptide"/>
+                <xs:enumeration value="transmembrane-region"/>
+                <xs:enumeration value="nitrosylation"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- restriction site  (for maps really) -->
+      <xs:element name="SeqFeatData_rsite">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Rsite-ref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- user defined structure -->
+      <xs:element name="SeqFeatData_user">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="User-object"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- transcription initiation -->
+      <xs:element name="SeqFeatData_txinit">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Txinit"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- a numbering system -->
+      <xs:element name="SeqFeatData_num">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Numbering"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqFeatData_psec-str">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    helix	-  any helix
+    sheet	-  beta sheet
+    turn	-  beta or gamma turn
+-->
+                <xs:enumeration value="helix"/>
+                <xs:enumeration value="sheet"/>
+                <xs:enumeration value="turn"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- non-standard residue here in seq -->
+      <xs:element name="SeqFeatData_non-std-residue" type="xs:string"/>
+<!-- cofactor, prosthetic grp, etc, bound to seq -->
+      <xs:element name="SeqFeatData_het">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Heterogen"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqFeatData_biosrc">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="BioSource"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqFeatData_clone">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Clone-ref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!-- both optional because can have one or both -->
+<xs:element name="SeqFeatXref">
+  <xs:complexType>
+    <xs:sequence>
+<!-- the feature copied -->
+      <xs:element name="SeqFeatXref_id" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Feat-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- the specific data -->
+      <xs:element name="SeqFeatXref_data" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="SeqFeatData"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+*** CdRegion ***********************************************
+*
+*  Instructions to translate from a nucleic acid to a peptide
+*    conflict means it's supposed to translate but doesn't
+*
+-->
+<xs:element name="Cdregion">
+  <xs:complexType>
+    <xs:sequence>
+<!-- just an ORF ? -->
+      <xs:element name="Cdregion_orf" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Cdregion_frame" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="not-set">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    not-set	-  not set, code uses one
+    three	-  reading frame
+-->
+                <xs:enumeration value="not-set"/>
+                <xs:enumeration value="one"/>
+                <xs:enumeration value="two"/>
+                <xs:enumeration value="three"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- conflict -->
+      <xs:element name="Cdregion_conflict" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- number of gaps on conflict/except -->
+      <xs:element name="Cdregion_gaps" type="xs:integer" minOccurs="0"/>
+<!-- number of mismatches on above -->
+      <xs:element name="Cdregion_mismatch" type="xs:integer" minOccurs="0"/>
+<!-- genetic code used -->
+      <xs:element name="Cdregion_code" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Genetic-code"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- individual exceptions -->
+      <xs:element name="Cdregion_code-break" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Code-break"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- number of stop codons on above -->
+      <xs:element name="Cdregion_stops" type="xs:integer" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ each code is 64 cells long, in the order where
+ T=0,C=1,A=2,G=3, TTT=0, TTC=1, TCA=4, etc
+ NOTE: this order does NOT correspond to a Seq-data
+ encoding.  It is "natural" to codon usage instead.
+ the value in each cell is the AA coded for
+ start= AA coded only if first in peptide
+   in start array, if codon is not a legitimate start
+   codon, that cell will have the "gap" symbol for
+   that alphabet.  Otherwise it will have the AA
+   encoded when that codon is used at the start.
+-->
+<xs:element name="Genetic-code">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="Genetic-code_E">
+        <xs:complexType>
+          <xs:choice>
+<!-- name of a code -->
+            <xs:element name="Genetic-code_E_name" type="xs:string"/>
+<!-- id in dbase -->
+            <xs:element name="Genetic-code_E_id" type="xs:integer"/>
+<!-- indexed to IUPAC extended -->
+            <xs:element name="Genetic-code_E_ncbieaa" type="xs:string"/>
+<!-- indexed to NCBI8aa -->
+            <xs:element name="Genetic-code_E_ncbi8aa" type="xs:hexBinary"/>
+<!-- indexed to NCBIstdaa -->
+            <xs:element name="Genetic-code_E_ncbistdaa" type="xs:hexBinary"/>
+<!-- start, indexed to IUPAC extended -->
+            <xs:element name="Genetic-code_E_sncbieaa" type="xs:string"/>
+<!-- start, indexed to NCBI8aa -->
+            <xs:element name="Genetic-code_E_sncbi8aa" type="xs:hexBinary"/>
+<!-- start, indexed to NCBIstdaa -->
+            <xs:element name="Genetic-code_E_sncbistdaa" type="xs:hexBinary"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ specific codon exceptions
+ NCBIstdaa code
+-->
+<xs:element name="Code-break">
+  <xs:complexType>
+    <xs:sequence>
+<!-- location of exception -->
+      <xs:element name="Code-break_loc">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Code-break_aa">
+        <xs:complexType>
+          <xs:choice>
+<!-- ASCII value of NCBIeaa code -->
+            <xs:element name="Code-break_aa_ncbieaa" type="xs:integer"/>
+<!-- NCBI8aa code -->
+            <xs:element name="Code-break_aa_ncbi8aa" type="xs:integer"/>
+            <xs:element name="Code-break_aa_ncbistdaa" type="xs:integer"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- table of genetic codes -->
+<xs:element name="Genetic-code-table">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="Genetic-code"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+*** Import ***********************************************
+*
+*  Features imported from other databases
+*
+-->
+<xs:element name="Imp-feat">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Imp-feat_key" type="xs:string"/>
+<!-- original location string -->
+      <xs:element name="Imp-feat_loc" type="xs:string" minOccurs="0"/>
+<!-- text description -->
+      <xs:element name="Imp-feat_descr" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Gb-qual">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Gb-qual_qual" type="xs:string"/>
+      <xs:element name="Gb-qual_val" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+*** Clone-ref ***********************************************
+*
+*  Specification of clone features
+*
+-->
+<xs:element name="Clone-ref">
+  <xs:complexType>
+    <xs:sequence>
+<!-- Official clone symbol -->
+      <xs:element name="Clone-ref_name" type="xs:string"/>
+<!-- Library name -->
+      <xs:element name="Clone-ref_library" type="xs:string" minOccurs="0"/>
+<!-- OPTIONAL? -->
+      <xs:element name="Clone-ref_concordant" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="false">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- OPTIONAL? -->
+      <xs:element name="Clone-ref_unique" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="false">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Clone-ref_placement-method" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+<!--
+    end-seq	-  Clone placed by end sequence
+    insert-alignment	-  Clone placed by insert alignment
+    sts	-  Clone placed by STS
+-->
+                    <xs:enumeration value="end-seq" ncbi:intvalue="0"/>
+                    <xs:enumeration value="insert-alignment" ncbi:intvalue="1"/>
+                    <xs:enumeration value="sts" ncbi:intvalue="2"/>
+                    <xs:enumeration value="fish" ncbi:intvalue="3"/>
+                    <xs:enumeration value="fingerprint" ncbi:intvalue="4"/>
+                    <xs:enumeration value="other" ncbi:intvalue="255"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Clone-ref_clone-seq" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Clone-seq-set"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Clone-seq-set">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="Clone-seq"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Clone-seq">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Clone-seq_type">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="insert" ncbi:intvalue="0"/>
+                    <xs:enumeration value="end" ncbi:intvalue="1"/>
+                    <xs:enumeration value="other" ncbi:intvalue="255"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Clone-seq_confidence" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+<!--
+    multiple	-  Multiple hits
+    na	-  Unspecified
+    nohit-rep	-  No hits, repetitive
+    nohitnorep	-  No hits, not repetitive
+    other-chrm	-  Hit on different chromosome
+    virtual	-  Virtual (hasn't been sequenced)
+-->
+                    <xs:enumeration value="multiple" ncbi:intvalue="0"/>
+                    <xs:enumeration value="na" ncbi:intvalue="1"/>
+                    <xs:enumeration value="nohit-rep" ncbi:intvalue="2"/>
+                    <xs:enumeration value="nohitnorep" ncbi:intvalue="3"/>
+                    <xs:enumeration value="other-chrm" ncbi:intvalue="4"/>
+                    <xs:enumeration value="unique" ncbi:intvalue="5"/>
+                    <xs:enumeration value="virtual" ncbi:intvalue="6"/>
+                    <xs:enumeration value="other" ncbi:intvalue="255"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+<!-- location on sequence -->
+      <xs:element name="Clone-seq_location">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- clone sequence location -->
+      <xs:element name="Clone-seq_seq" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Clone-seq_align-id" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

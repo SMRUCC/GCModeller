@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00053" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Ascorbate and aldarate metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00283" Value="PTS system, ascorbate-specific II component [PATH:eco00053]" />
+    <hashEntry Key="eco_M00550" Value="Ascorbate degradation, ascorbate =&gt; D-xylulose-5P [PATH:eco00053]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00029" Value="UDP-glucose" />
+    <hashEntry Key="C00072" Value="Ascorbate" />
+    <hashEntry Key="C00096" Value="GDP-mannose" />
+    <hashEntry Key="C00137" Value="myo-Inositol" />
+    <hashEntry Key="C00167" Value="UDP-glucuronate" />
+    <hashEntry Key="C00191" Value="D-Glucuronate" />
+    <hashEntry Key="C00231" Value="D-Xylulose 5-phosphate" />
+    <hashEntry Key="C00259" Value="L-Arabinose" />
+    <hashEntry Key="C00333" Value="D-Galacturonate" />
+    <hashEntry Key="C00433" Value="2,5-Dioxopentanoate" />
+    <hashEntry Key="C00545" Value="L-Arabinonate" />
+    <hashEntry Key="C00618" Value="3-Dehydro-L-gulonate" />
+    <hashEntry Key="C00679" Value="5-Dehydro-4-deoxy-D-glucarate" />
+    <hashEntry Key="C00684" Value="2-Dehydro-3-deoxy-L-arabinonate" />
+    <hashEntry Key="C00800" Value="L-Gulonate" />
+    <hashEntry Key="C00818" Value="D-Glucarate" />
+    <hashEntry Key="C00879" Value="D-Galactarate" />
+    <hashEntry Key="C01040" Value="L-Gulono-1,4-lactone" />
+    <hashEntry Key="C01041" Value="Monodehydroascorbate" />
+    <hashEntry Key="C01101" Value="L-Ribulose 5-phosphate" />
+    <hashEntry Key="C01114" Value="L-Arabinono-1,4-lactone" />
+    <hashEntry Key="C01115" Value="L-Galactono-1,4-lactone" />
+    <hashEntry Key="C01146" Value="2-Hydroxy-3-oxopropanoate" />
+    <hashEntry Key="C01620" Value="Threonate" />
+    <hashEntry Key="C01825" Value="L-Galactose" />
+    <hashEntry Key="C02280" Value="GDP-L-galactose" />
+    <hashEntry Key="C02670" Value="D-Glucuronolactone" />
+    <hashEntry Key="C03064" Value="3-Dehydro-L-threonate" />
+    <hashEntry Key="C03289" Value="L-xylo-Hexulonolactone" />
+    <hashEntry Key="C03291" Value="L-Xylulose 5-phosphate" />
+    <hashEntry Key="C03921" Value="2-Dehydro-3-deoxy-D-glucarate" />
+    <hashEntry Key="C04575" Value="(4R,5S)-4,5,6-Trihydroxy-2,3-dioxohexanoate" />
+    <hashEntry Key="C05385" Value="D-Glucuronate 1-phosphate" />
+    <hashEntry Key="C05411" Value="L-Xylonate" />
+    <hashEntry Key="C05412" Value="L-Lyxonate" />
+    <hashEntry Key="C05422" Value="Dehydroascorbate" />
+    <hashEntry Key="C14899" Value="3-Dehydro-L-gulonate 6-phosphate" />
+    <hashEntry Key="C15923" Value="L-Gulose" />
+    <hashEntry Key="C15924" Value="L-Gulose 1-phosphate" />
+    <hashEntry Key="C15925" Value="GDP-L-gulose" />
+    <hashEntry Key="C15926" Value="beta-L-Galactose 1-phosphate" />
+    <hashEntry Key="C15930" Value="L-Galactonate" />
+    <hashEntry Key="C16186" Value="L-Ascorbate 6-phosphate" />
+    <hashEntry Key="C20889" Value="D-Galactaro-1,5-lactone" />
+    <hashEntry Key="C20896" Value="D-Galactaro-1,4-lactone" />
+  </Compound>
+  <PathwayMap Key="eco00053" Value="Ascorbate and aldarate metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b2028" Value="ugd; UDP-glucose 6-dehydrogenase (EC:1.1.1.22); K00012 UDPglucose 6-dehydrogenase [EC:1.1.1.22]" />
+    <hashEntry Key="eco:b2787" Value="gudD; (D)-glucarate dehydratase 1 (EC:4.2.1.40); K01706 glucarate dehydratase [EC:4.2.1.40]" />
+    <hashEntry Key="eco:b3126" Value="garL; alpha-dehydro-beta-deoxy-D-glucarate aldolase (EC:4.1.2.20); K01630 2-dehydro-3-deoxyglucarate" />
+    <hashEntry Key="eco:b3128" Value="garD; (D)-galactarate dehydrogenase (EC:4.2.1.42); K01708 galactarate dehydratase [EC:4.2.1.42]" />
+    <hashEntry Key="eco:b3575" Value="yiaK; 2,3-diketo-L-gulonate reductase, NADH-dependent (EC:1.1.1.-); K08092 3-dehydro-L-gulonate 2-de" />
+    <hashEntry Key="eco:b3580" Value="lyxK; L-xylulose kinase (EC:2.7.1.53); K00880 L-xylulokinase [EC:2.7.1.53]" />
+    <hashEntry Key="eco:b4192" Value="ulaG; L-ascorbate 6-phosphate lactonase; K03476 L-ascorbate 6-phosphate lactonase [EC:3.1.1.-]" />
+    <hashEntry Key="eco:b4193" Value="ulaA; L-ascorbate-specific enzyme IIC permease component of PTS; K03475 PTS system, ascorbate-specif" />
+    <hashEntry Key="eco:b4194" Value="ulaB; L-ascorbate-specific enzyme IIB component of PTS (EC:2.7.1.69); K02822 PTS system, ascorbate-s" />
+    <hashEntry Key="eco:b4195" Value="ulaC; L-ascorbate-specific enzyme IIA component of PTS (EC:2.7.1.69); K02821 PTS system, ascorbate-s" />
+    <hashEntry Key="eco:b4196" Value="ulaD; 3-keto-L-gulonate 6-phosphate decarboxylase (EC:4.1.2.-); K03078 3-dehydro-L-gulonate-6-phosph" />
+    <hashEntry Key="eco:b4197" Value="ulaE; L-xylulose 5-phosphate 3-epimerase (EC:5.1.3.22); K03079 L-ribulose-5-phosphate 3-epimerase [E" />
+    <hashEntry Key="eco:b4198" Value="ulaF; L-ribulose 5-phosphate 4-epimerase (EC:5.1.3.4); K03077 L-ribulose-5-phosphate 4-epimerase [EC" />
+  </Genes>
+</KEGG.PathwayBrief>

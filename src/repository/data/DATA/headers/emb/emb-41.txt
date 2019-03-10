@@ -1,0 +1,11 @@
+Y15424.1	Rabbit haemorrhagic disease virus VP60 gene, isolate Frankfurt
+Y15425.1	Rabbit haemorrhagic disease virus VP60 gene, isolate Hartmannsdorf
+Y15426.1	Rabbit haemorrhagic disease virus VP60 gene, isolate Meiningen
+Y15427.1	Rabbit haemorrhagic disease virus VP60 gene, isolate Wriezen
+Y15440.1	Rabbit haemorrhagic disease virus VP60 gene, isolate Eisenhuettenstadt
+Y15442.1	Rabbit haemorrhagic disease virus VP60 gene, isolate Triptis
+Y15441.1	Rabbit haemorrhagic disease virus VP60 gene, isolate Hagenow
+AJ538196.1	Crimean-Congo Haemorrhagic Fever virus mRNA for nucleocapsid (Np gene), S segment
+AJ538198.1	Crimean-Congo Haemorrhagic Fever virus mRNA for nucleocapsid (Np gene), S segment
+AJ538199.1	Crimean-Congo Haemorrhagic Fever virus mRNA for envelope glycoprotein precursor (GPC gene), M segment
+AJ538197.2	Crimean-Congo Haemorrhagic Fever virus mRNA for envelope glycoprotein precursor (GPC gene), M segment

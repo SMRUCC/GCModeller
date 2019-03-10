@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco01200" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Carbon metabolism is the most basic aspect of life. This map presents an overall view of central carbon metabolism, where the number of carbons is shown for each compound denoted by a circle, excluding a cofactor (CoA, CoM, THF, or THMPT) that is replaced by an asterisk. The map contains carbon utilization pathways of glycolysis (map00010, pentose phosphate pathway (map00030, and citrate cycle (map00020, and six known carbon fixation pathways (map00710 and map00720 as well as some pathways of methane metabolism (map00680. The six carbon fixation pathways are: (1) reductive pentose phosphate cycle (Calvin cycle) in plants and cyanobacteria that perform oxygenic photosynthesis, (2) reductive citrate cycle in photosynthetic green sulfur bacteria and some chemolithoautotrophs, (3) 3-hydroxypropionate bi-cycle in photosynthetic green nonsulfur bacteria, two variants of 4-hydroxybutyrate pathways in Crenarchaeota called (4) hydroxypropionate-hydroxybutyrate cycle and (5) dicarboxylate-hydroxybutyrate cycle, and (6) reductive acetyl-CoA pathway in methanogenic bacteria.&lt;br&gt;</Description>
+  <Name>Carbon metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00001" Value="Glycolysis (Embden-Meyerhof pathway), glucose =&gt; pyruvate [PATH:eco01200]" />
+    <hashEntry Key="eco_M00002" Value="Glycolysis, core module involving three-carbon compounds [PATH:eco01200]" />
+    <hashEntry Key="eco_M00004" Value="Pentose phosphate pathway (Pentose phosphate cycle) [PATH:eco01200]" />
+    <hashEntry Key="eco_M00005" Value="PRPP biosynthesis, ribose 5P =&gt; PRPP [PATH:eco01200]" />
+    <hashEntry Key="eco_M00006" Value="Pentose phosphate pathway, oxidative phase, glucose 6P =&gt; ribulose 5P [PATH:eco01200]" />
+    <hashEntry Key="eco_M00007" Value="Pentose phosphate pathway, non-oxidative phase, fructose 6P =&gt; ribose 5P [PATH:eco01200]" />
+    <hashEntry Key="eco_M00008" Value="Entner-Doudoroff pathway, glucose-6P =&gt; glyceraldehyde-3P + pyruvate [PATH:eco01200]" />
+    <hashEntry Key="eco_M00009" Value="Citrate cycle (TCA cycle, Krebs cycle) [PATH:eco01200]" />
+    <hashEntry Key="eco_M00010" Value="Citrate cycle, first carbon oxidation, oxaloacetate =&gt; 2-oxoglutarate [PATH:eco01200]" />
+    <hashEntry Key="eco_M00011" Value="Citrate cycle, second carbon oxidation, 2-oxoglutarate =&gt; oxaloacetate [PATH:eco01200]" />
+    <hashEntry Key="eco_M00012" Value="Glyoxylate cycle [PATH:eco01200]" />
+    <hashEntry Key="eco_M00020" Value="Serine biosynthesis, glycerate-3P =&gt; serine [PATH:eco01200]" />
+    <hashEntry Key="eco_M00021" Value="Cysteine biosynthesis, serine =&gt; cysteine [PATH:eco01200]" />
+    <hashEntry Key="eco_M00168" Value="CAM (Crassulacean acid metabolism), dark [PATH:eco01200]" />
+    <hashEntry Key="eco_M00307" Value="Pyruvate oxidation, pyruvate =&gt; acetyl-CoA [PATH:eco01200]" />
+    <hashEntry Key="eco_M00579" Value="Phosphate acetyltransferase-acetate kinase pathway, acetyl-CoA =&gt; acetate [PATH:eco01200]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="eco01200" Value="Carbon metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0008" Value="talB; transaldolase B (EC:2.2.1.2); K00616 transaldolase [EC:2.2.1.2]" />
+    <hashEntry Key="eco:b0114" Value="aceE; pyruvate dehydrogenase, decarboxylase component E1, thiamine triphosphate-binding (EC:1.2.4.1)" />
+    <hashEntry Key="eco:b0115" Value="aceF; pyruvate dehydrogenase, dihydrolipoyltransacetylase component E2 (EC:2.3.1.12); K00627 pyruvat" />
+    <hashEntry Key="eco:b0116" Value="lpd; lipoamide dehydrogenase, E3 component is part of three enzyme complexes (EC:1.8.1.4); K00382 di" />
+    <hashEntry Key="eco:b0118" Value="acnB; bifunctional aconitate hydratase 2/2-methylisocitrate dehydratase (EC:4.2.1.3 4.2.1.99); K0168" />
+    <hashEntry Key="eco:b0185" Value="accA; acetyl-CoA carboxylase, carboxytransferase, alpha subunit (EC:6.4.1.2); K01962 acetyl-CoA carb" />
+    <hashEntry Key="eco:b0323" Value="yahI; carbamate kinase-like protein; K00926 carbamate kinase [EC:2.7.2.2]" />
+    <hashEntry Key="eco:b0355" Value="frmB; S-formylglutathione hydrolase; K01070 S-formylglutathione hydrolase [EC:3.1.2.12]" />
+    <hashEntry Key="eco:b0356" Value="frmA; alcohol dehydrogenase class III/glutathione-dependent formaldehyde dehydrogenase (EC:1.1.1.1 1" />
+    <hashEntry Key="eco:b0521" Value="ybcF; putative carbonate kinase; K00926 carbamate kinase [EC:2.7.2.2]" />
+    <hashEntry Key="eco:b0529" Value="folD; bifunctional 5,10-methylene-tetrahydrofolate dehydrogenase/5,10-methylene-tetrahydrofolate cyc" />
+    <hashEntry Key="eco:b0720" Value="gltA; citrate synthase (EC:2.3.3.1); K01647 citrate synthase [EC:2.3.3.1]" />
+    <hashEntry Key="eco:b0721" Value="sdhC; succinate dehydrogenase, membrane subunit, binds cytochrome b556; K00241 succinate dehydrogena" />
+    <hashEntry Key="eco:b0722" Value="sdhD; succinate dehydrogenase, membrane subunit, binds cytochrome b556; K00242 succinate dehydrogena" />
+    <hashEntry Key="eco:b0723" Value="sdhA; succinate dehydrogenase, flavoprotein subunit (EC:1.3.99.1); K00239 succinate dehydrogenase /" />
+    <hashEntry Key="eco:b0724" Value="sdhB; succinate dehydrogenase, FeS subunit (EC:1.3.99.1); K00240 succinate dehydrogenase / fumarate" />
+    <hashEntry Key="eco:b0726" Value="sucA; 2-oxoglutarate decarboxylase, thiamine triphosphate-binding (EC:1.2.4.2); K00164 2-oxoglutarat" />
+    <hashEntry Key="eco:b0727" Value="sucB; dihydrolipoyltranssuccinase (EC:2.3.1.61); K00658 2-oxoglutarate dehydrogenase E2 component (d" />
+    <hashEntry Key="eco:b0728" Value="sucC; succinyl-CoA synthetase, beta subunit (EC:6.2.1.5); K01903 succinyl-CoA synthetase beta subuni" />
+    <hashEntry Key="eco:b0729" Value="sucD; succinyl-CoA synthetase, NAD(P)-binding, alpha subunit (EC:6.2.1.5); K01902 succinyl-CoA synth" />
+    <hashEntry Key="eco:b0755" Value="gpmA; phosphoglyceromutase 1 (EC:5.4.2.1); K01834 2,3-bisphosphoglycerate-dependent phosphoglycerate" />
+    <hashEntry Key="eco:b0767" Value="pgl; 6-phosphogluconolactonase (EC:3.1.1.31); K07404 6-phosphogluconolactonase [EC:3.1.1.31]" />
+    <hashEntry Key="eco:b0771" Value="ybhJ; putative hydratase; K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="eco:b0907" Value="serC; 3-phosphoserine/phosphohydroxythreonine aminotransferase (EC:2.6.1.52); K00831 phosphoserine a" />
+    <hashEntry Key="eco:b1136" Value="icd; e14 prophage; isocitrate dehydrogenase, specific for NADP+ (EC:1.1.1.42); K00031 isocitrate deh" />
+    <hashEntry Key="eco:b1207" Value="prs; phosphoribosylpyrophosphate synthase (EC:2.7.6.1); K00948 ribose-phosphate pyrophosphokinase [E" />
+    <hashEntry Key="eco:b1276" Value="acnA; aconitate hydratase 1 (EC:4.2.1.3); K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="eco:b1378" Value="pfo; pyruvate-flavodoxin oxidoreductase; K03737 pyruvate-ferredoxin/flavodoxin oxidoreductase [EC:1." />
+    <hashEntry Key="eco:b1479" Value="maeA; malate dehydrogenase, (decarboxylating, NAD-requiring) (malic enzyme) (EC:1.1.1.38); K00027 ma" />
+    <hashEntry Key="eco:b1611" Value="fumC; fumarate hydratase (fumarase C),aerobic Class II (EC:4.2.1.2); K01679 fumarate hydratase, clas" />
+    <hashEntry Key="eco:b1612" Value="fumA; fumarate hydratase (fumarase A), aerobic Class I (EC:4.2.1.2); K01676 fumarate hydratase, clas" />
+    <hashEntry Key="eco:b1676" Value="pykF; pyruvate kinase I (EC:2.7.1.40); K00873 pyruvate kinase [EC:2.7.1.40]" />
+    <hashEntry Key="eco:b1702" Value="ppsA; phosphoenolpyruvate synthase (EC:2.7.9.2); K01007 pyruvate, water dikinase [EC:2.7.9.2]" />
+    <hashEntry Key="eco:b1723" Value="pfkB; 6-phosphofructokinase II (EC:2.7.1.11); K16370 6-phosphofructokinase 2 [EC:2.7.1.11]" />
+    <hashEntry Key="eco:b1732" Value="katE; catalase HPII, heme d-containing (EC:1.11.1.6); K03781 catalase [EC:1.11.1.6]" />
+    <hashEntry Key="eco:b1779" Value="gapA; glyceraldehyde-3-phosphate dehydrogenase A (EC:1.2.1.12); K00134 glyceraldehyde 3-phosphate de" />
+    <hashEntry Key="eco:b1814" Value="sdaA; L-serine dehydratase 1 (EC:4.3.1.17); K01752 L-serine dehydratase [EC:4.3.1.17]" />
+    <hashEntry Key="eco:b1850" Value="eda; multifunctional 2-keto-3-deoxygluconate 6-phosphate aldolase and 2-keto-4-hydroxyglutarate aldo" />
+    <hashEntry Key="eco:b1851" Value="edd; 6-phosphogluconate dehydratase (EC:4.2.1.12); K01690 phosphogluconate dehydratase [EC:4.2.1.12]" />
+    <hashEntry Key="eco:b1852" Value="zwf; glucose-6-phosphate 1-dehydrogenase (EC:1.1.1.49); K00036 glucose-6-phosphate 1-dehydrogenase [" />
+    <hashEntry Key="eco:b1854" Value="pykA; pyruvate kinase II (EC:2.7.1.40); K00873 pyruvate kinase [EC:2.7.1.40]" />
+    <hashEntry Key="eco:b2029" Value="gnd; 6-phosphogluconate dehydrogenase, decarboxylating (EC:1.1.1.44); K00033 6-phosphogluconate dehy" />
+    <hashEntry Key="eco:b2097" Value="fbaB; fructose-bisphosphate aldolase class I (EC:4.1.2.13); K11645 fructose-bisphosphate aldolase, c" />
+    <hashEntry Key="eco:b2154" Value="yeiG; S-formylglutathione hydrolase (EC:3.1.1.-); K01070 S-formylglutathione hydrolase [EC:3.1.2.12]" />
+    <hashEntry Key="eco:b2210" Value="mqo; malate dehydrogenase, FAD/NAD(P)-binding domain (EC:1.1.5.4); K00116 malate dehydrogenase (quin" />
+    <hashEntry Key="eco:b2224" Value="atoB; acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b2296" Value="ackA; acetate kinase A and propionate kinase 2 (EC:2.7.2.- 2.7.2.1); K00925 acetate kinase [EC:2.7.2" />
+    <hashEntry Key="eco:b2297" Value="pta; phosphate acetyltransferase (EC:2.3.1.8); K13788 phosphate acetyltransferase [EC:2.3.1.8]" />
+    <hashEntry Key="eco:b2316" Value="accD; acetyl-CoA carboxylase, beta (carboxyltransferase) subunit (EC:6.4.1.2); K01963 acetyl-CoA car" />
+    <hashEntry Key="eco:b2341" Value="fadJ; fused enoyl-CoA hydratase and epimerase and isomerase/3-hydroxyacyl-CoA dehydrogenase (EC:1.1." />
+    <hashEntry Key="eco:b2388" Value="glk; glucokinase (EC:2.7.1.2); K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="eco:b2414" Value="cysK; cysteine synthase A, O-acetylserine sulfhydrolase A subunit (EC:2.5.1.47); K01738 cysteine syn" />
+    <hashEntry Key="eco:b2421" Value="cysM; cysteine synthase B (O-acetylserine sulfhydrolase B) (EC:2.5.1.47); K12339 cysteine synthase B" />
+    <hashEntry Key="eco:b2463" Value="maeB; malic enzyme: putative oxidoreductase/putative phosphotransacetylase; K00029 malate dehydrogen" />
+    <hashEntry Key="eco:b2464" Value="talA; transaldolase A (EC:2.2.1.2); K00616 transaldolase [EC:2.2.1.2]" />
+    <hashEntry Key="eco:b2465" Value="tktB; transketolase 2, thiamine triphosphate-binding (EC:2.2.1.1); K00615 transketolase [EC:2.2.1.1]" />
+    <hashEntry Key="eco:b2551" Value="glyA; serine hydroxymethyltransferase (EC:2.1.2.1); K00600 glycine hydroxymethyltransferase [EC:2.1." />
+    <hashEntry Key="eco:b2779" Value="eno; enolase (EC:4.2.1.11); K01689 enolase [EC:4.2.1.11]" />
+    <hashEntry Key="eco:b2797" Value="sdaB; L-serine dehydratase 2 (EC:4.3.1.17); K01752 L-serine dehydratase [EC:4.3.1.17]" />
+    <hashEntry Key="eco:b2844" Value="yqeF; short chain acyltransferase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b2874" Value="yqeA; putative amino acid kinase; K00926 carbamate kinase [EC:2.7.2.2]" />
+    <hashEntry Key="eco:b2903" Value="gcvP; glycine decarboxylase, PLP-dependent, subunit (protein P) of glycine cleavage complex (EC:1.4." />
+    <hashEntry Key="eco:b2905" Value="gcvT; aminomethyltransferase, tetrahydrofolate-dependent, subunit (T protein) of glycine cleavage co" />
+    <hashEntry Key="eco:b2913" Value="serA; D-3-phosphoglycerate dehydrogenase (EC:1.1.1.95); K00058 D-3-phosphoglycerate dehydrogenase [E" />
+    <hashEntry Key="eco:b2914" Value="rpiA; ribose 5-phosphate isomerase, constitutive (EC:5.3.1.6); K01807 ribose 5-phosphate isomerase A" />
+    <hashEntry Key="eco:b2917" Value="scpA; methylmalonyl-CoA mutase (EC:5.4.99.2); K01847 methylmalonyl-CoA mutase [EC:5.4.99.2]" />
+    <hashEntry Key="eco:b2925" Value="fbaA; fructose-bisphosphate aldolase, class II (EC:4.1.2.13); K01624 fructose-bisphosphate aldolase," />
+    <hashEntry Key="eco:b2926" Value="pgk; phosphoglycerate kinase (EC:2.7.2.3); K00927 phosphoglycerate kinase [EC:2.7.2.3]" />
+    <hashEntry Key="eco:b2935" Value="tktA; transketolase 1, thiamine triphosphate-binding (EC:2.2.1.1); K00615 transketolase [EC:2.2.1.1]" />
+    <hashEntry Key="eco:b2976" Value="glcB; malate synthase G (EC:2.3.3.9); K01638 malate synthase [EC:2.3.3.9]" />
+    <hashEntry Key="eco:b3117" Value="tdcB; L-threonine dehydratase, catabolic (EC:4.3.1.19); K01754 threonine dehydratase [EC:4.3.1.19]" />
+    <hashEntry Key="eco:b3236" Value="mdh; malate dehydrogenase, NAD(P)-binding (EC:1.1.1.37); K00024 malate dehydrogenase [EC:1.1.1.37]" />
+    <hashEntry Key="eco:b3255" Value="accB; acetyl CoA carboxylase, BCCP subunit; K02160 acetyl-CoA carboxylase biotin carboxyl carrier pr" />
+    <hashEntry Key="eco:b3256" Value="accC; acetyl-CoA carboxylase, biotin carboxylase subunit (EC:6.3.4.14); K01961 acetyl-CoA carboxylas" />
+    <hashEntry Key="eco:b3355" Value="prkB; putative phosphoribulokinase; K00855 phosphoribulokinase [EC:2.7.1.19]" />
+    <hashEntry Key="eco:b3386" Value="rpe; D-ribulose-5-phosphate 3-epimerase (EC:5.1.3.1); K01783 ribulose-phosphate 3-epimerase [EC:5.1." />
+    <hashEntry Key="eco:b3403" Value="pck; phosphoenolpyruvate carboxykinase (EC:4.1.1.49); K01610 phosphoenolpyruvate carboxykinase (ATP)" />
+    <hashEntry Key="eco:b3437" Value="gntK; gluconate kinase 2 (EC:2.7.1.12); K00851 gluconokinase [EC:2.7.1.12]" />
+    <hashEntry Key="eco:b3526" Value="kdgK; 2-dehydro-3-deoxygluconokinase (EC:2.7.1.45); K00874 2-dehydro-3-deoxygluconokinase [EC:2.7.1." />
+    <hashEntry Key="eco:b3607" Value="cysE; serine acetyltransferase (EC:2.3.1.30); K00640 serine O-acetyltransferase [EC:2.3.1.30]" />
+    <hashEntry Key="eco:b3612" Value="gpmM; phosphoglycero mutase III, cofactor-independent (EC:5.4.2.1); K15633 2,3-bisphosphoglycerate-i" />
+    <hashEntry Key="eco:b3772" Value="ilvA; L-threonine dehydratase, biosynthetic; also known as threonine deaminase (EC:4.3.1.19); K01754" />
+    <hashEntry Key="eco:b3846" Value="fadB; fused 3-hydroxybutyryl-CoA epimerase/delta(3)-cis-delta(2)-trans-enoyl-CoA isomerase/enoyl-CoA" />
+    <hashEntry Key="eco:b3882" Value="yihU; gamma-hydroxybutyrate dehydrogenase, NADH-dependent; K08318 4-hydroxybutyrate dehydrogenase /" />
+    <hashEntry Key="eco:b3892" Value="fdoI; formate dehydrogenase-O, cytochrome b556 subunit; K00127 formate dehydrogenase subunit gamma" />
+    <hashEntry Key="eco:b3893" Value="fdoH; formate dehydrogenase-O, Fe-S subunit; K00124 formate dehydrogenase iron-sulfur subunit" />
+    <hashEntry Key="eco:b3894" Value="fdoG; formate dehydrogenase-O, large subunit (EC:1.2.1.2); K00123 formate dehydrogenase major subuni" />
+    <hashEntry Key="eco:b3916" Value="pfkA; 6-phosphofructokinase I (EC:2.7.1.11); K00850 6-phosphofructokinase 1 [EC:2.7.1.11]" />
+    <hashEntry Key="eco:b3919" Value="tpiA; triosephosphate isomerase (EC:5.3.1.1); K01803 triosephosphate isomerase (TIM) [EC:5.3.1.1]" />
+    <hashEntry Key="eco:b3925" Value="glpX; fructose 1,6-bisphosphatase II (EC:3.1.3.11); K02446 fructose-1,6-bisphosphatase II [EC:3.1.3." />
+    <hashEntry Key="eco:b3941" Value="metF; 5,10-methylenetetrahydrofolate reductase (EC:1.5.1.20); K00297 methylenetetrahydrofolate reduc" />
+    <hashEntry Key="eco:b3956" Value="ppc; phosphoenolpyruvate carboxylase (EC:4.1.1.31); K01595 phosphoenolpyruvate carboxylase [EC:4.1.1" />
+    <hashEntry Key="eco:b4014" Value="aceB; malate synthase A (EC:2.3.3.9); K01638 malate synthase [EC:2.3.3.9]" />
+    <hashEntry Key="eco:b4015" Value="aceA; isocitrate lyase (EC:4.1.3.1); K01637 isocitrate lyase [EC:4.1.3.1]" />
+    <hashEntry Key="eco:b4025" Value="pgi; glucosephosphate isomerase (EC:5.3.1.9); K01810 glucose-6-phosphate isomerase [EC:5.3.1.9]" />
+    <hashEntry Key="eco:b4069" Value="acs; acetyl-CoA synthetase (EC:6.2.1.1); K01895 acetyl-CoA synthetase [EC:6.2.1.1]" />
+    <hashEntry Key="eco:b4079" Value="fdhF; formate dehydrogenase-H, selenopolypeptide subunit (EC:1.2.1.2); K00123 formate dehydrogenase" />
+    <hashEntry Key="eco:b4090" Value="rpiB; ribose 5-phosphate isomerase B/allose 6-phosphate isomerase (EC:5.3.1.6); K01808 ribose 5-phos" />
+    <hashEntry Key="eco:b4122" Value="fumB; anaerobic class I fumarate hydratase (fumarase B) (EC:4.2.1.2); K01676 fumarate hydratase, cla" />
+    <hashEntry Key="eco:b4151" Value="frdD; fumarate reductase (anaerobic), membrane anchor subunit; K00247 fumarate reductase subunit D" />
+    <hashEntry Key="eco:b4152" Value="frdC; fumarate reductase (anaerobic), membrane anchor subunit; K00246 fumarate reductase subunit C" />
+    <hashEntry Key="eco:b4153" Value="frdB; fumarate reductase (anaerobic), Fe-S subunit (EC:1.3.99.1); K00245 fumarate reductase iron-sul" />
+    <hashEntry Key="eco:b4154" Value="frdA; fumarate reductase (anaerobic) catalytic and NAD/flavoprotein subunit (EC:1.3.99.1); K00244 fu" />
+    <hashEntry Key="eco:b4232" Value="fbp; fructose-1,6-bisphosphatase I (EC:3.1.3.11); K03841 fructose-1,6-bisphosphatase I [EC:3.1.3.11]" />
+    <hashEntry Key="eco:b4268" Value="idnK; D-gluconate kinase, thermosensitive (EC:2.7.1.12); K00851 gluconokinase [EC:2.7.1.12]" />
+    <hashEntry Key="eco:b4388" Value="serB; 3-phosphoserine phosphatase (EC:3.1.3.3); K01079 phosphoserine phosphatase [EC:3.1.3.3]" />
+    <hashEntry Key="eco:b4395" Value="ytjC; phosphatase; K15634 probable phosphoglycerate mutase [EC:5.4.2.12]" />
+    <hashEntry Key="eco:b4471" Value="tdcG; L-serine dehydratase 3, anaerobic (EC:4.3.1.17); K01752 L-serine dehydratase [EC:4.3.1.17]" />
+  </Genes>
+</KEGG.PathwayBrief>

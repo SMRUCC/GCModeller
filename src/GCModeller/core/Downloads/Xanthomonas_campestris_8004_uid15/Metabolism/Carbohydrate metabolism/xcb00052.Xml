@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00052" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Galactose metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00552" Value="D-galactonate degradation, De Ley-Doudoroff pathway, D-galactonate =&gt; glycerate-3P [PATH:xcb00052]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00029" Value="UDP-glucose" />
+    <hashEntry Key="C00031" Value="D-Glucose" />
+    <hashEntry Key="C00052" Value="UDP-alpha-D-galactose" />
+    <hashEntry Key="C00089" Value="Sucrose" />
+    <hashEntry Key="C00095" Value="D-Fructose" />
+    <hashEntry Key="C00103" Value="D-Glucose 1-phosphate" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00116" Value="Glycerol" />
+    <hashEntry Key="C00118" Value="D-Glyceraldehyde 3-phosphate" />
+    <hashEntry Key="C00124" Value="D-Galactose" />
+    <hashEntry Key="C00137" Value="myo-Inositol" />
+    <hashEntry Key="C00159" Value="D-Mannose" />
+    <hashEntry Key="C00243" Value="Lactose" />
+    <hashEntry Key="C00267" Value="alpha-D-Glucose" />
+    <hashEntry Key="C00446" Value="alpha-D-Galactose 1-phosphate" />
+    <hashEntry Key="C00492" Value="Raffinose" />
+    <hashEntry Key="C00577" Value="D-Glyceraldehyde" />
+    <hashEntry Key="C00668" Value="alpha-D-Glucose 6-phosphate" />
+    <hashEntry Key="C00794" Value="D-Sorbitol" />
+    <hashEntry Key="C00795" Value="D-Tagatose" />
+    <hashEntry Key="C00880" Value="D-Galactonate" />
+    <hashEntry Key="C00984" Value="alpha-D-Galactose" />
+    <hashEntry Key="C01097" Value="D-Tagatose 6-phosphate" />
+    <hashEntry Key="C01113" Value="D-Galactose 6-phosphate" />
+    <hashEntry Key="C01132" Value="N-Acetyl-D-galactosamine" />
+    <hashEntry Key="C01216" Value="2-Dehydro-3-deoxy-D-galactonate" />
+    <hashEntry Key="C01235" Value="alpha-D-Galactosyl-(1-&gt;3)-1D-myo-inositol" />
+    <hashEntry Key="C01286" Value="2-Dehydro-3-deoxy-6-phospho-D-galactonate" />
+    <hashEntry Key="C01613" Value="Stachyose" />
+    <hashEntry Key="C01697" Value="Galactitol" />
+    <hashEntry Key="C02262" Value="D-Galactosamine" />
+    <hashEntry Key="C02669" Value="D-Galactono-1,5-lactone" />
+    <hashEntry Key="C03383" Value="D-Galactono-1,4-lactone" />
+    <hashEntry Key="C03733" Value="UDP-alpha-D-galactofuranose" />
+    <hashEntry Key="C03785" Value="D-Tagatose 1,6-bisphosphate" />
+    <hashEntry Key="C05396" Value="Lactose 6'-phosphate" />
+    <hashEntry Key="C05399" Value="Melibiitol" />
+    <hashEntry Key="C05400" Value="Epimelibiose" />
+    <hashEntry Key="C05401" Value="3-beta-D-Galactosyl-sn-glycerol" />
+    <hashEntry Key="C05402" Value="Melibiose" />
+    <hashEntry Key="C05404" Value="D-Gal alpha 1-&gt;6D-Gal alpha 1-&gt;6D-Glucose" />
+    <hashEntry Key="C05796" Value="Galactan" />
+    <hashEntry Key="C06311" Value="Galactitol 1-phosphate" />
+    <hashEntry Key="C06376" Value="N-Acetyl-D-galactosamine 6-phosphate" />
+    <hashEntry Key="C06377" Value="D-Galactosamine 6-phosphate" />
+  </Compound>
+  <PathwayMap Key="xcb00052" Value="Galactose metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0872" Value="6-phosphofructokinase (EC:2.7.1.11); K00850 6-phosphofructokinase 1 [EC:2.7.1.11]" />
+    <hashEntry Key="xcb:XC_1002" Value="alpha-glucosidase; K01187 alpha-glucosidase [EC:3.2.1.20]" />
+    <hashEntry Key="xcb:XC_1166" Value="glucokinase (EC:2.7.1.2); K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="xcb:XC_1214" Value="beta-galactosidase; K12308 beta-galactosidase [EC:3.2.1.23]" />
+    <hashEntry Key="xcb:XC_1223" Value="glucokinase (EC:2.7.1.2); K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="xcb:XC_1642" Value="alpha-glucosidase; K01187 alpha-glucosidase [EC:3.2.1.20]" />
+    <hashEntry Key="xcb:XC_1645" Value="alpha-glucosidase; K01187 alpha-glucosidase [EC:3.2.1.20]" />
+    <hashEntry Key="xcb:XC_1930" Value="UTP-glucose-1-phosphate uridylyltransferase; K00963 UTP--glucose-1-phosphate uridylyltransferase [EC" />
+    <hashEntry Key="xcb:XC_1976" Value="glk; glucokinase (EC:2.7.1.2); K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="xcb:XC_2487" Value="2-dehydro-3-deoxy-6-phosphogalactonate aldolase (EC:4.1.2.21); K01631 2-dehydro-3-deoxyphosphogalact" />
+    <hashEntry Key="xcb:XC_2488" Value="galactonate dehydratase; K01684 galactonate dehydratase [EC:4.2.1.6]" />
+    <hashEntry Key="xcb:XC_2490" Value="2-oxo-3-deoxygalactonate kinase; K00883 2-dehydro-3-deoxygalactonokinase [EC:2.7.1.58]" />
+    <hashEntry Key="xcb:XC_2985" Value="beta-galactosidase; K01190 beta-galactosidase [EC:3.2.1.23]" />
+    <hashEntry Key="xcb:XC_3050" Value="aldose 1-epimerase; K01785 aldose 1-epimerase [EC:5.1.3.3]" />
+    <hashEntry Key="xcb:XC_3491" Value="D-galactose 1-dehydrogenase; K00035 D-galactose 1-dehydrogenase [EC:1.1.1.48]" />
+    <hashEntry Key="xcb:XC_3608" Value="phosphoglucomutase; phosphomannomutase; K15778 phosphomannomutase / phosphoglucomutase [EC:5.4.2.8 5" />
+    <hashEntry Key="xcb:XC_3767" Value="UDP-glucose 4-epimerase; K01784 UDP-glucose 4-epimerase [EC:5.1.3.2]" />
+    <hashEntry Key="xcb:XC_3769" Value="UDP-galactopyranose mutase; K01854 UDP-galactopyranose mutase [EC:5.4.99.9]" />
+    <hashEntry Key="xcb:XC_3941" Value="phosphomannomutase; K15778 phosphomannomutase / phosphoglucomutase [EC:5.4.2.8 5.4.2.2]" />
+    <hashEntry Key="xcb:XC_4208" Value="beta-galactosidase; K01190 beta-galactosidase [EC:3.2.1.23]" />
+  </Genes>
+</KEGG.PathwayBrief>

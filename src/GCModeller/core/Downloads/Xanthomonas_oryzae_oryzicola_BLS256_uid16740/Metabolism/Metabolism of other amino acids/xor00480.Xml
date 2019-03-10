@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00480" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Glutathione metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00118" Value="Glutathione biosynthesis, glutamate =&gt; glutathione [PATH:xor00480]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00005" Value="NADPH" />
+    <hashEntry Key="C00006" Value="NADP+" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00051" Value="Glutathione" />
+    <hashEntry Key="C00072" Value="Ascorbate" />
+    <hashEntry Key="C00077" Value="L-Ornithine" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00127" Value="Glutathione disulfide" />
+    <hashEntry Key="C00134" Value="Putrescine" />
+    <hashEntry Key="C00151" Value="L-Amino acid" />
+    <hashEntry Key="C00315" Value="Spermidine" />
+    <hashEntry Key="C00669" Value="gamma-L-Glutamyl-L-cysteine" />
+    <hashEntry Key="C00750" Value="Spermine" />
+    <hashEntry Key="C01322" Value="RX" />
+    <hashEntry Key="C01419" Value="Cys-Gly" />
+    <hashEntry Key="C01672" Value="Cadaverine" />
+    <hashEntry Key="C01879" Value="Pidolic acid" />
+    <hashEntry Key="C02090" Value="Trypanothione" />
+    <hashEntry Key="C02320" Value="R-S-Glutathione" />
+    <hashEntry Key="C03170" Value="Trypanothione disulfide" />
+    <hashEntry Key="C03646" Value="Bis-gamma-glutamylcystine" />
+    <hashEntry Key="C03740" Value="(5-L-Glutamyl)-L-amino acid" />
+    <hashEntry Key="C05422" Value="Dehydroascorbate" />
+    <hashEntry Key="C05726" Value="S-Substituted L-cysteine" />
+    <hashEntry Key="C05727" Value="S-Substituted N-acetyl-L-cysteine" />
+    <hashEntry Key="C05729" Value="R-S-Cysteinylglycine" />
+    <hashEntry Key="C05730" Value="Glutathionylspermidine" />
+    <hashEntry Key="C16562" Value="Glutathionylspermine" />
+    <hashEntry Key="C16563" Value="Bis(glutathionyl)spermine" />
+    <hashEntry Key="C16564" Value="Bis(glutathionyl)spermine disulfide" />
+    <hashEntry Key="C16565" Value="Aminopropylcadaverine" />
+    <hashEntry Key="C16566" Value="Glutathionylaminopropylcadaverine" />
+    <hashEntry Key="C16567" Value="Homotrypanothione" />
+    <hashEntry Key="C16568" Value="Homotrypanothione disulfide" />
+    <hashEntry Key="C16663" Value="Tryparedoxin" />
+    <hashEntry Key="C16664" Value="Tryparedoxin disulfide" />
+  </Compound>
+  <PathwayMap Key="xor00480" Value="Glutathione metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0120" Value="glutathione peroxidase; K00432 glutathione peroxidase [EC:1.11.1.9]" />
+    <hashEntry Key="xor:XOC_0442" Value="zwf; glucose-6-phosphate 1-dehydrogenase; K00036 glucose-6-phosphate 1-dehydrogenase [EC:1.1.1.49 1." />
+    <hashEntry Key="xor:XOC_0592" Value="isocitrate dehydrogenase, NADP-dependent; K00031 isocitrate dehydrogenase [EC:1.1.1.42]" />
+    <hashEntry Key="xor:XOC_0738" Value="gnd; 6-phosphogluconate dehydrogenase (decarboxylating); K00033 6-phosphogluconate dehydrogenase [EC" />
+    <hashEntry Key="xor:XOC_0780" Value="glutamate--cysteine ligase; K01919 glutamate--cysteine ligase [EC:6.3.2.2]" />
+    <hashEntry Key="xor:XOC_0784" Value="glutamate--cysteine ligase; K01919 glutamate--cysteine ligase [EC:6.3.2.2]" />
+    <hashEntry Key="xor:XOC_0948" Value="glutathione S-transferase; K00799 glutathione S-transferase [EC:2.5.1.18]" />
+    <hashEntry Key="xor:XOC_1215" Value="aminopeptidase N; K01256 aminopeptidase N [EC:3.4.11.2]" />
+    <hashEntry Key="xor:XOC_1702" Value="glutathione reductase; K00383 glutathione reductase (NADPH) [EC:1.8.1.7]" />
+    <hashEntry Key="xor:XOC_1771" Value="ABC transporter vitamin B12 uptake permease; K00432 glutathione peroxidase [EC:1.11.1.9]" />
+    <hashEntry Key="xor:XOC_1944" Value="ggt; gamma-glutamyltransferase; K00681 gamma-glutamyltranspeptidase / glutathione hydrolase [EC:2.3." />
+    <hashEntry Key="xor:XOC_2107" Value="glutathione S-transferase; K00799 glutathione S-transferase [EC:2.5.1.18]" />
+    <hashEntry Key="xor:XOC_2607" Value="zwf; glucose-6-phosphate 1-dehydrogenase; K00036 glucose-6-phosphate 1-dehydrogenase [EC:1.1.1.49 1." />
+    <hashEntry Key="xor:XOC_3000" Value="glutathione S-transferase; K00799 glutathione S-transferase [EC:2.5.1.18]" />
+    <hashEntry Key="xor:XOC_3018" Value="glutathione S-transferase; K00799 glutathione S-transferase [EC:2.5.1.18]" />
+    <hashEntry Key="xor:XOC_3022" Value="putative glutathione peroxidase; K00432 glutathione peroxidase [EC:1.11.1.9]" />
+    <hashEntry Key="xor:XOC_3308" Value="gshB; glutathione synthase; K01920 glutathione synthase [EC:6.3.2.3]" />
+    <hashEntry Key="xor:XOC_3817" Value="pepA; cytosol aminopeptidase; K01255 leucyl aminopeptidase [EC:3.4.11.1]" />
+    <hashEntry Key="xor:XOC_4242" Value="speE; spermidine synthase; K00797 spermidine synthase [EC:2.5.1.16]" />
+    <hashEntry Key="xor:XOC_4287" Value="leucine aminopeptidase; K01255 leucyl aminopeptidase [EC:3.4.11.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

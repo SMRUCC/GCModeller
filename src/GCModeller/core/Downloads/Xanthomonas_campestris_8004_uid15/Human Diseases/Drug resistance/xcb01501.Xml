@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb01501" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The beta-lactam antibiotics are the most widely used group of antibiotics, which exert their effect by interfering with the structural crosslinking of peptidoglycans in bacterial cell walls. Over the past decades, a rapid increase in the number of beta-lactam-resistant clinical isolates is observed. Bacterial resistance to beta-lactam antibiotics can be achieved by any of the following strategies: producing inactivating enzymes called beta-lactamases, altering the beta-lactam targets of penicillin-binding proteins (PBPs), reducing transport of beta-lactams into the periplasmic space via changes in porins, and using the mechanisms for exclusion of beta-lactams by way of efflux pumps. Resistance may result from intrinsic properties of organisms, through gene mutations, and through plasmid- and transposon-specified genes.&lt;br&gt;</Description>
+  <Name>beta-Lactam resistance - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00628" Value="beta-Lactam resistance, AmpC system [PATH:xcb01501]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xcb01501" Value="beta-Lactam resistance&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0694" Value="penicillin-binding protein 2; K05515 penicillin-binding protein 2" />
+    <hashEntry Key="xcb:XC_0828" Value="TolC protein; K12340 outer membrane protein" />
+    <hashEntry Key="xcb:XC_0942" Value="penicillin-binding protein 1A; K05366 penicillin-binding protein 1A [EC:2.4.1.- 3.4.-.-]" />
+    <hashEntry Key="xcb:XC_0995" Value="RND efflux membrane fusion protein; K03585 membrane fusion protein, multidrug efflux system" />
+    <hashEntry Key="xcb:XC_0996" Value="acriflavin resistance protein; K18138 multidrug efflux pump" />
+    <hashEntry Key="xcb:XC_1118" Value="transcriptional activator ampR family; K17850 LysR family transcriptional regulator, regulator of ge" />
+    <hashEntry Key="xcb:XC_1119" Value="beta lactamase; K17836 beta-lactamase class A [EC:3.5.2.6]" />
+    <hashEntry Key="xcb:XC_1235" Value="beta-lactamase; K01467 beta-lactamase class C [EC:3.5.2.6]" />
+    <hashEntry Key="xcb:XC_1432" Value="multidrug resistance protein; K03585 membrane fusion protein, multidrug efflux system" />
+    <hashEntry Key="xcb:XC_1434" Value="hypothetical protein; K18139 outer membrane protein, multidrug efflux system" />
+    <hashEntry Key="xcb:XC_1747" Value="multidrug-efflux transporter acrB; K18138 multidrug efflux pump" />
+    <hashEntry Key="xcb:XC_1748" Value="multidrug resistance protein; K03585 membrane fusion protein, multidrug efflux system" />
+    <hashEntry Key="xcb:XC_2958" Value="beta-hexosaminidase (EC:3.2.1.52); K01207 beta-N-acetylhexosaminidase [EC:3.2.1.52]" />
+    <hashEntry Key="xcb:XC_3515" Value="penicillin-binding protein 3; K03587 cell division protein FtsI (penicillin-binding protein 3)" />
+    <hashEntry Key="xcb:XC_3929" Value="signal transducer; K08218 MFS transporter, PAT family, beta-lactamase induction signal transducer Am" />
+  </Genes>
+</KEGG.PathwayBrief>

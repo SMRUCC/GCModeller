@@ -1,0 +1,35 @@
+/* This is a example script */
+
+/* S-Equations */
+RXN X1=10*X5*X3^-0.8-5*X1^0.5
+RXN X2=5*X1^0.5-10*X2^0.5
+RXN X3=2*X2^0.5-1.25*X3^0.5
+RXN X4=8*X2^0.5-5*X4^0.5
+
+// FUNC f 0.2*x+y^0.8
+
+/* Substrate initial value */
+// ATP comments ......
+INIT X1=2
+INIT X2=0.25
+INIT X3=0.64
+// BLA BLA BLA COMMENTS ......
+INIT X4=0.64
+INIT X5=0.5
+
+/* Stimulates */
+/* Kick  specific times with add a value */
+// Example comment 1
+// STIMULATE OBJECT X1 START 4 KICKS 1 INTERVAL 1 VALUE 0
+// Example comment 2
+STIMULATE OBJECT X2 START 5 KICKS -1 INTERVAL 2.5 VALUE --2
+// NULL
+/* STIMULATE OBJECT X3 START 45 KICKS 30 INTERVAL 7 VALUE 5 */
+
+NAMED X1 ATP
+NAMED X2 G6P
+
+TITLE EXAMPLE SCRIPT
+COMMENT NO COMMENT
+
+FINALTIME 10

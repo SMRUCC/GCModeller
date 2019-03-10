@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqblock.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "GenBank-General"
+================================================= -->
+<!--
+*********************************************************************
+
+  GenBank specific data
+  This block of specifications was developed by Jim Ostell of
+      NCBI
+
+*********************************************************************
+-->
+<!-- Elements used by other modules:
+          GB-block -->
+
+<!-- Elements referenced from other modules:
+          Date FROM NCBI-General -->
+
+<!-- ============================================ -->
+
+
+
+<!-- GenBank specific descriptions -->
+<xs:element name="GB-block">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="GB-block_extra-accessions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="GB-block_extra-accessions_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- source line -->
+      <xs:element name="GB-block_source" type="xs:string" minOccurs="0"/>
+      <xs:element name="GB-block_keywords" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="GB-block_keywords_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GB-block_origin" type="xs:string" minOccurs="0"/>
+<!-- OBSOLETE old form Entry Date -->
+      <xs:element name="GB-block_date" type="xs:string" minOccurs="0"/>
+<!-- replaces date -->
+      <xs:element name="GB-block_entry-date" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- GenBank division -->
+      <xs:element name="GB-block_div" type="xs:string" minOccurs="0"/>
+<!-- continuation line of organism -->
+      <xs:element name="GB-block_taxonomy" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

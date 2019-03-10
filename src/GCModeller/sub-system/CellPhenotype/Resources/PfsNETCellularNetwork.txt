@@ -1,0 +1,18 @@
+﻿Imports PfsNET
+
+# Set up data files in the program with String.Format function
+  MAT1 <- {0}
+  MAT2 <- {1} 
+   NET <- {2}
+
+# PfsNET evaluation parameters   
+ $Beta
+ $t1
+ $t2
+ $n
+
+Call Session.Initialize
+ 
+# Invoke the PfsNET evaluation and save data to file
+Result <- PfsNET.Evaluate File1 $MAT1 File2 $MAT2 File3 $NET b $Beta t1 $t1 t2 $t2 n $n
+$Result > {3}/{4}.xml

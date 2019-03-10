@@ -1,0 +1,14 @@
+AJ849477.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH30
+AJ849478.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH32
+AJ849479.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH33
+AJ849481.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH35
+AJ849482.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH36
+AJ849483.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH37
+AJ849484.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH40
+AJ849485.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH42
+AJ849486.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH43
+AJ849487.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH45
+AJ849488.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH46
+AJ849489.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH47
+AJ849490.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH48
+AJ849480.1	Viral haemorrhagic septicaemia virus partial n gene for nucleoprotein, genomic RNA, isolate GH34

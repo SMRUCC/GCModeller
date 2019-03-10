@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00290" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Valine, leucine and isoleucine biosynthesis - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00019" Value="Valine/isoleucine biosynthesis, pyruvate =&gt; valine / 2-oxobutanoate =&gt; isoleucine [PATH:eco00290]" />
+    <hashEntry Key="eco_M00432" Value="Leucine biosynthesis, 2-oxoisovalerate =&gt; 2-oxoisocaproate [PATH:eco00290]" />
+    <hashEntry Key="eco_M00570" Value="Isoleucine biosynthesis, threonine =&gt; 2-oxobutanoate =&gt; isoleucine [PATH:eco00290]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00109" Value="2-Oxobutanoate" />
+    <hashEntry Key="C00123" Value="L-Leucine" />
+    <hashEntry Key="C00141" Value="3-Methyl-2-oxobutanoic acid" />
+    <hashEntry Key="C00183" Value="L-Valine" />
+    <hashEntry Key="C00188" Value="L-Threonine" />
+    <hashEntry Key="C00233" Value="4-Methyl-2-oxopentanoate" />
+    <hashEntry Key="C00407" Value="L-Isoleucine" />
+    <hashEntry Key="C00671" Value="(S)-3-Methyl-2-oxopentanoic acid" />
+    <hashEntry Key="C02226" Value="2-Methylmaleate" />
+    <hashEntry Key="C02504" Value="alpha-Isopropylmalate" />
+    <hashEntry Key="C02612" Value="(R)-2-Methylmalate" />
+    <hashEntry Key="C02631" Value="2-Isopropylmaleate" />
+    <hashEntry Key="C04181" Value="3-Hydroxy-3-methyl-2-oxobutanoic acid" />
+    <hashEntry Key="C04236" Value="(2S)-2-Isopropyl-3-oxosuccinate" />
+    <hashEntry Key="C04272" Value="(R)-2,3-Dihydroxy-3-methylbutanoate" />
+    <hashEntry Key="C04411" Value="(2R,3S)-3-Isopropylmalate" />
+    <hashEntry Key="C06006" Value="(S)-2-Aceto-2-hydroxybutanoate" />
+    <hashEntry Key="C06007" Value="(R)-2,3-Dihydroxy-3-methylpentanoate" />
+    <hashEntry Key="C06010" Value="(S)-2-Acetolactate" />
+    <hashEntry Key="C06032" Value="D-erythro-3-Methylmalate" />
+    <hashEntry Key="C14463" Value="(R)-3-Hydroxy-3-methyl-2-oxopentanoate" />
+  </Compound>
+  <PathwayMap Key="eco00290" Value="Valine, leucine and isoleucine biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0071" Value="leuD; 3-isopropylmalate dehydratase small subunit (EC:4.2.1.33); K01704 3-isopropylmalate/(R)-2-meth" />
+    <hashEntry Key="eco:b0072" Value="leuC; 3-isopropylmalate dehydratase large subunit (EC:4.2.1.33); K01703 3-isopropylmalate/(R)-2-meth" />
+    <hashEntry Key="eco:b0073" Value="leuB; 3-isopropylmalate dehydrogenase, NAD(+)-dependent (EC:1.1.1.85); K00052 3-isopropylmalate dehy" />
+    <hashEntry Key="eco:b0074" Value="leuA; 2-isopropylmalate synthase (EC:2.3.3.13); K01649 2-isopropylmalate synthase [EC:2.3.3.13]" />
+    <hashEntry Key="eco:b0077" Value="ilvI; acetolactate synthase 3 large subunit (EC:2.2.1.6); K01652 acetolactate synthase I/II/III larg" />
+    <hashEntry Key="eco:b0078" Value="ilvH; acetolactate synthase 3, small subunit, valine-sensitive (EC:2.2.1.6); K01653 acetolactate syn" />
+    <hashEntry Key="eco:b2290" Value="alaA; valine-pyruvate aminotransferase 2; K14260 alanine-synthesizing transaminase [EC:2.6.1.66 2.6." />
+    <hashEntry Key="eco:b3117" Value="tdcB; L-threonine dehydratase, catabolic (EC:4.3.1.19); K01754 threonine dehydratase [EC:4.3.1.19]" />
+    <hashEntry Key="eco:b3572" Value="avtA; valine-pyruvate aminotransferase 1 (EC:2.6.1.66); K00835 valine--pyruvate aminotransferase [EC" />
+    <hashEntry Key="eco:b3670" Value="ilvN; acetolactate synthase 1 small subunit (EC:2.2.1.6); K01653 acetolactate synthase I/III small s" />
+    <hashEntry Key="eco:b3671" Value="ilvB; acetolactate synthase 2 large subunit (EC:2.2.1.6); K01652 acetolactate synthase I/II/III larg" />
+    <hashEntry Key="eco:b3769" Value="ilvM; acetolactate synthase 2 small subunit (EC:2.2.1.6); K11258 acetolactate synthase II small subu" />
+    <hashEntry Key="eco:b3770" Value="ilvE; branched-chain amino-acid aminotransferase (EC:2.6.1.42); K00826 branched-chain amino acid ami" />
+    <hashEntry Key="eco:b3771" Value="ilvD; dihydroxyacid dehydratase (EC:4.2.1.9); K01687 dihydroxy-acid dehydratase [EC:4.2.1.9]" />
+    <hashEntry Key="eco:b3772" Value="ilvA; L-threonine dehydratase, biosynthetic; also known as threonine deaminase (EC:4.3.1.19); K01754" />
+    <hashEntry Key="eco:b3774" Value="ilvC; ketol-acid reductoisomerase, NAD(P)-binding (EC:1.1.1.86); K00053 ketol-acid reductoisomerase" />
+  </Genes>
+</KEGG.PathwayBrief>

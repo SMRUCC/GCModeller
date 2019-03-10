@@ -1,0 +1,238 @@
+﻿#Region "Microsoft.VisualBasic::0e27714df43d2dd6b8eae93401fe0f87, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Structure OrthologyTerms
+    ' 
+    '         Properties: EntityList, Length, Terms
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Reaction
+    ' 
+    '         Properties: [Class], [Module], Comments, CommonNames, Definition
+    '                     Enzyme, Equation, ID, Orthology, Pathway
+    '                     ReactionModel, Reversible
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetSubstrateCompounds, IsConnectWith, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports r = System.Text.RegularExpressions.Regex
+Imports XmlProperty = Microsoft.VisualBasic.Text.Xml.Models.Property
+
+Namespace Assembly.KEGG.DBGET.bGetObject
+
+    <XmlType("Orthology-terms", [Namespace]:=OrthologyTerms.Xmlns)>
+    Public Structure OrthologyTerms
+
+        Public Const Xmlns$ = "http://GCModeller.org/core/KEGG/Model/OrthologyTerm.xsd"
+
+        <XmlIgnore>
+        Public ReadOnly Property EntityList As String()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Terms.Keys
+            End Get
+        End Property
+
+        <XmlIgnore>
+        Public ReadOnly Property Length As Integer
+            Get
+                Return Terms?.Length
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' The KO terms?
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("terms")>
+        Public Property Terms As XmlProperty()
+
+        Public Overrides Function ToString() As String
+            Return EntityList.GetJson
+        End Function
+    End Structure
+
+    ''' <summary>
+    ''' KEGG reaction annotation data.
+    ''' </summary>
+    ''' <remarks></remarks>
+    <XmlRoot("reaction", [Namespace]:=Reaction.Xmlns)>
+    Public Class Reaction : Inherits XmlDataModel
+        Implements INamedValue
+
+        Public Const Xmlns$ = "http://GCModeller.org/core/KEGG/DBGET/Reaction.xsd"
+
+        ''' <summary>
+        ''' 代谢反应的KEGG编号，格式为``R\d+``，同时这个属性也是<see cref="INamedValue.Key"/>
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("ID")>
+        Public Property ID As String Implements INamedValue.Key
+        <XmlElement("commonNames")>
+        Public Property CommonNames As String()
+        <XmlElement("def")>
+        Public Property Definition As String
+
+        ''' <summary>
+        ''' 使用KEGG compound编号作为代谢物的反应过程的表达式
+        ''' </summary>
+        ''' <returns></returns>
+        ''' 
+        <XmlElement("equation")>
+        Public Property Equation As String
+
+        ''' <summary>
+        ''' 标号： <see cref="Expasy.Database.Enzyme.Identification"></see>
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        ''' 
+        <XmlArray("enzymes")>
+        Public Property Enzyme As String()
+        <XmlElement("comment")>
+        Public Property Comments As String
+        <XmlArray("pathway")>
+        Public Property Pathway As NamedValue()
+        <XmlArray("module")>
+        Public Property [Module] As NamedValue()
+        <XmlElement("orthology")>
+        Public Property Orthology As OrthologyTerms
+
+        ''' <summary>
+        ''' The reaction class
+        ''' </summary>
+        ''' <returns></returns>
+        ''' 
+        <XmlArray("class")>
+        Public Property [Class] As NamedValue()
+
+        ''' <summary>
+        ''' + (...)
+        ''' + m
+        ''' + n
+        ''' + [nm]-1
+        ''' + [nm]+1
+        ''' </summary>
+        Const polymers$ = "(\(.+?\))|([nm](\s*[+-]\s*[0-9mn]+)? )"
+
+        <XmlNamespaceDeclarations()>
+        Public xmlnsImports As XmlSerializerNamespaces
+
+        Public Sub New()
+            xmlnsImports = New XmlSerializerNamespaces
+            xmlnsImports.Add("KO", OrthologyTerms.Xmlns)
+        End Sub
+
+        ''' <summary>
+        ''' 从<see cref="Equation"/>属性值字符串创建一个代谢过程的模型
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property ReactionModel As DefaultTypes.Equation
+            Get
+                Try
+                    Return EquationBuilder.CreateObject(Of
+                        DefaultTypes.CompoundSpecieReference,
+                        DefaultTypes.Equation)(r.Replace(Equation, polymers, "", RegexICSng))
+                Catch ex As Exception
+                    ex = New Exception(Me.GetJson, ex)
+                    Throw ex
+                End Try
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            Return String.Format("[{0}] {1}:  {2}", Enzyme, ID, Definition)
+        End Function
+
+        ''' <summary>
+        ''' 这个反应过程是否是可逆的代谢反应？
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Reversible As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return InStr(Equation, " <=> ") > 0
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 得到本反应过程对象中的所有的代谢底物的KEGG编号，以便于查询和下载
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function GetSubstrateCompounds() As String()
+            Dim fluxModel = Me.ReactionModel
+            Dim allCompounds$() = LinqAPI.Exec(Of String) _
+ _
+                () <= From csr As DefaultTypes.CompoundSpecieReference
+                      In fluxModel.Reactants.AsList + fluxModel.Products
+                      Select csr.ID
+                      Distinct
+
+            Return allCompounds
+        End Function
+
+        ''' <summary>
+        ''' 通过查看化合物的编号是否有交集来判断这两个代谢过程是否是应该相连的？
+        ''' </summary>
+        ''' <param name="[next]"></param>
+        ''' <returns></returns>
+        Public Function IsConnectWith([next] As Reaction) As Boolean
+            Dim a = GetSubstrateCompounds(),
+                b = [next].GetSubstrateCompounds
+
+            For Each s As String In a
+                If Array.IndexOf(b, s) > -1 Then
+                    Return True
+                End If
+            Next
+
+            Return False
+        End Function
+    End Class
+End Namespace

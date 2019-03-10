@@ -1,0 +1,239 @@
+﻿Pfam AccessionId,Signaling domain ID,Domain name,Kind,Function,Marker
+PF01339,CheB_methylest,CheB_methylest,chemotaxis,Chemotaxis,Yes
+PF04509,CheC,CheC,chemotaxis,Chemotaxis,Yes
+PF03975,CheD,CheD,chemotaxis,Chemotaxis,Yes
+PF01739,CheR,CheR,chemotaxis,Chemotaxis,Yes
+PF03705,CheR_N,CheR_N,chemotaxis,Chemotaxis,Yes
+PF01584,CheW,CheW,chemotaxis,Chemotaxis,Yes
+PF09078,CheY-binding,CheY-binding,chemotaxis,Chemotaxis,Yes
+PF04344,CheZ,CheZ,chemotaxis,Chemotaxis,Yes
+PF02895,H-kinase_dim,H-kinase_dim,chemotaxis,Chemotaxis,Yes
+PF00015,MCPsignal,MCPsignal,chemotaxis,Chemotaxis,Yes
+PF07638,Sigma70_ECF,Sigma70_ECF,ecf,ECF,Yes
+PF04940,BLUF,BLUF,input,Cofactor binding,-
+PF04060,FeS,FeS,input,Cofactor binding,-
+PF00037,Fer4,Fer4,input,Cofactor binding,-
+PF07700,HNOB,HNOB,input,Cofactor binding,-
+PF07701,HNOBA,HNOBA,input,Cofactor binding,-
+PF01814,Hemerythrin,Hemerythrin,input,Cofactor binding,-
+PF00730,HhH-GPD,HhH-GPD,input,Cofactor binding,-
+PF01077,NIR_SIR,NIR_SIR,input,Cofactor binding,-
+PF03460,NIR_SIR_ferr,NIR_SIR_ferr,input,Cofactor binding,-
+PF02579,Nitro_FeMo-Co,Nitro_FeMo-Co,input,Cofactor binding,-
+N/A,Phytochrome,Phytochrome,input,Cofactor binding,-
+PF00155,Aminotran_1_2,Aminotran_1_2,input,Enzymatic,-
+PF00909,Ammonium_transp,Ammonium_transp,input,Enzymatic,-
+N/A,AraC_E_bind,AraC_E_bind,input,Enzymatic,-
+PF01637,Arch_ATPase,Arch_ATPase,input,Enzymatic,-
+PF01036,Bac_rhodopsin,Bac_rhodopsin,input,Enzymatic,-
+PF00285,Citrate_synt,Citrate_synt,input,Enzymatic,-
+PF02560,Cyanate_lyase,Cyanate_lyase,input,Enzymatic,-
+PF00275,EPSP_synthase,EPSP_synthase,input,Enzymatic,-
+PF03069,FmdA_AmdA,FmdA_AmdA,input,Enzymatic,-
+PF00310,GATase_2,GATase_2,input,Enzymatic,-
+PF02685,Glucokinase,Glucokinase,input,Enzymatic,-
+PF02885,Glycos_trans_3N,Glycos_trans_3N,input,Enzymatic,-
+PF00903,Glyoxalase,Glyoxalase,input,Enzymatic,-
+PF03130,HEAT_PBS,HEAT_PBS,input,Enzymatic,-
+PF02602,HEM4,HEM4,input,Enzymatic,-
+PF01909,NTP_transf_2,NTP_transf_2,input,Enzymatic,-
+PF00293,NUDIX,NUDIX,input,Enzymatic,-
+PF00881,Nitroreductase,Nitroreductase,input,Enzymatic,-
+PF00291,PALP,PALP,input,Enzymatic,-
+PF00381,PTS-HPr,PTS-HPr,input,Enzymatic,-
+PF02378,PTS_EIIC,PTS_EIIC,input,Enzymatic,-
+PF01551,Peptidase_M23,Peptidase_M23,input,Enzymatic,-
+PF00294,PfkB,PfkB,input,Enzymatic,-
+PF00156,Pribosyltran,Pribosyltran,input,Enzymatic,-
+PF00070,Pyr_redox,Pyr_redox,input,Enzymatic,-
+PF07992,Pyr_redox_2,Pyr_redox_2,input,Enzymatic,-
+PF00581,Rhodanese,Rhodanese,input,Enzymatic,-
+PF01202,SKI,SKI,input,Enzymatic,-
+PF00141,peroxidase,peroxidase,input,Enzymatic,-
+PF00571,CBS,CBS,input,Protein-protein interaction,-
+PF00515,TPR_1,TPR_1,input,Protein-protein interaction,-
+PF07719,TPR_2,TPR_2,input,Protein-protein interaction,-
+PF07720,TPR_3,TPR_3,input,Protein-protein interaction,-
+PF07721,TPR_4,TPR_4,input,Protein-protein interaction,-
+PF12729,4HB_MCP,4HB_MCP_1,input,Small-molecule binding,Yes
+PF01842,ACT,ACT,input,Small-molecule binding,-
+PF02805,Ada_Zn_binding,Ada_Zn_binding,input,Small-molecule binding,-
+PF06029,AlkA_N,AlkA_N,input,Small-molecule binding,-
+PF02311,AraC_binding,AraC_binding,input,Small-molecule binding,-
+PF01037,AsnC_trans_reg,AsnC_trans_reg,input,Small-molecule binding,-
+PF03472,Autoind_bind,Autoind_bind,input,Small-molecule binding,-
+PF02310,B12-binding,B12-binding,input,Small-molecule binding,-
+PF02607,B12-binding,B12-binding_2,input,Small-molecule binding,-
+PF03924,CHASE,CHASE,input,Small-molecule binding,Yes
+PF02743,Cache_1,Cache_1,input,Small-molecule binding,-
+PF08269,Cache_2,Cache_2,input,Small-molecule binding,-
+PF01656,CbiA,CbiA,input,Small-molecule binding,-
+PF06018,CodY,CodY,input,Small-molecule binding,-
+PF05651,Diacid_rec,Diacid_rec,input,Small-molecule binding,-
+PF00498,FHA,FHA,input,Small-molecule binding,-
+PF08495,FIST,FIST,input,Small-molecule binding,Yes
+PF04023,FeoA,FeoA,input,Small-molecule binding,-
+PF02661,Fic,Fic,input,Small-molecule binding,-
+PF01590,GAF,GAF,input,Small-molecule binding,Yes
+PF13185,GAF,GAF_2,input,Small-molecule binding,Yes
+PF13492,GAF,GAF_3,input,Small-molecule binding,Yes
+PF00403,HMA,HMA,input,Small-molecule binding,-
+PF01614,IclR,IclR,input,Small-molecule binding,Yes
+PF03466,LysR_substrate,LysR_substrate,input,Small-molecule binding,-
+PF14417,MEDS,MEDS,input,Small-molecule binding,Yes
+PF08670,PAS,MEKHLA,input,Small-molecule binding,Yes
+PF08376,NIT,NIT,input,Small-molecule binding,Yes
+PF00989,PAS,PAS,input,Small-molecule binding,Yes
+PF13596,PAS,PAS_10,input,Small-molecule binding,Yes
+PF08446,PAS,PAS_2,input,Small-molecule binding,Yes
+PF08447,PAS,PAS_3,input,Small-molecule binding,Yes
+PF08448,PAS,PAS_4,input,Small-molecule binding,Yes
+PF07310,PAS,PAS_5,input,Small-molecule binding,Yes
+PF08348,PAS,PAS_6,input,Small-molecule binding,Yes
+PF12860,PAS,PAS_7,input,Small-molecule binding,Yes
+PF13188,PAS,PAS_8,input,Small-molecule binding,Yes
+PF13426,PAS,PAS_9,input,Small-molecule binding,Yes
+PF00532,Periplas_BP,Peripla_BP_1,input,Small-molecule binding,-
+PF01497,Periplas_BP,Peripla_BP_2,input,Small-molecule binding,-
+PF13377,Periplas_BP,Peripla_BP_3,input,Small-molecule binding,-
+PF13407,Periplas_BP,Peripla_BP_4,input,Small-molecule binding,-
+PF13433,Periplas_BP,Peripla_BP_5,input,Small-molecule binding,-
+PF13458,Periplas_BP,Peripla_BP_6,input,Small-molecule binding,-
+PF10114,PAS,PocR,input,Small-molecule binding,Yes
+PF01547,SBP_bac,SBP_bac_1,input,Small-molecule binding,-
+PF07596,SBP_bac,SBP_bac_10,input,Small-molecule binding,-
+PF00497,SBP_bac,SBP_bac_3,input,Small-molecule binding,-
+PF00496,SBP_bac,SBP_bac_5,input,Small-molecule binding,-
+PF03480,SBP_bac,SBP_bac_7,input,Small-molecule binding,-
+PF13416,SBP_bac,SBP_bac_8,input,Small-molecule binding,-
+PF01380,SIS,SIS,input,Small-molecule binding,-
+PF01740,STAS,STAS,input,Small-molecule binding,-
+PF03459,TOBE,TOBE,input,Small-molecule binding,-
+PF02909,TetR_C,TetR_C,input,Small-molecule binding,-
+PF02830,V4R,V4R,input,Small-molecule binding,-
+PF00027,cNMP_binding,cNMP_binding,input,Small-molecule binding,-
+PF05226,CHASE2,CHASE2,input,Unknown,Yes
+PF05227,CHASE3,CHASE3,input,Unknown,Yes
+PF05228,CHASE4,CHASE4,input,Unknown,Yes
+PF05231,MASE1,MASE1,input,Unknown,-
+PF05230,MASE2,MASE2,input,Unknown,-
+PF03707,MHYT,MHYT,input,Unknown,-
+PF02080,TrkA_C,TrkA_C,input,Unknown,-
+PF01928,CYTH,CYTH,output,Adenylate cyclase,Yes
+PF03869,Arc,Arc,output,DNA-binding,Yes
+PF01316,Arg_repressor,Arg_repressor,output,DNA-binding,Yes
+PF06953,ArsD,ArsD,output,DNA-binding,Yes
+PF08667,BetR,BetR,output,DNA-binding,Yes
+PF06338,ComK,ComK,output,DNA-binding,Yes
+PF09048,Cro,Cro,output,DNA-binding,Yes
+PF00325,Crp,Crp,output,DNA-binding,Yes
+PF05848,CtsR,CtsR,output,DNA-binding,Yes
+N/A,DeoR,DeoR,output,DNA-binding,Yes
+PF01475,FUR,FUR,output,DNA-binding,Yes
+PF04703,FaeA,FaeA,output,DNA-binding,Yes
+PF02742,Fe_dep_repr_C,Fe_dep_repr_C,output,DNA-binding,Yes
+PF01325,Fe_dep_repress,Fe_dep_repress,output,DNA-binding,Yes
+PF09012,FeoC,FeoC,output,DNA-binding,Yes
+PF07750,GcrA,GcrA,output,DNA-binding,Yes
+PF00196,GerE,GerE,output,DNA-binding,Yes
+PF00392,GntR,GntR,output,DNA-binding,Yes
+PF00447,HSF_DNA-bind,HSF_DNA-bind,output,DNA-binding,Yes
+PF00126,HTH_1,HTH_1,output,DNA-binding,Yes
+PF04967,HTH_10,HTH_10,output,DNA-binding,Yes
+PF08279,HTH_11,HTH_11,output,DNA-binding,Yes
+PF08461,HTH_12,HTH_12,output,DNA-binding,Yes
+PF11972,HTH_13,HTH_13,output,DNA-binding,Yes
+PF12324,HTH_15,HTH_15,output,DNA-binding,Yes
+PF12645,HTH_16,HTH_16,output,DNA-binding,Yes
+PF12728,HTH_17,HTH_17,output,DNA-binding,Yes
+PF12833,HTH_18,HTH_18,output,DNA-binding,Yes
+PF12844,HTH_19,HTH_19,output,DNA-binding,Yes
+PF12840,HTH_20,HTH_20,output,DNA-binding,Yes
+PF13276,HTH_21,HTH_21,output,DNA-binding,Yes
+PF13309,HTH_22,HTH_22,output,DNA-binding,Yes
+PF13384,HTH_23,HTH_23,output,DNA-binding,Yes
+PF13412,HTH_24,HTH_24,output,DNA-binding,Yes
+PF13413,HTH_25,HTH_25,output,DNA-binding,Yes
+PF13443,HTH_26,HTH_26,output,DNA-binding,Yes
+PF13463,HTH_27,HTH_27,output,DNA-binding,Yes
+PF13518,HTH_28,HTH_28,output,DNA-binding,Yes
+PF13551,HTH_29,HTH_29,output,DNA-binding,Yes
+PF01381,HTH_3,HTH_3,output,DNA-binding,Yes
+PF13556,HTH_30,HTH_30,output,DNA-binding,Yes
+PF13560,HTH_31,HTH_31,output,DNA-binding,Yes
+PF13565,HTH_32,HTH_32,output,DNA-binding,Yes
+PF13592,HTH_33,HTH_33,output,DNA-binding,Yes
+PF13601,HTH_34,HTH_34,output,DNA-binding,Yes
+PF13693,HTH_35,HTH_35,output,DNA-binding,Yes
+PF13730,HTH_36,HTH_36,output,DNA-binding,Yes
+PF13744,HTH_37,HTH_37,output,DNA-binding,Yes
+PF13936,HTH_38,HTH_38,output,DNA-binding,Yes
+PF14090,HTH_39,HTH_39,output,DNA-binding,Yes
+PF01022,HTH_5,HTH_5,output,DNA-binding,Yes
+PF01418,HTH_6,HTH_6,output,DNA-binding,Yes
+PF02796,HTH_7,HTH_7,output,DNA-binding,Yes
+PF02954,HTH_8,HTH_8,output,DNA-binding,Yes
+PF08221,HTH_9,HTH_9,output,DNA-binding,Yes
+PF00165,HTH_AraC,HTH_AraC,output,DNA-binding,Yes
+PF13404,HTH_AsnC-type,HTH_AsnC-type,output,DNA-binding,Yes
+PF08222,HTH_CodY,HTH_CodY,output,DNA-binding,Yes
+PF13545,HTH_Crp_2,HTH_Crp_2,output,DNA-binding,Yes
+PF08220,HTH_DeoR,HTH_DeoR,output,DNA-binding,Yes
+PF09339,HTH_IclR,HTH_IclR,output,DNA-binding,Yes
+PF08280,HTH_Mga,HTH_Mga,output,DNA-binding,Yes
+PF02650,HTH_WhiA,HTH_WhiA,output,DNA-binding,Yes
+PF05225,HTH_psq,HTH_psq,output,DNA-binding,Yes
+PF11569,Homez,Homez,output,DNA-binding,Yes
+PF03444,HrcA_DNA-bdg,HrcA_DNA-bdg,output,DNA-binding,Yes
+PF01638,HxlR,HxlR,output,DNA-binding,Yes
+PF00356,LacI,LacI,output,DNA-binding,Yes
+PF01726,LexA_DNA_bind,LexA_DNA_bind,output,DNA-binding,Yes
+PF04397,LytTR,LytTR,output,DNA-binding,Yes
+PF01047,MarR,MarR,output,DNA-binding,Yes
+PF12802,MarR,MarR_2,output,DNA-binding,Yes
+PF00376,MerR,MerR,output,DNA-binding,Yes
+PF09278,MerR,MerR-DNA-bind,output,DNA-binding,Yes
+PF13411,MerR,MerR_1,output,DNA-binding,Yes
+PF13591,MerR,MerR_2,output,DNA-binding,Yes
+PF05043,Mga,Mga,output,DNA-binding,Yes
+PF08765,Mor,Mor,output,DNA-binding,Yes
+PF00249,Myb_DNA-binding,Myb_DNA-binding,output,DNA-binding,Yes
+PF07848,PaaX,PaaX,output,DNA-binding,Yes
+PF03551,PadR,PadR,output,DNA-binding,Yes
+N/A,Pencillinase_R,Pencillinase_R,output,DNA-binding,Yes
+PF07022,Phage_CI_repr,Phage_CI_repr,output,DNA-binding,Yes
+PF09182,PuR_N,PuR_N,output,DNA-binding,Yes
+PF06971,Put_DNA-bind_N,Put_DNA-bind_N,output,DNA-binding,Yes
+PF01402,RHH_1,RHH_1,output,DNA-binding,Yes
+PF03693,RHH_2,RHH_2,output,DNA-binding,Yes
+PF05443,ROS_MUCR,ROS_MUCR,output,DNA-binding,Yes
+PF05732,RepL,RepL,output,DNA-binding,Yes
+PF04542,Sigma70_r2,Sigma70_r2,output,DNA-binding,Yes
+PF04539,Sigma70_r3,Sigma70_r3,output,DNA-binding,Yes
+PF04545,Sigma70_r4,Sigma70_r4,output,DNA-binding,Yes
+PF08281,Sigma70_r4_2,Sigma70_r4_2,output,DNA-binding,Yes
+PF00440,TetR_N,TetR_N,output,DNA-binding,Yes
+PF00486,Trans_reg_C,Trans_reg_C,output,DNA-binding,Yes
+PF01978,TrmB,TrmB,output,DNA-binding,Yes
+PF01371,Trp_repressor,Trp_repressor,output,DNA-binding,Yes
+PF04297,UPF0122,UPF0122,output,DNA-binding,Yes
+PF00563,EAL,EAL,output,Di-guanylate cyclase,Yes
+PF00990,GGDEF,GGDEF,output,Di-guanylate cyclase,Yes
+PF01966,HD,HD,output,Hydrolase,Yes
+PF00211,Guanylate_cyc,Guanylate_cyc,output,Other,Yes
+PF02082,Rrf2,Rrf2,output,Other,Yes
+PF03872,RseA_N,RseA_N,output,Other,Yes
+PF07228,SpoIIE,SpoIIE,output,Phosphatase,Yes
+PF00069,Pkinase,Pkinase,output,Protein kinase,Yes
+PF07714,Pkinase_Tyr,Pkinase_Tyr,output,Protein kinase,Yes
+PF03861,ANTAR,ANTAR,output,RNA-binding,Yes
+PF02599,CsrA,CsrA,output,RNA-binding,Yes
+PF00072,RR,Response_reg,receiver,Receiver,Yes
+PF02518,HK_CA,HATPase_c,transmitter,Transmitter,Yes
+PF13581,HK_CA,HATPase_c_2,transmitter,Transmitter,Yes
+PF07536,HisKA,HWE_HK,transmitter,Transmitter,Yes
+PF00512,HisKA,HisKA,transmitter,Transmitter,Yes
+PF07568,HisKA,HisKA_2,transmitter,Transmitter,Yes
+PF07730,HisKA,HisKA_3,transmitter,Transmitter,Yes
+PF06580,HisKA,His_kinase,transmitter,Transmitter,Yes
+PF01627,Hpt,Hpt,transmitter,Transmitter,Yes

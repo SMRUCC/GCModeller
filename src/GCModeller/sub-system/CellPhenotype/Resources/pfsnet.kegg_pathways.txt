@@ -1,0 +1,28 @@
+imports assemblyfile.io
+imports analysis.chipdata
+imports pfsnet
+imports kegg
+
+$chipdata
+$save
+pathways <- "[pathways]"
+java_filter <- "[java_filter]"
+
+$pathways ~ read.csv.kegg_pathways
+
+call pfsnet session.initialize $java_filter
+
+chipdata <- read.chipdata $chipdata
+
+experiment1 <- try_parse_string_vector "1,2,3,4,5,6,7,8,9,10"
+experiment2 <- try_parse_string_vector "11,12,13,14,15,16,17,18,19,20"
+
+geneidlist <- pathway_genelist.create_from pathwaydata $pathways
+file1 <- expression_matrix.create chipdata $chipdata gene_list $geneidlist experiment_ids $experiment1
+file2 <- expression_matrix.create chipdata $chipdata gene_list $geneidlist experiment_ids $experiment2
+
+file3 <- relationship.from_pathways pathways $pathways
+
+result <- pfsnet.calculate file1 $file1 file2 $file2 file3 $file3 t1 0.8 t2 0.8
+
+call write.pfsnet datas $result saveto $save

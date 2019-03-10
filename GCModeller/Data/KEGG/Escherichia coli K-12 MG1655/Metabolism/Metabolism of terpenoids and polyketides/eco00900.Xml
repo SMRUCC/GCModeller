@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00900" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Terpenoids, also known as isoprenoids, are a large class of natural products consisting of isoprene (C5) units. There are two biosynthetic pathways, the mevalonate pathway [MD:M00095] and the non-mevalonate pathway or the MEP/DOXP pathway [MD:M00096], for the terpenoid building blocks: isopentenyl diphosphate (IPP) and dimethylallyl diphosphate (DMAPP). The action of prenyltransferases then generates higher-order building blocks: geranyl diphosphate (GPP), farsenyl diphosphate (FPP), and geranylgeranyl diphosphate (GGPP), which are the precursors of monoterpenoids (C10), sesquiterpenoids (C15), and diterpenoids (C20), respectively. Condensation of these building blocks gives rise to the precursors of sterols (C30) and carotenoids (C40). The MEP/DOXP pathway is absent in higher animals and fungi, but in green plants the MEP/DOXP and mevalonate pathways co-exist in separate cellular compartments. The MEP/DOXP pathway, operating in the plastids, is responsible for the formation of essential oil monoterpenes and linalyl acetate, some sesquiterpenes, diterpenes, and carotenoids and phytol. The mevalonate pathway, operating in the cytosol, gives rise to triterpenes, sterols, and most sesquiterpenes.&lt;br&gt;</Description>
+  <Name>Terpenoid backbone biosynthesis - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00096" Value="C5 isoprenoid biosynthesis, non-mevalonate pathway [PATH:eco00900]" />
+    <hashEntry Key="eco_M00364" Value="C10-C20 isoprenoid biosynthesis, bacteria [PATH:eco00900]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00118" Value="D-Glyceraldehyde 3-phosphate" />
+    <hashEntry Key="C00129" Value="Isopentenyl diphosphate" />
+    <hashEntry Key="C00235" Value="Dimethylallyl diphosphate" />
+    <hashEntry Key="C00332" Value="Acetoacetyl-CoA" />
+    <hashEntry Key="C00341" Value="Geranyl diphosphate" />
+    <hashEntry Key="C00353" Value="Geranylgeranyl diphosphate" />
+    <hashEntry Key="C00356" Value="(S)-3-Hydroxy-3-methylglutaryl-CoA" />
+    <hashEntry Key="C00418" Value="(R)-Mevalonate" />
+    <hashEntry Key="C00448" Value="trans,trans-Farnesyl diphosphate" />
+    <hashEntry Key="C00621" Value="Dolichyl diphosphate" />
+    <hashEntry Key="C01107" Value="(R)-5-Phosphomevalonate" />
+    <hashEntry Key="C01126" Value="(2E,6E)-Farnesol" />
+    <hashEntry Key="C01143" Value="(R)-5-Diphosphomevalonate" />
+    <hashEntry Key="C01230" Value="all-trans-Hexaprenyl diphosphate" />
+    <hashEntry Key="C02321" Value="Rubber particle" />
+    <hashEntry Key="C03461" Value="2-trans,6-trans-Farnesal" />
+    <hashEntry Key="C04145" Value="all-trans-Nonaprenyl diphosphate" />
+    <hashEntry Key="C04146" Value="all-trans-Octaprenyl diphosphate" />
+    <hashEntry Key="C04216" Value="all-trans-Heptaprenyl diphosphate" />
+    <hashEntry Key="C04506" Value="Protein C-terminal S-farnesyl-L-cysteine" />
+    <hashEntry Key="C04574" Value="di-trans,poly-cis-Undecaprenyl diphosphate" />
+    <hashEntry Key="C04748" Value="Protein C-terminal S-farnesyl-L-cysteine methyl ester" />
+    <hashEntry Key="C05427" Value="Phytyl diphosphate" />
+    <hashEntry Key="C05859" Value="Dehydrodolichol diphosphate" />
+    <hashEntry Key="C11434" Value="2-C-Methyl-D-erythritol 4-phosphate" />
+    <hashEntry Key="C11435" Value="4-(Cytidine 5'-diphospho)-2-C-methyl-D-erythritol" />
+    <hashEntry Key="C11436" Value="2-Phospho-4-(cytidine 5'-diphospho)-2-C-methyl-D-erythritol" />
+    <hashEntry Key="C11437" Value="1-Deoxy-D-xylulose 5-phosphate" />
+    <hashEntry Key="C11453" Value="2-C-Methyl-D-erythritol 2,4-cyclodiphosphate" />
+    <hashEntry Key="C11811" Value="1-Hydroxy-2-methyl-2-butenyl 4-diphosphate" />
+    <hashEntry Key="C16521" Value="Isoprene" />
+    <hashEntry Key="C16826" Value="2-cis,6-trans-Farnesyl diphosphate" />
+    <hashEntry Key="C17432" Value="all-trans-Decaprenyl diphosphate" />
+    <hashEntry Key="C18321" Value="(2Z,6Z,10Z,14Z,18Z,22Z,26Z,30Z,34E)-Decaprenyl diphosphate" />
+    <hashEntry Key="C19691" Value="Farnesylcysteine" />
+    <hashEntry Key="C19760" Value="(2Z,6Z)-Farnesyl diphosphate" />
+    <hashEntry Key="C19852" Value="tritrans,heptacis-Undecaprenyl diphosphate" />
+    <hashEntry Key="C19853" Value="trans,polycis-Polyprenyl diphosphate" />
+    <hashEntry Key="C20120" Value="S-Farnesyl protein" />
+    <hashEntry Key="C20121" Value="trans,trans-Farnesyl phosphate" />
+    <hashEntry Key="C20345" Value="Isopentenyl phosphate" />
+    <hashEntry Key="C20847" Value="(R)-Mevalonate 3-phosphate" />
+    <hashEntry Key="C20848" Value="(R)-Mevalonate 3,5-bisphosphate" />
+  </Compound>
+  <PathwayMap Key="eco00900" Value="Terpenoid backbone biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0029" Value="ispH; 4-hydroxy-3-methylbut-2-enyl diphosphate reductase, 4Fe-4S protein (EC:1.17.1.2); K03527 4-hyd" />
+    <hashEntry Key="eco:b0173" Value="dxr; 1-deoxy-D-xylulose 5-phosphate reductoisomerase (EC:1.1.1.267); K00099 1-deoxy-D-xylulose-5-pho" />
+    <hashEntry Key="eco:b0174" Value="ispU; undecaprenyl pyrophosphate synthase (EC:2.5.1.31); K00806 undecaprenyl diphosphate synthase [E" />
+    <hashEntry Key="eco:b0420" Value="dxs; 1-deoxyxylulose-5-phosphate synthase, thiamine triphosphate-binding, FAD-requiring (EC:2.2.1.7)" />
+    <hashEntry Key="eco:b0421" Value="ispA; geranyltranstransferase (EC:2.5.1.1 2.5.1.10); K00795 farnesyl diphosphate synthase [EC:2.5.1." />
+    <hashEntry Key="eco:b1208" Value="ispE; 4-diphosphocytidyl-2-C-methylerythritol kinase (EC:2.7.1.148); K00919 4-diphosphocytidyl-2-C-m" />
+    <hashEntry Key="eco:b2224" Value="atoB; acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b2515" Value="ispG; 1-hydroxy-2-methyl-2-(E)-butenyl 4-diphosphate synthase (EC:1.17.7.1); K03526 (E)-4-hydroxy-3-" />
+    <hashEntry Key="eco:b2746" Value="ispF; 2C-methyl-D-erythritol 2,4-cyclodiphosphate synthase (EC:4.6.1.12); K01770 2-C-methyl-D-erythr" />
+    <hashEntry Key="eco:b2747" Value="ispD; 4-diphosphocytidyl-2C-methyl-D-erythritol synthase (EC:2.7.7.60); K00991 2-C-methyl-D-erythrit" />
+    <hashEntry Key="eco:b2844" Value="yqeF; short chain acyltransferase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b2889" Value="idi; isopentenyl diphosphate isomerase (EC:5.3.3.2); K01823 isopentenyl-diphosphate Delta-isomerase" />
+    <hashEntry Key="eco:b3187" Value="ispB; octaprenyl diphosphate synthase (EC:2.5.1.-); K02523 octaprenyl-diphosphate synthase [EC:2.5.1" />
+  </Genes>
+</KEGG.PathwayBrief>

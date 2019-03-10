@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00540" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Lipopolysaccharide biosynthesis - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00063" Value="CMP-KDO biosynthesis [PATH:xor00540]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00043" Value="UDP-N-acetyl-alpha-D-glucosamine" />
+    <hashEntry Key="C00199" Value="D-Ribulose 5-phosphate" />
+    <hashEntry Key="C00229" Value="Acyl-carrier protein" />
+    <hashEntry Key="C01112" Value="D-Arabinose 5-phosphate" />
+    <hashEntry Key="C01187" Value="3-Deoxy-D-manno-octulosonate" />
+    <hashEntry Key="C04121" Value="CMP-3-deoxy-D-manno-octulosonate" />
+    <hashEntry Key="C04478" Value="3-Deoxy-D-manno-octulosonate 8-phosphate" />
+    <hashEntry Key="C04652" Value="UDP-2,3-bis(3-hydroxytetradecanoyl)glucosamine" />
+    <hashEntry Key="C04738" Value="UDP-3-O-(3-hydroxytetradecanoyl)-N-acetylglucosamine" />
+    <hashEntry Key="C04824" Value="Lipid X" />
+    <hashEntry Key="C04919" Value="2,3,2'3'-Tetrakis(3-hydroxytetradecanoyl)-D-glucosaminyl-1,6-beta-D-glucosamine 1,4'-bisphosphate" />
+    <hashEntry Key="C04932" Value="Lipid A disaccharide" />
+    <hashEntry Key="C05223" Value="Dodecanoyl-[acyl-carrier protein]" />
+    <hashEntry Key="C05382" Value="Sedoheptulose 7-phosphate" />
+    <hashEntry Key="C05761" Value="Tetradecanoyl-[acp]" />
+    <hashEntry Key="C06022" Value="UDP-3-O-(3-hydroxytetradecanoyl)-D-glucosamine" />
+    <hashEntry Key="C06024" Value="3-Deoxy-D-manno-octulosonyl-lipid IV(A)" />
+    <hashEntry Key="C06025" Value="Di[3-deoxy-D-manno-octulosonyl]-lipid IV(A)" />
+    <hashEntry Key="C06026" Value="Di[3-deoxy-D-manno-octulosonyl]-lipid A" />
+    <hashEntry Key="C06251" Value="Lauroyl-KDO2-lipid IV(A)" />
+    <hashEntry Key="C06397" Value="ADP-D-glycero-beta-D-manno-heptose" />
+    <hashEntry Key="C06398" Value="ADP-L-glycero-beta-D-manno-heptose" />
+    <hashEntry Key="C07836" Value="D-glycero-beta-D-manno-Heptose 7-phosphate" />
+    <hashEntry Key="C07838" Value="D-glycero-beta-D-manno-Heptose 1-phosphate" />
+    <hashEntry Key="C11472" Value="D-glycero-beta-D-manno-Heptose 1,7-bisphosphate" />
+    <hashEntry Key="C19877" Value="4-O-Phospho-alpha-Kdo-(2-&gt;6)-lipid IVA" />
+    <hashEntry Key="C19878" Value="D-glycero-alpha-D-manno-Heptose 7-phosphate" />
+    <hashEntry Key="C19879" Value="D-glycero-alpha-D-manno-Heptose 1,7-bisphosphate" />
+    <hashEntry Key="C19880" Value="D-glycero-alpha-D-manno-Heptose 1-phosphate" />
+    <hashEntry Key="C19881" Value="GDP-D-glycero-alpha-D-manno-heptose" />
+  </Compound>
+  <PathwayMap Key="xor00540" Value="Lipopolysaccharide biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0850" Value="lpxC; UDP-3-0-acyl N-acetylglucosamine deacetylase; K02535 UDP-3-O-[3-hydroxymyristoyl] N-acetylgluc" />
+    <hashEntry Key="xor:XOC_1110" Value="lpxH; UDP-2,3-diacylglucosamine hydrolase; K03269 UDP-2,3-diacylglucosamine hydrolase [EC:3.6.1.54]" />
+    <hashEntry Key="xor:XOC_1150" Value="3-deoxy-D-manno-octulosonic acid kinase; K11211 3-deoxy-D-manno-octulosonic acid kinase [EC:2.7.1.16" />
+    <hashEntry Key="xor:XOC_1443" Value="phosphatase, YrbI family; K03270 3-deoxy-D-manno-octulosonate 8-phosphate phosphatase (KDO 8-P phosp" />
+    <hashEntry Key="xor:XOC_1444" Value="arabinose 5-phosphate isomerase; K06041 arabinose-5-phosphate isomerase [EC:5.3.1.13]" />
+    <hashEntry Key="xor:XOC_2587" Value="kdsB; 3-deoxy-D-manno-octulosonate cytidylyltransferase; K00979 3-deoxy-manno-octulosonate cytidylyl" />
+    <hashEntry Key="xor:XOC_2588" Value="lpxK; tetraacyldisaccharide 4&amp;#39;-kinase; K00912 tetraacyldisaccharide 4&amp;#39;-kinase [EC:2.7.1.130]" />
+    <hashEntry Key="xor:XOC_2796" Value="kdsA; 3-deoxy-8-phosphooctulonate synthase; K01627 2-dehydro-3-deoxyphosphooctonate aldolase (KDO 8-" />
+    <hashEntry Key="xor:XOC_3080" Value="UDP-3-O-[3-hydroxymyristoyl] glucosamine N-acyltransferase; K02536 UDP-3-O-[3-hydroxymyristoyl] gluc" />
+    <hashEntry Key="xor:XOC_3082" Value="acyl-(acyl-carrier-protein)--UDP-N-acetylglucosamine O-acyltransferase; K00677 UDP-N-acetylglucosami" />
+    <hashEntry Key="xor:XOC_3083" Value="lpxB; lipid-A-disaccharide synthase; K00748 lipid-A-disaccharide synthase [EC:2.4.1.182]" />
+    <hashEntry Key="xor:XOC_3727" Value="3-deoxy-D-manno-octulosonic-acid transferase; K02527 3-deoxy-D-manno-octulosonic-acid transferase [E" />
+    <hashEntry Key="xor:XOC_3728" Value="lipid A biosynthesis lauroyl acyltransferase; K02517 Kdo2-lipid IVA lauroyltransferase [EC:2.3.1.241" />
+    <hashEntry Key="xor:XOC_4122" Value="lipid A biosynthesis lauroyl acyltransferase; K02517 Kdo2-lipid IVA lauroyltransferase [EC:2.3.1.241" />
+    <hashEntry Key="xor:XOC_4130" Value="O-Antigen Polymerase family; K02847 O-antigen ligase [EC:2.4.1.-]" />
+  </Genes>
+</KEGG.PathwayBrief>

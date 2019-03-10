@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00520" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Amino sugar and nucleotide sugar metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00265" Value="PTS system, glucose-specific II component [PATH:eco00520]" />
+    <hashEntry Key="eco_M00266" Value="PTS system, maltose/glucose-specific II component [PATH:eco00520]" />
+    <hashEntry Key="eco_M00267" Value="PTS system, N-acetylglucosamine-specific II component [PATH:eco00520]" />
+    <hashEntry Key="eco_M00362" Value="Nucleotide sugar biosynthesis, prokaryotes [PATH:eco00520]" />
+    <hashEntry Key="eco_M00549" Value="Nucleotide sugar biosynthesis, glucose =&gt; UDP-glucose [PATH:eco00520]" />
+    <hashEntry Key="eco_M00554" Value="Nucleotide sugar biosynthesis, galactose =&gt; UDP-galactose [PATH:eco00520]" />
+    <hashEntry Key="eco_M00761" Value="Undecaprenylphosphate alpha-L-Ara4N biosynthesis, UDP-GlcA =&gt; undecaprenyl phosphate alpha-L-Ara4N [PATH:eco00520]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00029" Value="UDP-glucose" />
+    <hashEntry Key="C00031" Value="D-Glucose" />
+    <hashEntry Key="C00043" Value="UDP-N-acetyl-alpha-D-glucosamine" />
+    <hashEntry Key="C00052" Value="UDP-alpha-D-galactose" />
+    <hashEntry Key="C00096" Value="GDP-mannose" />
+    <hashEntry Key="C00103" Value="D-Glucose 1-phosphate" />
+    <hashEntry Key="C00128" Value="CMP-N-acetylneuraminate" />
+    <hashEntry Key="C00140" Value="N-Acetyl-D-glucosamine" />
+    <hashEntry Key="C00159" Value="D-Mannose" />
+    <hashEntry Key="C00167" Value="UDP-glucuronate" />
+    <hashEntry Key="C00181" Value="D-Xylose" />
+    <hashEntry Key="C00190" Value="UDP-D-xylose" />
+    <hashEntry Key="C00191" Value="D-Glucuronate" />
+    <hashEntry Key="C00203" Value="UDP-N-acetyl-D-galactosamine" />
+    <hashEntry Key="C00259" Value="L-Arabinose" />
+    <hashEntry Key="C00267" Value="alpha-D-Glucose" />
+    <hashEntry Key="C00270" Value="N-Acetylneuraminate" />
+    <hashEntry Key="C00275" Value="D-Mannose 6-phosphate" />
+    <hashEntry Key="C00325" Value="GDP-L-fucose" />
+    <hashEntry Key="C00329" Value="D-Glucosamine" />
+    <hashEntry Key="C00333" Value="D-Galacturonate" />
+    <hashEntry Key="C00352" Value="D-Glucosamine 6-phosphate" />
+    <hashEntry Key="C00357" Value="N-Acetyl-D-glucosamine 6-phosphate" />
+    <hashEntry Key="C00394" Value="GDP-glucose" />
+    <hashEntry Key="C00446" Value="alpha-D-Galactose 1-phosphate" />
+    <hashEntry Key="C00461" Value="Chitin" />
+    <hashEntry Key="C00498" Value="ADP-glucose" />
+    <hashEntry Key="C00501" Value="CDP-glucose" />
+    <hashEntry Key="C00617" Value="UDP-D-galacturonate" />
+    <hashEntry Key="C00636" Value="D-Mannose 1-phosphate" />
+    <hashEntry Key="C00645" Value="N-Acetyl-D-mannosamine" />
+    <hashEntry Key="C00668" Value="alpha-D-Glucose 6-phosphate" />
+    <hashEntry Key="C00714" Value="Pectin" />
+    <hashEntry Key="C00734" Value="Chitosan" />
+    <hashEntry Key="C00935" Value="UDP-L-arabinose" />
+    <hashEntry Key="C00976" Value="GDP-D-mannuronate" />
+    <hashEntry Key="C00984" Value="alpha-D-Galactose" />
+    <hashEntry Key="C00996" Value="Ferricytochrome b5" />
+    <hashEntry Key="C00999" Value="Ferrocytochrome b5" />
+    <hashEntry Key="C01019" Value="6-Deoxy-L-galactose" />
+    <hashEntry Key="C01050" Value="UDP-N-acetylmuramate" />
+    <hashEntry Key="C01170" Value="UDP-N-acetyl-D-mannosamine" />
+    <hashEntry Key="C01219" Value="CDP-4-dehydro-6-deoxy-D-glucose" />
+    <hashEntry Key="C01222" Value="GDP-4-dehydro-6-deoxy-D-mannose" />
+    <hashEntry Key="C01623" Value="UDP-apiose" />
+    <hashEntry Key="C01674" Value="Chitobiose" />
+    <hashEntry Key="C01788" Value="CDP-abequose" />
+    <hashEntry Key="C02199" Value="UDP-L-rhamnose" />
+    <hashEntry Key="C02280" Value="GDP-L-galactose" />
+    <hashEntry Key="C02330" Value="UDP-L-iduronate" />
+    <hashEntry Key="C02336" Value="beta-D-Fructose" />
+    <hashEntry Key="C02352" Value="1,4-beta-D-Xylan" />
+    <hashEntry Key="C02474" Value="Arabinan" />
+    <hashEntry Key="C02713" Value="N-Acetylmuramate" />
+    <hashEntry Key="C02977" Value="GDP-6-deoxy-D-talose" />
+    <hashEntry Key="C02985" Value="L-Fucose 1-phosphate" />
+    <hashEntry Key="C03117" Value="GDP-6-deoxy-D-mannose" />
+    <hashEntry Key="C03410" Value="N-Glycoloyl-neuraminate" />
+    <hashEntry Key="C03598" Value="CDP-3,6-dideoxy-D-glucose" />
+    <hashEntry Key="C03599" Value="CDP-3,6-dideoxy-D-mannose" />
+    <hashEntry Key="C03691" Value="CMP-N-glycoloylneuraminate" />
+    <hashEntry Key="C03733" Value="UDP-alpha-D-galactofuranose" />
+    <hashEntry Key="C03906" Value="beta-L-Arabinose 1-phosphate" />
+    <hashEntry Key="C04037" Value="1-Phospho-alpha-D-galacturonate" />
+    <hashEntry Key="C04089" Value="UDP-4-dehydro-6-deoxy-D-glucose" />
+    <hashEntry Key="C04257" Value="N-Acetyl-D-mannosamine 6-phosphate" />
+    <hashEntry Key="C04297" Value="CDP-4-dehydro-3,6-dideoxy-D-glucose" />
+    <hashEntry Key="C04501" Value="N-Acetyl-alpha-D-glucosamine 1-phosphate" />
+    <hashEntry Key="C04573" Value="UDP-N-acetyl-2-amino-2-deoxy-D-glucuronate" />
+    <hashEntry Key="C04613" Value="UDP-2-acetamido-4-dehydro-2,6-dideoxyglucose" />
+    <hashEntry Key="C04630" Value="UDP-2-acetamido-4-amino-2,4,6-trideoxy-alpha-D-glucose" />
+    <hashEntry Key="C04631" Value="UDP-N-acetyl-3-(1-carboxyvinyl)-D-glucosamine" />
+    <hashEntry Key="C05345" Value="beta-D-Fructose 6-phosphate" />
+    <hashEntry Key="C05385" Value="D-Glucuronate 1-phosphate" />
+    <hashEntry Key="C06023" Value="D-Glucosaminide" />
+    <hashEntry Key="C06156" Value="alpha-D-Glucosamine 1-phosphate" />
+    <hashEntry Key="C06240" Value="UDP-N-acetyl-D-mannosaminouronate" />
+    <hashEntry Key="C06241" Value="N-Acetylneuraminate 9-phosphate" />
+    <hashEntry Key="C11521" Value="UDP-6-sulfoquinovose" />
+    <hashEntry Key="C13952" Value="UDP-N-acetyl-D-galactosaminuronic acid" />
+    <hashEntry Key="C15925" Value="GDP-L-gulose" />
+    <hashEntry Key="C16153" Value="UDP-L-Ara4N" />
+    <hashEntry Key="C16154" Value="UDP-L-Ara4FN" />
+    <hashEntry Key="C16155" Value="UDP-L-Ara4O" />
+    <hashEntry Key="C16156" Value="Undecaprenyl phosphate alpha-L-Ara4FN" />
+    <hashEntry Key="C16157" Value="Undecaprenyl phosphate alpha-L-Ara4N" />
+    <hashEntry Key="C16698" Value="N-Acetylmuramic acid 6-phosphate" />
+    <hashEntry Key="C17326" Value="CDP-4-dehydro-3,6-dideoxy-D-glucose epimer" />
+    <hashEntry Key="C17327" Value="CDP-ascarylose" />
+    <hashEntry Key="C17328" Value="UDP-4-keto-rhamnose" />
+    <hashEntry Key="C18094" Value="UDP-L-arabinofuranose" />
+    <hashEntry Key="C19725" Value="UDP-2,3-diacetamido-2,3-dideoxy-alpha-D-glucuronate" />
+    <hashEntry Key="C19745" Value="UDP-2,3-diacetamido-2,3-dideoxy-alpha-D-mannuronate" />
+    <hashEntry Key="C19823" Value="UDP-2-acetamido-2,6-dideoxy-beta-L-arabino-hexos-4-ulose" />
+    <hashEntry Key="C19961" Value="UDP-4-amino-4,6-dideoxy-N-acetyl-beta-L-altrosamine" />
+    <hashEntry Key="C19971" Value="UDP-2,4-bis(acetamido)-2,4,6-trideoxy-beta-L-altropyranose" />
+    <hashEntry Key="C19972" Value="2,4-Bis(acetamido)-2,4,6-trideoxy-beta-L-altropyranose" />
+    <hashEntry Key="C20082" Value="Pseudaminic acid" />
+    <hashEntry Key="C20083" Value="CMP-pseudaminic acid" />
+    <hashEntry Key="C20357" Value="UDP-N,N'-Diacetylbacillosamine" />
+    <hashEntry Key="C20359" Value="UDP-2-acetamido-3-amino-2,3-dideoxy-alpha-D-glucuronate" />
+    <hashEntry Key="C20395" Value="UDP-2-acetamido-2-deoxy-alpha-D-ribo-hex-3-uluronate" />
+    <hashEntry Key="C20418" Value="N,N'-Diacetyllegionaminate" />
+    <hashEntry Key="C20419" Value="CMP-N,N'-diacetyllegionaminate" />
+    <hashEntry Key="C20424" Value="2,4-Diacetamido-2,4,6-trideoxy-D-mannopyranose" />
+    <hashEntry Key="C20638" Value="GDP-4-amino-4,6-dideoxy-alpha-D-mannose" />
+    <hashEntry Key="C20672" Value="GDP-4-acetamido-4,6-dideoxy-alpha-D-mannose" />
+    <hashEntry Key="C21027" Value="N-Acetylmuramic acid alpha-1-phosphate" />
+  </Compound>
+  <PathwayMap Key="eco00520" Value="Amino sugar and nucleotide sugar metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0271" Value="yagH; CP4-6 prophage; putative xylosidase/arabinosidase; K01198 xylan 1,4-beta-xylosidase [EC:3.2.1." />
+    <hashEntry Key="eco:b0394" Value="mak; manno(fructo)kinase (EC:2.7.1.4); K00847 fructokinase [EC:2.7.1.4]" />
+    <hashEntry Key="eco:b0677" Value="nagA; N-acetylglucosamine-6-phosphate deacetylase (EC:3.5.1.25); K01443 N-acetylglucosamine-6-phosph" />
+    <hashEntry Key="eco:b0678" Value="nagB; glucosamine-6-phosphate deaminase (EC:3.5.99.6); K02564 glucosamine-6-phosphate deaminase [EC:" />
+    <hashEntry Key="eco:b0679" Value="nagE; fused N-acetyl glucosamine specific PTS enzyme: IIC, IIB, and IIA components (EC:2.7.1.69); K0" />
+    <hashEntry Key="eco:b0688" Value="pgm; phosphoglucomutase (EC:5.4.2.2); K01835 phosphoglucomutase [EC:5.4.2.2]" />
+    <hashEntry Key="eco:b0757" Value="galK; galactokinase (EC:2.7.1.6); K00849 galactokinase [EC:2.7.1.6]" />
+    <hashEntry Key="eco:b0758" Value="galT; galactose-1-phosphate uridylyltransferase (EC:2.7.7.10); K00965 UDPglucose--hexose-1-phosphate" />
+    <hashEntry Key="eco:b0759" Value="galE; UDP-galactose-4-epimerase (EC:5.1.3.2); K01784 UDP-glucose 4-epimerase [EC:5.1.3.2]" />
+    <hashEntry Key="eco:b1101" Value="ptsG; fused glucose-specific PTS enzymes: IIB component/IIC component (EC:2.7.1.69); K02778 PTS syst" />
+    <hashEntry Key="eco:b1107" Value="nagZ; beta N-acetyl-glucosaminidase (EC:3.2.1.52); K01207 beta-N-acetylhexosaminidase [EC:3.2.1.52]" />
+    <hashEntry Key="eco:b1119" Value="nagK; N-acetyl-D-glucosamine kinase (EC:2.7.1.59); K00884 N-acetylglucosamine kinase [EC:2.7.1.59]" />
+    <hashEntry Key="eco:b1236" Value="galU; glucose-1-phosphate uridylyltransferase (EC:2.7.7.9); K00963 UTP--glucose-1-phosphate uridylyl" />
+    <hashEntry Key="eco:b1613" Value="manA; mannose-6-phosphate isomerase (EC:5.3.1.8); K01809 mannose-6-phosphate isomerase [EC:5.3.1.8]" />
+    <hashEntry Key="eco:b1621" Value="malX; fused maltose and glucose-specific PTS enzymes: IIB component, IIC component (EC:2.7.1.69); K0" />
+    <hashEntry Key="eco:b1817" Value="manX; fused mannose-specific PTS enzymes: IIA component/IIB component (EC:2.7.1.69); K02793 PTS syst" />
+    <hashEntry Key="eco:b1818" Value="manY; mannose-specific enzyme IIC component of PTS; K02795 PTS system, mannose-specific IIC componen" />
+    <hashEntry Key="eco:b1819" Value="manZ; mannose-specific enzyme IID component of PTS; K02796 PTS system, mannose-specific IID componen" />
+    <hashEntry Key="eco:b2028" Value="ugd; UDP-glucose 6-dehydrogenase (EC:1.1.1.22); K00012 UDPglucose 6-dehydrogenase [EC:1.1.1.22]" />
+    <hashEntry Key="eco:b2036" Value="glf; UDP-galactopyranose mutase, FAD/NAD(P)-binding (EC:5.4.99.9); K01854 UDP-galactopyranose mutase" />
+    <hashEntry Key="eco:b2042" Value="wcaN; putative regulatory subunit for GalU; K00963 UTP--glucose-1-phosphate uridylyltransferase [EC:" />
+    <hashEntry Key="eco:b2048" Value="cpsG; phosphomannomutase (EC:5.4.2.8); K01840 phosphomannomutase [EC:5.4.2.8]" />
+    <hashEntry Key="eco:b2049" Value="cpsB; mannose-1-phosphate guanyltransferase (EC:2.7.7.22); K00971 mannose-1-phosphate guanylyltransf" />
+    <hashEntry Key="eco:b2052" Value="wcaG; bifunctional GDP-fucose synthetase: GDP-4-dehydro-6-deoxy-D-mannose epimerase/GDP-4-dehydro-6-" />
+    <hashEntry Key="eco:b2053" Value="gmd; GDP-D-mannose dehydratase, NAD(P)-binding (EC:4.2.1.47); K01711 GDPmannose 4,6-dehydratase [EC:" />
+    <hashEntry Key="eco:b2253" Value="arnB; uridine 5&amp;#39;-(beta-1-threo-pentapyranosyl-4-ulose diphosphate) aminotransferase, PLP-dependent;" />
+    <hashEntry Key="eco:b2254" Value="arnC; undecaprenyl phosphate-L-Ara4FN transferase; K10012 undecaprenyl-phosphate 4-deoxy-4-formamido" />
+    <hashEntry Key="eco:b2255" Value="arnA; fused UDP-L-Ara4N formyltransferase/UDP-GlcA C-4&amp;#39;-decarboxylase (EC:2.1.2.- 4.1.1.35); K10011" />
+    <hashEntry Key="eco:b2256" Value="arnD; undecaprenyl phosphate-alpha-L-ara4FN deformylase; K13014 undecaprenyl phosphate-alpha-L-ara4F" />
+    <hashEntry Key="eco:b2388" Value="glk; glucokinase (EC:2.7.1.2); K00845 glucokinase [EC:2.7.1.2]" />
+    <hashEntry Key="eco:b2417" Value="crr; glucose-specific enzyme IIA component of PTS (EC:2.7.1.69); K02777 PTS system, sugar-specific I" />
+    <hashEntry Key="eco:b2428" Value="murQ; N-acetylmuramic acid 6-phosphate (MurNAc-6-P) etherase; K07106 N-acetylmuramic acid 6-phosphat" />
+    <hashEntry Key="eco:b2429" Value="murP; N-acetylmuramic acid permease, EIIBC component, PTS system; K11191 PTS system, N-acetylmuramic" />
+    <hashEntry Key="eco:b3176" Value="glmM; phosphoglucosamine mutase (EC:5.4.2.10); K03431 phosphoglucosamine mutase [EC:5.4.2.10]" />
+    <hashEntry Key="eco:b3189" Value="murA; UDP-N-acetylglucosamine 1-carboxyvinyltransferase (EC:2.5.1.7); K00790 UDP-N-acetylglucosamine" />
+    <hashEntry Key="eco:b3222" Value="nanK; N-acetylmannosamine kinase; K00885 N-acylmannosamine kinase [EC:2.7.1.60]" />
+    <hashEntry Key="eco:b3223" Value="nanE; putative N-acetylmannosamine-6-P epimerase; K01788 N-acylglucosamine-6-phosphate 2-epimerase [" />
+    <hashEntry Key="eco:b3225" Value="nanA; N-acetylneuraminate lyase (EC:4.1.3.3); K01639 N-acetylneuraminate lyase [EC:4.1.3.3]" />
+    <hashEntry Key="eco:b3338" Value="chiA; periplasmic endochitinase (EC:3.2.1.14 3.2.1.17); K13381 bifunctional chitinase/lysozyme [EC:3" />
+    <hashEntry Key="eco:b3430" Value="glgC; glucose-1-phosphate adenylyltransferase (EC:2.7.7.27); K00975 glucose-1-phosphate adenylyltran" />
+    <hashEntry Key="eco:b3729" Value="glmS; L-glutamine:D-fructose-6-phosphate aminotransferase (EC:2.6.1.16); K00820 glucosamine--fructos" />
+    <hashEntry Key="eco:b3730" Value="glmU; fused N-acetyl glucosamine-1-phosphate uridyltransferase/glucosamine-1-phosphate acetyl transf" />
+    <hashEntry Key="eco:b3786" Value="wecB; UDP-N-acetyl glucosamine-2-epimerase (EC:5.1.3.14); K01791 UDP-N-acetylglucosamine 2-epimerase" />
+    <hashEntry Key="eco:b3787" Value="wecC; UDP-N-acetyl-D-mannosaminuronic acid dehydrogenase (EC:1.1.1.-); K02472 UDP-N-acetyl-D-mannosa" />
+    <hashEntry Key="eco:b3972" Value="murB; UDP-N-acetylenolpyruvoylglucosamine reductase, FAD-binding (EC:1.3.1.98); K00075 UDP-N-acetylm" />
+    <hashEntry Key="eco:b4025" Value="pgi; glucosephosphate isomerase (EC:5.3.1.9); K01810 glucose-6-phosphate isomerase [EC:5.3.1.9]" />
+  </Genes>
+</KEGG.PathwayBrief>

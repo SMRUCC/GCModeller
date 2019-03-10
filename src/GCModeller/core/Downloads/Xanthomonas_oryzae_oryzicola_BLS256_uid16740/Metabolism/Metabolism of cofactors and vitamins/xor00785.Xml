@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00785" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Lipoic acid metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C05752" Value="Octanoyl-[acp]" />
+    <hashEntry Key="C16236" Value="Protein N6-(octanoyl)lysine" />
+    <hashEntry Key="C16237" Value="Protein N6-(lipoyl)lysine" />
+    <hashEntry Key="C16238" Value="Lipoyl-AMP" />
+    <hashEntry Key="C16239" Value="Lipoyl-[acp]" />
+    <hashEntry Key="C16241" Value="(R)-Lipoate" />
+  </Compound>
+  <PathwayMap Key="xor00785" Value="Lipoic acid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0726" Value="lipB; lipoyltransferase; K03801 lipoyl(octanoyl) transferase [EC:2.3.1.181]" />
+    <hashEntry Key="xor:XOC_0727" Value="lipA; lipoic acid synthetase; K03644 lipoyl synthase [EC:2.8.1.8]" />
+  </Genes>
+</KEGG.PathwayBrief>

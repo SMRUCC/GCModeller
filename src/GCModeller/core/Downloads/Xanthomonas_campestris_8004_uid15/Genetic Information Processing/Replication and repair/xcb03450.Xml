@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb03450" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Nonhomologous end joining (NHEJ) eliminates DNA double-strand breaks (DSBs) by direct ligation. NHEJ involves binding of the KU heterodimer to double-stranded DNA ends, recruitment of DNA-PKcs (MRX complex in yeast), processing of ends, and recruitment of the DNA ligase IV (LIG4)-XRCC4 complex, which brings about ligation. A recent study shows that bacteria accomplish NHEJ using just two proteins (Ku and DNA ligase), whereas eukaryotes require many factors. NHEJ repairs DSBs at all stages of the cell cycle, bringing about the ligation of two DNA DSBs without the need for sequence homology, and so is error-prone.&lt;br&gt;</Description>
+  <Name>Non-homologous end-joining - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xcb03450" Value="Non-homologous end-joining&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0108" Value="hypothetical protein; K10979 DNA end-binding protein Ku" />
+    <hashEntry Key="xcb:XC_0109" Value="ATP-dependent DNA ligase; K01971 bifunctional non-homologous end joining protein LigD [EC:6.5.1.1]" />
+    <hashEntry Key="xcb:XC_1808" Value="ATP-dependent DNA ligase; K01971 bifunctional non-homologous end joining protein LigD [EC:6.5.1.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

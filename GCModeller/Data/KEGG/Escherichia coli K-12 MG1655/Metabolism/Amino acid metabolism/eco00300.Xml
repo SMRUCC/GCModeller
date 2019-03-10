@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00300" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Lysine biosynthesis - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00016" Value="Lysine biosynthesis, succinyl-DAP pathway, aspartate =&gt; lysine [PATH:eco00300]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00047" Value="L-Lysine" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00263" Value="L-Homoserine" />
+    <hashEntry Key="C00322" Value="2-Oxoadipate" />
+    <hashEntry Key="C00441" Value="L-Aspartate 4-semialdehyde" />
+    <hashEntry Key="C00449" Value="N6-(L-1,3-Dicarboxypropyl)-L-lysine" />
+    <hashEntry Key="C00666" Value="LL-2,6-Diaminoheptanedioate" />
+    <hashEntry Key="C00680" Value="meso-2,6-Diaminoheptanedioate" />
+    <hashEntry Key="C00956" Value="L-2-Aminoadipate" />
+    <hashEntry Key="C01251" Value="(R)-2-Hydroxybutane-1,2,4-tricarboxylate" />
+    <hashEntry Key="C03082" Value="4-Phospho-L-aspartate" />
+    <hashEntry Key="C03871" Value="L-2-Amino-6-oxoheptanedioate" />
+    <hashEntry Key="C03972" Value="2,3,4,5-Tetrahydrodipicolinate" />
+    <hashEntry Key="C04002" Value="(Z)-But-1-ene-1,2,4-tricarboxylate" />
+    <hashEntry Key="C04076" Value="L-2-Aminoadipate 6-semialdehyde" />
+    <hashEntry Key="C04390" Value="N6-Acetyl-LL-2,6-diaminoheptanedioate" />
+    <hashEntry Key="C04421" Value="N-Succinyl-LL-2,6-diaminoheptanedioate" />
+    <hashEntry Key="C04462" Value="N-Succinyl-2-L-amino-6-oxoheptanedioate" />
+    <hashEntry Key="C04877" Value="UDP-N-acetylmuramoyl-L-alanyl-gamma-D-glutamyl-meso-2,6-diaminopimelate" />
+    <hashEntry Key="C04882" Value="UDP-N-acetylmuramoyl-L-alanyl-D-glutamyl-6-carboxy-L-lysyl-D-alanyl-D-alanine" />
+    <hashEntry Key="C05535" Value="alpha-Aminoadipoyl-S-acyl enzyme" />
+    <hashEntry Key="C05539" Value="N-Acetyl-L-2-amino-6-oxopimelate" />
+    <hashEntry Key="C05560" Value="L-2-Aminoadipate adenylate" />
+    <hashEntry Key="C05662" Value="Homoisocitrate" />
+    <hashEntry Key="C16138" Value="L-Pyrrolysine" />
+    <hashEntry Key="C19886" Value="LysW-gamma-L-alpha-aminoadipate" />
+    <hashEntry Key="C19887" Value="LysW-gamma-L-alpha-aminoadipyl 6-phosphate" />
+    <hashEntry Key="C19888" Value="LysW-gamma-L-alpha-aminoadipate 6-semialdehyde" />
+    <hashEntry Key="C19889" Value="LysW-gamma-L-lysine" />
+    <hashEntry Key="C20258" Value="(2S,4S)-4-Hydroxy-2,3,4,5-tetrahydrodipicolinate" />
+    <hashEntry Key="C20277" Value="(2R,3R)-3-Methylornithine" />
+    <hashEntry Key="C20278" Value="(2R,3R)-3-Methylornithinyl-N6-lysine" />
+    <hashEntry Key="C20279" Value="(2R,3R)-3-Methylglutamyl-5-semialdehyde-N6-lysine" />
+  </Compound>
+  <PathwayMap Key="eco00300" Value="Lysine biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0002" Value="thrA; Bifunctional aspartokinase/homoserine dehydrogenase 1 (EC:1.1.1.3 2.7.2.4); K12524 bifunctiona" />
+    <hashEntry Key="eco:b0031" Value="dapB; dihydrodipicolinate reductase (EC:1.17.1.8); K00215 4-hydroxy-tetrahydrodipicolinate reductase" />
+    <hashEntry Key="eco:b0085" Value="murE; UDP-N-acetylmuramoyl-L-alanyl-D-glutamate:meso-diaminopimelate ligase (EC:6.3.2.13); K01928 UD" />
+    <hashEntry Key="eco:b0086" Value="murF; UDP-N-acetylmuramoyl-tripeptide:D-alanyl-D-alanine ligase (EC:6.3.2.10); K01929 UDP-N-acetylmu" />
+    <hashEntry Key="eco:b0166" Value="dapD; 2,3,4,5-tetrahydropyridine-2-carboxylate N-succinyltransferase (EC:2.3.1.117); K00674 2,3,4,5-" />
+    <hashEntry Key="eco:b0268" Value="yagE; 2-keto-3-deoxy gluconate (KDG) aldolase; CP4-6 prophage; K01714 4-hydroxy-tetrahydrodipicolina" />
+    <hashEntry Key="eco:b2472" Value="dapE; N-succinyl-diaminopimelate deacylase (EC:3.5.1.18); K01439 succinyl-diaminopimelate desuccinyl" />
+    <hashEntry Key="eco:b2478" Value="dapA; dihydrodipicolinate synthase (EC:4.3.3.7); K01714 4-hydroxy-tetrahydrodipicolinate synthase [E" />
+    <hashEntry Key="eco:b2838" Value="lysA; diaminopimelate decarboxylase, PLP-binding (EC:4.1.1.20); K01586 diaminopimelate decarboxylase" />
+    <hashEntry Key="eco:b3359" Value="argD; bifunctional acetylornithine aminotransferase/succinyldiaminopimelate aminotransferase (EC:2.6" />
+    <hashEntry Key="eco:b3433" Value="asd; aspartate-semialdehyde dehydrogenase, NAD(P)-binding (EC:1.2.1.11); K00133 aspartate-semialdehy" />
+    <hashEntry Key="eco:b3809" Value="dapF; diaminopimelate epimerase (EC:5.1.1.7); K01778 diaminopimelate epimerase [EC:5.1.1.7]" />
+    <hashEntry Key="eco:b3940" Value="metL; Bifunctional aspartokinase/homoserine dehydrogenase 2 (EC:1.1.1.3 2.7.2.4); K12525 bifunctiona" />
+    <hashEntry Key="eco:b4024" Value="lysC; lysine-sensitive aspartokinase 3 (EC:2.7.2.4); K00928 aspartate kinase [EC:2.7.2.4]" />
+    <hashEntry Key="eco:b4298" Value="yjhH; putative lyase/synthase; K01714 4-hydroxy-tetrahydrodipicolinate synthase [EC:4.3.3.7]" />
+  </Genes>
+</KEGG.PathwayBrief>

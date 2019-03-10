@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00643" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Styrene degradation - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00164" Value="Acetoacetate" />
+    <hashEntry Key="C00186" Value="(S)-Lactate" />
+    <hashEntry Key="C00511" Value="Acrylic acid" />
+    <hashEntry Key="C00544" Value="Homogentisate" />
+    <hashEntry Key="C00596" Value="2-Hydroxy-2,4-pentadienoate" />
+    <hashEntry Key="C00601" Value="Phenylacetaldehyde" />
+    <hashEntry Key="C00827" Value="Lactoyl-CoA" />
+    <hashEntry Key="C00894" Value="Propenoyl-CoA" />
+    <hashEntry Key="C01036" Value="4-Maleylacetoacetate" />
+    <hashEntry Key="C01061" Value="4-Fumarylacetoacetate" />
+    <hashEntry Key="C01659" Value="Acrylamide" />
+    <hashEntry Key="C01998" Value="Acrylonitrile" />
+    <hashEntry Key="C02505" Value="2-Phenylacetamide" />
+    <hashEntry Key="C05593" Value="3-Hydroxyphenylacetate" />
+    <hashEntry Key="C05852" Value="2-Hydroxyphenylacetate" />
+    <hashEntry Key="C07083" Value="Styrene" />
+    <hashEntry Key="C07084" Value="Styrene-cis-2,3-dihydrodiol" />
+    <hashEntry Key="C07085" Value="3-Vinylcatechol" />
+    <hashEntry Key="C07086" Value="Phenylacetic acid" />
+    <hashEntry Key="C07087" Value="2-Hydroxy-6-oxoocta-2,4,7-trienoate" />
+    <hashEntry Key="C16074" Value="Phenylacetonitrile" />
+    <hashEntry Key="C16075" Value="(Z)-Phenylacetaldehyde oxime" />
+    <hashEntry Key="C20782" Value="(S)-2-Phenyloxirane" />
+  </Compound>
+  <PathwayMap Key="xor00643" Value="Styrene degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0504" Value="hmgA; homogentisate 1,2-dioxygenase; K00451 homogentisate 1,2-dioxygenase [EC:1.13.11.5]" />
+    <hashEntry Key="xor:XOC_1064" Value="glu-trnAgln amidotransferase a subunit; K01426 amidase [EC:3.5.1.4]" />
+    <hashEntry Key="xor:XOC_3877" Value="maiA; maleylacetoacetate isomerase; K01800 maleylacetoacetate isomerase [EC:5.2.1.2]" />
+    <hashEntry Key="xor:XOC_3878" Value="fumarylacetoacetate hydrolase; K16171 fumarylacetoacetate (FAA) hydrolase [EC:3.7.1.2]" />
+    <hashEntry Key="xor:XOC_4547" Value="3-oxoacid CoA-transferase, beta subunit; K01040 glutaconate CoA-transferase, subunit B [EC:2.8.3.12]" />
+    <hashEntry Key="xor:XOC_4548" Value="glutaconate CoA transferase subunit A; K01039 glutaconate CoA-transferase, subunit A [EC:2.8.3.12]" />
+  </Genes>
+</KEGG.PathwayBrief>

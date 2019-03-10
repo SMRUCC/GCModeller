@@ -1,0 +1,972 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SMRUCC.genomics</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Core</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>PARALLEL=1</DefineConstants>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <DefineConstants>PARALLEL=1</DefineConstants>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>false</Optimize>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>false</Optimize>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DebugSymbols>true</DebugSymbols>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <DefineConstants>PARALLEL=1</DefineConstants>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>./bin</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>./bin</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>./bin</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>./bin</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>./bin</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>./bin</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
+    <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
+    <OutputPath>bin\x64\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86'">
+    <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\..\smartnucl_integrative\biodeepDB\smartnucl_integrative\16s_contents\App\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\..\smartnucl_integrative\biodeepDB\METLINApp\App\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\..\plot\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>./bin</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>./bin</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep_UNIX_x64|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Biodeep_UNIX_x64\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep_UNIX_x64|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Biodeep_UNIX_x64\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biodeep_UNIX_x64|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Biodeep_UNIX_x64\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.DataVisualization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assembly\bac-srna.org\Sequence.vb" />
+    <Compile Include="Assembly\bac-srna.org\Interaction.vb" />
+    <Compile Include="Assembly\bac-srna.org\Database.vb" />
+    <Compile Include="Assembly\DOMINE\ImportsAPI.vb" />
+    <Compile Include="Assembly\DOOR\csv.vb" />
+    <Compile Include="Assembly\DOOR\Models\DOOR.vb" />
+    <Compile Include="Assembly\DOOR\DOOR_API.vb" />
+    <Compile Include="Assembly\DOOR\Models\Operon.vb" />
+    <Compile Include="Assembly\DOOR\Models\OperonView.vb" />
+    <Compile Include="Assembly\DOOR\Models\OperonGene.vb" />
+    <Compile Include="Assembly\DOOR\Models\OperonLDM.vb" />
+    <Compile Include="Assembly\DOOR\IO.vb" />
+    <Compile Include="Assembly\DOOR\ViewAPI.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\Database\DATA.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\Database\DataModels\AccessionTypes.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\Database\DataModels\NameOf.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\Database\IO.StreamProviders\Compound.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\Database\IO.StreamProviders\Extensions.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\EntityModel\Extensions.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\EntityModel\EntitySearch.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\EntityModel\XML\Extensions.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\EntityModel\XML\Fields.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\Web\REST.vb" />
+    <Compile Include="Assembly\Expasy\API.vb" />
+    <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />
+    <Compile Include="Assembly\Expasy\csv\Enzyme.vb" />
+    <Compile Include="Assembly\Expasy\NomenclatureDB\Enzyme.vb" />
+    <Compile Include="Assembly\KEGG\Archives\Csv\Ortholog.vb" />
+    <Compile Include="Assembly\KEGG\Archives\Csv\Module.vb" />
+    <Compile Include="Assembly\KEGG\Archives\Xml\CompilerAPI.vb" />
+    <Compile Include="Assembly\KEGG\Archives\Xml\MapAPI.vb" />
+    <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb" />
+    <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Organism.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\KOCatalog.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\KEGGObjects.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\LinkDB\Relationship.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\KEGGgenomeFetchs.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Drug.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Disease.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\Organism.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\ModuleDBGet.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayEntry.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
+    <Compile Include="Assembly\KEGG\Medical\DrugGroup.vb" />
+    <Compile Include="Assembly\KEGG\Medical\Disease.vb" />
+    <Compile Include="Assembly\KEGG\Medical\Drug.vb" />
+    <Compile Include="Assembly\KEGG\Medical\DrugParser.vb" />
+    <Compile Include="Assembly\KEGG\Medical\DiseaseParser.vb" />
+    <Compile Include="Assembly\KEGG\Extensions.vb" />
+    <Compile Include="Assembly\KEGG\Medical\Extensions.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\Area.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\MapIndex.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\KGML.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\LocalRender.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\Downloader.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\URLEncoder.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\Map.vb" />
+    <Compile Include="Assembly\KEGG\Web\PathwayMapping.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\htext.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModsBrite.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\LinkDB\GenericParser.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\Defines.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Ortholog.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\SShit.vb" />
+    <Compile Include="Assembly\KEGG\Web\QueryEntry.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Pathway.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Module.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\EnzymaticReaction.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\bGetObject.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\LinkDB\KEGGgenes.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\LinkDB\Module.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Reference.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Orthology.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\ReferenceMap\Reaction.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb" />
+    <Compile Include="Assembly\KEGG\Web\Form\AllLinksWidget.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\API.vb" />
+    <Compile Include="Assembly\KEGG\Web\Form\Extensions.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\ObjectModel.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\Loader.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ObjectBase\IComplexes.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\ObjectBase.vb" />
+    <Compile Include="Assembly\MetaCyc\File\FileSystem\FASTA\FastaCollection.vb" />
+    <Compile Include="Assembly\MetaCyc\Extensions.vb" />
+    <Compile Include="Assembly\MetaCyc\File\Tabular DataFiles\Object.vb" />
+    <Compile Include="Assembly\MetaCyc\File\Tabular DataFiles\ReactionEquation.vb" />
+    <Compile Include="Assembly\MetaCyc\File\Tabular DataFiles\Pathway.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\Mappings\Compounds.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\PathwayBrief\Models.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\Reaction\ReactionDirections.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\Reflection\Schema.vb" />
+    <Compile Include="Assembly\MiST2\DocArchive\Models\Replicon.vb" />
+    <Compile Include="Assembly\MiST2\DocArchive\Models\TwoComponent.vb" />
+    <Compile Include="Assembly\MiST2\DocArchive\Models\Transducin.vb" />
+    <Compile Include="Assembly\MiST2\DocArchive\MiST2.vb" />
+    <Compile Include="Assembly\MiST2\WebHandler.vb" />
+    <Compile Include="Assembly\NCBI\Database\CDD\BLAST\Domain.vb" />
+    <Compile Include="Assembly\NCBI\Database\COG\Categories.vb" />
+    <Compile Include="Assembly\NCBI\Database\COG\COG.vb" />
+    <Compile Include="Assembly\NCBI\Database\COG\Function.vb" />
+    <Compile Include="Assembly\NCBI\Database\COG\COGs\COGs.vb" />
+    <Compile Include="Assembly\NCBI\Database\COG\COGs\ProtFasta.vb" />
+    <Compile Include="Assembly\NCBI\Database\COG\Category.vb" />
+    <Compile Include="Assembly\NCBI\Database\COG\COGs\COGNames.vb" />
+    <Compile Include="Assembly\NCBI\Database\COG\COGs\COGTable.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GBFFFeatureDumps.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GenbankExportInfo.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GeneDumpInfo.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbEntry.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbExportService.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\Abstract.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\DBLINK.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\CDS.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\GbkWriter.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\ParserHelper.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\SOURCE\ORGANISM.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\GbkParser.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Extensions.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\Extensions.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\ProteinTable\ProteinDescription.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\FeatureParser.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\FeatureKeys.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb" />
+    <Compile Include="Assembly\NCBI\SeqDump\NTheader.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\Accession2Taxid.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\TaxidMaps.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\Tree\TaxonomyExtensions.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\Tree\names.dmp.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\Tree\Ranks.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\TaxonomyWeb.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\Taxonomy.vb" />
+    <Compile Include="Assembly\NCBI\WebServiceHandler\Taxonomy.vb" />
+    <Compile Include="Assembly\UniProt\XML\Model\reference.vb" />
+    <Compile Include="Assembly\UniProt\XML\Model\CommentData.vb" />
+    <Compile Include="Assembly\UniProt\XML\Model\entry.vb" />
+    <Compile Include="Assembly\UniProt\XML\GetID.vb" />
+    <Compile Include="Assembly\UniProt\XML\Model\Data.vb" />
+    <Compile Include="Assembly\UniProt\XML\Extensions.vb" />
+    <Compile Include="Assembly\UniProt\XML\Model\UniprotXML.vb" />
+    <Compile Include="Assembly\UniProt\UniprotFasta.vb" />
+    <Compile Include="Assembly\UniProt\IdMapping.vb" />
+    <Compile Include="Assembly\UniProt\Web\ID_types.vb" />
+    <Compile Include="Assembly\UniProt\Web\Retrieve_IDmapping.vb" />
+    <Compile Include="Assembly\UniProt\Web\Entry.vb" />
+    <Compile Include="Assembly\UniProt\XML\UniRef\entry.vb" />
+    <Compile Include="ComponentModel\CatalogProfiling.vb" />
+    <Compile Include="ComponentModel\IMolecule.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\Xref.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb" />
+    <Compile Include="ComponentModel\Locus\LociSites\Extensions.vb" />
+    <Compile Include="ComponentModel\Locus\LociSites\MotifSite.vb" />
+    <Compile Include="ComponentModel\Locus\Position.vb" />
+    <Compile Include="ComponentModel\Locus\Nucleotide\NucleotideLocationParser.vb" />
+    <Compile Include="ContextModel\Algorithm\Context.vb" />
+    <Compile Include="ContextModel\Algorithm\ContextCore.vb" />
+    <Compile Include="ContextModel\GenomeContext.vb" />
+    <Compile Include="ContextModel\Operon\Operon.vb" />
+    <Compile Include="ContextModel\Algorithm\ContextProvider.vb" />
+    <Compile Include="ContextModel\Algorithm\TFDensity.vb" />
+    <Compile Include="ContextModel\Extensions.vb" />
+    <Compile Include="ContextModel\Operon\FeatureScores.vb" />
+    <Compile Include="ContextModel\Promoter\Extensions.vb" />
+    <Compile Include="ContextModel\Promoter\PrefixLength.vb" />
+    <Compile Include="ContextModel\Promoter\PromoterRegionParser.vb" />
+    <Compile Include="LICENSE.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\DBLink.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\Abstract.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\DBLinksManager.vb" />
+    <Compile Include="ComponentModel\Equations\Abstract.vb" />
+    <Compile Include="ComponentModel\Equations\Reaction%28Of T%29.vb" />
+    <Compile Include="ComponentModel\Equations\Equation%28Of T%29.vb" />
+    <Compile Include="ComponentModel\Equations\Equivalence.vb" />
+    <Compile Include="ComponentModel\GeneBrief.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Region.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\ProteinTable\ProteinTable.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Feature.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\GFF.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GeneBrief.vb" />
+    <Compile Include="ContextModel\Algorithm\GenomicsContext.vb" />
+    <Compile Include="ComponentModel\Locus\LociSites\TagSite.vb" />
+    <Compile Include="ComponentModel\Locus\LocusExtensions.vb" />
+    <Compile Include="ComponentModel\Locus\Nucleotide\SegmentRelationships.vb" />
+    <Compile Include="ContextModel\Algorithm\Relationship.vb" />
+    <Compile Include="ContextModel\Algorithm\Descriptions.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\RNT.vb" />
+    <Compile Include="Assembly\NCBI\SeqDump\Protein.vb" />
+    <Compile Include="Assembly\NCBI\WebServiceHandler\ComponentModel.vb" />
+    <Compile Include="Assembly\NCBI\WebServiceHandler\Entrez\QueryHandler.vb" />
+    <Compile Include="ComponentModel\Locus\Interfaces.vb" />
+    <Compile Include="ComponentModel\Locus\LociSites\LociModel.vb" />
+    <Compile Include="ComponentModel\Locus\ExtensionMethods.vb" />
+    <Compile Include="ComponentModel\Locus\Nucleotide\NucleotideLocation.vb" />
+    <Compile Include="ComponentModel\PathwayBrief.vb" />
+    <Compile Include="Assembly\KEGG\Archives\Xml\XmlModel.vb" />
+    <Compile Include="Assembly\KEGG\Archives\Csv\Pathway.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Compound.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\CompoundModelFactory.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\PathwayBrief\AssignGene.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\PathwayBrief\PwyFilters.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\SearchInvoker.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\Fasta.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\PTTDbLoader.vb" />
+    <Compile Include="ComponentModel\PeriodicTable.vb" />
+    <Compile Include="ComponentModel\TabularLoader.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\DBLinkBuilder.vb" />
+    <Compile Include="ComponentModel\Equations\DefaultTypes.vb" />
+    <Compile Include="ComponentModel\Equations\EquationBuilder.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\Database\IO.StreamProviders\StreamProvider.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\Database\IO.StreamProviders\TSV.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\Web\WebServices.vb" />
+    <Compile Include="Assembly\Expasy\EnzymeClass.vb" />
+    <Compile Include="Assembly\KEGG\Web\Form\WebForm.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\PropertyAttributes.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\TransportReactions.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\EquationEquals.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\Mappings\CompoundsMapping.vb" />
+    <Compile Include="Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Equation.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\OrthologREST.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\LinkDB\Pathways.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Species.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\ProteinQuery.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\PathwayMappingTool.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\Rpt.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\PTT.vb" />
+    <Compile Include="Assembly\NCBI\SeqDump\nt.vb" />
+    <Compile Include="BioAssemblyExtensions.vb" />
+    <Compile Include="Metagenomics\TaxonomyRanks.vb" />
+    <Compile Include="Metagenomics\TaxonomyExtensions.vb" />
+    <Compile Include="Metagenomics\Taxonomy.vb" />
+    <Compile Include="Query\IQueryExtensions.vb" />
+    <Compile Include="Metagenomics\BIOMTaxonomy.vb" />
+    <Compile Include="Metagenomics\OTUData.vb" />
+    <Compile Include="ProteinModel\Abstract.vb" />
+    <Compile Include="ProteinModel\DomainObject.vb" />
+    <Compile Include="ProteinModel\DomainModels.vb" />
+    <Compile Include="ProteinModel\Extensions.vb" />
+    <Compile Include="Query\MatchContext.vb" />
+    <Compile Include="SequenceModel\Abstract.vb" />
+    <Compile Include="SequenceModel\CutSequence.vb" />
+    <Compile Include="SequenceModel\FASTA\Abstract.vb" />
+    <Compile Include="SequenceModel\FASTA\Extensions.vb" />
+    <Compile Include="SequenceModel\FASTA\IO\KSeq.vb" />
+    <Compile Include="SequenceModel\FASTA\IO\StreamIterator.vb" />
+    <Compile Include="SequenceModel\ISequenceModel.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\Conversion.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\DegenerateBases.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\mRNA.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\DNA.vb" />
+    <Compile Include="SequenceModel\Patterns\Variation.vb" />
+    <Compile Include="SequenceModel\Patterns\Clustal\SRChain.vb" />
+    <Compile Include="SequenceModel\Patterns\Clustal\Residue.vb" />
+    <Compile Include="SequenceModel\Patterns\Clustal\Clustal.vb" />
+    <Compile Include="SequenceModel\FASTA\Reflection\FastaTools.vb" />
+    <Compile Include="SequenceModel\FASTA\IO\UltralargeSizeFastaReader.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\Contig.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\SimpleSegment.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Extensions.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\SegmentObject.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Translation\Codon.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Translation\TranslTable.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Translation\TranslationTable.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb" />
+    <Compile Include="SequenceModel\Patterns\IPatterns.vb" />
+    <Compile Include="SequenceModel\Patterns\PatternsAPI.vb" />
+    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\ChouFasmanAPI.vb" />
+    <Compile Include="SequenceModel\MWCalculator.vb" />
+    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Matrix.vb" />
+    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleBetaTurn.vb" />
+    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\AminoAcid.vb" />
+    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleBetaSheet.vb" />
+    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleAlphaHelix.vb" />
+    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleOverlap.vb" />
+    <Compile Include="SequenceModel\Polypeptides\AminoAcid.vb" />
+    <Compile Include="SequenceModel\Polypeptides\Polypeptides.vb" />
+    <Compile Include="Assembly\UniProt\Web\Uniprot.vb" />
+    <Compile Include="Assembly\NCBI\Database\CDD\CDD.vb" />
+    <Compile Include="Assembly\NCBI\Database\CDD\CDDLoader.vb" />
+    <Compile Include="Assembly\NCBI\Database\CDD\Database.vb" />
+    <Compile Include="Assembly\NCBI\Database\CDD\SmpFile.vb" />
+    <Compile Include="Assembly\NCBI\Database\CDD\Pn.vb" />
+    <Compile Include="Assembly\NCBI\Database\CDD\DbFile.vb" />
+    <Compile Include="Assembly\MiST2\DocArchive\Domain.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\KEGGOrganism.vb" />
+    <Compile Include="Assembly\KEGG\Archives\SequenceDump.vb" />
+    <Compile Include="Assembly\KEGG\Web\WebRequest.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\PathwayLink.vb" />
+    <Compile Include="Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb" />
+    <Compile Include="SequenceModel\FASTA\Reflection\Attributes.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\Extensions.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\ACCESSION.vb" />
+    <Compile Include="ComponentModel\ValuePair.vb" />
+    <Compile Include="ComponentModel\Locus\Location.vb" />
+    <Compile Include="Assembly\MetaCyc\File\FileSystem\FASTA\GeneObject.vb" />
+    <Compile Include="Assembly\MetaCyc\File\FileSystem\FASTA\Proteins.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\DBLink.vb" />
+    <Compile Include="ProteinModel\ProteinDomains.vb" />
+    <Compile Include="Assembly\DOMINE\Database.vb" />
+    <Compile Include="Assembly\DOMINE\Tables.vb" />
+    <Compile Include="SequenceModel\FASTA\IO\FastaFile.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\CollectionQuery.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\FileStream.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\MetaCycField.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Specie.vb" />
+    <Compile Include="Assembly\MetaCyc\File\FileSystem\DatabaseLoadder.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\Reaction\Reaction.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\Reflection\PathRoute.vb" />
+    <Compile Include="Assembly\MetaCyc\Schemas\Reflection\TableLink.vb" />
+    <Compile Include="Assembly\NCBI\Database\CDD\BLAST\DomnArch.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\Qualifier.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\NucleicAcid.vb" />
+    <Compile Include="ComponentModel\ECNumber.vb" />
+    <Compile Include="SequenceModel\FASTA\IO\FastaToken.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\AttributeValue.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\BindRxns.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\tRNA.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Regulons.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\ProtLigandCplxes.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Compounds.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Enzrxns.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\DNABindSites.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Promoters.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Regulations.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Reactions.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Terminators.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\GeneLinks.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\TranscriptionUnits.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Genes.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\BindReaction.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\tRNA.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Regulon.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ProtLigandCplxe.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Compound.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Enzrxn.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\DNABindSite.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Promoter.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Regulation.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Reaction.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Terminator.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\TransUnit.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Gene.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ProteinFeature.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Protein.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Proteins.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\ProteinFeature.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Pathway.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Pathways.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\Property.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ObjectBase\Object.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ObjectBase\Citation.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\DataFile.vb" />
+    <Compile Include="Assembly\MetaCyc\File\FileSystem\Classes.vb" />
+    <Compile Include="Assembly\MetaCyc\File\FileSystem\PGDB.vb" />
+    <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\FileReader.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\Gene.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\File.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\Location.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\Feature.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\KeyWord.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\COMMENT.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\REFERENCE.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\FEATURES.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\ORIGIN.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\SOURCE\SOURCE.vb" />
+    <EmbeddedResource Include="Assembly\MetaCyc\MetaCyc.README.xml" />
+    <Compile Include="Assembly\MetaCyc\File\Tabular DataFiles\RecordLine.vb" />
+    <Compile Include="Assembly\MetaCyc\File\Tabular DataFiles\Enzymes.vb" />
+    <Compile Include="Assembly\MetaCyc\File\Tabular DataFiles\Pathways.vb" />
+    <Compile Include="Assembly\MetaCyc\File\Tabular DataFiles\TabularFile.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Resources\InternalScripts\Perl\GenBankQuery.pl" />
+    <None Include="Resources\MiST2.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\br08901.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ko00002.keg.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ko00001.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Web\KEGG Organisms.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-3.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-4.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-5.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-6.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-9.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-10.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-11.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-12.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-13.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-14.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-16.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-21.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-22.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-23.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-24.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transl_table\transl_table-25.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\br08610.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08001.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08002.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08003.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08005.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08006.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08007.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08008.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08009.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08010.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Reactions\br08201.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Reactions\br08202.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Reactions\br08203.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ko00000.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

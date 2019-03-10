@@ -1,0 +1,3 @@
+FJ754323.1	Israel acute paralysis virus of bees isolate Wus-China-2008 structural polyprotein gene, partial cds
+FJ754324.1	Israel acute paralysis virus of bees isolate Wus-China-2008 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+FJ754325.1	Israel acute paralysis virus of bees isolate Wus-China-2008 capsid protein gene, partial cds

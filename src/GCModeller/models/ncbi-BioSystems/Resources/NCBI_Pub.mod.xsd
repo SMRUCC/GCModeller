@@ -1,0 +1,219 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "pub.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Pub"
+================================================= -->
+<!--
+$Revision: 6.0 $
+********************************************************************
+
+  Publication common set
+  James Ostell, 1990
+
+  This is the base class definitions for Publications of all sorts
+
+  support for PubMedId added in 1996
+********************************************************************
+-->
+<!-- Elements used by other modules:
+          Pub,
+          Pub-set,
+          Pub-equiv -->
+
+<!-- Elements referenced from other modules:
+          Medline-entry FROM NCBI-Medline,
+          Cit-art,
+          Cit-jour,
+          Cit-book,
+          Cit-proc,
+          Cit-pat,
+          Id-pat,
+          Cit-gen,
+          Cit-let,
+          Cit-sub,
+          PubMedId FROM NCBI-Biblio -->
+
+<!-- ============================================ -->
+
+
+
+<xs:element name="Pub">
+  <xs:complexType>
+    <xs:choice>
+<!-- general or generic unparsed -->
+      <xs:element name="Pub_gen">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cit-gen"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- submission -->
+      <xs:element name="Pub_sub">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cit-sub"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Pub_medline">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Medline-entry"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- medline uid -->
+      <xs:element name="Pub_muid" type="xs:integer"/>
+      <xs:element name="Pub_article">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cit-art"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Pub_journal">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cit-jour"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Pub_book">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cit-book"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- proceedings of a meeting -->
+      <xs:element name="Pub_proc">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cit-proc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Pub_patent">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cit-pat"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- identify a patent -->
+      <xs:element name="Pub_pat-id">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Id-pat"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- manuscript, thesis, or letter -->
+      <xs:element name="Pub_man">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cit-let"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- to cite a variety of ways -->
+      <xs:element name="Pub_equiv">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Pub-equiv"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- PubMedId -->
+      <xs:element name="Pub_pmid">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PubMedId"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!-- equivalent identifiers for same citation -->
+<xs:element name="Pub-equiv">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="Pub"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Pub-set">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element name="Pub-set_pub">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Pub"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Pub-set_medline">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Medline-entry"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Pub-set_article">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Cit-art"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Pub-set_journal">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Cit-jour"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Pub-set_book">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Cit-book"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- proceedings of a meeting -->
+      <xs:element name="Pub-set_proc">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Cit-proc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Pub-set_patent">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Cit-pat"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

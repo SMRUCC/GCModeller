@@ -1,0 +1,2 @@
+HG779862.1	Israeli acute paralysis virus partial VP2 gene for Capsid protein 2, isolate IAPV-MelZJUb
+HG779863.1	Israeli acute paralysis virus partial VP2 gene for Capsid protein 2, isolate IAPV-CerJH1b

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco02020" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Two-component signal transduction systems enable bacteria to sense, respond, and adapt to changes in their environment or in their intracellular state. Each two-component system consists of a sensor protein-histidine kinase (HK) and a response regulator (RR). In the prototypical two-component pathway, the sensor HK phosphorylates its own conserved His residue in response to a signal(s) in the environment. Subsequently, the phosphoryl group of HK is transferred onto a specific Asp residue on the RR. The activated RR can then effect changes in cellular physiology, often by regulating gene expression. Two-component pathways thus often enable cells to sense and respond to stimuli by inducing changes in transcription.&lt;br&gt;</Description>
+  <Name>Two-component system - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00434" Value="PhoR-PhoB (phosphate starvation response) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00444" Value="PhoQ-PhoP (magnesium transport) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00445" Value="EnvZ-OmpR (osmotic stress response) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00446" Value="RstB-RstA two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00447" Value="CpxA-CpxR (envelope stress response) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00449" Value="CreC-CreB (phosphate regulation) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00450" Value="BaeS-BaeR (envelope stress response) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00451" Value="BasS-BasR (antimicrobial peptide resistance) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00452" Value="CusS-CusR (copper tolerance) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00453" Value="QseC-QseB (quorum sensing) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00454" Value="KdpD-KdpE (potassium transport) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00455" Value="TorS-TorR (TMAO respiration) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00456" Value="ArcB-ArcA (anoxic redox control) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00471" Value="NarX-NarL (nitrate respiration) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00472" Value="NarQ-NarP (nitrate respiration) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00473" Value="UhpB-UhpA (hexose phosphates uptake) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00474" Value="RcsC-RcsD-RcsB (capsule synthesis) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00475" Value="BarA-UvrY (central carbon metabolism) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00477" Value="EvgS-EvgA (acid and drug tolerance) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00486" Value="CitA-CitB (citrate fermentation) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00488" Value="DcuS-DcuR (C4-dicarboxylate metabolism) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00497" Value="GlnL-GlnG (nitrogen regulation) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00499" Value="HydH-HydG (metal tolerance) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00500" Value="AtoS-AtoC (cPHB biosynthesis) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00502" Value="GlrK-GlrR (amino sugar metabolism) two-component regulatory system [PATH:eco02020]" />
+    <hashEntry Key="eco_M00646" Value="Multidrug resistance, efflux pump AcrAD-TolC [PATH:eco02020]" />
+    <hashEntry Key="eco_M00648" Value="Multidrug resistance, efflux pump MdtABC [PATH:eco02020]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00007" Value="Oxygen" />
+    <hashEntry Key="C00009" Value="Orthophosphate" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00031" Value="D-Glucose" />
+    <hashEntry Key="C00034" Value="Manganese" />
+    <hashEntry Key="C00036" Value="Oxaloacetate" />
+    <hashEntry Key="C00038" Value="Zinc cation" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00070" Value="Copper" />
+    <hashEntry Key="C00088" Value="Nitrite" />
+    <hashEntry Key="C00092" Value="D-Glucose 6-phosphate" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00149" Value="(S)-Malate" />
+    <hashEntry Key="C00158" Value="Citrate" />
+    <hashEntry Key="C00164" Value="Acetoacetate" />
+    <hashEntry Key="C00238" Value="Potassium cation" />
+    <hashEntry Key="C00244" Value="Nitrate" />
+    <hashEntry Key="C00282" Value="Hydrogen" />
+    <hashEntry Key="C00291" Value="Nickel" />
+    <hashEntry Key="C00305" Value="Magnesium cation" />
+    <hashEntry Key="C00399" Value="Ubiquinone" />
+    <hashEntry Key="C00547" Value="L-Noradrenaline" />
+    <hashEntry Key="C00697" Value="Nitrogen" />
+    <hashEntry Key="C00788" Value="L-Adrenaline" />
+    <hashEntry Key="C00828" Value="Menaquinone" />
+    <hashEntry Key="C01104" Value="Trimethylamine N-oxide" />
+    <hashEntry Key="C01667" Value="Bacitracin" />
+    <hashEntry Key="C02084" Value="Tetrathionate" />
+    <hashEntry Key="C05757" Value="(R)-3-Hydroxydodecanoyl-[acp]" />
+    <hashEntry Key="C05818" Value="2-Demethylmenaquinone" />
+    <hashEntry Key="C06230" Value="Fe-enterobactin" />
+    <hashEntry Key="C06689" Value="Vancomycin" />
+    <hashEntry Key="C06696" Value="Lead" />
+    <hashEntry Key="C11612" Value="Polymyxin B" />
+    <hashEntry Key="C11842" Value="N-(3-(S)-Hydroxybutyryl)homoserine lactone" />
+    <hashEntry Key="C11849" Value="3-Hydroxy-palmitic acid methyl ester" />
+    <hashEntry Key="C12008" Value="Ramoplanin A2" />
+    <hashEntry Key="C13768" Value="Colistin sulfate" />
+    <hashEntry Key="C14819" Value="Fe3+" />
+    <hashEntry Key="C16421" Value="AI-2" />
+    <hashEntry Key="C16463" Value="3',5'-Cyclic diGMP" />
+    <hashEntry Key="C16640" Value="CAI-1" />
+    <hashEntry Key="C16665" Value="12-Methyltetradecanoic acid" />
+    <hashEntry Key="C18206" Value="cis-11-Methyl-2-dodecenoic acidD07746 Colistin (INN)D08401 Polymyxin B (INN)" />
+  </Compound>
+  <PathwayMap Key="eco02020" Value="Two-component system&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0161" Value="degP; serine endoprotease (protease Do), membrane-associated (EC:3.4.21.-); K04771 serine protease D" />
+    <hashEntry Key="eco:b0167" Value="glnD; uridylyltransferase (EC:2.7.7.59); K00990 [protein-PII] uridylyltransferase [EC:2.7.7.59]" />
+    <hashEntry Key="eco:b0196" Value="rcsF; putative outer membrane protein; K06080 RcsF protein" />
+    <hashEntry Key="eco:b0383" Value="phoA; bacterial alkaline phosphatase (EC:3.1.3.1); K01077 alkaline phosphatase [EC:3.1.3.1]" />
+    <hashEntry Key="eco:b0399" Value="phoB; response regulator in two-component regulatory system with PhoR (or CreC); K07657 two-componen" />
+    <hashEntry Key="eco:b0400" Value="phoR; sensory histidine kinase in two-component regulatory system with PhoB (EC:2.7.3.-); K07636 two" />
+    <hashEntry Key="eco:b0535" Value="sfmZ; response regulator family protein; K07688 two-component system, NarL family, response regulato" />
+    <hashEntry Key="eco:b0564" Value="appY; global transcriptional activator; DLP12 prophage; K07780 AraC family transcriptional regulator" />
+    <hashEntry Key="eco:b0570" Value="cusS; sensory histidine kinase in two-component regulatory system with CusR, senses copper ions; K07" />
+    <hashEntry Key="eco:b0571" Value="cusR; response regulator in two-component regulatory system with CusS; K07665 two-component system," />
+    <hashEntry Key="eco:b0572" Value="cusC; copper/silver efflux system, outer membrane component; K07796 outer membrane protein, Cu(I)/Ag" />
+    <hashEntry Key="eco:b0573" Value="cusF; periplasmic copper- and silver-binding protein; K07810 Cu(I)/Ag(I) efflux system periplasmic p" />
+    <hashEntry Key="eco:b0574" Value="cusB; copper/silver efflux system, membrane fusion protein; K07798 membrane fusion protein, Cu(I)/Ag" />
+    <hashEntry Key="eco:b0575" Value="cusA; copper/silver efflux system, membrane component; K07787 Cu(I)/Ag(I) efflux system membrane pro" />
+    <hashEntry Key="eco:b0584" Value="fepA; iron-enterobactin outer membrane transporter; K19611 ferric enterobactin receptor" />
+    <hashEntry Key="eco:b0612" Value="citT; citrate:succinate antiporter; K09477 citrate:succinate antiporter" />
+    <hashEntry Key="eco:b0613" Value="citG; 2-(5&amp;#39;&amp;#39;-triphosphoribosyl)-3&amp;#39;-dephosphocoenzyme-A synthase (EC:2.4.2.52); K05966 triphosphoribo" />
+    <hashEntry Key="eco:b0614" Value="citX; apo-citrate lyase phosphoribosyl-dephospho-CoA transferase (EC:2.7.7.61); K05964 holo-ACP synt" />
+    <hashEntry Key="eco:b0615" Value="citF; citrate lyase, citrate-ACP transferase (alpha) subunit (EC:2.8.3.10 4.1.3.6); K01643 citrate l" />
+    <hashEntry Key="eco:b0616" Value="citE; citrate lyase, citryl-ACP lyase (beta) subunit (EC:4.1.3.34 4.1.3.6); K01644 citrate lyase sub" />
+    <hashEntry Key="eco:b0617" Value="citD; citrate lyase, acyl carrier (gamma) subunit (EC:4.1.3.6); K01646 citrate lyase subunit gamma (" />
+    <hashEntry Key="eco:b0618" Value="citC; [citrate [pro-3S]-lyase] ligase (EC:6.2.1.22); K01910 [citrate (pro-3S)-lyase] ligase [EC:6.2." />
+    <hashEntry Key="eco:b0619" Value="citA; sensory histidine kinase in two-component regulatory system with CitB; K07700 two-component sy" />
+    <hashEntry Key="eco:b0620" Value="citB; response regulator in two-component regulatory system with CitA; K07702 two-component system," />
+    <hashEntry Key="eco:b0652" Value="gltL; glutamate, aspartate ABC transporter ATP-binding subunit; K10004 glutamate/aspartate transport" />
+    <hashEntry Key="eco:b0653" Value="gltK; glutamate, aspartate ABC transporter permease subunit; K10002 glutamate/aspartate transport sy" />
+    <hashEntry Key="eco:b0654" Value="gltJ; glutamate, aspartate ABC transporter permease subunit; K10003 glutamate/aspartate transport sy" />
+    <hashEntry Key="eco:b0655" Value="gltI; glutamate, aspartate binding protein, periplasmic; part of GltJKLI ABC transporter; K10001 glu" />
+    <hashEntry Key="eco:b0694" Value="kdpE; response regulator in two-component regulatory system with KdpD; K07667 two-component system," />
+    <hashEntry Key="eco:b0695" Value="kdpD; fused sensory histidine kinase in two-component regulatory system with KdpE: signal sensing pr" />
+    <hashEntry Key="eco:b0696" Value="kdpC; potassium translocating ATPase, subunit C (EC:3.6.3.12); K01548 K+-transporting ATPase ATPase" />
+    <hashEntry Key="eco:b0697" Value="kdpB; potassium translocating ATPase, subunit B (EC:3.6.3.12); K01547 K+-transporting ATPase ATPase" />
+    <hashEntry Key="eco:b0698" Value="kdpA; potassium translocating ATPase, subunit A (EC:3.6.3.12); K01546 K+-transporting ATPase ATPase" />
+    <hashEntry Key="eco:b0733" Value="cydA; cytochrome d terminal oxidase, subunit I (EC:1.9.3.-); K00425 cytochrome d ubiquinol oxidase s" />
+    <hashEntry Key="eco:b0734" Value="cydB; cytochrome d terminal oxidase, subunit II (EC:1.9.3.-); K00426 cytochrome d ubiquinol oxidase" />
+    <hashEntry Key="eco:b0929" Value="ompF; outer membrane porin 1a (Ia;b;F); K09476 outer membrane pore protein F" />
+    <hashEntry Key="eco:b0974" Value="hyaC; hydrogenase 1, b-type cytochrome subunit; K03620 Ni/Fe-hydrogenase 1 B-type cytochrome subunit" />
+    <hashEntry Key="eco:b0978" Value="cbdA; cytochrome bd-II oxidase, subunit I (EC:1.10.3.-); K00425 cytochrome d ubiquinol oxidase subun" />
+    <hashEntry Key="eco:b0979" Value="cbdB; cytochrome bd-II oxidase, subunit II (EC:1.10.3.-); K00426 cytochrome d ubiquinol oxidase subu" />
+    <hashEntry Key="eco:b0993" Value="torS; hybrid sensory histidine kinase in two-component regulatory system with TorR; K07647 two-compo" />
+    <hashEntry Key="eco:b0995" Value="torR; response regulator in two-component regulatory system with TorS; K07772 two-component system," />
+    <hashEntry Key="eco:b0996" Value="torC; trimethylamine N-oxide (TMAO) reductase I, cytochrome c-type subunit; K03532 trimethylamine-N-" />
+    <hashEntry Key="eco:b0997" Value="torA; trimethylamine N-oxide (TMAO) reductase I, catalytic subunit (EC:1.6.6.9); K07811 trimethylami" />
+    <hashEntry Key="eco:b0998" Value="torD; TorA-maturation chaperone; K03533 TorA specific chaperone" />
+    <hashEntry Key="eco:b1129" Value="phoQ; sensory histidine kinase in two-component regulatory system with PhoP; K07637 two-component sy" />
+    <hashEntry Key="eco:b1130" Value="phoP; response regulator in two-component regulatory system with PhoQ; K07660 two-component system," />
+    <hashEntry Key="eco:b1221" Value="narL; response regulator in two-component regulatory system with NarX (or NarQ); K07684 two-componen" />
+    <hashEntry Key="eco:b1222" Value="narX; sensory histidine kinase in two-component regulatory system with NarL; K07673 two-component sy" />
+    <hashEntry Key="eco:b1224" Value="narG; nitrate reductase 1, alpha subunit (EC:1.7.99.4); K00370 nitrate reductase / nitrite oxidoredu" />
+    <hashEntry Key="eco:b1225" Value="narH; nitrate reductase 1, beta (Fe-S) subunit (EC:1.7.99.4); K00371 nitrate reductase / nitrite oxi" />
+    <hashEntry Key="eco:b1226" Value="narJ; molybdenum-cofactor-assembly chaperone subunit (delta subunit) of nitrate reductase 1 (EC:1.7." />
+    <hashEntry Key="eco:b1227" Value="narI; nitrate reductase 1, gamma (cytochrome b(NR)) subunit (EC:1.7.99.4); K00374 nitrate reductase" />
+    <hashEntry Key="eco:b1421" Value="trg; methyl-accepting chemotaxis protein III, ribose and galactose sensor receptor; K05876 methyl-ac" />
+    <hashEntry Key="eco:b1465" Value="narV; nitrate reductase 2 (NRZ), gamma subunit (EC:1.7.99.4); K00374 nitrate reductase gamma subunit" />
+    <hashEntry Key="eco:b1466" Value="narW; nitrate reductase 2 (NRZ), delta subunit (assembly subunit) (EC:1.7.99.4); K00373 nitrate redu" />
+    <hashEntry Key="eco:b1467" Value="narY; nitrate reductase 2 (NRZ), beta subunit (EC:1.7.99.4); K00371 nitrate reductase / nitrite oxid" />
+    <hashEntry Key="eco:b1468" Value="narZ; nitrate reductase 2 (NRZ), alpha subunit (EC:1.7.99.4); K00370 nitrate reductase / nitrite oxi" />
+    <hashEntry Key="eco:b1474" Value="fdnG; formate dehydrogenase-N, alpha subunit, nitrate-inducible (EC:1.2.1.2); K08348 formate dehydro" />
+    <hashEntry Key="eco:b1475" Value="fdnH; formate dehydrogenase-N, Fe-S (beta) subunit, nitrate-inducible; K08349 formate dehydrogenase-" />
+    <hashEntry Key="eco:b1476" Value="fdnI; formate dehydrogenase-N, cytochrome B556 (gamma) subunit, nitrate-inducible; K08350 formate de" />
+    <hashEntry Key="eco:b1479" Value="maeA; malate dehydrogenase, (decarboxylating, NAD-requiring) (malic enzyme) (EC:1.1.1.38); K00027 ma" />
+    <hashEntry Key="eco:b1488" Value="ddpX; D-ala-D-ala dipeptidase, Zn-dependent (EC:3.4.13.-); K08641 D-alanyl-D-alanine dipeptidase [EC" />
+    <hashEntry Key="eco:b1608" Value="rstA; response regulator of RstAB two-component system, low Mg-responsive via PhoQP; K07661 two-comp" />
+    <hashEntry Key="eco:b1609" Value="rstB; sensory histidine kinase of RstAB two-component system, low Mg-responsive via PhoQP; K07639 tw" />
+    <hashEntry Key="eco:b1882" Value="cheY; chemotaxis regulator transmitting signal to flagellar motor component; K03413 two-component sy" />
+    <hashEntry Key="eco:b1883" Value="cheB; fused chemotaxis regulator: protein-glutamate methylesterase in two-component regulatory syste" />
+    <hashEntry Key="eco:b1884" Value="cheR; chemotaxis regulator, protein-glutamate methyltransferase (EC:2.1.1.80); K00575 chemotaxis pro" />
+    <hashEntry Key="eco:b1885" Value="tap; methyl-accepting protein IV; K05877 methyl-accepting chemotaxis protein IV, peptide sensor rece" />
+    <hashEntry Key="eco:b1886" Value="tar; methyl-accepting chemotaxis protein II; K05875 methyl-accepting chemotaxis protein II, aspartat" />
+    <hashEntry Key="eco:b1887" Value="cheW; purine-binding chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="eco:b1888" Value="cheA; fused chemotactic sensory histidine kinase in two-component regulatory system with CheB and Ch" />
+    <hashEntry Key="eco:b1890" Value="motA; proton conductor component of flagella motor; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="eco:b1891" Value="flhC; flagellar class II regulon transcriptional activator, with FlhD; K02402 flagellar transcriptio" />
+    <hashEntry Key="eco:b1892" Value="flhD; flagellar class II regulon transcriptional activator, with FlhC; K02403 flagellar transcriptio" />
+    <hashEntry Key="eco:b1914" Value="uvrY; response regulator in two-component regulatory system with BarA; K07689 two-component system," />
+    <hashEntry Key="eco:b1916" Value="sdiA; quorum-sensing transcriptional activator; K07782 LuxR family transcriptional regulator, quorum" />
+    <hashEntry Key="eco:b1922" Value="fliA; RNA polymerase, sigma 28 (sigma F) factor; K02405 RNA polymerase sigma factor for flagellar op" />
+    <hashEntry Key="eco:b1923" Value="fliC; flagellar filament structural protein (flagellin); K02406 flagellin" />
+    <hashEntry Key="eco:b1951" Value="rcsA; transcriptional regulator of colanic acid capsular biosynthesis; K07781 LuxR family transcript" />
+    <hashEntry Key="eco:b2074" Value="mdtA; multidrug efflux system, subunit A; K07799 membrane fusion protein, multidrug efflux system" />
+    <hashEntry Key="eco:b2075" Value="mdtB; multidrug efflux system, subunit B; K07788 multidrug efflux pump" />
+    <hashEntry Key="eco:b2076" Value="mdtC; multidrug efflux system, subunit C; K07789 multidrug efflux pump" />
+    <hashEntry Key="eco:b2077" Value="mdtD; putative arabinose efflux transporter; K18326 MFS transporter, DHA2 family, multidrug resistan" />
+    <hashEntry Key="eco:b2078" Value="baeS; sensory histidine kinase in two-component regulatory system with BaeR; K07642 two-component sy" />
+    <hashEntry Key="eco:b2079" Value="baeR; response regulator in two-component regulatory system with BaeS; K07664 two-component system," />
+    <hashEntry Key="eco:b2193" Value="narP; response regulator in two-component regulatory system with NarQ or NarX; K07685 two-component" />
+    <hashEntry Key="eco:b2215" Value="ompC; outer membrane porin protein C; K09475 outer membrane pore protein C" />
+    <hashEntry Key="eco:b2216" Value="rcsD; phosphotransfer intermediate protein in two-component regulatory system with RcsBC; K07676 two" />
+    <hashEntry Key="eco:b2217" Value="rcsB; response regulator in two-component regulatory system with RcsC and YojN; K07687 two-component" />
+    <hashEntry Key="eco:b2218" Value="rcsC; hybrid sensory kinase in two-component regulatory system with RcsB and YojN; K07677 two-compon" />
+    <hashEntry Key="eco:b2219" Value="atoS; sensory histidine kinase in two-component regulatory system with AtoC; K07710 two-component sy" />
+    <hashEntry Key="eco:b2220" Value="atoC; fused response regulator of ato operon, in two-component system with AtoS: response regulator/" />
+    <hashEntry Key="eco:b2221" Value="atoD; acetyl-CoA:acetoacetyl-CoA transferase, alpha subunit (EC:2.8.3.8); K01034 acetate CoA/acetoac" />
+    <hashEntry Key="eco:b2222" Value="atoA; acetyl-CoA:acetoacetyl-CoA transferase, beta subunit (EC:2.8.3.8); K01035 acetate CoA/acetoace" />
+    <hashEntry Key="eco:b2223" Value="atoE; short chain fatty acid transporter; K02106 short-chain fatty acids transporter" />
+    <hashEntry Key="eco:b2224" Value="atoB; acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b2253" Value="arnB; uridine 5&amp;#39;-(beta-1-threo-pentapyranosyl-4-ulose diphosphate) aminotransferase, PLP-dependent;" />
+    <hashEntry Key="eco:b2367" Value="emrY; putative multidrug efflux system; K07786 MFS transporter, DHA2 family, multidrug resistance pr" />
+    <hashEntry Key="eco:b2368" Value="emrK; EmrKY-TolC multidrug resistance efflux pump, membrane fusion protein component; K07797 multidr" />
+    <hashEntry Key="eco:b2369" Value="evgA; response regulator in two-component regulatory system with EvgS; K07690 two-component system," />
+    <hashEntry Key="eco:b2370" Value="evgS; hybrid sensory histidine kinase in two-component regulatory system with EvgA; K07679 two-compo" />
+    <hashEntry Key="eco:b2469" Value="narQ; sensory histidine kinase in two-component regulatory system with NarP (NarL); K07674 two-compo" />
+    <hashEntry Key="eco:b2470" Value="acrD; aminoglycoside/multidrug efflux system; K18324 multidrug efflux pump" />
+    <hashEntry Key="eco:b2553" Value="glnB; regulatory protein P-II for glutamine synthetase; K04751 nitrogen regulatory protein P-II 1" />
+    <hashEntry Key="eco:b2554" Value="glrR; response regulator regulating glmY sRNA in two-component system with sensor protein GlrK; K077" />
+    <hashEntry Key="eco:b2556" Value="glrK; sensor protein kinase regulating glmY sRNA in two-component system with response regulator Glr" />
+    <hashEntry Key="eco:b2696" Value="csrA; pleiotropic regulatory protein for carbon source metabolism; K03563 carbon storage regulator" />
+    <hashEntry Key="eco:b2786" Value="barA; hybrid sensory histidine kinase, in two-component regulatory system with UvrY; K07678 two-comp" />
+    <hashEntry Key="eco:b2844" Value="yqeF; short chain acyltransferase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b3025" Value="qseB; quorum sensing DNA-binding response regulator in two-component regulatory system with QseC; K0" />
+    <hashEntry Key="eco:b3026" Value="qseC; quorum sensing sensory histidine kinase in two-component regulatory system with QseB; K07645 t" />
+    <hashEntry Key="eco:b3035" Value="tolC; transport channel; K12340 outer membrane protein" />
+    <hashEntry Key="eco:b3072" Value="aer; fused signal transducer for aerotaxis sensory component/methyl accepting chemotaxis component;" />
+    <hashEntry Key="eco:b3202" Value="rpoN; RNA polymerase, sigma 54 (sigma N) factor; K03092 RNA polymerase sigma-54 factor" />
+    <hashEntry Key="eco:b3210" Value="arcB; aerobic respiration control sensor histidine protein kinase, cognate to two-component response" />
+    <hashEntry Key="eco:b3357" Value="crp; cAMP-activated global transcription factor, mediator of catabolite repression; K10914 CRP/FNR f" />
+    <hashEntry Key="eco:b3404" Value="envZ; sensory histidine kinase in two-component regulatory system with OmpR; K07638 two-component sy" />
+    <hashEntry Key="eco:b3405" Value="ompR; response regulator in two-component regulatory system with EnvZ; K07659 two-component system," />
+    <hashEntry Key="eco:b3528" Value="dctA; C4-dicarboxylic acid, orotate and citrate transporter; K11103 aerobic C4-dicarboxylate transpo" />
+    <hashEntry Key="eco:b3666" Value="uhpT; hexose phosphate transporter; K07784 MFS transporter, OPA family, hexose phosphate transport p" />
+    <hashEntry Key="eco:b3667" Value="uhpC; membrane protein regulates uhpT expression; K07783 MFS transporter, OPA family, sugar phosphat" />
+    <hashEntry Key="eco:b3668" Value="uhpB; sensory histidine kinase in two-component regulatory sytem with UhpA; K07675 two-component sys" />
+    <hashEntry Key="eco:b3669" Value="uhpA; response regulator in two-component regulatory system wtih UhpB; K07686 two-component system," />
+    <hashEntry Key="eco:b3702" Value="dnaA; chromosomal replication initiator protein DnaA, DNA-binding transcriptional dual regulator; K0" />
+    <hashEntry Key="eco:b3728" Value="pstS; periplasmic phosphate binding protein, high-affinity; K02040 phosphate transport system substr" />
+    <hashEntry Key="eco:b3868" Value="glnG; fused DNA-binding response regulator in two-component regulatory system with GlnL: response re" />
+    <hashEntry Key="eco:b3869" Value="glnL; sensory histidine kinase in two-component regulatory system with GlnG; K07708 two-component sy" />
+    <hashEntry Key="eco:b3870" Value="glnA; glutamine synthetase (EC:6.3.1.2); K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="eco:b3911" Value="cpxA; sensory histidine kinase in two-component regulatory system with CpxR; K07640 two-component sy" />
+    <hashEntry Key="eco:b3912" Value="cpxR; response regulator in two-component regulatory system with CpxA; K07662 two-component system," />
+    <hashEntry Key="eco:b4002" Value="zraP; Zn-dependent periplasmic chaperone; K07803 zinc resistance-associated protein" />
+    <hashEntry Key="eco:b4003" Value="zraS; sensory histidine kinase in two-component regulatory system with ZraR; K07709 two-component sy" />
+    <hashEntry Key="eco:b4004" Value="zraR; fused DNA-binding response regulator in two-component regulatory system with ZraS: response re" />
+    <hashEntry Key="eco:b4112" Value="basS; sensory histidine kinase in two-component regulatory system with BasR; K07643 two-component sy" />
+    <hashEntry Key="eco:b4113" Value="basR; response regulator in two-component regulatory system with BasS; K07771 two-component system," />
+    <hashEntry Key="eco:b4123" Value="dcuB; C4-dicarboxylate transporter, anaerobic; DcuS co-sensor; K07792 anaerobic C4-dicarboxylate tra" />
+    <hashEntry Key="eco:b4124" Value="dcuR; response regulator in two-component regulatory system with DcuS; K07703 two-component system," />
+    <hashEntry Key="eco:b4125" Value="dcuS; sensory histidine kinase in two-component regulatory system with DcuR, regulator of anaerobic" />
+    <hashEntry Key="eco:b4150" Value="ampC; penicillin-binding protein; beta-lactamase, intrinsically weak (EC:3.5.2.6); K01467 beta-lacta" />
+    <hashEntry Key="eco:b4151" Value="frdD; fumarate reductase (anaerobic), membrane anchor subunit; K00247 fumarate reductase subunit D" />
+    <hashEntry Key="eco:b4152" Value="frdC; fumarate reductase (anaerobic), membrane anchor subunit; K00246 fumarate reductase subunit C" />
+    <hashEntry Key="eco:b4153" Value="frdB; fumarate reductase (anaerobic), Fe-S subunit (EC:1.3.99.1); K00245 fumarate reductase iron-sul" />
+    <hashEntry Key="eco:b4154" Value="frdA; fumarate reductase (anaerobic) catalytic and NAD/flavoprotein subunit (EC:1.3.99.1); K00244 fu" />
+    <hashEntry Key="eco:b4355" Value="tsr; methyl-accepting chemotaxis protein I, serine sensor receptor; K05874 methyl-accepting chemotax" />
+    <hashEntry Key="eco:b4398" Value="creB; response regulator in two-component regulatory system with CreC; K07663 two-component system," />
+    <hashEntry Key="eco:b4399" Value="creC; sensory histidine kinase in two-component regulatory system with CreB or PhoB, regulator of th" />
+    <hashEntry Key="eco:b4401" Value="arcA; response regulator in two-component regulatory system with ArcB or CpxA; K07773 two-component" />
+    <hashEntry Key="eco:b4441" Value="glmY; sRNA activator of glmS mRNA, glmZ processing antagonist; K15841 small regulatory RNA GlmY" />
+    <hashEntry Key="eco:b4513" Value="kdpF; potassium ion accessory transporter subunit; K01545 K+-transporting ATPase ATPase F chain" />
+  </Genes>
+</KEGG.PathwayBrief>

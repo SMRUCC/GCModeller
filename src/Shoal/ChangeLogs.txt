@@ -1,0 +1,2 @@
+2014.12.07
+improved the internal Wiki help system

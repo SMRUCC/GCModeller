@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco02030" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Chemotaxis is the process by which cells sense chemical gradients in their environment and then move towards more favorable conditions. In chemotaxis, events at the receptors control autophosphorylation of the CheA histidine kinase, and the phosphohistidine is the substrate for the response regulator CheY, which catalyzes the transfer of the phosphoryl group to a conserved aspartate. The resulting CheY-P can interact with the switch mechanism in the motor. This interaction causes a change in behavior, such as in direction or speed of rotation of flagella.&lt;br&gt;</Description>
+  <Name>Bacterial chemotaxis - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00107" Value="Dipeptide" />
+    <hashEntry Key="C00121" Value="D-Ribose" />
+    <hashEntry Key="C00124" Value="D-Galactose" />
+    <hashEntry Key="C00208" Value="Maltose" />
+    <hashEntry Key="C00716" Value="Serine" />
+  </Compound>
+  <PathwayMap Key="eco02030" Value="Bacterial chemotaxis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b1421" Value="trg; methyl-accepting chemotaxis protein III, ribose and galactose sensor receptor; K05876 methyl-ac" />
+    <hashEntry Key="eco:b1881" Value="cheZ; chemotaxis regulator, protein phosphatase for CheY; K03414 chemotaxis protein CheZ" />
+    <hashEntry Key="eco:b1882" Value="cheY; chemotaxis regulator transmitting signal to flagellar motor component; K03413 two-component sy" />
+    <hashEntry Key="eco:b1883" Value="cheB; fused chemotaxis regulator: protein-glutamate methylesterase in two-component regulatory syste" />
+    <hashEntry Key="eco:b1884" Value="cheR; chemotaxis regulator, protein-glutamate methyltransferase (EC:2.1.1.80); K00575 chemotaxis pro" />
+    <hashEntry Key="eco:b1885" Value="tap; methyl-accepting protein IV; K05877 methyl-accepting chemotaxis protein IV, peptide sensor rece" />
+    <hashEntry Key="eco:b1886" Value="tar; methyl-accepting chemotaxis protein II; K05875 methyl-accepting chemotaxis protein II, aspartat" />
+    <hashEntry Key="eco:b1887" Value="cheW; purine-binding chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="eco:b1888" Value="cheA; fused chemotactic sensory histidine kinase in two-component regulatory system with CheB and Ch" />
+    <hashEntry Key="eco:b1889" Value="motB; protein that enables flagellar motor rotation; K02557 chemotaxis protein MotB" />
+    <hashEntry Key="eco:b1890" Value="motA; proton conductor component of flagella motor; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="eco:b1939" Value="fliG; flagellar motor switching and energizing component; K02410 flagellar motor switch protein FliG" />
+    <hashEntry Key="eco:b1945" Value="fliM; flagellar motor switching and energizing component; K02416 flagellar motor switch protein FliM" />
+    <hashEntry Key="eco:b1946" Value="fliN; flagellar motor switching and energizing component; K02417 flagellar motor switch protein FliN" />
+    <hashEntry Key="eco:b2150" Value="mglB; methyl-galactoside transporter subunit; K10540 methyl-galactoside transport system substrate-b" />
+    <hashEntry Key="eco:b3072" Value="aer; fused signal transducer for aerotaxis sensory component/methyl accepting chemotaxis component;" />
+    <hashEntry Key="eco:b3544" Value="dppA; dipeptide transporter; K12368 dipeptide transport system substrate-binding protein" />
+    <hashEntry Key="eco:b3751" Value="rbsB; D-ribose transporter subunit; K10439 ribose transport system substrate-binding protein" />
+    <hashEntry Key="eco:b4034" Value="malE; maltose transporter subunit; K10108 maltose/maltodextrin transport system substrate-binding pr" />
+    <hashEntry Key="eco:b4355" Value="tsr; methyl-accepting chemotaxis protein I, serine sensor receptor; K05874 methyl-accepting chemotax" />
+  </Genes>
+</KEGG.PathwayBrief>

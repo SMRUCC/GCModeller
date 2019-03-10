@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb03070" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Gram-negative bacteria secrete a wide range of proteins whose functions include biogenesis of organelles, such as pilli and flagella, nutrient acquisition, virulence, and efflux of drugs and other toxins. Six distinct secretion systems have been shown to mediate protein export through the inner and outer membranes of Gram-negative bacteria. These pathways are highly conserved throughout the Gram-negative bacterial species. In Gram-positive bacteria, secreted proteins are commonly translocated across the single membrane by the Sec pathway or the two-arginine (Tat) pathway.&lt;br&gt;</Description>
+  <Name>Bacterial secretion system - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00331" Value="Type II general secretion pathway [PATH:xcb03070]" />
+    <hashEntry Key="xcb_M00332" Value="Type III secretion system [PATH:xcb03070]" />
+    <hashEntry Key="xcb_M00333" Value="Type IV secretion system [PATH:xcb03070]" />
+    <hashEntry Key="xcb_M00335" Value="Sec (secretion) system [PATH:xcb03070]" />
+    <hashEntry Key="xcb_M00336" Value="Twin-arginine translocation (Tat) system [PATH:xcb03070]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00002" Value="ATP" />
+  </Compound>
+  <PathwayMap Key="xcb03070" Value="Bacterial secretion system&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0213" Value="preprotein translocase subunit SecB; K03071 preprotein translocase subunit SecB" />
+    <hashEntry Key="xcb:XC_0738" Value="type II secretion system protein C; K02452 general secretion pathway protein C" />
+    <hashEntry Key="xcb:XC_0739" Value="type II secretion system protein D; K02453 general secretion pathway protein D" />
+    <hashEntry Key="xcb:XC_0740" Value="type II secretion system protein E; K02454 general secretion pathway protein E" />
+    <hashEntry Key="xcb:XC_0741" Value="type II secretion system protein F; K02455 general secretion pathway protein F" />
+    <hashEntry Key="xcb:XC_0742" Value="type II secretion system protein G; K02456 general secretion pathway protein G" />
+    <hashEntry Key="xcb:XC_0743" Value="type II secretion system protein H; K02457 general secretion pathway protein H" />
+    <hashEntry Key="xcb:XC_0744" Value="type II secretion system protein I; K02458 general secretion pathway protein I" />
+    <hashEntry Key="xcb:XC_0745" Value="type II secretion system protein J; K02459 general secretion pathway protein J" />
+    <hashEntry Key="xcb:XC_0746" Value="type II secretion system protein K; K02460 general secretion pathway protein K" />
+    <hashEntry Key="xcb:XC_0747" Value="type II secretion system protein L; K02461 general secretion pathway protein L" />
+    <hashEntry Key="xcb:XC_0748" Value="type II secretion system protein M; K02462 general secretion pathway protein M" />
+    <hashEntry Key="xcb:XC_0828" Value="TolC protein; K12340 outer membrane protein" />
+    <hashEntry Key="xcb:XC_0864" Value="VirB6 protein; K03201 type IV secretion system protein VirB6" />
+    <hashEntry Key="xcb:XC_0868" Value="VirB6 protein; K03201 type IV secretion system protein VirB6" />
+    <hashEntry Key="xcb:XC_0870" Value="hypothetical protein; K03200 type IV secretion system protein VirB5" />
+    <hashEntry Key="xcb:XC_0871" Value="hypothetical protein; K03200 type IV secretion system protein VirB5" />
+    <hashEntry Key="xcb:XC_1027" Value="VirB6 protein; K03201 type IV secretion system protein VirB6" />
+    <hashEntry Key="xcb:XC_1588" Value="secG; preprotein translocase subunit SecG; K03075 preprotein translocase subunit SecG" />
+    <hashEntry Key="xcb:XC_1630" Value="VirD4 protein; K03205 type IV secretion system protein VirD4" />
+    <hashEntry Key="xcb:XC_1632" Value="VirB8 protein; K03203 type IV secretion system protein VirB8" />
+    <hashEntry Key="xcb:XC_1633" Value="VirB9 protein; K03204 type IV secretion system protein VirB9" />
+    <hashEntry Key="xcb:XC_1634" Value="VirB10 protein; K03195 type IV secretion system protein VirB10" />
+    <hashEntry Key="xcb:XC_1635" Value="VirB11 protein; K03196 type IV secretion system protein VirB11" />
+    <hashEntry Key="xcb:XC_1636" Value="VirB1 protein; K03194 type IV secretion system protein VirB1" />
+    <hashEntry Key="xcb:XC_1637" Value="VirB2 protein; K03197 type IV secretion system protein VirB2" />
+    <hashEntry Key="xcb:XC_1638" Value="VirB3 protein; K03198 type IV secretion system protein VirB3" />
+    <hashEntry Key="xcb:XC_1639" Value="VirB4 protein; K03199 type IV secretion system protein VirB4" />
+    <hashEntry Key="xcb:XC_1695" Value="cell division protein; K03110 fused signal recognition particle receptor" />
+    <hashEntry Key="xcb:XC_1737" Value="yajC; preprotein translocase subunit YajC; K03210 preprotein translocase subunit YajC" />
+    <hashEntry Key="xcb:XC_1738" Value="secD; preprotein translocase subunit SecD; K03072 preprotein translocase subunit SecD" />
+    <hashEntry Key="xcb:XC_1739" Value="secF; preprotein translocase subunit SecF; K03074 preprotein translocase subunit SecF" />
+    <hashEntry Key="xcb:XC_2016" Value="VirB6 protein; K03201 type IV secretion system protein VirB6" />
+    <hashEntry Key="xcb:XC_2413" Value="NTPase VagA; K03205 type IV secretion system protein VirD4" />
+    <hashEntry Key="xcb:XC_3003" Value="HrcC protein; K03219 type III secretion protein C" />
+    <hashEntry Key="xcb:XC_3004" Value="HrpB8 protein; K03228 type III secretion protein T" />
+    <hashEntry Key="xcb:XC_3006" Value="type III secretion system ATPase; K03224 ATP synthase in type III secretion protein N [EC:3.6.3.14]" />
+    <hashEntry Key="xcb:XC_3007" Value="type III secretion system protein HrpB; K03223 type III secretion protein L" />
+    <hashEntry Key="xcb:XC_3009" Value="HrcJ protein; K03222 type III secretion protein J" />
+    <hashEntry Key="xcb:XC_3012" Value="type III secretion system protein HrcU; K03229 type III secretion protein U" />
+    <hashEntry Key="xcb:XC_3013" Value="HrcV protein; K03230 type III secretion protein V" />
+    <hashEntry Key="xcb:XC_3015" Value="HrcQ protein; K03225 type III secretion protein Q" />
+    <hashEntry Key="xcb:XC_3016" Value="type III secretion system protein; K03226 type III secretion protein R" />
+    <hashEntry Key="xcb:XC_3017" Value="HrcS protein; K03227 type III secretion protein S" />
+    <hashEntry Key="xcb:XC_3048" Value="signal recognition particle protein; K03106 signal recognition particle subunit SRP54 [EC:3.6.5.4]" />
+    <hashEntry Key="xcb:XC_3320" Value="secY; preprotein translocase subunit SecY; K03076 preprotein translocase subunit SecY" />
+    <hashEntry Key="xcb:XC_3353" Value="secE; preprotein translocase subunit SecE; K03073 preprotein translocase subunit SecE" />
+    <hashEntry Key="xcb:XC_3501" Value="azi, div; preprotein translocase subunit SecA; K03070 preprotein translocase subunit SecA" />
+    <hashEntry Key="xcb:XC_3563" Value="general secretion pathway protein D; K02453 general secretion pathway protein D" />
+    <hashEntry Key="xcb:XC_3565" Value="general secretion pathway protein M; K02462 general secretion pathway protein M" />
+    <hashEntry Key="xcb:XC_3566" Value="general secretion pathway protein L; K02461 general secretion pathway protein L" />
+    <hashEntry Key="xcb:XC_3567" Value="general secretion pathway protein K; K02460 general secretion pathway protein K" />
+    <hashEntry Key="xcb:XC_3568" Value="general secretion pathway protein J; K02459 general secretion pathway protein J" />
+    <hashEntry Key="xcb:XC_3569" Value="general secretion pathway protein I; K02458 general secretion pathway protein I" />
+    <hashEntry Key="xcb:XC_3570" Value="general secretion pathway protein H; K02457 general secretion pathway protein H" />
+    <hashEntry Key="xcb:XC_3571" Value="general secretion pathway protein G; K02456 general secretion pathway protein G" />
+    <hashEntry Key="xcb:XC_3572" Value="general secretion pathway protein F; K02455 general secretion pathway protein F" />
+    <hashEntry Key="xcb:XC_3573" Value="general secretion pathway protein E; K02454 general secretion pathway protein E" />
+    <hashEntry Key="xcb:XC_4179" Value="general secretory pathway related protein; K02454 general secretion pathway protein E" />
+    <hashEntry Key="xcb:XC_4182" Value="sec-independent protein translocase; K03118 sec-independent protein translocase protein TatC" />
+    <hashEntry Key="xcb:XC_4183" Value="sec-independent translocase; K03117 sec-independent protein translocase protein TatB" />
+    <hashEntry Key="xcb:XC_4184" Value="tatA; twin-arginine translocation protein TatA; K03116 sec-independent protein translocase protein T" />
+    <hashEntry Key="xcb:XC_4330" Value="inner membrane protein translocase component YidC; K03217 YidC/Oxa1 family membrane protein insertas" />
+  </Genes>
+</KEGG.PathwayBrief>

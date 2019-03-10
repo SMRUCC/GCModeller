@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00970" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Aminoacyl-tRNA biosynthesis - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00360" Value="Aminoacyl-tRNA biosynthesis, prokaryotes [PATH:xor00970]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00041" Value="L-Alanine" />
+    <hashEntry Key="C00047" Value="L-Lysine" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00062" Value="L-Arginine" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00065" Value="L-Serine" />
+    <hashEntry Key="C00073" Value="L-Methionine" />
+    <hashEntry Key="C00078" Value="L-Tryptophan" />
+    <hashEntry Key="C00079" Value="L-Phenylalanine" />
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00101" Value="Tetrahydrofolate" />
+    <hashEntry Key="C00123" Value="L-Leucine" />
+    <hashEntry Key="C00135" Value="L-Histidine" />
+    <hashEntry Key="C00148" Value="L-Proline" />
+    <hashEntry Key="C00152" Value="L-Asparagine" />
+    <hashEntry Key="C00183" Value="L-Valine" />
+    <hashEntry Key="C00188" Value="L-Threonine" />
+    <hashEntry Key="C00234" Value="10-Formyltetrahydrofolate" />
+    <hashEntry Key="C00407" Value="L-Isoleucine" />
+    <hashEntry Key="C00886" Value="L-Alanyl-tRNA" />
+    <hashEntry Key="C01005" Value="O-Phospho-L-serine" />
+    <hashEntry Key="C01931" Value="L-Lysyl-tRNA" />
+    <hashEntry Key="C02047" Value="L-Leucyl-tRNA" />
+    <hashEntry Key="C02163" Value="L-Arginyl-tRNA(Arg)" />
+    <hashEntry Key="C02282" Value="Glutaminyl-tRNA" />
+    <hashEntry Key="C02412" Value="Glycyl-tRNA(Gly)" />
+    <hashEntry Key="C02430" Value="L-Methionyl-tRNA" />
+    <hashEntry Key="C02553" Value="L-Seryl-tRNA(Ser)" />
+    <hashEntry Key="C02554" Value="L-Valyl-tRNA(Val)" />
+    <hashEntry Key="C02702" Value="L-Prolyl-tRNA(Pro)" />
+    <hashEntry Key="C02839" Value="L-Tyrosyl-tRNA(Tyr)" />
+    <hashEntry Key="C02984" Value="L-Aspartyl-tRNA(Asp)" />
+    <hashEntry Key="C02987" Value="L-Glutamyl-tRNA(Glu)" />
+    <hashEntry Key="C02988" Value="L-Histidyl-tRNA(His)" />
+    <hashEntry Key="C02992" Value="L-Threonyl-tRNA(Thr)" />
+    <hashEntry Key="C03125" Value="L-Cysteinyl-tRNA(Cys)" />
+    <hashEntry Key="C03127" Value="L-Isoleucyl-tRNA(Ile)" />
+    <hashEntry Key="C03294" Value="N-Formylmethionyl-tRNA" />
+    <hashEntry Key="C03402" Value="L-Asparaginyl-tRNA(Asn)" />
+    <hashEntry Key="C03511" Value="L-Phenylalanyl-tRNA(Phe)" />
+    <hashEntry Key="C03512" Value="L-Tryptophanyl-tRNA(Trp)" />
+    <hashEntry Key="C06112" Value="L-Glutamyl-tRNA(Gln)" />
+    <hashEntry Key="C06113" Value="L-Aspartyl-tRNA(Asn)" />
+    <hashEntry Key="C06481" Value="L-Seryl-tRNA(Sec)" />
+    <hashEntry Key="C06482" Value="L-Selenocysteinyl-tRNA(Sec)" />
+    <hashEntry Key="C16138" Value="L-Pyrrolysine" />
+    <hashEntry Key="C16638" Value="O-Phosphoseryl-tRNA(Sec)" />
+    <hashEntry Key="C17022" Value="O-Phosphoseryl-tRNA(Cys)" />
+    <hashEntry Key="C17027" Value="L-Pyrrolysyl-tRNA(Pyl)" />
+  </Compound>
+  <PathwayMap Key="xor00970" Value="Aminoacyl-tRNA biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0524" Value="tyrS; tyrosyl-tRNA synthetase; K01866 tyrosyl-tRNA synthetase [EC:6.1.1.1]" />
+    <hashEntry Key="xor:XOC_0946" Value="glnS; glutaminyl-tRNA synthetase; K01886 glutaminyl-tRNA synthetase [EC:6.1.1.18]" />
+    <hashEntry Key="xor:XOC_1606" Value="gltX; glutamyl-tRNA synthetase; K01885 glutamyl-tRNA synthetase [EC:6.1.1.17]" />
+    <hashEntry Key="xor:XOC_1666" Value="leuS; leucyl-tRNA synthetase; K01869 leucyl-tRNA synthetase [EC:6.1.1.4]" />
+    <hashEntry Key="xor:XOC_1839" Value="asnS; asparaginyl-tRNA synthetase; K01893 asparaginyl-tRNA synthetase [EC:6.1.1.22]" />
+    <hashEntry Key="xor:XOC_1858" Value="thrS; threonyl-tRNA synthetase; K01868 threonyl-tRNA synthetase [EC:6.1.1.3]" />
+    <hashEntry Key="xor:XOC_1862" Value="pheS; phenylalanyl-tRNA synthetase, alpha subunit; K01889 phenylalanyl-tRNA synthetase alpha chain [" />
+    <hashEntry Key="xor:XOC_1863" Value="pheT; phenylalanyl-tRNA synthetase, beta subunit; K01890 phenylalanyl-tRNA synthetase beta chain [EC" />
+    <hashEntry Key="xor:XOC_2213" Value="hisS; histidyl-tRNA synthetase; K01892 histidyl-tRNA synthetase [EC:6.1.1.21]" />
+    <hashEntry Key="xor:XOC_2262" Value="lysS; lysyl-tRNA synthetase; K04567 lysyl-tRNA synthetase, class II [EC:6.1.1.6]" />
+    <hashEntry Key="xor:XOC_2754" Value="cysS; cysteinyl-tRNA synthetase; K01883 cysteinyl-tRNA synthetase [EC:6.1.1.16]" />
+    <hashEntry Key="xor:XOC_2770" Value="alaS; alanyl-tRNA synthetase; K01872 alanyl-tRNA synthetase [EC:6.1.1.7]" />
+    <hashEntry Key="xor:XOC_2873" Value="serS; seryl-tRNA synthetase; K01875 seryl-tRNA synthetase [EC:6.1.1.11]" />
+    <hashEntry Key="xor:XOC_3108" Value="metG; methionyl-tRNA synthetase; K01874 methionyl-tRNA synthetase [EC:6.1.1.10]" />
+    <hashEntry Key="xor:XOC_3364" Value="aspS; aspartyl-tRNA synthetase; K01876 aspartyl-tRNA synthetase [EC:6.1.1.12]" />
+    <hashEntry Key="xor:XOC_3462" Value="ileS; isoleucyl-tRNA synthetase; K01870 isoleucyl-tRNA synthetase [EC:6.1.1.5]" />
+    <hashEntry Key="xor:XOC_3820" Value="valS; valyl-tRNA synthetase; K01873 valyl-tRNA synthetase [EC:6.1.1.9]" />
+    <hashEntry Key="xor:XOC_3829" Value="proS; prolyl-tRNA synthetase; K01881 prolyl-tRNA synthetase [EC:6.1.1.15]" />
+    <hashEntry Key="xor:XOC_4133" Value="fmt; methionyl-tRNA formyltransferase; K00604 methionyl-tRNA formyltransferase [EC:2.1.2.9]" />
+    <hashEntry Key="xor:XOC_4234" Value="argS; arginyl-tRNA synthetase; K01887 arginyl-tRNA synthetase [EC:6.1.1.19]" />
+    <hashEntry Key="xor:XOC_4300" Value="trpS; tryptophanyl-tRNA synthetase; K01867 tryptophanyl-tRNA synthetase [EC:6.1.1.2]" />
+    <hashEntry Key="xor:XOC_4492" Value="glyQ; glycyl-tRNA synthetase, alpha subunit; K01878 glycyl-tRNA synthetase alpha chain [EC:6.1.1.14]" />
+    <hashEntry Key="xor:XOC_4494" Value="glyS; glycyl-tRNA synthetase, beta subunit; K01879 glycyl-tRNA synthetase beta chain [EC:6.1.1.14]" />
+    <hashEntry Key="xor:XOC_t001" Value="tRNA-Ala; K14218 tRNA Ala" />
+    <hashEntry Key="xor:XOC_t002" Value="tRNA-Ile; K14227 tRNA Ile" />
+    <hashEntry Key="xor:XOC_t003" Value="tRNA-Ala; K14218 tRNA Ala" />
+    <hashEntry Key="xor:XOC_t004" Value="tRNA-Ile; K14227 tRNA Ile" />
+    <hashEntry Key="xor:XOC_t005" Value="tRNA-Gln; K14223 tRNA Gln" />
+    <hashEntry Key="xor:XOC_t006" Value="tRNA-Tyr; K14236 tRNA Tyr" />
+    <hashEntry Key="xor:XOC_t007" Value="tRNA-Gly; K14225 tRNA Gly" />
+    <hashEntry Key="xor:XOC_t008" Value="tRNA-Thr; K14234 tRNA Thr" />
+    <hashEntry Key="xor:XOC_t009" Value="tRNA-Trp; K14235 tRNA Trp" />
+    <hashEntry Key="xor:XOC_t010" Value="tRNA-Pro; K14232 tRNA Pro" />
+    <hashEntry Key="xor:XOC_t011" Value="tRNA-Arg; K14219 tRNA Arg" />
+    <hashEntry Key="xor:XOC_t012" Value="tRNA-His; K14226 tRNA His" />
+    <hashEntry Key="xor:XOC_t013" Value="tRNA-Lys; K14229 tRNA Lys" />
+    <hashEntry Key="xor:XOC_t014" Value="tRNA-Leu; K14228 tRNA Leu" />
+    <hashEntry Key="xor:XOC_t015" Value="tRNA-Val; K14237 tRNA Val" />
+    <hashEntry Key="xor:XOC_t016" Value="tRNA-Asp; K14221 tRNA Asp" />
+    <hashEntry Key="xor:XOC_t017" Value="tRNA-Asp; K14221 tRNA Asp" />
+    <hashEntry Key="xor:XOC_t018" Value="tRNA-Ser; K14233 tRNA Ser" />
+    <hashEntry Key="xor:XOC_t019" Value="tRNA-Val; K14237 tRNA Val" />
+    <hashEntry Key="xor:XOC_t020" Value="tRNA-Pro; K14232 tRNA Pro" />
+    <hashEntry Key="xor:XOC_t021" Value="tRNA-Phe; K14231 tRNA Phe" />
+    <hashEntry Key="xor:XOC_t022" Value="tRNA-Arg; K14219 tRNA Arg" />
+    <hashEntry Key="xor:XOC_t023" Value="tRNA-Leu; K14228 tRNA Leu" />
+    <hashEntry Key="xor:XOC_t024" Value="tRNA-Ala; K14218 tRNA Ala" />
+    <hashEntry Key="xor:XOC_t025" Value="tRNA-Glu; K14224 tRNA Glu" />
+    <hashEntry Key="xor:XOC_t026" Value="tRNA-Ala; K14218 tRNA Ala" />
+    <hashEntry Key="xor:XOC_t027" Value="tRNA-Glu; K14224 tRNA Glu" />
+    <hashEntry Key="xor:XOC_t028" Value="tRNA-Pro; K14232 tRNA Pro" />
+    <hashEntry Key="xor:XOC_t029" Value="tRNA-Leu; K14228 tRNA Leu" />
+    <hashEntry Key="xor:XOC_t030" Value="tRNA-Lys; K14229 tRNA Lys" />
+    <hashEntry Key="xor:XOC_t031" Value="tRNA-Met; K14230 tRNA Met" />
+    <hashEntry Key="xor:XOC_t032" Value="tRNA-Gln; K14223 tRNA Gln" />
+    <hashEntry Key="xor:XOC_t033" Value="tRNA-Ala; K14218 tRNA Ala" />
+    <hashEntry Key="xor:XOC_t034" Value="tRNA-Arg; K14219 tRNA Arg" />
+    <hashEntry Key="xor:XOC_t035" Value="tRNA-Thr; K14234 tRNA Thr" />
+    <hashEntry Key="xor:XOC_t036" Value="tRNA-Met; K14230 tRNA Met" />
+    <hashEntry Key="xor:XOC_t037" Value="tRNA-Gly; K14225 tRNA Gly" />
+    <hashEntry Key="xor:XOC_t038" Value="tRNA-Thr; K14234 tRNA Thr" />
+    <hashEntry Key="xor:XOC_t039" Value="tRNA-Leu; K14228 tRNA Leu" />
+    <hashEntry Key="xor:XOC_t040" Value="tRNA-Met; K14230 tRNA Met" />
+    <hashEntry Key="xor:XOC_t041" Value="tRNA-Asn; K14220 tRNA Asn" />
+    <hashEntry Key="xor:XOC_t042" Value="tRNA-Val; K14237 tRNA Val" />
+    <hashEntry Key="xor:XOC_t043" Value="tRNA-Ser; K14233 tRNA Ser" />
+    <hashEntry Key="xor:XOC_t044" Value="tRNA-Ser; K14233 tRNA Ser" />
+    <hashEntry Key="xor:XOC_t045" Value="tRNA-Leu; K14228 tRNA Leu" />
+    <hashEntry Key="xor:XOC_t046" Value="tRNA-Gly; K14225 tRNA Gly" />
+    <hashEntry Key="xor:XOC_t047" Value="tRNA-Cys; K14222 tRNA Cys" />
+    <hashEntry Key="xor:XOC_t048" Value="tRNA-Gly; K14225 tRNA Gly" />
+    <hashEntry Key="xor:XOC_t049" Value="tRNA-Glu; K14224 tRNA Glu" />
+    <hashEntry Key="xor:XOC_t050" Value="tRNA-Arg; K14219 tRNA Arg" />
+    <hashEntry Key="xor:XOC_t051" Value="tRNA-Arg; K14219 tRNA Arg" />
+    <hashEntry Key="xor:XOC_t052" Value="tRNA-Ala; K14218 tRNA Ala" />
+    <hashEntry Key="xor:XOC_t053" Value="tRNA-Leu; K14228 tRNA Leu" />
+    <hashEntry Key="xor:XOC_t054" Value="tRNA-Ser; K14233 tRNA Ser" />
+  </Genes>
+</KEGG.PathwayBrief>

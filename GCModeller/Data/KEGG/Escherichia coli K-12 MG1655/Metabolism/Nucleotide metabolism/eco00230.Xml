@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00230" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Purine metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00005" Value="PRPP biosynthesis, ribose 5P =&gt; PRPP [PATH:eco00230]" />
+    <hashEntry Key="eco_M00048" Value="Inosine monophosphate biosynthesis, PRPP + glutamine =&gt; IMP [PATH:eco00230]" />
+    <hashEntry Key="eco_M00049" Value="Adenine ribonucleotide biosynthesis, IMP =&gt; ADP,ATP [PATH:eco00230]" />
+    <hashEntry Key="eco_M00050" Value="Guanine ribonucleotide biosynthesis IMP =&gt; GDP,GTP [PATH:eco00230]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00002" Value="ATP" />
+    <hashEntry Key="C00008" Value="ADP" />
+    <hashEntry Key="C00011" Value="CO2" />
+    <hashEntry Key="C00014" Value="Ammonia" />
+    <hashEntry Key="C00020" Value="AMP" />
+    <hashEntry Key="C00035" Value="GDP" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00039" Value="DNA" />
+    <hashEntry Key="C00044" Value="GTP" />
+    <hashEntry Key="C00046" Value="RNA" />
+    <hashEntry Key="C00048" Value="Glyoxylate" />
+    <hashEntry Key="C00053" Value="3'-Phosphoadenylyl sulfate" />
+    <hashEntry Key="C00054" Value="Adenosine 3',5'-bisphosphate" />
+    <hashEntry Key="C00059" Value="Sulfate" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00081" Value="ITP" />
+    <hashEntry Key="C00086" Value="Urea" />
+    <hashEntry Key="C00104" Value="IDP" />
+    <hashEntry Key="C00117" Value="D-Ribose 5-phosphate" />
+    <hashEntry Key="C00119" Value="5-Phospho-alpha-D-ribose 1-diphosphate" />
+    <hashEntry Key="C00130" Value="IMP" />
+    <hashEntry Key="C00131" Value="dATP" />
+    <hashEntry Key="C00144" Value="GMP" />
+    <hashEntry Key="C00147" Value="Adenine" />
+    <hashEntry Key="C00169" Value="Carbamoyl phosphate" />
+    <hashEntry Key="C00206" Value="dADP" />
+    <hashEntry Key="C00212" Value="Adenosine" />
+    <hashEntry Key="C00224" Value="Adenylyl sulfate" />
+    <hashEntry Key="C00242" Value="Guanine" />
+    <hashEntry Key="C00262" Value="Hypoxanthine" />
+    <hashEntry Key="C00286" Value="dGTP" />
+    <hashEntry Key="C00294" Value="Inosine" />
+    <hashEntry Key="C00301" Value="ADP-ribose" />
+    <hashEntry Key="C00330" Value="Deoxyguanosine" />
+    <hashEntry Key="C00360" Value="dAMP" />
+    <hashEntry Key="C00361" Value="dGDP" />
+    <hashEntry Key="C00362" Value="dGMP" />
+    <hashEntry Key="C00366" Value="Urate" />
+    <hashEntry Key="C00385" Value="Xanthine" />
+    <hashEntry Key="C00387" Value="Guanosine" />
+    <hashEntry Key="C00499" Value="Allantoate" />
+    <hashEntry Key="C00559" Value="Deoxyadenosine" />
+    <hashEntry Key="C00575" Value="3',5'-Cyclic AMP" />
+    <hashEntry Key="C00603" Value="(-)-Ureidoglycolate" />
+    <hashEntry Key="C00620" Value="alpha-D-Ribose 1-phosphate" />
+    <hashEntry Key="C00655" Value="Xanthosine 5'-phosphate" />
+    <hashEntry Key="C00700" Value="XTP" />
+    <hashEntry Key="C00802" Value="Oxalureate" />
+    <hashEntry Key="C00942" Value="3',5'-Cyclic GMP" />
+    <hashEntry Key="C01228" Value="Guanosine 3',5'-bis(diphosphate)" />
+    <hashEntry Key="C01260" Value="P1,P4-Bis(5'-adenosyl)tetraphosphate" />
+    <hashEntry Key="C01261" Value="P1,P4-Bis(5'-guanosyl) tetraphosphate" />
+    <hashEntry Key="C01344" Value="dIDP" />
+    <hashEntry Key="C01345" Value="dITP" />
+    <hashEntry Key="C01367" Value="3'-AMP" />
+    <hashEntry Key="C01762" Value="Xanthosine" />
+    <hashEntry Key="C02091" Value="(S)-Ureidoglycine" />
+    <hashEntry Key="C02348" Value="(R)(-)-Allantoin" />
+    <hashEntry Key="C02350" Value="(S)-Allantoin" />
+    <hashEntry Key="C02353" Value="2',3'-Cyclic AMP" />
+    <hashEntry Key="C02718" Value="N-Formiminoglycine" />
+    <hashEntry Key="C03090" Value="5-Phosphoribosylamine" />
+    <hashEntry Key="C03373" Value="Aminoimidazole ribotide" />
+    <hashEntry Key="C03483" Value="Adenosine tetraphosphate" />
+    <hashEntry Key="C03614" Value="Inosine 5'-tetraphosphate" />
+    <hashEntry Key="C03794" Value="N6-(1,2-Dicarboxyethyl)-AMP" />
+    <hashEntry Key="C03838" Value="5'-Phosphoribosylglycinamide" />
+    <hashEntry Key="C04051" Value="5-Amino-4-imidazolecarboxyamide" />
+    <hashEntry Key="C04376" Value="5'-Phosphoribosyl-N-formylglycinamide" />
+    <hashEntry Key="C04392" Value="P1,P4-Bis(5'-xanthosyl) tetraphosphate" />
+    <hashEntry Key="C04494" Value="Guanosine 3'-diphosphate 5'-triphosphate" />
+    <hashEntry Key="C04640" Value="2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine" />
+    <hashEntry Key="C04677" Value="1-(5'-Phosphoribosyl)-5-amino-4-imidazolecarboxamide" />
+    <hashEntry Key="C04734" Value="1-(5'-Phosphoribosyl)-5-formamido-4-imidazolecarboxamide" />
+    <hashEntry Key="C04751" Value="1-(5-Phospho-D-ribosyl)-5-amino-4-imidazolecarboxylate" />
+    <hashEntry Key="C04823" Value="1-(5'-Phosphoribosyl)-5-amino-4-(N-succinocarboxamide)-imidazole" />
+    <hashEntry Key="C05239" Value="5-Aminoimidazole" />
+    <hashEntry Key="C05512" Value="Deoxyinosine" />
+    <hashEntry Key="C05513" Value="Urate-3-ribonucleoside" />
+    <hashEntry Key="C05515" Value="5-Ureido-4-imidazole carboxylate" />
+    <hashEntry Key="C05516" Value="5-Amino-4-imidazole carboxylate" />
+    <hashEntry Key="C05993" Value="Acetyl adenylate" />
+    <hashEntry Key="C06193" Value="Guanosine 3'-phosphate" />
+    <hashEntry Key="C06194" Value="2',3'-Cyclic GMP" />
+    <hashEntry Key="C06195" Value="Imidazolone" />
+    <hashEntry Key="C06196" Value="2'-Deoxyinosine 5'-phosphate" />
+    <hashEntry Key="C06197" Value="P1,P3-Bis(5'-adenosyl) triphosphate" />
+    <hashEntry Key="C06433" Value="5'-Benzoylphosphoadenosine" />
+    <hashEntry Key="C06435" Value="5'-Butyrylphosphoinosine" />
+    <hashEntry Key="C11821" Value="5-Hydroxyisourate" />
+    <hashEntry Key="C12248" Value="5-Hydroxy-2-oxo-4-ureido-2,5-dihydro-1H-imidazole-5-carboxylate" />
+    <hashEntry Key="C15667" Value="5-Carboxyamino-1-(5-phospho-D-ribosyl)imidazole" />
+  </Compound>
+  <PathwayMap Key="eco00230" Value="Purine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0049" Value="apaH; diadenosine tetraphosphatase (EC:3.6.1.41); K01525 bis(5&amp;#39;-nucleosyl)-tetraphosphatase (symmetr" />
+    <hashEntry Key="eco:b0104" Value="guaC; GMP reductase (EC:1.7.1.7); K00364 GMP reductase [EC:1.7.1.7]" />
+    <hashEntry Key="eco:b0125" Value="hpt; hypoxanthine phosphoribosyltransferase (EC:2.4.2.8); K00760 hypoxanthine phosphoribosyltransfer" />
+    <hashEntry Key="eco:b0160" Value="dgt; deoxyguanosine triphosphate triphosphohydrolase (EC:3.1.5.1); K01129 dGTPase [EC:3.1.5.1]" />
+    <hashEntry Key="eco:b0184" Value="dnaE; DNA polymerase III alpha subunit (EC:2.7.7.7); K02337 DNA polymerase III subunit alpha [EC:2.7" />
+    <hashEntry Key="eco:b0215" Value="dnaQ; DNA polymerase III epsilon subunit (EC:2.7.7.7); K02342 DNA polymerase III subunit epsilon [EC" />
+    <hashEntry Key="eco:b0238" Value="gpt; xanthine phosphoribosyltransferase; xanthine-guanine phosphoribosyltransferase (EC:2.4.2.22); K" />
+    <hashEntry Key="eco:b0284" Value="paoC; PaoABC aldehyde oxidoreductase, Moco-containing subunit; K11177 xanthine dehydrogenase YagR mo" />
+    <hashEntry Key="eco:b0285" Value="paoB; PaoABC aldehyde oxidoreductase, FAD-containing subunit; K11178 xanthine dehydrogenase YagS FAD" />
+    <hashEntry Key="eco:b0286" Value="paoA; PaoABC aldehyde oxidoreductase, 2Fe-2S subunit; K13483 xanthine dehydrogenase YagT iron-sulfur" />
+    <hashEntry Key="eco:b0323" Value="yahI; carbamate kinase-like protein; K00926 carbamate kinase [EC:2.7.2.2]" />
+    <hashEntry Key="eco:b0469" Value="apt; adenine phosphoribosyltransferase (EC:2.4.2.7); K00759 adenine phosphoribosyltransferase [EC:2." />
+    <hashEntry Key="eco:b0470" Value="dnaX; DNA polymerase III/DNA elongation factor III, tau and gamma subunits (EC:2.7.7.7); K02343 DNA" />
+    <hashEntry Key="eco:b0474" Value="adk; adenylate kinase (EC:2.7.4.3); K00939 adenylate kinase [EC:2.7.4.3]" />
+    <hashEntry Key="eco:b0477" Value="gsk; inosine/guanosine kinase (EC:2.7.1.73); K00892 inosine kinase [EC:2.7.1.73]" />
+    <hashEntry Key="eco:b0480" Value="ushA; bifunctional UDP-sugar hydrolase/5&amp;#39;-nucleotidase (EC:3.6.1.45); K11751 5&amp;#39;-nucleotidase / UDP-s" />
+    <hashEntry Key="eco:b0505" Value="allA; ureidoglycolate lyase, releasing urea (EC:4.3.2.3); K01483 ureidoglycolate lyase [EC:4.3.2.3]" />
+    <hashEntry Key="eco:b0512" Value="allB; allantoinase (EC:3.5.2.5); K01466 allantoinase [EC:3.5.2.5]" />
+    <hashEntry Key="eco:b0515" Value="allE; S-ureidoglycine aminohydrolase; K14977 (S)-ureidoglycine aminohydrolase [EC:3.5.3.26]" />
+    <hashEntry Key="eco:b0516" Value="allC; allantoate amidohydrolase (EC:3.5.3.4); K02083 allantoate deiminase [EC:3.5.3.9]" />
+    <hashEntry Key="eco:b0517" Value="allD; ureidoglycolate dehydrogenase (EC:1.1.1.154); K00073 ureidoglycolate dehydrogenase (NAD+) [EC:" />
+    <hashEntry Key="eco:b0521" Value="ybcF; putative carbonate kinase; K00926 carbamate kinase [EC:2.7.2.2]" />
+    <hashEntry Key="eco:b0522" Value="purK; N5-carboxyaminoimidazole ribonucleotide synthase (EC:4.1.1.21); K01589 5-(carboxyamino)imidazo" />
+    <hashEntry Key="eco:b0523" Value="purE; N5-carboxyaminoimidazole ribonucleotide mutase (EC:4.1.1.21); K01588 5-(carboxyamino)imidazole" />
+    <hashEntry Key="eco:b0640" Value="holA; DNA polymerase III, delta subunit (EC:2.7.7.7); K02340 DNA polymerase III subunit delta [EC:2." />
+    <hashEntry Key="eco:b0688" Value="pgm; phosphoglucomutase (EC:5.4.2.2); K01835 phosphoglucomutase [EC:5.4.2.2]" />
+    <hashEntry Key="eco:b1099" Value="holB; DNA polymerase III, delta prime subunit (EC:2.7.7.7); K02341 DNA polymerase III subunit delta&amp;#39;" />
+    <hashEntry Key="eco:b1131" Value="purB; adenylosuccinate lyase (EC:4.3.2.2); K01756 adenylosuccinate lyase [EC:4.3.2.2]" />
+    <hashEntry Key="eco:b1207" Value="prs; phosphoribosylpyrophosphate synthase (EC:2.7.6.1); K00948 ribose-phosphate pyrophosphokinase [E" />
+    <hashEntry Key="eco:b1623" Value="add; adenosine deaminase (EC:3.5.4.4); K01488 adenosine deaminase [EC:3.5.4.4]" />
+    <hashEntry Key="eco:b1676" Value="pykF; pyruvate kinase I (EC:2.7.1.40); K00873 pyruvate kinase [EC:2.7.1.40]" />
+    <hashEntry Key="eco:b1842" Value="holE; DNA polymerase III, theta subunit (EC:2.7.7.7); K02345 DNA polymerase III subunit theta [EC:2." />
+    <hashEntry Key="eco:b1849" Value="purT; phosphoribosylglycinamide formyltransferase 2 (EC:2.7.2.1); K08289 phosphoribosylglycinamide f" />
+    <hashEntry Key="eco:b1854" Value="pykA; pyruvate kinase II (EC:2.7.1.40); K00873 pyruvate kinase [EC:2.7.1.40]" />
+    <hashEntry Key="eco:b1970" Value="hiuH; hydroxyisourate hydrolase; K07127 5-hydroxyisourate hydrolase [EC:3.5.2.17]" />
+    <hashEntry Key="eco:b1982" Value="amn; AMP nucleosidase (EC:3.2.2.4); K01241 AMP nucleosidase [EC:3.2.2.4]" />
+    <hashEntry Key="eco:b2162" Value="rihB; ribonucleoside hydrolase 2 (EC:3.2.2.-); K10213 ribosylpyrimidine nucleosidase [EC:3.2.2.8]" />
+    <hashEntry Key="eco:b2234" Value="nrdA; ribonucleoside-diphosphate reductase 1, alpha subunit (EC:1.17.4.1); K00525 ribonucleoside-dip" />
+    <hashEntry Key="eco:b2235" Value="nrdB; ribonucleoside-diphosphate reductase 1, beta subunit, ferritin-like protein (EC:1.17.4.1); K00" />
+    <hashEntry Key="eco:b2312" Value="purF; amidophosphoribosyltransferase (EC:2.4.2.14); K00764 amidophosphoribosyltransferase [EC:2.4.2." />
+    <hashEntry Key="eco:b2407" Value="xapA; purine nucleoside phosphorylase II (EC:2.4.2.1); K03815 xanthosine phosphorylase [EC:2.4.2.-]" />
+    <hashEntry Key="eco:b2476" Value="purC; phosphoribosylaminoimidazole-succinocarboxamide synthetase (EC:6.3.2.6); K01923 phosphoribosyl" />
+    <hashEntry Key="eco:b2499" Value="purM; phosphoribosylaminoimidazole synthetase (EC:6.3.3.1); K01933 phosphoribosylformylglycinamidine" />
+    <hashEntry Key="eco:b2500" Value="purN; phosphoribosylglycinamide formyltransferase 1 (EC:2.1.2.2); K11175 phosphoribosylglycinamide f" />
+    <hashEntry Key="eco:b2502" Value="ppx; exopolyphosphatase (EC:3.6.1.11); K01524 exopolyphosphatase / guanosine-5&amp;#39;-triphosphate,3&amp;#39;-diph" />
+    <hashEntry Key="eco:b2507" Value="guaA; GMP synthetase (glutamine aminotransferase) (EC:6.3.4.1 6.3.5.2); K01951 GMP synthase (glutami" />
+    <hashEntry Key="eco:b2508" Value="guaB; IMP dehydrogenase (EC:1.1.1.205); K00088 IMP dehydrogenase [EC:1.1.1.205]" />
+    <hashEntry Key="eco:b2518" Value="ndk; multifunctional nucleoside diphosphate kinase and apyrimidinic endonuclease and 3&amp;#39;-phosphodiest" />
+    <hashEntry Key="eco:b2557" Value="purL; phosphoribosylformyl-glycineamide synthetase (EC:6.3.5.3); K01952 phosphoribosylformylglycinam" />
+    <hashEntry Key="eco:b2675" Value="nrdE; ribonucleoside-diphosphate reductase 2, alpha subunit (EC:1.17.4.1); K00525 ribonucleoside-dip" />
+    <hashEntry Key="eco:b2676" Value="nrdF; ribonucleoside-diphosphate reductase 2, beta subunit, ferritin-like protein (EC:1.17.4.1); K00" />
+    <hashEntry Key="eco:b2744" Value="umpG; broad specificity 5&amp;#39;(3&amp;#39;)-nucleotidase and polyphosphatase; K03787 5&amp;#39;-nucleotidase [EC:3.1.3.5]" />
+    <hashEntry Key="eco:b2750" Value="cysC; adenosine 5&amp;#39;-phosphosulfate kinase (EC:2.7.1.25); K00860 adenylylsulfate kinase [EC:2.7.1.25]" />
+    <hashEntry Key="eco:b2751" Value="cysN; sulfate adenylyltransferase, subunit 1 (EC:2.7.7.4); K00956 sulfate adenylyltransferase subuni" />
+    <hashEntry Key="eco:b2752" Value="cysD; sulfate adenylyltransferase, subunit 2 (EC:2.7.7.4); K00957 sulfate adenylyltransferase subuni" />
+    <hashEntry Key="eco:b2781" Value="mazG; nucleoside triphosphate pyrophosphohydrolase; K04765 ATP diphosphatase [EC:3.6.1.8]" />
+    <hashEntry Key="eco:b2784" Value="relA; (p)ppGpp synthetase I/GTP pyrophosphokinase (EC:2.7.6.5); K00951 GTP pyrophosphokinase [EC:2.7" />
+    <hashEntry Key="eco:b2866" Value="xdhA; xanthine dehydrogenase, molybdenum binding subunit; K00087 xanthine dehydrogenase molybdenum-b" />
+    <hashEntry Key="eco:b2867" Value="xdhB; xanthine dehydrogenase, FAD-binding subunit; K13479 xanthine dehydrogenase FAD-binding subunit" />
+    <hashEntry Key="eco:b2868" Value="xdhC; xanthine dehydrogenase, Fe-S binding subunit; K13480 xanthine dehydrogenase iron-sulfur-bindin" />
+    <hashEntry Key="eco:b2874" Value="yqeA; putative amino acid kinase; K00926 carbamate kinase [EC:2.7.2.2]" />
+    <hashEntry Key="eco:b2883" Value="guaD; guanine deaminase (EC:3.5.4.3); K01487 guanine deaminase [EC:3.5.4.3]" />
+    <hashEntry Key="eco:b2954" Value="rdgB; dITP/XTP pyrophosphatase (EC:3.6.1.-); K02428 XTP/dITP diphosphohydrolase [EC:3.6.1.66]" />
+    <hashEntry Key="eco:b3034" Value="nudF; ADP-ribose pyrophosphatase (EC:3.6.1.13); K01515 ADP-ribose pyrophosphatase [EC:3.6.1.13]" />
+    <hashEntry Key="eco:b3164" Value="pnp; polynucleotide phosphorylase/polyadenylase (EC:2.7.7.8); K00962 polyribonucleotide nucleotidylt" />
+    <hashEntry Key="eco:b3295" Value="rpoA; RNA polymerase, alpha subunit (EC:2.7.7.6); K03040 DNA-directed RNA polymerase subunit alpha [" />
+    <hashEntry Key="eco:b3397" Value="nudE; adenosine nucleotide hydrolase; substrates include Ap3A, Ap2A, ADP-ribose, NADH (EC:3.6.1.-);" />
+    <hashEntry Key="eco:b3648" Value="gmk; guanylate kinase (EC:2.7.4.8); K00942 guanylate kinase [EC:2.7.4.8]" />
+    <hashEntry Key="eco:b3649" Value="rpoZ; RNA polymerase, omega subunit (EC:2.7.7.6); K03060 DNA-directed RNA polymerase subunit omega [" />
+    <hashEntry Key="eco:b3650" Value="spoT; bifunctional (p)ppGpp synthetase II/guanosine-3&amp;#39;,5&amp;#39;-bis pyrophosphate 3&amp;#39;-pyrophosphohydrolase" />
+    <hashEntry Key="eco:b3665" Value="ade; cryptic adenine deaminase (EC:3.5.4.2); K01486 adenine deaminase [EC:3.5.4.2]" />
+    <hashEntry Key="eco:b3701" Value="dnaN; DNA polymerase III, beta subunit (EC:2.7.7.7); K02338 DNA polymerase III subunit beta [EC:2.7." />
+    <hashEntry Key="eco:b3779" Value="gpp; guanosine pentaphosphatase/exopolyphosphatase (EC:3.6.1.11 3.6.1.40); K01524 exopolyphosphatase" />
+    <hashEntry Key="eco:b3806" Value="cyaA; adenylate cyclase (EC:4.6.1.1); K05851 adenylate cyclase, class 1 [EC:4.6.1.1]" />
+    <hashEntry Key="eco:b3863" Value="polA; fused DNA polymerase I 5&amp;#39;-&amp;gt;3&amp;#39; polymerase/3&amp;#39;-&amp;gt;5&amp;#39; exonuclease/5&amp;#39;-&amp;gt;3&amp;#39; exonuclease (EC:2.7.7.7); K" />
+    <hashEntry Key="eco:b3987" Value="rpoB; RNA polymerase, beta subunit (EC:2.7.7.6); K03043 DNA-directed RNA polymerase subunit beta [EC" />
+    <hashEntry Key="eco:b3988" Value="rpoC; RNA polymerase, beta prime subunit (EC:2.7.7.6); K03046 DNA-directed RNA polymerase subunit be" />
+    <hashEntry Key="eco:b4005" Value="purD; phosphoribosylglycinamide synthetase phosphoribosylamine-glycine ligase (EC:6.3.4.13); K01945" />
+    <hashEntry Key="eco:b4006" Value="purH; fused IMP cyclohydrolase/phosphoribosylaminoimidazolecarboxamide formyltransferase (EC:2.1.2.3" />
+    <hashEntry Key="eco:b4177" Value="purA; adenylosuccinate synthetase (EC:6.3.4.4); K01939 adenylosuccinate synthase [EC:6.3.4.4]" />
+    <hashEntry Key="eco:b4213" Value="cpdB; 2&amp;#39;:3&amp;#39;-cyclic-nucleotide 2&amp;#39;-phosphodiesterase (EC:3.1.4.16); K01119 2&amp;#39;,3&amp;#39;-cyclic-nucleotide 2&amp;#39;-" />
+    <hashEntry Key="eco:b4238" Value="nrdD; anaerobic ribonucleoside-triphosphate reductase (EC:1.17.4.2); K00527 ribonucleoside-triphosph" />
+    <hashEntry Key="eco:b4259" Value="holC; DNA polymerase III, chi subunit (EC:2.7.7.7); K02339 DNA polymerase III subunit chi [EC:2.7.7." />
+    <hashEntry Key="eco:b4372" Value="holD; DNA polymerase III, psi subunit (EC:2.7.7.7); K02344 DNA polymerase III subunit psi [EC:2.7.7." />
+    <hashEntry Key="eco:b4374" Value="yjjG; dUMP phosphatase; K08723 5&amp;#39;-nucleotidase [EC:3.1.3.5]" />
+    <hashEntry Key="eco:b4383" Value="deoB; phosphopentomutase (EC:5.4.2.7); K01839 phosphopentomutase [EC:5.4.2.7]" />
+    <hashEntry Key="eco:b4384" Value="deoD; purine-nucleoside phosphorylase (EC:2.4.2.1); K03784 purine-nucleoside phosphorylase [EC:2.4.2" />
+  </Genes>
+</KEGG.PathwayBrief>

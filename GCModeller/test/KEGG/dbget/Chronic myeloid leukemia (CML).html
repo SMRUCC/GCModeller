@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)/dbget-bin/www_bget?ds:H00004 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>KEGG DISEASE: Chronic myeloid leukemia (CML)</title>
+<link type="text/css" rel="stylesheet" href="./KEGG DISEASE_ Chronic myeloid leukemia (CML)_files/gn2.css">
+<link rel="stylesheet" href="./KEGG DISEASE_ Chronic myeloid leukemia (CML)_files/bget.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="./KEGG DISEASE_ Chronic myeloid leukemia (CML)_files/bgetm.css" media="only screen and (max-width: 768px)">
+<style>.kcfd{display:none;}</style>
+<script>
+<!--
+var getElementsByClassName = document.getElementsByClassName ?
+  function (cl){
+    return document.getElementsByClassName(cl);
+  } :
+  function (cl){
+    var elms = [];
+    var objs = document.getElementsByTagName('*');
+    for(var i=0;i<objs.length;i++){
+      var obj = objs[i];
+      if(obj.className == cl){
+        elms.push(obj);
+      }
+    }
+    return elms;
+  };
+function toggleField(clk,cl,show,hide){
+  var objs = getElementsByClassName(cl);
+  for(var i=0;i<objs.length;i++){
+    var obj = objs[i];
+    if(!obj.style.display||obj.style.display == 'none'){
+      obj.style.display = 'block';
+      clk.innerHTML = '&nbsp;&laquo; '+hide;
+    }
+    else{
+      obj.style.display = 'none';
+      clk.innerHTML = '&nbsp;&raquo; '+show;
+    }
+  }
+}
+function toggleData(bobj,e){
+  var id = bobj.id.replace(/[^0-9]/g,'');
+  var dt = document.getElementById('kcfd'+id);
+  if(!dt.style.display||dt.style.display == 'none'){
+    bobj.name = 'hide_kcf';
+    bobj.alt = 'Hide';
+    bobj.src = '/Fig/bget/button_Hib.gif';
+    dt.style.display = 'block';
+  }
+  else{
+    bobj.name = 'show_kcf';
+    bobj.alt = 'Show';
+    bobj.src = '/Fig/bget/button_Sb.gif';
+    dt.style.display = 'none';
+  }
+}
+function btn(bobj,img) {
+  bobj.src = "/Fig/bget/button_" + img + ".gif";
+}
+function btn_e(e) {
+  e = e || event;
+  var obj = e.target;
+  var img = e.target.src;
+  var img_base = img.replace(/\\/g,'/').replace(/(b|bd|bh)\.gif$/,'');
+  if(e.type == 'mousedown'||e.type == 'touchstart'){
+    obj.src = img_base +'bd.gif';
+  }
+  else if(e.type == 'mouseover'){
+    obj.src = img_base +'bh.gif';
+  }
+  else if(e.type == 'mouseup'||e.type == 'touchend'){
+    obj.src = img_base +'b.gif';
+  }
+  else if(e.type == 'mouseout'){
+    obj.src = img_base +'b.gif';
+  }
+}
+function init(){
+  for(var i=1;i<=1;i++){
+    if(document.getElementById('kcfb'+i)){
+      document.getElementById('kcfb'+i).onclick = function(e){toggleData(this,e);};
+      document.getElementById('kcfb'+i).onmousedown = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseover = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseout = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseup = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).ontouchstart = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).ontouchend = function(e){btn_e(e);};
+    }
+  }
+}
+function Link_XtrctSeq2(form) {
+    var dna_from;
+    var dna_to;
+    var dna_len;
+    var plus_up   = Number(form.XtrctSeq_UP.value) ;
+    var plus_down = Number(form.XtrctSeq_DOWN.value);
+    var vector    = Number(form.VECTOR.value);
+    var org       = form.ORG.value;
+    var chr       = form.CHR.value;
+    var kid       = form.KEGGID.value;
+    var url;
+
+    if (plus_up == 0 && plus_down == 0) {
+	url = "/dbget-bin/www_bget?-f+-n+n+" + kid;
+    }
+    else {
+	if (vector == 1) {
+	    dna_from  = Number(form.FROM.value)  - plus_up;
+	    dna_to    = Number(form.TO.value) + plus_down;
+	} else {
+	    dna_from  = Number(form.FROM.value)  - plus_down;
+	    dna_to    = Number(form.TO.value) + plus_up;
+	}
+
+	url = "http://www.genome.jp/dbget-bin/cut_sequence_genes.pl?FROM=" + dna_from + "&TO=" + dna_to +"&VECTOR=" + vector + "&ORG=" + org;
+	if (chr) url += "&CHR=" + chr;
+    }
+    //window.open( url, "_self" );
+    location.href = url;
+}
+function go_taxonomy(form,params){
+  for(var key in params){
+    if(form[key]){
+      form.setAttribute(key,params[key]);
+    }
+    else{
+      var obj = document.createElement('input');
+      obj.setAttribute('type','hidden');
+      obj.setAttribute('name',key);
+      obj.setAttribute('value',params[key]);
+      form.appendChild(obj);
+    }
+  }
+  form.submit();
+}
+window.onload=function(){window.focus();init();};
+//--->
+</script>
+
+</head>
+<body>
+<div>
+
+<table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td>
+<table border="0" cellpadding="0" cellspacing="0" width="650"><tbody><tr><td width="70"><a href="/kegg/disease"><img align="middle" alt="KEGG" border="0" src="./KEGG DISEASE_ Chronic myeloid leukemia (CML)_files/kegg5.gif"></a></td><td>&nbsp;&nbsp;&nbsp;</td><td><a name="disease:H00004"></a><font class="title5">DISEASE: Chronic myeloid leukemia (CML)</font></td><td align="right" valign="bottom"><a href="javascript:void(window.open(&#39;/kegg/document/help_bget_disease.html&#39;,&#39;KEGG_Help&#39;,&#39;toolbar=no,location=no,directories=no,width=720,height=640,resizable=yes,scrollbars=yes&#39;))"><img align="middle" alt="Help" border="0" name="help" onmousedown="btn(this,&#39;Hbd&#39;)" onmouseout="btn(this,&#39;Hb&#39;)" onmouseover="btn(this,&#39;Hbh&#39;)" onmouseup="btn(this,&#39;Hb&#39;)" ontouchend="btn(this,&#39;Hb&#39;)" ontouchstart="btn(this,&#39;Hbd&#39;)" src="./KEGG DISEASE_ Chronic myeloid leukemia (CML)_files/button_Hb.gif"></a></td></tr></tbody></table><form method="post" action="/dbget-bin/www_bget" enctype="application/x-www-form-urlencoded" name="form1"><table border="0" cellpadding="1" cellspacing="0">
+<tbody><tr>
+<td class="fr5">
+<table border="0" cellpadding="2" cellspacing="0" style="border-bottom:#000 1px solid">
+
+<tbody><tr><th class="th50" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Entry</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="left"><code><nobr>H00004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disease&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+</nobr></code></td><td align="right"><br></td></tr></tbody></table></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Name</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Chronic myeloid leukemia (CML)<br>
+</div></div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Description</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Chronic myeloid leukemia (CML) is a clonal myeloproliferative disorder of a pluripotent stem cell. The natural history of CML has a triphasic clinical course comprising of an initial chronic phase (CP), which is characterized by expansion of functionally normal myeloid cells, followed by an accelerated phase (AP) and finally a more aggressive blast phase (BP), with loss of terminal differentiation capacity. On the cellular level, CML is associated with a specific chromosome abnormality, the t(9; 22) reciprocal translocation that forms the Philadelphia (Ph) chromosome. The Ph chromosome is the result of a molecular rearrangement between the c-ABL proto-oncogene on chromosome 9 and the BCR (breakpoint cluster region) gene on chromosome 22.&nbsp;&nbsp;The BCR/ABL fusion gene encodes p210 BCR/ABL, an oncoprotein, which, unlike the normal p145 c-Abl, has constitutive tyrosine kinase activity and is predominantly localized in the cytoplasm. While fusion of c-ABL and BCR is believed to be the primary cause of the chronic phase of CML, progression to blast crisis requires other molecular changes. Common secondary abnormalities include mutations in TP53, RB, and p16/INK4A, or overexpression of genes such as EVI1. Additional chromosome translocations are also observed,such as t(3;21)(q26;q22), which generates AML1-EVI1.<br>
+</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Category</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Cancer<br>
+</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Brite</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><nobr>Human diseases [BR:<a href="/kegg-bin/get_htext?br08402+H00004">br08402</a>]<br>
+&nbsp;Cancers<br>
+&nbsp;&nbsp;Cancers of haematopoietic and lymphoid tissues<br>
+&nbsp;&nbsp;&nbsp;H00004&nbsp;&nbsp;Chronic myeloid leukemia (CML)<br>
+Human diseases in ICD-10 classification [BR:<a href="/kegg-bin/get_htext?br08403+H00004">br08403</a>]<br>
+&nbsp;2. Neoplasms (C00-D48)<br>
+&nbsp;&nbsp;C81-C96&nbsp;&nbsp;Malignant neoplasms, stated or presumed to be primary, of lymphoid, haematopoietic and related tissue<br>
+&nbsp;&nbsp;&nbsp;C92&nbsp;&nbsp;Myeloid leukaemia<br>
+&nbsp;&nbsp;&nbsp;&nbsp;H00004&nbsp;&nbsp;Chronic myeloid leukemia (CML)<br>
+Cancer-accociated carbohydrates [<a href="/kegg/disease/br08441.html?id=H00004">br08441.html</a>]<br>
+&nbsp;H00004<br>
+</nobr></div><a href="/kegg-bin/search_brite?option=-a&amp;search_string=H00004"><img align="middle" alt="BRITE hierarchy" border="0" name="BRH" onmousedown="btn(this,&#39;BHbd&#39;)" onmouseout="btn(this,&#39;BHb&#39;)" onmouseover="btn(this,&#39;BHbh&#39;)" onmouseup="btn(this,&#39;BHb&#39;)" ontouchend="btn(this,&#39;BHb&#39;)" ontouchstart="btn(this,&#39;BHbd&#39;)" src="./KEGG DISEASE_ Chronic myeloid leukemia (CML)_files/button_BHb.gif"></a></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Pathway</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table width="555" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td align="left" valign="top" style="width:5.5em"><div><nobr><a href="/kegg-bin/show_pathway?hsa05220">hsa05220</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Chronic myeloid leukemia</div></td></tr></tbody></table></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Gene</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">BCR-ABL (translocation) [HSA:<a href="/dbget-bin/www_bget?hsa:613">613</a> <a href="/dbget-bin/www_bget?hsa:25">25</a>] [KO:<a href="/dbget-bin/www_bget?ko:K08878">K08878</a> <a href="/dbget-bin/www_bget?ko:K06619">K06619</a>]<br>
+EVI1 (overexpression) [HSA:<a href="/dbget-bin/www_bget?hsa:2122">2122</a>] [KO:<a href="/dbget-bin/www_bget?ko:K04462">K04462</a>]<br>
+AML1 (translocation) [HSA:<a href="/dbget-bin/www_bget?hsa:861">861</a>] [KO:<a href="/dbget-bin/www_bget?ko:K08367">K08367</a>]<br>
+p16/INK4A (mutation) [HSA:<a href="/dbget-bin/www_bget?hsa:1029">1029</a>] [KO:<a href="/dbget-bin/www_bget?ko:K06621">K06621</a>]<br>
+p53 (mutation) [HSA:<a href="/dbget-bin/www_bget?hsa:7157">7157</a>] [KO:<a href="/dbget-bin/www_bget?ko:K04451">K04451</a>]<br>
+RB1 (mutation) [HSA:<a href="/dbget-bin/www_bget?hsa:5925">5925</a>] [KO:<a href="/dbget-bin/www_bget?ko:K06618">K06618</a>]<br>
+</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Carcinogen</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">1,3-Butadiene [CPD:<a href="/dbget-bin/www_bget?cpd:C16450">C16450</a>]<br>
+Rubber industry<br>
+</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Marker</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">BCR-ABL (translocation) [HSA:<a href="/dbget-bin/www_bget?hsa:613">613</a> <a href="/dbget-bin/www_bget?hsa:25">25</a>]<br>
+WT1 [HSA:<a href="/dbget-bin/www_bget?hsa:7490">7490</a>]<br>
+</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Drug</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Imatinib mesylate (Gleevec) [DG:<a href="/dbget-bin/www_bget?dg:DG00710">DG00710</a>]<br>
+Nilotinib [DG:<a href="/dbget-bin/www_bget?dg:DG00716">DG00716</a>]<br>
+Dasatinib [DG:<a href="/dbget-bin/www_bget?dg:DG00714">DG00714</a>]<br>
+</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Comment</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">ICD-O: 9875/3, Tumor type: Chronic myelogenous leukaemia<br>
+</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Other DBs</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="float:left">ICD-10:&nbsp;</div><div style="margin-left:4.5em"><a href="/kegg-bin/get_htext?br08403+H00004">C92.1</a></div><div style="float:left">MeSH:&nbsp;</div><div style="margin-left:3.5em"><a href="https://www.ncbi.nlm.nih.gov/mesh/68015464">D015464</a></div></div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/15719031">15719031</a> (gene, tumor type)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Ren R.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Mechanisms of BCR-ABL in the pathogenesis of chronic myelogenous leukaemia.</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Nat Rev Cancer 5:172-83 (2005)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/10403855">10403855</a> (gene)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Faderl S, Talpaz M, Estrov Z, O'Brien S, Kurzrock R, Kantarjian HM.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">The biology of chronic myeloid leukemia.</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">N Engl J Med 341:164-72 (1999)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/14982876">14982876</a> (gene)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Calabretta B, Perrotti D.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">The biology of CML blast crisis.</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Blood 103:4010-22 (2004)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/16155477">16155477</a> (carcinogen)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Graff JJ, Sathiakumar N, Macaluso M, Maldonado G, Matthews R, Delzell E.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Chemical exposures in the synthetic rubber industry and lymphohematopoietic cancer mortality.</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">J Occup Environ Med 47:916-32 (2005)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/9498905">9498905</a> (carcinogen)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Blair A, Kazerouni N.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Reactive chemicals and cancer.</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Cancer Causes Control 8:473-90 (1997)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/16873420">16873420</a> (carcinogen)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Alder N, Fenty J, Warren F, Sutton AJ, Rushton L, Jones DR, Abrams KR.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Meta-analysis of mortality and cancer incidence among workers in the synthetic rubber-producing industry.</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Am J Epidemiol 164:405-20 (2006)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/16299089">16299089</a> (carcinogen)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Sathiakumar N, Graff J, Macaluso M, Maldonado G, Matthews R, Delzell E.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">An updated study of mortality among North American synthetic rubber industry workers.</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Occup Environ Med 62:822-9 (2005)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/15265366">15265366</a> (marker)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Chen ZX, Kaeda J, Saunders S, Goldman JM.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Expression patterns of WT-1 and Bcr-Abl measured by TaqMan quantitative real-time RT-PCR during follow-up of leukemia patients with the Ph chromosome.</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Chin Med J (Engl) 117:968-71 (2004)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/15661271">15661271</a> (marker)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Na IK, Kreuzer KA, Lupberger J, Dorken B, le Coutre P.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Quantitative RT-PCR of Wilms tumor gene transcripts (WT1) for the molecular monitoring of patients with accelerated phase bcr/abl + CML.</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Leuk Res 29:343-5 (2005)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/11529849">11529849</a> (marker)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Kreuzer KA, Saborowski A, Lupberger J, Appelt C, Na IK, le Coutre P, Schmidt CA.</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Fluorescent 5'-exonuclease assay for the absolute quantification of Wilms' tumour gene (WT1) mRNA: implications for monitoring human leukaemias.</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Br J Haematol 114:313-8 (2001)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">(drug)</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Papadakis MA and McPhee SJ |(ed)</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Current Medical Diagnosis &amp; Treatment 2015, Fifty-Fourth Edition</div></td></tr>
+
+
+<tr><th class="th51" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td51" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">McGraw Hill Education</div></td></tr>
+
+
+<tr><th class="th50" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>LinkDB</nobr></th>
+<td class="td50" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><a href="http://www.genome.jp/dbget-bin/get_linkdb?disease+H00004"><img align="middle" alt="All DBs" border="0" name="alldbs" onmousedown="btn(this,&#39;ADbd&#39;)" onmouseout="btn(this,&#39;ADb&#39;)" onmouseover="btn(this,&#39;ADbh&#39;)" onmouseup="btn(this,&#39;ADb&#39;)" ontouchend="btn(this,&#39;ADb&#39;)" ontouchstart="btn(this,&#39;ADbd&#39;)" src="./KEGG DISEASE_ Chronic myeloid leukemia (CML)_files/button_ADb.gif"></a></td></tr>
+
+</tbody></table></td></tr></tbody></table>
+<br><span style="font-size:12px"><a href="/dbget-bin/www_bget?ds_ja:H00004">» Japanese version</a></span><br><br></form></td></tr></tbody></table>
+
+
+<a href="/dbget/">DBGET</a> integrated database retrieval system</div>
+
+
+
+</body></html>

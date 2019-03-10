@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00564" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Glycerophospholipid metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00093" Value="Phosphatidylethanolamine (PE) biosynthesis, PA =&gt; PS =&gt; PE [PATH:xor00564]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00040" Value="Acyl-CoA" />
+    <hashEntry Key="C00084" Value="Acetaldehyde" />
+    <hashEntry Key="C00093" Value="sn-Glycerol 3-phosphate" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00114" Value="Choline" />
+    <hashEntry Key="C00157" Value="Phosphatidylcholine" />
+    <hashEntry Key="C00189" Value="Ethanolamine" />
+    <hashEntry Key="C00269" Value="CDP-diacylglycerol" />
+    <hashEntry Key="C00307" Value="CDP-choline" />
+    <hashEntry Key="C00344" Value="Phosphatidylglycerol" />
+    <hashEntry Key="C00346" Value="Ethanolamine phosphate" />
+    <hashEntry Key="C00350" Value="Phosphatidylethanolamine" />
+    <hashEntry Key="C00416" Value="Phosphatidate" />
+    <hashEntry Key="C00513" Value="CDP-glycerol" />
+    <hashEntry Key="C00570" Value="CDP-ethanolamine" />
+    <hashEntry Key="C00588" Value="Choline phosphate" />
+    <hashEntry Key="C00623" Value="sn-Glycerol 1-phosphate" />
+    <hashEntry Key="C00641" Value="1,2-Diacyl-sn-glycerol" />
+    <hashEntry Key="C00670" Value="sn-Glycero-3-phosphocholine" />
+    <hashEntry Key="C00681" Value="1-Acyl-sn-glycerol 3-phosphate" />
+    <hashEntry Key="C01194" Value="1-Phosphatidyl-D-myo-inositol" />
+    <hashEntry Key="C01210" Value="N-Methylethanolamine phosphate" />
+    <hashEntry Key="C01233" Value="sn-Glycero-3-phosphoethanolamine" />
+    <hashEntry Key="C01241" Value="Phosphatidyl-N-methylethanolamine" />
+    <hashEntry Key="C01996" Value="Acetylcholine" />
+    <hashEntry Key="C02737" Value="Phosphatidylserine" />
+    <hashEntry Key="C03372" Value="Acylglycerone phosphate" />
+    <hashEntry Key="C03819" Value="1-Acylglycerophosphoinositol" />
+    <hashEntry Key="C03872" Value="L-Serine-phosphoethanolamine" />
+    <hashEntry Key="C03892" Value="Phosphatidylglycerophosphate" />
+    <hashEntry Key="C03974" Value="2-Acyl-sn-glycerol 3-phosphate" />
+    <hashEntry Key="C04230" Value="1-Acyl-sn-glycero-3-phosphocholine" />
+    <hashEntry Key="C04233" Value="2-Acyl-sn-glycero-3-phosphocholine" />
+    <hashEntry Key="C04308" Value="Phosphatidyl-N-dimethylethanolamine" />
+    <hashEntry Key="C04438" Value="1-Acyl-sn-glycero-3-phosphoethanolamine" />
+    <hashEntry Key="C04590" Value="3-(O-Geranylgeranyl)-sn-glycerol 1-phosphate" />
+    <hashEntry Key="C04638" Value="2,3-Bis-O-(geranylgeranyl)glycerol 1-phosphate" />
+    <hashEntry Key="C05973" Value="2-Acyl-sn-glycero-3-phosphoethanolamine" />
+    <hashEntry Key="C05974" Value="2-Acyl-sn-glycero-3-phosphoserine" />
+    <hashEntry Key="C05976" Value="Aminoacyl-phosphatidylglycerol" />
+    <hashEntry Key="C05980" Value="Cardiolipin" />
+    <hashEntry Key="C06771" Value="Triethanolamine" />
+    <hashEntry Key="C06772" Value="Diethanolamine" />
+    <hashEntry Key="C13482" Value="Phosphodimethylethanolamine" />
+    <hashEntry Key="C18059" Value="CDP-2,3-bis-O-(geranylgeranyl)-sn-glycerol" />
+    <hashEntry Key="C18125" Value="1-Acyl-sn-glycero-3-phosphoserine" />
+    <hashEntry Key="C18126" Value="1-Acyl-sn-glycero-3-phosphoglycerol" />
+    <hashEntry Key="C18129" Value="Monolysocardiolipin" />
+    <hashEntry Key="C18168" Value="Diacylglycerylhomoserine" />
+    <hashEntry Key="C18169" Value="Diacylglyceryl-N,N,N-trimethylhomoserine" />
+    <hashEntry Key="C20466" Value="2,3-Bis-O-(geranylgeranyl)-sn-glycero-1-phospho-L-serine" />
+    <hashEntry Key="C20518" Value="2,3-Bis-(O-phytanyl)-sn-glycerol 1-phosphate" />
+  </Compound>
+  <PathwayMap Key="xor00564" Value="Glycerophospholipid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0016" Value="cardiolipin synthetase; K06131 cardiolipin synthase A/B [EC:2.7.8.-]" />
+    <hashEntry Key="xor:XOC_0205" Value="cardiolipin synthetase; K06131 cardiolipin synthase A/B [EC:2.7.8.-]" />
+    <hashEntry Key="xor:XOC_0284" Value="acetyltransferase; K00655 1-acyl-sn-glycerol-3-phosphate acyltransferase [EC:2.3.1.51]" />
+    <hashEntry Key="xor:XOC_0318" Value="glycerol-3-phosphate dehydrogenase; K00057 glycerol-3-phosphate dehydrogenase (NAD(P)+) [EC:1.1.1.94" />
+    <hashEntry Key="xor:XOC_0388" Value="cardiolipin synthase; K06131 cardiolipin synthase A/B [EC:2.7.8.-]" />
+    <hashEntry Key="xor:XOC_0420" Value="acyltransferase; K00655 1-acyl-sn-glycerol-3-phosphate acyltransferase [EC:2.3.1.51]" />
+    <hashEntry Key="xor:XOC_0904" Value="dgkA; diacylglycerol kinase; K00901 diacylglycerol kinase (ATP) [EC:2.7.1.107]" />
+    <hashEntry Key="xor:XOC_1077" Value="glycerophosphodiester phosphodiesterase; K01126 glycerophosphoryl diester phosphodiesterase [EC:3.1." />
+    <hashEntry Key="xor:XOC_1097" Value="Non-hemolytic phospholipase C; K01114 phospholipase C [EC:3.1.4.3]" />
+    <hashEntry Key="xor:XOC_1199" Value="glycerophosphodiester phosphodiesterase; K01126 glycerophosphoryl diester phosphodiesterase [EC:3.1." />
+    <hashEntry Key="xor:XOC_2583" Value="pgsA; CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase; K00995 CDP-diacylglycerol-" />
+    <hashEntry Key="xor:XOC_2656" Value="CDP-diacylglycerol--serine O-phosphatidyltransferase; K17103 CDP-diacylglycerol---serine O-phosphati" />
+    <hashEntry Key="xor:XOC_2763" Value="ethanolamine ammonia-lyase light chain; K03736 ethanolamine ammonia-lyase small subunit [EC:4.3.1.7]" />
+    <hashEntry Key="xor:XOC_2964" Value="psd; phosphatidylserine decarboxylase; K01613 phosphatidylserine decarboxylase [EC:4.1.1.65]" />
+    <hashEntry Key="xor:XOC_3017" Value="outer membrane phospholipase A; K01058 phospholipase A1 [EC:3.1.1.32 3.1.1.4]" />
+    <hashEntry Key="xor:XOC_3075" Value="cdsA; phosphatidate cytidylyltransferase; K00981 phosphatidate cytidylyltransferase [EC:2.7.7.41]" />
+    <hashEntry Key="xor:XOC_3369" Value="Non-hemolytic phospholipase C; K01114 phospholipase C [EC:3.1.4.3]" />
+    <hashEntry Key="xor:XOC_3827" Value="phosphatidylserine synthase; K17103 CDP-diacylglycerol---serine O-phosphatidyltransferase [EC:2.7.8." />
+    <hashEntry Key="xor:XOC_4203" Value="conserved hypothetical protein, putative; K18697 phosphatidylglycerophosphatase C [EC:3.1.3.27]" />
+    <hashEntry Key="xor:XOC_4636" Value="glycerol-3-phosphate acyltransferase; K00631 glycerol-3-phosphate O-acyltransferase [EC:2.3.1.15]" />
+    <hashEntry Key="xor:XOC_4681" Value="glycerophosphoryl diester phosphodiesterase; K01126 glycerophosphoryl diester phosphodiesterase [EC:" />
+  </Genes>
+</KEGG.PathwayBrief>

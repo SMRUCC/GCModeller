@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)http://cn.mathworks.com/help/bioinfo/ref/hmmprofstruct.html#bqud_sl -->
+<html class="wf-automate-n7-active wf-futurapt-i4-active wf-futurapt-i5-active wf-futurapt-i7-active wf-futurapt-n4-active wf-futurapt-n5-active wf-futurapt-n7-active wf-minionprosubhead-n4-active wf-museoslab-n7-active wf-active"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Create or edit hidden Markov model (HMM) profile structure</title>
+<link href="./assets/main.css" rel="stylesheet">
+<link href="./assets/bootstrap.min.css" rel="stylesheet">
+<link href="./assets/doc_center.css" rel="stylesheet">
+<link href="./assets/doc_center_print.css" rel="stylesheet">
+<link href="./assets/docstyle.css" rel="stylesheet">
+
+
+<body id="responsive_offcanvas" class="no_animate" style="">
+     
+<section id="doc_center_content" lang="en"><div id="pgtype-ref-function"><div class="function_ref">
+
+<span id="FP237146" class="anchor_target"></span><a class="indexterm" name="zmw57dd0e89263"></a><a class="indexterm" name="zmw57dd0e89268"></a><div itemprop="content"><h1 class="r2016a" itemprop="title">hmmprofstruct</h1><!-- SYNCHTO: _a1041278976.html --><div class="doc_topic_desc"><div class="purpose_container"><p itemprop="purpose">Create or edit hidden Markov model (HMM) profile structure</p></div></div></div>
+<span id="FP237149" class="anchor_target"></span><div class="ref_sect"><h2 id="syntax">Syntax</h2><div class="syntax_signature"><p class="synopsis"><code><i><code>Model</code></i> = hmmprofstruct(<i><code>Length</code></i>)<br><i><code>Model</code></i> = hmmprofstruct(<i><code>Length</code></i>, <i><code>Field1</code></i>, <i><code>Field1Value</code></i>, <i><code>Field2</code></i>, <i><code>Field2Value</code></i>,
+...)<br><i><code>NewModel</code></i> = hmmprofstruct(<i><code>Model</code></i>, <i><code>Field1</code></i>, <i><code>Field1Value</code></i>, <i><code>Field2</code></i>, <i><code>Field2Value</code></i>,
+...)<br></code></p></div></div><div class="clear"></div><div itemprop="content" class="ref_sect"><span id="a1074611163" class="anchor_target"></span><h2 id="a1074611163">Input Arguments</h2><div class="table-responsive"><table cellspacing="0" class="table" cellpadding="4" border="0"><colgroup><col width="18%"><col width="82%"></colgroup><tbody><tr valign="top"><td><i><code>Length</code></i></td><td>Number of match states in the model.</td></tr>
+<tr valign="top"><td><i><code>Model</code></i></td><td>MATLAB<sup>®</sup> structure containing fields for the parameters
+of an HMM profile created with the <code>hmmprofstruct</code> function.</td></tr>
+<tr valign="top"><td><i><code>Field</code></i></td><td>String containing a field name in the structure <i><code>Model</code></i>.
+See the table below for field names.</td></tr>
+<tr valign="top"><td><i><code>FieldValue</code></i></td><td>Value associated with <i><code>Field</code></i>. See
+the table below for descriptions.</td></tr>
+</tbody></table></div><p></p></div><div itemprop="content" class="ref_sect"><span id="brgqfpx-1" class="anchor_target"></span><h2 id="zmw57dd0e89327">Output Arguments</h2><div class="table-responsive"><table cellspacing="0" class="table" cellpadding="4" border="0"><colgroup><col width="18%"><col width="82%"></colgroup><tbody><tr valign="top"><td><i><code>Model</code></i></td><td>MATLAB structure containing fields for the parameters
+of an HMM profile.</td></tr>
+</tbody></table></div><p></p></div><div itemprop="content" class="ref_sect"><span id="FP237162" class="anchor_target"></span><h2 id="zmw57dd0e89344">Description</h2><p><span itemprop="syntax"><code><i><code>Model</code></i> = hmmprofstruct(<i><code>Length</code></i>)</code></span> returns <i><code>Model</code></i>,
+a MATLAB structure containing fields for the parameters of an
+HMM profile. <i><code>Length</code></i> specifies the number
+of match states in the model. All other required parameters are set
+to the default values. </p><p><span itemprop="syntax"><code><i><code>Model</code></i> = hmmprofstruct(<i><code>Length</code></i>, <i><code>Field1</code></i>, <i><code>Field1Value</code></i>, <i><code>Field2</code></i>, <i><code>Field2Value</code></i>,
+...)</code></span> returns an HMM profile structure using the specified
+parameters. All other required parameters are set to default values.</p><p><span itemprop="syntax"><code><i><code>NewModel</code></i> = hmmprofstruct(<i><code>Model</code></i>, <i><code>Field1</code></i>, <i><code>Field1Value</code></i>, <i><code>Field2</code></i>, <i><code>Field2Value</code></i>,
+...)</code></span> returns an updated HMM profile structure using the
+specified parameters. All other parameters are taken from the input <i><code>Model</code></i>. </p><span id="bqud_qe" class="anchor_target"></span><h3 id="zmw57dd0e89410">HMM Profile Structure</h3><p>The MATLAB structure <i><code>Model</code></i> contains
+the following fields, which are the required and optional parameters
+of an HMM profile. All probability values are in the [0 1] range.</p><div class="table-responsive"><table cellspacing="0" class="table" cellpadding="4" border="2"><colgroup><col width="28%"><col width="72%"></colgroup><thead><tr valign="top"><th valign="top">Field </th><th valign="top">Description</th></tr>
+</thead><tbody><tr valign="top"><td><code>ModelLength</code></td><td>Integer specifying the length of the profile (number of MATCH
+states).</td></tr>
+<tr valign="top"><td><code>Alphabet</code></td><td>String specifying the alphabet used in the model. Choices are <code>'AA'</code> (default)
+or <code>'NT'</code>. <ul><span id="zmw57dd0e89450" class="anchor_target"></span><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tbody><tr width="90%"><td><p><b>Note:</b>&nbsp;&nbsp;
+
+
+<code>AlphaLength</code> is 20 for <code>'AA'</code> and
+4 for <code>'NT'</code>.</p></td></tr></tbody></table></ul></td></tr>
+<tr valign="top"><td><code>MatchEmission</code></td><td><p>Symbol emission probabilities in the MATCH states.</p><p>Either
+of the following:</p><ul type="disc"><li><p>A matrix of size <code>ModelLength</code>-by-<code>AlphaLength</code>,
+where each row corresponds to the emission distribution for a specific
+MATCH state. Defaults to uniform distributions. </p></li><li><p>A structure containing residue counts, such as returned
+by <a href="http://cn.mathworks.com/help/bioinfo/ref/aacount.html"><code>aacount</code></a> or <a href="http://cn.mathworks.com/help/bioinfo/ref/basecount.html"><code>basecount</code></a>.</p></li></ul></td></tr>
+<tr valign="top"><td><code>InsertEmission</code></td><td><p>Symbol emission probabilities in the INSERT state.</p><p>Either
+of the following:</p><ul type="disc"><li><p>A matrix of size <code>ModelLength</code>-by-<code>AlphaLength</code>,
+where each row corresponds to the emission distribution for a specific
+INSERT state. Defaults to uniform distributions. </p></li><li><p>A structure containing residue counts, such as returned
+by <a href="http://cn.mathworks.com/help/bioinfo/ref/aacount.html"><code>aacount</code></a> or <a href="http://cn.mathworks.com/help/bioinfo/ref/basecount.html"><code>basecount</code></a>.</p></li></ul></td></tr>
+<tr valign="top"><td><code>NullEmission</code></td><td><p>Symbol emission probabilities in the MATCH and INSERT
+states for the NULL model.</p><p>Either of the following:</p><ul type="disc"><li><p>A 1-by-<code>AlphaLength</code> row vector.
+Defaults to a uniform distribution. </p></li><li><p>A structure containing residue counts, such as returned
+by <a href="http://cn.mathworks.com/help/bioinfo/ref/aacount.html"><code>aacount</code></a> or <a href="http://cn.mathworks.com/help/bioinfo/ref/basecount.html"><code>basecount</code></a>.</p></li></ul><ul><span id="zmw57dd0e89542" class="anchor_target"></span><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tbody><tr width="90%"><td><p><b>Note:</b>&nbsp;&nbsp;
+
+
+ The NULL model is used to compute the log-odds ratio at every
+state and avoid overflow when propagating the probabilities through
+the model.</p></td></tr></tbody></table></ul><ul><span id="zmw57dd0e89545" class="anchor_target"></span><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tbody><tr width="90%"><td><p><b>Note:</b>&nbsp;&nbsp;
+
+
+NULL probabilities are also known as the background probabilities.</p></td></tr></tbody></table></ul></td></tr>
+<tr valign="top"><td><code>BeginX</code></td><td><p>BEGIN state transition probabilities.</p><p>Format
+is a 1-by-<code>(ModelLength + 1)</code> row vector:</p><div class="code_responsive"><pre class="programlisting">[B-&gt;D1 B-&gt;M1 B-&gt;M2 B-&gt;M3 .... B-&gt;Mend]
+</pre></div><ul><span id="zmw57dd0e89562" class="anchor_target"></span><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tbody><tr width="90%"><td><p><b>Note:</b>&nbsp;&nbsp;
+
+
+If necessary, <code>hmmprofstruct</code> will normalize
+the data such that the sum of the transition probabilities from the
+BEGIN state equals 1:</p><div class="code_responsive"><pre class="programlisting">sum(<i>Model</i>.BeginX) = 1
+</pre></div><p>For fragment profiles:</p><div class="code_responsive"><pre class="programlisting">sum(<i>Model</i>.BeginX(3:end)) = 0
+</pre></div></td></tr></tbody></table></ul><p>Default is <code>[0.01 0.99 0 0 ... 0]</code>.</p></td></tr>
+<tr valign="top"><td><code>MatchX</code></td><td><p>MATCH state transition probabilities.</p><p>Format
+is a 4-by-<code>(ModelLength - 1)</code> matrix:</p><div class="code_responsive"><pre class="programlisting">[M1-&gt;M2 M2-&gt;M3 ... M[end-1]-&gt;Mend;
+ M1-&gt;I1 M2-&gt;I2 ... M[end-1]-&gt;I[end-1];
+ M1-&gt;D2 M2-&gt;D3 ... M[end-1]-&gt;Dend;
+ M1-&gt;E  M2-&gt;E  ... M[end-1]-&gt;E  ]
+</pre></div><ul><span id="zmw57dd0e89599" class="anchor_target"></span><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tbody><tr width="90%"><td><p><b>Note:</b>&nbsp;&nbsp;
+
+
+If necessary, <code>hmmprofstruct</code> will normalize
+the data such that the sum of the transition probabilities from every
+MATCH state equals 1:</p><div class="code_responsive"><pre class="programlisting">sum(<i>Model</i>.MatchX) = [ 1 1 ... 1 ]
+</pre></div><p>For fragment profiles:</p><div class="code_responsive"><pre class="programlisting">sum(<i>Model</i>.MatchX(4,:)) = 0
+</pre></div></td></tr></tbody></table></ul><p>Default is <code>repmat([0.998 0.001 0.001 0],ModelLength-1,1)</code>.</p></td></tr>
+<tr valign="top"><td><code>InsertX</code></td><td><p>INSERT state transition probabilities.</p><p>Format
+is a 2-by-<code>(ModelLength - 1)</code> matrix:</p><div class="code_responsive"><pre class="programlisting">[ I1-&gt;M2 I2-&gt;M3 ... I[end-1]-&gt;Mend;
+  I1-&gt;I1 I2-&gt;I2 ... I[end-1]-&gt;I[end-1] ]</pre></div><ul><span id="zmw57dd0e89636" class="anchor_target"></span><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tbody><tr width="90%"><td><p><b>Note:</b>&nbsp;&nbsp;
+
+
+If necessary, <code>hmmprofstruct</code> will normalize
+the data such that the sum of the transition probabilities from every
+INSERT state equals 1:</p><div class="code_responsive"><pre class="programlisting">sum(<i>Model</i>.InsertX) = [ 1 1 ... 1 ]
+</pre></div></td></tr></tbody></table></ul><p>Default is <code>repmat([0.5 0.5],ModelLength-1,1)</code>.</p></td></tr>
+<tr valign="top"><td><code>DeleteX</code></td><td><p>DELETE state transition probabilities. </p><p>Format
+is a 2-by-<code>(ModelLength - 1)</code> matrix:</p><div class="code_responsive"><pre class="programlisting">[ D1-&gt;M2 D2-&gt;M3 ... D[end-1]-&gt;Mend ;
+  D1-&gt;D2 D2-&gt;D3 ... D[end-1]-&gt;Dend ]</pre></div><ul><span id="zmw57dd0e89666" class="anchor_target"></span><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tbody><tr width="90%"><td><p><b>Note:</b>&nbsp;&nbsp;
+
+
+If necessary, <code>hmmprofstruct</code> will normalize
+the data such that the sum of the transition probabilities from every
+DELETE state equals 1:</p><div class="code_responsive"><pre class="programlisting">sum(<i>Model</i>.DeleteX) = [ 1 1 ... 1 ]</pre></div></td></tr></tbody></table></ul><p>Default is <code>repmat([0.5 0.5],ModelLength-1,1)</code>.</p></td></tr>
+<tr valign="top"><td><code>FlankingInsertX</code></td><td><p>Flanking insert states (N and C) used for LOCAL profile
+alignment. </p><p>Format is a 2-by-2 matrix:</p><div class="code_responsive"><pre class="programlisting">[N-&gt;B  C-&gt;T ;
+ N-&gt;N  C-&gt;C]</pre></div><ul><span id="zmw57dd0e89693" class="anchor_target"></span><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tbody><tr width="90%"><td><p><b>Note:</b>&nbsp;&nbsp;
+
+
+If necessary, <code>hmmprofstruct</code> will normalize
+the data such that the sum of the transition probabilities from Flanking
+Insert states equals 1:</p><div class="code_responsive"><pre class="programlisting">sum(<i>Model</i>.FlankingInsertsX) = [1 1]</pre></div></td></tr></tbody></table></ul><ul><span id="zmw57dd0e89704" class="anchor_target"></span><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tbody><tr width="90%"><td><p><b>Note:</b>&nbsp;&nbsp;
+
+
+To force global alignment use:</p><div class="code_responsive"><pre class="programlisting"><i>Model</i>.FlankingInsertsX = [1 1; 0 0]</pre></div></td></tr></tbody></table></ul><p>Default is <code>[0.01 0.01; 0.99 0.99]</code>.</p></td></tr>
+<tr valign="top"><td><code>LoopX</code></td><td><p>Loop states transition probabilities used for multiple
+hits alignment.</p><p>Format is a 2-by-2 matrix:</p><div class="code_responsive"><pre class="programlisting">[E-&gt;C  J-&gt;B ;
+ E-&gt;J  J-&gt;J]
+</pre></div><ul><span id="zmw57dd0e89727" class="anchor_target"></span><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tbody><tr width="90%"><td><p><b>Note:</b>&nbsp;&nbsp;
+
+
+If necessary, <code>hmmprofstruct</code> will normalize
+the data such that the sum of the transition probabilities from Loop
+states equals 1:</p><div class="code_responsive"><pre class="programlisting">sum(<i>Model</i>.LoopX) = [1 1] </pre></div></td></tr></tbody></table></ul><p>Default is <code>[0.5 0.01; 0.5 0.99]</code>.</p></td></tr>
+<tr valign="top"><td><code>NullX</code></td><td><p>Null transition probabilities used to provide scores
+with log-odds values also for state transitions.</p><p>Format
+is a 2-by-1 column vector:</p><div class="code_responsive"><pre class="programlisting">[G-&gt;F ; G-&gt;G]
+</pre></div><ul><span id="zmw57dd0e89754" class="anchor_target"></span><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tbody><tr width="90%"><td><p><b>Note:</b>&nbsp;&nbsp;
+
+
+If necessary, <code>hmmprofstruct</code> will normalize
+the data such that the sum of the transition probabilities from Null
+states equals 1:</p><div class="code_responsive"><pre class="programlisting">sum(<i>Model</i>.NullX) = 1</pre></div></td></tr></tbody></table></ul><p>Default is <code>[0.01; 0.99]</code>.</p></td></tr>
+<tr valign="top"><td><code>IDNumber</code></td><td>Optional. User-assigned identification number. </td></tr>
+<tr valign="top"><td><code>Description</code></td><td>Optional. User-assigned description of the model. </td></tr>
+</tbody></table></div><p></p><span id="bqud_sl" class="anchor_target"></span><h3 id="zmw57dd0e89783" class="">HMM Profile Model</h3><p>An HMM profile model is a common statistical tool for modeling
+structured sequences composed of symbols. These symbols include randomness
+in both the output (emission of symbols) and the state transitions
+of the process. Markov models are generally represented by state diagrams. </p><p>The following figure is a state diagram for an HMM profile of
+length four. INSERT, MATCH, and DELETE states are in the center section. </p><ul type="disc"><li><p>INSERT state represents the excess of one or more
+symbols in the target sequence that are not included in the profile.</p></li><li><p>MATCH state means that the target sequence is aligned
+to the profile at the specific location. </p></li><li><p>DELETE state represents a gap or symbol absence in
+the target sequence (also known as a silent state because it does
+not emit any symbols).</p></li></ul><p>Flanking states (<code>S</code>, <code>N</code>, <code>B</code>, <code>E</code>, <code>C</code>, <code>T</code>)
+are used for proper modeling of the ends of the sequence, either for
+global, local or fragment alignment of the profile. <code>S</code>, <code>B</code>, <code>E</code>,
+and <code>T</code> are silent, while <code>N</code> and <code>C</code> are
+used to insert symbols at the flanks.</p><p>
+<img src="./assets/hmm_summaryfigure.gif" height="172" width="531" alt=""></p></div><div itemprop="content" class="ref_sect"><span id="FP237164" class="anchor_target"></span><h2 id="zmw57dd0e89841">Examples</h2><span id="brg0cvb" class="anchor_target"></span><p class="title"><b>Creating an HMM Profile Structure</b></p><p>Create an HMM profile structure with 100 MATCH states, using
+the amino acid alphabet.</p><div class="code_responsive"><pre class="programlisting">hmmProfile = hmmprofstruct(100,<span style="color:#A020F0">'Alphabet'</span>,<span style="color:#A020F0">'AA'</span>)
+
+hmmProfile = 
+
+        ModelLength: 100
+           Alphabet: 'AA'
+      MatchEmission: [100x20 double]
+     InsertEmission: [100x20 double]
+       NullEmission: [1x20 double]
+             BeginX: [101x1 double]
+             MatchX: [99x4 double]
+            InsertX: [99x2 double]
+            DeleteX: [99x2 double]
+    FlankingInsertX: [2x2 double]
+              LoopX: [2x2 double]
+              NullX: [2x1 double]</pre></div><span id="brg0cvz" class="anchor_target"></span><p class="title"><b>Editing an HMM Profile Structure</b></p><ol type="1"><li><p>Use the <code>pfamhmmread</code> function
+to create an HMM profile structure from <code>pf00002.ls</code>,
+a PFAM HMM-formatted file included with the software.</p><div class="code_responsive"><pre class="programlisting">hmm02 = pfamhmmread(<span style="color:#A020F0">'pf00002.ls'</span>);</pre></div></li><li><p>Modify the HMM profile structure to force a global
+alignment by setting the looping transition probabilities in the flanking
+insert states to zero.</p><div class="code_responsive"><pre class="programlisting">hmm02 = hmmprofstruct(hmm02,<span style="color:#A020F0">'FlankingInsertX'</span>,[0 0;1 1]);
+hmm02.FlankingInsertX
+
+ans =
+
+     0     0
+     1     1</pre></div></li></ol></div>
+</body></html>

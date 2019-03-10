@@ -1,0 +1,41 @@
+xfa	Xylella fastidiosa 9a5c	2000	RefSeq
+xft	Xylella fastidiosa Temecula1	2003	GenBank
+xfm	Xylella fastidiosa M12	2008	GenBank
+xfn	Xylella fastidiosa M23	2008	GenBank
+xff	Xylella fastidiosa subsp. fastidiosa GB514	2012	GenBank
+xfl	Xylella fastidiosa MUL0034	2014	GenBank
+xfs	Xylella fastidiosa subsp. sandyi Ann-1	2014	GenBank
+xcc	Xanthomonas campestris pv. campestris ATCC 33913	2002	RefSeq
+xcb	Xanthomonas campestris pv. campestris 8004	2005	RefSeq
+xca	Xanthomonas campestris pv. campestris B100	2008	GenBank
+xcp	Xanthomonas campestris pv. raphani	2012	GenBank
+xcv	Xanthomonas campestris pv. vesicatoria	2005	GenBank
+xac	Xanthomonas citri pv. citri 306	2002	GenBank
+xci	Xanthomonas citri subsp. citri Aw12879	2013	GenBank
+xct	Xanthomonas citri subsp. citri A306	2015	GenBank
+xcu	Xanthomonas citri subsp. citri UI7	2015	GenBank
+xcn	Xanthomonas citri subsp. citri NT17	2015	GenBank
+xcw	Xanthomonas citri subsp. citri MN10	2015	GenBank
+xcr	Xanthomonas citri subsp. citri MN11	2015	GenBank
+xcm	Xanthomonas citri subsp. citri MN12	2015	GenBank
+xcf	Xanthomonas citri subsp. citri mf20	2015	GenBank
+xcj	Xanthomonas citri subsp. citri UI6	2015	GenBank
+xfu	Xanthomonas fuscans	2014	GenBank
+xax	Xanthomonas axonopodis pv. citrumelo F1	2011	GenBank
+xao	Xanthomonas axonopodis Xac29-1	2013	GenBank
+xoo	Xanthomonas oryzae pv. oryzae KACC 10331	2005	GenBank
+xom	Xanthomonas oryzae pv. oryzae MAFF 311018	2006	GenBank
+xop	Xanthomonas oryzae pv. oryzae PXO99A	2008	GenBank
+xoy	Xanthomonas oryzae pv. oryzae PXO86	2015	GenBank
+xor	Xanthomonas oryzae pv. oryzicola BLS256	2012	GenBank
+xoz	Xanthomonas oryzae pv. oryzicola CFBP7342	2015	GenBank
+xal	Xanthomonas albilineans	2010	RefSeq
+xsa	Xanthomonas sacchari	2015	GenBank
+xtn	Xanthomonas translucens	2015	GenBank
+sml	Stenotrophomonas maltophilia K279a	2008	GenBank
+smt	Stenotrophomonas maltophilia R551-3	2008	GenBank
+buj	Stenotrophomonas maltophilia JV3	2011	GenBank
+smz	Stenotrophomonas maltophilia D457	2012	GenBank
+sacz	Stenotrophomonas acidaminiphila	2016	GenBank
+psu	Pseudoxanthomonas suwonensis	2011	GenBank
+psd	Pseudoxanthomonas spadix	2011	GenBank

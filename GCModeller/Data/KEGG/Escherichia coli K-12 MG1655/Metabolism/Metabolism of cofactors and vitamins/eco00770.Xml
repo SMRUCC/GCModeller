@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00770" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Pantothenate and CoA biosynthesis - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00119" Value="Pantothenate biosynthesis, valine/L-aspartate =&gt; pantothenate [PATH:eco00770]" />
+    <hashEntry Key="eco_M00120" Value="Coenzyme A biosynthesis, pantothenate =&gt; CoA [PATH:eco00770]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00010" Value="CoA" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00054" Value="Adenosine 3',5'-bisphosphate" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00099" Value="beta-Alanine" />
+    <hashEntry Key="C00106" Value="Uracil" />
+    <hashEntry Key="C00141" Value="3-Methyl-2-oxobutanoic acid" />
+    <hashEntry Key="C00183" Value="L-Valine" />
+    <hashEntry Key="C00229" Value="Acyl-carrier protein" />
+    <hashEntry Key="C00429" Value="5,6-Dihydrouracil" />
+    <hashEntry Key="C00522" Value="(R)-Pantoate" />
+    <hashEntry Key="C00831" Value="Pantetheine" />
+    <hashEntry Key="C00864" Value="Pantothenate" />
+    <hashEntry Key="C00882" Value="Dephospho-CoA" />
+    <hashEntry Key="C00900" Value="2-Acetolactate" />
+    <hashEntry Key="C00966" Value="2-Dehydropantoate" />
+    <hashEntry Key="C01053" Value="(R)-4-Dehydropantoate" />
+    <hashEntry Key="C01088" Value="(R)-3,3-Dimethylmalate" />
+    <hashEntry Key="C01134" Value="Pantetheine 4'-phosphate" />
+    <hashEntry Key="C02642" Value="3-Ureidopropionate" />
+    <hashEntry Key="C03492" Value="D-4'-Phosphopantothenate" />
+    <hashEntry Key="C03688" Value="Apo-[acyl-carrier-protein]" />
+    <hashEntry Key="C04039" Value="2,3-Dihydroxy-3-methylbutanoate" />
+    <hashEntry Key="C04079" Value="N-((R)-Pantothenoyl)-L-cysteine" />
+    <hashEntry Key="C04352" Value="(R)-4'-Phosphopantothenoyl-L-cysteine" />
+    <hashEntry Key="C05944" Value="Pantothenol" />
+    <hashEntry Key="C18911" Value="(R)-4-Phosphopantoate" />
+  </Compound>
+  <PathwayMap Key="eco00770" Value="Pantothenate and CoA biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0077" Value="ilvI; acetolactate synthase 3 large subunit (EC:2.2.1.6); K01652 acetolactate synthase I/II/III larg" />
+    <hashEntry Key="eco:b0078" Value="ilvH; acetolactate synthase 3, small subunit, valine-sensitive (EC:2.2.1.6); K01653 acetolactate syn" />
+    <hashEntry Key="eco:b0103" Value="coaE; dephospho-CoA kinase (EC:2.7.1.24); K00859 dephospho-CoA kinase [EC:2.7.1.24]" />
+    <hashEntry Key="eco:b0131" Value="panD; aspartate 1-decarboxylase (EC:4.1.1.11); K01579 aspartate 1-decarboxylase [EC:4.1.1.11]" />
+    <hashEntry Key="eco:b0133" Value="panC; pantothenate synthetase (EC:6.3.2.1); K01918 pantoate--beta-alanine ligase [EC:6.3.2.1]" />
+    <hashEntry Key="eco:b0134" Value="panB; 3-methyl-2-oxobutanoate hydroxymethyltransferase (EC:2.1.2.11); K00606 3-methyl-2-oxobutanoate" />
+    <hashEntry Key="eco:b0404" Value="acpH; acyl carrier protein (ACP) phosphodiesterase; ACP hydrolyase; K08682 acyl carrier protein phos" />
+    <hashEntry Key="eco:b0425" Value="panE; 2-dehydropantoate reductase, NADPH-specific (EC:1.1.1.169); K00077 2-dehydropantoate 2-reducta" />
+    <hashEntry Key="eco:b2146" Value="preT; dihydropyrimidine dehydrogenase, NADH-dependent, subunit N; K17722 dihydropyrimidine dehydroge" />
+    <hashEntry Key="eco:b2147" Value="preA; dihydropyrimidine dehydrogenase, NADH-dependent, subunit C; K17723 dihydropyrimidine dehydroge" />
+    <hashEntry Key="eco:b2563" Value="acpS; holo-[acyl-carrier-protein] synthase 1 (EC:2.7.8.7); K00997 holo-[acyl-carrier protein] syntha" />
+    <hashEntry Key="eco:b2873" Value="hyuA; D-stereospecific phenylhydantoinase (EC:3.5.2.-); K01464 dihydropyrimidinase [EC:3.5.2.2]" />
+    <hashEntry Key="eco:b3475" Value="acpT; 4&amp;#39;-phosphopantetheinyl transferase (EC:2.7.8.-); K06133 4&amp;#39;-phosphopantetheinyl transferase [EC" />
+    <hashEntry Key="eco:b3634" Value="coaD; pantetheine-phosphate adenylyltransferase (EC:2.7.7.3); K00954 pantetheine-phosphate adenylylt" />
+    <hashEntry Key="eco:b3639" Value="dfp; fused 4&amp;#39;-phosphopantothenoylcysteine decarboxylase/phosphopantothenoylcysteine synthetase, FMN-" />
+    <hashEntry Key="eco:b3670" Value="ilvN; acetolactate synthase 1 small subunit (EC:2.2.1.6); K01653 acetolactate synthase I/III small s" />
+    <hashEntry Key="eco:b3671" Value="ilvB; acetolactate synthase 2 large subunit (EC:2.2.1.6); K01652 acetolactate synthase I/II/III larg" />
+    <hashEntry Key="eco:b3769" Value="ilvM; acetolactate synthase 2 small subunit (EC:2.2.1.6); K11258 acetolactate synthase II small subu" />
+    <hashEntry Key="eco:b3770" Value="ilvE; branched-chain amino-acid aminotransferase (EC:2.6.1.42); K00826 branched-chain amino acid ami" />
+    <hashEntry Key="eco:b3771" Value="ilvD; dihydroxyacid dehydratase (EC:4.2.1.9); K01687 dihydroxy-acid dehydratase [EC:4.2.1.9]" />
+    <hashEntry Key="eco:b3774" Value="ilvC; ketol-acid reductoisomerase, NAD(P)-binding (EC:1.1.1.86); K00053 ketol-acid reductoisomerase" />
+    <hashEntry Key="eco:b3974" Value="coaA; pantothenate kinase (EC:2.7.1.33); K00867 type I pantothenate kinase [EC:2.7.1.33]" />
+  </Genes>
+</KEGG.PathwayBrief>

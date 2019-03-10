@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00910" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The biological process of the nitrogen cycle is a complex interplay among many microorganisms catalyzing different reactions, where nitrogen is found in various oxidation states ranging from +5 in nitrate to -3 in ammonia. The core nitrogen cycle involves four reduction pathways and two oxidation pathways. Nitrogen fixation [MD:M00175] is the process of reducing atmospheric molecular nitrogen to ammonia, a biologically useful reduced form incorporated into amino acids and other vital compounds. The ability of fixing atmospheric nitrogen by the nitrogenase enzyme complex is present in restricted prokaryotes (diazotrophs). The other reduction pathways are assimilatory nitrate reduction [MD:M00531] and dissimilatory nitrate reduction [MD:M00530] both for conversion to ammonia, and denitrification [MD:M00529]. Denitrification is a respiration in which nitrate or nitrite is reduced as a terminal electron acceptor under low oxygen or anoxic conditions, producing gaseous nitrogen compounds (N2, NO and N2O) to the atmosphere. The two oxidation pathways are nitrification [MD:M00528] and anaerobic ammonium oxidation (anammox). Nitrification is the oxidation of ammonia (NH3) with oxygen into nitrite followed by the oxidation of nitrite into nitrate. The first step is performed by ammonia-oxidizing microorganisms (e.g., Nitrosomonas and Nitrosococcus) and the second step by nitrite-oxidizing microorganisms (e.g., Nitrobacter). Anammox is a biochemical process of oxidizing ammonium (NH4+) into dinitrogen gas (N2) using nitrite as an electron acceptor. It occurs in the anammoxosome, a membrane bound compartment inside the cytoplasm, of anammox bacteria (e.g., Planctomycetes).&lt;br&gt;</Description>
+  <Name>Nitrogen metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00011" Value="CO2" />
+    <hashEntry Key="C00014" Value="Ammonia" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00058" Value="Formate" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00088" Value="Nitrite" />
+    <hashEntry Key="C00169" Value="Carbamoyl phosphate" />
+    <hashEntry Key="C00192" Value="Hydroxylamine" />
+    <hashEntry Key="C00244" Value="Nitrate" />
+    <hashEntry Key="C00288" Value="HCO3-" />
+    <hashEntry Key="C00488" Value="Formamide" />
+    <hashEntry Key="C00533" Value="Nitric oxide" />
+    <hashEntry Key="C00697" Value="Nitrogen" />
+    <hashEntry Key="C00726" Value="Nitrile" />
+    <hashEntry Key="C00887" Value="Nitrous oxide" />
+    <hashEntry Key="C01417" Value="Cyanate" />
+    <hashEntry Key="C01563" Value="Carbamate" />
+    <hashEntry Key="C05361" Value="Hydrazine" />
+    <hashEntry Key="C06058" Value="Nitroalkane" />
+  </Compound>
+  <PathwayMap Key="xor00910" Value="Nitrogen metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0134" Value="glutamate synthase; K00266 glutamate synthase (NADPH/NADH) small chain [EC:1.4.1.13 1.4.1.14]" />
+    <hashEntry Key="xor:XOC_0135" Value="glutamate synthase; K00265 glutamate synthase (NADPH/NADH) large chain [EC:1.4.1.13 1.4.1.14]" />
+    <hashEntry Key="xor:XOC_0293" Value="glnA; glutamine synthetase, type I; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xor:XOC_1807" Value="carbonic anhydrase; K01673 carbonic anhydrase [EC:4.2.1.1]" />
+    <hashEntry Key="xor:XOC_1834" Value="carbonic anhydrase; K01673 carbonic anhydrase [EC:4.2.1.1]" />
+    <hashEntry Key="xor:XOC_1981" Value="NAD-glutamate dehydrogenase; K15371 glutamate dehydrogenase [EC:1.4.1.2]" />
+    <hashEntry Key="xor:XOC_1996" Value="gamma-glutamylputrescine synthetase; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xor:XOC_1999" Value="glnA; glutamine synthetase; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xor:XOC_3420" Value="2-nitropropane dioxygenase; K00459 nitronate monooxygenase [EC:1.13.12.16]" />
+  </Genes>
+</KEGG.PathwayBrief>

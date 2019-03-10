@@ -1,0 +1,52 @@
+AF126050.1	AF126050 Acute bee paralysis virus structural protein gene, partial cds
+KC690220.1	Israeli acute paralysis virus strain IAPV_US polymerase polyprotein gene, partial cds
+KC690221.1	Israeli acute paralysis virus strain IAPV_NW1 polymerase polyprotein gene, partial cds
+KC690222.1	Israeli acute paralysis virus strain IAPV_PJ polymerase polyprotein gene, partial cds
+KC690223.1	Israeli acute paralysis virus strain IAPV_NW2 polymerase polyprotein gene, partial cds
+KC690224.1	Israeli acute paralysis virus strain IAPV_GJ polymerase polyprotein gene, partial cds
+KC690225.1	Israeli acute paralysis virus strain IAPV_GR polymerase polyprotein gene, partial cds
+KC690226.1	Israeli acute paralysis virus strain IAPV_GN1 polymerase polyprotein gene, partial cds
+KC690227.1	Israeli acute paralysis virus strain IAPV_SJ1 polymerase polyprotein gene, partial cds
+KC690228.1	Israeli acute paralysis virus strain IAPV_NW3 polymerase polyprotein gene, partial cds
+KC690229.1	Israeli acute paralysis virus strain IAPV_SU polymerase polyprotein gene, partial cds
+KC690230.1	Israeli acute paralysis virus strain IAPV_JB1 polymerase polyprotein gene, partial cds
+KC690231.1	Israeli acute paralysis virus strain IAPV_JB2 polymerase polyprotein gene, partial cds
+KC690232.1	Israeli acute paralysis virus strain IAPV_SS1 polymerase polyprotein gene, partial cds
+KC690233.1	Israeli acute paralysis virus strain IAPV_HS1 polymerase polyprotein gene, partial cds
+KC690234.1	Israeli acute paralysis virus strain IAPV_AD polymerase polyprotein gene, partial cds
+KC690235.1	Israeli acute paralysis virus strain IAPV_MG polymerase polyprotein gene, partial cds
+KC690236.1	Israeli acute paralysis virus strain IAPV_SS2 polymerase polyprotein gene, partial cds
+KC690237.1	Israeli acute paralysis virus strain IAPV_GS polymerase polyprotein gene, partial cds
+KC690238.1	Israeli acute paralysis virus strain IAPV_JN polymerase polyprotein gene, partial cds
+KC690239.1	Israeli acute paralysis virus strain IAPV_SW polymerase polyprotein gene, partial cds
+KC690240.1	Israeli acute paralysis virus strain IAPV_GW polymerase polyprotein gene, partial cds
+KC690241.1	Israeli acute paralysis virus strain IAPV_SJ2 polymerase polyprotein gene, partial cds
+KC690242.1	Israeli acute paralysis virus strain IAPV_HS2 polymerase polyprotein gene, partial cds
+KC690243.1	Israeli acute paralysis virus strain IAPV_GN2 polymerase polyprotein gene, partial cds
+KC690244.1	Israeli acute paralysis virus strain IAPV_US structural polyprotein gene, partial cds
+KC690245.1	Israeli acute paralysis virus strain IAPV_NW1 structural polyprotein gene, partial cds
+KC690246.1	Israeli acute paralysis virus strain IAPV_PJ structural polyprotein gene, partial cds
+KC690247.1	Israeli acute paralysis virus strain IAPV_NW2 structural polyprotein gene, partial cds
+KC690248.1	Israeli acute paralysis virus strain IAPV_GJ structural polyprotein gene, partial cds
+KC690249.1	Israeli acute paralysis virus strain IAPV_GR structural polyprotein gene, partial cds
+KC690250.1	Israeli acute paralysis virus strain IAPV_GN1 structural polyprotein gene, partial cds
+KC690251.1	Israeli acute paralysis virus strain IAPV_SJ1 structural polyprotein gene, partial cds
+KC690252.1	Israeli acute paralysis virus strain IAPV_NW3 structural polyprotein gene, partial cds
+KC690253.1	Israeli acute paralysis virus strain IAPV_SU structural polyprotein gene, partial cds
+KC690254.1	Israeli acute paralysis virus strain IAPV_JB1 structural polyprotein gene, partial cds
+KC690255.1	Israeli acute paralysis virus strain IAPV_JB2 structural polyprotein gene, partial cds
+KC690256.1	Israeli acute paralysis virus strain IAPV_SS1 structural polyprotein gene, partial cds
+KC690257.1	Israeli acute paralysis virus strain IAPV_HS1 structural polyprotein gene, partial cds
+KC690258.1	Israeli acute paralysis virus strain IAPV_AD structural polyprotein gene, partial cds
+KC690259.1	Israeli acute paralysis virus strain IAPV_MG structural polyprotein gene, partial cds
+KC690260.1	Israeli acute paralysis virus strain IAPV_SS2 structural polyprotein gene, partial cds
+KC690261.1	Israeli acute paralysis virus strain IAPV_GS structural polyprotein gene, partial cds
+KC690262.1	Israeli acute paralysis virus strain IAPV_JN structural polyprotein gene, partial cds
+KC690263.1	Israeli acute paralysis virus strain IAPV_SW structural polyprotein gene, partial cds
+KC690264.1	Israeli acute paralysis virus strain IAPV_GW structural polyprotein gene, partial cds
+KC690265.1	Israeli acute paralysis virus strain IAPV_SJ2 structural polyprotein gene, partial cds
+KC690266.1	Israeli acute paralysis virus strain IAPV_HS2 structural polyprotein gene, partial cds
+KC690267.1	Israeli acute paralysis virus strain IAPV_GN2 structural polyprotein gene, partial cds
+KC690268.1	Israeli acute paralysis virus strain Korea1, complete genome
+KC690269.1	Israeli acute paralysis virus strain Korea2, complete genome
+KC690270.1	Israeli acute paralysis virus strain Korea3, complete genome

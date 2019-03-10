@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00640" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Propanoate metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00033" Value="Acetate" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00068" Value="Thiamin diphosphate" />
+    <hashEntry Key="C00083" Value="Malonyl-CoA" />
+    <hashEntry Key="C00091" Value="Succinyl-CoA" />
+    <hashEntry Key="C00099" Value="beta-Alanine" />
+    <hashEntry Key="C00100" Value="Propanoyl-CoA" />
+    <hashEntry Key="C00109" Value="2-Oxobutanoate" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00132" Value="Methanol" />
+    <hashEntry Key="C00163" Value="Propanoate" />
+    <hashEntry Key="C00164" Value="Acetoacetate" />
+    <hashEntry Key="C00186" Value="(S)-Lactate" />
+    <hashEntry Key="C00207" Value="Acetone" />
+    <hashEntry Key="C00222" Value="3-Oxopropanoate" />
+    <hashEntry Key="C00332" Value="Acetoacetyl-CoA" />
+    <hashEntry Key="C00424" Value="(S)-Lactaldehyde" />
+    <hashEntry Key="C00479" Value="Propanal" />
+    <hashEntry Key="C00546" Value="Methylglyoxal" />
+    <hashEntry Key="C00583" Value="Propane-1,2-diol" />
+    <hashEntry Key="C00683" Value="(S)-Methylmalonyl-CoA" />
+    <hashEntry Key="C00804" Value="Propynoate" />
+    <hashEntry Key="C00827" Value="Lactoyl-CoA" />
+    <hashEntry Key="C00894" Value="Propenoyl-CoA" />
+    <hashEntry Key="C01013" Value="3-Hydroxypropanoate" />
+    <hashEntry Key="C01213" Value="(R)-Methylmalonyl-CoA" />
+    <hashEntry Key="C01845" Value="Propan-2-ol" />
+    <hashEntry Key="C02170" Value="Methylmalonate" />
+    <hashEntry Key="C02225" Value="2-Methylcitrate" />
+    <hashEntry Key="C02335" Value="beta-Alanyl-CoA" />
+    <hashEntry Key="C02876" Value="Propanoyl phosphate" />
+    <hashEntry Key="C04225" Value="(Z)-But-2-ene-1,2,3-tricarboxylate" />
+    <hashEntry Key="C04593" Value="(2S,3R)-3-Hydroxybutane-1,2,3-tricarboxylate" />
+    <hashEntry Key="C05235" Value="Hydroxyacetone" />
+    <hashEntry Key="C05668" Value="3-Hydroxypropionyl-CoA" />
+    <hashEntry Key="C05979" Value="Propane-1-ol" />
+    <hashEntry Key="C05983" Value="Propionyladenylate" />
+    <hashEntry Key="C05984" Value="2-Hydroxybutanoic acid" />
+    <hashEntry Key="C05989" Value="3-Oxopropionyl-CoA" />
+    <hashEntry Key="C06002" Value="(S)-Methylmalonate semialdehyde" />
+    <hashEntry Key="C15972" Value="Enzyme N6-(lipoyl)lysine" />
+    <hashEntry Key="C15973" Value="Enzyme N6-(dihydrolipoyl)lysine" />
+    <hashEntry Key="C17530" Value="Methyl acetate" />
+    <hashEntry Key="C20783" Value="Propane" />
+    <hashEntry Key="C21017" Value="2-(alpha-Hydroxypropyl)thiamine diphosphate" />
+    <hashEntry Key="C21018" Value="Enzyme N6-(S-propyldihydrolipoyl)lysine" />
+  </Compound>
+  <PathwayMap Key="xcb00640" Value="Propanoate metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0204" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_0527" Value="acetyl-CoA carboxylase biotin carboxylase subunit (EC:6.4.1.2); K01961 acetyl-CoA carboxylase, bioti" />
+    <hashEntry Key="xcb:XC_0529" Value="acetyl-CoA carboxylase biotin carboxyl carrier protein subunit (EC:6.4.1.2); K02160 acetyl-CoA carbo" />
+    <hashEntry Key="xcb:XC_1063" Value="sucC; succinyl-CoA synthetase subunit beta (EC:6.2.1.5); K01903 succinyl-CoA synthetase beta subunit" />
+    <hashEntry Key="xcb:XC_1064" Value="succinyl-CoA synthetase subunit alpha (EC:6.2.1.5); K01902 succinyl-CoA synthetase alpha subunit [EC" />
+    <hashEntry Key="xcb:XC_1578" Value="acetyl-CoA carboxylase subunit beta (EC:6.4.1.2); K01963 acetyl-CoA carboxylase carboxyl transferase" />
+    <hashEntry Key="xcb:XC_1759" Value="beta alanine--pyruvate transaminase (EC:2.6.1.18); K00822 beta-alanine--pyruvate transaminase [EC:2." />
+    <hashEntry Key="xcb:XC_2326" Value="bifunctional aconitate hydratase 2/2-methylisocitrate dehydratase (EC:4.2.1.3); K01682 aconitate hyd" />
+    <hashEntry Key="xcb:XC_2751" Value="dihydrolipoamide dehydrogenase (EC:1.8.1.4); K00382 dihydrolipoamide dehydrogenase [EC:1.8.1.4]" />
+    <hashEntry Key="xcb:XC_2881" Value="acetyl-CoA carboxylase carboxyltransferase subunit alpha (EC:6.4.1.2); K01962 acetyl-CoA carboxylase" />
+    <hashEntry Key="xcb:XC_2943" Value="acetoacetyl-CoA thiolase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_2975" Value="3-hydroxyacyl-CoA dehydrogenase; K01782 3-hydroxyacyl-CoA dehydrogenase / enoyl-CoA hydratase / 3-hy" />
+    <hashEntry Key="xcb:XC_2981" Value="methylmalonate-semialdehyde dehydrogenase; K00140 malonate-semialdehyde dehydrogenase (acetylating)" />
+    <hashEntry Key="xcb:XC_3214" Value="methylcitrate synthase (EC:2.3.3.5); K01659 2-methylcitrate synthase [EC:2.3.3.5]" />
+    <hashEntry Key="xcb:XC_3215" Value="prpB; 2-methylisocitrate lyase (EC:4.1.3.30); K03417 methylisocitrate lyase [EC:4.1.3.30]" />
+    <hashEntry Key="xcb:XC_3689" Value="dihydrolipoamide dehydrogenase; K00382 dihydrolipoamide dehydrogenase [EC:1.8.1.4]" />
+    <hashEntry Key="xcb:XC_4149" Value="acetyl-CoA synthetase (EC:6.2.1.1); K01895 acetyl-CoA synthetase [EC:6.2.1.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

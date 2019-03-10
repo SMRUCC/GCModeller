@@ -1,0 +1,567 @@
+<!-- ============================================
+     ::DATATOOL:: Generated from "systems.asn"
+     ::DATATOOL:: by application DATATOOL version 1.9.3
+     ::DATATOOL:: on 09/17/2009 11:55:41
+     ============================================ -->
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Systems"
+================================================= -->
+
+<!--
+**********************************************************************
+
+  Biomolecular Systems data definitions
+  NCBI Structure Group, 2008
+
+  make using something like
+  "datatool -M NCBI_all.asn -m systems.asn -oc Systems -oA"
+
+**********************************************************************
+-->
+
+<!-- Elements used by other modules:
+          Sys-id,
+          System -->
+
+<!-- Elements referenced from other modules:
+          Seq-loc FROM NCBI-Seqloc,
+          User-field,
+          Dbtag,
+          Date FROM NCBI-General,
+          Pub FROM NCBI-Pub -->
+<!-- ============================================ -->
+
+<!-- molecule identifier types -->
+<!ELEMENT Sys-molid (
+        Sys-molid_gene | 
+        Sys-molid_protein | 
+        Sys-molid_nucleotide | 
+        Sys-molid_chemical)>
+<!-- gene identifiers -->
+<!ELEMENT Sys-molid_gene (Sys-gene-molid)>
+<!-- sequence identifier -->
+<!ELEMENT Sys-molid_protein (Sys-seq-molid)>
+<!-- sequence identifier -->
+<!ELEMENT Sys-molid_nucleotide (Sys-seq-molid)>
+<!-- chemical/drug identifier -->
+<!ELEMENT Sys-molid_chemical (Sys-chem-molid)>
+
+<!-- gene identifiers -->
+<!ELEMENT Sys-gene-molid (Sys-gene-molid_E*)>
+
+
+
+<!ELEMENT Sys-gene-molid_E (
+        Sys-gene-molid_E_geneid | 
+        Sys-gene-molid_E_genename | 
+        Sys-gene-molid_E_other)>
+
+<!ELEMENT Sys-gene-molid_E_geneid (%INTEGER;)>
+<!-- gene identifier containing taxid and official name -->
+<!ELEMENT Sys-gene-molid_E_genename (Sys-gene-name)>
+
+<!ELEMENT Sys-gene-molid_E_other (Dbtag)>
+
+<!-- gene identifier containing taxid and official name -->
+<!ELEMENT Sys-gene-name (
+        Sys-gene-name_genename, 
+        Sys-gene-name_taxid)>
+
+<!-- official gene name -->
+<!ELEMENT Sys-gene-name_genename (#PCDATA)>
+
+<!ELEMENT Sys-gene-name_taxid (%INTEGER;)>
+
+<!-- sequence identifier -->
+<!ELEMENT Sys-seq-molid (Sys-seq-molid_E*)>
+
+
+
+<!ELEMENT Sys-seq-molid_E (
+        Sys-seq-molid_E_seqid | 
+        Sys-seq-molid_E_accession | 
+        Sys-seq-molid_E_other)>
+
+<!-- can contain gi or accession with known db -->
+<!ELEMENT Sys-seq-molid_E_seqid (Seq-loc)>
+
+<!-- accession with unknown db -->
+<!ELEMENT Sys-seq-molid_E_accession (#PCDATA)>
+
+<!ELEMENT Sys-seq-molid_E_other (Dbtag)>
+
+<!-- chemical/drug identifier -->
+<!ELEMENT Sys-chem-molid (Sys-chem-molid_E*)>
+
+
+
+<!ELEMENT Sys-chem-molid_E (
+        Sys-chem-molid_E_cid | 
+        Sys-chem-molid_E_sid | 
+        Sys-chem-molid_E_externalrn | 
+        Sys-chem-molid_E_other)>
+
+<!ELEMENT Sys-chem-molid_E_cid (%INTEGER;)>
+
+<!ELEMENT Sys-chem-molid_E_sid (%INTEGER;)>
+
+<!-- external registry number from external db -->
+<!ELEMENT Sys-chem-molid_E_externalrn (Sys-chem-externalrn)>
+
+<!ELEMENT Sys-chem-molid_E_other (Dbtag)>
+
+<!-- chemical/drug identifier using an exteral registry number/identifier -->
+<!ELEMENT Sys-chem-externalrn (
+        Sys-chem-externalrn_externalrn, 
+        Sys-chem-externalrn_sourceid)>
+
+<!ELEMENT Sys-chem-externalrn_externalrn (#PCDATA)>
+
+<!ELEMENT Sys-chem-externalrn_sourceid (%INTEGER;)>
+
+
+<!ELEMENT Sys-pathwayXref (
+        Sys-pathwayXref_sys?, 
+        Sys-pathwayXref_accessions?, 
+        Sys-pathwayXref_linkType)>
+
+<!-- sysid of internal system -->
+<!ELEMENT Sys-pathwayXref_sys (Sys-id)>
+
+<!-- to identify an external system (i.e. not imported) -->
+<!ELEMENT Sys-pathwayXref_accessions (Dbtag*)>
+
+<!ELEMENT Sys-pathwayXref_linkType %ENUM;>
+<!ATTLIST Sys-pathwayXref_linkType value (
+        linked |
+        subset |
+        superset |
+        reference |
+        other
+        ) #REQUIRED >
+
+
+<!-- choice between molecule, molecule set id, or external pathway -->
+<!ELEMENT SysEntity (
+        SysEntity_seid?, 
+        SysEntity_name?, 
+        SysEntity_category?, 
+        SysEntity_comment?, 
+        SysEntity_annots?, 
+        SysEntity_other?, 
+        SysEntity_entity?)>
+
+<!-- unique id (within system record) for a set of molecules -->
+<!ELEMENT SysEntity_seid (%INTEGER;)>
+
+<!-- display name -->
+<!ELEMENT SysEntity_name (SysEntity_name_E*)>
+
+
+<!ELEMENT SysEntity_name_E (#PCDATA)>
+
+<!-- category in free form -->
+<!ELEMENT SysEntity_category (SysEntity_category_E*)>
+
+
+<!ELEMENT SysEntity_category_E (#PCDATA)>
+
+<!-- comments -->
+<!ELEMENT SysEntity_comment (SysEntity_comment_E*)>
+
+
+<!ELEMENT SysEntity_comment_E (#PCDATA)>
+
+<!-- annotations on the molecule -->
+<!ELEMENT SysEntity_annots (Sys-annot*)>
+
+<!-- other information about the molset -->
+<!ELEMENT SysEntity_other (User-field*)>
+
+<!ELEMENT SysEntity_entity (
+        SysEntity_entity_mol | 
+        SysEntity_entity_linkedSystem | 
+        SysEntity_entity_composite)>
+
+<!-- molecule -->
+<!ELEMENT SysEntity_entity_mol (Sys-molid)>
+
+<!-- linked pathway -->
+<!ELEMENT SysEntity_entity_linkedSystem (Sys-pathwayXref)>
+
+<!-- group of entities such as complex or isoforms -->
+<!ELEMENT SysEntity_entity_composite (SysEntity-set)>
+
+<!-- set of molecules -->
+<!ELEMENT SysEntity-set-type (%INTEGER;)>
+
+<!--
+    complex	-  a set of molecules bound together
+    isozymes	-  each member of the set is a different molecule with similar function, e.g. paralogs.
+-->
+<!ATTLIST SysEntity-set-type value (
+        complex |
+        isozymes
+        ) #IMPLIED >
+
+
+
+<!ELEMENT SysEntity-set (
+        SysEntity-set_label?, 
+        SysEntity-set_entities, 
+        SysEntity-set_type?)>
+
+<!ELEMENT SysEntity-set_label (#PCDATA)>
+
+<!-- to represent groups of related entities such as complexes or isoforms -->
+<!ELEMENT SysEntity-set_entities (SysEntity*)>
+<!-- set of molecules -->
+<!ELEMENT SysEntity-set_type (SysEntity-set-type)>
+
+<!-- type of system image -->
+<!ELEMENT Sys-image-type (%INTEGER;)>
+<!ATTLIST Sys-image-type value (
+        jpeg |
+        png |
+        gif |
+        swf
+        ) #IMPLIED >
+
+
+<!-- geometric shape used for individual part of image map -->
+<!ELEMENT Sys-image-map-type (%INTEGER;)>
+
+<!--
+    rect	-  rectangle
+    circle	-  circle
+    poly	-  polygon
+-->
+<!ATTLIST Sys-image-map-type value (
+        rect |
+        circle |
+        poly
+        ) #IMPLIED >
+
+
+<!--
+ definition of clickable region in client side image map.
+ definition of coords (taken from w3c specification for html):
+ rect: left-x, top-y, right-x, bottom-y
+ circle: center-x, center-y, radius
+ poly: x1, y1, x2, y2, ..., xN, yN.  first and last coords the same or define an edge connecting them.
+-->
+<!ELEMENT Sys-image-map (
+        Sys-image-map_type, 
+        Sys-image-map_coords, 
+        Sys-image-map_reactid)>
+
+<!-- the shape of the clickable region -->
+<!ELEMENT Sys-image-map_type (Sys-image-map-type)>
+
+<!-- the cooordiates of the clickable region -->
+<!ELEMENT Sys-image-map_coords (Sys-image-map_coords_E*)>
+
+
+<!ELEMENT Sys-image-map_coords_E (%INTEGER;)>
+
+<!-- the reactants that are mapped to (note that reactions are not clickable) -->
+<!ELEMENT Sys-image-map_reactid (%INTEGER;)>
+
+<!-- client side imagemap -->
+<!ELEMENT Sys-image-mapset (Sys-image-map*)>
+
+<!-- an encoded image -->
+<!ELEMENT Sys-image-encoded (
+        Sys-image-encoded_encodedimage, 
+        Sys-image-encoded_type)>
+
+<!-- the image (raw binary) -->
+<!ELEMENT Sys-image-encoded_encodedimage (%OCTETS;)>
+
+<!-- the image type, e.g. png -->
+<!ELEMENT Sys-image-encoded_type (Sys-image-type)>
+
+<!-- an image displaying the system -->
+<!ELEMENT Sys-image (
+        Sys-image_image, 
+        Sys-image_map?)>
+
+<!ELEMENT Sys-image_image (
+        Sys-image_image_encodedimage | 
+        Sys-image_image_imageurl)>
+<!-- an encoded image -->
+<!ELEMENT Sys-image_image_encodedimage (Sys-image-encoded)>
+
+<!ELEMENT Sys-image_image_imageurl (#PCDATA)>
+
+<!-- the client side imagemap -->
+<!ELEMENT Sys-image_map (Sys-image-mapset)>
+
+<!-- a particular citation -->
+<!ELEMENT Sys-cite (
+        Sys-cite_citation | 
+        Sys-cite_mimNumber | 
+        Sys-cite_pheneid | 
+        Sys-cite_meshheading | 
+        Sys-cite_other)>
+
+<!--
+ citation, including pmid
+    book Cdd-book-ref,             reference to entrez book
+-->
+<!ELEMENT Sys-cite_citation (Pub)>
+
+<!-- omim -->
+<!ELEMENT Sys-cite_mimNumber (#PCDATA)>
+
+<!-- omia -->
+<!ELEMENT Sys-cite_pheneid (#PCDATA)>
+
+<!-- mesh heading name -->
+<!ELEMENT Sys-cite_meshheading (#PCDATA)>
+
+<!-- catchall -->
+<!ELEMENT Sys-cite_other (Dbtag)>
+
+<!-- annotation on system or on a reactant in a system -->
+<!ELEMENT Sys-annot (
+        Sys-annot_comment?, 
+        Sys-annot_citation, 
+        Sys-annot_sites?, 
+        Sys-annot_category?, 
+        Sys-annot_other?)>
+
+<!ELEMENT Sys-annot_comment (#PCDATA)>
+<!-- a particular citation -->
+<!ELEMENT Sys-annot_citation (Sys-cite)>
+
+<!ELEMENT Sys-annot_sites (Seq-loc)>
+
+<!-- category -->
+<!ELEMENT Sys-annot_category (Sys-annot_category_E*)>
+
+
+<!ELEMENT Sys-annot_category_E (#PCDATA)>
+
+<!-- other annotations -->
+<!ELEMENT Sys-annot_other (User-field*)>
+
+<!--
+ system identifier
+ note that change deltas, such as changes to the lists or graphs
+ will be handled by a bit array
+ accession == 0 indicates an unaccessioned records
+-->
+<!ELEMENT Sys-id (
+        Sys-id_bsid, 
+        Sys-id_version)>
+
+<!-- stable across versions -->
+<!ELEMENT Sys-id_bsid (%INTEGER;)>
+
+<!-- changes when anything changes -->
+<!ELEMENT Sys-id_version (%INTEGER;)>
+
+<!-- what kind of hiliting is supported -->
+<!ELEMENT Sys-hilite-type (%INTEGER;)>
+
+<!--
+    simple	-  map name plus external identifiers separate by plus signs
+-->
+<!ATTLIST Sys-hilite-type value (
+        simple
+        ) #IMPLIED >
+
+
+
+<!ELEMENT Sys-mol-type (%INTEGER;)>
+<!ATTLIST Sys-mol-type value (
+        gene |
+        protein |
+        small-molecule |
+        rna
+        ) #IMPLIED >
+
+
+<!-- what is the hilite url? -->
+<!ELEMENT Sys-hilite-url (
+        Sys-hilite-url_url, 
+        Sys-hilite-url_type?, 
+        Sys-hilite-url_idtypes)>
+
+<!ELEMENT Sys-hilite-url_url (#PCDATA)>
+<!-- what kind of hiliting is supported -->
+<!ELEMENT Sys-hilite-url_type (Sys-hilite-type)>
+
+<!ELEMENT Sys-hilite-url_idtypes (Sys-mol-type*)>
+
+<!-- source from depositions -->
+<!ELEMENT Sys-source (
+        Sys-source_source?, 
+        Sys-source_sourceurl?, 
+        Sys-source_email?, 
+        Sys-source_attribution?, 
+        Sys-source_other?)>
+
+<!-- source of record -->
+<!ELEMENT Sys-source_source (Dbtag)>
+
+<!-- url to source db hompage -->
+<!ELEMENT Sys-source_sourceurl (#PCDATA)>
+
+<!-- email address of source -->
+<!ELEMENT Sys-source_email (#PCDATA)>
+
+<!-- papers describing source -->
+<!ELEMENT Sys-source_attribution (Pub*)>
+
+<!-- other information about the source -->
+<!ELEMENT Sys-source_other (User-field*)>
+
+<!-- the overall system definition -->
+<!ELEMENT System (
+        System_sysid, 
+        System_source?, 
+        System_externalaccn?, 
+        System_recordurl?, 
+        System_hiliteurls?, 
+        System_create-date?, 
+        System_modify-date?, 
+        System_names?, 
+        System_description?, 
+        System_comments?, 
+        System_interactors, 
+        System_interactions?, 
+        System_annots?, 
+        System_image?, 
+        System_thumbnail?, 
+        System_category?, 
+        System_taxid?, 
+        System_properties?, 
+        System_delta?)>
+
+<!-- system id -->
+<!ELEMENT System_sysid (Sys-id)>
+
+<!-- source of record -->
+<!ELEMENT System_source (Sys-source)>
+
+<!-- source accession -->
+<!ELEMENT System_externalaccn (#PCDATA)>
+
+<!-- url to source record -->
+<!ELEMENT System_recordurl (#PCDATA)>
+
+<!-- url to use for highlighting -->
+<!ELEMENT System_hiliteurls (Sys-hilite-url*)>
+
+<!-- Date of first creation/dump -->
+<!ELEMENT System_create-date (Date)>
+
+<!-- Date of modification -->
+<!ELEMENT System_modify-date (Date)>
+
+<!-- display names, first one is short name -->
+<!ELEMENT System_names (System_names_E*)>
+
+
+<!ELEMENT System_names_E (#PCDATA)>
+
+<!-- description of system -->
+<!ELEMENT System_description (#PCDATA)>
+
+<!-- other text about system -->
+<!ELEMENT System_comments (System_comments_E*)>
+
+
+<!ELEMENT System_comments_E (#PCDATA)>
+
+<!-- interactors or "vertexes" of system -->
+<!ELEMENT System_interactors (SysEntity-set*)>
+
+<!-- reactions or "edges" in system -->
+<!ELEMENT System_interactions (Interaction*)>
+
+<!-- annotations on system -->
+<!ELEMENT System_annots (Sys-annot*)>
+
+<!-- images displaying system -->
+<!ELEMENT System_image (Sys-image*)>
+
+<!-- small image of system -->
+<!ELEMENT System_thumbnail (Sys-image*)>
+
+<!-- what kind of record? -->
+<!ELEMENT System_category (System_category_E*)>
+
+
+<!ELEMENT System_category_E (#PCDATA)>
+
+<!-- taxonomy span of system -->
+<!ELEMENT System_taxid (System_taxid_E*)>
+
+
+<!ELEMENT System_taxid_E (%INTEGER;)>
+
+<!-- other information about the record -->
+<!ELEMENT System_properties (User-field*)>
+
+<!-- change deltas -->
+<!ELEMENT System_delta (%OCTETS;)>
+
+
+<!ELEMENT Sys-set (System*)>
+
+<!-- Interaction  -->
+<!ELEMENT Interactor-id (
+        Interactor-id_msid | 
+        Interactor-id_iid)>
+
+<!ELEMENT Interactor-id_msid (%INTEGER;)>
+
+<!ELEMENT Interactor-id_iid (%INTEGER;)>
+
+
+<!ELEMENT Interactor (
+        Interactor_id, 
+        Interactor_category?, 
+        Interactor_stoichiometry?)>
+
+<!-- points to a molset or reaction -->
+<!ELEMENT Interactor_id (Interactor-id)>
+
+<!-- types the interactor -->
+<!ELEMENT Interactor_category (Interactor_category_E*)>
+
+
+<!ELEMENT Interactor_category_E (#PCDATA)>
+
+<!ELEMENT Interactor_stoichiometry (%REAL;)>
+
+<!-- definition of a interaction -->
+<!ELEMENT Interaction (
+        Interaction_interactors, 
+        Interaction_iid?, 
+        Interaction_category?, 
+        Interaction_annots?, 
+        Interaction_other?)>
+
+<!-- items that interact -->
+<!ELEMENT Interaction_interactors (Interactor*)>
+
+<!-- optional identifier for interaction -->
+<!ELEMENT Interaction_iid (%INTEGER;)>
+
+<!-- what is the reaction type, e.g. inhibition -->
+<!ELEMENT Interaction_category (Interaction_category_E*)>
+
+
+<!ELEMENT Interaction_category_E (#PCDATA)>
+
+<!-- annotations on the reaction -->
+<!ELEMENT Interaction_annots (Sys-annot*)>
+
+<!-- other information about the interaction -->
+<!ELEMENT Interaction_other (User-field*)>
+

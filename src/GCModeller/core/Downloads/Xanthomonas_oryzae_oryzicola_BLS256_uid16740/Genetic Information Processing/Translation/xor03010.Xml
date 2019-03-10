@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor03010" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Ribosome - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00178" Value="Ribosome, bacteria [PATH:xor03010]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xor03010" Value="Ribosome&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0381" Value="rpmB; ribosomal protein L28; K02902 large subunit ribosomal protein L28" />
+    <hashEntry Key="xor:XOC_0382" Value="rpmG; ribosomal protein L33; K02913 large subunit ribosomal protein L33" />
+    <hashEntry Key="xor:XOC_0549" Value="rpsU; ribosomal protein S21; K02970 small subunit ribosomal protein S21" />
+    <hashEntry Key="xor:XOC_1006" Value="ribosomal protein L25, Ctc-form; K02897 large subunit ribosomal protein L25" />
+    <hashEntry Key="xor:XOC_1017" Value="rplK; ribosomal protein L11; K02867 large subunit ribosomal protein L11" />
+    <hashEntry Key="xor:XOC_1018" Value="rplA; ribosomal protein L1; K02863 large subunit ribosomal protein L1" />
+    <hashEntry Key="xor:XOC_1019" Value="rpL; ribosomal protein L10; K02864 large subunit ribosomal protein L10" />
+    <hashEntry Key="xor:XOC_1020" Value="rplL; ribosomal protein L7-L12; K02935 large subunit ribosomal protein L7/L12" />
+    <hashEntry Key="xor:XOC_1023" Value="rpsL; ribosomal protein S12; K02950 small subunit ribosomal protein S12" />
+    <hashEntry Key="xor:XOC_1025" Value="rpsG; ribosomal protein S7; K02992 small subunit ribosomal protein S7" />
+    <hashEntry Key="xor:XOC_1029" Value="rpsJ; ribosomal protein S10; K02946 small subunit ribosomal protein S10" />
+    <hashEntry Key="xor:XOC_1030" Value="rplC; ribosomal protein L3; K02906 large subunit ribosomal protein L3" />
+    <hashEntry Key="xor:XOC_1031" Value="rplD; ribosomal protein L4-L1 family; K02926 large subunit ribosomal protein L4" />
+    <hashEntry Key="xor:XOC_1032" Value="rplW; ribosomal protein L23; K02892 large subunit ribosomal protein L23" />
+    <hashEntry Key="xor:XOC_1033" Value="rplB; ribosomal protein L2; K02886 large subunit ribosomal protein L2" />
+    <hashEntry Key="xor:XOC_1034" Value="rpsS; ribosomal protein S19; K02965 small subunit ribosomal protein S19" />
+    <hashEntry Key="xor:XOC_1035" Value="rplV; ribosomal protein L22; K02890 large subunit ribosomal protein L22" />
+    <hashEntry Key="xor:XOC_1036" Value="rpsC; ribosomal protein S3; K02982 small subunit ribosomal protein S3" />
+    <hashEntry Key="xor:XOC_1037" Value="rplP; ribosomal protein L16; K02878 large subunit ribosomal protein L16" />
+    <hashEntry Key="xor:XOC_1038" Value="rpmC; ribosomal protein L29; K02904 large subunit ribosomal protein L29" />
+    <hashEntry Key="xor:XOC_1039" Value="rpsQ; ribosomal protein S17; K02961 small subunit ribosomal protein S17" />
+    <hashEntry Key="xor:XOC_1040" Value="rplN; ribosomal protein L14; K02874 large subunit ribosomal protein L14" />
+    <hashEntry Key="xor:XOC_1041" Value="rplX; ribosomal protein L24; K02895 large subunit ribosomal protein L24" />
+    <hashEntry Key="xor:XOC_1042" Value="50S ribosomal protein L5; K02931 large subunit ribosomal protein L5" />
+    <hashEntry Key="xor:XOC_1043" Value="30S ribosomal protein S14; K02954 small subunit ribosomal protein S14" />
+    <hashEntry Key="xor:XOC_1045" Value="rpsH; ribosomal protein S8; K02994 small subunit ribosomal protein S8" />
+    <hashEntry Key="xor:XOC_1046" Value="50S ribosomal protein L6; K02933 large subunit ribosomal protein L6" />
+    <hashEntry Key="xor:XOC_1047" Value="rplR; ribosomal protein L18; K02881 large subunit ribosomal protein L18" />
+    <hashEntry Key="xor:XOC_1048" Value="rpsE; ribosomal protein S5; K02988 small subunit ribosomal protein S5" />
+    <hashEntry Key="xor:XOC_1049" Value="rpmD; ribosomal protein L30; K02907 large subunit ribosomal protein L30" />
+    <hashEntry Key="xor:XOC_1050" Value="rplO; ribosomal protein L15; K02876 large subunit ribosomal protein L15" />
+    <hashEntry Key="xor:XOC_1052" Value="rpsM; ribosomal protein S13p-S18e; K02952 small subunit ribosomal protein S13" />
+    <hashEntry Key="xor:XOC_1053" Value="rpsK; ribosomal protein S11; K02948 small subunit ribosomal protein S11" />
+    <hashEntry Key="xor:XOC_1054" Value="rpsD; ribosomal protein S4; K02986 small subunit ribosomal protein S4" />
+    <hashEntry Key="xor:XOC_1056" Value="rplQ; ribosomal protein L17; K02879 large subunit ribosomal protein L17" />
+    <hashEntry Key="xor:XOC_1171" Value="rpmF; ribosomal protein L32; K02911 large subunit ribosomal protein L32" />
+    <hashEntry Key="xor:XOC_1841" Value="30S ribosomal protein S6; K02990 small subunit ribosomal protein S6" />
+    <hashEntry Key="xor:XOC_1842" Value="rpsR; ribosomal protein S18; K02963 small subunit ribosomal protein S18" />
+    <hashEntry Key="xor:XOC_1843" Value="rplI; ribosomal protein L9; K02939 large subunit ribosomal protein L9" />
+    <hashEntry Key="xor:XOC_1860" Value="rpmI; ribosomal protein L35; K02916 large subunit ribosomal protein L35" />
+    <hashEntry Key="xor:XOC_1861" Value="rplT; ribosomal protein L20; K02887 large subunit ribosomal protein L20" />
+    <hashEntry Key="xor:XOC_2693" Value="rpsA; ribosomal protein S1; K02945 small subunit ribosomal protein S1" />
+    <hashEntry Key="xor:XOC_2917" Value="rpsO; ribosomal protein S15; K02956 small subunit ribosomal protein S15" />
+    <hashEntry Key="xor:XOC_3068" Value="rpsB; ribosomal protein S2; K02967 small subunit ribosomal protein S2" />
+    <hashEntry Key="xor:XOC_3415" Value="rplS; ribosomal protein L19; K02884 large subunit ribosomal protein L19" />
+    <hashEntry Key="xor:XOC_3418" Value="rpsP; ribosomal protein S16; K02959 small subunit ribosomal protein S16" />
+    <hashEntry Key="xor:XOC_3465" Value="rpsT; ribosomal protein S20; K02968 small subunit ribosomal protein S20" />
+    <hashEntry Key="xor:XOC_3467" Value="rpmA; ribosomal protein L27; K02899 large subunit ribosomal protein L27" />
+    <hashEntry Key="xor:XOC_3468" Value="rplU; ribosomal protein L21; K02888 large subunit ribosomal protein L21" />
+    <hashEntry Key="xor:XOC_3646" Value="rpmE; ribosomal protein L31; K02909 large subunit ribosomal protein L31" />
+    <hashEntry Key="xor:XOC_4197" Value="rpsI; ribosomal protein S9; K02996 small subunit ribosomal protein S9" />
+    <hashEntry Key="xor:XOC_4198" Value="rplM; ribosomal protein L13; K02871 large subunit ribosomal protein L13" />
+    <hashEntry Key="xor:XOC_4689" Value="rpmH; ribosomal protein L34; K02914 large subunit ribosomal protein L34" />
+    <hashEntry Key="xor:XOC_r001" Value="rrfA1; 5S ribosomal RNA; K01985 5S ribosomal RNA" />
+    <hashEntry Key="xor:XOC_r002" Value="rrfA2; 5S ribosomal RNA; K01985 5S ribosomal RNA" />
+    <hashEntry Key="xor:XOC_r003" Value="rrlA1; 23S ribosomal RNA; K01980 23S ribosomal RNA" />
+    <hashEntry Key="xor:XOC_r004" Value="rrlA2; 23S ribosomal RNA; K01980 23S ribosomal RNA" />
+    <hashEntry Key="xor:XOC_r005" Value="rrsA1; 16S ribosomal RNA; K01977 16S ribosomal RNA" />
+    <hashEntry Key="xor:XOC_r006" Value="rrsA2; 16S ribosomal RNA; K01977 16S ribosomal RNA" />
+  </Genes>
+</KEGG.PathwayBrief>

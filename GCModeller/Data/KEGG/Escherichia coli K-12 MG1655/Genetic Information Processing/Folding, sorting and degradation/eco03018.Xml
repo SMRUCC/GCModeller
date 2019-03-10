@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco03018" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The correct processing, quality control and turnover of cellular RNA molecules are critical to many aspects in the expression of genetic information. In eukaryotes, two major pathways of mRNA decay exist and both pathways are initiated by poly(A) shortening of the mRNA. In the 5' to 3' pathway, this is followed by decapping which then permits the 5' to 3' exonucleolytic degradation of transcripts. In the 3' to 5' pathway, the exosome, a large multisubunit complex, plays a key role. The exosome exists in archaeal cells, too. In bacteria, endoribonuclease E, a key enzyme involved in RNA decay and processing, organizes a protein complex called degradosome. RNase E or R interacts with the phosphate-dependent exoribonuclease polynucleotide phosphorylase, DEAD-box helicases, and additional factors in the RNA-degrading complex.&lt;br&gt;</Description>
+  <Name>RNA degradation - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00394" Value="RNA degradosome [PATH:eco03018]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="eco03018" Value="RNA degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0014" Value="dnaK; chaperone Hsp70, with co-chaperone DnaJ; K04043 molecular chaperone DnaK" />
+    <hashEntry Key="eco:b0143" Value="pcnB; poly(A) polymerase (EC:2.7.7.19); K00970 poly(A) polymerase [EC:2.7.7.19]" />
+    <hashEntry Key="eco:b0797" Value="rhlE; ATP-dependent RNA helicase; K11927 ATP-dependent RNA helicase RhlE [EC:3.6.4.13]" />
+    <hashEntry Key="eco:b1084" Value="rne; fused ribonucleaseE: endoribonuclease/RNA-binding protein/RNA degradosome binding protein (EC:3" />
+    <hashEntry Key="eco:b2501" Value="ppk; polyphosphate kinase, component of RNA degradosome (EC:2.7.4.1); K00937 polyphosphate kinase [E" />
+    <hashEntry Key="eco:b2779" Value="eno; enolase (EC:4.2.1.11); K01689 enolase [EC:4.2.1.11]" />
+    <hashEntry Key="eco:b2830" Value="rppH; RNA pyrophosphohydrolase (EC:3.6.1.-); K08311 putative (di)nucleoside polyphosphate hydrolase" />
+    <hashEntry Key="eco:b3162" Value="deaD; ATP-dependent RNA helicase; K05592 ATP-dependent RNA helicase DeaD [EC:3.6.4.13]" />
+    <hashEntry Key="eco:b3164" Value="pnp; polynucleotide phosphorylase/polyadenylase (EC:2.7.7.8); K00962 polyribonucleotide nucleotidylt" />
+    <hashEntry Key="eco:b3780" Value="rhlB; ATP-dependent RNA helicase; K03732 ATP-dependent RNA helicase RhlB [EC:3.6.4.13]" />
+    <hashEntry Key="eco:b3783" Value="rho; transcription termination factor; K03628 transcription termination factor Rho" />
+    <hashEntry Key="eco:b3822" Value="recQ; ATP-dependent DNA helicase (EC:3.6.1.-); K03654 ATP-dependent DNA helicase RecQ [EC:3.6.4.12]" />
+    <hashEntry Key="eco:b3916" Value="pfkA; 6-phosphofructokinase I (EC:2.7.1.11); K00850 6-phosphofructokinase 1 [EC:2.7.1.11]" />
+    <hashEntry Key="eco:b4143" Value="groL; Cpn60 chaperonin GroEL, large subunit of GroESL; K04077 chaperonin GroEL" />
+    <hashEntry Key="eco:b4172" Value="hfq; global sRNA chaperone; HF-I, host factor for RNA phage Q beta replication; K03666 host factor-I" />
+    <hashEntry Key="eco:b4179" Value="rnr; exoribonuclease R, RNase R (EC:3.1.-.-); K12573 ribonuclease R [EC:3.1.-.-]" />
+  </Genes>
+</KEGG.PathwayBrief>

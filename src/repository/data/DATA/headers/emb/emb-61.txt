@@ -1,0 +1,4 @@
+X59148.1	Viral haemorrhagic septicaemia virus M2 gene for matrix protein (C-term.) and gene for glycoprotein (envelope spike protein)
+Z93412.2	Viral haemorrhagic septicaemia virus strain Hededam, complete genome
+Z93414.2	Viral haemorrhagic septicaemia virus strain Cod Ulcus, complete genome
+Z11535.1	Rabbit haemorrhagic disease virus genes for virus capsid protein and a small basic hypothetical protein of conserved sequence between isolates

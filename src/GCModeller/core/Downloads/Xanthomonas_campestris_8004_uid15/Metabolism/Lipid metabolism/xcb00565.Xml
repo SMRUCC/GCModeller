@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00565" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Ether lipid metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00670" Value="sn-Glycero-3-phosphocholine" />
+    <hashEntry Key="C00958" Value="Plasmenylcholine" />
+    <hashEntry Key="C01233" Value="sn-Glycero-3-phosphoethanolamine" />
+    <hashEntry Key="C01264" Value="2-Acetyl-1-alkyl-sn-glycero-3-phosphate" />
+    <hashEntry Key="C02773" Value="1-Alkyl-sn-glycerol" />
+    <hashEntry Key="C03201" Value="1-Alkyl-2-acylglycerol" />
+    <hashEntry Key="C03372" Value="Acylglycerone phosphate" />
+    <hashEntry Key="C03454" Value="1-Alkenyl-2-acylglycerol" />
+    <hashEntry Key="C03715" Value="O-Alkylglycerone phosphate" />
+    <hashEntry Key="C03820" Value="1-Alkyl-2-acetyl-sn-glycerol" />
+    <hashEntry Key="C03968" Value="1-Alkyl-sn-glycero-3-phosphate" />
+    <hashEntry Key="C04317" Value="1-Organyl-2-lyso-sn-glycero-3-phosphocholine" />
+    <hashEntry Key="C04361" Value="1-O-Alkyl-2-acetyl-3-acyl-sn-glycerol" />
+    <hashEntry Key="C04475" Value="1-Alkyl-2-acylglycerophosphoethanolamine" />
+    <hashEntry Key="C04517" Value="1-(1-Alkenyl)-sn-glycero-3-phosphocholine" />
+    <hashEntry Key="C04598" Value="2-Acetyl-1-alkyl-sn-glycero-3-phosphocholine" />
+    <hashEntry Key="C04635" Value="1-(1-Alkenyl)-sn-glycero-3-phosphoethanolamine" />
+    <hashEntry Key="C04756" Value="O-1-Alk-1-enyl-2-acyl-sn-glycero-3-phosphoethanolamine" />
+    <hashEntry Key="C05212" Value="1-Radyl-2-acyl-sn-glycero-3-phosphocholine" />
+    <hashEntry Key="C05977" Value="2-Acyl-1-alkyl-sn-glycero-3-phosphate" />
+    <hashEntry Key="C15645" Value="1-(1-Alkenyl)-sn-glycerol" />
+    <hashEntry Key="C15646" Value="1-(1-Alkenyl)-sn-glycero-3-phosphate" />
+    <hashEntry Key="C15647" Value="2-Acyl-1-(1-alkenyl)-sn-glycero-3-phosphate" />
+    <hashEntry Key="C20825" Value="Seminolipid" />
+    <hashEntry Key="C20859" Value="Galactosyl-1-alkyl-2-acylglycerol" />
+  </Compound>
+  <PathwayMap Key="xcb00565" Value="Ether lipid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_1121" Value="phospholipase C; K01114 phospholipase C [EC:3.1.4.3]" />
+    <hashEntry Key="xcb:XC_2818" Value="phospholipase; K01058 phospholipase A1 [EC:3.1.1.32 3.1.1.4]" />
+    <hashEntry Key="xcb:XC_3288" Value="non-hemolytic phospholipase C; K01114 phospholipase C [EC:3.1.4.3]" />
+  </Genes>
+</KEGG.PathwayBrief>

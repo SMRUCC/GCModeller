@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00591" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Linoleic acid metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00157" Value="Phosphatidylcholine" />
+    <hashEntry Key="C00219" Value="Arachidonate" />
+    <hashEntry Key="C01595" Value="Linoleate" />
+    <hashEntry Key="C03242" Value="(8Z,11Z,14Z)-Icosatrienoic acid" />
+    <hashEntry Key="C04056" Value="9-cis,11-trans-Octadecadienoate" />
+    <hashEntry Key="C04717" Value="(9Z,11E)-(13S)-13-Hydroperoxyoctadeca-9,11-dienoic acid" />
+    <hashEntry Key="C06426" Value="(6Z,9Z,12Z)-Octadecatrienoic acid" />
+    <hashEntry Key="C07289" Value="Crepenynate" />
+    <hashEntry Key="C07338" Value="(9Z,12Z)-(11S)-11-Hydroperoxyoctadeca-9,12-dienoic acid" />
+    <hashEntry Key="C07354" Value="(7S,8S)-DiHODE" />
+    <hashEntry Key="C14762" Value="13(S)-HODE" />
+    <hashEntry Key="C14765" Value="13-OxoODE" />
+    <hashEntry Key="C14766" Value="9-OxoODE" />
+    <hashEntry Key="C14767" Value="9(S)-HODE" />
+    <hashEntry Key="C14825" Value="9(10)-EpOME" />
+    <hashEntry Key="C14826" Value="12(13)-EpOME" />
+    <hashEntry Key="C14827" Value="9(S)-HPODE" />
+    <hashEntry Key="C14828" Value="9,10-DHOME" />
+    <hashEntry Key="C14829" Value="12,13-DHOME" />
+    <hashEntry Key="C14831" Value="8(R)-HPODE" />
+    <hashEntry Key="C14832" Value="12,13-Epoxy-9-hydroxy-10-octadecenoate" />
+    <hashEntry Key="C14833" Value="9,12,13-TriHOME" />
+    <hashEntry Key="C14834" Value="9,10-Epoxy-13-hydroxy-11-octadecenoate" />
+    <hashEntry Key="C14835" Value="9,10,13-TriHOME" />
+    <hashEntry Key="C14836" Value="9,10-12,13-Diepoxyoctadecanoate" />
+    <hashEntry Key="C14837" Value="9,10-Dihydroxy-12,13-epoxyoctadecanoate" />
+    <hashEntry Key="C19937" Value="(8E,10R,12Z)-10-Hydroperoxy-8,12-octadecadienoate" />
+    <hashEntry Key="C20186" Value="5S,8R-DiHODE" />
+  </Compound>
+  <PathwayMap Key="xor00591" Value="Linoleic acid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_3017" Value="outer membrane phospholipase A; K01058 phospholipase A1 [EC:3.1.1.32 3.1.1.4]" />
+    <hashEntry Key="xor:XOC_4266" Value="DesA3_2; K00508 linoleoyl-CoA desaturase [EC:1.14.19.3]" />
+  </Genes>
+</KEGG.PathwayBrief>

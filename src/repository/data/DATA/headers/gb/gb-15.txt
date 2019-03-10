@@ -1,0 +1,21 @@
+EU122346.1	Israel acute paralysis virus of bees isolate IAPV.Australia107_4 RNA-dependent RNA polymerase gene, partial cds; and nonfunctional structural polyprotein gene, partial sequence
+EU122347.1	Israel acute paralysis virus of bees isolate IAPV.Australia5 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122349.1	Israel acute paralysis virus of bees isolate IAPV.Australia107_3 RNA-dependent RNA polymerase gene, partial cds; and nonfunctional structural polyprotein gene, partial sequence
+EU122350.1	Israel acute paralysis virus of bees isolate IAPV.OP3_1W_1 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122352.1	Israel acute paralysis virus of bees isolate IAPV.OP3_1W_3 nonfunctional RNA-dependent RNA polymerase gene, partial sequence; and structural polyprotein gene, partial cds
+EU122353.1	Israel acute paralysis virus of bees isolate IAPV.OP3_1W_4 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122356.1	Israel acute paralysis virus of bees isolate IAPV.OP3_21W_1 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122357.1	Israel acute paralysis virus of bees isolate IAPV.OP3_W_2 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122358.1	Israel acute paralysis virus of bees isolate IAPV.OP3_W_3 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122359.1	Israel acute paralysis virus of bees isolate IAPV.OP3_21W_4 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122354.1	Israel acute paralysis virus of bees isolate IAPV.OP3_20W RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122360.1	Israel acute paralysis virus of bees isolate IAPV.OP3_23W RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122361.1	Israel acute paralysis virus of bees isolate IAPV.OP3_23W_1 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122362.1	Israel acute paralysis virus of bees isolate IAPV.OP3_23W_4 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122363.1	Israel acute paralysis virus of bees isolate IAPV.OP3_24W_1 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122364.1	Israel acute paralysis virus of bees isolate IAPV.OP3_24W_2 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122351.1	Israel acute paralysis virus of bees isolate IAPV.OP3_1W_2 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122365.1	Israel acute paralysis virus of bees isolate IAPV.OP3_24W_4 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122355.1	Israel acute paralysis virus of bees isolate IAPV.OP3_21W RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122366.1	Israel acute paralysis virus of bees isolate IAPV.OP2 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+EU122348.1	Israel acute paralysis virus of bees isolate IAPV.Australia6 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds

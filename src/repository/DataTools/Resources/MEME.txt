@@ -1,0 +1,4 @@
+Imports Tools.Tmod
+
+Call _init()
+Call MEME.Invoke_Batch {Source}, {Export}, 0.001, 100, zoops, -dna

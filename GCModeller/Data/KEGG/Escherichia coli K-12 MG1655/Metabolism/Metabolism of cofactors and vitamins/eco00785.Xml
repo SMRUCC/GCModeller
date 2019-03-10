@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00785" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Lipoic acid metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C05752" Value="Octanoyl-[acp]" />
+    <hashEntry Key="C16236" Value="Protein N6-(octanoyl)lysine" />
+    <hashEntry Key="C16237" Value="Protein N6-(lipoyl)lysine" />
+    <hashEntry Key="C16238" Value="Lipoyl-AMP" />
+    <hashEntry Key="C16239" Value="Lipoyl-[acp]" />
+    <hashEntry Key="C16241" Value="(R)-Lipoate" />
+  </Compound>
+  <PathwayMap Key="eco00785" Value="Lipoic acid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0628" Value="lipA; lipoate synthase (EC:2.8.1.-); K03644 lipoyl synthase [EC:2.8.1.8]" />
+    <hashEntry Key="eco:b0630" Value="lipB; octanoyltransferase; octanoyl-[ACP]:protein N-octanoyltransferase (EC:2.3.1.-); K03801 lipoyl(" />
+    <hashEntry Key="eco:b4386" Value="lplA; lipoate-protein ligase A (EC:6.3.2.-); K03800 lipoate---protein ligase [EC:6.3.1.20]" />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00281" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Geraniol degradation - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C01291" Value="3-(4-Methylpent-3-en-1-yl)pent-2-enedioyl-CoA" />
+    <hashEntry Key="C01499" Value="Geranial" />
+    <hashEntry Key="C01500" Value="Geraniol" />
+    <hashEntry Key="C01920" Value="Geranoyl-CoA" />
+    <hashEntry Key="C03069" Value="3-Methylcrotonyl-CoA" />
+    <hashEntry Key="C04675" Value="3-Hydroxy-3-(4-methylpent-3-en-1-yl)glutaryl-CoA" />
+    <hashEntry Key="C09847" Value="cis-Citral" />
+    <hashEntry Key="C09848" Value="(R)-(+)-Citronellal" />
+    <hashEntry Key="C09849" Value="beta-Citronellol" />
+    <hashEntry Key="C09871" Value="Nerol" />
+    <hashEntry Key="C11384" Value="(S)-(-)-Citronellal" />
+    <hashEntry Key="C11386" Value="(-)-Citronellol" />
+    <hashEntry Key="C16461" Value="Geranic acid" />
+    <hashEntry Key="C16462" Value="Citronellate" />
+    <hashEntry Key="C16464" Value="Citronellyl-CoA" />
+    <hashEntry Key="C16465" Value="trans-Geranyl-CoA" />
+    <hashEntry Key="C16466" Value="7-Methyl-3-oxo-6-octenoyl-CoA" />
+    <hashEntry Key="C16468" Value="(2E)-5-Methylhexa-2,4-dienoyl-CoA" />
+    <hashEntry Key="C16469" Value="3-Hydroxy-5-methylhex-4-enoyl-CoA" />
+    <hashEntry Key="C16470" Value="5-Methylhex-4-enoyl-CoA" />
+    <hashEntry Key="C16471" Value="5-Methyl-3-oxo-4-hexenoyl-CoA" />
+  </Compound>
+  <PathwayMap Key="eco00281" Value="Geraniol degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b1393" Value="paaF; 2,3-dehydroadipyl-CoA hydratase (EC:4.2.1.17); K01692 enoyl-CoA hydratase [EC:4.2.1.17]" />
+    <hashEntry Key="eco:b2341" Value="fadJ; fused enoyl-CoA hydratase and epimerase and isomerase/3-hydroxyacyl-CoA dehydrogenase (EC:1.1." />
+    <hashEntry Key="eco:b2342" Value="fadI; beta-ketoacyl-CoA thiolase, anaerobic, subunit (EC:2.3.1.16); K00632 acetyl-CoA acyltransferas" />
+    <hashEntry Key="eco:b3845" Value="fadA; 3-ketoacyl-CoA thiolase (thiolase I) (EC:2.3.1.16); K00632 acetyl-CoA acyltransferase [EC:2.3." />
+    <hashEntry Key="eco:b3846" Value="fadB; fused 3-hydroxybutyryl-CoA epimerase/delta(3)-cis-delta(2)-trans-enoyl-CoA isomerase/enoyl-CoA" />
+  </Genes>
+</KEGG.PathwayBrief>

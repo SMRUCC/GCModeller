@@ -1,0 +1,33 @@
+"ID","Description","GeneRatio","BgRatio","pvalue","p.adjust","qvalue","geneID","Count"
+"GO:0000502","proteasome complex","2/231","2/231",1,1,1,"GL_0753/GL_0801",2
+"GO:0003676","nucleic acid binding","4/231","4/231",1,1,1,"GL_0028/GL_0285/GL_0334/GL_0676",4
+"GO:0003755","peptidyl-prolyl cis-trans isomerase activity","2/231","2/231",1,1,1,"GL_0249/GL_0813",2
+"GO:0003810","protein-glutamine gamma-glutamyltransferase activity","2/231","2/231",1,1,1,"GL_0220/GL_0823",2
+"GO:0003824","catalytic activity","5/231","5/231",1,1,1,"GL_0082/GL_0224/GL_0475/GL_0608/GL_0625",5
+"GO:0004616","phosphogluconate dehydrogenase (decarboxylating) activity","2/231","2/231",1,1,1,"GL_0252/GL_0660",2
+"GO:0004867","serine-type endopeptidase inhibitor activity","2/231","2/231",1,1,1,"GL_0621/GL_0720",2
+"GO:0005509","calcium ion binding","11/231","11/231",1,1,1,"GL_0189/GL_0365/GL_0366/GL_0490/GL_0552/GL_0626/GL_0627/GL_0703/GL_0751/GL_0762/GL_0870",11
+"GO:0005524","ATP binding","17/231","17/231",1,1,1,"GL_0003/GL_0019/GL_0049/GL_0115/GL_0119/GL_0388/GL_0434/GL_0495/GL_0533/GL_0536/GL_0539/GL_0563/GL_0604/GL_0664/GL_0680/GL_0788/GL_0873",17
+"GO:0005576","extracellular region","5/231","5/231",1,1,1,"GL_0103/GL_0134/GL_0364/GL_0367/GL_0561",5
+"GO:0005578","proteinaceous extracellular matrix","2/231","2/231",1,1,1,"GL_0313/GL_0400",2
+"GO:0005615","extracellular space","7/231","7/231",1,1,1,"GL_0150/GL_0176/GL_0245/GL_0335/GL_0385/GL_0842/GL_0845",7
+"GO:0005622","intracellular","10/231","10/231",1,1,1,"GL_0076/GL_0211/GL_0257/GL_0319/GL_0363/GL_0420/GL_0597/GL_0674/GL_0681/GL_0814",10
+"GO:0005623","cell","3/231","3/231",1,1,1,"GL_0267/GL_0405/GL_0423",3
+"GO:0005737","cytoplasm","14/231","14/231",1,1,1,"GL_0153/GL_0226/GL_0269/GL_0312/GL_0337/GL_0355/GL_0611/GL_0638/GL_0679/GL_0683/GL_0684/GL_0777/GL_0793/GL_0859",14
+"GO:0005743","mitochondrial inner membrane","3/231","3/231",1,1,1,"GL_0063/GL_0387/GL_0806",3
+"GO:0005783","endoplasmic reticulum","5/231","5/231",1,1,1,"GL_0123/GL_0125/GL_0160/GL_0710/GL_0732",5
+"GO:0005789","endoplasmic reticulum membrane","2/231","2/231",1,1,1,"GL_0382/GL_0830",2
+"GO:0005833","hemoglobin complex","3/231","3/231",1,1,1,"GL_0340/GL_0352/GL_0543",3
+"GO:0005840","ribosome","8/231","8/231",1,1,1,"GL_0034/GL_0180/GL_0287/GL_0415/GL_0559/GL_0612/GL_0648/GL_0713",8
+"GO:0005856","cytoskeleton","2/231","2/231",1,1,1,"GL_0645/GL_0881",2
+"GO:0005882","intermediate filament","4/231","4/231",1,1,1,"GL_0098/GL_0353/GL_0507/GL_0560",4
+"GO:0008270","zinc ion binding","2/231","2/231",1,1,1,"GL_0276/GL_0591",2
+"GO:0015629","actin cytoskeleton","3/231","3/231",1,1,1,"GL_0017/GL_0477/GL_0624",3
+"GO:0016021","integral component of membrane","12/231","12/231",1,1,1,"GL_0078/GL_0112/GL_0157/GL_0241/GL_0299/GL_0316/GL_0584/GL_0596/GL_0670/GL_0709/GL_0754/GL_0775",12
+"GO:0016301","kinase activity","2/231","2/231",1,1,1,"GL_0418/GL_0838",2
+"GO:0016459","myosin complex","15/231","15/231",1,1,1,"GL_0126/GL_0139/GL_0223/GL_0393/GL_0491/GL_0492/GL_0519/GL_0524/GL_0566/GL_0586/GL_0587/GL_0595/GL_0741/GL_0794/GL_0858",15
+"GO:0016491","oxidoreductase activity","3/231","3/231",1,1,1,"GL_0236/GL_0381/GL_0653",3
+"GO:0020037","heme binding","3/231","3/231",1,1,1,"GL_0446/GL_0447/GL_0824",3
+"GO:0030529","intracellular ribonucleoprotein complex","2/231","2/231",1,1,1,"GL_0085/GL_0218",2
+"GO:0045095","keratin filament","4/231","4/231",1,1,1,"GL_0289/GL_0551/GL_0716/GL_0820",4
+"GO:0046872","metal ion binding","3/231","3/231",1,1,1,"GL_0077/GL_0422/GL_0640",3
