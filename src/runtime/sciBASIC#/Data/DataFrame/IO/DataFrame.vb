@@ -279,6 +279,35 @@ Namespace IO
         End Sub
 
         ''' <summary>
+        ''' Create a new dataframe with column value assigned
+        ''' </summary>
+        ''' <param name="columns">
+        ''' 只支持基础类型,不支持复杂类型,因为csv文件的单元格不适用于复杂数据类型的数据文本的存储
+        ''' </param>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(ParamArray columns As ArgumentReference())
+            Call MyBase.New(ColumnFile(columns))
+        End Sub
+
+        Private Shared Iterator Function ColumnFile(columns As ArgumentReference()) As IEnumerable(Of RowObject)
+            Dim matrix As Object()() = columns _
+                .Select(Function(c) DirectCast(c, IEnumerable).ToVector) _
+                .ToArray
+            Dim maxLen = Aggregate c In matrix Into Max(c.Length)
+            Dim row As IEnumerable(Of String)
+
+            ' yield title row
+            Yield New RowObject(columns.Select(Function(c) c.name))
+
+            For i As Integer = 0 To maxLen - 1
+#Disable Warning
+                row = matrix.Select(Function(v) v.ElementAtOrNull(i))
+#Enable Warning
+                Yield New RowObject(row)
+            Next
+        End Function
+
+        ''' <summary>
         ''' Try loading a excel csv data file as a dynamics data frame object.(尝试加载一个Csv文件为数据框对象，请注意，第一行必须要为标题行)
         ''' </summary>
         ''' <param name="path"></param>

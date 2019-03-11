@@ -49,6 +49,8 @@ Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Accelerator
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports Microsoft.VisualBasic.MIME.application.netCDF
+Imports DataFrame = Microsoft.VisualBasic.Data.csv.IO.DataFrame
+Imports VisualBasic = Microsoft.VisualBasic.Language.Runtime
 
 Module CLI
 
@@ -57,6 +59,29 @@ Module CLI
     Public Sub SummaryDebuggerDump(args As CommandLine)
         Call New netCDFReader(args <= "/in").Print()
     End Sub
+
+    ''' <summary>
+    ''' 导出误差率曲线数据
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/Export.Errors.Curve")>
+    <Usage("/Export.Errors.Curve /in <debugger_out.cdf> [/out <errors.csv>]")>
+    Public Function ExportErrorCurve(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.errors.csv"
+        Dim cdf As New netCDFReader([in])
+        Dim errors = cdf.getDataVariable("fitness").numerics
+        Dim index = cdf.getDataVariable("iterations").integers
+
+        With New VisualBasic
+            Return New DataFrame(!iterations = index, !fitness = errors) _
+                .csv _
+                .Save(out) _
+                .CLICode
+        End With
+    End Function
 
     <ExportAPI("/config.template")>
     <Usage("/config.template [/save <default=./config.ini>]")>
