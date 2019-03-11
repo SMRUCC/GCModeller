@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aedd1ff0ca3794c40360c6ae5cf713d2, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\API.vb"
+﻿#Region "Microsoft.VisualBasic::7e8599ed3eaefe46a98b2685333b45bb, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\API.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers

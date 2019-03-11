@@ -44,9 +44,9 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 ''' <summary>
 ''' [index] BASys Annotation Summary

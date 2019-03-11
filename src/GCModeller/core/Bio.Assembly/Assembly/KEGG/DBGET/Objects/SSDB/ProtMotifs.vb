@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83ee8321f3b7245487cc0809c49aede1, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb"
+﻿#Region "Microsoft.VisualBasic::ec2a36183a21941ce42e7d769e1c3912, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb"
 
     ' Author:
     ' 
@@ -45,8 +45,8 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.KEGG.DBGET.bGetObject.SSDB

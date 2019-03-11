@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a4a93f20c87c77cd3a737161420b066, Bio.Assembly\Assembly\UniProt\XML\Model\reference.vb"
+﻿#Region "Microsoft.VisualBasic::4973b849ebba24cf91dd9a824dbe55fb, Bio.Assembly\Assembly\UniProt\XML\Model\reference.vb"
 
     ' Author:
     ' 

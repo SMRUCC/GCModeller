@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70d8485b07ca919c8204ef8fbce6d8b6, Bio.Assembly\SequenceModel\FASTA\Reflection\Attributes.vb"
+﻿#Region "Microsoft.VisualBasic::7af913dd21c7978cc393ac7090f7b927, Bio.Assembly\SequenceModel\FASTA\Reflection\Attributes.vb"
 
     ' Author:
     ' 
@@ -52,12 +52,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports System.Reflection
-Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace SequenceModel.FASTA.Reflection
 

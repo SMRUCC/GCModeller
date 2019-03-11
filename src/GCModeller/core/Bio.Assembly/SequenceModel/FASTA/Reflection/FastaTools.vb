@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::380792b272e3f55375e3fc2c376439f2, Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::b8addfa9d0676b5708462da5653a79db, Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
 
     ' Author:
     ' 
@@ -52,11 +52,10 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace SequenceModel.FASTA.Reflection
 
@@ -71,17 +70,19 @@ Namespace SequenceModel.FASTA.Reflection
         ''' <summary>
         ''' 将某一个FASTA序列集合中的序列进行互补操作，对于蛋白质序列，则返回空值
         ''' </summary>
-        ''' <param name="FASTA2"></param>
-        ''' <returns></returns>
+        ''' <param name="nt">这里应该输入的是核酸序列,因为只有核酸序列才可以进行互补,蛋白序列则不行</param>
+        ''' <returns>返回互补链序列集合</returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Complement"), Extension>
-        Public Function Complement(FASTA2 As FastaFile) As FastaFile
-            Dim LQuery = From FASTA In FASTA2.AsParallel
-                         Let cpFASTA = FastaSeq.Complement(FASTA)
-                         Where Not cpFASTA Is Nothing
-                         Select cpFASTA
-                         Order By cpFASTA.ToString Ascending  '
+        Public Function Complement(nt As FastaFile) As FastaFile
+            Dim LQuery = From fa As SeqValue(Of FastaSeq)
+                         In nt.SeqIterator.AsParallel
+                         Let cp = FastaSeq.Complement(fa)
+                         Where Not cp Is Nothing
+                         Order By fa.i Ascending
+                         Select cp
+
             Return New FastaFile(LQuery)
         End Function
 
@@ -93,11 +94,13 @@ Namespace SequenceModel.FASTA.Reflection
         ''' 
         <ExportAPI("Reverse")>
         <Extension>
-        Public Function Reverse(fa As FastaFile) As FastaFile
-            Dim LQuery = From FASTA As FastaSeq In fa.AsParallel
-                         Let rvFASTA = FASTA.Reverse
-                         Select rvFASTA
-                         Order By rvFASTA.ToString Ascending '
+        Public Function Reverse(fasta As FastaFile) As FastaFile
+            Dim LQuery = From fa As SeqValue(Of FastaSeq)
+                         In fasta.SeqIterator.AsParallel
+                         Let rev As FastaSeq = fa.value.Reverse
+                         Order By fa.i Ascending
+                         Select rev
+
             Return New FastaFile(LQuery)
         End Function
 
@@ -114,7 +117,7 @@ Namespace SequenceModel.FASTA.Reflection
             Dim mergeFa As FastaSeq() =
                 LinqAPI.Exec(Of FastaSeq) <= From file As String
                                                In list.AsParallel
-                                               Select FastaFile.Read(file)
+                                             Select FastaFile.Read(file)
 
             If Trim Then
                 Dim setValue =

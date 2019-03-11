@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::269829c708d0249f2aac5c6dede69c64, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::e9164578e6412b551f1897b20671aa10, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Pathway.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc2ad7485870a418871932ac83bb5bce, Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
+﻿#Region "Microsoft.VisualBasic::36ef9f3238e65a3489de0f133029a309, Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
 
     ' Author:
     ' 
@@ -58,8 +58,8 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Text.Levenshtein
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 
 Namespace Assembly.KEGG.WebServices

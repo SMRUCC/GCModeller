@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::318441d2921d63e18f7703b92114ff27, Bio.Assembly\SequenceModel\FASTA\IO\UltralargeSizeFastaReader.vb"
+﻿#Region "Microsoft.VisualBasic::e8f33439e16ac8b06ffb6d7329537621, Bio.Assembly\SequenceModel\FASTA\IO\UltralargeSizeFastaReader.vb"
 
     ' Author:
     ' 
@@ -44,8 +44,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports Path = System.String
 
 Imports System.Text
 Imports System.Text.RegularExpressions

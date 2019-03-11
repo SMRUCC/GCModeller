@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27b8ade2b71c68d871110c0f115874bf, Bio.Assembly\Assembly\NCBI\SeqDump\NTheader.vb"
+﻿#Region "Microsoft.VisualBasic::daaa7ae23d7bdd3534e04c6ca4d6ef68, Bio.Assembly\Assembly\NCBI\SeqDump\NTheader.vb"
 
     ' Author:
     ' 

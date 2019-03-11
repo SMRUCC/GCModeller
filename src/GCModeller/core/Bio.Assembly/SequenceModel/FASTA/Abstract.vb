@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ab50f0978609c8a6b573be8ea333c1d, Bio.Assembly\SequenceModel\FASTA\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::418d2056bf22c9463ef1c613c577e104, Bio.Assembly\SequenceModel\FASTA\Abstract.vb"
 
     ' Author:
     ' 
@@ -47,12 +47,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports System.Text
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace SequenceModel.FASTA
 

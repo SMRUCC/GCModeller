@@ -1,7 +1,7 @@
 ﻿namespace csv {
 
     /**
-     * 一行数据
+     * csv文件之中的一行数据，相当于当前行的列数据的集合
     */
     export class row extends IEnumerator<string> {
 
@@ -39,8 +39,12 @@
          * 
          * @returns 如果这个函数返回-1则表示找不到
         */
-        public indexOf(value: string, fromIndex: number = 0): number {
-            return this.sequence.indexOf(value);
+        public indexOf(value: string, fromIndex: number = null): number {
+            if (isNullOrUndefined(fromIndex)) {
+                return this.sequence.indexOf(value);
+            } else {
+                return this.sequence.indexOf(value, fromIndex);
+            }
         }
 
         public ProjectObject(headers: string[] | IEnumerator<string>): object {

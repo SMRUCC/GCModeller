@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ad03410a35a9443e41d953e35203009, Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Enzymes.vb"
+﻿#Region "Microsoft.VisualBasic::6a5df5117b52cf97e46b7073feda50f7, Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Enzymes.vb"
 
     ' Author:
     ' 

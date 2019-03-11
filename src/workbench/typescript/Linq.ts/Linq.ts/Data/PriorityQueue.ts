@@ -1,8 +1,8 @@
+/// <reference path="../Collections/Abstract/Enumerator.ts" />
+
 namespace TsLinq {
 
     export class PriorityQueue<T> extends IEnumerator<QueueItem<T>> {
-
-        private events;
 
         /**
          * 队列元素
@@ -11,11 +11,13 @@ namespace TsLinq {
             return this.sequence;
         }
 
-        public constructor(events) {
+        public constructor() {
             super([]);
-            this.events = events;
         }
 
+        /**
+         *
+        */
         public enqueue(obj: T) {
             var last = this.Last;
             var q = this.Q;

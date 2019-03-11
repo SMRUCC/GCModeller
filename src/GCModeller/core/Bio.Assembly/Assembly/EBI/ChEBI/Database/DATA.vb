@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b210d0c80876917df2033f5e5dfc386, Bio.Assembly\Assembly\EBI\ChEBI\Database\DATA.vb"
+﻿#Region "Microsoft.VisualBasic::a1efdd39188ca55b9a9f13f8a1db6d1e, Bio.Assembly\Assembly\EBI\ChEBI\Database\DATA.vb"
 
     ' Author:
     ' 

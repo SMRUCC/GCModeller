@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c639cf885b60b1e1dac13f05d22d7d67, Bio.Assembly\Assembly\Expasy\EnzymeClass.vb"
+﻿#Region "Microsoft.VisualBasic::cc01de1fd02f4d1f29da16556d9ac1ff, Bio.Assembly\Assembly\Expasy\EnzymeClass.vb"
 
     ' Author:
     ' 

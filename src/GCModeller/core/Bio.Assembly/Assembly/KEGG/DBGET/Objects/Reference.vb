@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f280fbc468a21c2c78d0bdf90916bdc, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::28ccaabd1540807827b4b007adf31c0a, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Reference.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 

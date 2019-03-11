@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2928fb9ba47253828ce7d11b471b937, Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\FastaCollection.vb"
+﻿#Region "Microsoft.VisualBasic::683aa3465b918ac2074ebdb639b762e4, Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\FastaCollection.vb"
 
     ' Author:
     ' 

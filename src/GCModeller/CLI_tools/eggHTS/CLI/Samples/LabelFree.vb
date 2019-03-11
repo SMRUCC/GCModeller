@@ -123,6 +123,7 @@ Partial Module CLI
 
     <ExportAPI("/labelFree.matrix")>
     <Usage("/labelFree.matrix /in <*.csv/*.xlsx> [/sheet <default=proteinGroups> /intensity /uniprot <uniprot.Xml> /organism <scientificName> /out <out.csv>]")>
+    <Group(CLIGroups.LabelFreeTool)>
     Public Function LabelFreeMatrix(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim isIntensity As Boolean = args("/intensity")
@@ -192,22 +193,103 @@ Partial Module CLI
 
     End Function
 
+    ''' <summary>
+    ''' 计算差异蛋白
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/labelFree.t.test")>
-    <Usage("/labelFree.t.test /in <matrix.csv> /sampleInfo <sampleInfo.csv> /design <analysis_designer.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    <Usage("/labelFree.t.test /in <matrix.csv> /sampleInfo <sampleInfo.csv> /control <groupName> /treatment <groupName> [/significant <t.test/AB, default=t.test> /level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    <Group(CLIGroups.LabelFreeTool)>
     Public Function labelFreeTtest(args As CommandLine) As Integer
-        Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
+        Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in") _
+            .SimulateMissingValues(byRow:=False, infer:=InferMethods.Min) _
+            .TotalSumNormalize _
+            .ToArray
         Dim level# = args.GetValue("/level", 1.5)
         Dim pvalue# = args.GetValue("/p.value", 0.05)
         Dim FDR# = args.GetValue("/FDR", 0.05)
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".log2FC.t.test.csv")
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
-        Dim designer As AnalysisDesigner = (args <= "/design").LoadCsv(Of AnalysisDesigner).First
-        Dim DEPs As DEP_iTraq() = data.logFCtest(designer, sampleInfo, level, pvalue, FDR)
+        Dim designer As New AnalysisDesigner With {
+            .Controls = args <= "/control",
+            .Treatment = args <= "/treatment"
+        }
+        Dim usingSignificantAB As Boolean = (args("/significant") Or "t.test") = "AB"
+        Dim DEPs As DEP_iTraq() = data.logFCtest(designer, sampleInfo, level, pvalue, FDR, significantA:=usingSignificantAB)
 
         Return DEPs _
-            .Where(Function(x) x.log2FC <> 0R) _
             .ToArray _
             .SaveDataSet(out) _
             .CLICode
+    End Function
+
+    <ExportAPI("/labelFree.matrix.split")>
+    <Usage("/labelFree.matrix.split /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis_designer.csv> [/out <directory>]")>
+    <Group(CLIGroups.LabelFreeTool)>
+    Public Function LabelFreeMatrixSplit(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.matrix/"
+        Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+        Dim designer As AnalysisDesigner() = (args <= "/designer").LoadCsv(Of AnalysisDesigner)
+
+        For Each analysis As AnalysisDesigner In designer
+            Dim controls = sampleInfo.SampleIDs(analysis.Controls)
+            Dim treatments = sampleInfo.SampleIDs(analysis.Treatment)
+            Dim subMatrix As DataSet() =
+                Iterator Function(projection As String()) As IEnumerable(Of DataSet)
+                    For Each protein In matrix
+                        Yield protein.SubSet(projection)
+                    Next
+                End Function(controls + treatments).ToArray
+
+            Dim controlGroup = sampleInfo.TakeGroup(analysis.Controls).AsList
+            Dim treatmentGroup As SampleInfo() = sampleInfo.TakeGroup(analysis.Treatment)
+
+            Names(subMatrix) = controlGroup + treatmentGroup
+
+            Call subMatrix.SaveTo($"{out}/{analysis.Title}.csv")
+        Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/names")>
+    <Usage("/names /in <matrix.csv> /sampleInfo <sampleInfo.csv> [/out <out.csv>]")>
+    <Group(CLIGroups.LabelFreeTool)>
+    Public Function MatrixColRenames(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.sample_name.csv"
+        Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+
+        Names(matrix) = sampleInfo
+
+        Return matrix.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/Matrix.Normalization")>
+    <Usage("/Matrix.Normalization /in <matrix.csv> /infer <min/avg, default=min> [/out <normalized.csv>]")>
+    <Group(CLIGroups.LabelFreeTool)>
+    Public Function MatrixNormalize(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim infer$ = args("/infer") Or "min"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.normalized.csv"
+        Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim method As InferMethods
+
+        If infer.TextEquals("min") Then
+            method = InferMethods.Min
+        Else
+            method = InferMethods.Average
+        End If
+
+        matrix = matrix _
+            .SimulateMissingValues(byRow:=False, infer:=method) _
+            .TotalSumNormalize _
+            .ToArray
+
+        Return matrix.SaveTo(out).CLICode
     End Function
 End Module

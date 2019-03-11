@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75e873cb2add99829b9ab2cdcae90209, Bio.Assembly\Assembly\KEGG\Web\Form\AllLinksWidget.vb"
+﻿#Region "Microsoft.VisualBasic::0fab4d9fba7f2c85f53ee2c91b9fe16d, Bio.Assembly\Assembly\KEGG\Web\Form\AllLinksWidget.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,7 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.WebServices.InternalWebFormParsers

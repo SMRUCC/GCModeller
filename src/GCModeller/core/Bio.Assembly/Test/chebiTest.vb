@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8119667dff13207a896803c223893051, Bio.Assembly\test\chebiTest.vb"
+﻿#Region "Microsoft.VisualBasic::e0050023543e36c18951c8eb6b260a8f, Bio.Assembly\test\chebiTest.vb"
 
     ' Author:
     ' 

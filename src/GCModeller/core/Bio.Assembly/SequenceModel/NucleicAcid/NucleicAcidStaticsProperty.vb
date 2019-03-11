@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9791a52e9825fa42b470951418cb1466, Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
+﻿#Region "Microsoft.VisualBasic::91091f4efebbcdbbd3003c032e351d4a, Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
 
     ' Author:
     ' 

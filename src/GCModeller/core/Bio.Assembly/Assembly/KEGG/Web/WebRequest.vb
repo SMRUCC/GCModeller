@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c11a924744fe3ec7ff5b92a3ebf3259, Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::ab511cfcdcce9acdde5e9a725628e757, Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
 
     ' Author:
     ' 
@@ -52,7 +52,7 @@ Imports System.Text.RegularExpressions
 Imports System.Windows.Forms
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.SequenceModel

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c512429071067367076193825fdbb23, Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\Organism.vb"
+﻿#Region "Microsoft.VisualBasic::34ef3bd3cea198011c5b0e86558058a1, Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\Organism.vb"
 
     ' Author:
     ' 
@@ -46,7 +46,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports r = System.Text.RegularExpressions.Regex
 

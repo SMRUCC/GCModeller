@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27ece93826795ef5ccd69c4eb2acffb3, Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
+﻿#Region "Microsoft.VisualBasic::0710a1558d5f01a1e19ef81192974b05, Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Accession2Taxid
     ' 
-    '         Function: __loadData, LoadAll, Matchs, ReadFile, TrimAccessionVersion
+    '         Function: __loadData, LoadAll, Matchs, ReadFile
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.NCBI.Taxonomy
 
@@ -132,16 +133,6 @@ Namespace Assembly.NCBI.Taxonomy
         Const null$ = Nothing
 
         Public Const Acc2Taxid_Header As String = "accession" & vbTab & "accession.version" & vbTab & "taxid" & vbTab & "gi"
-
-        ''' <summary>
-        ''' 在这里移除版本号
-        ''' </summary>
-        ''' <param name="accession"></param>
-        ''' <returns></returns>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function TrimAccessionVersion(accession As String) As String
-            Return accession.Split("."c)(Scan0)
-        End Function
 
         ''' <summary>
         ''' 做数据库的subset操作。这个函数所返回来的数据之中是包含有表头的

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df676e554526479d093cab0eec709cb6, Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
+﻿#Region "Microsoft.VisualBasic::9b0a53dea38ea6002f90e234a063c3cf, Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 

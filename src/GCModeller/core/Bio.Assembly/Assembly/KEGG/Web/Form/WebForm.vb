@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2bcd34604f8deeae1bd019600d037ed, Bio.Assembly\Assembly\KEGG\Web\Form\WebForm.vb"
+﻿#Region "Microsoft.VisualBasic::55bb75082a41b9c73b825d70320c6691, Bio.Assembly\Assembly\KEGG\Web\Form\WebForm.vb"
 
     ' Author:
     ' 
@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 

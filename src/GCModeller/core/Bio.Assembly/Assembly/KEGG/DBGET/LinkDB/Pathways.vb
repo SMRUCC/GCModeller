@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9f510d00a835430d84c22c9ac9d9bc9, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
+﻿#Region "Microsoft.VisualBasic::8b5b82af3a4f3d17a4913390d7ed68b3, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
 
     ' Author:
     ' 
@@ -47,7 +47,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices

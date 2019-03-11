@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d40c4e7dcb420869d1c9659f8ca1af02, Bio.Resources\Resources.vb"
+﻿#Region "Microsoft.VisualBasic::6948ca93f628286f048a221adad632b2, Bio.Resources\Resources.vb"
 
     ' Author:
     ' 

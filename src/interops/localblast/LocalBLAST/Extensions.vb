@@ -85,7 +85,7 @@ Public Module Extensions
         End If
 
         Dim notNull As BestHit = (From bh As BestHit
-                                  In data.AsParallel
+                                  In data
                                   Where Not bh.Matched
                                   Select bh).FirstOrDefault
         Return notNull Is Nothing
@@ -128,7 +128,7 @@ Public Module Extensions
                                              Optional evalue As String = "1e-3",
                                              Optional ByRef Blastbin As LocalBLAST.InteropService.InteropService = Nothing) As BlastPlus.v228
 
-        Dim tmpQuery As String = App.AppSystemTemp & "/query.tmp"
+        Dim tmpQuery As String = App.GetAppSysTempFile(, App.PID)
 
         If Blastbin Is Nothing Then Blastbin = NCBILocalBlast.CreateSession
 

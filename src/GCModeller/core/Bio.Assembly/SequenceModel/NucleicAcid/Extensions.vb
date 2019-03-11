@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::538d052097dbe317c4c700977c29c983, Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a5e5f7a3a170b4a4827803caf91b265b, Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
 
     ' Author:
     ' 

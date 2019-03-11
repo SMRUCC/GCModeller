@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5a6d669a539e59abfc47afa0fb6f954, Bio.Assembly\Assembly\KEGG\Web\Map\Area.vb"
+﻿#Region "Microsoft.VisualBasic::2f17278cfff4ada48ac242f8c0cbf670, Bio.Assembly\Assembly\KEGG\Web\Map\Area.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 

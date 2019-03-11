@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\runtime",
+    "\\src\\runtime\\httpd",
+    "\\src\\runtime\\httpd\\WebCloud",
+    "\\src\\runtime\\httpd\\WebCloud\\SMRUCC.WebCloud.QRCode"
   ],
-  "SelectedNode": "\\GCModeller",
+  "SelectedNode": "\\src\\runtime\\httpd\\WebCloud\\SMRUCC.WebCloud.QRCode\\QRCodeReader.vb",
   "PreviewInSolutionExplorer": false
 }

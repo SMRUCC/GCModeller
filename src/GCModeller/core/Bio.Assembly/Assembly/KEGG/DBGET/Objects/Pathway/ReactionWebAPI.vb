@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56afcff709dce14cebe4cf25e1f6f2fd, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::ef970b62e40676f870353a6a9aba7585, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb"
 
     ' Author:
     ' 
@@ -44,10 +44,9 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 
