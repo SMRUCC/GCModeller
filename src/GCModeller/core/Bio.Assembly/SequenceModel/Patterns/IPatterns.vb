@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::acc435d8da0866f21d1af4d0d232bdaa, Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
+﻿#Region "Microsoft.VisualBasic::d0c8c99af8f6fd22992dbcf97cb479c3, Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
 
     ' Author:
     ' 

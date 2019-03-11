@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::373627aeba688cfd5c77f5811d7c4e21, Bio.Assembly\Assembly\DOMINE\Tables.vb"
+﻿#Region "Microsoft.VisualBasic::f1c7d39b12544675f148403b6ee41f8a, Bio.Assembly\Assembly\DOMINE\Tables.vb"
 
     ' Author:
     ' 

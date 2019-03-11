@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67a3fd8bf1aa6eeafe67bc18dbc6f45a, Bio.Assembly\SequenceModel\ISequenceModel.vb"
+﻿#Region "Microsoft.VisualBasic::19faf5d4e49919596b99d45aea583b83, Bio.Assembly\SequenceModel\ISequenceModel.vb"
 
     ' Author:
     ' 

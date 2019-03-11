@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7caca416e435c24d547c6e2f34d3552, Bio.Assembly\Assembly\UniProt\Web\Retrieve_IDmapping.vb"
+﻿#Region "Microsoft.VisualBasic::a2c3460739959c640d5945a5923810e9, Bio.Assembly\Assembly\UniProt\Web\Retrieve_IDmapping.vb"
 
     ' Author:
     ' 

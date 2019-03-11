@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f88e9e2117cd5d6d23da940f62b70e4, Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGTable.vb"
+﻿#Region "Microsoft.VisualBasic::d71d4951c7a1fe90d4decfff60ee566d, Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGTable.vb"
 
     ' Author:
     ' 

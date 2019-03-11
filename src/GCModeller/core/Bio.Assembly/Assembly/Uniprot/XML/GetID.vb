@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb3bf334d3ccba24441bb1d4a93ec3eb, Bio.Assembly\Assembly\UniProt\XML\GetID.vb"
+﻿#Region "Microsoft.VisualBasic::1829903493e1e5f7493ab9a3758ce07c, Bio.Assembly\Assembly\UniProt\XML\GetID.vb"
 
     ' Author:
     ' 

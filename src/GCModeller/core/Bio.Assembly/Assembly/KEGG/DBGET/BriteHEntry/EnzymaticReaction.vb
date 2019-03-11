@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::702faa8152826e6115af2933a317129d, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\EnzymaticReaction.vb"
+﻿#Region "Microsoft.VisualBasic::65546bc7f4c0d7cf7b3a38e8f3a030d7, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\EnzymaticReaction.vb"
 
     ' Author:
     ' 
