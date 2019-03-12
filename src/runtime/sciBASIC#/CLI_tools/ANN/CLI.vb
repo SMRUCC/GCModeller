@@ -229,10 +229,11 @@ Module CLI
         Dim parallel As Boolean = args("/parallel")
         Dim network As Network = [in].LoadXml(Of NeuralNetwork).LoadModel
         Dim training As New TrainingUtils(network)
+        Dim dummyExtends% = 8
 
         Helpers.MaxEpochs = args("/iterations") Or 10000
 
-        For Each sample As Sample In samples.LoadXml(Of DataSet).PopulateNormalizedSamples
+        For Each sample As Sample In samples.LoadXml(Of DataSet).PopulateNormalizedSamples(8)
             Call training.Add(sample.status, sample.target)
         Next
 
