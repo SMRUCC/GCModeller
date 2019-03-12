@@ -135,7 +135,7 @@ Module CLI
             .input = ActiveFunction.Parse(config.input_active Or defaultActive),
             .output = ActiveFunction.Parse(config.output_active Or defaultActive)
         }
-        Dim dummyExtends% = 8
+        Dim dummyExtends% = 0
         Dim trainingHelper As New TrainingUtils(
             samples.Size.Width, hiddenSize,
             samples.OutputSize + dummyExtends,
