@@ -139,29 +139,29 @@ Namespace ComponentModel.Loci
         ''' <param name="loci"></param>
         ''' <returns></returns>
         ''' <remarks>
-        ''' 对于核酸位置数据，这个函数不考虑链的方向问题
+        ''' 对于核酸位置数据，这个函数不考虑链的方向问题,只是单纯的计算线段的重叠长度的问题
+        ''' 
+        ''' > https://stackoverflow.com/questions/16691524/calculating-the-overlap-distance-of-two-1d-line-segments
         ''' </remarks>
         Public Function GetOverlapSize(loci As Location) As Integer
-            If IsInside(loci.Left) AndAlso IsInside(loci.Right) Then
-                ' loci完全在当前的片段区域内
-                Return loci.Length
-            ElseIf loci.IsInside(Left) AndAlso IsInside(Right) Then
-                ' 当前的片段完全在loci区域内
-                Return Me.Length
-            ElseIf Not IsInside(loci.Left) AndAlso
-                Not IsInside(loci.Right) AndAlso
-                Not loci.IsInside(Left) AndAlso
-                Not loci.IsInside(Right) Then
-
-                ' 没有交集
-                Return -1
-            End If
-
             ' me
             ' |----------------------------|
-            '           |----------------------|
+            '           |----------------------| loci
             '           |<--overlap_size-->|
 
+            ' def overlap(min1, max1, min2, max2)
+            '    return Max(0, Min(max1, max2) - Max(min1, min2))
+
+            ' >>> overlap(0, 10, 80, 90)
+            ' 0
+            ' >>> overlap(0, 50, 40, 90)
+            ' 10
+            ' >>> overlap(0, 50, 40, 45)
+            ' 5
+            ' >>> overlap(0, 100, 0, 20)
+            ' 20
+
+            Return Math.Max(0, Math.Min(Me.Right, loci.Right) - Math.Max(Me.Left, loci.Right))
         End Function
 
         ''' <summary>
