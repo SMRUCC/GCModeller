@@ -149,6 +149,18 @@ Namespace ComponentModel.Loci
             '           |----------------------| loci
             '           |<--overlap_size-->|
 
+            ' def overlap(min1, max1, min2, max2)
+            '    return Max(0, Min(max1, max2) - Max(min1, min2))
+
+            ' >>> overlap(0, 10, 80, 90)
+            ' 0
+            ' >>> overlap(0, 50, 40, 90)
+            ' 10
+            ' >>> overlap(0, 50, 40, 45)
+            ' 5
+            ' >>> overlap(0, 100, 0, 20)
+            ' 20
+
             Return Math.Max(0, Math.Min(Me.Right, loci.Right) - Math.Max(Me.Left, loci.Right))
         End Function
 
