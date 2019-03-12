@@ -209,7 +209,7 @@ Module CLI
                             End Sub) _
             .Train(parallel)
 
-        Call Debugger.WriteCDF(trainer.NeuronNetwork, debugCDF, synapses, errors, index, synapsesWeights)
+        Call Debugger.WriteCDF(trainer.NeuronNetwork, debugCDF, synapses, errors, index, deltaTimes, synapsesWeights)
 
         Return trainer
     End Function
