@@ -183,6 +183,7 @@ Module CLI
         Dim synapsesWeights As New Dictionary(Of String, List(Of Double))
         Dim errors As New List(Of Double)
         Dim index As New List(Of Integer)
+        Dim deltaTimes As New List(Of Long)
 
         For Each s In synapses
             synapsesWeights.Add(s.ToString, New List(Of Double))
@@ -196,6 +197,7 @@ Module CLI
             .AttachReporter(Sub(i, err, model)
                                 Call index.Add(i)
                                 Call errors.Add(err)
+                                Call deltaTimes.Add(App.ElapsedMilliseconds)
                                 Call synapses.DoEach(Sub(s)
                                                          synapsesWeights(s.ToString).Add(s.Weight)
                                                      End Sub)
