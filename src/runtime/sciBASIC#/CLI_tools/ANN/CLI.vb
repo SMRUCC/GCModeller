@@ -153,10 +153,10 @@ Module CLI
 
         Helpers.MaxEpochs = config.iterations
 
-        Call Console.WriteLine(trainingHelper.NeuronNetwork.ToString)
+        ' Call Console.WriteLine(trainingHelper.NeuronNetwork.ToString)
 
         If Not args("/GA.optimize").IsTrue Then
-            Call trainingHelper.runTrainingCommon(out.TrimSuffix & ".debugger.CDF", parallel)
+            Call trainingHelper.runTrainingCommon(out.TrimSuffix & ".debugger.CDF", [in], parallel)
         Else
             Call trainingHelper _
                 .NeuronNetwork _
@@ -174,7 +174,7 @@ Module CLI
     End Function
 
     <Extension>
-    Private Function runTrainingCommon(trainer As TrainingUtils, debugCDF$, parallel As Boolean) As TrainingUtils
+    Private Function runTrainingCommon(trainer As TrainingUtils, debugCDF$, inFile$, parallel As Boolean) As TrainingUtils
         Dim synapses = trainer _
             .NeuronNetwork _
             .GetSynapseGroups _
@@ -189,16 +189,19 @@ Module CLI
         Next
 
         Dim minErr# = 99999
+        Dim minErrSnapShot$ = inFile.TrimSuffix & ".minerror_snapshot.Xml"
 
         Call Console.WriteLine(trainer.NeuronNetwork.ToString)
         Call trainer _
             .AttachReporter(Sub(i, err, model)
                                 Call index.Add(i)
                                 Call errors.Add(err)
-                                Call synapses.DoEach(Sub(s) synapsesWeights(s.ToString).Add(s.Weight))
+                                Call synapses.DoEach(Sub(s)
+                                                         synapsesWeights(s.ToString).Add(s.Weight)
+                                                     End Sub)
 
                                 If err < minErr Then
-                                    Call trainer.TakeSnapshot.GetXml.SaveTo("./minerror.Xml")
+                                    Call trainer.TakeSnapshot.GetXml.SaveTo(minErrSnapShot)
                                     minErr = err
                                 End If
                             End Sub) _
@@ -232,7 +235,7 @@ Module CLI
         Next
 
         Return training _
-            .runTrainingCommon(out.TrimSuffix & ".debugger.CDF", parallel) _
+            .runTrainingCommon(out.TrimSuffix & ".debugger.CDF", [in], parallel) _
             .TakeSnapshot _
             .GetXml _
             .SaveTo(out) _
