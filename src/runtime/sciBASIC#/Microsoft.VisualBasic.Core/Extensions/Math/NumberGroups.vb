@@ -225,13 +225,13 @@ Namespace Math
                                                                    equals As GenericLambda(Of Double).IEquals,
                                                                    Optional chunkSize% = 20000) As IEnumerable(Of NamedCollection(Of T))
             Dim partitions = source _
-                    .SplitIterator(20000) _
-                    .AsParallel _
-                    .Select(Function(part)
-                                Return part.AsList.GroupByImpl(evaluate, equals)
-                            End Function) _
-                    .IteratesALL _
-                    .AsList
+                .SplitIterator(parTokens:=chunkSize) _
+                .AsParallel _
+                .Select(Function(part)
+                            Return part.AsList.GroupByImpl(evaluate, equals)
+                        End Function) _
+                .IteratesALL _
+                .AsList
 
             ' 先分割，再对name做分组
             Dim union = partitions.GroupByImpl(Function(part) Val(part.Name), equals)
