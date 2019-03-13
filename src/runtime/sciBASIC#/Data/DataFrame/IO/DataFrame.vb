@@ -290,9 +290,20 @@ Namespace IO
         End Sub
 
         Private Shared Iterator Function ColumnRows(columns As ArgumentReference()) As IEnumerable(Of RowObject)
+            Dim collectionType As Type() = {GetType(Array), GetType(IEnumerable), GetType(IList)}
             Dim matrix As Object()() = columns _
                 .Select(Function(c)
-                            Return DirectCast(c.value, IEnumerable).ToVector
+                            Dim type As Type = c.ValueType
+
+                            If collectionType.Any(Function(base)
+                                                      Return type.IsInheritsFrom(base)
+                                                  End Function) Then
+                                ' 是一个值的集合
+                                Return DirectCast(c.value, IEnumerable).ToVector
+                            Else
+                                ' 是一个单个的值,转换为值的集合
+                                Return New Object() {c.value}
+                            End If
                         End Function) _
                 .ToArray
             Dim maxLen = Aggregate c In matrix Into Max(c.Length)
