@@ -131,18 +131,19 @@ Namespace Imaging
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function Light(base As Color, percent!) As Color
-            Return ControlPaint.Light(base, percent)
+        Public Function Lighten(base As Color, Optional percent! = 0.5) As Color
+            Return HSLColor.GetHSL(base).Lighten(percent, Color.White)
         End Function
 
         ''' <summary>
         ''' Makes the specified color darker: creates a new dark color object for the control from the specified color and
         ''' darkens it by the specified percentage.
         ''' </summary>
-        ''' <param name="base">The <see cref="System.Drawing.Color"/> to be darkened.</param>
-        ''' <param name="percent!">The percentage to darken the specified <see cref="System.Drawing.Color"/>.</param>
-        ''' <returns>A <see cref="System.Drawing.Color"/> that represent the dark color on the control.</returns>
-        ''' 
+        ''' <param name="base">The <see cref="Color"/> to be darkened.</param>
+        ''' <param name="percent!">
+        ''' The percentage to darken the specified <see cref="Color"/>. By default is makes the color 50% darken.
+        ''' </param>
+        ''' <returns>A <see cref="Color"/> that represent the dark color on the control.</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Darken(base As Color, Optional percent! = 0.5) As Color
