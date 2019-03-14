@@ -136,7 +136,7 @@ Namespace Imaging
         End Function
 
         ''' <summary>
-        ''' Creates a new dark color object for the control from the specified color and
+        ''' Makes the specified color darker: creates a new dark color object for the control from the specified color and
         ''' darkens it by the specified percentage.
         ''' </summary>
         ''' <param name="base">The <see cref="System.Drawing.Color"/> to be darkened.</param>
@@ -145,8 +145,9 @@ Namespace Imaging
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function Dark(base As Color, percent!) As Color
-            Return ControlPaint.Dark(base, percent)
+        Public Function Darken(base As Color, Optional percent! = 0.5) As Color
+            Dim foldChange = 1 / percent
+            Return Color.FromArgb(base.A, base.R \ foldChange, base.G \ foldChange, base.B \ foldChange)
         End Function
 
         ''' <summary>

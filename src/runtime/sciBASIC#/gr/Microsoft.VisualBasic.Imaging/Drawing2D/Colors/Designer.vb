@@ -165,7 +165,21 @@ Namespace Drawing2D.Colors
 
         Public ReadOnly Property ConsoleColors As Color() = Enums(Of ConsoleColor) _
             .Select(Function(c) c.ToString) _
-            .Select(AddressOf TranslateColor) _
+            .Select(Function(exp As String)
+                        ' 2019-03-14 有些console的颜色是不存在的,所以解析会得到黑色
+                        Dim color As Color = exp.TranslateColor(False)
+
+                        If Not color.IsEmpty Then
+                            Return color
+                        Else
+                            ' 使用相近的颜色进行替代
+                            If InStr(exp, "Dark") > 0 Then
+                                exp = exp.Replace("Dark", "")
+                                color = exp.TranslateColor.darker
+
+                            End If
+                        End If
+                    End Function) _
             .ToArray
 
         ''' <summary>
@@ -219,7 +233,6 @@ Namespace Drawing2D.Colors
         ''' </remarks>
         Sub New()
             Try
-
                 Dim colors As Dictionary(Of String, String()) = My.Resources _
                     .designer_colors _
                     .GetString(Encodings.UTF8) _
