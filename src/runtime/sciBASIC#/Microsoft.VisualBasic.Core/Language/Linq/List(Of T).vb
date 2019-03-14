@@ -163,6 +163,21 @@ Namespace Language
         End Property
 
         ''' <summary>
+        ''' Can accept negative number as the index value, negative value means ``<see cref="Count"/> - n``, 
+        ''' example as ``list(-1)``: means the last element in this list: ``list(list.Count -1)``
+        ''' </summary>
+        ''' <param name="index"></param>
+        ''' <returns></returns>
+        Default Public Overloads Property Item(index As VBInteger) As T
+            Get
+                Return Item(index.Value)
+            End Get
+            Set(value As T)
+                Item(index.Value) = value
+            End Set
+        End Property
+
+        ''' <summary>
         ''' Using a index vector expression to select/update many elements from this list collection.
         ''' </summary>
         ''' <param name="exp$">
@@ -428,7 +443,8 @@ Namespace Language
         End Operator
 
         ''' <summary>
-        ''' Adds the elements of the specified collection to the end of the <see cref="List(Of T)"/>.
+        ''' Adds the elements of the specified collection to the begining of the <paramref name="list"/> <see cref="List(Of T)"/>.
+        ''' (output = <paramref name="vals"/> contract <paramref name="list"/>)
         ''' (这个操作符并不会修改所输入的两个原始序列的内容)
         ''' </summary>
         ''' <param name="vals"></param>

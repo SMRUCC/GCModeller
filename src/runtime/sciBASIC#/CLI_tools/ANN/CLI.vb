@@ -60,6 +60,17 @@ Module CLI
         Call New netCDFReader(args <= "/in").Print()
     End Sub
 
+    <ExportAPI("/Snapshot.min_errors")>
+    <Usage("/Snapshot.min_errors /in <debugger.cdf> [/out <snapshot.Xml>]")>
+    Public Function MinErrorSnapshot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.Snapshot.min_errors.Xml"
+        Dim debugger As New netCDFReader([in])
+        Dim errors = debugger.getDataVariable("fitness").numerics
+        Dim index = Which.Min(errors)
+
+    End Function
+
     ''' <summary>
     ''' 导出误差率曲线数据
     ''' </summary>
@@ -124,26 +135,28 @@ Module CLI
             .input = ActiveFunction.Parse(config.input_active Or defaultActive),
             .output = ActiveFunction.Parse(config.output_active Or defaultActive)
         }
+        Dim dummyExtends% = 0
         Dim trainingHelper As New TrainingUtils(
             samples.Size.Width, hiddenSize,
-            samples.OutputSize,
+            samples.OutputSize + dummyExtends,
             config.learnRate,
             config.momentum,
             actives
         )
 
         trainingHelper.NeuronNetwork.LearnRateDecay = config.learnRateDecay
+        ' trainingHelper.Truncate = 20
 
-        For Each sample As Sample In samples.PopulateNormalizedSamples
+        For Each sample As Sample In samples.PopulateNormalizedSamples(dummyExtends)
             Call trainingHelper.Add(sample.status, sample.target)
         Next
 
         Helpers.MaxEpochs = config.iterations
 
-        Call Console.WriteLine(trainingHelper.NeuronNetwork.ToString)
+        ' Call Console.WriteLine(trainingHelper.NeuronNetwork.ToString)
 
         If Not args("/GA.optimize").IsTrue Then
-            Call trainingHelper.runTrainingCommon(out.TrimSuffix & ".debugger.CDF", parallel)
+            Call trainingHelper.runTrainingCommon(out.TrimSuffix & ".debugger.CDF", [in], parallel, args("/debug"))
         Else
             Call trainingHelper _
                 .NeuronNetwork _
@@ -161,7 +174,7 @@ Module CLI
     End Function
 
     <Extension>
-    Private Function runTrainingCommon(trainer As TrainingUtils, debugCDF$, parallel As Boolean) As TrainingUtils
+    Private Function runTrainingCommon(trainer As TrainingUtils, debugCDF$, inFile$, parallel As Boolean, debug As Boolean) As TrainingUtils
         Dim synapses = trainer _
             .NeuronNetwork _
             .GetSynapseGroups _
@@ -170,21 +183,37 @@ Module CLI
         Dim synapsesWeights As New Dictionary(Of String, List(Of Double))
         Dim errors As New List(Of Double)
         Dim index As New List(Of Integer)
+        Dim deltaTimes As New List(Of Long)
 
         For Each s In synapses
             synapsesWeights.Add(s.ToString, New List(Of Double))
         Next
 
+        Dim minErr# = 99999
+        Dim minErrSnapShot$ = inFile.TrimSuffix & ".minerror_snapshot.Xml"
+
         Call Console.WriteLine(trainer.NeuronNetwork.ToString)
         Call trainer _
             .AttachReporter(Sub(i, err, model)
-                                Call index.Add(i)
-                                Call errors.Add(err)
-                                Call synapses.DoEach(Sub(s) synapsesWeights(s.ToString).Add(s.Weight))
+                                If debug Then
+                                    Call index.Add(i)
+                                    Call errors.Add(err)
+                                    Call deltaTimes.Add(App.ElapsedMilliseconds)
+                                    Call synapses.DoEach(Sub(s)
+                                                             synapsesWeights(s.ToString).Add(s.Weight)
+                                                         End Sub)
+                                End If
+
+                                If err < minErr Then
+                                    Call trainer.TakeSnapshot.GetXml.SaveTo(minErrSnapShot)
+                                    minErr = err
+                                End If
                             End Sub) _
             .Train(parallel)
 
-        Call Debugger.WriteCDF(trainer.NeuronNetwork, debugCDF, synapses, errors, index, synapsesWeights)
+        If debug Then
+            Call Debugger.WriteCDF(trainer.NeuronNetwork, debugCDF, synapses, errors, index, deltaTimes, synapsesWeights)
+        End If
 
         Return trainer
     End Function
@@ -196,7 +225,7 @@ Module CLI
     ''' <returns></returns>
     ''' 
     <ExportAPI("/encourage")>
-    <Usage("/encourage /model <ANN.xml> /samples <samples.Xml> [/parallel /iterations <default=10000> /out <out.Xml>]")>
+    <Usage("/encourage /model <ANN.xml> /samples <samples.Xml> [/parallel /debug /iterations <default=10000> /out <out.Xml>]")>
     Public Function Encourage(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim samples$ = args <= "/samples"
@@ -204,15 +233,16 @@ Module CLI
         Dim parallel As Boolean = args("/parallel")
         Dim network As Network = [in].LoadXml(Of NeuralNetwork).LoadModel
         Dim training As New TrainingUtils(network)
+        Dim dummyExtends% = 8
 
         Helpers.MaxEpochs = args("/iterations") Or 10000
 
-        For Each sample As Sample In samples.LoadXml(Of DataSet).PopulateNormalizedSamples
+        For Each sample As Sample In samples.LoadXml(Of DataSet).PopulateNormalizedSamples(8)
             Call training.Add(sample.status, sample.target)
         Next
 
         Return training _
-            .runTrainingCommon(out.TrimSuffix & ".debugger.CDF", parallel) _
+            .runTrainingCommon(out.TrimSuffix & ".debugger.CDF", [in], parallel, args("/debug")) _
             .TakeSnapshot _
             .GetXml _
             .SaveTo(out) _
