@@ -249,18 +249,7 @@ Namespace Imaging
 
             Dim s As String = Regex.Match(str, rgbExprValues).Value
 
-            If String.IsNullOrEmpty(s) Then
-                ' Color from name/known color
-                Dim key As String = str.ToLower
-
-                If __allDotNETPrefixColors.ContainsKey(key) Then
-                    Return __allDotNETPrefixColors(key)
-                Else
-                    ' __allDotNETPrefixColors里面已经包含有所有的颜色了
-                    ' 如果不存在,则只能够返回空值了
-                    Return Nothing
-                End If
-            Else
+            If Not String.IsNullOrEmpty(s) Then
                 Dim tokens As String() = s.Split(","c)
 
                 If tokens.Length = 3 Then  ' rgb
@@ -276,15 +265,24 @@ Namespace Imaging
                     Dim B As Integer = CInt(Val(tokens(3)))
 
                     Return Color.FromArgb(A, R, G, B)
+                End If
+            End If
+
+            ' Color from name/known color
+            Dim key As String = str.ToLower
+
+            If __allDotNETPrefixColors.ContainsKey(key) Then
+                Return __allDotNETPrefixColors(key)
+            Else
+                ' __allDotNETPrefixColors里面已经包含有所有的颜色了
+                ' 如果不存在,则只能够返回空值了
+                If Not onFailure.IsEmpty Then
+                    Return onFailure
                 Else
-                    If Not onFailure.IsEmpty Then
-                        Return onFailure
+                    If throwEx Then
+                        Throw New Exception("Unable parsing any color information from expression: " & str)
                     Else
-                        If throwEx Then
-                            Throw New Exception("Unable parsing any color information from expression: " & str)
-                        Else
-                            Return Nothing
-                        End If
+                        Return Nothing
                     End If
                 End If
             End If
