@@ -46,6 +46,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text
@@ -65,12 +66,19 @@ Public Class ExtendedEngine : Inherits REngine
     End Property
 
     ''' <summary>
-    ''' 将一个变量的结果值赋值给另外一个变量
+    ''' Language syntax supports for argument list.(将一个变量的结果值赋值给另外一个变量)
     ''' </summary>
     ''' <param name="name"></param>
-    Default Public WriteOnly Property Assign(name As String) As String
-        Set(value As String)
-            [call] = $"{name} <- {value}"
+    Default Public Property Assign(name As String) As ArgumentReference
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return New ArgumentReference With {
+                .name = name
+            }
+        End Get
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Set(value As ArgumentReference)
+            [call] = $"{name} <- {value.name}"
         End Set
     End Property
 
