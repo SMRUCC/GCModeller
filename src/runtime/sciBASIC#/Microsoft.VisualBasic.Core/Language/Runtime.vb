@@ -67,7 +67,8 @@ Namespace Language
     ''' <summary>
     ''' ``[name => value]`` tuple
     ''' </summary>
-    Public Class ArgumentReference : Implements INamedValue
+    Public Class ArgumentReference
+        Implements INamedValue
 
         Public name$, value
 

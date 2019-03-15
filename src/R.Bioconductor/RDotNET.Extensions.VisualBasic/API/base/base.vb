@@ -848,6 +848,20 @@ Namespace API
             Return var
         End Function
 
+        Public Function list(obj As Dictionary(Of String, String)) As String
+            SyncLock R
+                With R
+                    Dim var$ = base.list
+
+                    For Each slot In obj
+                        .call = $"{var}$'{slot.Key}' <- {slot.Value};"
+                    Next
+
+                    Return var
+                End With
+            End SyncLock
+        End Function
+
         <Extension>
         Private Function argumentExpression(args As ArgumentReference()) As String
             Dim assigns$() = args _
