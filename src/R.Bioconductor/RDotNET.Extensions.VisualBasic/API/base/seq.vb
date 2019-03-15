@@ -46,6 +46,16 @@ Namespace API
 
     Partial Module base
 
+        Public Function unique(ref As String) As String
+            SyncLock R
+                With R
+                    Dim var$ = App.NextTempName
+                    .call = $"{var} <- unique({ref});"
+                    Return var
+                End With
+            End SyncLock
+        End Function
+
         ''' <summary>
         ''' Generate regular sequences. seq is a standard generic with a default method. seq.int is a primitive which can be much faster but has a few restrictions. seq_along and seq_len are very fast primitives for two common cases.
         ''' </summary>
