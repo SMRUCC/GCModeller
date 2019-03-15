@@ -299,7 +299,7 @@
     <Compile Include="API\utils\utils.vb" />
     <Compile Include="Extensions\Serialization\csvHandle.vb" />
     <Compile Include="Extensions\Serialization\WriteMemoryInternal.vb" />
-    <Compile Include="Extensions\Serialization\rda.vb" />
+    <Compile Include="Extensions\Serialization\SaveRda.vb" />
     <Compile Include="Extensions\Serialization\Vector.vb" />
     <Compile Include="ScriptBuilder\ParameterList.vb" />
     <Compile Include="ScriptBuilder\EscapingHelper.vb" />

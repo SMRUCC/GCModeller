@@ -55,7 +55,7 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 ''' + 如果目标集合的元素为复杂类型，则会被序列化为``list()``类型，如果元素实现了<see cref="INamedValue"/>接口，则``list()``的``key``为<see cref="INamedValue.Key"/>反之为序列索引号
 ''' + 如果目标集合的元素为简单类型，则会被序列化为数组向量
 ''' </summary>
-Public Module rda
+Public Module SaveRda
 
     ''' <summary>
     ''' Save Any .NET object as a *.rda data file. And then you can load the saved <paramref name="obj"/> 
@@ -66,7 +66,7 @@ Public Module rda
     ''' <param name="name$"></param>
     ''' <returns></returns>
     Public Function save(obj As Object, file$, Optional name$ = ".save") As Boolean
-        Dim var$ = rda.Push(obj)
+        Dim var$ = SaveRda.Push(obj)
 
         SyncLock R
             With R
