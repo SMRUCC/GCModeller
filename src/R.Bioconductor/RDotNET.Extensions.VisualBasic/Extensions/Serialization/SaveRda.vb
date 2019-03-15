@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::0ddf54d17d8e1f336f2a865ffb915576, RDotNET.Extensions.VisualBasic\Extensions\Serialization\rda.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module rda
-    ' 
-    '     Function: Push, PushComplexObject, PushList, save
-    ' 
-    ' /********************************************************************************/
+' Module rda
+' 
+'     Function: Push, PushComplexObject, PushList, save
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports Rbase = RDotNET.Extensions.VisualBasic.API.base
 
 ''' <summary>
 ''' + 如果是复杂类型，会被序列化为``list()``类型，
@@ -120,7 +121,7 @@ Public Module SaveRda
 
         ' 是非基础类型，如果是简单的非基础类型，则写为一个data.frame
         ' 反之复杂的非基础类型写为一个list
-        If DataFramework.IscomplexType(base) Then
+        If DataFramework.IsComplexType(base) Then
 
             ' write as list
             ' 如果实现了INamedValue接口，则使用key属性作为键名
@@ -138,7 +139,8 @@ Public Module SaveRda
                 Next
             Else
                 For Each x As SeqValue(Of Object) In list.SeqIterator
-                    Dim key$ = x.i + 1 ' R 之中的下标是从1开始的 
+                    ' R 之中的下标是从1开始的 
+                    Dim key$ = x.i + 1
 
                     SyncLock R
                         With R
@@ -172,19 +174,21 @@ Public Module SaveRda
             End With
         End If
 
-        Dim schema = obj.GetType.Schema(PropertyAccess.Readable, , True)
-        Dim var$ = App.NextTempName
-
         SyncLock R
             With R
-                .call = $"{var} <- list();"
+                Dim schema = obj.GetType.Schema(PropertyAccess.Readable, , True)
+                Dim var$ = Rbase.list
+                Dim tmpname$
+                Dim ref$
 
                 For Each [property] As PropertyInfo In schema.Values
-                    .call = $"{var}[[{Rstring([property].Name)}]] <- {Push([property].GetValue(obj))}"
+                    tmpname = SaveRda.Push([property].GetValue(obj))
+                    ref = Rstring([property].Name)
+                    .call = $"{var}[[{ref}]] <- {tmpname}"
                 Next
+
+                Return var
             End With
         End SyncLock
-
-        Return var
     End Function
 End Module
