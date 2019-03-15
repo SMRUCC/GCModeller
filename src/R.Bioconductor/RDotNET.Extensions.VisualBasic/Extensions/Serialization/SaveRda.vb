@@ -162,11 +162,12 @@ Public Module SaveRda
     End Function
 
     ''' <summary>
-    ''' 
+    ''' 主要是保存用户自定义类型,例如class或者structure这些非基元类型或者非数组类型等
     ''' </summary>
     ''' <param name="obj">这个类型为单个的class或者structure类型</param>
+    ''' <param name="filters">可以通过这个参数来屏蔽不希望写入R内存的属性</param>
     ''' <returns></returns>
-    Public Function PushComplexObject(obj As Object) As String
+    Public Function PushComplexObject(obj As Object, Optional filters As String() = Nothing) As String
         If obj Is Nothing Then
             With App.NextTempName
                 Call WriteMemoryInternal.WriteNothing(.ByRef)
@@ -180,6 +181,13 @@ Public Module SaveRda
                 Dim var$ = Rbase.list
                 Dim tmpname$
                 Dim ref$
+
+                If Not filters.IsNullOrEmpty Then
+                    ' 删除指定的属性
+                    For Each delete As String In filters
+                        Call schema.Remove(key:=delete)
+                    Next
+                End If
 
                 For Each [property] As PropertyInfo In schema.Values
                     tmpname = SaveRda.Push([property].GetValue(obj))
