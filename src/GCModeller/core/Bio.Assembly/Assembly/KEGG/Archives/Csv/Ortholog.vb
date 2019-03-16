@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f9392d6012b387e6d56223507624910, Bio.Assembly\Assembly\KEGG\Archives\Csv\Ortholog.vb"
+﻿#Region "Microsoft.VisualBasic::2cb439d78d688fefa7abbf9e3e82abfe, Bio.Assembly\Assembly\KEGG\Archives\Csv\Ortholog.vb"
 
     ' Author:
     ' 

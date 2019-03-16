@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc76fcbfcc1c5e001e4af67549877f2a, Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::fabe0f5f3b838c2968cbda4a144aedf5, Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
 
     ' Author:
     ' 
@@ -66,6 +66,12 @@ Imports r = System.Text.RegularExpressions.Regex
 ''' KeyValue pair data related extensions API.
 ''' </summary>
 Public Module KeyValuePairExtensions
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function Selects(Of K, V)(table As Dictionary(Of K, V), ParamArray keys As K()) As IEnumerable
+        Return From key As K In keys Select table(key)
+    End Function
 
     <Extension>
     Public Iterator Function AsEnumerable(keys As NameObjectCollectionBase.KeysCollection) As IEnumerable(Of String)

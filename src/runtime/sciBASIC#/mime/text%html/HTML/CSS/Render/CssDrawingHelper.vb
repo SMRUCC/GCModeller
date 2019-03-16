@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85ba822ec5449a86c5b4d81f6a7f0141, mime\text%html\HTML\CSS\Render\CssDrawingHelper.vb"
+﻿#Region "Microsoft.VisualBasic::d97a1204b93a8ed4b73f6625c0bcd114, mime\text%html\HTML\CSS\Render\CssDrawingHelper.vb"
 
     ' Author:
     ' 
@@ -330,15 +330,6 @@ Namespace HTML.CSS.Render
             path.CloseFigure()
 
             Return path
-        End Function
-
-        ''' <summary>
-        ''' Makes the specified color darker
-        ''' </summary>
-        ''' <param name="c"></param>
-        ''' <returns></returns>
-        Public Shared Function Darken(c As Color) As Color
-            Return Color.FromArgb(c.R \ 2, c.G \ 2, c.B \ 2)
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c89c50ffa9d9fe822cf439fd4178667, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\Label.vb"
+﻿#Region "Microsoft.VisualBasic::221670c0806b46aba3f84e6a400ab404, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\Label.vb"
 
     ' Author:
     ' 
@@ -109,6 +109,10 @@ Namespace d3js.Layout
         ''' <returns></returns>
         Public Property text As String
 
+        ''' <summary>
+        ''' 当前的这个文本标签对象所处的位置以及所占据的大小等数据
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Rectangle As RectangleF
 
         Sub New()

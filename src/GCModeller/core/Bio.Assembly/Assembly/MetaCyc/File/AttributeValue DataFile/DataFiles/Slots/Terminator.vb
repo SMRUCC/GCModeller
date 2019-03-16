@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5be3c3e798ecd4dc64786abd3bcbb836, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Terminator.vb"
+﻿#Region "Microsoft.VisualBasic::bcef757bb4cef4dfcd4e499d83632b8f, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Terminator.vb"
 
     ' Author:
     ' 

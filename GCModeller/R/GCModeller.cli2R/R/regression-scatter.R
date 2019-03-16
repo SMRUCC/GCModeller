@@ -35,19 +35,24 @@ iTraq.consistency <- function(sample, pairs, repeats = 3, size = c(6000, 4500), 
 	
 	print(layout);
 	
+	print(head(raw))
+	
 	par(mfrow = layout);
 	raw = data.frame(raw, stringsAsFactors = FALSE);	
 	
-	tryCatch({
-		for (i in 1:nrow(pairs)) {
-			x <- pairs[i, ];		
-			x <- as.vector(unlist(x));
-			print(x);
-			regression.plot(raw, x[1], x[2]);
-		}
-	}, error = function(e) {
-		print(e);
-	})
+	print(pairs)
+	
+	for (i in 1:nrow(pairs)) {
+		x <- pairs[i, ];		
+		x <- as.vector(unlist(x));
+		
+		renames <- cbind(x =1, y =2)
+		colnames(renames) <- x;
+		x <- colnames(renames);
+		
+		print(x);
+		regression.plot(raw, x[1], x[2]);
+	}
 
 	dev.off();
 }

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b62bf65af7e0bea538ca656a79cba3f5, Bio.Assembly\ComponentModel\PathwayBrief.vb"
+﻿#Region "Microsoft.VisualBasic::e3543b8ab897daff386aaf885f603242, Bio.Assembly\ComponentModel\PathwayBrief.vb"
 
     ' Author:
     ' 

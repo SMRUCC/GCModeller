@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::166490a59654f5745868a4fc5fb9deae, Microsoft.VisualBasic.Core\Text\Paragraph.vb"
+﻿#Region "Microsoft.VisualBasic::419efa23219b84576161d08b456aab68, Microsoft.VisualBasic.Core\Text\Paragraph.vb"
 
     ' Author:
     ' 
@@ -48,6 +48,13 @@ Imports Microsoft.VisualBasic.Linq
 Namespace Text
 
     Public Module Paragraph
+
+        <Extension>
+        Public Iterator Function Chunks(text$, lineBreak%) As IEnumerable(Of String)
+            For i As Integer = 1 To text.Length Step lineBreak
+                Yield Mid(text, i, lineBreak)
+            Next
+        End Function
 
         ''' <summary>
         ''' 

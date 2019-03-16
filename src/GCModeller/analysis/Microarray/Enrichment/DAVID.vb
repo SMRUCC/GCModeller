@@ -79,7 +79,7 @@ Namespace DAVID
                 tsv += line.Skip(1)
             Next
 
-            Dim out = tsv.ImportsTsv(Of FunctionCluster)
+            Dim out = tsv.ImportsTsv(Of FunctionCluster).ToArray
             Return out
         End Function
 

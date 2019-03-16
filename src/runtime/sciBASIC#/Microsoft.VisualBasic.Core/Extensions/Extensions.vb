@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36f77895436916fbcecc1f01f01edeee, Microsoft.VisualBasic.Core\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e608fdc4f0bf5291f28f8fb90fe30cbd, Microsoft.VisualBasic.Core\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -407,6 +407,21 @@ Public Module Extensions
 
         Dim value As T = array(index)
         Return value
+    End Function
+
+    <Extension>
+    Public Function ElementAtOrNull(Of T)(array As T(), index As Integer) As T
+        If array Is Nothing Then
+            Return Nothing
+        ElseIf index < 0 Then
+            index = array.Length + index
+        End If
+
+        If index < 0 OrElse index >= array.Length Then
+            Return Nothing
+        Else
+            Return array(index)
+        End If
     End Function
 
     <Extension> Public Function [Set](Of T)(ByRef array As T(), index As Integer, value As T) As T()

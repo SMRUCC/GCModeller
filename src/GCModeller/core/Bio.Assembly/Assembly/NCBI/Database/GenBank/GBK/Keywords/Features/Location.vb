@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::883b6704b81910861b233f9295a75d94, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb"
+﻿#Region "Microsoft.VisualBasic::5c0cc86bc71a51bea0e20a3f7f673702, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c3216b42aff9fe88a639331cc2e1fcb, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
+﻿#Region "Microsoft.VisualBasic::77ebdf5409a3077a727cc24ece6ff83a, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
 
     ' Author:
     ' 
@@ -444,7 +444,7 @@ Public Module NetworkVisualizer
                     br = Brushes.Black
                 Else
                     br = .color
-                    br = New SolidBrush(DirectCast(br, SolidBrush).Color.Dark(0.005))
+                    br = New SolidBrush(DirectCast(br, SolidBrush).Color.Darken(0.005))
                 End If
 
                 With g.MeasureString(.label.text, .style)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed06339738f685af1c84788f6c78e4eb, Data_science\MachineLearning\NeuralNetwork\StoreProcedure\Dataset.vb"
+﻿#Region "Microsoft.VisualBasic::de35f932516253227251cf9391877a5e, Data_science\MachineLearning\NeuralNetwork\StoreProcedure\Dataset.vb"
 
     ' Author:
     ' 
@@ -221,7 +221,14 @@ Namespace NeuralNetwork.StoreProcedure
                 .ToArray
         End Function
 
-        Public Iterator Function PopulateNormalizedSamples() As IEnumerable(Of Sample)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="dummyExtends%">
+        ''' This function will extends <see cref="Sample.target"/> when this parameter is greater than ZERO.
+        ''' </param>
+        ''' <returns></returns>
+        Public Iterator Function PopulateNormalizedSamples(Optional dummyExtends% = 0) As IEnumerable(Of Sample)
             Dim input#()
 
             For Each sample As Sample In DataSamples.items
@@ -229,11 +236,27 @@ Namespace NeuralNetwork.StoreProcedure
                 sample = New Sample With {
                     .ID = sample.ID,
                     .status = input,
-                    .target = sample.target
+                    .target = sample.target + createExtends(input, dummyExtends)
                 }
 
                 Yield sample
             Next
+        End Function
+
+        Private Shared Function createExtends(input As Double(), n%) As List(Of Double)
+            Dim extends As New List(Of Double)
+
+            For i As Integer = 0 To input.Length - 1
+                For j As Integer = i + 1 To input.Length - 1
+                    If extends > n - 1 Then
+                        Exit For
+                    Else
+                        extends += input(i) * input(j)
+                    End If
+                Next
+            Next
+
+            Return extends
         End Function
 
         Public Overrides Function ToString() As String

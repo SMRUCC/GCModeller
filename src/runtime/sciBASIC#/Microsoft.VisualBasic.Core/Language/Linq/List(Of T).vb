@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd13613b9ee63665305d6042c3e611e3, Microsoft.VisualBasic.Core\Language\Linq\List(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::45237ad47691e17ca3af9f9f855a37c9, Microsoft.VisualBasic.Core\Language\Linq\List(Of T).vb"
 
     ' Author:
     ' 
@@ -159,6 +159,21 @@ Namespace Language
                     index = Count + index  ' -1 -> count -1
                 End If
                 MyBase.Item(index) = value
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Can accept negative number as the index value, negative value means ``<see cref="Count"/> - n``, 
+        ''' example as ``list(-1)``: means the last element in this list: ``list(list.Count -1)``
+        ''' </summary>
+        ''' <param name="index"></param>
+        ''' <returns></returns>
+        Default Public Overloads Property Item(index As VBInteger) As T
+            Get
+                Return Item(index.Value)
+            End Get
+            Set(value As T)
+                Item(index.Value) = value
             End Set
         End Property
 
@@ -428,7 +443,8 @@ Namespace Language
         End Operator
 
         ''' <summary>
-        ''' Adds the elements of the specified collection to the end of the <see cref="List(Of T)"/>.
+        ''' Adds the elements of the specified collection to the begining of the <paramref name="list"/> <see cref="List(Of T)"/>.
+        ''' (output = <paramref name="vals"/> contract <paramref name="list"/>)
         ''' (这个操作符并不会修改所输入的两个原始序列的内容)
         ''' </summary>
         ''' <param name="vals"></param>

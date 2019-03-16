@@ -1,51 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::380792b272e3f55375e3fc2c376439f2, Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::b8addfa9d0676b5708462da5653a79db, Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module FastaExportMethods
-' 
-'         Function: __seqCorrupted, Complement, (+3 Overloads) Export, FastaCorrupted, FastaTrimCorrupt
-'                   Load, LoadFastaToken, (+3 Overloads) Merge, Reverse
-'         Class SchemaCache
-' 
-'             Properties: attributes, TitleFormat
-' 
-'             Constructor: (+1 Overloads) Sub New
-'             Function: GetTitleFormat
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Module FastaExportMethods
+    ' 
+    '         Function: __seqCorrupted, Complement, (+3 Overloads) Export, FastaCorrupted, FastaTrimCorrupt
+    '                   Load, LoadFastaToken, (+3 Overloads) Merge, Reverse
+    '         Class SchemaCache
+    ' 
+    '             Properties: attributes, TitleFormat
+    ' 
+    '             Constructor: (+1 Overloads) Sub New
+    '             Function: GetTitleFormat
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

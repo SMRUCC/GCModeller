@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::371dd9058d2fdce99667d8bdfdba329e, Bio.Assembly\Assembly\MetaCyc\File\FileSystem\Classes.vb"
+﻿#Region "Microsoft.VisualBasic::b3f83defa8b7e4ee07aa029a4f370568, Bio.Assembly\Assembly\MetaCyc\File\FileSystem\Classes.vb"
 
     ' Author:
     ' 

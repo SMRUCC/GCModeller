@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1cd9cd6c044cde6442c39b175d27564, Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::71ba14c5066bc1c6f17a9becd9cff9ee, Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
 
     ' Author:
     ' 

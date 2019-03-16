@@ -1,43 +1,43 @@
-﻿#Region "Microsoft.VisualBasic::51c905ee22ee2a6e6c8b36d276a6cdc9, Microsoft.VisualBasic.Core\Extensions\WebServices\HttpGet.vb"
+﻿#Region "Microsoft.VisualBasic::e72c1819df62abe71b1a2879fc89c6d0, Microsoft.VisualBasic.Core\Extensions\WebServices\HttpGet.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module HttpGet
-' 
-'     Properties: HttpRequestTimeOut
-' 
-'     Function: [GET], __get, __httpRequest, Get_PageContent, LogException
-' 
-' /********************************************************************************/
+    ' Module HttpGet
+    ' 
+    '     Properties: HttpRequestTimeOut
+    ' 
+    '     Function: [GET], __get, __httpRequest, Get_PageContent, LogException
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -68,8 +68,6 @@ Public Module HttpGet
     <Extension> Public Function [GET](url As String,
                                       <Parameter("Request.TimeOut")>
                                       Optional retry As UInt16 = 0,
-                                      <Parameter("FileSystem.Works?", "Is this a local html document on your filesystem?")>
-                                      Optional isFileUrl As Boolean = False,
                                       Optional headers As Dictionary(Of String, String) = Nothing,
                                       Optional proxy As String = Nothing,
                                       Optional doNotRetry404 As Boolean = True,
@@ -86,12 +84,14 @@ Public Module HttpGet
     '''
     <Extension> Public Function Get_PageContent(url As String, Optional RequestTimeOut As UInteger = 20, Optional FileSystemUrl As Boolean = False) As String
 #End If
-        ' Call $"Request data from: {If(isFileUrl, url.ToFileURL, url)}".__DEBUG_ECHO
+        Dim isFileUrl As String = (InStr(url, "http://", CompareMethod.Text) <> 1) AndAlso (InStr(url, "https://", CompareMethod.Text) <> 1)
+
         Call $"GET {If(isFileUrl, url.ToFileURL, url)}".__DEBUG_ECHO
 
-        If FileIO.FileSystem.FileExists(url) Then
+        ' 类似于php之中的file_get_contents函数,可以读取本地文件内容
+        If File.Exists(url) Then
             Call "[Job DONE!]".__DEBUG_ECHO
-            Return FileIO.FileSystem.ReadAllText(url)
+            Return url.ReadAllText
         Else
             If isFileUrl Then
                 Call $"URL {url.ToFileURL} can not solved on your filesystem!".Warning
@@ -119,7 +119,7 @@ Public Module HttpGet
         End If
 
         Try
-RETRY:      Return __get(url, headers, proxy, UA)
+RETRY:      Return BuildWebRequest(url, headers, proxy, UA).__get()
         Catch ex As Exception When InStr(ex.Message, "(404) Not Found") > 0 AndAlso DoNotRetry404
             Return LogException(url, New Exception(url, ex))
 
@@ -154,8 +154,7 @@ RETRY:      Return __get(url, headers, proxy, UA)
     ''' <returns></returns>
     Public Property HttpRequestTimeOut As Double
 
-    Private Function __get(url$, headers As Dictionary(Of String, String), proxy$, UA$) As String
-        Dim timer As Stopwatch = Stopwatch.StartNew
+    Public Function BuildWebRequest(url$, headers As Dictionary(Of String, String), proxy$, UA$) As HttpWebRequest
         Dim webRequest As HttpWebRequest = HttpWebRequest.Create(url)
 
         webRequest.Headers.Add("Accept-Language", "en-US,en;q=0.8,zh-Hans-CN;q=0.5,zh-Hans;q=0.3")
@@ -174,7 +173,14 @@ RETRY:      Return __get(url, headers, proxy, UA)
             Call webRequest.SetProxy(proxy)
         End If
 
-        Using respStream As Stream = webRequest.GetResponse.GetResponseStream,
+        Return webRequest
+    End Function
+
+    <Extension> Private Function __get(webrequest As HttpWebRequest) As String
+        Dim timer As Stopwatch = Stopwatch.StartNew
+        Dim url As String = webrequest.RequestUri.ToString
+
+        Using respStream As Stream = webrequest.GetResponse.GetResponseStream,
             reader As New StreamReader(respStream)
 
             Dim htmlBuilder As New StringBuilder
