@@ -558,6 +558,14 @@ Namespace API
             End SyncLock
         End Sub
 
+        Public Sub gc()
+            SyncLock R
+                With R
+                    .call = "gc();"
+                End With
+            End SyncLock
+        End Sub
+
         ''' <summary>
         ''' List Objects
         ''' 

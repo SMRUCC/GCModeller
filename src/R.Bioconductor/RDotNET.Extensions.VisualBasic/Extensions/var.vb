@@ -50,13 +50,18 @@
 Imports System.Runtime.CompilerServices
 Imports System.Web.Script.Serialization
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports Rbase = RDotNET.Extensions.VisualBasic.API.base
 
 ''' <summary>
 ''' The R runtime variable.(当隐式转换为字符串的时候，返回的是变量名)
 ''' </summary>
 ''' 
-Public Class var
+Public Class var : Implements IDisposable
 
+    ''' <summary>
+    ''' The variable name in R runtime environment.
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property Name As String
 
     Public ReadOnly Property type As String
@@ -231,4 +236,42 @@ Public Class var
     Public Shared Widening Operator CType(expr As Microsoft.VisualBasic.Language.Value) As var
         Return New var(Scripting.ToString(expr.Value, NULL))
     End Operator
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' To detect redundant calls
+
+    ' IDisposable
+    ''' <summary>
+    ''' Call gc() in R environment.
+    ''' </summary>
+    ''' <param name="disposing"></param>
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not disposedValue Then
+            If disposing Then
+                ' TODO: dispose managed state (managed objects).
+                Rbase.rm(list:=Name)
+                Rbase.gc()
+            End If
+
+            ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
+            ' TODO: set large fields to null.
+        End If
+        disposedValue = True
+    End Sub
+
+    ' TODO: override Finalize() only if Dispose(disposing As Boolean) above has code to free unmanaged resources.
+    'Protected Overrides Sub Finalize()
+    '    ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' This code added by Visual Basic to correctly implement the disposable pattern.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
+        Dispose(True)
+        ' TODO: uncomment the following line if Finalize() is overridden above.
+        ' GC.SuppressFinalize(Me)
+    End Sub
+#End Region
 End Class
