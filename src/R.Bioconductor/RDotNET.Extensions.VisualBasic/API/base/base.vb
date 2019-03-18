@@ -838,6 +838,32 @@ Namespace API
         ''' <returns></returns>
         Public Function list(ParamArray args As ArgumentReference()) As String
             Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- list({args.argumentExpression});"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        Public Function list(obj As Dictionary(Of String, String)) As String
+            SyncLock R
+                With R
+                    Dim var$ = base.list
+
+                    For Each slot In obj
+                        .call = $"{var}$'{slot.Key}' <- {slot.Value};"
+                    Next
+
+                    Return var
+                End With
+            End SyncLock
+        End Function
+
+        <Extension>
+        Private Function argumentExpression(args As ArgumentReference()) As String
             Dim assigns$() = args _
                 .Select(Function(f)
                             Return f.Expression(
@@ -848,13 +874,7 @@ Namespace API
                         End Function) _
                 .ToArray
 
-            SyncLock R
-                With R
-                    .call = $"{var} <- list({assigns.JoinBy(", ")});"
-                End With
-            End SyncLock
-
-            Return var
+            Return assigns.JoinBy(", ")
         End Function
 
         ''' <summary>
@@ -986,9 +1006,10 @@ Namespace API
         End Function
 
         ''' <summary>
-        ''' Data Frames
+        ''' ### Data Frames
         ''' 
-        ''' This function creates data frames, tightly coupled collections of variables which share many of the properties of matrices and of lists, used as the fundamental data structure by most of R's modeling software.
+        ''' This function creates data frames, tightly coupled collections of variables which share many of the properties of matrices and 
+        ''' of lists, used as the fundamental data structure by most of R's modeling software.
         ''' </summary>
         ''' <param name="x">
         ''' these arguments are Of either the form value Or tag = value. Component names are created based On the tag (If present) Or the deparsed argument itself.
@@ -1042,6 +1063,26 @@ Namespace API
             Call $"{var} <- data.frame({x.JoinBy(", ")}, row.names = {paramRowNames}, check.rows = {checkRows.λ},
            check.names = {checkNames.λ},
            stringsAsFactors = {stringsAsFactors})".__call
+
+            Return var
+        End Function
+
+        ''' <summary>
+        ''' ### Data Frames
+        ''' 
+        ''' This function creates data frames, tightly coupled collections of variables which share many of the properties of matrices and 
+        ''' of lists, used as the fundamental data structure by most of R's modeling software.
+        ''' </summary>
+        ''' <param name="columns"></param>
+        ''' <returns></returns>
+        Public Function dataframe(ParamArray columns As ArgumentReference()) As String
+            Dim var As String = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- data.frame({columns.argumentExpression});"
+                End With
+            End SyncLock
 
             Return var
         End Function
