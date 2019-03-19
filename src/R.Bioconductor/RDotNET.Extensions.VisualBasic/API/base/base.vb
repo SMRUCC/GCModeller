@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace API
@@ -430,14 +431,9 @@ Namespace API
                                Optional frame$ = NULL,
                                Optional mode$ = "any",
                                Optional [inherits] As Boolean = True) As Boolean
-            Dim var$ = App.NextTempName
-
             SyncLock R
                 With R
-                    .call = $"{var} <- exists({Rstring(x)}, where = {where},  mode = {Rstring(mode)},
-       inherits = {[inherits].λ});"
-
-                    Return .Evaluate(var) _
+                    Return .Evaluate(statement:=$"exists({Rstring(x)}, where = {where},  mode = {Rstring(mode)}, inherits = {[inherits].λ})") _
                            .AsLogical _
                            .First
                 End With
@@ -600,11 +596,15 @@ Namespace API
                            Optional pattern$ = Nothing,
                            Optional sorted As Boolean = True) As String
             Dim var$ = App.NextTempName
-            Dim args As New Dictionary(Of String, String)
 
             SyncLock R
                 With R
-                    .call = $"{var} <- ls({name}, pos = {pos}, envir = as.environment({pos}), all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ})"
+                    If name.StringEmpty Then
+                        .call = $"{var} <- ls(pos = {pos}, envir = as.environment({pos}), all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ});"
+                    Else
+                        .call = $"{var} <- ls({name}, pos = {pos}, envir = as.environment({pos}), all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ});"
+                    End If
+
                     Return var
                 End With
             End SyncLock
@@ -873,16 +873,35 @@ Namespace API
         <Extension>
         Private Function argumentExpression(args As ArgumentReference()) As String
             Dim assigns$() = args _
-                .Select(Function(f)
-                            Return f.Expression(
-                                null:=NULL,
-                                stringEscaping:=AddressOf EscapingHelper.R_Escaping,
-                                isVar:=AddressOf base.exists
-                            )
-                        End Function) _
+                .Select(Function(f) f.parameterValueAssign) _
                 .ToArray
 
             Return assigns.JoinBy(", ")
+        End Function
+
+        <Extension>
+        Private Function parameterValueAssign(f As ArgumentReference) As String
+            If Not f.value Is Nothing AndAlso f.value.GetType Is GetType(var) Then
+                Return $"{f.name} = {DirectCast(f.value, var).Name}"
+            Else
+                If f.value Is Nothing Then
+                    Return $"{f.name} = NULL"
+                ElseIf f.value.GetType Is GetType(String) OrElse f.value.GetType Is GetType(Char) Then
+                    ' 2019-03-19
+                    ' 有些时候会因为二进制文件读取的原因导致字符串结尾出现0字节的字符
+                    ' 这会导致R报错
+                    ' 所以会需要删除一下最末尾的0字节的字符
+                    Dim str As String = CStr(f.value).Trim(ASCII.NUL)
+
+                    If base.exists(str) Then
+                        Return $"{f.name} = {str}"
+                    Else
+                        Return $"{f.name} = {Rstring(str)}"
+                    End If
+                Else
+                    Return $"{f.name} = {f.value}"
+                End If
+            End If
         End Function
 
         ''' <summary>

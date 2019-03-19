@@ -113,6 +113,13 @@ Module RInit
 
         If Directory.Exists(rPath) = False Then
             Throw New DirectoryNotFoundException(R_HOME_NOT_FOUND & " ---> """ & rPath & """")
+        Else
+            Dim pathEnvir As String() = oldPath _
+                .Split(Path.PathSeparator) _
+                .Where(Function(path) path <> rPath) _
+                .ToArray
+
+            oldPath = pathEnvir.JoinBy(Path.PathSeparator)
         End If
 
         Dim newPath = String.Format("{0}{1}{2}", rPath, Path.PathSeparator, oldPath)
@@ -132,7 +139,7 @@ Module RInit
             Call Environment.SetEnvironmentVariable("R_HOME", rHome)
         End If
 
-        With ExtendedEngine.__init("RDotNet")
+        With ExtendedEngine.__init("RDotNet_" & App.NextTempName)
             Call .Initialize()
             Return .ByRef
         End With
