@@ -874,11 +874,15 @@ Namespace API
         Private Function argumentExpression(args As ArgumentReference()) As String
             Dim assigns$() = args _
                 .Select(Function(f)
-                            Return f.Expression(
-                                null:=NULL,
-                                stringEscaping:=AddressOf EscapingHelper.R_Escaping,
-                                isVar:=AddressOf base.exists
-                            )
+                            If Not f.value Is Nothing AndAlso f.value.GetType Is GetType(var) Then
+                                Return $"{f.name} = {DirectCast(f.value, var).Name}"
+                            Else
+                                Return f.Expression(
+                                    null:=NULL,
+                                    stringEscaping:=AddressOf EscapingHelper.R_Escaping,
+                                    isVar:=AddressOf base.exists
+                                )
+                            End If
                         End Function) _
                 .ToArray
 

@@ -5,6 +5,9 @@ Imports RServer = RDotNET.Extensions.VisualBasic.RSystem
 Module ReSetREnvironmentTest
 
     Sub Main()
+
+        Call App.CurrentDirectory.__DEBUG_ECHO
+
         Using RServer.R
             With RServer.R
                 Dim x As var = 999
@@ -13,10 +16,16 @@ Module ReSetREnvironmentTest
                 !d = base.dataframe(!hello = x, !world = y)
 
                 Call base.print(!d)
+
+                Call App.CurrentDirectory.__DEBUG_ECHO
             End With
         End Using
 
+        Call App.CurrentDirectory.__DEBUG_ECHO
 
+        Call RServer.TryInit()
+
+        Call base.print("d")
 
         Pause()
     End Sub
