@@ -6,26 +6,22 @@ Module ReSetREnvironmentTest
 
     Sub Main()
 
-        Call App.CurrentDirectory.__DEBUG_ECHO
+        With RServer.R
+            Dim x As var = 999
+            Dim y As var = False
 
-        Using RServer.R
-            With RServer.R
-                Dim x As var = 999
-                Dim y As var = False
+            !d = base.dataframe(!hello = x, !world = y)
 
-                !d = base.dataframe(!hello = x, !world = y)
+            Call base.print("Resulted data frame:", [string]:=True)
+            Call base.print(!d)
 
-                Call base.print(!d)
+            Call .Reset()
+        End With
 
-                Call App.CurrentDirectory.__DEBUG_ECHO
-            End With
-        End Using
-
-        Call App.CurrentDirectory.__DEBUG_ECHO
-
-        Call RServer.TryInit()
-
-        Call base.print("d")
+        With RServer.R
+            Call base.print("After reset:", [string]:=True)
+            Call base.print("d")
+        End With
 
         Pause()
     End Sub

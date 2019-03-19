@@ -600,11 +600,15 @@ Namespace API
                            Optional pattern$ = Nothing,
                            Optional sorted As Boolean = True) As String
             Dim var$ = App.NextTempName
-            Dim args As New Dictionary(Of String, String)
 
             SyncLock R
                 With R
-                    .call = $"{var} <- ls({name}, pos = {pos}, envir = as.environment({pos}), all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ})"
+                    If name.StringEmpty Then
+                        .call = $"{var} <- ls(pos = {pos}, envir = as.environment({pos}), all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ});"
+                    Else
+                        .call = $"{var} <- ls({name}, pos = {pos}, envir = as.environment({pos}), all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ});"
+                    End If
+
                     Return var
                 End With
             End SyncLock

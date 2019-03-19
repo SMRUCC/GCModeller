@@ -50,6 +50,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text
+Imports RDotNET.Extensions.VisualBasic.API
 
 Public Class ExtendedEngine : Inherits REngine
 
@@ -144,6 +145,15 @@ Public Class ExtendedEngine : Inherits REngine
         Call __logs.Dispose()
 
         Call "Execute R server logs clean job done!".__INFO_ECHO
+    End Sub
+
+    ''' <summary>
+    ''' Reset current R environment
+    ''' </summary>
+    Public Sub Reset()
+        ' rm(list=ls(all=TRUE))
+        Call base.rm(list:=base.ls(allnames:=True))
+        Call base.gc()
     End Sub
 
     Shared Sub New()
