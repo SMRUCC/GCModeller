@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace API
@@ -430,14 +431,9 @@ Namespace API
                                Optional frame$ = NULL,
                                Optional mode$ = "any",
                                Optional [inherits] As Boolean = True) As Boolean
-            Dim var$ = App.NextTempName
-
             SyncLock R
                 With R
-                    .call = $"{var} <- exists({Rstring(x)}, where = {where},  mode = {Rstring(mode)},
-       inherits = {[inherits].λ});"
-
-                    Return .Evaluate(var) _
+                    Return .Evaluate(statement:=$"exists({Rstring(x)}, where = {where},  mode = {Rstring(mode)}, inherits = {[inherits].λ})") _
                            .AsLogical _
                            .First
                 End With
@@ -877,20 +873,31 @@ Namespace API
         <Extension>
         Private Function argumentExpression(args As ArgumentReference()) As String
             Dim assigns$() = args _
-                .Select(Function(f)
-                            If Not f.value Is Nothing AndAlso f.value.GetType Is GetType(var) Then
-                                Return $"{f.name} = {DirectCast(f.value, var).Name}"
-                            Else
-                                Return f.Expression(
-                                    null:=NULL,
-                                    stringEscaping:=AddressOf EscapingHelper.R_Escaping,
-                                    isVar:=AddressOf base.exists
-                                )
-                            End If
-                        End Function) _
+                .Select(Function(f) f.parameterValueAssign) _
                 .ToArray
 
             Return assigns.JoinBy(", ")
+        End Function
+
+        <Extension>
+        Private Function parameterValueAssign(f As ArgumentReference) As String
+            If Not f.value Is Nothing AndAlso f.value.GetType Is GetType(var) Then
+                Return $"{f.name} = {DirectCast(f.value, var).Name}"
+            Else
+                If f.value Is Nothing Then
+                    Return $"{f.name} = NULL"
+                ElseIf f.value.GetType Is GetType(String) OrElse f.value.GetType Is GetType(Char) Then
+                    Dim str As String = CStr(f.value).Trim(ASCII.NUL)
+
+                    If base.exists(str) Then
+                        Return $"{f.name} = {str}"
+                    Else
+                        Return $"{f.name} = {Rstring(str)}"
+                    End If
+                Else
+                    Return $"{f.name} = {f.value}"
+                End If
+            End If
         End Function
 
         ''' <summary>

@@ -4,7 +4,17 @@ Imports RServer = RDotNET.Extensions.VisualBasic.RSystem
 
 Module ReSetREnvironmentTest
 
+    Sub existsTest()
+
+        Console.WriteLine(base.exists("hello"))
+
+        Pause()
+
+    End Sub
+
     Sub Main()
+
+        Call existsTest()
 
         With RServer.R
             Dim x As var = 999
