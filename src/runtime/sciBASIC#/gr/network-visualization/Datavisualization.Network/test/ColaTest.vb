@@ -7,6 +7,8 @@ Module ColaTest
 
         Dim network As network = network.example
 
+
+        Pause()
     End Sub
 
 
@@ -26,7 +28,7 @@ Module ColaTest
 
             Dim links As New List(Of Link(Of Node))
             Dim addLink = Sub(a$, b$)
-                              Call links.Add(New Link(Of Node) With {.source = nodes(a), .target = nodes("b")})
+                              Call links.Add(New Link(Of Node) With {.source = nodes(a), .target = nodes(b)})
                           End Sub
 
             Call addLink(1, 2)
