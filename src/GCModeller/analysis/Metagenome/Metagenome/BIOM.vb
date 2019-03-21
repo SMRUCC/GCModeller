@@ -167,7 +167,7 @@ Public Module BIOM
         Dim l As New List(Of String)
 
         For Each rank As SeqValue(Of String) In descRanks
-            If tax.ContainsKey(rank.value) AndAlso Not tax(rank.value).IsOneOfA(Unknown) Then
+            If tax.ContainsKey(rank.value) AndAlso Not tax(rank.value) Like Unknown Then
                 l += BIOMTaxonomy.BIOMPrefix(rank) & tax(rank.value)
             Else
                 l += "NA"

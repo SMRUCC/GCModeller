@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::f7c59ca55e01537c926db45c31190a8a, CLI_tools\eggHTS\CLI\Samples\iTraq.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: iTraqAnalysisMatrixSplit, iTraqBridge, iTraqRSDPvalueDensityPlot, iTraqSignReplacement, iTraqTtest
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: iTraqAnalysisMatrixSplit, iTraqBridge, iTraqRSDPvalueDensityPlot, iTraqSignReplacement, iTraqTtest
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.MIME.Office.Excel.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
@@ -91,34 +92,44 @@ Partial Module CLI
 
     <ExportAPI("/iTraq.Symbol.Replacement")>
     <Description("* Using this CLI tool for processing the tag header of iTraq result at first.")>
-    <Usage("/iTraq.Symbol.Replacement /in <iTraq.data.csv/xlsx> /symbols <symbols.csv> [/sheet.name <Sheet1> /out <out.DIR>]")>
+    <Usage("/iTraq.Symbol.Replacement /in <iTraq.data.csv/xlsx> /symbols <symbols.csv/xlsx> [/sheet.name <Sheet1> /symbolSheet <sheetName> /out <out.DIR>]")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv, *.xlsx",
               AcceptTypes:={GetType(iTraqReader)},
               Description:="")>
     <Argument("/symbols", False, CLITypes.File,
+              Extensions:="*.csv, *.xlsx",
               AcceptTypes:={GetType(iTraqSymbols)},
               Description:="Using for replace the mass spectrum expeirment symbol to the user experiment tag.")>
     <Group(CLIGroups.iTraqTool)>
     Public Function iTraqSignReplacement(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].ParentPath)
-        Dim symbols = (args <= "/symbols").LoadCsv(Of iTraqSymbols)
-        Dim input$
+        Dim symbols As iTraqSymbols()
+        Dim input As Value(Of String) = ""
+
+        With (args <= "/symbols")
+            If .ExtensionSuffix.TextEquals("csv") Then
+                symbols = .LoadCsv(Of iTraqSymbols)
+            Else
+                symbols = Xlsx.Open(.ByRef) _
+                    .GetTable(args("/symbolSheet") Or Sheet1) _
+                    .AsDataSource(Of iTraqSymbols) _
+                    .ToArray
+            End If
+        End With
 
         If [in].ExtensionSuffix.TextEquals("csv") Then
             input = [in]
         Else
-            input = App.GetAppSysTempFile(".csv", App.PID)
-
             Dim sheet$ = args <= "/sheet.Name"
 
             Call Xlsx.Open([in]) _
                 .GetTable(sheet Or "Sheet1".AsDefault) _
-                .Save(input, encoding:=Encodings.UTF8)
+                .Save(input = App.GetAppSysTempFile(, App.PID), encoding:=Encodings.UTF8)
         End If
 
-        With [input].LoadCsv(Of iTraqReader)
+        With [input].Value.LoadCsv(Of iTraqReader)
             Call .iTraqMatrix(symbols) _
                  .ToArray _
                  .SaveTo(out & "/matrix.csv")

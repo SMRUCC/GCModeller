@@ -200,9 +200,7 @@ Public Module Workflow
 
                         Return genome.Features _
                             .Where(Function(feature)
-                                       Return feature _
-                                           .KeyName _
-                                           .IsOneOfA(centralDogmaComponents)
+                                       Return feature.KeyName Like centralDogmaComponents
                                    End Function) _
                             .GroupBy(Function(feature)
                                          Return feature.Query("locus_tag")

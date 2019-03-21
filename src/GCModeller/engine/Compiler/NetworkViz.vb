@@ -34,7 +34,7 @@ Public Module NetworkViz
                     .Select(Function(map) map.pathways) _
                     .IteratesALL _
                     .Where(predicate:=Function(pathway)
-                                          Return pathway.ID.IsOneOfA(.ByRef)
+                                          Return pathway.ID Like .ByRef
                                       End Function) _
                     .Select(Function(pathway) pathway.enzymes) _
                     .IteratesALL _
@@ -80,7 +80,7 @@ Public Module NetworkViz
             .Enzymes _
             .Where(Function(enzyme)
                        ' 在这里做代谢途径的酶列表的筛选
-                       Return enzyme.geneID.IsOneOfA(pathwayEnzymes)
+                       Return enzyme.geneID Like pathwayEnzymes
                    End Function) _
             .Select(Function(enzyme)
                         Return enzyme _
@@ -118,7 +118,7 @@ Public Module NetworkViz
             .Enzymes _
             .Where(Function(enzyme)
                        ' 在这里做代谢途径的酶列表的筛选
-                       Return enzyme.geneID.IsOneOfA(pathwayEnzymes)
+                       Return enzyme.geneID Like pathwayEnzymes
                    End Function) _
             .Select(Function(enzyme)
                         Return enzyme.catalysis _
@@ -136,7 +136,7 @@ Public Module NetworkViz
         ' 如果进行代谢途径筛选的话，则删除剩余的gene节点，这些基因节点都不是目标代谢途径的相关的基因
         If Not pathways.IsNullOrEmpty Then
             geneNodes = geneNodes.Values _
-                .Where(Function(gene) gene.ID.IsOneOfA(pathwayEnzymes)) _
+                .Where(Function(gene) gene.ID Like pathwayEnzymes) _
                 .ToDictionary
         End If
 

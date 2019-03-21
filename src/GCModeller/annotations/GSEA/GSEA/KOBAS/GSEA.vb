@@ -29,7 +29,7 @@ Public Module KOBAS_GSEA
             For Each j As Integer In Enumerable.Range(0, gene_num)
                 Dim gene = gene_list(j)
                 ' for each in multi_gene :
-                If gene.IsOneOfA(gset_genes(i)) Then
+                If gene Like gset_genes(i) Then
                     is_hit = 1
                     hit_g.Add(gene)
                 End If

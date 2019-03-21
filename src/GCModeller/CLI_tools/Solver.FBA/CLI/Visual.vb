@@ -155,7 +155,7 @@ Partial Module CLI
                                Else
                                    Dim locus_tag$ = enz.Comment
 
-                                   If locus_tag.IsOneOfA(chromosomeGenes) Then
+                                   If locus_tag Like chromosomeGenes Then
                                        Return False
                                    Else
                                        Return True
@@ -166,7 +166,7 @@ Partial Module CLI
                                 Dim locus_tag$ = enz.Comment
                                 Dim color$
 
-                                If locus_tag.IsOneOfA(chromosomeGenes) Then
+                                If locus_tag Like chromosomeGenes Then
                                     color = geneColor
                                 Else
                                     color = plasmidHighlight

@@ -206,7 +206,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap.scatter.3D")>
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
-    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /arrow.factor <default=1,2> /cluster.title <names.csv> /out <out.png>]")>
+    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/display.labels <default=-1> /cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /arrow.factor <default=1,2> /cluster.title <names.csv> /out <out.png>]")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(EntityClusterModel)},
               Extensions:="*.csv",
@@ -227,6 +227,9 @@ Partial Module CLI
     <Argument("/out", True, CLITypes.File,
               Extensions:="*.png, *.svg",
               Description:="The file path of the output plot image.")>
+    <Argument("/display.labels", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="If this parameter is positive and then all of the value greater than this quantile threshold its labels will be display on the plot.")>
     <Group(CLIGroups.DataVisualize_cli)>
     Public Function DEPHeatmapScatter3D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -237,6 +240,7 @@ Partial Module CLI
         Dim clusterData As EntityClusterModel() = [in].LoadCsv(Of EntityClusterModel).ToArray
         Dim viewAngle As Vector = (args <= "/view.angle") Or "30,60,-56.25".AsDefault
         Dim viewDistance# = args.GetValue("/view.distance", 2500)
+        Dim qDisplay# = args("/display.labels") Or -1.0
         Dim camera As New Camera With {
             .fov = 500000,
             .screen = size.SizeParser,
@@ -256,7 +260,7 @@ Partial Module CLI
         End If
 
         Return clusterData _
-            .Scatter3D(category, camera, size, schema:=schema, arrowFactor:=arrowFactor) _
+            .Scatter3D(category, camera, size, schema:=schema, arrowFactor:=arrowFactor, labelsQuantile:=qDisplay) _
             .AsGDIImage _
             .CorpBlank(30, Color.White) _
             .SaveAs(path:=out) _
