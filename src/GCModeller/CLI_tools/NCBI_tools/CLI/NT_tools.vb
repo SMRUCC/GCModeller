@@ -79,7 +79,7 @@ Partial Module CLI
             For Each fa As FastaSeq In New StreamIterator([in]).ReadStream
                 Dim acc As String = accid(fa.Title).ToLower
 
-                If acc.IsOneOfA(idlist) Then
+                If acc Like idlist Then
                     Call writer.WriteLine(fa.GenerateDocument(120))
                     Call fa.Title.__INFO_ECHO
                     Call idlist.Delete(acc)
