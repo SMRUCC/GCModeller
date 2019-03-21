@@ -286,6 +286,18 @@ Namespace ComponentModel.Collection
             Return index
         End Operator
 
+        ''' <summary>
+        ''' <paramref name="item"/> is one of the element in <paramref name="indexr"/>
+        ''' </summary>
+        ''' <param name="item"></param>
+        ''' <param name="indexr"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator Like(item As T, indexr As Index(Of T)) As Boolean
+            Return indexr(x:=item) > -1
+        End Operator
+
         Public Iterator Function GetEnumerator() As IEnumerator(Of SeqValue(Of T)) Implements IEnumerable(Of SeqValue(Of T)).GetEnumerator
             For Each o As SeqValue(Of T) In index
                 Yield o
