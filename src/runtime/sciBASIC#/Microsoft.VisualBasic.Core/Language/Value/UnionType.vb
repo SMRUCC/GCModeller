@@ -61,12 +61,34 @@ Namespace Language
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Narrowing Operator CType(obj As UnionType(Of A, B, C)) As C
             Return obj.VC
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Narrowing Operator CType(obj As UnionType(Of A, B, C)) As A
+            Return obj.VA
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Narrowing Operator CType(obj As UnionType(Of A, B, C)) As B
+            Return obj.VB
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Widening Operator CType(c As C) As UnionType(Of A, B, C)
-            Return New UnionType(Of A, B) With {.Value = c}
+            Return New UnionType(Of A, B, C) With {.Value = c}
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Widening Operator CType(a As A) As UnionType(Of A, B, C)
+            Return New UnionType(Of A, B, C) With {.Value = a}
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Widening Operator CType(b As B) As UnionType(Of A, B, C)
+            Return New UnionType(Of A, B, C) With {.Value = b}
         End Operator
     End Class
 End Namespace
