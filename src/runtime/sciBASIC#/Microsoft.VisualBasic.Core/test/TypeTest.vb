@@ -4,6 +4,10 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Module TypeTest
 
     Sub Main()
+
+
+        Call test()
+
         Dim o As UnionType(Of String, Integer(), Char())
 
         o = "string"
@@ -27,4 +31,31 @@ Module TypeTest
 
         Pause()
     End Sub
+
+    Sub test()
+
+        Dim chars As UnionType(Of Char(), Integer())
+
+        chars = CharArray("Hello world!", False)
+
+        Console.WriteLine(CType(chars, Char()).GetJson)
+        Console.WriteLine(chars Like GetType(Integer()))
+        Console.WriteLine(chars Like GetType(Char()))
+
+        chars = CharArray("Hello world!", True)
+
+        Console.WriteLine(CType(chars, Integer()).GetJson)
+        Console.WriteLine(chars Like GetType(Integer()))
+        Console.WriteLine(chars Like GetType(Char()))
+
+        Pause()
+    End Sub
+
+    Public Function CharArray(s As String, ascii As Boolean) As UnionType(Of Char(), Integer())
+        If ascii Then
+            Return s.Select(Function(c) AscW(c)).ToArray
+        Else
+            Return s.ToArray
+        End If
+    End Function
 End Module
