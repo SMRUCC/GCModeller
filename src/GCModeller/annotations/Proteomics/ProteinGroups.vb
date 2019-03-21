@@ -155,13 +155,13 @@ Public Module ProteinGroups
             Dim seq As VBInteger = 0
 
             For Each protein As Uniprot.XML.entry In uniprotProteomics.EnumerateEntries(uniprotXML)
-                If protein.accessions.Any(Function(acc) acc.IsOneOfA(idlist)) Then
+                If protein.accessions.Any(Function(acc) acc Like idlist) Then
                     Dim uniprot As Dictionary(Of Uniprot.XML.entry) = protein.ShadowCopy.ToDictionary
                     Dim list$() = protein.accessions
                     Dim geneID$
 
                     If accID Then
-                        geneID = list.Where(Function(acc) acc.IsOneOfA(idlist)).First
+                        geneID = list.Where(Function(acc) acc Like idlist).First
                     Else
                         geneID = ++seq
                     End If

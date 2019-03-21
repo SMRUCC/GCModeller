@@ -54,7 +54,7 @@ Public Module UniProtExtensions
         For Each taxonomy As Metagenomics.Taxonomy In taxonomyList
             For Each hit As TaxonomyRef In repo.Selects(range:=taxonomy)
                 If distinct Then
-                    If Not hit.TaxonID.IsOneOfA(hitsID) Then
+                    If Not hit.TaxonID Like hitsID Then
                         Call hitsID.Add(hit.TaxonID)
                         Yield hit
                     End If
