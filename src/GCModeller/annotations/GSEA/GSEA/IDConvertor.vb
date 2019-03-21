@@ -51,7 +51,7 @@ Public Class IDConvertor
                 Dim i% = 0
 
                 For Each [set] As NamedVector(Of String) In idSets.Values
-                    If [set].name.IsOneOfA(.ByRef) Then
+                    If [set].name Like .ByRef Then
                         If i >= n Then
                             Return idType
                         Else
