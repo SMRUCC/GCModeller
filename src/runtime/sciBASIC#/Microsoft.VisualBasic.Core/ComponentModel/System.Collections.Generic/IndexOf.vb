@@ -295,7 +295,11 @@ Namespace ComponentModel.Collection
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator Like(item As T, indexr As Index(Of T)) As Boolean
-            Return indexr(x:=item) > -1
+            If item Is Nothing Then
+                Return False
+            Else
+                Return indexr(x:=item) > -1
+            End If
         End Operator
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of SeqValue(Of T)) Implements IEnumerable(Of SeqValue(Of T)).GetEnumerator
