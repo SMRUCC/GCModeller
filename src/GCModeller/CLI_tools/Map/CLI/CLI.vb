@@ -186,7 +186,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
             mics = GBFF.File.Load(gb) _
                 .Features _
                 .Where(Function(feature)
-                           Return Not feature.KeyName.IsOneOfA(notMics)
+                           Return Not feature.KeyName Like notMics
                        End Function) _
                 .Select(Function(feature)
                             Dim site As NucleotideLocation = feature.Location.ContiguousRegion

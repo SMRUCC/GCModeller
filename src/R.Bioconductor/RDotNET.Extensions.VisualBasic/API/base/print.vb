@@ -1,44 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::2ab2697873ca62ebec8cba746ee04bc2, RDotNET.Extensions.VisualBasic\API\base\print.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module base
-    ' 
-    '         Function: (+4 Overloads) print
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module base
+' 
+'         Function: (+4 Overloads) print
+' 
+' 
+' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.Language
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace API
 
@@ -57,10 +60,56 @@ Namespace API
         ''' description in case of a table with 0-extents (this can happen if a classifier has no valid data).
         ''' See noquote As an example Of a Class whose main purpose Is a specific print method.
         ''' </remarks>
+        Public Sub print(x As String, [string] As Boolean)
+            SyncLock R
+                With R
+                    If [string] Then
+                        .call = $"print({x.Rstring});"
+                    Else
+                        .call = $"print({x});"
+                    End If
+                End With
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' print prints its argument and returns it invisibly (via invisible(x)). It is a generic function 
+        ''' which means that new printing methods can be easily added for new classes.
+        ''' </summary>
+        ''' <param name="x">an object used to select a method.</param>
+        ''' <remarks>
+        ''' The default method, print.default has its own help page. Use methods("print") to get all the 
+        ''' methods for the print generic.
+        ''' print.factor allows some customization And Is used for printing ordered factors as well.
+        ''' print.table for printing tables allows other customization. As of R 3.0.0, it only prints a 
+        ''' description in case of a table with 0-extents (this can happen if a classifier has no valid data).
+        ''' See noquote As an example Of a Class whose main purpose Is a specific print method.
+        ''' </remarks>
         Public Sub print(x As String)
             SyncLock R
                 With R
-                    .call = $"print({x})"
+                    .call = $"print({x});"
+                End With
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' print prints its argument and returns it invisibly (via invisible(x)). It is a generic function 
+        ''' which means that new printing methods can be easily added for new classes.
+        ''' </summary>
+        ''' <param name="x">an object used to select a method.</param>
+        ''' <remarks>
+        ''' The default method, print.default has its own help page. Use methods("print") to get all the 
+        ''' methods for the print generic.
+        ''' print.factor allows some customization And Is used for printing ordered factors as well.
+        ''' print.table for printing tables allows other customization. As of R 3.0.0, it only prints a 
+        ''' description in case of a table with 0-extents (this can happen if a classifier has no valid data).
+        ''' See noquote As an example Of a Class whose main purpose Is a specific print method.
+        ''' </remarks>
+        Public Sub print(x As ArgumentReference)
+            SyncLock R
+                With R
+                    .call = $"print({x.name});"
                 End With
             End SyncLock
         End Sub

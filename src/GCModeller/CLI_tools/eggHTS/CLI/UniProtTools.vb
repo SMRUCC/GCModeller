@@ -119,7 +119,7 @@ Partial Module CLI
                 End If
 
                 For Each id In protein.EnumerateAllIDs
-                    If id.xrefID.IsOneOfA(list) Then
+                    If id.xrefID Like list Then
                         Call mapping.WriteLine(New RowObject(maps = {id.xrefID, id.Database} + uniprotKB).AsLine)
                         Call list.Delete(id.xrefID)
                         Call maps.GetJson.__DEBUG_ECHO
