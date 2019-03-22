@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::857afe774f8d54bbd305f228be703610, RDotNET.Extensions.VisualBasic\API\utils\utils.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module utils
-    ' 
-    '         Function: (+2 Overloads) data
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module utils
+' 
+'         Function: (+2 Overloads) data
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace API.utils
 
@@ -103,6 +103,30 @@ Namespace API.utils
         ''' <remarks>Simplify version of <see cref="data"/></remarks>
         Public Function data(x As String) As String
             Return data({x}).FirstOrDefault
+        End Function
+
+        ''' <summary>
+        ''' ### Report on Memory Allocation
+        ''' 
+        ''' reports the current or maximum memory allocation of the malloc function used in this version of R.
+        ''' </summary>
+        ''' <param name="max">
+        ''' logical. If TRUE the maximum amount of memory obtained from the OS Is reported, 
+        ''' if FALSE the amount currently in use, if NA the memory limit.
+        ''' </param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' These functions exist on other platforms but always report infinity as R does itself provide limits 
+        ''' on memory allocation—the OS's own facilities can be used.
+        ''' </remarks>
+        Public Function memory_size(Optional max As Boolean = False) As Double
+            SyncLock R
+                With R
+                    Return .Evaluate($"memory.size(max={max.λ})") _
+                           .AsNumeric _
+                           .First
+                End With
+            End SyncLock
         End Function
     End Module
 End Namespace

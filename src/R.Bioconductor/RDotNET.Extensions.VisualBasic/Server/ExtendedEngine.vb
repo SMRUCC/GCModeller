@@ -50,6 +50,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text
+Imports RDotNET.Extensions.VisualBasic.API
 
 Public Class ExtendedEngine : Inherits REngine
 
@@ -146,6 +147,15 @@ Public Class ExtendedEngine : Inherits REngine
         Call "Execute R server logs clean job done!".__INFO_ECHO
     End Sub
 
+    ''' <summary>
+    ''' Reset current R environment
+    ''' </summary>
+    Public Sub Reset()
+        ' rm(list=ls(all=TRUE))
+        Call base.rm(list:=base.ls(allnames:=True))
+        Call base.gc()
+    End Sub
+
     Shared Sub New()
     End Sub
 
@@ -165,8 +175,20 @@ Public Class ExtendedEngine : Inherits REngine
         '   throw new ArgumentException();
         '}
 
-        Dim engine As New ExtendedEngine(id, dll:=ProcessRDllFileName(dll))
+        Dim engine As New ExtendedEngine(id, dll:=ProcessRDllFileName(dll)) With {
+            .AutoPrint = False
+        }
         'instances.Add(id, engine);
         Return engine
     End Function
+
+    Protected Overrides Sub Dispose(disposing As Boolean)
+        ' 2019-03-19 RDotNet在销毁实例之后会改变当前的工作区到R_HOME
+        ' 在这里改回来
+        With App.CurrentDirectory
+            Call __cleanHook()
+            Call MyBase.Dispose(disposing)
+            Call Directory.SetCurrentDirectory(.ByRef)
+        End With
+    End Sub
 End Class

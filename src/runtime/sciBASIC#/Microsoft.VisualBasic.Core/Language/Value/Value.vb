@@ -61,8 +61,7 @@ Namespace Language
     ''' You can applying this data type into a dictionary object to makes the mathematics calculation more easily.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    Public Class Value(Of T) ': Implements ValueType
-        Implements IValueOf
+    Public Class Value(Of T) : Implements IValueOf
 
         ''' <summary>
         ''' This object have a <see cref="IValueOf.value"/> property for stores its data
@@ -144,6 +143,10 @@ Namespace Language
             End If
         End Function
 
+        Public Overloads Function Equals(other As T) As Boolean
+            Return Value.Equals(other)
+        End Function
+
         ''' <summary>
         ''' The object value with a specific type define.
         ''' </summary>
@@ -167,7 +170,7 @@ Namespace Language
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetUnderlyingType() As Type
+        Public Overridable Function GetUnderlyingType() As Type
             Return GetType(T)
         End Function
 
@@ -255,6 +258,11 @@ Namespace Language
             Return o
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator Like(o As Value(Of T), type As Type) As Boolean
+            Return o.GetUnderlyingType Is type
+        End Operator
+
         Public Shared Operator <>(value As Value(Of T), o As T) As T
             Throw New NotSupportedException
         End Operator
@@ -262,9 +270,5 @@ Namespace Language
         Public Shared Operator >=(value As Value(Of T), o As T) As T
             Throw New NotSupportedException
         End Operator
-
-        'Public Shared Operator &(o As Value(Of T)) As T
-        '    Return o.value
-        'End Operator
     End Class
 End Namespace

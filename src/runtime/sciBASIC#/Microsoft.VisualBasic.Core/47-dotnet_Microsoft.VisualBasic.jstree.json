@@ -556,93 +556,93 @@
         "n542": "Microsoft.VisualBasic.Core/Extensions/ValueTypes",
         "n543": "Microsoft.VisualBasic.Core/Extensions/ValueTypes/TimeSpanScale.vb",
         "n544": "Microsoft.VisualBasic.Core/Language/Value/CharStream.vb",
-        "n545": "Microsoft.VisualBasic.Core/Net/HTTP",
-        "n546": "Microsoft.VisualBasic.Core/Net/HTTP/ZipStream.vb",
-        "n547": "Microsoft.VisualBasic.Core/Net/HTTP/Multipart.vb",
-        "n548": "Microsoft.VisualBasic.Core/Net/HTTP/DataURI.vb",
-        "n549": "Microsoft.VisualBasic.Core/Language/Value/ByRefValueExtensions.vb",
-        "n550": "Microsoft.VisualBasic.Core/CommandLine/CLI",
-        "n551": "Microsoft.VisualBasic.Core/CommandLine/CLI/Scripting.vb",
-        "n552": "Microsoft.VisualBasic.Core/CommandLine/InteropService/Abstract.vb",
-        "n553": "Microsoft.VisualBasic.Core/CommandLine/InteropService/CLIAbstractor.vb",
-        "n554": "Microsoft.VisualBasic.Core/CommandLine/Parsers",
-        "n555": "Microsoft.VisualBasic.Core/CommandLine/Parsers/CLIParser.vb",
-        "n556": "Microsoft.VisualBasic.Core/CommandLine/Parsers/DictionaryParser.vb",
-        "n557": "Microsoft.VisualBasic.Core/CommandLine/InteropService/CLIBuilder.vb",
-        "n558": "Microsoft.VisualBasic.Core/CommandLine/CLI/IIORedirectAbstract.vb",
-        "n559": "Microsoft.VisualBasic.Core/CommandLine/CLI/IORedirectFile.vb",
-        "n560": "Microsoft.VisualBasic.Core/CommandLine/CLI/ProcExtensions.vb",
-        "n561": "Microsoft.VisualBasic.Core/CommandLine/Interpreters/Abstract.vb",
-        "n562": "Microsoft.VisualBasic.Core/CommandLine/Reflection/Grouping.vb",
-        "n563": "Microsoft.VisualBasic.Core/CommandLine/Reflection/CLITypes.vb",
-        "n564": "Microsoft.VisualBasic.Core/CommandLine/Reflection/CLIToken.vb",
-        "n565": "Microsoft.VisualBasic.Core/ComponentModel/DataSource/Abstract.vb",
-        "n566": "Microsoft.VisualBasic.Core/ComponentModel/DataSource/Tsv.vb",
-        "n567": "Microsoft.VisualBasic.Core/ComponentModel/DataStructures/CapacityQueue.vb",
-        "n568": "Microsoft.VisualBasic.Core/ComponentModel/System.Collections.Generic/BucketDictionary.vb",
-        "n569": "Microsoft.VisualBasic.Core/ComponentModel/DataStructures/FuzzyGroup.vb",
-        "n570": "Microsoft.VisualBasic.Core/ComponentModel/DataStructures/Trigger.vb",
-        "n571": "Microsoft.VisualBasic.Core/ComponentModel/File/BufferedStream.vb",
-        "n572": "Microsoft.VisualBasic.Core/ComponentModel/Ranges/Relations.vb",
-        "n573": "Microsoft.VisualBasic.Core/ComponentModel/System.Collections.Generic/BucketIndexOf.vb",
-        "n574": "Microsoft.VisualBasic.Core/ComponentModel/ValuePair/NamedTuple.vb",
-        "n575": "Microsoft.VisualBasic.Core/ComponentModel/Ranges/Sequence.vb",
-        "n576": "Microsoft.VisualBasic.Core/ComponentModel/Ranges/Extensions.vb",
-        "n577": "Microsoft.VisualBasic.Core/ComponentModel/Ranges/RangeList.vb",
-        "n578": "Microsoft.VisualBasic.Core/ComponentModel/System.Collections.Generic/IndexOf.vb",
-        "n579": "Microsoft.VisualBasic.Core/ComponentModel/System.Collections.Generic/MapsHelper.vb",
-        "n580": "Microsoft.VisualBasic.Core/ComponentModel/System.Collections.Generic/Dictionary(Of T, V).vb",
-        "n581": "Microsoft.VisualBasic.Core/Extensions/CodeDOM",
-        "n582": "Microsoft.VisualBasic.Core/Extensions/CodeDOM/CodeHelper.vb",
-        "n583": "Microsoft.VisualBasic.Core/Extensions/CodeDOM/References.vb",
-        "n584": "Microsoft.VisualBasic.Core/ApplicationServices/Debugger/VisualBasicAppException.vb",
-        "n585": "Microsoft.VisualBasic.Core/Extensions/Collection/AnonymousTypeHelper.vb",
-        "n586": "Microsoft.VisualBasic.Core/Extensions/Image/PointF3D.vb",
-        "n587": "Microsoft.VisualBasic.Core/Extensions/Math/NumeralSystem.vb",
-        "n588": "Microsoft.VisualBasic.Core/Extensions/Math/Matrix.vb",
-        "n589": "Microsoft.VisualBasic.Core/Extensions/Math/Percentage.vb",
-        "n590": "Microsoft.VisualBasic.Core/Extensions/Math/ScientificNotation.vb",
-        "n591": "Microsoft.VisualBasic.Core/Extensions/Reflection/Methods.vb",
-        "n592": "Microsoft.VisualBasic.Core/Extensions/ValueTypes/RangeExtensions.vb",
-        "n593": "Microsoft.VisualBasic.Core/Extensions/WebServices",
-        "n594": "Microsoft.VisualBasic.Core/Extensions/WebServices/HttpGet.vb",
-        "n595": "Microsoft.VisualBasic.Core/Scripting/Expressions",
-        "n596": "Microsoft.VisualBasic.Core/Scripting/Expressions/Aggregate.vb",
-        "n597": "Microsoft.VisualBasic.Core/Serialization/JSON/AnonymousJSON.vb",
-        "n598": "Microsoft.VisualBasic.Core/Text/Parser/CharEnumerator.vb",
-        "n599": "Microsoft.VisualBasic.Core/Text/Parser/TryParse.vb",
-        "n600": "Microsoft.VisualBasic.Core/Text/Patterns",
-        "n601": "Microsoft.VisualBasic.Core/Text/Patterns/Regexp.vb",
-        "n602": "Microsoft.VisualBasic.Core/Text/StringSimilarity/IEqualityComparer.vb",
-        "n603": "Microsoft.VisualBasic.Core/Extensions/StringHelpers/NumericFormatHelper.vb",
-        "n604": "Microsoft.VisualBasic.Core/Net/HTTP/GZStream.vb",
-        "n605": "Microsoft.VisualBasic.Core/Net/HTTP/sitemap.xml.vb",
-        "n606": "Microsoft.VisualBasic.Core/Language/Linq/Indexer.vb",
-        "n607": "Microsoft.VisualBasic.Core/Language/Linq/List(Of T).vb",
-        "n608": "Microsoft.VisualBasic.Core/Scripting/Expressions/Selector.vb",
-        "n609": "Microsoft.VisualBasic.Core/Scripting/Runtime/BinaryOperator.vb",
-        "n610": "Microsoft.VisualBasic.Core/Scripting/Runtime/OverloadsFunction.vb",
-        "n611": "Microsoft.VisualBasic.Core/Scripting/Runtime/Extensions.vb",
-        "n612": "Microsoft.VisualBasic.Core/ComponentModel/DataSource/Iterator.vb",
-        "n613": "Microsoft.VisualBasic.Core/Extensions/Collection/Enumerable.vb",
-        "n614": "Microsoft.VisualBasic.Core/ComponentModel/File/FileSaveHandle.vb",
-        "n615": "Microsoft.VisualBasic.Core/ComponentModel/Settings/ConfigEngine.vb",
-        "n616": "Microsoft.VisualBasic.Core/ComponentModel/ValuePair/GenericAbstract.vb",
-        "n617": "Microsoft.VisualBasic.Core/ComponentModel/ValuePair/Binding.vb",
-        "n618": "Microsoft.VisualBasic.Core/Language/Value/var.vb",
-        "n619": "Microsoft.VisualBasic.Core/Scripting/Expressions/ArrayIndex.vb",
-        "n620": "Microsoft.VisualBasic.Core/Scripting/Expressions/StringInterpolation.vb",
-        "n621": "Microsoft.VisualBasic.Core/ApplicationServices/Terminal/PipelineCLI.vb",
-        "n622": "Microsoft.VisualBasic.Core/ApplicationServices/Terminal/PrintAsTable.vb",
-        "n623": "Microsoft.VisualBasic.Core/ApplicationServices/Debugger/Config.vb",
-        "n624": "Microsoft.VisualBasic.Core/Extensions/ValueTypes/DateTimeHelper.vb",
-        "n625": "Microsoft.VisualBasic.Core/Text/Patterns/Wildcards.vb",
-        "n626": "Microsoft.VisualBasic.Core/Net/HTTP/UserAgent.vb",
-        "n627": "Microsoft.VisualBasic.Core/Extensions/WebServices/RequestBuilder.vb",
-        "n628": "Microsoft.VisualBasic.Core/Language/Linq/LanguageExtensions.vb",
-        "n629": "Microsoft.VisualBasic.Core/Language/Value/Value.vb",
-        "n630": "Microsoft.VisualBasic.Core/Language/Value/Pointer.vb",
-        "n631": "Microsoft.VisualBasic.Core/Language/Value/Uid.vb",
+        "n545": "Microsoft.VisualBasic.Core/Language/Value/UnionType.vb",
+        "n546": "Microsoft.VisualBasic.Core/Net/HTTP",
+        "n547": "Microsoft.VisualBasic.Core/Net/HTTP/ZipStream.vb",
+        "n548": "Microsoft.VisualBasic.Core/Net/HTTP/Multipart.vb",
+        "n549": "Microsoft.VisualBasic.Core/Net/HTTP/DataURI.vb",
+        "n550": "Microsoft.VisualBasic.Core/Language/Value/ByRefValueExtensions.vb",
+        "n551": "Microsoft.VisualBasic.Core/CommandLine/CLI",
+        "n552": "Microsoft.VisualBasic.Core/CommandLine/CLI/Scripting.vb",
+        "n553": "Microsoft.VisualBasic.Core/CommandLine/InteropService/Abstract.vb",
+        "n554": "Microsoft.VisualBasic.Core/CommandLine/InteropService/CLIAbstractor.vb",
+        "n555": "Microsoft.VisualBasic.Core/CommandLine/Parsers",
+        "n556": "Microsoft.VisualBasic.Core/CommandLine/Parsers/CLIParser.vb",
+        "n557": "Microsoft.VisualBasic.Core/CommandLine/Parsers/DictionaryParser.vb",
+        "n558": "Microsoft.VisualBasic.Core/CommandLine/InteropService/CLIBuilder.vb",
+        "n559": "Microsoft.VisualBasic.Core/CommandLine/CLI/IIORedirectAbstract.vb",
+        "n560": "Microsoft.VisualBasic.Core/CommandLine/CLI/IORedirectFile.vb",
+        "n561": "Microsoft.VisualBasic.Core/CommandLine/CLI/ProcExtensions.vb",
+        "n562": "Microsoft.VisualBasic.Core/CommandLine/Interpreters/Abstract.vb",
+        "n563": "Microsoft.VisualBasic.Core/CommandLine/Reflection/Grouping.vb",
+        "n564": "Microsoft.VisualBasic.Core/CommandLine/Reflection/CLITypes.vb",
+        "n565": "Microsoft.VisualBasic.Core/CommandLine/Reflection/CLIToken.vb",
+        "n566": "Microsoft.VisualBasic.Core/ComponentModel/DataSource/Abstract.vb",
+        "n567": "Microsoft.VisualBasic.Core/ComponentModel/DataSource/Tsv.vb",
+        "n568": "Microsoft.VisualBasic.Core/ComponentModel/DataStructures/CapacityQueue.vb",
+        "n569": "Microsoft.VisualBasic.Core/ComponentModel/System.Collections.Generic/BucketDictionary.vb",
+        "n570": "Microsoft.VisualBasic.Core/ComponentModel/DataStructures/FuzzyGroup.vb",
+        "n571": "Microsoft.VisualBasic.Core/ComponentModel/DataStructures/Trigger.vb",
+        "n572": "Microsoft.VisualBasic.Core/ComponentModel/File/BufferedStream.vb",
+        "n573": "Microsoft.VisualBasic.Core/ComponentModel/Ranges/Relations.vb",
+        "n574": "Microsoft.VisualBasic.Core/ComponentModel/System.Collections.Generic/BucketIndexOf.vb",
+        "n575": "Microsoft.VisualBasic.Core/ComponentModel/ValuePair/NamedTuple.vb",
+        "n576": "Microsoft.VisualBasic.Core/ComponentModel/Ranges/Sequence.vb",
+        "n577": "Microsoft.VisualBasic.Core/ComponentModel/Ranges/Extensions.vb",
+        "n578": "Microsoft.VisualBasic.Core/ComponentModel/Ranges/RangeList.vb",
+        "n579": "Microsoft.VisualBasic.Core/ComponentModel/System.Collections.Generic/IndexOf.vb",
+        "n580": "Microsoft.VisualBasic.Core/ComponentModel/System.Collections.Generic/MapsHelper.vb",
+        "n581": "Microsoft.VisualBasic.Core/ComponentModel/System.Collections.Generic/Dictionary(Of T, V).vb",
+        "n582": "Microsoft.VisualBasic.Core/Extensions/CodeDOM",
+        "n583": "Microsoft.VisualBasic.Core/Extensions/CodeDOM/CodeHelper.vb",
+        "n584": "Microsoft.VisualBasic.Core/Extensions/CodeDOM/References.vb",
+        "n585": "Microsoft.VisualBasic.Core/ApplicationServices/Debugger/VisualBasicAppException.vb",
+        "n586": "Microsoft.VisualBasic.Core/Extensions/Collection/AnonymousTypeHelper.vb",
+        "n587": "Microsoft.VisualBasic.Core/Extensions/Image/PointF3D.vb",
+        "n588": "Microsoft.VisualBasic.Core/Extensions/Math/NumeralSystem.vb",
+        "n589": "Microsoft.VisualBasic.Core/Extensions/Math/Matrix.vb",
+        "n590": "Microsoft.VisualBasic.Core/Extensions/Math/Percentage.vb",
+        "n591": "Microsoft.VisualBasic.Core/Extensions/Math/ScientificNotation.vb",
+        "n592": "Microsoft.VisualBasic.Core/Extensions/Reflection/Methods.vb",
+        "n593": "Microsoft.VisualBasic.Core/Extensions/ValueTypes/RangeExtensions.vb",
+        "n594": "Microsoft.VisualBasic.Core/Extensions/WebServices",
+        "n595": "Microsoft.VisualBasic.Core/Extensions/WebServices/HttpGet.vb",
+        "n596": "Microsoft.VisualBasic.Core/Scripting/Expressions",
+        "n597": "Microsoft.VisualBasic.Core/Scripting/Expressions/Aggregate.vb",
+        "n598": "Microsoft.VisualBasic.Core/Serialization/JSON/AnonymousJSON.vb",
+        "n599": "Microsoft.VisualBasic.Core/Text/Parser/CharEnumerator.vb",
+        "n600": "Microsoft.VisualBasic.Core/Text/Parser/TryParse.vb",
+        "n601": "Microsoft.VisualBasic.Core/Text/Patterns",
+        "n602": "Microsoft.VisualBasic.Core/Text/Patterns/Regexp.vb",
+        "n603": "Microsoft.VisualBasic.Core/Text/StringSimilarity/IEqualityComparer.vb",
+        "n604": "Microsoft.VisualBasic.Core/Extensions/StringHelpers/NumericFormatHelper.vb",
+        "n605": "Microsoft.VisualBasic.Core/Net/HTTP/GZStream.vb",
+        "n606": "Microsoft.VisualBasic.Core/Net/HTTP/sitemap.xml.vb",
+        "n607": "Microsoft.VisualBasic.Core/Language/Linq/Indexer.vb",
+        "n608": "Microsoft.VisualBasic.Core/Language/Linq/List(Of T).vb",
+        "n609": "Microsoft.VisualBasic.Core/Scripting/Expressions/Selector.vb",
+        "n610": "Microsoft.VisualBasic.Core/Scripting/Runtime/BinaryOperator.vb",
+        "n611": "Microsoft.VisualBasic.Core/Scripting/Runtime/OverloadsFunction.vb",
+        "n612": "Microsoft.VisualBasic.Core/Scripting/Runtime/Extensions.vb",
+        "n613": "Microsoft.VisualBasic.Core/ComponentModel/DataSource/Iterator.vb",
+        "n614": "Microsoft.VisualBasic.Core/Extensions/Collection/Enumerable.vb",
+        "n615": "Microsoft.VisualBasic.Core/ComponentModel/File/FileSaveHandle.vb",
+        "n616": "Microsoft.VisualBasic.Core/ComponentModel/Settings/ConfigEngine.vb",
+        "n617": "Microsoft.VisualBasic.Core/ComponentModel/ValuePair/GenericAbstract.vb",
+        "n618": "Microsoft.VisualBasic.Core/ComponentModel/ValuePair/Binding.vb",
+        "n619": "Microsoft.VisualBasic.Core/Language/Value/var.vb",
+        "n620": "Microsoft.VisualBasic.Core/Scripting/Expressions/ArrayIndex.vb",
+        "n621": "Microsoft.VisualBasic.Core/Scripting/Expressions/StringInterpolation.vb",
+        "n622": "Microsoft.VisualBasic.Core/ApplicationServices/Terminal/PipelineCLI.vb",
+        "n623": "Microsoft.VisualBasic.Core/ApplicationServices/Terminal/PrintAsTable.vb",
+        "n624": "Microsoft.VisualBasic.Core/ApplicationServices/Debugger/Config.vb",
+        "n625": "Microsoft.VisualBasic.Core/Extensions/ValueTypes/DateTimeHelper.vb",
+        "n626": "Microsoft.VisualBasic.Core/Text/Patterns/Wildcards.vb",
+        "n627": "Microsoft.VisualBasic.Core/Net/HTTP/UserAgent.vb",
+        "n628": "Microsoft.VisualBasic.Core/Extensions/WebServices/RequestBuilder.vb",
+        "n629": "Microsoft.VisualBasic.Core/Language/Linq/LanguageExtensions.vb",
+        "n630": "Microsoft.VisualBasic.Core/Language/Value/Value.vb",
+        "n631": "Microsoft.VisualBasic.Core/Language/Value/Pointer.vb",
         "n632": "Microsoft.VisualBasic.Core/Scripting/Runtime/Where.vb",
         "n633": "Microsoft.VisualBasic.Core/Serialization/JSON/JsonFormatter.vb",
         "n634": "Microsoft.VisualBasic.Core/Text/Parser/ParserValue.vb",
@@ -781,33 +781,34 @@
         "n767": "Microsoft.VisualBasic.Core/My/InnerQueue.vb",
         "n768": "Microsoft.VisualBasic.Core/ComponentModel/RelayCommand.vb",
         "n769": "Microsoft.VisualBasic.Core/Text/ASCII.vb",
-        "n770": "Microsoft.VisualBasic.Core/Language/StringHelpers.vb",
-        "n771": "Microsoft.VisualBasic.Core/Scripting/Actives.vb",
-        "n772": "Microsoft.VisualBasic.Core/Text/Paragraph.vb",
-        "n773": "Microsoft.VisualBasic.Core/Language/NET40_Compatible.vb",
-        "n774": "Microsoft.VisualBasic.Core/Scripting/ExternalCall.vb",
-        "n775": "Microsoft.VisualBasic.Core/ApplicationServices/App.vb",
-        "n776": "Microsoft.VisualBasic.Core/ApplicationServices/Debugger.vb",
-        "n777": "Microsoft.VisualBasic.Core/Language/NamespaceDoc.vb",
-        "n778": "Microsoft.VisualBasic.Core/Language/BaseClass.vb",
-        "n779": "Microsoft.VisualBasic.Core/Text/Splitter.vb",
-        "n780": "Microsoft.VisualBasic.Core/Text/TextEncodings.vb",
-        "n781": "Microsoft.VisualBasic.Core/Scripting/InputHandler.vb",
-        "n782": "Microsoft.VisualBasic.Core/CommandLine/CliResCommon.vb",
-        "n783": "Microsoft.VisualBasic.Core/ComponentModel/TimeSpan.vb",
-        "n784": "Microsoft.VisualBasic.Core/Net/Abstract.vb",
-        "n785": "Microsoft.VisualBasic.Core/Net/wGetTools.vb",
-        "n786": "Microsoft.VisualBasic.Core/Net/DomainParser.vb",
-        "n787": "Microsoft.VisualBasic.Core/Net/PingUtility.vb",
-        "n788": "Microsoft.VisualBasic.Core/Serialization/ShadowsCopy.vb",
-        "n789": "Microsoft.VisualBasic.Core/Scripting/TextGrepScriptEngine.vb",
-        "n790": "Microsoft.VisualBasic.Core/ApplicationServices/ZipLib.vb",
-        "n791": "Microsoft.VisualBasic.Core/CommandLine/CommandLine.vb",
-        "n792": "Microsoft.VisualBasic.Core/Extensions/Extensions.vb",
-        "n793": "Microsoft.VisualBasic.Core/My Project",
-        "n794": "Microsoft.VisualBasic.Core/My Project/AssemblyInfo.vb",
-        "n795": "Microsoft.VisualBasic.Core/NamespaceDoc.vb",
-        "n796": "Microsoft.VisualBasic.Core/LICENSE.vb"
+        "n770": "Microsoft.VisualBasic.Core/ComponentModel/Uid.vb",
+        "n771": "Microsoft.VisualBasic.Core/Language/StringHelpers.vb",
+        "n772": "Microsoft.VisualBasic.Core/Scripting/Actives.vb",
+        "n773": "Microsoft.VisualBasic.Core/Text/Paragraph.vb",
+        "n774": "Microsoft.VisualBasic.Core/Language/NET40_Compatible.vb",
+        "n775": "Microsoft.VisualBasic.Core/Scripting/ExternalCall.vb",
+        "n776": "Microsoft.VisualBasic.Core/ApplicationServices/App.vb",
+        "n777": "Microsoft.VisualBasic.Core/ApplicationServices/Debugger.vb",
+        "n778": "Microsoft.VisualBasic.Core/Language/NamespaceDoc.vb",
+        "n779": "Microsoft.VisualBasic.Core/Language/BaseClass.vb",
+        "n780": "Microsoft.VisualBasic.Core/Text/Splitter.vb",
+        "n781": "Microsoft.VisualBasic.Core/Text/TextEncodings.vb",
+        "n782": "Microsoft.VisualBasic.Core/Scripting/InputHandler.vb",
+        "n783": "Microsoft.VisualBasic.Core/CommandLine/CliResCommon.vb",
+        "n784": "Microsoft.VisualBasic.Core/ComponentModel/TimeSpan.vb",
+        "n785": "Microsoft.VisualBasic.Core/Net/Abstract.vb",
+        "n786": "Microsoft.VisualBasic.Core/Net/wGetTools.vb",
+        "n787": "Microsoft.VisualBasic.Core/Net/DomainParser.vb",
+        "n788": "Microsoft.VisualBasic.Core/Net/PingUtility.vb",
+        "n789": "Microsoft.VisualBasic.Core/Serialization/ShadowsCopy.vb",
+        "n790": "Microsoft.VisualBasic.Core/Scripting/TextGrepScriptEngine.vb",
+        "n791": "Microsoft.VisualBasic.Core/ApplicationServices/ZipLib.vb",
+        "n792": "Microsoft.VisualBasic.Core/CommandLine/CommandLine.vb",
+        "n793": "Microsoft.VisualBasic.Core/Extensions/Extensions.vb",
+        "n794": "Microsoft.VisualBasic.Core/My Project",
+        "n795": "Microsoft.VisualBasic.Core/My Project/AssemblyInfo.vb",
+        "n796": "Microsoft.VisualBasic.Core/NamespaceDoc.vb",
+        "n797": "Microsoft.VisualBasic.Core/LICENSE.vb"
     },
     "tree": {
         "Language": {
@@ -4618,613 +4619,613 @@
             "text": "CharStream.vb",
             "type": "file"
         },
+        "Language/Value/UnionType.vb": {
+            "icon": "images/VB_16x.png",
+            "id": "n545",
+            "parent": "n198",
+            "text": "UnionType.vb",
+            "type": "file"
+        },
         "Net/HTTP": {
             "icon": "images/Folder_16x.png",
-            "id": "n545",
+            "id": "n546",
             "parent": "n99",
             "text": "HTTP",
             "type": "folder"
         },
         "Net/HTTP/ZipStream.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n546",
-            "parent": "n545",
+            "id": "n547",
+            "parent": "n546",
             "text": "ZipStream.vb",
             "type": "file"
         },
         "Net/HTTP/Multipart.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n547",
-            "parent": "n545",
+            "id": "n548",
+            "parent": "n546",
             "text": "Multipart.vb",
             "type": "file"
         },
         "Net/HTTP/DataURI.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n548",
-            "parent": "n545",
+            "id": "n549",
+            "parent": "n546",
             "text": "DataURI.vb",
             "type": "file"
         },
         "Language/Value/ByRefValueExtensions.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n549",
+            "id": "n550",
             "parent": "n198",
             "text": "ByRefValueExtensions.vb",
             "type": "file"
         },
         "CommandLine/CLI": {
             "icon": "images/Folder_16x.png",
-            "id": "n550",
+            "id": "n551",
             "parent": "n136",
             "text": "CLI",
             "type": "folder"
         },
         "CommandLine/CLI/Scripting.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n551",
-            "parent": "n550",
+            "id": "n552",
+            "parent": "n551",
             "text": "Scripting.vb",
             "type": "file"
         },
         "CommandLine/InteropService/Abstract.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n552",
+            "id": "n553",
             "parent": "n201",
             "text": "Abstract.vb",
             "type": "file"
         },
         "CommandLine/InteropService/CLIAbstractor.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n553",
+            "id": "n554",
             "parent": "n201",
             "text": "CLIAbstractor.vb",
             "type": "file"
         },
         "CommandLine/Parsers": {
             "icon": "images/Folder_16x.png",
-            "id": "n554",
+            "id": "n555",
             "parent": "n136",
             "text": "Parsers",
             "type": "folder"
         },
         "CommandLine/Parsers/CLIParser.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n555",
-            "parent": "n554",
+            "id": "n556",
+            "parent": "n555",
             "text": "CLIParser.vb",
             "type": "file"
         },
         "CommandLine/Parsers/DictionaryParser.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n556",
-            "parent": "n554",
+            "id": "n557",
+            "parent": "n555",
             "text": "DictionaryParser.vb",
             "type": "file"
         },
         "CommandLine/InteropService/CLIBuilder.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n557",
+            "id": "n558",
             "parent": "n201",
             "text": "CLIBuilder.vb",
             "type": "file"
         },
         "CommandLine/CLI/IIORedirectAbstract.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n558",
-            "parent": "n550",
+            "id": "n559",
+            "parent": "n551",
             "text": "IIORedirectAbstract.vb",
             "type": "file"
         },
         "CommandLine/CLI/IORedirectFile.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n559",
-            "parent": "n550",
+            "id": "n560",
+            "parent": "n551",
             "text": "IORedirectFile.vb",
             "type": "file"
         },
         "CommandLine/CLI/ProcExtensions.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n560",
-            "parent": "n550",
+            "id": "n561",
+            "parent": "n551",
             "text": "ProcExtensions.vb",
             "type": "file"
         },
         "CommandLine/Interpreters/Abstract.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n561",
+            "id": "n562",
             "parent": "n137",
             "text": "Abstract.vb",
             "type": "file"
         },
         "CommandLine/Reflection/Grouping.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n562",
+            "id": "n563",
             "parent": "n210",
             "text": "Grouping.vb",
             "type": "file"
         },
         "CommandLine/Reflection/CLITypes.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n563",
+            "id": "n564",
             "parent": "n210",
             "text": "CLITypes.vb",
             "type": "file"
         },
         "CommandLine/Reflection/CLIToken.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n564",
+            "id": "n565",
             "parent": "n210",
             "text": "CLIToken.vb",
             "type": "file"
         },
         "ComponentModel/DataSource/Abstract.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n565",
+            "id": "n566",
             "parent": "n152",
             "text": "Abstract.vb",
             "type": "file"
         },
         "ComponentModel/DataSource/Tsv.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n566",
+            "id": "n567",
             "parent": "n152",
             "text": "Tsv.vb",
             "type": "file"
         },
         "ComponentModel/DataStructures/CapacityQueue.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n567",
+            "id": "n568",
             "parent": "n41",
             "text": "CapacityQueue.vb",
             "type": "file"
         },
         "ComponentModel/System.Collections.Generic/BucketDictionary.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n568",
+            "id": "n569",
             "parent": "n163",
             "text": "BucketDictionary.vb",
             "type": "file"
         },
         "ComponentModel/DataStructures/FuzzyGroup.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n569",
+            "id": "n570",
             "parent": "n41",
             "text": "FuzzyGroup.vb",
             "type": "file"
         },
         "ComponentModel/DataStructures/Trigger.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n570",
+            "id": "n571",
             "parent": "n41",
             "text": "Trigger.vb",
             "type": "file"
         },
         "ComponentModel/File/BufferedStream.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n571",
+            "id": "n572",
             "parent": "n530",
             "text": "BufferedStream.vb",
             "type": "file"
         },
         "ComponentModel/Ranges/Relations.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n572",
+            "id": "n573",
             "parent": "n155",
             "text": "Relations.vb",
             "type": "file"
         },
         "ComponentModel/System.Collections.Generic/BucketIndexOf.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n573",
+            "id": "n574",
             "parent": "n163",
             "text": "BucketIndexOf.vb",
             "type": "file"
         },
         "ComponentModel/ValuePair/NamedTuple.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n574",
+            "id": "n575",
             "parent": "n167",
             "text": "NamedTuple.vb",
             "type": "file"
         },
         "ComponentModel/Ranges/Sequence.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n575",
+            "id": "n576",
             "parent": "n155",
             "text": "Sequence.vb",
             "type": "file"
         },
         "ComponentModel/Ranges/Extensions.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n576",
+            "id": "n577",
             "parent": "n155",
             "text": "Extensions.vb",
             "type": "file"
         },
         "ComponentModel/Ranges/RangeList.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n577",
+            "id": "n578",
             "parent": "n155",
             "text": "RangeList.vb",
             "type": "file"
         },
         "ComponentModel/System.Collections.Generic/IndexOf.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n578",
+            "id": "n579",
             "parent": "n163",
             "text": "IndexOf.vb",
             "type": "file"
         },
         "ComponentModel/System.Collections.Generic/MapsHelper.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n579",
+            "id": "n580",
             "parent": "n163",
             "text": "MapsHelper.vb",
             "type": "file"
         },
         "ComponentModel/System.Collections.Generic/Dictionary(Of T, V).vb": {
             "icon": "images/VB_16x.png",
-            "id": "n580",
+            "id": "n581",
             "parent": "n163",
             "text": "Dictionary(Of T, V).vb",
             "type": "file"
         },
         "Extensions/CodeDOM": {
             "icon": "images/Folder_16x.png",
-            "id": "n581",
+            "id": "n582",
             "parent": "n25",
             "text": "CodeDOM",
             "type": "folder"
         },
         "Extensions/CodeDOM/CodeHelper.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n582",
-            "parent": "n581",
+            "id": "n583",
+            "parent": "n582",
             "text": "CodeHelper.vb",
             "type": "file"
         },
         "Extensions/CodeDOM/References.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n583",
-            "parent": "n581",
+            "id": "n584",
+            "parent": "n582",
             "text": "References.vb",
             "type": "file"
         },
         "ApplicationServices/Debugger/VisualBasicAppException.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n584",
+            "id": "n585",
             "parent": "n93",
             "text": "VisualBasicAppException.vb",
             "type": "file"
         },
         "Extensions/Collection/AnonymousTypeHelper.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n585",
+            "id": "n586",
             "parent": "n171",
             "text": "AnonymousTypeHelper.vb",
             "type": "file"
         },
         "Extensions/Image/PointF3D.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n586",
+            "id": "n587",
             "parent": "n26",
             "text": "PointF3D.vb",
             "type": "file"
         },
         "Extensions/Math/NumeralSystem.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n587",
+            "id": "n588",
             "parent": "n109",
             "text": "NumeralSystem.vb",
             "type": "file"
         },
         "Extensions/Math/Matrix.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n588",
+            "id": "n589",
             "parent": "n109",
             "text": "Matrix.vb",
             "type": "file"
         },
         "Extensions/Math/Percentage.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n589",
+            "id": "n590",
             "parent": "n109",
             "text": "Percentage.vb",
             "type": "file"
         },
         "Extensions/Math/ScientificNotation.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n590",
+            "id": "n591",
             "parent": "n109",
             "text": "ScientificNotation.vb",
             "type": "file"
         },
         "Extensions/Reflection/Methods.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n591",
+            "id": "n592",
             "parent": "n280",
             "text": "Methods.vb",
             "type": "file"
         },
         "Extensions/ValueTypes/RangeExtensions.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n592",
+            "id": "n593",
             "parent": "n542",
             "text": "RangeExtensions.vb",
             "type": "file"
         },
         "Extensions/WebServices": {
             "icon": "images/Folder_16x.png",
-            "id": "n593",
+            "id": "n594",
             "parent": "n25",
             "text": "WebServices",
             "type": "folder"
         },
         "Extensions/WebServices/HttpGet.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n594",
-            "parent": "n593",
+            "id": "n595",
+            "parent": "n594",
             "text": "HttpGet.vb",
             "type": "file"
         },
         "Scripting/Expressions": {
             "icon": "images/Folder_16x.png",
-            "id": "n595",
+            "id": "n596",
             "parent": "n294",
             "text": "Expressions",
             "type": "folder"
         },
         "Scripting/Expressions/Aggregate.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n596",
-            "parent": "n595",
+            "id": "n597",
+            "parent": "n596",
             "text": "Aggregate.vb",
             "type": "file"
         },
         "Serialization/JSON/AnonymousJSON.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n597",
+            "id": "n598",
             "parent": "n59",
             "text": "AnonymousJSON.vb",
             "type": "file"
         },
         "Text/Parser/CharEnumerator.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n598",
+            "id": "n599",
             "parent": "n404",
             "text": "CharEnumerator.vb",
             "type": "file"
         },
         "Text/Parser/TryParse.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n599",
+            "id": "n600",
             "parent": "n404",
             "text": "TryParse.vb",
             "type": "file"
         },
         "Text/Patterns": {
             "icon": "images/Folder_16x.png",
-            "id": "n600",
+            "id": "n601",
             "parent": "n72",
             "text": "Patterns",
             "type": "folder"
         },
         "Text/Patterns/Regexp.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n601",
-            "parent": "n600",
+            "id": "n602",
+            "parent": "n601",
             "text": "Regexp.vb",
             "type": "file"
         },
         "Text/StringSimilarity/IEqualityComparer.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n602",
+            "id": "n603",
             "parent": "n315",
             "text": "IEqualityComparer.vb",
             "type": "file"
         },
         "Extensions/StringHelpers/NumericFormatHelper.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n603",
+            "id": "n604",
             "parent": "n536",
             "text": "NumericFormatHelper.vb",
             "type": "file"
         },
         "Net/HTTP/GZStream.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n604",
-            "parent": "n545",
+            "id": "n605",
+            "parent": "n546",
             "text": "GZStream.vb",
             "type": "file"
         },
         "Net/HTTP/sitemap.xml.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n605",
-            "parent": "n545",
+            "id": "n606",
+            "parent": "n546",
             "text": "sitemap.xml.vb",
             "type": "file"
         },
         "Language/Linq/Indexer.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n606",
+            "id": "n607",
             "parent": "n195",
             "text": "Indexer.vb",
             "type": "file"
         },
         "Language/Linq/List(Of T).vb": {
             "icon": "images/VB_16x.png",
-            "id": "n607",
+            "id": "n608",
             "parent": "n195",
             "text": "List(Of T).vb",
             "type": "file"
         },
         "Scripting/Expressions/Selector.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n608",
-            "parent": "n595",
+            "id": "n609",
+            "parent": "n596",
             "text": "Selector.vb",
             "type": "file"
         },
         "Scripting/Runtime/BinaryOperator.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n609",
+            "id": "n610",
             "parent": "n295",
             "text": "BinaryOperator.vb",
             "type": "file"
         },
         "Scripting/Runtime/OverloadsFunction.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n610",
+            "id": "n611",
             "parent": "n295",
             "text": "OverloadsFunction.vb",
             "type": "file"
         },
         "Scripting/Runtime/Extensions.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n611",
+            "id": "n612",
             "parent": "n295",
             "text": "Extensions.vb",
             "type": "file"
         },
         "ComponentModel/DataSource/Iterator.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n612",
+            "id": "n613",
             "parent": "n152",
             "text": "Iterator.vb",
             "type": "file"
         },
         "Extensions/Collection/Enumerable.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n613",
+            "id": "n614",
             "parent": "n171",
             "text": "Enumerable.vb",
             "type": "file"
         },
         "ComponentModel/File/FileSaveHandle.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n614",
+            "id": "n615",
             "parent": "n530",
             "text": "FileSaveHandle.vb",
             "type": "file"
         },
         "ComponentModel/Settings/ConfigEngine.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n615",
+            "id": "n616",
             "parent": "n160",
             "text": "ConfigEngine.vb",
             "type": "file"
         },
         "ComponentModel/ValuePair/GenericAbstract.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n616",
+            "id": "n617",
             "parent": "n167",
             "text": "GenericAbstract.vb",
             "type": "file"
         },
         "ComponentModel/ValuePair/Binding.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n617",
+            "id": "n618",
             "parent": "n167",
             "text": "Binding.vb",
             "type": "file"
         },
         "Language/Value/var.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n618",
+            "id": "n619",
             "parent": "n198",
             "text": "var.vb",
             "type": "file"
         },
         "Scripting/Expressions/ArrayIndex.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n619",
-            "parent": "n595",
+            "id": "n620",
+            "parent": "n596",
             "text": "ArrayIndex.vb",
             "type": "file"
         },
         "Scripting/Expressions/StringInterpolation.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n620",
-            "parent": "n595",
+            "id": "n621",
+            "parent": "n596",
             "text": "StringInterpolation.vb",
             "type": "file"
         },
         "ApplicationServices/Terminal/PipelineCLI.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n621",
+            "id": "n622",
             "parent": "n340",
             "text": "PipelineCLI.vb",
             "type": "file"
         },
         "ApplicationServices/Terminal/PrintAsTable.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n622",
+            "id": "n623",
             "parent": "n340",
             "text": "PrintAsTable.vb",
             "type": "file"
         },
         "ApplicationServices/Debugger/Config.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n623",
+            "id": "n624",
             "parent": "n93",
             "text": "Config.vb",
             "type": "file"
         },
         "Extensions/ValueTypes/DateTimeHelper.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n624",
+            "id": "n625",
             "parent": "n542",
             "text": "DateTimeHelper.vb",
             "type": "file"
         },
         "Text/Patterns/Wildcards.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n625",
-            "parent": "n600",
+            "id": "n626",
+            "parent": "n601",
             "text": "Wildcards.vb",
             "type": "file"
         },
         "Net/HTTP/UserAgent.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n626",
-            "parent": "n545",
+            "id": "n627",
+            "parent": "n546",
             "text": "UserAgent.vb",
             "type": "file"
         },
         "Extensions/WebServices/RequestBuilder.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n627",
-            "parent": "n593",
+            "id": "n628",
+            "parent": "n594",
             "text": "RequestBuilder.vb",
             "type": "file"
         },
         "Language/Linq/LanguageExtensions.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n628",
+            "id": "n629",
             "parent": "n195",
             "text": "LanguageExtensions.vb",
             "type": "file"
         },
         "Language/Value/Value.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n629",
+            "id": "n630",
             "parent": "n198",
             "text": "Value.vb",
             "type": "file"
         },
         "Language/Value/Pointer.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n630",
-            "parent": "n198",
-            "text": "Pointer.vb",
-            "type": "file"
-        },
-        "Language/Value/Uid.vb": {
-            "icon": "images/VB_16x.png",
             "id": "n631",
             "parent": "n198",
-            "text": "Uid.vb",
+            "text": "Pointer.vb",
             "type": "file"
         },
         "Scripting/Runtime/Where.vb": {
@@ -5349,7 +5350,7 @@
         "Extensions/WebServices/WebResult.vb": {
             "icon": "images/VB_16x.png",
             "id": "n649",
-            "parent": "n593",
+            "parent": "n594",
             "text": "WebResult.vb",
             "type": "file"
         },
@@ -5363,21 +5364,21 @@
         "Extensions/CodeDOM/CodeDOM.vb": {
             "icon": "images/VB_16x.png",
             "id": "n651",
-            "parent": "n581",
+            "parent": "n582",
             "text": "CodeDOM.vb",
             "type": "file"
         },
         "Extensions/CodeDOM/CodeDOMExpressions.vb": {
             "icon": "images/VB_16x.png",
             "id": "n652",
-            "parent": "n581",
+            "parent": "n582",
             "text": "CodeDOMExpressions.vb",
             "type": "file"
         },
         "Extensions/CodeDOM/VBC.vb": {
             "icon": "images/VB_16x.png",
             "id": "n653",
-            "parent": "n581",
+            "parent": "n582",
             "text": "VBC.vb",
             "type": "file"
         },
@@ -5608,21 +5609,21 @@
         "Extensions/WebServices/HTTP_RFC.vb": {
             "icon": "images/VB_16x.png",
             "id": "n686",
-            "parent": "n593",
+            "parent": "n594",
             "text": "HTTP_RFC.vb",
             "type": "file"
         },
         "Net/HTTP/Base64Codec.vb": {
             "icon": "images/VB_16x.png",
             "id": "n687",
-            "parent": "n545",
+            "parent": "n546",
             "text": "Base64Codec.vb",
             "type": "file"
         },
         "Extensions/WebServices/NetResponse.vb": {
             "icon": "images/VB_16x.png",
             "id": "n688",
-            "parent": "n593",
+            "parent": "n594",
             "text": "NetResponse.vb",
             "type": "file"
         },
@@ -5979,7 +5980,7 @@
         "Extensions/WebServices/WebServiceUtils.vb": {
             "icon": "images/VB_16x.png",
             "id": "n739",
-            "parent": "n593",
+            "parent": "n594",
             "text": "WebServiceUtils.vb",
             "type": "file"
         },
@@ -6021,7 +6022,7 @@
         "CommandLine/CLI/IORedirect.vb": {
             "icon": "images/VB_16x.png",
             "id": "n745",
-            "parent": "n550",
+            "parent": "n551",
             "text": "IORedirect.vb",
             "type": "file"
         },
@@ -6193,191 +6194,198 @@
             "text": "ASCII.vb",
             "type": "file"
         },
-        "Language/StringHelpers.vb": {
+        "ComponentModel/Uid.vb": {
             "icon": "images/VB_16x.png",
             "id": "n770",
+            "parent": "n18",
+            "text": "Uid.vb",
+            "type": "file"
+        },
+        "Language/StringHelpers.vb": {
+            "icon": "images/VB_16x.png",
+            "id": "n771",
             "parent": "n1",
             "text": "StringHelpers.vb",
             "type": "file"
         },
         "Scripting/Actives.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n771",
+            "id": "n772",
             "parent": "n294",
             "text": "Actives.vb",
             "type": "file"
         },
         "Text/Paragraph.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n772",
+            "id": "n773",
             "parent": "n72",
             "text": "Paragraph.vb",
             "type": "file"
         },
         "Language/NET40_Compatible.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n773",
+            "id": "n774",
             "parent": "n1",
             "text": "NET40_Compatible.vb",
             "type": "file"
         },
         "Scripting/ExternalCall.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n774",
+            "id": "n775",
             "parent": "n294",
             "text": "ExternalCall.vb",
             "type": "file"
         },
         "ApplicationServices/App.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n775",
+            "id": "n776",
             "parent": "n7",
             "text": "App.vb",
             "type": "file"
         },
         "ApplicationServices/Debugger.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n776",
+            "id": "n777",
             "parent": "n7",
             "text": "Debugger.vb",
             "type": "file"
         },
         "Language/NamespaceDoc.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n777",
+            "id": "n778",
             "parent": "n1",
             "text": "NamespaceDoc.vb",
             "type": "file"
         },
         "Language/BaseClass.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n778",
+            "id": "n779",
             "parent": "n1",
             "text": "BaseClass.vb",
             "type": "file"
         },
         "Text/Splitter.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n779",
+            "id": "n780",
             "parent": "n72",
             "text": "Splitter.vb",
             "type": "file"
         },
         "Text/TextEncodings.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n780",
+            "id": "n781",
             "parent": "n72",
             "text": "TextEncodings.vb",
             "type": "file"
         },
         "Scripting/InputHandler.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n781",
+            "id": "n782",
             "parent": "n294",
             "text": "InputHandler.vb",
             "type": "file"
         },
         "CommandLine/CliResCommon.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n782",
+            "id": "n783",
             "parent": "n136",
             "text": "CliResCommon.vb",
             "type": "file"
         },
         "ComponentModel/TimeSpan.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n783",
+            "id": "n784",
             "parent": "n18",
             "text": "TimeSpan.vb",
             "type": "file"
         },
         "Net/Abstract.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n784",
+            "id": "n785",
             "parent": "n99",
             "text": "Abstract.vb",
             "type": "file"
         },
         "Net/wGetTools.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n785",
+            "id": "n786",
             "parent": "n99",
             "text": "wGetTools.vb",
             "type": "file"
         },
         "Net/DomainParser.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n786",
+            "id": "n787",
             "parent": "n99",
             "text": "DomainParser.vb",
             "type": "file"
         },
         "Net/PingUtility.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n787",
+            "id": "n788",
             "parent": "n99",
             "text": "PingUtility.vb",
             "type": "file"
         },
         "Serialization/ShadowsCopy.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n788",
+            "id": "n789",
             "parent": "n58",
             "text": "ShadowsCopy.vb",
             "type": "file"
         },
         "Scripting/TextGrepScriptEngine.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n789",
+            "id": "n790",
             "parent": "n294",
             "text": "TextGrepScriptEngine.vb",
             "type": "file"
         },
         "ApplicationServices/ZipLib.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n790",
+            "id": "n791",
             "parent": "n7",
             "text": "ZipLib.vb",
             "type": "file"
         },
         "CommandLine/CommandLine.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n791",
+            "id": "n792",
             "parent": "n136",
             "text": "CommandLine.vb",
             "type": "file"
         },
         "Extensions/Extensions.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n792",
+            "id": "n793",
             "parent": "n25",
             "text": "Extensions.vb",
             "type": "file"
         },
         "My Project": {
             "icon": "images/Folder_16x.png",
-            "id": "n793",
+            "id": "n794",
             "parent": "#",
             "text": "My Project",
             "type": "folder"
         },
         "My Project/AssemblyInfo.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n794",
-            "parent": "n793",
+            "id": "n795",
+            "parent": "n794",
             "text": "AssemblyInfo.vb",
             "type": "file"
         },
         "NamespaceDoc.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n795",
+            "id": "n796",
             "parent": "#",
             "text": "NamespaceDoc.vb",
             "type": "file"
         },
         "LICENSE.vb": {
             "icon": "images/VB_16x.png",
-            "id": "n796",
+            "id": "n797",
             "parent": "#",
             "text": "LICENSE.vb",
             "type": "file"
