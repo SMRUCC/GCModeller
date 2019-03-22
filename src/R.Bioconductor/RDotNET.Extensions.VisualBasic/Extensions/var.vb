@@ -49,6 +49,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Web.Script.Serialization
+Imports Microsoft.VisualBasic.Language
+Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports Rbase = RDotNET.Extensions.VisualBasic.API.base
 
@@ -78,6 +80,18 @@ Public Class var : Implements IDisposable
         Get
             Return R.Evaluate(Name)
         End Get
+    End Property
+
+    Default Public Property Item(attrName As String) As String
+        Get
+            With App.NextTempName
+                Call $"{ .ByRef} <- {Name}[['{attrName}']];".__call
+                Return .ByRef
+            End With
+        End Get
+        Set(value As String)
+            Call $"{Name}[['{attrName}']] <- {value};".__call
+        End Set
     End Property
 
     Dim _expr As String
@@ -210,23 +224,23 @@ Public Class var : Implements IDisposable
     End Operator
 
     Public Shared Widening Operator CType(expr As Integer()) As var
-        Return New var(c(expr))
+        Return New var(SymbolBuilder.c(expr))
     End Operator
 
     Public Shared Widening Operator CType(expr As Double()) As var
-        Return New var(c(expr))
+        Return New var(SymbolBuilder.c(expr))
     End Operator
 
     Public Shared Widening Operator CType(expr As Boolean()) As var
-        Return New var(c(expr))
+        Return New var(SymbolBuilder.c(expr))
     End Operator
 
     Public Shared Widening Operator CType(expr As Long()) As var
-        Return New var(c(expr))
+        Return New var(SymbolBuilder.c(expr))
     End Operator
 
     Public Shared Widening Operator CType(expr As Single()) As var
-        Return New var(c(expr))
+        Return New var(SymbolBuilder.c(expr))
     End Operator
 
     Public Shared Widening Operator CType(expr As var()) As var
