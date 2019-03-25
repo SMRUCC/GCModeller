@@ -437,6 +437,7 @@
     <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />
     <Compile Include="Assembly\Expasy\csv\Enzyme.vb" />
     <Compile Include="Assembly\Expasy\NomenclatureDB\Enzyme.vb" />
+    <Compile Include="Assembly\iGEM\PartSeq.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Ortholog.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Module.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\CompilerAPI.vb" />
