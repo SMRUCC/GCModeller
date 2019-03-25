@@ -39,16 +39,16 @@ Namespace Assembly.iGEM
         Public Property part_url As String
         Public Property part_entered As String
         Public Property part_author As String
-        Public Property deep_subparts As String
-        Public Property specified_subparts As String
-        Public Property specified_subscars As String
+        ' Public Property deep_subparts As String
+        ' Public Property specified_subparts As String
+        'Public Property specified_subscars As String
         Public Property sequences As seq_data
-        Public Property features As String
-        Public Property parameters As String
-        Public Property categories As String
-        Public Property samples As String
-        Public Property references As String
-        Public Property groups As String
+        'Public Property features As String
+        'Public Property parameters As String
+        'Public Property categories As String
+        'Public Property samples As String
+        'Public Property references As String
+        'Public Property groups As String
     End Class
 
     Public Class seq_data : Implements IPolymerSequenceModel
