@@ -1,6 +1,7 @@
 ﻿Imports System.Threading
 Imports System.Xml.Serialization
 Imports SMRUCC.genomics.SequenceModel
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.iGEM
 
@@ -9,12 +10,15 @@ Namespace Assembly.iGEM
 
         Public Shared Iterator Function FetchByIDList(idlist As IEnumerable(Of String), save$) As IEnumerable(Of String)
             For Each id As String In idlist
-                Dim url$ = $"http://parts.igem.org/cgi/xml/part.cgi?part={id}"
-                Dim xml$ = url.GET
                 Dim path$ = $"{save}/{id}.Xml"
 
-                Call xml.SaveTo(path)
-                Call Thread.Sleep(2000)
+                If path.FileLength <= 0 Then
+                    Dim url$ = $"http://parts.igem.org/cgi/xml/part.cgi?part={id}"
+                    Dim xml$ = url.GET
+
+                    Call r.Replace(xml, "<![-]{2}.?[-]{2}>", "").SaveTo(path)
+                    Call Thread.Sleep(2000)
+                End If
 
                 Yield path
             Next
