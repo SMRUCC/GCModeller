@@ -15,7 +15,11 @@ Partial Module CLI
         Dim allparts = iGEM.PartSeq.Parse(args <= "/allparts").ToDictionary(Function(p) p.PartName)
         Dim out$ = args("out") Or $"{[in].TrimSuffix}.iGEM_parts.xls"
         Dim idList = [in].IterateAllLines _
-            .Select(Function(line) line.StringSplit("[\s,\t]+").FirstOrDefault) _
+            .Select(Function(line)
+                        Return Strings.Trim(line) _
+                            .StringSplit("[\s,\t]+") _
+                            .FirstOrDefault
+                    End Function) _
             .Where(Function(id) Not id.StringEmpty) _
             .ToArray
 
