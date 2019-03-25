@@ -84,7 +84,7 @@ Partial Module CLI
                                     {"type", part.part_type},
                                     {"sample", part.sample_status},
                                     {"author", part.part_author},
-                                    {"sequence", part.sequences.SequenceData}
+                                    {"sequence", part.sequences.SequenceData.TrimNewLine("").Trim}
                                 }
                             }
                         End Function)
