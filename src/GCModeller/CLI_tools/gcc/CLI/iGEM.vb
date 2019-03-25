@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.ComponentModel
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports SMRUCC.genomics.Assembly
@@ -7,6 +8,7 @@ Partial Module CLI
 
     <ExportAPI("/iGEM.select.parts")>
     <Usage("/iGEM.select.parts /list <id.list.txt> /allparts <ALL_parts.fasta> [/out <table.xls>]")>
+    <Description("Select iGEM part sequence by given id list.")>
     <Group(Program.iGEMTools)>
     Public Function SelectParts(args As CommandLine) As Integer
         Dim in$ = args <= "/list"
