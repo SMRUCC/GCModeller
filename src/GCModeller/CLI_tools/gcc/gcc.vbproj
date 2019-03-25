@@ -250,6 +250,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLI\iGEM.vb" />
     <Compile Include="CLI\ProteinDomain.vb" />
     <Compile Include="CLI\MetaCyc.vb" />
     <Compile Include="CLI\Project.vb" />

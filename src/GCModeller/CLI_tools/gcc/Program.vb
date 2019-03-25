@@ -47,6 +47,8 @@
 ''' </remarks>
 Module Program
 
+    Public Const iGEMTools As String = "iGEM cli tools"
+
     Public Function Main() As Integer
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
