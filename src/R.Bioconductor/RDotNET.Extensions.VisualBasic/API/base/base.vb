@@ -488,12 +488,32 @@ Namespace API
         ''' %*%, the function name must be backquoted or quoted.
         ''' </param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function lapply(Of T As INamedValue)(x As IEnumerable(Of T), FUN As Func(Of T, String)) As String
+            Return lapply(x, Function(obj) obj.Key, FUN)
+        End Function
+
+        ''' <summary>
+        ''' lapply returns a list of the same length as X, each element of which is the result of applying 
+        ''' <paramref name="FUN"/> to the corresponding element of X.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="x">
+        ''' a vector (atomic or list) or an expression object. Other objects (including classed objects) will 
+        ''' be coerced by ``base::as.list``.
+        ''' </param>
+        ''' <param name="FUN">
+        ''' the function to be applied to each element of X: see ‘Details’. In the case of functions like +, 
+        ''' %*%, the function name must be backquoted or quoted.
+        ''' </param>
+        ''' <returns></returns>
+        Public Function lapply(Of T)(x As IEnumerable(Of T), key As Func(Of T, String), FUN As Func(Of T, String)) As String
             Dim list$ = base.list
 
             SyncLock R
                 With R
-                    Call x.DoEach(Sub(obj) .call = $"{list}[[""{obj.Key}""]] = {FUN(obj)}")
+                    Call x.DoEach(Sub(obj) .call = $"{list}[[""{key(obj)}""]] = {FUN(obj)}")
                 End With
             End SyncLock
 
