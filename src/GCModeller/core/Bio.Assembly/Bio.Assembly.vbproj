@@ -437,6 +437,8 @@
     <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />
     <Compile Include="Assembly\Expasy\csv\Enzyme.vb" />
     <Compile Include="Assembly\Expasy\NomenclatureDB\Enzyme.vb" />
+    <Compile Include="Assembly\iGEM\rsbpml.vb" />
+    <Compile Include="Assembly\iGEM\PartSeq.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Ortholog.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Module.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\CompilerAPI.vb" />
@@ -572,6 +574,7 @@
     <Compile Include="Assembly\UniProt\Web\Entry.vb" />
     <Compile Include="Assembly\UniProt\XML\UniRef\entry.vb" />
     <Compile Include="ComponentModel\CatalogProfiling.vb" />
+    <Compile Include="ComponentModel\WebQuery.vb" />
     <Compile Include="ComponentModel\IMolecule.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\Xref.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb" />
