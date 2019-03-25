@@ -16,7 +16,7 @@ Namespace Assembly.iGEM
                     Dim url$ = $"http://parts.igem.org/cgi/xml/part.cgi?part={id}"
                     Dim xml$ = url.GET
 
-                    Call r.Replace(xml, "<![-]{2}.?[-]{2}>", "").SaveTo(path)
+                    Call r.Replace(xml, "<![-][-].*[-][-]>", "").SaveTo(path)
                     Call Thread.Sleep(2000)
                 End If
 
