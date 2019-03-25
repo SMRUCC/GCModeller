@@ -23,14 +23,25 @@ Namespace Assembly.iGEM
             For Each seq As FastaSeq In StreamIterator.SeqSource(file)
                 Dim headers = CommandLine.GetTokens(seq.Title)
 
-                Yield New PartSeq With {
-                    .PartName = headers(0),
-                    .Status = headers(1),
-                    .Id = headers(2),
-                    .Type = headers(3),
-                    .Description = headers(4),
-                    .SequenceData = seq.SequenceData
-                }
+                If headers.Length = 5 Then
+                    Yield New PartSeq With {
+                        .PartName = headers(0),
+                        .Status = headers(1),
+                        .Id = headers(2),
+                        .Type = headers(3),
+                        .Description = headers(4),
+                        .SequenceData = seq.SequenceData
+                    }
+                Else
+                    Yield New PartSeq With {
+                       .PartName = headers(0),
+                       .Status = headers(1),
+                       .Id = headers(2),
+                       .Type = Nothing,
+                       .Description = headers(3),
+                       .SequenceData = seq.SequenceData
+                   }
+                End If
             Next
         End Function
     End Class

@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly
 
 Partial Module CLI
@@ -12,7 +13,7 @@ Partial Module CLI
     <Group(Program.iGEMTools)>
     Public Function SelectParts(args As CommandLine) As Integer
         Dim in$ = args <= "/list"
-        Dim allparts = iGEM.PartSeq.Parse(args <= "/allparts").ToDictionary(Function(p) p.PartName)
+        Dim allparts = iGEM.PartSeq.Parse(args <= "/allparts").GroupBy(Function(p) p.PartName).ToDictionary(Function(p) p.Key, Function(group) group.ToArray)
         Dim out$ = args("out") Or $"{[in].TrimSuffix}.iGEM_parts.xls"
         Dim idList = [in].IterateAllLines _
             .Select(Function(line)
@@ -29,16 +30,17 @@ Partial Module CLI
         End If
 
         Dim subset = idList _
-            .Select(Function(id)
+            .Select(Function(id) As IEnumerable(Of iGEM.PartSeq)
                         If allparts.ContainsKey(id) Then
                             Return allparts(id)
                         Else
                             ' empty line for sequence not found
-                            Return New iGEM.PartSeq With {
+                            Return {New iGEM.PartSeq With {
                                 .PartName = id
-                            }
+                            }}
                         End If
                     End Function) _
+            .IteratesALL _
             .ToArray
 
         Return subset.SaveTo(out, tsv:=True).CLICode
