@@ -53,7 +53,7 @@ Namespace Assembly.iGEM
 
     Public Class seq_data : Implements IPolymerSequenceModel
 
-        <XmlText>
+        <XmlElement("seq_data")>
         Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
     End Class
 End Namespace
