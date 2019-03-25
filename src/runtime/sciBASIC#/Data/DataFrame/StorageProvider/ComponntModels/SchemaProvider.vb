@@ -53,6 +53,7 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
@@ -320,7 +321,7 @@ Namespace StorageProvider.ComponentModels
             Return From provider As StorageProvider
                    In source
                    Where provider.CanWriteDataToObject
-                   Select provider
+                   Select DirectCast(provider, T)
         End Function
 
         Private Function getMeta() As MetaAttribute
@@ -434,19 +435,28 @@ Namespace StorageProvider.ComponentModels
         ''' <param name="type"></param>
         ''' <param name="strict"></param>
         ''' <returns></returns>
-        Public Shared Function CreateObject(type As Type, Optional strict As Boolean = False) As SchemaProvider
-            Dim properties = TypeSchemaProvider.GetProperties(type, strict)
-            Dim schema As New SchemaProvider With {
-                .Columns = GetColumns(properties),
-                .CollectionColumns = GetCollectionColumns(properties),
-                .EnumColumns = GetEnumColumns(properties),
-                .MetaAttributes = GetMetaAttributeColumn(properties, strict),
-                .KeyValuePairColumns = GetKeyValuePairColumn(properties),
-                .DeclaringType = type
-            }
-            schema._Raw = schema
+        ''' <remarks>
+        ''' 因为在这里使用了缓存,所以为了防止外部使用的时候意外修改缓存,在这里将这个函数的访问权限修改为仅内部使用
+        ''' </remarks>
+        Friend Shared Function CreateObject(type As Type, Optional strict As Boolean = False) As SchemaProvider
+            Dim staticCache = SingletonHolder(Of Dictionary(Of Type, SchemaProvider)).Instance
 
-            Return schema
+            If Not staticCache.ContainsKey(type) Then
+                Dim properties = TypeSchemaProvider.GetProperties(type, strict)
+                Dim schema As New SchemaProvider With {
+                    .Columns = GetColumns(properties),
+                    .CollectionColumns = GetCollectionColumns(properties),
+                    .EnumColumns = GetEnumColumns(properties),
+                    .MetaAttributes = GetMetaAttributeColumn(properties, strict),
+                    .KeyValuePairColumns = GetKeyValuePairColumn(properties),
+                    .DeclaringType = type
+                }
+                schema._Raw = schema
+
+                staticCache(type) = schema
+            End If
+
+            Return staticCache(type)
         End Function
 
         ''' <summary>
