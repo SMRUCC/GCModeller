@@ -68,24 +68,6 @@ Namespace IO
             Return csv.ToHTML(Title, describ, css)
         End Function
 
-        <ExportAPI("ToHTML")>
-        <Extension> Public Function ToHTML(doc As IO.File, Optional Title As String = "", Optional describ As String = "", Optional css As String = "") As String
-            If String.IsNullOrEmpty(css) Then
-                css = My.Resources.foundation
-            End If
-
-            Dim html As StringBuilder = New StringBuilder(My.Resources.HTML_Template)
-            Call html.Replace("{Title}", Title)
-            Call html.Replace("{CSS}", css)
-
-            Dim innerDoc As New StringBuilder($"<p>{describ}</p>")
-            Call innerDoc.AppendLine(doc.ToHTMLTable)
-
-            Call html.Replace("{doc}", innerDoc.ToString)
-
-            Return html.ToString
-        End Function
-
         <Extension> Public Function ToHTMLTable(Of T As Class)(
             source As IEnumerable(Of T),
             Optional className$ = "",
@@ -113,11 +95,11 @@ Namespace IO
         ''' <returns></returns>
         ''' 
         <ExportAPI("ToHTML.Table")>
-        <Extension> Public Function ToHTMLTable(
-            csvTable As File,
+        <Extension> Public Function ToHTMLTable(csvTable As File,
             Optional className$ = "",
             Optional tableID$ = Nothing,
             Optional width$ = "",
+            Optional title$ = Nothing,
             Optional removes$() = Nothing,
             Optional theadSpace As Boolean = False,
             Optional alt$ = Nothing) As String
@@ -142,7 +124,13 @@ Namespace IO
             End If
 
             Call innerDoc.AppendLine(">")
-            Call innerDoc.AppendLine(csvTable.Headers.__titleRow(removeList, theadSpace))          
+
+            If Not title.StringEmpty Then
+                innerDoc.AppendLine($"<caption>{title}</caption>")
+            End If
+
+            Call innerDoc.AppendLine(csvTable.Headers.__titleRow(removeList, theadSpace))
+            Call innerDoc.AppendLine("<tbody>")
 
             For Each row As SeqValue(Of RowObject) In csvTable.Skip(1).SeqIterator
                 If alt.StringEmpty Then
@@ -156,6 +144,7 @@ Namespace IO
                 End If
             Next
 
+            Call innerDoc.AppendLine("</tbody>")
             Call innerDoc.AppendLine("</table>")
 
             Return innerDoc.ToString
@@ -166,7 +155,7 @@ Namespace IO
             Dim rowText$ = row _
                 .Where(Function(t) removes(t) = -1) _
                 .Select(Function(x)
-                            Return $"<td id=""{x}""><strong>{If(theadSpace, x & "&nbsp;&nbsp;&nbsp;", x)}</strong></td>"
+                            Return $"<th id=""{x}"">{If(theadSpace, x & "&nbsp;&nbsp;&nbsp;", x)}</th>"
                         End Function) _
                 .JoinBy("")
 
