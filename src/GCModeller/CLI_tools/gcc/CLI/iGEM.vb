@@ -71,9 +71,8 @@ Partial Module CLI
 
         Dim result As New List(Of EntityObject)
 
-        For Each save As String In iGEM.rsbpml.FetchByIDList(idList, save:=out.ParentPath & "/.iGEM")
-            Dim list = save.LoadXml(Of iGEM.rsbpml)
-            result += list.part_list _
+        For Each parts As iGEM.rsbpml In New iGEM.iGEMQuery(cache:=out.ParentPath & "/.iGEM").Query(Of iGEM.rsbpml)(idList)
+            result += parts.part_list _
                 .Select(Function(part)
                             Return New EntityObject With {
                                 .ID = part.part_name,
@@ -84,7 +83,11 @@ Partial Module CLI
                                     {"type", part.part_type},
                                     {"sample", part.sample_status},
                                     {"author", part.part_author},
-                                    {"sequence", part.sequences.SequenceData.LineTokens.Select(AddressOf Strings.Trim).JoinBy("")}
+                                    {"sequence", part.sequences _
+                                        .SequenceData _
+                                        .LineTokens _
+                                        .Select(AddressOf Strings.Trim) _
+                                        .JoinBy("")}
                                 }
                             }
                         End Function)

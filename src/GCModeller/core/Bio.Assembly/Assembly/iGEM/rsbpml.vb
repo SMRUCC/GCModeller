@@ -1,28 +1,12 @@
-﻿Imports System.Threading
-Imports System.Xml.Serialization
+﻿Imports System.Xml.Serialization
 Imports SMRUCC.genomics.SequenceModel
-Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.iGEM
 
     Public Class rsbpml
+
         Public Property part_list As Part()
 
-        Public Shared Iterator Function FetchByIDList(idlist As IEnumerable(Of String), save$) As IEnumerable(Of String)
-            For Each id As String In idlist
-                Dim path$ = $"{save}/{id}.Xml"
-
-                If path.FileLength <= 0 Then
-                    Dim url$ = $"http://parts.igem.org/cgi/xml/part.cgi?part={id}"
-                    Dim xml$ = url.GET
-
-                    Call r.Replace(xml, "<![-][-].*[-][-]>", "").SaveTo(path)
-                    Call Thread.Sleep(2000)
-                End If
-
-                Yield path
-            Next
-        End Function
     End Class
 
     <XmlType("part")> Public Class Part
