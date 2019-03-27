@@ -16,5 +16,9 @@ Namespace Assembly.iGEM
         Private Shared Function urlCreator(partId As String) As String
             Return $"http://parts.igem.org/cgi/xml/part.cgi?part={partId}"
         End Function
+
+        Public Function FetchByIDList(id As IEnumerable(Of String)) As IEnumerable(Of String)
+            Return Me.queryText(id, "Xml")
+        End Function
     End Class
 End Namespace

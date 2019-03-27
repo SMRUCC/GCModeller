@@ -24,11 +24,17 @@ Namespace ComponentModel
             Me.deserialization = parser Or XmlParser
         End Sub
 
-        Private Iterator Function queryText(query As IEnumerable(Of Context), type$) As IEnumerable(Of String)
+        ''' <summary>
+        ''' 这个函数返回的是缓存的本地文件的路径列表
+        ''' </summary>
+        ''' <param name="query"></param>
+        ''' <param name="type">文件拓展名，可以不带有小数点</param>
+        ''' <returns></returns>
+        Protected Iterator Function queryText(query As IEnumerable(Of Context), type$) As IEnumerable(Of String)
             For Each context As Context In query
                 Dim url = Me.url(context)
                 Dim id$ = Me.contextGuid(context)
-                Dim cache$ = $"{Me.cache}/{id}{type}"
+                Dim cache$ = $"{Me.cache}/{id}.{type.Trim("."c)}"
 
                 If cache.FileLength <= 0 Then
                     Call url.GET.SaveTo(cache)
