@@ -15,6 +15,7 @@ Namespace ComponentModel
         Sub New(url As Func(Of Context, String),
                 Optional contextGuid As IToString(Of Context) = Nothing,
                 Optional parser As IObjectBuilder = Nothing,
+                <CallerMemberName>
                 Optional cache$ = Nothing)
 
             Me.url = url
