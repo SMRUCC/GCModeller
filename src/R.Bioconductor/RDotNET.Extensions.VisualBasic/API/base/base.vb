@@ -48,6 +48,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
@@ -901,25 +902,27 @@ Namespace API
 
         <Extension>
         Private Function parameterValueAssign(f As ArgumentReference) As String
-            If Not f.value Is Nothing AndAlso f.value.GetType Is GetType(var) Then
-                Return $"{f.name} = {DirectCast(f.value, var).Name}"
+            If Not f.Value Is Nothing AndAlso f Like GetType(var) Then
+                Return $"{f.Name} = {DirectCast(f.Value, var).Name}"
             Else
-                If f.value Is Nothing Then
-                    Return $"{f.name} = NULL"
-                ElseIf f.value.GetType Is GetType(String) OrElse f.value.GetType Is GetType(Char) Then
+                If f.Value Is Nothing Then
+                    Return $"{f.Name} = NULL"
+                ElseIf f Like GetType(String) OrElse f Like GetType(Char) Then
                     ' 2019-03-19
                     ' 有些时候会因为二进制文件读取的原因导致字符串结尾出现0字节的字符
                     ' 这会导致R报错
                     ' 所以会需要删除一下最末尾的0字节的字符
-                    Dim str As String = CStr(f.value).Trim(ASCII.NUL)
+                    Dim str As String = CStr(f.Value).Trim(ASCII.NUL)
 
-                    If base.exists(str) Then
-                        Return $"{f.name} = {str}"
+                    If Not str.StringEmpty AndAlso base.exists(str) Then
+                        Return $"{f.Name} = {str}"
                     Else
-                        Return $"{f.name} = {Rstring(str)}"
+                        Return $"{f.Name} = {Rstring(str)}"
                     End If
+                ElseIf f Like GetType(IEnumerable(Of String)) Then
+                    Return $"{f.Name} = {base.c(f.Value, stringVector:=True)}"
                 Else
-                    Return $"{f.name} = {f.value}"
+                    Return $"{f.Name} = {f.Value}"
                 End If
             End If
         End Function

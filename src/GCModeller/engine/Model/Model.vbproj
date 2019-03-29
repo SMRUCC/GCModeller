@@ -169,6 +169,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NamespaceDoc.vb" />
     <Compile Include="Models\CentralDogma.vb" />
     <Compile Include="Models\Extensions.vb" />
     <Compile Include="Models\Metabolism.vb" />
