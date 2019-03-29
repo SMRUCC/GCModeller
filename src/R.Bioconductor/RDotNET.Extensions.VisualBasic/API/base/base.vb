@@ -913,7 +913,7 @@ Namespace API
                     ' 所以会需要删除一下最末尾的0字节的字符
                     Dim str As String = CStr(f.value).Trim(ASCII.NUL)
 
-                    If base.exists(str) Then
+                    If Not str.StringEmpty AndAlso base.exists(str) Then
                         Return $"{f.name} = {str}"
                     Else
                         Return $"{f.name} = {Rstring(str)}"
