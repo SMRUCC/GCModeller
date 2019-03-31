@@ -1,7 +1,7 @@
-﻿Imports Dynamics
-Imports Microsoft.VisualBasic.Data.csv
+﻿Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 
 Module Module1
 
@@ -13,9 +13,12 @@ Module Module1
         }
 
         Dim snapshots As New List(Of DataSet)
+        Dim flux As New List(Of DataSet)
+
+        Call envir.Initialize()
 
         For i As Integer = 0 To 10000
-            envir.ContainerIterator()
+            flux += New DataSet With {.ID = i, .Properties = envir.ContainerIterator().ToDictionary.FlatTable}
             snapshots += New DataSet With {
                 .ID = i,
                 .Properties = massTable.ToDictionary(Function(m) m.Key, Function(m) m.Value.Value)
@@ -23,6 +26,7 @@ Module Module1
         Next
 
         Call snapshots.SaveTo("./test_mass.csv")
+        Call flux.SaveTo("./test_flux.csv")
 
         Pause()
     End Sub
@@ -52,39 +56,53 @@ Module Module1
                   End Function
 
         Yield New Channel(pop({"A", "B"}), pop({"C", "D"})) With {
+            .ID = "ABCD",
             .Forward = New Regulation,
             .Reverse = New Regulation With {.Activation = pop({"B", "D"}).ToArray}}
 
         Yield New Channel(pop({"E", "F"}), pop({"A", "G"})) With {
+            .ID = "EFAG",
             .Forward = New Regulation,
             .Reverse = New Regulation With {.Activation = pop({"B"}).ToArray}
         }
 
         Yield New Channel(pop({"B"}), pop({"A", "D"})) With {
-            .Forward = New Regulation With {.Activation = pop({"C", "G"}).ToArray},
+            .ID = "BAD",
+            .Forward = New Regulation With {.Activation = pop({"C", "G", "B"}).ToArray},
             .Reverse = New Regulation With {.Activation = pop({"E"}).ToArray}
         }
 
         Yield New Channel(pop({"G"}), pop({"E"})) With {
+            .ID = "GE",
             .Forward = New Regulation With {.Activation = pop({"F"}).ToArray}
         }
         Yield New Channel(pop({"E"}), pop({"G", "D", "C"})) With {
+            .ID = "EGDC",
             .Forward = New Regulation With {.Activation = pop({"E"}).ToArray},
             .Reverse = New Regulation With {.Activation = pop({"C", "D"}).ToArray}
         }
 
         Yield New Channel(pop({"B", "F"}), pop({"H"})) With {
+            .ID = "BFH",
+            .Forward = New Regulation With {.Activation = pop({"B"}).ToArray},
+            .Reverse = New Regulation With {.Activation = pop({"I", "D"}).ToArray}
+        }
+
+        Yield New Channel(pop({"D", "F"}), pop({"H"})) With {
+            .ID = "DFH",
             .Forward = New Regulation With {.Activation = pop({"B"}).ToArray},
             .Reverse = New Regulation With {.Activation = pop({"I", "D"}).ToArray}
         }
 
         Yield New Channel(pop({"I"}), pop({"G"})) With {
+            .ID = "IG",
            .Forward = New Regulation With {.Activation = pop({"B"}).ToArray},
            .Reverse = New Regulation With {.Activation = pop({"G", "D"}).ToArray}
        }
 
         Yield New Channel(pop({"H"}), pop({"I", "D"})) With {
-           .Forward = New Regulation With {.Activation = pop({"B"}).ToArray},
+            .ID = "HID",
+           .Forward = New Regulation With {.Activation = pop({"B", "H"}).ToArray},
            .Reverse = New Regulation With {.Activation = pop({"A"}).ToArray}
        }
     End Function

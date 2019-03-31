@@ -2,6 +2,7 @@
 ''' <summary>
 ''' Create genetic circles with GA algorithm
 ''' </summary>
-Public Class Class1
-
+Friend NotInheritable Class NamespaceDoc
+    Private Sub New()
+    End Sub
 End Class
