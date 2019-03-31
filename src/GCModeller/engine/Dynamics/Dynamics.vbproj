@@ -85,6 +85,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Definitions.vb" />
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="Core\Channel.vb" />
     <Compile Include="Core\Directions.vb" />

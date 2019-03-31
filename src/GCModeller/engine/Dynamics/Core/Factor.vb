@@ -15,13 +15,25 @@ Public Class Variable
     ''' <returns></returns>
     Public ReadOnly Property Coefficient As Double
 
-    Sub New(mass As Factor, factor As Double)
+    ''' <summary>
+    ''' 当前的这种物质因子在目标反应通道之中是否为模板物质？对于模板物质而言，其容量是不会被消耗掉的
+    ''' 例如，转录过程或者翻译过程，基因对象或者mRNA对象为模板物质，其不会像小分子反应一样作为底物被消耗掉
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property IsTemplate As Boolean
+
+    Sub New(mass As Factor, factor As Double, Optional isTemplate As Boolean = False)
         Me.Mass = mass
         Me.Coefficient = factor
+        Me.IsTemplate = isTemplate
     End Sub
 
     Public Overrides Function ToString() As String
-        Return Mass.ToString
+        If Not IsTemplate Then
+            Return Mass.ToString
+        Else
+            Return $"[{Mass}]"
+        End If
     End Function
 
 End Class
@@ -37,4 +49,8 @@ Public Class Factor : Inherits Value(Of Double)
     Public Overrides Function ToString() As String
         Return $"{ID} ({Value} unit)"
     End Function
+
+    Public Overloads Shared Widening Operator CType(name As String) As Factor
+        Return New Factor With {.ID = name}
+    End Operator
 End Class

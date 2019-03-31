@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
@@ -7,12 +8,17 @@ Imports Microsoft.VisualBasic.Linq
 Public Class Vessel
 
     ''' <summary>
-    ''' 当前的这个微环境之中的所有的反应过程列表
+    ''' 当前的这个微环境之中的所有的反应过程列表，在这个集合之中包括有：
+    ''' 
+    ''' 1. 代谢过程
+    ''' 2. 转录过程
+    ''' 3. 翻译过程
+    ''' 4. 跨膜转运过程
     ''' </summary>
     ''' <returns></returns>
     Public Property Channels As Channel()
     ''' <summary>
-    ''' 当前的这个微环境之中的所有的物质列表
+    ''' 当前的这个微环境之中的所有的物质列表，会包括代谢物，氨基酸，RNA等物质信息
     ''' </summary>
     ''' <returns></returns>
     Public Property Mass As Factor()
@@ -23,19 +29,29 @@ Public Class Vessel
     Dim shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
 
     Public Sub Initialize()
-        Dim sharedLeft = Channels _
-            .Select(Function(r) r.left) _
-            .IteratesALL _
-            .GroupBy(Function(x) x.Mass.ID) _
-            .ToDictionary(Function(m) m.Key, Function(c) CDbl(c.Count))
-        Dim sharedRight = Channels _
-            .Select(Function(r) r.right) _
-            .IteratesALL _
-            .GroupBy(Function(x) x.Mass.ID) _
-            .ToDictionary(Function(m) m.Key, Function(m) CDbl(m.Count))
+        Dim sharedLeft = factorsByCount(True)
+        Dim sharedRight = factorsByCount(False)
 
         shareFactors = (sharedLeft, sharedRight)
     End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Function factorsByCount(isLeft As Boolean) As Dictionary(Of String, Double)
+        Return Channels _
+            .Select(Function(r)
+                        If isLeft Then
+                            Return r.left
+                        Else
+                            Return r.right
+                        End If
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(x) x.Mass.ID) _
+            .ToDictionary(Function(m) m.Key,
+                          Function(m)
+                              Return CDbl(m.Count)
+                          End Function)
+    End Function
 
     ''' <summary>
     ''' 当前的这个微环境的迭代器
