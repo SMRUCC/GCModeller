@@ -1,7 +1,7 @@
-﻿Imports Dynamics
-Imports Microsoft.VisualBasic.Data.csv
+﻿Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 
 Module Module1
 
