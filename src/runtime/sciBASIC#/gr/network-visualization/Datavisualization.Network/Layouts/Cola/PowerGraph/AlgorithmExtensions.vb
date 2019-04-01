@@ -96,7 +96,7 @@ Namespace Layouts.Cola
             Return i
         End Function
 
-        Public Function getGroups(Of Link)(nodes As Node(), links As Link(), la As LinkTypeAccessor(Of Link), rootGroup As Group) As IndexPowerGraph
+        Public Function getGroups(Of Link)(nodes As Node(), links As Link(), la As LinkTypeAccessor(Of Link), rootGroup As Group) As PowerGraph
             Dim n = nodes.Length
             Dim c = New Configuration(Of Link)(n, links, la, rootGroup)
 
@@ -117,7 +117,7 @@ Namespace Layouts.Cola
                                         Call f("target")
                                     End Sub)
 
-            Return New IndexPowerGraph With {
+            Return New PowerGraph With {
                 .groups = g,
                 .powerEdges = powerEdges
             }

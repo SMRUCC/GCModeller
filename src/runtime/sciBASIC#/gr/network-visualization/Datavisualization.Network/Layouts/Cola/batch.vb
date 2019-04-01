@@ -1,54 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::85b68c504dd0bb6863724a24b4104bb6, gr\network-visualization\Datavisualization.Network\Layouts\Cola\batch.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Interface network
-    ' 
-    '         Properties: links, nodes
-    ' 
-    '     Module batch
-    ' 
-    '         Function: gridify, powerGraphGridLayout, route
-    ' 
-    '     Class LayoutGraph
-    ' 
-    '         Properties: cola, powerGraph
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Interface network
+' 
+'         Properties: links, nodes
+' 
+'     Module batch
+' 
+'         Function: gridify, powerGraphGridLayout, route
+' 
+'     Class LayoutGraph
+' 
+'         Properties: cola, powerGraph
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Cola.GridRouter
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Layouts.Cola
@@ -124,7 +125,9 @@ Namespace Layouts.Cola
                 .powerGraphGroups(Sub(d)
                                       ' powerGraph对象是在这里被赋值初始化的
                                       powerGraph = d
-                                      powerGraph.groups.DoEach(Sub(v) v.padding = grouppadding)
+                                      powerGraph.groups.DoEach(Sub(v)
+                                                                   CType(v, IndexGroup).padding = grouppadding
+                                                               End Sub)
                                   End Sub)
 
             ' construct a flat graph with dummy nodes for the groups and edges connecting group dummy nodes to their children
@@ -135,30 +138,32 @@ Namespace Layouts.Cola
             vs.ForEach(Sub(v, i) v.index = i)
 
             powerGraph.groups _
-                .ForEach(Sub(g As IndexGroup)
+                .ForEach(Sub(g As [Variant](Of Group, IndexGroup))
                              Dim sourceInd%
+                             Dim group As New Group
+                             Dim index As IndexGroup = g
 
-                             g.index = g.id + n
-                             sourceInd = g.index
-                             vs.Add(g)
+                             group.index = index.id + n
+                             sourceInd = group.index
+                             vs.Add(group)
 
-                             If g.leaves IsNot Nothing Then
-                                 g.leaves.ForEach(Sub(v)
-                                                      Dim ie As New PowerEdge(Of Integer) With {
+                             If group.leaves IsNot Nothing Then
+                                 group.leaves.ForEach(Sub(v)
+                                                          Dim ie As New PowerEdge(Of Integer) With {
                                                           .source = sourceInd,
                                                           .target = v.index
                                                       }
 
-                                                      Call edges.Add(ie)
-                                                  End Sub)
+                                                          Call edges.Add(ie)
+                                                      End Sub)
                              End If
-                             If g.groups IsNot Nothing Then
-                                 g.groups.ForEach(Sub(gg)
-                                                      Call edges.Add(New PowerEdge(Of Integer) With {
+                             If group.groups IsNot Nothing Then
+                                 group.groups.ForEach(Sub(gg)
+                                                          Call edges.Add(New PowerEdge(Of Integer) With {
                                                   .source = sourceInd,
                                                   .target = gg.id + n
                                               })
-                                                  End Sub)
+                                                      End Sub)
                              End If
                          End Sub)
 
@@ -194,10 +199,10 @@ Namespace Layouts.Cola
                     .linkDistance(30) _
                     .symmetricDiffLinkLengths(5) _
                     .powerGraphGroups(Sub(d)
-                                          PowerGraph = d
-                                          PowerGraph.groups.DoEach(Sub(v) v.padding = grouppadding)
+                                          powerGraph = d
+                                          powerGraph.groups.DoEach(Sub(v) CType(v, Group).padding = grouppadding)
                                       End Sub).start(50, 0, 100, 0, False),
-                .powerGraph = PowerGraph
+                .powerGraph = powerGraph
             }
         End Function
 

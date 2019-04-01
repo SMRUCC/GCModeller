@@ -1,55 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::517eea9cf414097848454313612eb277, gr\network-visualization\Datavisualization.Network\Layouts\Cola\PowerGraph\Configuration.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Configuration
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: allEdges, getGroupHierarchy, greedyMerge, initModulesFromGroup, merge
-    '                   nEdges, rootMerges, updateLambda
-    ' 
-    '         Sub: getEdges
-    '         Class ModuleMerge
-    ' 
-    '             Properties: a, b, id, nEdges
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Configuration
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: allEdges, getGroupHierarchy, greedyMerge, initModulesFromGroup, merge
+'                   nEdges, rootMerges, updateLambda
+' 
+'         Sub: getEdges
+'         Class ModuleMerge
+' 
+'             Properties: a, b, id, nEdges
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.JavaScript
 
 Namespace Layouts.Cola
@@ -223,7 +224,7 @@ Namespace Layouts.Cola
             Return Me.R - inInt.count() - outInt.count()
         End Function
 
-        Public Function getGroupHierarchy(retargetedEdges As List(Of PowerEdge(Of Integer))) As List(Of IndexGroup)
+        Public Function getGroupHierarchy(retargetedEdges As List(Of PowerEdge(Of Integer))) As List(Of [Variant](Of Group, IndexGroup))
             Dim groups As New List(Of IndexGroup)
             Dim root As New IndexGroup
 
@@ -238,7 +239,8 @@ Namespace Layouts.Cola
 
                             retargetedEdges.Add(pe)
                         End Sub)
-            Return groups
+
+            Return groups.Select(Function(g) New [Variant](Of Group, IndexGroup)(g)).AsList
         End Function
 
         Private Function allEdges() As List(Of PowerEdge(Of Integer))

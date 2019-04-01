@@ -261,7 +261,7 @@ Namespace Layouts.Cola
             Return Me
         End Function
 
-        Public Function powerGraphGroups(f As Action(Of IndexPowerGraph)) As Layout
+        Public Function powerGraphGroups(f As Action(Of PowerGraph)) As Layout
             Dim g = powergraphExtensions.getGroups(Of Link(Of Node))(Me._nodes, Me._links, Me.linkAccessor, Me._rootGroup)
             Me.groups(g.groups)
             Call f(g)
