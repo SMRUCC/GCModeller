@@ -4,31 +4,35 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F1BC4097-6F9E-4B86-AE11-DA4F2A301BB3}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>GACircler</RootNamespace>
-    <AssemblyName>GACircler</AssemblyName>
+    <ProjectGuid>{8591B979-5780-457C-9BB0-229100FFEF40}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <StartupObject>test.Module1</StartupObject>
+    <RootNamespace>test</RootNamespace>
+    <AssemblyName>test</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>Windows</MyType>
+    <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>GACircler.xml</DocumentationFile>
+    <DocumentationFile>test.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>GACircler.xml</DocumentationFile>
+    <DocumentationFile>test.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -48,25 +52,28 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DocumentationFile>GACircler.xml</DocumentationFile>
+    <DocumentationFile>test.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DocumentationFile>GACircler.xml</DocumentationFile>
+    <DocumentationFile>test.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -85,7 +92,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NamespaceDoc.vb" />
+    <Compile Include="Module1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -120,6 +127,29 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>47_dotnet_ms-vb_data.framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Model\Model.vbproj">
+      <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dynamics.vbproj">
+      <Project>{df077c8b-9b53-41c3-81f3-2ba4f3d7fc9f}</Project>
+      <Name>Dynamics</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
