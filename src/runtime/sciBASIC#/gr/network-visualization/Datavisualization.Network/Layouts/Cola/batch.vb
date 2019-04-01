@@ -88,11 +88,13 @@ Namespace Layouts.Cola
                           }
                          End Sub)
             groups.DoEach(Sub(d)
-                              Dim childs As Integer() = d.groups.SafeQuery.Select(Function(c) nodes.Length + c.id).AsList + d.leaves.SafeQuery.Select(Function(c) c.index)
+                              Dim childs As Integer() =
+                              d.groups.SafeQuery.As(Of Node).Select(Function(c) nodes.Length + c.id).AsList +
+                              d.leaves.SafeQuery.As(Of Node).Select(Function(c) c.index)
                               d.routerNode = New Node With {
-                                .bounds = d.bounds.inflate(-groupMargin),
-                                .children = childs
-                           }
+                                    .bounds = d.bounds.inflate(-groupMargin),
+                                    .children = childs
+                               }
                           End Sub)
             Dim gridRouterNodes As Node() = nodes.Concat(groups).Select(Function(d, i)
                                                                             d.routerNode.id = i
@@ -151,7 +153,7 @@ Namespace Layouts.Cola
                                  group.leaves.ForEach(Sub(v)
                                                           Dim ie As New PowerEdge(Of Integer) With {
                                                               .source = sourceInd,
-                                                              .target = v.index
+                                                              .target = v.VB.index
                                                           }
 
                                                           Call edges.Add(ie)
@@ -161,7 +163,7 @@ Namespace Layouts.Cola
                                  group.groups.ForEach(Sub(gg)
                                                           Call edges.Add(New PowerEdge(Of Integer) With {
                                                               .source = sourceInd,
-                                                              .target = gg.id + n
+                                                              .target = gg.VB.id + n
                                                           })
                                                       End Sub)
                              End If
