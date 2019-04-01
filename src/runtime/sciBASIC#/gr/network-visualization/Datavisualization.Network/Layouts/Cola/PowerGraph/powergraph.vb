@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Language
 Namespace Layouts.Cola
 
     Public Interface network
+
         Property nodes() As Node()
         Property links() As Link(Of Node)()
 

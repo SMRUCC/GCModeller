@@ -110,10 +110,10 @@ Namespace Layouts.Cola
         ''' 从这里开始进行布局的计算
         ''' </summary>
         ''' <param name="graph"></param>
-        ''' <param name="size"></param>
+        ''' <param name="size">The canvas size [width, height]</param>
         ''' <param name="grouppadding"></param>
         ''' <returns></returns>
-        Public Function powerGraphGridLayout(graph As network, size As Double(), grouppadding As Double) As LayoutGraph
+        Public Function powerGraphGridLayout(graph As network, size As Integer(), grouppadding As Double) As LayoutGraph
             ' compute power graph
             Dim powerGraph As PowerGraph = Nothing
 

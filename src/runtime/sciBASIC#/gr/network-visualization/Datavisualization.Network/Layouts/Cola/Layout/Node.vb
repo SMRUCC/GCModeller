@@ -105,30 +105,6 @@ Namespace Layouts.Cola
         Public prev As RBTree(Of Integer, Node)
         Public [next] As RBTree(Of Integer, Node)
         Public children As Integer()
-
-        'Default Public Property GetNode(direction As String) As RBTree(Of Integer, Node)
-        '    Get
-        '        Select Case direction
-        '            Case NameOf(prev)
-        '                Return prev
-        '            Case NameOf([next])
-        '                Return [next]
-        '            Case Else
-        '                Throw New NotImplementedException(direction)
-        '        End Select
-        '    End Get
-        '    Set
-        '        Select Case direction
-        '            Case NameOf(prev)
-        '                prev = Value
-        '            Case NameOf([next])
-        '                [next] = Value
-        '            Case Else
-        '                Throw New NotImplementedException(direction)
-        '        End Select
-        '    End Set
-        'End Property
-
         Public r As Rectangle2D
         Public v As Variable
         Public pos As Double

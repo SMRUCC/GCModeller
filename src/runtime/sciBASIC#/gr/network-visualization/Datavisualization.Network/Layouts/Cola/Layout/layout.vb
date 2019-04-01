@@ -64,7 +64,7 @@ Namespace Layouts.Cola
     ''' </summary>
     Public Class Layout
 
-        Private _canvasSize As Double() = {1, 1}
+        Private _canvasSize As Integer() = {1, 1}
         Private _linkDistance As UnionType(Of Double) = 20
         Private _defaultNodeSize As Double = 10
         Private _linkLengthCalculator As Action = Nothing
@@ -373,18 +373,21 @@ Namespace Layouts.Cola
             Return Me
         End Function
 
-        '*
-        '     * Size of the layout canvas dimensions [x,y]. Currently only used to determine the midpoint which is taken as the starting position
-        '     * for nodes with no preassigned x and y.
-        '     * @property size
-        '     * @type {Array of Number}
-        '     
-
-        Public Function size() As Double()
+        ''' <summary>
+        ''' Size of the layout canvas dimensions [x,y]. Currently only used to determine the midpoint which is taken as the starting position
+        ''' for nodes with no preassigned x and y.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function size() As Integer()
             Return Me._canvasSize
         End Function
 
-        Public Function size(x As Double()) As Layout
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        Public Function size(x As Integer()) As Layout
             Me._canvasSize = x
             Return Me
         End Function
