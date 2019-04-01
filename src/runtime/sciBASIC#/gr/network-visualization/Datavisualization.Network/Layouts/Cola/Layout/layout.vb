@@ -947,14 +947,13 @@ Namespace Layouts.Cola
         ' Bit 2 stores the dragging state, from mousedown to mouseup.
         ' Bit 3 stores the hover state, from mouseover to mouseout.
         Private Shared Sub dragStart(d As Node)
-            Layout.stopNode(d)
-            d.fixed = d.fixed Or 2
-            ' set bit 2
-        End Sub
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Sub dragStart(d As Node)
-            Layout.storeOffset(d, Layout.dragOrigin(d))
+            If Node.isGroup(d) Then
+                Layout.storeOffset(d, Layout.dragOrigin(d))
+            Else
+                Layout.stopNode(d)
+                ' set bit 2
+                d.fixed = d.fixed Or 2
+            End If
         End Sub
 
         ' we clobber any existing desired positions for nodes
@@ -997,33 +996,15 @@ Namespace Layouts.Cola
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function dragOrigin(d As Node) As Point2D
-            Return d
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Function dragOrigin(d As Node) As Point2D
-            Return New Point2D() With {
-                .X = d.bounds.CenterX(),
-                .Y = d.bounds.CenterY()
-            }
-        End Function
-
-        Private Shared Sub drag(d As Node, position As Point2D)
-            If d.leaves IsNot Nothing Then
-                d.leaves.DoEach(Sub(v)
-                                    d.bounds.setXCentre(position.X)
-                                    d.bounds.setYCentre(position.Y)
-
-                                    With v.VB
-                                        .px = ._dragGroupOffsetX + position.X
-                                        .py = ._dragGroupOffsetY + position.Y
-                                    End With
-                                End Sub)
+            If Node.isGroup(d) Then
+                Return New Point2D() With {
+                   .X = d.bounds.CenterX(),
+                   .Y = d.bounds.CenterY()
+               }
+            Else
+                Return d
             End If
-            If d.groups IsNot Nothing Then
-                d.groups.DoEach(Sub(g) Call Layout.drag(g, position))
-            End If
-        End Sub
+        End Function
 
         ''' <summary>
         ''' for groups, the drag translation is propagated down to all of the children of
@@ -1032,8 +1013,25 @@ Namespace Layouts.Cola
         ''' <param name="d"></param>
         ''' <param name="position"></param>
         Private Shared Sub drag(d As Node, position As Point2D)
-            d.px = position.X
-            d.py = position.Y
+            If Node.isGroup(d) Then
+                If d.leaves IsNot Nothing Then
+                    d.leaves.DoEach(Sub(v)
+                                        d.bounds.setXCentre(position.X)
+                                        d.bounds.setYCentre(position.Y)
+
+                                        With v.VB
+                                            .px = ._dragGroupOffsetX + position.X
+                                            .py = ._dragGroupOffsetY + position.Y
+                                        End With
+                                    End Sub)
+                End If
+                If d.groups IsNot Nothing Then
+                    d.groups.DoEach(Sub(g) Call Layout.drag(g, position))
+                End If
+            Else
+                d.px = position.X
+                d.py = position.Y
+            End If
         End Sub
 
         ''' <summary>
@@ -1042,18 +1040,18 @@ Namespace Layouts.Cola
         ''' </summary>
         ''' <param name="d"></param>
         Private Shared Sub dragEnd(d As Node)
-            If d.leaves IsNot Nothing Then
-                d.leaves.DoEach(Sub(v) Call Layout.dragEnd(v))
+            If Node.isGroup(d) Then
+                If d.leaves IsNot Nothing Then
+                    d.leaves.DoEach(Sub(v) Call Layout.dragEnd(v))
+                End If
+                If d.groups IsNot Nothing Then
+                    d.groups.DoEach(AddressOf Layout.dragEnd)
+                End If
+            Else
+                ' unset bits 2 and 3
+                'd.fixed = 0;
+                d.fixed = d.fixed And Not 6
             End If
-            If d.groups IsNot Nothing Then
-                d.groups.DoEach(AddressOf Layout.dragEnd)
-            End If
-        End Sub
-
-        Private Shared Sub dragEnd(d As Node)
-            ' unset bits 2 and 3
-            'd.fixed = 0;
-            d.fixed = d.fixed And Not 6
         End Sub
 
         ' in d3 hover temporarily locks nodes, currently not used in cola
