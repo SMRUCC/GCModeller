@@ -152,9 +152,11 @@ Namespace Layouts.Cola
         Public Function merge(a As [Module], b As [Module], Optional k As Integer = 0) As [Module]
             Dim inInt = a.incoming.intersection(b.incoming)
             Dim outInt = a.outgoing.intersection(b.outgoing)
-            Dim children = New ModuleSet()
-            children.add(a)
-            children.add(b)
+            Dim children As New ModuleSet()
+
+            Call children.add(a)
+            Call children.add(b)
+
             Dim m = New [Module](Me.modules.Count, outInt, inInt, children)
             Me.modules.Add(m)
             Dim update = updateLambda(a, b, m)
@@ -172,19 +174,22 @@ Namespace Layouts.Cola
             Dim n = rs.Length
             Dim merges = New ModuleMerge(n * (n - 1)) {}
             Dim ctr = 0
-            Dim i As Integer = 0, i_ As Integer = n - 1
-            While i < i_
+            Dim i As Integer = 0, ends As Integer = n - 1
+
+            While i < ends
                 For j As Integer = i + 1 To n - 1
                     Dim a = rs(i)
                     Dim b = rs(j)
+
                     merges(ctr) = New ModuleMerge With {
-                    .id = ctr,
-                    .nEdges = Me.nEdges(a, b),
-                    .a = a,
-                    .b = b
-                }
+                        .id = ctr,
+                        .nEdges = Me.nEdges(a, b),
+                        .a = a,
+                        .b = b
+                    }
                     ctr += 1
                 Next
+
                 i += 1
             End While
 
@@ -205,14 +210,17 @@ Namespace Layouts.Cola
                     Continue For
                 End If
 
-                ' find the merge that allows for the most edges to be removed.  secondary ordering based on arbitrary id (for predictability)
+                ' find the merge that allows for the most edges to be removed.  
+                ' secondary ordering based on arbitrary id (for predictability)
                 Dim ms = Me.rootMerges(i).Sort(Function(a, b) If(a.nEdges = b.nEdges, a.id - b.id, a.nEdges - b.nEdges))
                 Dim m = ms(0)
+
                 If m.nEdges >= Me.R Then
                     Continue For
+                Else
+                    Call Me.merge(m.a, m.b, i)
+                    Return True
                 End If
-                Me.merge(m.a, m.b, i)
-                Return True
             Next
 
             Return False
