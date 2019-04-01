@@ -56,7 +56,7 @@ Namespace Layouts.Cola
     End Interface
 
     Public Class PowerGraph
-        Public Property groups As List(Of [Variant](Of Group, IndexGroup))
+        Public Property groups As List(Of Node)
         Public Property powerEdges As List(Of PowerEdge(Of Node))
     End Class
 

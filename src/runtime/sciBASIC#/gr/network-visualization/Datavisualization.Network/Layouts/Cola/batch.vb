@@ -99,9 +99,9 @@ Namespace Layouts.Cola
                                                                             Return d.routerNode
                                                                         End Function).ToArray
             Dim accessor As New NodeAccessor(Of Node) With {
-            .getChildren = Function(v) v.children,
-            .getBounds = Function(v) v.bounds
-        }
+                .getChildren = Function(v) v.children,
+                .getBounds = Function(v) v.bounds
+            }
 
             Return New GridRouter(Of Node)(gridRouterNodes, accessor, margin - groupMargin)
         End Function

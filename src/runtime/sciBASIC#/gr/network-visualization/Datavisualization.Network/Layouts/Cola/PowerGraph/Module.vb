@@ -131,6 +131,10 @@ Namespace Layouts.Cola
                                              End Sub)
                                End Sub)
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"#{id} in={incoming}  out={outgoing}"
+        End Function
     End Class
 
     Public Class ModuleSet

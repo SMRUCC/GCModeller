@@ -81,7 +81,7 @@ Namespace Layouts.Cola
             End If
         End Sub
 
-        Public Sub toGroups(modules As ModuleSet, group As IndexGroup, groups As List(Of IndexGroup))
+        Public Sub toGroups(modules As ModuleSet, group As Node, groups As List(Of Node))
             Call modules.forAll(Sub(m As [Module]) m.toGroups(group, groups))
         End Sub
 
@@ -97,22 +97,27 @@ Namespace Layouts.Cola
             Return i
         End Function
 
-        Public Function getGroups(Of Link)(nodes As Node(), links As Link(), la As LinkTypeAccessor(Of Link), rootGroup As Group) As PowerGraph
+        Public Function getGroups(Of Link)(nodes As Node(), links As Link(), la As LinkTypeAccessor(Of Link), rootGroup As Node) As PowerGraph
             Dim n = nodes.Length
             Dim c = New Configuration(Of Link)(n, links, la, rootGroup)
 
             While c.greedyMerge()
             End While
 
-            Dim powerEdgeIndices As New List(Of PowerEdge(Of Integer))
+            Dim powerEdgeIndices As New List(Of PowerEdge(Of [Variant](Of Integer, Node)))
             Dim powerEdges As New List(Of PowerEdge(Of Node))
             Dim g = c.getGroupHierarchy(powerEdgeIndices)
 
             powerEdgeIndices.DoEach(Sub(e)
                                         ' javascript之中，对象类型在这里发生了转换
                                         ' 将index转换为具体的node对象
-                                        Dim nodeEdge As New PowerEdge(Of Node)
-                                        Dim f = Sub([end] As String) nodeEdge([end]) = nodes(e([end]))
+                                        Dim f = Sub([end] As String)
+                                                    Dim eg = e([end])
+
+                                                    If eg Like GetType(Integer) Then
+                                                        e([end]) = nodes(CType(eg, Integer))
+                                                    End If
+                                                End Sub
 
                                         Call f("source")
                                         Call f("target")

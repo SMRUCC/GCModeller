@@ -74,7 +74,7 @@ Namespace Layouts.Cola
         Private _alpha As Double
         Private _lastStress As Double?
         Private _running As Boolean = False
-        Private _nodes As Node() = {}
+        Private _nodes As IndexGroup() = {}
         Private _groups As Group() = {}
         Private _rootGroup As Group
 
@@ -255,7 +255,7 @@ Namespace Layouts.Cola
                                                        End Sub)
                                   End If
                               End Sub)
-            Me._rootGroup.leaves = Me._nodes.Where(Function(v) v.parent Is Nothing).ToList
+            Me._rootGroup.leaves = Me._nodes.Where(Function(v) v.parent Is Nothing).Select(Function(n) DirectCast(n, Node)).ToList
             Me._rootGroup.groups = Me._groups.Where(Function(g) g.parent Is Nothing).ToList
 
             Return Me
@@ -665,9 +665,9 @@ Namespace Layouts.Cola
                                   End Sub)
             Else
                 Me._rootGroup = New [Group] With {
-                .leaves = Me._nodes.ToList,
-                .groups = New List(Of [Group])
-            }
+                    .leaves = Me._nodes.Select(Function(n) DirectCast(n, Node)).ToList,
+                    .groups = New List(Of [Group])
+                }
             End If
 
             Dim curConstraints As Constraint(Of Integer)() = If(Me._constraints Is Nothing, Me._constraints, {})

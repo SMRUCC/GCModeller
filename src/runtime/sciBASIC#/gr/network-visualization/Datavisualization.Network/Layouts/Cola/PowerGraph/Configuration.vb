@@ -232,30 +232,30 @@ Namespace Layouts.Cola
             Return Me.R - inInt.count() - outInt.count()
         End Function
 
-        Public Function getGroupHierarchy(retargetedEdges As List(Of PowerEdge(Of Integer))) As List(Of [Variant](Of Group, IndexGroup))
-            Dim groups As New List(Of IndexGroup)
-            Dim root As New IndexGroup
+        Public Function getGroupHierarchy(retargetedEdges As List(Of PowerEdge(Of [Variant](Of Integer, Node)))) As List(Of Node)
+            Dim groups As New List(Of Node)
+            Dim root As New Node
 
             Call toGroups(Me.roots(0), root, groups)
             Call Me.allEdges() _
                 .DoEach(Sub(e)
                             Dim a = Me.modules(e.source)
                             Dim b = Me.modules(e.target)
-                            Dim pop = Function(x As [Module]) As [Variant](Of Integer, IndexGroup)
+                            Dim pop = Function(x As [Module]) As [Variant](Of Integer, Node)
                                           If x.gid Is Nothing Then
                                               Return e.source
                                           Else
-                                              Return groups(x.gid).id
+                                              Return groups(x.gid)
                                           End If
                                       End Function
                             Dim from = pop(a)
                             Dim [to] = pop(b)
-                            Dim pe As New PowerEdge(Of Integer)(from, [to], e.type)
+                            Dim pe As New PowerEdge(Of [Variant](Of Integer, Node))(from, [to], e.type)
 
                             retargetedEdges.Add(pe)
                         End Sub)
 
-            Return groups.Select(Function(g) New [Variant](Of Group, IndexGroup)(g)).AsList
+            Return groups.AsList
         End Function
 
         Private Function allEdges() As List(Of PowerEdge(Of Integer))
