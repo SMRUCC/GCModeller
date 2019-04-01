@@ -72,12 +72,13 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim list$ = args <= "/list"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}_subsetof({list.BaseName}).fasta"
-        Dim idlist As Index(Of String) = list.ReadAllLines.Select(AddressOf Strings.LCase).Indexing
+        Dim idlist As Index(Of String) = list.ReadAllLines _
+            .Select(AddressOf HeaderFormats.TrimAccessionVersion) _
+            .Select(AddressOf Strings.LCase) _
+            .Indexing
         Dim accid As TextGrepMethod = TextGrepScriptEngine _
             .Compile(args("/accid") Or "tokens '.' first") _
             .PipelinePointer
-
-        ' Call idlist.Objects.GetJson.__DEBUG_ECHO
 
         Using writer As StreamWriter = out.OpenWriter(encoding:=Encodings.ASCII)
             For Each fa As FastaSeq In New StreamIterator([in]).ReadStream
