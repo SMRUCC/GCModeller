@@ -43,6 +43,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 
 Namespace Layouts.Cola
 
@@ -103,7 +104,7 @@ Namespace Layouts.Cola
             While c.greedyMerge()
             End While
 
-            Dim powerEdgeIndices As New List(Of PowerEdge(Of Integer))
+            Dim powerEdgeIndices As New List(Of PowerEdge(Of [Variant](Of Integer, IndexGroup)))
             Dim powerEdges As New List(Of PowerEdge(Of Node))
             Dim g = c.getGroupHierarchy(powerEdgeIndices)
 

@@ -53,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Layouts.Cola
 
@@ -177,6 +178,10 @@ Namespace Layouts.Cola
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function modules() As [Module]()
             Return table.Values.Where(Function(m) m.isPredefined).ToArray
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return table.Values.Select(Function(m) m.id).ToArray.GetJson
         End Function
     End Class
 End Namespace
