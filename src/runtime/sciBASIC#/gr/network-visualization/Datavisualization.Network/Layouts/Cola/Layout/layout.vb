@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::4a819863d6b73607e27f3e57dd7d5558, gr\network-visualization\Datavisualization.Network\Layouts\Cola\Layout\layout.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Layout
-    ' 
-    '         Function: [on], [resume], [stop], (+2 Overloads) alpha, (+2 Overloads) avoidOverlaps
-    '                   (+2 Overloads) constraints, (+2 Overloads) convergenceThreshold, (+2 Overloads) defaultNodeSize, (+2 Overloads) distanceMatrix, (+2 Overloads) dragOrigin
-    '                   (+2 Overloads) flowLayout, getLinkLength, getLinkType, (+2 Overloads) getSourceIndex, (+2 Overloads) getTargetIndex
-    '                   (+2 Overloads) groupCompactness, (+2 Overloads) groups, (+2 Overloads) handleDisconnected, jaccardLinkLengths, (+3 Overloads) linkDistance
-    '                   linkId, (+2 Overloads) links, (+2 Overloads) linkType, (+2 Overloads) nodes, powerGraphGroups
-    '                   routeEdge, (+2 Overloads) size, start, symmetricDiffLinkLengths, tick
-    ' 
-    '         Sub: (+2 Overloads) drag, (+2 Overloads) dragEnd, (+2 Overloads) dragStart, initialLayout, kick
-    '              mouseOut, mouseOver, prepareEdgeRouting, separateOverlappingComponents, stopNode
-    '              storeOffset, trigger, updateNodePositions
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Layout
+' 
+'         Function: [on], [resume], [stop], (+2 Overloads) alpha, (+2 Overloads) avoidOverlaps
+'                   (+2 Overloads) constraints, (+2 Overloads) convergenceThreshold, (+2 Overloads) defaultNodeSize, (+2 Overloads) distanceMatrix, (+2 Overloads) dragOrigin
+'                   (+2 Overloads) flowLayout, getLinkLength, getLinkType, (+2 Overloads) getSourceIndex, (+2 Overloads) getTargetIndex
+'                   (+2 Overloads) groupCompactness, (+2 Overloads) groups, (+2 Overloads) handleDisconnected, jaccardLinkLengths, (+3 Overloads) linkDistance
+'                   linkId, (+2 Overloads) links, (+2 Overloads) linkType, (+2 Overloads) nodes, powerGraphGroups
+'                   routeEdge, (+2 Overloads) size, start, symmetricDiffLinkLengths, tick
+' 
+'         Sub: (+2 Overloads) drag, (+2 Overloads) dragEnd, (+2 Overloads) dragStart, initialLayout, kick
+'              mouseOut, mouseOver, prepareEdgeRouting, separateOverlappingComponents, stopNode
+'              storeOffset, trigger, updateNodePositions
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,6 +53,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.JavaScript
 Imports any = System.Object
 Imports number = System.Double
@@ -74,9 +75,9 @@ Namespace Layouts.Cola
         Private _alpha As Double
         Private _lastStress As Double?
         Private _running As Boolean = False
-        Private _nodes As IndexGroup() = {}
-        Private _groups As Group() = {}
-        Private _rootGroup As Group
+        Private _nodes As Node() = {}
+        Private _groups As Node() = {}
+        Private _rootGroup As Node
 
         ''' <summary>
         ''' 与<see cref="_indexLinks"/>是一一对应的
@@ -229,34 +230,32 @@ Namespace Layouts.Cola
         '     * @default empty list
         '     
 
-        Public Function groups() As Group()
+        Public Function groups() As Node()
             Return Me._groups
         End Function
 
-        Public Function groups(x As IEnumerable(Of Group)) As Layout
+        Public Function groups(x As IEnumerable(Of Node)) As Layout
             Me._groups = x.ToArray
-            Me._rootGroup = New Group
+            Me._rootGroup = New Node
             Me._groups.DoEach(Sub(g)
                                   If g.padding Is Nothing Then
                                       g.padding = 1
                                   End If
                                   If g.leaves IsNot Nothing Then
                                       g.leaves.ForEach(Sub(v, i)
-                                                           ' InlineAssignHelper(g.leaves(i), Me._nodes(v)).parent = g
                                                            g.leaves(i) = v
-                                                           g.leaves(i).parent = g
+                                                           CType(g.leaves(i), Node).parent = g
                                                        End Sub)
                                   End If
                                   If g.groups IsNot Nothing Then
                                       g.groups.ForEach(Sub(gi, i)
-                                                           ' (InlineAssignHelper(g.groups(i), Me._groups(gi))).parent = g
                                                            g.groups(i) = gi
-                                                           g.groups(i).parent = g
+                                                           CType(g.groups(i), Node).parent = g
                                                        End Sub)
                                   End If
                               End Sub)
-            Me._rootGroup.leaves = Me._nodes.Where(Function(v) v.parent Is Nothing).Select(Function(n) DirectCast(n, Node)).ToList
-            Me._rootGroup.groups = Me._groups.Where(Function(g) g.parent Is Nothing).ToList
+            Me._rootGroup.leaves = Me._nodes.Where(Function(v) v.parent Is Nothing).Select(Function(n) New [Variant](Of Integer, Node)(n)).ToList
+            Me._rootGroup.groups = Me._groups.Where(Function(g) g.parent Is Nothing).Select(Function(n) New [Variant](Of Integer, Node)(n)).ToList
 
             Return Me
         End Function
@@ -664,9 +663,9 @@ Namespace Layouts.Cola
                                       y(System.Math.Max(Interlocked.Increment(i), i - 1)) = 0
                                   End Sub)
             Else
-                Me._rootGroup = New [Group] With {
-                    .leaves = Me._nodes.Select(Function(n) DirectCast(n, Node)).ToList,
-                    .groups = New List(Of [Group])
+                Me._rootGroup = New Node With {
+                    .leaves = Me._nodes.Select(Function(n) New [Variant](Of Integer, Node)(n)).ToList,
+                    .groups = New List(Of [Variant](Of Integer, Node))
                 }
             End If
 
@@ -770,16 +769,20 @@ Namespace Layouts.Cola
                                    End Sub)
                 Me._groups.ForEach(Sub(g, i)
                                        If g.leaves IsNot Nothing Then
-                                           g.leaves.DoEach(Sub(v) edges.Add(New PowerEdge(Of Integer) With {
+                                           g.leaves.DoEach(Sub(v)
+                                                               edges.Add(New PowerEdge(Of Integer) With {
                                            .source = g.index,
-                                           .target = v.index
-                                       }))
+                                           .target = CType(v, Node).index
+                                       })
+                                                           End Sub)
                                        End If
                                        If g.groups IsNot Nothing Then
-                                           g.groups.DoEach(Sub(gg) edges.Add(New PowerEdge(Of Integer) With {
+                                           g.groups.DoEach(Sub(gg)
+                                                               edges.Add(New PowerEdge(Of Integer) With {
                                            .source = g.index,
-                                           .target = gg.index
-                                       }))
+                                           .target = CType(gg, Node).index
+                                       })
+                                                           End Sub)
                                        End If
                                    End Sub)
 
@@ -950,7 +953,7 @@ Namespace Layouts.Cola
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Sub dragStart(d As Group)
+        Private Shared Sub dragStart(d As Node)
             Layout.storeOffset(d, Layout.dragOrigin(d))
         End Sub
 
@@ -967,13 +970,17 @@ Namespace Layouts.Cola
         ''' </summary>
         ''' <param name="d"></param>
         ''' <param name="origin"></param>
-        Private Shared Sub storeOffset(d As Group, origin As Point2D)
+        Private Shared Sub storeOffset(d As Node, origin As Point2D)
             If d.leaves IsNot Nothing Then
                 d.leaves.DoEach(Sub(v)
-                                    v.fixed = v.fixed Or 2
-                                    Layout.stopNode(v)
-                                    DirectCast(v, any)._dragGroupOffsetX = v.x - origin.X
-                                    DirectCast(v, any)._dragGroupOffsetY = v.y - origin.Y
+                                    With v.VB
+                                        .fixed = .fixed Or 2
+
+                                        Call Layout.stopNode(v)
+
+                                        ._dragGroupOffsetX = .x - origin.X
+                                        ._dragGroupOffsetY = .y - origin.Y
+                                    End With
                                 End Sub)
             End If
 
@@ -994,20 +1001,23 @@ Namespace Layouts.Cola
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Function dragOrigin(d As Group) As Point2D
+        Private Shared Function dragOrigin(d As Node) As Point2D
             Return New Point2D() With {
                 .X = d.bounds.CenterX(),
                 .Y = d.bounds.CenterY()
             }
         End Function
 
-        Private Shared Sub drag(d As Group, position As Point2D)
+        Private Shared Sub drag(d As Node, position As Point2D)
             If d.leaves IsNot Nothing Then
                 d.leaves.DoEach(Sub(v)
                                     d.bounds.setXCentre(position.X)
                                     d.bounds.setYCentre(position.Y)
-                                    v.px = v._dragGroupOffsetX + position.X
-                                    v.py = v._dragGroupOffsetY + position.Y
+
+                                    With v.VB
+                                        .px = ._dragGroupOffsetX + position.X
+                                        .py = ._dragGroupOffsetY + position.Y
+                                    End With
                                 End Sub)
             End If
             If d.groups IsNot Nothing Then
@@ -1015,16 +1025,23 @@ Namespace Layouts.Cola
             End If
         End Sub
 
-        ' for groups, the drag translation is propagated down to all of the children of
-        ' the group.
+        ''' <summary>
+        ''' for groups, the drag translation is propagated down to all of the children of
+        ''' the group.
+        ''' </summary>
+        ''' <param name="d"></param>
+        ''' <param name="position"></param>
         Private Shared Sub drag(d As Node, position As Point2D)
             d.px = position.X
             d.py = position.Y
         End Sub
 
-        ' we unset only bits 2 and 3 so that the user can fix nodes with another a different
-        ' bit such that the lock persists between drags
-        Private Shared Sub dragEnd(d As Group)
+        ''' <summary>
+        ''' we unset only bits 2 and 3 so that the user can fix nodes with another a different
+        ''' bit such that the lock persists between drags
+        ''' </summary>
+        ''' <param name="d"></param>
+        Private Shared Sub dragEnd(d As Node)
             If d.leaves IsNot Nothing Then
                 d.leaves.DoEach(Sub(v) Call Layout.dragEnd(v))
             End If

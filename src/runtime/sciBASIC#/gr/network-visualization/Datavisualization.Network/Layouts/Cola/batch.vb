@@ -80,7 +80,7 @@ Namespace Layouts.Cola
             Return gridrouter.routeEdges(edges, nudgeGap, getSource, getTarget)
         End Function
 
-        Private Function route(nodes As Node(), groups As Group(), margin As Double, groupMargin As Double) As GridRouter(Of Node)
+        Private Function route(nodes As Node(), groups As Node(), margin As Double, groupMargin As Double) As GridRouter(Of Node)
             nodes.DoEach(Sub(d)
                              d.routerNode = New Node With {
                                .name = d.name,
@@ -89,7 +89,7 @@ Namespace Layouts.Cola
                          End Sub)
             groups.DoEach(Sub(d)
                               Dim childs As Integer() = d.groups.SafeQuery.Select(Function(c) nodes.Length + c.id).AsList + d.leaves.SafeQuery.Select(Function(c) c.index)
-                              d.routerNode = New [Group] With {
+                              d.routerNode = New Node With {
                                 .bounds = d.bounds.inflate(-groupMargin),
                                 .children = childs
                            }
@@ -126,7 +126,7 @@ Namespace Layouts.Cola
                                       ' powerGraph对象是在这里被赋值初始化的
                                       powerGraph = d
                                       powerGraph.groups.DoEach(Sub(v)
-                                                                   CType(v, IndexGroup).padding = grouppadding
+                                                                   v.padding = grouppadding
                                                                End Sub)
                                   End Sub)
 
@@ -138,10 +138,10 @@ Namespace Layouts.Cola
             vs.ForEach(Sub(v, i) v.index = i)
 
             powerGraph.groups _
-                .ForEach(Sub(g As [Variant](Of Group, IndexGroup))
+                .ForEach(Sub(g As Node)
                              Dim sourceInd%
-                             Dim group As New Group
-                             Dim index As IndexGroup = g
+                             Dim group As New Node
+                             Dim index As Node = g
 
                              group.index = index.id + n
                              sourceInd = group.index
@@ -150,9 +150,9 @@ Namespace Layouts.Cola
                              If group.leaves IsNot Nothing Then
                                  group.leaves.ForEach(Sub(v)
                                                           Dim ie As New PowerEdge(Of Integer) With {
-                                                          .source = sourceInd,
-                                                          .target = v.index
-                                                      }
+                                                              .source = sourceInd,
+                                                              .target = v.index
+                                                          }
 
                                                           Call edges.Add(ie)
                                                       End Sub)
@@ -160,9 +160,9 @@ Namespace Layouts.Cola
                              If group.groups IsNot Nothing Then
                                  group.groups.ForEach(Sub(gg)
                                                           Call edges.Add(New PowerEdge(Of Integer) With {
-                                                  .source = sourceInd,
-                                                  .target = gg.id + n
-                                              })
+                                                              .source = sourceInd,
+                                                              .target = gg.id + n
+                                                          })
                                                       End Sub)
                              End If
                          End Sub)
@@ -200,8 +200,9 @@ Namespace Layouts.Cola
                     .symmetricDiffLinkLengths(5) _
                     .powerGraphGroups(Sub(d)
                                           powerGraph = d
-                                          powerGraph.groups.DoEach(Sub(v) CType(v, Group).padding = grouppadding)
-                                      End Sub).start(50, 0, 100, 0, False),
+                                          powerGraph.groups.DoEach(Sub(v) v.padding = grouppadding)
+                                      End Sub) _
+                    .start(50, 0, 100, 0, False),
                 .powerGraph = powerGraph
             }
         End Function

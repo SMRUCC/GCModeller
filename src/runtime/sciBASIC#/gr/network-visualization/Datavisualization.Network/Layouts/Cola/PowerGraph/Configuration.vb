@@ -75,7 +75,7 @@ Namespace Layouts.Cola
         ''' </summary>
         Private R As Double
 
-        Public Sub New(n As Double, edges As Link(), linkAccessor As LinkTypeAccessor(Of Link), rootGroup As Group)
+        Public Sub New(n As Double, edges As Link(), linkAccessor As LinkTypeAccessor(Of Link), rootGroup As Node)
             Me.modules = New List(Of [Module])
             Me.roots = New List(Of ModuleSet)
 
@@ -99,11 +99,11 @@ Namespace Layouts.Cola
                          End Sub)
         End Sub
 
-        Private Function initModulesFromGroup(group As Group) As ModuleSet
+        Private Function initModulesFromGroup(group As Node) As ModuleSet
             Dim moduleSet = New ModuleSet()
             Me.roots.Add(moduleSet)
             For i As Integer = 0 To group.leaves.Count - 1
-                Dim node = group.leaves(i)
+                Dim node As Node = group.leaves(i)
                 Dim [module] = New [Module](node.id)
                 Me.modules(node.id) = [module]
                 moduleSet.add([module])
@@ -114,9 +114,9 @@ Namespace Layouts.Cola
                     ' Propagate group properties (like padding, stiffness, ...) as module definition so that the generated power graph group will inherit it
                     Dim definition = New Dictionary(Of String, Object)
 
-                    For Each prop As String In child
+                    For Each prop As String In child.VB
                         If prop <> "leaves" AndAlso prop <> "groups" Then
-                            definition(prop) = child(prop)
+                            definition(prop) = child.VB(prop)
                         End If
                     Next
 

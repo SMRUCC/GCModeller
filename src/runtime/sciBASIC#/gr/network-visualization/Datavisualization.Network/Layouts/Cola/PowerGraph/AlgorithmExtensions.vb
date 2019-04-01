@@ -50,10 +50,10 @@ Namespace Layouts.Cola
     Module powergraphExtensions
 
         <Extension>
-        Private Sub toGroups(m As [Module], group As IndexGroup, groups As List(Of IndexGroup))
+        Private Sub toGroups(m As [Module], group As Node, groups As List(Of Node))
             If m.isLeaf Then
                 If group.leaves Is Nothing Then
-                    group.leaves = New List(Of Integer)
+                    group.leaves = New List(Of [Variant](Of Integer, Node))
                 End If
 
                 group.leaves.Add(m.id)
@@ -62,7 +62,7 @@ Namespace Layouts.Cola
                 m.gid = groups.Count
 
                 If (Not m.isIsland OrElse m.isPredefined) Then
-                    g = New IndexGroup With {.id = m.gid}
+                    g = New Node With {.id = m.gid}
 
                     If m.isPredefined Then
                         For Each prop As String In m.definition.Keys
@@ -70,7 +70,7 @@ Namespace Layouts.Cola
                         Next
                     End If
                     If group.groups Is Nothing Then
-                        group.groups = New List(Of Integer)
+                        group.groups = New List(Of [Variant](Of Integer, Node))
                     End If
 
                     group.groups.Add(m.gid)
