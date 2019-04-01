@@ -45,6 +45,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -65,15 +66,18 @@ Partial Module CLI
 
     <ExportAPI("/nt.matches.accession")>
     <Usage("/nt.matches.accession /in <nt.fasta> /list <accession.list> [/accid <default=""tokens '.' first""> /out <subset.fasta>]")>
+    <Description("Create subset of the nt database by a given list of Accession ID.")>
     <Group(CLIGrouping.NTTools)>
     Public Function NtAccessionMatches(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim list$ = args <= "/list"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}_subsetof({list.BaseName}).fasta"
         Dim idlist As Index(Of String) = list.ReadAllLines.Select(AddressOf Strings.LCase).Indexing
-        Dim accid As TextGrepMethod = TextGrepScriptEngine.Compile(args("/accid") Or "tokens '.' first").PipelinePointer
+        Dim accid As TextGrepMethod = TextGrepScriptEngine _
+            .Compile(args("/accid") Or "tokens '.' first") _
+            .PipelinePointer
 
-        Call idlist.Objects.GetJson.__DEBUG_ECHO
+        ' Call idlist.Objects.GetJson.__DEBUG_ECHO
 
         Using writer As StreamWriter = out.OpenWriter(encoding:=Encodings.ASCII)
             For Each fa As FastaSeq In New StreamIterator([in]).ReadStream
