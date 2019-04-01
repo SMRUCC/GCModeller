@@ -68,7 +68,7 @@ Namespace Layouts.Cola
         Private _linkDistance As UnionType(Of Double) = 20
         Private _defaultNodeSize As Double = 10
         Private _linkLengthCalculator As Action = Nothing
-        Private _linkType As UnionType(Of Integer) = Nothing
+        Private _linkType As New UnionType(Of Integer)
         Private _avoidOverlaps As Boolean = False
         Private _handleDisconnected As Boolean = True
         Private _alpha As Double
@@ -218,7 +218,7 @@ Namespace Layouts.Cola
             Return Me._nodes
         End Function
 
-        Public Function nodes(v As IEnumerable(Of InputNode)) As Layout
+        Public Function nodes(v As IEnumerable(Of Node)) As Layout
             Me._nodes = v.ToArray
             Return Me
         End Function
@@ -450,7 +450,7 @@ Namespace Layouts.Cola
             Return Me
         End Function
 
-        Public Function linkType(f As Double) As Layout
+        Public Function linkType(f As Integer) As Layout
             Me._linkType = f
             Return Me
         End Function
@@ -509,13 +509,13 @@ Namespace Layouts.Cola
         End Function
 
         Private linkAccessor As New LinkTypeAccessor(Of Link(Of Node)) With {
-        .getSourceIndex = AddressOf Layout.getSourceIndex,
-        .getTargetIndex = AddressOf Layout.getTargetIndex,
-        .setLength = Sub(l, len) l.length = len,
-        .GetLinkType = Function(l)
-                           Return If(_linkType.IsLambda, Me._linkType(l), 0)
-                       End Function
-    }
+            .getSourceIndex = AddressOf Layout.getSourceIndex,
+            .getTargetIndex = AddressOf Layout.getTargetIndex,
+            .setLength = Sub(l, len) l.length = len,
+            .GetLinkType = Function(l)
+                               Return If(_linkType.IsLambda, Me._linkType(l), 0)
+                           End Function
+        }
 
         '*
         '     * compute an ideal length for each link based on the graph structure around that link.

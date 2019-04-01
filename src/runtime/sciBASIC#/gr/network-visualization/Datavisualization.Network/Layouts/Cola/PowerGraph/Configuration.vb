@@ -84,7 +84,7 @@ Namespace Layouts.Cola
             Else
                 Me.roots.Add(New ModuleSet())
                 For i As Integer = 0 To n - 1
-                    Me.modules(i) = New [Module](i)
+                    Me.modules.Add(New [Module](i))
                     Me.roots(0).add(Me.modules(i))
                 Next
             End If

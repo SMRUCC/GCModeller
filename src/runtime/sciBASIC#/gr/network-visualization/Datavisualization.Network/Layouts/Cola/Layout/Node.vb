@@ -134,6 +134,10 @@ Namespace Layouts.Cola
             [next] = makeRBTree()
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"#{name}"
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function makeRBTree() As RBTree(Of Integer, Node)
             Return New RBTree(Of Integer, Node)(Function(x, y) x - y, Function(i) i.ToString)

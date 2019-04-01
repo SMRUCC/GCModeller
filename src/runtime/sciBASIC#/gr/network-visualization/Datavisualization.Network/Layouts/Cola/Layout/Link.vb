@@ -64,5 +64,9 @@ Namespace Layouts.Cola
         ''' </summary>
         ''' <returns></returns>
         Public Property weight As Double
+
+        Public Overrides Function ToString() As String
+            Return $"[{source}, {target}]"
+        End Function
     End Class
 End Namespace
