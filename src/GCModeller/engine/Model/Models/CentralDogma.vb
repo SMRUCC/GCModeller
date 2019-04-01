@@ -163,6 +163,8 @@ Public Structure Protein
     Dim polypeptides As String()
     Dim compounds As String()
 
+    Public Property ProteinID As String
+
     ''' <summary>
     ''' 这个蛋白质是由一条多肽链所构成的
     ''' </summary>
