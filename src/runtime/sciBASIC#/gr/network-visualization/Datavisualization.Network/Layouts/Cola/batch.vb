@@ -53,12 +53,6 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace Layouts.Cola
 
-    Public Interface network
-        Property nodes() As Node()
-        Property links() As Link(Of Node)()
-
-    End Interface
-
     ''' <summary>
     ''' 这个模块是对外开放网络布局生成的计算函数的接口
     ''' </summary>
@@ -208,9 +202,4 @@ Namespace Layouts.Cola
         End Function
 
     End Module
-
-    Public Class LayoutGraph
-        Public Property cola As Layout
-        Public Property powerGraph As PowerGraph
-    End Class
 End Namespace
