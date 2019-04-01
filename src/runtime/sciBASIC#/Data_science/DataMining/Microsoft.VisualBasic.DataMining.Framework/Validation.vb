@@ -186,12 +186,13 @@ Public Structure Validation
     ''' </remarks>
     Public Shared Iterator Function ROC(Of T)(entity As IEnumerable(Of T),
                                               getValidate As Func(Of T, Double, Boolean),
-                                              getPredict As Func(Of T, Double, Boolean)) As IEnumerable(Of Validation)
+                                              getPredict As Func(Of T, Double, Boolean),
+                                              Optional steps! = 0.01) As IEnumerable(Of Validation)
 
         Dim validate As Func(Of T, Boolean)
         Dim predict As Func(Of T, Boolean)
 
-        For pct As Double = 0 To 1 Step 0.05
+        For pct As Double = 0 To 1 Step steps
 #Disable Warning
             validate = Function(x) getValidate(x, pct)
             predict = Function(x) getPredict(x, pct)

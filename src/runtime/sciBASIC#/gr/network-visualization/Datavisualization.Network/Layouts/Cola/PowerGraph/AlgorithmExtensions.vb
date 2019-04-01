@@ -69,7 +69,7 @@ Namespace Layouts.Cola
                             g(prop) = m.definition(prop)
                         Next
                     End If
-                    If group.groups.IsNullOrEmpty Then
+                    If group.groups Is Nothing Then
                         group.groups = New List(Of Integer)
                     End If
 
@@ -104,7 +104,7 @@ Namespace Layouts.Cola
             While c.greedyMerge()
             End While
 
-            Dim powerEdgeIndices As New List(Of PowerEdge(Of [Variant](Of Integer, IndexGroup)))
+            Dim powerEdgeIndices As New List(Of PowerEdge(Of Integer))
             Dim powerEdges As New List(Of PowerEdge(Of Node))
             Dim g = c.getGroupHierarchy(powerEdgeIndices)
 
