@@ -167,8 +167,8 @@ Namespace Layouts.Cola
             Return m
         End Function
 
-        Private Function rootMerges(Optional k As Double = 0) As ModuleMerge()
-            Dim rs = Me.roots(k).modules()
+        Private Function rootMerges(Optional k As Integer = 0) As ModuleMerge()
+            Dim rs = Me.roots(index:=k).modules()
             Dim n = rs.Length
             Dim merges = New ModuleMerge(n * (n - 1)) {}
             Dim ctr = 0
