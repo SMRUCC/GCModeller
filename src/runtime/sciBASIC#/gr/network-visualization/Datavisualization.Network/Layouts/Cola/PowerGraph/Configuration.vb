@@ -245,11 +245,11 @@ Namespace Layouts.Cola
                                           If x.gid Is Nothing Then
                                               Return e.source
                                           Else
-                                              Return groups(x.gid)
+                                              Return groups(x.gid).id
                                           End If
                                       End Function
-                            Dim from As Integer = pop(a)
-                            Dim [to] As Integer = pop(b)
+                            Dim from = pop(a)
+                            Dim [to] = pop(b)
                             Dim pe As New PowerEdge(Of Integer)(from, [to], e.type)
 
                             retargetedEdges.Add(pe)
