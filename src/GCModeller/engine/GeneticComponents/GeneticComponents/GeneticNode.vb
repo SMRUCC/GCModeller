@@ -1,4 +1,8 @@
-﻿Public Class GeneticNode
+﻿
+''' <summary>
+''' A node entity in the genetic component network
+''' </summary>
+Public Class GeneticNode
 
     Public Property ID As String
     Public Property GO As String()

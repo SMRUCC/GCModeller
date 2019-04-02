@@ -92,7 +92,7 @@ Partial Module CLI
             Dim source As IEnumerable(Of UniProtEntry) = UniProtXML.EnumerateEntries(path:=[in])
 
             For Each prot As UniProtEntry In source.Where(Function(g) Not g.sequence Is Nothing)
-                Dim KO = prot.Xrefs.TryGetValue("KO", [default]:=Nothing).ElementAtOrDefault(0)
+                Dim KO As dbReference = prot.KO
 
                 If KO Is Nothing Then
                     Continue For
