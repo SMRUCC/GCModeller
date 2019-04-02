@@ -40,6 +40,8 @@
 
 #End Region
 
+Imports System.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 ''' <summary>
 ''' 目标细胞模型的基因组模型
 ''' </summary>
@@ -59,9 +61,185 @@ Public Structure Genotype
     ''' </remarks>
     Dim centralDogmas As CentralDogma()
 
+    Dim RNAMatrix As RNAComposition()
+    Dim ProteinMatrix As ProteinComposition()
+
     Public Overrides Function ToString() As String
         Return $"{centralDogmas.Length} genes"
     End Function
 End Structure
 
+Public Class RNAComposition : Implements IEnumerable(Of NamedValue(Of Double))
 
+    Public Property geneID As String
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property A As Integer
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property U As Integer
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property G As Integer
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property C As Integer
+
+    Public Overrides Function ToString() As String
+        Return geneID
+    End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator(Of NamedValue(Of Double)) Implements IEnumerable(Of NamedValue(Of Double)).GetEnumerator
+        Yield New NamedValue(Of Double)("A", A)
+        Yield New NamedValue(Of Double)("U", U)
+        Yield New NamedValue(Of Double)("G", G)
+        Yield New NamedValue(Of Double)("C", C)
+    End Function
+
+    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Yield GetEnumerator()
+    End Function
+End Class
+
+Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double))
+
+    Public Property proteinID As String
+
+    ''' <summary>
+    ''' L-Alanine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property A As Integer
+    ''' <summary>
+    ''' L-Arginine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property R As Integer
+    ''' <summary>
+    ''' L-Asparagine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property N As Integer
+    ''' <summary>
+    ''' L-Aspartic acid
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property D As Integer
+    ''' <summary>
+    ''' L-Cysteine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property C As Integer
+    ''' <summary>
+    ''' L-Glutamic acid
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property E As Integer
+    ''' <summary>
+    ''' L-Glutamine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Q As Integer
+    ''' <summary>
+    ''' Glycine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property G As Integer
+    ''' <summary>
+    ''' L-Histidine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property H As Integer
+    ''' <summary>
+    ''' L-Isoleucine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property I As Integer
+    ''' <summary>
+    ''' L-Leucine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property L As Integer
+    ''' <summary>
+    ''' L-Lysine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property K As Integer
+    ''' <summary>
+    ''' L-Methionine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property M As Integer
+    ''' <summary>
+    ''' L-Phenylalanine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property F As Integer
+    ''' <summary>
+    ''' L-Proline
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property P As Integer
+    ''' <summary>
+    ''' L-Serine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property S As Integer
+    ''' <summary>
+    ''' L-Threonine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property T As Integer
+    ''' <summary>
+    ''' L-Tryptophan
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property W As Integer
+    ''' <summary>
+    ''' L-Tyrosine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Y As Integer
+    ''' <summary>
+    ''' L-Valine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property V As Integer
+    ''' <summary>
+    ''' L-Selenocysteine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property U As Integer
+    ''' <summary>
+    ''' L-Pyrrolysine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property O As Integer
+
+    Shared ReadOnly aa As PropertyInfo()
+
+    Shared Sub New()
+        aa = DataFramework.Schema(Of ProteinComposition)(PropertyAccess.Readable, True, True) _
+            .Values _
+            .Where(Function(p) p.Name.Length = 1) _
+            .ToArray
+    End Sub
+
+    Public Iterator Function GetEnumerator() As IEnumerator(Of NamedValue(Of Double)) Implements IEnumerable(Of NamedValue(Of Double)).GetEnumerator
+        For Each aminoAcid As PropertyInfo In aa
+            Yield New NamedValue(Of Double)(aminoAcid.Name, aminoAcid.GetValue(Me))
+        Next
+    End Function
+
+    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Yield GetEnumerator()
+    End Function
+End Class

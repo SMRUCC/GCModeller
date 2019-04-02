@@ -12,6 +12,8 @@ Public Module Loader
     Public Function CreateEnvironment(cell As CellularModule) As Vessel
         Dim channels As New List(Of Channel)
         Dim massTable As New Dictionary(Of String, Factor)
+        Dim rnaMatrix = cell.Genotype.RNAMatrix.ToDictionary(Function(r) r.geneID)
+        Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
 
         ' 先构建一般性的中心法则过程
         For Each cd As CentralDogma In cell.Genotype.centralDogmas
@@ -19,8 +21,8 @@ Public Module Loader
             Call massTable.Add(cd.RNA.Name, cd.RNA.Name)
             Call massTable.Add(cd.polypeptide, cd.polypeptide)
 
-            channels += New Channel({massTable.template(cd.geneID)}, {massTable.variable(cd.RNA.Name)})
-            channels += New Channel({massTable.template(cd.RNA.Name)}, {massTable.variable(cd.polypeptide)})
+            channels += New Channel(massTable.transcriptionTemplate(cd.geneID, rnaMatrix), {massTable.variable(cd.RNA.Name)})
+            channels += New Channel(massTable.translationTemplate(cd.RNA.Name, proteinMatrix), {massTable.variable(cd.polypeptide)})
         Next
 
         ' 构建酶成熟的过程
@@ -64,6 +66,22 @@ Public Module Loader
             .Channels = channels,
             .Mass = massTable.Values.ToArray
         }
+    End Function
+
+    <Extension>
+    Private Function transcriptionTemplate(massTable As Dictionary(Of String, Factor), geneID$, matrix As Dictionary(Of String, RNAComposition)) As Variable()
+        Return matrix(geneID) _
+            .Where(Function(i) i.Value > 0) _
+            .Select(Function(base) massTable.variable(base.Name, base.Value)) _
+            .AsList + massTable.template(geneID)
+    End Function
+
+    <Extension>
+    Private Function translationTemplate(massTable As Dictionary(Of String, Factor), mRNA$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
+        Return matrix(mRNA) _
+            .Where(Function(i) i.Value > 0) _
+            .Select(Function(aa) massTable.variable(aa.Name, aa.Value)) _
+            .AsList + massTable.template(mRNA)
     End Function
 
     <Extension>
