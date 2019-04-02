@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::066de000c674d00ad055ec56082092a3, Bio.Assembly\Assembly\NCBI\SeqDump\nt.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Nucleotide
-    ' 
-    '         Properties: CommonName, Location, LocusTag
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: Load
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Nucleotide
+' 
+'         Properties: CommonName, Location, LocusTag
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: Load
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -90,6 +90,33 @@ Namespace Assembly.NCBI.SequenceDump
                 Select New Nucleotide(fa)
 
             Return LQuery
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="nt">The nt fasta sequence database.</param>
+        ''' <returns></returns>
+        Public Shared Iterator Function NtAccessionMatches(nt As IEnumerable(Of FastaSeq), accessionList As IEnumerable(Of String), accid As TextGrepMethod) As IEnumerable(Of FastaSeq)
+            Dim idlist As Index(Of String) = accessionList _
+                .Select(AddressOf HeaderFormats.TrimAccessionVersion) _
+                .Select(AddressOf Strings.LCase) _
+                .Indexing
+
+            For Each fa As FastaSeq In nt
+                Dim acc As String = accid(fa.Title).ToLower
+
+                If acc Like idlist Then
+                    Call fa.Title.__INFO_ECHO
+                    Call idlist.Delete(acc)
+
+                    Yield fa
+
+                    If idlist.Count = 0 Then
+                        Exit For
+                    End If
+                End If
+            Next
         End Function
     End Class
 End Namespace
