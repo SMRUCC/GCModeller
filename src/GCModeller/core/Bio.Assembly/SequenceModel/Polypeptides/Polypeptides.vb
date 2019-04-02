@@ -63,7 +63,7 @@ Namespace SequenceModel.Polypeptides
                 If ToEnums.ContainsKey(ch) Then
                     Yield ToEnums(ch)
                 Else
-                    Throw New InvalidCastException(ch)
+                    Yield AminoAcid.NULL
                 End If
             Next
         End Function
