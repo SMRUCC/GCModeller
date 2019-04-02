@@ -141,7 +141,7 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure
             Dim st_Builder As StringBuilder = New StringBuilder(aa.Length - 1)
 
             For Each residue As AminoAcid In aa
-                Call aa_Builder.Append(SequenceModel.Polypeptides.Polypeptides.ToChar(residue.AminoAcid))
+                Call aa_Builder.Append(SequenceModel.Polypeptides.Polypeptide.ToChar(residue.AminoAcid))
                 Call st_Builder.Append(ChouFasman.StructureTypesToChar(residue.StructureType))
             Next
 
