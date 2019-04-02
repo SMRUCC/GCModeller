@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 ''' <summary>
 ''' Create genetic components from Uniprot database.
@@ -24,14 +25,16 @@ Public Module UniProtExtensions
                 .KO = KO.id,
                 .[Function] = protein.proteinFullName,
                 .ID = protein.accessions.First,
-                .Sequence = protein.ProteinSequence,
+                .Sequence = Polypeptide _
+                    .ConstructVector(protein.ProteinSequence) _
+                    .ToArray,
                 .GO = protein.Xrefs _
                     .TryGetValue("GO", [default]:={}) _
                     .Select(Function(g) g.id) _
                     .ToArray,
                 .Xref = .ID,
                 .Accession = ntAccess?.value,
-                .Nt = ""
+                .Nt = {}
             }
         Next
     End Function

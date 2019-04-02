@@ -1,4 +1,7 @@
 ﻿
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.Polypeptides
+
 ''' <summary>
 ''' A node entity in the genetic component network
 ''' </summary>
@@ -20,12 +23,12 @@ Public Class GeneticNode
     ''' 蛋白序列
     ''' </summary>
     ''' <returns></returns>
-    Public Property Sequence As String
+    Public Property Sequence As AminoAcid()
     ''' <summary>
     ''' 核酸序列
     ''' </summary>
     ''' <returns></returns>
-    Public Property Nt As String
+    Public Property Nt As DNA()
     ''' <summary>
     ''' 简单的功能描述
     ''' </summary>
