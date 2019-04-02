@@ -8,8 +8,8 @@ Module Module1
     Sub Main()
         Dim database = UniProtXML.EnumerateEntries(path:="K:\uniprot-taxonomy%3A2.xml")
 
-        Using writer As New BinaryDataWriter("./test.bin".Open(, True))
-            For Each node In database.CreateDump
+        Using writer As New BinaryDataWriter("X:/test.bin".Open(, True))
+            For Each node In database.CreateDump.Where(Function(n) Not n.Accession.StringEmpty)
                 Call writer.writeBin(node)
             Next
         End Using
