@@ -49,6 +49,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Web.Script.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
@@ -125,6 +126,16 @@ Public Class var : Implements IDisposable
         Me._expr = expr
         Call __setValue()
     End Sub
+
+    ''' <summary>
+    ''' 这个函数会枚举出list对象之中的所有的成员
+    ''' </summary>
+    ''' <returns></returns>
+    Public Iterator Function Enumerates() As IEnumerable(Of NamedValue(Of String))
+        For Each name As String In Rbase.names(Me.Name)
+            Yield New NamedValue(Of String)(name, $"{Me.Name}$'{name}'")
+        Next
+    End Function
 
     Public Shared Function Rvariable(var$) As var
         Return New var With {
