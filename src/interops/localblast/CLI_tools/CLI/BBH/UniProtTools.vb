@@ -98,12 +98,7 @@ Partial Module CLI
                     Continue For
                 End If
 
-                Dim seq$ = prot _
-                    .sequence _
-                    .sequence _
-                    .LineTokens _
-                    .JoinBy("") _
-                    .Replace(" ", "")
+                Dim seq As String = prot.ProteinSequence
                 Dim fa As New FastaSeq With {
                     .SequenceData = seq,
                     .Headers = {KO.id, prot.accessions.First & " " & prot.proteinFullName}

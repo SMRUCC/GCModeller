@@ -51,6 +51,17 @@ Namespace Assembly.Uniprot.XML
 
     Public Module Extensions
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function ProteinSequence(prot As entry) As String
+            Return prot _
+                .sequence _
+                .sequence _
+                .LineTokens _
+                .JoinBy("") _
+                .Replace(" ", "")
+        End Function
+
         ''' <summary>
         ''' Get KO number of this protein
         ''' </summary>
