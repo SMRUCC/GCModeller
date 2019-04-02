@@ -92,18 +92,13 @@ Partial Module CLI
             Dim source As IEnumerable(Of UniProtEntry) = UniProtXML.EnumerateEntries(path:=[in])
 
             For Each prot As UniProtEntry In source.Where(Function(g) Not g.sequence Is Nothing)
-                Dim KO = prot.Xrefs.TryGetValue("KO", [default]:=Nothing).ElementAtOrDefault(0)
+                Dim KO As dbReference = prot.KO
 
                 If KO Is Nothing Then
                     Continue For
                 End If
 
-                Dim seq$ = prot _
-                    .sequence _
-                    .sequence _
-                    .LineTokens _
-                    .JoinBy("") _
-                    .Replace(" ", "")
+                Dim seq As String = prot.ProteinSequence
                 Dim fa As New FastaSeq With {
                     .SequenceData = seq,
                     .Headers = {KO.id, prot.accessions.First & " " & prot.proteinFullName}

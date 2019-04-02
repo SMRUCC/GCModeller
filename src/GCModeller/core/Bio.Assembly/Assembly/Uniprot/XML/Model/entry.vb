@@ -85,6 +85,13 @@ Namespace Assembly.Uniprot.XML
         Public Property gene As gene
         Public Property proteinExistence As value
         Public Property organism As organism
+
+        ''' <summary>
+        ''' 当前的这个蛋白质的蛋白序列，在Uniprot数据库之中，蛋白记录只有蛋白序列
+        ''' 没有核酸序列，如果需要核酸序列，则会需要通过accession编号从nt库之中
+        ''' 提取出来
+        ''' </summary>
+        ''' <returns></returns>
         Public Property sequence As sequence
 
         <XmlElement("keyword")> Public Property keywords As value()
