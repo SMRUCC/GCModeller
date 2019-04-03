@@ -11,7 +11,15 @@ Namespace HTML
     ''' </summary>
     Public Class TemplateHandler
 
+        ''' <summary>
+        ''' 模板文件的文件全路径
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Path As String
+        ''' <summary>
+        ''' 模板文本字符串的缓存
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Builder As ScriptBuilder
 
         Sub New(file As String)
