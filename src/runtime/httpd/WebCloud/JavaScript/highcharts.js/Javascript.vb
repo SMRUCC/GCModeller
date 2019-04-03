@@ -167,4 +167,10 @@ Public Module Javascript
                 </script>
             </p>, javascript)
     End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function GetHtmlViews(Of T)(chart As Highcharts(Of T), div$, Optional style$ = "width:100%; height: 450px;", Optional class$ = "") As String
+        Return div.WriteJavascript(chart).GetHtmlViewer(div, style, [class])
+    End Function
 End Module
