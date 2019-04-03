@@ -1,4 +1,6 @@
-﻿
+﻿Imports System.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+
 ''' <summary>
 ''' 因为物质编号可能会来自于不同的数据库，所以会需要使用这个对象将一些关键的物质映射为计算引擎所能够被识别的对象
 ''' </summary>
@@ -10,6 +12,8 @@ Public Class Definition
     ''' <returns></returns>
     Public Property ATP As String
     Public Property Water As String
+    Public Property ADP As String
+
     Public Property NucleicAcid As NucleicAcid
     Public Property AminoAcid As AminoAcid
 
@@ -37,6 +41,19 @@ Public Class NucleicAcid
     ''' </summary>
     ''' <returns></returns>
     Public Property C As String
+
+    Default Public ReadOnly Property Base(compound As String) As String
+        Get
+            Select Case compound
+                Case "A" : Return A
+                Case "U", "T" : Return U
+                Case "G" : Return G
+                Case "C" : Return C
+                Case Else
+                    Throw New NotImplementedException(compound)
+            End Select
+        End Get
+    End Property
 
 End Class
 
@@ -152,5 +169,20 @@ Public Class AminoAcid
     ''' </summary>
     ''' <returns></returns>
     Public Property O As String
+
+    Shared ReadOnly aa As Dictionary(Of String, PropertyInfo)
+
+    Shared Sub New()
+        aa = DataFramework.Schema(Of AminoAcid)(PropertyAccess.Readable, True, True) _
+            .Values _
+            .Where(Function(p) p.Name.Length = 1) _
+            .ToDictionary(Function(a) a.Name)
+    End Sub
+
+    Default Public ReadOnly Property Residue(compound As String) As String
+        Get
+            Return aa(compound).GetValue(Me)
+        End Get
+    End Property
 
 End Class

@@ -1,39 +1,42 @@
-﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.TagData
-Imports Microsoft.VisualBasic.Language
+﻿Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 ''' <summary>
 ''' Module loader
 ''' </summary>
-Public Module Loader
+Public Class Loader
 
-    <Extension>
+    Dim define As Definition
+    Dim massTable As New MassTable
+
+    Sub New(define As Definition)
+        Me.define = define
+    End Sub
+
     Public Function CreateEnvironment(cell As CellularModule) As Vessel
         Dim channels As New List(Of Channel)
-        Dim massTable As New Dictionary(Of String, Factor)
         Dim rnaMatrix = cell.Genotype.RNAMatrix.ToDictionary(Function(r) r.geneID)
         Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
 
         ' 先构建一般性的中心法则过程
         For Each cd As CentralDogma In cell.Genotype.centralDogmas
-            Call massTable.Add(cd.geneID, cd.geneID)
-            Call massTable.Add(cd.RNA.Name, cd.RNA.Name)
-            Call massTable.Add(cd.polypeptide, cd.polypeptide)
+            Call massTable.AddNew(cd.geneID)
+            Call massTable.AddNew(cd.RNA.Name)
+            Call massTable.AddNew(cd.polypeptide)
 
-            channels += New Channel(massTable.transcriptionTemplate(cd.geneID, rnaMatrix), {massTable.variable(cd.RNA.Name)})
-            channels += New Channel(massTable.translationTemplate(cd.RNA.Name, proteinMatrix), {massTable.variable(cd.polypeptide)})
+            channels += New Channel(transcriptionTemplate(cd.geneID, rnaMatrix), {massTable.variable(cd.RNA.Name)})
+            channels += New Channel(translationTemplate(cd.RNA.Name, proteinMatrix), {massTable.variable(cd.polypeptide)})
         Next
 
         ' 构建酶成熟的过程
         For Each complex As Protein In cell.Phenotype.proteins
             For Each compound In complex.compounds
-                If Not massTable.ContainsKey(compound) Then
-                    massTable(compound) = compound
+                If Not massTable.Exists(compound) Then
+                    Call massTable.AddNew(compound)
                 End If
             Next
             For Each peptide In complex.polypeptides
-                If Not massTable.ContainsKey(peptide) Then
+                If Not massTable.Exists(peptide) Then
                     Throw New MissingMemberException(peptide)
                 End If
             Next
@@ -44,19 +47,19 @@ Public Module Loader
         ' 构建代谢网络
         For Each reaction As Reaction In cell.Phenotype.fluxes
             For Each compound In reaction.AllCompounds
-                If Not massTable.ContainsKey(compound) Then
-                    massTable(compound) = compound
+                If Not massTable.Exists(compound) Then
+                    Call massTable.AddNew(compound)
                 End If
             Next
 
-            Dim left = reaction.substrates.variables(massTable)
-            Dim right = reaction.products.variables(massTable)
+            Dim left = massTable.variables(reaction.substrates)
+            Dim right = massTable.variables(reaction.products)
 
             channels += New Channel(left, right) With {
                 .bounds = reaction.bounds,
                 .ID = reaction.ID,
                 .Forward = New Regulation With {
-                    .Activation = reaction.enzyme.variables(massTable, 1)
+                    .Activation = massTable.variables(reaction.enzyme, 1)
                 },
                 .Reverse = New Regulation With {.baseline = 10}
             }
@@ -64,68 +67,25 @@ Public Module Loader
 
         Return New Vessel With {
             .Channels = channels,
-            .Mass = massTable.Values.ToArray
+            .Mass = massTable.GetAll.Values.ToArray
         }
     End Function
 
-    <Extension>
-    Private Function transcriptionTemplate(massTable As Dictionary(Of String, Factor), geneID$, matrix As Dictionary(Of String, RNAComposition)) As Variable()
+    Private Function transcriptionTemplate(geneID$, matrix As Dictionary(Of String, RNAComposition)) As Variable()
         Return matrix(geneID) _
             .Where(Function(i) i.Value > 0) _
-            .Select(Function(base) massTable.variable(base.Name, base.Value)) _
+            .Select(Function(base)
+                        Return massTable.variable(define.NucleicAcid(base.Name), base.Value)
+                    End Function) _
             .AsList + massTable.template(geneID)
     End Function
 
-    <Extension>
-    Private Function translationTemplate(massTable As Dictionary(Of String, Factor), mRNA$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
+    Private Function translationTemplate(mRNA$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
         Return matrix(mRNA) _
             .Where(Function(i) i.Value > 0) _
-            .Select(Function(aa) massTable.variable(aa.Name, aa.Value)) _
+            .Select(Function(aa)
+                        Return massTable.variable(define.AminoAcid(aa.Name), aa.Value)
+                    End Function) _
             .AsList + massTable.template(mRNA)
     End Function
-
-    <Extension>
-    Private Function variables(compounds As IEnumerable(Of String), massTable As Dictionary(Of String, Factor), factor As Double) As IEnumerable(Of Variable)
-        Return compounds.Select(Function(cpd) massTable.variable(cpd, factor))
-    End Function
-
-    <Extension>
-    Private Function variables(compounds As IEnumerable(Of FactorString(Of Double)), massTable As Dictionary(Of String, Factor)) As IEnumerable(Of Variable)
-        Return compounds.Select(Function(cpd) massTable.variable(cpd.text, cpd.factor))
-    End Function
-
-    <Extension>
-    Private Iterator Function variables(massTable As Dictionary(Of String, Factor), complex As Protein) As IEnumerable(Of Variable)
-        For Each compound In complex.compounds
-            Yield massTable.variable(compound)
-        Next
-        For Each peptide In complex.polypeptides
-            Yield massTable.variable(peptide)
-        Next
-    End Function
-
-    <Extension>
-    Private Function variable(massTable As Dictionary(Of String, Factor), mass As String, Optional coefficient As Double = 1) As Variable
-        Return New Variable(massTable(mass), coefficient, False)
-    End Function
-
-    <Extension>
-    Private Function template(massTable As Dictionary(Of String, Factor), mass As String) As Variable
-        Return New Variable(massTable(mass), 1, True)
-    End Function
-
-    ''' <summary>
-    ''' 重置反应环境模拟器之中的内容
-    ''' </summary>
-    ''' <param name="envir"></param>
-    ''' <param name="massInit"></param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function Reset(envir As Vessel, massInit As Dictionary(Of String, Double)) As Vessel
-        For Each mass As Factor In envir.Mass
-            mass.Value = massInit(mass.ID)
-        Next
-
-        Return envir
-    End Function
-End Module
+End Class
