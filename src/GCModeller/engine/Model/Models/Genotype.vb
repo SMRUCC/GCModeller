@@ -42,6 +42,7 @@
 
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 ''' <summary>
 ''' 目标细胞模型的基因组模型
@@ -96,6 +97,29 @@ Public Class RNAComposition : Implements IEnumerable(Of NamedValue(Of Double))
 
     Public Overrides Function ToString() As String
         Return geneID
+    End Function
+
+    ''' <summary>
+    ''' 因为这个是RNA序列，所以其构成应该是其基因模板的互补
+    ''' </summary>
+    ''' <param name="nt">DNA模板序列</param>
+    ''' <returns></returns>
+    Public Shared Function FromNtSequence(nt As String, geneID As String) As RNAComposition
+        Dim RNA As String = NucleicAcid.Complement(nt)
+        Dim composition As Dictionary(Of String, Integer) = RNA _
+            .GroupBy(Function(c) c) _
+            .ToDictionary(Function(c)
+                              Return c.Key.ToString
+                          End Function,
+                          Function(c) c.Count)
+
+        Return New RNAComposition With {
+            .geneID = geneID,
+            .A = composition.TryGetValue("A"),
+            .C = composition.TryGetValue("C"),
+            .G = composition.TryGetValue("G"),
+            .U = composition.TryGetValue("T")
+        }
     End Function
 
     Public Iterator Function GetEnumerator() As IEnumerator(Of NamedValue(Of Double)) Implements IEnumerable(Of NamedValue(Of Double)).GetEnumerator
@@ -233,6 +257,22 @@ Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double
             .Where(Function(p) p.Name.Length = 1) _
             .ToArray
     End Sub
+
+    Public Shared Function FromRefSeq(sequence As String, proteinID As String) As ProteinComposition
+        Dim protein As New ProteinComposition With {.proteinID = proteinID}
+        Dim composition = sequence _
+            .GroupBy(Function(a) a) _
+            .ToDictionary(Function(a) CStr(a.Key),
+                          Function(a)
+                              Return a.Count
+                          End Function)
+
+        For Each aa As PropertyInfo In ProteinComposition.aa
+            Call aa.SetValue(protein, composition.TryGetValue(aa.Name))
+        Next
+
+        Return protein
+    End Function
 
     Public Iterator Function GetEnumerator() As IEnumerator(Of NamedValue(Of Double)) Implements IEnumerable(Of NamedValue(Of Double)).GetEnumerator
         For Each aminoAcid As PropertyInfo In aa

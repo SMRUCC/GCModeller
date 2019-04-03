@@ -99,4 +99,17 @@ Public Class Vessel
 
         Return New NamedValue(Of Double)(reaction.ID, flow * regulate)
     End Function
+
+    ''' <summary>
+    ''' 重置反应环境模拟器之中的内容
+    ''' </summary>
+    ''' <param name="massInit"></param>
+    ''' <returns></returns>
+    Public Function Reset(massInit As Dictionary(Of String, Double)) As Vessel
+        For Each mass As Factor In Me.Mass
+            mass.Value = massInit(mass.ID)
+        Next
+
+        Return Me
+    End Function
 End Class

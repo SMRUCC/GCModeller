@@ -1,6 +1,6 @@
 ﻿''' <summary>
 ''' 状态定义
 ''' </summary>
-Public Module Definitions
+Public Module Status
 
 End Module
