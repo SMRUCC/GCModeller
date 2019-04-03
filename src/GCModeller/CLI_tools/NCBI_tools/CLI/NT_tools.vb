@@ -49,7 +49,6 @@ Imports System.ComponentModel
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -58,6 +57,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports Microsoft.VisualBasic.Text.Similarity
+Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -72,27 +72,15 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim list$ = args <= "/list"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}_subsetof({list.BaseName}).fasta"
-        Dim idlist As Index(Of String) = list.ReadAllLines _
-            .Select(AddressOf HeaderFormats.TrimAccessionVersion) _
-            .Select(AddressOf Strings.LCase) _
-            .Indexing
+        Dim idlist As String() = list.ReadAllLines
         Dim accid As TextGrepMethod = TextGrepScriptEngine _
             .Compile(args("/accid") Or "tokens '.' first") _
             .PipelinePointer
+        Dim nt As IEnumerable(Of FastaSeq) = New StreamIterator([in]).ReadStream
 
         Using writer As StreamWriter = out.OpenWriter(encoding:=Encodings.ASCII)
-            For Each fa As FastaSeq In New StreamIterator([in]).ReadStream
-                Dim acc As String = accid(fa.Title).ToLower
-
-                If acc Like idlist Then
-                    Call writer.WriteLine(fa.GenerateDocument(120))
-                    Call fa.Title.__INFO_ECHO
-                    Call idlist.Delete(acc)
-
-                    If idlist.Count = 0 Then
-                        Exit For
-                    End If
-                End If
+            For Each fa As FastaSeq In Nucleotide.NtAccessionMatches(nt, idlist, accid)
+                Call writer.WriteLine(fa.GenerateDocument(120))
             Next
         End Using
 

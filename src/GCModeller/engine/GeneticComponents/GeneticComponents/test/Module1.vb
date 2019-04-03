@@ -21,9 +21,11 @@ Module Module1
         Call writer.Write(node.Accession, BinaryStringFormat.DwordLengthPrefix)
         Call writer.Write(node.KO, BinaryStringFormat.ByteLengthPrefix)
         Call writer.Write(node.GO.JoinBy("|"), BinaryStringFormat.DwordLengthPrefix)
-        Call writer.Write(node.Sequence, BinaryStringFormat.DwordLengthPrefix)
-        Call writer.Write(node.Nt, BinaryStringFormat.DwordLengthPrefix)
         Call writer.Write(node.Function, BinaryStringFormat.DwordLengthPrefix)
         Call writer.Write(node.Xref, BinaryStringFormat.DwordLengthPrefix)
+        Call writer.Write(node.Nt.Length)
+        Call writer.Write(node.Nt)
+        Call writer.Write(node.Sequence.Length)
+        Call writer.Write(node.Sequence)
     End Sub
 End Module
