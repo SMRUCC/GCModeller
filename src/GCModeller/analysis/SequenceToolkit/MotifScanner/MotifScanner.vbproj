@@ -218,13 +218,13 @@
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\Microsoft.VisualBasic.DataMining.Framework.vbproj">
+      <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
+      <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.vbproj">
       <Project>{A903B744-C08D-4869-BC35-3DD25E36AA16}</Project>
       <Name>DynamicProgramming</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
-      <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
-      <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\Math.Statistics.vbproj">
       <Project>{3e195df1-9feb-44d5-904b-15626bbe74d7}</Project>
