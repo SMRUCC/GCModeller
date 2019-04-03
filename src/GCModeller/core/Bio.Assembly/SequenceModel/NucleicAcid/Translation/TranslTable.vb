@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
-Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptides
+Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptide
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 
 Namespace SequenceModel.NucleotideModels.Translation
@@ -238,7 +238,7 @@ Namespace SequenceModel.NucleotideModels.Translation
                         End If
                     Else
                         Dim aa As AminoAcid = CodenTable(hash)
-                        Dim ch As Char = Polypeptides.Polypeptides.ToChar(aa)
+                        Dim ch As Char = Polypeptides.Polypeptide.ToChar(aa)
 
                         Call sBuilder.Append(ch)
                     End If

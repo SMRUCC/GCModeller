@@ -51,6 +51,28 @@ Namespace Assembly.Uniprot.XML
 
     Public Module Extensions
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function ProteinSequence(prot As entry) As String
+            Return prot _
+                .sequence _
+                .sequence _
+                .LineTokens _
+                .JoinBy("") _
+                .Replace(" ", "")
+        End Function
+
+        ''' <summary>
+        ''' Get KO number of this protein
+        ''' </summary>
+        ''' <param name="protein"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function KO(protein As entry) As dbReference
+            Return protein.Xrefs.TryGetValue("KO", [default]:=Nothing).ElementAtOrDefault(0)
+        End Function
+
         <Extension>
         Public Iterator Function EnumerateAllIDs(entry As entry) As IEnumerable(Of (Database$, xrefID$))
             For Each accession As String In entry.accessions.SafeQuery
