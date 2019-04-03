@@ -42,7 +42,7 @@
 
 #End Region
 
-Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptides
+Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptide
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 Imports System.Text
 Imports System.Runtime.CompilerServices
@@ -129,7 +129,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         <ExportAPI("Translate")>
         <Extension> Public Function Translate(codon As Codon) As Char
             Dim AAValue = CodenTable.CodenTable(codon.TranslHash)
-            Return Polypeptides.Polypeptides.ToChar(AAValue)
+            Return Polypeptides.Polypeptide.ToChar(AAValue)
         End Function
 
         ''' <summary>
