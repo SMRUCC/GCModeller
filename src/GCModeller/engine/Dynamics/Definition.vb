@@ -6,6 +6,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 ''' </summary>
 Public Class Definition
 
+#Region "Object maps"
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -16,6 +18,13 @@ Public Class Definition
 
     Public Property NucleicAcid As NucleicAcid
     Public Property AminoAcid As AminoAcid
+#End Region
+
+    ''' <summary>
+    ''' 对细胞的初始状态的定义
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property status As Dictionary(Of String, Double)
 
 End Class
 

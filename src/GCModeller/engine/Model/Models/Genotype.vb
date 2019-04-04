@@ -47,7 +47,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 ''' <summary>
 ''' 目标细胞模型的基因组模型
 ''' </summary>
-Public Structure Genotype
+Public Structure Genotype : Implements IEnumerable(Of CentralDogma)
 
     ''' <summary>
     ''' 假设基因组之中的基因型定义信息全部都是由中心法则来构成的
@@ -68,6 +68,16 @@ Public Structure Genotype
 
     Public Overrides Function ToString() As String
         Return $"{centralDogmas.Length} genes"
+    End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator(Of CentralDogma) Implements IEnumerable(Of CentralDogma).GetEnumerator
+        For Each cd As CentralDogma In centralDogmas
+            Yield cd
+        Next
+    End Function
+
+    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Yield GetEnumerator()
     End Function
 End Structure
 
