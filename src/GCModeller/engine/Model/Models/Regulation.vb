@@ -51,6 +51,9 @@ Imports Microsoft.VisualBasic.Language
 
 Public Structure Regulation
 
+    ''' <summary>
+    ''' 这个调控过程的生物学名称
+    ''' </summary>
     Public name As String
     ''' <summary>
     ''' Compound / RNA / Proteins
@@ -91,7 +94,7 @@ Public Enum Processes
     ''' </summary>
     Translation
     ''' <summary>
-    ''' 代谢过程
+    ''' 代谢过程，主要是产物对上游的抑制类型
     ''' </summary>
     MetabolicProcess
 End Enum
