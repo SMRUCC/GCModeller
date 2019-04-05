@@ -13,13 +13,14 @@ Public Module WebParser
 
     Public Sub ParserWorkflow(save As String)
         Dim genomes = GetGenomeList().ToArray
-        Dim web As New WebQuery(Of Genome)(Function(genome) sprintf(listAPI, genome.ID, genome.ID, 1), Function(g) g.ID, Function(s, type) s, $"{save}/.essentialgenes")
+        Dim cache$ = $"{save}/.essentialgene.org"
+        Dim web As New WebQuery(Of Genome)(Function(genome) sprintf(listAPI, genome.ID, genome.ID, 1), Function(g) g.ID, Function(s, type) s, )
 
         For Each genome As Genome In genomes
             Dim html$ = web.Query(Of String)({genome}, "*.html").First
             Dim saveXml$ = $"{save}/{genome.Organism.NormalizePathString}.Xml"
 
-            genome.EssentialGenes = genome.ParseDEGList(html, $"{save}/{genome.Organism.NormalizePathString}").ToArray
+            genome.EssentialGenes = genome.ParseDEGList(html, $"{cache}/{genome.Organism.NormalizePathString}").ToArray
             genome.GetXml.SaveTo(saveXml)
         Next
     End Sub
@@ -113,7 +114,8 @@ Public Module WebParser
         Dim details = rows.Skip(1).Select(Function(r) r.GetColumnsHTML).ToDictionary(Function(c) c.First.Replace(" ", "_"), Function(c) c.Last)
 
         With details
-            gene.RefSeq = !Gene_ref
+            gene.geneRef = !Gene_Ref
+            gene.RefSeq = !RefSeq
             gene.UniProt = !Uniprot_accession
             gene.COG = !COG
             gene.GO = !GO_annotation.Split
