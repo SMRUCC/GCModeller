@@ -14,7 +14,7 @@ Public Module WebParser
     Public Sub ParserWorkflow(save As String)
         Dim genomes = GetGenomeList().ToArray
         Dim cache$ = $"{save}/.essentialgene.org"
-        Dim web As New WebQuery(Of Genome)(Function(genome) sprintf(listAPI, genome.ID, genome.ID, 1), Function(g) g.ID, Function(s, type) s, )
+        Dim web As New WebQuery(Of Genome)(Function(genome) sprintf(listAPI, genome.ID, genome.ID, 1), Function(g) g.ID, Function(s, type) s, cache)
 
         For Each genome As Genome In genomes
             Dim html$ = web.Query(Of String)({genome}, "*.html").First
