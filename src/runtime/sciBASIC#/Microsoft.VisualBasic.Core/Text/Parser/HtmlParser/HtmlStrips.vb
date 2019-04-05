@@ -179,7 +179,7 @@ Namespace Text.Parser.HtmlParser
             If String.IsNullOrEmpty(url) Then
                 Return ""
             Else
-                Return url.GetTagValue("=", trim:=True).Value.GetStackValue("""", """")
+                Return url.GetTagValue("=", trim:=True).Value.GetStackValue("""", """").GetStackValue("'", "'")
             End If
         End Function
 
@@ -189,12 +189,12 @@ Namespace Text.Parser.HtmlParser
                 Return ""
             End If
 
-            Dim className = r.Match(tag, "class\s*[=]\s*[""].+?[""]").Value
+            Dim className = r.Match(tag, "class\s*[=]\s*[""'].+?['""]").Value
 
             If String.IsNullOrEmpty(className) Then
                 Return ""
             Else
-                Return className.GetTagValue("=", trim:=True).Value.GetStackValue("""", """")
+                Return className.GetTagValue("=", trim:=True).Value.GetStackValue("""", """").GetStackValue("'", "'")
             End If
         End Function
 

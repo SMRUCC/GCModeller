@@ -53,12 +53,24 @@ Public Module WebParser
         Return genome.ParseDEGList(sprintf(listAPI, genome.ID, genome.ID, 1).GET)
     End Function
 
+    Private Function getTotalPages(html As String) As Integer
+        Dim alist = html.Matches("<a.+?</a>").ToArray
+        Dim pagelink = alist.Where(Function(a) a.class = "page-link").ToArray
+        Dim spans = pagelink.Last.Matches("<span.+?</span>").ToArray
+        Dim textPrimary = spans.Where(Function(s) s.class = "text-primary").ToArray
+
+        Return textPrimary.Last.StripHTMLTags
+    End Function
+
     <Extension>
     Private Iterator Function ParseDEGList(genome As Genome, html As String) As IEnumerable(Of EssentialGene)
-        Dim allPages As Integer = html.Matches("<a>.+?</a>").ToArray.FirstOrDefault(Function(a) a.class = "page-link") _
-            .Matches("<span>.+?</span>").ToArray.Where(Function(s) s.class = "text-primary").Last.StripHTMLTags
+        Dim allPages As Integer = getTotalPages(html)
 
-        For i As Integer = 1 To allPages
+        For Each gene As EssentialGene In html.parseDEGList
+            Yield gene
+        Next
+
+        For i As Integer = 2 To allPages
             Dim url = sprintf(listAPI, genome.ID, genome.ID, i)
 
             Call Thread.Sleep(1000)
@@ -78,7 +90,7 @@ Public Module WebParser
 
         Call Thread.Sleep(1000)
 
-        For Each row As String In rows
+        For Each row As String In rows.Skip(1)
             Dim columns = row.GetColumnsHTML
 
             Yield New EssentialGene With {
@@ -95,7 +107,7 @@ Public Module WebParser
         Dim html = sprintf(detailsAPI, gene.ID).GET
         Dim table = html.GetTablesHTML.First
         Dim rows = table.GetRowsHTML
-        Dim details = rows.Select(Function(r) r.GetColumnsHTML).ToDictionary(Function(c) c.First.Replace(" ", "_"), Function(c) c.Last)
+        Dim details = rows.Skip(1).Select(Function(r) r.GetColumnsHTML).ToDictionary(Function(c) c.First.Replace(" ", "_"), Function(c) c.Last)
 
         With details
             gene.RefSeq = !Gene_ref
