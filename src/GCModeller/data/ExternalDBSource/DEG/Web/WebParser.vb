@@ -3,6 +3,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
+Imports SMRUCC.genomics.ComponentModel
 
 Module WebParser
 
@@ -10,8 +11,15 @@ Module WebParser
 
     Public Sub ParserWorkflow(save As String)
         Dim genomes = GetGenomeList()
+        Dim web As New WebQuery(Of Genome)(Function(genome) sprintf(listAPI, genome.ID, genome.ID, 1), Function(g) g.ID, Function(s, type) s, $"{save}/.essentialgenes")
 
+        For Each genome As Genome In genomes
+            Dim html$ = web.Query(Of String)({genome}, "*.html").First
+            Dim saveXml$ = $"{save}/{genome.Organism.NormalizePathString}.Xml"
 
+            genome.EssentialGenes = genome.ParseDEGList(html).ToArray
+            genome.GetXml.SaveTo(saveXml)
+        Next
     End Sub
 
     Public Iterator Function GetGenomeList() As IEnumerable(Of Genome)
@@ -39,8 +47,12 @@ Module WebParser
     Const listAPI$ = "http://origin.tubic.org/deg/public/index.php/query/bacteria/degac/%s.html?lineage=bacteria&field=degac&term=%s&page=%s"
 
     <Extension>
-    Public Iterator Function ParseDEGList(genome As Genome) As IEnumerable(Of EssentialGene)
-        Dim html = sprintf(listAPI, genome.ID, genome.ID, 1).GET
+    Public Function ParseDEGList(genome As Genome) As IEnumerable(Of EssentialGene)
+        Return genome.ParseDEGList(sprintf(listAPI, genome.ID, genome.ID, 1).GET)
+    End Function
+
+    <Extension>
+    Private Iterator Function ParseDEGList(genome As Genome, html As String) As IEnumerable(Of EssentialGene)
         Dim allPages As Integer = html.Matches("<a>.+?</a>").ToArray.FirstOrDefault(Function(a) a.class = "page-link") _
             .Matches("<span>.+?</span>").ToArray.Where(Function(s) s.class = "text-primary").Last.StripHTMLTags
 
