@@ -68,7 +68,22 @@ Public Class ProteinComparer : Implements IComparer(Of String)
             .GroupBy(Function(hit) hit.HitName) _
             .ToDictionary(Function(db) db.Key,
                           Function(db)
-                              Return db.ToDictionary(Function(s) s.QueryName)
+                              ' 如果存在重复，则直接取identify最高的结果
+                              ' 在这里，hitname都是一致的
+                              Return db _
+                                .GroupBy(Function(hit) hit.QueryName) _
+                                .ToDictionary(Function(s)
+                                                  Return s.Key
+                                              End Function,
+                                              Function(g)
+                                                  If g.Count > 1 Then
+                                                      Return g _
+                                                        .OrderByDescending(Function(hit) hit.identities) _
+                                                        .First
+                                                  Else
+                                                      Return g.First
+                                                  End If
+                                              End Function)
                           End Function)
     End Sub
 

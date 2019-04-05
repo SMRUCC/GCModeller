@@ -109,7 +109,9 @@ Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
             .Select(Iterator Function(file)
                         Dim fasta As FastaFile = FastaFile.Read(file)
                         Dim descript As NamedValue(Of String)() = fasta _
-                            .Select(Function(fa) fa.Title.GetTagValue()) _
+                            .Select(Function(fa)
+                                        Return Strings.Trim(fa.Title).GetTagValue()
+                                    End Function) _
                             .ToArray
                         Dim genomeName$ = file.BaseName
 
@@ -121,7 +123,16 @@ Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
                         Next
                     End Function) _
             .IteratesALL _
-            .ToDictionary(Function(gene) gene.Name)
+            .Where(Function(gene) Not gene.Name.StringEmpty) _
+            .GroupBy(Function(gene) gene.Name) _
+            .ToDictionary(Function(gene) gene.Key,
+                          Function(group)
+                              If group.Count > 1 Then
+                                  Call group.Key.Warning
+                              End If
+
+                              Return group.First
+                          End Function)
         Dim proteins = genomes.Keys.ToArray
         Dim clusters = proteins.BuildTree(localblast)
 
