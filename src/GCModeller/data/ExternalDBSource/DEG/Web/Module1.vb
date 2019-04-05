@@ -40,6 +40,8 @@ Module Module1
         For i As Integer = 1 To allPages
             Dim url = sprintf(listAPI, genome.ID, genome.ID, i)
 
+            Call Thread.Sleep(1000)
+
             For Each gene In url.GET.parseDEGList
                 Yield gene
             Next
@@ -85,6 +87,8 @@ Module Module1
             gene.Nt = !Nucleotide_sequence
             gene.Aa = !Amino_acid_sequence
         End With
+
+        Call Thread.Sleep(1000)
 
         Return gene
     End Function
