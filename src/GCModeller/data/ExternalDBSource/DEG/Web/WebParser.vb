@@ -1,11 +1,18 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 Module WebParser
 
     Const dataAPI As String = "http://origin.tubic.org/deg/public/index.php/browse/bacteria"
+
+    Public Sub ParserWorkflow(save As String)
+        Dim genomes = GetGenomeList()
+
+
+    End Sub
 
     Public Iterator Function GetGenomeList() As IEnumerable(Of Genome)
         Dim table = dataAPI.GET.GetTablesHTML.FirstOrDefault
@@ -112,11 +119,13 @@ Public Class EssentialGene
 
 End Class
 
-Public Class Genome
+Public Class Genome : Inherits XmlDataModel
     Public Property ID As String
     Public Property Organism As String
     Public Property numOfDEG As Integer
     Public Property Conditions As String
     Public Property Reference As String
+
+    Public Property EssentialGenes As EssentialGene()
 
 End Class
