@@ -180,7 +180,7 @@ Partial Module CLI
 
     <ExportAPI("/SBH.Export.Large")>
     <Description("Using this command for export the sbh result of your blastp raw data.")>
-    <Usage("/SBH.Export.Large /in <blastp_out.txt/directory> [/top.best /trim-kegg /out <sbh.csv> /s.pattern <default=-> /q.pattern <default=-> /identities 0.15 /coverage 0.5]")>
+    <Usage("/SBH.Export.Large /in <blastp_out.txt/directory> [/top.best /trim-kegg /out <sbh.csv> /s.pattern <default=-> /q.pattern <default=-> /identities 0.15 /coverage 0.5 /split]")>
     <Argument("/trim-KEGG", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
@@ -194,6 +194,7 @@ Partial Module CLI
     Public Function ExportBBHLarge(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String
+        Dim issPlit As Boolean = args("/split")
 
         If inFile.DirectoryExists Then
             out = args("/out") Or $"{inFile.TrimDIR}.sbh.csv"
@@ -207,60 +208,114 @@ Partial Module CLI
         Dim qPattern = args.GetValue("/q.pattern", "-").BuildGrepScript
         Dim topBest As Boolean = args("/top.best")
 
-        Using IO As New WriteStream(Of BestHit)(out)
-            Dim handle As Action(Of Query) = IO _
-                .ToArray(Of Query)(
-                [ctype]:=Iterator Function(query)
-                             Dim hits = v228.SBHLines(
-                                Query:=query,
-                                coverage:=coverage,
-                                identities:=idetities,
-                                grepHitId:=sPattern
-                             )
+        If issPlit AndAlso inFile.DirectoryExists Then
+            Dim n%
 
-                             If topBest Then
-                                 Yield hits.First
-                             Else
-                                 For Each output As BestHit In hits
-                                     Yield output
-                                 Next
-                             End If
-                         End Function)
+            For Each file As String In inFile.EnumerateFiles("*.txt")
+                Using IO As New WriteStream(Of BestHit)($"{out.TrimSuffix}/{file.BaseName}.csv")
+                    Dim handle As Action(Of Query) = IO _
+                        .ToArray(Of Query)(
+                            [ctype]:=Iterator Function(query)
+                                         Dim hits = v228.SBHLines(
+                                            Query:=query,
+                                            coverage:=coverage,
+                                            identities:=idetities,
+                                            grepHitId:=sPattern
+                                         )
 
-            Dim parseOne =
-                Sub([in] As String)
-                    Dim i As VBInteger = 0
+                                         If topBest Then
+                                             Yield hits.First
+                                         Else
+                                             For Each output As BestHit In hits
+                                                 Yield output
+                                             Next
+                                         End If
+                                     End Function)
 
-                    Call $"Parse {[in]}...".__INFO_ECHO
+                    Dim parseOne =
+                        Sub([in] As String)
+                            Dim i As VBInteger = 0
 
-                    For Each query As Query In BlastpOutputReader.RunParser(in$)
-                        query.QueryName = qPattern(query.QueryName)
+                            Call $"Parse {[in]}...".__INFO_ECHO
 
-                        Call handle(query)
+                            For Each query As Query In BlastpOutputReader.RunParser(in$)
+                                query.QueryName = qPattern(query.QueryName)
 
-                        If ++i Mod 50 = 0 Then
-                            Console.Write(i)
-                            Console.Write(vbTab)
-                        End If
+                                Call handle(query)
+
+                                If ++i Mod 50 = 0 Then
+                                    Console.Write(i)
+                                    Console.Write(vbTab)
+                                End If
+                            Next
+
+                            Call Console.WriteLine()
+                            Call Console.WriteLine()
+                        End Sub
+
+                    Call parseOne(file)
+                End Using
+
+                n += 1
+            Next
+
+            Call $"Parse {n} file data job done!".__DEBUG_ECHO
+        Else
+            Using IO As New WriteStream(Of BestHit)(out)
+                Dim handle As Action(Of Query) = IO _
+                    .ToArray(Of Query)(
+                    [ctype]:=Iterator Function(query)
+                                 Dim hits = v228.SBHLines(
+                                    Query:=query,
+                                    coverage:=coverage,
+                                    identities:=idetities,
+                                    grepHitId:=sPattern
+                                 )
+
+                                 If topBest Then
+                                     Yield hits.First
+                                 Else
+                                     For Each output As BestHit In hits
+                                         Yield output
+                                     Next
+                                 End If
+                             End Function)
+
+                Dim parseOne =
+                    Sub([in] As String)
+                        Dim i As VBInteger = 0
+
+                        Call $"Parse {[in]}...".__INFO_ECHO
+
+                        For Each query As Query In BlastpOutputReader.RunParser(in$)
+                            query.QueryName = qPattern(query.QueryName)
+
+                            Call handle(query)
+
+                            If ++i Mod 50 = 0 Then
+                                Console.Write(i)
+                                Console.Write(vbTab)
+                            End If
+                        Next
+
+                        Call Console.WriteLine()
+                        Call Console.WriteLine()
+                    End Sub
+
+                If inFile.DirectoryExists Then
+                    Dim n%
+
+                    For Each file As String In inFile.EnumerateFiles("*.txt")
+                        parseOne(file)
+                        n += 1
                     Next
 
-                    Call Console.WriteLine()
-                    Call Console.WriteLine()
-                End Sub
-
-            If inFile.DirectoryExists Then
-                Dim n%
-
-                For Each file As String In inFile.EnumerateFiles("*.txt")
-                    parseOne(file)
-                    n += 1
-                Next
-
-                Call $"Parse {n} file data job done!".__DEBUG_ECHO
-            Else
-                Call parseOne(inFile)
-            End If
-        End Using
+                    Call $"Parse {n} file data job done!".__DEBUG_ECHO
+                Else
+                    Call parseOne(inFile)
+                End If
+            End Using
+        End If
 
         Return 0
     End Function
