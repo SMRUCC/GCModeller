@@ -7,7 +7,7 @@ Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Data
 
-Module WebParser
+Public Module WebParser
 
     Const dataAPI As String = "http://origin.tubic.org/deg/public/index.php/browse/bacteria"
 

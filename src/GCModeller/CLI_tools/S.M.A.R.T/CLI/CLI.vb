@@ -82,6 +82,16 @@ The network context is now displayed in the results page for more than 350 000 p
       Journal:="Nucleic Acids Res", PubMed:=16381859, Pages:="D257-60")>
 Public Module CLI
 
+    <ExportAPI("/fetch.DEG")>
+    <Usage("/fetch.DEG [/save <directory>]")>
+    Public Function FetchDEG(args As CommandLine) As Integer
+        Dim save$ = args("/save") Or "./essentialgenes/"
+
+        Call SMRUCC.genomics.Data.WebParser.ParserWorkflow(save)
+
+        Return 0
+    End Function
+
     '    <Command("analysis", info:="",
     '        usage:="analysis -i <input_protein_fasta_file> -d <database_list> -o <output_result> [-e <e-value>]",
     '        example:="")>
