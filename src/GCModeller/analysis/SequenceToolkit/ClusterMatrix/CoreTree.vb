@@ -10,7 +10,7 @@ Public Module CoreTree
     ''' <param name="localblast">多个基因组之间的比对结果</param>
     ''' <returns></returns>
     <Extension>
-    Public Function BuildTree(proteins As IEnumerable(Of String), localblast As IEnumerable(Of BestHit))
+    Public Function BuildTree(proteins As IEnumerable(Of String), localblast As IEnumerable(Of BestHit)) As Cluster()
         Dim comparer As New ProteinComparer(localblast)
         Dim tree As New AVLTree(Of String, String)(comparer, Function(name) name)
 
@@ -19,9 +19,34 @@ Public Module CoreTree
         Next
 
         ' 返回同源性的cluster
+        Dim clusters As Cluster() = tree.GetAllNodes _
+            .Select(Function(node)
+                        Dim rep$ = node.Key
+                        Dim members = DirectCast(node!values, IEnumerable(Of String)) _
+                            .Distinct _
+                            .ToArray
 
+                        Return New Cluster With {
+                            .Representive = rep,
+                            .Members = members
+                        }
+                    End Function) _
+            .ToArray
+
+        Return clusters
     End Function
 End Module
+
+Public Class Cluster
+
+    Public Property Representive As String
+    Public Property Members As String()
+
+    Public Overrides Function ToString() As String
+        Return Representive
+    End Function
+
+End Class
 
 Public Class ProteinComparer : Implements IComparer(Of String)
 
