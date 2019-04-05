@@ -231,12 +231,14 @@ Partial Module CLI
                 Sub([in] As String)
                     Dim i As VBInteger = 0
 
+                    Call $"Parse {[in]}...".__INFO_ECHO
+
                     For Each query As Query In BlastpOutputReader.RunParser(in$)
                         query.QueryName = qPattern(query.QueryName)
 
                         Call handle(query)
 
-                        If ++i Mod 25 = 0 Then
+                        If ++i Mod 50 = 0 Then
                             Console.Write(i)
                             Console.Write(vbTab)
                         End If
@@ -244,9 +246,14 @@ Partial Module CLI
                 End Sub
 
             If inFile.DirectoryExists Then
+                Dim n%
+
                 For Each file As String In inFile.EnumerateFiles("*.txt")
-                    Call parseOne(file)
+                    parseOne(file)
+                    n += 1
                 Next
+
+                Call $"Parse {n} file data job done!".__DEBUG_ECHO
             Else
                 Call parseOne(inFile)
             End If
