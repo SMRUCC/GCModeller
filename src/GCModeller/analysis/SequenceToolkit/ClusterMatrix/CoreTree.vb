@@ -42,6 +42,12 @@ Public Class Cluster
     Public Property Representive As String
     Public Property Members As String()
 
+    Public ReadOnly Property NumOfMembers As Integer
+        Get
+            Return Members?.Length
+        End Get
+    End Property
+
     Public ReadOnly Property conservative As Integer
         Get
             Return genomes?.Length
@@ -94,9 +100,9 @@ Public Class ProteinComparer : Implements IComparer(Of String)
             If qvs.ContainsKey(y) Then
                 Dim besthit As BestHit = qvs(y)
 
-                If besthit.identities > 0.85 Then
+                If besthit.identities > 0.6 Then
                     Return 0
-                ElseIf besthit.identities > 0.6 Then
+                ElseIf besthit.identities > 0.3 Then
                     Return 1
                 Else
                     Return -1
