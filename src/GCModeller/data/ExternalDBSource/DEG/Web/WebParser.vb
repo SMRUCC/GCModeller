@@ -19,7 +19,7 @@ Public Module WebParser
             Dim html$ = web.Query(Of String)({genome}, "*.html").First
             Dim saveXml$ = $"{save}/{genome.Organism.NormalizePathString}.Xml"
 
-            genome.EssentialGenes = genome.ParseDEGList(html).ToArray
+            genome.EssentialGenes = genome.ParseDEGList(html, $"{save}/{genome.Organism.NormalizePathString}").ToArray
             genome.GetXml.SaveTo(saveXml)
         Next
     End Sub
@@ -63,19 +63,17 @@ Public Module WebParser
     End Function
 
     <Extension>
-    Private Iterator Function ParseDEGList(genome As Genome, html As String) As IEnumerable(Of EssentialGene)
+    Private Iterator Function ParseDEGList(genome As Genome, html As String, Optional cache$ = "./") As IEnumerable(Of EssentialGene)
         Dim allPages As Integer = getTotalPages(html)
+        Dim web As New WebQuery(Of Integer)(Function(page) sprintf(listAPI, genome.ID, genome.ID, page), Function(page) CStr(page), Function(s, type) s, cache:=cache)
+        Dim detailsCache$ = $"{cache}/details/"
 
-        For Each gene As EssentialGene In html.parseDEGList
+        For Each gene As EssentialGene In html.parseDEGList(detailsCache)
             Yield gene
         Next
 
-        For i As Integer = 2 To allPages
-            Dim url = sprintf(listAPI, genome.ID, genome.ID, i)
-
-            Call Thread.Sleep(1000)
-
-            For Each gene In url.GET.parseDEGList
+        For Each geneList In web.Query(Of String)(Enumerable.Range(2, allPages), "*.html")
+            For Each gene In geneList.parseDEGList(detailsCache)
                 Yield gene
             Next
         Next
@@ -84,27 +82,32 @@ Public Module WebParser
     Const detailsAPI As String = "http://origin.tubic.org/deg/public/index.php/information/bacteria/%s.html"
 
     <Extension>
-    Private Iterator Function parseDEGList(html As String) As IEnumerable(Of EssentialGene)
+    Private Iterator Function parseDEGList(html As String, cache$) As IEnumerable(Of EssentialGene)
         Dim table$ = html.GetTablesHTML.First
         Dim rows = table.GetRowsHTML
+        Dim web As New WebQuery(Of EssentialGene)(Function(g) sprintf(detailsAPI, g.ID), Function(g) g.ID, Function(s, type) s, cache)
+        Dim parseList = Iterator Function() As IEnumerable(Of EssentialGene)
+                            For Each row As String In rows.Skip(1)
+                                Dim columns = row.GetColumnsHTML
 
-        Call Thread.Sleep(1000)
+                                Yield New EssentialGene With {
+                                    .ID = columns(1).StripHTMLTags,
+                                    .Name = columns(2),
+                                    .FunctionDescrib = columns(3),
+                                    .Organism = columns(4)
+                                }
+                            Next
+                        End Function
 
-        For Each row As String In rows.Skip(1)
-            Dim columns = row.GetColumnsHTML
+        For Each gene As EssentialGene In parseList()
+            Dim details As String = web.Query(Of String)({gene}, "*.html").First
 
-            Yield New EssentialGene With {
-                .ID = columns(1).StripHTMLTags,
-                .Name = columns(2),
-                .FunctionDescrib = columns(3),
-                .Organism = columns(4)
-            }.fillDetails
+            Yield gene.fillDetails(details)
         Next
     End Function
 
     <Extension>
-    Private Function fillDetails(gene As EssentialGene) As EssentialGene
-        Dim html = sprintf(detailsAPI, gene.ID).GET
+    Private Function fillDetails(gene As EssentialGene, html$) As EssentialGene
         Dim table = html.GetTablesHTML.First
         Dim rows = table.GetRowsHTML
         Dim details = rows.Skip(1).Select(Function(r) r.GetColumnsHTML).ToDictionary(Function(c) c.First.Replace(" ", "_"), Function(c) c.Last)
@@ -120,8 +123,6 @@ Public Module WebParser
             gene.Nt = !Nucleotide_sequence
             gene.Aa = !Amino_acid_sequence
         End With
-
-        Call Thread.Sleep(1000)
 
         Return gene
     End Function
