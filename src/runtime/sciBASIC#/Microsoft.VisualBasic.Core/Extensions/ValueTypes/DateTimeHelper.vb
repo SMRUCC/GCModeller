@@ -206,13 +206,14 @@ Namespace ValueTypes
             If microtime >= 1000 Then
                 unit = "s"
                 time = Math.Round(microtime / 1000, round)
+                format = sprintf(format, time, unit)
             Else
                 unit = "ms"
                 time = microtime
-                format = r.Replace(format, "(%.[\d]+f)", "%d")
+                format = sprintf("%s%s", time, unit)
             End If
 
-            Return sprintf(format, time, unit)
+            Return format
         End Function
     End Module
 End Namespace
