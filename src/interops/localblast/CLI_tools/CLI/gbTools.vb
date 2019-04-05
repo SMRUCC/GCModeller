@@ -306,6 +306,8 @@ Partial Module CLI
     ''' 如果为true，则所有的结果都会在一个文件夹之中
     ''' </param>
     <Extension> Private Sub exportTo(gb As GBFF.File, out$, simple As Boolean, flat As Boolean)
+        On Error Resume Next
+
         Dim PTT As PTT = gb.GbffToPTT(ORF:=True)
         Dim Faa As New FastaFile(If(simple, gb.ExportProteins_Short, gb.ExportProteins))
         Dim Fna As FastaSeq = gb.Origin.ToFasta

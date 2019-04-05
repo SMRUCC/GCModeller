@@ -109,8 +109,8 @@ Namespace SequenceModel.FASTA
         Sub New(data As IEnumerable(Of FastaSeq))
             _innerList =
                 LinqAPI.MakeList(Of FastaSeq) <= From fa As FastaSeq
-                                                   In data
-                                                 Where Not fa Is Nothing
+                                                 In data
+                                                 Where Not fa Is Nothing AndAlso Not fa.SequenceData.StringEmpty
                                                  Select fa
         End Sub
 
