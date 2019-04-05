@@ -200,7 +200,7 @@ RETRY:      Return BuildWebRequest(url, headers, proxy, UA).__get()
                 Return ""
             End If
 
-            Call $"[{title} {url}] {Len(html)} chars in {timer.ElapsedMilliseconds} ms".__DEBUG_ECHO
+            Call $"[{url}] {title} - {Len(html)} chars in {timer.ElapsedMilliseconds} ms".__DEBUG_ECHO
 #If DEBUG Then
             Call html.SaveTo($"{App.AppSystemTemp}/{App.PID}/{url.NormalizePathString}.html")
 #End If
