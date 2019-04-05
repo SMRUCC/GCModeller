@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -335,6 +336,10 @@ Partial Module CLI
         Call ffn.Save(out & $"/{name}.ffn")
         Call geneList.SaveTo(out & $"/{name}.list")
         Call gb.Save($"{out}/{name}.gbff")
+        Call Faa.Select(Function(fa)
+                            Return Strings.Trim(fa.Title).GetTagValue
+                        End Function) _
+                .SaveTo($"{out}/{name}.csv")
     End Sub
 
     <ExportAPI("/Export.gb.genes",
