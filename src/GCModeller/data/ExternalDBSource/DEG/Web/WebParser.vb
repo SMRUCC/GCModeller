@@ -3,7 +3,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
-Module Module1
+Module WebParser
 
     Const dataAPI As String = "http://origin.tubic.org/deg/public/index.php/browse/bacteria"
 

@@ -221,7 +221,7 @@
     <Compile Include="ChEBI\Tables\vertice.vb" />
     <Compile Include="DEG\Models.vb" />
     <Compile Include="DEG\Web\Models\Models.vb" />
-    <Compile Include="DEG\Web\Module1.vb" />
+    <Compile Include="DEG\Web\WebParser.vb" />
     <Compile Include="ExplorEnz\MySQL\cite.vb" />
     <Compile Include="ExplorEnz\MySQL\class.vb" />
     <Compile Include="ExplorEnz\MySQL\entry.vb" />
