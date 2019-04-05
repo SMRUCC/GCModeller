@@ -243,6 +243,9 @@ Partial Module CLI
                             Console.Write(vbTab)
                         End If
                     Next
+
+                    Call Console.WriteLine()
+                    Call Console.WriteLine()
                 End Sub
 
             If inFile.DirectoryExists Then
