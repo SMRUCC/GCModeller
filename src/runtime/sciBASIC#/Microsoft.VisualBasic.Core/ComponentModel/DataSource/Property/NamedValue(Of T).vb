@@ -111,7 +111,7 @@ Namespace ComponentModel.DataSourceModel
         ''' </summary>
         ''' <param name="name"></param>
         ''' <param name="value"></param>
-        Sub New(name$, value As T, Optional describ As String = Nothing)
+        Sub New(name$, Optional value As T = Nothing, Optional describ As String = Nothing)
             Me.Name = name
             Me.Value = value
             Me.Description = describ
