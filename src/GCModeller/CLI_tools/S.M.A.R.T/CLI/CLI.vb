@@ -87,7 +87,7 @@ Public Module CLI
     Public Function FetchDEG(args As CommandLine) As Integer
         Dim save$ = args("/save") Or "./essentialgenes/"
 
-        Call SMRUCC.genomics.Data.WebParser.ParserWorkflow(save)
+        Call SMRUCC.genomics.Data.DEG.Web.WebParser.ParserWorkflow(save)
 
         Return 0
     End Function
