@@ -42,6 +42,14 @@ Public Class Cluster
     Public Property Representive As String
     Public Property Members As String()
 
+    Public ReadOnly Property conservative As Integer
+        Get
+            Return genomes?.Length
+        End Get
+    End Property
+
+    Public Property genomes As String()
+
     Public Overrides Function ToString() As String
         Return Representive
     End Function
