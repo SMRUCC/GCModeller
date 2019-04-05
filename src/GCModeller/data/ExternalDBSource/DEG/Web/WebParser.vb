@@ -120,8 +120,8 @@ Public Module WebParser
             gene.FuncClass = !Function_Class
             gene.Condition = !Condition
             gene.Reference = !Reference
-            gene.Nt = !Nucleotide_sequence
-            gene.Aa = !Amino_acid_sequence
+            gene.Nt = !Nucleotide_sequence.paragraph.First.StripHTMLTags
+            gene.Aa = !Amino_acid_sequence.paragraph.First.StripHTMLTags
         End With
 
         Return gene

@@ -184,6 +184,11 @@ Namespace Text.Parser.HtmlParser
         End Function
 
         <Extension>
+        Public Function paragraph(html As String) As IEnumerable(Of String)
+            Return html.Matches("<p.+?</p>").ToArray
+        End Function
+
+        <Extension>
         Public Function [class](tag As String) As String
             If String.IsNullOrEmpty(tag) Then
                 Return ""
