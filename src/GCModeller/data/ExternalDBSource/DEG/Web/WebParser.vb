@@ -2,8 +2,10 @@
 Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.C
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Data
 
 Module WebParser
 
@@ -132,6 +134,8 @@ Public Class EssentialGene
 End Class
 
 Public Class Genome : Inherits XmlDataModel
+    Implements Enumeration(Of EssentialGene)
+
     Public Property ID As String
     Public Property Organism As String
     Public Property numOfDEG As Integer
@@ -140,4 +144,13 @@ Public Class Genome : Inherits XmlDataModel
 
     Public Property EssentialGenes As EssentialGene()
 
+    Public Iterator Function GenericEnumerator() As IEnumerator(Of EssentialGene) Implements Enumeration(Of EssentialGene).GenericEnumerator
+        For Each gene As EssentialGene In EssentialGenes
+            Yield gene
+        Next
+    End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of EssentialGene).GetEnumerator
+        Yield GenericEnumerator()
+    End Function
 End Class
