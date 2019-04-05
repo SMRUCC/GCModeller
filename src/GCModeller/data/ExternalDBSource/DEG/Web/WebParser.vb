@@ -12,7 +12,7 @@ Public Module WebParser
     Const dataAPI As String = "http://origin.tubic.org/deg/public/index.php/browse/bacteria"
 
     Public Sub ParserWorkflow(save As String)
-        Dim genomes = GetGenomeList()
+        Dim genomes = GetGenomeList().ToArray
         Dim web As New WebQuery(Of Genome)(Function(genome) sprintf(listAPI, genome.ID, genome.ID, 1), Function(g) g.ID, Function(s, type) s, $"{save}/.essentialgenes")
 
         For Each genome As Genome In genomes
@@ -33,7 +33,7 @@ Public Module WebParser
 
         Dim rows = table.GetRowsHTML
 
-        For Each row As String In rows
+        For Each row As String In rows.Skip(1)
             Dim columns = row.GetColumnsHTML
 
             Yield New Genome With {

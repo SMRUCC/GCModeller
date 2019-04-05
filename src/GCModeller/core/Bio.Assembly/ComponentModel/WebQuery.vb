@@ -34,7 +34,7 @@ Namespace ComponentModel
             For Each context As Context In query
                 Dim url = Me.url(context)
                 Dim id$ = Me.contextGuid(context)
-                Dim cache$ = $"{Me.cache}/{id}.{type.Trim("."c)}"
+                Dim cache$ = $"{Me.cache}/{id}.{type.Trim("."c, "*"c)}"
 
                 If cache.FileLength <= 0 Then
                     Call url.GET.SaveTo(cache)
