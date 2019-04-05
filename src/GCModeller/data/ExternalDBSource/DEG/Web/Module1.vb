@@ -33,7 +33,28 @@ Module Module1
     <Extension>
     Public Iterator Function ParseDEGList(genome As Genome) As IEnumerable(Of EssentialGene)
         Dim html = sprintf(listAPI, genome.ID, genome.ID, 1).GET
-        Dim allPages = html.Matches("<a>.+?</a>").ToArray.Where(Function(a) a.class)
+        Dim allPages As Integer = html.Matches("<a>.+?</a>").ToArray.FirstOrDefault(Function(a) a.class = "page-link") _
+            .Matches("<span>.+?</span>").ToArray.Where(Function(s) s.class = "text-primary").Last.StripHTMLTags
+
+        For i As Integer = 1 To allPages
+            Dim url = sprintf(listAPI, genome.ID, genome.ID, i)
+
+            For Each gene In url.GET.parseDEGList
+                Yield gene
+            Next
+        Next
+    End Function
+
+    <Extension>
+    Private Function parseDEGList(html As String) As IEnumerable(Of EssentialGene)
+        Dim table$ = html.GetTablesHTML.First
+        Dim rows = table.GetRowsHTML
+
+        For Each row As String In rows
+            Dim columns = row.GetColumnsHTML
+
+
+        Next
     End Function
 End Module
 

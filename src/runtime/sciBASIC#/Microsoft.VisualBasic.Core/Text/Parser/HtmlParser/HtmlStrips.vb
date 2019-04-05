@@ -183,6 +183,21 @@ Namespace Text.Parser.HtmlParser
             End If
         End Function
 
+        <Extension>
+        Public Function [class](tag As String) As String
+            If String.IsNullOrEmpty(tag) Then
+                Return ""
+            End If
+
+            Dim className = r.Match(tag, "class\s*[=]\s*[""].+?[""]").Value
+
+            If String.IsNullOrEmpty(className) Then
+                Return ""
+            Else
+                Return className.GetTagValue("=", trim:=True).Value.GetStackValue("""", """")
+            End If
+        End Function
+
 #Region "Parsing image source url from the img html tag."
 
         Public Const imgHtmlTagPattern As String = "<img.+?src=.+?>"
