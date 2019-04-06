@@ -32,6 +32,8 @@ Namespace VFDB
 
             title = title.Remove(geneName, RegexOptions.None).Trim
             xref = external.GetStackValue("(", ")")
+            orgName = orgName.GetStackValue("[", "]")
+            geneName = geneName.GetStackValue("(", ")")
 
             Return New FastaHeader With {
                 .VFID = VFID,
