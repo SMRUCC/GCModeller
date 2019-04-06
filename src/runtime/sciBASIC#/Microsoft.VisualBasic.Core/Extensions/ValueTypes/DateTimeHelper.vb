@@ -206,6 +206,12 @@ Namespace ValueTypes
             If microtime >= 1000 Then
                 unit = "s"
                 time = Math.Round(microtime / 1000, round)
+
+                If time >= 60 Then
+                    unit = "min"
+                    time = Math.Round(time / 60, round)
+                End If
+
                 format = sprintf(format, time, unit)
             Else
                 unit = "ms"
