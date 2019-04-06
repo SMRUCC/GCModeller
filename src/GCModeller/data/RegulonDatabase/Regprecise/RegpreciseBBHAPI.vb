@@ -230,7 +230,7 @@ Namespace Regprecise
                                                           Select item
                                              Return LQuery.FirstOrDefault
                                          End Function
-            Dim RegulatorFasta = If(RegpreciseRegulators_Fasta.IsNullOrEmpty, Nothing, FastaReaders.Regulator.LoadDocument(RegpreciseRegulators_Fasta).ToDictionary(True))
+            Dim RegulatorFasta = If(RegpreciseRegulators_Fasta.IsNullOrEmpty, Nothing, FastaReaders.Regulator.LoadDocument(RegpreciseRegulators_Fasta).ToDictionary(distinct:=True))
             Dim GetFastaRecord = If(RegpreciseRegulators_Fasta.IsNullOrEmpty, AddressOf FastaReaders.Regulator.NullDictionary, Function(UniqueId As String) RegulatorFasta(UniqueId))
             Dim ChunkBuffer = (From MatchedItem As RegpreciseMPBBH
                                In ResultRegpreciseBidirectionalBh.AsParallel
