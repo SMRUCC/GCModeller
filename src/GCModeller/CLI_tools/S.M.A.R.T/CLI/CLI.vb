@@ -41,6 +41,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Extensions
@@ -97,7 +98,10 @@ Public Module CLI
             .GroupBy(Function(a) a.organism) _
             .ToDictionary(Function(org) org.Key,
                           Function(genes)
-                              Return genes.ToDictionary(Function(g) g.geneName)
+                              Return genes _
+                                  .Select(Function(g) g.geneName) _
+                                  .Distinct _
+                                  .Indexing
                           End Function)
         ' 下载数据
         ' Call WebParser.ParserWorkflow(save)
@@ -108,12 +112,12 @@ Public Module CLI
 
             For Each genomeXml As String In save.EnumerateFiles("*.Xml")
                 Dim genome As Genome = genomeXml.LoadXml(Of Genome)
-                Dim vfGenome As Dictionary(Of String, FastaHeader)
+                Dim vfGenome As Index(Of String)
 
                 If vfGenomes.ContainsKey(genome.Organism) Then
                     vfGenome = vfGenomes(genome.Organism)
                 Else
-                    vfGenome = New Dictionary(Of String, FastaHeader)
+                    vfGenome = New Index(Of String)
                 End If
 
                 For Each gene As EssentialGene In genome.AsEnumerable
@@ -126,7 +130,7 @@ Public Module CLI
                         .Xref = gene.UniProt
                     }
 
-                    If vfGenome.ContainsKey(gene.Name) Then
+                    If gene.Name Like vfGenome Then
                         ref.isVirulence = True
                     End If
 
