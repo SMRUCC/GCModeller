@@ -12,7 +12,7 @@ Namespace Text.Parser.HtmlParser
         ''' <summary>
         ''' The regexp pattern for the attributes in a html tag.
         ''' </summary>
-        Const attributeParse$ = "(\S+?\s*[=]\s*"".+?"")|(\S+?\s*[=]\s*\S+)"
+        Const attributeParse$ = "\S+?\s*[=]\s*(("".+?"")|(\S+)|('.+?'))"
 
         ''' <summary>
         ''' 获取一个html标签之中的所有的attribute属性数据
@@ -25,7 +25,12 @@ Namespace Text.Parser.HtmlParser
             Return r _
                 .Matches(tag.GetBetween("<", ">"), attributeParse, RegexICSng) _
                 .EachValue _
-                .Select(Function(t) t.GetTagValue("=", trim:=""""""))
+                .Select(Function(t)
+                            Dim a = t.GetTagValue("=", trim:="""'")
+                            Dim val = a.Value.GetStackValue("""", """").GetStackValue("'", "'")
+
+                            Return New NamedValue(Of String)(a.Name, val)
+                        End Function)
         End Function
 
         Const attributePattern$ = "%s\s*=\s*([""].+?[""])|(['].+?['])"

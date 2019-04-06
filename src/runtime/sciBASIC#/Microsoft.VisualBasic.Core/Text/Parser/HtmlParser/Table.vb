@@ -112,6 +112,7 @@ Namespace Text.Parser.HtmlParser
 
                             Return New NamedValue(Of String)(name, content)
                         End Function) _
+                .Where(Function(meta) Not meta.Name.StringEmpty) _
                 .ToArray
             Dim table = attrs.ToDictionary(Function(a) a.Name, Function(a) a.Value)
 
