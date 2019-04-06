@@ -97,14 +97,16 @@ Namespace Text.Parser.HtmlParser
                 Return New String() {}
             Else
                 Dim links$() = r _
-                    .Matches(html, HtmlLink, RegexICSng) _
+                    .Matches(html, Regexp("a"), RegexICSng) _
                     .ToArray(AddressOf HtmlStrips.GetValue)
                 Return links
             End If
         End Function
 
-        Public Const HtmlLink$ = "<a\s.+?</a>"
-        Public Const HtmlPageTitle$ = "<title>.+</title>"
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function Regexp(tagName As String) As String
+            Return $"<{tagName}.+?</{tagName}>"
+        End Function
 
         ''' <summary>
         ''' Parsing the title text from the html inputs.
@@ -112,7 +114,7 @@ Namespace Text.Parser.HtmlParser
         ''' <param name="html"></param>
         ''' <returns></returns>
         <Extension> Public Function HTMLTitle(html As String) As String
-            Dim title$ = r.Match(html, HtmlPageTitle, RegexICSng).Value
+            Dim title$ = r.Match(html, Regexp("title"), RegexICSng).Value
 
             If String.IsNullOrEmpty(title) Then
                 title = "null"
@@ -183,9 +185,24 @@ Namespace Text.Parser.HtmlParser
             End If
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="html"></param>
+        ''' <param name="plainText">If this argument is value True, then all of the html format tag will be removes.</param>
+        ''' <returns></returns>
         <Extension>
-        Public Function paragraph(html As String) As IEnumerable(Of String)
-            Return html.Matches("<p.+?</p>").ToArray
+        Public Function paragraph(html$, Optional plainText As Boolean = False) As IEnumerable(Of String)
+            Return html _
+                .Matches(Regexp("p"), RegexICSng) _
+                .Select(Function(p)
+                            If plainText Then
+                                Return p.StripHTMLTags
+                            Else
+                                Return p
+                            End If
+                        End Function) _
+                .ToArray
         End Function
 
         <Extension>

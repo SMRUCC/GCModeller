@@ -1158,6 +1158,7 @@
     <Compile Include="Serialization\Abstract.vb" />
     <Compile Include="Serialization\JSON\AnonymousJSON.vb" />
     <Compile Include="Text\Parser\CharEnumerator.vb" />
+    <Compile Include="Text\Parser\HtmlParser\TagAttributeParser.vb" />
     <Compile Include="Text\Parser\TryParse.vb" />
     <Compile Include="Text\Patterns\Regexp.vb" />
     <Compile Include="Text\StringSimilarity\IEqualityComparer.vb" />
