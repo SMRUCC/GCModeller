@@ -122,13 +122,13 @@ Namespace IO.Linq
         ''' <param name="encoding"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function OpenHandle(fileName$, Optional encoding As Encoding = Nothing) As (schema As SchemaReader, table As IEnumerable(Of RowObject))
+        Public Function OpenHandle(fileName$, Optional encoding As Encoding = Nothing, Optional tsv As Boolean = False) As (schema As SchemaReader, table As IEnumerable(Of RowObject))
             Dim schema As New SchemaReader(fileName, encoding)
             Dim source As IEnumerable(Of RowObject) = fileName _
                 .IterateAllLines _
                 .Skip(1) _
                 .Select(Function(line)
-                            Return New RowObject(line)
+                            Return New RowObject(line, tsv)
                         End Function)
             Return (schema, source)
         End Function

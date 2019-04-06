@@ -25,5 +25,9 @@ Namespace DEG.OGEE
                 }
             Next
         End Function
+
+        Public Function LoadGenes(file As String) As IEnumerable(Of genes)
+
+        End Function
     End Module
 End Namespace
