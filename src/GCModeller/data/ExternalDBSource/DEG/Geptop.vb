@@ -35,7 +35,7 @@ Public Class Geptop : Inherits XmlDataModel
                         Return New Geptop.Gene With {
                             .[class] = Val(tokens(0)),
                             .essentialityScore = Val(tokens(1)),
-                            .protein = tokens(2)
+                            .protein = tokens(3)
                         }
                     End Function) _
             .ToArray
