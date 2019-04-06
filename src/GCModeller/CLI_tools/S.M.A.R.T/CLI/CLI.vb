@@ -95,8 +95,8 @@ Public Module CLI
         ' Call WebParser.ParserWorkflow(save)
 
         ' 然后建立表格
-        Using ntTable As New WriteStream(Of SeqRef)($"{save}/nt.xls", tsv:=True),
-              prTable As New WriteStream(Of SeqRef)($"{save}/prot.xls", tsv:=True)
+        Using ntTable As New WriteStream(Of SeqRef)($"{save}/nt.csv"),
+              prTable As New WriteStream(Of SeqRef)($"{save}/prot.csv")
 
             For Each genomeXml As String In save.EnumerateFiles("*.Xml")
                 Dim genome As Genome = genomeXml.LoadXml(Of Genome)
@@ -112,9 +112,9 @@ Public Module CLI
                     }
 
                     ref.SequenceData = gene.Nt
-                    Call ntTable.Flush(ref)
+                    ntTable.Flush(ref)
                     ref.SequenceData = gene.Aa
-                    Call prTable.Flush(ref)
+                    prTable.Flush(ref)
                 Next
             Next
         End Using
