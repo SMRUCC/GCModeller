@@ -9,21 +9,48 @@ Namespace DEG.Web
     Public Module WebParser
 
         Const dataAPI As String = "http://origin.tubic.org/deg/public/index.php/browse/bacteria"
+        Const summaryApi$ = "http://origin.tubic.org/deg/public/index.php/organism/bacteria/%s.html"
 
         Public Sub ParserWorkflow(save As String)
             Dim genomes = GetGenomeList().ToArray
             Dim cache$ = $"{save}/.essentialgene.org"
-            Dim web As New WebQuery(Of Genome)(Function(genome) sprintf(listAPI, genome.ID, genome.ID, 1), Function(g) g.ID, Function(s, type) s, cache)
+            Dim web As New WebQuery(Of Genome)(Function(genome) sprintf(summaryApi, genome.ID), Function(g) g.ID, Function(s, type) s, cache)
 
             For Each genome As Genome In genomes
+                ' summary + first page
                 Dim html$ = web.Query(Of String)(genome, "*.html")
                 Dim saveXml$ = $"{save}/{genome.Organism.NormalizePathString}.Xml"
                 Dim internalCache$ = $"{cache}/{genome.Organism.NormalizePathString}"
 
+                genome.summary = html.getSummary
                 genome.EssentialGenes = genome.ParseDEGList(html, internalCache).ToArray
                 genome.GetXml.SaveTo(saveXml)
             Next
         End Sub
+
+        <Extension>
+        Private Function getSummary(html As String) As Summary
+            Dim summaryTable = html.GetTablesHTML.First
+            Dim rows = summaryTable.GetRowsHTML
+            Dim meta = rows _
+                .Select(Function(r) r.GetColumnsHTML) _
+                .ToDictionary(Function(r) r(0).StripHTMLTags.NormalizePathString,
+                              Function(r) r(1).StripHTMLTags)
+            Dim summary As New Summary
+
+            With meta
+                summary.Backup = !Backup
+                summary.EssentialGenes = !Essential_Genes
+                summary.Medium = !Medium
+                summary.Method = !Method
+                summary.Pubmed = !Pubmed
+                summary.Reference = !Reference
+                summary.RefSeq = !RefSeq
+                summary.Organism = !Organism
+            End With
+
+            Return summary
+        End Function
 
         Public Iterator Function GetGenomeList() As IEnumerable(Of Genome)
             Dim table = dataAPI.GET.GetTablesHTML.FirstOrDefault
@@ -84,7 +111,7 @@ Namespace DEG.Web
 
         <Extension>
         Private Iterator Function parseDEGList(html As String, cache$) As IEnumerable(Of EssentialGene)
-            Dim table$ = html.GetTablesHTML.First
+            Dim table$ = html.GetTablesHTML.Last
             Dim rows = table.GetRowsHTML
             Dim web As New WebQuery(Of EssentialGene)(Function(g) sprintf(detailsAPI, g.ID), Function(g) g.ID, Function(s, type) s, cache)
             Dim parseList = Iterator Function() As IEnumerable(Of EssentialGene)

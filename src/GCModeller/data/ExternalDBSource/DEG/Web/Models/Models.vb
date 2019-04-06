@@ -33,6 +33,8 @@ Namespace DEG.Web
         <XmlAttribute> Public Property Conditions As String
         Public Property Reference As String
 
+        Public Property summary As Summary
+
         <XmlElement>
         Public Property EssentialGenes As EssentialGene()
 

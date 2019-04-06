@@ -4,7 +4,6 @@
         Public Property Organism As String
         Public Property RefSeq As String
         Public Property EssentialGenes As Integer
-        Public Property NonEssentialGenes As Integer
         Public Property Method As String
         Public Property Medium As String
         Public Property Pubmed As String
