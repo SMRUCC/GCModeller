@@ -28,6 +28,7 @@ Namespace DEG.OGEE
             Next
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function LoadGenes(file As String) As IEnumerable(Of genes)
             Return file.OpenHandle(, tsv:=True).AsLinq(Of genes)
         End Function
