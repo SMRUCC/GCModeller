@@ -6,7 +6,6 @@ Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.Data
 
 Public Class Geptop : Inherits XmlDataModel
     Implements Enumeration(Of Gene)
