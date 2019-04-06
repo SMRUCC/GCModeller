@@ -221,6 +221,8 @@
     <Compile Include="ChEBI\Tables\vertice.vb" />
     <Compile Include="DEG\Models.vb" />
     <Compile Include="DEG\Geptop.vb" />
+    <Compile Include="DEG\OGEE\Models.vb" />
+    <Compile Include="DEG\OGEE\Extensions.vb" />
     <Compile Include="DEG\Web\Models\Summary.vb" />
     <Compile Include="DEG\Web\Models\Models.vb" />
     <Compile Include="DEG\Web\WebParser.vb" />
