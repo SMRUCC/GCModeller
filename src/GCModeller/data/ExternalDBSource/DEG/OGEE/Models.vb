@@ -44,4 +44,15 @@
         Public Property proteinLength As String
 
     End Class
+
+    ''' <summary>
+    ''' Table join of <see cref="genes"/>, <see cref="gene_essentiality"/>, <see cref="datasets"/>
+    ''' </summary>
+    Public Class geneSetInfo
+
+        Public Property dataset As datasets
+        Public Property essentiality As gene_essentiality
+        Public Property gene As genes
+
+    End Class
 End Namespace
