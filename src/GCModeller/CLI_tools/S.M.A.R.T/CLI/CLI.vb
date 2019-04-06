@@ -210,9 +210,35 @@ Public Module CLI
               prTable As New WriteStream(Of SeqRef)($"{save}/prot.csv")
 
             For Each gene As geneSetInfo In dataset
+                Dim ref As New SeqRef With {
+                    .fullName = gene.gene.description,
+                    .geneName = gene.gene.symbols,
+                    .ID = gene.gene.locus,
+                    .Organism = gene.dataset.sciName,
+                    .Reference = gene.dataset.url,
+                    .Xref = gene.gene.locus
+                }
 
+                Dim vfGenome As Index(Of String)
+
+                If vfGenomes.ContainsKey(ref.Organism) Then
+                    vfGenome = vfGenomes(ref.Organism)
+                Else
+                    vfGenome = New Index(Of String)
+                End If
+
+                If ref.geneName Like vfGenome Then
+                    ref.isVirulence = True
+                End If
+
+                ref.SequenceData = gene.gene.codingSeq
+                ntTable.Flush(ref)
+                ref.SequenceData = gene.gene.proteinSeq
+                prTable.Flush(ref)
             Next
         End Using
+
+        Return 0
     End Function
 
     '    <Command("analysis", info:="",
