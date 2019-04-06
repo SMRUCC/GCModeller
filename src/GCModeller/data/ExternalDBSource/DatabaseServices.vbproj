@@ -219,6 +219,7 @@
     <Compile Include="ChEBI\Tables\relation.vb" />
     <Compile Include="ChEBI\Tables\structures.vb" />
     <Compile Include="ChEBI\Tables\vertice.vb" />
+    <Compile Include="DEG\SeqRef.vb" />
     <Compile Include="DEG\Models.vb" />
     <Compile Include="DEG\Geptop.vb" />
     <Compile Include="DEG\OGEE\Models.vb" />
