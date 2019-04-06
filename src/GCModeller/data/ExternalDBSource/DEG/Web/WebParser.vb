@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.ComponentModel
 
@@ -37,6 +38,8 @@ Namespace DEG.Web
                 .ToDictionary(Function(r) r(0).StripHTMLTags.NormalizePathString,
                               Function(r) r(1).StripHTMLTags)
             Dim summary As New Summary
+
+            Call meta.GetJson.__DEBUG_ECHO
 
             With meta
                 summary.Backup = !Backup
