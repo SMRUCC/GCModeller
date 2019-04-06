@@ -103,7 +103,7 @@ Namespace Text.Parser.HtmlParser
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function Regexp(tagName As String) As String
+        Public Function Regexp(tagName As String) As String
             Return $"<{tagName}.+?</{tagName}>"
         End Function
 
