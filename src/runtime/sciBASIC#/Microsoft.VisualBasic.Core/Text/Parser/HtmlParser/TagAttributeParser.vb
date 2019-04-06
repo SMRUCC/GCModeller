@@ -1,5 +1,4 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -9,7 +8,26 @@ Namespace Text.Parser.HtmlParser
 
     Public Module TagAttributeParser
 
-        Const hrefPattern$ = "href\s*=\s*[""'].+?[""']"
+        Const attributePattern$ = "%s\s*=\s*([""].+?[""])|(['].+?['])"
+
+        <Extension>
+        Public Function GetAttrValue(html$, attr$) As String
+            If String.IsNullOrEmpty(html) Then
+                Return ""
+            Else
+                attr = attributePattern.Replace("%s", attr)
+                html = html.Match(attr, RegexICSng)
+            End If
+
+            If String.IsNullOrEmpty(html) Then
+                Return ""
+            Else
+                Return html.GetTagValue("=", trim:=True) _
+                    .Value _
+                    .GetStackValue("""", """") _
+                    .GetStackValue("'", "'")
+            End If
+        End Function
 
         ''' <summary>
         ''' Gets the link text in the html fragement text.
@@ -17,39 +35,17 @@ Namespace Text.Parser.HtmlParser
         ''' <param name="html">A string that contains the url string pattern like: href="url_text"</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        '''
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("Html.Href")>
         <Extension> Public Function href(<Parameter("HTML", "A string that contains the url string pattern like: href=""url_text""")> html$) As String
-            If String.IsNullOrEmpty(html) Then
-                Return ""
-            End If
-
-            Dim url$ = r _
-                .Match(html, hrefPattern, RegexOptions.IgnoreCase) _
-                .Value
-
-            If String.IsNullOrEmpty(url) Then
-                Return ""
-            Else
-                Return url.GetTagValue("=", trim:=True).Value.GetStackValue("""", """").GetStackValue("'", "'")
-            End If
+            Return html.GetAttrValue("href")
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function [class](tag As String) As String
-            If String.IsNullOrEmpty(tag) Then
-                Return ""
-            End If
-
-            Dim className = r.Match(tag, "class\s*[=]\s*[""'].+?['""]").Value
-
-            If String.IsNullOrEmpty(className) Then
-                Return ""
-            Else
-                Return className.GetTagValue("=", trim:=True).Value.GetStackValue("""", """").GetStackValue("'", "'")
-            End If
+            Return tag.GetAttrValue("class")
         End Function
-
 
 #Region "Parsing image source url from the img html tag."
 
@@ -71,20 +67,10 @@ Namespace Text.Parser.HtmlParser
         ''' </summary>
         ''' <param name="img"></param>
         ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function src(img As String) As String
-            If String.IsNullOrEmpty(img) Then
-                Return ""
-            Else
-                img = r.Match(img, "src\s*[=]\s*"".+?""", RegexOptions.IgnoreCase).Value
-            End If
-
-            If String.IsNullOrEmpty(img) Then
-                Return ""
-            Else
-                img = img.GetTagValue("=", trim:=True).Value.GetStackValue("""", """")
-                Return img
-            End If
+            Return img.GetAttrValue("src")
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
