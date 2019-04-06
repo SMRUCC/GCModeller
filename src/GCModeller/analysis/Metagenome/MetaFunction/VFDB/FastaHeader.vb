@@ -2,6 +2,9 @@
 
 Namespace VFDB
 
+    ''' <summary>
+    ''' http://www.mgc.ac.cn/VFs/download.htm
+    ''' </summary>
     Public Class FastaHeader
 
         Public Property VFID As String
