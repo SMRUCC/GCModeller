@@ -176,7 +176,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
         End If
 
         If String.IsNullOrEmpty(Format) OrElse String.Equals("fsa", Format, StringComparison.OrdinalIgnoreCase) Then 'fasta sequence
-            FASTA = FastaFile.Read(File:=Input)
+            FASTA = FastaFile.Read(file:=Input)
         Else 'gbk format
             Dim GbkFile As GBFF.File = GBFF.File.Load(path:=Input)
             FASTA = GbkFile.ExportProteins

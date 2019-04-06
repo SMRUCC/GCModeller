@@ -96,12 +96,12 @@ Public Module CLI
     <Usage("/fetch.DEG [/vfd <setB.fasta> /save <directory>]")>
     Public Function FetchDEG(args As CommandLine) As Integer
         Dim save$ = args("/save") Or "./essentialgenes/"
-        Dim vfGenomes = FastaFile.Read(args("/vfd")) _
+        Dim vfGenomes = FastaFile.Read(args("/vfd"), strict:=False) _
             .Select(Function(fa) FastaHeader.ParseHeader(fa)) _
             .BuildVFDIndex
 
         ' 下载数据
-        ' Call WebParser.ParserWorkflow(save)
+        Call WebParser.ParserWorkflow(save)
 
         ' 然后建立表格
         Using ntTable As New WriteStream(Of SeqRef)($"{save}/nt.csv"),

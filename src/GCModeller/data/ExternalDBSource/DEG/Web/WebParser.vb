@@ -143,7 +143,12 @@ Namespace DEG.Web
 
         <Extension>
         Private Function fillDetails(gene As EssentialGene, html$) As EssentialGene
-            Dim table = html.GetTablesHTML.First
+            Dim table = html.GetTablesHTML.FirstOrDefault
+
+            If table.StringEmpty Then
+                Return gene
+            End If
+
             Dim rows = table.GetRowsHTML
             Dim details = rows.Skip(1) _
                 .Select(Function(r) r.GetColumnsHTML) _
@@ -161,8 +166,8 @@ Namespace DEG.Web
                 gene.FuncClass = !Function_Class
                 gene.Condition = !Condition
                 gene.Reference = !Reference
-                gene.Nt = !Nucleotide_sequence.paragraph.First.StripHTMLTags
-                gene.Aa = !Amino_acid_sequence.paragraph.First.StripHTMLTags
+                gene.Nt = !Nucleotide_sequence.paragraph.FirstOrDefault.StripHTMLTags
+                gene.Aa = !Amino_acid_sequence.paragraph.FirstOrDefault.StripHTMLTags
             End With
 
             Return gene
