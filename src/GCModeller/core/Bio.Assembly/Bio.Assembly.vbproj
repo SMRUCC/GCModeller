@@ -560,6 +560,7 @@
     <Compile Include="Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\TaxonomyWeb.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Taxonomy.vb" />
+    <Compile Include="Assembly\NCBI\WebServiceHandler\Entrez\Genbank.vb" />
     <Compile Include="Assembly\NCBI\WebServiceHandler\Taxonomy.vb" />
     <Compile Include="Assembly\UniProt\XML\Model\reference.vb" />
     <Compile Include="Assembly\UniProt\XML\Model\CommentData.vb" />

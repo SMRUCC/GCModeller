@@ -49,7 +49,6 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 Namespace Assembly.NCBI.Entrez
@@ -99,26 +98,6 @@ Namespace Assembly.NCBI.Entrez
             Public Property Description As String
             Public Property AccessionId As String
             Public Property GI As String
-
-            Const SAVED_FILE As String = "[$SAVED_FILE]"
-            Const ACCESSION_ID As String = "[$ACCESSION_ID]"
-
-            ' https://www.ncbi.nlm.nih.gov/sviewer/viewer.cgi?tool=portal&save=file&log$=seqview&db=nuccore&report=gbwithparts&id=229599883&withparts=on&showgi=1
-
-            Const sviewerApi$ = "https://www.ncbi.nlm.nih.gov/sviewer/viewer.cgi?tool=portal&save=file&log$=seqview&db=nuccore&report=gbwithparts"
-
-            Public Sub Fetch(saveAs$, Optional full As Boolean = True, Optional showgi As Boolean = True)
-                Dim parameters As New Dictionary(Of String, String)
-
-                parameters!id = AccessionId
-                parameters!withparts = "on" Or "off".When(Not full)
-                parameters!showgi = 0 Or 1.When(showgi)
-
-                Dim query$ = parameters.Select(Function(a) $"{a.Key}={a.Value}").JoinBy("&")
-                Dim url = $"{sviewerApi}&{query}"
-
-                Call url.DownloadFile(saveAs)
-            End Sub
 
             Public Shared Function EntryParser(str As String) As Entry
                 Dim EntryObj As Entry = New Entry
