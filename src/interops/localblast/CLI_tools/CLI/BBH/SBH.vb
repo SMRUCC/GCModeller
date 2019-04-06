@@ -406,21 +406,21 @@ Partial Module CLI
 
         ' 替换掉所有的hit not found
         For Each hit In besthit.Where(Function(h) h.identities <= 0)
-            hit.HitName = $"Unique In {queryName}"
+            hit.HitName = $"specific In {queryName}"
         Next
 
         besthit += query.Where(Function(q) Not q Like unionQuery) _
                         .Select(Function(q)
                                     Return New BestHit With {
                                         .QueryName = q,
-                                        .HitName = $"Unique In {queryName}"
+                                        .HitName = $"specific In {queryName}"
                                     }
                                 End Function)
         besthit += subject.Where(Function(r) Not r Like unionSubject) _
                           .Select(Function(r)
                                       Return New BestHit With {
                                           .QueryName = r,
-                                          .HitName = $"Unique In {refName}"
+                                          .HitName = $"specific In {refName}"
                                       }
                                   End Function)
 
