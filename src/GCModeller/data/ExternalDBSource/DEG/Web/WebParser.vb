@@ -35,7 +35,11 @@ Namespace DEG.Web
             Dim rows = summaryTable.GetRowsHTML
             Dim meta = rows _
                 .Select(Function(r) r.GetColumnsHTML) _
-                .ToDictionary(Function(r) r(0).StripHTMLTags.NormalizePathString,
+                .ToDictionary(Function(r)
+                                  Return r(0).StripHTMLTags _
+                                      .NormalizePathString _
+                                      .Replace(" ", "_")
+                              End Function,
                               Function(r) r(1).StripHTMLTags)
             Dim summary As New Summary
 
