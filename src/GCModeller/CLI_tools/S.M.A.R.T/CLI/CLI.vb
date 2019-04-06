@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB
 Imports SMRUCC.genomics.Assembly.NCBI.CDD
 Imports SMRUCC.genomics.Data.DEG
 Imports SMRUCC.genomics.Data.DEG.Web
@@ -54,6 +55,7 @@ Imports SMRUCC.genomics.Data.Xfam
 Imports SMRUCC.genomics.Interops
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 <Package("SMATRT.CLI",
                   Category:=APICategories.CLI_MAN,
@@ -87,10 +89,16 @@ The network context is now displayed in the results page for more than 350 000 p
 Public Module CLI
 
     <ExportAPI("/fetch.DEG")>
-    <Usage("/fetch.DEG [/save <directory>]")>
+    <Usage("/fetch.DEG [/vfd <setB.fasta> /save <directory>]")>
     Public Function FetchDEG(args As CommandLine) As Integer
         Dim save$ = args("/save") Or "./essentialgenes/"
-
+        Dim vfGenomes = FastaFile.Read(args("/vfd")) _
+            .Select(Function(fa) FastaHeader.ParseHeader(fa)) _
+            .GroupBy(Function(a) a.organism) _
+            .ToDictionary(Function(org) org.Key,
+                          Function(genes)
+                              Return genes.ToArray
+                          End Function)
         ' 下载数据
         ' Call WebParser.ParserWorkflow(save)
 
