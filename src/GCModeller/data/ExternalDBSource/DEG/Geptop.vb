@@ -1,6 +1,8 @@
-﻿Imports System.Xml.Serialization
+﻿Imports System.Threading
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
@@ -78,7 +80,12 @@ Public Class Geptop : Inherits XmlDataModel
             result.GetXml.SaveTo($"{save}/{genome.Name.NormalizePathString}.Xml")
 
             For Each id As String In result.assembly
-                Call Genbank.Fetch(id, $"{save}/assembly/{id}.gb")
+                With $"{save}/assembly/{id}.gb"
+                    If Not .FileExists Then
+                        Call Genbank.Fetch(id, .ByRef)
+                        Call Thread.Sleep(2000)
+                    End If
+                End With
             Next
         Next
     End Sub
