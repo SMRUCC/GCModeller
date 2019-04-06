@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
+Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Data
 
@@ -17,6 +18,7 @@ Public Class Geptop : Inherits XmlDataModel
     End Class
 
     Public Property genome As String
+    Public Property assembly As String()
 
     <XmlElement("gene")>
     Public Property genes As Gene()
@@ -66,8 +68,19 @@ Public Class Geptop : Inherits XmlDataModel
 
         For Each genome As NamedValue(Of String) In GetGenomeList()
             Dim result As Geptop = web.Query(Of Geptop)(genome, "*.html")
+            Dim accessionID$() = genome.Name _
+                .Matches("\(.+?\)") _
+                .LastOrDefault _
+                .GetStackValue("(", ")") _
+                .StringSplit("\s+")
+
+            result.assembly = accessionID
             result.genome = genome.Name
             result.GetXml.SaveTo($"{save}/{genome.Name.NormalizePathString}.Xml")
+
+            For Each id As String In result.assembly
+                Call Genbank.Fetch(id, $"{save}/assembly/{id}.gb")
+            Next
         Next
     End Sub
 
