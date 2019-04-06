@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.SequenceModel.FASTA
+﻿Imports System.Text.RegularExpressions
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace VFDB
 
@@ -22,14 +23,14 @@ Namespace VFDB
             Dim orgName = title.Matches("\[.+?\]").Last
             Dim xref = title.Split.First
 
-            title = title.Replace(orgName, "")
-            title = title.Replace(xref, "")
+            title = title.Remove(orgName, RegexOptions.None)
+            title = title.Remove(xref, RegexOptions.None)
 
             Dim geneName = title.Matches("\(.+?\)").First
             Dim external = xref.Match("\(.+\)")
-            Dim VFID = xref.Replace(external, "")
+            Dim VFID = xref.Remove(external, RegexOptions.None)
 
-            title = title.Replace(geneName, "").Trim
+            title = title.Remove(geneName, RegexOptions.None).Trim
             xref = external.GetStackValue("(", ")")
 
             Return New FastaHeader With {
