@@ -52,6 +52,8 @@ Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB
 Imports SMRUCC.genomics.Assembly.NCBI.CDD
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.DEG
+Imports SMRUCC.genomics.Data.DEG.OGEE
+Imports SMRUCC.genomics.Data.DEG.OGEE.Models
 Imports SMRUCC.genomics.Data.DEG.Web
 Imports SMRUCC.genomics.Data.Xfam
 Imports SMRUCC.genomics.Interops
@@ -187,6 +189,30 @@ Public Module CLI
         End Using
 
         Return 0
+    End Function
+
+    <ExportAPI("/dump.ogee")>
+    <Usage("/dump.ogee /in <data.directory> [/vfd <setB.fasta> /save <directory>]")>
+    Public Function DumpOGEE(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim save$ = args("/save") Or $"{[in].TrimDIR}/ogee/"
+        Dim vfGenomes = FastaFile.Read(args("/vfd")) _
+            .Select(Function(fa) FastaHeader.ParseHeader(fa)) _
+            .BuildVFDIndex
+        Dim dataset = OGEE _
+            .LoadGenes($"{in$}/genes.txt") _
+            .Join(OGEE.LoadDataSet($"{in$}/datasets.txt"),
+                  OGEE.LoadGeneSet($"{in$}/gene_essentiality.txt", False)
+           )
+
+        ' 然后建立表格
+        Using ntTable As New WriteStream(Of SeqRef)($"{save}/nt.csv"),
+              prTable As New WriteStream(Of SeqRef)($"{save}/prot.csv")
+
+            For Each gene As geneSetInfo In dataset
+
+            Next
+        End Using
     End Function
 
     '    <Command("analysis", info:="",
