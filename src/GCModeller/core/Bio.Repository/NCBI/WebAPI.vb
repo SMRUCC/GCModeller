@@ -100,7 +100,9 @@ Public Module DownloaderWebAPI
                 If gb.FileExists Then
                     Return
                 Else
-                    gb = QueryHandler.Entry.DownloadGBK(EXPORT, id)
+                    Call New QueryHandler.Entry With {
+                        .AccessionId = id
+                    }.Fetch(gb, True, True)
                 End If
 
                 If gb.FileExists Then
