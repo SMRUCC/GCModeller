@@ -92,6 +92,16 @@ Public Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/fetch.geptop")>
+    <Usage("/fetch.geptop [/save <directory>]")>
+    Public Function FetchGeptop(args As CommandLine) As Integer
+        Dim save$ = args("/save") Or "./geptop/"
+
+        Call SMRUCC.genomics.Data.Geptop.FetchData(save)
+
+        Return 0
+    End Function
+
     '    <Command("analysis", info:="",
     '        usage:="analysis -i <input_protein_fasta_file> -d <database_list> -o <output_result> [-e <e-value>]",
     '        example:="")>
