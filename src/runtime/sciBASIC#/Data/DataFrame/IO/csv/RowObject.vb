@@ -382,8 +382,8 @@ Namespace IO
             Return New RowObject(row)
         End Operator
 
-        Public Shared Function TryParse(Line As String) As RowObject
-            Return CType(Line, RowObject)
+        Public Shared Function TryParse(line As String, Optional tsv As Boolean = False) As RowObject
+            Return New RowObject(line, tsv)
         End Function
 
         Public Shared Widening Operator CType(tokens As String()) As RowObject

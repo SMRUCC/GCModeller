@@ -91,8 +91,8 @@ Namespace IO.Linq
         Public ReadOnly Property SchemaOridinal As Dictionary(Of String, Integer) Implements ISchema.SchemaOridinal
         Public ReadOnly Property Headers As IReadOnlyCollection(Of String)
 
-        Sub New(fileName$, Optional encoding As Encoding = Nothing)
-            Call Me.New(RowObject.TryParse(fileName.ReadFirstLine(encoding)))
+        Sub New(fileName$, Optional encoding As Encoding = Nothing, Optional tsv As Boolean = False)
+            Call Me.New(RowObject.TryParse(fileName.ReadFirstLine(encoding), tsv))
         End Sub
 
         Sub New(firstLineHeaders As RowObject)
@@ -123,7 +123,7 @@ Namespace IO.Linq
         ''' <returns></returns>
         <Extension>
         Public Function OpenHandle(fileName$, Optional encoding As Encoding = Nothing, Optional tsv As Boolean = False) As (schema As SchemaReader, table As IEnumerable(Of RowObject))
-            Dim schema As New SchemaReader(fileName, encoding)
+            Dim schema As New SchemaReader(fileName, encoding, tsv)
             Dim source As IEnumerable(Of RowObject) = fileName _
                 .IterateAllLines _
                 .Skip(1) _

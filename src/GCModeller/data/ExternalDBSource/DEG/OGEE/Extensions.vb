@@ -50,7 +50,14 @@ Namespace DEG.OGEE
                                End If
                            End If
                        End Function) _
-                .ToDictionary(Function(g) g.locus)
+                .GroupBy(Function(g) g.locus) _
+                .ToDictionary(Function(g) g.Key, Function(g)
+                                                     If g.Count > 1 Then
+                                                         Call g.Key.Warning
+                                                     End If
+
+                                                     Return g.First
+                                                 End Function)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
