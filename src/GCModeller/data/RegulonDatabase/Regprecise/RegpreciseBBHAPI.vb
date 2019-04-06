@@ -220,7 +220,7 @@ Namespace Regprecise
                               Optional Myva_COG As IEnumerable(Of MyvaCOG) = Nothing,
                               Optional PfamStrings As PfamString() = Nothing) As RegpreciseMPBBH()
 
-            Dim RegpreciseRegulators As Regulator() = Regprecise.Get_Regulators(Types.TF)
+            Dim RegpreciseRegulators As Regulator() = Regprecise.FilteRegulators(Types.TF)
             Dim MyvaCogDict As Dictionary(Of String, MyvaCOG) = If(Myva_COG Is Nothing, New Dictionary(Of MyvaCOG), Myva_COG.ToDictionary)
             Dim PfamStringDict As Dictionary(Of String, PfamString) =
                 If(PfamStrings Is Nothing, New Dictionary(Of PfamString), PfamStrings.ToDictionary)
