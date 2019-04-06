@@ -50,7 +50,6 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
-Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptides
 
 Namespace DeltaSimilarity1998.CAI
 
