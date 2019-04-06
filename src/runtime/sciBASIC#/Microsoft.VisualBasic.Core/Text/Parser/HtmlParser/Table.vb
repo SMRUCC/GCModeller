@@ -106,7 +106,12 @@ Namespace Text.Parser.HtmlParser
             Dim list = html.Matches(metaPattern, RegexICSng).ToArray
             Dim attrs As NamedValue(Of String)() = list _
                 .Select(Function(meta) meta.TagAttributes) _
-                .IteratesALL _
+                .Select(Function(meta)
+                            Dim name = meta.FirstOrDefault(Function(a) a.Name.TextEquals("name"))
+                            Dim content = meta.FirstOrDefault(Function(a) a.Name.TextEquals("content"))
+
+                            Return New NamedValue(Of String)(name, content)
+                        End Function) _
                 .ToArray
             Dim table = attrs.ToDictionary(Function(a) a.Name, Function(a) a.Value)
 

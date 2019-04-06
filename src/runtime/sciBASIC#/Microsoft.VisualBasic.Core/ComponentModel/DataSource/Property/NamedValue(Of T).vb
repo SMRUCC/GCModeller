@@ -199,5 +199,10 @@ Namespace ComponentModel.DataSourceModel
         Public Shared Operator <>(tuple As NamedValue(Of T), compares As T) As Boolean
             Return Not tuple = compares
         End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Narrowing Operator CType(value As NamedValue(Of T)) As T
+            Return value.Value
+        End Operator
     End Structure
 End Namespace
