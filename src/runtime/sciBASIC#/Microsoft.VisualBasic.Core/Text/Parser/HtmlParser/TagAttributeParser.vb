@@ -67,6 +67,12 @@ Namespace Text.Parser.HtmlParser
             Return tag.GetAttrValue("class")
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function classList(tag As String) As String()
+            Return tag.GetAttrValue("class").StringSplit("\s+")
+        End Function
+
 #Region "Parsing image source url from the img html tag."
 
         Public Const imgHtmlTagPattern As String = "<img.+?src=.+?>"
