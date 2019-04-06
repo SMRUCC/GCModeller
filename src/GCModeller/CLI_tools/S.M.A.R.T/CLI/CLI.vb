@@ -92,18 +92,23 @@ Public Module CLI
         Dim save$ = args("/save") Or "./essentialgenes/"
 
         ' 下载数据
-        Call WebParser.ParserWorkflow(save)
+        ' Call WebParser.ParserWorkflow(save)
 
         ' 然后建立表格
         Using ntTable As New WriteStream(Of SeqRef)($"{save}/nt.xls", tsv:=True),
               prTable As New WriteStream(Of SeqRef)($"{save}/prot.xls", tsv:=True)
 
-            For Each genomeXml As String In save.EnumerateFiles
+            For Each genomeXml As String In save.EnumerateFiles("*.Xml")
                 Dim genome As Genome = genomeXml.LoadXml(Of Genome)
 
                 For Each gene As EssentialGene In genome.AsEnumerable
                     Dim ref As New SeqRef With {
-                        .fullName = gene.FunctionDescrib
+                        .fullName = gene.FunctionDescrib,
+                        .geneName = gene.Name,
+                        .ID = gene.ID,
+                        .Organism = genome.Organism,
+                        .Reference = gene.Reference,
+                        .Xref = gene.UniProt
                     }
 
                     ref.SequenceData = gene.Nt
