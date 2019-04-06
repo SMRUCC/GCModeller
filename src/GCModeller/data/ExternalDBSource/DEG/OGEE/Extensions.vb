@@ -33,13 +33,21 @@ Namespace DEG.OGEE
             Return file.OpenHandle(, tsv:=True).AsLinq(Of genes)
         End Function
 
-        Public Function LoadGeneSet(file As String, Optional all As Boolean = False) As Dictionary(Of String, gene_essentiality)
+        Public Function LoadGeneSet(file As String, Optional all As Boolean = False, Optional kingdom$ = "bacteria") As Dictionary(Of String, gene_essentiality)
             Return file.LoadTsv(Of gene_essentiality) _
                 .Where(Function(gene)
                            If all Then
-                               Return True
+                               If kingdom <> "*" Then
+                                   Return gene.kingdom = kingdom
+                               Else
+                                   Return True
+                               End If
                            Else
-                               Return gene.essential = "E"
+                               If kingdom <> "*" Then
+                                   Return gene.kingdom = kingdom
+                               Else
+                                   Return gene.essential = "E"
+                               End If
                            End If
                        End Function) _
                 .ToDictionary(Function(g) g.locus)
