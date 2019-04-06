@@ -16,10 +16,11 @@ Namespace DEG.Web
             Dim web As New WebQuery(Of Genome)(Function(genome) sprintf(listAPI, genome.ID, genome.ID, 1), Function(g) g.ID, Function(s, type) s, cache)
 
             For Each genome As Genome In genomes
-                Dim html$ = web.Query(Of String)({genome}, "*.html").First
+                Dim html$ = web.Query(Of String)(genome, "*.html")
                 Dim saveXml$ = $"{save}/{genome.Organism.NormalizePathString}.Xml"
+                Dim internalCache$ = $"{cache}/{genome.Organism.NormalizePathString}"
 
-                genome.EssentialGenes = genome.ParseDEGList(html, $"{cache}/{genome.Organism.NormalizePathString}").ToArray
+                genome.EssentialGenes = genome.ParseDEGList(html, internalCache).ToArray
                 genome.GetXml.SaveTo(saveXml)
             Next
         End Sub
@@ -100,7 +101,7 @@ Namespace DEG.Web
                             End Function
 
             For Each gene As EssentialGene In parseList()
-                Dim details As String = web.Query(Of String)({gene}, "*.html").First
+                Dim details As String = web.Query(Of String)(gene, "*.html")
 
                 Yield gene.fillDetails(details)
             Next
@@ -110,7 +111,12 @@ Namespace DEG.Web
         Private Function fillDetails(gene As EssentialGene, html$) As EssentialGene
             Dim table = html.GetTablesHTML.First
             Dim rows = table.GetRowsHTML
-            Dim details = rows.Skip(1).Select(Function(r) r.GetColumnsHTML).ToDictionary(Function(c) c.First.Replace(" ", "_"), Function(c) c.Last)
+            Dim details = rows.Skip(1) _
+                .Select(Function(r) r.GetColumnsHTML) _
+                .ToDictionary(Function(c)
+                                  Return c.First.Replace(" ", "_")
+                              End Function,
+                              Function(c) c.Last)
 
             With details
                 gene.geneRef = !Gene_Ref

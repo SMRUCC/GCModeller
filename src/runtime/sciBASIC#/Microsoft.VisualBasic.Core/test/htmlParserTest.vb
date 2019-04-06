@@ -8,6 +8,7 @@ Module htmlParserTest
         Dim list = testhtml.HtmlList
         Dim disable = list.Where(Function(li) li.classList.IndexOf("disabled") > -1).FirstOrDefault
 
+
         Pause()
     End Sub
 End Module
