@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB
 Imports SMRUCC.genomics.Assembly.NCBI.CDD
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.DEG
 Imports SMRUCC.genomics.Data.DEG.Web
 Imports SMRUCC.genomics.Data.Xfam
@@ -95,14 +96,8 @@ Public Module CLI
         Dim save$ = args("/save") Or "./essentialgenes/"
         Dim vfGenomes = FastaFile.Read(args("/vfd")) _
             .Select(Function(fa) FastaHeader.ParseHeader(fa)) _
-            .GroupBy(Function(a) a.organism) _
-            .ToDictionary(Function(org) org.Key,
-                          Function(genes)
-                              Return genes _
-                                  .Select(Function(g) g.geneName) _
-                                  .Distinct _
-                                  .Indexing
-                          End Function)
+            .BuildVFDIndex
+
         ' 下载数据
         ' Call WebParser.ParserWorkflow(save)
 
@@ -146,11 +141,50 @@ Public Module CLI
     End Function
 
     <ExportAPI("/fetch.geptop")>
-    <Usage("/fetch.geptop [/save <directory>]")>
+    <Usage("/fetch.geptop [/vfd <setB.fasta> /save <directory>]")>
     Public Function FetchGeptop(args As CommandLine) As Integer
         Dim save$ = args("/save") Or "./geptop/"
+        Dim vfGenomes = FastaFile.Read(args("/vfd")) _
+            .Select(Function(fa) FastaHeader.ParseHeader(fa)) _
+            .BuildVFDIndex
 
         Call SMRUCC.genomics.Data.Geptop.FetchData(save)
+
+        ' 然后建立表格
+        Using ntTable As New WriteStream(Of SeqRef)($"{save}/nt.csv"),
+              prTable As New WriteStream(Of SeqRef)($"{save}/prot.csv")
+
+            For Each genomeXml As String In save.EnumerateFiles("*.Xml")
+                Dim genome As Geptop = genomeXml.LoadXml(Of Geptop)
+                Dim vfGenome As Index(Of String)
+
+                If vfGenomes.ContainsKey(genome.genome) Then
+                    vfGenome = vfGenomes(genome.genome)
+                Else
+                    vfGenome = New Index(Of String)
+                End If
+
+                For Each gene As Geptop.Gene In genome.AsEnumerable
+                    Dim ref As New SeqRef With {
+                        .fullName = "",
+                        .geneName = "",
+                        .ID = gene.protein,
+                        .Organism = genome.genome,
+                        .Reference = "",
+                        .Xref = gene.protein
+                    }
+
+                    'If gene.Name Like vfGenome Then
+                    '    ref.isVirulence = True
+                    'End If
+
+                    ' ref.SequenceData = gene.Nt
+                    ntTable.Flush(ref)
+                    ' ref.SequenceData = gene.Aa
+                    prTable.Flush(ref)
+                Next
+            Next
+        End Using
 
         Return 0
     End Function

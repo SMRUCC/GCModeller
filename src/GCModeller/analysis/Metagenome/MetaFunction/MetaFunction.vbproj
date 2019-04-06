@@ -147,6 +147,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="VFDB\FastaHeader.vb" />
+    <Compile Include="VFDB\Extensions.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
