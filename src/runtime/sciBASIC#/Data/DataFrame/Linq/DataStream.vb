@@ -152,10 +152,19 @@ Namespace IO.Linq
                    End Function
         End Function
 
+        ''' <summary>
+        ''' Using linq stream method for load a very large csv/tsv file.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="handle"></param>
+        ''' <param name="parallel"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function AsLinq(Of T As Class)(handle As (schema As SchemaReader, table As IEnumerable(Of RowObject)), Optional parallel As Boolean = False) As IEnumerable(Of T)
-            Dim castObject = handle.schema.CastObject(Of T)
-            Return handle.table.Populate(parallel,).Select(castObject)
+            Dim castObject As Func(Of RowObject, T) = handle.schema.CastObject(Of T)
+            Dim rows As IEnumerable(Of RowObject) = handle.table.Populate(parallel,)
+
+            Return rows.Select(castObject)
         End Function
 
         <Extension>
