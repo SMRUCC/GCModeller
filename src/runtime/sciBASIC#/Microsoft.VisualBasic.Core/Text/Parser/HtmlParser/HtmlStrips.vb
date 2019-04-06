@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::481893c7090305a777c67dc50c42bb79, Microsoft.VisualBasic.Core\Text\Parser\HtmlParser\HtmlStrips.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module HtmlStrips
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetHtmlComments, GetImageLinks, GetInput, GetInputGroup, GetLinks
-    '                   GetSelectInputGroup, GetSelectOptions, GetSelectValue, GetValue, href
-    '                   HtmlLines, HTMLTitle, img, RemovesCSSstyles, RemovesFooter
-    '                   RemovesHtmlComments, RemovesHtmlHead, RemovesHtmlStrong, RemovesImageLinks, RemovesJavaScript
-    '                   RemoveTags, (+2 Overloads) src, StripHTMLTags, stripTag, TagAttributes
-    '                   TrimResponseTail
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module HtmlStrips
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: GetHtmlComments, GetImageLinks, GetInput, GetInputGroup, GetLinks
+'                   GetSelectInputGroup, GetSelectOptions, GetSelectValue, GetValue, href
+'                   HtmlLines, HTMLTitle, img, RemovesCSSstyles, RemovesFooter
+'                   RemovesHtmlComments, RemovesHtmlHead, RemovesHtmlStrong, RemovesImageLinks, RemovesJavaScript
+'                   RemoveTags, (+2 Overloads) src, StripHTMLTags, stripTag, TagAttributes
+'                   TrimResponseTail
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -157,8 +157,6 @@ Namespace Text.Parser.HtmlParser
             Return s
         End Function
 
-        Const HtmlTags$ = "</?.+?(\s+.+?="".+?"")*>"
-
         ''' <summary>
         ''' 
         ''' </summary>
@@ -177,6 +175,11 @@ Namespace Text.Parser.HtmlParser
                             End If
                         End Function) _
                 .ToArray
+        End Function
+
+        <Extension>
+        Public Function HtmlList(html As String) As String()
+            Return html.Matches(Regexp("li"), RegexICSng).ToArray
         End Function
 
         ''' <summary>
@@ -198,8 +201,6 @@ Namespace Text.Parser.HtmlParser
                 Return value
             End If
         End Function
-
-        ReadOnly vbCrLfLen% = Len(vbCrLf)
 
         ''' <summary>
         ''' 获取两个尖括号之间的内容
@@ -300,14 +301,7 @@ Namespace Text.Parser.HtmlParser
             End If
         End Function
 
-        ' <area shape=rect	coords=40,45,168,70	href="/dbget-bin/www_bget?hsa05034"	title="hsa05034: Alcoholism" onmouseover="popupTimer(&quot;hsa05034&quot;, &quot;hsa05034: Alcoholism&quot;, &quot;#ffffff&quot;)" onmouseout="hideMapTn()" />
-        ''' <summary>
-        ''' The regexp pattern for the attributes in a html tag.
-        ''' </summary>
-        Const attributeParse$ = "(\S+?\s*[=]\s*"".+?"")|(\S+?\s*[=]\s*\S+)"
-
-        <Extension>
-        Private Function stripTag(ByRef tag$) As String
+        <Extension> Private Function stripTag(ByRef tag$) As String
             If tag Is Nothing Then
                 tag = ""
             Else
@@ -317,20 +311,6 @@ Namespace Text.Parser.HtmlParser
                     .Trim("/"c)
             End If
             Return tag
-        End Function
-
-        ''' <summary>
-        ''' 获取一个html标签之中的所有的attribute属性数据
-        ''' </summary>
-        ''' <param name="tag$"></param>
-        ''' <returns></returns>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension>
-        Public Function TagAttributes(tag As String) As IEnumerable(Of NamedValue(Of String))
-            Return Regex _
-                .Matches(tag.GetBetween("<", ">"), attributeParse, RegexICSng) _
-                .EachValue _
-                .Select(Function(t) t.GetTagValue("=", trim:=""""""))
         End Function
 
         ''' <summary>

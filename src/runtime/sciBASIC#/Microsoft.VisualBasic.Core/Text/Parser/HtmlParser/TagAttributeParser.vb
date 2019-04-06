@@ -8,6 +8,26 @@ Namespace Text.Parser.HtmlParser
 
     Public Module TagAttributeParser
 
+        ' <area shape=rect	coords=40,45,168,70	href="/dbget-bin/www_bget?hsa05034"	title="hsa05034: Alcoholism" onmouseover="popupTimer(&quot;hsa05034&quot;, &quot;hsa05034: Alcoholism&quot;, &quot;#ffffff&quot;)" onmouseout="hideMapTn()" />
+        ''' <summary>
+        ''' The regexp pattern for the attributes in a html tag.
+        ''' </summary>
+        Const attributeParse$ = "(\S+?\s*[=]\s*"".+?"")|(\S+?\s*[=]\s*\S+)"
+
+        ''' <summary>
+        ''' 获取一个html标签之中的所有的attribute属性数据
+        ''' </summary>
+        ''' <param name="tag$"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function TagAttributes(tag As String) As IEnumerable(Of NamedValue(Of String))
+            Return r _
+                .Matches(tag.GetBetween("<", ">"), attributeParse, RegexICSng) _
+                .EachValue _
+                .Select(Function(t) t.GetTagValue("=", trim:=""""""))
+        End Function
+
         Const attributePattern$ = "%s\s*=\s*([""].+?[""])|(['].+?['])"
 
         <Extension>
