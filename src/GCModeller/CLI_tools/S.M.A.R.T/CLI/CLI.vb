@@ -97,7 +97,7 @@ Public Module CLI
             .GroupBy(Function(a) a.organism) _
             .ToDictionary(Function(org) org.Key,
                           Function(genes)
-                              Return genes.ToArray
+                              Return genes.ToDictionary(Function(g) g.geneName)
                           End Function)
         ' 下载数据
         ' Call WebParser.ParserWorkflow(save)
@@ -108,6 +108,13 @@ Public Module CLI
 
             For Each genomeXml As String In save.EnumerateFiles("*.Xml")
                 Dim genome As Genome = genomeXml.LoadXml(Of Genome)
+                Dim vfGenome As Dictionary(Of String, FastaHeader)
+
+                If vfGenomes.ContainsKey(genome.Organism) Then
+                    vfGenome = vfGenomes(genome.Organism)
+                Else
+                    vfGenome = New Dictionary(Of String, FastaHeader)
+                End If
 
                 For Each gene As EssentialGene In genome.AsEnumerable
                     Dim ref As New SeqRef With {
@@ -118,6 +125,10 @@ Public Module CLI
                         .Reference = gene.Reference,
                         .Xref = gene.UniProt
                     }
+
+                    If vfGenome.ContainsKey(gene.Name) Then
+                        ref.isVirulence = True
+                    End If
 
                     ref.SequenceData = gene.Nt
                     ntTable.Flush(ref)

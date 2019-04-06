@@ -38,6 +38,10 @@ Namespace DEG.Web
         <XmlElement>
         Public Property EssentialGenes As EssentialGene()
 
+        Public Overrides Function ToString() As String
+            Return Organism
+        End Function
+
         Public Iterator Function GenericEnumerator() As IEnumerator(Of EssentialGene) Implements Enumeration(Of EssentialGene).GenericEnumerator
             For Each gene As EssentialGene In EssentialGenes
                 Yield gene
