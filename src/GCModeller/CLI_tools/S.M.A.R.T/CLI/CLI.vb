@@ -141,7 +141,7 @@ Public Module CLI
 
                     If gene.Nt <> "Not available now." Then
                         nt.Add(New FastaSeq With {.SequenceData = gene.Nt, .Headers = {$"{gene.ID} {gene.FunctionDescrib}"}})
-                        nt.Add(New FastaSeq With {.SequenceData = gene.Aa, .Headers = {$"{gene.ID} {gene.FunctionDescrib}"}})
+                        pro.Add(New FastaSeq With {.SequenceData = gene.Aa, .Headers = {$"{gene.ID} {gene.FunctionDescrib}"}})
                     End If
                 Next
             Next
