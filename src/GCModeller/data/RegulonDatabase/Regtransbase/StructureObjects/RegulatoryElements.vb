@@ -282,9 +282,10 @@ Namespace Regtransbase.StructureObjects
             If regulator.GeneGuid Is Nothing OrElse regulator.GeneGuid = -1 Then
                 Return Nothing
             Else
-                Dim Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = New SequenceModel.FASTA.FastaSeq
+                Dim Fsa As New FASTA.FastaSeq
                 Dim Gene = (From g In Genes Where regulator.GeneGuid = g.Guid Select g).First
-                If SMRUCC.genomics.SequenceModel.FASTA.FastaSeq.IsProteinSource(Gene) Then
+
+                If TypeExtensions.IsProteinSource(Gene) Then
                     Fsa.SequenceData = Gene.signature
                     Fsa.Headers = New String() {"regulator", regulator.Guid, regulator.Family, String.Format("TypeGuid:={0}", regulator.RegulatorTypeGuid), regulator.Name, regulator.Consensus, "*"}
                 Else
@@ -305,7 +306,7 @@ Namespace Regtransbase.StructureObjects
         Public Function TryAssignSequence(Genes As Regtransbase.StructureObjects.Gene()) As Regulator
             If Not (Me.GeneGuid Is Nothing OrElse Me.GeneGuid = -1) Then
                 Dim Gene = (From g In Genes Where Me.GeneGuid = g.Guid Select g).First
-                If SMRUCC.genomics.SequenceModel.FASTA.FastaSeq.IsProteinSource(Gene) Then
+                If TypeExtensions.IsProteinSource(Gene) Then
                     _SequenceData = Gene.signature
                 Else
                     _SequenceData = Gene.signature.ToUpper
