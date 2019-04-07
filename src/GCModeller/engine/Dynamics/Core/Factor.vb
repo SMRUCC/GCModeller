@@ -2,6 +2,9 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 
+''' <summary>
+''' 针对描述某一个生物学功能的参数变量
+''' </summary>
 Public Class Variable
 
     ''' <summary>
@@ -10,7 +13,8 @@ Public Class Variable
     ''' <returns></returns>
     Public ReadOnly Property Mass As Factor
     ''' <summary>
-    ''' 在反应过程之中的变异系数，每完成一个单位的反应过程，当前的<see cref="Mass"/>将会丢失或者增加这个系数相对应的数量的含量
+    ''' 在反应过程之中的变异系数，每完成一个单位的反应过程，当前的<see cref="Mass"/>
+    ''' 将会丢失或者增加这个系数相对应的数量的含量
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property Coefficient As Double

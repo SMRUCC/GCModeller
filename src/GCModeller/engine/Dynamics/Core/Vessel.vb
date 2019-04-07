@@ -69,7 +69,7 @@ Public Class Vessel
         Dim flow As Directions = reaction.Direction
 
         Select Case flow
-            Case Directions.LeftToRight
+            Case Directions.forward
                 ' 消耗左边，产生右边
                 regulate = reaction.Forward.Coefficient
 
@@ -83,7 +83,7 @@ Public Class Vessel
                     ' 则进行物质的转义的计算
                     Call reaction.Transition(regulate, flow)
                 End If
-            Case Directions.RightToLeft
+            Case Directions.reverse
                 regulate = reaction.Reverse.Coefficient
 
                 If regulate > 0 Then

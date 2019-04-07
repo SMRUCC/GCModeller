@@ -23,19 +23,31 @@ Public Class Channel : Implements INamedValue
     Public Overloads ReadOnly Property Direction As Directions
         Get
             If Forward > Reverse Then
-                Return Directions.LeftToRight
+                Return Directions.forward
             ElseIf Reverse > Forward Then
-                Return Directions.RightToLeft
+                Return Directions.reverse
             Else
-                Return Directions.Stop
+                Return Directions.stop
             End If
         End Get
     End Property
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="shares">事件并行化模拟因子</param>
+    ''' <param name="regulation"></param>
+    ''' <returns></returns>
     Public Function CoverLeft(shares As Dictionary(Of String, Double), regulation As Double) As Double
         Return minimalUnit(shares, left, regulation, bounds.Max)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="shares">事件并行化模拟因子</param>
+    ''' <param name="regulation"></param>
+    ''' <returns></returns>
     Public Function CoverRight(shares As Dictionary(Of String, Double), regulation As Double) As Double
         Return minimalUnit(shares, right, regulation, bounds.Min)
     End Function
@@ -50,20 +62,20 @@ Public Class Channel : Implements INamedValue
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="regulation"></param>
+    ''' <param name="reactUnit"></param>
     ''' <param name="dir"></param>
     ''' <remarks>
     ''' 模板物质的容量是不会发生变化的
     ''' </remarks>
-    Public Sub Transition(regulation As Double, dir As Directions)
-        regulation = regulation * dir
+    Public Sub Transition(reactUnit As Double, dir As Directions)
+        reactUnit = reactUnit * dir
 
         ' 一般左边为模板
         For Each mass In left.Where(Function(m) Not m.IsTemplate)
-            mass.Mass.Value -= regulation * mass.Coefficient
+            mass.Mass.Value -= reactUnit * mass.Coefficient
         Next
         For Each mass In right
-            mass.Mass.Value += regulation * mass.Coefficient
+            mass.Mass.Value += reactUnit * mass.Coefficient
         Next
     End Sub
 

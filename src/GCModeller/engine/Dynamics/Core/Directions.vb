@@ -1,9 +1,11 @@
-﻿
-Public Enum Directions
+﻿''' <summary>
+''' 反应过程的方向
+''' </summary>
+Public Enum Directions As Integer
     ''' <summary>
     ''' 反应过程将不会发生
     ''' </summary>
-    [Stop] = 0
-    LeftToRight = 1
-    RightToLeft = -1
+    [stop] = 0
+    forward = 1
+    reverse = -1
 End Enum
