@@ -92,7 +92,7 @@
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="Core\Channel.vb" />
     <Compile Include="Core\Directions.vb" />
-    <Compile Include="Core\Regulation.vb" />
+    <Compile Include="Core\Controls.vb" />
     <Compile Include="Core\Factor.vb" />
     <Compile Include="Core\Vessel.vb" />
     <Compile Include="Loader.vb" />
