@@ -310,7 +310,7 @@ Partial Module CLI
         Dim hitsHash As Dictionary(Of String, String()) = BBHIndex.BuildHitsTable(hits, args.GetBoolean("/hitshash"))
         Dim RegPrecise As TranscriptionFactors =
             GCModeller.FileSystem.RegPrecise.RegPreciseRegulations.LoadXml(Of TranscriptionFactors)
-        Dim regHash As Dictionary(Of String, String()) = RegPrecise.BuildRegulatesHash
+        Dim regHash As Dictionary(Of String, String()) = RegPrecise.BuildRegulatesTable
 
         Using writeFootprints As New WriteStream(Of RegulatesFootprints)(out)
             Call New DataStream(motifIn) _

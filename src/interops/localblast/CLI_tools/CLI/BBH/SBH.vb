@@ -59,6 +59,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
@@ -199,7 +200,7 @@ Partial Module CLI
         If inFile.DirectoryExists Then
             out = args("/out") Or $"{inFile.TrimDIR}.sbh.csv"
         Else
-            out= args.GetValue("/out", inFile.TrimSuffix & ".sbh.Csv")
+            out = args.GetValue("/out", inFile.TrimSuffix & ".sbh.Csv")
         End If
 
         Dim idetities As Double = args.GetValue("/identities", 0.15)
@@ -382,5 +383,47 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & "Overviews.csv")
 
         Return overviews.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 通过这个函数将两个基因组比对的结果之中，共同的部分，query和subject自身特有的部分的基因放在一起
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/align.union")>
+    <Usage("/align.union /query <input.fasta> /ref <input.fasta> /besthit <besthit.csv> [/out <union_hits.csv>]")>
+    Public Function AlignUnion(args As CommandLine) As Integer
+        Dim query = FastaFile.Read(args <= "/query").Select(Function(fa) Strings.Trim(fa.Title).Split.First).ToArray
+        Dim subject = FastaFile.Read(args <= "/ref").Select(Function(fa) Strings.Trim(fa.Title).Split.First).ToArray
+        Dim in$ = args <= "/besthit"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}_union.csv"
+        Dim queryName = (args <= "/query").BaseName
+        Dim refName = (args <= "/ref").BaseName
+        Dim besthit As List(Of BestHit) = [in].LoadCsv(Of BestHit)
+        Dim unionQuery = besthit.Select(Function(q) q.QueryName).Distinct.Indexing
+        Dim unionSubject = besthit.Select(Function(q) q.HitName).Distinct.Indexing
+
+        ' 替换掉所有的hit not found
+        For Each hit In besthit.Where(Function(h) h.identities <= 0)
+            hit.HitName = $"specific In {queryName}"
+        Next
+
+        besthit += query.Where(Function(q) Not q Like unionQuery) _
+                        .Select(Function(q)
+                                    Return New BestHit With {
+                                        .QueryName = q,
+                                        .HitName = $"specific In {queryName}"
+                                    }
+                                End Function)
+        besthit += subject.Where(Function(r) Not r Like unionSubject) _
+                          .Select(Function(r)
+                                      Return New BestHit With {
+                                          .QueryName = r,
+                                          .HitName = $"specific In {refName}"
+                                      }
+                                  End Function)
+
+        Return besthit.SaveTo(out).CLICode
     End Function
 End Module

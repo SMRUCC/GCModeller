@@ -220,7 +220,7 @@ Namespace Regprecise
                               Optional Myva_COG As IEnumerable(Of MyvaCOG) = Nothing,
                               Optional PfamStrings As PfamString() = Nothing) As RegpreciseMPBBH()
 
-            Dim RegpreciseRegulators As Regulator() = Regprecise.Get_Regulators(Types.TF)
+            Dim RegpreciseRegulators As Regulator() = Regprecise.FilteRegulators(Types.TF)
             Dim MyvaCogDict As Dictionary(Of String, MyvaCOG) = If(Myva_COG Is Nothing, New Dictionary(Of MyvaCOG), Myva_COG.ToDictionary)
             Dim PfamStringDict As Dictionary(Of String, PfamString) =
                 If(PfamStrings Is Nothing, New Dictionary(Of PfamString), PfamStrings.ToDictionary)
@@ -230,7 +230,7 @@ Namespace Regprecise
                                                           Select item
                                              Return LQuery.FirstOrDefault
                                          End Function
-            Dim RegulatorFasta = If(RegpreciseRegulators_Fasta.IsNullOrEmpty, Nothing, FastaReaders.Regulator.LoadDocument(RegpreciseRegulators_Fasta).ToDictionary(True))
+            Dim RegulatorFasta = If(RegpreciseRegulators_Fasta.IsNullOrEmpty, Nothing, FastaReaders.Regulator.LoadDocument(RegpreciseRegulators_Fasta).ToDictionary(distinct:=True))
             Dim GetFastaRecord = If(RegpreciseRegulators_Fasta.IsNullOrEmpty, AddressOf FastaReaders.Regulator.NullDictionary, Function(UniqueId As String) RegulatorFasta(UniqueId))
             Dim ChunkBuffer = (From MatchedItem As RegpreciseMPBBH
                                In ResultRegpreciseBidirectionalBh.AsParallel
