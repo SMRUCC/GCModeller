@@ -263,10 +263,13 @@ AAGCGAACAAATGTTCTATA"
         ''' Convert the <see cref="SequenceData"/> to upper case and then return the new created <see cref="FastaSeq"/>.
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToUpper() As FastaSeq
             Return New FastaSeq(Headers, SequenceData.ToUpper)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToLower() As FastaSeq
             Return New FastaSeq(Headers, SequenceData.ToLower)
         End Function
@@ -301,7 +304,7 @@ AAGCGAACAAATGTTCTATA"
 
                     Dim sb As New StringBuilder(nt.SequenceData)
 
-                    For Each protCh As Char In ISequenceModel.AA_CHARS_ALL
+                    For Each protCh As Char In TypeExtensions.AA_CHARS_ALL
                         Call sb.Replace(protCh, "-")
                     Next
 

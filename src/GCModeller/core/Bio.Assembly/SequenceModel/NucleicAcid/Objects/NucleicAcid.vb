@@ -239,14 +239,14 @@ Namespace SequenceModel.NucleotideModels
         End Function
 
         ''' <summary>
-        ''' Removes the invalids characters in the nt sequence. Invalids source is comes from <see cref="ISequenceModel.AA_CHARS_ALL"/>
+        ''' Removes the invalids characters in the nt sequence. Invalids source is comes from <see cref="TypeExtensions.AA_CHARS_ALL"/>
         ''' </summary>
         ''' <param name="nt">Case insensitive.</param>
         ''' <returns></returns>
         Public Shared Function RemoveInvalids(nt As String) As String
             Dim seq As New StringBuilder(nt.ToUpper)
 
-            For Each c As Char In ISequenceModel.AA_CHARS_ALL
+            For Each c As Char In TypeExtensions.AA_CHARS_ALL
                 Call seq.Replace(c, "-"c)
             Next
 
