@@ -107,6 +107,9 @@ Public Module CLI
         Using ntTable As New WriteStream(Of SeqRef)($"{save}/nt.csv"),
               prTable As New WriteStream(Of SeqRef)($"{save}/prot.csv")
 
+            Dim nt As New FastaFile
+            Dim pro As New FastaFile
+
             For Each genomeXml As String In save.EnumerateFiles("*.Xml")
                 Dim genome As Genome = genomeXml.LoadXml(Of Genome)
                 Dim vfGenome As Index(Of String)
@@ -135,8 +138,16 @@ Public Module CLI
                     ntTable.Flush(ref)
                     ref.SequenceData = gene.Aa
                     prTable.Flush(ref)
+
+                    If gene.Nt <> "Not available now." Then
+                        nt.Add(New FastaSeq With {.SequenceData = gene.Nt, .Headers = {$"{gene.ID} {gene.FunctionDescrib}"}})
+                        nt.Add(New FastaSeq With {.SequenceData = gene.Aa, .Headers = {$"{gene.ID} {gene.FunctionDescrib}"}})
+                    End If
                 Next
             Next
+
+            Call nt.Save($"{save}/essentialgenes.nt.fasta")
+            Call pro.Save($"{save}/essentialgenes.aa.fasta")
         End Using
 
         Return 0
