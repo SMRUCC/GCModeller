@@ -58,7 +58,6 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Math.Interpolation
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNET.Extensions.VisualBasic

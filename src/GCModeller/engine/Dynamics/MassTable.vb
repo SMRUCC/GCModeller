@@ -1,9 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.TagData
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Public Class MassTable : Implements IRepository(Of String, Factor)
+    Implements IEnumerable(Of Factor)
 
     Dim massTable As New Dictionary(Of String, Factor)
 
@@ -70,5 +72,15 @@ Public Class MassTable : Implements IRepository(Of String, Factor)
     Public Function AddNew(entity As Factor) As String Implements IRepositoryWrite(Of String, Factor).AddNew
         massTable(entity.ID) = entity
         Return entity.ID
+    End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator(Of Factor) Implements IEnumerable(Of Factor).GetEnumerator
+        For Each mass As Factor In massTable.Values
+            Yield mass
+        Next
+    End Function
+
+    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Yield GetEnumerator()
     End Function
 End Class

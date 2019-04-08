@@ -1,45 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::bd3335b225ff273d89826f92c15e2f1d, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\DifferenceMeasurement.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module DifferenceMeasurement
-    ' 
-    '         Function: __bias, InternalBIAS, (+5 Overloads) Sigma, SimilarDescription
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module DifferenceMeasurement
+' 
+'         Function: __bias, InternalBIAS, (+5 Overloads) Sigma, SimilarDescription
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
@@ -85,17 +86,17 @@ Namespace DeltaSimilarity1998
  where the sum extends over all dinucleotides (abbreviated sigma-differences).")>
         Public Function Sigma(f As NucleotideModels.NucleicAcid, g As NucleotideModels.NucleicAcid) As Double
             Dim sum As Double
-            sum += InternalBIAS(f, g, DNA.dAMP, DNA.dAMP) + InternalBIAS(f, g, DNA.dAMP, DNA.dCMP) +
-               InternalBIAS(f, g, DNA.dAMP, DNA.dGMP) + InternalBIAS(f, g, DNA.dAMP, DNA.dTMP)
+            sum += BIAS(f, g, DNA.dAMP, DNA.dAMP) + BIAS(f, g, DNA.dAMP, DNA.dCMP) +
+               BIAS(f, g, DNA.dAMP, DNA.dGMP) + BIAS(f, g, DNA.dAMP, DNA.dTMP)
 
-            sum += InternalBIAS(f, g, DNA.dCMP, DNA.dAMP) + InternalBIAS(f, g, DNA.dCMP, DNA.dCMP) +
-               InternalBIAS(f, g, DNA.dCMP, DNA.dGMP) + InternalBIAS(f, g, DNA.dCMP, DNA.dTMP)
+            sum += BIAS(f, g, DNA.dCMP, DNA.dAMP) + BIAS(f, g, DNA.dCMP, DNA.dCMP) +
+               BIAS(f, g, DNA.dCMP, DNA.dGMP) + BIAS(f, g, DNA.dCMP, DNA.dTMP)
 
-            sum += InternalBIAS(f, g, DNA.dGMP, DNA.dAMP) + InternalBIAS(f, g, DNA.dGMP, DNA.dCMP) +
-               InternalBIAS(f, g, DNA.dGMP, DNA.dGMP) + InternalBIAS(f, g, DNA.dGMP, DNA.dTMP)
+            sum += BIAS(f, g, DNA.dGMP, DNA.dAMP) + BIAS(f, g, DNA.dGMP, DNA.dCMP) +
+               BIAS(f, g, DNA.dGMP, DNA.dGMP) + BIAS(f, g, DNA.dGMP, DNA.dTMP)
 
-            sum += InternalBIAS(f, g, DNA.dTMP, DNA.dAMP) + InternalBIAS(f, g, DNA.dTMP, DNA.dCMP) +
-               InternalBIAS(f, g, DNA.dTMP, DNA.dGMP) + InternalBIAS(f, g, DNA.dTMP, DNA.dTMP)
+            sum += BIAS(f, g, DNA.dTMP, DNA.dAMP) + BIAS(f, g, DNA.dTMP, DNA.dCMP) +
+               BIAS(f, g, DNA.dTMP, DNA.dGMP) + BIAS(f, g, DNA.dTMP, DNA.dTMP)
             sum = sum / 16
             Return sum
         End Function
@@ -110,7 +111,8 @@ Namespace DeltaSimilarity1998
             Return Sigma(New NucleotideModels.NucleicAcid(f), New NucleotideModels.NucleicAcid(g))
         End Function
 
-        Private Function InternalBIAS(f As NucleicAcid, g As NucleicAcid, X As DNA, Y As DNA) As Double
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function BIAS(f As NucleicAcid, g As NucleicAcid, X As DNA, Y As DNA) As Double
             Return Math.Abs(GenomeSignatures.DinucleotideBIAS(f, X, Y) - GenomeSignatures.DinucleotideBIAS(g, X, Y))
         End Function
 
@@ -154,17 +156,17 @@ Namespace DeltaSimilarity1998
             Dim sum As Double
             Dim cache As New NucleicAcid(g)
 
-            sum += __bias(f, Cache, DNA.dAMP, DNA.dAMP) + __bias(f, Cache, DNA.dAMP, DNA.dCMP) +
-               __bias(f, Cache, DNA.dAMP, DNA.dGMP) + __bias(f, Cache, DNA.dAMP, DNA.dTMP)
+            sum += __bias(f, cache, DNA.dAMP, DNA.dAMP) + __bias(f, cache, DNA.dAMP, DNA.dCMP) +
+               __bias(f, cache, DNA.dAMP, DNA.dGMP) + __bias(f, cache, DNA.dAMP, DNA.dTMP)
 
-            sum += __bias(f, Cache, DNA.dCMP, DNA.dAMP) + __bias(f, Cache, DNA.dCMP, DNA.dCMP) +
-               __bias(f, Cache, DNA.dCMP, DNA.dGMP) + __bias(f, Cache, DNA.dCMP, DNA.dTMP)
+            sum += __bias(f, cache, DNA.dCMP, DNA.dAMP) + __bias(f, cache, DNA.dCMP, DNA.dCMP) +
+               __bias(f, cache, DNA.dCMP, DNA.dGMP) + __bias(f, cache, DNA.dCMP, DNA.dTMP)
 
-            sum += __bias(f, Cache, DNA.dGMP, DNA.dAMP) + __bias(f, Cache, DNA.dGMP, DNA.dCMP) +
-               __bias(f, Cache, DNA.dGMP, DNA.dGMP) + __bias(f, Cache, DNA.dGMP, DNA.dTMP)
+            sum += __bias(f, cache, DNA.dGMP, DNA.dAMP) + __bias(f, cache, DNA.dGMP, DNA.dCMP) +
+               __bias(f, cache, DNA.dGMP, DNA.dGMP) + __bias(f, cache, DNA.dGMP, DNA.dTMP)
 
-            sum += __bias(f, Cache, DNA.dTMP, DNA.dAMP) + __bias(f, Cache, DNA.dTMP, DNA.dCMP) +
-               __bias(f, Cache, DNA.dTMP, DNA.dGMP) + __bias(f, Cache, DNA.dTMP, DNA.dTMP)
+            sum += __bias(f, cache, DNA.dTMP, DNA.dAMP) + __bias(f, cache, DNA.dTMP, DNA.dCMP) +
+               __bias(f, cache, DNA.dTMP, DNA.dGMP) + __bias(f, cache, DNA.dTMP, DNA.dTMP)
             sum = sum / 16
             Return sum
         End Function
@@ -189,7 +191,8 @@ Namespace DeltaSimilarity1998
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Similar.Description")> Public Function SimilarDescription(sigma As Double) As SimilarDiscriptions
+        <ExportAPI("Similar.Description")>
+        Public Function SimilarDescription(sigma As Double) As SimilarDiscriptions
             Dim value = sigma * 1000
 
             If value <= 50 Then
@@ -202,7 +205,7 @@ Namespace DeltaSimilarity1998
                 Return SimilarDiscriptions.DistantlySimilar
             ElseIf value > 145 AndAlso value <= 180 Then
                 Return SimilarDiscriptions.Distant
-            Else  'Value >= 190
+            Else  ' Value >= 190
                 Return SimilarDiscriptions.VeryDistant
             End If
         End Function

@@ -146,6 +146,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="VFDB\FastaHeader.vb" />
+    <Compile Include="VFDB\Extensions.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -182,10 +184,6 @@
     <ProjectReference Include="..\..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
       <Project>{327A0323-5469-45C1-B95B-4A0336CF27C2}</Project>
       <Name>OBO_Foundry</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Metagenome\Metagenome.vbproj">
-      <Project>{ab10b480-33b1-476c-8237-23e15ce635bd}</Project>
-      <Name>Metagenome</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

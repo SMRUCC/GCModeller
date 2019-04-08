@@ -560,6 +560,7 @@
     <Compile Include="Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\TaxonomyWeb.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Taxonomy.vb" />
+    <Compile Include="Assembly\NCBI\WebServiceHandler\Entrez\Genbank.vb" />
     <Compile Include="Assembly\NCBI\WebServiceHandler\Taxonomy.vb" />
     <Compile Include="Assembly\UniProt\XML\Model\reference.vb" />
     <Compile Include="Assembly\UniProt\XML\Model\CommentData.vb" />
@@ -679,6 +680,7 @@
     <Compile Include="SequenceModel\FASTA\IO\StreamIterator.vb" />
     <Compile Include="SequenceModel\FASTA\HeaderFormats.vb" />
     <Compile Include="SequenceModel\ISequenceModel.vb" />
+    <Compile Include="SequenceModel\TypeExtensions.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\Conversion.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\DegenerateBases.vb" />
     <Compile Include="SequenceModel\NucleicAcid\mRNA.vb" />
@@ -837,7 +839,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="Resources\InternalScripts\Perl\GenBankQuery.pl" />
     <None Include="Resources\MiST2.csv" />
   </ItemGroup>
   <ItemGroup>

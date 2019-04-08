@@ -156,7 +156,8 @@ Namespace SequenceModel.Patterns
 
         <Extension>
         Public Function Variation(res As IPatternSite, ref As Char, Optional cutoff As Double = 0.7) As Double
-            If ref = "-"c Then   ' 参考序列这里已经是完全的呗突变掉了
+            If ref = "-"c Then
+                ' 参考序列这里已经是完全的呗突变掉了
                 Return 1
             End If
 

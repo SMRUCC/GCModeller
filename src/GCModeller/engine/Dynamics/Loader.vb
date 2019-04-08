@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 ''' <summary>
@@ -17,6 +18,10 @@ Public Class Loader
         Dim channels As New List(Of Channel)
         Dim rnaMatrix = cell.Genotype.RNAMatrix.ToDictionary(Function(r) r.geneID)
         Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
+        Dim templateDNA As Variable()
+        Dim productsRNA As Variable()
+        Dim templateRNA As Variable()
+        Dim productsPro As Variable()
 
         ' 先构建一般性的中心法则过程
         For Each cd As CentralDogma In cell.Genotype.centralDogmas
@@ -24,8 +29,17 @@ Public Class Loader
             Call massTable.AddNew(cd.RNA.Name)
             Call massTable.AddNew(cd.polypeptide)
 
-            channels += New Channel(transcriptionTemplate(cd.geneID, rnaMatrix), {massTable.variable(cd.RNA.Name)})
-            channels += New Channel(translationTemplate(cd.RNA.Name, proteinMatrix), {massTable.variable(cd.polypeptide)})
+            templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
+            productsRNA = {
+                massTable.variable(cd.RNA.Name)
+            }
+            templateRNA = translationTemplate(cd.RNA.Name, proteinMatrix)
+            productsPro = {
+                massTable.variable(cd.polypeptide)
+            }
+
+            channels += New Channel(templateDNA, productsRNA)
+            channels += New Channel(templateRNA, productsPro)
         Next
 
         ' 构建酶成熟的过程
@@ -41,7 +55,10 @@ Public Class Loader
                 End If
             Next
 
-            channels += New Channel(massTable.variables(complex), {massTable.variable(complex.ProteinID)})
+            Dim unformed = massTable.variables(complex)
+            Dim mature = {massTable.variable(complex.ProteinID)}
+
+            channels += New Channel(unformed, mature)
         Next
 
         ' 构建代谢网络
@@ -58,16 +75,16 @@ Public Class Loader
             channels += New Channel(left, right) With {
                 .bounds = reaction.bounds,
                 .ID = reaction.ID,
-                .Forward = New Regulation With {
+                .Forward = New Controls With {
                     .Activation = massTable.variables(reaction.enzyme, 1)
                 },
-                .Reverse = New Regulation With {.baseline = 10}
+                .Reverse = New Controls With {.baseline = 10}
             }
         Next
 
         Return New Vessel With {
             .Channels = channels,
-            .Mass = massTable.GetAll.Values.ToArray
+            .Mass = massTable.ToArray
         }
     End Function
 
@@ -75,7 +92,8 @@ Public Class Loader
         Return matrix(geneID) _
             .Where(Function(i) i.Value > 0) _
             .Select(Function(base)
-                        Return massTable.variable(define.NucleicAcid(base.Name), base.Value)
+                        Dim baseName = define.NucleicAcid(base.Name)
+                        Return massTable.variable(baseName, base.Value)
                     End Function) _
             .AsList + massTable.template(geneID)
     End Function
@@ -84,7 +102,8 @@ Public Class Loader
         Return matrix(mRNA) _
             .Where(Function(i) i.Value > 0) _
             .Select(Function(aa)
-                        Return massTable.variable(define.AminoAcid(aa.Name), aa.Value)
+                        Dim aaName = define.AminoAcid(aa.Name)
+                        Return massTable.variable(aaName, aa.Value)
                     End Function) _
             .AsList + massTable.template(mRNA)
     End Function

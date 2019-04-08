@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization
 
@@ -11,6 +12,15 @@ Namespace ComponentModel
         Dim contextGuid As IToString(Of Context)
         Dim cache$
         Dim deserialization As IObjectBuilder
+
+        Shared ReadOnly interval As Integer
+
+        Shared Sub New()
+            Static defaultInterval As DefaultValue(Of String) = "3000"
+
+            ' controls of the interval by /@set sleep=xxxxx
+            interval = Val(App.GetVariable("sleep") Or defaultInterval)
+        End Sub
 
         Sub New(url As Func(Of Context, String),
                 Optional contextGuid As IToString(Of Context) = Nothing,
@@ -34,15 +44,20 @@ Namespace ComponentModel
             For Each context As Context In query
                 Dim url = Me.url(context)
                 Dim id$ = Me.contextGuid(context)
-                Dim cache$ = $"{Me.cache}/{id}.{type.Trim("."c)}"
+                Dim cache$ = $"{Me.cache}/{id}.{type.Trim("."c, "*"c)}"
 
                 If cache.FileLength <= 0 Then
                     Call url.GET.SaveTo(cache)
-                    Call Thread.Sleep(2000)
+                    Call Thread.Sleep(interval)
                 End If
 
                 Yield cache
             Next
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Query(Of T)(content As Context, Optional type$ = ".xml") As T
+            Return deserialization(queryText({content}, type).First.ReadAllText, GetType(T))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
