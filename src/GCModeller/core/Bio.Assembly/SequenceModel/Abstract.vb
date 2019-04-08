@@ -50,6 +50,13 @@ Imports Microsoft.VisualBasic.Language
 
 Namespace SequenceModel
 
+    Public Enum SeqTypes As Integer
+        Generic = 0
+        DNA
+        RNA
+        Protein
+    End Enum
+
     ''' <summary>
     ''' Sequence model for a macro biomolecule sequence.
     ''' </summary>

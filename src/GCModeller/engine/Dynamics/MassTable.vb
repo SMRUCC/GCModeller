@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.TagData
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Public Class MassTable : Implements IRepository(Of String, Factor)

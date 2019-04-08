@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 ''' <summary>
 ''' Clone helper for <see cref="Vessel"/>

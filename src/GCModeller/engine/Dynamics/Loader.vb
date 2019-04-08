@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 ''' <summary>
@@ -74,10 +75,10 @@ Public Class Loader
             channels += New Channel(left, right) With {
                 .bounds = reaction.bounds,
                 .ID = reaction.ID,
-                .Forward = New Regulation With {
+                .Forward = New Controls With {
                     .Activation = massTable.variables(reaction.enzyme, 1)
                 },
-                .Reverse = New Regulation With {.baseline = 10}
+                .Reverse = New Controls With {.baseline = 10}
             }
         Next
 

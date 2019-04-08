@@ -1,46 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::5c1ac18ed514a5fd351915eb763730e6, Bio.Assembly\SequenceModel\CutSequence.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module CutSequence
-    ' 
-    '         Function: CutSequenceBylength, (+3 Overloads) CutSequenceCircular, (+3 Overloads) CutSequenceLinear, ReadComplement
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module CutSequence
+' 
+'         Function: CutSequenceBylength, (+3 Overloads) CutSequenceCircular, (+3 Overloads) CutSequenceLinear, ReadComplement
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -100,7 +101,7 @@ Namespace SequenceModel
         <Extension>
         Public Function ReadComplement(seq As IPolymerSequenceModel, left%, length%, Optional tag$ = Nothing) As SimpleSegment
             Dim cut$ = Mid(seq.SequenceData, left, length)
-            cut = New String(NucleicAcid.Complement(cut).Reverse.ToArray)
+            cut = NucleicAcid.Complement(cut).Reverse.CharString
 
             Return New SimpleSegment With {
                 .SequenceData = cut,
@@ -123,20 +124,16 @@ Namespace SequenceModel
             Dim site As SimpleSegment = seq.CutSequenceLinear(site:=loci)
 
             site.Strand = If(loci.Strand = Strands.Forward, "+", "-")
-            site.ID = If(
-                loci.Tag.StringEmpty,
-                loci.NCBIstyle,
-                loci.Tag)
+            site.ID = loci.Tag Or loci.NCBIstyle.AsDefault
 
             If loci.Strand = Strands.Forward Then
                 Return site
             Else
                 ' 反向的链，则还需要反向互补
                 site.Complement = site.SequenceData
-                site.SequenceData = New String(
-                    NucleicAcid.Complement(site.SequenceData) _
-                    .Reverse _
-                    .ToArray)
+                site.SequenceData = NucleicAcid.Complement(site.SequenceData) _
+                                               .Reverse _
+                                               .CharString
 
                 Return site
             End If
@@ -200,11 +197,10 @@ Namespace SequenceModel
                 With out
 
                     .Complement = .SequenceData
-                    .SequenceData = New String(
-                        NucleicAcid _
+                    .SequenceData = NucleicAcid _
                         .Complement(.SequenceData) _
                         .Reverse _
-                        .ToArray)
+                        .CharString
 
                 End With
 
@@ -215,9 +211,10 @@ Namespace SequenceModel
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function CutSequenceCircular(seq As IPolymerSequenceModel, site%, join%) As SimpleSegment
-            Return seq.CutSequenceCircular(
-                New NucleotideLocation(site, seq.SequenceData.Length),
-                New NucleotideLocation(1, join))
+            Dim a = New NucleotideLocation(site, seq.SequenceData.Length)
+            Dim b = New NucleotideLocation(1, join)
+
+            Return seq.CutSequenceCircular(a, b)
         End Function
     End Module
 End Namespace
