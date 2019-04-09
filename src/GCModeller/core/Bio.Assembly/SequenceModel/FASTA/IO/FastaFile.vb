@@ -109,8 +109,8 @@ Namespace SequenceModel.FASTA
         Sub New(data As IEnumerable(Of FastaSeq))
             _innerList =
                 LinqAPI.MakeList(Of FastaSeq) <= From fa As FastaSeq
-                                                   In data
-                                                 Where Not fa Is Nothing
+                                                 In data
+                                                 Where Not fa Is Nothing AndAlso Not fa.SequenceData.StringEmpty
                                                  Select fa
         End Sub
 
@@ -133,7 +133,7 @@ Namespace SequenceModel.FASTA
                 If(deli.IsNullOrEmpty, {"|"c}, deli))
         End Sub
 
-        Protected Friend Overridable Property _innerList As List(Of FastaSeq) = New List(Of FastaSeq)
+        Protected Friend Overridable Property _innerList As New List(Of FastaSeq)
 
         Public Iterator Function AsKSource() As IEnumerable(Of KSeq)
             For Each fa As FastaSeq In _innerList
@@ -204,22 +204,22 @@ Namespace SequenceModel.FASTA
         ''' <summary>
         ''' Load the fasta file from the local filesystem.
         ''' </summary>
-        ''' <param name="File"></param>
-        ''' <param name="Explicit">当参数为真的时候，目标文件不存在则会抛出错误，反之则会返回一个空文件</param>
+        ''' <param name="file"></param>
+        ''' <param name="strict">当参数为真的时候，目标文件不存在则会抛出错误，反之则会返回一个空文件</param>
         ''' <param name="deli">Delimiter character for tokens in fasta sequence header.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function Read(File As Path, Optional Explicit As Boolean = True, Optional deli As Char = "|"c) As FastaFile
-            If Not File.FixPath.FileExists Then
-                If Explicit Then
-                    Throw New Exception($"File ""{File.ToFileURL}"" is not exists on the file system!")
+        Public Overloads Shared Function Read(file As Path, Optional strict As Boolean = True, Optional deli As Char = "|"c) As FastaFile
+            If file.StringEmpty OrElse Not file.FixPath.FileExists Then
+                If strict Then
+                    Throw New Exception($"File ""{file.ToFileURL}"" is not exists on the file system!")
                 Else
-                    Return Nothing
+                    Return New FastaFile
                 End If
             End If
 
-            Dim FastaReader As New FastaFile(DocParser(IO.File.ReadAllLines(File), {deli})) With {
-                .FilePath = FileIO.FileSystem.GetFileInfo(File).FullName
+            Dim FastaReader As New FastaFile(DocParser(IO.File.ReadAllLines(file), {deli})) With {
+                .FilePath = FileIO.FileSystem.GetFileInfo(file).FullName
             }
             Return FastaReader
         End Function

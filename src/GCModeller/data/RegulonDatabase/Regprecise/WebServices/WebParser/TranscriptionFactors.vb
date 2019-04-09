@@ -1,50 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::f445ccf751501555710cb66ffb114139, data\RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class TranscriptionFactors
-    ' 
-    '         Properties: genomes, update
-    ' 
-    '         Function: BuildRegulatesHash, Export_TFBSInfo, Get_Regulators, GetBacteriaGenomeProfile, GetRegulatorId
-    '                   GetRegulators, InsertRegulog, ListAllRegulators, Load, Save
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class TranscriptionFactors
+' 
+'         Properties: genomes, update
+' 
+'         Function: BuildRegulatesHash, Export_TFBSInfo, Get_Regulators, GetBacteriaGenomeProfile, GetRegulatorId
+'                   GetRegulators, InsertRegulog, ListAllRegulators, Load, Save
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
@@ -67,6 +66,7 @@ Namespace Regprecise
     '''
     <XmlRoot("TranscriptionFactors", Namespace:="http://regprecise.lbl.gov/RegPrecise/")>
     Public Class TranscriptionFactors : Inherits ITextFile
+        Implements Enumeration(Of BacteriaRegulome)
 
         <XmlElement>
         Public Property genomes As BacteriaRegulome()
@@ -186,7 +186,7 @@ Namespace Regprecise
                           In TFBS_sites.Sequence.AsParallel
                           Let SiteInfo = TFBS_sites(Tfbs)
                           Select GenerateFastaData(SiteInfo.Tfbs_siteInfo,
-                                                   SiteInfo.Family,
+                                                   SiteInfo.family,
                                                    SiteInfo.Species,
                                                    lcl:=Tfbs,
                                                    Regulator:=SiteInfo.RegulatorId)).ToArray
@@ -201,18 +201,18 @@ Namespace Regprecise
         End Function
 
         ''' <summary>
-        ''' 选择所有的调控因子请使用<see cref="Get_Regulators"></see>
+        ''' 选择所有的调控因子请使用<see cref="FilteRegulators"></see>
         ''' </summary>
         ''' <param name="Type"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Get_Regulators(Type As Types) As Regulator()
+        Public Function FilteRegulators(type As Types) As Regulator()
             Dim LQuery = (From genome As BacteriaRegulome
                           In Me.genomes.AsParallel
                           Select genome.regulons.regulators).ToArray
             Return (From reg As Regulator
                     In LQuery.IteratesALL.AsParallel
-                    Where reg.type = Type
+                    Where reg.type = type
                     Select reg).ToArray
         End Function
 
@@ -220,7 +220,7 @@ Namespace Regprecise
         ''' 生成映射{site, TF()}
         ''' </summary>
         ''' <returns></returns>
-        Public Function BuildRegulatesHash() As Dictionary(Of String, String())
+        Public Function BuildRegulatesTable() As Dictionary(Of String, String())
             Dim LQuery = (From g As BacteriaRegulome
                           In Me.genomes
                           Where Not g.regulons Is Nothing
@@ -234,6 +234,16 @@ Namespace Regprecise
                                .ToDictionary(Function(x) x.uid,
                                              Function(x) x.Group.Select(Function(s) s.LocusId).ToArray)
             Return Groups
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of BacteriaRegulome) Implements Enumeration(Of BacteriaRegulome).GenericEnumerator
+            For Each genome As BacteriaRegulome In genomes
+                Yield genome
+            Next
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of BacteriaRegulome).GetEnumerator
+            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

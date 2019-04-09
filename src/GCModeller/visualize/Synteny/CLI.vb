@@ -1,52 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::5f731a0398729ff8b843a451aa7f6738, Synteny\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: PlotMapping, Test
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: PlotMapping, Test
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
+Imports SMRUCC.genomics.Analysis.SequenceTools.ClusterMatrix
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
 
 <CLI> Module CLI
@@ -91,6 +96,54 @@ Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
     <ExportAPI("/test")>
     Public Function Test() As Integer
         Call Synteny.test.batch()
+    End Function
+
+    <ExportAPI("/cluster.tree")>
+    <Usage("/cluster.tree /in <besthit.csv> /genomes <fasta.directory> [/out <clusters.csv>]")>
+    Public Function ClusterTree(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.conservative_clusters.csv"
+        Dim localblast As BestHit() = [in].LoadCsv(Of BestHit)
+        Dim genomes = (args <= "/genomes") _
+            .EnumerateFiles("*.faa") _
+            .Select(Iterator Function(file)
+                        Dim fasta As FastaFile = FastaFile.Read(file)
+                        Dim descript As NamedValue(Of String)() = fasta _
+                            .Select(Function(fa)
+                                        Return Strings.Trim(fa.Title).GetTagValue()
+                                    End Function) _
+                            .ToArray
+                        Dim genomeName$ = file.BaseName
+
+                        For Each describ As NamedValue(Of String) In descript
+                            Yield New NamedValue(Of String)(describ.Name) With {
+                                .Value = describ.Value,
+                                .Description = genomeName
+                            }
+                        Next
+                    End Function) _
+            .IteratesALL _
+            .Where(Function(gene) Not gene.Name.StringEmpty) _
+            .GroupBy(Function(gene) gene.Name) _
+            .ToDictionary(Function(gene) gene.Key,
+                          Function(group)
+                              If group.Count > 1 Then
+                                  Call group.Key.Warning
+                              End If
+
+                              Return group.First
+                          End Function)
+        Dim proteins = genomes.Keys.ToArray
+        Dim clusters = proteins.BuildTree(localblast)
+
+        For Each cluster As Cluster In clusters
+            cluster.genomes = cluster.Members _
+                .Select(Function(id) genomes(id).Description) _
+                .Distinct _
+                .ToArray
+        Next
+
+        Return clusters.SaveTo(out).CLICode
     End Function
 End Module
 

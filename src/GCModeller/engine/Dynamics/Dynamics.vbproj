@@ -85,11 +85,14 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Definitions.vb" />
+    <Compile Include="MassTable.vb" />
+    <Compile Include="Definition.vb" />
+    <Compile Include="EnvirClone.vb" />
+    <Compile Include="Status.vb" />
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="Core\Channel.vb" />
     <Compile Include="Core\Directions.vb" />
-    <Compile Include="Core\Regulation.vb" />
+    <Compile Include="Core\Controls.vb" />
     <Compile Include="Core\Factor.vb" />
     <Compile Include="Core\Vessel.vb" />
     <Compile Include="Loader.vb" />

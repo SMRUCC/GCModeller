@@ -88,34 +88,34 @@ Namespace SequenceModel
         ''' <summary>
         ''' 计算蛋白质序列的相对分子质量
         ''' </summary>
-        ''' <param name="SequenceData"></param>
+        ''' <param name="seq"></param>
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("MW.Polypeptide")>
-        Public Function CalcMW_Polypeptide(SequenceData As ISequenceModel) As Double
-            Return SequenceData.SequenceData.CalcMW_Polypeptide
+        Public Function CalcMW_Polypeptide(seq As ISequenceModel) As Double
+            Return seq.SequenceData.CalcMW_Polypeptide
         End Function
 
         <ExportAPI("MW.Polypeptide")>
-        <Extension> Public Function CalcMW_Polypeptide(SequenceData As String) As Double
-            Dim polypeptide = ConstructVector(SequenceData)
-            Dim LQuery = Aggregate aa As AminoAcid
-                         In polypeptide
-                         Into Sum(AminoAcidMolecularWeights(aa))
-            Return LQuery
+        <Extension> Public Function CalcMW_Polypeptide(seq As String) As Double
+            Dim polypeptide = ConstructVector(seq)
+            Dim mw As Double = Aggregate aa As AminoAcid
+                               In polypeptide
+                               Into Sum(AminoAcidMolecularWeights(aa))
+            Return mw
         End Function
 
         ''' <summary>
         ''' 计算核酸序列的相对分子质量
         ''' </summary>
-        ''' <param name="SequenceData"></param>
+        ''' <param name="seq"></param>
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("MW.NT")>
-        Public Function CalcMW_Nucleotides(SequenceData As ISequenceModel) As Double
-            With SequenceData.SequenceData
+        Public Function CalcMW_Nucleotides(seq As ISequenceModel) As Double
+            With seq.SequenceData
                 Return Aggregate ch As Char
                        In .ToUpper
                        Into Sum(NucleicAcidsMolecularWeights(ch))

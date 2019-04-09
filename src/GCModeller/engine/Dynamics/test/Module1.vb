@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 Module Module1
 
@@ -57,53 +57,53 @@ Module Module1
 
         Yield New Channel(pop({"A", "B"}), pop({"C", "D"})) With {
             .ID = "ABCD",
-            .Forward = New Regulation,
-            .Reverse = New Regulation With {.Activation = pop({"B", "D"}).ToArray}}
+            .Forward = New Controls,
+            .Reverse = New Controls With {.Activation = pop({"B", "D"}).ToArray}}
 
         Yield New Channel(pop({"E", "F"}), pop({"A", "G"})) With {
             .ID = "EFAG",
-            .Forward = New Regulation,
-            .Reverse = New Regulation With {.Activation = pop({"B"}).ToArray}
+            .Forward = New Controls,
+            .Reverse = New Controls With {.Activation = pop({"B"}).ToArray}
         }
 
         Yield New Channel(pop({"B"}), pop({"A", "D"})) With {
             .ID = "BAD",
-            .Forward = New Regulation With {.Activation = pop({"C", "G", "B"}).ToArray},
-            .Reverse = New Regulation With {.Activation = pop({"E"}).ToArray}
+            .Forward = New Controls With {.Activation = pop({"C", "G", "B"}).ToArray},
+            .Reverse = New Controls With {.Activation = pop({"E"}).ToArray}
         }
 
         Yield New Channel(pop({"G"}), pop({"E"})) With {
             .ID = "GE",
-            .Forward = New Regulation With {.Activation = pop({"F"}).ToArray}
+            .Forward = New Controls With {.Activation = pop({"F"}).ToArray}
         }
         Yield New Channel(pop({"E"}), pop({"G", "D", "C"})) With {
             .ID = "EGDC",
-            .Forward = New Regulation With {.Activation = pop({"E"}).ToArray},
-            .Reverse = New Regulation With {.Activation = pop({"C", "D"}).ToArray}
+            .Forward = New Controls With {.Activation = pop({"E"}).ToArray},
+            .Reverse = New Controls With {.Activation = pop({"C", "D"}).ToArray}
         }
 
         Yield New Channel(pop({"B", "F"}), pop({"H"})) With {
             .ID = "BFH",
-            .Forward = New Regulation With {.Activation = pop({"B"}).ToArray},
-            .Reverse = New Regulation With {.Activation = pop({"I", "D"}).ToArray}
+            .Forward = New Controls With {.Activation = pop({"B"}).ToArray},
+            .Reverse = New Controls With {.Activation = pop({"I", "D"}).ToArray}
         }
 
         Yield New Channel(pop({"D", "F"}), pop({"H"})) With {
             .ID = "DFH",
-            .Forward = New Regulation With {.Activation = pop({"B"}).ToArray},
-            .Reverse = New Regulation With {.Activation = pop({"I", "D"}).ToArray}
+            .Forward = New Controls With {.Activation = pop({"B"}).ToArray},
+            .Reverse = New Controls With {.Activation = pop({"I", "D"}).ToArray}
         }
 
         Yield New Channel(pop({"I"}), pop({"G"})) With {
             .ID = "IG",
-           .Forward = New Regulation With {.Activation = pop({"B"}).ToArray},
-           .Reverse = New Regulation With {.Activation = pop({"G", "D"}).ToArray}
+           .Forward = New Controls With {.Activation = pop({"B"}).ToArray},
+           .Reverse = New Controls With {.Activation = pop({"G", "D"}).ToArray}
        }
 
         Yield New Channel(pop({"H"}), pop({"I", "D"})) With {
             .ID = "HID",
-           .Forward = New Regulation With {.Activation = pop({"B", "H"}).ToArray},
-           .Reverse = New Regulation With {.Activation = pop({"A"}).ToArray}
+           .Forward = New Controls With {.Activation = pop({"B", "H"}).ToArray},
+           .Reverse = New Controls With {.Activation = pop({"A"}).ToArray}
        }
     End Function
 End Module

@@ -219,7 +219,14 @@
     <Compile Include="ChEBI\Tables\relation.vb" />
     <Compile Include="ChEBI\Tables\structures.vb" />
     <Compile Include="ChEBI\Tables\vertice.vb" />
+    <Compile Include="DEG\SeqRef.vb" />
     <Compile Include="DEG\Models.vb" />
+    <Compile Include="DEG\Geptop.vb" />
+    <Compile Include="DEG\OGEE\Models.vb" />
+    <Compile Include="DEG\OGEE\Extensions.vb" />
+    <Compile Include="DEG\Web\Models\Summary.vb" />
+    <Compile Include="DEG\Web\Models\Models.vb" />
+    <Compile Include="DEG\Web\WebParser.vb" />
     <Compile Include="ExplorEnz\MySQL\cite.vb" />
     <Compile Include="ExplorEnz\MySQL\class.vb" />
     <Compile Include="ExplorEnz\MySQL\entry.vb" />
