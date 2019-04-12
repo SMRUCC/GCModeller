@@ -49,9 +49,11 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
-Imports Oracle.LinuxCompatibility.MySQL
 Imports MySql = Oracle.LinuxCompatibility.MySQL.MySqli
 
+''' <summary>
+''' GCModeller config tool
+''' </summary>
 <Package("GCModeller.Configuration.CLI",
                   Category:=APICategories.CLI_MAN,
                   Url:="http://gcmodeller.org",
