@@ -157,7 +157,7 @@ Partial Module Utilities
         Dim [in] As String = args.GetFullFilePath("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & NameOf(TrimNtMirrors) & ".Csv")
         Dim data As IEnumerable(Of PalindromeLoci) = [in].LoadCsv(Of PalindromeLoci)
-        Dim invalids As Char() = ISequenceModel.AA_CHARS_ALL
+        Dim invalids As Char() = TypeExtensions.AA_CHARS_ALL
         Dim result As PalindromeLoci() = LinqAPI.Exec(Of PalindromeLoci) <=
             From x As PalindromeLoci
             In data

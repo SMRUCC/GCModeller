@@ -115,33 +115,21 @@ Namespace SequenceModel.NucleotideModels
                 Return _innerSeqCache
             End Get
             Set(value As String)
-                Dim helper As New __cacheHelper(value)
-                _innerSeqModel = helper.__getList
+                _innerSeqModel = NucleicAcid.Enums(value).ToList
                 MyBase.SequenceData = value
                 _innerSeqCache = value
             End Set
         End Property
 
-        Private Structure __cacheHelper
-            Dim value As String
-
-            Sub New(value As String)
-                Me.value = value
-            End Sub
-
-            Public Function __getList() As List(Of DNA)
-                Return LinqAPI.MakeList(Of DNA) <=
- _
-                    From ch As Char
-                    In value
-                    Let __getNA As DNA = If(
-                        Conversion.NucleotideConvert.ContainsKey(ch),
-                        Conversion.NucleotideConvert(ch),
-                        DNA.NA)
-                    Select __getNA '
-
-            End Function
-        End Structure
+        Public Shared Iterator Function Enums(sequence As String) As IEnumerable(Of DNA)
+            For Each ch As Char In sequence
+                If Conversion.NucleotideConvert.ContainsKey(ch) Then
+                    Yield Conversion.NucleotideConvert(ch)
+                Else
+                    Yield DNA.NA
+                End If
+            Next
+        End Function
 
         ''' <summary>
         ''' The melting temperature of P1 is Tm(P1), which is a reference temperature for a primer to perform annealing and known as the Wallace formula
@@ -251,14 +239,14 @@ Namespace SequenceModel.NucleotideModels
         End Function
 
         ''' <summary>
-        ''' Removes the invalids characters in the nt sequence. Invalids source is comes from <see cref="ISequenceModel.AA_CHARS_ALL"/>
+        ''' Removes the invalids characters in the nt sequence. Invalids source is comes from <see cref="TypeExtensions.AA_CHARS_ALL"/>
         ''' </summary>
         ''' <param name="nt">Case insensitive.</param>
         ''' <returns></returns>
         Public Shared Function RemoveInvalids(nt As String) As String
             Dim seq As New StringBuilder(nt.ToUpper)
 
-            For Each c As Char In ISequenceModel.AA_CHARS_ALL
+            For Each c As Char In TypeExtensions.AA_CHARS_ALL
                 Call seq.Replace(c, "-"c)
             Next
 

@@ -1,59 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::cd92471a7aa93f07a088ae10a604b8dc, Bio.Repository\NCBI\WebAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module DownloaderWebAPI
-    ' 
-    '     Function: DownloadGBK
-    '     Structure __genbankDownloadHelper
-    ' 
-    '         Function: Download
-    '         Structure __innerHelper
-    ' 
-    '             Sub: Download
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module DownloaderWebAPI
+' 
+'     Function: DownloadGBK
+'     Structure __genbankDownloadHelper
+' 
+'         Function: Download
+'         Structure __innerHelper
+' 
+'             Sub: Download
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Terminal.Utility
-Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.NCBI
 
 Public Module DownloaderWebAPI
 
@@ -100,7 +100,7 @@ Public Module DownloaderWebAPI
                 If gb.FileExists Then
                     Return
                 Else
-                    gb = QueryHandler.Entry.DownloadGBK(EXPORT, id)
+                    Call Entrez.Genbank.Fetch(id, gb, True, True)
                 End If
 
                 If gb.FileExists Then

@@ -54,7 +54,7 @@ Namespace SequenceModel.NucleotideModels
     ''' (枚举所有的脱氧核糖核苷酸)
     ''' </summary>
     ''' <remarks></remarks>
-    <Description("Deoxyribonucleotides")> Public Enum DNA As SByte
+    <Description("Deoxyribonucleotides")> Public Enum DNA As Byte
 
         ''' <summary>
         ''' Gaps/Rare bases(空格或者其他的稀有碱基)

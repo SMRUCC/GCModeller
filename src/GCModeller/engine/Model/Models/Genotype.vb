@@ -40,10 +40,14 @@
 
 #End Region
 
+Imports System.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+
 ''' <summary>
 ''' 目标细胞模型的基因组模型
 ''' </summary>
-Public Structure Genotype
+Public Structure Genotype : Implements IEnumerable(Of CentralDogma)
 
     ''' <summary>
     ''' 假设基因组之中的基因型定义信息全部都是由中心法则来构成的
@@ -59,9 +63,234 @@ Public Structure Genotype
     ''' </remarks>
     Dim centralDogmas As CentralDogma()
 
+    Dim RNAMatrix As RNAComposition()
+    Dim ProteinMatrix As ProteinComposition()
+
     Public Overrides Function ToString() As String
         Return $"{centralDogmas.Length} genes"
     End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator(Of CentralDogma) Implements IEnumerable(Of CentralDogma).GetEnumerator
+        For Each cd As CentralDogma In centralDogmas
+            Yield cd
+        Next
+    End Function
+
+    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Yield GetEnumerator()
+    End Function
 End Structure
 
+Public Class RNAComposition : Implements IEnumerable(Of NamedValue(Of Double))
 
+    Public Property geneID As String
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property A As Integer
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property U As Integer
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property G As Integer
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property C As Integer
+
+    Public Overrides Function ToString() As String
+        Return geneID
+    End Function
+
+    ''' <summary>
+    ''' 因为这个是RNA序列，所以其构成应该是其基因模板的互补
+    ''' </summary>
+    ''' <param name="nt">DNA模板序列</param>
+    ''' <returns></returns>
+    Public Shared Function FromNtSequence(nt As String, geneID As String) As RNAComposition
+        Dim RNA As String = NucleicAcid.Complement(nt)
+        Dim composition As Dictionary(Of String, Integer) = RNA _
+            .GroupBy(Function(c) c) _
+            .ToDictionary(Function(c)
+                              Return c.Key.ToString
+                          End Function,
+                          Function(c) c.Count)
+
+        Return New RNAComposition With {
+            .geneID = geneID,
+            .A = composition.TryGetValue("A"),
+            .C = composition.TryGetValue("C"),
+            .G = composition.TryGetValue("G"),
+            .U = composition.TryGetValue("T")
+        }
+    End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator(Of NamedValue(Of Double)) Implements IEnumerable(Of NamedValue(Of Double)).GetEnumerator
+        Yield New NamedValue(Of Double)("A", A)
+        Yield New NamedValue(Of Double)("U", U)
+        Yield New NamedValue(Of Double)("G", G)
+        Yield New NamedValue(Of Double)("C", C)
+    End Function
+
+    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Yield GetEnumerator()
+    End Function
+End Class
+
+Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double))
+
+    Public Property proteinID As String
+
+    ''' <summary>
+    ''' L-Alanine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property A As Integer
+    ''' <summary>
+    ''' L-Arginine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property R As Integer
+    ''' <summary>
+    ''' L-Asparagine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property N As Integer
+    ''' <summary>
+    ''' L-Aspartic acid
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property D As Integer
+    ''' <summary>
+    ''' L-Cysteine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property C As Integer
+    ''' <summary>
+    ''' L-Glutamic acid
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property E As Integer
+    ''' <summary>
+    ''' L-Glutamine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Q As Integer
+    ''' <summary>
+    ''' Glycine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property G As Integer
+    ''' <summary>
+    ''' L-Histidine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property H As Integer
+    ''' <summary>
+    ''' L-Isoleucine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property I As Integer
+    ''' <summary>
+    ''' L-Leucine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property L As Integer
+    ''' <summary>
+    ''' L-Lysine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property K As Integer
+    ''' <summary>
+    ''' L-Methionine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property M As Integer
+    ''' <summary>
+    ''' L-Phenylalanine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property F As Integer
+    ''' <summary>
+    ''' L-Proline
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property P As Integer
+    ''' <summary>
+    ''' L-Serine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property S As Integer
+    ''' <summary>
+    ''' L-Threonine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property T As Integer
+    ''' <summary>
+    ''' L-Tryptophan
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property W As Integer
+    ''' <summary>
+    ''' L-Tyrosine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Y As Integer
+    ''' <summary>
+    ''' L-Valine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property V As Integer
+    ''' <summary>
+    ''' L-Selenocysteine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property U As Integer
+    ''' <summary>
+    ''' L-Pyrrolysine
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property O As Integer
+
+    Shared ReadOnly aa As PropertyInfo()
+
+    Shared Sub New()
+        aa = DataFramework.Schema(Of ProteinComposition)(PropertyAccess.Readable, True, True) _
+            .Values _
+            .Where(Function(p) p.Name.Length = 1) _
+            .ToArray
+    End Sub
+
+    Public Shared Function FromRefSeq(sequence As String, proteinID As String) As ProteinComposition
+        Dim protein As New ProteinComposition With {.proteinID = proteinID}
+        Dim composition = sequence _
+            .GroupBy(Function(a) a) _
+            .ToDictionary(Function(a) CStr(a.Key),
+                          Function(a)
+                              Return a.Count
+                          End Function)
+
+        For Each aa As PropertyInfo In ProteinComposition.aa
+            Call aa.SetValue(protein, composition.TryGetValue(aa.Name))
+        Next
+
+        Return protein
+    End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator(Of NamedValue(Of Double)) Implements IEnumerable(Of NamedValue(Of Double)).GetEnumerator
+        For Each aminoAcid As PropertyInfo In aa
+            Yield New NamedValue(Of Double)(aminoAcid.Name, aminoAcid.GetValue(Me))
+        Next
+    End Function
+
+    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Yield GetEnumerator()
+    End Function
+End Class

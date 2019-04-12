@@ -1,50 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::f7eacc835b7ce473f493e04265b1e862, Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Polypeptides
-    ' 
-    '         Properties: Abbreviate, MEGASchema, ToChar, ToEnums
-    ' 
-    '         Function: ConstructVector, GetCompositionVector, GetCount
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Polypeptides
+' 
+'         Properties: Abbreviate, MEGASchema, ToChar, ToEnums
+' 
+'         Function: ConstructVector, GetCompositionVector, GetCount
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
 
 Namespace SequenceModel.Polypeptides
 
@@ -52,25 +51,21 @@ Namespace SequenceModel.Polypeptides
     ''' Protein polypeptide sequence.(蛋白质多肽链的一些相关操作)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Module Polypeptides
+    Public Module Polypeptide
 
         ''' <summary>
         ''' 将蛋白质序列字符串转换为氨基酸残基的向量
         ''' </summary>
         ''' <param name="prot$"></param>
         ''' <returns></returns>
-        Public Function ConstructVector(prot$) As AminoAcid()
-            Dim LQuery = LinqAPI.Exec(Of AminoAcid) _
- _
-                () <= From ch As Char
-                      In prot.ToUpper
-                      Let AA As AminoAcid = If(
-                          ToEnums.ContainsKey(ch),
-                          ToEnums(ch),
-                          AminoAcid.NULL)
-                      Select AA
-
-            Return LQuery
+        Public Iterator Function ConstructVector(prot As String) As IEnumerable(Of AminoAcid)
+            For Each ch As Char In prot.ToUpper
+                If ToEnums.ContainsKey(ch) Then
+                    Yield ToEnums(ch)
+                Else
+                    Yield AminoAcid.NULL
+                End If
+            Next
         End Function
 
         ''' <summary>

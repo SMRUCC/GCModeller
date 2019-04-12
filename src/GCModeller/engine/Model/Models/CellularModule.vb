@@ -50,6 +50,9 @@ Imports SMRUCC.genomics.Metagenomics
 ''' 
 ''' (GCMarkup或者Tabular模型文件加载之后会被转换为这个对象，然后计算核心加载这个对象模型来进行计算分析)
 ''' </summary>
+''' <remarks>
+''' 注意，这个模型对象之中仅包含有生物学功能定义，如果需要获取得到序列信息，还需要借助于ID编号从其他的数据源之中进行查询
+''' </remarks>
 Public Structure CellularModule
 
     Public Taxonomy As Taxonomy
@@ -62,6 +65,9 @@ Public Structure CellularModule
     ''' Metabolome
     ''' </summary>
     Public Phenotype As Phenotype
+    ''' <summary>
+    ''' 转录表达调控以及代谢调控
+    ''' </summary>
     Public Regulations As Regulation()
 
     Public Overrides Function ToString() As String

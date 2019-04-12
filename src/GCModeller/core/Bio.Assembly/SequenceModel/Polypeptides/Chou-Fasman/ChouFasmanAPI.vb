@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::a3573114103257d68288247c06da5d43, Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\ChouFasmanAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ChouFasman
-    ' 
-    ' 
-    '         Enum SecondaryStructures
-    ' 
-    '             AlphaHelix, BetaSheet, BetaTurn, Coils
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Function: __sequenceData, (+2 Overloads) Calculate, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ChouFasman
+' 
+' 
+'         Enum SecondaryStructures
+' 
+'             AlphaHelix, BetaSheet, BetaTurn, Coils
+' 
+' 
+' 
+'  
+' 
+'     Function: __sequenceData, (+2 Overloads) Calculate, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -99,8 +99,8 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure
         }
 
         Private Function __sequenceData(SequenceData As String) As AminoAcid()
-            Dim SequenceEnums = SequenceModel.Polypeptides.ConstructVector(SequenceData)
-            Dim AA = (From Token In SequenceEnums Where Token <> SequenceModel.Polypeptides.AminoAcid.NULL Select New AminoAcid(Token)).ToArray
+            Dim SequenceEnums = Polypeptide.ConstructVector(SequenceData).ToArray
+            Dim AA = (From a In SequenceEnums Where a <> SequenceModel.Polypeptides.AminoAcid.NULL Select New AminoAcid(a)).ToArray
 
             If AA.Length < SequenceEnums.Length Then
                 Call VBDebugger.Warning("There is illegal character contains in your protein sequence, they was removed:  " & SequenceData)
@@ -141,7 +141,7 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure
             Dim st_Builder As StringBuilder = New StringBuilder(aa.Length - 1)
 
             For Each residue As AminoAcid In aa
-                Call aa_Builder.Append(SequenceModel.Polypeptides.Polypeptides.ToChar(residue.AminoAcid))
+                Call aa_Builder.Append(SequenceModel.Polypeptides.Polypeptide.ToChar(residue.AminoAcid))
                 Call st_Builder.Append(ChouFasman.StructureTypesToChar(residue.StructureType))
             Next
 

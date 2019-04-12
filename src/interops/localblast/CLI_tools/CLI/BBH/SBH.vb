@@ -59,6 +59,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
@@ -180,7 +181,7 @@ Partial Module CLI
 
     <ExportAPI("/SBH.Export.Large")>
     <Description("Using this command for export the sbh result of your blastp raw data.")>
-    <Usage("/SBH.Export.Large /in <blastp_out.txt> [/top.best /trim-kegg /out <sbh.csv> /s.pattern <default=-> /q.pattern <default=-> /identities 0.15 /coverage 0.5]")>
+    <Usage("/SBH.Export.Large /in <blastp_out.txt/directory> [/top.best /trim-kegg /out <sbh.csv> /s.pattern <default=-> /q.pattern <default=-> /identities 0.15 /coverage 0.5 /split]")>
     <Argument("/trim-KEGG", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
@@ -193,40 +194,129 @@ Partial Module CLI
     <Group(CLIGrouping.BBHTools)>
     Public Function ExportBBHLarge(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".sbh.Csv")
+        Dim out As String
+        Dim issPlit As Boolean = args("/split")
+
+        If inFile.DirectoryExists Then
+            out = args("/out") Or $"{inFile.TrimDIR}.sbh.csv"
+        Else
+            out = args.GetValue("/out", inFile.TrimSuffix & ".sbh.Csv")
+        End If
+
         Dim idetities As Double = args.GetValue("/identities", 0.15)
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim sPattern = args.GetValue("/s.pattern", "-").BuildGrepScript
         Dim qPattern = args.GetValue("/q.pattern", "-").BuildGrepScript
-        Dim i As VBInteger = 0
         Dim topBest As Boolean = args("/top.best")
 
-        Using IO As New WriteStream(Of BestHit)(out)
-            Dim handle As Action(Of Query) = IO _
-                .ToArray(Of Query)(
-                [ctype]:=Iterator Function(query)
-                             Dim hits = v228.SBHLines(query, coverage:=coverage, identities:=idetities, grepHitId:=sPattern)
+        If issPlit AndAlso inFile.DirectoryExists Then
+            Dim n%
 
-                             If topBest Then
-                                 Yield hits.First
-                             Else
-                                 For Each output As BestHit In hits
-                                     Yield output
-                                 Next
-                             End If
-                         End Function)
+            For Each file As String In inFile.EnumerateFiles("*.txt")
+                Using IO As New WriteStream(Of BestHit)($"{out.TrimSuffix}/{file.BaseName}.csv")
+                    Dim handle As Action(Of Query) = IO _
+                        .ToArray(Of Query)(
+                            [ctype]:=Iterator Function(query)
+                                         Dim hits = v228.SBHLines(
+                                            Query:=query,
+                                            coverage:=coverage,
+                                            identities:=idetities,
+                                            grepHitId:=sPattern
+                                         )
 
-            For Each query As Query In BlastpOutputReader.RunParser(inFile)
-                query.QueryName = qPattern(query.QueryName)
+                                         If topBest Then
+                                             Yield hits.First
+                                         Else
+                                             For Each output As BestHit In hits
+                                                 Yield output
+                                             Next
+                                         End If
+                                     End Function)
 
-                Call handle(query)
+                    Dim parseOne =
+                        Sub([in] As String)
+                            Dim i As VBInteger = 0
 
-                If ++i Mod 25 = 0 Then
-                    Console.Write(i)
-                    Console.Write(vbTab)
-                End If
+                            Call $"Parse {[in]}...".__INFO_ECHO
+
+                            For Each query As Query In BlastpOutputReader.RunParser(in$)
+                                query.QueryName = qPattern(query.QueryName)
+
+                                Call handle(query)
+
+                                If ++i Mod 50 = 0 Then
+                                    Console.Write(i)
+                                    Console.Write(vbTab)
+                                End If
+                            Next
+
+                            Call Console.WriteLine()
+                            Call Console.WriteLine()
+                        End Sub
+
+                    Call parseOne(file)
+                End Using
+
+                n += 1
             Next
-        End Using
+
+            Call $"Parse {n} file data job done!".__DEBUG_ECHO
+        Else
+            Using IO As New WriteStream(Of BestHit)(out)
+                Dim handle As Action(Of Query) = IO _
+                    .ToArray(Of Query)(
+                    [ctype]:=Iterator Function(query)
+                                 Dim hits = v228.SBHLines(
+                                    Query:=query,
+                                    coverage:=coverage,
+                                    identities:=idetities,
+                                    grepHitId:=sPattern
+                                 )
+
+                                 If topBest Then
+                                     Yield hits.First
+                                 Else
+                                     For Each output As BestHit In hits
+                                         Yield output
+                                     Next
+                                 End If
+                             End Function)
+
+                Dim parseOne =
+                    Sub([in] As String)
+                        Dim i As VBInteger = 0
+
+                        Call $"Parse {[in]}...".__INFO_ECHO
+
+                        For Each query As Query In BlastpOutputReader.RunParser(in$)
+                            query.QueryName = qPattern(query.QueryName)
+
+                            Call handle(query)
+
+                            If ++i Mod 50 = 0 Then
+                                Console.Write(i)
+                                Console.Write(vbTab)
+                            End If
+                        Next
+
+                        Call Console.WriteLine()
+                        Call Console.WriteLine()
+                    End Sub
+
+                If inFile.DirectoryExists Then
+                    Dim n%
+
+                    For Each file As String In inFile.EnumerateFiles("*.txt")
+                        parseOne(file)
+                        n += 1
+                    Next
+
+                    Call $"Parse {n} file data job done!".__DEBUG_ECHO
+                Else
+                    Call parseOne(inFile)
+                End If
+            End Using
+        End If
 
         Return 0
     End Function
@@ -293,5 +383,47 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & "Overviews.csv")
 
         Return overviews.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 通过这个函数将两个基因组比对的结果之中，共同的部分，query和subject自身特有的部分的基因放在一起
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/align.union")>
+    <Usage("/align.union /query <input.fasta> /ref <input.fasta> /besthit <besthit.csv> [/out <union_hits.csv>]")>
+    Public Function AlignUnion(args As CommandLine) As Integer
+        Dim query = FastaFile.Read(args <= "/query").Select(Function(fa) Strings.Trim(fa.Title).Split.First).ToArray
+        Dim subject = FastaFile.Read(args <= "/ref").Select(Function(fa) Strings.Trim(fa.Title).Split.First).ToArray
+        Dim in$ = args <= "/besthit"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}_union.csv"
+        Dim queryName = (args <= "/query").BaseName
+        Dim refName = (args <= "/ref").BaseName
+        Dim besthit As List(Of BestHit) = [in].LoadCsv(Of BestHit)
+        Dim unionQuery = besthit.Select(Function(q) q.QueryName).Distinct.Indexing
+        Dim unionSubject = besthit.Select(Function(q) q.HitName).Distinct.Indexing
+
+        ' 替换掉所有的hit not found
+        For Each hit In besthit.Where(Function(h) h.identities <= 0)
+            hit.HitName = $"specific In {queryName}"
+        Next
+
+        besthit += query.Where(Function(q) Not q Like unionQuery) _
+                        .Select(Function(q)
+                                    Return New BestHit With {
+                                        .QueryName = q,
+                                        .HitName = $"specific In {queryName}"
+                                    }
+                                End Function)
+        besthit += subject.Where(Function(r) Not r Like unionSubject) _
+                          .Select(Function(r)
+                                      Return New BestHit With {
+                                          .QueryName = r,
+                                          .HitName = $"specific In {refName}"
+                                      }
+                                  End Function)
+
+        Return besthit.SaveTo(out).CLICode
     End Function
 End Module
