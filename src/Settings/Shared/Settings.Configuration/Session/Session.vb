@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::4097bb022c0340c9b752d1421d29587e, Shared\Settings.Configuration\Session\Session.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Session
-    ' 
-    ' 
-    '     Module Session
-    ' 
-    '         Properties: DataCache, Initialized, LogDIR, ProfileData, SettingsDIR
-    '                     SettingsFile, SHA256Provider, TEMP, Templates
-    ' 
-    '         Function: FolkShoalThread, GetSettings, GetSettingsFile, Initialize, InstallJavaBin
-    '                   InstallPython, List, Mothur, SetValue, TryGetShoalShellBin
-    ' 
-    '         Sub: Finallize, Save
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Session
+' 
+' 
+'     Module Session
+' 
+'         Properties: DataCache, Initialized, LogDIR, ProfileData, SettingsDIR
+'                     SettingsFile, SHA256Provider, TEMP, Templates
+' 
+'         Function: FolkShoalThread, GetSettings, GetSettingsFile, Initialize, InstallJavaBin
+'                   InstallPython, List, Mothur, SetValue, TryGetShoalShellBin
+' 
+'         Sub: Finallize, Save
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -201,8 +201,7 @@ Namespace Settings
             Call FileIO.FileSystem.CreateDirectory(DataCache)
 
             Dim settings As String = Session.SettingsDIR & "/Settings.xml"
-            Dim saveHwnd As Action(Of Settings.File, String) =
-                Sub(profile, path) profile.GetXml.SaveTo(path)
+            Dim saveHwnd As Action(Of Settings.File, String) = AddressOf saveProfile
 #If DEBUG Then
             Call $"Load GCModeller settings data from xml file: {settings.ToFileURL}".__DEBUG_ECHO
 #End If
@@ -217,6 +216,10 @@ Namespace Settings
 
             Return SettingsFile
         End Function
+
+        Private Sub saveProfile(profile As Settings.File, path$)
+            Call profile.GetXml.SaveTo(path)
+        End Sub
 
         ''' <summary>
         ''' 获取得到安装有Mothur程序的Docker容器的ID, 或者可执行文件路径
@@ -376,10 +379,7 @@ The path value of the java program usually is in the location like: ""C:\Program
             STDOUT = STDOUT & ".std_out"
             Call $"{NameOf(STDOUT)} >>> {STDOUT.ToFileURL}".__DEBUG_ECHO
 
-            Return New Microsoft.VisualBasic.CommandLine.IORedirectFile(
-            ShoalShell,
-            argv:=ScriptPath.CLIPath,
-            stdRedirect:=STDOUT).Run
+            Return New IORedirectFile(ShoalShell, argv:=ScriptPath.CLIPath, stdRedirect:=STDOUT).Run
         End Function
     End Module
 End Namespace
