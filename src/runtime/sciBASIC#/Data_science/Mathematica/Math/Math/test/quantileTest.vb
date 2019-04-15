@@ -68,5 +68,8 @@ Module quantileTest
         Call test({3465, 345, 73495})
         Call test({3465, 34573495})
         Call test({3465345})
+
+
+        Pause()
     End Sub
 End Module
