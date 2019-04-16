@@ -95,6 +95,22 @@ Namespace API.utils
             Return True
         End Function
 
+        ''' <summary>
+        ''' 这个函数会自动创建文件夹的
+        ''' </summary>
+        ''' <param name="func"></param>
+        ''' <param name="x"></param>
+        ''' <param name="file"></param>
+        ''' <param name="append"></param>
+        ''' <param name="quote"></param>
+        ''' <param name="sep"></param>
+        ''' <param name="eol"></param>
+        ''' <param name="na"></param>
+        ''' <param name="dec"></param>
+        ''' <param name="rowNames"></param>
+        ''' <param name="colNames"></param>
+        ''' <param name="qmethod"></param>
+        ''' <param name="fileEncoding"></param>
         Private Sub __write(func As String, x As String, Optional file As String = "", Optional append As Boolean = False, Optional quote As Boolean = True, Optional sep As String = " ",
                               Optional eol As String = "\n", Optional na As String = "NA", Optional dec As String = ".", Optional rowNames As Boolean = True,
                               Optional colNames As Boolean = True, Optional qmethod As qmethods = qmethods.escape, Optional fileEncoding As String = "")
@@ -103,6 +119,8 @@ Namespace API.utils
             eol = {Rstring(eol)}, na = {Rstring(na)}, dec = {Rstring(dec)}, row.names = {Rbool(rowNames)},
             col.names = {Rbool(colNames)}, qmethod = {Rstring(qmethod.ToString)},
             fileEncoding = {Rstring(fileEncoding)})"
+
+            Call file.ParentPath.MkDIR
 
             Try
                 Call R.__call

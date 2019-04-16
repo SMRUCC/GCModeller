@@ -307,7 +307,7 @@ Partial Module CLI
         Dim dataOUT = out & "/DEP.venn.csv"
         Dim title$ = args.GetValue("/title", "VennDiagram title")
 
-        Call Union(DIR, True, "", nonDEP_blank:=True, outGroup:=True) _
+        Call Union(DIR, True, "", nonDEP_blank:=True, outGroup:=True, isLabelFree:=False) _
             .SaveDataSet(dataOUT)
         Call Apps.VennDiagram.VennDiagramA(dataOUT, title, o:=out & "/venn.tiff", first_id_skip:=True)
 
@@ -341,8 +341,11 @@ Partial Module CLI
     ''' <param name="ZERO$"></param>
     ''' <param name="nonDEP_blank"></param>
     ''' <param name="outGroup">如果这个参数为真，说明是生成的文氏图的数据矩阵</param>
+    ''' <param name="isLabelFree">
+    ''' 如果是LabelFree的结果，则列标题很有可能有重复的值出现，在这里需要额外的处理
+    ''' </param>
     ''' <returns></returns>
-    Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean, outGroup As Boolean) As List(Of EntityObject)
+    Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean, outGroup As Boolean, isLabelFree As Boolean) As List(Of EntityObject)
         Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = DIR.unionDATA
         Dim allDEPs = data.Values _
             .IteratesALL _
@@ -365,18 +368,34 @@ Partial Module CLI
                             If .isDEP Then
                                 If outGroup Then
 
-                                    FClog2.Add(group.Key, .log2FC)
+                                    If isLabelFree Then
+                                        FClog2(group.Key) = .log2FC
+                                    Else
+                                        FClog2.Add(group.Key, .log2FC)
+                                    End If
 
                                 Else
 
                                     For Each prop In .Properties
                                         If prop.Value.TextEquals("NA") Then
-                                            FClog2.Add(prop.Key, ZERO)
+                                            If isLabelFree Then
+                                                FClog2(group.Key) = ZERO
+                                            Else
+                                                FClog2.Add(prop.Key, ZERO)
+                                            End If
                                         Else
                                             If tlog2 Then
-                                                Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                                If isLabelFree Then
+                                                    FClog2(prop.Key) = Math.Log(Val(prop.Value), 2)
+                                                Else
+                                                    FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                                End If
                                             Else
-                                                Call FClog2.Add(prop.Key, Val(prop.Value))
+                                                If isLabelFree Then
+                                                    FClog2(prop.Key) = Val(prop.Value)
+                                                Else
+                                                    FClog2.Add(prop.Key, Val(prop.Value))
+                                                End If
                                             End If
                                         End If
                                     Next
@@ -386,33 +405,54 @@ Partial Module CLI
                                 If nonDEP_blank Then
 
                                     If outGroup Then
-
-                                        FClog2.Add(group.Key, ZERO)
-
+                                        If isLabelFree Then
+                                            FClog2(group.Key) = ZERO
+                                        Else
+                                            FClog2.Add(group.Key, ZERO)
+                                        End If
                                     Else
 
-                                        For Each prop In .Properties
-                                            FClog2.Add(prop.Key, ZERO) ' log2(1) = 0
-                                        Next
-
+                                        If isLabelFree Then
+                                            For Each prop In .Properties
+                                                FClog2(prop.Key) = ZERO
+                                            Next
+                                        Else
+                                            For Each prop In .Properties
+                                                FClog2.Add(prop.Key, ZERO) ' log2(1) = 0
+                                            Next
+                                        End If
                                     End If
 
                                 Else
 
                                     If outGroup Then
-
-                                        FClog2.Add(group.Key, .log2FC)
-
+                                        If isLabelFree Then
+                                            FClog2(group.Key) = .log2FC
+                                        Else
+                                            FClog2.Add(group.Key, .log2FC)
+                                        End If
                                     Else
 
                                         For Each prop In .Properties
                                             If prop.Value.TextEquals("NA") Then
-                                                FClog2.Add(prop.Key, ZERO)
+                                                If isLabelFree Then
+                                                    FClog2(prop.Key) = ZERO
+                                                Else
+                                                    FClog2.Add(prop.Key, ZERO)
+                                                End If
                                             Else
                                                 If tlog2 Then
-                                                    Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                                    If isLabelFree Then
+                                                        FClog2(prop.Key) = Math.Log(Val(prop.Value), 2)
+                                                    Else
+                                                        FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                                    End If
                                                 Else
-                                                    Call FClog2.Add(prop.Key, Val(prop.Value))
+                                                    If isLabelFree Then
+                                                        FClog2(prop.Key) = Val(prop.Value)
+                                                    Else
+                                                        FClog2.Add(prop.Key, Val(prop.Value))
+                                                    End If
                                                 End If
                                             End If
                                         Next
@@ -426,15 +466,21 @@ Partial Module CLI
                     Else
 
                         If outGroup Then
-
-                            FClog2.Add(group.Key, ZERO)
-
+                            If isLabelFree Then
+                                FClog2(group.Key) = ZERO
+                            Else
+                                FClog2.Add(group.Key, ZERO)
+                            End If
                         Else
-
-                            For Each key In data(group.Key).Values.First.Properties.Keys
-                                FClog2.Add(key, ZERO)
-                            Next
-
+                            If isLabelFree Then
+                                For Each key In data(group.Key).Values.First.Properties.Keys
+                                    FClog2(key) = ZERO
+                                Next
+                            Else
+                                For Each key In data(group.Key).Values.First.Properties.Keys
+                                    FClog2.Add(key, ZERO)
+                                Next
+                            End If
                         End If
                     End If
                 End With
@@ -512,7 +558,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEPs.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEPs.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /legend.size <size, default=600,100> /out <out.DIR>]")>
+    <Usage("/DEPs.heatmap /data <Directory/csv_file> [/labelFree /schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /legend.size <size, default=600,100> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -562,6 +608,7 @@ Partial Module CLI
         Dim annotations As EntityObject() = EntityObject _
             .LoadDataSet(args <= "/annotation") _
             .ToArray
+        Dim isLabelFree As Boolean = args("/labelFree")
 
         If args.IsTrue("/is.matrix") Then
             matrix = DataSet _
@@ -572,7 +619,7 @@ Partial Module CLI
                 matrix = matrix.Log2.AsList
             End If
         Else
-            matrix = Union(input, tlog2, 0, args.GetBoolean("/non_DEP.blank"), False) _
+            matrix = Union(input, tlog2, 0, args.GetBoolean("/non_DEP.blank"), False, isLabelFree) _
                 .AsDataSet _
                 .AsList
         End If
