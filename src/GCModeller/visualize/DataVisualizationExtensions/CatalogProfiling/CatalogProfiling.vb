@@ -387,7 +387,7 @@ Public Module CatalogProfiling
         If tick <= 0 Then
             ' 自动生成
             Call "Ticks created from auto axis ticking...".__INFO_ECHO
-            Return AxisScalling.CreateAxisTicks({0, max})
+            Return AxisScalling.CreateAxisTicks({0, max}.AsEnumerable)
         Else
             Call "Ticks created from tick sequence...".__INFO_ECHO
             Return AxisScalling.GetAxisByTick(max, tick)
