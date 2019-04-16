@@ -176,7 +176,7 @@ Partial Module CLI
 
                     If NetworkTables.IsEmptyTables(.ByRef) Then
                         ' 删除这个空的网络导出结果
-                        Call .Delete
+                        Call .DeleteFile
                         Call $"Pathway: {pathway} no network was found...".Warning
                     Else
                         Call pathway.ToString.__INFO_ECHO
