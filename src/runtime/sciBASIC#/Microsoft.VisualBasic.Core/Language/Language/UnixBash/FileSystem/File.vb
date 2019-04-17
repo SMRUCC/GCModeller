@@ -74,7 +74,7 @@ Namespace Language.UnixBash.FileSystem
             Return Save(Path, encoding.CodePage)
         End Function
 
-        Public MustOverride Function Save(Path As String, Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public MustOverride Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
 
         Public Shared Operator >(file As File, path As String) As Boolean
             Return file.Save(path, Encodings.UTF8)

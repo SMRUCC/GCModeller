@@ -68,7 +68,7 @@ Namespace ComponentModel
         ''' <param name="encoding">The text encoding value for the text document.(文本文档的编码格式)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Function Save(path$, Optional encoding As Encoding = Nothing) As Boolean
+        Function Save(path$, encoding As Encoding) As Boolean
         Function Save(path$, Optional encoding As Encodings = Encodings.UTF8) As Boolean
     End Interface
 

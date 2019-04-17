@@ -192,7 +192,7 @@ Namespace ApplicationServices.Debugging.Logging
         ''' <param name="Encoding"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Save(FilePath$, Optional Encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(FilePath$, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             FilePath = FilePath Or Me.FilePath.When(FilePath.StringEmpty)
             Return SaveLog()
         End Function

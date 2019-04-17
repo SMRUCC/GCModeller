@@ -171,7 +171,7 @@ Namespace Terminal
             Return String.Join(";  ", _historyList.Take(3).ToArray) & "......."
         End Function
 
-        Public Function Save(Path$, Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path$, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Path = Path Or FilePath.When(Path.StringEmpty)
             Return Me.GetXml.SaveTo(Path, encoding)
         End Function

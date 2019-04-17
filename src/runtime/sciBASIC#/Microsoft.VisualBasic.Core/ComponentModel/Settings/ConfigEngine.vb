@@ -298,7 +298,7 @@ Namespace ComponentModel.Settings
         End Function
 
         <ExportAPI("Save")>
-        Public Function Save(FilePath$, Optional Encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(FilePath$, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Dim Xml As String = profilesData.GetXml
             Return Xml.SaveTo(FilePath Or Me.FilePath.When(FilePath.StringEmpty), Encoding)
         End Function

@@ -146,7 +146,7 @@ Namespace Text.Xml
         ''' <param name="Path"></param>
         ''' <param name="encoding"></param>
         ''' <returns></returns>
-        Public Function SaveTo(Path$, Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function SaveTo(Path$, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return Me.ToString.SaveTo(Path, encoding)
         End Function
 
