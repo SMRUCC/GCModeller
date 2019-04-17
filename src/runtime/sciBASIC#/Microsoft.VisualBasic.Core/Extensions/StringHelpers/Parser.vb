@@ -68,6 +68,9 @@ Public Module PrimitiveParser
         End If
     End Function
 
+#Region "text token pattern assert"
+    ' 2019-04-17 正则表达式的执行效率过低
+
     ''' <summary>
     ''' Is this token value string is a number?
     ''' </summary>
@@ -132,6 +135,7 @@ Public Module PrimitiveParser
 
         Return True
     End Function
+#End Region
 
     ''' <summary>
     ''' <see cref="Integer"/> text parser
