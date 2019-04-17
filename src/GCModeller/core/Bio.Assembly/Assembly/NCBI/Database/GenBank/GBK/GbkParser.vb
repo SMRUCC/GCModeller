@@ -76,7 +76,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Dim bufs As String() = Internal_readBlock(KeyWord.GBK_FIELD_KEY_ORIGIN, buf)
 
             If bufs.IsNullOrEmpty Then
-                Call $"{gb.FilePath.ToFileURL} have no sequence data.".__DEBUG_ECHO
+                Call $"{gb.Locus} have no sequence data.".__DEBUG_ECHO
 
                 Return New ORIGIN With {
                     .SequenceData = ""
@@ -90,9 +90,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Call "Start loading ncbi gbk file...".__DEBUG_ECHO
 
             Dim Sw As Stopwatch = Stopwatch.StartNew
-            Dim gb As New File With {
-                .FilePath = Path
-            }
+            Dim gb As New File
             Dim ReadThread As Action(Of File, String()) = AddressOf __readOrigin
             Dim ReadThreadResult As IAsyncResult = ReadThread.BeginInvoke(gb, innerBufs, Nothing, Nothing)
 
