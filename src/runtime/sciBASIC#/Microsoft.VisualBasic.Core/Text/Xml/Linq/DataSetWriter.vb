@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel
 
 Namespace Text.Xml.Linq
 
@@ -8,13 +9,21 @@ Namespace Text.Xml.Linq
     Public Class DataSetWriter(Of T) : Implements IDisposable
 
         Dim file As StreamWriter
+        Dim offsetLength As Integer = NodeIterator.XmlDeclare.Length
 
         Sub New(file As String, Optional encoding As Encodings = Encodings.UTF8)
             Me.file = file.OpenWriter(encoding)
+            Me.file.WriteLine(NodeIterator.XmlDeclare)
+            Me.file.WriteLine($"<DataSetOf{GetType(T).Name} xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">")
+            Me.file.WriteLine("<!--")
+            Me.file.WriteLine(XmlDataModel.GetTypeReferenceComment(GetType(T)))
+            Me.file.WriteLine("-->")
         End Sub
 
         Public Sub Write(data As T)
-
+            Dim Xml As String = data.GetXml
+            Xml = Xml.Substring(0, offsetLength + 1)
+            file.WriteLine(Xml)
         End Sub
 
 #Region "IDisposable Support"
@@ -25,6 +34,7 @@ Namespace Text.Xml.Linq
             If Not disposedValue Then
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
+                    Call file.WriteLine($"</DataSetOf{GetType(T).Name}>")
                     Call file.Flush()
                     Call file.Close()
                     Call file.Dispose()
