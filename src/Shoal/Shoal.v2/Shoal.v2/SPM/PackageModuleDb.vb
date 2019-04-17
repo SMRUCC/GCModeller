@@ -1,4 +1,7 @@
 ﻿Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime.HybridsScripting
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.SPM.Nodes
 
@@ -7,7 +10,8 @@ Namespace SPM
     ''' <summary>
     ''' 包管理器的数据库文件
     ''' </summary>
-    Public Class PackageModuleDb : Inherits ComponentModel.ITextFile
+    Public Class PackageModuleDb : Implements IFileReference
+        Implements IProfile
 
         Public Property NamespaceCollection As [Namespace]()
         Public Property HybridEnvironments As HybridEnvir()
@@ -32,10 +36,11 @@ Namespace SPM
         ''' 默认的注册表配置文件，该文件是在与本程序同一个文件夹之下的以程序名开始的XML文件.在该文件之中包含有所有的类型注册信息
         ''' </summary>
         ''' <remarks></remarks>
-        Public Shared ReadOnly Property DefaultFile As String = $"{App.ProductSharedDir}/.Settings/shoal-spm.xml"
+        Public Shared ReadOnly Property DefaultFile As String = $"{App.ProductSharedDIR}/.Settings/shoal-spm.xml"
+        Public Property FilePath As String Implements IFileReference.FilePath
 
         Public Shared Function Load(path As String) As PackageModuleDb
-            Dim Db = path.LoadXml(Of PackageModuleDb)(ThrowEx:=False)
+            Dim Db = path.LoadXml(Of PackageModuleDb)(throwEx:=False)
 
             If Db Is Nothing Then
                 Db = New PackageModuleDb
@@ -52,11 +57,8 @@ Namespace SPM
             Return Load(DefaultFile)
         End Function
 
-        Public Overrides Function Save(Optional FilePath As String = "",
-                                       Optional Encoding As Encoding = Nothing) As Boolean
-
-            FilePath = getPath(FilePath)
-            Return Me.GetXml.SaveTo(FilePath, Encoding)
+        Public Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements IProfile.Save
+            Return Me.GetXml.SaveTo(FilePath Or Me.FilePath.When(FilePath.StringEmpty), Encoding)
         End Function
 
         Public Sub Update(Environment As EntryPoint)
@@ -78,9 +80,5 @@ Namespace SPM
 
             Call __innerListEnvir.Add(Node)
         End Sub
-
-        Protected Overrides Function __getDefaultPath() As String
-            Return DefaultFile
-        End Function
     End Class
 End Namespace

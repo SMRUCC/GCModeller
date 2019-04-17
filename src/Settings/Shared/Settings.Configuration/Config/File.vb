@@ -196,7 +196,7 @@ Visit http://GCModeller.org/ for more information.
         ''' </remarks>
         Public Shared ReadOnly Property DefaultXmlFile As String = App.ProductProgramData & "/.settings/Settings.xml"
 
-        Public Property FilePath As String Implements IFileReference.FilePath, IProfile.FilePath
+        Public Property FilePath As String Implements IFileReference.FilePath
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             On Error Resume Next

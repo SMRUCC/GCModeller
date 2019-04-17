@@ -12,7 +12,7 @@ Namespace Interpreter.LDM
     ''' This object just the data model which was generated from the script parser, didn't contains any runtime information.
     ''' (只有解析出来的词元模型，，没有包含有函数指针的句柄信息，还不能够直接运行)
     ''' </summary>
-    Public Class SyntaxModel : Inherits ITextFile
+    Public Class SyntaxModel
 
         ''' <summary>
         ''' The script lines in the script file.
@@ -34,14 +34,7 @@ Namespace Interpreter.LDM
         End Function
 
         <XmlIgnore> <ScriptIgnore>
-        Public Shadows Property FilePath As String
-            Get
-                Return MyBase.FilePath
-            End Get
-            Set(value As String)
-                MyBase.FilePath = value
-            End Set
-        End Property
+        Public Property FilePath As String
 
         Public Shared Function Parser(Script As String, ParserInvoke As Interpreter.Parser, File As String) As LDM.Expressions.PrimaryExpression()
             Dim Expressions = ParserInvoke(Script)
@@ -139,12 +132,8 @@ Namespace Interpreter.LDM
             Return LQuery
         End Function
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return Me.GetXml.SaveTo(getPath(FilePath), Encoding)
-        End Function
-
-        Protected Overrides Function __getDefaultPath() As String
-            Return FilePath
+        Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean
+            Return Me.GetXml.SaveTo(FilePath, Encoding)
         End Function
     End Class
 End Namespace
