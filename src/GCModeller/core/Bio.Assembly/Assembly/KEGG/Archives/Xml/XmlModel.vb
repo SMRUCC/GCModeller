@@ -152,7 +152,7 @@ Namespace Assembly.KEGG.Archives.Xml
             Return LQuery
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Text.Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, Optional encoding As Text.Encoding = Nothing) As Boolean Implements ISaveHandle.Save
             If String.IsNullOrEmpty(Path) Then
                 Throw New Exception("Path is empty!")
             End If
@@ -160,7 +160,7 @@ Namespace Assembly.KEGG.Archives.Xml
             Return Me.GetXml.SaveTo(Path, encoding)
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(Path, encoding.CodePage)
         End Function
     End Class
