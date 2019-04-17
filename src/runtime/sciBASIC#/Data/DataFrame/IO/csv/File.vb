@@ -593,7 +593,7 @@ B21,B22,B23,...
         ''' </summary>
         ''' <param name="Path"></param>
         ''' <remarks>当目标保存路径不存在的时候，会自动创建文件夹</remarks>
-        Public Function Save(path$, Optional Encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(path$, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return StreamIO.SaveDataFrame(Me, path, Encoding)
         End Function
 

@@ -139,7 +139,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             Return Trim(LQuery)
         End Function
 
-        Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Throw New NotImplementedException()
         End Function
 

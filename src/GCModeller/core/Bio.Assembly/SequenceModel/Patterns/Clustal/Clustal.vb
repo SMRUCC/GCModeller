@@ -138,7 +138,7 @@ Namespace SequenceModel.Patterns.Clustal
             Next
         End Function
 
-        Public Function Save(FilePath$, Optional Encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(FilePath$, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return New FastaFile(_innerList).Save(-1, FilePath, Encoding)
         End Function
 

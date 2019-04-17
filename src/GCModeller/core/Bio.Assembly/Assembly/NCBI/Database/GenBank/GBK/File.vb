@@ -331,7 +331,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Return buf
         End Function
 
-        Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return GbkWriter.WriteGenbank(Me, FilePath, Encoding)
         End Function
 

@@ -67,7 +67,7 @@ Namespace Assembly.DOMINE
         Public Property PGMap As DOMINE.Tables.PGMap()
         Public Property FilePath As String Implements IFileReference.FilePath
 
-        Public Function Save(Path As String, Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             If String.IsNullOrEmpty(Path) Then
                 Path = Me.FilePath
             End If

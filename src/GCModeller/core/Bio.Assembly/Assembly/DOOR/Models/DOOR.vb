@@ -180,7 +180,7 @@ Namespace Assembly.DOOR
             Return DOOROperonView.GetOperon(DOOR)
         End Function
 
-        Public Function Save(Path As String, Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return SaveFile(Me.DOOROperonView.Operons, Path)
         End Function
 

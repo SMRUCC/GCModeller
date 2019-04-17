@@ -239,7 +239,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 
 #Region "IO Operations"
 
-        Public Function Save(Path As String, Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Dim sBuilder As New StringBuilder(Title & String.Format(" - 1..{0}", Size), capacity:=1024)
 
             Call sBuilder.AppendLine()

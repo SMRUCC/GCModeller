@@ -296,7 +296,7 @@ Here, we report on the progress of the curation effort and associated improvemen
             Return LQuery.ToArray
         End Function
 
-        Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return Me.GetXml.SaveTo(FilePath Or Me.FilePath.When(FilePath.StringEmpty), Encoding)
         End Function
 
