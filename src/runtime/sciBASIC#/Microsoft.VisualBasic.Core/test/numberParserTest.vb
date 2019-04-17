@@ -4,17 +4,17 @@ Imports System.Text.RegularExpressions
 Module numberParserTest
 
     Sub Main()
-        Dim dbl1 = "-4.6465E+465"
+        Dim dbl1 = "-4.6465E+65"
         Dim dbl2 = "553453453445"
         Dim dbl3 = ".423423"
         Dim dbl4 = "+.364534e53"
         Dim invalidDbl = "244.24.234"
 
-        Call Console.WriteLine(IsDoubleNumber(dbl1))
-        Call Console.WriteLine(IsDoubleNumber(dbl2))
-        Call Console.WriteLine(IsDoubleNumber(dbl3))
-        Call Console.WriteLine(IsDoubleNumber(dbl4))
-        Call Console.WriteLine(IsDoubleNumber(invalidDbl))
+        Call Console.WriteLine(IsDoubleNumber(dbl1) & vbTab & PrimitiveParser.IsNumeric(dbl1) & vbTab & Val(dbl1))
+        Call Console.WriteLine(IsDoubleNumber(dbl2) & vbTab & PrimitiveParser.IsNumeric(dbl2) & vbTab & Val(dbl2))
+        Call Console.WriteLine(IsDoubleNumber(dbl3) & vbTab & PrimitiveParser.IsNumeric(dbl3) & vbTab & Val(dbl3))
+        Call Console.WriteLine(IsDoubleNumber(dbl4) & vbTab & PrimitiveParser.IsNumeric(dbl4) & vbTab & Val(dbl4))
+        Call Console.WriteLine(IsDoubleNumber(invalidDbl) & vbTab & PrimitiveParser.IsNumeric(invalidDbl) & vbTab & Val(invalidDbl))
 
 
         Dim int1 = "654646"
