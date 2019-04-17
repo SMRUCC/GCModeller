@@ -49,7 +49,7 @@ Namespace ComponentModel.Settings
     ''' <summary>
     ''' 具备有保存数据功能的可配置数据文件的基本定义
     ''' </summary>
-    Public Interface IProfile
+    Public Interface IProfile : Inherits IFileReference
 
         Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
 
@@ -59,6 +59,7 @@ Namespace ComponentModel.Settings
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Property FilePath As String
+        Overloads Property FilePath As String
+
     End Interface
 End Namespace

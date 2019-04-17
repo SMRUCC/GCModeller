@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::029f9f1fb79827050d3f2a279e162166, Shared\Settings.Configuration\Config\File.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class File
-    ' 
-    '         Properties: BlastBin, BlastDb, C2, COG2003_2014, DefaultXmlFile
-    '                     Dev2, Gcc, GCHOST, Java, Mothur
-    '                     MPAlignment, MySQL, Perl, Phylip, Python
-    '                     R_HOME, RepositoryRoot, Rockhopper, RSS, ShoalShell
-    '                     SMART, STAMP
-    ' 
-    '         Function: GetMplParam, Save
-    ' 
-    '         Sub: Dispose
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class File
+' 
+'         Properties: BlastBin, BlastDb, C2, COG2003_2014, DefaultXmlFile
+'                     Dev2, Gcc, GCHOST, Java, Mothur
+'                     MPAlignment, MySQL, Perl, Phylip, Python
+'                     R_HOME, RepositoryRoot, Rockhopper, RSS, ShoalShell
+'                     SMART, STAMP
+' 
+'         Function: GetMplParam, Save
+' 
+'         Sub: Dispose
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,14 +52,17 @@ Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 
 Namespace Settings
 
     <XmlRoot("Settings.File", Namespace:="http://code.google.com/p/genome-in-code/gcmodeller/settings.file/")>
-    Public Class File : Inherits ITextFile
+    Public Class File
         Implements IDisposable
         Implements IProfile
+        Implements ISaveHandle
+        Implements IFileReference
 
 #Region "General Settings Items"
 
@@ -193,22 +196,56 @@ Visit http://GCModeller.org/ for more information.
         ''' </remarks>
         Public Shared ReadOnly Property DefaultXmlFile As String = App.ProductProgramData & "/.settings/Settings.xml"
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            If String.IsNullOrEmpty(FilePath) Then
-                FilePath = DefaultXmlFile
-            Else
-                MyBase.FilePath = FilePath
-            End If
+        Public Property FilePath As String Implements IFileReference.FilePath, IProfile.FilePath
 
+        Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             On Error Resume Next
 
-            Call FileIO.FileSystem.DeleteFile(FilePath, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.DeletePermanently)
+            FilePath = FilePath Or DefaultXmlFile.When(FilePath.StringEmpty)
+            FileIO.FileSystem.DeleteFile(FilePath, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.DeletePermanently)
+
             Return Me.GetXml.SaveTo(FilePath, Encoding Or UTF8)
         End Function
 
-        Protected Overrides Sub Dispose(disposing As Boolean)
-            Call Save()
-            MyBase.Dispose(disposing)
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
+        End Function
+
+#Region "IDisposable Support"
+        Private disposedValue As Boolean ' To detect redundant calls
+
+        ' IDisposable
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: dispose managed state (managed objects).
+                    Call Save(Nothing)
+                End If
+
+                ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
+                ' TODO: set large fields to null.
+            End If
+            disposedValue = True
         End Sub
+
+        ' TODO: override Finalize() only if Dispose(disposing As Boolean) above has code to free unmanaged resources.
+        'Protected Overrides Sub Finalize()
+        '    ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
+        '    Dispose(False)
+        '    MyBase.Finalize()
+        'End Sub
+
+        ' This code added by Visual Basic to correctly implement the disposable pattern.
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
+            Dispose(True)
+            ' TODO: uncomment the following line if Finalize() is overridden above.
+            ' GC.SuppressFinalize(Me)
+        End Sub
+
+        Private Function IProfile_Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements IProfile.Save
+            Throw New NotImplementedException()
+        End Function
+#End Region
     End Class
 End Namespace
