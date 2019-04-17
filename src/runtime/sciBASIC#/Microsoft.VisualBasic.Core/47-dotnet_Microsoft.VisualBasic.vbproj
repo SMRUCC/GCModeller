@@ -1557,7 +1557,6 @@
     <Compile Include="Extensions\Security\TripleDES.vb" />
     <Compile Include="Extensions\WebServices\WebServiceUtils.vb" />
     <Compile Include="ComponentModel\Settings\Inf\INIProfile.vb" />
-    <Compile Include="ComponentModel\File\ITextFile.vb" />
     <Compile Include="ComponentModel\Settings\Settings.vb" />
     <Compile Include="ComponentModel\Algorithm\base\Combination\Comb.vb" />
     <Compile Include="CommandLine\Interpreters\Interpreter.vb" />
