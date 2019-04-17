@@ -82,16 +82,22 @@ Namespace ComponentModel
             Return New XmlDocument().CreateComment(GetTypeReferenceComment(Me.GetType))
         End Function
 
-        Public Shared Function GetTypeReferenceComment(modelType As Type) As String
+        ''' <summary>
+        ''' 生成的注释信息是默认空了四个空格的
+        ''' </summary>
+        ''' <param name="modelType"></param>
+        ''' <returns></returns>
+        Public Shared Function GetTypeReferenceComment(modelType As Type, Optional indent% = 4) As String
             Dim fullName$ = modelType.FullName
             Dim assembly$ = modelType.Assembly.FullName
             Dim update As Date = File.GetLastWriteTime(modelType.Assembly.Location)
             Dim md5$ = modelType.Assembly.Location.GetFileMd5
+            Dim indentBlank As New String(" "c, indent)
             Dim traceInfo$ = vbCrLf &
-                "     model:     " & fullName & vbCrLf &
-                "     assembly:  " & assembly & vbCrLf &
-                "     md5:       " & md5 & vbCrLf &
-                "     timestamp: " & update.ToLongDateString & vbCrLf &
+                $"{indentBlank} model:     " & fullName & vbCrLf &
+                $"{indentBlank} assembly:  " & assembly & vbCrLf &
+                $"{indentBlank} md5:       " & md5 & vbCrLf &
+                $"{indentBlank} timestamp: " & update.ToLongDateString & vbCrLf &
                 "  "
 
             Return traceInfo

@@ -10,20 +10,29 @@ Namespace Text.Xml.Linq
 
         Dim file As StreamWriter
         Dim offsetLength As Integer = NodeIterator.XmlDeclare.Length
+        Dim indentBlank$ = "   "
 
         Sub New(file As String, Optional encoding As Encodings = Encodings.UTF8)
             Me.file = file.OpenWriter(encoding)
             Me.file.WriteLine(NodeIterator.XmlDeclare)
             Me.file.WriteLine($"<DataSetOf{GetType(T).Name} xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">")
-            Me.file.WriteLine("<!--")
-            Me.file.WriteLine(XmlDataModel.GetTypeReferenceComment(GetType(T)))
-            Me.file.WriteLine("-->")
+            Me.file.WriteLine("  <!--")
+            Me.file.WriteLine(XmlDataModel.GetTypeReferenceComment(GetType(T), 6))
+            Me.file.WriteLine("  -->")
         End Sub
 
         Public Sub Write(data As T)
-            Dim Xml As String = data.GetXml
-            Xml = Xml.Substring(offsetLength + 1)
-            file.WriteLine(Xml)
+            Dim xml As String() = data.GetXml.LineTokens.Skip(1).ToArray
+
+            xml(0) = xml(0) _
+                .Replace("xmlns:xsd=""http://www.w3.org/2001/XMLSchema""", "") _
+                .Replace("xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""", "") _
+                .Replace("  ", "")
+
+            For Each line As String In xml
+                Call file.Write(indentBlank)
+                Call file.WriteLine(line)
+            Next
         End Sub
 
 #Region "IDisposable Support"
