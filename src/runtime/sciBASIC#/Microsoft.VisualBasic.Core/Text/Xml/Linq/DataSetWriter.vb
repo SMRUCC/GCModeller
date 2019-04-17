@@ -22,7 +22,7 @@ Namespace Text.Xml.Linq
 
         Public Sub Write(data As T)
             Dim Xml As String = data.GetXml
-            Xml = Xml.Substring(0, offsetLength + 1)
+            Xml = Xml.Substring(offsetLength + 1)
             file.WriteLine(Xml)
         End Sub
 
