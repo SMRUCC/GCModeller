@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 
 Namespace Text.Xml.Linq
@@ -33,6 +34,11 @@ Namespace Text.Xml.Linq
                 Call file.Write(indentBlank)
                 Call file.WriteLine(line)
             Next
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub Flush()
+            Call file.Flush()
         End Sub
 
 #Region "IDisposable Support"
