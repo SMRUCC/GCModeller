@@ -17,9 +17,9 @@ Namespace Text.Xml.Linq
             Me.file = file.OpenWriter(encoding)
             Me.file.WriteLine(NodeIterator.XmlDeclare)
             Me.file.WriteLine($"<DataSetOf{GetType(T).Name} xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">")
-            Me.file.WriteLine("  <!--")
+            Me.file.WriteLine(indentBlank & "<!--")
             Me.file.WriteLine(XmlDataModel.GetTypeReferenceComment(GetType(T), 6))
-            Me.file.WriteLine("  -->")
+            Me.file.WriteLine(indentBlank & "-->")
         End Sub
 
         Public Sub Write(data As T)
