@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::642a36c0cd8a9a7bb943f5a3996e3b84, GCModeller.DataVisualization\CatalogProfiling\CatalogProfiling.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CatalogProfiling
-    ' 
-    '     Function: AsDouble, GetTicks, ProfilesPlot
-    ' 
-    '     Sub: __plotInternal
-    ' 
-    ' /********************************************************************************/
+' Module CatalogProfiling
+' 
+'     Function: AsDouble, GetTicks, ProfilesPlot
+' 
+'     Sub: __plotInternal
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Imaging.SVG
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -249,10 +250,17 @@ Public Module CatalogProfiling
             .X = barRect.Left + (barRect.Width - titleSize.Width) / 2,
             .Y = (y - titleSize.Height) / 2.0!
         }
+        Dim rectangleStroke As New Pen(Color.Black, 5)
 
         ' 在这里进行plot的标题的绘制操作
         Call g.DrawString(title, titleFont, Brushes.Black, anchor)
-        Call g.DrawRectangle(New Pen(Color.Black, 5), barRect)
+
+        If TypeOf g Is GraphicsSVG Then
+            ' 如果是SVG文档，则还需要设置一下rectangle的填充，要不然会被默认填充为黑色背景
+            DirectCast(g, GraphicsSVG).DrawRectangle(rectangleStroke, barRect, Color.White)
+        Else
+            Call g.DrawRectangle(rectangleStroke, barRect)
+        End If
 
         Dim gap! = 10.0!
         Dim grayColor As DefaultValue(Of Color) = Color.Gray.AsDefault(Function() gray)
