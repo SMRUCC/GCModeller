@@ -43,6 +43,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis
@@ -87,7 +88,7 @@ Partial Module CLI
     Public Function DAVID_KEGGplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim pvalue# = args.GetValue("/p.value", 0.05R)
-        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.DAVID_KEGG.plot_p.value={pvalue}.png".AsDefault
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.DAVID_KEGG.plot_p.value={pvalue}.{g.DriverExtensionName}".AsDefault
         Dim isTsv As Boolean = args.IsTrue("/tsv")
         Dim tick# = args.GetValue("/tick", 1.0R)
 
@@ -134,7 +135,7 @@ Partial Module CLI
         Dim isTsv As Boolean = args.IsTrue("/tsv")
         Dim tick# = args.GetValue("/tick", 1.0#)
         Dim GO$ = (args <= "/GO") Or (GCModeller.FileSystem.FileSystem.GO & "/GO.obo").AsDefault
-        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}_p.value={pvalue}.png".AsDefault
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}_p.value={pvalue}.{g.DriverExtensionName}".AsDefault
         Dim table As FunctionCluster() = DAVID.Load([in], csv:=Not isTsv)
         Dim GOterms = table.SelectGoTerms
 
