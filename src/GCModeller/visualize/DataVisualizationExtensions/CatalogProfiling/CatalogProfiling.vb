@@ -285,7 +285,7 @@ Public Module CatalogProfiling
             End If
 
             ' 绘制Class大分类的标签
-            Call g.DrawString(+[class], classFont, Brushes.Black, New PointF(left, y))
+            Call g.DrawString([class], classFont, Brushes.Black, New PointF(left, y))
             y += maxLenClsKeySize.Height + 5
 
             ' 绘制统计的小分类标签以及barplot图形
@@ -358,15 +358,23 @@ Public Module CatalogProfiling
         Dim tickFont = CSSFont.TryParse(tickFontStyle)
         Dim tickSize As SizeF
         Dim tickPen As New Pen(Color.Black, 3)
+        Dim tickX!
 
         For Each tick In axisTicks.Where(Function(v) v <= maxValue)
-            Dim tickX = barRect.Left + mapper.ScallingWidth(tick, barRect.Width - gap)
-
+            tickX = barRect.Left + mapper.ScallingWidth(tick, barRect.Width - gap)
             tickSize = g.MeasureString(tick, tickFont)
-            anchor = New PointF With {
-                .X = tickX - tickSize.Width / 2,
-                .Y = y + d + 10
-            }
+
+            If TypeOf g Is GraphicsSVG Then
+                anchor = New PointF With {
+                    .X = tickX - tickSize.Width,
+                    .Y = y + d + 10
+                }
+            Else
+                anchor = New PointF With {
+                    .X = tickX - tickSize.Width / 2,
+                    .Y = y + d + 10
+                }
+            End If
 
             Call g.DrawLine(tickPen, New PointF(tickX, y), New PointF(tickX, y + d))
             Call g.DrawString(tick, tickFont, Brushes.Black, anchor)
