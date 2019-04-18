@@ -604,11 +604,12 @@ REPEAT:         Dim Combs As List(Of Tuple(Of String, String)) = Comb(Of String)
             Model.links = Links.ToArray
 
             Dim Qp As Integer = Array.IndexOf(ColumnList, Query)
-            Dim QueryPtt = TabularFormat.PTT.Load(PttSource(Qp))
+            Dim queryPttPath$ = PttSource(Qp)
+            Dim QueryPtt = TabularFormat.PTT.Load(queryPttPath)
             Dim SubjectsPtt = (From i As Integer
                                In PttSource.Sequence
                                Let path As String = PttSource(i), S_ID As String = ColumnList(i)
-                               Where Not String.Equals(path, QueryPtt.FilePath)
+                               Where Not String.Equals(path, queryPttPath)
                                Select path,
                                    S_ID,
                                    Ptt = TabularFormat.PTT.Load(path)).ToArray
