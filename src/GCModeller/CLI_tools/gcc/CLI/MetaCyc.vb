@@ -105,7 +105,7 @@ Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
         Dim [New] As String = CommandLine("-new")
 
         Call Settings.SettingsFile.Gcc.Filters.Add(New Settings.Programs.GCC.Replacement With {.Old = Old, .NewReplaced = [New]})
-        Call Settings.ProfileData.Save()
+        Call Settings.ProfileData.Save(Nothing)
 
         Return 0
     End Function
@@ -131,6 +131,6 @@ Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
         Dim Model As GCMarkupLanguage.BacterialModel = GCMarkupLanguage.BacterialModel.Load(CommandLine("-model"))
         Dim RuleFile As IO.File = IO.File.Load(CommandLine("-rulefile"))
 
-        Return ProteinDomain.AddingRules(MetaCyc:=MetaCyc, Model:=Model, RuleFile:=RuleFile, GrepScript:=CommandLine("-grep"))
+        Return ProteinDomain.AddingRules(MetaCyc:=MetaCyc, Model:=Model, RuleFile:=RuleFile, GrepScript:=CommandLine("-grep"), modelFilePath:=CommandLine("-model"))
     End Function
 End Module

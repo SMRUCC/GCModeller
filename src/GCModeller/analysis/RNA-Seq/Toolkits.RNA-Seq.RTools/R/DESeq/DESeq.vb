@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::2b70a729ff4a865469a87841d3fb9b37, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\DESeq.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module DESeq
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __runR, (+3 Overloads) DESeq2, DiffGeneCOGs, FilterDifferentExpression, HTSeqCount
-    '                   Initialize, LoadPTT, SaveResult, summarizeOverlaps
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module DESeq
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: __runR, (+3 Overloads) DESeq2, DiffGeneCOGs, FilterDifferentExpression, HTSeqCount
+'                   Initialize, LoadPTT, SaveResult, summarizeOverlaps
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -286,11 +286,12 @@ Huber, W.",
             Call sbr.Replace("{DIR_EXPORT}", FileIO.FileSystem.GetParentPath(countData).Replace("\", "/"))
             Call sbr.Replace("{ConditionLength}", Conditions.Length)
 
-            Dim DiffCsv As IO.File = __runR(sbr.ToString, directory)
-            Return DiffCsv.Save
+            Dim path$ = Nothing
+            Dim DiffCsv As IO.File = __runR(sbr.ToString, directory, path)
+            Return DiffCsv.Save(path)
         End Function
 
-        Private Function __runR(RScript As String, directory As String) As IO.File
+        Private Function __runR(RScript As String, directory As String, ByRef diffPath$) As IO.File
             Dim ScriptPath As String = $"{directory}/R.DESeq.txt"
 
             Call RScript.SaveTo(ScriptPath)
@@ -309,15 +310,16 @@ Huber, W.",
                 Call base.warning().JoinBy(vbCrLf).__DEBUG_ECHO
             End Try
 
-            Dim DiffPath As String = directory & "/diffexpr-results.csv"
-            If Not DiffPath.FileExists Then
+            diffPath = directory & "/diffexpr-results.csv"
+
+            If Not diffPath.FileExists Then
                 Call "DESeq2 analysis run failure!".__DEBUG_ECHO
                 Return False
             End If
 
             '替换回基因编号
             Dim ID As String() = IO.File.Load(directory & "\countData.csv").Column(0).Skip(1).ToArray
-            Dim DiffCsv As IO.File = IO.File.Load(DiffPath)
+            Dim DiffCsv As IO.File = IO.File.Load(diffPath)
 
             DiffCsv(0)(1) = "locus_tag"  ' Gene -> locus_tag
 
@@ -402,7 +404,7 @@ Huber, W.",
                 DiffCsv(i)(1) = ID(i - 1)
             Next
 
-            Call DiffCsv.Save()
+            Call DiffCsv.Save(DiffPath)
 
             Return True
         End Function

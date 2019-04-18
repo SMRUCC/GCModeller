@@ -119,8 +119,6 @@ Namespace Workflows
             Public Sub Invoke(File As IO.File)
                 Dim matchedFile As New IO.File
 
-                Console.WriteLine("procede file {0}", File.FilePath)
-
                 Dim create = (From row In File.Skip(1).AsParallel Select __createAction(row)).ToArray
 
                 Console.WriteLine("end of row creation")
@@ -213,11 +211,12 @@ Namespace Workflows
         End Sub
 
         Public Sub match(MEME_OUT As String, FsaDir As String)
-            Dim list = From path In ls - l - wildcards("*.csv") <= MEME_OUT Select IO.File.Load(path)
+            Dim list = ls - l - "*.csv" <= MEME_OUT
             Dim DirList = FileIO.FileSystem.GetDirectories(FsaDir, FileIO.SearchOption.SearchTopLevelOnly)
 
-            ForEach(list, Sub(csvFile As IO.File)
-                              Dim Dirname As String = FileIO.FileSystem.GetName(csvFile.FilePath)
+            ForEach(list, Sub(path As String)
+                              Dim csvFile = IO.File.Load(path)
+                              Dim Dirname As String = FileIO.FileSystem.GetName(path)
                               Dim Dir = (From strDir As String In DirList Where InStr(Dirname, FileIO.FileSystem.GetName(strDir)) Select strDir).First
 
                               Dim FsaList = (From file In FileIO.FileSystem.GetFiles(Dir, FileIO.SearchOption.SearchTopLevelOnly, "*.fsa").AsParallel Select FASTA.FastaFile.Read(file)).ToArray
@@ -241,7 +240,7 @@ Namespace Workflows
                                   End If
                               Next
 
-                              Call csvFile.Save()
+                              Call csvFile.Save(path)
                           End Sub)
         End Sub
 

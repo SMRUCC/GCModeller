@@ -131,11 +131,11 @@ Namespace TRN
             }
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Text.Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, encoding As Text.Encoding) As Boolean Implements ISaveHandle.Save
             Return Me.ToConfigDoc.SaveTo(Path, encoding)
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(Path, encoding.CodePage)
         End Function
     End Class
