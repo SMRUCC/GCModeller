@@ -1,55 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::f7069b9c095117a8ecdf1881e2209610, ChromosomeMap\Configuration\Config.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Config
-    ' 
-    '         Properties: AddLegend, AspectRatio, DefaultRNAColor, DeletionMutation, FLAG_HEIGHT
-    '                     FlagLength, FunctionAlignment, FunctionAnnotationFont, GeneObjectHeight, IntegrationMutant
-    '                     LegendFont, LineHeight, LineLength, LocusTagFont, Margin
-    '                     NoneCogColor, Resolution, ribosomalRNAColor, SavedFormat, SecondaryRuleFont
-    '                     tRNAColor
-    ' 
-    '         Function: [DefaultValue], CssFontParser, GetDrawingColor, GetDrawingSize, GetSavedImageFormat
-    '                   GetTextAlignment, (+2 Overloads) Save, ToConfigurationModel, ToString, TypeOfAlignment
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Config
+' 
+'         Properties: AddLegend, AspectRatio, DefaultRNAColor, DeletionMutation, FLAG_HEIGHT
+'                     FlagLength, FunctionAlignment, FunctionAnnotationFont, GeneObjectHeight, IntegrationMutant
+'                     LegendFont, LineHeight, LineLength, LocusTagFont, Margin
+'                     NoneCogColor, Resolution, ribosomalRNAColor, SavedFormat, SecondaryRuleFont
+'                     tRNAColor
+' 
+'         Function: [DefaultValue], CssFontParser, GetDrawingColor, GetDrawingSize, GetSavedImageFormat
+'                   GetTextAlignment, (+2 Overloads) Save, ToConfigurationModel, ToString, TypeOfAlignment
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Drawing.Imaging
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.Default
@@ -76,8 +77,7 @@ Namespace Configuration
         "     Gmail:    xie.guigang@gcmodeller.org" & vbCrLf &
         "     Work:     genomics@smrucc.org" & vbCrLf &
         "     Twitter:  @xieguigang(https://twitter.com/xieguigang)", 1)>
-    Public Class Config : Inherits ITextFile
-        Implements ISaveHandle
+    Public Class Config : Implements ISaveHandle
 
         ''' <summary>
         ''' Due to the GDI+ limitations in the .NET Framework, the image size is limited by your computer memory size, if you want to
@@ -278,7 +278,7 @@ Namespace Configuration
             End With
         End Function
 
-        Public Overrides Function Save(Optional Path As String = "", Optional encoding As System.Text.Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Dim Text As String = Me.ToConfigDoc
             Return Text.SaveTo(Path, encoding)
         End Function
@@ -287,7 +287,7 @@ Namespace Configuration
             Return Me.ToConfigDoc
         End Function
 
-        Public Overloads Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(Path, encoding.CodePage)
         End Function
     End Class

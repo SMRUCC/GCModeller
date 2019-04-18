@@ -161,7 +161,7 @@ Public Class DataPreparations
         Dim PartnerTargetHomologous = GenomicsProteins.Select(Function(FsaObject As FASTA.FastaSeq) Array.IndexOf(MatchedIdCollection, FsaObject.Headers.First.Split.First) > -1)
         Call PartnerTargetHomologous.Save(workDir & "target_genomics_proteins_homologous_partners.fsa")
         Call TargetHomologousPartners.AddRange(PartnerTargetHomologous)
-        Call TargetHomologousPartners.Save()
+        Call TargetHomologousPartners.Save(TempFile)
 
         Console.WriteLine("Write dip interaction pairs data...")
 

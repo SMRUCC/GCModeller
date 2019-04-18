@@ -109,7 +109,6 @@ Namespace NCBIBlastResult
 
             Return New AlignmentTable With {
                 .Hits = hits,
-                .FilePath = path,
                 .Program = header.First.Trim.Split.Last,
                 .Query = headAttrs("# Query"),
                 .Database = headAttrs("# Database"),

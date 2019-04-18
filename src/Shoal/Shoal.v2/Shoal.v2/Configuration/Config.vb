@@ -139,7 +139,7 @@ Namespace Configuration
             End Get
         End Property
 
-        Public Property FilePath As String Implements IProfile.FilePath, IFileReference.FilePath
+        Public Property FilePath As String Implements IFileReference.FilePath
 
         ''' <summary>
         ''' Load the configuration file from the default file location: <see cref="DefaultFile"/>.
