@@ -612,6 +612,11 @@ Namespace SVG
                 .y2 = y2,
                 .style = New Stroke(pen).CSSValue
             }
+
+            If Not pen.DashStyle = DashStyle.Solid Then
+                line.DashArray = {8, 4}
+            End If
+
             Call __svgData.Add(line)
         End Sub
 
