@@ -67,9 +67,9 @@ Module Program
         'Console.ReadLine()
     End Function
 
-    Public Sub ExtractCognateTCS(GenomeData As IO.File)
-        Dim SKPath As String = FileIO.FileSystem.GetParentPath(GenomeData.FilePath) & "/Sk.fsa"
-        Dim RRPath As String = FileIO.FileSystem.GetParentPath(GenomeData.FilePath) & "/RR.fsa"
+    Public Sub ExtractCognateTCS(GenomeData As IO.File, EXPORT$)
+        Dim SKPath As String = $"{EXPORT}/Sk.fsa"
+        Dim RRPath As String = $"{EXPORT}/RR.fsa"
 
         Dim Sk As FASTA.FastaFile = FASTA.FastaFile.Read(SKPath, False)
         Dim RR As FASTA.FastaFile = FASTA.FastaFile.Read(RRPath, False)

@@ -219,14 +219,10 @@ Namespace dataExprMAT
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{Me.Name}  @{__reader.FilePath.ToFileURL}"
+            Return Me.Name
         End Function
 
         Public ReadOnly Property Name As String
-            Get
-                Return basename(__reader.FilePath)
-            End Get
-        End Property
 
         ''' <summary>
         ''' Load expression data from a csv docuemnt stream.

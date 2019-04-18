@@ -268,7 +268,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\..\smartnucl_integrative\biodeepDB\METLINApp\App\</OutputPath>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
@@ -690,7 +690,6 @@
     <Compile Include="SequenceModel\Patterns\Clustal\Residue.vb" />
     <Compile Include="SequenceModel\Patterns\Clustal\Clustal.vb" />
     <Compile Include="SequenceModel\FASTA\Reflection\FastaTools.vb" />
-    <Compile Include="SequenceModel\FASTA\IO\UltralargeSizeFastaReader.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\Contig.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\SimpleSegment.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Extensions.vb" />

@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::d0b583ab426f5000b7944941ae5c5dfa, Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class DbFile
-    ' 
-    '         Properties: BuildTime, FastaUrl, Id, SmpData
-    ' 
-    '         Function: ContainsId, ContainsId_p, (+2 Overloads) ExportFASTA, FindByTabId, PreLoad
-    '                   Save, Takes, ToString
-    ' 
-    '         Sub: (+2 Overloads) __buildDb, BuildDb
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class DbFile
+' 
+'         Properties: BuildTime, FastaUrl, Id, SmpData
+' 
+'         Function: ContainsId, ContainsId_p, (+2 Overloads) ExportFASTA, FindByTabId, PreLoad
+'                   Save, Takes, ToString
+' 
+'         Sub: (+2 Overloads) __buildDb, BuildDb
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,6 +53,8 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports SMRUCC.genomics.SequenceModel
+Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.NCBI.CDD
 
@@ -116,7 +118,7 @@ Here, we report on the progress of the curation effort and associated improvemen
           Issue:="Database issue",
           Pages:="D192-6",
           PubMed:=15608175)>
-    Public Class DbFile : Inherits ITextFile
+    Public Class DbFile : Implements ISaveHandle, IFileReference
 
         Dim _innerDict As Dictionary(Of String, CDD.SmpFile)
 
@@ -133,7 +135,7 @@ Here, we report on the progress of the curation effort and associated improvemen
                     _innerDict = value.ToDictionary(Function(o As CDD.SmpFile) o.Name)
                 Else
                     Call $"Null database entries!".__DEBUG_ECHO
-                    _innerDict = New Dictionary(Of Dir, SmpFile)
+                    _innerDict = New Dictionary(Of DIR, SmpFile)
                 End If
             End Set
         End Property
@@ -145,7 +147,7 @@ Here, we report on the progress of the curation effort and associated improvemen
             Dim TagId As Integer = Val(strTagId)
             Dim LQuery = (From smp As SmpFile
                           In SmpData
-                          Where TagId = smp.Id
+                          Where TagId = smp.ID
                           Select smp).FirstOrDefault
             Return LQuery
         End Function
@@ -167,6 +169,8 @@ Here, we report on the progress of the curation effort and associated improvemen
             End Get
         End Property
 
+        Public Property FilePath As String Implements IFileReference.FilePath
+
         ''' <summary>
         ''' 非并行版本的<see cref="CDD.SmpFile.Name">AccessionId</see>, <see cref="CDD.SmpFile.Id">TagId</see>, <see cref="CDD.SmpFile.CommonName">CommonName</see>
         ''' </summary>
@@ -179,7 +183,7 @@ Here, we report on the progress of the curation effort and associated improvemen
 
             Return (From item In _innerDict.Values
                     Where String.Equals(item.CommonName, id) OrElse
-                        String.Equals(item.Id.ToString, id)
+                        String.Equals(item.ID.ToString, id)
                     Select item).FirstOrDefault
         End Function
 
@@ -197,7 +201,7 @@ Here, we report on the progress of the curation effort and associated improvemen
             Return (From smp As SmpFile
                     In _innerDict.Values.AsParallel
                     Where String.Equals(smp.CommonName, Id) OrElse
-                        String.Equals(smp.Id.ToString, Id)
+                        String.Equals(smp.ID.ToString, Id)
                     Select smp).FirstOrDefault
         End Function
 
@@ -228,12 +232,12 @@ Here, we report on the progress of the curation effort and associated improvemen
             Call CType((From Smp As SmpFile
                         In DbFile.SmpData.AsParallel
                         Let Fsa As FASTA.FastaSeq = Smp.EXPORT
-                        Select Fsa).ToArray, FASTA.FastaFile).Save(FASTA)
+                        Select Fsa).ToArray, FASTA.FastaFile).Save(FASTA, Encodings.UTF8)
             Call DbFile.GetXml.SaveTo(DbFile.FilePath)
         End Sub
 
         <ExportAPI("Db.Build")>
-        Public Shared Sub BuildDb(DIR As String, EXPORT As Dir)
+        Public Shared Sub BuildDb(DIR As String, EXPORT As DIR)
             Using busy As New CBusyIndicator
                 Call FileIO.FileSystem.CreateDirectory(EXPORT)
                 Call busy.Start()
@@ -243,7 +247,7 @@ Here, we report on the progress of the curation effort and associated improvemen
 
         Public Overloads Function ExportFASTA() As FASTA.FastaFile
             Dim Fasta As FASTA.FastaFile = ExportFASTA(Me)
-            Call Fasta.Save(Me.FastaUrl)
+            Call Fasta.Save(Me.FastaUrl, Encodings.UTF8)
             Return Fasta
         End Function
 
@@ -285,15 +289,19 @@ Here, we report on the progress of the curation effort and associated improvemen
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Db.PreLoad")>
-        Public Shared Function PreLoad(DIR As Dir) As Pn()
+        Public Shared Function PreLoad(DIR As DIR) As Pn()
             Dim LQuery As IEnumerable(Of Pn) = From File As String
                                                In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.pn")
                                                Select CType(File, Pn) '
             Return LQuery.ToArray
         End Function
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return Me.GetXml.SaveTo(getPath(FilePath), getEncoding(Encoding))
+        Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Return Me.GetXml.SaveTo(FilePath Or Me.FilePath.When(FilePath.StringEmpty), Encoding)
+        End Function
+
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
         End Function
     End Class
 End Namespace

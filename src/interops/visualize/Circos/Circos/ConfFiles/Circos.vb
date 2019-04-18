@@ -265,7 +265,7 @@ Namespace Configurations
             Me.main = Me
         End Sub
 
-        Public Overrides Function Save(Optional outDIR$ = "", Optional Encoding As Encoding = Nothing) As Boolean
+        Public Overloads Function Save(outDIR$, Encoding As Encoding) As Boolean
             If String.IsNullOrEmpty(outDIR) Then
                 outDIR = FileIO.FileSystem.GetParentPath(Me.FilePath)
             End If

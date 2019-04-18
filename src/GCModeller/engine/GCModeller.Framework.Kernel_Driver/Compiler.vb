@@ -183,9 +183,10 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
 #End Region
 
     Public Function WriteLog() As Boolean
-        If Not _Logging Is Nothing Then
-            Return _Logging.Save()
-        End If
-        Return True
+        'If Not _Logging Is Nothing Then
+        '    Return _Logging.Save()
+        'End If
+        'Return True
+        Throw New NotImplementedException
     End Function
 End Class

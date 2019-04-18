@@ -1,59 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::d3c5400c187e45babe9608ad1f1980bc, IO\GCTabular\CsvTabularData\Storage\XmlModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Structure ResourceCollection
-    ' 
-    '         Properties: Resources
-    ' 
-    '         Function: ToDictionary, TryGetValue
-    ' 
-    '     Class CellSystemXmlModel
-    ' 
-    '         Properties: OperonCounts, ResourceCollection, ResourceMapper
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: CreateObject, get_ParentDirectory, Internal_getA_ResourceLinks, LoadXml, Save
-    '                   SaveOrCopy
-    ' 
-    '         Sub: Copy, Internal_MapA_ResourceLinks, WriteREADME
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Structure ResourceCollection
+' 
+'         Properties: Resources
+' 
+'         Function: ToDictionary, TryGetValue
+' 
+'     Class CellSystemXmlModel
+' 
+'         Properties: OperonCounts, ResourceCollection, ResourceMapper
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: CreateObject, get_ParentDirectory, Internal_getA_ResourceLinks, LoadXml, Save
+'                   SaveOrCopy
+' 
+'         Sub: Copy, Internal_MapA_ResourceLinks, WriteREADME
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
@@ -97,6 +98,7 @@ Namespace FileStream.XmlFormat
         IsNullable:=True,
         Namespace:="http://code.google.com/p/genome-in-code/virtualcell_model/GCMarkupLanguage/csv_tabular")>
     Public Class CellSystemXmlModel : Inherits ModelBaseType
+        Implements IFileReference
 
         ''' <summary>
         ''' XML模型文件之中的资源连接数据都是存储在这个属性之中的，当加载的时候，就会通过本属性来讲值赋值给其他的属性
@@ -127,6 +129,8 @@ Namespace FileStream.XmlFormat
                 Return _InternalResourceCollection(type)
             End Get
         End Property
+
+        Public Property FilePath As String Implements IFileReference.FilePath
 
         Sub New()
             ResourceMapper = New ResourceMapper
@@ -198,7 +202,6 @@ Namespace FileStream.XmlFormat
 
         Public Overloads Shared Widening Operator CType(sPath As String) As FileStream.XmlFormat.CellSystemXmlModel
             Dim CellSystem = sPath.LoadXml(Of FileStream.XmlFormat.CellSystemXmlModel)()
-            CellSystem.FilePath = sPath
             Return CellSystem
         End Operator
 
@@ -219,7 +222,7 @@ Namespace FileStream.XmlFormat
         End Function
 
         Public Function get_ParentDirectory() As String
-            Return FileIO.FileSystem.GetParentPath(FilePath)
+            Return FileIO.FileSystem.GetParentPath(Nothing)
         End Function
 
         Public Const DIR_ANNOTIATIONS As String = "./DATA_ANNOTATIONS/"
@@ -272,8 +275,8 @@ Namespace FileStream.XmlFormat
         ''' <param name="FilePath"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Function SaveOrCopy(Optional FilePath As String = "") As Boolean
-            Dim SavedDir As String = FileIO.FileSystem.GetParentPath(FilePath.SetValue(getPath(FilePath)))
+        Public Overloads Function SaveOrCopy(FilePath As String) As Boolean
+            Dim SavedDir As String = FileIO.FileSystem.GetParentPath(FilePath)
             Dim Current As String = Me.get_ParentDirectory
 
             If String.Equals(SavedDir, Current) Then

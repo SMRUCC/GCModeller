@@ -57,7 +57,7 @@ Namespace LDM
         Public Property Proteins As Protein()
         Public Property BlastHits As Hit()
 
-        Public Function Save(Optional DIR As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(DIR As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Try
                 Call Proteins.SaveTo(DIR & "/Proteins.Csv")
                 Call BlastHits.SaveTo(DIR & "/Hits.Csv")
@@ -70,7 +70,7 @@ Namespace LDM
             Return False
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(Path, encoding.CodePage)
         End Function
     End Class

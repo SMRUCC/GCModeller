@@ -88,13 +88,13 @@ Imports Microsoft.VisualBasic.ComponentModel
 Namespace Interpro.Xml
 
     <XmlType("interprodb")>
-    Public Class DbArchive : Inherits ITextFile
+    Public Class DbArchive
 
         Public Property release As DbInfo()
         <XmlElement> Public Property interpro As Interpro()
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return Me.GetXml.SaveTo(getPath(FilePath), getEncoding(Encoding))
+        Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean
+            Return Me.GetXml.SaveTo(FilePath, Encoding)
         End Function
     End Class
 

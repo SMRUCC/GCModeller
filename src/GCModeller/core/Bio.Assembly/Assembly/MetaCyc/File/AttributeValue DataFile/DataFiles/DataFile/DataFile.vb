@@ -1,61 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::45727a205b79bc1f602f2be7871cef27, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\DataFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class DataFile
-    ' 
-    '         Properties: __indexItem, DbProperty, First, Index, IsReadOnly
-    '                     Last, NumOfTokens, Values
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: Append, Contains, GetEnumerator, GetEnumerator1, GetTypes
-    '                   IDictionary_ContainsKey, IDictionary_TryGetValue, IEnumerable_GetEnumerator, IndexOf, (+2 Overloads) Remove
-    '                   Save, ToString
-    ' 
-    '         Sub: (+3 Overloads) Add, AddRange, Clear, CopyTo
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class DataFile
+' 
+'         Properties: __indexItem, DbProperty, First, Index, IsReadOnly
+'                     Last, NumOfTokens, Values
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: Append, Contains, GetEnumerator, GetEnumerator1, GetTypes
+'                   IDictionary_ContainsKey, IDictionary_TryGetValue, IEnumerable_GetEnumerator, IndexOf, (+2 Overloads) Remove
+'                   Save, ToString
+' 
+'         Sub: (+3 Overloads) Add, AddRange, Clear, CopyTo
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Text
-Imports System.Reflection
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Reflection
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace Assembly.MetaCyc.File.DataFiles
@@ -66,7 +60,7 @@ Namespace Assembly.MetaCyc.File.DataFiles
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <remarks></remarks>
-    Public MustInherit Class DataFile(Of T As Slots.Object) : Inherits ITextFile
+    Public MustInherit Class DataFile(Of T As Slots.Object)
         Implements IEnumerable(Of T)
         Implements IReadOnlyList(Of T)
         Implements IDictionary(Of String, T)
@@ -174,9 +168,9 @@ Namespace Assembly.MetaCyc.File.DataFiles
             Next
         End Sub
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
+        Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean
             Try
-                Call Reflection.FileStream.Write(Of T, DataFile(Of T))(getPath(FilePath), Me)
+                Call Reflection.FileStream.Write(Of T, DataFile(Of T))(FilePath, Me)
             Catch ex As Exception
                 ex = New Exception(FilePath, ex)
                 Throw ex

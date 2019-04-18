@@ -62,9 +62,10 @@ Module PathwayAssociationAnalysis
     ''' 每一列都为一个事件，一行为一个Transaction
     ''' </summary>
     ''' <param name="Df"></param>
+    ''' <param name="dataframeInput">The file path of the <paramref name="Df"/> table</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Analysis(Df As IO.File) As Output()
+    Public Function Analysis(Df As IO.File, dataframeInput$) As Output()
         Dim Genes = (From col As String In Df.First.Skip(2) Select col).ToArray
         Dim ChrW As Char() = Encoding.GenerateCodes(Genes.Length).ToArray
         Dim items = (From i As Integer In Genes.Sequence Select ChrW(i + 1)).ToArray      '创建映射
@@ -96,13 +97,13 @@ Module PathwayAssociationAnalysis
                                    GeneIDs = (From s As String In (From item In MappedResult Select item.XMappings.JoinIterates(item.YMappings)).IteratesALL
                                               Select s Distinct Order By s Ascending).ToArray).ToArray
 
-        Call (From obj In GetResultLQuery Select (From rule In obj.MappedResult Select obj.Class.Class, rule.Confidence, rule.X, rule.Y).ToArray).ToArray.ToVector.SaveTo(FileIO.FileSystem.GetParentPath(Df.FilePath) & "./Apriori/strong.rules.csv", False)
-        Call (From obj In GetResultLQuery Select (From item In obj.FrequentItems Select item.Name, obj.Class, item.Support).ToArray).ToArray.ToVector.SaveTo(FileIO.FileSystem.GetParentPath(Df.FilePath) & "./Apriori/FrequentItems.csv", False)
+        Call (From obj In GetResultLQuery Select (From rule In obj.MappedResult Select obj.Class.Class, rule.Confidence, rule.X, rule.Y).ToArray).ToArray.ToVector.SaveTo(FileIO.FileSystem.GetParentPath(dataframeInput) & "./Apriori/strong.rules.csv", False)
+        Call (From obj In GetResultLQuery Select (From item In obj.FrequentItems Select item.Name, obj.Class, item.Support).ToArray).ToArray.ToVector.SaveTo(FileIO.FileSystem.GetParentPath(dataframeInput) & "./Apriori/FrequentItems.csv", False)
 
         Dim GeneIDls = (From obj In GetResultLQuery
                         Select obj.Class.Class,
                             ClsGeneIDs = String.Join(" + ", obj.GeneIDs)).ToArray
-        Call GeneIDls.SaveTo(FileIO.FileSystem.GetParentPath(Df.FilePath) & "./Apriori/Class.GeneIDs.csv", False)
+        Call GeneIDls.SaveTo(FileIO.FileSystem.GetParentPath(dataframeInput) & "./Apriori/Class.GeneIDs.csv", False)
 
         Dim MAT = New IO.File
         Call MAT.Add({"Class"})
@@ -118,7 +119,7 @@ Module PathwayAssociationAnalysis
             Call row.AddRange(dist)
             Call MAT.Add(row)
         Next
-        Call MAT.Save(FileIO.FileSystem.GetParentPath(Df.FilePath) & "./Apriori/MAT.csv", False)
+        Call MAT.Save(FileIO.FileSystem.GetParentPath(dataframeInput) & "./Apriori/MAT.csv", False)
 
         Return (From obj In GetResultLQuery Select obj.Result).ToArray
     End Function

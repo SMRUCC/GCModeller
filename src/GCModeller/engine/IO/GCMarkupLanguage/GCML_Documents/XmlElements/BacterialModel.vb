@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::982d5264f588c175636e10d81cee97cf, IO\GCMarkupLanguage\GCML_Documents\XmlElements\BacterialModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class BacterialModel
-    ' 
-    '     Properties: BacteriaGenome, CultivationMediums, DispositionModels, Height, IFBAC2MetabolismNetwork
-    '                 IFBAC2Metabolites, Metabolism, Polypeptides, ProteinAssemblies, RibosomeAssembly
-    '                 RNAPolymerase, SignalTransductionPathway, SystemVariables, TransmembraneTransportation, Width
-    ' 
-    '     Function: Load, Save, ToString
-    ' 
-    '     Sub: Copy, Visualizing
-    ' 
-    ' /********************************************************************************/
+' Class BacterialModel
+' 
+'     Properties: BacteriaGenome, CultivationMediums, DispositionModels, Height, IFBAC2MetabolismNetwork
+'                 IFBAC2Metabolites, Metabolism, Polypeptides, ProteinAssemblies, RibosomeAssembly
+'                 RNAPolymerase, SignalTransductionPathway, SystemVariables, TransmembraneTransportation, Width
+' 
+'     Function: Load, Save, ToString
+' 
+'     Sub: Copy, Visualizing
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
@@ -75,7 +76,6 @@ Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
 Public Class BacterialModel : Inherits ModelBaseType
     Implements I_FBAC2(Of CompoundSpeciesReference)
     Implements ISaveHandle
-    'Implements ISaveHandle
 
     '   Public Property Proteins As Elements.Protein()
 
@@ -112,16 +112,12 @@ Public Class BacterialModel : Inherits ModelBaseType
     ''' <remarks></remarks>
     Public Property SystemVariables As KeyValuePair()
 
-    Public Overrides Function ToString() As String
-        Return FilePath
+    Public Overloads Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
+        Return Me.GetXml.SaveTo(FilePath, Encoding)
     End Function
 
-    Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
-        If String.IsNullOrEmpty(FilePath) Then
-            FilePath = Me.FilePath
-        End If
-
-        Return Me.GetXml.SaveTo(FilePath, Encoding)
+    Public Overloads Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Return Save(path, encoding.CodePage)
     End Function
 
     ''' <summary>
@@ -134,7 +130,6 @@ Public Class BacterialModel : Inherits ModelBaseType
     <ExportAPI("read.xml.gcml")>
     Public Shared Function Load(FilePath As String) As BacterialModel
         Dim Model As BacterialModel = FilePath.LoadXml(Of BacterialModel)()
-        Model.FilePath = FilePath
         Return Model
     End Function
 
@@ -195,7 +190,6 @@ Public Class BacterialModel : Inherits ModelBaseType
 
     Public Overloads Sub Copy(ByRef e As BacterialModel)
         e.Metabolism.Compartments = Me.Metabolism.Compartments
-        e.FilePath = Me.FilePath
         e.BacteriaGenome.Genes = Me.BacteriaGenome.Genes
         e.Metabolism.MetabolismEnzymes = Me.Metabolism.MetabolismEnzymes
         e.Metabolism.MetabolismNetwork = Me.Metabolism.MetabolismNetwork

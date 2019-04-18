@@ -325,7 +325,7 @@ The path value of the java program usually is in the location like: ""C:\Program
         ''' 
         <ExportAPI("Finallize", Info:="Close the application session and save the settings file.")>
         Public Sub Finallize()
-            Call ProfileData.Save()
+            Call ProfileData.Save(Nothing)
         End Sub
 
         <ExportAPI("Get.Settings")>
@@ -354,7 +354,7 @@ The path value of the java program usually is in the location like: ""C:\Program
 
         <ExportAPI("Profile.Save")>
         Public Sub Save()
-            Call ProfileData.Save()
+            Call ProfileData.Save(Nothing)
         End Sub
 
         ''' <summary>

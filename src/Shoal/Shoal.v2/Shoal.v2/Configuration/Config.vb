@@ -1,6 +1,8 @@
-﻿Imports System.Xml.Serialization
+﻿Imports System.Text
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.SPM
 
 Namespace Configuration
@@ -10,8 +12,7 @@ Namespace Configuration
     ''' </summary>
     ''' 
     <XmlType("Shoal.Configuration", [Namespace]:="http://gcmodeller.org/shoal.config")>
-    Public Class Config : Inherits ITextFile
-        Implements IProfile
+    Public Class Config : Implements IProfile
 
 #Region "Configuration storage property region"
 
@@ -138,6 +139,8 @@ Namespace Configuration
             End Get
         End Property
 
+        Public Property FilePath As String Implements IFileReference.FilePath
+
         ''' <summary>
         ''' Load the configuration file from the default file location: <see cref="DefaultFile"/>.
         ''' </summary>
@@ -146,17 +149,12 @@ Namespace Configuration
             Return [Default].SettingsData
         End Function
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As System.Text.Encoding = Nothing) As Boolean
+        Public Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements IProfile.Save
             If LastDir_AsInit() Then
                 Me.InitDir = VisualBasic.FileIO.FileSystem.GetDirectoryInfo(My.Computer.FileSystem.CurrentDirectory).FullName
             End If
 
-            FilePath = Me.getPath(FilePath)
-            Return Me.GetXml.SaveTo(FilePath, Encoding)
-        End Function
-
-        Protected Overrides Function __getDefaultPath() As String
-            Return FilePath
+            Return Me.GetXml.SaveTo(FilePath Or Me.FilePath.When(FilePath.StringEmpty), Encoding)
         End Function
     End Class
 End Namespace

@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::955039530829f1d0a1d03d7a41074ed7, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module gbExportService
-    ' 
-    '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
-    '                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, ExportGeneFeatures, ExportGeneNtFasta
-    '                   ExportPTTAsDump, GbffToPTT, InvokeExport, LoadGbkSource, TryParseGBKID
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module gbExportService
+' 
+'         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
+'                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, ExportGeneFeatures, ExportGeneNtFasta
+'                   ExportPTTAsDump, GbffToPTT, InvokeExport, LoadGbkSource, TryParseGBKID
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -335,9 +336,9 @@ Namespace Assembly.NCBI.GenBank
             For Each gene In ExportLQuery
                 Call GeneChunkList.AddRange(gene.GenesTempChunk)
                 Call ExportList.Add(gene.Entry, gene.Entry.AccessionID)
-                Call gene.FastaDump.Save(FastaExport & "/Orf/" & gene.Entry.AccessionID & ".fasta")
-                Call gene.Plasmid.SaveTo(FastaExport & "/Genomes/" & gene.Entry.AccessionID & ".fasta")
-                Call gene.GeneFastaDump.Save(FastaExport & "/Genes/" & gene.Entry.AccessionID & ".fasta")
+                Call gene.FastaDump.Save(FastaExport & "/Orf/" & gene.Entry.AccessionID & ".fasta", Encoding.UTF8)
+                Call gene.Plasmid.SaveTo(FastaExport & "/Genomes/" & gene.Entry.AccessionID & ".fasta", Encoding.UTF8)
+                Call gene.GeneFastaDump.Save(FastaExport & "/Genes/" & gene.Entry.AccessionID & ".fasta", Encoding.UTF8)
 
                 Call FastaFile.AddRange(gene.FastaDump)
                 Call PlasmidList.Add(gene.Plasmid)
@@ -348,9 +349,9 @@ Namespace Assembly.NCBI.GenBank
             GBK = (From entryInfo In ExportList Select entryInfo.Key).ToArray
 
             Try
-                Call FastaFile.Save(FastaExport & "/CDS.Gene.fasta")
-                Call PlasmidList.Save(FastaExport & "/Genbank.ORIGINS.fasta")
-                Call GeneSequenceList.Save(FastaExport & "/Gene.Nt.fasta")
+                Call FastaFile.Save(FastaExport & "/CDS.Gene.fasta", Encoding.UTF8)
+                Call PlasmidList.Save(FastaExport & "/Genbank.ORIGINS.fasta", Encoding.UTF8)
+                Call GeneSequenceList.Save(FastaExport & "/Gene.Nt.fasta", Encoding.UTF8)
             Catch ex As Exception
                 Call App.LogException(ex)
             End Try
@@ -453,7 +454,7 @@ Namespace Assembly.NCBI.GenBank
                     __exportNoAnnotation(cds))
 
                 If FastaDump.Count > 0 Then
-                    Call FastaDump.Save(String.Format("{0}/plasmid_cds/{1}.fasta", FastaExport, gb.Accession.AccessionId))
+                    Call FastaDump.Save(String.Format("{0}/plasmid_cds/{1}.fasta", FastaExport, gb.Accession.AccessionId), Encoding.UTF8)
                     Call FastaFile.AddRange(FastaDump)
                 End If
 
@@ -477,7 +478,7 @@ Namespace Assembly.NCBI.GenBank
 
                 If GeneFastaDump.Count > 0 Then
                     Call GeneSequenceList.AddRange(GeneFastaDump.ToArray)
-                    Call GeneFastaDump.Save(String.Format("{0}/plasmid_genes/{1}.fasta", FastaExport, gb.Accession.AccessionId))
+                    Call GeneFastaDump.Save(String.Format("{0}/plasmid_genes/{1}.fasta", FastaExport, gb.Accession.AccessionId), Encoding.UTF8)
                     Call GeneFastaDump.Clear()
                 End If
             Next
@@ -486,9 +487,9 @@ Namespace Assembly.NCBI.GenBank
             GBK = (From item In ExportList Select item.Key).ToArray
 
             Try
-                Call FastaFile.Save(FastaExport & "/CDS_GENE.fasta")
-                Call PlasmidList.Save(FastaExport & "/GBKFF.ORIGINS_plasmid.fasta")
-                Call GeneSequenceList.Save(FastaExport & "/GENE_SEQUENCE.fasta")
+                Call FastaFile.Save(FastaExport & "/CDS_GENE.fasta", Encoding.UTF8)
+                Call PlasmidList.Save(FastaExport & "/GBKFF.ORIGINS_plasmid.fasta", Encoding.UTF8)
+                Call GeneSequenceList.Save(FastaExport & "/GENE_SEQUENCE.fasta", Encoding.UTF8)
             Catch ex As Exception
 
             End Try

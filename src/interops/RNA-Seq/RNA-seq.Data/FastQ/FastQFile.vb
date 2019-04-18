@@ -59,7 +59,7 @@ Namespace FQ
     ''' There is no standard file extension for a FASTQ file, but .fq and .fastq, are commonly used.
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class FastQFile : Inherits ITextFile
+    Public Class FastQFile
         Implements IEnumerable(Of FastQ)
         Implements IList(Of FastQ)
 
@@ -72,8 +72,7 @@ Namespace FQ
         ''' <returns></returns>
         Public Shared Function Load(path As String, Optional encoding As Encodings = Encodings.Default) As FastQFile
             Dim FastaqFile As New FastQFile With {
-                ._innerList = Stream.ReadAllLines(path, encoding).AsList,
-                .FilePath = path
+                ._innerList = Stream.ReadAllLines(path, encoding).AsList
             }
 
             Return FastaqFile
@@ -148,8 +147,8 @@ Namespace FQ
         End Sub
 #End Region
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return WriteFastQ(FilePath)
+        Public Function Save(FilePath As String, Optional Encoding As Encodings = Encodings.UTF8) As Boolean
+            Return WriteFastQ(FilePath, Encoding)
         End Function
 
         ''' <summary>
@@ -172,13 +171,13 @@ Namespace FQ
             Dim LQuery As FASTA.FastaSeq() =
                 LinqAPI.Exec(Of FASTA.FastaSeq) <= From fq As SeqValue(Of FastQ)
                                                      In Me.SeqIterator.AsParallel
-                                                     Let read As FastQ = fq.value
-                                                     Let attrs As String() = __trim(__attrs(fq.i, read))
-                                                     Select fasta = New FASTA.FastaSeq With {
-                                                         .SequenceData = read.SequenceData,
-                                                         .Headers = attrs
-                                                     }
-                                                     Order By fasta.Headers.First Ascending
+                                                   Let read As FastQ = fq.value
+                                                   Let attrs As String() = __trim(__attrs(fq.i, read))
+                                                   Select fasta = New FASTA.FastaSeq With {
+                                                       .SequenceData = read.SequenceData,
+                                                       .Headers = attrs
+                                                   }
+                                                   Order By fasta.Headers.First Ascending
 
             Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
 

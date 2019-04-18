@@ -53,11 +53,11 @@ Module SAM_TSSs
 #Const DEBUG = 1
 
     <ExportAPI("SAM.TSSs")>
-    Public Function TSS(SAM As SAM.SAM) As GroupResult(Of AlignmentReads, Integer)()
+    Public Function TSS(SAM As SAM.SAM, filepath$) As GroupResult(Of AlignmentReads, Integer)()
         Dim Forwards = (From reads In SAM.AsParallel Where reads.Strand = Strands.Forward Select reads).ToArray
         Dim Reversed = (From reads In SAM.AsParallel Where reads.Strand = Strands.Reverse Select reads).ToArray
 
-        Call Console.WriteLine($"[DEBUG {Now.ToString}] There are {Forwards.Length} reads on forward strand and {Reversed.Length} reads on reversed strand...   @{SAM.FilePath.ToFileURL}")
+        Call Console.WriteLine($"[DEBUG {Now.ToString}] There are {Forwards.Length} reads on forward strand and {Reversed.Length} reads on reversed strand...   @{filepath.ToFileURL}")
         Call Console.WriteLine($"[DEBUG {Now.ToString}] Start to group alignment reads....")
         Dim ForwardGroup = (From Reads In Forwards.AsParallel Select Reads Group Reads By Reads.POS Into Group).ToArray  'Forwards.ParallelGroup(Of Integer)(Function(Reads) Reads.POS)
         Dim ReversedGroup = (From Reads In Reversed.AsParallel Select Reads Group Reads By Reads.POS Into Group).ToArray  'Reversed.ParallelGroup(Of Integer)(Function(Reads) Reads.POS)
@@ -68,15 +68,15 @@ Module SAM_TSSs
         Dim ReversedGrepLQuery = (From GroupReads In ReversedGroup.AsParallel Where GroupReads.Group.Count >= 30 Select GroupReads).ToArray
         Call Console.WriteLine($"[DEBUG {Now.ToString}] There are {NameOf(Strands.Reverse)}:{ReversedGrepLQuery.Count} has reads number greater than 30 at least.....")
 
-        If Not String.IsNullOrEmpty(SAM.FilePath) Then
+        If Not String.IsNullOrEmpty(filepath) Then
             Dim CSV_DEBUG_VIEw = (From item In ForwardGroup.AsParallel
                                   Let obj = item.Group.First
                                   Select obj.Strand, obj.TLEN, obj.FLAG, obj.CIGAR, obj.MAPQ, obj.POS, obj.PNEXT, NumberOfReads = item.Group.Count).ToArray
-            Call CSV_DEBUG_VIEw.SaveTo($"{SAM.FilePath}_Forwards_view.csv", False)
+            Call CSV_DEBUG_VIEw.SaveTo($"{filepath}_Forwards_view.csv", False)
             CSV_DEBUG_VIEw = (From item In ReversedGroup.AsParallel
                               Let obj = item.Group.First
                               Select obj.Strand, obj.TLEN, obj.FLAG, obj.CIGAR, obj.MAPQ, obj.POS, obj.PNEXT, NumberOfReads = item.Group.Count).ToArray
-            Call CSV_DEBUG_VIEw.SaveTo($"{SAM.FilePath}_Reversed_view.csv", False)
+            Call CSV_DEBUG_VIEw.SaveTo($"{filepath}_Reversed_view.csv", False)
         End If
 
         GrepLQuery = GrepLQuery.Join(ReversedGrepLQuery).ToArray
@@ -91,27 +91,19 @@ Module SAM_TSSs
     ''' <returns></returns>
     ''' 
     <ExportAPI("Split")>
-    Public Function SplitSaved(SAM As SAM.SAM,
-                               <Parameter("LowQuality.Trim")> Optional TrimLowQuality As Boolean = True,
-                               <Parameter("Dir.Export", "If this optional parameter is null then the parent directory of the sam file will be used.")>
-                               Optional Export As String = "") As Boolean
+    Public Function SplitSaved(SAM As SAM.SAM, <Parameter("Dir.Export", "If this optional parameter is null then the parent directory of the sam file will be used.")>
+                                Export As String,
+                               <Parameter("LowQuality.Trim")> Optional TrimLowQuality As Boolean = True) As Boolean
 
-        If String.IsNullOrEmpty(Export) Then
-            If Not String.IsNullOrEmpty(SAM.FilePath) Then
-                Export = FileIO.FileSystem.GetParentPath(SAM.FilePath)
-            Else
-                Export = FileIO.FileSystem.CurrentDirectory
-            End If
-        Else
-            Export = FileIO.FileSystem.GetDirectoryInfo(Export).FullName
-        End If
+
+        Export = FileIO.FileSystem.GetDirectoryInfo(Export).FullName
 
         Call Console.WriteLine($"[DEBUG {Now.ToString}] Export to location {Export}")
         Call Console.WriteLine($"[DEBUG {Now.ToString}] SAM file contains {SAM.Count} reads....")
 
         Dim Forwards = (From reads In SAM.AsParallel Where reads.Strand = Strands.Forward Select reads).ToArray
         Dim Reversed = (From reads In SAM.AsParallel Where reads.Strand = Strands.Reverse Select reads).ToArray
-        Dim NameToken As String = SAM.FilePath
+        Dim NameToken As String = Export.BaseName
 
         Call Console.WriteLine($"[DEBUG {Now.ToString}] {NameOf(Forwards)}:={Forwards.Count};  {NameOf(Reversed)}:={Reversed.Count}")
 
@@ -123,7 +115,7 @@ Module SAM_TSSs
         End If
 
         If Not String.IsNullOrEmpty(NameToken) Then
-            NameToken = basename(NameToken)
+            NameToken = BaseName(NameToken)
         End If
 
         Dim fnForward As String = $"{Export}/{NameToken}_Forward.sam", fnReversed As String = $"{Export}/{NameToken}_Reversed.sam"
@@ -150,10 +142,9 @@ Module SAM_TSSs
         Dim Unmapped As Integer = BitFlags.Bit0x4
         Dim LowQuality As Integer = BitFlags.Bit0x200
 
-        Call $"There are {doc.AlignmentsReads.Count} reads in the sam mapping file   {doc.FilePath.ToFileURL}".__DEBUG_ECHO
+        Call $"There are {doc.AlignmentsReads.Count} reads in the sam mapping file".__DEBUG_ECHO
         Call $"Triming reads which has flag [{NameOf(LowQuality)}]{BitFlags.Bit0x200} or [{NameOf(Unmapped)}]{BitFlags.Bit0x4}".__DEBUG_ECHO
         doc = New SAM.SAM With {
-            .FilePath = doc.FilePath,
             .Head = doc.Head,
             .AlignmentsReads =
             LinqAPI.Exec(Of AlignmentReads) <= From reads As AlignmentReads

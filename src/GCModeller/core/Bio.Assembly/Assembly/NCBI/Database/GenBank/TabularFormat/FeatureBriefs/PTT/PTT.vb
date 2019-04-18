@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::03e768bb85705af1621cec9f0bc6ebb5, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class PTT
-    ' 
-    '         Properties: forwards, GeneIDList, GeneObjects, GetsGeneDatas, NumOfProducts
-    '                     reversed, Size, Title
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: Copy, ExistsLocusId, GetEnumerator, GetEnumerator1, GetEnumerator2
-    '                   GetGeneByDescription, GetGeneByName, (+2 Overloads) GetObject, GetRelatedGenes, GetStrandGene
-    '                   Load, OrderByGeneID, Read, Save, SaveXml
-    '                   ToDictionary, TryGetGeneObjectValue, TryGetGenesId
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class PTT
+' 
+'         Properties: forwards, GeneIDList, GeneObjects, GetsGeneDatas, NumOfProducts
+'                     reversed, Size, Title
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: Copy, ExistsLocusId, GetEnumerator, GetEnumerator1, GetEnumerator2
+'                   GetGeneByDescription, GetGeneByName, (+2 Overloads) GetObject, GetRelatedGenes, GetStrandGene
+'                   Load, OrderByGeneID, Read, Save, SaveXml
+'                   ToDictionary, TryGetGeneObjectValue, TryGetGenesId
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,6 +53,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
@@ -63,7 +64,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
     ''' The brief information of a genome.(基因组的摘要信息)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class PTT : Inherits ITextFile
+    Public Class PTT : Implements ISaveHandle
         Implements IReadOnlyCollection(Of GeneBrief)
         Implements IReadOnlyDictionary(Of String, GeneBrief)
         Implements IGenomicsContextProvider(Of GeneBrief)
@@ -228,7 +229,6 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             Return New PTT With {
                 .Size = Size,
                 .Title = Title,
-                .FilePath = FilePath,
                 .GeneObjects =
                     LinqAPI.Exec(Of GeneBrief) <= From g As GeneBrief
                                                   In _innerList.AsParallel
@@ -239,8 +239,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 
 #Region "IO Operations"
 
-        Public Overrides Function Save(Optional Path As String = "", Optional encoding As Text.Encoding = Nothing) As Boolean
-            Dim sBuilder As StringBuilder = New StringBuilder(Title & String.Format(" - 1..{0}", Size), capacity:=1024)
+        Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Dim sBuilder As New StringBuilder(Title & String.Format(" - 1..{0}", Size), capacity:=1024)
 
             Call sBuilder.AppendLine()
             Call sBuilder.AppendLine(Me.NumOfProducts & " proteins")
@@ -261,7 +261,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
                               GeneObject.Product)).ToArray
 
             Call sBuilder.AppendLine(String.Join(vbCrLf, LQuery))
-            Return sBuilder.ToString.SaveTo(getPath(Path), encoding)
+            Return sBuilder.ToString.SaveTo(Path, encoding)
         End Function
 
         ''' <summary>
@@ -271,8 +271,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' <param name="encoding"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function SaveXml(Optional Path As String = "", Optional encoding As Text.Encoding = Nothing) As Boolean
-            Return Me.GetXml.SaveTo(getPath(Path), encoding)
+        Public Function SaveXml(Path As String, Optional encoding As Encoding = Nothing) As Boolean
+            Return Me.GetXml.SaveTo(Path, encoding)
         End Function
 
         ''' <summary>
@@ -303,8 +303,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' <returns></returns>
         Public Overloads Shared Function Read(path As String, Optional FillBlankName As Boolean = False) As PTT
             Dim lines As String() = File.ReadAllLines(path)
-            Dim PTT As PTT = New PTT With {
-                .FilePath = path,
+            Dim PTT As New PTT With {
                 .Title = lines(0)
             }
 
@@ -473,6 +472,10 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             Dim relates As Relationship(Of GeneBrief)() =
                 _contextModel.GetAroundRelated(loci, Not unstrand, ATGDist)
             Return relates
+        End Function
+
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
         End Function
     End Class
 End Namespace
