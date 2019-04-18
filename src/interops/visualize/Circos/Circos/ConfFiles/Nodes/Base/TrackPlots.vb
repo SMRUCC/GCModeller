@@ -238,12 +238,16 @@ Namespace Configurations.Nodes.Plots
             End If
         End Function
 
-        Public Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ICircosDocument.Save, ITrackPlot.Save
+        Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
             Return TracksData.GetDocumentText.SaveTo(FilePath, Encoding)
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(Path, encoding.CodePage)
+        End Function
+
+        Private Function ITrackPlot_Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ITrackPlot.Save
+            Return Save(FilePath, Encoding)
         End Function
     End Class
 End Namespace

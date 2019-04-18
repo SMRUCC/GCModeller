@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::85745ac3c561681eaf7457a2fd7f7cae, visualize\Circos\Circos\ConfFiles\ComponentModel\DocAbstract.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class CircosConfig
-    ' 
-    '         Properties: Includes, main, RefPath
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: GenerateIncludes, Save
-    ' 
-    '         Sub: __appendLine
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class CircosConfig
+' 
+'         Properties: Includes, main, RefPath
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: GenerateIncludes, Save
+' 
+'         Sub: __appendLine
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,14 +50,17 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Language
 
 Namespace Configurations
 
     ''' <summary>
     ''' Abstract of the circos config files.
     ''' </summary>
-    Public MustInherit Class CircosConfig : Inherits ITextFile
+    Public MustInherit Class CircosConfig
         Implements ICircosDocument
+        Implements IFileReference
 
         ''' <summary>
         ''' 文档的对其他的配置文件的引用列表
@@ -72,7 +75,7 @@ Namespace Configurations
         Public Property main As Circos
 
         Sub New(FileName As String, Circos As Circos)
-            MyBase.FilePath = FileName
+            Me.FilePath = FileName
             Me.main = Circos
         End Sub
 
@@ -85,7 +88,7 @@ Namespace Configurations
 
             For Each includeFile As CircosConfig In Includes
                 Call __appendLine(sb, includeFile)
-                Call includeFile.Save(Encoding:=Encoding.ASCII)
+                Call includeFile.Save()
             Next
 
             Return sb.ToString
@@ -118,6 +121,7 @@ Namespace Configurations
             End Get
         End Property
 
+        Public Property FilePath As String Implements IFileReference.FilePath
         ''' <summary>
         ''' ``ticks.conf``
         ''' </summary>
@@ -135,13 +139,21 @@ Namespace Configurations
         ''' <param name="path"></param>
         ''' <param name="Encoding"></param>
         ''' <returns></returns>
-        Public Overrides Function Save(Optional path$ = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ICircosDocument.Save
+        Public Function Save(path$, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
             If TypeOf Me Is CircosDistributed Then
                 Return True ' 系统自带的不需要进行保存了
             End If
 
             Dim doc As String = Build(indents:=Scan0)
-            Return doc.SaveTo(getPath(path), If(Encoding Is Nothing, Encoding.ASCII, Encoding))
+            Return doc.SaveTo(path, Encoding Or Encoding.ASCII.AsDefault)
         End Function
+
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
+        End Function
+
+        Public Sub Save()
+            Call Save(FilePath, Encoding.ASCII)
+        End Sub
     End Class
 End Namespace

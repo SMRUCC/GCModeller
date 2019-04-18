@@ -211,6 +211,10 @@ Visit http://GCModeller.org/ for more information.
             Return Save(path, encoding.CodePage)
         End Function
 
+        Public Sub Save()
+            Call Save(Nothing)
+        End Sub
+
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' To detect redundant calls
 

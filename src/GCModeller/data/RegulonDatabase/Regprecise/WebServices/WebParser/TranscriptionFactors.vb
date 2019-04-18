@@ -47,6 +47,7 @@ Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.SequenceModel
 
@@ -65,16 +66,21 @@ Namespace Regprecise
     ''' <remarks></remarks>
     '''
     <XmlRoot("TranscriptionFactors", Namespace:="http://regprecise.lbl.gov/RegPrecise/")>
-    Public Class TranscriptionFactors : Inherits ITextFile
+    Public Class TranscriptionFactors
         Implements Enumeration(Of BacteriaRegulome)
+        Implements ISaveHandle
 
         <XmlElement>
         Public Property genomes As BacteriaRegulome()
         <XmlAttribute("update")>
         Public Property update As String
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return Me.GetXml.SaveTo(getPath(FilePath), Encoding)
+        Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Return Me.GetXml.SaveTo(FilePath, Encoding)
+        End Function
+
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
         End Function
 
         Public Function InsertRegulog(Family As String,
@@ -166,7 +172,6 @@ Namespace Regprecise
 
         Public Shared Function Load(File As String) As TranscriptionFactors
             Dim XmlFile = File.LoadXml(Of TranscriptionFactors)()
-            XmlFile.FilePath = File
             Return XmlFile
         End Function
 
