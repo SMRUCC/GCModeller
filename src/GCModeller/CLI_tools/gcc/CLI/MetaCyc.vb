@@ -131,6 +131,6 @@ Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
         Dim Model As GCMarkupLanguage.BacterialModel = GCMarkupLanguage.BacterialModel.Load(CommandLine("-model"))
         Dim RuleFile As IO.File = IO.File.Load(CommandLine("-rulefile"))
 
-        Return ProteinDomain.AddingRules(MetaCyc:=MetaCyc, Model:=Model, RuleFile:=RuleFile, GrepScript:=CommandLine("-grep"))
+        Return ProteinDomain.AddingRules(MetaCyc:=MetaCyc, Model:=Model, RuleFile:=RuleFile, GrepScript:=CommandLine("-grep"), modelFilePath:=CommandLine("-model"))
     End Function
 End Module
