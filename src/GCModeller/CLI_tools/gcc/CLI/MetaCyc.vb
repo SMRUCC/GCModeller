@@ -105,7 +105,7 @@ Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
         Dim [New] As String = CommandLine("-new")
 
         Call Settings.SettingsFile.Gcc.Filters.Add(New Settings.Programs.GCC.Replacement With {.Old = Old, .NewReplaced = [New]})
-        Call Settings.ProfileData.Save()
+        Call Settings.ProfileData.Save(Nothing)
 
         Return 0
     End Function

@@ -1,51 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::c7b56e0c5dae8f4dbf470acf1c55ce72, GCModeller\PlugIns\ModuleRegistry.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ModuleRegistry
-    ' 
-    '         Properties: Modules
-    ' 
-    '         Function: GetModule, Load, LoadModule, Registry, Save
-    '                   UnRegistry
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ModuleRegistry
+' 
+'         Properties: Modules
+' 
+'         Function: GetModule, Load, LoadModule, Registry, Save
+'                   UnRegistry
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace PlugIns
@@ -54,7 +55,7 @@ Namespace PlugIns
     ''' The registry object for the externel system module assembly.(系统外部模块的注册表对象)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class ModuleRegistry : Inherits ITextFile
+    Public Class ModuleRegistry : Implements IFileReference
 
         Public Shared ReadOnly XmlFile As String = My.Application.Info.DirectoryPath & "/___EXTERNAL_MODULES.xml"
 
@@ -65,6 +66,7 @@ Namespace PlugIns
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property Modules As List(Of KeyValuePair)
+        Public Property FilePath As String Implements IFileReference.FilePath
 
         ''' <summary>
         ''' 注册一个外部的系统模块
@@ -117,8 +119,8 @@ Namespace PlugIns
             End If
         End Function
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return Me.GetXml.SaveTo(getPath(FilePath), Encoding)
+        Public Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
+            Return Me.GetXml.SaveTo(FilePath Or Me.FilePath.When(FilePath.StringEmpty), Encoding)
         End Function
 
         ''' <summary>

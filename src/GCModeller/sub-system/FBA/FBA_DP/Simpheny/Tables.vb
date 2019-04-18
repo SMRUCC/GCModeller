@@ -240,7 +240,6 @@ Namespace Simpheny
     End Class
 
     Public Class ProjectFile(Of ElementType As ProjectElement)
-        Inherits ITextFile
 
         Public Property Properties As HeadProperty
         Public Property Elements As ElementType()
@@ -264,10 +263,6 @@ Namespace Simpheny
         Private Shared Function LoadDocument(strData As String) As KeyValuePair(Of HeadProperty, String)
             Dim Head As String = Regex.Match(strData, "\*{3,}.+?\*{3,}", RegexOptions.Singleline).Value
             Return New KeyValuePair(Of HeadProperty, String)(HeadProperty.LoadData(Strings.Split(Head, vbCrLf)), Mid(strData, Len(Head) + 1))
-        End Function
-
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Throw New NotImplementedException()
         End Function
     End Class
 
