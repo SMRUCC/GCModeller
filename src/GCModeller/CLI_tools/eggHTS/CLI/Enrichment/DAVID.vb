@@ -88,7 +88,7 @@ Partial Module CLI
     Public Function DAVID_KEGGplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim pvalue# = args.GetValue("/p.value", 0.05R)
-        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.DAVID_KEGG.plot_p.value={pvalue}.png".AsDefault
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.DAVID_KEGG.plot_p.value={pvalue}.{g.DriverExtensionName}".AsDefault
         Dim isTsv As Boolean = args.IsTrue("/tsv")
         Dim tick# = args.GetValue("/tick", 1.0R)
 
