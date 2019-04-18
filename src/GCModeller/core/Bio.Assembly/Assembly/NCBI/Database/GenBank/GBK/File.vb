@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.SequenceModel
@@ -69,7 +70,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
     ''' <remarks></remarks>
     '''
     <Package("NCBI.Genbank.GBFF")>
-    Public Class File : Inherits ITextFile
+    Public Class File : Implements ISaveHandle
 
         Public Property Comment As Keywords.COMMENT
         ''' <summary>
@@ -330,8 +331,12 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Return buf
         End Function
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return GbkWriter.WriteGenbank(Me, getPath(FilePath), Encoding)
+        Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Return GbkWriter.WriteGenbank(Me, FilePath, Encoding)
+        End Function
+
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
         End Function
     End Class
 End Namespace

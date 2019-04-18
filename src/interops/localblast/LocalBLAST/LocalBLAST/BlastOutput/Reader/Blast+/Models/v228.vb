@@ -73,7 +73,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         <XmlElement> Public Property Queries As Query()
         <XmlElement> Public Property ParameterSummary As ParameterSummary
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
+        Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean
             Return Me.GetXml.SaveTo(FilePath, Encoding)
         End Function
 

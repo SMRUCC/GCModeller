@@ -117,17 +117,6 @@ Public Module NCBILocalBlast
     End Function
 #End If
 
-    ''' <summary>
-    ''' Write the blast output data as a Xml data file.
-    ''' </summary>
-    ''' <param name="data"></param>
-    ''' <param name="saveTo">The file path of the blast output xml data will be saved.</param>
-    ''' <returns></returns>
-    <ExportAPI("Write.Xml.Blast_Output", Info:="Write the blast output data as a Xml data file.")>
-    Public Function SaveBlastOutput(data As IBlastOutput, <Parameter("Path.SaveTo", "The file path of the blast output xml data will be saved.")> saveTo$) As Boolean
-        Return data.Save(saveTo, Encodings.UTF8)
-    End Function
-
     <ExportAPI("Blast.Version()", Info:="Returns the blast program version.")>
     Public Function Version(Handle As LocalBLAST.InteropService.InteropService) As String
         Dim ver As String = Handle.Version

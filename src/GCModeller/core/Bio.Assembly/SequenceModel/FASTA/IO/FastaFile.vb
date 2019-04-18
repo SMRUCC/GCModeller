@@ -76,8 +76,8 @@ Namespace SequenceModel.FASTA
     ''' <remarks></remarks>
     ''' 
     <ActiveViews(FastaSeq.SampleView, type:="bash")>
-    Public Class FastaFile : Inherits ITextFile
-        Implements IDisposable
+    Public Class FastaFile
+        Implements ISaveHandle, IFileReference
         Implements IEnumerable(Of FastaSeq)
         Implements IList(Of FastaSeq)
         Implements ICloneable
@@ -150,14 +150,7 @@ Namespace SequenceModel.FASTA
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overrides Property FilePath As String
-            Get
-                Return MyBase.FilePath
-            End Get
-            Set(value As String)
-                MyBase.FilePath = value
-            End Set
-        End Property
+        Public Property FilePath As String Implements IFileReference.FilePath
 
         Public Function AddRange(FastaCol As IEnumerable(Of FastaSeq)) As Long
             Call __innerList.AddRange(FastaCol)
@@ -419,9 +412,11 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' Save the fasta file into the local filesystem.
         ''' </summary>
         ''' <param name="Path"></param>
-        ''' <param name="encoding">不同的程序会对这个由要求，例如meme程序在linux系统之中要求序列文件为unicode编码格式而windows版本的meme程序则要求ascii格式</param>
+        ''' <param name="encoding">
+        ''' 不同的程序会对这个由要求，例如meme程序在linux系统之中要求序列文件为unicode编码格式而windows版本的meme程序则要求ascii格式
+        ''' </param>
         ''' <remarks></remarks>
-        Public Overrides Function Save(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
+        Public Overloads Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Try
                 Return Save(60, Path, encoding)
             Catch ex As Exception
@@ -457,7 +452,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         Public Overloads Function Save(LineBreak As Integer, Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
             Static ASCII As DefaultValue(Of Encoding) = Encoding.ASCII
 
-            Using writer As StreamWriter = getPath(Path).OpenWriter(encoding Or ASCII)
+            Using writer As StreamWriter = (Path Or FilePath.When(Path.StringEmpty)).OpenWriter(encoding Or ASCII)
                 For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=LineBreak))
                     Call writer.WriteLine(seq)
                 Next
@@ -675,6 +670,10 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             Next
 
             Return True
+        End Function
+
+        Public Overloads Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
         End Function
     End Class
 End Namespace

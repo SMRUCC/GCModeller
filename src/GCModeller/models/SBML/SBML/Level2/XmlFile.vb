@@ -57,7 +57,7 @@ Namespace Level2
     ''' The level2 sbml xml file.
     ''' </summary>
     <XmlRoot("sbml", Namespace:=API.Namespace)>
-    Public Class XmlFile : Inherits ITextFile
+    Public Class XmlFile
         Implements I_FBAC2(Of speciesReference)
 
         <XmlElement("model")> Public Shadows Property Model As Level2.Elements.Model
@@ -73,12 +73,12 @@ Namespace Level2
         End Operator
 
         Public Shared Function Load(File As String) As Level2.XmlFile
-            Dim doc As XmlFile = File.LoadTextDoc(Of XmlFile)(parser:=AddressOf __loadXml)
+            Dim doc As XmlFile = __loadXml(File, Encoding.UTF8)
             Return doc.RevertEscapes(Escaping.DefaultEscapes)
         End Function
 
         Private Shared Function __loadXml(path As String, encoding As Encoding) As XmlFile
-            Return path.LoadXml(Of XmlFile)(encoding, ThrowEx:=True, preprocess:=AddressOf __processNamespace)
+            Return path.LoadXml(Of XmlFile)(encoding, throwEx:=True, preprocess:=AddressOf __processNamespace)
         End Function
 
         Private Shared Function __processNamespace(doc As String) As String
@@ -89,8 +89,8 @@ Namespace Level2
             Return sbr.ToString
         End Function
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return Me.GetXml.SaveTo(getPath(FilePath), throwEx:=True, encoding:=Encoding)
+        Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean
+            Return Me.GetXml.SaveTo(FilePath, throwEx:=True, encoding:=Encoding)
         End Function
 
         ''' <summary>

@@ -43,11 +43,10 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.SequenceModel
 
-Public Class ProteinChain : Inherits ITextFile
+Public Class ProteinChain
     Implements IPolymerSequenceModel
 
     <XmlAttribute> Public Property PdbId As String
@@ -71,7 +70,6 @@ Public Class ProteinChain : Inherits ITextFile
     Public Shared Function TryParse(FilePath As String) As ProteinChain
         Dim strBuffer As String() = IO.File.ReadAllLines(FilePath)
         Dim ProteinChainFile As ProteinChain = New ProteinChain With {
-            .FilePath = FilePath,
             .PdbId = Mid(FileIO.FileSystem.GetName(FilePath), 1, 4),
             .ChainId = Mid(FileIO.FileSystem.GetName(FilePath), 5, 1)
         }
@@ -105,9 +103,5 @@ Public Class ProteinChain : Inherits ITextFile
         Call sBuilder.Remove(sBuilder.Length - 2, 2)
 
         Return String.Format("{0}:{1}; Len:={2}aa, itr:={3}; {4}", PdbId, ChainId, Len(SequenceData), sBuilder.ToString, MyBase.ToString)
-    End Function
-
-    Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-        Throw New NotImplementedException()
     End Function
 End Class

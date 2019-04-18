@@ -690,7 +690,6 @@
     <Compile Include="SequenceModel\Patterns\Clustal\Residue.vb" />
     <Compile Include="SequenceModel\Patterns\Clustal\Clustal.vb" />
     <Compile Include="SequenceModel\FASTA\Reflection\FastaTools.vb" />
-    <Compile Include="SequenceModel\FASTA\IO\UltralargeSizeFastaReader.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\Contig.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\SimpleSegment.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Extensions.vb" />

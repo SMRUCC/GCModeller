@@ -58,8 +58,9 @@ Namespace Assembly.DOOR
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    Public Class DOOR : Inherits ITextFile
+    Public Class DOOR
         Implements IEnumerable(Of Operon)
+        Implements ISaveHandle
 
         ''' <summary>
         ''' 在文件之中，是一个表格的形式来表示整个文件的，这个属性表示文件之中的所有行
@@ -179,8 +180,8 @@ Namespace Assembly.DOOR
             Return DOOROperonView.GetOperon(DOOR)
         End Function
 
-        Public Overrides Function Save(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
-            Return SaveFile(Me.DOOROperonView.Operons, getPath(Path))
+        Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Return SaveFile(Me.DOOROperonView.Operons, Path)
         End Function
 
         Public Overloads Shared Widening Operator CType(Path As String) As DOOR
@@ -220,6 +221,10 @@ Namespace Assembly.DOOR
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
             Yield GetEnumerator()
+        End Function
+
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
         End Function
     End Class
 End Namespace

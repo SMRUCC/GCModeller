@@ -75,7 +75,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
     ''' <summary>
     ''' GFF (General Feature Format) specifications document
     ''' </summary>
-    Public Class GFFTable : Inherits ITextFile
+    Public Class GFFTable
+        Implements ISaveHandle
         Implements IGenomicsContextProvider(Of Feature)
 
 #Region "Meta Data"
@@ -293,8 +294,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function Save(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
-            Return GenerateDocument.SaveTo(getPath(Path), encoding)
+        Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Return GenerateDocument.SaveTo(Path, encoding)
         End Function
 
         ''' <summary>
@@ -308,13 +309,11 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' <returns></returns>
         Public Shared Function LoadDocument(path$, Optional defaultVersion% = 3) As GFFTable
             Dim text As String() = path.ReadAllLines
-            Dim gff As New GFFTable With {
-                .FilePath = path
-            }
+            Dim gff As New GFFTable
 
             Call TrySetMetaData(text, gff, defaultVer:=defaultVersion)
             Call Linq.SetValue(Of GFFTable).InvokeSet(gff, NameOf(gff.Features), TryGetFreaturesData(text, gff.GffVersion))
-            Call $"There are {gff.Features.Length} genome features exists in the gff file: {gff.FilePath.ToFileURL}".__DEBUG_ECHO
+            Call $"There are {gff.Features.Length} genome features exists in the gff file: {path.ToFileURL}".__DEBUG_ECHO
 
             Return gff
         End Function
@@ -442,6 +441,10 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
         Public Function GetStrandFeatures(strand As Strands) As Feature() Implements IGenomicsContextProvider(Of Feature).GetStrandFeatures
             Return If(strand = Strands.Forward, _forwards, _reversed)
+        End Function
+
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
         End Function
     End Class
 End Namespace

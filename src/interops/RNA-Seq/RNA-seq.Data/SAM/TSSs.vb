@@ -91,20 +91,12 @@ Module SAM_TSSs
     ''' <returns></returns>
     ''' 
     <ExportAPI("Split")>
-    Public Function SplitSaved(SAM As SAM.SAM,
-                               <Parameter("LowQuality.Trim")> Optional TrimLowQuality As Boolean = True,
-                               <Parameter("Dir.Export", "If this optional parameter is null then the parent directory of the sam file will be used.")>
-                               Optional Export As String = "") As Boolean
+    Public Function SplitSaved(SAM As SAM.SAM, <Parameter("Dir.Export", "If this optional parameter is null then the parent directory of the sam file will be used.")>
+                                Export As String,
+                               <Parameter("LowQuality.Trim")> Optional TrimLowQuality As Boolean = True) As Boolean
 
-        If String.IsNullOrEmpty(Export) Then
-            If Not String.IsNullOrEmpty(SAM.FilePath) Then
-                Export = FileIO.FileSystem.GetParentPath(SAM.FilePath)
-            Else
-                Export = FileIO.FileSystem.CurrentDirectory
-            End If
-        Else
-            Export = FileIO.FileSystem.GetDirectoryInfo(Export).FullName
-        End If
+
+        Export = FileIO.FileSystem.GetDirectoryInfo(Export).FullName
 
         Call Console.WriteLine($"[DEBUG {Now.ToString}] Export to location {Export}")
         Call Console.WriteLine($"[DEBUG {Now.ToString}] SAM file contains {SAM.Count} reads....")
@@ -123,7 +115,7 @@ Module SAM_TSSs
         End If
 
         If Not String.IsNullOrEmpty(NameToken) Then
-            NameToken = basename(NameToken)
+            NameToken = BaseName(NameToken)
         End If
 
         Dim fnForward As String = $"{Export}/{NameToken}_Forward.sam", fnReversed As String = $"{Export}/{NameToken}_Reversed.sam"

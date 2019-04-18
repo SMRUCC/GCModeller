@@ -109,7 +109,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             Return Me
         End Function
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
+        Public Function Save(FilePath As String, Encoding As Encoding) As Boolean
             Return Me.GetXml.SaveTo(FilePath, Encoding)
         End Function
 

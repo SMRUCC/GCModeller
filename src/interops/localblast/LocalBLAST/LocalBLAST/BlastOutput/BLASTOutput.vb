@@ -44,7 +44,6 @@
 
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -58,19 +57,12 @@ Namespace LocalBLAST.BLASTOutput
     ''' Reader文件夹之下为各种格式的日志文件的读取类对象
     ''' 对于BLAST日志文件，则有一个BlastLogFile对象作为对外保存和其他程序读取的统一接口
     ''' </remarks>
-    Public MustInherit Class IBlastOutput : Inherits ITextFile
+    Public MustInherit Class IBlastOutput
 
         Public Const HITS_NOT_FOUND As String = "HITS_NOT_FOUND"
 
         <XmlIgnore> <ScriptIgnore>
-        Public Shadows Property FilePath As String
-            Get
-                Return MyBase.FilePath
-            End Get
-            Set(value As String)
-                MyBase.FilePath = value
-            End Set
-        End Property
+        Public Property FilePath As String
 
         Public MustOverride Function Grep(Query As TextGrepMethod, Hits As TextGrepMethod) As IBlastOutput
         ''' <summary>
