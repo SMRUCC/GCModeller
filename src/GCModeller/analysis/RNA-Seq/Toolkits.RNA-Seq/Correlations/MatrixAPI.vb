@@ -342,8 +342,8 @@ Public Module MatrixAPI
     Public Function Sampling(datas As String, TimeId As Integer, Optional FirstLineTitle As Boolean = False) As IO.File
         Dim CsvBuffer = (From path As String
                          In FileIO.FileSystem.GetFiles(datas, FileIO.SearchOption.SearchTopLevelOnly, "*.csv")
-                         Select IO.File.Load(path)).ToArray
-        Dim idBufs As String() = (From file As IO.File In CsvBuffer Select (From row In If(FirstLineTitle, file.Skip(1).ToArray, file.ToArray) Select row.First).ToArray).Intersection
+                         Select file = IO.File.Load(path), filePath = path).ToArray
+        Dim idBufs As String() = (From file In CsvBuffer Select (From row In If(FirstLineTitle, file.file.Skip(1).ToArray, file.file.ToArray) Select row.First).ToArray).Intersection
         Dim CsvResult As New IO.File
         Dim RowBuffer As New IO.RowObject
         Call RowBuffer.Add("GeneId")
@@ -353,7 +353,7 @@ Public Module MatrixAPI
         TimeId += 1
 
         For Each sId As String In idBufs
-            Dim RowCollection = (From file In CsvBuffer Select file.FindAtColumn(sId, 0).First).ToArray
+            Dim RowCollection = (From file In CsvBuffer Select file.file.FindAtColumn(sId, 0).First).ToArray
             RowBuffer = New IO.RowObject From {sId}
             Call RowBuffer.AddRange((From fileLine In RowCollection Select fileLine(TimeId)).ToArray)
             Call CsvResult.AppendLine(RowBuffer)
