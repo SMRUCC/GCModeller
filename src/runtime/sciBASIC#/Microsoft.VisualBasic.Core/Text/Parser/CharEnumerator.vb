@@ -63,5 +63,17 @@ Namespace Text.Parser
         Sub New(data As String)
             Call MyBase.New(data)
         End Sub
+
+        ''' <summary>
+        ''' 这个调试试图函数会将当前的读取位置给标记出来
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function ToString() As String
+            Dim previous$ = buffer.Take(index - 1).CharString
+            Dim current As Char = Me.Current
+            Dim remaining$ = Me.Remaining
+
+            Return $"{previous} ->[{current}]<- {remaining}"
+        End Function
     End Class
 End Namespace
