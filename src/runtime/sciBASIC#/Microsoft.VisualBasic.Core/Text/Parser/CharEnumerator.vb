@@ -69,7 +69,7 @@ Namespace Text.Parser
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Dim previous$ = buffer.Take(index - 1).CharString
+            Dim previous$ = buffer.Take(index).CharString
             Dim current As Char = Me.Current
             Dim remaining$ = Me.Remaining
 

@@ -105,7 +105,7 @@ Namespace IO
             Dim doubleQuot$ = quot & quot
 
             Do While Not buffer.EndRead
-                Dim c As Char = +buffer
+                Dim c As Char = ++buffer
 
                 If openStack Then
 
