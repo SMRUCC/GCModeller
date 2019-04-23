@@ -68,9 +68,19 @@ Namespace ComponentModel.DBLinkBuilder
     Public Class SecondaryIDSolver
 
 #Region "这里需要特别的注意一下：都是小写的字符串"
+        ''' <summary>
+        ''' 在数据库之中的主编号列表
+        ''' </summary>
         Dim mainID As Index(Of String)
+        ''' <summary>
+        ''' [secondary => main]的映射转换表
+        ''' </summary>
         Dim secondaryIDs As Dictionary(Of String, String)
 
+        ''' <summary>
+        ''' 获取得到当前的数据库之中的所有的编号列表, 包括主编号以及次级编号
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property ALL As String()
             Get
                 Return mainID.Objects _
@@ -86,7 +96,12 @@ Namespace ComponentModel.DBLinkBuilder
             secondaryIDs = New Dictionary(Of String, String)
         End Sub
 
-        Default Public ReadOnly Property SolveIDMapping(id$) As String
+        ''' <summary>
+        ''' 将主编号或者次级编号转换为主编号
+        ''' </summary>
+        ''' <param name="id">主编号或者次级编号</param>
+        ''' <returns>这个只读属性总是返回主编号的</returns>
+        Default Public ReadOnly Property SolveIDMapping(id As String) As String
             Get
                 With id.ToLower
                     If mainID.IndexOf(.ByRef) > -1 Then
@@ -103,10 +118,13 @@ Namespace ComponentModel.DBLinkBuilder
         End Property
 
         ''' <summary>
-        ''' Add new 2nd to main mapping.(编号都被转换为小写形式了)
+        ''' Add new 2nd to main mapping
         ''' </summary>
         ''' <param name="main$"></param>
         ''' <param name="secondary"></param>
+        ''' <remarks>
+        ''' 为了方便直接进行查询, 在这里编号都被自动转换为小写形式了
+        ''' </remarks>
         Public Sub Add(main$, secondary As IEnumerable(Of String))
             main = main.ToLower
 
