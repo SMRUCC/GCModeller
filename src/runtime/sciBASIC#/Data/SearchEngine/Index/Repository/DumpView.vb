@@ -32,6 +32,8 @@ Public Module DumpView
                 ' ZERO terminated flag
                 Call out.Write(" ")
                 Call out.Write(index.ReadInt32)
+                Call out.Write(" |")
+                Call out.Write(index.Position)
 
                 If index.EndOfStream Then
                     Exit For
