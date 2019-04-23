@@ -57,19 +57,33 @@ Imports Microsoft.VisualBasic.Text.Parser
 Public Class TrieIndexWriter : Implements IDisposable
 
     ReadOnly index As BinaryDataWriter
-    ReadOnly reader As BinaryDataReader
+    ReadOnly reader As TrieIndexReader
     ReadOnly root As Long
 
     Dim length As Long
 
+    Public Const Magic$ = "TrieIndex"
+
+    ''' <summary>
+    ''' Printable characters with a ZERO terminated mark
+    ''' </summary>
+    Public Const allocateSize As Integer = (126 - 32 + 1) * 4 + 8
+
     Sub New(IOdev As Stream)
         index = New BinaryDataWriter(IOdev, encoding:=Encoding.ASCII)
-        index.Write("TrieIndex", BinaryStringFormat.NoPrefixOrTermination)
-        reader = New BinaryDataReader(IOdev, leaveOpen:=True)
+        index.Write(Magic, BinaryStringFormat.NoPrefixOrTermination)
+        ' no data was associated with root node. 
+        index.Write(Long.MinValue)
+        index.Seek(allocateSize, SeekOrigin.Current)
+
+        reader = New TrieIndexReader(IOdev)
 
         ' all of the term starts from here
-        root = index.Position
+        root = Magic.Length
         reader.Seek(root, SeekOrigin.Begin)
+        length = Magic.Length + 8 + allocateSize
+
+        Call index.Flush()
     End Sub
 
     ''' <summary>
@@ -90,19 +104,20 @@ Public Class TrieIndexWriter : Implements IDisposable
             ' empty string data
             Return
         Else
-            Call index.Seek(root, SeekOrigin.Begin)
+            ' read from the begining
+            Call reader.Seek(root + 8, SeekOrigin.Begin)
         End If
 
         Do While Not chars.EndRead
             c = Asc(++chars)
             current = reader.Position
-            offset = getNextOffset(c)
+            offset = reader.getNextOffset(c)
 
             If offset = -1 Then
                 ' character c is not exists in current tree routine
                 Dim blocks As Integer = (length - current) / allocateSize
                 ' write next offset 
-                index.Seek(current + 8 + (c - base) * 4, SeekOrigin.Begin)
+                index.Seek(current + (c - TrieIndexReader.base) * 4, SeekOrigin.Begin)
                 index.Write(blocks)
                 ' jump to location
                 index.Position = length
@@ -114,50 +129,15 @@ Public Class TrieIndexWriter : Implements IDisposable
                 current = index.Position
                 length = index.Position
             Else
-                Call index.Seek(offset, SeekOrigin.Current)
+                Call reader.Seek(offset, SeekOrigin.Current)
             End If
         Loop
 
         ' End of the charaters is the data entry that associated with current term
         index.Seek(-(allocateSize - 8), SeekOrigin.Current)
         index.Write(data)
+        index.Flush()
     End Sub
-
-    ''' <summary>
-    ''' Printable characters with a ZERO terminated mark
-    ''' </summary>
-    Const allocateSize As Integer = (126 - 32 + 1) * 4 + 8
-
-    ' offset block is pre-allocated block
-    ' length is (126-32) * 4 + 4 bytes
-
-    ' block_jump offset offset offset offset offset ZERO
-    ' 1. offset is the block count for next char
-    ' 2. block_jump is the data location that associated with current term string.
-
-    ''' <summary>
-    ''' 32
-    ''' </summary>
-    Const base As Integer = Asc(" "c)
-
-    ''' <summary>
-    ''' 这个函数是以当前的位置为参考的
-    ''' </summary>
-    ''' <param name="code"></param>
-    ''' <returns></returns>
-    Private Function getNextOffset(code As Integer) As Integer
-        ' character block counts
-        Dim offset As Integer
-
-        reader.Seek((code - base) * 4, SeekOrigin.Current)
-        offset = reader.ReadInt32
-
-        If offset = 0 Then
-            Return -1
-        Else
-            Return offset * allocateSize
-        End If
-    End Function
 
 #Region "IDisposable Support"
     Private disposedValue As Boolean ' To detect redundant calls
@@ -193,16 +173,4 @@ Public Class TrieIndexWriter : Implements IDisposable
         ' GC.SuppressFinalize(Me)
     End Sub
 #End Region
-End Class
-
-Public Class CharNode
-
-    Public Property [char] As Char
-
-    ''' <summary>
-    ''' 在这里是接下来的字符的在索引文件之中的位置
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property [next] As Long()
-
 End Class

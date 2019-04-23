@@ -213,7 +213,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Repository\TrieIndex.vb" />
+    <Compile Include="Repository\TrieIndexReader.vb" />
+    <Compile Include="Repository\TrieIndexWriter.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
