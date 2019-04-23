@@ -65,23 +65,26 @@ Public Class TrieIndexWriter : Implements IDisposable
     Public Const Magic$ = "TrieIndex"
 
     ''' <summary>
-    ''' Printable characters with a ZERO terminated mark
+    ''' data pointer(8 bytes int64) with all ASCII printable characters with a ZERO terminated mark
     ''' </summary>
-    Public Const allocateSize As Integer = (126 - 32 + 1) * 4 + 8
+    Public Const allocateSize As Integer = 8 + (95 + 1) * 4
 
     Sub New(IOdev As Stream)
         index = New BinaryDataWriter(IOdev, encoding:=Encoding.ASCII)
+        ' write magic with 9 bytes
         index.Write(Magic, BinaryStringFormat.NoPrefixOrTermination)
         ' no data was associated with root node. 
+        ' write a random int64 number with 8 bytes
         index.Write(Now.ToBinary)
         index.Seek(allocateSize, SeekOrigin.Current)
 
         reader = New TrieIndexReader(IOdev)
 
-        ' all of the term starts from here
+        ' all of the term search starts from here
         root = Magic.Length
         reader.Seek(root, SeekOrigin.Begin)
-        length = Magic.Length + 8 + allocateSize
+        ' initialize length
+        length = Magic.Length + allocateSize
 
         Call index.Flush()
     End Sub
@@ -113,6 +116,7 @@ Public Class TrieIndexWriter : Implements IDisposable
             Console.Write(chars.Current)
 #End If
             c = Asc(++chars)
+            ' current is the begining location of current character block
             current = reader.Position
             offset = reader.getNextOffset(c)
 
@@ -120,12 +124,15 @@ Public Class TrieIndexWriter : Implements IDisposable
                 ' character c is not exists in current tree routine
                 Dim blocks As Integer = (length - current) / allocateSize
                 ' write next offset 
-                index.Seek(current + (c - TrieIndexReader.base + 2) * 4, SeekOrigin.Begin)
+                ' from the begining of current block
+                ' and then skip the data section
+                ' and then jump to the character location
+                index.Seek(current + 8 + (c - TrieIndexReader.base) * 4, SeekOrigin.Begin)
+                ' write offset block count value
                 index.Write(blocks)
+
                 ' jump to location
-                index.Position = length - 4
-                ' write data block pointer
-                index.Seek(8, SeekOrigin.Current)
+                index.Position = length
                 ' write pre-allocated block
                 index.Seek(allocateSize, SeekOrigin.Current)
 
@@ -138,7 +145,7 @@ Public Class TrieIndexWriter : Implements IDisposable
         Loop
 
         ' End of the charaters is the data entry that associated with current term
-        index.Seek(-(allocateSize - 8), SeekOrigin.Current)
+        index.Seek(-allocateSize, SeekOrigin.Current)
         index.Write(data)
         index.Flush()
     End Sub

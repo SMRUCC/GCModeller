@@ -33,22 +33,25 @@ Public Class TrieIndexReader : Implements IDisposable
     Public Function GetData(term As String) As Long
         Dim offset As Integer
         Dim data As Long
+        Dim current As Long
 
         Call Seek(root, SeekOrigin.Begin)
-        Call Seek(8, SeekOrigin.Current)
 
         For Each c As Char In term
+            current = reader.Position
             offset = getNextOffset(Asc(c))
 
             If offset = -1 Then
                 Return -1
             Else
+                Call Seek(current, SeekOrigin.Begin)
                 Call Seek(offset, SeekOrigin.Current)
             End If
         Next
 
-        ' End of the charaters is the data entry that associated with current term
-        reader.Seek(-(TrieIndexWriter.allocateSize - 8), SeekOrigin.Current)
+        ' End of the charaters is the data entry that associated 
+        ' with current term
+        reader.Seek(-TrieIndexWriter.allocateSize, SeekOrigin.Current)
         data = reader.ReadInt64
 
         Return data
@@ -75,7 +78,9 @@ Public Class TrieIndexReader : Implements IDisposable
         ' character block counts
         Dim offset As Integer
 
+        ' skip data section
         reader.Seek(8, SeekOrigin.Current)
+        ' jump to character
         reader.Seek((code - base) * 4, SeekOrigin.Current)
 
         If reader.EndOfStream Then

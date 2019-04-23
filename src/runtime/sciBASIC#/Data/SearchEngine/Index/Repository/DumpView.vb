@@ -1,9 +1,18 @@
 ﻿Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.Language
 
 Public Module DumpView
 
     ReadOnly DataPadLength As Integer = Long.MinValue.ToString.Length
+
+    Public Sub ShowCharacters()
+        Dim i As VBInteger = 1
+
+        For c As Integer = Asc(" "c) To Asc("~"c)
+            Call Console.WriteLine($" {Chr(c)} {++i}")
+        Next
+    End Sub
 
     Public Sub IndexDumpView(dbFile As String, out As StreamWriter)
         Using index As New BinaryDataReader(dbFile.Open(FileMode.Open, doClear:=False), Encoding.ASCII)
