@@ -75,6 +75,7 @@ Public Class TrieIndexReader : Implements IDisposable
         ' character block counts
         Dim offset As Integer
 
+        reader.Seek(8, SeekOrigin.Current)
         reader.Seek((code - base) * 4, SeekOrigin.Current)
 
         If reader.EndOfStream Then

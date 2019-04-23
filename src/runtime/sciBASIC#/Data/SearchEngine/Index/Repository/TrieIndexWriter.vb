@@ -73,7 +73,7 @@ Public Class TrieIndexWriter : Implements IDisposable
         index = New BinaryDataWriter(IOdev, encoding:=Encoding.ASCII)
         index.Write(Magic, BinaryStringFormat.NoPrefixOrTermination)
         ' no data was associated with root node. 
-        index.Write(Long.MinValue)
+        index.Write(Now.ToBinary)
         index.Seek(allocateSize, SeekOrigin.Current)
 
         reader = New TrieIndexReader(IOdev)
@@ -105,7 +105,7 @@ Public Class TrieIndexWriter : Implements IDisposable
             Return
         Else
             ' read from the begining
-            Call reader.Seek(root + 8, SeekOrigin.Begin)
+            Call reader.Seek(root, SeekOrigin.Begin)
         End If
 
         Do While Not chars.EndRead
@@ -120,10 +120,10 @@ Public Class TrieIndexWriter : Implements IDisposable
                 ' character c is not exists in current tree routine
                 Dim blocks As Integer = (length - current) / allocateSize
                 ' write next offset 
-                index.Seek(current + (c - TrieIndexReader.base) * 4, SeekOrigin.Begin)
+                index.Seek(current + (c - TrieIndexReader.base + 2) * 4, SeekOrigin.Begin)
                 index.Write(blocks)
                 ' jump to location
-                index.Position = length
+                index.Position = length - 4
                 ' write data block pointer
                 index.Seek(8, SeekOrigin.Current)
                 ' write pre-allocated block

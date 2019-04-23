@@ -12,7 +12,7 @@ Public Module DumpView
             Call out.Write("| ")
 
             For c As Integer = Asc(" "c) To Asc("~"c)
-                Call out.Write(" ")
+                Call out.Write("  ")
                 Call out.Write(Chr(c))
             Next
 
@@ -26,12 +26,12 @@ Public Module DumpView
                 ' characters offset
                 For c As Integer = Asc(" "c) To Asc("~"c)
                     Call out.Write(" ")
-                    Call out.Write(index.ReadInt32)
+                    Call out.Write(index.ReadInt32.ToString.PadLeft(2))
                 Next
 
                 ' ZERO terminated flag
                 Call out.Write(" ")
-                Call out.Write(index.ReadInt32)
+                Call out.Write(index.ReadInt32.ToString.PadLeft(2))
                 Call out.Write(" |")
                 Call out.Write(index.Position)
 
