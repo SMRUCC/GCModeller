@@ -109,13 +109,16 @@ Public Class TrieIndexWriter : Implements IDisposable
         End If
 
         Do While Not chars.EndRead
+#If DEBUG Then
+            Console.Write(chars.Current)
+#End If
             c = Asc(++chars)
             current = reader.Position
             offset = reader.getNextOffset(c)
 
             If offset = -1 Then
                 ' character c is not exists in current tree routine
-                Dim blocks As Integer = (length - current) / allocateSize
+                Dim blocks As Integer = (length - current) / allocateSize + 1
                 ' write next offset 
                 index.Seek(current + (c - TrieIndexReader.base) * 4, SeekOrigin.Begin)
                 index.Write(blocks)
@@ -127,8 +130,9 @@ Public Class TrieIndexWriter : Implements IDisposable
                 index.Seek(allocateSize, SeekOrigin.Current)
 
                 current = index.Position
-                length = index.Position
+                length += allocateSize
             Else
+                Call reader.Seek(current, SeekOrigin.Begin)
                 Call reader.Seek(offset, SeekOrigin.Current)
             End If
         Loop

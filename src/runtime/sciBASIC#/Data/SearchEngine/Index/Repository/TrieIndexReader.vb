@@ -92,6 +92,10 @@ Public Class TrieIndexReader : Implements IDisposable
         End If
     End Function
 
+    Public Overrides Function ToString() As String
+        Return reader.ToString
+    End Function
+
 #Region "IDisposable Support"
     Private disposedValue As Boolean ' To detect redundant calls
 
