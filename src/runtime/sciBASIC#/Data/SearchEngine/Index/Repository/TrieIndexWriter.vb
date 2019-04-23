@@ -98,12 +98,10 @@ Public Class TrieIndexWriter : Implements IDisposable
     ''' </param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub AddTerm(term As String, data As Long)
-        Dim chars As CharPtr = term
-        Dim c As Integer
         Dim offset As Integer
         Dim current As Long
 
-        If chars = 0 Then
+        If Strings.Len(term) = 0 Then
             ' empty string data
             Return
         Else
@@ -111,11 +109,7 @@ Public Class TrieIndexWriter : Implements IDisposable
             Call reader.Seek(root, SeekOrigin.Begin)
         End If
 
-        Do While Not chars.EndRead
-#If DEBUG Then
-            Console.Write(chars.Current)
-#End If
-            c = Asc(++chars)
+        For Each c As Integer In term.Select(AddressOf Asc)
             ' current is the begining location of current character block
             current = reader.Position
             offset = reader.getNextOffset(c)
@@ -142,7 +136,7 @@ Public Class TrieIndexWriter : Implements IDisposable
                 Call reader.Seek(current, SeekOrigin.Begin)
                 Call reader.Seek(offset, SeekOrigin.Current)
             End If
-        Loop
+        Next
 
         ' End of the charaters is the data entry that associated with current term
         index.Seek(-allocateSize, SeekOrigin.Current)

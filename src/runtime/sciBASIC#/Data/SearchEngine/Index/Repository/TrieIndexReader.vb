@@ -40,18 +40,18 @@ Public Class TrieIndexReader : Implements IDisposable
         For Each c As Char In term
             current = reader.Position
             offset = getNextOffset(Asc(c))
+            Seek(current, SeekOrigin.Begin)
 
             If offset = -1 Then
                 Return -1
             Else
-                Call Seek(current, SeekOrigin.Begin)
                 Call Seek(offset, SeekOrigin.Current)
             End If
         Next
 
         ' End of the charaters is the data entry that associated 
         ' with current term
-        reader.Seek(-TrieIndexWriter.allocateSize, SeekOrigin.Current)
+        ' reader.Seek(-TrieIndexWriter.allocateSize, SeekOrigin.Current)
         data = reader.ReadInt64
 
         Return data
