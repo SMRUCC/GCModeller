@@ -147,6 +147,8 @@ Public Class TrieIndexWriter : Implements IDisposable
         ' End of the charaters is the data entry that associated with current term
         index.Seek(-allocateSize, SeekOrigin.Current)
         index.Write(data)
+        ' fill current block with zero data
+        ' index.Seek(allocateSize - 8, SeekOrigin.Current)
         index.Flush()
     End Sub
 
