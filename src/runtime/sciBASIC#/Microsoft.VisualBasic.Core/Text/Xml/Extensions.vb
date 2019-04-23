@@ -89,6 +89,11 @@ Namespace Text.Xml
             Return r.Replace(xhtml, "<![-][-].*[-][-]>", "")
         End Function
 
+        ''' <summary>
+        ''' Xml encoding to text encoding
+        ''' </summary>
+        ''' <param name="xmlEncoding"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function CodePage(xmlEncoding As XmlEncodings) As Encoding
@@ -99,6 +104,25 @@ Namespace Text.Xml
                     Return UTF8WithoutBOM
                 Case Else
                     Return Encodings.UTF16.CodePage
+            End Select
+        End Function
+
+        ''' <summary>
+        ''' Xml encoding to text encoding
+        ''' </summary>
+        ''' <param name="xmlEncoding"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function TextEncoding(xmlEncoding As XmlEncodings) As Encodings
+            Select Case xmlEncoding
+                Case XmlEncodings.GB2312
+                    Return Encodings.GB2312
+                Case XmlEncodings.UTF16
+                    Return Encodings.UTF16
+                Case XmlEncodings.UTF8
+                    Return Encodings.UTF8WithoutBOM
+                Case Else
+                    Throw New NotImplementedException
             End Select
         End Function
 
@@ -122,7 +146,7 @@ Namespace Text.Xml
 
         <Extension>
         Public Function SetXmlEncoding(xml As String, encoding As XmlEncodings) As String
-            Dim xmlEncoding As String = Text.Xml.XmlDeclaration.XmlEncodingString(encoding)
+            Dim xmlEncoding As String = encoding.Description
             Dim head As String = r.Match(xml, XmlDoc.XmlDeclares, RegexICSng).Value
             Dim enc As String = r.Match(head, "encoding=""\S+""", RegexICSng).Value
 
