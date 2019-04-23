@@ -47,10 +47,12 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.Text.Parser
 
 ''' <summary>
 ''' 主要是针对于字符串类型的索引文件的构建, 在这里尝试使用字典树来节省存储空间
+''' 只支持ASCII字符
 ''' </summary>
 Public Class TrieIndexWriter : Implements IDisposable
 
@@ -60,32 +62,29 @@ Public Class TrieIndexWriter : Implements IDisposable
 
     Dim length As Long
 
-    Sub New(IOdev As BinaryDataWriter)
-        index = IOdev
+    Sub New(IOdev As Stream)
+        index = New BinaryDataWriter(IOdev, encoding:=Encoding.ASCII)
         index.Write("TrieIndex", BinaryStringFormat.NoPrefixOrTermination)
-        reader = New BinaryDataReader(IOdev.BaseStream, leaveOpen:=True)
+        reader = New BinaryDataReader(IOdev, leaveOpen:=True)
 
         ' all of the term starts from here
         root = index.Position
         reader.Seek(root, SeekOrigin.Begin)
     End Sub
 
-    Public Sub buildIndex(terms As IEnumerable(Of String))
-        For Each word As String In terms
-            Call AddTerm(word)
-        Next
-    End Sub
-
     ''' <summary>
     ''' Only supports ASCII symbols
     ''' </summary>
     ''' <param name="term"></param>
+    ''' <param name="data">
+    ''' 与当前的term所关联的数据块的位置值
+    ''' </param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Sub AddTerm(term As String)
+    Public Sub AddTerm(term As String, data As Long)
         Dim chars As CharPtr = term
-        Dim c As Char
+        Dim c As Integer
         Dim offset As Integer
-        Dim i As Integer
+        Dim current As Long
 
         If chars = 0 Then
             ' empty string data
@@ -95,60 +94,69 @@ Public Class TrieIndexWriter : Implements IDisposable
         End If
 
         Do While Not chars.EndRead
-            c = ++chars
-            offset = getNextOffset(c, i)
+            c = Asc(++chars)
+            current = reader.Position
+            offset = getNextOffset(c)
 
             If offset = -1 Then
                 ' character c is not exists in current tree routine
+                Dim blocks As Integer = (length - current) / allocateSize
+                ' write next offset 
+                index.Seek(current + 8 + (c - base) * 4, SeekOrigin.Begin)
+                index.Write(blocks)
+                ' jump to location
+                index.Position = length
+                ' write data block pointer
+                index.Seek(8, SeekOrigin.Current)
+                ' write pre-allocated block
+                index.Seek(allocateSize, SeekOrigin.Current)
 
+                current = index.Position
+                length = index.Position
             Else
                 Call index.Seek(offset, SeekOrigin.Current)
             End If
         Loop
+
+        ' End of the charaters is the data entry that associated with current term
+        index.Seek(-(allocateSize - 8), SeekOrigin.Current)
+        index.Write(data)
     End Sub
 
+    ''' <summary>
+    ''' Printable characters with a ZERO terminated mark
+    ''' </summary>
+    Const allocateSize As Integer = (126 - 32 + 1) * 4 + 8
+
     ' offset block is pre-allocated block
-    ' length is 26+26+10 * 4 bytes
-    ' char offset offset offset offset jump offset_next_block offset ZERO
-    ' offset is the location offset for next char
+    ' length is (126-32) * 4 + 4 bytes
+
+    ' block_jump offset offset offset offset offset ZERO
+    ' 1. offset is the block count for next char
+    ' 2. block_jump is the data location that associated with current term string.
+
+    ''' <summary>
+    ''' 32
+    ''' </summary>
+    Const base As Integer = Asc(" "c)
 
     ''' <summary>
     ''' 这个函数是以当前的位置为参考的
     ''' </summary>
-    ''' <param name="c"></param>
+    ''' <param name="code"></param>
     ''' <returns></returns>
-    Private Function getNextOffset(c As Char, ByRef i As Integer) As Integer
-        Dim code As Integer = Asc(c)
-        Dim read As Integer
+    Private Function getNextOffset(code As Integer) As Integer
+        ' character block counts
         Dim offset As Integer
 
-        ' 0 表示结束
-        ' -max 表示跳转
-        For i = 0 To Integer.MaxValue Step 4
-            ' read offset
-            offset = reader.ReadInt32
+        reader.Seek((code - base) * 4, SeekOrigin.Current)
+        offset = reader.ReadInt32
 
-            If offset = 0 Then
-                ' 当前的字典已经结束了
-                Return -1
-            ElseIf offset = Integer.MinValue Then
-                ' jump
-                ' next integer is the jump offset
-                offset = reader.ReadInt32
-                ' jump to next block
-                reader.Seek(offset, SeekOrigin.Current)
-                offset = reader.ReadInt32
-            End If
-
-            reader.TemporarySeek(offset, SeekOrigin.Current, Sub() read = reader.ReadInt32)
-
-            If read = code Then
-                ' is target char
-                Return offset
-            End If
-        Next
-
-        Return -1
+        If offset = 0 Then
+            Return -1
+        Else
+            Return offset * allocateSize
+        End If
     End Function
 
 #Region "IDisposable Support"
