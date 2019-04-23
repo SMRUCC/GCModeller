@@ -75,5 +75,10 @@ Namespace Text.Parser
 
             Return $"{previous} ->[{current}]<- {remaining}"
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Widening Operator CType(str As String) As CharPtr
+            Return New CharPtr(str)
+        End Operator
     End Class
 End Namespace
