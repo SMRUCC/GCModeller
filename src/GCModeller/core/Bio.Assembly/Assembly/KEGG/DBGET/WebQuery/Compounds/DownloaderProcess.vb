@@ -64,9 +64,11 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
         <Extension>
         Friend Sub Download(query As DbGetWebQuery, entryID$, xmlFile$, structInfo As Boolean)
             If entryID.StartsWith("G") Then
+
                 Call query.Query(Of Glycan)(entryID) _
                     .GetXml _
                     .SaveTo(xmlFile)
+
             ElseIf entryID.StartsWith("C") Then
                 Dim compound As Compound = query.Query(Of Compound)(entryID)
 
@@ -79,12 +81,14 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
 
                     If KCF.FileExists Then
                         compound.KCF = KCF.ReadAllText
+                        KCF.FileCopy(xmlFile.ChangeSuffix("txt"))
                     End If
 
                     ' gif分子二维结构图是以base64
                     ' 字符串的形式写在XML文件之中的
                     If gif.FileExists Then
                         compound.Image = FastaSeq.SequenceLineBreak(200, New DataURI(gif).ToString)
+                        gif.FileCopy(xmlFile.ChangeSuffix("gif"))
                     End If
                 End If
 
