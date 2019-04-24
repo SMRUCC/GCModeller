@@ -53,6 +53,7 @@ D      C11077  Diethofencarb
 D      C18866  Iprovalicarb
 D      C18421  Propamocarb hydrochloride
 D      C18885  Propamocarb
+D      C22042  Pyribencarb
 D      C14432  Thiophanate-methyl
 C    Conazole fungicides
 D      C18701  Azaconazole
@@ -137,6 +138,7 @@ D      C18728  Fentin acetate
 D      C18729  Fentin hydroxide
 C    Pyridine fungicides
 D      C18578  Fluazinam
+D      C22042  Pyribencarb
 D      C18804  Pyrifenox
 C    Pyrimidine fungicides
 D      C10914  Cyprodinil
@@ -155,6 +157,7 @@ D      C11017  Kresoxim-methyl
 D      C18559  Metominostrobin
 D      C18560  Orysastrobin
 D      C18561  Pyraclostrobin
+D      C22042  Pyribencarb
 D      C18562  Trifloxystrobin
 C    Thiazole fungicides
 D      C18752  Octhilinone
@@ -265,6 +268,7 @@ D      C11019  Pendimethalin
 D      C18884  Prodiamine
 D      C14343  Trifluralin
 C    Diphenyl ether herbicide
+D      C22041  Acifluorfen
 D      C11066  Bifenox
 D      C18732  Fluoroglycofen
 D      C18881  Oxyfluorfen
@@ -1059,5 +1063,5 @@ D      C19146  Sesamex
 !
 #<hr>
 #<b>[ <a href="/kegg/drug/">DRUG</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: August 10, 2016
+#Last updated: January 30, 2019
 #<br><br><a href="/kegg-bin/get_htext?jp08007.keg">&raquo; Japanese version</a>

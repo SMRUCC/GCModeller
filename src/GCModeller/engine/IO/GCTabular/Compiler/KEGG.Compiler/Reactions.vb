@@ -256,7 +256,7 @@ Namespace KEGG.Compiler
                 If Not Metabolites.ContainsKey(UniqueId) Then
 Download:
                     If Regex.Match(UniqueId, "C\d{5}").Success Then
-                        Dim DownloadCompoundModel = MetaboliteDBGET.DownloadCompound(UniqueId)
+                        Dim DownloadCompoundModel = MetaboliteWebApi.DownloadCompound(UniqueId)
 
                         Call DownloadCompoundModel.GetXml.SaveTo(String.Format("{0}/Downloads/{1}.xml", DownloadDir, UniqueId))
                         Call DownloadList.Add(Compound.GenerateObject(DownloadCompoundModel))

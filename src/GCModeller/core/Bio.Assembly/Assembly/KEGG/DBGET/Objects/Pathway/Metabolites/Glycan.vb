@@ -1,55 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::1851765847c55cc744610cae2f8d905e, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Glycan
-    ' 
-    '         Properties: Composition, CompoundId, Mass, Orthology
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: __parseOrthology, Download, DownloadFrom, GetLinkDbRDF, ToCompound
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Glycan
+' 
+'         Properties: Composition, CompoundId, Mass, Orthology
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: __parseOrthology, Download, DownloadFrom, GetLinkDbRDF, ToCompound
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.WebQuery.Compounds
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
@@ -118,40 +116,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function DownloadFrom(url As String) As Glycan
-            Dim html As New WebForm(url)
-            Dim base As Compound = html.ParseCompound
-            Dim gl As New Glycan(base._DBLinks) With {
-                .Entry = base.Entry,
-                .CommonNames = base.CommonNames,
-                .Remarks = base.Remarks,
-                .Pathway = base.Pathway,
-                .MolWeight = base.MolWeight,
-                .Module = base.Module,
-                .reactionId = base.reactionId,
-                .ExactMass = base.ExactMass,
-                .Formula = base.Formula,
-                .Enzyme = base.Enzyme,
-                .Composition = html.GetText("Composition"),
-                .Mass = html.GetText("Mass"),
-                .Orthology = __parseOrthology(html("Orthology").FirstOrDefault)
-            }
-
-            Return gl
-        End Function
-
-        Private Shared Function __parseOrthology(html$) As KeyValuePair()
-            Dim divs = html.Strip_NOBR.DivInternals
-            Dim out As New List(Of KeyValuePair)
-
-            For Each o In divs.SlideWindows(2, 2)
-                out += New KeyValuePair With {
-                    .Key = o(0).StripHTMLTags(stripBlank:=True),
-                    .Value = o(1).StripHTMLTags(stripBlank:=True)
-                }
-            Next
-
-            Return out
+            Return GlycanParser.ParseGlycan(New WebForm(url))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

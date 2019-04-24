@@ -1817,8 +1817,7 @@ D      C17955  (5R)-Albaflavenol
 D      C16028  Amorpha-4,11-diene
 D      C09621  (-)-alpha-Bisabolol
 D      C19749  (E)-alpha-Bisabolene
-D      C16775  beta-Bisabolene
-D      C19751  (S)-beta-Bisabolene
+D      C16775  (S)-beta-Bisabolene
 D      C16814  gamma-Bisabolene
 D      C19748  (E)-gamma-Bisabolene
 D      C17088  alpha-Bergamotene
@@ -3076,4 +3075,4 @@ D      C10839  Urushiol III
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: March 13, 2017
+#Last updated: December 20, 2018
