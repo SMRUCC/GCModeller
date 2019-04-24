@@ -300,13 +300,11 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <param name="EXPORT"></param>
         ''' <param name="directoryOrganized"></param>
-        ''' <param name="forceUpdate">是否需要API对已经存在的数据进行强制更新？</param>
         ''' <param name="structInfo">是否同时也下载分子结构信息？</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function DownloadFromResource(EXPORT$,
                                                     Optional directoryOrganized As Boolean = True,
-                                                    Optional forceUpdate As Boolean = False,
                                                     Optional structInfo As Boolean = False) As String()
 
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
@@ -325,14 +323,13 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             ' 这个是为了解决重复下载的问题而设计的
             Dim successFiles As New Dictionary(Of String, String)
 
-            For Each briteEntry As NamedValue(Of CompoundBrite()) In resource
-                With briteEntry
+            For Each entry As NamedValue(Of CompoundBrite()) In resource
+                With entry
                     Call downloadsInternal(
                         .Name, .Value,
                         failures, successFiles,
                         EXPORT,
                         directoryOrganized,
-                        forceUpdate,
                         structInfo
                     )
                 End With
@@ -353,7 +350,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     If success(id) = -1 Then
                         skip = False
                         xml = $"{saveDIR}/{id}.xml"
-                        Call Download(id, xml, forceUpdate, structInfo, skip)
+                        Call Download(id, xml, structInfo)
                     Else
                         skip = True
                     End If
@@ -375,17 +372,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 将指定编号的代谢物数据下载下来然后保存在指定的文件夹之中
         ''' gif图片是以base64编码放在XML文件里面的
         ''' </summary>
-        ''' <param name="entryID$"></param>
-        ''' <param name="forceUpdate"></param>
+        ''' <param name="entryID"></param>
         ''' <param name="structInfo"></param>
-        ''' <param name="skip"></param>
         ''' <returns></returns>
-        Private Shared Function Download(entryID$, xmlFile$, forceUpdate As Boolean, structInfo As Boolean, ByRef skip As Boolean) As Boolean
-            If Not forceUpdate AndAlso xmlFile.FileExists(True) Then
-                skip = True
-                Return True
-            End If
-
+        Private Shared Function Download(entryID$, xmlFile$, structInfo As Boolean) As Boolean
             If entryID.First = "G"c Then
                 Dim gl As Glycan = Glycan.Download(entryID)
 
@@ -445,7 +435,6 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                              ByRef successList As Dictionary(Of String, String),
                                              EXPORT$,
                                              DirectoryOrganized As Boolean,
-                                             forceUpdate As Boolean,
                                              structInfo As Boolean)
             ' 2017-3-12
             ' 有些entry的编号是空值？？？
@@ -471,7 +460,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     If successList.ContainsKey(EntryId) Then
                         skip = successList(EntryId).FileCopy(xmlFile)
                     End If
-                    If Not skip AndAlso Not Download(EntryId, xmlFile, forceUpdate, structInfo, skip) Then
+                    If Not skip AndAlso Not Download(EntryId, xmlFile, structInfo) Then
                         failures += EntryId
                     End If
 
