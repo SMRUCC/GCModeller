@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Debugger
@@ -58,6 +59,27 @@ Imports DataFrame = Microsoft.VisualBasic.Data.csv.IO.DataFrame
 Imports VisualBasic = Microsoft.VisualBasic.Language.Runtime
 
 Module CLI
+
+    <ExportAPI("/ROC")>
+    <Usage("/ROC /in <result.csv> [/label.predicts <default=predicts> /label.actual <default=labels> /out <out.csv>]")>
+    Public Function ROCData(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim labelPredicts = args("/label.predicts") Or "predicts"
+        Dim labelActuals = args("/label.actual") Or "labels"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.confusion.csv"
+        Dim result = DataFrame.LoadDataSet([in])
+        Dim ROCMatrix = Validation _
+            .ROC(result, Function(a, p) a(labelActuals) >= p, Function(a, p) a(labelPredicts) >= p) _
+            .Select(Function(level)
+                        Return New IO.DataSet With {
+                            .ID = level.Percentile,
+                            .Properties = level.ToDataSet
+                        }
+                    End Function) _
+            .ToArray
+
+        Return ROCMatrix.SaveTo(Out).CLICode
+    End Function
 
     <ExportAPI("/Summary.Debugger.Dump")>
     <Usage("/Summary.Debugger.Dump /in <debugger_out.cdf>")>
@@ -77,15 +99,21 @@ Module CLI
     End Function
 
     <ExportAPI("/input.important")>
-    <Usage("/input.important /in <ANN_model.Xml> /sample <trainingSet.Xml> [/out <factors.csv>]")>
+    <Usage("/input.important /in <ANN_model.Xml> /sample <trainingSet.Xml/names.list.txt> [/out <factors.csv>]")>
     Public Function ANNInputImportantFactors(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sample$ = args <= "/sample"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.input_factors.csv"
         Dim model As NeuralNetwork = [in].LoadXml(Of NeuralNetwork)
-        Dim trainingSet = sample.LoadXml(Of DataSet)
+        Dim inputNames As String()
 
-        Return model.SumWeight(trainingSet.NormalizeMatrix.names) _
+        If sample.ExtensionSuffix.TextEquals("xml") Then
+            inputNames = sample.LoadXml(Of DataSet).NormalizeMatrix.names
+        Else
+            inputNames = sample.ReadAllLines
+        End If
+
+        Return model.SumWeight(inputNames) _
             .ToArray _
             .SaveTo(out) _
             .CLICode
