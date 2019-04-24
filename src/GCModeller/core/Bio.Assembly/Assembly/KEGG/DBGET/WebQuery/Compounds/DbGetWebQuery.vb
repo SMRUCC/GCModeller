@@ -18,6 +18,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                 Case GetType(Compound)
                     Return WebParser.ParseCompound(form)
                 Case GetType(Glycan)
+                    Return GlycanParser.ParseGlycan(form)
                 Case Else
                     Throw New NotImplementedException(schema.FullName)
             End Select

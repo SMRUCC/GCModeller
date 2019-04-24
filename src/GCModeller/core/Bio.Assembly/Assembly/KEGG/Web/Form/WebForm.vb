@@ -67,7 +67,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
     ''' </summary>
     ''' <remarks></remarks>
     Public Class WebForm : Implements IReadOnlyDictionary(Of String, String())
-        Implements System.IDisposable
+        Implements IDisposable
 
         ''' <summary>
         ''' Entry, {trim_formatted, non-process}
@@ -90,7 +90,6 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 Select value
 
             Me._WebPageTitle = html.HTMLTitle
-            Me._url = resource
             Me._strData = New SortedDictionary(Of String, NamedValue(Of String)())
 
             Dim fields = LinqAPI.Exec(Of NamedValue(Of String())) <=
@@ -243,7 +242,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         End Function
 
         Public Overrides Function ToString() As String
-            Return _url
+            Return WebPageTitle
         End Function
 
         Const HREF As String = "<a href="".+?"">.+?</a>"
