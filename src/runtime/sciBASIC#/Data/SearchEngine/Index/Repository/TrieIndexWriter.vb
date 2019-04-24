@@ -69,6 +69,11 @@ Public Class TrieIndexWriter : Implements IDisposable
     ''' </summary>
     Public Const allocateSize As Integer = 8 + (95 + 1) * 4
 
+    ''' <summary>
+    ''' 构建一个字典树索引, 这个索引文件可以实现很高的字符串索引查找效率, 但是缺点很明显, 
+    ''' 必须是完全匹配, 不支持模糊查找
+    ''' </summary>
+    ''' <param name="IOdev"></param>
     Sub New(IOdev As Stream)
         index = New BinaryDataWriter(IOdev, encoding:=Encoding.ASCII)
         ' write magic with 9 bytes
@@ -92,7 +97,7 @@ Public Class TrieIndexWriter : Implements IDisposable
     ''' <summary>
     ''' Only supports ASCII symbols
     ''' </summary>
-    ''' <param name="term"></param>
+    ''' <param name="term">如果需要大小写不敏感, 则会需要将这个参数值在传递进来之前全部转换为小写,然后查找的时候也全部转换为小写执行查找即可</param>
     ''' <param name="data">
     ''' 与当前的term所关联的数据块的位置值
     ''' </param>
