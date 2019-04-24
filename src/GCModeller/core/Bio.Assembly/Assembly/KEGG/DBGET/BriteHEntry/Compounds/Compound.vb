@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.WebQuery.Compounds
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
@@ -200,12 +201,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <param name="EXPORT"></param>
         ''' <param name="directoryOrganized"></param>
         ''' <param name="structInfo">是否同时也下载分子结构信息？</param>
-        ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function DownloadFromResource(EXPORT$,
-                                                    Optional directoryOrganized As Boolean = True,
-                                                    Optional structInfo As Boolean = False) As String()
-
+        Public Shared Sub DownloadFromResource(EXPORT$, Optional directoryOrganized As Boolean = True, Optional structInfo As Boolean = False)
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
             Dim resource = {
                 New NamedValue(Of CompoundBrite())("Compounds with biological roles", Build(BriteHText.Load(satellite.GetString(cpd_br08001)))),
@@ -218,19 +215,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 New NamedValue(Of CompoundBrite())("Natural toxins", Build(BriteHText.Load(satellite.GetString(cpd_br08009)))),
                 New NamedValue(Of CompoundBrite())("Target-based classification of compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08010))))
             }
-            Dim failures As New List(Of String)
-            ' 这个是为了解决重复下载的问题而设计的
-            Dim successFiles As New Dictionary(Of String, String)
 
             For Each entry As NamedValue(Of CompoundBrite()) In resource
                 With entry
-                    Call downloadsInternal(
-                        .Name, .Value,
-                        failures, successFiles,
-                        EXPORT,
-                        directoryOrganized,
-                        structInfo
-                    )
+                    Call .Value.ExecuteDownloads(.Name, EXPORT, directoryOrganized, structInfo)
                 End With
             Next
 
@@ -238,34 +226,23 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .Select(AddressOf BaseName) _
                 .Indexing
             Dim allPubchemMaps = GetAllPubchemMapCompound()
+            Dim saveDIR = EXPORT & "/OtherUnknowns/"
+            Dim query As New DbGetWebQuery($"{saveDIR}/.cache")
 
             Using progress As New ProgressBar($"Downloads others, {success.Count} success was indexed!", 1, CLS:=True)
                 Dim tick As New ProgressProvider(allPubchemMaps.Length)
-                Dim saveDIR = EXPORT & "/OtherUnknowns/"
-                Dim skip As Boolean = False
-                Dim xml$
 
                 For Each id As String In allPubchemMaps
-                    If success(id) = -1 Then
-                        skip = False
-                        xml = $"{saveDIR}/{id}.xml"
-                        Call Download(id, xml, structInfo)
-                    Else
-                        skip = True
+                    If Not id Like success Then
+                        Call query.Download(id, $"{saveDIR}/{id}.xml", structInfo)
                     End If
 
                     Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
 
-                    If Not skip Then
-                        Call Thread.Sleep(thread_sleep)
-                    End If
-
                     Call progress.SetProgress(tick.StepProgress, details:=id & "   " & ETA)
                 Next
             End Using
-
-            Return failures
-        End Function
+        End Sub
 
         Public Function BuildPath(EXPORT$, directoryOrganized As Boolean, Optional class$ = "") As String
             With Me

@@ -1,4 +1,4 @@
-﻿Imports System.Threading
+﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
@@ -22,15 +22,21 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
             End With
         End Sub
 
-        Public Sub downloadsInternal(key$, briteEntry As CompoundBrite(),
-                                            ByRef failures As List(Of String),
-                                            ByRef successList As Dictionary(Of String, String),
-                                            EXPORT$,
-                                            DirectoryOrganized As Boolean,
-                                            structInfo As Boolean)
+        ''' <summary>
+        ''' 将指定编号的代谢物数据下载下来然后保存在指定的文件夹之中
+        ''' gif图片是以base64编码放在XML文件里面的
+        ''' </summary>
+        ''' <param name="key"></param>
+        ''' <param name="entries"></param>
+        ''' <param name="EXPORT"></param>
+        ''' <param name="directoryOrganized"></param>
+        ''' <param name="structInfo"></param>
+        ''' 
+        <Extension>
+        Public Sub ExecuteDownloads(entries As CompoundBrite(), key$, EXPORT$, directoryOrganized As Boolean, structInfo As Boolean)
             ' 2017-3-12
             ' 有些entry的编号是空值？？？
-            Dim keys As CompoundBrite() = briteEntry _
+            Dim keys As CompoundBrite() = entries _
                 .Where(Function(ID)
                            Return (Not ID Is Nothing) AndAlso
                                 (Not ID.Entry Is Nothing) AndAlso
@@ -40,80 +46,52 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
 
             Using progress As New ProgressBar("Downloads " & key, 1, CLS:=True)
                 Dim tick As New ProgressProvider(keys.Length)
+                Dim query As New DbGetWebQuery($"{EXPORT}/.cache")
                 Dim skip As Boolean = False
 
                 For Each entry As CompoundBrite In keys
-                    Dim EntryId As String = entry.Entry.Key
-                    Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized, [class]:=key)
-                    Dim xmlFile$ = $"{saveDIR}/{EntryId}.xml"
-
-                    skip = False
-
-                    If successList.ContainsKey(EntryId) Then
-                        skip = successList(EntryId).FileCopy(xmlFile)
-                    End If
-                    If Not skip AndAlso Not Download(EntryId, xmlFile, structInfo) Then
-                        failures += EntryId
-                    End If
-
+                    Dim entryId As String = entry.Entry.Key
+                    Dim saveDIR As String = entry.BuildPath(EXPORT, directoryOrganized, [class]:=key)
+                    Dim xmlFile$ = $"{saveDIR}/{entryId}.xml"
                     Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
 
-                    If Not skip Then
-                        Call Thread.Sleep(thread_sleep)
-                    End If
-
+                    Call query.Download(entryId, xmlFile, structInfo)
                     Call progress.SetProgress(tick.StepProgress, details:=ETA)
                 Next
             End Using
         End Sub
 
-        ''' <summary>
-        ''' 将指定编号的代谢物数据下载下来然后保存在指定的文件夹之中
-        ''' gif图片是以base64编码放在XML文件里面的
-        ''' </summary>
-        ''' <param name="entryID"></param>
-        ''' <param name="structInfo"></param>
-        ''' <returns></returns>
-        Private Function Download(entryID$, xmlFile$, structInfo As Boolean) As Boolean
-            If entryID.First = "G"c Then
-                Dim gl As Glycan = Glycan.Download(entryID)
+        <Extension>
+        Friend Sub Download(query As DbGetWebQuery, entryID$, xmlFile$, structInfo As Boolean)
+            If entryID.StartsWith("G") Then
+                Call query.Query(Of Glycan)(entryID) _
+                    .GetXml _
+                    .SaveTo(xmlFile)
+            ElseIf entryID.StartsWith("C") Then
+                Dim compound As Compound = query.Query(Of Compound)(entryID)
 
-                If gl.IsNullOrEmpty Then
-                    Call $"[{entryID}] is not exists in the kegg!".Warning
-                    Return False
-                Else
-                    Call gl.GetXml.SaveTo(xmlFile)
-                End If
-            Else
-                Dim cpd As bGetObject.Compound = MetaboliteWebApi.DownloadCompound(entryID)
+                If structInfo Then
+                    Dim KCF$ = App.GetAppSysTempFile(".txt", App.PID)
+                    Dim gif = App.GetAppSysTempFile(".gif", App.PID)
 
-                If cpd.IsNullOrEmpty Then
-                    Call $"[{entryID}] is not exists in the kegg!".Warning
-                    Return False
-                Else
-                    If structInfo Then
-                        Dim KCF$ = App.GetAppSysTempFile(".txt", App.PID)
-                        Dim gif = App.GetAppSysTempFile(".gif", App.PID)
+                    Call compound.DownloadKCF(KCF)
+                    Call compound.DownloadStructureImage(gif)
 
-                        Call cpd.DownloadKCF(KCF)
-                        Call cpd.DownloadStructureImage(gif)
-
-                        If KCF.FileExists Then
-                            cpd.KCF = KCF.ReadAllText
-                        End If
-
-                        ' gif分子二维结构图是以base64
-                        ' 字符串的形式写在XML文件之中的
-                        If gif.FileExists Then
-                            cpd.Image = FastaSeq.SequenceLineBreak(200, New DataURI(gif).ToString)
-                        End If
+                    If KCF.FileExists Then
+                        compound.KCF = KCF.ReadAllText
                     End If
 
-                    Call cpd.GetXml.SaveTo(xmlFile)
+                    ' gif分子二维结构图是以base64
+                    ' 字符串的形式写在XML文件之中的
+                    If gif.FileExists Then
+                        compound.Image = FastaSeq.SequenceLineBreak(200, New DataURI(gif).ToString)
+                    End If
                 End If
-            End If
 
-            Return True
-        End Function
+                Call compound.GetXml.SaveTo(xmlFile)
+            Else
+                Throw New NotImplementedException
+            End If
+        End Sub
     End Module
 End Namespace
