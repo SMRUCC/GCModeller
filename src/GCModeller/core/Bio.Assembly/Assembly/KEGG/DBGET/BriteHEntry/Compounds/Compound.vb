@@ -228,6 +228,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim allPubchemMaps = GetAllPubchemMapCompound()
             Dim saveDIR = EXPORT & "/OtherUnknowns/"
             Dim query As New DbGetWebQuery($"{saveDIR}/.cache")
+            Dim details$
 
             Using progress As New ProgressBar($"Downloads others, {success.Count} success was indexed!", 1, CLS:=True)
                 Dim tick As New ProgressProvider(allPubchemMaps.Length)
@@ -237,9 +238,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                         Call query.Download(id, $"{saveDIR}/{id}.xml", structInfo)
                     End If
 
-                    Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
+                    details = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
+                    details = id & "   " & details
 
-                    Call progress.SetProgress(tick.StepProgress, details:=id & "   " & ETA)
+                    progress.SetProgress(tick.StepProgress, details)
                 Next
             End Using
         End Sub
@@ -272,10 +274,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <param name="BriefFile"></param>
         ''' <param name="DirectoryOrganized"></param>
         ''' <returns></returns>
-        Public Shared Function DownloadCompounds(EXPORT$, briefFile$,
-                                                 Optional DirectoryOrganized As Boolean = True,
-                                                 Optional forceUpdate As Boolean = False) As String()
-
+        Public Shared Function DownloadCompounds(EXPORT$, briefFile$, Optional DirectoryOrganized As Boolean = True) As String()
             Dim BriefEntries As CompoundBrite() = LoadFile(briefFile)
             Dim failures As New List(Of String)
 
@@ -283,11 +282,6 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 Dim EntryId As String = entry.Entry.Key
                 Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized)
                 Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryId)
-
-                If Not forceUpdate AndAlso xml.FileExists(True) Then
-                    Continue For
-                End If
-
                 Dim cpd As bGetObject.Compound = MetaboliteWebApi.DownloadCompound(EntryId)
 
                 If cpd Is Nothing Then
