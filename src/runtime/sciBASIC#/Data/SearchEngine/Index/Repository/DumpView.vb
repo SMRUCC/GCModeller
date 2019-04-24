@@ -2,7 +2,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.Language
 
-Public Module DumpView
+Public Module TrieDump
 
     ReadOnly DataPadLength As Integer = Long.MinValue.ToString.Length
 
