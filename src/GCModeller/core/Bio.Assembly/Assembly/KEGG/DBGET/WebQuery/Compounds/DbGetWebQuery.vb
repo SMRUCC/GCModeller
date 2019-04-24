@@ -1,4 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel
 
 Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
@@ -10,7 +12,15 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
         End Sub
 
         Public Shared Function doParse(data$, schema As Type) As Object
+            Dim form As New WebForm(data)
 
+            Select Case schema
+                Case GetType(Compound)
+                    Return WebParser.ParseCompound(form)
+                Case GetType(Glycan)
+                Case Else
+                    Throw New NotImplementedException(schema.FullName)
+            End Select
         End Function
 
         Public Shared Function dbgetApi(id As String) As String

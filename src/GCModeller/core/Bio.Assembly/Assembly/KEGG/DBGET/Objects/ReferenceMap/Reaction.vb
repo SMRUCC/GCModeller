@@ -66,7 +66,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         Const ENTRY_PATTERN As String = "<a href=""/dbget-bin/www_bget\?ko:K\d+"
 
         Public Overloads Shared Function Download(entry As ListEntry) As ReferenceReaction
-            Dim html As New WebForm(Url:=entry.Url)
+            Dim html As New WebForm(resource:=entry.Url)
 
             If html.Count = 0 Then
                 Return Nothing
