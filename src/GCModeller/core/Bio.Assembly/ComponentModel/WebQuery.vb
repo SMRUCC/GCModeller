@@ -20,6 +20,8 @@ Namespace ComponentModel
 
             ' controls of the interval by /@set sleep=xxxxx
             interval = Val(App.GetVariable("sleep") Or defaultInterval)
+            ' display debug info
+            Call $"WebQuery download worker thread sleep interval is {interval}ms".__INFO_ECHO
         End Sub
 
         Sub New(url As Func(Of Context, String),
