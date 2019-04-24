@@ -100,7 +100,7 @@ Partial Module CLI
         Dim failures As List(Of String) = CompoundBrite _
             .DownloadFromResource(
                 EXPORT:=save,
-                DirectoryOrganized:=Not flat,
+                directoryOrganized:=Not flat,
                 forceUpdate:=updates,
                 structInfo:=True
             ) _

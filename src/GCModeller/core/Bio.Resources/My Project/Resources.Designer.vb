@@ -284,7 +284,7 @@ Namespace My.Resources
         '''E        pps  Pan paniscus (bonobo)
         '''E        ggo  Gorilla gorilla gorilla (western lowland gorilla)
         '''E        pon  Pongo abelii (Sumatran orangutan)
-        '''E        nle  Nomascus leucogenys (northern white-chee [rest of string was truncated]&quot;;.
+        '''E        nle  Nomascus leucogenys (northe [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08601() As String
             Get
@@ -322,11 +322,6 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized string similar to +C	Map number
         '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Pathway Maps&lt;/h2&gt;
-        '''#&lt;!---
-        '''#ENTRY       br08901
-        '''#NAME        Pathway
-        '''#DEFINITION  KEGG pathway maps
-        '''#---&gt;
         '''!
         '''A&lt;b&gt;Metabolism&lt;/b&gt;
         '''B  Global and overview maps
@@ -335,7 +330,9 @@ Namespace My.Resources
         '''C    01120  Microbial metabolism in diverse environments
         '''C    01130  Biosynthesis of antibiotics
         '''C    01200  Carbon metabolism
-        '''C    01210  2-Oxoca [rest of string was truncated]&quot;;.
+        '''C    01210  2-Oxocarboxylic acid metabolism
+        '''C    01212  Fatty acid metabolism
+        '''C    01230  Biosynthesis of am [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08901() As String
             Get
@@ -396,11 +393,11 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to 
-        '''&lt;!-- saved from url=(0045)http://www.kegg.jp/kegg/catalog/org_list.html --&gt;
+        '''&lt;!-- saved from url=(0046)https://www.kegg.jp/kegg/catalog/org_list.html --&gt;
         '''&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
         '''
         '''&lt;title&gt;KEGG Organisms: Complete Genomes&lt;/title&gt;
-        '''&lt;link rel=&quot;stylesheet&quot; href=&quot;./KEGG Organisms_ Complete Genomes_files/kegg2.css&quot; type=&quot;text/css&quot; media=&quot;all&quot;&gt;
+        '''&lt;link rel=&quot;stylesheet&quot; href=&quot;./KEGG_Organism_Complete_Genomes_files/kegg2.css&quot; type=&quot;text/css&quot; media=&quot;all&quot;&gt;
         '''&lt;/head&gt;
         '''
         '''&lt;body&gt;
@@ -408,7 +405,7 @@ Namespace My.Resources
         '''&lt;table width=&quot;700&quot;&gt;
         '''&lt;tbody&gt;&lt;tr&gt;
         '''  &lt;td width=&quot;180&quot; align=&quot;center&quot; rowspan=&quot;2&quot;&gt;
-        '''    &lt;a href=&quot;http://www.kegg.jp/kegg/&quot;&gt;&lt;img src=&quot;./KEGG Organisms_ Complete Genomes_file [rest of string was truncated]&quot;;.
+        '''    &lt;a href=&quot;https://www.kegg.jp/kegg/&quot;&gt;&lt;img src=&quot;./KEGG_Organism_Complete_Genomes_files/ [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property KEGG_Organism_Complete_Genomes() As String
             Get
@@ -482,6 +479,38 @@ Namespace My.Resources
         Friend ReadOnly Property ko00003() As String
             Get
                 Return ResourceManager.GetString("ko00003", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to 3303	KEGG	C00001	962
+        '''3304	KEGG	C00002	5957
+        '''3305	KEGG	C00003	5893
+        '''3306	KEGG	C00004	439153
+        '''3307	KEGG	C00005	5884
+        '''3308	KEGG	C00006	5886
+        '''3309	KEGG	C00007	977
+        '''3310	KEGG	C00008	6022
+        '''3311	KEGG	C00009	1004
+        '''3312	KEGG	C00010	87642
+        '''3313	KEGG	C00011	280
+        '''3314	KEGG	C00012
+        '''3315	KEGG	C00013	1023
+        '''3316	KEGG	C00014	222
+        '''3317	KEGG	C00015	6031
+        '''3318	KEGG	C00016	643975
+        '''3319	KEGG	C00017
+        '''3320	KEGG	C00018	1051
+        '''3321	KEGG	C00019	34755
+        '''3322	KEGG	C00020	6083
+        '''3323	KEGG	C00021	439155
+        '''3324	KEGG	C00022	1060
+        '''3325	KEGG	C00023	23925
+        '''3326	KEGG	C [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property SID_Map_KEGG() As String
+            Get
+                Return ResourceManager.GetString("SID_Map_KEGG", resourceCulture)
             End Get
         End Property
     End Module
