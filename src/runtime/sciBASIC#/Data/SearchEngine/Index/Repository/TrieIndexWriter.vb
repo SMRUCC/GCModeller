@@ -136,21 +136,13 @@ Public Class TrieIndexWriter : Implements IDisposable
                 index.Seek(length, SeekOrigin.Begin)
 
                 length += allocateSize
-
-                If chars.EndRead Then
-                    ' End of the charaters is the data entry that associated with current term
-                    ' index.Seek(-allocateSize, SeekOrigin.Current)
-                    index.Write(data)
-                End If
             Else
                 Call reader.Seek(current, SeekOrigin.Begin)
                 Call reader.Seek(offset, SeekOrigin.Current)
-
-                If chars.EndRead Then
-                    Call index.Write(data)
-                End If
             End If
         Loop
+
+        Call index.Write(data)
     End Sub
 
 #Region "IDisposable Support"
