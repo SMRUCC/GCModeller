@@ -59,19 +59,19 @@ Namespace ComponentModel
         ''' 
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
-        ''' <param name="content"></param>
+        ''' <param name="context"></param>
         ''' <param name="cacheType">缓存文件的文本格式拓展名</param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Query(Of T)(content As Context, Optional cacheType$ = ".xml") As T
-            Return deserialization(queryText({content}, cacheType).First.ReadAllText, GetType(T))
+        Public Function Query(Of T)(context As Context, Optional cacheType$ = ".xml") As T
+            Return deserialization(queryText({context}, cacheType).First.ReadAllText, GetType(T))
         End Function
 
         ''' <summary>
         ''' 
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
-        ''' <param name="content"></param>
+        ''' <param name="context"></param>
         ''' <param name="cacheType">缓存文件的文本格式拓展名</param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
