@@ -129,8 +129,8 @@ Public Class TrieIndexWriter : Implements IDisposable
                 index.Position = length
                 ' write pre-allocated block
                 index.Seek(allocateSize, SeekOrigin.Current)
+                index.Seek(length, SeekOrigin.Begin)
 
-                current = index.Position
                 length += allocateSize
             Else
                 Call reader.Seek(current, SeekOrigin.Begin)

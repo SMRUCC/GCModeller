@@ -40,12 +40,11 @@ Public Class TrieIndexReader : Implements IDisposable
         For Each c As Char In term
             current = reader.Position
             offset = getNextOffset(Asc(c))
-            Seek(current, SeekOrigin.Begin)
 
             If offset = -1 Then
                 Return -1
             Else
-                Call Seek(offset, SeekOrigin.Current)
+                Call Seek(current + offset, SeekOrigin.Begin)
             End If
         Next
 
