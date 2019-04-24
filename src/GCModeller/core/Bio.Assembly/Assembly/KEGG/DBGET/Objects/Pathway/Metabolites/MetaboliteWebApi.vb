@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
-    Public Module MetaboliteDBGET
+    Public Module MetaboliteWebApi
 
         <Extension>
         Public Function MatchByName(compound As Compound, name$) As Boolean

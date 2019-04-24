@@ -110,7 +110,7 @@ Partial Module CLI
         Dim accs As String = args <= "/chebi"
 
         If accs.FileExists(True) Then
-            failures += MetaboliteDBGET.CompleteUsingChEBI(save, accs, updates)
+            failures += MetaboliteWebApi.CompleteUsingChEBI(save, accs, updates)
         End If
         Return failures.SaveTo(save & "/failures.txt").CLICode
     End Function

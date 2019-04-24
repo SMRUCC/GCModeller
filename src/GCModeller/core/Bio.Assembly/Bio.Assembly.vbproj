@@ -461,7 +461,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\ModuleDBGet.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayEntry.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetaboliteWebApi.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
     <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb" />
