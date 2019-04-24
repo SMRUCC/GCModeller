@@ -100,6 +100,8 @@ Public Class TrieIndexWriter : Implements IDisposable
     Public Sub AddTerm(term As String, data As Long)
         Dim offset As Integer
         Dim current As Long
+        Dim chars As CharPtr = term
+        Dim c As Integer
 
         If Strings.Len(term) = 0 Then
             ' empty string data
@@ -109,7 +111,9 @@ Public Class TrieIndexWriter : Implements IDisposable
             Call reader.Seek(root, SeekOrigin.Begin)
         End If
 
-        For Each c As Integer In term.Select(AddressOf Asc)
+        Do While Not chars.EndRead
+            c = Asc(++chars)
+
             ' current is the begining location of current character block
             current = reader.Position
             offset = reader.getNextOffset(c)
@@ -132,18 +136,21 @@ Public Class TrieIndexWriter : Implements IDisposable
                 index.Seek(length, SeekOrigin.Begin)
 
                 length += allocateSize
+
+                If chars.EndRead Then
+                    ' End of the charaters is the data entry that associated with current term
+                    ' index.Seek(-allocateSize, SeekOrigin.Current)
+                    index.Write(data)
+                End If
             Else
                 Call reader.Seek(current, SeekOrigin.Begin)
                 Call reader.Seek(offset, SeekOrigin.Current)
-            End If
-        Next
 
-        ' End of the charaters is the data entry that associated with current term
-        index.Seek(-allocateSize, SeekOrigin.Current)
-        index.Write(data)
-        ' fill current block with zero data
-        ' index.Seek(allocateSize - 8, SeekOrigin.Current)
-        index.Flush()
+                If chars.EndRead Then
+                    Call index.Write(data)
+                End If
+            End If
+        Loop
     End Sub
 
 #Region "IDisposable Support"
