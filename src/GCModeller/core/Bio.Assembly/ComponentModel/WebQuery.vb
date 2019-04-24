@@ -20,6 +20,8 @@ Namespace ComponentModel
 
             ' controls of the interval by /@set sleep=xxxxx
             interval = Val(App.GetVariable("sleep") Or defaultInterval)
+            ' display debug info
+            Call $"WebQuery download worker thread sleep interval is {interval}ms".__INFO_ECHO
         End Sub
 
         Sub New(url As Func(Of Context, String),
@@ -48,21 +50,38 @@ Namespace ComponentModel
 
                 If cache.FileLength <= 0 Then
                     Call url.GET.SaveTo(cache)
+                    Call "Worker thread sleep...".__INFO_ECHO
                     Call Thread.Sleep(interval)
+                Else
+                    Call "hit cache!".__DEBUG_ECHO
                 End If
 
                 Yield cache
             Next
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="context"></param>
+        ''' <param name="cacheType">缓存文件的文本格式拓展名</param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Query(Of T)(content As Context, Optional type$ = ".xml") As T
-            Return deserialization(queryText({content}, type).First.ReadAllText, GetType(T))
+        Public Function Query(Of T)(context As Context, Optional cacheType$ = ".xml") As T
+            Return deserialization(queryText({context}, cacheType).First.ReadAllText, GetType(T))
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="context"></param>
+        ''' <param name="cacheType">缓存文件的文本格式拓展名</param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Query(Of T)(context As IEnumerable(Of Context), Optional type$ = ".xml") As IEnumerable(Of T)
-            Return queryText(context, type) _
+        Public Function Query(Of T)(context As IEnumerable(Of Context), Optional cacheType$ = ".xml") As IEnumerable(Of T)
+            Return queryText(context, cacheType) _
                 .Select(Function(file) deserialization(file.ReadAllText, GetType(T))) _
                 .As(Of T)
         End Function
