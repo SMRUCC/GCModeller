@@ -463,6 +463,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\Module1.vb" />
     <Compile Include="Assembly\KEGG\Medical\DrugGroup.vb" />
     <Compile Include="Assembly\KEGG\Medical\Disease.vb" />
     <Compile Include="Assembly\KEGG\Medical\Drug.vb" />
@@ -626,7 +627,7 @@
     <Compile Include="ComponentModel\PathwayBrief.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\XmlModel.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Pathway.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Compound.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Compounds\Compound.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\CompoundModelFactory.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PathwayBrief\AssignGene.vb" />
