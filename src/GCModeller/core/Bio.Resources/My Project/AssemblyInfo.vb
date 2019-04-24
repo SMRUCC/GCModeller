@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Bio.Resources")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("Bio.Resources")> 
-<Assembly: AssemblyCopyright("Copyright ©  2016")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("Resource satellite assembly of SMRUCC.genomics.Core module")>
+<Assembly: AssemblyDescription("Resource satellite assembly of SMRUCC.genomics.Core module")>
+<Assembly: AssemblyCompany("SMRUCC")>
+<Assembly: AssemblyProduct("GCModeller")>
+<Assembly: AssemblyCopyright("Copyright © SMRUCC 2019")>
+<Assembly: AssemblyTrademark("SMRUCC")>
 
 <Assembly: ComVisible(False)>
 
