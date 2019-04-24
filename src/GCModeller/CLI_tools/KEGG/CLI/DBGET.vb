@@ -97,21 +97,21 @@ Partial Module CLI
         Dim save$ = args("/save") Or "./KEGG_cpd/"
         Dim flat As Boolean = args("/flat")
         Dim updates As Boolean = args("/updates")
-        Dim failures As List(Of String) = CompoundBrite _
-            .DownloadFromResource(
-                EXPORT:=save,
-                directoryOrganized:=Not flat,
-                structInfo:=True
-            ) _
-            .AsList
+
+        Call CompoundBrite.DownloadFromResource(
+            EXPORT:=save,
+            directoryOrganized:=Not flat,
+            structInfo:=True
+        )
 
         ' 下载补充数据
         Dim accs As String = args <= "/chebi"
 
         If accs.FileExists(True) Then
-            failures += MetaboliteWebApi.CompleteUsingChEBI(save, accs, updates)
+            Call MetaboliteWebApi.CompleteUsingChEBI(save, accs, updates)
         End If
-        Return failures.SaveTo(save & "/failures.txt").CLICode
+
+        Return 0
     End Function
 
     <ExportAPI("-ref.map.download", Usage:="-ref.map.download -o <out_dir>")>
