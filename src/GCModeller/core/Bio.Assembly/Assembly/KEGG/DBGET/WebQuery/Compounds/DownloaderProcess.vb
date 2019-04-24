@@ -65,12 +65,12 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
         Friend Sub Download(query As DbGetWebQuery, entryID$, xmlFile$, structInfo As Boolean)
             If entryID.StartsWith("G") Then
 
-                Call query.Query(Of Glycan)(entryID) _
+                Call query.Query(Of Glycan)(entryID, ".html") _
                     .GetXml _
                     .SaveTo(xmlFile)
 
             ElseIf entryID.StartsWith("C") Then
-                Dim compound As Compound = query.Query(Of Compound)(entryID)
+                Dim compound As Compound = query.Query(Of Compound)(entryID, ".html")
 
                 If structInfo Then
                     Dim KCF$ = App.GetAppSysTempFile(".txt", App.PID)

@@ -55,14 +55,28 @@ Namespace ComponentModel
             Next
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="content"></param>
+        ''' <param name="cacheType">缓存文件的文本格式拓展名</param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Query(Of T)(content As Context, Optional type$ = ".xml") As T
-            Return deserialization(queryText({content}, type).First.ReadAllText, GetType(T))
+        Public Function Query(Of T)(content As Context, Optional cacheType$ = ".xml") As T
+            Return deserialization(queryText({content}, cacheType).First.ReadAllText, GetType(T))
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="content"></param>
+        ''' <param name="cacheType">缓存文件的文本格式拓展名</param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Query(Of T)(context As IEnumerable(Of Context), Optional type$ = ".xml") As IEnumerable(Of T)
-            Return queryText(context, type) _
+        Public Function Query(Of T)(context As IEnumerable(Of Context), Optional cacheType$ = ".xml") As IEnumerable(Of T)
+            Return queryText(context, cacheType) _
                 .Select(Function(file) deserialization(file.ReadAllText, GetType(T))) _
                 .As(Of T)
         End Function
