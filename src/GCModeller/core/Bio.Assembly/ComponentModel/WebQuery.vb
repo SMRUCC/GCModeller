@@ -51,6 +51,8 @@ Namespace ComponentModel
                 If cache.FileLength <= 0 Then
                     Call url.GET.SaveTo(cache)
                     Call Thread.Sleep(interval)
+                Else
+                    Call "hit cache!".__DEBUG_ECHO
                 End If
 
                 Yield cache

@@ -73,23 +73,38 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                 Dim compound As Compound = query.Query(Of Compound)(entryID, ".html")
 
                 If structInfo Then
-                    Dim KCF$ = App.GetAppSysTempFile(".txt", App.PID)
-                    Dim gif = App.GetAppSysTempFile(".gif", App.PID)
+                    Dim KCF$ = xmlFile.ChangeSuffix("txt")
+                    Dim gif = xmlFile.ChangeSuffix("gif")
 
-                    Call compound.DownloadKCF(KCF)
-                    Call compound.DownloadStructureImage(gif)
+                    With App.GetAppSysTempFile(".txt", App.PID)
+                        If KCF.FileExists Then
+                            compound.KCF = KCF.ReadAllText
+                        Else
+                            compound.DownloadKCF(.ByRef)
+                            compound.KCF = .ReadAllText
 
-                    If KCF.FileExists Then
-                        compound.KCF = KCF.ReadAllText
-                        KCF.FileCopy(xmlFile.ChangeSuffix("txt"))
-                    End If
+                            ' make a local copy
+                            Call .FileCopy(KCF)
+                        End If
+                    End With
 
                     ' gif分子二维结构图是以base64
                     ' 字符串的形式写在XML文件之中的
-                    If gif.FileExists Then
-                        compound.Image = FastaSeq.SequenceLineBreak(200, New DataURI(gif).ToString)
-                        gif.FileCopy(xmlFile.ChangeSuffix("gif"))
-                    End If
+                    With App.GetAppSysTempFile(".gif", App.PID)
+                        Dim base64$
+
+                        If gif.FileExists Then
+                            base64 = New DataURI(gif).ToString
+                        Else
+                            compound.DownloadStructureImage(.ByRef)
+                            base64 = New DataURI(.ByRef).ToString
+
+                            ' make a local copy
+                            Call .FileCopy(gif)
+                        End If
+
+                        compound.Image = FastaSeq.SequenceLineBreak(200, base64)
+                    End With
                 End If
 
                 Call compound.GetXml.SaveTo(xmlFile)
