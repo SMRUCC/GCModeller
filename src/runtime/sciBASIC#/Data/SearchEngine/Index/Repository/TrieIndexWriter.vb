@@ -117,7 +117,7 @@ Public Class TrieIndexWriter : Implements IDisposable
         End If
 
         Do While Not chars.EndRead
-            c = Asc(++chars)
+            c = TrieIndexReader.CharCode(++chars)
 
             ' current is the begining location of current character block
             current = reader.Position

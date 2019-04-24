@@ -32,6 +32,10 @@ Public Module TrieDump
                 Call out.Write(index.ReadInt64.ToString.PadLeft(DataPadLength))
                 Call out.Write("| ")
 
+                If index.EndOfStream Then
+                    Exit For
+                End If
+
                 ' characters offset
                 For c As Integer = Asc(" "c) To Asc("~"c)
                     Call out.Write(" ")
