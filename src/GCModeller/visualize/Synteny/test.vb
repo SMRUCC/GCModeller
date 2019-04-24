@@ -148,12 +148,12 @@ Module test
 
         Dim bfragments = bTree.root.PopulateNodes.ToArray
 
-        For Each blist As align() In bfragments.Select(Function(tree) tree.ClusterMembers)
+        For Each blist As align() In bfragments.Select(Function(tree) tree.Members)
             For Each b In blist.Select(AddressOf RefLociRange).Union
                 Dim i# = (b.Min + b.Max) / 2
                 Dim align As align() = aTree.root _
                     .Find(i, lociCompares) _
-                    .ClusterMembers
+                    .Members
 
                 If align.IsNullOrEmpty Then
                     ' 空的，这意味着b在a上面没有同源的区域
