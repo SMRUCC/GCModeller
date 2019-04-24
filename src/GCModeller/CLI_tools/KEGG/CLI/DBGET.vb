@@ -101,7 +101,6 @@ Partial Module CLI
             .DownloadFromResource(
                 EXPORT:=save,
                 directoryOrganized:=Not flat,
-                forceUpdate:=updates,
                 structInfo:=True
             ) _
             .AsList
