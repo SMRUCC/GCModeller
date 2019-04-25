@@ -59,8 +59,7 @@ Namespace CytoscapeGraphView.XGMML
     ''' </summary>
     ''' <remarks>请注意，由于在Cytoscape之中，每一个Xml元素都是小写字母的，所以在这个类之中的所有的Xml序列化的标记都不可以再更改大小写了</remarks>
     <XmlRoot("graph", Namespace:="http://www.cs.rpi.edu/XGMML")>
-    Public Class Graph : Inherits ITextFile
-        Implements ISaveHandle
+    Public Class Graph : Implements ISaveHandle
 
 #Region "Assembly File Public Properties"
 
@@ -179,8 +178,6 @@ Namespace CytoscapeGraphView.XGMML
         ''' <remarks></remarks>
         Public Shared Function Load(path As String) As Graph
             Dim graph As Graph = path.LoadXml(Of Graph)(preprocess:=AddressOf RDFXml.TrimRDF)
-            graph.FilePath = path
-
             Return graph
         End Function
 
@@ -255,8 +252,12 @@ Namespace CytoscapeGraphView.XGMML
         ''' <param name="encoding">The text encoding of saved text file.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overrides Function Save(Optional FilePath As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
-            Return WriteXml(Me.GetXml, Encodings.UTF8.CodePage, getPath(FilePath))
+        Public Function Save(FilePath As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Return WriteXml(Me.GetXml, Encodings.UTF8.CodePage, FilePath)
+        End Function
+
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
         End Function
     End Class
 End Namespace

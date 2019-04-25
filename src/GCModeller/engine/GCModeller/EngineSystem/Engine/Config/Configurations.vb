@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::a8bba30734020e88f58e8223aa5cf0c5, GCModeller\EngineSystem\Engine\Config\Configurations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Configurations
-    ' 
-    '         Properties: ActionScripts, CommitLoopsInterval, CultivationMediums, DataStorageUrl, DefaultCompartmentId
-    '                     DumpData, ExperimentData, ExpressionRegulationNetwork, GeneMutations, Initial_pH
-    '                     Initial_Temperature, KernelCycles, MetabolismModel, mRNA_LambdaWeight, rRNA_LambdaWeight
-    '                     ScriptMountPoint, SuppressErrorMessage, SuppressPeriodicMessage, SuppressWarnMessage, TriggerScripts
-    '                     TrimMetabolismMetabolites, tRNA_LambdaWeight
-    ' 
-    '         Function: DefaultValue, Load, Save, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Configurations
+' 
+'         Properties: ActionScripts, CommitLoopsInterval, CultivationMediums, DataStorageUrl, DefaultCompartmentId
+'                     DumpData, ExperimentData, ExpressionRegulationNetwork, GeneMutations, Initial_pH
+'                     Initial_Temperature, KernelCycles, MetabolismModel, mRNA_LambdaWeight, rRNA_LambdaWeight
+'                     ScriptMountPoint, SuppressErrorMessage, SuppressPeriodicMessage, SuppressWarnMessage, TriggerScripts
+'                     TrimMetabolismMetabolites, tRNA_LambdaWeight
+' 
+'         Function: DefaultValue, Load, Save, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,6 +51,8 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Text
+Imports System.Text
 
 Namespace EngineSystem.Engine.Configuration
 
@@ -71,8 +73,8 @@ Namespace EngineSystem.Engine.Configuration
     <Comment("Please notice that some configuration data in this configuration data file is as the same as input from " & vbCrLf &
        "the command line arguments does, if you have assign the argument data from the command line, " & vbCrLf &
        "then the commandline argument will override the corresponding configuration in this configuration file.", 3)>
-    Public Class Configurations : Inherits ITextFile
-        Implements ISaveHandle
+    Public Class Configurations
+        Implements ISaveHandle, IFileReference
 
         ''' <summary>
         ''' 仅针对MYSQL数据存储服务有效的一个配置参数，用于指示计算引擎想数据库服务器提交数据的时间间隔
@@ -174,6 +176,7 @@ Namespace EngineSystem.Engine.Configuration
         Public Property mRNA_LambdaWeight As String
         Public Property rRNA_LambdaWeight As String
         Public Property tRNA_LambdaWeight As String
+        Public Property FilePath As String Implements IFileReference.FilePath
 
         Public Overrides Function ToString() As String
             Return Me.ToConfigDoc
@@ -224,8 +227,12 @@ Namespace EngineSystem.Engine.Configuration
             Return Data
         End Function
 
-        Public Overrides Function Save(Optional Path As String = "", Optional encoding As Text.Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, encoding As Text.Encoding) As Boolean Implements ISaveHandle.Save
             Return Me.ToConfigDoc.SaveTo(Path, encoding)
+        End Function
+
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
         End Function
     End Class
 End Namespace

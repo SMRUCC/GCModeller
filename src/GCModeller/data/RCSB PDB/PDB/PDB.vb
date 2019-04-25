@@ -48,7 +48,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
-Public Class PDB : Inherits Microsoft.VisualBasic.ComponentModel.ITextFile
+Public Class PDB
 
     Public Const REGEX_HEAD As String = "[A-Z]+\s+(\d+)?\s"
 
@@ -142,9 +142,5 @@ Public Class PDB : Inherits Microsoft.VisualBasic.ComponentModel.ITextFile
                       Select item
                       Order By item.Key Ascending).ToArray
         Return LQuery
-    End Function
-
-    Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-        Throw New NotImplementedException()
     End Function
 End Class

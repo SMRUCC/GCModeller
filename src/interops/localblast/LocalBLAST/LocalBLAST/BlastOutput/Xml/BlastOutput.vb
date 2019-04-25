@@ -118,14 +118,8 @@ Namespace LocalBLAST.BLASTOutput.XmlFile
                                                Select i.BestHit(identities_cutoff)
         End Function
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional encoding As Text.Encoding = Nothing) As Boolean
-            Dim Xml As String = Me.GetXml
-
-            If encoding Is Nothing Then
-                encoding = System.Text.Encoding.UTF8
-            End If
-
-            Return Xml.SaveTo(getPath(FilePath), encoding:=encoding)
+        Public Function Save(FilePath As String, Optional encoding As Text.Encoding = Nothing) As Boolean
+            Return Me.GetXml.SaveTo(FilePath, encoding:=encoding)
         End Function
 
         ''' <summary>

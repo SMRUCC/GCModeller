@@ -143,7 +143,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         End Function
 
         Public Shared Function Download(ID As String) As ReferenceMap.ReferenceMapData
-            Dim Form As New WebForm(Url:=DBGET_URL & ID)
+            Dim Form As New WebForm(resource:=DBGET_URL & ID)
             Dim RefMap As New ReferenceMapData With {.EntryId = ID}
 
             RefMap.Name = Form("Name").FirstOrDefault

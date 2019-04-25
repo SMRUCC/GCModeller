@@ -70,11 +70,7 @@ Namespace Assembly.DOOR
                 Where Not String.IsNullOrEmpty(line)
                 Select OperonGene.TryParse(line)
 
-            Dim DOOR As New DOOR With {
-                .Genes = LQuery,
-                .FilePath = path
-            }
-            Return DOOR
+            Return New DOOR With {.Genes = LQuery}
         End Function
 
         ''' <summary>

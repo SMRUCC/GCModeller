@@ -104,7 +104,7 @@ Public Module Samtools
                        In Fasta.AsParallel
                        Select Loci = Contig.Location.ToString,
                            FLAGS = String.Join(" / ", Contig.FLAGS)).ToArray
-            Call Csv.SaveTo($"{EXPORT}/{SAM.FilePath.BaseName}.csv")
+            Call Csv.SaveTo(EXPORT)
         End If
 
         Return FastaFile

@@ -67,7 +67,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
     ''' </summary>
     ''' <remarks></remarks>
     Public Class WebForm : Implements IReadOnlyDictionary(Of String, String())
-        Implements System.IDisposable
+        Implements IDisposable
 
         ''' <summary>
         ''' Entry, {trim_formatted, non-process}
@@ -78,8 +78,8 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         Public ReadOnly Property WebPageTitle As String
         Public Property AllLinksWidget As AllLinksWidget
 
-        Sub New(Url As String)
-            Dim html As String = Url.GET.Replace("&nbsp;", " ").Replace("&gt;", ">").Replace("&lt;", "<")
+        Sub New(resource As String)
+            Dim html As String = getHtml(resource)
             Dim tokens As String() = Regex.Split(html, "<th class="".+?"" align="".+?""").Skip(1).ToArray
             Dim tmp As String() = LinqAPI.Exec(Of String) <=
  _
@@ -90,7 +90,6 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 Select value
 
             Me._WebPageTitle = html.HTMLTitle
-            Me._url = Url
             Me._strData = New SortedDictionary(Of String, NamedValue(Of String)())
 
             Dim fields = LinqAPI.Exec(Of NamedValue(Of String())) <=
@@ -125,6 +124,21 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             AllLinksWidget = InternalWebFormParsers.AllLinksWidget.InternalParser(html)
             Call ParseRefList(html)
         End Sub
+
+        Private Shared Function getHtml(res As String) As String
+            Dim html$
+
+            If res.IsURLPattern Then
+                html = res.GET
+            Else
+                html = res
+            End If
+
+            Return html _
+                .Replace("&nbsp;", " ") _
+                .Replace("&gt;", ">") _
+                .Replace("&lt;", "<")
+        End Function
 
         Private Sub ParseRefList(Page As String)
             Dim list As String() = Strings.Split(Page, "<nobr>Reference</nobr></th>").Skip(1).ToArray
@@ -228,7 +242,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         End Function
 
         Public Overrides Function ToString() As String
-            Return _url
+            Return WebPageTitle
         End Function
 
         Const HREF As String = "<a href="".+?"">.+?</a>"

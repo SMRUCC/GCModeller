@@ -43,13 +43,7 @@
 #End Region
 
 Imports System.Text
-Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace LDM
 
@@ -60,16 +54,13 @@ Namespace LDM
     ''' <remarks></remarks>
     ''' 
     <XmlRoot("LANS-SystemsBiology-GCML", Namespace:="http://code.google.com/p/genome-in-code/GCMarkupLanguage/")>
-    Public MustInherit Class ModelBaseType : Inherits ITextFile
+    Public MustInherit Class ModelBaseType
 
         <XmlElement("GCModeller.DB.Properties", Namespace:="http://code.google.com/p/genome-in-code/GCMarkupLanguage/GCModeller/Components")>
         Public Property ModelProperty As [Property]
         <XmlAttribute> Public Property IteractionLoops As Integer
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            If String.IsNullOrEmpty(FilePath) Then
-                FilePath = Me.FilePath
-            End If
+        Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean
             Return XmlExtensions.GetXml(Me, MyClass.GetType).SaveTo(FilePath, Encoding)
         End Function
 

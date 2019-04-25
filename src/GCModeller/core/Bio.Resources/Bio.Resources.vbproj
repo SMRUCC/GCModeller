@@ -299,6 +299,9 @@
   <ItemGroup>
     <None Include="Resources\Compounds\br08010.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SID-Map.KEGG.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

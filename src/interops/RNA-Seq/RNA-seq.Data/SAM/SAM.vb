@@ -92,7 +92,7 @@ Namespace SAM
     ''' SAM格式的文件是一种序列比对文件，使用TAB符号进行分隔，文件的格式为一个可选的标题头部区域，标题头部使用@符号起始而比对区域则不需要
     ''' 每一行序列比对的数据有11个域用于储存比对信息，诸如：mapping的位置之类
     ''' </remarks>
-    Public Class SAM : Inherits ITextFile
+    Public Class SAM
         Implements IEnumerable(Of AlignmentReads)
 
 #If DEBUG Then
@@ -130,19 +130,16 @@ Namespace SAM
 
             Return New SAM With {
                 .AlignmentsReads = readsBuffer,
-                .FilePath = Path,
                 .Head = IO.IteratesAllHeaders.ToArray
             }
         End Function
 #End Region
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
+        Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean
             Dim LQuery = (From Reads In Me.AsParallel Select Reads.GenerateDocumentLine).ToArray
             Dim Header As String() = (From Head In Me.Head Select Head.GenerateDocumentLine).ToArray
 
-            FilePath = getPath(FilePath)
             Call FileIO.FileSystem.CreateDirectory(FileIO.FileSystem.GetParentPath(FilePath))
-            Encoding = getEncoding(encoding:=Encoding)
             Call IO.File.WriteAllLines(FilePath, Header, encoding:=Encoding)
             For Each TempChunk In LQuery.Split(40960)
                 Call FileIO.FileSystem.WriteAllText(FilePath, String.Join(vbCrLf, TempChunk), append:=True, encoding:=Encoding)
@@ -166,8 +163,7 @@ Namespace SAM
 
             Return New SAM With {
                 .Head = Head,
-                .AlignmentsReads = mapped,
-                .FilePath = FilePath
+                .AlignmentsReads = mapped
             }
         End Function
 

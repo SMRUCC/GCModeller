@@ -1,55 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::603cc425c7b3341c7dcc2af9ac331933, Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Clustal
-    ' 
-    '         Properties: Conservation, Frequency
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    ' 
-    '         Function: __getSite, __mid, GetEnumerator, IEnumerable_GetEnumerator, Mid
-    '                   Save
-    ' 
-    '         Sub: __initCommon
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Clustal
+' 
+'         Properties: Conservation, Frequency
+' 
+'         Constructor: (+3 Overloads) Sub New
+' 
+'         Function: __getSite, __mid, GetEnumerator, IEnumerable_GetEnumerator, Mid
+'                   Save
+' 
+'         Sub: __initCommon
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace SequenceModel.Patterns.Clustal
@@ -57,7 +58,7 @@ Namespace SequenceModel.Patterns.Clustal
     ''' <summary>
     ''' Fasta格式的多序列比对的结果
     ''' </summary>
-    Public Class Clustal : Inherits ITextFile
+    Public Class Clustal : Implements ISaveHandle
         Implements IEnumerable(Of FastaSeq)
 
         Dim _innerList As List(Of FastaSeq)
@@ -67,7 +68,6 @@ Namespace SequenceModel.Patterns.Clustal
 
         Sub New(path As String)
             Call Me.New(New FastaFile(path))
-            FilePath = path
         End Sub
 
         Sub New(source As IEnumerable(Of FastaSeq))
@@ -138,12 +138,16 @@ Namespace SequenceModel.Patterns.Clustal
             Next
         End Function
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return New FastaFile(_innerList).Save(-1, getPath(FilePath), getEncoding(Encoding))
+        Public Function Save(FilePath$, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Return New FastaFile(_innerList).Save(-1, FilePath, Encoding)
         End Function
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
             Yield Me.GetEnumerator()
+        End Function
+
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
         End Function
     End Class
 End Namespace

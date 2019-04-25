@@ -569,7 +569,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <param name="encoding"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function SaveTo(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function SaveTo(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return SaveTo(lineBreak:=60, Path:=Path, encoding:=encoding)
         End Function
 
@@ -606,7 +606,7 @@ AAGCGAACAAATGTTCTATA"
             Return sb.ToString.SaveTo(Path, encoding)
         End Function
 
-        Public Function Save(Optional Path$ = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path$, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return SaveTo(Path, encoding.CodePage)
         End Function
 

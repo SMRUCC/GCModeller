@@ -129,7 +129,7 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
                 ._innerList = New List(Of FastaSeq)
             }
             Call FsaFile._innerList.AddRange(Data)
-            Call FsaFile.Save()
+            Call FsaFile.Save(FilePath, Encoding.UTF8)
         End Sub
     End Class
 End Namespace

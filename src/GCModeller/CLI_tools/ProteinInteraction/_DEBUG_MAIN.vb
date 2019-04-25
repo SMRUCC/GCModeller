@@ -147,7 +147,7 @@ Module _DEBUG_MAIN
 
 
 
-    Public Sub Convert(dipFasta As SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
+    Public Sub Convert(dipFasta As SMRUCC.genomics.SequenceModel.FASTA.FastaFile, out$)
         Dim chunkBuffer As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq() =
             New SMRUCC.genomics.SequenceModel.FASTA.FastaSeq(dipFasta.Count - 1) {}
         For i As Integer = 0 To chunkBuffer.Count - 1
@@ -171,6 +171,6 @@ Module _DEBUG_MAIN
         Call dipFasta.Clear()
         dipFasta.AddRange(chunkBuffer)
 
-        Call dipFasta.Save()
+        Call dipFasta.Save(out)
     End Sub
 End Module

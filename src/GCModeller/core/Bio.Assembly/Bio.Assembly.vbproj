@@ -268,7 +268,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\..\smartnucl_integrative\biodeepDB\METLINApp\App\</OutputPath>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
@@ -446,6 +446,7 @@
     <Compile Include="Assembly\KEGG\Archives\Xml\MapAPI.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Compounds\TextModel.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Organism.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\KOCatalog.vb" />
     <Compile Include="Assembly\KEGG\DBGET\KEGGObjects.vb" />
@@ -460,9 +461,13 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\ModuleDBGet.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayEntry.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetaboliteWebApi.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\DbGetWebQuery.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\GlycanParser.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\WebParser.vb" />
     <Compile Include="Assembly\KEGG\Medical\DrugGroup.vb" />
     <Compile Include="Assembly\KEGG\Medical\Disease.vb" />
     <Compile Include="Assembly\KEGG\Medical\Drug.vb" />
@@ -626,7 +631,7 @@
     <Compile Include="ComponentModel\PathwayBrief.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\XmlModel.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Pathway.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Compound.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Compounds\Compound.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\CompoundModelFactory.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PathwayBrief\AssignGene.vb" />
@@ -690,7 +695,6 @@
     <Compile Include="SequenceModel\Patterns\Clustal\Residue.vb" />
     <Compile Include="SequenceModel\Patterns\Clustal\Clustal.vb" />
     <Compile Include="SequenceModel\FASTA\Reflection\FastaTools.vb" />
-    <Compile Include="SequenceModel\FASTA\IO\UltralargeSizeFastaReader.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\Contig.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\SimpleSegment.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Extensions.vb" />

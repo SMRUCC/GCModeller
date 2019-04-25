@@ -102,6 +102,7 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
     Public Class ChemicalProperty : Implements INamedValue, IAddressOf
 
         Public Property ChEBI_ID As String Implements IKeyedEntity(Of String).Key
+
         Private Property ID As Integer Implements IAddress(Of Integer).Address
             Get
                 Return Val(ChEBI_ID)

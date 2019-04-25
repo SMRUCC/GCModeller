@@ -51,15 +51,13 @@ Imports System.Reflection
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports SMRUCC.genomics.Data.Reactome.OwlDocument.Abstract
 Imports SMRUCC.genomics.Data.Reactome.OwlDocument.Nodes
 Imports SMRUCC.genomics.Data.Reactome.OwlDocument.XrefNodes
 
 Namespace OwlDocument
 
-    <XmlRoot("RDF")>
-    Public Class DocumentFile : Inherits ITextFile
+    <XmlRoot("RDF")> Public Class DocumentFile
 
         <ResourceCollection> <XmlElement("BiochemicalReaction")> Public Property BiochemicalReactions As BiochemicalReaction()
         <ResourceCollection> <XmlElement("SmallMolecule")> Public Property SmallMolecules As SmallMolecule()
@@ -80,10 +78,6 @@ Namespace OwlDocument
         <ResourceCollection> <XmlElement> Public Property Complex As Complex()
         <ResourceCollection> <XmlElement> Public Property Stoichiometry As Stoichiometry()
         <ResourceCollection> <XmlElement> Public Property PhysicalEntity As PhysicalEntity()
-
-        Public Overrides Function ToString() As String
-            Return FilePath
-        End Function
 
         <XmlIgnore> Public ReadOnly Property ResourceCollection As Dictionary(Of String, ResourceElement)
 
@@ -111,7 +105,7 @@ Namespace OwlDocument
         Public Shared Function Load(path As String) As DocumentFile
             Dim strData As String = __trim(FileIO.FileSystem.ReadAllText(path))
             Dim Instance = strData.LoadFromXml(Of DocumentFile)()
-            Instance.FilePath = path
+
             Instance.__initDoc()
 
             Return Instance
@@ -127,10 +121,6 @@ Namespace OwlDocument
             bufferBuilder = New StringBuilder(Regex.Replace(bufferBuilder.ToString, "rdf:datatype=""[^""]+""", ""))
             Call bufferBuilder.Replace("rdf:", "")
             Return bufferBuilder.ToString
-        End Function
-
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Throw New NotImplementedException
         End Function
     End Class
 End Namespace

@@ -335,7 +335,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\..\smartnucl_integrative\biodeepDB\METLINApp\App\</OutputPath>
     <DefineConstants>FRAMEWORD_CORE=1</DefineConstants>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
     <Optimize>false</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
@@ -1014,7 +1014,7 @@
     <Compile Include="Language\Language\Python\NamespaceDoc.vb" />
     <Compile Include="Language\Value\CharStream.vb" />
     <Compile Include="Language\Value\Variant.vb" />
-    <Compile Include="Net\HTTP\ZipStream.vb" />
+    <Compile Include="Net\HTTP\Stream\ZipStream.vb" />
     <Compile Include="Net\HTTP\Multipart.vb" />
     <Compile Include="Net\HTTP\DataURI.vb" />
     <Compile Include="Language\Linq\Vectorization\Strings.vb" />
@@ -1163,7 +1163,7 @@
     <Compile Include="Text\Patterns\Regexp.vb" />
     <Compile Include="Text\StringSimilarity\IEqualityComparer.vb" />
     <Compile Include="Extensions\StringHelpers\NumericFormatHelper.vb" />
-    <Compile Include="Net\HTTP\GZStream.vb" />
+    <Compile Include="Net\HTTP\Stream\GZStream.vb" />
     <Compile Include="Net\HTTP\sitemap.xml.vb" />
     <Compile Include="Language\Runtime.vb" />
     <Compile Include="Language\Language\C\Vector.vb" />
@@ -1190,6 +1190,7 @@
     <Compile Include="Text\GreekAlphabets.vb" />
     <Compile Include="Text\StringSimilarity\Levenshtein\LevenshteinString.vb" />
     <Compile Include="Text\Xml\Linq\DeserializeHandler.vb" />
+    <Compile Include="Text\Xml\Linq\DataSetWriter.vb" />
     <Compile Include="Text\Xml\Linq\NodeIterator.vb" />
     <Compile Include="Text\Xml\Models\ListOf.vb" />
     <Compile Include="Text\Xml\Models\StringValue.vb" />
@@ -1315,6 +1316,7 @@
     <Compile Include="Text\SearchEngine\TextIndexing\TextSegment.vb" />
     <Compile Include="ComponentModel\Algorithm\Levenshtein\ResultVisualize.vb" />
     <Compile Include="Text\Xml\Linq\Entity.vb" />
+    <Compile Include="Text\Xml\Models\ValueTuples\Extensions.vb" />
     <Compile Include="Text\Xml\Models\Vector.vb" />
     <Compile Include="Text\Xml\HtmlBuilder.vb" />
     <Compile Include="Text\Xml\XmlEntity.vb" />
@@ -1432,7 +1434,7 @@
     <Compile Include="Extensions\StringHelpers\StrUtils.vb" />
     <Compile Include="Text\TextEncodings.vb" />
     <Compile Include="Extensions\WebServices\HTTP_RFC.vb" />
-    <Compile Include="Net\HTTP\Base64Codec.vb" />
+    <Compile Include="Net\HTTP\Stream\Base64Codec.vb" />
     <Compile Include="Extensions\WebServices\NetResponse.vb" />
     <Compile Include="ApplicationServices\Tools\Win32\WindowsServices.vb" />
     <Compile Include="Extensions\Security\Md5.vb" />
@@ -1557,7 +1559,6 @@
     <Compile Include="Extensions\Security\TripleDES.vb" />
     <Compile Include="Extensions\WebServices\WebServiceUtils.vb" />
     <Compile Include="ComponentModel\Settings\Inf\INIProfile.vb" />
-    <Compile Include="ComponentModel\File\ITextFile.vb" />
     <Compile Include="ComponentModel\Settings\Settings.vb" />
     <Compile Include="ComponentModel\Algorithm\base\Combination\Comb.vb" />
     <Compile Include="CommandLine\Interpreters\Interpreter.vb" />

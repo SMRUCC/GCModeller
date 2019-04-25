@@ -96,8 +96,9 @@ Module ProteinDomain
     Public Function AddingRules(MetaCyc As DatabaseLoadder,
                                 RuleFile As IO.File,
                                 Model As BacterialModel,
-                                GrepScript As String) As Integer
-        Dim Domains As IO.File = SMART(MetaCyc.Database.FASTAFiles.ProteinSourceFile, GrepScript, Model.FilePath & ".csv") '获取所有的蛋白质结构域
+                                GrepScript As String,
+                                modelFilePath$) As Integer
+        Dim Domains As IO.File = SMART(MetaCyc.Database.FASTAFiles.ProteinSourceFile, GrepScript, modelFilePath & ".csv") '获取所有的蛋白质结构域
         Dim Rules = (From row In RuleFile Select New Rule(row.First)).ToArray
         Dim DomainDistributed = GetList(Rules, Domains)
         Dim InvokesResult = (From rule In Rules Select Extend.Invoke(rule, DomainDistributed)).ToArray
@@ -110,7 +111,7 @@ Module ProteinDomain
             '    Dim DomainList As String() = Split((From row In Domains Where String.Equals(row.First, Protein.UniqueId) Select row).First()(3), ", ")
             '  Model.BacteriaGenome.Genes(i).ProteinProduct = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.GeneObject.Protein With {.Domains = DomainList, .UniqueId = Protein.UniqueId}
         Next
-        Call Model.Save(Model.FilePath)
+        Call Model.Save(modelFilePath)
 
         Return Model.ProteinAssemblies.Count
     End Function

@@ -161,7 +161,7 @@ Partial Module CLI
     Public Function OperonBuilder(args As CommandLine) As Integer
         Dim bbh As String = args - "/bbh"
         Dim PTT As PTT = TabularFormat.PTT.Load(args - "/PTT")
-        Dim out As String = ("/out" <= args) ^ (bbh.TrimSuffix & "-" & PTT.FilePath.BaseName & ".Operons.Csv")
+        Dim out As String = ("/out" <= args) ^ (bbh.TrimSuffix & "-" & (args - "/PTT").BaseName & ".Operons.Csv")
         Dim reg As String = ("/regprecise" <= args) ^ (GCModeller.FileSystem.RegPrecise.RegPreciseRegulations)
         Dim tfBBH As String = args - "/TF-bbh"
         Dim RegPrecise As TranscriptionFactors = reg.LoadXml(Of TranscriptionFactors)
