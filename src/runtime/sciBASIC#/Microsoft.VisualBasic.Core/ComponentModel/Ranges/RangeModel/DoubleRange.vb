@@ -231,6 +231,12 @@ Namespace ComponentModel.Ranges.Model
                 .ToArray
         End Operator
 
+        ''' <summary>
+        ''' Value in this range or not?
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="range"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator Like(x As Double, range As DoubleRange) As Boolean
             Return range.IsInside(x)
