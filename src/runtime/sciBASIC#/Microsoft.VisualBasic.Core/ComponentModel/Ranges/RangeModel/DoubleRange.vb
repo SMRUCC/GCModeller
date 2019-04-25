@@ -231,6 +231,11 @@ Namespace ComponentModel.Ranges.Model
                 .ToArray
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator Like(x As Double, range As DoubleRange) As Boolean
+            Return range.IsInside(x)
+        End Operator
+
         ''' <summary>
         ''' Scale numeric range
         ''' </summary>
