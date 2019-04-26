@@ -549,7 +549,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/proteins.KEGG.plot")>
-    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/field <default=KO> /geneId.field <default=nothing> /label.right /colors <default=Set1:c6> /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
+    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/field <default=KO> /not.human /geneId.field <default=nothing> /label.right /colors <default=Set1:c6> /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
     <Description("KEGG function catalog profiling plot of the TP sample.")>
     <Argument("/custom",
               Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
@@ -575,6 +575,7 @@ Partial Module CLI
         Dim geneIdField$ = args("/geneId.field")
         Dim sample As EntityObject() = [in].LoadSample(geneIdField)
         Dim labelRight As Boolean = args.IsTrue("/label.right")
+        Dim isHuman As Boolean = Not args.IsTrue("/not.human")
         Dim maps As NamedValue(Of String)() = sample _
             .Where(Function(prot) Not prot(fieldName).StringEmpty) _
             .Select(Function(prot)
@@ -603,6 +604,11 @@ Partial Module CLI
                 catalogs = maps.KOCatalog
             End If
         End With
+
+        If Not isHuman Then
+            catalogs = catalogs.Where(Function(cls) InStr(cls.Name, "Human Diseases") = 0).ToArray
+            KO_counts = KO_counts.Where(Function(cls) InStr(cls.Class, "Human Diseases") = 0).ToArray
+        End If
 
         KO_counts.SaveTo(out & "/KO_counts.csv")
         catalogs _
