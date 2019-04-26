@@ -606,8 +606,17 @@ Partial Module CLI
         End With
 
         If Not isHuman Then
-            catalogs = catalogs.Where(Function(cls) InStr(cls.Name, "Human Diseases") = 0).ToArray
-            KO_counts = KO_counts.Where(Function(cls) InStr(cls.Class, "Human Diseases") = 0).ToArray
+            Call "Removes [Human Diseases] pathway from result...".__INFO_ECHO
+            Call KO_counts.Select(Function(k) k.Class).Distinct.GetJson.__DEBUG_ECHO
+
+            catalogs = catalogs.Where(Function(cls) InStr(cls.Value!Class, "Human", CompareMethod.Text) = 0).ToArray
+            KO_counts = KO_counts.Where(Function(cls) InStr(cls.Class, "Human", CompareMethod.Text) = 0).ToArray
+
+            With profile.Keys.FirstOrDefault(Function(key) InStr(key, "Human", CompareMethod.Text) > 0)
+                If Not .StringEmpty Then
+                    Call profile.Remove(.ByRef)
+                End If
+            End With
         End If
 
         KO_counts.SaveTo(out & "/KO_counts.csv")
