@@ -103,35 +103,6 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return CompoundTextModel.Build(BriteHText.Load(satellite.GetString(cpd_br08002)))
         End Function
 
-        ''' <summary>
-        ''' Removes all of the download failured result from the workspace
-        ''' </summary>
-        ''' <param name="DIR$"></param>
-        Public Shared Sub WorkspaceCleanup(DIR$)
-            On Error Resume Next
-
-            For Each XML As String In ls - l - r - "*.XML" <= DIR
-                Dim name$ = XML.BaseName
-                Dim compound As bGetObject.Compound
-
-                If name.First = "C"c Then
-                    compound = XML.LoadXml(Of bGetObject.Compound)
-                Else
-                    compound = XML.LoadXml(Of bGetObject.Glycan)
-                End If
-
-                If compound.IsNullOrEmpty Then
-
-                    ' 这个对象是空的，需要从工作区清除
-                    Call FileIO.FileSystem.DeleteFile(XML)
-                    Call FileIO.FileSystem.DeleteFile(XML.TrimSuffix & ".KCF")
-                    Call FileIO.FileSystem.DeleteFile(XML.TrimSuffix & ".gif")
-
-                    cat(".")
-                End If
-            Next
-        End Sub
-
 #Region "Internal resource ID"
 
         ''' <summary>
@@ -239,7 +210,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
                 For Each id As String In allPubchemMaps
                     If Not id Like success Then
-                        Call query.Download(id, $"{saveDIR}/{id}.xml", structInfo)
+                        Call query.Download(id, $"{saveDIR}/{id}.xml", structInfo, Nothing)
                     End If
 
                     details = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
@@ -276,15 +247,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <param name="EXPORT"></param>
         ''' <param name="BriefFile"></param>
-        ''' <param name="DirectoryOrganized"></param>
+        ''' <param name="directoryOrganized"></param>
         ''' <returns></returns>
-        Public Shared Function DownloadCompounds(EXPORT$, briefFile$, Optional DirectoryOrganized As Boolean = True) As String()
+        Public Shared Function DownloadCompounds(EXPORT$, briefFile$, Optional directoryOrganized As Boolean = True) As String()
             Dim BriefEntries As CompoundBrite() = LoadFile(briefFile)
             Dim failures As New List(Of String)
 
             For Each entry As CompoundBrite In BriefEntries
-                Dim EntryId As String = entry.Entry.Key
-                Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized)
+                Dim EntryId As String = entry.entry.Key
+                Dim saveDIR As String = entry.BuildPath(EXPORT, directoryOrganized)
                 Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryId)
                 Dim cpd As bGetObject.Compound = MetaboliteWebApi.DownloadCompound(EntryId)
 
@@ -300,8 +271,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         Public Shared Function LoadFile(path As String) As CompoundBrite()
-            Dim Model = BriteHText.Load(FileIO.FileSystem.ReadAllText(path))
-            Return Build(Model)
+            Return Build(BriteHText.Load(path.SolveStream))
         End Function
     End Class
 End Namespace

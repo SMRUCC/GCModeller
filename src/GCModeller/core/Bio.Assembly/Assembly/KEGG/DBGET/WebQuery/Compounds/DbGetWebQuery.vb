@@ -35,5 +35,13 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                 Throw New NotImplementedException
             End If
         End Function
+
+        Public Function QueryGlycan(id As String) As Glycan
+            Return Me.Query(Of Glycan)(id, ".html")
+        End Function
+
+        Public Function QueryCompound(id As String) As Compound
+            Return Me.Query(Of Compound)(id, ".html")
+        End Function
     End Class
 End Namespace
