@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization
@@ -12,14 +13,18 @@ Namespace ComponentModel
         Dim contextGuid As IToString(Of Context)
         Dim cache$
         Dim deserialization As IObjectBuilder
+        Dim sleepInterval As Integer
 
-        Shared ReadOnly interval As Integer
+        Shared ReadOnly interval As DefaultValue(Of Integer)
 
         Shared Sub New()
             Static defaultInterval As DefaultValue(Of String) = "3000"
 
-            ' controls of the interval by /@set sleep=xxxxx
-            interval = Val(App.GetVariable("sleep") Or defaultInterval)
+            With Val(App.GetVariable("sleep") Or defaultInterval)
+                ' controls of the interval by /@set sleep=xxxxx
+                interval = CInt(.ByRef).AsDefault(Function(x) x <= 0)
+            End With
+
             ' display debug info
             Call $"WebQuery download worker thread sleep interval is {interval}ms".__INFO_ECHO
         End Sub
@@ -28,12 +33,14 @@ Namespace ComponentModel
                 Optional contextGuid As IToString(Of Context) = Nothing,
                 Optional parser As IObjectBuilder = Nothing,
                 <CallerMemberName>
-                Optional cache$ = Nothing)
+                Optional cache$ = Nothing,
+                Optional interval% = -1)
 
             Me.url = url
             Me.cache = cache
             Me.contextGuid = contextGuid Or Scripting.ToString(Of Context)
             Me.deserialization = parser Or XmlParser
+            Me.sleepInterval = interval Or WebQuery(Of Context).interval
         End Sub
 
         ''' <summary>
@@ -50,7 +57,7 @@ Namespace ComponentModel
 
                 If cache.FileLength <= 0 Then
                     Call url.GET.SaveTo(cache)
-                    Call "Worker thread sleep...".__INFO_ECHO
+                    Call $"Worker thread sleep {interval}ms...".__INFO_ECHO
                     Call Thread.Sleep(interval)
                 Else
                     Call "hit cache!".__DEBUG_ECHO

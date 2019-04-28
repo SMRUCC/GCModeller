@@ -432,6 +432,7 @@
     <Compile Include="Assembly\EBI\ChEBI\EntityModel\EntitySearch.vb" />
     <Compile Include="Assembly\EBI\ChEBI\EntityModel\XML\Extensions.vb" />
     <Compile Include="Assembly\EBI\ChEBI\EntityModel\XML\Fields.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\Web\QueryImpl.vb" />
     <Compile Include="Assembly\EBI\ChEBI\Web\REST.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />
     <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />
