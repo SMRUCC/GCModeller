@@ -26,7 +26,13 @@ Namespace Assembly.EBI.ChEBI.WebServices
         End Function
 
         Private Shared Function parseREST(response$, schema As Type) As Object
-            Return REST.ParsingRESTData(response)
+            Try
+                Return REST.ParsingRESTData(response)
+            Catch ex As Exception
+                Call App.LogException(ex)
+
+                Return Nothing
+            End Try
         End Function
     End Class
 End Namespace

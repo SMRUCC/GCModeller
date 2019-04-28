@@ -11,10 +11,14 @@ Namespace ComponentModel
 
         Dim url As Func(Of Context, String)
         Dim contextGuid As IToString(Of Context)
-        Dim cache$
         Dim deserialization As IObjectBuilder
         Dim sleepInterval As Integer
         Dim prefix As Func(Of String, String)
+
+        ''' <summary>
+        ''' 原始请求结果数据的缓存文件夹,同时也可以用这个文件夹来存放错误日志
+        ''' </summary>
+        Protected cache$
 
         Shared ReadOnly interval As DefaultValue(Of Integer)
 

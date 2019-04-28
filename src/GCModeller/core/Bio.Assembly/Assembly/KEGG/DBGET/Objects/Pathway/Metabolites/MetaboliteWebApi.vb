@@ -110,10 +110,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <summary>
         ''' 请注意，这个函数仅会根据文件名的前缀来判断类型
         ''' </summary>
-        ''' <param name="xml$"></param>
+        ''' <param name="xml">The file path of the compound object</param>
         ''' <returns></returns>
         <Extension>
-        Public Function LoadCompoundObject(xml$) As Compound
+        Public Function LoadCompoundObject(xml As String) As Compound
             Dim ID$ = xml.BaseName
 
             If ID.First = "G"c Then
