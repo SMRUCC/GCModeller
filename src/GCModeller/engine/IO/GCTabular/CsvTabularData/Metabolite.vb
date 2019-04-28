@@ -214,14 +214,14 @@ Namespace FileStream
         '    End Set
         'End Property
 
-        Public Class MappingComponentModel : Implements ICompoundObject
+        Public Class MappingComponentModel
 
-            Public Property Identifier As String Implements INamedValue.Key
+            Public Property Identifier As String
 
-            Public Property CHEBI As String() Implements ICompoundObject.CHEBI
-            Public Property CommonNames As String() Implements ICompoundObject.CommonNames
-            Public Property KEGGCompound As String Implements ICompoundObject.KEGG_cpd
-            Public Property PUBCHEM As String Implements ICompoundObject.PUBCHEM
+            Public Property CHEBI As String()
+            Public Property CommonNames As String()
+            Public Property KEGGCompound As String
+            Public Property PUBCHEM As String
 
             Public Shared Function GenerateCompoundMappingModel(data As IEnumerable(Of Metabolite)) As List(Of MappingComponentModel)
                 Dim LQuery = LinqAPI.MakeList(Of MappingComponentModel) <=

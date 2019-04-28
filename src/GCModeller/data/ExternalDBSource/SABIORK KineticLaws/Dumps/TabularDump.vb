@@ -65,9 +65,8 @@ Namespace SabiorkKineticLaws.TabularDump
     End Class
 
     Public Class CompoundSpecie : Inherits SabiorkEntity
-        Implements ICompoundObject
 
-        <Column("kegg.compound")> Public Property KEGG_Compound As String Implements ICompoundObject.Key, ICompoundObject.KEGG_cpd
+        <Column("kegg.compound")> Public Property KEGG_Compound As String
 
         Public Overrides Function ToString() As String
             Return CommonNames.First
@@ -111,25 +110,7 @@ Namespace SabiorkKineticLaws.TabularDump
 
 #Region "Implements SMRUCC.genomics.Assembly.MetaCyc.Schema.CompoundsMapping.ICompoundObject"
 
-        Public Property ICompoundObjectCHEBI_values As String() Implements ICompoundObject.CHEBI
-            Get
-                Return (From item In _DBLinks.CHEBI Select item.AccessionId).ToArray
-            End Get
-            Set(value As String())
-
-            End Set
-        End Property
-
-        Public Property CommonNames As String() Implements ICompoundObject.CommonNames
-
-        Public Property PUBCHEM As String Implements ICompoundObject.PUBCHEM
-            Get
-                Return ""
-            End Get
-            Set(value As String)
-
-            End Set
-        End Property
+        Public Property CommonNames As String()
 
         Protected Friend _DBLinks As DBLinkManager
 

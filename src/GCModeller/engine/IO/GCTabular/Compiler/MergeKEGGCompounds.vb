@@ -91,16 +91,16 @@ Namespace Compiler.Components
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Function Internal_getCompound(Compound As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound) As FileStream.Metabolite
-            Dim cpd = _EntryViews.GetByCheBIEntry(Compound.CHEBI)
-            If Not cpd Is Nothing Then
-                Return cpd
-            End If
-            cpd = _EntryViews.GetByKeggEntry(Compound.Entry)
-            If Not cpd Is Nothing Then
-                Return cpd
-            End If
-            cpd = _EntryViews.GetByPubChemEntry(Compound.PUBCHEM)
-            Return cpd
+            'Dim cpd = _EntryViews.GetByCheBIEntry(Compound.CHEBI)
+            'If Not cpd Is Nothing Then
+            '    Return cpd
+            'End If
+            'cpd = _EntryViews.GetByKeggEntry(Compound.Entry)
+            'If Not cpd Is Nothing Then
+            '    Return cpd
+            'End If
+            'cpd = _EntryViews.GetByPubChemEntry(Compound.PUBCHEM)
+            'Return cpd
         End Function
     End Class
 End Namespace

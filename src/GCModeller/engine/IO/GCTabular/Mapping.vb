@@ -142,7 +142,7 @@ Public Class Mapping : Implements System.IDisposable
 
         For i As Integer = 0 To Effectors.Count - 1
             Dim Effector = Effectors(i)
-            Dim LQuery = (From cpd As Compounds In Compounds.AsParallel Where IsEqually(Effector, cpd) Select cpd).ToArray
+            Dim LQuery '= (From cpd As Compounds In Compounds.AsParallel Where IsEqually(Effector, cpd) Select cpd).ToArray
             Dim CommonNames As New List(Of String)(Effector.EffectorAlias)
 
             If Not LQuery.IsNullOrEmpty Then '在MetaCyc数据库之中查询到了相对应的记录数据
@@ -173,86 +173,86 @@ Public Class Mapping : Implements System.IDisposable
         Return Effectors
     End Function
 
-    ''' <summary>
-    ''' 主要的算法思路就是将名称与MetaCyc Compound中的通用名称和同义名进行匹配
-    ''' </summary>
-    ''' <param name="Regprecise"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Shared Function EffectorMapping(Regprecise As IEnumerable(Of TranscriptRegulation), Mapping As IEnumerable(Of ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
-        Dim Effectors = GetEffectors(Regprecise.ToArray)
-        Effectors = InternalEffectorMapping(Effectors, Mapping)
-        Call Effectors.SaveTo(My.Computer.FileSystem.SpecialDirectories.Temp & "/____temp___EffectorMapping.csv", False)
+    '''' <summary>
+    '''' 主要的算法思路就是将名称与MetaCyc Compound中的通用名称和同义名进行匹配
+    '''' </summary>
+    '''' <param name="Regprecise"></param>
+    '''' <returns></returns>
+    '''' <remarks></remarks>
+    'Public Shared Function EffectorMapping(Regprecise As IEnumerable(Of TranscriptRegulation), Mapping As IEnumerable(Of ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
+    '    Dim Effectors = GetEffectors(Regprecise.ToArray)
+    '    Effectors = InternalEffectorMapping(Effectors, Mapping)
+    '    Call Effectors.SaveTo(My.Computer.FileSystem.SpecialDirectories.Temp & "/____temp___EffectorMapping.csv", False)
 
-        Return Effectors
-    End Function
+    '    Return Effectors
+    'End Function
 
-    Private Shared Function InternalEffectorMapping(Effectors As List(Of MetaCyc.Schema.EffectorMap), Mapping As IEnumerable(Of ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
-        For i As Integer = 0 To Effectors.Count - 1
-            Dim Effector = Effectors(i)
-            Dim LQuery = (From Compound In Mapping.AsParallel Where IsEqually(Effector, Compound) Select Compound).ToArray
-            Dim CommonNames As New List(Of String)(Effector.EffectorAlias)
+    'Private Shared Function InternalEffectorMapping(Effectors As List(Of MetaCyc.Schema.EffectorMap), Mapping As IEnumerable(Of ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
+    '    For i As Integer = 0 To Effectors.Count - 1
+    '        Dim Effector = Effectors(i)
+    '        Dim LQuery = (From Compound In Mapping.AsParallel Where IsEqually(Effector, Compound) Select Compound).ToArray
+    '        Dim CommonNames As New List(Of String)(Effector.EffectorAlias)
 
-            If Not LQuery.IsNullOrEmpty Then '在MetaCyc数据库之中查询到了相对应的记录数据
-                Dim Compound = LQuery.First
+    '        If Not LQuery.IsNullOrEmpty Then '在MetaCyc数据库之中查询到了相对应的记录数据
+    '            Dim Compound = LQuery.First
 
-                Effector.MetaCycId = Compound.Key.ToUpper
-                Call CommonNames.AddRange(Compound.CommonNames)
-            End If
+    '            Effector.MetaCycId = Compound.Key.ToUpper
+    '            Call CommonNames.AddRange(Compound.CommonNames)
+    '        End If
 
-            Effector.EffectorAlias = CommonNames.ToArray
-        Next
+    '        Effector.EffectorAlias = CommonNames.ToArray
+    '    Next
 
-        Call Effectors.SaveTo(My.Computer.FileSystem.SpecialDirectories.Temp & "/____temp___EffectorMapping.csv", False)
+    '    Call Effectors.SaveTo(My.Computer.FileSystem.SpecialDirectories.Temp & "/____temp___EffectorMapping.csv", False)
 
-        Return Effectors
-    End Function
+    '    Return Effectors
+    'End Function
 
-    ''' <summary>
-    ''' 主要的算法思路就是将名称与MetaCyc Compound中的通用名称和同义名进行匹配
-    ''' </summary>
-    ''' <param name="Regprecise"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Shared Function EffectorMapping(Regprecise As IEnumerable(Of RegpreciseMPBBH), Mapping As IEnumerable(Of ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
-        Dim Effectors = GetEffectors(bh:=Regprecise.ToArray)
-        Effectors = InternalEffectorMapping(Effectors, Mapping)
-        Call Effectors.SaveTo(My.Computer.FileSystem.SpecialDirectories.Temp & "/____temp___EffectorMapping.csv", False)
+    '''' <summary>
+    '''' 主要的算法思路就是将名称与MetaCyc Compound中的通用名称和同义名进行匹配
+    '''' </summary>
+    '''' <param name="Regprecise"></param>
+    '''' <returns></returns>
+    '''' <remarks></remarks>
+    'Public Shared Function EffectorMapping(Regprecise As IEnumerable(Of RegpreciseMPBBH), Mapping As IEnumerable(Of ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
+    '    Dim Effectors = GetEffectors(bh:=Regprecise.ToArray)
+    '    Effectors = InternalEffectorMapping(Effectors, Mapping)
+    '    Call Effectors.SaveTo(My.Computer.FileSystem.SpecialDirectories.Temp & "/____temp___EffectorMapping.csv", False)
 
-        Return Effectors
-    End Function
+    '    Return Effectors
+    'End Function
 
-    Private Shared Function IsEqually(Effector As MetaCyc.Schema.EffectorMap, Compound As ICompoundObject) As Boolean
-        For i As Integer = 0 To Effector.EffectorAlias.Count - 1
-            If IsEquals(Effector.EffectorAlias(i), Compound) Then
-                Return True
-            End If
-        Next
-        Return False
-    End Function
+    'Private Shared Function IsEqually(Effector As MetaCyc.Schema.EffectorMap, Compound As ICompoundObject) As Boolean
+    '    For i As Integer = 0 To Effector.EffectorAlias.Count - 1
+    '        If IsEquals(Effector.EffectorAlias(i), Compound) Then
+    '            Return True
+    '        End If
+    '    Next
+    '    Return False
+    'End Function
 
-    Private Shared Function IsEqually(Effector As MetaCyc.Schema.EffectorMap, Compound As MetaCyc.File.DataFiles.Slots.Compound) As Boolean
-        For i As Integer = 0 To Effector.EffectorAlias.Count - 1
-            If IsEqually(Effector.EffectorAlias(i), Compound) Then
-                Return True
-            End If
-        Next
-        Return False
-    End Function
+    'Private Shared Function IsEqually(Effector As MetaCyc.Schema.EffectorMap, Compound As MetaCyc.File.DataFiles.Slots.Compound) As Boolean
+    '    For i As Integer = 0 To Effector.EffectorAlias.Count - 1
+    '        If IsEqually(Effector.EffectorAlias(i), Compound) Then
+    '            Return True
+    '        End If
+    '    Next
+    '    Return False
+    'End Function
 
-    Private Shared Function IsEquals(Effector As String, Compound As ICompoundObject) As Boolean
-        If String.Equals(Effector.ToUpper, Compound.Key) Then
-            Return True
-        Else
-            For Each strName As String In Compound.CommonNames
-                If String.Equals(strName.ToLower, Effector) Then
-                    Return True
-                End If
-            Next
-        End If
+    'Private Shared Function IsEquals(Effector As String, Compound As ICompoundObject) As Boolean
+    '    If String.Equals(Effector.ToUpper, Compound.Key) Then
+    '        Return True
+    '    Else
+    '        For Each strName As String In Compound.CommonNames
+    '            If String.Equals(strName.ToLower, Effector) Then
+    '                Return True
+    '            End If
+    '        Next
+    '    End If
 
-        Return False
-    End Function
+    '    Return False
+    'End Function
 
     Private Shared Function IsEqually(Effector As String, Compound As MetaCyc.File.DataFiles.Slots.Compound) As Boolean
         If String.Equals(Effector, Compound.CommonName.ToLower) Then
