@@ -1,23 +1,25 @@
-﻿Imports Microsoft.VisualBasic.Language
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
     Module CompoundTextModel
 
-        Public Function Build(Model As BriteHText) As CompoundBrite()
+        <Extension>
+        Public Function Build(model As BriteHText) As CompoundBrite()
             Dim list As New List(Of CompoundBrite)
 
-            Select Case Model.Degree
+            Select Case model.Degree
 
                 Case "C"c
-                    For Each [Class] As BriteHText In Model.CategoryItems
+                    For Each [class] As BriteHText In model.CategoryItems
 
-                        If [Class].CategoryItems.IsNullOrEmpty Then
+                        If [class].CategoryItems.IsNullOrEmpty Then
                             Continue For
                         End If
 
-                        For Each category As BriteHText In [Class].CategoryItems
+                        For Each category As BriteHText In [class].CategoryItems
                             If category.CategoryItems.IsNullOrEmpty Then
                                 Continue For
                             End If
@@ -25,9 +27,9 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                             list += From htext As BriteHText
                                     In category.CategoryItems
                                     Select New CompoundBrite With {
-                                        .Class = [Class].ClassLabel,
-                                        .Category = category.ClassLabel,
-                                        .Entry = New KeyValuePair With {
+                                        .class = [class].ClassLabel,
+                                        .category = category.ClassLabel,
+                                        .entry = New KeyValuePair With {
                                             .Key = htext.EntryId,
                                             .Value = htext.Description
                                         }
@@ -36,13 +38,13 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Next
 
                 Case "D"c
-                    For Each [Class] As BriteHText In Model.CategoryItems
+                    For Each [class] As BriteHText In model.CategoryItems
 
-                        If [Class].CategoryItems.IsNullOrEmpty Then
+                        If [class].CategoryItems.IsNullOrEmpty Then
                             Continue For
                         End If
 
-                        For Each category As BriteHText In [Class].CategoryItems
+                        For Each category As BriteHText In [class].CategoryItems
                             If category.CategoryItems.IsNullOrEmpty Then
                                 Continue For
                             End If
@@ -54,10 +56,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                 list += From br As BriteHText
                                         In subCategory.CategoryItems
                                         Select New CompoundBrite With {
-                                            .Class = [Class].ClassLabel,
-                                            .Category = category.ClassLabel,
-                                            .SubCategory = subCategory.ClassLabel,
-                                            .Entry = New KeyValuePair With {
+                                            .class = [class].ClassLabel,
+                                            .category = category.ClassLabel,
+                                            .subcategory = subCategory.ClassLabel,
+                                            .entry = New KeyValuePair With {
                                                 .Key = br.EntryId,
                                                 .Value = br.Description
                                             }
@@ -67,7 +69,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Next
 
                 Case "E"c
-                    For Each [class] As BriteHText In Model.CategoryItems
+                    For Each [class] As BriteHText In model.CategoryItems
                         If [class].CategoryItems.IsNullOrEmpty Then
                             Continue For
                         End If
@@ -87,11 +89,11 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                     list += From br As BriteHText
                                             In order.CategoryItems
                                             Select New CompoundBrite With {
-                                                .Class = [class].ClassLabel,
-                                                .Category = category.ClassLabel,
-                                                .SubCategory = subCategory.ClassLabel,
-                                                .Order = order.ClassLabel,
-                                                .Entry = New KeyValuePair With {
+                                                .class = [class].ClassLabel,
+                                                .category = category.ClassLabel,
+                                                .subcategory = subCategory.ClassLabel,
+                                                .order = order.ClassLabel,
+                                                .entry = New KeyValuePair With {
                                                     .Key = br.EntryId,
                                                     .Value = br.Description
                                                 }
