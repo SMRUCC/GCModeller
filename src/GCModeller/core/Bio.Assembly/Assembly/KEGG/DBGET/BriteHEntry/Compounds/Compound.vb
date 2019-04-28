@@ -82,11 +82,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     ''' </remarks>
     Public Class CompoundBrite
 
-        Public Property [Class] As String
-        Public Property Category As String
-        Public Property SubCategory As String
-        Public Property Order As String
-        Public Property Entry As KeyValuePair
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property [class] As String
+        Public Property category As String
+        Public Property subcategory As String
+        Public Property order As String
+        Public Property entry As KeyValuePair
 
         ''' <summary>
         ''' KEGG BRITE contains a classification of lipids

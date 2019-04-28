@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.DBGET.bGetObject
@@ -81,10 +82,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' Name
         ''' </summary>
         ''' <returns></returns>
-        Public Property CommonNames As String()
-        Public Property Formula As String
-        Public Property MolWeight As Double
-        Public Property ExactMass As Double
+        Public Property commonNames As String()
+        Public Property formula As String
+        Public Property molWeight As Double
+        Public Property exactMass As Double
 
         ''' <summary>
         ''' The <see cref="Entry">compound</see> was involved in these reactions. (http://www.kegg.jp/dbget-bin/www_bget?rn:[KEGG_Reaction_ID])
@@ -94,12 +95,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <remarks></remarks>
         Public Property reactionId As String()
         <XmlArray("pathway", [Namespace]:=xmlns_kegg)>
-        Public Property Pathway As NamedValue()
+        Public Property pathway As NamedValue()
         <XmlArray("module", [Namespace]:=xmlns_kegg)>
         Public Property [Module] As NamedValue()
-        Public Property Remarks As String()
-        Public Property Enzyme As String()
-        Public Property [Class] As String
+        Public Property remarks As String()
+        Public Property enzyme As String()
+
+        Public Property category As CompoundBrite()
 
         Protected Friend _DBLinks As DBLinks
 
@@ -170,7 +172,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetPathways() As NamedValue(Of String)()
-            Return Pathway.Select(Function(x) New NamedValue(Of String)(x.name, x.text)).ToArray
+            Return pathway.Select(Function(x) New NamedValue(Of String)(x.name, x.text)).ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -184,7 +186,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}: {1}", entry, Me.Formula)
+            Return String.Format("{0}: {1}", entry, Me.formula)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
