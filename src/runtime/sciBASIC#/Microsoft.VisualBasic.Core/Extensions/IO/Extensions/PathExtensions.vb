@@ -297,8 +297,11 @@ Public Module PathExtensions
     Public Function TheFile(DIR$, keyword$, Optional opt As FileIO.SearchOption = FileIO.SearchOption.SearchTopLevelOnly) As String
         If Not DIR.DirectoryExists Then
             Return Nothing
+        ElseIf opt = FileIO.SearchOption.SearchAllSubDirectories Then
+            Return (ls - l - r - keyword <= DIR).FirstOrDefault
+        Else
+            Return (ls - l - keyword <= DIR).FirstOrDefault
         End If
-        Return FileIO.FileSystem.GetFiles(DIR, opt, keyword).FirstOrDefault
     End Function
 
     ''' <summary>
