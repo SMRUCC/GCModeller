@@ -84,7 +84,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Property Entry As KeyValuePair
 
         Public Shared Function LoadFromResource() As EnzymaticReaction()
-            Dim model As BriteHText = BriteHText.Load(My.Resources.br08201)
+            Dim model As BriteHText = BriteHTextParser.Load(My.Resources.br08201)
             Return Build(model)
         End Function
 
@@ -132,7 +132,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         Public Shared Function LoadFile(path As String) As EnzymaticReaction()
-            Return Build(BriteHText.Load(FileIO.FileSystem.ReadAllText(path)))
+            Return Build(BriteHTextParser.Load(FileIO.FileSystem.ReadAllText(path)))
         End Function
 
         Public Overrides Function ToString() As String

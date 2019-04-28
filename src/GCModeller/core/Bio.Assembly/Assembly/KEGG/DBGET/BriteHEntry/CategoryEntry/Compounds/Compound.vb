@@ -100,7 +100,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Shared Function Lipids() As CompoundBrite()
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
-            Return CompoundTextModel.Build(BriteHText.Load(satellite.GetString(cpd_br08002)))
+            Return CompoundTextModel.Build(BriteHTextParser.Load(satellite.GetString(cpd_br08002)))
         End Function
 
 #Region "Internal resource ID"
@@ -180,15 +180,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Shared Sub DownloadFromResource(EXPORT$, Optional directoryOrganized As Boolean = True, Optional structInfo As Boolean = False)
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
             Dim resource = {
-                New NamedValue(Of CompoundBrite())("Compounds with biological roles", Build(BriteHText.Load(satellite.GetString(cpd_br08001)))),
+                New NamedValue(Of CompoundBrite())("Compounds with biological roles", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08001)))),
                 New NamedValue(Of CompoundBrite())("Lipids", CompoundBrite.Lipids),
-                New NamedValue(Of CompoundBrite())("Phytochemical compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08003)))),
-                New NamedValue(Of CompoundBrite())("Bioactive peptides", Build(BriteHText.Load(satellite.GetString(cpd_br08005)))),
-                New NamedValue(Of CompoundBrite())("Endocrine disrupting compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08006)))),
-                New NamedValue(Of CompoundBrite())("Pesticides", Build(BriteHText.Load(satellite.GetString(cpd_br08007)))),
-                New NamedValue(Of CompoundBrite())("Carcinogens", Build(BriteHText.Load(satellite.GetString(cpd_br08008)))),
-                New NamedValue(Of CompoundBrite())("Natural toxins", Build(BriteHText.Load(satellite.GetString(cpd_br08009)))),
-                New NamedValue(Of CompoundBrite())("Target-based classification of compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08010))))
+                New NamedValue(Of CompoundBrite())("Phytochemical compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08003)))),
+                New NamedValue(Of CompoundBrite())("Bioactive peptides", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08005)))),
+                New NamedValue(Of CompoundBrite())("Endocrine disrupting compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08006)))),
+                New NamedValue(Of CompoundBrite())("Pesticides", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08007)))),
+                New NamedValue(Of CompoundBrite())("Carcinogens", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08008)))),
+                New NamedValue(Of CompoundBrite())("Natural toxins", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08009)))),
+                New NamedValue(Of CompoundBrite())("Target-based classification of compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08010))))
             }
 
             For Each entry As NamedValue(Of CompoundBrite()) In resource
@@ -271,7 +271,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         Public Shared Function LoadFile(path As String) As CompoundBrite()
-            Return Build(BriteHText.Load(path.SolveStream))
+            Return Build(BriteHTextParser.Load(path.SolveStream))
         End Function
     End Class
 End Namespace

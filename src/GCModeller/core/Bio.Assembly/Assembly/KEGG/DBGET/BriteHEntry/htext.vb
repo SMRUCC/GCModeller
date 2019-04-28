@@ -145,7 +145,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .Descript = If(header.Length > 1, header(1), ""),
                 .Title = title,
                 .Schema = schema,
-                .Hierarchical = BriteHText.Load(lines, .MaxDepth)
+                .Hierarchical = BriteHTextParser.Load(lines, .MaxDepth)
             }
         End Function
 
