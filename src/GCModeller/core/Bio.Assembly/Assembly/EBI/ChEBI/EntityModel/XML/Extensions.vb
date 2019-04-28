@@ -47,23 +47,35 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.Serialization
+Imports System.Web.Script.Serialization
+Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports XmlLinq = Microsoft.VisualBasic.Text.Xml.Linq.Data
 
 Namespace Assembly.EBI.ChEBI.XML
 
     <XmlRoot("ChEBI-DataSet", [Namespace]:=EntityList.Xmlns)>
-    Public Class EntityList : Inherits XmlDataModel
+    Public Class EntityList : Inherits ListOf(Of ChEBIEntity)
+        Implements XmlDataModel.IXmlType
 
         Public Const Xmlns$ = "http://gcmodeller.org/core/chebi/dataset.XML"
         Public Const nodeName$ = "chebi-entity"
 
         <XmlElement(nodeName)>
         Public Property DataSet As ChEBIEntity()
+
+        <DataMember>
+        <IgnoreDataMember>
+        <ScriptIgnore>
+        <SoapIgnore>
+        <XmlAnyElement>
+        Public Property TypeComment As XmlComment Implements XmlDataModel.IXmlType.TypeComment
 
         Public Function ToSearchModel() As Dictionary(Of Long, ChEBIEntity)
             Dim table As New Dictionary(Of Long, ChEBIEntity)
@@ -99,6 +111,14 @@ Namespace Assembly.EBI.ChEBI.XML
                 xmlns:=Xmlns,
                 forceLargeMode:=True
             )
+        End Function
+
+        Protected Overrides Function getSize() As Integer
+            Return DataSet.Length
+        End Function
+
+        Protected Overrides Function getCollection() As IEnumerable(Of ChEBIEntity)
+            Return DataSet
         End Function
     End Class
 
