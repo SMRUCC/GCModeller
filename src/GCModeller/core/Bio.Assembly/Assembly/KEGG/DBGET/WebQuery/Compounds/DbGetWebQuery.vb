@@ -8,7 +8,13 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
     Public Class DbGetWebQuery : Inherits WebQuery(Of String)
 
         Public Sub New(<CallerMemberName> Optional cache As String = Nothing)
-            MyBase.New(AddressOf dbgetApi, AddressOf Scripting.ToString, AddressOf doParse, cache)
+            MyBase.New(
+                AddressOf dbgetApi,
+                AddressOf Scripting.ToString,
+                AddressOf doParse,
+ _
+                cache:=cache
+            )
         End Sub
 
         Public Shared Function doParse(data$, schema As Type) As Object
