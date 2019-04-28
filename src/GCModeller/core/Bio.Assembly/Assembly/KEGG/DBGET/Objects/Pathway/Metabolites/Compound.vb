@@ -66,7 +66,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' KEGG的代谢物模型
     ''' </summary>
     Public Class Compound : Inherits XmlDataModel
-        Implements ICompoundObject
 
         Public Const xmlns_kegg$ = "http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id"
 
@@ -74,12 +73,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' KEGG compound ID: ``cpd:C\d+``
         ''' </summary>
         ''' <returns></returns>
-        Public Overridable Property Entry As String Implements ICompoundObject.Key, ICompoundObject.KEGG_cpd
+        Public Overridable Property Entry As String
         ''' <summary>
         ''' Name
         ''' </summary>
         ''' <returns></returns>
-        Public Property CommonNames As String() Implements ICompoundObject.CommonNames
+        Public Property CommonNames As String()
         Public Property Formula As String
         Public Property MolWeight As Double
         Public Property ExactMass As Double
@@ -184,32 +183,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Overrides Function ToString() As String
             Return String.Format("{0}: {1}", Entry, Me.Formula)
         End Function
-
-        Public Property CHEBI As String() Implements ICompoundObject.CHEBI
-            Get
-                If _DBLinks.IsNullOrEmpty OrElse _DBLinks.CHEBI.IsNullOrEmpty Then
-                    Return Nothing
-                End If
-                Return (From item In _DBLinks.CHEBI Select item.Entry).ToArray
-            End Get
-            Set(value As String())
-                For Each ID As String In value
-                    Call _DBLinks.AddEntry(New DBLink With {.DBName = "CHEBI", .Entry = ID})
-                Next
-            End Set
-        End Property
-
-        Public Property PUBCHEM As String Implements ICompoundObject.PUBCHEM
-            Get
-                If _DBLinks.IsNullOrEmpty OrElse _DBLinks.PUBCHEM Is Nothing Then
-                    Return ""
-                End If
-                Return _DBLinks.PUBCHEM.Entry
-            End Get
-            Set(value As String)
-                _DBLinks.AddEntry(New DBLink With {.DBName = "PUBCHEM", .Entry = value})
-            End Set
-        End Property
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetLinkDbRDF(compound As Compound) As IEnumerable(Of LinkDB.Relationship)
