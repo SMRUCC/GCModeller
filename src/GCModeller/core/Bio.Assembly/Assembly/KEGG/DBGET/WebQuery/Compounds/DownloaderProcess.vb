@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -67,11 +68,18 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
             If entryID.StartsWith("G") Then
 
                 Call query.Query(Of Glycan)(entryID, ".html") _
+                    .With(Sub(ByRef glycan)
+                              glycan.category = {category.Value}
+                          End Sub) _
                     .GetXml _
                     .SaveTo(xmlFile)
 
             ElseIf entryID.StartsWith("C") Then
-                Dim compound As Compound = query.Query(Of Compound)(entryID, ".html")
+                Dim compound As Compound = query _
+                    .Query(Of Compound)(entryID, ".html") _
+                    .With(Sub(ByRef metabolite)
+                              metabolite.category = {category.Value}
+                          End Sub)
 
                 If structInfo Then
                     Dim KCF$ = xmlFile.ChangeSuffix("txt")
