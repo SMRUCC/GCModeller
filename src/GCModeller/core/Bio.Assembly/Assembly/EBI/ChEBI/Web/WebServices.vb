@@ -103,6 +103,8 @@ Namespace Assembly.EBI.ChEBI.WebServices
         ''' <param name="chebiIDlist">编号列表是不带有``CHEBI:``前缀的chebi物质编号</param>
         ''' <param name="localCache$"></param>
         ''' <returns></returns>
+        ''' 
+        <Extension>
         Public Iterator Function BatchQuery(chebiIDlist$(), localCache$, Optional sleepInterval% = 2000) As IEnumerable(Of ChEBIEntity)
             Using progress As New ProgressBar("Downloading ChEBI data...")
                 Dim tick As New ProgressProvider(chebiIDlist.Length)
