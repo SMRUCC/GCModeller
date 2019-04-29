@@ -302,11 +302,11 @@ Public Module PathExtensions
         If Not DIR.DirectoryExists Then
             Return Nothing
         Else
-            Dim first As Func(Of String, Boolean) = Nothing
+            Dim check As Func(Of String, Boolean) = Nothing
 
             If Not wildcard Then
-                first = Function(path)
-                            Return path.BaseName.TextEquals(keyword)
+                check = Function(path)
+                            Return path.FileName.TextEquals(keyword)
                         End Function
             End If
 
@@ -314,13 +314,13 @@ Public Module PathExtensions
                 If wildcard Then
                     Return (ls - l - r - keyword <= DIR).FirstOrDefault
                 Else
-                    Return (ls - l - r <= DIR).FirstOrDefault(first)
+                    Return (ls - l - r <= DIR).FirstOrDefault(check)
                 End If
             Else
                 If wildcard Then
                     Return (ls - l - keyword <= DIR).FirstOrDefault
                 Else
-                    Return (ls - l <= DIR).FirstOrDefault(first)
+                    Return (ls - l <= DIR).FirstOrDefault(check)
                 End If
             End If
         End If
