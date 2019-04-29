@@ -1,63 +1,68 @@
 ﻿#Region "Microsoft.VisualBasic::2c8f14ca9244d8c11c1bb8726209a17b, Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class EntityList
-    ' 
-    '         Properties: DataSet
-    ' 
-    '         Function: AsList, LoadDirectory, PopulateModels, ToSearchModel, ToString
-    ' 
-    '     Module Extensions
-    ' 
-    '         Function: Compile
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class EntityList
+' 
+'         Properties: DataSet
+' 
+'         Function: AsList, LoadDirectory, PopulateModels, ToSearchModel, ToString
+' 
+'     Module Extensions
+' 
+'         Function: Compile
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.Serialization
+Imports System.Web.Script.Serialization
+Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports XmlLinq = Microsoft.VisualBasic.Text.Xml.Linq.Data
 
 Namespace Assembly.EBI.ChEBI.XML
 
     <XmlRoot("ChEBI-DataSet", [Namespace]:=EntityList.Xmlns)>
-    Public Class EntityList
+    Public Class EntityList : Inherits ListOf(Of ChEBIEntity)
+        Implements XmlDataModel.IXmlType
 
         Public Const Xmlns$ = "http://gcmodeller.org/core/chebi/dataset.XML"
         Public Const nodeName$ = "chebi-entity"
@@ -65,11 +70,18 @@ Namespace Assembly.EBI.ChEBI.XML
         <XmlElement(nodeName)>
         Public Property DataSet As ChEBIEntity()
 
+        <DataMember>
+        <IgnoreDataMember>
+        <ScriptIgnore>
+        <SoapIgnore>
+        <XmlAnyElement>
+        Public Property TypeComment As XmlComment Implements XmlDataModel.IXmlType.TypeComment
+
         Public Function ToSearchModel() As Dictionary(Of Long, ChEBIEntity)
             Dim table As New Dictionary(Of Long, ChEBIEntity)
 
             For Each chemical As ChEBIEntity In DataSet
-                Dim id& = chemical.Address
+                Dim id& = Integer.Parse(chemical.chebiId.Split(":"c).Last)
 
                 If Not table.ContainsKey(id) Then
                     table.Add(id, chemical)
@@ -77,16 +89,6 @@ Namespace Assembly.EBI.ChEBI.XML
             Next
 
             Return table
-        End Function
-
-        Public Function AsList() As HashList(Of ChEBIEntity)
-            Dim list As New HashList(Of ChEBIEntity)
-
-            For Each chemical As ChEBIEntity In DataSet
-                Call list.Add(chemical)
-            Next
-
-            Return list
         End Function
 
         Public Overrides Function ToString() As String
@@ -109,6 +111,14 @@ Namespace Assembly.EBI.ChEBI.XML
                 xmlns:=Xmlns,
                 forceLargeMode:=True
             )
+        End Function
+
+        Protected Overrides Function getSize() As Integer
+            Return DataSet.Length
+        End Function
+
+        Protected Overrides Function getCollection() As IEnumerable(Of ChEBIEntity)
+            Return DataSet
         End Function
     End Class
 

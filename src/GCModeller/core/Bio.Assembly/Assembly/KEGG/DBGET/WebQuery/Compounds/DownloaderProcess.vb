@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -39,40 +41,51 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
             Dim keys As CompoundBrite() = entries _
                 .Where(Function(ID)
                            Return (Not ID Is Nothing) AndAlso
-                                (Not ID.Entry Is Nothing) AndAlso
-                                (Not ID.Entry.Key.StringEmpty)
+                                (Not ID.entry Is Nothing) AndAlso
+                                (Not ID.entry.Key.StringEmpty)
                        End Function) _
                 .ToArray
 
             Using progress As New ProgressBar("Downloads " & key, 1, CLS:=True)
                 Dim tick As New ProgressProvider(keys.Length)
                 Dim query As New DbGetWebQuery($"{EXPORT}/.cache")
-                Dim skip As Boolean = False
 
                 For Each entry As CompoundBrite In keys
-                    Dim entryId As String = entry.Entry.Key
+                    Dim entryId As String = entry.entry.Key
                     Dim saveDIR As String = entry.BuildPath(EXPORT, directoryOrganized, [class]:=key)
                     Dim xmlFile$ = $"{saveDIR}/{entryId}.xml"
                     Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
+                    Dim category As New NamedValue(Of CompoundBrite)(key, entry)
 
-                    Call query.Download(entryId, xmlFile, structInfo)
+                    Call query.Download(entryId, xmlFile, structInfo, category)
                     Call progress.SetProgress(tick.StepProgress, details:=ETA)
                 Next
             End Using
         End Sub
 
         <Extension>
-        Friend Sub Download(query As DbGetWebQuery, entryID$, xmlFile$, structInfo As Boolean)
+        Friend Sub Download(query As DbGetWebQuery, entryID$, xmlFile$, structInfo As Boolean, category As NamedValue(Of CompoundBrite))
             If entryID.StartsWith("G") Then
 
                 Call query.Query(Of Glycan)(entryID, ".html") _
+                    .With(Sub(ByRef glycan)
+                              If Not category.Value Is Nothing AndAlso Not glycan Is Nothing Then
+                                  glycan.category = {category.Value}
+                              End If
+                          End Sub) _
                     .GetXml _
                     .SaveTo(xmlFile)
 
             ElseIf entryID.StartsWith("C") Then
-                Dim compound As Compound = query.Query(Of Compound)(entryID, ".html")
+                Dim compound As Compound = query _
+                    .Query(Of Compound)(entryID, ".html") _
+                    .With(Sub(ByRef metabolite)
+                              If Not category.Value Is Nothing AndAlso Not metabolite Is Nothing Then
+                                  metabolite.category = {category.Value}
+                              End If
+                          End Sub)
 
-                If structInfo Then
+                If Not compound Is Nothing AndAlso structInfo Then
                     Dim KCF$ = xmlFile.ChangeSuffix("txt")
                     Dim gif = xmlFile.ChangeSuffix("gif")
 

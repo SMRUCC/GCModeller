@@ -65,7 +65,14 @@ Public Class Geptop : Inherits XmlDataModel
     End Function
 
     Public Shared Sub FetchData(save$)
-        Dim web As New WebQuery(Of NamedValue(Of String))(Function(li) li.Value, Function(li) li.Name, Function(s, t) Geptop.ParseFromOutput(s), $"{save}/.geptop")
+        Dim web As New WebQuery(Of NamedValue(Of String))(
+            Function(li) li.Value,
+            Function(li) li.Name,
+            Function(s, t) Geptop.ParseFromOutput(s),
+ _
+            prefix:=Nothing,
+            cache:=$"{save}/.geptop"
+        )
 
         For Each genome As NamedValue(Of String) In GetGenomeList()
             Dim result As Geptop = web.Query(Of Geptop)(genome, "*.html")

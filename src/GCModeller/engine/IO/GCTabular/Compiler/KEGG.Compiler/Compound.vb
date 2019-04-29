@@ -62,18 +62,18 @@ Namespace KEGG.Compiler
         End Function
 
         Public Function GenerateObject(KEGGCompound As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound) As FileStream.Metabolite
-            Dim Metabolite As FileStream.Metabolite = New FileStream.Metabolite With {
-                .KEGGCompound = KEGGCompound.Entry,
-                .Identifier = NormalizeUniqueId(KEGGCompound),
-                .InitialAmount = 10,
-                .CommonNames = KEGGCompound.CommonNames,
-                .MetaboliteType = GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.Compound,
-                .MolWeight = KEGGCompound.MolWeight,
-                .Formula = KEGGCompound.Formula,
-                .ChEBI = KEGGCompound.CHEBI,
-                .PUBCHEM = KEGGCompound.PUBCHEM}
+            'Dim Metabolite As FileStream.Metabolite = New FileStream.Metabolite With {
+            '    .KEGGCompound = KEGGCompound.Entry,
+            '    .Identifier = NormalizeUniqueId(KEGGCompound),
+            '    .InitialAmount = 10,
+            '    .CommonNames = KEGGCompound.CommonNames,
+            '    .MetaboliteType = GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.Compound,
+            '    .MolWeight = KEGGCompound.MolWeight,
+            '    .Formula = KEGGCompound.Formula,
+            '    .ChEBI = KEGGCompound.CHEBI,
+            '    .PUBCHEM = KEGGCompound.PUBCHEM}
 
-            Return Metabolite
+            'Return Metabolite
         End Function
 
         Public Function NormalizeUniqueId(Compound As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound) As String

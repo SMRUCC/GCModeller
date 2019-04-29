@@ -264,8 +264,8 @@ Namespace KEGG.Compiler
         Private Function MappingKEGGCompoundsRegprecise(KEGGCompounds As IEnumerable(Of FileStream.Metabolite),
                                                         Regprecise As RegpreciseMPBBH()) As List(Of MetaCyc.Schema.EffectorMap)
 
-            Dim Compounds = FileStream.Metabolite.MappingComponentModel.GenerateCompoundMappingModel(KEGGCompounds)
-            Return Mapping.EffectorMapping(Regprecise, Compounds)
+            'Dim Compounds = FileStream.Metabolite.MappingComponentModel.GenerateCompoundMappingModel(KEGGCompounds)
+            'Return Mapping.EffectorMapping(Regprecise, Compounds)
         End Function
 
         Private Sub CompileGenome(PTT As String, MyvaCOG As MyvaCOG(), ECProfiles As IEnumerable(Of T_EnzymeClass_BLAST_OUT))

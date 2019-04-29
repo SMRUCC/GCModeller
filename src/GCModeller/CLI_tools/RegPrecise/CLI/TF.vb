@@ -227,17 +227,17 @@ Partial Module CLI
         Return list.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/Effector.FillNames",
-               Usage:="/Effector.FillNames /in <effectors.csv> /compounds <metacyc.compounds> [/out <out.csv>]")>
-    Public Function EffectorFillNames(args As CommandLine) As Integer
-        Dim [in] As String = args - "/in"
-        Dim compounds As String = args - "/compounds"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & compounds.BaseName & ".Csv")
-        Dim effectors As IEnumerable(Of Effectors) = [in].LoadCsv(Of Effectors)
-        Dim maps As New CompoundsMapping(DataFiles.Compounds.LoadCompoundsData(compounds))
-        Dim LQuery = (From x As Effectors
-                      In effectors.AsParallel
-                      Select x.Fill(maps.NameQuery(x.Effector))).ToArray
-        Return LQuery.SaveTo(out).CLICode
-    End Function
+    '<ExportAPI("/Effector.FillNames",
+    '           Usage:="/Effector.FillNames /in <effectors.csv> /compounds <metacyc.compounds> [/out <out.csv>]")>
+    'Public Function EffectorFillNames(args As CommandLine) As Integer
+    '    Dim [in] As String = args - "/in"
+    '    Dim compounds As String = args - "/compounds"
+    '    Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & compounds.BaseName & ".Csv")
+    '    Dim effectors As IEnumerable(Of Effectors) = [in].LoadCsv(Of Effectors)
+    '    Dim maps As New CompoundsMapping(DataFiles.Compounds.LoadCompoundsData(compounds))
+    '    Dim LQuery = (From x As Effectors
+    '                  In effectors.AsParallel
+    '                  Select x.Fill(maps.NameQuery(x.Effector))).ToArray
+    '    Return LQuery.SaveTo(out).CLICode
+    'End Function
 End Module

@@ -44,7 +44,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Regprecise
 
@@ -60,13 +59,6 @@ Namespace Regprecise
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
-        End Function
-
-        Public Function Fill(compound As ICompoundObject) As Effectors
-            If String.IsNullOrEmpty(MetaCyc) Then
-                MetaCyc = compound.Key
-            End If
-            Return Me
         End Function
     End Class
 End Namespace

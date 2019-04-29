@@ -162,16 +162,16 @@ Namespace Compiler.Components
         End Sub
 
         Private Function GetCompound(SabiorkCompound As CompoundSpecie) As FileStream.Metabolite
-            Dim cpd = _EntryViews.GetByCheBIEntry(SabiorkCompound.ICompoundObjectCHEBI_values)
-            If Not cpd Is Nothing Then
-                Return cpd
-            End If
-            cpd = _EntryViews.GetByKeggEntry(SabiorkCompound.KEGG_Compound)
-            If Not cpd Is Nothing Then
-                Return cpd
-            End If
-            cpd = _EntryViews.GetByPubChemEntry(SabiorkCompound.PUBCHEM)
-            Return cpd
+            'Dim cpd = _EntryViews.GetByCheBIEntry(SabiorkCompound.ICompoundObjectCHEBI_values)
+            'If Not cpd Is Nothing Then
+            '    Return cpd
+            'End If
+            'cpd = _EntryViews.GetByKeggEntry(SabiorkCompound.KEGG_Compound)
+            'If Not cpd Is Nothing Then
+            '    Return cpd
+            'End If
+            'cpd = _EntryViews.GetByPubChemEntry(SabiorkCompound.PUBCHEM)
+            'Return cpd
         End Function
     End Class
 End Namespace
