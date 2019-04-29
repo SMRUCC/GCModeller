@@ -292,15 +292,37 @@ Public Module PathExtensions
     ''' <param name="DIR$"></param>
     ''' <param name="keyword$"></param>
     ''' <param name="opt"></param>
+    ''' <param name="wildcard">The <paramref name="keyword"/> parameter value is a wildcard.</param>
     ''' <returns>当查找不到目标文件或者文件夹不存在的时候会返回空值</returns>
     <Extension>
-    Public Function TheFile(DIR$, keyword$, Optional opt As FileIO.SearchOption = FileIO.SearchOption.SearchTopLevelOnly) As String
+    Public Function TheFile(DIR$, keyword$,
+                            Optional opt As FileIO.SearchOption = FileIO.SearchOption.SearchTopLevelOnly,
+                            Optional wildcard As Boolean = True) As String
+
         If Not DIR.DirectoryExists Then
             Return Nothing
-        ElseIf opt = FileIO.SearchOption.SearchAllSubDirectories Then
-            Return (ls - l - r - keyword <= DIR).FirstOrDefault
         Else
-            Return (ls - l - keyword <= DIR).FirstOrDefault
+            Dim first As Func(Of String, Boolean) = Nothing
+
+            If Not wildcard Then
+                first = Function(path)
+                            Return path.BaseName.TextEquals(keyword)
+                        End Function
+            End If
+
+            If opt = FileIO.SearchOption.SearchAllSubDirectories Then
+                If wildcard Then
+                    Return (ls - l - r - keyword <= DIR).FirstOrDefault
+                Else
+                    Return (ls - l - r <= DIR).FirstOrDefault(first)
+                End If
+            Else
+                If wildcard Then
+                    Return (ls - l - keyword <= DIR).FirstOrDefault
+                Else
+                    Return (ls - l <= DIR).FirstOrDefault(first)
+                End If
+            End If
         End If
     End Function
 
