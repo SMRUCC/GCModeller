@@ -20,6 +20,10 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
         Public Shared Function doParse(data$, schema As Type) As Object
             Dim form As New WebForm(data)
 
+            If InStr(data, "No such data was found.") > 0 Then
+                Return Nothing
+            End If
+
             Select Case schema
                 Case GetType(Compound)
                     Return WebParser.ParseCompound(form)

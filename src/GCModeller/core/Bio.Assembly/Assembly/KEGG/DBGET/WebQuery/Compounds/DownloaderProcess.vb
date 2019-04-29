@@ -69,7 +69,9 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
 
                 Call query.Query(Of Glycan)(entryID, ".html") _
                     .With(Sub(ByRef glycan)
-                              glycan.category = {category.Value}
+                              If Not category.Value Is Nothing Then
+                                  glycan.category = {category.Value}
+                              End If
                           End Sub) _
                     .GetXml _
                     .SaveTo(xmlFile)
@@ -78,8 +80,12 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                 Dim compound As Compound = query _
                     .Query(Of Compound)(entryID, ".html") _
                     .With(Sub(ByRef metabolite)
-                              metabolite.category = {category.Value}
+                              If Not category.Value Is Nothing Then
+                                  metabolite.category = {category.Value}
+                              End If
                           End Sub)
+
+
 
                 If structInfo Then
                     Dim KCF$ = xmlFile.ChangeSuffix("txt")
