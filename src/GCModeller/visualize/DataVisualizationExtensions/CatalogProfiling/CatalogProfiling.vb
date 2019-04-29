@@ -97,6 +97,21 @@ Public Module CatalogProfiling
     ''' </summary>
     Public ReadOnly DefaultKEGGColorSchema As DefaultValue(Of String) = "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00"
 
+    <Extension>
+    Private Function removesNotAssign(profile As Dictionary(Of String, NamedValue(Of Double)())) As Dictionary(Of String, NamedValue(Of Double)())
+        profile = New Dictionary(Of String, NamedValue(Of Double)())(profile)
+
+        For Each keyRemove As String In {NOT_ASSIGN, "Brite Hierarchies", "Not Included in Pathway or Brite"}
+            With profile.Keys.FirstOrDefault(Function(key) InStr(key, keyRemove, CompareMethod.Text) > 0)
+                If Not .StringEmpty Then
+                    Call profile.Remove(.ByRef)
+                End If
+            End With
+        Next
+
+        Return profile
+    End Function
+
     ''' <summary>
     ''' Catalog profiling bar plot
     ''' </summary>
@@ -128,18 +143,19 @@ Public Module CatalogProfiling
                                  Optional labelRightAlignment As Boolean = False,
                                  Optional valueFormat$ = "F2") As GraphicsData
 
-        If removeNotAssign AndAlso profile.ContainsKey(NOT_ASSIGN) Then
-            profile = New Dictionary(Of String, NamedValue(Of Double)())(profile)
-            profile.Remove(NOT_ASSIGN)
+        If removeNotAssign Then
+            profile = profile.removesNotAssign
         End If
 
         Dim colors As Color() = Designer.FromSchema(colorSchema, profile.Count)
-        Dim mapper As New Scaling(
-            profile _
+        Dim mapperValues As Double() = profile _
             .Values _
-            .Select(Function(c) c.Select(Function(v) CDbl(v.Value))) _
-            .IteratesALL, horizontal:=True)
-
+            .Select(Function(c)
+                        Return c.Select(Function(v) CDbl(v.Value))
+                    End Function) _
+            .IteratesALL _
+            .ToArray
+        Dim mapper As New Scaling(mapperValues, horizontal:=True)
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Call g.__plotInternal(
@@ -151,7 +167,8 @@ Public Module CatalogProfiling
                    axisTitle,
                    gray:=gray,
                    labelAlignmentRight:=labelRightAlignment,
-                   valueFormat:=valueFormat)
+                   valueFormat:=valueFormat
+                )
             End Sub
 
         Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal)

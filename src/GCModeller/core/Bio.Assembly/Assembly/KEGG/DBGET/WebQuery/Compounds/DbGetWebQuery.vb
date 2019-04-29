@@ -8,11 +8,21 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
     Public Class DbGetWebQuery : Inherits WebQuery(Of String)
 
         Public Sub New(<CallerMemberName> Optional cache As String = Nothing)
-            MyBase.New(AddressOf dbgetApi, AddressOf Scripting.ToString, AddressOf doParse, cache)
+            MyBase.New(
+                AddressOf dbgetApi,
+                AddressOf Scripting.ToString,
+                AddressOf doParse,
+ _
+                cache:=cache
+            )
         End Sub
 
         Public Shared Function doParse(data$, schema As Type) As Object
             Dim form As New WebForm(data)
+
+            If InStr(data, "No such data was found.") > 0 Then
+                Return Nothing
+            End If
 
             Select Case schema
                 Case GetType(Compound)
@@ -34,6 +44,14 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
             Else
                 Throw New NotImplementedException
             End If
+        End Function
+
+        Public Function QueryGlycan(id As String) As Glycan
+            Return Me.Query(Of Glycan)(id, ".html")
+        End Function
+
+        Public Function QueryCompound(id As String) As Compound
+            Return Me.Query(Of Compound)(id, ".html")
         End Function
     End Class
 End Namespace

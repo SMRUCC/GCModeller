@@ -1,51 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::f42c161e982ec6ee47a1a58d777da858, Bio.Assembly\Assembly\EBI\ChEBI\Web\WebServices.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module WebServices
-    ' 
-    '         Function: BatchQuery, GetCompleteEntity, QueryChEBI
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module WebServices
+' 
+'         Function: BatchQuery, GetCompleteEntity, QueryChEBI
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Threading
-Imports Microsoft.VisualBasic.FileIO
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
@@ -72,13 +68,20 @@ Namespace Assembly.EBI.ChEBI.WebServices
     ''' </summary>
     Public Module WebServices
 
+        Public Function CreateRequest(chebiId As String) As String
+            Dim cid As String = Strings.Trim(chebiId).Split(":"c).Last
+            Dim url$ = $"http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId={cid}"
+
+            Return url
+        End Function
+
         ''' <summary>
         ''' Retrieves the complete entity including synonyms, database links and chemical structures, using the ChEBI identifier.
         ''' </summary>
         ''' <param name="chebiId$"></param>
         ''' <returns></returns>
         Public Function GetCompleteEntity(chebiId$) As ChEBIEntity()
-            Dim url$ = $"http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId={chebiId}"
+            Dim url$ = WebServices.CreateRequest(chebiId)
             Dim xml$ = url.GET
             Dim out As ChEBIEntity() = REST.ParsingRESTData(xml)
             Return out
@@ -91,89 +94,36 @@ Namespace Assembly.EBI.ChEBI.WebServices
         ''' <param name="localCache$">函数会分别使用主ID和二级ID构建缓存数据</param>
         ''' <returns></returns>
         <Extension>
-        Public Function QueryChEBI(chebiID$, localCache$, Optional ByRef hitCache As Boolean = False) As ChEBIEntity()
-            ' 因为后面如果下载数据的话，保存文件的时候是按照前三位生成文件夹的，所以在这里使用文件名进行所有文件夹的扫描
-            Dim path$ =
-                localCache _
-                .TheFile($"{chebiID}.XML", SearchOption.SearchAllSubDirectories)
-
-            If path Is Nothing Then
-                path = localCache & $"/{chebiID}.XML"
-            End If
-            If path.FileExists(ZERO_Nonexists:=True) Then
-                hitCache = True
-                Return path.LoadXml(Of ChEBIEntity())
-            Else
-                Dim data = GetCompleteEntity(chebiID)
-
-                hitCache = False
-
-                For Each compound As ChEBIEntity In data
-
-                    ' 2017-12-22 因为使用主编号和次级编号进行查询返回来的结果都是一模一样的
-                    ' 所以在这里进行次级编号的数据保存操作，这样子就不会进行重复查询了
-                    ' 减少服务器的压力
-                    For Each id As String In compound.IDlist.SafeQuery
-                        path = localCache & $"/{Mid(id, 1, 3)}/{id}.XML"
-                        compound.GetXml.SaveTo(path)
-                    Next
-                Next
-
-                Call Thread.Sleep(2000)
-
-                Return data
-            End If
+        Public Function QueryChEBI(chebiID$, localCache$) As ChEBIEntity()
+            Return New QueryImpl(localCache).Query(Of ChEBIEntity())(chebiID)
         End Function
 
         ''' <summary>
         ''' 执行批量数据查询
         ''' </summary>
-        ''' <param name="chebiIDlist$">编号列表是不带有``CHEBI:``前缀的chebi物质编号</param>
+        ''' <param name="chebiIDlist">编号列表是不带有``CHEBI:``前缀的chebi物质编号</param>
         ''' <param name="localCache$"></param>
-        ''' <param name="failures$"></param>
         ''' <returns></returns>
-        Public Function BatchQuery(chebiIDlist$(), localCache$, Optional ByRef failures$() = Nothing, Optional sleepInterval% = 2000) As ChEBIEntity()
-            Dim failureList As New List(Of String)
-            Dim out As New List(Of ChEBIEntity)
-
+        ''' 
+        <Extension>
+        Public Iterator Function BatchQuery(chebiIDlist$(), localCache$, Optional sleepInterval% = 2000) As IEnumerable(Of ChEBIEntity)
             Using progress As New ProgressBar("Downloading ChEBI data...")
                 Dim tick As New ProgressProvider(chebiIDlist.Length)
                 Dim ETA$
+                Dim query As New QueryImpl(localCache, sleep:=sleepInterval)
 
                 For Each id As String In chebiIDlist
-                    Dim hitCache As Boolean = False
-                    Dim result As ChEBIEntity()
-
-                    Try
-                        result = QueryChEBI(id, localCache, hitCache)
-                    Catch ex As Exception
-                        result = Nothing
-                        ex = New Exception(id, ex)
-
-                        Call App.LogException(ex)
-                    End Try
-
-                    If Not result.IsNullOrEmpty Then
-                        out += result
-                    Else
-                        failureList += id
-                    End If
-
-                    If Not hitCache Then
-                        Call Thread.Sleep(sleepInterval)
-                    End If
+                    For Each part As ChEBIEntity In query.Query(Of ChEBIEntity())(id).SafeQuery
+                        Yield part
+                    Next
 
                     ETA = $"ETA=" & tick _
                         .ETA(progress.ElapsedMilliseconds) _
                         .FormatTime
+
                     progress.SetProgress(tick.StepProgress, ETA)
                 Next
             End Using
-
-            failures = failureList
-            failures.SaveTo(localCache & $"/failures/{chebiIDlist.GetJson.MD5}.csv")
-
-            Return out
         End Function
     End Module
 End Namespace

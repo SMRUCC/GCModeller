@@ -67,7 +67,6 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
     Public Class Compound : Inherits Slots.Object
         Implements Regulation.IRegulator
         Implements INamedValue
-        Implements ICompoundObject
 
         <MetaCycField> Public Overrides Property CommonName As String Implements Regulation.IRegulator.CommonName
             Get
@@ -93,7 +92,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         End Property
 
         <MetaCycField(Name:="UNIQUE-ID")>
-        Public Overrides Property Identifier As String Implements Regulation.IRegulator.locusId, INamedValue.Key, ICompoundObject.KEGG_cpd
+        Public Overrides Property Identifier As String Implements Regulation.IRegulator.locusId, INamedValue.Key
             Get
                 Return MyBase.Identifier
             End Get
@@ -105,7 +104,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         <MetaCycField(Name:="MOLECULAR-WEIGHT")> Public Property MolecularWeight As String
         <MetaCycField(Name:="MONOISOTOPIC-MW")> Public Property MonoisotopicMW As String
 
-        <MetaCycField(Type:=MetaCycField.Types.TStr)> Public Shadows Property Names As String() Implements ICompoundObject.CommonNames
+        <MetaCycField(Type:=MetaCycField.Types.TStr)> Public Shadows Property Names As String()
             Get
                 If MyBase.Names.IsNullOrEmpty Then
                     MyBase.Names = (From strValue As String
@@ -162,12 +161,6 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         End Function
 
         Public ReadOnly Property CHEBI As String()
-            Get
-                Return __cheBI
-            End Get
-        End Property
-
-        Private Property __cheBI As String() Implements ICompoundObject.CHEBI
 
         <MetaCycField(Name:="DBLINKS", Type:=MetaCycField.Types.TStr)> Public Overrides Property DBLinks As String()
             Get
@@ -175,27 +168,11 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
             End Get
             Set(value As String())
                 _DBLinks = Schema.DBLinkManager.CreateFromMetaCycFormat(value)
-                __cheBI = (From item In _DBLinks.CHEBI Select item.AccessionId).ToArray
+                _CHEBI = (From item In _DBLinks.CHEBI Select item.AccessionId).ToArray
             End Set
         End Property
 
         Public ReadOnly Property PUBCHEM As String
-            Get
-                Return __pubChem
-            End Get
-        End Property
-
-        Private Property __pubChem As String Implements ICompoundObject.PUBCHEM
-            Get
-                If _DBLinks.PUBCHEM Is Nothing Then
-                    Return ""
-                End If
-                Return _DBLinks.PUBCHEM.AccessionId
-            End Get
-            Set(value As String)
-                _DBLinks.PUBCHEM.AccessionId = value
-            End Set
-        End Property
 
         Public Function GetDBLinkManager() As MetaCyc.Schema.DBLinkManager
             Return MyBase._DBLinks

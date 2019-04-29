@@ -84,7 +84,7 @@ Namespace Compiler.Components
             Dim List As List(Of NamedVector(Of String)) = New List(Of NamedVector(Of String))
 
             KEGGReactions = (From KineticsRecord In Me._KineticsData Let KEGGReaction = KEGGReactions.GetItem(KineticsRecord.KEGGReactionId) Where Not KEGGReaction Is Nothing Select KEGGReaction).ToArray
-            _EuqationEquals = New EquationEquals(Me._ModelLoader.MetabolitesModel, KEGGCompounds)
+            '  _EuqationEquals = New EquationEquals(Me._ModelLoader.MetabolitesModel, KEGGCompounds)
             EffectorMapping = _EuqationEquals.CompoundMapping
 
             For Each KEGGReaction In KEGGReactions

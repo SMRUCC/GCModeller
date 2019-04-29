@@ -49,7 +49,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel
 
@@ -64,30 +63,15 @@ Namespace Assembly.EBI.ChEBI.XML
     ''' 这个对象的XML布局是根据ChEBI的Web Services来生成的，所以为了能够正确的读取ChEBI的数据，不能够再随意修改了
     ''' return节点之中的数据
     ''' </remarks>
-    Public Class ChEBIEntity ' : Inherits XmlDataModel
+    Public Class ChEBIEntity
         Implements INamedValue
         Implements IMolecule
-        Implements IAddressOf
 
         ''' <summary>
         ''' Chebi的主ID
         ''' </summary>
         ''' <returns></returns>
         Public Property chebiId As String Implements INamedValue.Key, IMolecule.ID
-
-        Dim id%
-        Friend Property Address As Integer Implements IAddress(Of Integer).Address
-            Get
-                If id = 0 Then
-                    id = Val(chebiId.Split(":"c).Last)
-                End If
-                Return id
-            End Get
-            Set(value As Integer)
-                id = value
-            End Set
-        End Property
-
         Public Property chebiAsciiName As String Implements IMolecule.Name
         Public Property definition As String
         Public Property status As String
@@ -135,9 +119,5 @@ Namespace Assembly.EBI.ChEBI.XML
         Public Overrides Function ToString() As String
             Return chebiAsciiName
         End Function
-
-        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
-            Throw New NotImplementedException()
-        End Sub
     End Class
 End Namespace
