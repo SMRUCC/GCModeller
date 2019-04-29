@@ -305,7 +305,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         <Extension>
         Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String)), ko00001$) As NamedValue(Of Dictionary(Of String, String))()
-            Dim KO_htext = BriteHText _
+            Dim KO_htext = BriteHTextParser _
                 .Load(ko00001.SolveStream) _
                 .EnumerateEntries _
                 .Where(Function(x) Not x.EntryId Is Nothing) _
@@ -330,7 +330,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="ko00001$"></param>
         ''' <returns></returns>
         Public Function CustomPathwayTable(ko00001$) As Dictionary(Of String, BriteHText)
-            Dim KO_htext = BriteHText _
+            Dim KO_htext = BriteHTextParser _
                .Load(ko00001.SolveStream) _
                .EnumerateEntries _
                .Select(Function(x)

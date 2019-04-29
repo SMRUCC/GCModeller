@@ -50,13 +50,11 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.WebQuery.Compounds
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
-Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
     <XmlRoot("KEGG.Glycan", Namespace:="http://www.kegg.jp/dbget-bin/www_bget?gl:glycan_id")>
     Public Class Glycan : Inherits Compound
-        Implements ICompoundObject
 
         Public Property Composition As String
         Public Property Mass As String

@@ -1,64 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::1e3f429d43b24c2f3b1336a0d4d969bb, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Compound
-    ' 
-    '         Properties: [Class], [Module], CHEBI, CommonNames, DbLinks
-    '                     Entry, Enzyme, ExactMass, Formula, Image
-    '                     KCF, MolWeight, Pathway, PUBCHEM, reactionId
-    '                     Remarks
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: DownloadKCF, GetDBLinkManager, GetDBLinks, GetLinkDbRDF, GetModules
-    '                   GetPathways, ToString
-    ' 
-    '         Sub: DownloadKCF, DownloadStructureImage
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Compound
+' 
+'         Properties: [Class], [Module], CHEBI, CommonNames, DbLinks
+'                     Entry, Enzyme, ExactMass, Formula, Image
+'                     KCF, MolWeight, Pathway, PUBCHEM, reactionId
+'                     Remarks
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: DownloadKCF, GetDBLinkManager, GetDBLinks, GetLinkDbRDF, GetModules
+'                   GetPathways, ToString
+' 
+'         Sub: DownloadKCF, DownloadStructureImage
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
-Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -66,7 +67,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' KEGG的代谢物模型
     ''' </summary>
     Public Class Compound : Inherits XmlDataModel
-        Implements ICompoundObject
+        Implements INamedValue
 
         Public Const xmlns_kegg$ = "http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id"
 
@@ -74,15 +75,17 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' KEGG compound ID: ``cpd:C\d+``
         ''' </summary>
         ''' <returns></returns>
-        Public Overridable Property Entry As String Implements ICompoundObject.Key, ICompoundObject.KEGG_cpd
+        <XmlAttribute>
+        Public Overridable Property entry As String Implements INamedValue.Key
+
         ''' <summary>
         ''' Name
         ''' </summary>
         ''' <returns></returns>
-        Public Property CommonNames As String() Implements ICompoundObject.CommonNames
-        Public Property Formula As String
-        Public Property MolWeight As Double
-        Public Property ExactMass As Double
+        Public Property commonNames As String()
+        Public Property formula As String
+        Public Property molWeight As Double
+        Public Property exactMass As Double
 
         ''' <summary>
         ''' The <see cref="Entry">compound</see> was involved in these reactions. (http://www.kegg.jp/dbget-bin/www_bget?rn:[KEGG_Reaction_ID])
@@ -92,12 +95,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <remarks></remarks>
         Public Property reactionId As String()
         <XmlArray("pathway", [Namespace]:=xmlns_kegg)>
-        Public Property Pathway As NamedValue()
+        Public Property pathway As NamedValue()
         <XmlArray("module", [Namespace]:=xmlns_kegg)>
         Public Property [Module] As NamedValue()
-        Public Property Remarks As String()
-        Public Property Enzyme As String()
-        Public Property [Class] As String
+        Public Property remarks As String()
+        Public Property enzyme As String()
+
+        Public Property category As CompoundBrite()
 
         Protected Friend _DBLinks As DBLinks
 
@@ -143,8 +147,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="save">所下载的结构图的保存文件路径</param>
         Public Sub DownloadStructureImage(save As String)
-            Dim Url As String = $"http://www.kegg.jp/Fig/compound/{Entry}.gif"
-            Call Url.DownloadFile(save, refer:=$"http://www.kegg.jp/dbget-bin/www_bget?cpd:{Entry}")
+            Dim Url As String = $"http://www.kegg.jp/Fig/compound/{entry}.gif"
+            Call Url.DownloadFile(save, refer:=$"http://www.kegg.jp/dbget-bin/www_bget?cpd:{entry}")
         End Sub
 
         ''' <summary>
@@ -152,7 +156,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="save$"></param>
         Public Sub DownloadKCF(save$)
-            Call DownloadKCF(Entry, App.CurrentProcessTemp).SaveTo(save, Encodings.ASCII.CodePage)
+            Call DownloadKCF(entry, App.CurrentProcessTemp).SaveTo(save, Encodings.ASCII.CodePage)
         End Sub
 
         Public Shared Function DownloadKCF(cpdID$, Optional saveDIR$ = "./") As String
@@ -168,7 +172,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetPathways() As NamedValue(Of String)()
-            Return Pathway.Select(Function(x) New NamedValue(Of String)(x.name, x.text)).ToArray
+            Return pathway.Select(Function(x) New NamedValue(Of String)(x.name, x.text)).ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -182,41 +186,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}: {1}", Entry, Me.Formula)
+            Return String.Format("{0}: {1}", entry, Me.formula)
         End Function
-
-        Public Property CHEBI As String() Implements ICompoundObject.CHEBI
-            Get
-                If _DBLinks.IsNullOrEmpty OrElse _DBLinks.CHEBI.IsNullOrEmpty Then
-                    Return Nothing
-                End If
-                Return (From item In _DBLinks.CHEBI Select item.Entry).ToArray
-            End Get
-            Set(value As String())
-                For Each ID As String In value
-                    Call _DBLinks.AddEntry(New DBLink With {.DBName = "CHEBI", .Entry = ID})
-                Next
-            End Set
-        End Property
-
-        Public Property PUBCHEM As String Implements ICompoundObject.PUBCHEM
-            Get
-                If _DBLinks.IsNullOrEmpty OrElse _DBLinks.PUBCHEM Is Nothing Then
-                    Return ""
-                End If
-                Return _DBLinks.PUBCHEM.Entry
-            End Get
-            Set(value As String)
-                _DBLinks.AddEntry(New DBLink With {.DBName = "PUBCHEM", .Entry = value})
-            End Set
-        End Property
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetLinkDbRDF(compound As Compound) As IEnumerable(Of LinkDB.Relationship)
-            If InStr(compound.Entry, ":") > 0 Then
-                Return LinkDB.Relationship.GetLinkDb(compound.Entry)
+            If InStr(compound.entry, ":") > 0 Then
+                Return LinkDB.Relationship.GetLinkDb(compound.entry)
             Else
-                Return LinkDB.Relationship.GetLinkDb($"cpd:{compound.Entry}")
+                Return LinkDB.Relationship.GetLinkDb($"cpd:{compound.entry}")
             End If
         End Function
     End Class

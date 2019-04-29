@@ -15,7 +15,7 @@ Namespace DEG.Web
         Public Sub ParserWorkflow(save As String)
             Dim genomes = GetGenomeList().ToArray
             Dim cache$ = $"{save}/.essentialgene.org"
-            Dim web As New WebQuery(Of Genome)(Function(genome) sprintf(summaryApi, genome.ID), Function(g) g.ID, Function(s, type) s, cache)
+            Dim web As New WebQuery(Of Genome)(Function(genome) sprintf(summaryApi, genome.ID), Function(g) g.ID, Function(s, type) s, Nothing, cache)
 
             For Each genome As Genome In genomes
                 ' summary + first page
@@ -120,7 +120,7 @@ Namespace DEG.Web
         Private Iterator Function parseDEGList(html As String, cache$) As IEnumerable(Of EssentialGene)
             Dim table$ = html.GetTablesHTML.Last
             Dim rows = table.GetRowsHTML
-            Dim web As New WebQuery(Of EssentialGene)(Function(g) sprintf(detailsAPI, g.ID), Function(g) g.ID, Function(s, type) s, cache)
+            Dim web As New WebQuery(Of EssentialGene)(Function(g) sprintf(detailsAPI, g.ID), Function(g) g.ID, Function(s, type) s, Nothing, cache)
             Dim parseList = Iterator Function() As IEnumerable(Of EssentialGene)
                                 For Each row As String In rows.Skip(1)
                                     Dim columns = row.GetColumnsHTML

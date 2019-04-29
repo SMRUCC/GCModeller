@@ -58,15 +58,15 @@ Namespace Assembly.MetaCyc.Schema
             End Get
         End Property
 
-        Sub New(MetaCycCompounds As MetaCyc.File.DataFiles.Compounds, CompoundSpecies As ICompoundObject())
-            _CompoundMapping = New MetaCyc.Schema.CompoundsMapping(MetaCycCompounds).EffectorMapping(CompoundSpecies)
-            _CompoundMapping = (From item In _CompoundMapping Where Not String.IsNullOrEmpty(item.MetaCycId) Select item).ToArray
-        End Sub
+        'Sub New(MetaCycCompounds As MetaCyc.File.DataFiles.Compounds, CompoundSpecies As ICompoundObject())
+        '    _CompoundMapping = New MetaCyc.Schema.CompoundsMapping(MetaCycCompounds).EffectorMapping(CompoundSpecies)
+        '    _CompoundMapping = (From item In _CompoundMapping Where Not String.IsNullOrEmpty(item.MetaCycId) Select item).ToArray
+        'End Sub
 
-        Sub New(MetaCycCompoundModels As Generic.IEnumerable(Of ICompoundObject), CompoundSpecies As ICompoundObject())
-            _CompoundMapping = New MetaCyc.Schema.CompoundsMapping(MetaCycCompoundModels.ToArray).EffectorMapping(CompoundSpecies)
-            _CompoundMapping = (From item In _CompoundMapping Where Not String.IsNullOrEmpty(item.MetaCycId) Select item).ToArray
-        End Sub
+        'Sub New(MetaCycCompoundModels As Generic.IEnumerable(Of ICompoundObject), CompoundSpecies As ICompoundObject())
+        '    _CompoundMapping = New MetaCyc.Schema.CompoundsMapping(MetaCycCompoundModels.ToArray).EffectorMapping(CompoundSpecies)
+        '    _CompoundMapping = (From item In _CompoundMapping Where Not String.IsNullOrEmpty(item.MetaCycId) Select item).ToArray
+        'End Sub
 
         Public Overloads Function Equals(Expression As String, MetaCycEquation As Metabolism.Reaction, Explicit As Boolean) As Boolean
             Dim Equation1 = EquationBuilder.CreateObject(Of CompoundSpecieReference, Equation)(Expression)

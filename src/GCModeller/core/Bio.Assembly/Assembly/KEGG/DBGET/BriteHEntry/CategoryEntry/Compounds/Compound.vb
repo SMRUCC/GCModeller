@@ -47,20 +47,17 @@
 
 #End Region
 
-Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.WebQuery.Compounds
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -82,11 +79,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     ''' </remarks>
     Public Class CompoundBrite
 
-        Public Property [Class] As String
-        Public Property Category As String
-        Public Property SubCategory As String
-        Public Property Order As String
-        Public Property Entry As KeyValuePair
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property [class] As String
+        Public Property category As String
+        Public Property subcategory As String
+        Public Property order As String
+        Public Property entry As KeyValuePair
 
         ''' <summary>
         ''' KEGG BRITE contains a classification of lipids
@@ -96,37 +97,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Shared Function Lipids() As CompoundBrite()
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
-            Return CompoundTextModel.Build(BriteHText.Load(satellite.GetString(cpd_br08002)))
+            Return CompoundTextModel.Build(BriteHTextParser.Load(satellite.GetString(cpd_br08002)))
         End Function
-
-        ''' <summary>
-        ''' Removes all of the download failured result from the workspace
-        ''' </summary>
-        ''' <param name="DIR$"></param>
-        Public Shared Sub WorkspaceCleanup(DIR$)
-            On Error Resume Next
-
-            For Each XML As String In ls - l - r - "*.XML" <= DIR
-                Dim name$ = XML.BaseName
-                Dim compound As bGetObject.Compound
-
-                If name.First = "C"c Then
-                    compound = XML.LoadXml(Of bGetObject.Compound)
-                Else
-                    compound = XML.LoadXml(Of bGetObject.Glycan)
-                End If
-
-                If compound.IsNullOrEmpty Then
-
-                    ' 这个对象是空的，需要从工作区清除
-                    Call FileIO.FileSystem.DeleteFile(XML)
-                    Call FileIO.FileSystem.DeleteFile(XML.TrimSuffix & ".KCF")
-                    Call FileIO.FileSystem.DeleteFile(XML.TrimSuffix & ".gif")
-
-                    cat(".")
-                End If
-            Next
-        End Sub
 
 #Region "Internal resource ID"
 
@@ -205,15 +177,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Shared Sub DownloadFromResource(EXPORT$, Optional directoryOrganized As Boolean = True, Optional structInfo As Boolean = False)
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
             Dim resource = {
-                New NamedValue(Of CompoundBrite())("Compounds with biological roles", Build(BriteHText.Load(satellite.GetString(cpd_br08001)))),
+                New NamedValue(Of CompoundBrite())("Compounds with biological roles", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08001)))),
                 New NamedValue(Of CompoundBrite())("Lipids", CompoundBrite.Lipids),
-                New NamedValue(Of CompoundBrite())("Phytochemical compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08003)))),
-                New NamedValue(Of CompoundBrite())("Bioactive peptides", Build(BriteHText.Load(satellite.GetString(cpd_br08005)))),
-                New NamedValue(Of CompoundBrite())("Endocrine disrupting compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08006)))),
-                New NamedValue(Of CompoundBrite())("Pesticides", Build(BriteHText.Load(satellite.GetString(cpd_br08007)))),
-                New NamedValue(Of CompoundBrite())("Carcinogens", Build(BriteHText.Load(satellite.GetString(cpd_br08008)))),
-                New NamedValue(Of CompoundBrite())("Natural toxins", Build(BriteHText.Load(satellite.GetString(cpd_br08009)))),
-                New NamedValue(Of CompoundBrite())("Target-based classification of compounds", Build(BriteHText.Load(satellite.GetString(cpd_br08010))))
+                New NamedValue(Of CompoundBrite())("Phytochemical compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08003)))),
+                New NamedValue(Of CompoundBrite())("Bioactive peptides", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08005)))),
+                New NamedValue(Of CompoundBrite())("Endocrine disrupting compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08006)))),
+                New NamedValue(Of CompoundBrite())("Pesticides", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08007)))),
+                New NamedValue(Of CompoundBrite())("Carcinogens", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08008)))),
+                New NamedValue(Of CompoundBrite())("Natural toxins", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08009)))),
+                New NamedValue(Of CompoundBrite())("Target-based classification of compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08010))))
             }
 
             For Each entry As NamedValue(Of CompoundBrite()) In resource
@@ -235,7 +207,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
                 For Each id As String In allPubchemMaps
                     If Not id Like success Then
-                        Call query.Download(id, $"{saveDIR}/{id}.xml", structInfo)
+                        Call query.Download(id, $"{saveDIR}/{id}.xml", structInfo, Nothing)
                     End If
 
                     details = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
@@ -272,15 +244,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <param name="EXPORT"></param>
         ''' <param name="BriefFile"></param>
-        ''' <param name="DirectoryOrganized"></param>
+        ''' <param name="directoryOrganized"></param>
         ''' <returns></returns>
-        Public Shared Function DownloadCompounds(EXPORT$, briefFile$, Optional DirectoryOrganized As Boolean = True) As String()
+        Public Shared Function DownloadCompounds(EXPORT$, briefFile$, Optional directoryOrganized As Boolean = True) As String()
             Dim BriefEntries As CompoundBrite() = LoadFile(briefFile)
             Dim failures As New List(Of String)
 
             For Each entry As CompoundBrite In BriefEntries
-                Dim EntryId As String = entry.Entry.Key
-                Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized)
+                Dim EntryId As String = entry.entry.Key
+                Dim saveDIR As String = entry.BuildPath(EXPORT, directoryOrganized)
                 Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryId)
                 Dim cpd As bGetObject.Compound = MetaboliteWebApi.DownloadCompound(EntryId)
 
@@ -296,8 +268,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         Public Shared Function LoadFile(path As String) As CompoundBrite()
-            Dim Model = BriteHText.Load(FileIO.FileSystem.ReadAllText(path))
-            Return Build(Model)
+            Return Build(BriteHTextParser.Load(path.SolveStream))
         End Function
     End Class
 End Namespace
