@@ -69,7 +69,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
 
                 Call query.Query(Of Glycan)(entryID, ".html") _
                     .With(Sub(ByRef glycan)
-                              If Not category.Value Is Nothing Then
+                              If Not category.Value Is Nothing AndAlso Not glycan Is Nothing Then
                                   glycan.category = {category.Value}
                               End If
                           End Sub) _
@@ -80,14 +80,12 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                 Dim compound As Compound = query _
                     .Query(Of Compound)(entryID, ".html") _
                     .With(Sub(ByRef metabolite)
-                              If Not category.Value Is Nothing Then
+                              If Not category.Value Is Nothing AndAlso Not metabolite Is Nothing Then
                                   metabolite.category = {category.Value}
                               End If
                           End Sub)
 
-
-
-                If structInfo Then
+                If Not compound Is Nothing AndAlso structInfo Then
                     Dim KCF$ = xmlFile.ChangeSuffix("txt")
                     Dim gif = xmlFile.ChangeSuffix("gif")
 
