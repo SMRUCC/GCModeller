@@ -423,6 +423,7 @@
     <Compile Include="Assembly\DOOR\IO.vb" />
     <Compile Include="Assembly\DOOR\ViewAPI.vb" />
     <Compile Include="Assembly\EBI\ChEBI\Database\DATA.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\EntityModel\EntitySummary.vb" />
     <Compile Include="Assembly\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb" />
     <Compile Include="Assembly\EBI\ChEBI\Database\DataModels\AccessionTypes.vb" />
     <Compile Include="Assembly\EBI\ChEBI\Database\DataModels\NameOf.vb" />
@@ -431,7 +432,7 @@
     <Compile Include="Assembly\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb" />
     <Compile Include="Assembly\EBI\ChEBI\EntityModel\Extensions.vb" />
     <Compile Include="Assembly\EBI\ChEBI\EntityModel\EntitySearch.vb" />
-    <Compile Include="Assembly\EBI\ChEBI\EntityModel\XML\Extensions.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\EntityModel\XML\EntityList.vb" />
     <Compile Include="Assembly\EBI\ChEBI\EntityModel\XML\Fields.vb" />
     <Compile Include="Assembly\EBI\ChEBI\Web\QueryImpl.vb" />
     <Compile Include="Assembly\EBI\ChEBI\Web\REST.vb" />
