@@ -134,7 +134,7 @@ Public Module IOExtensions
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ReadVector(path As String) As Double()
-        Return File.ReadAllLines(path) _
+        Return IO.File.ReadAllLines(path) _
             .Select(Function(x) CDbl(x)) _
             .ToArray
     End Function
@@ -174,7 +174,7 @@ Public Module IOExtensions
             access = FileShare.Read
         End If
 
-        Return File.Open(path, mode, FileAccess.ReadWrite, access)
+        Return IO.File.Open(path, mode, FileAccess.ReadWrite, access)
     End Function
 
     ''' <summary>
@@ -209,7 +209,7 @@ Public Module IOExtensions
         If Not path.FileExists Then
             Return {}
         Else
-            Return File.ReadAllBytes(path)
+            Return IO.File.ReadAllBytes(path)
         End If
     End Function
 

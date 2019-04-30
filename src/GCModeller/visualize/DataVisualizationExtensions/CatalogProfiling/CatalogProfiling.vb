@@ -369,7 +369,10 @@ Public Module CatalogProfiling
             y += 20
         Next
 
-        Dim maxValue# = profile.Values.Max(Function(v) If(v.Length = 0, 0, v.Max(Function(n) n.Value)))
+        Dim maxValue# = profile.Values _
+            .Max(Function(v)
+                     Return If(v.Length = 0, 0, v.Max(Function(n) n.Value))
+                 End Function)
         Dim axisTicks#() = GetTicks(maxValue, tick)
         Dim d# = 25
         Dim tickFont = CSSFont.TryParse(tickFontStyle)
