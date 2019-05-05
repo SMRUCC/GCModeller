@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
 
 Namespace Assembly.EBI.ChEBI
@@ -45,6 +46,21 @@ Namespace Assembly.EBI.ChEBI
                     .Where(Function(s) Not s.StringEmpty) _
                     .ToArray
             }
+        End Function
+
+        Public Shared Function SummaryTable(directory As String) As EntitySummary()
+            Dim summary As New Dictionary(Of String, EntitySummary)
+            Dim entity As ChEBIEntity
+
+            For Each file As String In ls - l - r - "*.Xml" <= directory
+                entity = file.LoadXml(Of ChEBIEntity)
+
+                If Not summary.ContainsKey(entity.chebiId) Then
+                    Call summary.Add(entity.chebiId, FromEntity(entity))
+                End If
+            Next
+
+            Return summary.Values.ToArray
         End Function
     End Class
 End Namespace
