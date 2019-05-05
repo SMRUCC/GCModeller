@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
 
 Namespace Assembly.EBI.ChEBI
@@ -39,10 +40,11 @@ Namespace Assembly.EBI.ChEBI
                 .secondaryChebiIds = entity.SecondaryChEBIIds,
                 .smiles = entity.smiles,
                 .cas = xref.TryGetValue("CAS Registry Number").Values,
-                .hmdb = xref.TryGetValue("HMDB accession").FirstOrDefault.Value,
+                .hmdb = xref.TryGetValue("HMDB accession").ElementAtOrDefault(Scan0).Value,
                 .kegg_Ids = xref.TryGetValue("KEGG COMPOUND accession").Values,
-                .wikipedia = xref.TryGetValue("Wikipedia accession").FirstOrDefault.Value,
+                .wikipedia = xref.TryGetValue("Wikipedia accession").ElementAtOrDefault(Scan0).Value,
                 .biosamples = entity.CompoundOrigins _
+                    .SafeQuery _
                     .Select(Function(co) co.componentText) _
                     .Where(Function(s) Not s.StringEmpty) _
                     .ToArray
