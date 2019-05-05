@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
 
@@ -51,12 +52,18 @@ Namespace Assembly.EBI.ChEBI
         Public Shared Function SummaryTable(directory As String) As EntitySummary()
             Dim summary As New Dictionary(Of String, EntitySummary)
             Dim entity As ChEBIEntity
+            Dim i As VBInteger = Scan0
 
             For Each file As String In ls - l - r - "*.Xml" <= directory
                 entity = file.LoadXml(Of ChEBIEntity)
 
                 If Not summary.ContainsKey(entity.chebiId) Then
                     Call summary.Add(entity.chebiId, FromEntity(entity))
+                End If
+
+                If ++i Mod 500 = 0 Then
+                    Call Console.Write(i)
+                    Call Console.Write(vbTab)
                 End If
             Next
 
