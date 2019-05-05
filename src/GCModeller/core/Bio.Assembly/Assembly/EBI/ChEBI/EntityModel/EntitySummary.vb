@@ -22,6 +22,11 @@ Namespace Assembly.EBI.ChEBI
         Public Property wikipedia As String
         Public Property inchi As String
         Public Property inchiKey As String
+        ''' <summary>
+        ''' pubchem cid
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property pubchem As String
         Public Property cas As String()
         Public Property hmdb As String
         Public Property biosamples As String()
