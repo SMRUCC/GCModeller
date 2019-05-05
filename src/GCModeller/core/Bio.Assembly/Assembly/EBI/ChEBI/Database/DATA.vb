@@ -161,6 +161,11 @@ Namespace Assembly.EBI.ChEBI
                               Return t.Description
                           End Function)
 
+        ''' <summary>
+        ''' 这个函数会将<see cref="ChEBIEntity.RegistryNumbers"/>和<see cref="ChEBIEntity.DatabaseLinks"/>合并在一个
+        ''' </summary>
+        ''' <param name="chebi"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function RegistryNumbersSearchModel(chebi As ChEBIEntity) As Dictionary(Of String, NamedValue(Of String)())
             Dim registryNumbers = chebi.RegistryNumbers _
