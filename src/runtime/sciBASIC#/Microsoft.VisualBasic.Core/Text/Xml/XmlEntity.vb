@@ -45,6 +45,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Web
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace Text.Xml
 
@@ -54,18 +55,19 @@ Namespace Text.Xml
     Public Module XmlEntity
 
         ' & 必须要放在第一个被转义
-        ReadOnly entities As New Dictionary(Of String, String) From {
-            {"&", "&amp;"},
-            {"""", "&quot;"},
-            {"'", "&apos;"},
-            {"<", "&lt;"},
-            {">", "&gt;"}
-        }
+        ReadOnly escapes As Dictionary(Of String, String)
+        ReadOnly entities As Index(Of String)
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function IsXmlEntity(token As String) As Boolean
+            Return Strings.LCase(token) Like XmlEntity.entities
+        End Function
 
         Public Function EscapingXmlEntity(str As String) As String
             With New StringBuilder(str)
-                For Each symbol In entities.Keys
-                    Call .Replace(symbol, entities(symbol))
+                For Each symbol In escapes.Keys
+                    Call .Replace(symbol, escapes(symbol))
                 Next
 
                 Return .ToString
@@ -74,7 +76,7 @@ Namespace Text.Xml
 
         Public Function UnescapingXmlEntity(str As String) As String
             With New StringBuilder(str)
-                For Each escape In entities
+                For Each escape In escapes
                     Call .Replace(escape.Value, escape.Key)
                 Next
 
@@ -90,7 +92,20 @@ Namespace Text.Xml
         }
 
         Sub New()
-            invalidUtf8Escapes = invalidUtf8Escapes.AsList + invalidUtf8Escapes.Select(Function(c) c.ToUpper.Replace("X", "x"))
+            invalidUtf8Escapes = invalidUtf8Escapes.AsList +
+                invalidUtf8Escapes _
+                    .Select(Function(c)
+                                Return c.ToUpper.Replace("X", "x")
+                            End Function)
+
+            escapes = New Dictionary(Of String, String) From {
+                {"&", "&amp;"},
+                {"""", "&quot;"},
+                {"'", "&apos;"},
+                {"<", "&lt;"},
+                {">", "&gt;"}
+            }
+            entities = escapes.Values.ToArray
         End Sub
 
         ''' <summary>
