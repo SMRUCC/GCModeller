@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports ProfileEngine = Microsoft.VisualBasic.ComponentModel.Settings
 
 Namespace Settings
 
@@ -77,11 +78,11 @@ Namespace Settings
         Dim worksapce As String = App.SysTemp & "/GCModeller/" & App.AssemblyName & ".EXE"
         Dim cache As String = App.SysTemp & "/GCModeller/.cache/" & App.AssemblyName & ".EXE"
         Dim initFlag As Boolean
-        Dim _ProfileData As Settings(Of Settings.File)
+        Dim _profileData As Settings(Of Settings.File)
 
         Public ReadOnly Property ProfileData As Settings(Of Settings.File)
             Get
-                Return Session._ProfileData
+                Return Session._profileData
             End Get
         End Property
 
@@ -201,13 +202,11 @@ Namespace Settings
             Call FileIO.FileSystem.CreateDirectory(DataCache)
 
             Dim settings As String = Session.SettingsDIR & "/Settings.xml"
-            Dim saveHwnd As Action(Of Settings.File, String) = AddressOf saveProfile
+            Dim save As Action(Of Settings.File, String) = AddressOf saveProfile
 #If DEBUG Then
             Call $"Load GCModeller settings data from xml file: {settings.ToFileURL}".__DEBUG_ECHO
 #End If
-            Session._ProfileData = Microsoft.VisualBasic.ComponentModel.Settings _
-                .Settings(Of Settings.File) _
-                .LoadFile(settings, saveHwnd)
+            Session._profileData = ProfileEngine.Settings(Of Settings.File).LoadFile(settings, save)
             Session.initFlag = True
 
             Call App.JoinVariable("Settings", settings)

@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\R.Bioconductor",
+    "\\src\\R.Bioconductor\\RDotNET.Extensions.VisualBasic",
     "\\src\\runtime",
     "\\src\\runtime\\sciBASIC#",
     "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core",
     "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\CommandLine",
     "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\CommandLine\\CLI",
-    "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\ComponentModel",
-    "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\ComponentModel\\Ranges",
-    "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\ComponentModel\\Ranges\\RangeModel"
+    "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\ComponentModel"
   ],
-  "SelectedNode": "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\ComponentModel\\Ranges\\RangeModel\\DoubleRange.vb",
+  "SelectedNode": "\\src\\R.Bioconductor\\RDotNET.Extensions.VisualBasic\\RDotNET.Extensions.VisualBasic.vbproj",
   "PreviewInSolutionExplorer": false
 }
