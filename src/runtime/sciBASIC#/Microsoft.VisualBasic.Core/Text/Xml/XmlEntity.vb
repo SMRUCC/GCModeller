@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::9e4e3602842c44e1963ea436d21283f4, Microsoft.VisualBasic.Core\Text\Xml\XmlEntity.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module XmlEntity
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: EscapingXmlEntity, StripInvalidUTF8Code, UnescapeHTML, UnescapingXmlEntity
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module XmlEntity
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: EscapingXmlEntity, StripInvalidUTF8Code, UnescapeHTML, UnescapingXmlEntity
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,24 +53,33 @@ Namespace Text.Xml
     ''' </summary>
     Public Module XmlEntity
 
+        ' & 必须要放在第一个被转义
+        ReadOnly entities As New Dictionary(Of String, String) From {
+            {"&", "&amp;"},
+            {"""", "&quot;"},
+            {"'", "&apos;"},
+            {"<", "&lt;"},
+            {">", "&gt;"}
+        }
+
         Public Function EscapingXmlEntity(str As String) As String
-            Return New StringBuilder(str) _
-                .Replace("&", "&amp;") _
-                .Replace("""", "&quot;") _
-                .Replace("'", "&apos;") _
-                .Replace("<", "&lt;") _
-                .Replace(">", "&gt;") _
-                .ToString
+            With New StringBuilder(str)
+                For Each symbol In entities.Keys
+                    Call .Replace(symbol, entities(symbol))
+                Next
+
+                Return .ToString
+            End With
         End Function
 
         Public Function UnescapingXmlEntity(str As String) As String
-            Return New StringBuilder(str) _
-                .Replace("&quot;", """") _
-                .Replace("&apos;", "'") _
-                .Replace("&lt;", "<") _
-                .Replace("&gt;", ">") _
-                .Replace("&amp;", "&") _
-                .ToString
+            With New StringBuilder(str)
+                For Each escape In entities
+                    Call .Replace(escape.Value, escape.Key)
+                Next
+
+                Return .ToString
+            End With
         End Function
 
         ReadOnly invalidUtf8Escapes$() = {
