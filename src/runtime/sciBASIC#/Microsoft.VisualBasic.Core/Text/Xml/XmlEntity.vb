@@ -46,6 +46,8 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Web
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.Parser
 
 Namespace Text.Xml
 
@@ -62,6 +64,42 @@ Namespace Text.Xml
         <Extension>
         Public Function IsXmlEntity(token As String) As Boolean
             Return Strings.LCase(token) Like XmlEntity.entities
+        End Function
+
+        ''' <summary>
+        ''' Find all possible xml entity escape tokens from a given text string
+        ''' </summary>
+        ''' <param name="str"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function FindAllEscapeTokens(str As String) As IEnumerable(Of String)
+            Dim chars As CharPtr = str
+            Dim buffer As New List(Of Char)
+            Dim c As Char
+
+            Do While Not chars.EndRead
+                c = ++chars
+
+                If c = "&"c Then
+                    ' start a new escape
+                    buffer *= 0
+                    buffer += c
+                ElseIf c = ";"c Then
+                    If buffer > 0 Then
+                        buffer += c
+                        Yield buffer.CharString
+                        buffer *= 0
+                    End If
+                Else
+                    If buffer > 0 Then
+                        If Char.IsLetter(c) Then
+                            buffer += c
+                        Else
+                            buffer *= 0
+                        End If
+                    End If
+                End If
+            Loop
         End Function
 
         Public Function EscapingXmlEntity(str As String) As String
