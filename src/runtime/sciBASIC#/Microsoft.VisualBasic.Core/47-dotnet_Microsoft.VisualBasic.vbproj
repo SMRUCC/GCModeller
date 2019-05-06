@@ -992,6 +992,7 @@
     <Compile Include="Extensions\Image\Math\Models\PolarPoint.vb" />
     <Compile Include="Extensions\Image\Math\Models\Polygon.vb" />
     <Compile Include="Extensions\Image\Math\Models\Line.vb" />
+    <Compile Include="Extensions\IO\IOStream.vb" />
     <Compile Include="Extensions\IO\Extensions\StreamHelper.vb" />
     <Compile Include="Extensions\IO\Extensions\SerializationIO.vb" />
     <Compile Include="Extensions\IO\Path\ProgramPathSearchTool.vb" />
@@ -1014,6 +1015,7 @@
     <Compile Include="Language\Language\Python\NamespaceDoc.vb" />
     <Compile Include="Language\Value\CharStream.vb" />
     <Compile Include="Language\Value\Variant.vb" />
+    <Compile Include="My\File.vb" />
     <Compile Include="Net\HTTP\Stream\ZipStream.vb" />
     <Compile Include="Net\HTTP\Multipart.vb" />
     <Compile Include="Net\HTTP\DataURI.vb" />
