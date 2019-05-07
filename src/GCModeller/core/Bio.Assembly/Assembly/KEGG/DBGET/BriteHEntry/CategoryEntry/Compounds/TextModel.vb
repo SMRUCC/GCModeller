@@ -30,8 +30,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                         .class = [class].ClassLabel,
                                         .category = category.ClassLabel,
                                         .entry = New KeyValuePair With {
-                                            .Key = htext.EntryId,
-                                            .Value = htext.Description
+                                            .Key = htext.entryID,
+                                            .Value = htext.description
                                         }
                                     }
                         Next
@@ -60,8 +60,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                             .category = category.ClassLabel,
                                             .subcategory = subCategory.ClassLabel,
                                             .entry = New KeyValuePair With {
-                                                .Key = br.EntryId,
-                                                .Value = br.Description
+                                                .Key = br.entryID,
+                                                .Value = br.description
                                             }
                                         }
                             Next
@@ -94,8 +94,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                                 .subcategory = subCategory.ClassLabel,
                                                 .order = order.ClassLabel,
                                                 .entry = New KeyValuePair With {
-                                                    .Key = br.EntryId,
-                                                    .Value = br.Description
+                                                    .Key = br.entryID,
+                                                    .Value = br.description
                                                 }
                                             }
 

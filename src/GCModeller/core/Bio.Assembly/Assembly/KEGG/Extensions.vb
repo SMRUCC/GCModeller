@@ -247,8 +247,8 @@ Namespace Assembly.KEGG
                                 Return New KOCatalog With {
                                     .Catalog = x.Key,
                                     .IDs = x.Select(Function(gene) gene.Name).ToArray,
-                                    .Description = KOTable(.Catalog).Description,
-                                    .Class = KOTable(.Catalog).Class
+                                    .Description = KOTable(.Catalog).description,
+                                    .Class = KOTable(.Catalog).class
                                 }
                             Else
                                 Return New KOCatalog With {
@@ -272,7 +272,7 @@ Namespace Assembly.KEGG
                         .Indexing
                     profile += New NamedValue(Of Integer) With {
                         .Name = levelACatalog.ClassLabel,
-                        .Description = levelACatalog.Description,
+                        .Description = levelACatalog.description,
                         .Value = KO_counts _
                             .Where(Function(tag) KO(tag.Catalog) > -1) _
                             .Count

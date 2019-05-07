@@ -256,10 +256,10 @@ Namespace Assembly.KEGG.WebServices
                       Let catalog As Dictionary(Of String, String) =
                           New Dictionary(Of String, String) From {
                               {"KO", x.Value},
-                              {"Category", cate.Description},
-                              {"Class", cls.Description},
-                              {"SubCatalog", subcate.Description},
-                              {"Function", path.Description}
+                              {"Category", cate.description},
+                              {"Class", cls.description},
+                              {"SubCatalog", subcate.description},
+                              {"Function", path.description}
                       }
                       Select New NamedValue(Of Dictionary(Of String, String)) With {
                           .Name = x.Name,
@@ -288,8 +288,8 @@ Namespace Assembly.KEGG.WebServices
             Dim KO_htext = BriteHText _
                 .Load_ko00001 _
                 .EnumerateEntries _
-                .Where(Function(x) Not x.EntryId Is Nothing) _
-                .GroupBy(Function(x) x.EntryId) _
+                .Where(Function(x) Not x.entryID Is Nothing) _
+                .GroupBy(Function(x) x.entryID) _
                 .ToDictionary(Function(x) x.Key,
                               Function(x) x.First)
             Return KO_htext
@@ -308,10 +308,10 @@ Namespace Assembly.KEGG.WebServices
             Dim KO_htext = BriteHTextParser _
                 .Load(ko00001.SolveStream) _
                 .EnumerateEntries _
-                .Where(Function(x) Not x.EntryId Is Nothing) _
+                .Where(Function(x) Not x.entryID Is Nothing) _
                 .Select(Function(x)
                             Return New With {
-                                .EntryID = x.Description _
+                                .EntryID = x.description _
                                     .Match("\sK\d{5}\s") _
                                     .Trim,
                                 .KO = x

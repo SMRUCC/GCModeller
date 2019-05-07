@@ -79,7 +79,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim htext As htext = htext.StreamParser(My.Resources.ko00000)
             Dim maps = htext.Hierarchical _
                 .EnumerateEntries _
-                .GroupBy(Function(x) x.EntryId) _
+                .GroupBy(Function(x) x.entryID) _
                 .ToDictionary(Function(x) x.Key,
                               Function(g) g.ToArray)
             Return maps

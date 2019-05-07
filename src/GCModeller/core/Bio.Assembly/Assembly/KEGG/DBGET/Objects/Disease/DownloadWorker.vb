@@ -71,11 +71,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
                     If Not (path = entry.BuildPath(EXPORT)).FileExists(ZERO_Nonexists:=True) Then
                         Try
-                            disease = DownloadDiseases.Download(entry.EntryId)
+                            disease = DownloadDiseases.Download(entry.entryID)
                             disease.SaveAsXml(path, , Encodings.ASCII)
                         Catch ex As Exception
-                            failures += entry.EntryId
-                            ex = New Exception(entry.EntryId & " " & entry.Description, ex)
+                            failures += entry.entryID
+                            ex = New Exception(entry.entryID & " " & entry.description, ex)
                             App.LogException(ex)
                         End Try
                     End If
@@ -86,7 +86,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
                     Call progress.SetProgress(
                         tick.StepProgress(),
-                        $"{entry.Description}, ETA={ETA}")
+                        $"{entry.description}, ETA={ETA}")
                 Next
             End Using
 
