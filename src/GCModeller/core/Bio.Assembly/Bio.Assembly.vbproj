@@ -931,33 +931,6 @@
     <None Include="Resources\br08610.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\KEGG\Compounds\br08001.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\KEGG\Compounds\br08002.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\KEGG\Compounds\br08003.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\KEGG\Compounds\br08005.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\KEGG\Compounds\br08006.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\KEGG\Compounds\br08007.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\KEGG\Compounds\br08008.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\KEGG\Compounds\br08009.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\KEGG\Compounds\br08010.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\KEGG\Reactions\br08201.txt" />
   </ItemGroup>
   <ItemGroup>
