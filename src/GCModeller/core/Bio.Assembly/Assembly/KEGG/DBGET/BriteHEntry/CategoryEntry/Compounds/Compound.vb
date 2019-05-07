@@ -80,12 +80,24 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     Public Class CompoundBrite
 
         ''' <summary>
-        ''' 
+        ''' A
         ''' </summary>
         ''' <returns></returns>
         Public Property [class] As String
+        ''' <summary>
+        ''' B
+        ''' </summary>
+        ''' <returns></returns>
         Public Property category As String
+        ''' <summary>
+        ''' C
+        ''' </summary>
+        ''' <returns></returns>
         Public Property subcategory As String
+        ''' <summary>
+        ''' D
+        ''' </summary>
+        ''' <returns></returns>
         Public Property order As String
         Public Property entry As KeyValuePair
 
@@ -98,6 +110,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Shared Function Lipids() As CompoundBrite()
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
             Return CompoundTextModel.Build(BriteHTextParser.Load(satellite.GetString(cpd_br08002))).ToArray
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return entry.ToString
         End Function
 
 #Region "Internal resource ID"
