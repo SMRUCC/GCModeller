@@ -86,7 +86,7 @@ Namespace Serialization.JSON
                                       Optional knownTypes As IEnumerable(Of Type) = Nothing) As String
 
             Using ms As New MemoryStream()
-                Call ms.writeJsonInternal(
+                Call ms.writeJson(
                     obj:=obj,
                     type:=type,
                     simpleDict:=simpleDict,
@@ -103,7 +103,7 @@ Namespace Serialization.JSON
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Private Sub writeJsonInternal(output As Stream, obj As Object, type As Type, simpleDict As Boolean, knownTypes As IEnumerable(Of Type))
+        Private Sub writeJson(output As Stream, obj As Object, type As Type, simpleDict As Boolean, knownTypes As IEnumerable(Of Type))
             If simpleDict Then
                 Dim settings As New DataContractJsonSerializerSettings With {
                     .UseSimpleDictionaryFormat = True,
@@ -128,7 +128,7 @@ Namespace Serialization.JSON
         <Extension>
         Public Function WriteLargeJson(Of T)(obj As T, path$, Optional simpleDict As Boolean = True) As Boolean
             Using ms As FileStream = path.Open(, doClear:=True)
-                Call ms.writeJsonInternal(obj, GetType(T), simpleDict, Nothing)
+                Call ms.writeJson(obj, GetType(T), simpleDict, Nothing)
             End Using
 
             Return True
