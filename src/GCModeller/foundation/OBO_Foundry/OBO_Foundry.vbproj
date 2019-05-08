@@ -238,6 +238,7 @@
     </Compile>
     <Compile Include="IO\Models\Field.vb" />
     <Compile Include="Tree\GenericTree.vb" />
+    <Compile Include="Tree\Builder.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
