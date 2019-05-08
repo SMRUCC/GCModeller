@@ -217,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IO\Models\RawTerm.vb" />
+    <Compile Include="IO\Writer.vb" />
     <Compile Include="IO\ParserIO.vb" />
     <Compile Include="IO\Models\header.vb" />
     <Compile Include="IO\Models\OBOFile.vb" />
