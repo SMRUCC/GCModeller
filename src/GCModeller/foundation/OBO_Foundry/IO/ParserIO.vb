@@ -57,9 +57,9 @@ Public Module ParserIO
     ''' <returns></returns>
     <Extension>
     Public Function LoadData(Of T As Class)(strValue As IEnumerable(Of String)) As T
-        Dim Schema As Dictionary(Of BindProperty(Of Field)) = LoadClassSchema(Of T)()
-        Dim data As Dictionary(Of String, String()) = __createModel(strValue.ToArray)
-        Return Schema.LoadData(Of T)(data)
+        Dim schema As Dictionary(Of BindProperty(Of Field)) = LoadClassSchema(Of T)()
+        Dim data As Dictionary(Of String, String()) = createModel(strValue.ToArray)
+        Return schema.LoadData(Of T)(data)
     End Function
 
 #Const DEVELOPMENT = 1
@@ -76,9 +76,10 @@ Public Module ParserIO
         Dim o As T = Activator.CreateInstance(Of T)()
 
         For Each f As BindProperty(Of Field) In schema.Values
-            Dim name As String = f.Field._Name
+            Dim name As String = f.field._Name
 
-            If Not data.ContainsKey(name) Then  ' Class之中有定义但是文件之中没有数据，这个是正常现象，则跳过
+            ' Class之中有定义但是文件之中没有数据，这个是正常现象，则跳过
+            If Not data.ContainsKey(name) Then
                 Continue For
             End If
 
@@ -87,7 +88,8 @@ Public Module ParserIO
             If f.Type = GetType(String) Then
 #If DEVELOPMENT Then
                 If array.Length > 1 Then
-                    Throw New InvalidCastException(name & ": " & TypeMissMatch1)   ' Class之中定义为字符串，但是文件之中是数组，则定义出错了
+                    ' Class之中定义为字符串，但是文件之中是数组，则定义出错了
+                    Throw New InvalidCastException(name & ": " & TypeMissMatch1)
                 End If
 #End If
                 Call f.SetValue(o, array$(Scan0%))
@@ -97,7 +99,7 @@ Public Module ParserIO
         Next
 
 #If DEVELOPMENT Then
-        Dim names As String() = schema.Values.Select(Function(x) x.Field._Name).ToArray
+        Dim names As String() = schema.Values.Select(Function(x) x.field._Name).ToArray
 
         For Each key$ In data.Keys
             If Array.IndexOf(names, key$) = -1 Then
@@ -121,12 +123,12 @@ Public Module ParserIO
     ''' <summary>
     ''' Parsing a term object as data model
     ''' </summary>
-    ''' <param name="strValue"></param>
+    ''' <param name="lines"></param>
     ''' <returns></returns>
-    Private Function __createModel(strValue As String()) As Dictionary(Of String, String())
-        Dim LQuery = From strLine As String
-                     In strValue
-                     Let x = strLine.GetTagValue(": ")
+    Private Function createModel(lines As String()) As Dictionary(Of String, String())
+        Dim LQuery = From line As String
+                     In lines
+                     Let x = line.GetTagValue(": ")
                      Where Not String.IsNullOrEmpty(x.Name)
                      Select x
                      Group x By x.Name Into Group
