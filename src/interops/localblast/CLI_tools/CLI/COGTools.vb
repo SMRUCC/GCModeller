@@ -170,8 +170,7 @@ Partial Module CLI
         Return stst.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/EXPORT.COGs.from.DOOR",
-               Usage:="/EXPORT.COGs.from.DOOR /in <DOOR.opr> [/out <out.csv>]")>
+    <ExportAPI("/EXPORT.COGs.from.DOOR", Usage:="/EXPORT.COGs.from.DOOR /in <DOOR.opr> [/out <out.csv>]")>
     <Group(CLIGrouping.COGTools)>
     Public Function ExportDOORCogs(args As CommandLine) As Integer
         Dim opr As String = args("/in")

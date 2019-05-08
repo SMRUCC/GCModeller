@@ -87,8 +87,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Function GetEntryDictionary() As Dictionary(Of String, BriteHText)
             Return Hierarchical _
                 .EnumerateEntries _
-                .Where(Function(x) Not x.EntryId.StringEmpty) _
-                .GroupBy(Function(t) t.EntryId) _
+                .Where(Function(x) Not x.entryID.StringEmpty) _
+                .GroupBy(Function(t) t.entryID) _
                 .ToDictionary(Function(k) k.Key,
                               Function(o) o.First)
         End Function

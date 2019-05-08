@@ -1,5 +1,4 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
@@ -7,105 +6,110 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     Module CompoundTextModel
 
         <Extension>
-        Public Function Build(model As BriteHText) As CompoundBrite()
-            Dim list As New List(Of CompoundBrite)
+        Public Iterator Function Build(model As BriteHText) As IEnumerable(Of CompoundBrite)
+            For Each part As IEnumerable(Of CompoundBrite) In model.buildInternal
+                For Each level As CompoundBrite In part
+                    Yield level
+                Next
+            Next
+        End Function
 
-            Select Case model.Degree
+        <Extension>
+        Private Iterator Function buildInternal(model As BriteHText) As IEnumerable(Of IEnumerable(Of CompoundBrite))
+            Select Case model.degree
 
                 Case "C"c
-                    For Each [class] As BriteHText In model.CategoryItems
+                    For Each [class] As BriteHText In model.categoryItems
 
-                        If [class].CategoryItems.IsNullOrEmpty Then
+                        If [class].categoryItems.IsNullOrEmpty Then
                             Continue For
                         End If
 
-                        For Each category As BriteHText In [class].CategoryItems
-                            If category.CategoryItems.IsNullOrEmpty Then
+                        For Each category As BriteHText In [class].categoryItems
+                            If category.categoryItems.IsNullOrEmpty Then
                                 Continue For
                             End If
 
-                            list += From htext As BriteHText
-                                    In category.CategoryItems
-                                    Select New CompoundBrite With {
-                                        .class = [class].ClassLabel,
-                                        .category = category.ClassLabel,
-                                        .entry = New KeyValuePair With {
-                                            .Key = htext.EntryId,
-                                            .Value = htext.Description
-                                        }
-                                    }
+                            Yield From htext As BriteHText
+                                  In category.categoryItems
+                                  Select New CompoundBrite With {
+                                      .class = [class].classLabel,
+                                      .category = category.classLabel,
+                                      .entry = New KeyValuePair With {
+                                           .Key = htext.entryID,
+                                           .Value = htext.description
+                                      }
+                                  }
                         Next
                     Next
 
                 Case "D"c
-                    For Each [class] As BriteHText In model.CategoryItems
+                    For Each [class] As BriteHText In model.categoryItems
 
-                        If [class].CategoryItems.IsNullOrEmpty Then
+                        If [class].categoryItems.IsNullOrEmpty Then
                             Continue For
                         End If
 
-                        For Each category As BriteHText In [class].CategoryItems
-                            If category.CategoryItems.IsNullOrEmpty Then
+                        For Each category As BriteHText In [class].categoryItems
+                            If category.categoryItems.IsNullOrEmpty Then
                                 Continue For
                             End If
-                            For Each subCategory As BriteHText In category.CategoryItems
-                                If subCategory.CategoryItems.IsNullOrEmpty Then
+                            For Each subCategory As BriteHText In category.categoryItems
+                                If subCategory.categoryItems.IsNullOrEmpty Then
                                     Continue For
                                 End If
 
-                                list += From br As BriteHText
-                                        In subCategory.CategoryItems
-                                        Select New CompoundBrite With {
-                                            .class = [class].ClassLabel,
-                                            .category = category.ClassLabel,
-                                            .subcategory = subCategory.ClassLabel,
-                                            .entry = New KeyValuePair With {
-                                                .Key = br.EntryId,
-                                                .Value = br.Description
-                                            }
-                                        }
+                                Yield From br As BriteHText
+                                      In subCategory.categoryItems
+                                      Select New CompoundBrite With {
+                                           .class = [class].classLabel,
+                                           .category = category.classLabel,
+                                           .subcategory = subCategory.classLabel,
+                                           .entry = New KeyValuePair With {
+                                                .Key = br.entryID,
+                                                .Value = br.description
+                                           }
+                                      }
                             Next
                         Next
                     Next
 
                 Case "E"c
-                    For Each [class] As BriteHText In model.CategoryItems
-                        If [class].CategoryItems.IsNullOrEmpty Then
+                    For Each [class] As BriteHText In model.categoryItems
+                        If [class].categoryItems.IsNullOrEmpty Then
                             Continue For
                         End If
-                        For Each category As BriteHText In [class].CategoryItems
-                            If category.CategoryItems.IsNullOrEmpty Then
+                        For Each category As BriteHText In [class].categoryItems
+                            If category.categoryItems.IsNullOrEmpty Then
                                 Continue For
                             End If
-                            For Each subCategory As BriteHText In category.CategoryItems
-                                If subCategory.CategoryItems.IsNullOrEmpty Then
+                            For Each subCategory As BriteHText In category.categoryItems
+                                If subCategory.categoryItems.IsNullOrEmpty Then
                                     Continue For
                                 End If
-                                For Each order As BriteHText In subCategory.CategoryItems
-                                    If order.CategoryItems.IsNullOrEmpty Then
+                                For Each order As BriteHText In subCategory.categoryItems
+                                    If order.categoryItems.IsNullOrEmpty Then
                                         Continue For
                                     End If
 
-                                    list += From br As BriteHText
-                                            In order.CategoryItems
-                                            Select New CompoundBrite With {
-                                                .class = [class].ClassLabel,
-                                                .category = category.ClassLabel,
-                                                .subcategory = subCategory.ClassLabel,
-                                                .order = order.ClassLabel,
-                                                .entry = New KeyValuePair With {
-                                                    .Key = br.EntryId,
-                                                    .Value = br.Description
-                                                }
-                                            }
+                                    Yield From br As BriteHText
+                                          In order.categoryItems
+                                          Select New CompoundBrite With {
+                                              .class = [class].classLabel,
+                                              .category = category.classLabel,
+                                              .subcategory = subCategory.classLabel,
+                                              .order = order.classLabel,
+                                              .entry = New KeyValuePair With {
+                                                  .Key = br.entryID,
+                                                  .Value = br.description
+                                              }
+                                          }
 
                                 Next
                             Next
                         Next
                     Next
             End Select
-
-            Return list.ToArray
         End Function
     End Module
 End Namespace
