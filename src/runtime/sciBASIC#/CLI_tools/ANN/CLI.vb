@@ -190,7 +190,7 @@ Module CLI
             config.learnRate,
             config.momentum,
             actives
-        )
+        ) With {.Selective = config.selective.ParseBoolean}
 
         trainingHelper.NeuronNetwork.LearnRateDecay = config.learnRateDecay
         ' trainingHelper.Truncate = 20

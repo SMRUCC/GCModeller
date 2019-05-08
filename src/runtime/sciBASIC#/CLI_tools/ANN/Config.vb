@@ -80,6 +80,8 @@ Public Class Config
     ''' <returns></returns>
     <DataFrameColumn> Public Property hidden_size As String = "500,500,100"
 
+    <DataFrameColumn> Public Property selective As String = "no"
+
     Public Shared ReadOnly Property [Default] As DefaultValue(Of Config) = New Config
 
 End Class
