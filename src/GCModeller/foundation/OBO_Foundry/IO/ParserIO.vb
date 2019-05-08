@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::36a733e782f42dff396f2a97c69900ba, foundation\OBO_Foundry\IO\ParserIO.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module ParserIO
-    ' 
-    '     Function: __createModel, LoadClassSchema, (+2 Overloads) LoadData, (+2 Overloads) ToLines
-    ' 
-    ' /********************************************************************************/
+' Module ParserIO
+' 
+'     Function: __createModel, LoadClassSchema, (+2 Overloads) LoadData, (+2 Overloads) ToLines
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,12 +53,13 @@ Public Module ParserIO
     ''' header or term object.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    ''' <param name="strValue"></param>
+    ''' <param name="lines"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function LoadData(Of T As Class)(strValue As IEnumerable(Of String)) As T
+    Public Function LoadData(Of T As Class)(lines As IEnumerable(Of String)) As T
         Dim schema As Dictionary(Of BindProperty(Of Field)) = LoadClassSchema(Of T)()
-        Dim data As Dictionary(Of String, String()) = createModel(strValue.ToArray)
+        Dim data As Dictionary(Of String, String()) = createModel(lines.ToArray)
+
         Return schema.LoadData(Of T)(data)
     End Function
 
@@ -75,8 +76,8 @@ Public Module ParserIO
     Public Function LoadData(Of T As Class)(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String())) As T
         Dim o As T = Activator.CreateInstance(Of T)()
 
-        For Each f As BindProperty(Of Field) In schema.Values
-            Dim name As String = f.field._Name
+        For Each field As BindProperty(Of Field) In schema.Values
+            Dim name As String = field.field._Name
 
             ' Class之中有定义但是文件之中没有数据，这个是正常现象，则跳过
             If Not data.ContainsKey(name) Then
@@ -85,39 +86,42 @@ Public Module ParserIO
 
             Dim array$() = data(name)
 
-            If f.Type = GetType(String) Then
+            If field.Type = GetType(String) Then
 #If DEVELOPMENT Then
                 If array.Length > 1 Then
                     ' Class之中定义为字符串，但是文件之中是数组，则定义出错了
                     Throw New InvalidCastException(name & ": " & TypeMissMatch1)
                 End If
 #End If
-                Call f.SetValue(o, array$(Scan0%))
+                Call field.SetValue(o, array$(Scan0%))
             Else
-                Call f.SetValue(o, array$)
+                Call field.SetValue(o, array$)
             End If
         Next
 
 #If DEVELOPMENT Then
-        Dim names As String() = schema.Values.Select(Function(x) x.field._Name).ToArray
-
-        For Each key$ In data.Keys
-            If Array.IndexOf(names, key$) = -1 Then
-                ' 文件之中定义有的但是Class之中没有被定义
-                Dim array$() = data(key$)
-                Dim type$ = If(array.Length = 1, GetType(String), GetType(String())).ToString
-                Dim msg$ =
-                    $"Missing property definition in the object: <Field(""{key$}"")>Public Property {key} As {type$}"
-
-                Throw New Exception(msg)
-            End If
-        Next
+        Call checkField(schema, data)
 #End If
 
         Return o
     End Function
 
-    Const TypeMissMatch1 As String = "The type of the property is ""System.String"", but the data from file is ""Array(Of System.String)""!"
+    Private Sub checkField(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String()))
+        Dim names As String() = schema.Values.Select(Function(x) x.field._Name).ToArray
+
+        For Each key As String In data.Keys
+            If Array.IndexOf(names, key$) = -1 Then
+                ' 文件之中定义有的但是Class之中没有被定义
+                Dim array$() = data(key$)
+                Dim type$ = If(array.Length = 1, GetType(String), GetType(String())).ToString
+                Dim msg$ = $"Missing property definition in the object: <Field(""{key$}"")>Public Property {key} As {type$}"
+
+                Throw New Exception(msg)
+            End If
+        Next
+    End Sub
+
+    Const TypeMissMatch1$ = "The type of the property is ""System.String"", but the data from file is ""Array(Of System.String)""!"
     Const TAG As String = ".+?: "
 
     ''' <summary>
@@ -155,8 +159,9 @@ Public Module ParserIO
             () <= From [property] As PropertyInfo
                   In properties
                   Let attrs As Object() = [property].GetCustomAttributes(
-                      attributeType:=Field.TypeInfo,
-                      inherit:=True)
+                      attributeType:=GetType(Field),
+                      inherit:=True
+                  )
                   Let tName = [property].PropertyType
                   Where Not attrs.IsNullOrEmpty AndAlso DataFramework.IsPrimitive(tName) OrElse tName = stringListType
                   Let field = DirectCast(attrs.First, Field)
@@ -169,8 +174,12 @@ Public Module ParserIO
         Dim schema As New Dictionary(Of BindProperty(Of Field))
 
         For Each f As BindProperty(Of Field) In LQuery
-            If String.IsNullOrEmpty(f.Field._Name) Then
-                f.Field._Name = If(f.Field._toLower, f.Identity.ToLower, f.Identity)
+            If String.IsNullOrEmpty(f.field._Name) Then
+                If f.field._toLower Then
+                    f.field._Name = f.Identity.ToLower
+                Else
+                    f.field._Name = f.Identity
+                End If
             End If
 
             Call schema.Add(f)
@@ -198,7 +207,7 @@ Public Module ParserIO
                     Continue For
                 End If
 
-                Call bufs.Add(String.Format("{0}: {1}", [property].Field._Name, value.ToString))
+                Call bufs.Add(String.Format("{0}: {1}", [property].field._Name, value.ToString))
             Else
                 Dim vals As Object() = [property].GetValue(target)
 
@@ -213,7 +222,7 @@ Public Module ParserIO
 
                 bufs += From value As String
                         In pvalue
-                        Let Name As String = [property].Field._Name
+                        Let Name As String = [property].field._Name
                         Select String.Format("{0}: {1}", Name, value)
             End If
         Next
