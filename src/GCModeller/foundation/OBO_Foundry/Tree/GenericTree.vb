@@ -55,6 +55,11 @@ Public Class GenericTree
     ''' </summary>
     ''' <returns></returns>
     Public Property is_a As GenericTree()
+
+    ''' <summary>
+    ''' Additional data table
+    ''' </summary>
+    ''' <returns></returns>
     Public Property data As Dictionary(Of String, String())
 
     Public Overrides Function ToString() As String
