@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::3c8df22644433c69e78de77f91d3f6f3, foundation\OBO_Foundry\IO\OBOFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class OBOFile
-    ' 
-    '     Properties: header
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: GetDatas, ToString
-    ' 
-    '     Sub: __parseHeader, (+2 Overloads) Dispose
-    ' 
-    ' /********************************************************************************/
+' Class OBOFile
+' 
+'     Properties: header
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: GetDatas, ToString
+' 
+'     Sub: __parseHeader, (+2 Overloads) Dispose
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 
 ''' <summary>
 ''' OBO file reader
@@ -222,56 +223,47 @@ Public Class OBOFile : Implements IDisposable
 
     Public Property header As header
 
-    ReadOnly __file As String
-    ReadOnly __reader As StreamReader
+    ReadOnly file As String
+    ReadOnly reader As StreamReader
 
-    Sub New(file$)
+    Sub New(file$, Optional encoding As Encodings = Encodings.UTF8)
         If file.StringEmpty Then
             Throw New ArgumentNullException("File path can not be empty!")
         Else
-            __file = file
-            __reader = New StreamReader(New FileStream(file, FileMode.Open))
+            Me.file = file
+            Me.reader = file.OpenReader(encoding.CodePage)
         End If
 
-        Call __parseHeader()
+        Call parseHeader()
     End Sub
 
-    Private Sub __parseHeader()
+    Private Sub parseHeader()
         Dim s As New Value(Of String)
         Dim bufs As New List(Of String)
 
-        Do While Not String.IsNullOrEmpty(s = __reader.ReadLine)
-            bufs += s.value
+        Do While Not String.IsNullOrEmpty(s = reader.ReadLine)
+            bufs += s
         Loop
 
         header = bufs.LoadData(Of header)()
     End Sub
 
     Public Overrides Function ToString() As String
-        Return __file.ToFileURL
+        Return file.ToFileURL
     End Function
 
-    Public Iterator Function GetDatas() As IEnumerable(Of RawTerm)
-        Dim s As New Value(Of String)
-        Dim bufs As New List(Of String)
-
-        Do While Not __reader.EndOfStream
-            Dim name As String = __reader.ReadLine
-
-            Do While Not String.IsNullOrEmpty(s = __reader.ReadLine)
-                bufs += s.value
-            Loop
-
-            Dim g = From line As String
-                    In bufs
-                    Select x = line.GetTagValue(": ")
-                    Group x By id = x.Name Into Group
+    Public Iterator Function GetRawTerms() As IEnumerable(Of RawTerm)
+        For Each block As NamedCollection(Of String) In populateLines()
+            Dim nameGroup = From line As String
+                            In block
+                            Select x = line.GetTagValue(": ")
+                            Group x By id = x.Name Into Group
 
             Dim data = LinqAPI.Exec(Of NamedValue(Of String())) _
  _
                 () <= From x
-                      In g
-                      Let values As String() = x _
+                      In nameGroup
+                      Let values = x _
                           .Group _
                           .Select(Function(o) o.Value) _
                           .ToArray
@@ -281,10 +273,27 @@ Public Class OBOFile : Implements IDisposable
                       }
 
             Yield New RawTerm With {
-                .Type = name,
+                .Type = block.Name,
                 .data = data
             }
-            Call bufs.Clear()
+        Next
+    End Function
+
+    Private Iterator Function populateLines() As IEnumerable(Of NamedCollection(Of String))
+        Dim s As New Value(Of String)
+        Dim bufs As New List(Of String)
+
+        Do While Not reader.EndOfStream
+            Dim name As String = reader.ReadLine
+
+            Do While Not String.IsNullOrEmpty(s = reader.ReadLine)
+                bufs += s.Value
+            Loop
+
+            Yield New NamedCollection(Of String) With {
+                .Name = name,
+                .Value = bufs.PopAll
+            }
         Loop
     End Function
 
@@ -296,8 +305,8 @@ Public Class OBOFile : Implements IDisposable
         If Not Me.disposedValue Then
             If disposing Then
                 ' TODO: dispose managed state (managed objects).
-                Call __reader.Close()
-                Call __reader.Dispose()
+                Call reader.Close()
+                Call reader.Dispose()
             End If
 
             ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.

@@ -57,7 +57,6 @@ Public Class Field : Inherits Attribute
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property Index As Integer
-    Public Shared ReadOnly Property TypeInfo As Type = GetType(Field)
 
     ''' <summary>
     ''' Init with a field name in the obo term.
