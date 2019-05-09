@@ -1,5 +1,6 @@
 ﻿
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 
 Public Module Builder
 
@@ -39,5 +40,53 @@ Public Module Builder
         Next
 
         Return vertex
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="node">Tree was created by <see cref="Builder.BuildTree(IEnumerable(Of RawTerm))"/> function.</param>
+    ''' <returns></returns>
+    ''' 
+    <Extension>
+    Public Function GetTermsByLevel(node As GenericTree, level%) As GenericTree()
+        Dim chains As New List(Of List(Of GenericTree))
+
+        If node.is_a.IsNullOrEmpty Then
+            chains = New List(Of List(Of GenericTree)) From {New List(Of GenericTree) From {node}}
+        Else
+            For Each parent As GenericTree In node.is_a
+                For Each chain In GetTermsLineage(parent, {node, parent})
+                    chains.Add(chain)
+                Next
+            Next
+        End If
+
+        chains = chains _
+            .Select(Function(chain)
+                        Return chain.With(Sub(c) Call c.Reverse())
+                    End Function) _
+            .AsList
+
+        Return chains _
+            .Select(Function(chain) chain.ElementAtOrDefault(level)) _
+            .Where(Function(lineNode) Not lineNode Is Nothing) _
+            .Distinct _
+            .ToArray
+    End Function
+
+    <Extension>
+    Private Iterator Function GetTermsLineage(node As GenericTree, parentChain As IEnumerable(Of GenericTree)) As IEnumerable(Of List(Of GenericTree))
+        Dim chainList = parentChain.AsList
+
+        If node.is_a.IsNullOrEmpty Then
+            Yield chainList
+        Else
+            For Each parent As GenericTree In node.is_a
+                For Each chain In GetTermsLineage(parent, New List(Of GenericTree)(chainList).Join(parent))
+                    Yield chain
+                Next
+            Next
+        End If
     End Function
 End Module
