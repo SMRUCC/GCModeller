@@ -67,7 +67,7 @@ Namespace API.as
         ''' if it has one to set the start and end times and frequency.
         ''' </returns>
         Public Function ts(x As String, ParamArray additionals As String()) As String
-            Dim out As String = App.NextTempName
+            Dim out As String = RDotNetGC.Allocate
             Call $"{out} <- as.ts({x}, {String.Join(",", additionals)})".__call
             Return out
         End Function
@@ -92,7 +92,7 @@ Namespace API.as
         ''' <param name="mode$"></param>
         ''' <returns></returns>
         Public Function vector(x$, Optional mode$ = "any") As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -118,7 +118,7 @@ Namespace API.as
         Public Function matrix(x$, Optional rownamesForce As String = "NA", Optional list As ParameterList = Nothing) As String
             SyncLock R
                 With R
-                    Dim var$ = App.NextTempName
+                    Dim var$ = RDotNetGC.Allocate
 
                     .call = $"{var} <- as.matrix({x}, rownames.force = {rownamesForce}, {list?.ToString})"
                     Return var

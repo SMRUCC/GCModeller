@@ -56,7 +56,7 @@ Namespace API
         ''' within Is similar, except that it examines the environment after the evaluation of expr And makes the corresponding modifications to a copy of data (this may fail in the data frame case if objects are created which cannot be stored in a data frame), And returns it. within can be used as an alternative to transform.
         ''' </returns>
         Public Function [with](data As String, expr As String, ParamArray additionals As String()) As String
-            Dim tmp As String = App.NextTempName
+            Dim tmp As String = RDotNetGC.Allocate
 
             Call $"{tmp} <- with({data}, {"{" & vbCrLf &
                                               expr & vbCrLf &

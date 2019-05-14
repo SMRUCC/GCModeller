@@ -59,7 +59,7 @@ Public Module RExtensionInvoke
     ''' <param name="def"></param>
     ''' <returns></returns>
     Public Function [function](args As IEnumerable(Of String), def As String) As String
-        Dim tmp As String = App.NextTempName
+        Dim tmp As String = RDotNetGC.Allocate
 
         SyncLock R
             With R
@@ -92,7 +92,7 @@ Public Module RExtensionInvoke
     ''' <param name="var$"></param>
     ''' <returns></returns>
     <Extension> Public Function copy(var$) As String
-        Dim x$ = App.NextTempName
+        Dim x$ = RDotNetGC.Allocate
 
         SyncLock R
             With R

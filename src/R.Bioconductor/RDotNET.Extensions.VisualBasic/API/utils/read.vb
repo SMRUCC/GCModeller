@@ -56,7 +56,7 @@ Namespace API.utils
                             Optional dec$ = ".",
                             Optional fill As Boolean = True,
                             Optional commentChar$ = "") As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -136,7 +136,7 @@ comment.char = {Rstring(commentChar)});"
                               Optional allowEscapes As Boolean = False, Optional flush As Boolean = False,
                               Optional stringsAsFactors$ = "default.stringsAsFactors()",
                               Optional fileEncoding$ = "", Optional encoding$ = "unknown", Optional text$ = NULL, Optional skipNul As Boolean = False) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
