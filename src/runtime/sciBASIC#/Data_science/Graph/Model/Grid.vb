@@ -54,13 +54,13 @@ Public Class Grid
     ReadOnly X, Y As OrderSelector(Of Double)
     ReadOnly rect As RectangleF
 
-    Public ReadOnly Property Layout As RectangleF
+    Public ReadOnly Property layout As RectangleF
         Get
             Return rect
         End Get
     End Property
 
-    Public ReadOnly Property Steps As SizeF
+    Public ReadOnly Property steps As SizeF
 
     Sub New(size As Size, steps As SizeF)
         Call Me.New(New Rectangle(New Point, size), steps)
