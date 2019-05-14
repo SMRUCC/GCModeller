@@ -1,36 +1,38 @@
-library("FactoMineR")
-library("factoextra")
+d <- read.csv("./data.csv");
 
-data(decathlon2)
-data <- decathlon2[1:23, 1:10]
+head(d);
 
-library("FactoMineR")
-res.pca <- PCA(data, graph = FALSE)
+# 原始数据标准化
+sd <- scale(d);
+head(sd);
 
-eig.val <- get_eigenvalue(res.pca)
-eig.val
-#        eigenvalue variance.percent cumulative.variance.percent
-# Dim.1   4.1242133        41.242133                    41.24213
-# Dim.2   1.8385309        18.385309                    59.62744
-# Dim.3   1.2391403        12.391403                    72.01885
-# Dim.4   0.8194402         8.194402                    80.21325
-# Dim.5   0.7015528         7.015528                    87.22878
-# Dim.6   0.4228828         4.228828                    91.45760
-# Dim.7   0.3025817         3.025817                    94.48342
-# Dim.8   0.2744700         2.744700                    97.22812
-# Dim.9   0.1552169         1.552169                    98.78029
-# Dim.10  0.1219710         1.219710                   100.00000
+d <- sd;
+pca <- princomp(d, cor=T);
+screeplot(pca, type="line", main="碎石图", lwd=2);
 
+# 求相关矩阵
+dcor <- cor(d);
+dcor;
 
-fviz_eig(res.pca, addlabels = TRUE, ylim = c(0, 50))
+# 求相关矩阵的特征向量 特征值
+deig <- eigen(dcor);
+deig;
 
-var <- get_pca_var(res.pca)
+# 输出特征值
+deig$values;
+sumeigv <- sum(deig$values)
+sumeigv;
 
-fviz_pca_var(res.pca, col.var = "black")
+# 求前2个主成分的累积方差贡献率
+sum(deig$value[1:2])/4
+sum(deig$value[1:1])/4
 
-library("corrplot")
-corrplot(var$cos2, is.corr=FALSE)
+# 输出前两个主成分的载荷系数（特征向量）
+pca$loadings[,1:2]
 
-fviz_pca_var(res.pca, col.var = "contrib",
-     gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07")
-     )
+# 计算主成分C1和C2的系数b1 和b2：
+deig$values[1]/4;
+deig$values[2]/4;
+
+# 输出前2 个主成分的得分
+s <- pca$scores[,1:2]
