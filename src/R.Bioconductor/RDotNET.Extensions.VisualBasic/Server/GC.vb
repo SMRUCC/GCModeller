@@ -19,7 +19,7 @@ Public Module RDotNetGC
     ''' </summary>
     ''' <returns></returns>
     Friend Function Allocate() As String
-        Dim name As String = RDotNetGC.Allocate
+        Dim name As String = App.NextTempName
         Call objects.Add(name)
         Return name
     End Function
