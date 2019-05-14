@@ -25,6 +25,17 @@ Public Module RDotNetGC
     End Function
 
     ''' <summary>
+    ''' 从GC队列之中删除所给定的变量, 因为脚本化编程的api总是自动将新的临时变量添加进入gc队列的
+    ''' 所以会需要使用这个函数来移除一些不想要被删除的对象
+    ''' </summary>
+    ''' <param name="names"></param>
+    Public Sub Exclude(ParamArray names As String())
+        For Each name As String In names
+            Call objects.Remove(name)
+        Next
+    End Sub
+
+    ''' <summary>
     ''' 一次性的将R环境之中的通过<see cref="Add"/>方法所添加的对象进行删除
     ''' </summary>
     Public Sub [Do]()
