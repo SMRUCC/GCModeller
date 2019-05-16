@@ -49,6 +49,17 @@ Namespace API.utils
     ''' </summary>
     Public Module read
 
+        ''' <summary>
+        ''' Read a csv file and then returns a temp variable
+        ''' </summary>
+        ''' <param name="file$"></param>
+        ''' <param name="header"></param>
+        ''' <param name="sep$"></param>
+        ''' <param name="quote$"></param>
+        ''' <param name="dec$"></param>
+        ''' <param name="fill"></param>
+        ''' <param name="commentChar$"></param>
+        ''' <returns></returns>
         Public Function csv(file$,
                             Optional header As Boolean = True,
                             Optional sep$ = ",",
