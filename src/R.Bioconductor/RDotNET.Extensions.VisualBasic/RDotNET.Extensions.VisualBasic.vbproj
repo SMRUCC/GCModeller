@@ -305,6 +305,7 @@
     <Compile Include="ScriptBuilder\EscapingHelper.vb" />
     <Compile Include="ScriptBuilder\ScriptBuilder.vb" />
     <Compile Include="Server\ExtendedEngine.vb" />
+    <Compile Include="Server\GC.vb" />
     <Compile Include="userFunctions\Tools.vb" />
     <Compile Include="Extensions\var.vb" />
     <Compile Include="Extensions\out.vb" />

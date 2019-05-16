@@ -92,7 +92,7 @@ Public Module SaveRda
         End If
 
         If DataFramework.IsPrimitive(type) Then
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
             WriteMemoryInternal.WritePrimitive(var, obj)
             Return var
         ElseIf type.ImplementInterface(GetType(IEnumerable)) Then
@@ -105,7 +105,7 @@ Public Module SaveRda
     Public Function PushList(list As IEnumerable) As String
         Dim type As Type = CObj(list).GetType
         Dim base As Type = type.GetTypeElement(False)
-        Dim var$ = App.NextTempName
+        Dim var$ = RDotNetGC.Allocate
 
         If DataFramework.IsPrimitive(base) Then
             ' 全部都是基础类型，则写为一个向量
@@ -169,7 +169,7 @@ Public Module SaveRda
     ''' <returns></returns>
     Public Function PushComplexObject(obj As Object, Optional filters As String() = Nothing) As String
         If obj Is Nothing Then
-            With App.NextTempName
+            With RDotNetGC.Allocate
                 Call WriteMemoryInternal.WriteNothing(.ByRef)
                 Return .ByRef
             End With

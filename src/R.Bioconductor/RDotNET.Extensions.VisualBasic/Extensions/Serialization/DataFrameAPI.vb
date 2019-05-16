@@ -77,7 +77,7 @@ Public Module DataFrameAPI
 
     <Extension>
     Public Function PushAsTable(table As IO.File, Optional skipFirst As Boolean = True) As String
-        Dim var$ = App.NextTempName
+        Dim var$ = RDotNetGC.Allocate
         Call table.PushAsTable(var, skipFirst)
         Return var
     End Function
@@ -167,7 +167,7 @@ Public Module DataFrameAPI
 
         SyncLock R
             With R
-                Dim ref$ = App.NextTempName
+                Dim ref$ = RDotNetGC.Allocate
                 Dim refNames$() = New String(names.Length - 1) {}
 
                 .call = $"{ref} <- list();"
@@ -220,7 +220,7 @@ Public Module DataFrameAPI
                                     Optional types As Dictionary(Of String, Type) = Nothing,
                                     Optional typeParsing As Boolean = True,
                                     Optional rowNames As IEnumerable(Of String) = Nothing) As String
-        Dim var$ = App.NextTempName
+        Dim var$ = RDotNetGC.Allocate
         Call df.PushAsDataFrame(var, types, typeParsing, rowNames)
         Return var
     End Function
@@ -248,7 +248,7 @@ Public Module DataFrameAPI
     ''' <returns>Returns the temp variable name that reference to the dataframe object in R memory.</returns>
     <Extension>
     Public Function dataframe(Of T)(source As IEnumerable(Of T), Optional maps As Dictionary(Of String, String) = Nothing) As String
-        Dim tmp As String = App.NextTempName
+        Dim tmp As String = RDotNetGC.Allocate
         Call PushAsDataFrame(source, var:=tmp, maps:=maps)
         Return tmp
     End Function
@@ -324,7 +324,7 @@ l;
         Dim tmp$ = App.GetAppSysTempFile
         Dim out As T()
 
-        utils.write.csv(x:=var.Name, file:=tmp, rowNames:=False)
+        utils.write.csv(x:=var.name, file:=tmp, rowNames:=False)
         ' R的write.csv函数所保存的文件编码默认为UTF8编码
         out = tmp.LoadCsv(Of T)(
             encoding:=Encodings.UTF8.CodePage,
@@ -345,7 +345,7 @@ l;
     <Extension>
     Public Function WriteDataFrame(Of T)(df As IEnumerable(Of T), Optional encoding As Encodings = Encodings.UTF8WithoutBOM) As String
         Dim tmp$ = App.GetAppSysTempFile(sessionID:=App.PID).UnixPath
-        Dim var$ = App.NextTempName
+        Dim var$ = RDotNetGC.Allocate
 
         SyncLock R
             With R

@@ -69,7 +69,7 @@ Namespace API
     Public Module base
 
         Public Function log2(vector As IEnumerable(Of Double)) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -81,7 +81,7 @@ Namespace API
         End Function
 
         Public Function order(x$, Optional nalast As Boolean = True, Optional decreasing As Boolean = False, Optional method$ = "shell") As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -116,7 +116,7 @@ Namespace API
         ''' interpreted by detailed study of the FORTRAN code.
         ''' </remarks>
         Public Function solve(a$, Optional b$ = Nothing, Optional arguments As Dictionary(Of String, String) = Nothing) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
             Dim args = arguments _
                 .SafeQuery _
                 .Select(Function(v) $"{v.Key} = {v.Value}") _
@@ -240,7 +240,7 @@ Namespace API
         Public Function rep(x$, times%) As String
             SyncLock R
                 With R
-                    Dim var$ = App.NextTempName
+                    Dim var$ = RDotNetGC.Allocate
 
                     .call = $"{var} <- rep({x}, times = {times});"
 
@@ -306,7 +306,7 @@ Namespace API
         ''' <returns>返回变量指针字符串</returns>
         Public Property dimnames(x As String) As String
             Get
-                Dim var$ = App.NextTempName
+                Dim var$ = RDotNetGC.Allocate
 
                 SyncLock R
                     With R
@@ -545,7 +545,7 @@ Namespace API
             SyncLock R
                 With R
                     Dim expr$ = $"load(file = {Rstring(file.UnixPath)}, verbose = {verbose.λ})"
-                    Dim var$ = App.NextTempName
+                    Dim var$ = RDotNetGC.Allocate
 
                     .call = $"{var} <- {expr}"
 
@@ -616,7 +616,7 @@ Namespace API
                            Optional allnames As Boolean = False,
                            Optional pattern$ = Nothing,
                            Optional sorted As Boolean = True) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -725,7 +725,7 @@ Namespace API
         ''' <param name="length%"></param>
         ''' <returns></returns>
         Public Function vector(Optional mode$ = "logical", Optional length% = 0) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -866,7 +866,7 @@ Namespace API
         ''' <param name="args$">objects, possibly named.(对象的名称列表)</param>
         ''' <returns></returns>
         Public Function list(ParamArray args As ArgumentReference()) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -903,7 +903,7 @@ Namespace API
         <Extension>
         Private Function parameterValueAssign(f As ArgumentReference) As String
             If Not f.Value Is Nothing AndAlso f Like GetType(var) Then
-                Return $"{f.Name} = {DirectCast(f.Value, var).Name}"
+                Return $"{f.Name} = {DirectCast(f.Value, var).name}"
             Else
                 If f.Value Is Nothing Then
                     Return $"{f.Name} = NULL"
@@ -932,7 +932,7 @@ Namespace API
         ''' </summary>
         ''' <returns></returns>
         Public Function list() As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -944,7 +944,7 @@ Namespace API
         End Function
 
         Public Function list(ParamArray objects$()) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -965,7 +965,10 @@ Namespace API
             Get
                 SyncLock R
                     With R
-                        Return .Evaluate($"length({x})").AsInteger.ToArray.First
+                        Return .Evaluate($"length({x})") _
+                               .AsInteger _
+                               .ToArray _
+                               .First
                     End With
                 End SyncLock
             End Get
@@ -1001,7 +1004,7 @@ Namespace API
                                 Optional warnConflicts As Boolean = True,
                                 Optional quietly As Boolean = False,
                                 Optional verbose As String = packages.base.getOption.verbose) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -1104,11 +1107,14 @@ Namespace API
                                   Optional checkNames As Boolean = True,
                                   Optional stringsAsFactors As String = "default.stringsAsFactors()") As String
 
-            Dim var As String = App.NextTempName
-            Dim paramRowNames$ = If(
-                rowNames.IsNullOrEmpty,
-                "NULL",
-                base.c(rowNames, stringVector:=True))
+            Dim var As String = RDotNetGC.Allocate
+            Dim paramRowNames$
+
+            If rowNames.IsNullOrEmpty Then
+                paramRowNames = "NULL"
+            Else
+                paramRowNames = base.c(rowNames, stringVector:=True)
+            End If
 
             Call $"{var} <- data.frame({x.JoinBy(", ")}, row.names = {paramRowNames}, check.rows = {checkRows.λ},
            check.names = {checkNames.λ},
@@ -1126,7 +1132,7 @@ Namespace API
         ''' <param name="columns"></param>
         ''' <returns></returns>
         Public Function dataframe(ParamArray columns As ArgumentReference()) As String
-            Dim var As String = App.NextTempName
+            Dim var As String = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -1222,7 +1228,7 @@ Namespace API
         ''' + deparse.level = 1 Or 2 constructs labels from the argument names, see the 'Value’ section below.</param>
         ''' <returns></returns>
         Public Function cbind(list As IEnumerable(Of String), Optional deparselevel% = 1) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -1250,7 +1256,7 @@ Namespace API
         ''' + deparse.level = 1 Or 2 constructs labels from the argument names, see the 'Value’ section below.</param>
         ''' <returns></returns>
         Public Function rbind(list As IEnumerable(Of String), Optional deparselevel% = 1) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -1293,7 +1299,7 @@ Namespace API
         ''' <param name="object$">an object for which a summary is desired.</param>
         ''' <returns></returns>
         Public Function summary(object$) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -1332,7 +1338,7 @@ Namespace API
         Public Function sum(ref$, Optional narm As Boolean = False) As String
             SyncLock R
                 With R
-                    Dim var$ = App.NextTempName
+                    Dim var$ = RDotNetGC.Allocate
                     .call = $"{var} <- sum({ref}, na.rm = {Rbool(narm)});"
                     Return var
                 End With
