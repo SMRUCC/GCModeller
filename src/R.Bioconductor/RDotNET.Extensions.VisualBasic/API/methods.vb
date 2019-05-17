@@ -52,7 +52,7 @@ Namespace API
         ''' <param name="x$">either the name of a class (as character string), or a class definition. If given an argument that is neither a character string nor a class definition, slotNames (only) uses class(x) instead.</param>
         ''' <returns></returns>
         Public Function slotNames(x$) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R

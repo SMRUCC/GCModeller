@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -7,6 +8,13 @@ Imports Microsoft.VisualBasic.Serialization
 
 Namespace ComponentModel
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <typeparam name="Context"></typeparam>
+    ''' <remarks>
+    ''' 这个模块不会重复请求404状态的资源
+    ''' </remarks>
     Public Class WebQuery(Of Context)
 
         Dim url As Func(Of Context, String)
@@ -14,6 +22,11 @@ Namespace ComponentModel
         Dim deserialization As IObjectBuilder
         Dim sleepInterval As Integer
         Dim prefix As Func(Of String, String)
+
+        ''' <summary>
+        ''' 404状态的资源列表
+        ''' </summary>
+        Dim url404 As New Index(Of String)
 
         ''' <summary>
         ''' 原始请求结果数据的缓存文件夹,同时也可以用这个文件夹来存放错误日志
@@ -83,12 +96,24 @@ Namespace ComponentModel
                     cache = $"{Me.cache}/{prefix(id)}/{id}.{type.Trim("."c, "*"c)}"
                 End If
 
-                If cache.FileLength <= 0 Then
-                    Call url.GET.SaveTo(cache)
-                    Call $"Worker thread sleep {interval}ms...".__INFO_ECHO
-                    Call Thread.Sleep(interval)
+                If Not url Like url404 Then
+                    Dim is404 As Boolean = False
+
+                    If cache.FileLength <= 0 Then
+                        Call url.GET(is404:=is404).SaveTo(cache)
+                        Call Thread.Sleep(interval)
+
+                        If is404 Then
+                            url404 += url
+                            Call $"{url} 404 Not Found!".PrintException
+                        Else
+                            Call $"Worker thread sleep {interval}ms...".__INFO_ECHO
+                        End If
+                    Else
+                        Call "hit cache!".__DEBUG_ECHO
+                    End If
                 Else
-                    Call "hit cache!".__DEBUG_ECHO
+                    Call $"{url} 404 Not Found!".PrintException
                 End If
 
                 Yield cache
