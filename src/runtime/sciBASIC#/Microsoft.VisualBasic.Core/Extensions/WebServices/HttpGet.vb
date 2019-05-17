@@ -73,7 +73,8 @@ Public Module HttpGet
                                       Optional proxy As String = Nothing,
                                       Optional doNotRetry404 As Boolean = True,
                                       Optional UA$ = Nothing,
-                                      Optional refer$ = Nothing) As String
+                                      Optional refer$ = Nothing,
+                                      Optional ByRef is404 As Boolean = False) As String
 #Else
     ''' <summary>
     ''' Get the html page content from a website request or a html file on the local filesystem.
@@ -89,13 +90,17 @@ Public Module HttpGet
 
         Call $"GET {If(isFileUrl, url.ToFileURL, url)}".__DEBUG_ECHO
 
+        ' do status indicator reset
+        is404 = False
+
         ' 类似于php之中的file_get_contents函数,可以读取本地文件内容
         If File.Exists(url) Then
             Call "[Job DONE!]".__DEBUG_ECHO
             Return url.ReadAllText
         Else
             If isFileUrl Then
-                Call $"URL {url.ToFileURL} can not solved on your filesystem!".Warning
+                Call $"URL {url.ToFileURL} can not be solved on your filesystem!".Warning
+                is404 = True
                 Return ""
             End If
         End If
@@ -108,11 +113,11 @@ Public Module HttpGet
             headers(NameOf(refer)) = refer
         End If
 
-        Return url.__httpRequest(retry, headers, proxy, doNotRetry404, UA)
+        Return url.httpRequest(retry, headers, proxy, doNotRetry404, UA, is404)
     End Function
 
     <Extension>
-    Private Function __httpRequest(url$, retries%, headers As Dictionary(Of String, String), proxy$, DoNotRetry404 As Boolean, UA$) As String
+    Private Function httpRequest(url$, retries%, headers As Dictionary(Of String, String), proxy$, DoNotRetry404 As Boolean, UA$, ByRef is404 As Boolean) As String
         Dim retryTime As Integer = 0
 
         If String.IsNullOrEmpty(proxy) Then
@@ -122,6 +127,7 @@ Public Module HttpGet
         Try
 RETRY:      Return BuildWebRequest(url, headers, proxy, UA).urlGet()
         Catch ex As Exception When InStr(ex.Message, "(404) Not Found") > 0 AndAlso DoNotRetry404
+            is404 = True
             Return LogException(url, New Exception(url, ex))
 
         Catch ex As Exception When retryTime < retries
