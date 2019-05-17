@@ -113,7 +113,7 @@ Namespace ComponentModel
                         Call "hit cache!".__DEBUG_ECHO
                     End If
                 Else
-                    Call $"{url} 404 Not Found!".PrintException
+                    Call $"{id} 404 Not Found!".PrintException
                 End If
 
                 Yield cache
