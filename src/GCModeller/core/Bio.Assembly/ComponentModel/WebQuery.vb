@@ -50,7 +50,7 @@ Namespace ComponentModel
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="url"></param>
+        ''' <param name="url">请注意,查询词应该是被<see cref="UrlEncode"/>所转义过的</param>
         ''' <param name="contextGuid"></param>
         ''' <param name="parser"></param>
         ''' <param name="prefix">

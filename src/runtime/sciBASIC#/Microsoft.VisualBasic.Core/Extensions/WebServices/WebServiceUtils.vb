@@ -270,7 +270,9 @@ Public Module WebServiceUtils
     ''' <param name="s"></param>
     ''' <param name="encoding"></param>
     ''' <returns></returns>
-    ''' 
+    ''' <remarks>
+    ''' A extension method wrapper for <see cref="HttpUtility.UrlEncode"/>
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("URL.Encode")>
     <Extension>
