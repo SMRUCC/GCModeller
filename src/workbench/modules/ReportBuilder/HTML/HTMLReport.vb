@@ -21,7 +21,7 @@ Namespace HTML
         Public ReadOnly Property templates As Dictionary(Of String, TemplateHandler)
 
         ''' <summary>
-        ''' html报告的根目录
+        ''' html报告的根目录，报告也将会被保存在这个文件夹之中
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property directory As String
