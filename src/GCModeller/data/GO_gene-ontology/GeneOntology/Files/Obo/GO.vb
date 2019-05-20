@@ -106,7 +106,7 @@ Namespace OBO
             Dim schema As Dictionary(Of BindProperty(Of foundation.OBO_Foundry.Field)) =
                 LoadClassSchema(Of Term)()
 
-            For Each x As RawTerm In obo.GetDatas
+            For Each x As RawTerm In obo.GetRawTerms
                 If x.Type = Term.Term Then
                     Yield schema.LoadData(Of Term)(x.GetData)
                 End If
