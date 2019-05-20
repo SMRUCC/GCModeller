@@ -1008,6 +1008,7 @@
     <Compile Include="Extensions\Trinity\Word.vb" />
     <Compile Include="Extensions\Trinity\WordClass.vb" />
     <Compile Include="Extensions\ValueTypes\TimeSpanScale.vb" />
+    <Compile Include="Language\Language\JavaScript\ES6\Map.vb" />
     <Compile Include="Language\Language\JavaScript\Linq.vb" />
     <Compile Include="Language\Language\JavaScript\JavaScriptObject.vb" />
     <Compile Include="Language\Language\JavaScript\UnionType.vb" />
