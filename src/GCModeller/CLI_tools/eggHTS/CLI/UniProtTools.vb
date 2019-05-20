@@ -44,8 +44,10 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
 Partial Module CLI
@@ -60,6 +62,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/UniProt.IDs")>
     <Usage("/UniProt.IDs /in <list.csv/txt> [/out <list.txt>]")>
+    <Group(CLIGroups.UniProtCLI)>
     Public Function UniProtIDList(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.uniprotIDs.txt"
@@ -82,6 +85,40 @@ Partial Module CLI
             .CLICode
     End Function
 
+    <ExportAPI("/Uniprot.organism_id")>
+    <Group(CLIGroups.UniProtCLI)>
+    <Description("Get uniprot_id to Organism-specific databases id map table.")>
+    <Usage("/Uniprot.organism_id /in <uniprot_data.Xml> /dbName <name> [/out <out.csv>]")>
+    Public Function OrganismSpecificDatabases(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim dbName$ = args <= "/dbName"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{dbName.NormalizePathString()}.csv"
+        Dim entries As entry() = UniProtXML.EnumerateEntries([in]).ToArray
+        Dim maps = entries _
+            .Where(Function(protein)
+                       Return protein.Xrefs.ContainsKey(dbName)
+                   End Function) _
+            .Select(Function(protein)
+                        Dim id = protein.Xrefs(dbName).First.id
+                        Dim name = protein.name
+
+                        Return protein.accessions _
+                            .Select(Function(uniprot)
+                                        Return New EntityObject With {
+                                            .ID = uniprot,
+                                            .Properties = New Dictionary(Of String, String) From {
+                                                {"name", name},
+                                                {dbName, id}
+                                            }
+                                        }
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
+
+        Return maps.SaveTo(out).CLICode
+    End Function
+
     ''' <summary>
     ''' 提供一个类似于 https://www.uniprot.org/uploadlists/ 的功能, 在本地批量的将其他的数据库编号转换为UniProt编号
     ''' </summary>
@@ -90,6 +127,7 @@ Partial Module CLI
     <ExportAPI("/Retrieve.ID.mapping")>
     <Usage("/Retrieve.ID.mapping /list <geneID.list> /uniprot <uniprot/uniparc.Xml> [/out <map.list.csv>]")>
     <Description("Convert the protein id from other database to UniProtKB.")>
+    <Group(CLIGroups.UniProtCLI)>
     Public Function RetrieveIDmapping(args As CommandLine) As Integer
         Dim in$ = args <= "/list"
         Dim uniprot$ = args <= "/uniprot"

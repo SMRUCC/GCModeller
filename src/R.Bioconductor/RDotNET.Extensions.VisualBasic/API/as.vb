@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::939980a0cf3e3be39c6ce736387dc6f4, RDotNET.Extensions.VisualBasic\API\as.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module stats
-    ' 
-    '         Function: ts
-    ' 
-    '     Module base
-    ' 
-    '         Function: Character, Logical, matrix, numeric, vector
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module stats
+' 
+'         Function: ts
+' 
+'     Module base
+' 
+'         Function: Character, Logical, matrix, numeric, vector
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -67,7 +67,7 @@ Namespace API.as
         ''' if it has one to set the start and end times and frequency.
         ''' </returns>
         Public Function ts(x As String, ParamArray additionals As String()) As String
-            Dim out As String = App.NextTempName
+            Dim out As String = RDotNetGC.Allocate
             Call $"{out} <- as.ts({x}, {String.Join(",", additionals)})".__call
             Return out
         End Function
@@ -92,7 +92,7 @@ Namespace API.as
         ''' <param name="mode$"></param>
         ''' <returns></returns>
         Public Function vector(x$, Optional mode$ = "any") As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -118,7 +118,7 @@ Namespace API.as
         Public Function matrix(x$, Optional rownamesForce As String = "NA", Optional list As ParameterList = Nothing) As String
             SyncLock R
                 With R
-                    Dim var$ = App.NextTempName
+                    Dim var$ = RDotNetGC.Allocate
 
                     .call = $"{var} <- as.matrix({x}, rownames.force = {rownamesForce}, {list?.ToString})"
                     Return var
@@ -149,7 +149,7 @@ Namespace API.as
         ''' </summary>
         ''' <param name="x$"></param>
         ''' <returns></returns>
-        Public Function Character(x$) As String()
+        Public Function character(x$) As String()
             SyncLock R
                 With R
                     Return .Evaluate($"as.character({x})").AsCharacter.ToArray
@@ -162,7 +162,7 @@ Namespace API.as
         ''' </summary>
         ''' <param name="x$"></param>
         ''' <returns></returns>
-        Public Function Logical(x$) As Boolean()
+        Public Function logical(x$) As Boolean()
             SyncLock R
                 With R
                     Return .Evaluate($"as.logical({x})").AsLogical.ToArray

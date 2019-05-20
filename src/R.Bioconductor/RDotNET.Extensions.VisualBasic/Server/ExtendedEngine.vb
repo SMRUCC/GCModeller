@@ -96,7 +96,7 @@ Public Class ExtendedEngine : Inherits REngine
     ''' to be computed.</param>
     ''' <returns></returns>
     Public Function hasSlot(object$, name$) As String
-        Dim var$ = App.NextTempName
+        Dim var$ = RDotNetGC.Allocate
 
         SyncLock Me
             With Me

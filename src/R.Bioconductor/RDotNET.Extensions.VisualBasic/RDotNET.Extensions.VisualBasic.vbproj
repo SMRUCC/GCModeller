@@ -305,6 +305,7 @@
     <Compile Include="ScriptBuilder\EscapingHelper.vb" />
     <Compile Include="ScriptBuilder\ScriptBuilder.vb" />
     <Compile Include="Server\ExtendedEngine.vb" />
+    <Compile Include="Server\GC.vb" />
     <Compile Include="userFunctions\Tools.vb" />
     <Compile Include="Extensions\var.vb" />
     <Compile Include="Extensions\out.vb" />
@@ -396,9 +397,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RDotNET\RDotNet.vbproj">
+    <ProjectReference Include="..\RDotNET\RDotNET.vbproj">
       <Project>{57d5ea2b-f718-4fd8-9504-b4c0293fa4b9}</Project>
-      <Name>RDotNet</Name>
+      <Name>RDotNET</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

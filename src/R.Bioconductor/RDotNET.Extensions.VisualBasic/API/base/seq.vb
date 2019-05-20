@@ -49,7 +49,7 @@ Namespace API
         Public Function unique(ref As String) As String
             SyncLock R
                 With R
-                    Dim var$ = App.NextTempName
+                    Dim var$ = RDotNetGC.Allocate
                     .call = $"{var} <- unique({ref});"
                     Return var
                 End With

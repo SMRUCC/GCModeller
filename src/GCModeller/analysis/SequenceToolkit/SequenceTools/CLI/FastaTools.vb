@@ -294,7 +294,7 @@ Partial Module Utilities
     <Group(CLIGrouping.FastaTools)>
     Public Function ToFasta(args As CommandLine) As Integer
         Dim inFile As String = args <= "/in"
-        Dim attrs$() = args.GetValue("/attrs", {"gene", "locus_tag", "gi", "location", "product"}, __ctype:=Function(s) s.Split(";"c))
+        Dim attrs$() = args.GetValue("/attrs", {"gene", "locus_tag", "gi", "location", "product"}, cast:=Function(s) s.Split(";"c))
         Dim seq As String = args.GetValue("/seq", "sequence")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & "-" & seq.NormalizePathString & ".Fasta")
         Dim csv As csv.IO.File = inFile

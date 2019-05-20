@@ -122,8 +122,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     .Class = [class].ClassLabel,
                     .SubCategory = subCat.ClassLabel,
                     .Entry = New KeyValuePair With {
-                        .Key = rxn.EntryId,
-                        .Value = rxn.Description
+                        .Key = rxn.entryID,
+                        .Value = rxn.description
                     }
                 }
                 Select erxn

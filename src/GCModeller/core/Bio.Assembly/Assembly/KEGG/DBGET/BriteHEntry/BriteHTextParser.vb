@@ -26,16 +26,16 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim classes As New List(Of BriteHText)
             Dim p As Integer = 0
             Dim root As New BriteHText With {
-                .ClassLabel = "/",
-                .Level = -1,
-                .Degree = depth
+                .classLabel = "/",
+                .level = -1,
+                .degree = depth
             }
 
             Do While p < lines.Length - 1
                 Call classes.Add(LoadData(lines, p, level:=0, parent:=root))
             Loop
 
-            root.CategoryItems = classes
+            root.categoryItems = classes
 
             Return root
         End Function
@@ -43,39 +43,38 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <summary>
         ''' 递归加载层次数据
         ''' </summary>
-        ''' <param name="strLines"></param>
+        ''' <param name="lines"></param>
         ''' <param name="p"></param>
         ''' <param name="level"></param>
         ''' <returns></returns>
-        Private Function LoadData(strLines As String(), ByRef p As Integer, level As Integer, parent As BriteHText) As BriteHText
-            Dim Category As New BriteHText With {
-                .Level = level,
-                .ClassLabel = Mid(strLines(p), 2).Trim,
-                .Parent = parent
+        Private Function LoadData(lines$(), ByRef p%, level%, parent As BriteHText) As BriteHText
+            Dim category As New BriteHText With {
+                .level = level,
+                .classLabel = Mid(lines(p), 2).Trim,
+                .parent = parent
             }
 
             p += 1
 
-            If p > strLines.Length - 1 Then
-                Return Category
+            If p > lines.Length - 1 Then
+                Return category
             End If
 
-            If strLines(p).First > Category.CategoryLevel Then
+            If lines(p).First > category.CategoryLevel Then
                 Dim subCategory As New List(Of BriteHText)
 
-                Do While strLines(p).First > Category.CategoryLevel
-                    Call subCategory.Add(
-                        LoadData(strLines, p, level + 1, parent:=Category))
+                Do While lines(p).First > category.CategoryLevel
+                    subCategory += LoadData(lines, p, level + 1, parent:=category)
 
-                    If p > strLines.Length - 1 Then
+                    If p > lines.Length - 1 Then
                         Exit Do
                     End If
                 Loop
 
-                Category.CategoryItems = subCategory.ToArray
+                category.categoryItems = subCategory
             End If
 
-            Return Category
+            Return category
         End Function
     End Module
 End Namespace

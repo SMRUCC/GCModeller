@@ -80,7 +80,7 @@ Namespace API.is
         ''' <param name="mode$"></param>
         ''' <returns></returns>
         Public Function vector(x$, Optional mode$ = "any") As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R

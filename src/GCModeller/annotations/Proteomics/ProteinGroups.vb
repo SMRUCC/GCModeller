@@ -248,10 +248,8 @@ Public Module ProteinGroups
         Dim uniprot As Dictionary(Of Uniprot.XML.entry) = uniprotProteomics.LoadDictionary(uniprotXML)
         Dim ID As IEnumerable(Of String) = uniprot.Keys
         Dim geneID$
-        Dim mappings As Dictionary(Of String, String()) =
-            ID.ToDictionary(
-            Function(s) s,
-            Function(s) {s})
+        Dim mappings As Dictionary(Of String, String()) = ID _
+            .ToDictionary(Function(s) s, Function(s) {s})
 
         For Each Idtags As SeqValue(Of String) In ID.SeqIterator
             Dim list$() = (+Idtags).Split(deli)
