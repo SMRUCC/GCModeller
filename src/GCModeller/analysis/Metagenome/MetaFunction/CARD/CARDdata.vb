@@ -70,7 +70,7 @@ Public Module CARDdata
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function AntibioticResistanceRelationship(aro As IEnumerable(Of RawTerm)) As Dictionary(Of String, String())
-        Return GenericTree.BuildTree(terms:=aro).AntibioticResistanceRelationship
+        Return Builder.BuildTree(terms:=aro).AntibioticResistanceRelationship
     End Function
 
     ''' <summary>

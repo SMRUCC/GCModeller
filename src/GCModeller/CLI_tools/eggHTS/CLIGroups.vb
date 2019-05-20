@@ -60,6 +60,8 @@ Friend NotInheritable Class CLIGroups
     Public Const LabelFreeTool$ = "Label Free data analysis tools"
     Public Const DataVisualize_cli$ = "Data visualization tool"
 
+    Public Const UniProtCLI$ = "UniProt tools"
+
     Private Sub New()
     End Sub
 
