@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports System.Text.RegularExpressions
 
 
-Namespace Language.JavaScript.ES6
+Namespace My.JavaScript.ES6
 
     Public Class RegExp
 

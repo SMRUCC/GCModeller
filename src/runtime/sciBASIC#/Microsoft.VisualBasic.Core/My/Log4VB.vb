@@ -52,7 +52,7 @@ Namespace My
     ''' <summary>
     ''' VB.NET <see cref="Console"/> log framework.
     ''' </summary>
-    <Export> Public Module Log4VB
+    Module Log4VB
 
         Friend ReadOnly logs As New List(Of LoggingDriver)
 

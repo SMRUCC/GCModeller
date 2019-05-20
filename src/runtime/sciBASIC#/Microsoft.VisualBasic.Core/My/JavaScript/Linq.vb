@@ -47,7 +47,7 @@ Imports r = System.Text.RegularExpressions.Regex
 Imports System.Text.RegularExpressions
 
 
-Namespace Language.JavaScript
+Namespace My.JavaScript
 
     Public Module Linq
 
