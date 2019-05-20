@@ -49,10 +49,6 @@ Imports Microsoft.VisualBasic.Terminal
 
 Namespace My
 
-    Public Class bbbbb
-
-    End Class
-
     ''' <summary>
     ''' VB.NET <see cref="Console"/> log framework.
     ''' </summary>

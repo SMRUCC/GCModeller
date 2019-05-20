@@ -28,8 +28,6 @@ Namespace Language.JavaScript.ES6
 
     Public Class Map : Inherits Dictionary(Of String, String)
 
-        Public ReadOnly Property b As My.bbbbb
-
         Sub New()
         End Sub
 
