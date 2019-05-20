@@ -36,26 +36,17 @@ Namespace HTML
             End Get
         End Property
 
-        Default Public WriteOnly Property Assign(name As String) As String
+        ''' <summary>
+        ''' 利用这个属性进行字符串替换的时候。模板之中的占位符的格式应该为``{$key_name}``
+        ''' </summary>
+        ''' <param name="name">在这里只需要输入``key_name``字符串即可</param>
+        Default Public WriteOnly Property assign(name As String) As String
             Set(value As String)
                 For Each template In templates.Values
-                    template.Builder.Assign(name) = value
+                    template.Builder(name) = value
                 Next
             End Set
         End Property
-
-        Public Function Replace(find$, value$) As HTMLReport
-            For Each template In templates.Values
-                Call template.Builder.Replace(find, value)
-            Next
-
-            Return Me
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Replace(find$, value As XElement) As HTMLReport
-            Return Replace(find, value.ToString)
-        End Function
 
         Sub New(folder$, Optional searchLevel As SearchOption = SearchOption.SearchTopLevelOnly)
             templates = (ls - l - {"*.html", "*.htm"} << searchLevel <= folder) _
@@ -65,6 +56,34 @@ Namespace HTML
                               End Function)
             directory = folder.GetDirectoryFullPath
         End Sub
+
+        ''' <summary>
+        ''' 这个函数与<see cref="assign(String)"/>属性不同的是，这个是直接执行字符串替换，
+        ''' 而<see cref="assign(String)"/>属性则是会将<paramref name="find"/>占位符拓展为
+        ''' ``{$<paramref name="find"/>}``
+        ''' </summary>
+        ''' <param name="find">在模板之中的占位符</param>
+        ''' <param name="value">将要替换为这个字符串的值</param>
+        ''' <returns></returns>
+        Public Function Replace(find$, value$) As HTMLReport
+            For Each template In templates.Values
+                Call template.Builder.Replace(find, value)
+            Next
+
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' 这个方法与<see cref="Replace(String, String)"/>的功能一致，
+        ''' 只不过这个方法更加方便于XML或者HTML语法的使用
+        ''' </summary>
+        ''' <param name="find$"></param>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Replace(find$, value As XElement) As HTMLReport
+            Return Replace(find, value.ToString)
+        End Function
 
         Public Overrides Function ToString() As String
             Return directory
