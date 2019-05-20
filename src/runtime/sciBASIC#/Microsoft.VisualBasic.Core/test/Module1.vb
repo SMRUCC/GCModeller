@@ -40,7 +40,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
-Imports Microsoft.VisualBasic.Language.JavaScript.ES6
+Imports Microsoft.VisualBasic.My.JavaScript.ES6
 
 Module Module1
 
