@@ -59,7 +59,7 @@ Public Module AntibioticResistance
                                     taxonomy As NcbiTaxonomyTree,
                                     taxonomyID As IEnumerable(Of ncbi_taxomony)) As TaxonomyAntibioticResistance()
 
-        Dim terms As Dictionary(Of String, GenericTree) = GenericTree.BuildTree(ARO)
+        Dim terms As Dictionary(Of String, GenericTree) = Builder.BuildTree(ARO)
         ' 基因对抗生素的抗性信息
         Dim antibiotic_resistance = terms.AntibioticResistanceRelationship
         ' 抗生素的名字等描述信息

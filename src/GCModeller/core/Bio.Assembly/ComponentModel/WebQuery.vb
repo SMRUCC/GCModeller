@@ -50,7 +50,7 @@ Namespace ComponentModel
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="url"></param>
+        ''' <param name="url">请注意,查询词应该是被<see cref="UrlEncode"/>所转义过的</param>
         ''' <param name="contextGuid"></param>
         ''' <param name="parser"></param>
         ''' <param name="prefix">
@@ -89,11 +89,15 @@ Namespace ComponentModel
                 Dim url = Me.url(context)
                 Dim id$ = Me.contextGuid(context)
                 Dim cache$
+                ' 如果是进行一些分子名称的查询,可能会因为分子名称超长而导致文件系统api调用出错
+                ' 所以在这里需要截短一下文件名称
+                ' 因为路径的总长度不能超过260个字符,所以文件名这里截短到200字符以内,留给文件夹名称一些长度
+                Dim baseName$ = Mid(id, 1, 192)
 
                 If prefix Is Nothing Then
-                    cache = $"{Me.cache}/{id}.{type.Trim("."c, "*"c)}"
+                    cache = $"{Me.cache}/{baseName}.{type.Trim("."c, "*"c)}"
                 Else
-                    cache = $"{Me.cache}/{prefix(id)}/{id}.{type.Trim("."c, "*"c)}"
+                    cache = $"{Me.cache}/{prefix(id)}/{baseName}.{type.Trim("."c, "*"c)}"
                 End If
 
                 If Not url Like url404 Then
@@ -113,7 +117,7 @@ Namespace ComponentModel
                         Call "hit cache!".__DEBUG_ECHO
                     End If
                 Else
-                    Call $"{url} 404 Not Found!".PrintException
+                    Call $"{id} 404 Not Found!".PrintException
                 End If
 
                 Yield cache
