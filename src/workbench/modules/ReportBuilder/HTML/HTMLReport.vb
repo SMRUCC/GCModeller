@@ -18,18 +18,18 @@ Namespace HTML
         ''' 因为PC端的HTML报告可能就只有一个index.html
         ''' 但是对于移动端，由于设备屏幕比较小以及为了方便在内容分区之间跳转，所以HTML报告往往会被按照内容分区分为多个html文档构成的
         ''' </remarks>
-        Public ReadOnly Property Templates As Dictionary(Of String, TemplateHandler)
+        Public ReadOnly Property templates As Dictionary(Of String, TemplateHandler)
 
         ''' <summary>
         ''' html报告的根目录
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Directory As String
+        Public ReadOnly Property directory As String
 
         Public ReadOnly Property HtmlFiles As String()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Templates _
+                Return templates _
                     .Values _
                     .Select(Function(handler) handler.Path) _
                     .ToArray
@@ -38,14 +38,14 @@ Namespace HTML
 
         Default Public WriteOnly Property Assign(name As String) As String
             Set(value As String)
-                For Each template In Templates.Values
+                For Each template In templates.Values
                     template.Builder.Assign(name) = value
                 Next
             End Set
         End Property
 
         Public Function Replace(find$, value$) As HTMLReport
-            For Each template In Templates.Values
+            For Each template In templates.Values
                 Call template.Builder.Replace(find, value)
             Next
 
@@ -58,20 +58,20 @@ Namespace HTML
         End Function
 
         Sub New(folder$, Optional searchLevel As SearchOption = SearchOption.SearchTopLevelOnly)
-            Templates = (ls - l - {"*.html", "*.htm"} << searchLevel <= folder) _
+            templates = (ls - l - {"*.html", "*.htm"} << searchLevel <= folder) _
                 .ToDictionary(Function(path) path.BaseName,
                               Function(path)
                                   Return New TemplateHandler(path)
                               End Function)
-            Directory = folder.GetDirectoryFullPath
+            directory = folder.GetDirectoryFullPath
         End Sub
 
         Public Overrides Function ToString() As String
-            Return Directory
+            Return directory
         End Function
 
         Public Sub Save()
-            For Each template In Templates.Values
+            For Each template In templates.Values
                 Call template.Flush()
             Next
         End Sub
@@ -111,7 +111,7 @@ Namespace HTML
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator &(dir As HTMLReport, fileName As String) As String
-            Return (dir.Directory & "/" & fileName).Replace("\", "/").StringReplace("[/]+", "/")
+            Return (dir.directory & "/" & fileName).Replace("\", "/").StringReplace("[/]+", "/")
         End Operator
     End Class
 End Namespace
