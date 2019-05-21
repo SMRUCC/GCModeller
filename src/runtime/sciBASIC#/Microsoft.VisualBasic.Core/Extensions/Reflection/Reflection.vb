@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd538b22ab0d220d485a0b8a10e10245, Microsoft.VisualBasic.Core\Extensions\Reflection\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::aa04d1dc805165e98f902dd149eca325, Microsoft.VisualBasic.Core\Extensions\Reflection\Reflection.vb"
 
     ' Author:
     ' 
@@ -423,8 +423,8 @@ NULL:       If Not strict Then
         Dim baseType As Type = a.BaseType
 
         If Not strict Then
-            ' 在这里返回结果的话，depth为-1
 
+            ' 在这里返回结果的话，depth为-1
             If a Is base Then
                 Return True
             End If
