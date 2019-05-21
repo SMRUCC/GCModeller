@@ -56,7 +56,7 @@ Namespace HDF5.[Structure]
         Private m_name As String
         Private m_offset As Integer
         Private m_ndims As Integer
-        Private m_dataType As DataTypes
+        Private m_dataType As Integer
         Private m_byteLength As Integer
 
         Public Sub New(name As String, offset As Integer, ndims As Integer, dataType As Integer, byteLength As Integer)
