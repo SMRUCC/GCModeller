@@ -58,12 +58,10 @@ Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
 
 Namespace HDF5.[Structure]
 
-
-    Public Class DataObjectFacade
+    Public Class DataObjectFacade : Inherits HDF5Ptr
 
         Private Shared ObjectAddressMap As New Dictionary(Of Long, DataObject)()
 
-        Private m_address As Long
         Private m_dataObject As DataObject
 
         Private m_symbolName As String
@@ -72,7 +70,7 @@ Namespace HDF5.[Structure]
         Private m_layout As Layout
 
         Public Sub New([in] As BinaryReader, sb As Superblock, symbolName As String, address As Long)
-            Me.m_address = address
+            Call MyBase.New(address)
 
             Dim dobj As DataObject = readDataObject([in], sb, address)
             Me.m_dataObject = dobj
@@ -84,17 +82,13 @@ Namespace HDF5.[Structure]
         End Sub
 
         Public Sub New([in] As BinaryReader, sb As Superblock, symbolName As String, linkName As String)
+            Call MyBase.New(Scan0)
+
             Me.m_symbolName = symbolName
             Me.m_linkName = linkName
 
             Me.m_layout = Nothing
         End Sub
-
-        Public Overridable ReadOnly Property address() As Long
-            Get
-                Return Me.m_address
-            End Get
-        End Property
 
         Private Function readDataObject([in] As BinaryReader, sb As Superblock, address As Long) As DataObject
             Dim dobj As DataObject = ObjectAddressMap.GetValueOrNull(address)
@@ -210,15 +204,17 @@ Namespace HDF5.[Structure]
                         readLayout.maxDimensionLength = maxDimensionLength
                     End If
 
-                ElseIf msg.HeaderMessageType() Is ObjectHeaderMessageType.Attribute Then
+                ElseIf msg.headerMessageType() Is ObjectHeaderMessageType.Attribute Then
                     Dim am As AttributeMessage = msg.attributeMessage()
 
                     Dim dm As DataTypeMessage = am.dataType()
                     If Not dm Is Nothing Then
                         ' dm.type()
                     End If
+                ElseIf msg.headerMessageType Is ObjectHeaderMessageType.Group Then
+                    Throw New NotImplementedException
                 Else
-                        Throw New NotImplementedException
+                    Throw New NotImplementedException
                 End If
             Next
 

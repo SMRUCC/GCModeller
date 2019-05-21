@@ -56,15 +56,15 @@ Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
 Namespace HDF5.[Structure]
 
 
-    Public Class DataObject
-        Private m_address As Long
+    Public Class DataObject : Inherits HDF5Ptr
+
         Private m_objectHeader As ObjectHeader
         Private m_groupMessage As GroupMessage
 
         Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
-            [in].offset = address
+            Call MyBase.New(address)
 
-            Me.m_address = address
+            [in].offset = address
 
             Me.m_objectHeader = New ObjectHeader([in], sb, address)
 
@@ -74,12 +74,6 @@ Namespace HDF5.[Structure]
                 End If
             Next
         End Sub
-
-        Public Overridable ReadOnly Property address() As Long
-            Get
-                Return Me.m_address
-            End Get
-        End Property
 
         Public Overridable ReadOnly Property messages() As List(Of ObjectHeaderMessage)
             Get
