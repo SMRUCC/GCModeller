@@ -247,3 +247,5 @@ pip-log.txt
 /src/.vs/ProjectSettings.json
 /.vs/GCModeller/v16/Preview
 *.RData
+/.vs/GCModeller/v16/Browse.VC.db
+/.vs/GCModeller/v16/Browse.VC.opendb
