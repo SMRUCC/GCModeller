@@ -55,7 +55,7 @@ Namespace edu.arizona.cs.hdf5.test
 
     Public Class ParseTest
 
-        Private Shared Sub dumpData(reader As HDF5Reader, showHeader As Boolean, showData As Boolean)
+        Private Shared Sub dumpData(reader As HDF5Reader, showHeader As Boolean, showData As Boolean, dumpFile$)
             If showHeader Then
                 Dim headerSize As Long = reader.headerSize
                 Console.WriteLine("header size : " & headerSize)
@@ -77,7 +77,7 @@ Namespace edu.arizona.cs.hdf5.test
 
             Call chunkReader.SetByteOrder(ByteOrder.LittleEndian)
 
-            Using text As StreamWriter = "./test.dmp".OpenWriter
+            Using text As StreamWriter = dumpFile.OpenWriter
 
                 Call DirectCast(layout, IFileDump).printValues(text)
 
@@ -125,8 +125,6 @@ Namespace edu.arizona.cs.hdf5.test
                         Exit For
                     End If
                 Next
-
-                reader.Dispose()
             End Using
         End Sub
 
@@ -158,14 +156,20 @@ Namespace edu.arizona.cs.hdf5.test
                 showData = True
             End If
 
-            Dim reader As New HDF5Reader(filename, "sample")
+            Dim file As New HDF5File(filename)
+            Dim reader As HDF5Reader = file!sample
             ' reader.parseHeader()
 
             Dim ids = reader.ParseDataObject("matrix")
 
             Dim data = ids.ParseDataObject("data")
 
-            Call dumpData(data, True, True)
+            Call dumpData(data, True, True, "./test.dump")
+
+            data = Nothing
+            data = file("/sample/matrix/data")
+
+            Call dumpData(data, True, True, "./test2.dump")
         End Sub
     End Class
 
