@@ -166,6 +166,7 @@ Namespace HDF5.[Structure]
 
                     If dm.type = DataTypes.DATATYPE_COMPOUND Then
                         Dim sms As List(Of StructureMember) = dm.structureMembers
+
                         If sms IsNot Nothing Then
                             For Each sm As StructureMember In sms
                                 Dim name As String = sm.name
@@ -175,6 +176,7 @@ Namespace HDF5.[Structure]
                                 Dim dataType As Integer = -1
                                 Dim byteLength As Integer = -1
                                 Dim dtm As DataTypeMessage = sm.message
+
                                 If dtm IsNot Nothing Then
                                     dataType = dtm.type
                                     byteLength = dtm.byteSize
