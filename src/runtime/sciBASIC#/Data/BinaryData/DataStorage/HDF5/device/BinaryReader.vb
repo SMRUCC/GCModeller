@@ -47,13 +47,15 @@
 
 Imports System.Text
 
-Namespace HDF5.IO
+Namespace HDF5.device
 
     Public MustInherit Class BinaryReader : Implements IDisposable
 
         Protected Friend m_littleEndian As Boolean
         Protected Friend m_maxOffset As Long
         Protected filesize As Long
+
+        Dim markedPos As Long
 
         Public Overridable ReadOnly Property maxOffset As Long
             Get
@@ -103,6 +105,14 @@ Namespace HDF5.IO
             End If
         End Sub
 
+        Public Sub Mark()
+            markedPos = offset
+        End Sub
+
+        Public Sub Reset()
+            offset = markedPos
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"[{offset}/{filesize}] {ByteOrder.ToString}"
         End Function
@@ -129,6 +139,10 @@ Namespace HDF5.IO
             Next
         End Sub
 
+        ''' <summary>
+        ''' Read 4 bytes 32 bit integer
+        ''' </summary>
+        ''' <returns></returns>
         Public Overridable Function readInt() As Integer
             Dim data As Byte() = readBytes(4)
             Dim temp As Integer = 0
