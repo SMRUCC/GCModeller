@@ -158,15 +158,15 @@ Namespace HDF5.[Structure]
             Me.dataPos = [in].offset
         End Sub
 
-        Public Shared Function ReadAttrValue([in] As BinaryReader, msg As AttributeMessage, sb As Superblock) As Object
+        Public Shared Function ReadAttrValue(msg As AttributeMessage, sb As Superblock) As Object
             Dim type As DataTypeMessage = msg.dataType
-            Dim len = msg.dataSpace
+            Dim dims = msg.dataSpace.dimensionLength
             Dim dataType As DataTypes = type.type
 
-            [in].offset = msg.dataPos
+            sb.file.reader.offset = msg.dataPos
 
             If dataType = DataTypes.DATATYPE_VARIABLE_LENGTH Then
-
+                Return VariableLengthDatasetReader.readDataSet(msg.reader, dims, sb)
             Else
                 Throw New NotImplementedException
             End If
