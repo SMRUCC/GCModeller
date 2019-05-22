@@ -44,7 +44,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.MIME.application.netCDF
+Imports Microsoft.VisualBasic.Data.IO.HDF5
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module Module1
@@ -71,7 +71,7 @@ Module Module1
     Sub testCDFBIOM()
 
         Dim file = "D:\GCModeller\src\GCModeller\models\EP418446_K40_BS1D.otu_table.biom"
-        Dim reader As New HDF5Reader(file)
+        Dim reader As New HDF5File(file)
 
         Pause()
     End Sub
