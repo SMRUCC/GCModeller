@@ -196,7 +196,7 @@ Namespace Configuration
 
         Public Property AddLegend As String
 
-        Public Shared Function [DefaultValue]() As DefaultValue(Of Config)
+        Public Shared Function [DefaultValue]() As [Default](Of  Config)
             Return New Config With {
                 .Resolution = "18000,10000",
                 .AspectRatio = "16:9",

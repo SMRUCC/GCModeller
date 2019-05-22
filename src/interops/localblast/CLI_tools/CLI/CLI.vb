@@ -124,7 +124,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
     End Function
 
     ReadOnly best As New __bbhParser(AddressOf ParsebbhBesthit)
-    ReadOnly allhits As New DefaultValue(Of __bbhParser)(AddressOf ParseAllbbhhits)
+    ReadOnly allhits As New [Default](Of  __bbhParser)(AddressOf ParseAllbbhhits)
 
     ''' <summary>
     '''

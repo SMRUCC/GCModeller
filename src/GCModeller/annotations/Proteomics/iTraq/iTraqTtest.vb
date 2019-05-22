@@ -74,7 +74,7 @@ Public Module iTraqTtest
 
         Dim ZERO$ = base.rep(0, times:=data.First.Properties.Count)
         Dim result As New List(Of DEP_iTraq)
-        Dim NA As DefaultValue(Of Double) = 1.0# _
+        Dim NA As [Default](Of  Double) = 1.0# _
             .AsDefault(Function(x)
                            Dim n# = DirectCast(x, Double)
                            Return n = 0R OrElse

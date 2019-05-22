@@ -56,7 +56,7 @@ Module RInit
     ''' ``/@set R_HOME='/path/to/R_server/'``
     ''' </remarks>
     Public Function StartEngineServices() As ExtendedEngine
-        Static R_HOME As New DefaultValue(Of String) With {
+        Static R_HOME As New [Default](Of  String) With {
             .lazy = New Lazy(Of String)(AddressOf searchAuto)
         }
 
@@ -98,7 +98,7 @@ Module RInit
     ''' <summary>
     ''' R server running on x86 CPU platform
     ''' </summary>
-    ReadOnly i386 As DefaultValue(Of String) = NameOf(i386).AsDefault(Function() Not Environment.Is64BitProcess)
+    ReadOnly i386 As [Default](Of  String) = NameOf(i386).AsDefault(Function() Not Environment.Is64BitProcess)
     ReadOnly x64$ = NameOf(x64)
 
     ''' <summary>

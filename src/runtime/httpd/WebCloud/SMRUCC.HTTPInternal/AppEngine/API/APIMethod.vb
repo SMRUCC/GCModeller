@@ -64,7 +64,7 @@ Namespace AppEngine.APIMethods
 
         Public ReadOnly Property Response As Type
 
-        Protected Shared ReadOnly stringType As DefaultValue(Of Type) = GetType(String)
+        Protected Shared ReadOnly stringType As [Default](Of  Type) = GetType(String)
 
         Sub New(responseExample As Type)
             Me.Response = responseExample

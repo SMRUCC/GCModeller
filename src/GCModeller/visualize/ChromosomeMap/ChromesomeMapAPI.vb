@@ -329,7 +329,7 @@ Public Module ChromesomeMapAPI
         End With
     End Function
 
-    ReadOnly brown As DefaultValue(Of String) = NameOf(Color.Brown)
+    ReadOnly brown As [Default](Of  String) = NameOf(Color.Brown)
 
     ''' <summary>
     ''' 通常使用这个方法从PTT构件之中生成部分基因组的绘制模型数据

@@ -76,8 +76,8 @@ Namespace Metagenomics
             "superkingdom__", "phylum__", "class__", "order__", "family__", "genus__", "species__"
         }
 
-        Public ReadOnly Property BriefParser As DefaultValue(Of TaxonomyLineageParser) = New TaxonomyLineageParser(AddressOf TaxonomyParser)
-        Public ReadOnly Property CompleteParser As DefaultValue(Of TaxonomyLineageParser) = New TaxonomyLineageParser(AddressOf TaxonomyParserAlt)
+        Public ReadOnly Property BriefParser As [Default](Of TaxonomyLineageParser) = New TaxonomyLineageParser(AddressOf TaxonomyParser)
+        Public ReadOnly Property CompleteParser As [Default](Of TaxonomyLineageParser) = New TaxonomyLineageParser(AddressOf TaxonomyParserAlt)
 
         Public Delegate Function TaxonomyLineageParser(taxonomy As String) As Dictionary(Of String, String)
 

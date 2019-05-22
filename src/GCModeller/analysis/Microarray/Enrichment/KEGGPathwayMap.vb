@@ -71,8 +71,8 @@ Public Module KEGGPathwayMap
         '' <summary>
         '' The default color brush is blue 
         '' </summary>
-        Static blue As New DefaultValue(Of Func(Of String, String))(Function() "blue")
-        Static noTranslate As New DefaultValue(Of Func(Of String, String))(Function(id) id)
+        Static blue As New [Default](Of  Func(Of String, String))(Function() "blue")
+        Static noTranslate As New [Default](Of  Func(Of String, String))(Function(id) id)
 
         Dim all As IKEGGTerm()
         Dim failures As New List(Of String)

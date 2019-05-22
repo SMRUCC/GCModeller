@@ -181,7 +181,7 @@ Namespace Assembly.KEGG.WebServices
             Dim pen As Brush = textColor.GetBrush
             Dim scaleFactor As SizeF = scale.FloatSizeParser
 
-            Static SimSum As DefaultValue(Of Font) = New Font(FontFace.SimSun, 10, FontStyle.Regular)
+            Static SimSum As [Default](Of  Font) = New Font(FontFace.SimSun, 10, FontStyle.Regular)
 
             Using g As Graphics2D = pathway _
                 .GetImage _

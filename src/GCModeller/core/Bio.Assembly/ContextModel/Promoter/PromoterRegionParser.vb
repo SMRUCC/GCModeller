@@ -111,7 +111,7 @@ Namespace ContextModel.Promoter
             Return GetSequenceById(Me, geneIDs, length)
         End Function
 
-        Shared ReadOnly default150 As DefaultValue(Of Integer) = 150.AsDefault(Function(value) Not ContainsLength(length:=DirectCast(value, Integer)))
+        Shared ReadOnly default150 As [Default](Of  Integer) = 150.AsDefault(Function(value) Not ContainsLength(length:=DirectCast(value, Integer)))
 
         ''' <summary>
         ''' Get parsed sequence by a given id list.

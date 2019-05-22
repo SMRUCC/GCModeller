@@ -133,7 +133,7 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
         End Set
     End Property
 
-    Shared ReadOnly fullAnnotation As New DefaultValue(Of Func(Of PlasmidAnnotation, String()))(Function(gene As PlasmidAnnotation) New String() {gene.ORF_ID, gene.Gene_name, gene.product})
+    Shared ReadOnly fullAnnotation As New [Default](Of  Func(Of PlasmidAnnotation, String()))(Function(gene As PlasmidAnnotation) New String() {gene.ORF_ID, gene.Gene_name, gene.product})
     Shared ReadOnly ORFidAnnotation As New Func(Of PlasmidAnnotation, String())(Function(gene As PlasmidAnnotation) {gene.ORF_ID})
 
     ''' <summary>

@@ -143,7 +143,7 @@ Namespace SequenceModel.FASTA
         ''' 默认的Fasta文件拓展名列表
         ''' </summary>
         ''' <returns></returns>
-        Public Shared ReadOnly Property DefaultSuffix As DefaultValue(Of String()) = {"*.fasta", "*.fa", "*.fsa", "*.fas"}
+        Public Shared ReadOnly Property DefaultSuffix As [Default](Of  String()) = {"*.fasta", "*.fa", "*.fsa", "*.fas"}
 
         ''' <summary>
         ''' 全部都是使用<see cref="StreamIterator"/>对象来进行读取的

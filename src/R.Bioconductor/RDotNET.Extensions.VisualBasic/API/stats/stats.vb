@@ -82,7 +82,7 @@ Namespace API
             Throw New NotImplementedException
         End Function
 
-        ReadOnly quartile As DefaultValue(Of Double()) = {0, 0.25, 0.5, 0.75, 1}
+        ReadOnly quartile As [Default](Of  Double()) = {0, 0.25, 0.5, 0.75, 1}
 
         ''' <summary>
         ''' The generic function quantile produces sample quantiles corresponding to the given probabilities. 

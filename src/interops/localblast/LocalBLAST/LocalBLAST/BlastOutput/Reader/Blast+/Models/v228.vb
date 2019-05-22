@@ -234,7 +234,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return LQuery
         End Function
 
-        Shared ReadOnly tokenFirst As New DefaultValue(Of TextGrepMethod)(Function(hitName) hitName.Split.First)
+        Shared ReadOnly tokenFirst As New [Default](Of  TextGrepMethod)(Function(hitName) hitName.Split.First)
 
         Public Shared Function ExportBesthits(QueryName$, QueryLength%, Besthits As SubjectHit(), Optional grepHitId As TextGrepMethod = Nothing) As BestHit()
             Dim locusID$ = QueryName.Split.First
