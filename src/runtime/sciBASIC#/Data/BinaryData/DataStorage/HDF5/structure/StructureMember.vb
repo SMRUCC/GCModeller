@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::8976347b9ffd824861dd537584d5ab3b, Data\BinaryData\DataStorage\HDF5\structure\StructureMember.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class StructureMember
-    ' 
-    '         Properties: dims, message, name, offset
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: ToString
-    ' 
-    '         Sub: printValues
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class StructureMember
+' 
+'         Properties: dims, message, name, offset
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: ToString
+' 
+'         Sub: printValues
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,6 +55,7 @@
 
 
 Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -91,19 +92,20 @@ Namespace HDF5.[Structure]
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"Dim {name} As {Message} = [&{address}, {Offset}]"
+            Return $"Dim {name} As {message} = [&{address}, {offset}]"
         End Function
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("StructureMember >>>")
-            Console.WriteLine("address : " & Me.m_address)
+        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+            console.WriteLine("StructureMember >>>")
+            console.WriteLine("address : " & Me.m_address)
             Console.WriteLine("name : " & Me.name)
             Console.WriteLine("offset : " & Me.offset)
             Console.WriteLine("m_dims : " & Me.dims)
 
             If Me.message IsNot Nothing Then
-                Me.message.printValues()
+                Me.message.printValues(console)
             End If
+
             Console.WriteLine("StructureMember >>>")
         End Sub
     End Class
