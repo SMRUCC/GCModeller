@@ -43,6 +43,47 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Data.Storage.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Data.Storage.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_x64%29|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\GCModeller%28Release_x64%29\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Data.Storage.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_x64%29|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\GCModeller%28Release_x64%29\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Data.Storage.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -64,11 +105,15 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HDF5\device\GlobalHeapId.vb" />
+    <Compile Include="HDF5\device\VariableLengthDatasetReader.vb" />
+    <Compile Include="HDF5\HDF5File.vb" />
     <Compile Include="HDF5\HDF5Ptr.vb" />
     <Compile Include="HDF5\HDF5Reader.vb" />
-    <Compile Include="HDF5\io\BinaryFileReader.vb" />
-    <Compile Include="HDF5\io\BinaryReader.vb" />
-    <Compile Include="HDF5\io\ReadHelper.vb" />
+    <Compile Include="HDF5\device\BinaryFileReader.vb" />
+    <Compile Include="HDF5\device\BinaryReader.vb" />
+    <Compile Include="HDF5\device\ReadHelper.vb" />
+    <Compile Include="HDF5\FileDump.vb" />
     <Compile Include="HDF5\structure\DataObjects\Headers\Messages\AttributeMessage.vb" />
     <Compile Include="HDF5\structure\DataObjects\Headers\LayoutClass.vb" />
     <Compile Include="HDF5\structure\DataObjects\Headers\Messages\FilterPipelineMessage.vb" />
@@ -84,7 +129,10 @@
     <Compile Include="HDF5\structure\DataObjects\Headers\Messages\DataspaceMessage.vb" />
     <Compile Include="HDF5\structure\DataObjects\Headers\Messages\DataTypeMessage.vb" />
     <Compile Include="HDF5\structure\DataObjects\Headers\Message.vb" />
-    <Compile Include="HDF5\structure\DataObjects\Headers\DataTypes.vb" />
+    <Compile Include="HDF5\structure\Infrastructure\GlobalHeap.vb" />
+    <Compile Include="HDF5\types\VariableLength.vb" />
+    <Compile Include="HDF5\types\DataType.vb" />
+    <Compile Include="HDF5\types\DataTypes.vb" />
     <Compile Include="HDF5\structure\DataObjects\Headers\Messages\FillValueMessage.vb" />
     <Compile Include="HDF5\structure\DataObjects\Headers\Messages\FillValueOldMessage.vb" />
     <Compile Include="HDF5\structure\Group.vb" />

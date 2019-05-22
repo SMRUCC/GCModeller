@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec9d10320ccdc9b9cabaf6c432261762, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\ObjectHeaderMessage.vb"
+﻿#Region "Microsoft.VisualBasic::a07f1e9bb00a810e6aad55eeecbb93d3, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\ObjectHeaderMessage.vb"
 
     ' Author:
     ' 
@@ -57,7 +57,7 @@
 ' 
 
 Imports System.IO
-Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -165,39 +165,39 @@ Namespace HDF5.[Structure]
             End Select
         End Function
 
-        Public Sub printValues()
-            Console.WriteLine("ObjectHeaderMessage >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("header message type : " & Convert.ToString(Me.headerMessageType))
-            Console.WriteLine("size of header message data : " & Me.sizeOfHeaderMessageData)
-            Console.WriteLine("header message flags : " & Me.headerMessageFlags)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("ObjectHeaderMessage >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("header message type : " & Convert.ToString(Me.headerMessageType))
+            console.WriteLine("size of header message data : " & Me.sizeOfHeaderMessageData)
+            console.WriteLine("header message flags : " & Me.headerMessageFlags)
 
             If Me.headerMessageType Is ObjectHeaderMessageType.ObjectHeaderContinuation Then
-                Console.WriteLine("header message continue")
-                Me.continueMessage.printValues()
+                console.WriteLine("header message continue")
+                Me.continueMessage.printValues(console)
             ElseIf Me.headerMessageType Is ObjectHeaderMessageType.Group Then
-                Me.groupMessage.printValues()
+                Me.groupMessage.printValues(console)
             ElseIf Me.headerMessageType Is ObjectHeaderMessageType.SimpleDataspace Then
-                Me.dataspaceMessage.printValues()
+                Me.dataspaceMessage.printValues(console)
             ElseIf Me.headerMessageType Is ObjectHeaderMessageType.FillValue Then
-                Me.fillValueMessage.printValues()
+                Me.fillValueMessage.printValues(console)
             ElseIf Me.headerMessageType Is ObjectHeaderMessageType.FillValueOld Then
-                Me.fillValueOldMessage.printValues()
+                Me.fillValueOldMessage.printValues(console)
             ElseIf Me.headerMessageType Is ObjectHeaderMessageType.Datatype Then
-                Me.dataTypeMessage.printValues()
+                Me.dataTypeMessage.printValues(console)
             ElseIf Me.headerMessageType Is ObjectHeaderMessageType.Attribute Then
-                Me.attributeMessage.printValues()
+                Me.attributeMessage.printValues(console)
             ElseIf Me.headerMessageType Is ObjectHeaderMessageType.Link Then
-                Me.linkMessage.printValues()
+                Me.linkMessage.printValues(console)
             ElseIf Me.headerMessageType Is ObjectHeaderMessageType.Layout Then
-                Me.layoutMessage.printValues()
+                Me.layoutMessage.printValues(console)
             ElseIf Me.headerMessageType Is ObjectHeaderMessageType.LastModified Then
-                Me.lastModifiedMessage.printValues()
+                Me.lastModifiedMessage.printValues(console)
             Else
-                Console.WriteLine("header message data : " & Convert.ToString(Me.headerMessageData))
+                console.WriteLine("header message data : " & Convert.ToString(Me.headerMessageData))
             End If
 
-            Console.WriteLine("ObjectHeaderMessage <<<")
+            console.WriteLine("ObjectHeaderMessage <<<")
         End Sub
     End Class
 

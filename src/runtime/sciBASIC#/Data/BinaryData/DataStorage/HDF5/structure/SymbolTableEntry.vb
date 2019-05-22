@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4413da21bc36da9d955bd640c1fc066, Data\BinaryData\DataStorage\HDF5\structure\SymbolTableEntry.vb"
+﻿#Region "Microsoft.VisualBasic::4b1be98f016e69bc81cf49e2686ad08d, Data\BinaryData\DataStorage\HDF5\structure\SymbolTableEntry.vb"
 
     ' Author:
     ' 
@@ -52,7 +52,9 @@
 ' 
 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -91,7 +93,7 @@ Namespace HDF5.[Structure]
             Me.totalSymbolTableEntrySize = sb.sizeOfOffsets * 2
             Me.cacheType = [in].readInt()
             Me.reserved = [in].readInt()
-                        Me.totalSymbolTableEntrySize += 8
+            Me.totalSymbolTableEntrySize += 8
 
             If Me.cacheType = 0 Then
                 Me.scratchpadSpace = [in].readBytes(16)
@@ -120,16 +122,16 @@ Namespace HDF5.[Structure]
             End If
         End Sub
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("SymbolTableEntry >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("link name offset : " & Me.linkNameOffset)
-            Console.WriteLine("object header address : " & Me.objectHeaderAddress)
-            Console.WriteLine("cache type : " & Me.cacheType)
-            Console.WriteLine("reserved : " & Me.reserved)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("SymbolTableEntry >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("link name offset : " & Me.linkNameOffset)
+            console.WriteLine("object header address : " & Me.objectHeaderAddress)
+            console.WriteLine("cache type : " & Me.cacheType)
+            console.WriteLine("reserved : " & Me.reserved)
 
             If Me.cacheType = 0 Then
-                Console.WriteLine("scratchpad space : " &
+                console.WriteLine("scratchpad space : " &
                                   (Me.scratchpadSpace(0) And &HFF).ToString("x") &
                                   (Me.scratchpadSpace(1) And &HFF).ToString("x") &
                                   (Me.scratchpadSpace(2) And &HFF).ToString("x") &
@@ -149,13 +151,13 @@ Namespace HDF5.[Structure]
                                  )
 
             ElseIf Me.cacheType = 1 Then
-                Me.objectHeaderScratchpadFormat.printValues()
+                Me.objectHeaderScratchpadFormat.printValues(console)
             ElseIf Me.cacheType = 2 Then
-                Me.symbolicLinkScratchpadFormat.printValues()
+                Me.symbolicLinkScratchpadFormat.printValues(console)
             End If
 
-            Console.WriteLine("total symbol table entry size : " & Me.totalSymbolTableEntrySize)
-            Console.WriteLine("SymbolTableEntry <<<")
+            console.WriteLine("total symbol table entry size : " & Me.totalSymbolTableEntrySize)
+            console.WriteLine("SymbolTableEntry <<<")
         End Sub
     End Class
 

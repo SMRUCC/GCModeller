@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8976347b9ffd824861dd537584d5ab3b, Data\BinaryData\DataStorage\HDF5\structure\StructureMember.vb"
+﻿#Region "Microsoft.VisualBasic::c40b7bd6128b60bcb2b20b11972fbcac, Data\BinaryData\DataStorage\HDF5\structure\StructureMember.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,9 @@
 ' 
 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -91,20 +93,21 @@ Namespace HDF5.[Structure]
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"Dim {name} As {Message} = [&{address}, {Offset}]"
+            Return $"Dim {name} As {message} = [&{address}, {offset}]"
         End Function
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("StructureMember >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("name : " & Me.name)
-            Console.WriteLine("offset : " & Me.offset)
-            Console.WriteLine("m_dims : " & Me.dims)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("StructureMember >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("name : " & Me.name)
+            console.WriteLine("offset : " & Me.offset)
+            console.WriteLine("m_dims : " & Me.dims)
 
             If Me.message IsNot Nothing Then
-                Me.message.printValues()
+                Me.message.printValues(console)
             End If
-            Console.WriteLine("StructureMember >>>")
+
+            console.WriteLine("StructureMember >>>")
         End Sub
     End Class
 

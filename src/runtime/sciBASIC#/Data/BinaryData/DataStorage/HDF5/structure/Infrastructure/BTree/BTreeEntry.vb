@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8838bbefb42cf7b9c7411e621936725d, Data\BinaryData\DataStorage\HDF5\structure\Infrastructure\BTree\BTreeEntry.vb"
+﻿#Region "Microsoft.VisualBasic::873613120db211d7fe05e9af36dfb990, Data\BinaryData\DataStorage\HDF5\structure\Infrastructure\BTree\BTreeEntry.vb"
 
     ' Author:
     ' 
@@ -52,44 +52,33 @@
 
 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure].BTree
 
 
     Public Class BTreeEntry : Inherits HDF5Ptr
 
-
-        Private m_key As Long
-        Private m_targetAddress As Long
+        Public Overridable ReadOnly Property targetAddress() As Long
+        Public Overridable ReadOnly Property key() As Long
 
         Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
             Call MyBase.New(address)
 
             [in].offset = address
 
-            Me.m_key = ReadHelper.readL([in], sb)
-            Me.m_targetAddress = ReadHelper.readO([in], sb)
+            Me.key = ReadHelper.readL([in], sb)
+            Me.targetAddress = ReadHelper.readO([in], sb)
         End Sub
 
-        Public Overridable ReadOnly Property targetAddress() As Long
-            Get
-                Return Me.m_targetAddress
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property key() As Long
-            Get
-                Return Me.m_key
-            End Get
-        End Property
-
-        Public Overridable Sub printValues()
-            Console.WriteLine("BTreeEntry >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("key : " & Me.m_key)
-            Console.WriteLine("target address : " & Me.m_targetAddress)
-            Console.WriteLine("BTreeEntry <<<")
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("BTreeEntry >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("key : " & Me.key)
+            console.WriteLine("target address : " & Me.targetAddress)
+            console.WriteLine("BTreeEntry <<<")
         End Sub
     End Class
 

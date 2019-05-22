@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64633ddc1b8fe81f09c6993c641fcaa3, Data\BinaryData\DataStorage\HDF5\structure\DataChunk.vb"
+﻿#Region "Microsoft.VisualBasic::e52e8e11ed01a3351b74e47c641c3365, Data\BinaryData\DataStorage\HDF5\structure\DataChunk.vb"
 
     ' Author:
     ' 
@@ -52,10 +52,15 @@
 
 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
+    ''' <summary>
+    ''' 所存储的数据块
+    ''' </summary>
     Public Class DataChunk : Inherits HDF5Ptr
 
         Public Overridable ReadOnly Property size() As Integer
@@ -79,19 +84,21 @@ Namespace HDF5.[Structure]
             Me.filePosition = If(last, -1, ReadHelper.readO([in], sb))
         End Sub
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("DataChunk >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("size : " & Me.size)
-            Console.WriteLine("filter mask : " & Me.filterMask)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("DataChunk >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("size : " & Me.size)
+            console.WriteLine("filter mask : " & Me.filterMask)
+
             If Me.offsets IsNot Nothing Then
                 For i As Integer = 0 To Me.offsets.Length - 1
-                    Console.WriteLine("offsets[" & i & "] : " & Me.offsets(i))
+                    console.WriteLine("offsets[" & i & "] : " & Me.offsets(i))
                 Next
             End If
-            Console.WriteLine("file position : " & Me.filePosition)
 
-            Console.WriteLine("DataChunk <<<")
+            console.WriteLine("file position : " & Me.filePosition)
+
+            console.WriteLine("DataChunk <<<")
         End Sub
     End Class
 

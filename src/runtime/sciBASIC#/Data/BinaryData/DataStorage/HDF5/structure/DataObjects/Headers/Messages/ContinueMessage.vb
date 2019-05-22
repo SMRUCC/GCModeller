@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3471a655df03a64dbafa7b1a7b49aa82, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\ContinueMessage.vb"
+﻿#Region "Microsoft.VisualBasic::b34a6be54dc9de9ce6ff2ae0264587da, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\ContinueMessage.vb"
 
     ' Author:
     ' 
@@ -51,7 +51,9 @@
 ' 
 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -72,13 +74,13 @@ Namespace HDF5.[Structure]
             Me.totalObjectHeaderMessageContinueSize = sb.sizeOfOffsets + sb.sizeOfLengths
         End Sub
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("ObjectHeaderMessageContinue >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("offset : " & Me.offset)
-            Console.WriteLine("length : " & Me.length)
-            Console.WriteLine("total header message continue size : " & Me.totalObjectHeaderMessageContinueSize)
-            Console.WriteLine("ObjectHeaderMessageContinue <<<")
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("ObjectHeaderMessageContinue >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("offset : " & Me.offset)
+            console.WriteLine("length : " & Me.length)
+            console.WriteLine("total header message continue size : " & Me.totalObjectHeaderMessageContinueSize)
+            console.WriteLine("ObjectHeaderMessageContinue <<<")
         End Sub
     End Class
 

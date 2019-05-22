@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2176474c43f730a8655876de78792b18, Data\BinaryData\DataStorage\HDF5\structure\Superblock.vb"
+﻿#Region "Microsoft.VisualBasic::26088a1790c1c16bc0b61d7ae3ae09e1, Data\BinaryData\DataStorage\HDF5\structure\Superblock.vb"
 
     ' Author:
     ' 
@@ -54,8 +54,8 @@
 ' 
 
 Imports System.IO
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
-Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -96,6 +96,8 @@ Namespace HDF5.[Structure]
         Dim reserved1 As Integer
         Dim reserved2 As Integer
 
+        Friend ReadOnly file As HDF5File
+
         Public Overridable ReadOnly Property versionOfSuperblock() As Integer
         Public Overridable ReadOnly Property versionOfFileFreeSpaceStorage() As Integer
         Public Overridable ReadOnly Property versionOfRootGroupSymbolTableEntry() As Integer
@@ -114,13 +116,22 @@ Namespace HDF5.[Structure]
         Public Overridable ReadOnly Property rootGroupSymbolTableEntry() As SymbolTableEntry
         Public Overridable ReadOnly Property totalSuperBlockSize() As Integer
 
-        Public Sub New([in] As BinaryReader, address As Long)
+        Public ReadOnly Property globalHeaps As Dictionary(Of Long, GlobalHeap)
+            Get
+                Return file.globalHeaps
+            End Get
+        End Property
+
+        Public Sub New(file As HDF5File, address As Long)
             Call MyBase.New(address)
+
+            Dim [in] = file.reader
 
             [in].offset = address
 
             ' signature
             Me.formatSignature = [in].readBytes(8)
+            Me.file = file
 
             If Not Me.validFormatSignature Then
                 Throw New IOException("signature is not valid")
@@ -174,37 +185,46 @@ Namespace HDF5.[Structure]
             Throw New IOException("version 2 is not implemented")
         End Sub
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("Superblock >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("signature : " & (formatSignature(0) And &HFF).ToString("x") & (formatSignature(1) And &HFF).ToString("x") & (formatSignature(2) And &HFF).ToString("x") & (formatSignature(3) And &HFF).ToString("x") & (formatSignature(4) And &HFF).ToString("x") & (formatSignature(5) And &HFF).ToString("x") & (formatSignature(6) And &HFF).ToString("x") & (formatSignature(7) And &HFF).ToString("x"))
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("Superblock >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("signature : " &
+                              (formatSignature(0) And &HFF).ToString("x") &
+                              (formatSignature(1) And &HFF).ToString("x") &
+                              (formatSignature(2) And &HFF).ToString("x") &
+                              (formatSignature(3) And &HFF).ToString("x") &
+                              (formatSignature(4) And &HFF).ToString("x") &
+                              (formatSignature(5) And &HFF).ToString("x") &
+                              (formatSignature(6) And &HFF).ToString("x") &
+                              (formatSignature(7) And &HFF).ToString("x")
+                             )
 
-            Console.WriteLine("version of super block : " & versionOfSuperblock)
-            Console.WriteLine("version of file free space storage : " & versionOfFileFreeSpaceStorage)
-            Console.WriteLine("version of root group symbol table entry : " & versionOfRootGroupSymbolTableEntry)
-            Console.WriteLine("reserved 0 : " & reserved0)
-            Console.WriteLine("version of sharded header message format : " & versionOfShardedHeaderMessageFormat)
-            Console.WriteLine("size of offsets : " & sizeOfOffsets)
-            Console.WriteLine("size of lengths : " & sizeOfLengths)
-            Console.WriteLine("reserved 1 : " & reserved1)
-            Console.WriteLine("group leaf node k : " & groupLeafNodeK)
-            Console.WriteLine("group internal node k : " & groupInternalNodeK)
-            Console.WriteLine("file consistency flags : " & fileConsistencyFlags)
+            console.WriteLine("version of super block : " & versionOfSuperblock)
+            console.WriteLine("version of file free space storage : " & versionOfFileFreeSpaceStorage)
+            console.WriteLine("version of root group symbol table entry : " & versionOfRootGroupSymbolTableEntry)
+            console.WriteLine("reserved 0 : " & reserved0)
+            console.WriteLine("version of sharded header message format : " & versionOfShardedHeaderMessageFormat)
+            console.WriteLine("size of offsets : " & sizeOfOffsets)
+            console.WriteLine("size of lengths : " & sizeOfLengths)
+            console.WriteLine("reserved 1 : " & reserved1)
+            console.WriteLine("group leaf node k : " & groupLeafNodeK)
+            console.WriteLine("group internal node k : " & groupInternalNodeK)
+            console.WriteLine("file consistency flags : " & fileConsistencyFlags)
 
             If versionOfSuperblock >= 1 Then
-                Console.WriteLine("indexed storage internode k : " & indexedStorageInterNodeK)
-                Console.WriteLine("reserved 2 : " & reserved2)
+                console.WriteLine("indexed storage internode k : " & indexedStorageInterNodeK)
+                console.WriteLine("reserved 2 : " & reserved2)
             End If
 
-            Console.WriteLine("base address : " & baseAddress)
-            Console.WriteLine("address of file free space info : " & addressOfFileFreeSpaceInfo)
-            Console.WriteLine("end of file address : " & endOfFileAddress)
-            Console.WriteLine("driver information block address : " & driverInformationBlockAddress)
+            console.WriteLine("base address : " & baseAddress)
+            console.WriteLine("address of file free space info : " & addressOfFileFreeSpaceInfo)
+            console.WriteLine("end of file address : " & endOfFileAddress)
+            console.WriteLine("driver information block address : " & driverInformationBlockAddress)
 
-            rootGroupSymbolTableEntry.printValues()
+            rootGroupSymbolTableEntry.printValues(console)
 
-            Console.WriteLine("total super block size : " & totalSuperBlockSize)
-            Console.WriteLine("Superblock <<<")
+            console.WriteLine("total super block size : " & totalSuperBlockSize)
+            console.WriteLine("Superblock <<<")
         End Sub
     End Class
 

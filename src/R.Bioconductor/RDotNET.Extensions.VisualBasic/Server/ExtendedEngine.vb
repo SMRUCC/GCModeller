@@ -159,7 +159,7 @@ Public Class ExtendedEngine : Inherits REngine
     Shared Sub New()
     End Sub
 
-    Public Shared Function MyDefault() As DefaultValue(Of ExtendedEngine)
+    Public Shared Function MyDefault() As [Default](Of  ExtendedEngine)
         Return RSystem.R.AsDefault
     End Function
 

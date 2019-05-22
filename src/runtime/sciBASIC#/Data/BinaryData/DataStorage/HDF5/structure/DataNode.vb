@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::237a354d00f788fbe2c5b37fade0274f, Data\BinaryData\DataStorage\HDF5\structure\DataNode.vb"
+﻿#Region "Microsoft.VisualBasic::2df57868a2d773c2bbce74b6010fb741, Data\BinaryData\DataStorage\HDF5\structure\DataNode.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Function: [next], hasNext
     ' 
-    '         Sub: first
+    '         Sub: first, printValues
     ' 
     ' 
     ' /********************************************************************************/
@@ -53,9 +53,9 @@
 
 
 Imports System.IO
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
 Imports Microsoft.VisualBasic.Language
-Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -206,6 +206,10 @@ Namespace HDF5.[Structure]
                 Return Me.currentNode.[next]([in], sb)
             End If
         End Function
+
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            Throw New NotImplementedException()
+        End Sub
     End Class
 
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9467579ff6a7c11e9eaf7b1a22f64d6, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\FilterPipelineMessage.vb"
+﻿#Region "Microsoft.VisualBasic::71410fab96224d440b2cbcd3bef30599, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\FilterPipelineMessage.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,7 @@
     '         Properties: description, numberOfFilters, version
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    '         Sub: printValues
     ' 
     '     Enum ReservedFilters
     ' 
@@ -50,15 +51,19 @@
     '                     uid
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: ToString
+    ' 
+    '         Sub: printValues
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
 Imports Microsoft.VisualBasic.Language
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -96,6 +101,10 @@ Namespace HDF5.[Structure]
             For i As Integer = 0 To numberOfFilters - 1
                 description += New FilterDescription([in], version, [in].offset)
             Next
+        End Sub
+
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            Throw New NotImplementedException()
         End Sub
     End Class
 
@@ -192,5 +201,9 @@ Namespace HDF5.[Structure]
         Public Overrides Function ToString() As String
             Return $"Call {name}({clientData.Select(Function(i) CStr(i)).JoinBy(", ")})"
         End Function
+
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            Throw New NotImplementedException()
+        End Sub
     End Class
 End Namespace

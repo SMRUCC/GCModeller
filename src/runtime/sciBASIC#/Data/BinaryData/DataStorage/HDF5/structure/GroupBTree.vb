@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28921bd9ded4bd3c5c4cca7621fd8716, Data\BinaryData\DataStorage\HDF5\structure\GroupBTree.vb"
+﻿#Region "Microsoft.VisualBasic::901d4e5ca79d70e99203777934db8dc1, Data\BinaryData\DataStorage\HDF5\structure\GroupBTree.vb"
 
     ' Author:
     ' 
@@ -52,10 +52,10 @@
 
 
 Imports System.IO
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
 Imports Microsoft.VisualBasic.Data.IO.HDF5.Structure.BTree
 Imports Microsoft.VisualBasic.Language
-Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -115,15 +115,15 @@ Namespace HDF5.[Structure]
             End If
         End Sub
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("GroupBTree >>>")
-            Console.WriteLine("address : " & Me.m_address)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("GroupBTree >>>")
+            console.WriteLine("address : " & Me.m_address)
 
             For i As Integer = 0 To symbolTableEntries.Count - 1
-                symbolTableEntries(i).printValues()
+                symbolTableEntries(i).printValues(console)
             Next
 
-            Console.WriteLine("GroupBTree <<<")
+            console.WriteLine("GroupBTree <<<")
         End Sub
     End Class
 

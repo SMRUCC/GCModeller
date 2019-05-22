@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6a2ec6dd98a364b46e2bff07d9e94d7, Data\BinaryData\DataStorage\HDF5\structure\Group.vb"
+﻿#Region "Microsoft.VisualBasic::76cbb1d4416b95af7a07f5f972d340d8, Data\BinaryData\DataStorage\HDF5\structure\Group.vb"
 
     ' Author:
     ' 
@@ -54,19 +54,22 @@
 ' 
 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
     ''' <summary>
-    ''' A group of <see cref="DataObjectFacade"/>
+    ''' A group of <see cref="DataObjectFacade"/>.（类似于文件夹）
     ''' </summary>
-    Public Class Group
+    Public Class Group : Implements IFileDump
 
-        Shared ReadOnly NESTED_OBJECTS As New List(Of DataObjectFacade)()
-
+        ''' <summary>
+        ''' 这个folder的parent节点
+        ''' </summary>
         Dim m_facade As DataObjectFacade
+        Dim NESTED_OBJECTS As New List(Of DataObjectFacade)
 
         Public Overridable ReadOnly Property objects() As List(Of DataObjectFacade)
             Get
@@ -74,13 +77,25 @@ Namespace HDF5.[Structure]
             End Get
         End Property
 
-        Public Sub New([in] As BinaryReader, sb As Superblock, facade As DataObjectFacade)
-            Me.m_facade = facade
+        Public ReadOnly Property attributes As AttributeMessage()
+            Get
+                Return m_facade.dataObject _
+                    .messages _
+                    .Where(Function(msg) Not msg.attributeMessage Is Nothing) _
+                    .Select(Function(a) a.attributeMessage) _
+                    .ToArray
+            End Get
+        End Property
 
-            If facade.dataObject.groupMessage IsNot Nothing Then
-                Dim gm As GroupMessage = facade.dataObject.groupMessage
-                readGroup([in], sb, gm.bTreeAddress, gm.nameHeapAddress)
+        Public Sub New([in] As BinaryReader, sb As Superblock, facade As DataObjectFacade)
+            Dim gm As GroupMessage = facade.dataObject.groupMessage
+
+            If gm Is Nothing Then
+                Throw New InvalidProgramException("Invalid folder object!")
             End If
+
+            m_facade = facade
+            readGroup([in], sb, gm.bTreeAddress, gm.nameHeapAddress)
         End Sub
 
         Private Sub readGroup([in] As BinaryReader, sb As Superblock, bTreeAddress As Long, nameHeapAddress As Long)
@@ -90,13 +105,13 @@ Namespace HDF5.[Structure]
             Dim linkName As String
 
             For Each symbol As SymbolTableEntry In btree.symbolTableEntries
-                Dim sname As String = nameHeap.getString(CInt(symbol.linkNameOffset))
+                Dim name As String = nameHeap.getString(CInt(symbol.linkNameOffset))
 
                 If symbol.cacheType = 2 Then
                     linkName = nameHeap.getString(CInt(symbol.linkNameOffset))
-                    dobj = New DataObjectFacade([in], sb, sname, linkName)
+                    dobj = New DataObjectFacade([in], sb, name, linkName)
                 Else
-                    dobj = New DataObjectFacade([in], sb, sname, symbol.objectHeaderAddress)
+                    dobj = New DataObjectFacade([in], sb, name, symbol.objectHeaderAddress)
                 End If
 
                 Call NESTED_OBJECTS.Add(dobj)
@@ -109,16 +124,16 @@ Namespace HDF5.[Structure]
                 .GetJson
         End Function
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("Group >>>")
+        Private Sub printValues(console As TextWriter) Implements IFileDump.printValues
+            console.WriteLine("Group >>>")
 
             If NESTED_OBJECTS IsNot Nothing Then
                 For Each dobj As DataObjectFacade In NESTED_OBJECTS
-                    dobj.printValues()
+                    dobj.printValues(console)
                 Next
             End If
 
-            Console.WriteLine("Group <<<")
+            console.WriteLine("Group <<<")
         End Sub
     End Class
 

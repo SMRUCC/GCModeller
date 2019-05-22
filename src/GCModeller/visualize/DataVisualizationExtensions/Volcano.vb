@@ -162,7 +162,7 @@ Public Module Volcano
     End Function
 
     ReadOnly black As Brush = Brushes.Black
-    ReadOnly P As DefaultValue(Of Func(Of Double, Double)) = New Func(Of Double, Double)(Function(pvalue) -Math.Log10(pvalue))
+    ReadOnly P As [Default](Of  Func(Of Double, Double)) = New Func(Of Double, Double)(Function(pvalue) -Math.Log10(pvalue))
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>

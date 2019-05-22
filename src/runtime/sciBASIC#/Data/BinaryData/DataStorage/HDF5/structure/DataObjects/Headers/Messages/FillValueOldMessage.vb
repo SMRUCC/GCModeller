@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9dd0b38df1ad0dbc21263520cd39aec7, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\FillValueOldMessage.vb"
+﻿#Region "Microsoft.VisualBasic::6ebb55e2087fba898a1fa55f11273582, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\FillValueOldMessage.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,8 @@
 ' * Modified by iychoi@email.arizona.edu
 ' 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -71,36 +72,24 @@ Namespace HDF5.[Structure]
     ''' </summary>
     Public Class FillValueOldMessage : Inherits Message
 
-        Private m_size As Integer
-        Private m_value As Byte()
+        Public Overridable ReadOnly Property size As Integer
+        Public Overridable ReadOnly Property value As Byte()
 
         Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
             Call MyBase.New(address)
 
             [in].offset = address
 
-            Me.m_size = [in].readInt()
-            Me.m_value = [in].readBytes(Me.m_size)
+            Me.size = [in].readInt()
+            Me.value = [in].readBytes(Me.size)
         End Sub
 
-        Public Overridable ReadOnly Property size() As Integer
-            Get
-                Return Me.m_size
-            End Get
-        End Property
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("FillValueOldMessage >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("size : " & Me.size)
 
-        Public Overridable ReadOnly Property value() As Byte()
-            Get
-                Return Me.m_value
-            End Get
-        End Property
-
-        Public Overridable Sub printValues()
-            Console.WriteLine("FillValueOldMessage >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("size : " & Me.m_size)
-
-            Console.WriteLine("FillValueOldMessage <<<")
+            console.WriteLine("FillValueOldMessage <<<")
         End Sub
     End Class
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17ef89dbfe86536d8e5f07f5690459b8, Data\BinaryData\DataStorage\HDF5\io\ReadHelper.vb"
+﻿#Region "Microsoft.VisualBasic::3adcf3e044f4b2dd70d64b802c36192d, Data\BinaryData\DataStorage\HDF5\io\ReadHelper.vb"
 
     ' Author:
     ' 
@@ -54,10 +54,16 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.IO.HDF5.Structure
 
-Namespace HDF5.IO
+Namespace HDF5.device
 
     <HideModuleName> Public Module ReadHelper
 
+        ''' <summary>
+        ''' <see cref="Superblock.sizeOfOffsets"/>
+        ''' </summary>
+        ''' <param name="[in]"></param>
+        ''' <param name="sb"></param>
+        ''' <returns></returns>
         Public Function readO([in] As BinaryReader, sb As Superblock) As Long
             If [in] Is Nothing Then
                 Throw New ArgumentException("in is null")
@@ -68,6 +74,7 @@ Namespace HDF5.IO
             End If
 
             Dim sizeOfOffsets As Integer = sb.sizeOfOffsets
+
             If sizeOfOffsets = 1 Then
                 Return [in].readByte()
             ElseIf sizeOfOffsets = 2 Then
@@ -77,9 +84,16 @@ Namespace HDF5.IO
             ElseIf sizeOfOffsets = 8 Then
                 Return [in].readLong()
             End If
+
             Throw New IOException("size of offsets is not specified")
         End Function
 
+        ''' <summary>
+        ''' <see cref="Superblock.sizeOfLengths"/>
+        ''' </summary>
+        ''' <param name="[in]"></param>
+        ''' <param name="sb"></param>
+        ''' <returns></returns>
         Public Function readL([in] As BinaryReader, sb As Superblock) As Long
             If [in] Is Nothing Then
                 Throw New ArgumentException("in is null")
@@ -90,6 +104,7 @@ Namespace HDF5.IO
             End If
 
             Dim sizeOfLengths As Integer = sb.sizeOfLengths
+
             If sizeOfLengths = 1 Then
                 Return [in].readByte()
             ElseIf sizeOfLengths = 2 Then
@@ -99,6 +114,7 @@ Namespace HDF5.IO
             ElseIf sizeOfLengths = 8 Then
                 Return [in].readLong()
             End If
+
             Throw New IOException("size of lengths is not specified")
         End Function
 
@@ -112,24 +128,29 @@ Namespace HDF5.IO
             End If
 
             Dim remain As Integer = dataLen Mod paddingSize
+
             If remain <> 0 Then
                 remain = paddingSize - remain
             End If
+
             Return remain
         End Function
 
         Public Function getNumBytesFromMax(maxNumber As Long) As Integer
             Dim size As Integer = 0
+
             While maxNumber <> 0
                 size += 1
                 ' right shift with zero extension
                 maxNumber = CLng(CULng(maxNumber) >> 8)
             End While
+
             Return size
         End Function
 
         Public Function readVariableSizeUnsigned([in] As BinaryReader, size As Integer) As Long
             Dim vv As Long
+
             If size = 1 Then
                 vv = unsignedByteToShort([in].readByte())
             ElseIf size = 2 Then
@@ -142,6 +163,7 @@ Namespace HDF5.IO
             Else
                 vv = readVariableSizeN([in], size)
             End If
+
             Return vv
         End Function
 
@@ -157,6 +179,7 @@ Namespace HDF5.IO
             Next
 
             Dim result As Long = ch(nbytes - 1)
+
             For i As Integer = nbytes - 2 To 0 Step -1
                 result = result << 8
                 result += ch(i)
@@ -185,6 +208,11 @@ Namespace HDF5.IO
             Return unsignedByteToShort(upper) * 256 + unsignedByteToShort(lower)
         End Function
 
+        ''' <summary>
+        ''' 读取以0结尾的字符串，然后padding对齐到8字节的整数倍的位置
+        ''' </summary>
+        ''' <param name="[in]"></param>
+        ''' <returns></returns>
         Public Function readString8([in] As BinaryReader) As String
             Dim filePos As Long = [in].offset
             Dim str As String = [in].readASCIIString()
@@ -202,6 +230,25 @@ Namespace HDF5.IO
             Dim size As Integer = CInt(Math.Truncate(Math.Pow(2, sizeFactor)))
             Return readVariableSizeUnsigned([in], size)
         End Function
+
+        ''' <summary>
+        ''' Moves the position of the <seealso cref="BinaryReader"/> to the next position aligned on
+        ''' 8 bytes. If the buffer position is already a multiple of 8 the position will
+        ''' not be changed.
+        ''' </summary>
+        ''' <param name="reader"> the buffer to be aligned </param>
+        ''' 
+        <Extension>
+        Public Sub seekBufferToNextMultipleOfEight(reader As BinaryReader)
+            Dim pos As Integer = reader.offset
+
+            If pos Mod 8 = 0 Then
+                ' Already on a 8 byte multiple
+                Return
+            Else
+                reader.offset += (8 - (pos Mod 8))
+            End If
+        End Sub
     End Module
 
 End Namespace

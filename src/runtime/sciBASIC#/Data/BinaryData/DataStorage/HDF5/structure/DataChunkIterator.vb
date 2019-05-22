@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::103bc7d4f2a1d1491be3aa153bc3e4d4, Data\BinaryData\DataStorage\HDF5\structure\DataChunkIterator.vb"
+﻿#Region "Microsoft.VisualBasic::ed9d5eb1f4dff50907e0ae942af74f95, Data\BinaryData\DataStorage\HDF5\structure\DataChunkIterator.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,10 @@
     '     Class DataChunkIterator
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: [next], hasNext
+    ' 
+    '         Sub: printValues
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,8 +52,9 @@
 ' 
 
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -76,6 +80,10 @@ Namespace HDF5.[Structure]
         Public Overridable Function [next]([in] As BinaryReader, sb As Superblock) As DataChunk
             Return Me.root.[next]([in], sb)
         End Function
+
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            Throw New NotImplementedException()
+        End Sub
     End Class
 
 End Namespace

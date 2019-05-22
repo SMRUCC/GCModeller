@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89c8efe00f7b443c2b6bfacd4fe5e40e, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\LayoutMessage.vb"
+﻿#Region "Microsoft.VisualBasic::12e0065cdaf2f46083a25dd94425d2f1, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\LayoutMessage.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     '     Class LayoutMessage
     ' 
-    '         Properties: chunkSize, continuousSize, dataAddress, dataSize, numberOfDimensions
-    '                     version
+    '         Properties: chunkSize, continuousSize, dataAddress, dataSize, dimensionality
+    '                     type, version
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Sub: printValues
@@ -51,123 +51,128 @@
 ' * Modified by iychoi@email.arizona.edu
 ' 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
     ''' <summary>
-    ''' 
+    ''' The Data Layout message describes how the elements of a multi-dimensional array 
+    ''' are stored in the HDF5 file.
     ''' </summary>
     Public Class LayoutMessage : Inherits Message
 
-        Private m_version As Integer
-        Private m_numberOfDimensions As Integer
-        Private m_type As LayoutClass
-        Private m_dataAddress As Long
-        Private m_continuousSize As Long
-        Private m_chunkSize As Integer()
-        Private m_dataSize As Integer
+        ''' <summary>
+        ''' The version number information is used for changes in the format of the 
+        ''' data layout message and is described here:
+        ''' 
+        ''' + 0: Never used.
+        ''' + 1: Used by version 1.4 And before of the library to encode layout information. 
+        '''      Data space Is always allocated when the data set Is created.
+        ''' + 2: Used by version 1.6.x of the library to encode layout information. Data 
+        '''      space Is allocated only when it Is necessary.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property version As Integer
+        ''' <summary>
+        ''' Layout Class
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property type As LayoutClass
+        ''' <summary>
+        ''' number of Dimensions
+        ''' 
+        ''' An array has a fixed dimensionality. This field specifies the number of dimension 
+        ''' size fields later in the message. The value stored for chunked storage is 1 greater 
+        ''' than the number of dimensions in the dataset’s dataspace. For example, 2 is stored 
+        ''' for a 1 dimensional dataset.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property dimensionality As Integer
+        ''' <summary>
+        ''' For contiguous storage, this is the address of the raw data in the file. For chunked 
+        ''' storage this is the address of the v1 B-tree that is used to look up the addresses 
+        ''' of the chunks. This field is not present for compact storage. If the version for 
+        ''' this message is greater than 1, the address may have the “undefined address” value, 
+        ''' to indicate that storage has not yet been allocated for this array.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property dataAddress As Long
+        Public ReadOnly Property continuousSize As Long
+        Public ReadOnly Property chunkSize As Integer()
+        Public ReadOnly Property dataSize As Integer
 
         Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
             Call MyBase.New(address)
 
             [in].offset = address
 
-            Me.m_version = [in].readByte()
+            Me.version = [in].readByte()
 
-            If Me.m_version < 3 Then
-                Me.m_numberOfDimensions = [in].readByte()
-                Me.m_type = [in].readByte()
+            If Me.version < 3 Then
+                Me.dimensionality = [in].readByte()
+                Me.type = [in].readByte()
 
+                ' Reserved (zero) 1 + 4 = 5 bytes
                 [in].skipBytes(5)
 
-                Dim isCompact As Boolean = (Me.m_type = 0)
+                Dim isCompact As Boolean = (Me.type = LayoutClass.CompactStorage)
+
                 If Not isCompact Then
-                    Me.m_dataAddress = ReadHelper.readO([in], sb)
+                    ' Data AddressO (optional)
+                    Me.dataAddress = ReadHelper.readO([in], sb)
                 End If
 
-                Me.m_chunkSize = New Integer(Me.m_numberOfDimensions - 1) {}
-                For i As Integer = 0 To Me.m_numberOfDimensions - 1
-                    Me.m_chunkSize(i) = [in].readInt()
+                Me.chunkSize = New Integer(Me.dimensionality - 1) {}
+
+                For i As Integer = 0 To Me.dimensionality - 1
+                    ' Dimension n Size
+                    Me.chunkSize(i) = [in].readInt()
                 Next
 
                 If isCompact Then
-                    Me.m_dataSize = [in].readInt()
-                    Me.m_dataAddress = [in].offset
+                    ' Dataset Element Size (optional)
+                    Me.dataSize = [in].readInt()
+                    Me.dataAddress = [in].offset
                 End If
             Else
-                Me.m_type = CType(CInt([in].readByte), LayoutClass)
+                Me.type = CType(CInt([in].readByte), LayoutClass)
 
-                If Me.m_type = LayoutClass.CompactStorage Then
-                    Me.m_dataSize = [in].readShort()
-                    Me.m_dataAddress = [in].offset
-                ElseIf Me.m_type = LayoutClass.ContiguousStorage Then
-                    Me.m_dataAddress = ReadHelper.readO([in], sb)
-                    Me.m_continuousSize = ReadHelper.readL([in], sb)
-                ElseIf Me.m_type = LayoutClass.ChunkedStorage Then
-                    Me.m_numberOfDimensions = [in].readByte()
-                    Me.m_dataAddress = ReadHelper.readO([in], sb)
-                    Me.m_chunkSize = New Integer(Me.m_numberOfDimensions - 1) {}
+                If Me.type = LayoutClass.CompactStorage Then
+                    Me.dataSize = [in].readShort()
+                    Me.dataAddress = [in].offset
+                ElseIf Me.type = LayoutClass.ContiguousStorage Then
+                    Me.dataAddress = ReadHelper.readO([in], sb)
+                    Me.continuousSize = ReadHelper.readL([in], sb)
+                ElseIf Me.type = LayoutClass.ChunkedStorage Then
+                    Me.dimensionality = [in].readByte()
+                    Me.dataAddress = ReadHelper.readO([in], sb)
+                    Me.chunkSize = New Integer(Me.dimensionality - 1) {}
 
-                    For i As Integer = 0 To Me.m_numberOfDimensions - 1
-                        Me.m_chunkSize(i) = [in].readInt()
+                    For i As Integer = 0 To Me.dimensionality - 1
+                        Me.chunkSize(i) = [in].readInt()
                     Next
                 End If
             End If
         End Sub
 
-        Public Overridable ReadOnly Property version() As Integer
-            Get
-                Return Me.m_version
-            End Get
-        End Property
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("LayoutMessage >>>")
 
-        Public Overridable ReadOnly Property numberOfDimensions() As Integer
-            Get
-                Return Me.m_numberOfDimensions
-            End Get
-        End Property
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("version : " & Me.version)
+            console.WriteLine("number of dimensions : " & Me.dimensionality)
+            console.WriteLine("type : " & Me.type)
+            console.WriteLine("data address : " & Me.dataAddress)
+            console.WriteLine("continuous size : " & Me.continuousSize)
+            console.WriteLine("data size : " & Me.dataSize)
 
-        Public Overridable ReadOnly Property dataAddress() As Long
-            Get
-                Return Me.m_dataAddress
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property continuousSize() As Long
-            Get
-                Return Me.m_continuousSize
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property chunkSize() As Integer()
-            Get
-                Return Me.m_chunkSize
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property dataSize() As Integer
-            Get
-                Return Me.m_dataSize
-            End Get
-        End Property
-
-        Public Overridable Sub printValues()
-            Console.WriteLine("LayoutMessage >>>")
-
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("version : " & Me.m_version)
-            Console.WriteLine("number of dimensions : " & Me.m_numberOfDimensions)
-            Console.WriteLine("type : " & Me.m_type)
-            Console.WriteLine("data address : " & Me.m_dataAddress)
-            Console.WriteLine("continuous size : " & Me.m_continuousSize)
-            Console.WriteLine("data size : " & Me.m_dataSize)
-
-            For i As Integer = 0 To Me.m_chunkSize.Length - 1
-                Console.WriteLine("chunk size [" & i & "] : " & Me.m_chunkSize(i))
+            For i As Integer = 0 To Me.chunkSize.Length - 1
+                console.WriteLine("chunk size [" & i & "] : " & Me.chunkSize(i))
             Next
 
-            Console.WriteLine("LayoutMessage <<<")
+            console.WriteLine("LayoutMessage <<<")
         End Sub
     End Class
 

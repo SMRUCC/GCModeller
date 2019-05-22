@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90e8afa939016d17373175dd0c19c2ae, Data\BinaryData\DataStorage\HDF5\structure\ObjectHeaderScratchpadFormat.vb"
+﻿#Region "Microsoft.VisualBasic::43fe1c486a8114753c830cac45819663, Data\BinaryData\DataStorage\HDF5\structure\ObjectHeaderScratchpadFormat.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,12 @@
 
     '     Class ObjectHeaderScratchpadFormat
     ' 
-    '         Properties: address, addressOfBTree, addressOfNameHeap, totalObjectHeaderScratchpadFormatSize
+    '         Properties: addressOfBTree, addressOfNameHeap, totalObjectHeaderScratchpadFormatSize
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ToString
+    ' 
     '         Sub: printValues
     ' 
     ' 
@@ -51,7 +54,9 @@
 ' 
 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -75,14 +80,14 @@ Namespace HDF5.[Structure]
             Return $"{MyBase.ToString}  btree=&{addressOfBTree}"
         End Function
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("ObjectHeaderScratchpadFormat >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("address of BTree : " & Me.addressOfBTree)
-            Console.WriteLine("address of name heap : " & Me.addressOfNameHeap)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("ObjectHeaderScratchpadFormat >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("address of BTree : " & Me.addressOfBTree)
+            console.WriteLine("address of name heap : " & Me.addressOfNameHeap)
 
-            Console.WriteLine("total object header scratchpad format size : " & Me.totalObjectHeaderScratchpadFormatSize)
-            Console.WriteLine("ObjectHeaderScratchpadFormat <<<")
+            console.WriteLine("total object header scratchpad format size : " & Me.totalObjectHeaderScratchpadFormatSize)
+            console.WriteLine("ObjectHeaderScratchpadFormat <<<")
         End Sub
     End Class
 

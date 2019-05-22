@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef7dc55f6e550443445f0539103afb5a, Data\BinaryData\DataStorage\HDF5\HDF5Ptr.vb"
+﻿#Region "Microsoft.VisualBasic::fcec78a1669fac9f6156214513ecacbf, Data\BinaryData\DataStorage\HDF5\HDF5Ptr.vb"
 
     ' Author:
     ' 
@@ -43,12 +43,14 @@
 
 #End Region
 
+Imports System.IO
+
 Namespace HDF5
 
     ''' <summary>
     ''' A internal pointer in a hdf5 binary data file.
     ''' </summary>
-    Public MustInherit Class HDF5Ptr
+    Public MustInherit Class HDF5Ptr : Implements IFileDump
 
         ''' <summary>
         ''' 当前的这个对象在文件之中的起始位置
@@ -72,5 +74,8 @@ Namespace HDF5
         Public Overrides Function ToString() As String
             Return $"&{address} {Me.GetType.Name}"
         End Function
+
+        Protected Friend MustOverride Sub printValues(console As TextWriter) Implements IFileDump.printValues
+
     End Class
 End Namespace

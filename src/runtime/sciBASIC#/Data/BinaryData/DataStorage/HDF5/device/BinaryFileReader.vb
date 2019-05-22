@@ -48,7 +48,7 @@
 
 Imports System.IO
 
-Namespace HDF5.IO
+Namespace HDF5.device
 
     Public Class BinaryFileReader
         Inherits BinaryReader
@@ -77,7 +77,7 @@ Namespace HDF5.IO
             Me.m_littleEndian = True
             Me.m_maxOffset = 0
 
-            Me.randomaccessfile = New FileStream(file.FullName, FileMode.Open)
+            Me.randomaccessfile = New FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read)
         End Sub
 
         Public Overrides Property offset() As Long

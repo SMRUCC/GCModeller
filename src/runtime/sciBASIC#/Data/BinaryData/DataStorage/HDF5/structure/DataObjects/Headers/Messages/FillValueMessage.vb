@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14aa1b5ab5374cf1d9e7a5d4c6ce9d37, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\FillValueMessage.vb"
+﻿#Region "Microsoft.VisualBasic::87d5e2322625c6ad533846dc5b72a070, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\FillValueMessage.vb"
 
     ' Author:
     ' 
@@ -53,103 +53,63 @@
 
 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
     Public Class FillValueMessage : Inherits Message
 
-        Private m_version As Integer
-        Private m_spaceAllocateTime As Integer
-        Private m_flags As Integer
-        Private m_fillWriteTime As Integer
-        Private m_hasFillValue As Boolean
-        Private m_size As Integer
-        Private m_value As Byte()
+        Public Overridable ReadOnly Property version() As Integer
+        Public Overridable ReadOnly Property spaceAllocateTime() As Integer
+        Public Overridable ReadOnly Property flags() As Integer
+        Public Overridable ReadOnly Property fillWriteTime() As Integer
+        Public Overridable ReadOnly Property hasFillValue() As Boolean
+        Public Overridable ReadOnly Property size() As Integer
+        Public Overridable ReadOnly Property value() As Byte()
 
         Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
             Call MyBase.New(address)
 
             [in].offset = address
 
-            Me.m_version = [in].readByte()
+            Me.version = [in].readByte()
 
-            If Me.m_version < 3 Then
-                Me.m_spaceAllocateTime = [in].readByte()
-                Me.m_fillWriteTime = [in].readByte()
+            If Me.version < 3 Then
+                Me.spaceAllocateTime = [in].readByte()
+                Me.fillWriteTime = [in].readByte()
 
-                Me.m_hasFillValue = ([in].readByte() <> 0)
+                Me.hasFillValue = ([in].readByte() <> 0)
             Else
-                Me.m_flags = [in].readByte()
-                Me.m_spaceAllocateTime = CByte(Me.m_flags And 3)
-                Me.m_fillWriteTime = CByte((Me.m_flags >> 2) And 3)
-                Me.m_hasFillValue = (Me.m_flags And 32) <> 0
+                Me.flags = [in].readByte()
+                Me.spaceAllocateTime = CByte(Me.flags And 3)
+                Me.fillWriteTime = CByte((Me.flags >> 2) And 3)
+                Me.hasFillValue = (Me.flags And 32) <> 0
             End If
 
-            If Me.m_hasFillValue Then
-                Me.m_size = [in].readInt()
-                If Me.m_size > 0 Then
-                    Me.m_value = [in].readBytes(Me.m_size)
-                    Me.m_hasFillValue = True
+            If Me.hasFillValue Then
+                Me.size = [in].readInt()
+
+                If Me.size > 0 Then
+                    Me.value = [in].readBytes(Me.size)
+                    Me.hasFillValue = True
                 Else
-                    Me.m_hasFillValue = False
+                    Me.hasFillValue = False
                 End If
             End If
         End Sub
 
-        Public Overridable ReadOnly Property version() As Integer
-            Get
-                Return Me.m_version
-            End Get
-        End Property
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("FillValueMessage >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("version : " & Me.version)
+            console.WriteLine("space allocate time : " & Me.spaceAllocateTime)
+            console.WriteLine("flags : " & Me.flags)
+            console.WriteLine("fill write time : " & Me.fillWriteTime)
+            console.WriteLine("has fill value : " & Me.hasFillValue)
+            console.WriteLine("size : " & Me.size)
 
-        Public Overridable ReadOnly Property spaceAllocateTime() As Integer
-            Get
-                Return Me.m_spaceAllocateTime
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property flags() As Integer
-            Get
-                Return Me.m_flags
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property fillWriteTime() As Integer
-            Get
-                Return Me.m_fillWriteTime
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property hasFillValue() As Boolean
-            Get
-                Return Me.m_hasFillValue
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property size() As Integer
-            Get
-                Return Me.m_size
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property value() As Byte()
-            Get
-                Return Me.m_value
-            End Get
-        End Property
-
-        Public Overridable Sub printValues()
-            Console.WriteLine("FillValueMessage >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("version : " & Me.m_version)
-            Console.WriteLine("space allocate time : " & Me.m_spaceAllocateTime)
-            Console.WriteLine("flags : " & Me.m_flags)
-            Console.WriteLine("fill write time : " & Me.m_fillWriteTime)
-            Console.WriteLine("has fill value : " & Me.m_hasFillValue)
-            Console.WriteLine("size : " & Me.m_size)
-
-            Console.WriteLine("FillValueMessage <<<")
+            console.WriteLine("FillValueMessage <<<")
         End Sub
     End Class
 

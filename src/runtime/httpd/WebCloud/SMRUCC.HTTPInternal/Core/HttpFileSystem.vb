@@ -258,7 +258,7 @@ Namespace Core
         ''' </summary>
         Const NoData As String = "[ERR_EMPTY_RESPONSE::No data send]"
 
-        ReadOnly defaultResource As DefaultValue(Of IGetResource) = New IGetResource(AddressOf GetResource)
+        ReadOnly defaultResource As [Default](Of  IGetResource) = New IGetResource(AddressOf GetResource)
 
         ''' <summary>
         ''' 默认的资源获取函数:<see cref="HttpFileSystem.GetResource(ByRef String)"/>.(默认是获取文件数据)

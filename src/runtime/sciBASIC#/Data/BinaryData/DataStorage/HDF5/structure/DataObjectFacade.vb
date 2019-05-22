@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::1d43beeaeb0d41c3283f7c1076ef84d0, Data\BinaryData\DataStorage\HDF5\structure\DataObjectFacade.vb"
+﻿#Region "Microsoft.VisualBasic::b0f91e7c784c556712521ad2edfd2e9a, Data\BinaryData\DataStorage\HDF5\structure\DataObjectFacade.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class DataObjectFacade
-    ' 
-    '         Properties: dataObject, layout, linkName, symbolName
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: readDataObject, readObjectLayout, ToString
-    ' 
-    '         Sub: printValues
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class DataObjectFacade
+' 
+'         Properties: dataObject, layout, linkName, symbolName
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: readDataObject, readObjectLayout, ToString
+' 
+'         Sub: printValues
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,21 +54,24 @@
 ' 
 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.type
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
+    ''' <summary>
+    ''' 可能是一个dataset，也可能是一个<see cref="Group"/>
+    ''' </summary>
     Public Class DataObjectFacade : Inherits HDF5Ptr
-
-        Shared ReadOnly ObjectAddressMap As New Dictionary(Of Long, DataObject)()
 
         Dim m_layout As Layout
 
-        Public Overridable ReadOnly Property dataObject As DataObject
-        Public Overridable ReadOnly Property symbolName As String
-        Public Overridable ReadOnly Property linkName As String
+        Public ReadOnly Property dataObject As DataObject
+        Public ReadOnly Property symbolName As String
+        Public ReadOnly Property linkName As String
 
-        Public Overridable ReadOnly Property layout As Layout
+        Public ReadOnly Property layout As Layout
             Get
                 If Me.m_layout Is Nothing Then
                     Me.m_layout = readObjectLayout()
@@ -98,11 +101,13 @@ Namespace HDF5.[Structure]
         End Sub
 
         Private Function readDataObject([in] As BinaryReader, sb As Superblock, address As Long) As DataObject
-            Dim dobj As DataObject = ObjectAddressMap.GetValueOrNull(address)
+            Dim dobj As DataObject = sb.file.GetCacheObject(address)
+
             If dobj Is Nothing Then
                 dobj = New DataObject([in], sb, address)
-                ObjectAddressMap(address) = dobj
+                sb.file.addCache(dobj)
             End If
+
             Return dobj
         End Function
 
@@ -150,7 +155,7 @@ Namespace HDF5.[Structure]
                 If msg.headerMessageType Is ObjectHeaderMessageType.Layout Then
                     Dim lm As LayoutMessage = msg.layoutMessage
 
-                    Dim numberOfDimensions As Integer = lm.numberOfDimensions
+                    Dim numberOfDimensions As Integer = lm.dimensionality
                     Dim chunkSize As Integer() = lm.chunkSize
                     Dim dataAddress As Long = lm.dataAddress
 
@@ -162,6 +167,7 @@ Namespace HDF5.[Structure]
 
                     If dm.type = DataTypes.DATATYPE_COMPOUND Then
                         Dim sms As List(Of StructureMember) = dm.structureMembers
+
                         If sms IsNot Nothing Then
                             For Each sm As StructureMember In sms
                                 Dim name As String = sm.name
@@ -171,6 +177,7 @@ Namespace HDF5.[Structure]
                                 Dim dataType As Integer = -1
                                 Dim byteLength As Integer = -1
                                 Dim dtm As DataTypeMessage = sm.message
+
                                 If dtm IsNot Nothing Then
                                     dataType = dtm.type
                                     byteLength = dtm.byteSize
@@ -193,22 +200,6 @@ Namespace HDF5.[Structure]
                         'layout.setNumberOfDimensions(ndims);
                         readLayout.maxDimensionLength = maxDimensionLength
                     End If
-
-                ElseIf msg.headerMessageType() Is ObjectHeaderMessageType.Attribute Then
-                    Dim am As AttributeMessage = msg.attributeMessage()
-
-                    Dim dm As DataTypeMessage = am.dataType()
-                    If Not dm Is Nothing Then
-                        ' dm.type()
-                    End If
-                    ' ElseIf msg.headerMessageType Is ObjectHeaderMessageType.Group Then
-                    '    Dim groups As GroupMessage = msg.groupMessage
-
-                    ' 20190521 group message no layout??
-                    ' readLayout.dataAddress = groups.bTreeAddress
-                    ' Throw New NotImplementedException
-                    'Else
-                    ' Throw New NotImplementedException
                 End If
             Next
 
@@ -219,24 +210,23 @@ Namespace HDF5.[Structure]
             Return symbolName
         End Function
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("DataObjectFacade >>>")
-
-            Console.WriteLine("address : " & Me.m_address)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("DataObjectFacade >>>")
+            console.WriteLine("address : " & Me.m_address)
 
             If Me.dataObject IsNot Nothing Then
-                Me.dataObject.printValues()
+                Me.dataObject.printValues(console)
             End If
 
             If Not String.ReferenceEquals(Me.symbolName, Nothing) Then
-                Console.WriteLine("symbol name : " & Me.symbolName)
+                console.WriteLine("symbol name : " & Me.symbolName)
             End If
 
             If Not String.ReferenceEquals(Me.linkName, Nothing) Then
-                Console.WriteLine("link name : " & Me.linkName)
+                console.WriteLine("link name : " & Me.linkName)
             End If
 
-            Console.WriteLine("DataObjectFacade <<<")
+            console.WriteLine("DataObjectFacade <<<")
         End Sub
     End Class
 

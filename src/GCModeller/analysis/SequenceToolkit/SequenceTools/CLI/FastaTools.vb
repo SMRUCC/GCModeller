@@ -507,7 +507,7 @@ Partial Module Utilities
     End Function
 
     ReadOnly simpleAttributes As New attrDump(AddressOf __attrBrief)
-    ReadOnly fullAttributes As New DefaultValue(Of attrDump)(AddressOf __attrFull)
+    ReadOnly fullAttributes As New [Default](Of  attrDump)(AddressOf __attrFull)
 
     Private Delegate Function attrDump(segment As SimpleSegment) As String()
 

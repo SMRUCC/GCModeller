@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e35f2fd21005452d29b70912541a29b0, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\ObjectHeader.vb"
+﻿#Region "Microsoft.VisualBasic::8d157fe8a229c2cb5db362c8a3764a29, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\ObjectHeader.vb"
 
     ' Author:
     ' 
@@ -55,7 +55,7 @@
 
 
 Imports System.IO
-Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -124,19 +124,19 @@ Namespace HDF5.[Structure]
 			Throw New IOException("version not implented")
 		End Sub
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("ObjectHeader >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("version : " & Me.version)
-            Console.WriteLine("number of messages : " & Me.totalNumberOfHeaderMessages)
-            Console.WriteLine("object reference count : " & Me.objectReferenceCount)
-            Console.WriteLine("object header size : " & Me.objectHeaderSize)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("ObjectHeader >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("version : " & Me.version)
+            console.WriteLine("number of messages : " & Me.totalNumberOfHeaderMessages)
+            console.WriteLine("object reference count : " & Me.objectReferenceCount)
+            console.WriteLine("object header size : " & Me.objectHeaderSize)
 
             For i As Integer = 0 To Me.headerMessages.Count - 1
-                Me.headerMessages(i).printValues()
+                Me.headerMessages(i).printValues(console)
             Next
 
-            Console.WriteLine("ObjectHeader <<<")
+            console.WriteLine("ObjectHeader <<<")
         End Sub
     End Class
 

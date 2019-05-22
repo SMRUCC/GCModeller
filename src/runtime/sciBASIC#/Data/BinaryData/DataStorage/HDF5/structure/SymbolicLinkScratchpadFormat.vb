@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a49e7672acd12cdfc25ca8e378f4c94, Data\BinaryData\DataStorage\HDF5\structure\SymbolicLinkScratchpadFormat.vb"
+﻿#Region "Microsoft.VisualBasic::59ab5a81c5878669f31f132e0691a1ea, Data\BinaryData\DataStorage\HDF5\structure\SymbolicLinkScratchpadFormat.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class SymbolicLinkScratchpadFormat
     ' 
-    '         Properties: address, offsetToLinkValue, totalSymbolicLinkScratchpadFormatSize
+    '         Properties: offsetToLinkValue, totalSymbolicLinkScratchpadFormatSize
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Sub: printValues
@@ -51,7 +51,8 @@
 ' 
 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
@@ -70,13 +71,13 @@ Namespace HDF5.[Structure]
             Me.totalSymbolicLinkScratchpadFormatSize = 4
         End Sub
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("SymbolicLinkScratchpadFormat >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("offset to link value : " & Me.offsetToLinkValue)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("SymbolicLinkScratchpadFormat >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("offset to link value : " & Me.offsetToLinkValue)
 
-            Console.WriteLine("total symbolic link scratchpad format size : " & Me.totalSymbolicLinkScratchpadFormatSize)
-            Console.WriteLine("SymbolicLinkScratchpadFormat <<<")
+            console.WriteLine("total symbolic link scratchpad format size : " & Me.totalSymbolicLinkScratchpadFormatSize)
+            console.WriteLine("SymbolicLinkScratchpadFormat <<<")
         End Sub
     End Class
 

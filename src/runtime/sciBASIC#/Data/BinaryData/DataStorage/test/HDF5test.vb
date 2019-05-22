@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a7c4ce5640f37ddce496da866a8986d, Data\BinaryData\DataStorage\test\HDF5test.vb"
+﻿#Region "Microsoft.VisualBasic::36abeefdbf3350a15d85382b83c5d4d7, Data\BinaryData\DataStorage\test\HDF5test.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class ParseTest
     ' 
-    '         Sub: Main
+    '         Sub: dumpData, Main
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,14 +45,90 @@
 ' 
 
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5
 Imports Microsoft.VisualBasic.Data.IO.HDF5.Structure
-Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
+Imports Microsoft.VisualBasic.Data.IO.HDF5.type
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace edu.arizona.cs.hdf5.test
 
     Public Class ParseTest
+
+        Private Shared Sub dumpData(reader As HDF5Reader, showHeader As Boolean, showData As Boolean, dumpFile$)
+            If showHeader Then
+                Dim headerSize As Long = reader.headerSize
+                Console.WriteLine("header size : " & headerSize)
+            End If
+            ' layout
+            Dim layout As Layout = reader.layout
+
+            Dim dims As Integer = layout.numberOfDimensions
+            Dim chunkSize As Integer() = layout.chunkSize
+            Dim dlength As Integer() = layout.dimensionLength
+            Dim maxdlength As Integer() = layout.maxDimensionLength
+            Dim fields As List(Of LayoutField) = layout.fields
+
+            ' chunk
+            Dim chunkReader As BinaryReader = reader.reader
+            Dim dataTotal As Integer = dlength(0)
+            Dim readCount As Integer = 0
+            Dim chunks As List(Of DataChunk) = reader.chunks
+
+            Call chunkReader.SetByteOrder(ByteOrder.LittleEndian)
+
+            Using text As StreamWriter = dumpFile.OpenWriter
+
+                Call DirectCast(layout, IFileDump).printValues(text)
+
+                For Each chunk As DataChunk In chunks
+
+                    Dim filepos As Long = chunk.filePosition
+
+                    If showHeader Then
+                        DirectCast(chunk, IFileDump).printValues(console:=text)
+                    End If
+
+                    chunkReader.offset = filepos
+
+                    If showData Then
+                        Dim dataCountPerChunk As Integer = chunk.size \ chunkSize(0)
+                        For i As Integer = 0 To dataCountPerChunk - 1
+                            Dim bytes As Byte() = chunkReader.readBytes(chunkSize(0))
+
+
+
+                            For j As Integer = 0 To fields.Count - 1
+                                Dim field As LayoutField = fields(j)
+
+                                Dim offset As Integer = field.offset
+                                Dim len As Integer = field.byteLength
+                                Dim dataType As DataTypes = field.dataType
+                                Dim ndims As Integer = field.nDims
+                                Dim name As String = field.name
+
+                                If dataType = DataTypes.DATATYPE_STRING Then
+                                    Dim val As String = bytes.ByteString(offset, len)
+                                    Console.WriteLine(name & " : " & val.Trim())
+                                End If
+                            Next
+
+                            readCount += 1
+
+                            If readCount >= dataTotal Then
+                                Exit For
+                            End If
+                        Next
+                    End If
+
+                    If readCount >= dataTotal Then
+                        Exit For
+                    End If
+                Next
+            End Using
+        End Sub
+
         Public Shared Sub Main(args As String())
             Dim [option] As String = "hd"
             Dim filename As String = "D:\GCModeller\src\runtime\sciBASIC#\Data\BinaryData\data\EP388069_K40_BS1D.otu_table.biom"
@@ -81,97 +157,20 @@ Namespace edu.arizona.cs.hdf5.test
                 showData = True
             End If
 
-            Dim reader As New HDF5Reader(filename, "sample")
+            Dim file As New HDF5File(filename)
+            Dim reader As HDF5Reader = file!sample
             ' reader.parseHeader()
 
-            Dim ids = reader.ParseDataObject("ids")
+            Dim ids = reader.ParseDataObject("matrix")
 
-            If showHeader Then
-                Dim headerSize As Long = reader.headerSize
-                Console.WriteLine("header size : " & headerSize)
-            End If
-            ' layout
-            Dim layout As Layout = reader.layout
+            Dim data = ids.ParseDataObject("data")
 
-            Dim dims As Integer = layout.numberOfDimensions
-            If showHeader Then
-                Console.WriteLine("dimensions : " & dims)
-            End If
+            Call dumpData(data, True, True, "./test.dump")
 
-            Dim chunkSize As Integer() = layout.chunkSize
-            Dim dlength As Integer() = layout.dimensionLength
-            Dim maxdlength As Integer() = layout.maxDimensionLength
+            data = Nothing
+            data = file("/sample/matrix/data")
 
-            If showHeader Then
-                For i As Integer = 0 To dims - 1
-                    If chunkSize.Length > i Then
-                        Console.WriteLine("chunk size[" & i & "] : " & chunkSize(i))
-                    End If
-
-                    If dlength.Length > i Then
-                        Console.WriteLine("dimension length[" & i & "] : " & dlength(i))
-                    End If
-
-                    If maxdlength.Length > i Then
-                        Console.WriteLine("max dimension length[" & i & "] : " & maxdlength(i))
-                    End If
-                Next
-            End If
-
-            Dim fields As List(Of LayoutField) = layout.fields
-
-            ' chunk
-            Dim chunkReader As BinaryReader = reader.reader
-            Dim dataTotal As Integer = dlength(0)
-            Dim readCount As Integer = 0
-            Dim chunks As List(Of DataChunk) = reader.chunks
-
-            Call chunkReader.SetByteOrder(ByteOrder.LittleEndian)
-
-            For Each chunk As DataChunk In chunks
-
-                Dim filepos As Long = chunk.filePosition
-
-                If showHeader Then
-                    chunk.printValues()
-                End If
-
-                chunkReader.offset = filepos
-
-                If showData Then
-                    Dim dataCountPerChunk As Integer = chunk.size \ chunkSize(0)
-                    For i As Integer = 0 To dataCountPerChunk - 1
-                        Dim bytes As Byte() = chunkReader.readBytes(chunkSize(0))
-
-                        For j As Integer = 0 To fields.Count - 1
-                            Dim field As LayoutField = fields(j)
-
-                            Dim offset As Integer = field.offset
-                            Dim len As Integer = field.byteLength
-                            Dim dataType As DataTypes = field.dataType
-                            Dim ndims As Integer = field.nDims
-                            Dim name As String = field.name
-
-                            If dataType = DataTypes.DATATYPE_STRING Then
-                                Dim val As String = bytes.ByteString(offset, len)
-                                Console.WriteLine(name & " : " & val.Trim())
-                            End If
-                        Next
-
-                        readCount += 1
-
-                        If readCount >= dataTotal Then
-                            Exit For
-                        End If
-                    Next
-                End If
-
-                If readCount >= dataTotal Then
-                    Exit For
-                End If
-            Next
-
-            reader.Dispose()
+            Call dumpData(data, True, True, "./test2.dump")
         End Sub
     End Class
 

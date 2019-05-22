@@ -1,47 +1,47 @@
-﻿#Region "Microsoft.VisualBasic::35f8c433be239fceb2593eaa23394e57, Data\BinaryData\DataStorage\HDF5\structure\Layout.vb"
+﻿#Region "Microsoft.VisualBasic::9f84f84516a50ece2254a62fc065fd0b, Data\BinaryData\DataStorage\HDF5\structure\Layout.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Layout
-    ' 
-    '         Properties: chunkSize, dataAddress, dimensionLength, fields, IsEmpty
-    '                     maxDimensionLength, numberOfDimensions
-    ' 
-    '         Function: ToString
-    ' 
-    '         Sub: addField
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Layout
+' 
+'         Properties: chunkSize, dataAddress, dimensionLength, fields, IsEmpty
+'                     maxDimensionLength, numberOfDimensions
+' 
+'         Function: ToString
+' 
+'         Sub: addField, printValues
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,17 +51,22 @@
 ' * 
 ' * Modified by iychoi@email.arizona.edu
 ' 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports Microsoft.VisualBasic.Data.IO.HDF5.type
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace HDF5.[Structure]
 
     ''' <summary>
     ''' 
     ''' </summary>
-    Public Class Layout
+    Public Class Layout : Implements IFileDump
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
         Dim fieldList As New List(Of LayoutField)
 
         Public Property dataAddress As Long
@@ -70,6 +75,10 @@ Namespace HDF5.[Structure]
         Public Property dimensionLength As Integer()
         Public Property maxDimensionLength As Integer()
 
+        ''' <summary>
+        ''' 如果这个列表不是空的，则说明目标对象是<see cref="DataTypes.DATATYPE_COMPOUND"/>类型的结构体
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property fields() As IEnumerable(Of LayoutField)
             Get
                 Return Me.fieldList
@@ -77,10 +86,20 @@ Namespace HDF5.[Structure]
         End Property
 
         ''' <summary>
+        ''' 是否是<see cref="DataTypes.DATATYPE_COMPOUND"/>复合类型？
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property isCompoundStruct As Boolean
+            Get
+                Return Not fieldList.IsNullOrEmpty
+            End Get
+        End Property
+
+        ''' <summary>
         ''' All of the values in this <see cref="Layout"/> object is empty!
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property IsEmpty As Boolean
+        Public ReadOnly Property isEmpty As Boolean
             Get
                 Return dataAddress <= 0 AndAlso
                     chunkSize.IsNullOrEmpty AndAlso
@@ -96,13 +115,36 @@ Namespace HDF5.[Structure]
             fieldList += New LayoutField(name, offset, ndims, dataType, byteLength)
         End Sub
 
+        Private Sub printValues(console As TextWriter) Implements IFileDump.printValues
+            Dim dims As Integer = numberOfDimensions
+            Dim dlength As Integer() = dimensionLength
+            Dim maxdlength As Integer() = maxDimensionLength
+
+            Call console.WriteLine("dimensions : " & dims)
+
+            For i As Integer = 0 To dims - 1
+                If chunkSize.Length > i Then
+                    console.WriteLine("chunk size[" & i & "] : " & chunkSize(i))
+                End If
+
+                If dlength.Length > i Then
+                    console.WriteLine("dimension length[" & i & "] : " & dlength(i))
+                End If
+
+                If maxdlength.Length > i Then
+                    console.WriteLine("max dimension length[" & i & "] : " & maxdlength(i))
+                End If
+            Next
+        End Sub
+
         Public Overrides Function ToString() As String
-            If IsEmpty Then
+            If isEmpty Then
                 Return "null"
             Else
-                Return fieldList _
-                    .Select(Function(field) field.name) _
-                    .GetJson
+                With New StringBuilder
+                    Call printValues(New System.IO.StringWriter(.ByRef))
+                    Return .ToString
+                End With
             End If
         End Function
     End Class

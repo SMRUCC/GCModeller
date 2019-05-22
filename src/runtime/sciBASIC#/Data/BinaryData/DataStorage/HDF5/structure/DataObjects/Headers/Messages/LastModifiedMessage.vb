@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e902cb4325a9cb1c5622ae62534b255e, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\LastModifiedMessage.vb"
+﻿#Region "Microsoft.VisualBasic::905d67e2f96202c390c2573b5f528bec, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\LastModifiedMessage.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,9 @@
     '         Properties: seconds, version
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ToString
+    ' 
     '         Sub: printValues
     ' 
     ' 
@@ -50,46 +53,39 @@
 ' * Modified by iychoi@email.arizona.edu
 ' 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
     Public Class LastModifiedMessage : Inherits Message
 
-        Private m_version As Integer
-        Private m_seconds As Integer
+        Public Overridable ReadOnly Property version() As Integer
+        Public Overridable ReadOnly Property seconds() As Integer
 
         Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
             Call MyBase.New(address)
 
             [in].offset = address
 
-            Me.m_version = [in].readByte()
+            Me.version = [in].readByte()
 
             [in].skipBytes(3)
 
-            Me.m_seconds = [in].readInt()
+            Me.seconds = [in].readInt()
         End Sub
 
-        Public Overridable ReadOnly Property version() As Integer
-            Get
-                Return Me.m_version
-            End Get
-        End Property
+        Public Overrides Function ToString() As String
+            Return $"{MyBase.ToString} {seconds}"
+        End Function
 
-        Public Overridable ReadOnly Property seconds() As Integer
-            Get
-                Return Me.m_seconds
-            End Get
-        End Property
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            console.WriteLine("LastModifiedMessage >>>")
+            console.WriteLine("address : " & Me.m_address)
+            console.WriteLine("version : " & Me.version)
+            console.WriteLine("seconds : " & Me.seconds)
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("LastModifiedMessage >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("version : " & Me.m_version)
-            Console.WriteLine("seconds : " & Me.m_seconds)
-
-            Console.WriteLine("LastModifiedMessage <<<")
+            console.WriteLine("LastModifiedMessage <<<")
         End Sub
     End Class
 

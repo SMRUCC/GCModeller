@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ff1cb61bdced0dfaca27c72d8814e25, Data\BinaryData\DataStorage\HDF5\structure\DataObject.vb"
+﻿#Region "Microsoft.VisualBasic::8cfcbde97ad78c3a670c6bfeffedcb92, Data\BinaryData\DataStorage\HDF5\structure\DataObject.vb"
 
     ' Author:
     ' 
@@ -51,18 +51,26 @@
 ' 
 
 
-Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
+Imports System.IO
+Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.[Structure]
 
-
+    ''' <summary>
+    ''' 一个数据块对象
+    ''' </summary>
     Public Class DataObject : Inherits HDF5Ptr
 
         Dim objectHeader As ObjectHeader
 
-        Public Overridable ReadOnly Property groupMessage() As GroupMessage
+        ''' <summary>
+        ''' For instance, a group is an object header that contains a message that points to a 
+        ''' local heap and to a B-tree which points to symbol nodes.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overridable ReadOnly Property groupMessage As GroupMessage
 
-        Public Overridable ReadOnly Property messages() As List(Of ObjectHeaderMessage)
+        Public Overridable ReadOnly Property messages As List(Of ObjectHeaderMessage)
             Get
                 If Me.objectHeader IsNot Nothing Then
                     Return Me.objectHeader.headerMessages
@@ -85,13 +93,15 @@ Namespace HDF5.[Structure]
             Next
         End Sub
 
-        Public Overridable Sub printValues()
-            Console.WriteLine("DataObject >>>")
-            Console.WriteLine("address : " & Me.m_address)
-            If Me.objectHeader IsNot Nothing Then
-                Me.objectHeader.printValues()
+        Protected Friend Overrides Sub printValues(console As TextWriter)
+            Call console.WriteLine("DataObject >>>")
+            Call console.WriteLine("address : " & Me.m_address)
+
+            If objectHeader IsNot Nothing Then
+                Call objectHeader.printValues(console)
             End If
-            Console.WriteLine("DataObject <<<")
+
+            Call console.WriteLine("DataObject <<<")
         End Sub
     End Class
 
