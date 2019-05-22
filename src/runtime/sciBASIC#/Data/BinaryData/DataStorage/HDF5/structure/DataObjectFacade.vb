@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d43beeaeb0d41c3283f7c1076ef84d0, Data\BinaryData\DataStorage\HDF5\structure\DataObjectFacade.vb"
+﻿#Region "Microsoft.VisualBasic::c30464dbb02d27bf141b0b11efdd4204, Data\BinaryData\DataStorage\HDF5\structure\DataObjectFacade.vb"
 
 ' Author:
 ' 
@@ -54,10 +54,14 @@
 ' 
 
 
+Imports System.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
 Namespace HDF5.[Structure]
 
+    ''' <summary>
+    ''' 可能是一个dataset，也可能是一个<see cref="Group"/>
+    ''' </summary>
     Public Class DataObjectFacade : Inherits HDF5Ptr
 
         Shared ReadOnly ObjectAddressMap As New Dictionary(Of Long, DataObject)()
@@ -150,7 +154,7 @@ Namespace HDF5.[Structure]
                 If msg.headerMessageType Is ObjectHeaderMessageType.Layout Then
                     Dim lm As LayoutMessage = msg.layoutMessage
 
-                    Dim numberOfDimensions As Integer = lm.numberOfDimensions
+                    Dim numberOfDimensions As Integer = lm.dimensionality
                     Dim chunkSize As Integer() = lm.chunkSize
                     Dim dataAddress As Long = lm.dataAddress
 
@@ -219,7 +223,7 @@ Namespace HDF5.[Structure]
             Return symbolName
         End Function
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("DataObjectFacade >>>")
             console.WriteLine("address : " & Me.m_address)
 

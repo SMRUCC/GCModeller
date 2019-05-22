@@ -1,42 +1,42 @@
-﻿#Region "Microsoft.VisualBasic::4a7c4ce5640f37ddce496da866a8986d, Data\BinaryData\DataStorage\test\HDF5test.vb"
+﻿#Region "Microsoft.VisualBasic::349721c1a5243f355c5771a145e366e6, Data\BinaryData\DataStorage\test\HDF5test.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class ParseTest
-' 
-'         Sub: Main
-' 
-' 
-' /********************************************************************************/
+    '     Class ParseTest
+    ' 
+    '         Sub: Main
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -54,39 +54,8 @@ Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 Namespace edu.arizona.cs.hdf5.test
 
     Public Class ParseTest
-        Public Shared Sub Main(args As String())
-            Dim [option] As String = "hd"
-            Dim filename As String = "D:\GCModeller\src\runtime\sciBASIC#\Data\BinaryData\data\EP388069_K40_BS1D.otu_table.biom"
 
-            If args.Length = 2 Then
-                [option] = args(0)
-                filename = args(1)
-            ElseIf args.Length = 1 Then
-                filename = args(0)
-            End If
-
-            If filename.Length = 0 Then
-                Console.WriteLine("Error : inputfile is necessary")
-                Return
-            End If
-
-            ' check option
-            Dim showHeader As Boolean = False
-            Dim showData As Boolean = False
-            If [option].Contains("h") Then
-                ' header
-                showHeader = True
-            End If
-            If [option].Contains("d") Then
-                ' data
-                showData = True
-            End If
-
-            Dim reader As New HDF5Reader(filename, "observation")
-            ' reader.parseHeader()
-
-            Dim ids = reader.ParseDataObject("matrix")
-
+        Private Shared Sub dumpData(reader As HDF5Reader, showHeader As Boolean, showData As Boolean)
             If showHeader Then
                 Dim headerSize As Long = reader.headerSize
                 Console.WriteLine("header size : " & headerSize)
@@ -95,30 +64,9 @@ Namespace edu.arizona.cs.hdf5.test
             Dim layout As Layout = reader.layout
 
             Dim dims As Integer = layout.numberOfDimensions
-            If showHeader Then
-                Console.WriteLine("dimensions : " & dims)
-            End If
-
             Dim chunkSize As Integer() = layout.chunkSize
             Dim dlength As Integer() = layout.dimensionLength
             Dim maxdlength As Integer() = layout.maxDimensionLength
-
-            If showHeader Then
-                For i As Integer = 0 To dims - 1
-                    If chunkSize.Length > i Then
-                        Console.WriteLine("chunk size[" & i & "] : " & chunkSize(i))
-                    End If
-
-                    If dlength.Length > i Then
-                        Console.WriteLine("dimension length[" & i & "] : " & dlength(i))
-                    End If
-
-                    If maxdlength.Length > i Then
-                        Console.WriteLine("max dimension length[" & i & "] : " & maxdlength(i))
-                    End If
-                Next
-            End If
-
             Dim fields As List(Of LayoutField) = layout.fields
 
             ' chunk
@@ -131,12 +79,14 @@ Namespace edu.arizona.cs.hdf5.test
 
             Using text As StreamWriter = "./test.dmp".OpenWriter
 
+                Call DirectCast(layout, IFileDump).printValues(text)
+
                 For Each chunk As DataChunk In chunks
 
                     Dim filepos As Long = chunk.filePosition
 
                     If showHeader Then
-                        DirectCast(chunk, IFileDump).printValues(console:=New System.IO.StringWriter(text))
+                        DirectCast(chunk, IFileDump).printValues(console:=text)
                     End If
 
                     chunkReader.offset = filepos
@@ -145,6 +95,8 @@ Namespace edu.arizona.cs.hdf5.test
                         Dim dataCountPerChunk As Integer = chunk.size \ chunkSize(0)
                         For i As Integer = 0 To dataCountPerChunk - 1
                             Dim bytes As Byte() = chunkReader.readBytes(chunkSize(0))
+
+
 
                             For j As Integer = 0 To fields.Count - 1
                                 Dim field As LayoutField = fields(j)
@@ -176,6 +128,44 @@ Namespace edu.arizona.cs.hdf5.test
 
                 reader.Dispose()
             End Using
+        End Sub
+
+        Public Shared Sub Main(args As String())
+            Dim [option] As String = "hd"
+            Dim filename As String = "D:\GCModeller\src\runtime\sciBASIC#\Data\BinaryData\data\EP388069_K40_BS1D.otu_table.biom"
+
+            If args.Length = 2 Then
+                [option] = args(0)
+                filename = args(1)
+            ElseIf args.Length = 1 Then
+                filename = args(0)
+            End If
+
+            If filename.Length = 0 Then
+                Console.WriteLine("Error : inputfile is necessary")
+                Return
+            End If
+
+            ' check option
+            Dim showHeader As Boolean = False
+            Dim showData As Boolean = False
+            If [option].Contains("h") Then
+                ' header
+                showHeader = True
+            End If
+            If [option].Contains("d") Then
+                ' data
+                showData = True
+            End If
+
+            Dim reader As New HDF5Reader(filename, "sample")
+            ' reader.parseHeader()
+
+            Dim ids = reader.ParseDataObject("matrix")
+
+            Dim data = ids.ParseDataObject("data")
+
+            Call dumpData(data, True, True)
         End Sub
     End Class
 

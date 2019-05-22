@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9467579ff6a7c11e9eaf7b1a22f64d6, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\FilterPipelineMessage.vb"
+﻿#Region "Microsoft.VisualBasic::3d25e36ee80355b62117ee2f66925a0d, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\FilterPipelineMessage.vb"
 
 ' Author:
 ' 
@@ -36,6 +36,7 @@
 '         Properties: description, numberOfFilters, version
 ' 
 '         Constructor: (+1 Overloads) Sub New
+'         Sub: printValues
 ' 
 '     Enum ReservedFilters
 ' 
@@ -50,13 +51,17 @@
 '                     uid
 ' 
 '         Constructor: (+1 Overloads) Sub New
+' 
 '         Function: ToString
+' 
+'         Sub: printValues
 ' 
 ' 
 ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Language
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
@@ -98,7 +103,7 @@ Namespace HDF5.[Structure]
             Next
         End Sub
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             Throw New NotImplementedException()
         End Sub
     End Class
@@ -197,7 +202,7 @@ Namespace HDF5.[Structure]
             Return $"Call {name}({clientData.Select(Function(i) CStr(i)).JoinBy(", ")})"
         End Function
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             Throw New NotImplementedException()
         End Sub
     End Class

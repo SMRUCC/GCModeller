@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90e8afa939016d17373175dd0c19c2ae, Data\BinaryData\DataStorage\HDF5\structure\ObjectHeaderScratchpadFormat.vb"
+﻿#Region "Microsoft.VisualBasic::874524133abaab5ae7a8035fed0f8e4a, Data\BinaryData\DataStorage\HDF5\structure\ObjectHeaderScratchpadFormat.vb"
 
 ' Author:
 ' 
@@ -33,9 +33,12 @@
 
 '     Class ObjectHeaderScratchpadFormat
 ' 
-'         Properties: address, addressOfBTree, addressOfNameHeap, totalObjectHeaderScratchpadFormatSize
+'         Properties: addressOfBTree, addressOfNameHeap, totalObjectHeaderScratchpadFormatSize
 ' 
 '         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: ToString
+' 
 '         Sub: printValues
 ' 
 ' 
@@ -51,6 +54,7 @@
 ' 
 
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
@@ -76,14 +80,14 @@ Namespace HDF5.[Structure]
             Return $"{MyBase.ToString}  btree=&{addressOfBTree}"
         End Function
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("ObjectHeaderScratchpadFormat >>>")
             console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("address of BTree : " & Me.addressOfBTree)
-            Console.WriteLine("address of name heap : " & Me.addressOfNameHeap)
+            console.WriteLine("address of BTree : " & Me.addressOfBTree)
+            console.WriteLine("address of name heap : " & Me.addressOfNameHeap)
 
-            Console.WriteLine("total object header scratchpad format size : " & Me.totalObjectHeaderScratchpadFormatSize)
-            Console.WriteLine("ObjectHeaderScratchpadFormat <<<")
+            console.WriteLine("total object header scratchpad format size : " & Me.totalObjectHeaderScratchpadFormatSize)
+            console.WriteLine("ObjectHeaderScratchpadFormat <<<")
         End Sub
     End Class
 

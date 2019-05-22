@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44006d9ef0d2fa1ede83ee27850a4130, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\GroupMessage.vb"
+﻿#Region "Microsoft.VisualBasic::4293e710513f987d9d22b6fb499d5bbc, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\GroupMessage.vb"
 
 ' Author:
 ' 
@@ -54,6 +54,7 @@
 ' 
 
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
@@ -91,12 +92,12 @@ Namespace HDF5.[Structure]
             Return $"{MyBase.ToString} {bTreeAddress} -> {nameHeapAddress}"
         End Function
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("GroupMessage >>>")
             console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("btree address : " & Me.bTreeAddress)
-            Console.WriteLine("nameheap address : " & Me.nameHeapAddress)
-            Console.WriteLine("GroupMessage <<<")
+            console.WriteLine("btree address : " & Me.bTreeAddress)
+            console.WriteLine("nameheap address : " & Me.nameHeapAddress)
+            console.WriteLine("GroupMessage <<<")
         End Sub
 
     End Class

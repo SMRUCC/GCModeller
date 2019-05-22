@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::237a354d00f788fbe2c5b37fade0274f, Data\BinaryData\DataStorage\HDF5\structure\DataNode.vb"
+﻿#Region "Microsoft.VisualBasic::0ec568f0da79908e5900de0156cd288e, Data\BinaryData\DataStorage\HDF5\structure\DataNode.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Function: [next], hasNext
     ' 
-    '         Sub: first
+    '         Sub: first, printValues
     ' 
     ' 
     ' /********************************************************************************/
@@ -207,7 +207,7 @@ Namespace HDF5.[Structure]
             End If
         End Function
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             Throw New NotImplementedException()
         End Sub
     End Class

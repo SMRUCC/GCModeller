@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ff1cb61bdced0dfaca27c72d8814e25, Data\BinaryData\DataStorage\HDF5\structure\DataObject.vb"
+﻿#Region "Microsoft.VisualBasic::562b5f39cc2484ff566b36daa4dc1715, Data\BinaryData\DataStorage\HDF5\structure\DataObject.vb"
 
 ' Author:
 ' 
@@ -51,6 +51,7 @@
 ' 
 
 
+Imports System.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
 Namespace HDF5.[Structure]
@@ -90,7 +91,7 @@ Namespace HDF5.[Structure]
             Next
         End Sub
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             Call console.WriteLine("DataObject >>>")
             Call console.WriteLine("address : " & Me.m_address)
 

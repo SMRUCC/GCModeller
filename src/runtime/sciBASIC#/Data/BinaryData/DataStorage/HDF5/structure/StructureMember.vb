@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8976347b9ffd824861dd537584d5ab3b, Data\BinaryData\DataStorage\HDF5\structure\StructureMember.vb"
+﻿#Region "Microsoft.VisualBasic::89738650eaf7def9de4bd8137056ac91, Data\BinaryData\DataStorage\HDF5\structure\StructureMember.vb"
 
 ' Author:
 ' 
@@ -54,6 +54,7 @@
 ' 
 
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
@@ -95,18 +96,18 @@ Namespace HDF5.[Structure]
             Return $"Dim {name} As {message} = [&{address}, {offset}]"
         End Function
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("StructureMember >>>")
             console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("name : " & Me.name)
-            Console.WriteLine("offset : " & Me.offset)
-            Console.WriteLine("m_dims : " & Me.dims)
+            console.WriteLine("name : " & Me.name)
+            console.WriteLine("offset : " & Me.offset)
+            console.WriteLine("m_dims : " & Me.dims)
 
             If Me.message IsNot Nothing Then
                 Me.message.printValues(console)
             End If
 
-            Console.WriteLine("StructureMember >>>")
+            console.WriteLine("StructureMember >>>")
         End Sub
     End Class
 

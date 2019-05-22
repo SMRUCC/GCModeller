@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9dd0b38df1ad0dbc21263520cd39aec7, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\FillValueOldMessage.vb"
+﻿#Region "Microsoft.VisualBasic::6d2c79c4069ac0f7df68bf9694ea808e, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\FillValueOldMessage.vb"
 
 ' Author:
 ' 
@@ -50,6 +50,7 @@
 ' * Modified by iychoi@email.arizona.edu
 ' 
 
+Imports System.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
 Namespace HDF5.[Structure]
@@ -83,7 +84,7 @@ Namespace HDF5.[Structure]
             Me.value = [in].readBytes(Me.size)
         End Sub
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("FillValueOldMessage >>>")
             console.WriteLine("address : " & Me.m_address)
             console.WriteLine("size : " & Me.size)

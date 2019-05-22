@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a983f6b53c01abb812689496e64e0cf, Data\BinaryData\DataStorage\HDF5\HDF5Reader.vb"
+﻿#Region "Microsoft.VisualBasic::6f2d09f70090b50322e529710c87f8f3, Data\BinaryData\DataStorage\HDF5\HDF5Reader.vb"
 
 ' Author:
 ' 
@@ -34,13 +34,13 @@
 '     Class HDF5Reader
 ' 
 '         Properties: chunks, dataBTree, dataGroups, datasetName, fileName
-'                     headerSize, layout, reader
+'                     headerSize, layout, reader, Superblock
 ' 
 '         Constructor: (+2 Overloads) Sub New
 ' 
-'         Function: ToString
+'         Function: ParseDataObject, ToString
 ' 
-'         Sub: (+2 Overloads) Dispose, parseHeader, parserObject
+'         Sub: (+2 Overloads) Dispose, parseHeader, parserObject, printValues
 ' 
 ' 
 ' /********************************************************************************/
@@ -51,12 +51,134 @@
 ' * Written by iychoi@email.arizona.edu
 ' 
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5.Structure
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
 Namespace HDF5
+
+    Public Class HDF5File : Implements IDisposable
+
+        ReadOnly reader As BinaryReader
+        ReadOnly fileName As String
+
+        Public ReadOnly Property Superblock As Superblock
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return New Superblock(reader, Scan0)
+            End Get
+        End Property
+
+        Public ReadOnly Property rootObjects As Dictionary(Of String, DataObjectFacade)
+
+        Default Public ReadOnly Property GetObject(symbolName As String) As DataObjectFacade
+            Get
+                Return rootObjects _
+                    .Keys _
+                    .First(Function(name) name.TextEquals(symbolName)) _
+                    .GetValueOrDefault(rootObjects)
+            End Get
+        End Property
+
+        Sub New(fileName As String)
+            Me.reader = New BinaryFileReader(fileName)
+            Me.fileName = fileName.FileName
+        End Sub
+
+        Private Sub parseHeader()
+            Dim sb As Superblock = Me.Superblock
+            Dim rootSymbolTableEntry As SymbolTableEntry = sb.rootGroupSymbolTableEntry
+            Dim objectFacade As New DataObjectFacade(Me.reader, sb, "root", rootSymbolTableEntry.objectHeaderAddress)
+            Dim rootGroup As New Group(Me.reader, sb, objectFacade)
+            Dim objects As List(Of DataObjectFacade) = rootGroup.objects
+
+            _rootObjects = objects.ToDictionary(Function(o) o.symbolName)
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return fileName
+        End Function
+
+#Region "IDisposable Support"
+        Private disposedValue As Boolean ' 要检测冗余调用
+
+        ' IDisposable
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: 释放托管状态(托管对象)。
+                End If
+
+                ' TODO: 释放未托管资源(未托管对象)并在以下内容中替代 Finalize()。
+                ' TODO: 将大型字段设置为 null。
+            End If
+            disposedValue = True
+        End Sub
+
+        ' TODO: 仅当以上 Dispose(disposing As Boolean)拥有用于释放未托管资源的代码时才替代 Finalize()。
+        'Protected Overrides Sub Finalize()
+        '    ' 请勿更改此代码。将清理代码放入以上 Dispose(disposing As Boolean)中。
+        '    Dispose(False)
+        '    MyBase.Finalize()
+        'End Sub
+
+        ' Visual Basic 添加此代码以正确实现可释放模式。
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' 请勿更改此代码。将清理代码放入以上 Dispose(disposing As Boolean)中。
+            Dispose(True)
+            ' TODO: 如果在以上内容中替代了 Finalize()，则取消注释以下行。
+            ' GC.SuppressFinalize(Me)
+        End Sub
+#End Region
+
+    End Class
+
+    Public Class HDF5GroupReader : Implements IDisposable, IFileDump
+
+        Public ReadOnly Property folder As Group
+
+        Sub New()
+
+        End Sub
+
+        Friend Sub printValues(console As TextWriter) Implements IFileDump.printValues
+            Throw New NotImplementedException()
+        End Sub
+
+#Region "IDisposable Support"
+        Private disposedValue As Boolean ' 要检测冗余调用
+
+        ' IDisposable
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: 释放托管状态(托管对象)。
+                End If
+
+                ' TODO: 释放未托管资源(未托管对象)并在以下内容中替代 Finalize()。
+                ' TODO: 将大型字段设置为 null。
+            End If
+            disposedValue = True
+        End Sub
+
+        ' TODO: 仅当以上 Dispose(disposing As Boolean)拥有用于释放未托管资源的代码时才替代 Finalize()。
+        'Protected Overrides Sub Finalize()
+        '    ' 请勿更改此代码。将清理代码放入以上 Dispose(disposing As Boolean)中。
+        '    Dispose(False)
+        '    MyBase.Finalize()
+        'End Sub
+
+        ' Visual Basic 添加此代码以正确实现可释放模式。
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' 请勿更改此代码。将清理代码放入以上 Dispose(disposing As Boolean)中。
+            Dispose(True)
+            ' TODO: 如果在以上内容中替代了 Finalize()，则取消注释以下行。
+            ' GC.SuppressFinalize(Me)
+        End Sub
+#End Region
+    End Class
 
     ''' <summary>
     ''' 这个reader只会读取一个<see cref="datasetName"/>的数据，如果需要读取其他的dataset的话，则会需要创建多个<see cref="HDF5Reader"/>对象来进行数据的读取操作
@@ -113,7 +235,7 @@ Namespace HDF5
             Dim reader As New HDF5Reader(Me.reader, dataSetName)
             Dim dobj As DataObjectFacade = dataGroups.objects.FirstOrDefault(Function(d) d.symbolName.TextEquals(dataSetName))
 
-            parserObject(dobj, sb:=Superblock)
+            reader._dataGroups = parserObject(dobj, sb:=Superblock, container:=reader)
             _headerSize = Me.reader.maxOffset
 
             Return reader
@@ -129,7 +251,7 @@ Namespace HDF5
             For Each dobj As DataObjectFacade In objects
                 ' compare dataset name
                 If dobj.symbolName.TextEquals(Me.datasetName) Then
-                    Call parserObject(dobj, sb)
+                    _dataGroups = parserObject(dobj, sb, Me)
                     Exit For
                 End If
             Next
@@ -137,40 +259,48 @@ Namespace HDF5
             _headerSize = Me.reader.maxOffset
         End Sub
 
-        Private Sub parserObject(dobj As DataObjectFacade, sb As Superblock)
+        ''' <summary>
+        ''' 如果是dataset，则直接返回空值，反之返回<see cref="Group"/>对象
+        ''' </summary>
+        ''' <param name="dobj"></param>
+        ''' <param name="sb"></param>
+        ''' <returns></returns>
+        Private Shared Function parserObject(dobj As DataObjectFacade, sb As Superblock, container As HDF5Reader) As Group
             ' parse or get layout
             Dim layout As Layout = dobj.layout
+            Dim reader = container.reader
 
-            _layout = layout
+            container._layout = layout
 
             If layout.IsEmpty Then
-                _dataGroups = New Group(reader, sb, dobj)
+                Return New Group(reader, sb, dobj)
             Else
                 ' parse btree index of the data
                 Dim dataTree As New DataBTree(layout)
-
-                _dataBTree = dataTree
-
-                Dim iter As DataChunkIterator = dataTree.getChunkIterator(Me.reader, sb)
+                Dim iter As DataChunkIterator = dataTree.getChunkIterator(reader, sb)
                 Dim chunk As DataChunk
 
-                While iter.hasNext(Me.reader, sb)
-                    chunk = iter.[next](Me.reader, sb)
+                container._dataBTree = dataTree
+
+                While iter.hasNext(reader, sb)
+                    chunk = iter.[next](reader, sb)
                     ' read/add a new data chunk block
-                    chunks.Add(chunk)
+                    container.chunks.Add(chunk)
                 End While
+
+                Return Nothing
             End If
-        End Sub
+        End Function
 
         Public Overrides Function ToString() As String
-            If Not layout.IsEmpty Then
+            If Not layout Is Nothing AndAlso Not layout.IsEmpty Then
                 Return $"{reader} => {layout}"
             Else
                 Return $"{reader} => {dataGroups}"
             End If
         End Function
 
-        Private Sub printValues(out As System.IO.StringWriter) Implements IFileDump.printValues
+        Private Sub printValues(out As TextWriter) Implements IFileDump.printValues
             Throw New NotImplementedException()
         End Sub
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7367c84468d034f0a25c838897013588, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\LinkMessage.vb"
+﻿#Region "Microsoft.VisualBasic::cc26db46335d3abc6b185355dee1cc7e, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\LinkMessage.vb"
 
 ' Author:
 ' 
@@ -52,6 +52,7 @@
 ' 
 
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
@@ -124,7 +125,7 @@ Namespace HDF5.[Structure]
             End If
         End Sub
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("LinkMessage >>>")
 
             console.WriteLine("address : " & Me.m_address)

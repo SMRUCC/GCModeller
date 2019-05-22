@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a9e4f3df0825b64707fbc62728e00f6, Data\BinaryData\DataStorage\HDF5\structure\GroupNode.vb"
+﻿#Region "Microsoft.VisualBasic::76bd922dfecd35c4c3cc9cda665343fb, Data\BinaryData\DataStorage\HDF5\structure\GroupNode.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,7 @@
 
     '     Class GroupNode
     ' 
-    '         Properties: address, entryNumber, signature, symbols, validSignature
-    '                     version
+    '         Properties: entryNumber, signature, symbols, validSignature, version
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Sub: printValues
@@ -106,23 +105,23 @@ Namespace HDF5.[Structure]
             Next
         End Sub
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("GroupNode >>>")
             console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("signature : " &
+            console.WriteLine("signature : " &
                               (Me.signature(0) And &HFF).ToString("x") &
                               (Me.signature(1) And &HFF).ToString("x") &
                               (Me.signature(2) And &HFF).ToString("x") &
                               (Me.signature(3) And &HFF).ToString("x"))
 
-            Console.WriteLine("version : " & Me.version)
-            Console.WriteLine("entry number : " & Me.entryNumber)
+            console.WriteLine("version : " & Me.version)
+            console.WriteLine("entry number : " & Me.entryNumber)
 
             For i As Integer = 0 To Me.symbols.Count - 1
                 symbols(i).printValues(console)
             Next
 
-            Console.WriteLine("GroupNode <<<")
+            console.WriteLine("GroupNode <<<")
         End Sub
     End Class
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8838bbefb42cf7b9c7411e621936725d, Data\BinaryData\DataStorage\HDF5\structure\Infrastructure\BTree\BTreeEntry.vb"
+﻿#Region "Microsoft.VisualBasic::510a4edf5f1623d377e2ee350d312590, Data\BinaryData\DataStorage\HDF5\structure\Infrastructure\BTree\BTreeEntry.vb"
 
 ' Author:
 ' 
@@ -52,6 +52,7 @@
 
 
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
@@ -72,7 +73,7 @@ Namespace HDF5.[Structure].BTree
             Me.targetAddress = ReadHelper.readO([in], sb)
         End Sub
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("BTreeEntry >>>")
             console.WriteLine("address : " & Me.m_address)
             console.WriteLine("key : " & Me.key)

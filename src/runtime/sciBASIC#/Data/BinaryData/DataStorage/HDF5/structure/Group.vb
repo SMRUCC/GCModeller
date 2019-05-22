@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6a2ec6dd98a364b46e2bff07d9e94d7, Data\BinaryData\DataStorage\HDF5\structure\Group.vb"
+﻿#Region "Microsoft.VisualBasic::51811d24fed0e4bd8774f5d5837efea8, Data\BinaryData\DataStorage\HDF5\structure\Group.vb"
 
 ' Author:
 ' 
@@ -54,19 +54,22 @@
 ' 
 
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
 Namespace HDF5.[Structure]
 
     ''' <summary>
-    ''' A group of <see cref="DataObjectFacade"/>
+    ''' A group of <see cref="DataObjectFacade"/>.（类似于文件夹）
     ''' </summary>
     Public Class Group : Implements IFileDump
 
-        Shared ReadOnly NESTED_OBJECTS As New List(Of DataObjectFacade)()
-
+        ''' <summary>
+        ''' 这个folder的parent节点
+        ''' </summary>
         Dim m_facade As DataObjectFacade
+        Dim NESTED_OBJECTS As New List(Of DataObjectFacade)
 
         Public Overridable ReadOnly Property objects() As List(Of DataObjectFacade)
             Get
@@ -75,12 +78,14 @@ Namespace HDF5.[Structure]
         End Property
 
         Public Sub New([in] As BinaryReader, sb As Superblock, facade As DataObjectFacade)
-            Me.m_facade = facade
+            Dim gm As GroupMessage = facade.dataObject.groupMessage
 
-            If facade.dataObject.groupMessage IsNot Nothing Then
-                Dim gm As GroupMessage = facade.dataObject.groupMessage
-                readGroup([in], sb, gm.bTreeAddress, gm.nameHeapAddress)
+            If gm Is Nothing Then
+                Throw New InvalidProgramException("Invalid folder object!")
             End If
+
+            m_facade = facade
+            readGroup([in], sb, gm.bTreeAddress, gm.nameHeapAddress)
         End Sub
 
         Private Sub readGroup([in] As BinaryReader, sb As Superblock, bTreeAddress As Long, nameHeapAddress As Long)
@@ -109,7 +114,7 @@ Namespace HDF5.[Structure]
                 .GetJson
         End Function
 
-        Private Sub printValues(console As System.IO.StringWriter) Implements IFileDump.printValues
+        Private Sub printValues(console As TextWriter) Implements IFileDump.printValues
             console.WriteLine("Group >>>")
 
             If NESTED_OBJECTS IsNot Nothing Then

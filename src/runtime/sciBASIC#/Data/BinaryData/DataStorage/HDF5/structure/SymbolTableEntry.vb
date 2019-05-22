@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4413da21bc36da9d955bd640c1fc066, Data\BinaryData\DataStorage\HDF5\structure\SymbolTableEntry.vb"
+﻿#Region "Microsoft.VisualBasic::e9f3b2396ab3a90d3ab7462195d2dfd8, Data\BinaryData\DataStorage\HDF5\structure\SymbolTableEntry.vb"
 
 ' Author:
 ' 
@@ -52,6 +52,7 @@
 ' 
 
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
@@ -121,16 +122,16 @@ Namespace HDF5.[Structure]
             End If
         End Sub
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("SymbolTableEntry >>>")
             console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("link name offset : " & Me.linkNameOffset)
-            Console.WriteLine("object header address : " & Me.objectHeaderAddress)
-            Console.WriteLine("cache type : " & Me.cacheType)
-            Console.WriteLine("reserved : " & Me.reserved)
+            console.WriteLine("link name offset : " & Me.linkNameOffset)
+            console.WriteLine("object header address : " & Me.objectHeaderAddress)
+            console.WriteLine("cache type : " & Me.cacheType)
+            console.WriteLine("reserved : " & Me.reserved)
 
             If Me.cacheType = 0 Then
-                Console.WriteLine("scratchpad space : " &
+                console.WriteLine("scratchpad space : " &
                                   (Me.scratchpadSpace(0) And &HFF).ToString("x") &
                                   (Me.scratchpadSpace(1) And &HFF).ToString("x") &
                                   (Me.scratchpadSpace(2) And &HFF).ToString("x") &
@@ -155,8 +156,8 @@ Namespace HDF5.[Structure]
                 Me.symbolicLinkScratchpadFormat.printValues(console)
             End If
 
-            Console.WriteLine("total symbol table entry size : " & Me.totalSymbolTableEntrySize)
-            Console.WriteLine("SymbolTableEntry <<<")
+            console.WriteLine("total symbol table entry size : " & Me.totalSymbolTableEntrySize)
+            console.WriteLine("SymbolTableEntry <<<")
         End Sub
     End Class
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28921bd9ded4bd3c5c4cca7621fd8716, Data\BinaryData\DataStorage\HDF5\structure\GroupBTree.vb"
+﻿#Region "Microsoft.VisualBasic::7a2b76ec9fb33946e5360c993dc26e82, Data\BinaryData\DataStorage\HDF5\structure\GroupBTree.vb"
 
     ' Author:
     ' 
@@ -115,7 +115,7 @@ Namespace HDF5.[Structure]
             End If
         End Sub
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("GroupBTree >>>")
             console.WriteLine("address : " & Me.m_address)
 
@@ -123,7 +123,7 @@ Namespace HDF5.[Structure]
                 symbolTableEntries(i).printValues(console)
             Next
 
-            Console.WriteLine("GroupBTree <<<")
+            console.WriteLine("GroupBTree <<<")
         End Sub
     End Class
 

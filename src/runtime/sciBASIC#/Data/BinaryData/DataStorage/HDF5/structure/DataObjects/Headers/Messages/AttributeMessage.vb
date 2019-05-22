@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44c31e55da774766fff2acfdb9eed927, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\AttributeMessage.vb"
+﻿#Region "Microsoft.VisualBasic::fd10ce18ea77a123d7663e4f43ac72d0, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\AttributeMessage.vb"
 
     ' Author:
     ' 
@@ -146,11 +146,11 @@ Namespace HDF5.[Structure]
             Return $"[{MyBase.ToString}] Dim {name} As {dataType} = &{dataPos}"
         End Function
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("AttributeMessage >>>")
             console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("version : " & Me.version)
-            Console.WriteLine("name : " & Me.name)
+            console.WriteLine("version : " & Me.version)
+            console.WriteLine("name : " & Me.name)
 
             If Me.dataType IsNot Nothing Then
                 Me.dataType.printValues(console)
@@ -160,9 +160,9 @@ Namespace HDF5.[Structure]
                 Me.dataSpace.printValues(console)
             End If
 
-            Console.WriteLine("data pos : " & Me.dataPos)
+            console.WriteLine("data pos : " & Me.dataPos)
 
-            Console.WriteLine("AttributeMessage <<<")
+            console.WriteLine("AttributeMessage <<<")
         End Sub
     End Class
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e902cb4325a9cb1c5622ae62534b255e, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\LastModifiedMessage.vb"
+﻿#Region "Microsoft.VisualBasic::3e3055d29fd1e2b0041ecca4a53c263b, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\LastModifiedMessage.vb"
 
 ' Author:
 ' 
@@ -36,6 +36,9 @@
 '         Properties: seconds, version
 ' 
 '         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: ToString
+' 
 '         Sub: printValues
 ' 
 ' 
@@ -50,6 +53,7 @@
 ' * Modified by iychoi@email.arizona.edu
 ' 
 
+Imports System.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.IO.BinaryReader
 
 Namespace HDF5.[Structure]
@@ -75,7 +79,7 @@ Namespace HDF5.[Structure]
             Return $"{MyBase.ToString} {seconds}"
         End Function
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("LastModifiedMessage >>>")
             console.WriteLine("address : " & Me.m_address)
             console.WriteLine("version : " & Me.version)

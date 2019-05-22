@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7079a7c876573668f44ef005bc5a2760, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\DataspaceMessage.vb"
+﻿#Region "Microsoft.VisualBasic::bbcb6088cc15d362a7cad48bd7f90954, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\DataspaceMessage.vb"
 
     ' Author:
     ' 
@@ -107,15 +107,15 @@ Namespace HDF5.[Structure]
             End If
         End Sub
 
-        Protected Friend Overrides Sub printValues(console As System.IO.StringWriter)
+        Protected Friend Overrides Sub printValues(console As TextWriter)
             console.WriteLine("DataspaceMessage >>>")
             console.WriteLine("address : " & Me.m_address)
-            Console.WriteLine("version : " & Me.version)
-            Console.WriteLine("number of dimensions : " & Me.numberOfDimensions)
-            Console.WriteLine("flags : " & Me.flags)
-            Console.WriteLine("type : " & Me.type)
+            console.WriteLine("version : " & Me.version)
+            console.WriteLine("number of dimensions : " & Me.numberOfDimensions)
+            console.WriteLine("flags : " & Me.flags)
+            console.WriteLine("type : " & Me.type)
 
-            Console.WriteLine("DataspaceMessage <<<")
+            console.WriteLine("DataspaceMessage <<<")
         End Sub
     End Class
 
