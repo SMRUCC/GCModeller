@@ -46,6 +46,8 @@ Namespace HDF5
             End Get
         End Property
 
+        Public ReadOnly Property attributes As Dictionary(Of String, Object)
+
         Sub New(fileName As String)
             Me.reader = New BinaryFileReader(fileName)
             Me.fileName = fileName
@@ -60,8 +62,19 @@ Namespace HDF5
             Dim rootGroup As New Group(Me.reader, sb, objectFacade)
             Dim objects As List(Of DataObjectFacade) = rootGroup.objects
 
+            _attributes = attributeTable(rootGroup.attributes, reader)
             rootObjects = objects.ToDictionary(Function(o) o.symbolName)
         End Sub
+
+        Public Shared Function attributeTable(attrs As AttributeMessage(), reader As BinaryReader) As Dictionary(Of String, Object)
+            Dim table As New Dictionary(Of String, Object)
+
+            For Each a As AttributeMessage In attrs
+                table(a.name) = a
+            Next
+
+            Return table
+        End Function
 
         Public Overrides Function ToString() As String
             Return fileName

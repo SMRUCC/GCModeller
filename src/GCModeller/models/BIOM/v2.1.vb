@@ -42,7 +42,7 @@
 
 Namespace v21
 
-    Public Class Json
+    Public Class HDF5
 
     End Class
 End Namespace
