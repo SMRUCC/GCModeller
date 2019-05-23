@@ -119,7 +119,13 @@ Namespace HDF5.struct
                 Call parseVersion3([in], sb)
             End If
 
-
+            Select Case type
+                Case LayoutClass.ChunkedStorage
+                Case LayoutClass.CompactStorage
+                Case LayoutClass.ContiguousStorage
+                Case Else
+                    Throw New NotImplementedException
+            End Select
         End Sub
 
         Private Sub parseVersion3([in] As BinaryReader, sb As Superblock)
