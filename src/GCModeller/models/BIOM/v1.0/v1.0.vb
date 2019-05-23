@@ -1,80 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::2d9dfe6095f59656252e32d638527f68, models\BIOM\v1.0.vb"
+﻿#Region "Microsoft.VisualBasic::842d321d6c7e644cd636f0495c4522eb, v1.0\v1.0.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class types
-' 
-' 
-' 
-'     Class IntegerMatrix
-' 
-'         Function: LoadFile
-' 
-'     Class FloatMatrix
-' 
-'         Function: LoadFile
-' 
-'     Class StringMatrix
-' 
-'         Function: LoadFile
-' 
-'     Class Json
-' 
-'         Properties: [date], columns, comment, data, format
-'                     format_url, generated_by, id, matrix_element_type, matrix_type
-'                     rows, shape, type
-' 
-'         Function: LoadFile, ToString
-' 
-'     Class row
-' 
-'         Properties: id, metadata
-' 
-'     Class meta
-' 
-'         Properties: KEGG_Pathways, taxonomy
-' 
-'     Class column
-' 
-'         Properties: id, metadata
-' 
-'     Class columnMeta
-' 
-'         Properties: BarcodeSequence, BODY_SITE, Description, LinkerPrimerSequence
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class Json
+    ' 
+    '         Properties: [date], columns, comment, data, format
+    '                     format_url, generated_by, id, matrix_element_type, matrix_type
+    '                     rows, shape, type
+    ' 
+    '         Function: LoadFile, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
