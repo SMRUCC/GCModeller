@@ -70,8 +70,8 @@ Module Module1
 
     Sub testCDFBIOM()
 
-        Dim file = "E:\GCModeller\src\GCModeller\models\EP418446_K40_BS1D.otu_table.biom"
-        Dim reader As New HDF5File(file)
+        Dim file = "D:\GCModeller\src\GCModeller\models\EP418446_K40_BS1D.otu_table.biom"
+        Dim biom = SMRUCC.genomics.foundation.BIOM.v21.ReadFile(file)
 
         Pause()
     End Sub
