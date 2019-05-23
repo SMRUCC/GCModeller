@@ -53,7 +53,7 @@
 Imports System.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
-Namespace HDF5.[Structure]
+Namespace HDF5.struct
 
     ''' <summary>
     ''' The Data Storage - Fill Value (Old) Message
@@ -72,8 +72,8 @@ Namespace HDF5.[Structure]
     ''' </summary>
     Public Class FillValueOldMessage : Inherits Message
 
-        Public Overridable ReadOnly Property size As Integer
-        Public Overridable ReadOnly Property value As Byte()
+        Public  ReadOnly Property size As Integer
+        Public  ReadOnly Property value As Byte()
 
         Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
             Call MyBase.New(address)

@@ -58,7 +58,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5.type
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
-Namespace HDF5.[Structure]
+Namespace HDF5.struct
 
     ''' <summary>
     ''' 可能是一个dataset，也可能是一个<see cref="Group"/>
@@ -81,9 +81,16 @@ Namespace HDF5.[Structure]
             End Get
         End Property
 
-        Public Sub New([in] As BinaryReader, sb As Superblock, symbolName As String, address As Long)
+        Public ReadOnly Property layoutMessage As LayoutMessage
+            Get
+                Return Me.dataObject.messages.OfType(Of LayoutMessage).FirstOrDefault
+            End Get
+        End Property
+
+        Public Sub New(sb As Superblock, symbolName As String, address As Long)
             Call MyBase.New(address)
 
+            Dim [in] As BinaryReader = sb.FileReader(-1)
             Dim dobj As DataObject = readDataObject([in], sb, address)
 
             Me.dataObject = dobj
@@ -92,7 +99,7 @@ Namespace HDF5.[Structure]
             Me.m_layout = Nothing
         End Sub
 
-        Public Sub New([in] As BinaryReader, sb As Superblock, symbolName As String, linkName As String)
+        Public Sub New(sb As Superblock, symbolName As String, linkName As String)
             Call MyBase.New(Scan0)
 
             Me.symbolName = symbolName
@@ -101,14 +108,58 @@ Namespace HDF5.[Structure]
         End Sub
 
         Private Function readDataObject([in] As BinaryReader, sb As Superblock, address As Long) As DataObject
-            Dim dobj As DataObject = sb.file.GetCacheObject(address)
+            Dim dobj As DataObject = sb.GetCacheObject(address)
 
             If dobj Is Nothing Then
-                dobj = New DataObject([in], sb, address)
-                sb.file.addCache(dobj)
+                dobj = New DataObject(sb, address)
+                sb.AddCacheObject(dobj)
             End If
 
             Return dobj
+        End Function
+
+        ''' <summary>
+        ''' 如果存在重复的话，这个函数只会读取第一条
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
+        Public Function GetMessage(type As ObjectHeaderMessages) As Message
+            Dim objMsg = dataObject.messages.FirstOrDefault(Function(msg) msg.headerMessageTypeNumber = type)
+
+            If objMsg Is Nothing Then
+                Return Nothing
+            End If
+
+            Select Case type
+                Case ObjectHeaderMessages.Attribute : Return objMsg.attributeMessage
+                Case ObjectHeaderMessages.AttributeInfo : Return Nothing
+                Case ObjectHeaderMessages.Bogus : Return Nothing
+                Case ObjectHeaderMessages.BtreeKValues : Return Nothing
+                Case ObjectHeaderMessages.DataLayout : Return objMsg.layoutMessage
+                Case ObjectHeaderMessages.Dataspace : Return objMsg.dataspaceMessage
+                Case ObjectHeaderMessages.DataStorageFilterPipeline : Return objMsg.filterPipelineMessage
+                Case ObjectHeaderMessages.Datatype : Return objMsg.dataTypeMessage
+                Case ObjectHeaderMessages.DriverInfo : Return Nothing
+                Case ObjectHeaderMessages.ExternalDataFiles : Return Nothing
+                Case ObjectHeaderMessages.FillValue : Return objMsg.fillValueMessage
+                Case ObjectHeaderMessages.FillValueOld : Return objMsg.fillValueOldMessage
+                Case ObjectHeaderMessages.GroupInfo : Return Nothing
+                Case ObjectHeaderMessages.Link : Return objMsg.linkMessage
+                Case ObjectHeaderMessages.LinkInfo : Return Nothing
+                Case ObjectHeaderMessages.NIL : Return Nothing
+                Case ObjectHeaderMessages.ObjectComment : Return Nothing
+                Case ObjectHeaderMessages.ObjectHeaderContinuation : Return Nothing
+                Case ObjectHeaderMessages.ObjectModificationTime : Return objMsg.lastModifiedMessage
+                Case ObjectHeaderMessages.ObjectModificationTimeOld : Return Nothing
+                Case ObjectHeaderMessages.ObjectReferenceCount : Return Nothing
+                Case ObjectHeaderMessages.SharedMessageTable : Return Nothing
+                Case ObjectHeaderMessages.SymbolTableMessage : Return objMsg.groupMessage
+
+                Case Else
+                    Return Nothing
+            End Select
+
+            Return Nothing
         End Function
 
         '
@@ -162,6 +213,8 @@ Namespace HDF5.[Structure]
                     readLayout.numberOfDimensions = numberOfDimensions
                     readLayout.chunkSize = chunkSize
                     readLayout.dataAddress = dataAddress
+                    readLayout.dataset = lm.dataset
+
                 ElseIf msg.headerMessageType Is ObjectHeaderMessageType.Datatype Then
                     Dim dm As DataTypeMessage = msg.dataTypeMessage
 

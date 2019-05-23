@@ -43,7 +43,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.IO.HDF5.Structure
+Imports System.Text
+Imports Microsoft.VisualBasic.Data.IO.HDF5.struct
 Imports Microsoft.VisualBasic.Data.IO.HDF5.type
 
 Namespace HDF5.device
@@ -70,14 +71,23 @@ Namespace HDF5.device
     ''' <remarks>
     ''' https://github.com/jamesmudd/jhdf/blob/master/jhdf/src/main/java/io/jhdf/dataset/DatasetReader.java
     ''' </remarks>
-    Module DatasetReader
+    Public Module DatasetReader
 
         <Extension>
         Public Function readDataset(type As DataType, address&, space As DataspaceMessage, sb As Superblock, dimensions As Integer()) As Object
+            Dim buffer As Byte()
+            Dim reader As BinaryReader = sb.FileReader(address)
+
+            buffer = reader.readBytes(space.totalLength * type.size)
+
+            Return type.ParseDataChunk(buffer, dimensions)
+        End Function
+
+        <Extension>
+        Public Function ParseDataChunk(type As DataType, buffer As Byte(), dimensions As Integer()) As Object
             ' If the data is scalar make a fake one element array then remove it at the end
             Dim data As Array
             Dim isScalar As Boolean
-            Dim buffer As Byte()
 
             If dimensions.Length = 0 Then
                 ' Scalar dataset
@@ -89,9 +99,6 @@ Namespace HDF5.device
                 data = Array.CreateInstance(type.TypeInfo, dimensions)
                 isScalar = False
             End If
-
-            sb.file.reader.offset = address
-            buffer = sb.file.reader.readBytes(space.totalLength * type.size)
 
             If TypeOf type Is FixedPoint Then
                 Dim fixedPoint As FixedPoint = DirectCast(type, FixedPoint)
@@ -117,26 +124,25 @@ Namespace HDF5.device
                             Throw New NotSupportedException("Unsupported signed integer type size " & fixedPoint.size & " bytes")
                     End Select
                 End If
-                'ElseIf TypeOf type Is FloatingPoint Then
-                '    Dim floatingPoint As FloatingPoint = DirectCast(type, FloatingPoint)
-                '    Dim byteOrder As ByteOrder = floatingPoint.byteOrder
+            ElseIf TypeOf type Is FloatingPoint Then
+                Dim floatingPoint As FloatingPoint = DirectCast(type, FloatingPoint)
+                Dim byteOrder As ByteOrder = floatingPoint.byteOrder
 
-                '    Select Case floatingPoint.size
-                '        Case 4
-                '            fillData(data, dimensions, Buffer.order(byteOrder).asFloatBuffer())
-                '            Exit Select
-                '        Case 8
-                '            fillData(data, dimensions, Buffer.order(byteOrder).asDoubleBuffer())
-                '            Exit Select
-                '        Case Else
-                '            Throw New HdfTypeException("Unsupported floating point type size " & floatingPoint.size & " bytes")
-                '    End Select
-                'ElseIf TypeOf type Is StringData Then
-                '    Dim stringData As StringData = DirectCast(type, StringData)
-                '    Dim stringLength As Integer = stringData.size
-                '    fillFixedLengthStringData(data, dimensions, Buffer, stringLength)
-                'Else
-                '    Throw New HdfException("DatasetReader was passed a type it cant fill. Type: " & type.[GetType]().FullName)
+                Select Case floatingPoint.size
+                    Case 4
+                        Call fillData(data, dimensions, buffer.asFloatBuffer(byteOrder))
+                    Case 8
+                        Call fillData(data, dimensions, buffer.asDoubleBuffer(byteOrder))
+                    Case Else
+                        Throw New NotSupportedException("Unsupported floating point type size " & floatingPoint.size & " bytes")
+                End Select
+            ElseIf TypeOf type Is StringData Then
+                Dim stringData As StringData = DirectCast(type, StringData)
+                Dim stringLength As Integer = stringData.size
+
+                fillFixedLengthStringData(data, dimensions, buffer, stringLength)
+            Else
+                Throw New NotSupportedException("DatasetReader was passed a type it cant fill. Type: " & type.TypeInfo.FullName)
             End If
 
             If isScalar Then
@@ -144,6 +150,50 @@ Namespace HDF5.device
             Else
                 Return data
             End If
+        End Function
+
+        Private Sub fillFixedLengthStringData(data As Array, dims As Integer(), buffer As Byte(), stringLength As Integer)
+            If dims.Length > 1 Then
+                For i As Integer = 0 To dims(0) - 1
+                    Dim newArray As Object = data.GetValue(i)
+
+                    fillFixedLengthStringData(newArray, dims.Skip(1).ToArray, buffer, stringLength)
+                Next
+            Else
+                Dim chunks = buffer.Split(stringLength).ToArray
+
+                For i As Integer = 0 To dims(0) - 1
+                    Dim elementBuffer = chunks(i)
+
+                    Call data.SetValue(Encoding.ASCII.GetString(elementBuffer).Trim(), i)
+                Next
+            End If
+        End Sub
+
+        <Extension>
+        Private Function asFloatBuffer(buffer As Byte(), byteOrder As ByteOrder) As Single()
+            Return buffer.Split(4) _
+                .Select(Function(chunk)
+                            If NeedsReversion(byteOrder) Then
+                                Call Array.Reverse(chunk)
+                            End If
+
+                            Return BitConverter.ToSingle(chunk, Scan0)
+                        End Function) _
+                .ToArray
+        End Function
+
+        <Extension>
+        Private Function asDoubleBuffer(buffer As Byte(), byteOrder As ByteOrder) As Double()
+            Return buffer.Split(8) _
+                .Select(Function(chunk)
+                            If NeedsReversion(byteOrder) Then
+                                Call Array.Reverse(chunk)
+                            End If
+
+                            Return BitConverter.ToDouble(chunk, Scan0)
+                        End Function) _
+                .ToArray
         End Function
 
         <Extension>

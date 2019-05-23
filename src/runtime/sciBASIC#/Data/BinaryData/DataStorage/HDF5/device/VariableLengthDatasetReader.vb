@@ -44,7 +44,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.Data.IO.HDF5.Structure
+Imports Microsoft.VisualBasic.Data.IO.HDF5.struct
 Imports Microsoft.VisualBasic.Data.IO.HDF5.type
 Imports Microsoft.VisualBasic.Math
 
@@ -117,7 +117,7 @@ Namespace HDF5.device
 
             ' final int skipBytes = length - hdfFc.getSizeOfOffsets() - 4;
             Dim skipBytes As Integer = length - sb.sizeOfOffsets - 4
-            Dim buffer = sb.file.reader
+            Dim buffer = sb.FileReader(-1)
 
             Call buffer.Mark()
 

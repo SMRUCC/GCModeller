@@ -56,12 +56,12 @@
 Imports System.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
-Namespace HDF5.[Structure]
+Namespace HDF5.struct
 
     Public Class LastModifiedMessage : Inherits Message
 
-        Public Overridable ReadOnly Property version() As Integer
-        Public Overridable ReadOnly Property seconds() As Integer
+        Public  ReadOnly Property version() As Integer
+        Public  ReadOnly Property seconds() As Integer
 
         Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
             Call MyBase.New(address)

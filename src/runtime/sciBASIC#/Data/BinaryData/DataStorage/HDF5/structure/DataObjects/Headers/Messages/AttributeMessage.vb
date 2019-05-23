@@ -60,15 +60,15 @@ Imports Microsoft.VisualBasic.Data.IO.HDF5.type
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 
-Namespace HDF5.[Structure]
+Namespace HDF5.struct
 
     Public Class AttributeMessage : Inherits Message
 
-        Public Overridable ReadOnly Property version As Integer
-        Public Overridable ReadOnly Property name As String
-        Public Overridable ReadOnly Property dataPos As Long
-        Public Overridable ReadOnly Property dataType As DataTypeMessage
-        Public Overridable ReadOnly Property dataSpace As DataspaceMessage
+        Public  ReadOnly Property version As Integer
+        Public  ReadOnly Property name As String
+        Public  ReadOnly Property dataPos As Long
+        Public  ReadOnly Property dataType As DataTypeMessage
+        Public  ReadOnly Property dataSpace As DataspaceMessage
 
         Public ReadOnly Property reader As DataType
             Get
@@ -127,7 +127,7 @@ Namespace HDF5.[Structure]
                 'mdt = getSharedDataObject(MessageType.Datatype).mdt;
                 Throw New IOException("shared data object is not implemented")
             Else
-                Me.dataType = New DataTypeMessage([in], sb, [in].offset)
+                Me.dataType = New DataTypeMessage(sb, [in].offset)
 
                 If Me.version = 1 Then
                     typeSize += CShort(ReadHelper.padding(typeSize, 8))
@@ -156,15 +156,16 @@ Namespace HDF5.[Structure]
             Dim dims = msg.dataSpace.dimensionLength
             Dim dataType As DataTypes = type.type
 
-            sb.file.reader.offset = msg.dataPos
+            Call sb.FileReader(msg.dataPos)
 
-            If dataType = DataTypes.DATATYPE_VARIABLE_LENGTH Then
-                Return VariableLengthDatasetReader.readDataSet(msg.reader, dims, sb)
-            ElseIf dataType = DataTypes.DATATYPE_FIXED_POINT Then
-                Return DatasetReader.readDataset(msg.reader, msg.dataPos, msg.dataSpace, sb, dims)
-            Else
-                Throw New NotImplementedException
-            End If
+            Select Case dataType
+                Case DataTypes.DATATYPE_VARIABLE_LENGTH
+                    Return VariableLengthDatasetReader.readDataSet(msg.reader, dims, sb)
+                Case DataTypes.DATATYPE_FIXED_POINT, DataTypes.DATATYPE_FLOATING_POINT
+                    Return DatasetReader.readDataset(msg.reader, msg.dataPos, msg.dataSpace, sb, dims)
+                Case Else
+                    Throw New NotImplementedException(dataType.ToString)
+            End Select
         End Function
 
         Public Overrides Function ToString() As String
