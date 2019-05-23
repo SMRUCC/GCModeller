@@ -136,7 +136,7 @@ Public Class BinaryDataReader
         End Get
         Set
             _byteOrder = Value
-            _needsReversion = _byteOrder <> ByteOrderHelper.SystemByteOrder
+            _needsReversion = ByteOrderHelper.NeedsReversion(Value)
         End Set
     End Property
 

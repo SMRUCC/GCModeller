@@ -126,7 +126,7 @@ Namespace HDF5.[Structure]
                     .bitOffset = bitOffset,
                     .bitPrecision = bitPrecision,
                     .[class] = DataTypes.DATATYPE_FIXED_POINT,
-                    .order = byteOrder,
+                    .byteOrder = byteOrder,
                     .signed = Not m_unsigned,
                     .size = byteSize,
                     .version = version,
