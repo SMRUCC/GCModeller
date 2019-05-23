@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41102014eb8773fe47ce9813dcd51b3a, Data_science\MachineLearning\QLearning\Model.vb"
+﻿#Region "Microsoft.VisualBasic::ff450b3a2d4b1b991264dbb987b67879, Data_science\MachineLearning\MachineLearning\QLearning\Model.vb"
 
     ' Author:
     ' 
@@ -46,10 +46,6 @@
     '         Properties: uid
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class QTableDump
-    ' 
-    '         Sub: Dump, Save
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,47 +1,47 @@
-﻿#Region "Microsoft.VisualBasic::596f71846844bdb52590ca05b439c19d, Microsoft.VisualBasic.Core\Scripting\InputHandler.vb"
+﻿#Region "Microsoft.VisualBasic::dd473e1b59ccdacc37c8e01d963931c3, Microsoft.VisualBasic.Core\Scripting\InputHandler.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module InputHandler
-' 
-'         Properties: [String], CasterString, Types
-' 
-'         Function: [DirectCast], (+2 Overloads) [GetType], (+2 Overloads) CastArray, Convertible, (+2 Overloads) CTypeDynamic
-'                   DefaultTextParser, IsPrimitive, StringParser, ToString
-' 
-'         Sub: CapabilityPromise
-' 
-' 
-' /********************************************************************************/
+    '     Module InputHandler
+    ' 
+    '         Properties: [String], CasterString, Types
+    ' 
+    '         Function: [DirectCast], (+3 Overloads) [GetType], (+2 Overloads) CastArray, Convertible, (+2 Overloads) CTypeDynamic
+    '                   DefaultTextParser, IsPrimitive, StringParser, (+2 Overloads) ToString
+    ' 
+    '         Sub: CapabilityPromise
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -106,7 +106,7 @@ Namespace Scripting
         }
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function StringParser(type As Type) As DefaultValue(Of Func(Of String, Object))
+        Public Function StringParser(type As Type) As [Default](Of Func(Of String, Object))
             Return New Func(Of String, Object)(Function(s$) s.CTypeDynamic(type))
         End Function
 
@@ -174,7 +174,7 @@ Namespace Scripting
         ''' <typeparam name="T"></typeparam>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function DefaultTextParser(Of T)() As DefaultValue(Of IStringParser(Of T))
+        Public Function DefaultTextParser(Of T)() As [Default](Of IStringParser(Of T))
             Return New IStringParser(Of T)(AddressOf CTypeDynamic(Of T)).AsDefault
         End Function
 
@@ -279,6 +279,8 @@ Namespace Scripting
         ''' <param name="name">Case insensitive.(类型的名称简写)</param>
         ''' <param name="ObjectGeneric">是否出错的时候返回<see cref="Object"/>类型，默认返回Nothing</param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function [GetType](name As Value(Of String), Optional objectGeneric As Boolean = False) As Type
             Return Scripting.GetType(name.Value, objectGeneric)
         End Function
@@ -301,7 +303,8 @@ Namespace Scripting
         ''' <returns></returns>
         Public ReadOnly Property [String] As Type = GetType(String)
 
-        Public Function ToString(Of T)() As DefaultValue(Of IToString(Of T))
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ToString(Of T)() As [Default](Of IToString(Of T))
             Return New IToString(Of T)(AddressOf ToString)
         End Function
 
@@ -319,7 +322,12 @@ Namespace Scripting
         End Function
 
         ''' <summary>
-        ''' <seealso cref="CStrSafe"/>, 出现错误的时候总是会返回空字符串的
+        ''' <seealso cref="CStrSafe"/>, 出现错误的时候总是会返回空字符串的，
+        ''' 
+        ''' 注意：
+        ''' 
+        ''' 1. 对于一些基础的数据类型例如<see cref="Integer"/>,<see cref="Long"/>等则是以json序列化来构建字符串值，
+        ''' 2. 对于<see cref="Byte"/>数组则是被编码为base64字符串
         ''' </summary>
         ''' <param name="obj"></param>
         ''' <returns></returns>

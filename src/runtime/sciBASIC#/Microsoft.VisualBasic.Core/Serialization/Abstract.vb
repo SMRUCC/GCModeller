@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fcd17b8b396d510c07dbb2b01a1e5fa, Microsoft.VisualBasic.Core\Serialization\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::0d1b251284fda7fe774793bd92fae0ee, Microsoft.VisualBasic.Core\Serialization\Abstract.vb"
 
     ' Author:
     ' 
@@ -41,6 +41,11 @@
     ' 
     ' 
     '     Delegate Function
+    ' 
+    ' 
+    '     Delegate Function
+    ' 
+    ' 
     ' 
     ' 
     ' 

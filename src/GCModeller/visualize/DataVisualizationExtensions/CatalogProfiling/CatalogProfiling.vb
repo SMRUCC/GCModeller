@@ -91,11 +91,11 @@ Public Module CatalogProfiling
     ''' <summary>
     ''' 默认的柱状图大分类下的每一个柱子的颜色
     ''' </summary>
-    Public ReadOnly DefaultColorSchema As DefaultValue(Of String) = "Set1:c6"
+    Public ReadOnly DefaultColorSchema As [Default](Of  String) = "Set1:c6"
     ''' <summary>
     ''' 解决黄色看不清的问题？
     ''' </summary>
-    Public ReadOnly DefaultKEGGColorSchema As DefaultValue(Of String) = "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00"
+    Public ReadOnly DefaultKEGGColorSchema As [Default](Of  String) = "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00"
 
     <Extension>
     Private Function removesNotAssign(profile As Dictionary(Of String, NamedValue(Of Double)())) As Dictionary(Of String, NamedValue(Of Double)())
@@ -280,7 +280,7 @@ Public Module CatalogProfiling
         End If
 
         Dim gap! = 10.0!
-        Dim grayColor As DefaultValue(Of Color) = Color.Gray.AsDefault(Function() gray)
+        Dim grayColor As [Default](Of  Color) = Color.Gray.AsDefault(Function() gray)
 
         left = padding.Left
 
@@ -369,7 +369,10 @@ Public Module CatalogProfiling
             y += 20
         Next
 
-        Dim maxValue# = profile.Values.Max(Function(v) If(v.Length = 0, 0, v.Max(Function(n) n.Value)))
+        Dim maxValue# = profile.Values _
+            .Max(Function(v)
+                     Return If(v.Length = 0, 0, v.Max(Function(n) n.Value))
+                 End Function)
         Dim axisTicks#() = GetTicks(maxValue, tick)
         Dim d# = 25
         Dim tickFont = CSSFont.TryParse(tickFontStyle)

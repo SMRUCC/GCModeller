@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e30b0194f1432cbabd5ce5ba3a6534b0, Microsoft.VisualBasic.Core\Extensions\Image\Colors\GDIColors.vb"
+﻿#Region "Microsoft.VisualBasic::623efd62792af87cf8c98ee1d330872d, Microsoft.VisualBasic.Core\Extensions\Image\Colors\GDIColors.vb"
 
     ' Author:
     ' 
@@ -345,7 +345,7 @@ Namespace Imaging
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function AsDefaultColor(color As Color) As DefaultValue(Of Color)
+        Public Function AsDefaultColor(color As Color) As [Default](Of Color)
             Return color.AsDefault(Function(c) DirectCast(c, Color).IsNullOrEmpty)
         End Function
 

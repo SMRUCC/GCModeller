@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d42c46fea649bf22eff2916722e15ff, vs_solutions\dev\VisualStudio\vbproj\Project.vb"
+﻿#Region "Microsoft.VisualBasic::c3e219b5478f49caa7eec7e031c5ebc6, vs_solutions\dev\VisualStudio\vbproj\Project.vb"
 
     ' Author:
     ' 
@@ -33,26 +33,10 @@
 
     ' Class Project
     ' 
-    '     Properties: [Imports], DefaultTargets, ItemGroups, PropertyGroups, Targets
-    '                 ToolsVersion
+    '     Properties: [Imports], DefaultTargets, FilePath, ItemGroups, PropertyGroups
+    '                 Targets, ToolsVersion
     ' 
     '     Function: GetProfile, (+2 Overloads) Save, ToString
-    ' 
-    ' Class Target
-    ' 
-    '     Properties: Name
-    ' 
-    ' Class Import
-    ' 
-    '     Properties: Condition, Label, Project
-    ' 
-    '     Function: ToString
-    ' 
-    ' Class ConditionValue
-    ' 
-    '     Properties: Condition, value
-    ' 
-    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
@@ -122,32 +106,5 @@ Public Class Project : Implements ISaveHandle, IFileReference
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
         Return Save(path, encoding.CodePage)
-    End Function
-End Class
-
-Public Class Target
-    <XmlAttribute> Public Property Name As String
-End Class
-
-Public Class Import
-
-    <XmlAttribute> Public Property Project As String
-    <XmlAttribute> Public Property Condition As String
-    <XmlAttribute> Public Property Label As String
-
-    Public Overrides Function ToString() As String
-        Return Me.GetJson
-    End Function
-End Class
-
-Public Class ConditionValue
-
-    <XmlAttribute>
-    Public Property Condition As String
-    <XmlText>
-    Public Property value As String
-
-    Public Overrides Function ToString() As String
-        Return Me.GetJson
     End Function
 End Class

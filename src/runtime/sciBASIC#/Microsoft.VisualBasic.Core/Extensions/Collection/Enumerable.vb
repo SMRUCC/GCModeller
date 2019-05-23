@@ -1,43 +1,43 @@
-﻿#Region "Microsoft.VisualBasic::a3729b6eec8989cb5e5f901a6efe3ba6, Microsoft.VisualBasic.Core\Extensions\Collection\Enumerable.vb"
+﻿#Region "Microsoft.VisualBasic::1dd37d36153684f17defa3b71c50f41e, Microsoft.VisualBasic.Core\Extensions\Collection\Enumerable.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module IEnumerations
-' 
-'     Function: [Next], CreateDictionary, (+2 Overloads) Differ, (+2 Overloads) FindByItemKey, FindByItemValue
-'               (+2 Overloads) GetItem, GetItems, Take, (+2 Overloads) Takes, ToDictionary
-'               ToEntryDictionary
-' 
-' /********************************************************************************/
+    ' Module IEnumerations
+    ' 
+    '     Function: [Next], CreateDictionary, (+2 Overloads) Differ, ExceptType, (+2 Overloads) FindByItemKey
+    '               FindByItemValue, (+2 Overloads) GetItem, GetItems, OfType, Take
+    '               (+2 Overloads) Takes, ToDictionary, ToEntryDictionary
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -138,7 +138,7 @@ Public Module IEnumerations
     ''' <summary>
     ''' Text compare in case sensitive mode
     ''' </summary>
-    ReadOnly TextCompareStrict As DefaultValue(Of StringComparison) = StringComparison.Ordinal
+    ReadOnly TextCompareStrict As [Default](Of StringComparison) = StringComparison.Ordinal
 
     <Extension> Public Function FindByItemKey(source As IEnumerable(Of KeyValuePair), Key As String, Optional strict As Boolean = True) As KeyValuePair()
         Dim method As StringComparison = StringComparison.OrdinalIgnoreCase Or TextCompareStrict.When(strict)

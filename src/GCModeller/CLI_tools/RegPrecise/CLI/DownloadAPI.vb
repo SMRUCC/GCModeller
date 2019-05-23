@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
@@ -306,7 +307,7 @@ Imports SMRUCC.genomics.SequenceModel
     Public Function DownloadProteinMotifs(args As CommandLine) As Integer
         Dim sourceDIR As String = args("/source")
         Dim KEGG As String = args.GetValue("/keggTools", App.HOME & "/kegg.exe")
-        Dim queries As IEnumerable(Of String) = ls - l - r - wildcards("query.txt") << FileHandles.OpenHandle(sourceDIR)
+        Dim queries As IEnumerable(Of String) = ls - l - r - wildcards("query.txt") << sourceDIR.FileOpen
 
         For Each query As String In queries
             If Not query.ParentPath.EnumerateFiles("*.fasta", "*.fsa", "*.fa").Any Then

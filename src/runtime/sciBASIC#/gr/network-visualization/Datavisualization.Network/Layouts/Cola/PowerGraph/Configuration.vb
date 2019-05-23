@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::517eea9cf414097848454313612eb277, gr\network-visualization\Datavisualization.Network\Layouts\Cola\PowerGraph\Configuration.vb"
+﻿#Region "Microsoft.VisualBasic::67b593d8bf21e48c1149bb49c4c39b3e, gr\network-visualization\Datavisualization.Network\Layouts\Cola\PowerGraph\Configuration.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Configuration
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: allEdges, getGroupHierarchy, greedyMerge, initModulesFromGroup, merge
-'                   nEdges, rootMerges, updateLambda
-' 
-'         Sub: getEdges
-'         Class ModuleMerge
-' 
-'             Properties: a, b, id, nEdges
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Class Configuration
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: allEdges, getGroupHierarchy, greedyMerge, initModulesFromGroup, merge
+    '                   nEdges, rootMerges, updateLambda
+    ' 
+    '         Sub: getEdges
+    '         Class ModuleMerge
+    ' 
+    '             Properties: a, b, id, nEdges
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.JavaScript
+Imports Microsoft.VisualBasic.My.JavaScript
 
 Namespace Layouts.Cola
 
@@ -266,8 +266,8 @@ Namespace Layouts.Cola
 
         Shared Sub getEdges(modules As ModuleSet, es As List(Of PowerEdge(Of Integer)))
             modules.forAll(Sub(m)
-                               m.getEdges(es)
-                               Configuration(Of Link).getEdges(m.children, es)
+                               Call m.getEdges(es)
+                               Call Configuration(Of Link).getEdges(m.children, es)
                            End Sub)
         End Sub
     End Class

@@ -68,7 +68,7 @@ Namespace Custom
         End Function
 
         <Extension> Public Function RemovesRlistNULL(list As var) As String
-            Return list.Name.RemovesRlistNULL
+            Return list.name.RemovesRlistNULL
         End Function
 
         ''' <summary>

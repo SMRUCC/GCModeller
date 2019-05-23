@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1aae96aaa4e8a2b4d0cd8cb52631077, Microsoft.VisualBasic.Core\ComponentModel\DataSource\DataFramework.vb"
+﻿#Region "Microsoft.VisualBasic::2ffe6881ea86a4bcf64f0d7d7f8e9ec9, Microsoft.VisualBasic.Core\ComponentModel\DataSource\DataFramework.vb"
 
     ' Author:
     ' 
@@ -146,7 +146,7 @@ Namespace ComponentModel.DataSourceModel
             Return props.ToDictionary(Function(x) x.Name)
         End Function
 
-        ReadOnly alwaysTrue As DefaultValue(Of Assert(Of Object)) = New Assert(Of Object)(Function() True)
+        ReadOnly alwaysTrue As [Default](Of Assert(Of Object)) = New Assert(Of Object)(Function() True)
 
         ''' <summary>
         ''' 将对象之中的所有属性值都取出来以字符串的形式生成一个字典对象

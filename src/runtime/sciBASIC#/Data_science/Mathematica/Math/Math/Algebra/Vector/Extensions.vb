@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8f29b54888bb1b4d8d11e8c58acd618, Data_science\Mathematica\Math\Math\Algebra\Vector\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e911037dfe8875807c8a016ee28a8f48, Data_science\Mathematica\Math\Math\Algebra\Vector\Extensions.vb"
 
     ' Author:
     ' 
@@ -94,7 +94,7 @@ Namespace LinearAlgebra
             Return New Vector(v.Takes(indices.ToArray))
         End Function
 
-        ReadOnly normalRange As New DefaultValue(Of DoubleRange)({0, 1})
+        ReadOnly normalRange As New [Default](Of  DoubleRange)({0, 1})
         ReadOnly random As New Random
 
         ''' <summary>

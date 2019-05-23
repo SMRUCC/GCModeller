@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a204185c69496c5960a9fb786b4ce39, gr\network-visualization\Datavisualization.Network\Layouts\Cola\PowerGraph\AlgorithmExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::643703879ca86daccdaac357a5b51734, gr\network-visualization\Datavisualization.Network\Layouts\Cola\PowerGraph\AlgorithmExtensions.vb"
 
     ' Author:
     ' 
@@ -98,24 +98,24 @@ Namespace Layouts.Cola
         End Function
 
         Public Function getGroups(Of Link)(nodes As Node(), links As Link(), la As LinkTypeAccessor(Of Link), rootGroup As Node) As PowerGraph
-            Dim n = nodes.Length
-            Dim c = New Configuration(Of Link)(n, links, la, rootGroup)
+            Dim n As Integer = nodes.Length
+            Dim c As New Configuration(Of Link)(n, links, la, rootGroup)
 
             While c.greedyMerge()
             End While
 
             Dim powerEdgeIndices As New List(Of PowerEdge(Of [Variant](Of Integer, Node)))
             Dim powerEdges As New List(Of PowerEdge(Of Node))
-            Dim g = c.getGroupHierarchy(powerEdgeIndices)
+            Dim g As List(Of Node) = c.getGroupHierarchy(powerEdgeIndices)
 
             powerEdgeIndices.DoEach(Sub(e)
                                         ' javascript之中，对象类型在这里发生了转换
                                         ' 将index转换为具体的node对象
                                         Dim f = Sub([end] As String)
-                                                    Dim eg = e([end])
+                                                    Dim eg As [Variant](Of Integer, Node) = e([end])
 
                                                     If eg Like GetType(Integer) Then
-                                                        e([end]) = nodes(CType(eg, Integer))
+                                                        e([end]) = nodes.ElementAtOrDefault(CType(eg, Integer))
                                                     End If
                                                 End Sub
 

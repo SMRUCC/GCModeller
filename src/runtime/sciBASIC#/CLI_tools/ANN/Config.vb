@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72d93d36d6f82b3acd1303da2ad76973, CLI_tools\ANN\Config.vb"
+﻿#Region "Microsoft.VisualBasic::5d37bf13fe34bdf3b2a7cdd74ee36080, CLI_tools\ANN\Config.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,8 @@
     ' Class Config
     ' 
     '     Properties: [Default], default_active, hidden_size, hiddens_active, input_active
-    '                 iterations, learnRate, learnRateDecay, momentum, output_active
+    '                 iterations, learnRate, learnRateDecay, minErr, momentum
+    '                 output_active, selective
     ' 
     ' /********************************************************************************/
 
@@ -78,6 +79,8 @@ Public Class Config
     ''' </summary>
     ''' <returns></returns>
     <DataFrameColumn> Public Property hidden_size As String
+
+    <DataFrameColumn> Public Property selective As String = "no"
 
     Public Shared ReadOnly Property [Default] As DefaultValue(Of Config) = New Config
 

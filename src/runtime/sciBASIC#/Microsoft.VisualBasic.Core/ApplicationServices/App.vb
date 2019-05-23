@@ -1,63 +1,63 @@
-﻿#Region "Microsoft.VisualBasic::a17aa734524affcecd9e53d3f4d9e0dd, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::a1619b7d906a1fd5023eb471a222d800, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module App
-' 
-'     Properties: AppSystemTemp, AssemblyName, BufferSize, Command, CommandLine
-'                 CPUCoreNumbers, CurrentDirectory, CurrentProcessTemp, Desktop, ExceptionLogFile
-'                 ExecutablePath, Github, HOME, Info, InputFile
-'                 IsConsoleApp, IsMicrosoftPlatform, LocalData, LocalDataTemp, LogErrDIR
-'                 NanoTime, NextTempName, OutFile, PID, Platform
-'                 PreviousDirectory, Process, ProductName, ProductProgramData, ProductSharedDIR
-'                 ProductSharedTemp, References, Running, RunTimeDirectory, StartTime
-'                 StartupDirectory, StdErr, StdOut, SysTemp, UnixTimeStamp
-'                 UserHOME, Version
-' 
-'     Constructor: (+1 Overloads) Sub New
-' 
-'     Function: __cli, __completeCLI, __getTEMP, __getTEMPhash, __isMicrosoftPlatform
-'               __listFiles, __sysTEMP, (+2 Overloads) Argument, BugsFormatter, CLICode
-'               ElapsedMilliseconds, Exit, FormatTime, GenerateTemp, (+2 Overloads) GetAppLocalData
-'               GetAppSysTempFile, GetAppVariables, GetFile, GetProductSharedDIR, GetProductSharedTemp
-'               GetTempFile, GetVariable, (+3 Overloads) LogException, NullDevice, (+10 Overloads) RunCLI
-'               RunCLIInternal, SelfFolk, SelfFolks, Shell, TemporaryEnvironment
-'               TraceBugs
-' 
-'     Sub: __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory, Free
-'          JoinVariable, (+2 Overloads) JoinVariables, Pause, (+2 Overloads) println, RunAsAdmin
-'          SetBufferSize, StartGC, StopGC
-' 
-' /********************************************************************************/
+    ' Module App
+    ' 
+    '     Properties: AppSystemTemp, AssemblyName, BufferSize, Command, CommandLine
+    '                 CPUCoreNumbers, CurrentDirectory, CurrentProcessTemp, Desktop, DoNothing
+    '                 ExceptionLogFile, ExecutablePath, Github, HOME, Info
+    '                 InputFile, IsConsoleApp, IsMicrosoftPlatform, LocalData, LocalDataTemp
+    '                 LogErrDIR, NanoTime, NextTempName, OutFile, PID
+    '                 Platform, PreviousDirectory, Process, ProductName, ProductProgramData
+    '                 ProductSharedDIR, ProductSharedTemp, References, Running, RunTimeDirectory
+    '                 StartTime, StartupDirectory, StdErr, StdOut, SysTemp
+    '                 UnixTimeStamp, UserHOME, Version
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: __cli, __completeCLI, __getTEMP, __isMicrosoftPlatform, __listFiles
+    '               __sysTEMP, (+2 Overloads) Argument, BugsFormatter, CLICode, ElapsedMilliseconds
+    '               Exit, FormatTime, GenerateTemp, (+2 Overloads) GetAppLocalData, GetAppSysTempFile
+    '               GetAppVariables, GetFile, GetProductSharedDIR, GetProductSharedTemp, GetTempFile
+    '               GetVariable, (+3 Overloads) LogException, NullDevice, (+10 Overloads) RunCLI, RunCLIInternal
+    '               SelfFolk, SelfFolks, Shell, tempCode, TemporaryEnvironment
+    '               TraceBugs
+    ' 
+    '     Sub: __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory, Free
+    '          JoinVariable, (+2 Overloads) JoinVariables, Pause, (+2 Overloads) println, RunAsAdmin
+    '          SetBufferSize, StartGC, StopGC
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -178,7 +178,7 @@ Public Module App
     ''' <see cref="Console.OpenStandardOutput()"/> as default text output device.
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property StdOut As DefaultValue(Of TextWriter) = Console.OpenStandardOutput.OpenTextWriter
+    Public ReadOnly Property StdOut As [Default](Of TextWriter) = Console.OpenStandardOutput.OpenTextWriter
 
     ''' <summary>
     ''' Get the <see cref="System.Diagnostics.Process"/> id(PID) of the current program process.
@@ -921,7 +921,7 @@ Public Module App
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Private Function __getTEMP(prefix As String) As String
-        Static tmp As DefaultValue(Of String) = NameOf(tmp)
+        Static tmp As [Default](Of String) = NameOf(tmp)
         Return $"{prefix Or tmp}{App.tempCode}"
     End Function
 
@@ -1016,13 +1016,15 @@ Public Module App
     ''' <summary>
     ''' This is the custom message of the exception, not extract from the function <see cref="Exception.ToString()"/>
     ''' </summary>
-    ''' <param name="exMsg">This is the custom message of the exception, not extract from the function <see cref="Exception.ToString()"/></param>
-    ''' <param name="Trace"></param>
+    ''' <param name="exMsg">
+    ''' This is the custom message of the exception, not extract from the function <see cref="Exception.ToString()"/>
+    ''' </param>
+    ''' <param name="trace"></param>
     ''' <returns></returns>
     <ExportAPI("Exception.Log")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function LogException(exMsg$, <CallerMemberName> Optional Trace$ = "") As Object
-        Return App.LogException(New Exception(exMsg), Trace)
+    Public Function LogException(exMsg$, <CallerMemberName> Optional trace$ = "") As Object
+        Return App.LogException(New Exception(exMsg), trace)
     End Function
 
     ''' <summary>

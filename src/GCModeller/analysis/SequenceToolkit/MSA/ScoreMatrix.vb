@@ -56,7 +56,7 @@ Public Class ScoreMatrix
     Sub New()
     End Sub
 
-    Public Shared Function DefaultMatrix() As DefaultValue(Of ScoreMatrix)
+    Public Shared Function DefaultMatrix() As [Default](Of  ScoreMatrix)
         Return New ScoreMatrix With {
             .Matrix = My.Resources _
                 .Matrix _

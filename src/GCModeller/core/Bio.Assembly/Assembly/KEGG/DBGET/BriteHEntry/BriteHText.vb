@@ -1,50 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::a5c88dbcdb495b1b416ddf33d70cd77a, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BriteHText
-    ' 
-    '         Properties: [Class], CategoryItems, CategoryLevel, ClassLabel, Degree
-    '                     Description, EntryId, Level, Parent
-    ' 
-    '         Function: BuildPath, EnumerateEntries, GetEntries, GetHPath, GetRoot
-    '                   (+2 Overloads) Load, Load_ko00001, Load_ko00002, LoadData, NormalizePath
-    '                   ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BriteHText
+' 
+'         Properties: [Class], CategoryItems, CategoryLevel, ClassLabel, Degree
+'                     Description, EntryId, Level, Parent
+' 
+'         Function: BuildPath, EnumerateEntries, GetEntries, GetHPath, GetRoot
+'                   (+2 Overloads) Load, Load_ko00001, Load_ko00002, LoadData, NormalizePath
+'                   ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -63,45 +64,45 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 大分类的标签
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property ClassLabel As String Implements INamedValue.Key
-        <XmlAttribute> Public Property Level As Integer
+        <XmlAttribute> Public Property classLabel As String Implements INamedValue.Key
+        <XmlAttribute> Public Property level As Integer
         ''' <summary>
         ''' ``ABCDEFG``, etc...
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Degree As Char
+        <XmlAttribute> Public Property degree As Char
 
 #Region "Tree"
 
         <XmlIgnore>
-        Public Property Parent As BriteHText
+        Public Property parent As BriteHText
         ''' <summary>
         ''' 假若这个层次还可以进行细分的话，则这个属性就是当前的小分类的子分类列表
         ''' </summary>
         ''' <returns></returns>
         <XmlElement>
-        Public Property CategoryItems As BriteHText()
+        Public Property categoryItems As BriteHText()
 #End Region
 
-        Dim _EntryId As String
+        Dim entry As String
 
         ''' <summary>
         ''' KEGG db-get对象名词
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property EntryId As String
+        Public ReadOnly Property entryID As String
             Get
-                If String.IsNullOrEmpty(_EntryId) Then
-                    Dim Tokens As String = ClassLabel.Split.First
+                If String.IsNullOrEmpty(entry) Then
+                    Dim Tokens As String = classLabel.Split.First
 
                     If Regex.Match(Tokens, "[a-z]\d{5}", RegexOptions.IgnoreCase).Success Then
-                        _EntryId = Tokens
+                        entry = Tokens
                     ElseIf Tokens.IsPattern("\d+") Then
-                        _EntryId = Tokens
+                        entry = Tokens
                     End If
                 End If
 
-                Return _EntryId
+                Return entry
             End Get
         End Property
 
@@ -109,35 +110,35 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' Root class label
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property [Class] As String
+        Public ReadOnly Property [class] As String
             Get
-                Dim o As BriteHText = Me.Parent
+                Dim o As BriteHText = Me.parent
                 Dim label$ = Nothing
 
-                Do While Not o.Parent Is Nothing
-                    label = o.ClassLabel
-                    o = o.Parent
+                Do While Not o.parent Is Nothing
+                    label = o.classLabel
+                    o = o.parent
                 Loop
 
                 Return label
             End Get
         End Property
 
-        Public ReadOnly Property Description As String
+        Public ReadOnly Property description As String
             Get
-                If String.IsNullOrEmpty(EntryId) Then
-                    Return ClassLabel
+                If String.IsNullOrEmpty(entryID) Then
+                    Return classLabel
                 Else
-                    Return ClassLabel.Replace(EntryId, "").Trim
+                    Return classLabel.Replace(entryID, "").Trim
                 End If
             End Get
         End Property
 
         Public Function GetRoot() As BriteHText
-            Dim parent As BriteHText = Me.Parent
+            Dim parent As BriteHText = Me.parent
 
-            Do While Not parent.Parent Is Nothing
-                parent = parent.Parent
+            Do While Not parent.parent Is Nothing
+                parent = parent.parent
             Loop
 
             Return parent
@@ -146,19 +147,19 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <summary>
         ''' 查找不到会返回空值
         ''' </summary>
-        ''' <param name="Key"><see cref="EntryID"/> or <see cref="EntryID"/> in <see cref="CategoryItems"/></param>
+        ''' <param name="Key"><see cref="entryID"/> or <see cref="entryID"/> in <see cref="CategoryItems"/></param>
         ''' <returns></returns>
         Public Function GetHPath(Key As String) As BriteHText()
-            If String.Equals(Key, EntryId, StringComparison.OrdinalIgnoreCase) Then
+            If String.Equals(Key, entryID, StringComparison.OrdinalIgnoreCase) Then
                 Return {Me}
             End If
 
-            If CategoryItems.IsNullOrEmpty Then
+            If categoryItems.IsNullOrEmpty Then
                 Return Nothing
             End If
 
             Dim LQuery As BriteHText() = (From value As BriteHText
-                                          In Me.CategoryItems
+                                          In Me.categoryItems
                                           Let path As BriteHText() = value.GetHPath(Key)
                                           Where Not path.IsNullOrEmpty
                                           Select path).FirstOrDefault
@@ -171,16 +172,16 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         ''' <summary>
-        ''' 获取得到当前的分类之下的所有的<see cref="EntryId"/>列表
+        ''' 获取得到当前的分类之下的所有的<see cref="entryID"/>列表
         ''' </summary>
         ''' <returns></returns>
         Public Function GetEntries() As String()
-            If Me.CategoryItems.IsNullOrEmpty Then
+            If Me.categoryItems.IsNullOrEmpty Then
                 Return {
-                    EntryId
+                    entryID
                 }
             Else
-                Return Me.CategoryItems _
+                Return Me.categoryItems _
                     .Select(Function(htext) htext.GetEntries) _
                     .ToVector
             End If
@@ -191,10 +192,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <returns></returns>
         Public Iterator Function EnumerateEntries() As IEnumerable(Of BriteHText)
-            If CategoryItems.IsNullOrEmpty Then
+            If categoryItems.IsNullOrEmpty Then
                 Yield Me
             Else
-                For Each htext As BriteHText In CategoryItems _
+                For Each htext As BriteHText In categoryItems _
                     .Select(Function(x) x.EnumerateEntries) _
                     .IteratesALL
 
@@ -205,15 +206,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         Public ReadOnly Property CategoryLevel As Char
             Get
-                If Level < 0 Then
+                If level < 0 Then
                     Return "/"
                 End If
-                Return BriteHTextParser.ClassLevels(Level)
+                Return BriteHTextParser.ClassLevels(level)
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}]  {1}", CategoryLevel, ClassLabel)
+            Return String.Format("[{0}]  {1}", CategoryLevel, classLabel)
         End Function
 
         Public Shared Function NormalizePath(strValue As String) As String
@@ -228,10 +229,13 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <param name="data$">文本内容或者文件的路径</param>
         ''' <returns></returns>
-        Public Function Load(data$) As BriteHText
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Load(data As String) As BriteHText
             Return BriteHTextParser.Load(data)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Load_ko00002() As BriteHText
             Return BriteHTextParser.Load(data:=My.Resources.ko00002_keg)
         End Function
@@ -252,11 +256,11 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Function BuildPath(EXPORT$, Optional ext$ = ".xml") As String
             Dim levels As New List(Of String)
-            Dim o As BriteHText = Me.Parent
+            Dim o As BriteHText = Me.parent
 
-            Do While Not o.Parent Is Nothing
-                levels += o.ClassLabel
-                o = o.Parent
+            Do While Not o.parent Is Nothing
+                levels += o.classLabel
+                o = o.parent
             Loop
 
             Call levels.Reverse()
@@ -265,7 +269,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .Select(Function(s) s.NormalizePathString(False)) _
                 .JoinBy("/")
 
-            Return EXPORT & "/" & [sub] & EntryId & ext
+            Return EXPORT & "/" & [sub] & entryID & ext
         End Function
     End Class
 End Namespace

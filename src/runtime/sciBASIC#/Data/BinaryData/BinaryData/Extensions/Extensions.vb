@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f852cdfe68a25986407b514150125ba, Data\BinaryData\BinaryData\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c1c8e037b920369c4bc21126d9bd66be, Data\BinaryData\BinaryData\Extensions\Extensions.vb"
 
 ' Author:
 ' 
@@ -33,18 +33,78 @@
 
 ' Module Extensions
 ' 
-'     Function: OpenBinaryReader
+'     Function: OpenBinaryReader, ReadAsDoubleVector, ReadAsInt64Vector
 ' 
 ' /********************************************************************************/
 
 #End Region
 
-Imports System.Collections.Generic
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Net.Http
 
-Public Module Extensions
+Public Interface IMagicBlock
+
+    ''' <summary>
+    ''' Magic字符串为数据块的起始位置处的指定字节数量ASCII字符串数据
+    ''' </summary>
+    ''' <returns></returns>
+    ReadOnly Property magic As String
+
+End Interface
+
+<HideModuleName> Public Module Extensions
+
+    ''' <summary>
+    ''' 使用整形数存储的验证数据
+    ''' </summary>
+    ''' <param name="block"></param>
+    ''' <param name="signature$"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function VerifyMagicSignature(block As IMagicBlock, signature$) As Boolean
+        Dim magic$ = block.magic
+
+        If magic.Length <> signature.Length Then
+            Return False
+        Else
+            For i As Integer = 0 To magic.Length - 1
+                If magic(i) <> signature(i) Then
+                    Return False
+                End If
+            Next
+        End If
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' 使用base64存储的验证数据
+    ''' </summary>
+    ''' <param name="block"></param>
+    ''' <param name="signature"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function VerifyMagicSignature(block As IMagicBlock, signature As IEnumerable(Of Byte)) As Boolean
+        Dim magic As Byte() = block.magic.Base64RawBytes
+        Dim i As Integer = Scan0
+
+        For Each [byte] As Byte In signature
+            If [byte] <> magic(i) Then
+                Return False
+            Else
+                i += 1
+            End If
+        Next
+
+        If i <> magic.Length Then
+            Return False
+        Else
+            Return True
+        End If
+    End Function
 
     ''' <summary>
     ''' Open <see cref="BinaryDataReader"/>
@@ -60,6 +120,7 @@ Public Module Extensions
         If FileIO.FileSystem.GetFileInfo(path).Length <= buffered Then
             Dim byts As Byte() = FileIO.FileSystem.ReadAllBytes(path)   ' 文件数据将会被缓存
             Dim ms As New MemoryStream(byts)
+
             Return New BinaryDataReader(ms, encoding)
         Else
             Return New BinaryDataReader(File.OpenRead(path), encoding)

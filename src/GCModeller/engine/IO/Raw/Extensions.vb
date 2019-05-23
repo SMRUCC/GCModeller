@@ -41,7 +41,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.MIME.application.netCDF
+Imports Microsoft.VisualBasic.Data.IO.netCDF
 
 Public Module Extensions
 

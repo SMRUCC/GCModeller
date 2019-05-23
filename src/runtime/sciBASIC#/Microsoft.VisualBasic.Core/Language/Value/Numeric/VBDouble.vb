@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b46fb107a9dd14e75e54f6e063a8932d, Microsoft.VisualBasic.Core\Language\Value\Numeric\VBDouble.vb"
+﻿#Region "Microsoft.VisualBasic::a91e7d2d0e57d791c77919b590ebfbea, Microsoft.VisualBasic.Core\Language\Value\Numeric\VBDouble.vb"
 
     ' Author:
     ' 
@@ -33,12 +33,14 @@
 
     '     Class VBDouble
     ' 
+    '         Properties: Hex
+    ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: CompareTo, Equals, GetTypeCode, ToBoolean, ToByte
     '                   ToChar, ToDateTime, ToDecimal, ToDouble, ToInt16
     '                   ToInt32, ToInt64, ToSByte, ToSingle, (+2 Overloads) ToString
     '                   ToType, ToUInt16, ToUInt32, ToUInt64
-    '         Operators: -, (+2 Overloads) *, (+2 Overloads) /, ^, (+2 Overloads) +
+    '         Operators: (+2 Overloads) -, (+2 Overloads) *, (+2 Overloads) /, ^, (+2 Overloads) +
     '                    <, <=, >, >=
     ' 
     ' 
@@ -57,6 +59,20 @@ Namespace Language
         Implements IComparable
         Implements IConvertible
         Implements IEquatable(Of Double)
+
+        Public ReadOnly Property Hex As String
+            Get
+                Dim bytes As Byte() = BitConverter _
+                    .GetBytes(Value) _
+                    .Reverse _
+                    .ToArray
+                Dim h$ = bytes _
+                    .Select(Function(b) b.ToString("X2")) _
+                    .JoinBy("")
+
+                Return h
+            End Get
+        End Property
 
         Sub New(x#)
             Value = x#

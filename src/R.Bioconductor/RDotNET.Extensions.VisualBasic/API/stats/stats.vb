@@ -82,7 +82,7 @@ Namespace API
             Throw New NotImplementedException
         End Function
 
-        ReadOnly quartile As DefaultValue(Of Double()) = {0, 0.25, 0.5, 0.75, 1}
+        ReadOnly quartile As [Default](Of  Double()) = {0, 0.25, 0.5, 0.75, 1}
 
         ''' <summary>
         ''' The generic function quantile produces sample quantiles corresponding to the given probabilities. 
@@ -138,7 +138,7 @@ Namespace API
                                  Optional names As Boolean = True,
                                  Optional type% = 7) As String
 
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -160,7 +160,7 @@ Namespace API
         ''' <param name="logp">logical; if TRUE, probabilities p are given as log(p).</param>
         ''' <returns></returns>
         Public Function pnorm(q$, Optional mean# = 0, Optional sd# = 1, Optional lowertail As Boolean = True, Optional logp As Boolean = False) As String
-            Dim var$ = App.NextTempName
+            Dim var$ = RDotNetGC.Allocate
 
             SyncLock R
                 With R
@@ -256,7 +256,7 @@ Namespace API
                               Optional optimcontrol As String = "list()",
                               Optional kappa As String = "1e6") As String
 
-            Dim out As String = App.NextTempName
+            Dim out As String = RDotNetGC.Allocate
 
             Call $"{out} <- arima({x}, order = {order},
       seasonal = {seasonal},
@@ -297,7 +297,7 @@ Namespace API
                            Optional [class] As String = Nothing,
                            Optional names As String = Nothing) As String
 
-            Dim tmp As String = App.NextTempName
+            Dim tmp As String = RDotNetGC.Allocate
             Dim func As New packages.stats.ts With {
                 .data = data,
                 .start = start,
@@ -355,7 +355,7 @@ Namespace API
 
             SyncLock R
                 With R
-                    Dim x$ = App.NextTempName
+                    Dim x$ = RDotNetGC.Allocate
 
                     .call = $"{x} <- p.adjust({v}, method = {Rstring(method.Description)}, n = length({v}));"
 
@@ -502,7 +502,7 @@ Namespace API
             SyncLock R
                 With R
 
-                    Dim var$ = App.NextTempName
+                    Dim var$ = RDotNetGC.Allocate
 
                     .call = $"{var} <- t.test({x}, {y},
        alternative = {Rstring(alternative)},

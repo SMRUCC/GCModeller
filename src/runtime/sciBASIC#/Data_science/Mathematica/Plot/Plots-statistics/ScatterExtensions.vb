@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7f32736599a10ec2819bc9d5cdf1ddb, Data_science\Mathematica\Plot\Plots-statistics\ScatterExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::92272057f9ad2ee08b1361c6cf35e259, Data_science\Mathematica\Plot\Plots-statistics\ScatterExtensions.vb"
 
     ' Author:
     ' 
@@ -174,7 +174,7 @@ Public Module ScatterExtensions
         Return Scatter.Plot(ode.FromODEs(, ptSize, width), size, padding, bg)
     End Function
 
-    ReadOnly defaultColorSequence As DefaultValue(Of Color()) = ChartColors
+    ReadOnly defaultColorSequence As [Default](Of  Color()) = ChartColors
 
     ''' <summary>
     ''' Convert ODEs result as scatter plot serial model.

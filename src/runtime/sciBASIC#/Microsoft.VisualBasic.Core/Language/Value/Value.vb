@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::29118a546d4fe6ba5e820a02074fd977, Microsoft.VisualBasic.Core\Language\Value\Value.vb"
+﻿#Region "Microsoft.VisualBasic::c19698bb126068d327d4f42dd57d4008, Microsoft.VisualBasic.Core\Language\Value\Value.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Value
-' 
-'         Properties: HasValue, Value
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: [Default], (+2 Overloads) Equals, GetJson, GetUnderlyingType, (+2 Overloads) GetValueOrDefault
-'                   IsNothing, ToString
-'         Operators: -, (+3 Overloads) +, <=, <>, =
-'                    >=, (+2 Overloads) Like
-'         Interface IValueOf
-' 
-'             Properties: Value
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Class Value
+    ' 
+    '         Properties: HasValue, Value
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: [Default], (+2 Overloads) Equals, GetJson, GetUnderlyingType, (+2 Overloads) GetValueOrDefault
+    '                   IsNothing, ToString
+    '         Operators: -, (+3 Overloads) +, <=, <>, =
+    '                    >=, (+2 Overloads) Like
+    '         Interface IValueOf
+    ' 
+    '             Properties: Value
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -86,6 +86,12 @@ Namespace Language
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Not Value Is Nothing
+            End Get
+        End Property
+
+        Default Public ReadOnly Property Index(key As Object) As Object
+            Get
+                Return CObj(Value)(key)
             End Get
         End Property
 

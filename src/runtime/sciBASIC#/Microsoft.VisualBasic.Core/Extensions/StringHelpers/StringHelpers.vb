@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8c51841332b43d9541547473e69df1c, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::8c3c010903b99c4c526b4b91d717f856, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -128,7 +128,7 @@ Public Module StringHelpers
     ''' <summary>
     ''' Using <see cref="[String].Empty"/> as default value
     ''' </summary>
-    Public ReadOnly Property EmptyString As DefaultValue(Of String) = String.Empty
+    Public ReadOnly Property EmptyString As [Default](Of String) = String.Empty
 
     ''' <summary>
     ''' Replace the <see cref="vbCrLf"/> with the specific string.
@@ -819,6 +819,13 @@ Public Module StringHelpers
         Return r.Match(input.Value, pattern, options).Value
     End Function
 
+    ''' <summary>
+    ''' Regular expression pattern text token matches
+    ''' </summary>
+    ''' <param name="input$"></param>
+    ''' <param name="pattern$"></param>
+    ''' <param name="options"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Matches(input$, pattern$, Optional options As RegexOptions = RegexICSng) As IEnumerable(Of String)

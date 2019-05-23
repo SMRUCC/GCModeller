@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aca04144b92242855f321fc1b96a5a5c, Data_science\MachineLearning\NeuralNetwork\StoreProcedure\ActiveFunction.vb"
+﻿#Region "Microsoft.VisualBasic::e005a08a803bc69c9436b196538f0961, Data_science\MachineLearning\MachineLearning\NeuralNetwork\StoreProcedure\ActiveFunction.vb"
 
     ' Author:
     ' 
@@ -143,10 +143,10 @@ Namespace NeuralNetwork.StoreProcedure
         End Operator
 
 #Region "Default Expressions"
-        Public Shared ReadOnly Property ReLU As DefaultValue(Of String) = "ReLU()"
-        Public Shared ReadOnly Property Threshold As DefaultValue(Of String) = "Threshold()"
-        Public Shared ReadOnly Property Sigmoid As DefaultValue(Of String) = "Sigmoid(alpha:=2.0)"
-        Public Shared ReadOnly Property BipolarSigmoid As DefaultValue(Of String) = "BipolarSigmoid(alpha:=2.0)"
+        Public Shared ReadOnly Property ReLU As [Default](Of  String) = "ReLU()"
+        Public Shared ReadOnly Property Threshold As [Default](Of  String) = "Threshold()"
+        Public Shared ReadOnly Property Sigmoid As [Default](Of  String) = "Sigmoid(alpha:=2.0)"
+        Public Shared ReadOnly Property BipolarSigmoid As [Default](Of  String) = "BipolarSigmoid(alpha:=2.0)"
 #End Region
 
         ''' <summary>

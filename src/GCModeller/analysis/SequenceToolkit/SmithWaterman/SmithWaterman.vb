@@ -58,7 +58,7 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' <summary>
     ''' 蛋白比对的矩阵
     ''' </summary>
-    Shared ReadOnly blosum62 As DefaultValue(Of Blosum) = Blosum.FromInnerBlosum62
+    Shared ReadOnly blosum62 As [Default](Of  Blosum) = Blosum.FromInnerBlosum62
 
     ''' <summary>
     '''

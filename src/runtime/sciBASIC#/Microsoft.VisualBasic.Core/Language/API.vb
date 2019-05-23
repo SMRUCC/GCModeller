@@ -1,44 +1,44 @@
-﻿#Region "Microsoft.VisualBasic::6f306d41881417fde973bd1b5735abde, Microsoft.VisualBasic.Core\Language\API.vb"
+﻿#Region "Microsoft.VisualBasic::35147e4ef5eebdda84d0e0611a618835, Microsoft.VisualBasic.Core\Language\API.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module LanguageAPI
-' 
-'         Function: [ByRef], [Default], (+2 Overloads) [When], AsDefault, AsNumeric
-'                   AsString, AsVector, DefaultValue, Empty, IsNothing
-'                   Let, list, Self, TypeDef, TypeInfo
-' 
-' 
-' /********************************************************************************/
+    '     Module LanguageAPI
+    ' 
+    '         Function: (+2 Overloads) [As], [ByRef], (+2 Overloads) [Default], (+2 Overloads) [When], AsDefault
+    '                   AsNumeric, AsString, AsVector, Empty, IsNothing
+    '                   Let, list, Self, TypeDef, TypeInfo
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -58,7 +58,7 @@ Namespace Language
         ''' <summary>
         ''' The default value assertor. If target object assert result is nothing or empty, then this function will returns True.
         ''' </summary>
-        Friend ReadOnly defaultAssert As New DefaultValue(Of Assert(Of Object)) With {
+        Friend ReadOnly defaultAssert As New [Default](Of Assert(Of Object)) With {
             .Value = AddressOf ExceptionHandle.Default,
             .assert = Function(assert)
                           Return assert Is Nothing
@@ -82,7 +82,7 @@ Namespace Language
         'End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Empty(Of T)() As DefaultValue(Of T())
+        Public Function Empty(Of T)() As [Default](Of T())
             Return {}
         End Function
 
@@ -106,8 +106,8 @@ Namespace Language
         ''' <param name="isNothing"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function [Default](Of T)(x As T, Optional isNothing As Assert(Of Object) = Nothing) As DefaultValue(Of T)
-            Return New DefaultValue(Of T) With {
+        Public Function [Default](Of T)(x As T, Optional isNothing As Assert(Of Object) = Nothing) As [Default](Of T)
+            Return New [Default](Of T) With {
                 .Value = x,
                 .assert = isNothing Or defaultAssert
             }
@@ -122,12 +122,12 @@ Namespace Language
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function AsDefault(Of T)(x As T, Optional [If] As Assert(Of Object) = Nothing) As DefaultValue(Of T)
+        Public Function AsDefault(Of T)(x As T, Optional [If] As Assert(Of Object) = Nothing) As [Default](Of T)
             Return [Default](x, [If])
         End Function
 
-        Public Function DefaultValue(Of T)(value As T) As DefaultValue(Of T)
-            Return New DefaultValue(Of T) With {
+        Public Function [Default](Of  T)(value As T) As [Default](Of T)
+            Return New [Default](Of T) With {
                 .value = value,
                 .assert = defaultAssert
             }
@@ -142,13 +142,13 @@ Namespace Language
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function [When](Of T)([default] As T, expression As Boolean) As DefaultValue(Of T)
+        Public Function [When](Of T)([default] As T, expression As Boolean) As [Default](Of T)
             Return [default].AsDefault().When(expression)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function [When](Of T)([default] As T, expression As Assert(Of T)) As DefaultValue(Of T)
+        Public Function [When](Of T)([default] As T, expression As Assert(Of T)) As [Default](Of T)
             Return [default].AsDefault().When(assert:=expression)
         End Function
 

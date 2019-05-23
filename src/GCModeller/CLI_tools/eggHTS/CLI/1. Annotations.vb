@@ -331,8 +331,8 @@ Partial Module CLI
         Dim list As String = args("/list")
         Dim uniprot As String = args("/uniprot")
         Dim out As String
-        Dim iTraq As Boolean = args.GetBoolean("/iTraq")
-        Dim accID As Boolean = args.GetBoolean("/accession.ID")
+        Dim iTraq As Boolean = args("/iTraq")
+        Dim accID As Boolean = args("/accession.ID")
 
         If list.FileExists(True) Then
             Dim geneIDs$()

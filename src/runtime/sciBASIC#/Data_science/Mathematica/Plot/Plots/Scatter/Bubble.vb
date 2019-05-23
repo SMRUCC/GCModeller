@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0001250f466cfd2bd0a29b10afb213c, Data_science\Mathematica\Plot\Plots\Scatter\Bubble.vb"
+﻿#Region "Microsoft.VisualBasic::4af62fff13e8d855c7c505d1c36bb059, Data_science\Mathematica\Plot\Plots\Scatter\Bubble.vb"
 
     ' Author:
     ' 
@@ -57,7 +57,7 @@ Public Module Bubble
         Return Math.Log(R + 1) + 1
     End Function
 
-    ReadOnly usingLogRadius As New DefaultValue(Of Func(Of Double, Double))(AddressOf logRadius)
+    ReadOnly usingLogRadius As New [Default](Of  Func(Of Double, Double))(AddressOf logRadius)
 
     ''' <summary>
     ''' <see cref="PointData.value"/>是Bubble的半径大小

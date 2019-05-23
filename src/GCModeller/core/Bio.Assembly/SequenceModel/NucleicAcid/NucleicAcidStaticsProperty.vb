@@ -63,7 +63,7 @@ Namespace SequenceModel.NucleotideModels
     <Package("NucleicAcid.Property", Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module NucleicAcidStaticsProperty
 
-        ReadOnly defaultProperty As New DefaultValue(Of NtProperty)(AddressOf GCSkew)
+        ReadOnly defaultProperty As New [Default](Of  NtProperty)(AddressOf GCSkew)
 
         ''' <summary>
         ''' 批量计算出GCSkew或者GC%

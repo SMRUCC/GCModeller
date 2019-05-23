@@ -50,7 +50,7 @@ Namespace NativeLibrary
         ''' <returns>The current platform.</returns>
         Public Shared Function GetPlatform() As PlatformID
             Static curPlatform As PlatformID? = Nothing
-            Static OSX As DefaultValue(Of PlatformID) = PlatformID.MacOSX
+            Static OSX As [Default](Of  PlatformID) = PlatformID.MacOSX
 
             If (Not curPlatform.HasValue) Then
 

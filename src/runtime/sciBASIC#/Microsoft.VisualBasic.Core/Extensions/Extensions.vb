@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ade6ff8ba2a686f217a493ed1ba5bdae, Microsoft.VisualBasic.Core\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::90da2731cbd9e11485b5b79565945580, Microsoft.VisualBasic.Core\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -778,6 +778,13 @@ Public Module Extensions
         Return String.Join(delimiter, values.Select(Function(n) CStr(n)).ToArray)
     End Function
 
+    ''' <summary>
+    ''' Source list join a new <paramref name="data"/> element.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="source"></param>
+    ''' <param name="data"></param>
+    ''' <returns></returns>
     <Extension> Public Function Join(Of T)(source As IEnumerable(Of T), data As T) As List(Of T)
         Return source.Join({data})
     End Function

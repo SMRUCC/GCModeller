@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::309a2235f2b20271ecaf5d5f65d49827, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Socket\TcpClient.vb"
+﻿#Region "Microsoft.VisualBasic::7e5d8a1530ecea1df65397b064587ec4, Microsoft.VisualBasic.Core\Net\Tcp\Persistent\Socket\TcpClient.vb"
 
     ' Author:
     ' 
@@ -99,7 +99,7 @@ Namespace Net.Tcp.Persistent.Socket
 
         Dim _ExceptionHandler As ExceptionHandler
 
-        Shared ReadOnly defaultHandler As New DefaultValue(Of ExceptionHandler)(AddressOf VBDebugger.PrintException)
+        Shared ReadOnly defaultHandler As New [Default](Of ExceptionHandler)(AddressOf VBDebugger.PrintException)
 
         Sub New(remoteDevice As TcpEndPoint, Optional ExceptionHandler As ExceptionHandler = Nothing)
             Call Me.New(remoteDevice.Address.ToString, remoteDevice.Port, ExceptionHandler)

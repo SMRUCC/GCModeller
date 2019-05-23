@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e31421f332adb2cd4b88edd98083ae3b, Data\BinaryData\BinaryData\Stream\BinaryDataReader.vb"
+﻿#Region "Microsoft.VisualBasic::ff8fe2353d308610e86d4dea4b767102, Data\BinaryData\BinaryData\Stream\BinaryDataReader.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,7 @@
     '               ReadUInt64s, ReadWordLengthPrefixString, ReadZeroTerminatedString, (+2 Overloads) Seek, (+3 Overloads) TemporarySeek
     '               ToString
     ' 
-    '     Sub: Align
+    '     Sub: Align, Mark, Reset, TemporarySeek
     ' 
     ' /********************************************************************************/
 
@@ -66,6 +66,7 @@ Public Class BinaryDataReader
 
     Dim _byteOrder As ByteOrder
     Dim _needsReversion As Boolean
+    Dim _markedPos As Long
 
     ''' <summary>
     ''' Initializes a new instance of the <see cref="BinaryDataReader"/> class based on the specified stream and
@@ -135,7 +136,7 @@ Public Class BinaryDataReader
         End Get
         Set
             _byteOrder = Value
-            _needsReversion = _byteOrder <> ByteOrderHelper.SystemByteOrder
+            _needsReversion = ByteOrderHelper.NeedsReversion(Value)
         End Set
     End Property
 
@@ -144,6 +145,7 @@ Public Class BinaryDataReader
     ''' way the underlying <see cref="BinaryReader"/> is instantiated, it can only be specified at creation time.
     ''' </summary>
     Public Property Encoding() As Encoding
+
     ''' <summary>
     ''' Gets the length in bytes of the stream in bytes. This is a shortcut to the base stream Length property.
     ''' </summary>
@@ -174,6 +176,20 @@ Public Class BinaryDataReader
             Return BaseStream.Position >= BaseStream.Length
         End Get
     End Property
+
+    ''' <summary>
+    ''' Mark current stream buffer position
+    ''' </summary>
+    Public Sub Mark()
+        _markedPos = Position
+    End Sub
+
+    ''' <summary>
+    ''' Move the buffer back to the position that marked by <see cref="Mark"/> method.
+    ''' </summary>
+    Public Sub Reset()
+        Position = _markedPos
+    End Sub
 
     ''' <summary>
     ''' Aligns the reader to the next given byte multiple.

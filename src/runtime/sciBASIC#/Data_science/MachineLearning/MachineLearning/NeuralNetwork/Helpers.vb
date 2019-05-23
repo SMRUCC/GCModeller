@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa414385cd053f7ef74ba330aebb6d55, Data_science\MachineLearning\NeuralNetwork\Helpers.vb"
+﻿#Region "Microsoft.VisualBasic::34d9d97cf092e8d3ac86897c7383d153, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Helpers.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: MaxEpochs, MinimumError
     ' 
-    '         Function: GetRandom, (+2 Overloads) PopulateAllSynapses
+    '         Function: GetRandom, (+2 Overloads) PopulateAllSynapses, ToDataMatrix
     ' 
     '     Enum TrainingType
     ' 
@@ -51,8 +51,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 
 Namespace NeuralNetwork
 
@@ -64,7 +68,7 @@ Namespace NeuralNetwork
         ''' <summary>
         ''' <see cref="Sigmoid"/> as default
         ''' </summary>
-        Friend ReadOnly defaultActivation As DefaultValue(Of IActivationFunction) = New Sigmoid
+        Friend ReadOnly defaultActivation As [Default](Of  IActivationFunction) = New Sigmoid
 
         ReadOnly rand As New Random()
 
@@ -93,6 +97,25 @@ Namespace NeuralNetwork
                     Next
                 Next
             Next
+        End Function
+
+        <Extension>
+        Public Function ToDataMatrix(Of T As {New, DynamicPropertyBase(Of Double), INamedValue})(samples As IEnumerable(Of Sample), names$(), outputNames$()) As IEnumerable(Of T)
+            Dim nameIndex = names.SeqIterator
+            Dim outsIndex = outputNames.SeqIterator
+
+            Return samples _
+                .Select(Function(sample)
+                            Dim row As New T
+
+                            row.Key = sample.ID
+                            row.Properties = New Dictionary(Of String, Double)
+
+                            Call nameIndex.DoEach(Sub(i) Call row.Add(i.value, sample.status(i)))
+                            Call outsIndex.DoEach(Sub(i) Call row.Add(i.value, sample.target(i)))
+
+                            Return row
+                        End Function)
         End Function
     End Module
 

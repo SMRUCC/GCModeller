@@ -1,48 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::935d7c995a2597f1ee17ef7b55b27e68, CLI_tools\RNA-seq\CLI\WGCNA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: FromWGCNA, GroupN
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: FromWGCNA, GroupN
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -117,9 +119,12 @@ Partial Module CLI
     Public Function GroupN(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim locusMap As String = args.GetValue("/locus_map", "locus")
-        Dim out As VBInteger = args.OpenHandle("/out", inFile.TrimSuffix & "-Groups.n.csv")
+        Dim out As Integer = args.OpenHandle("/out", inFile.TrimSuffix & "-Groups.n.csv")
         Dim ds = EntityObject.LoadDataSet(inFile, locusMap)
-        Dim st = (From x In ds Select x Group x By x.ID Into Count).ToArray
-        Return st > out
+        Dim st = (From x In ds Select x Group x By x.ID Into Count) _
+            .Select(Function(item) New NamedValue(Of Integer)(item.ID, item.Count)) _
+            .ToArray
+
+        Return st.AsIOStream >> out
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69dd344c203b81b0c5c417932fdde30e, Data_science\Mathematica\Math\Math\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::2f719bc5e1d1a532c7e5357ff607b62d, Data_science\Mathematica\Math\Math\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,10 @@
 
     ' Module Extensions
     ' 
-    '     Function: [Shadows], (+4 Overloads) AsVector, DoubleRange, FDR, FirstDecrease
-    '               FirstIncrease, FlipCoin, IntRange, IsInside, Iterates
-    '               (+2 Overloads) Range, Reach, seq2, Sim, SSM
-    '               Tanimoto, X, Y
+    '     Function: [Shadows], AsSample, (+4 Overloads) AsVector, DoubleRange, FDR
+    '               FirstDecrease, FirstIncrease, FlipCoin, IntRange, IsInside
+    '               Iterates, (+2 Overloads) Range, Reach, seq2, Sim
+    '               SSM, Tanimoto, X, Y
     ' 
     ' /********************************************************************************/
 
@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports sys = System.Math
@@ -57,6 +58,12 @@ Imports sys = System.Math
 ''' 向量以及统计函数拓展
 ''' </summary>
 Public Module Extensions
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function AsSample(data As IEnumerable(Of Double)) As SampleDistribution
+        Return New SampleDistribution(data)
+    End Function
 
     ''' <summary>
     ''' Create the vector model from target .NET object collection.

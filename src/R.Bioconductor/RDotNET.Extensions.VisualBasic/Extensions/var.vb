@@ -65,11 +65,11 @@ Public Class var : Implements IDisposable
     ''' The variable name in R runtime environment.
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property Name As String
+    Public ReadOnly Property name As String
 
     Public ReadOnly Property type As String
         Get
-            Return $"typeof({Name})".__call _
+            Return $"typeof({name})".__call _
                 .AsCharacter _
                 .ToArray _
                 .FirstOrDefault
@@ -79,19 +79,19 @@ Public Class var : Implements IDisposable
     <ScriptIgnore>
     Public ReadOnly Property RValue As SymbolicExpression
         Get
-            Return R.Evaluate(Name)
+            Return R.Evaluate(name)
         End Get
     End Property
 
     Default Public Property Item(attrName As String) As String
         Get
-            With App.NextTempName
-                Call $"{ .ByRef} <- {Name}[['{attrName}']];".__call
+            With RDotNetGC.Allocate
+                Call $"{ .ByRef} <- {name}[['{attrName}']];".__call
                 Return .ByRef
             End With
         End Get
         Set(value As String)
-            Call $"{Name}[['{attrName}']] <- {value};".__call
+            Call $"{name}[['{attrName}']] <- {value};".__call
         End Set
     End Property
 
@@ -108,11 +108,11 @@ Public Class var : Implements IDisposable
     End Property
 
     Private Sub __setValue()
-        Call $"{Name} <- {_expr}".__call
+        Call $"{name} <- {_expr}".__call
     End Sub
 
     Sub New()
-        Name = App.NextTempName
+        name = RDotNetGC.Allocate
     End Sub
 
     Sub New(expr As String)
@@ -122,7 +122,7 @@ Public Class var : Implements IDisposable
     End Sub
 
     Sub New(name As String, expr As String)
-        Me.Name = name
+        Me.name = name
         Me._expr = expr
         Call __setValue()
     End Sub
@@ -132,14 +132,14 @@ Public Class var : Implements IDisposable
     ''' </summary>
     ''' <returns></returns>
     Public Iterator Function Enumerates() As IEnumerable(Of NamedValue(Of String))
-        For Each name As String In Rbase.names(Me.Name)
-            Yield New NamedValue(Of String)(name, $"{Me.Name}$'{name}'")
+        For Each name As String In Rbase.names(Me.name)
+            Yield New NamedValue(Of String)(name, $"{Me.name}$'{name}'")
         Next
     End Function
 
     Public Shared Function Rvariable(var$) As var
         Return New var With {
-            ._Name = var,
+            ._name = var,
             ._expr = var
         }
     End Function
@@ -165,7 +165,7 @@ Public Class var : Implements IDisposable
     End Function
 
     ''' <summary>
-    ''' 可以尝试使用这个函数将<see cref="Name"/>在R语言环境之中的变量引用结果解析
+    ''' 可以尝试使用这个函数将<see cref="name"/>在R语言环境之中的变量引用结果解析
     ''' 为``.NET``环境之中的对象结果值
     ''' 
     ''' + 如果是初级类型, 则这个函数可以直接进行转换
@@ -176,7 +176,7 @@ Public Class var : Implements IDisposable
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function [As](Of T)() As T
-        Return EvaluateAs(Of T)(var:=Name)
+        Return EvaluateAs(Of T)(var:=name)
     End Function
 
     Public Overloads Shared Operator <=(x As var, expr As String) As String
@@ -194,7 +194,7 @@ Public Class var : Implements IDisposable
     ''' </summary>
     ''' <returns></returns>
     Public Overrides Function ToString() As String
-        Return Name
+        Return name
     End Function
 
     ''' <summary>
@@ -203,7 +203,7 @@ Public Class var : Implements IDisposable
     ''' <param name="var"></param>
     ''' <returns></returns>
     Public Shared Narrowing Operator CType(var As var) As String
-        Return var.Name
+        Return var.name
     End Operator
 
     Public Shared Widening Operator CType(expr As String) As var
@@ -255,7 +255,7 @@ Public Class var : Implements IDisposable
     End Operator
 
     Public Shared Widening Operator CType(expr As var()) As var
-        Return New var($"c({expr.Select(Function(x) x.Name).JoinBy(", ")})")
+        Return New var($"c({expr.Select(Function(x) x.name).JoinBy(", ")})")
     End Operator
 
     Public Shared Widening Operator CType(expr As Microsoft.VisualBasic.Language.Value) As var
@@ -274,7 +274,7 @@ Public Class var : Implements IDisposable
         If Not disposedValue Then
             If disposing Then
                 ' TODO: dispose managed state (managed objects).
-                Rbase.rm(list:=Name)
+                Rbase.rm(list:=name)
                 Rbase.gc()
             End If
 

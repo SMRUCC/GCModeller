@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b60aed0889ef265cc12524fc22528f1b, Microsoft.VisualBasic.Core\ComponentModel\System.Collections.Generic\IndexOf.vb"
+﻿#Region "Microsoft.VisualBasic::d947146bbc7d375f7b9bce335f5ade86, Microsoft.VisualBasic.Core\ComponentModel\System.Collections.Generic\IndexOf.vb"
 
     ' Author:
     ' 
@@ -145,7 +145,7 @@ Namespace ComponentModel.Collection
         ''' <param name="maps">如果是json加载，可能会出现空值的字典</param>
         ''' <param name="base%"></param>
         Sub New(maps As IDictionary(Of T, Integer), Optional base% = 0)
-            Static emptyIndex As DefaultValue(Of IDictionary(Of String, Integer)) =
+            Static emptyIndex As [Default](Of IDictionary(Of String, Integer)) =
                 New Dictionary(Of String, Integer)
 
             Me.base = base
@@ -300,7 +300,7 @@ Namespace ComponentModel.Collection
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator Like(item As T, indexr As Index(Of T)) As Boolean
-            If item Is Nothing Then
+            If item Is Nothing OrElse indexr Is Nothing Then
                 Return False
             Else
                 Return indexr(x:=item) > -1

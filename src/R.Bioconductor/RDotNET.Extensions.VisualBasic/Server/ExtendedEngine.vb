@@ -96,7 +96,7 @@ Public Class ExtendedEngine : Inherits REngine
     ''' to be computed.</param>
     ''' <returns></returns>
     Public Function hasSlot(object$, name$) As String
-        Dim var$ = App.NextTempName
+        Dim var$ = RDotNetGC.Allocate
 
         SyncLock Me
             With Me
@@ -159,7 +159,7 @@ Public Class ExtendedEngine : Inherits REngine
     Shared Sub New()
     End Sub
 
-    Public Shared Function MyDefault() As DefaultValue(Of ExtendedEngine)
+    Public Shared Function MyDefault() As [Default](Of  ExtendedEngine)
         Return RSystem.R.AsDefault
     End Function
 

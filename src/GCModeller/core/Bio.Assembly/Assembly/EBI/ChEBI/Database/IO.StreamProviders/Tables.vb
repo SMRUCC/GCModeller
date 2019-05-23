@@ -217,10 +217,13 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
             Dim ChEBI As Dictionary(Of NamedCollection(Of Accession)) =
                 table _
                 .GroupBy(Function(t) t.COMPOUND_ID) _
-                .Select(Function(t) New NamedCollection(Of Accession) With {
-                    .Name = t.Key,
-                    .Value = t.ToArray
-                }).ToDictionary
+                .Select(Function(t)
+                            Return New NamedCollection(Of Accession) With {
+                                .Name = t.Key,
+                                .Value = t.ToArray
+                            }
+                        End Function) _
+                .ToDictionary
 
             Return ChEBI
         End Function

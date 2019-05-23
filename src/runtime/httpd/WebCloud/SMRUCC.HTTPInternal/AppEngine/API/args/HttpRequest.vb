@@ -151,7 +151,7 @@ Namespace AppEngine.APIMethods.Arguments
             End Get
         End Property
 
-        Shared ReadOnly uploadfile As DefaultValue(Of String) = NameOf(uploadfile)
+        Shared ReadOnly uploadfile As [Default](Of  String) = NameOf(uploadfile)
 
         ''' <summary>
         ''' 

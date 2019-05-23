@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::971c2a510753b8f5817c9e72e5850bae, Microsoft.VisualBasic.Core\Net\HTTP\Base64Codec.vb"
+﻿#Region "Microsoft.VisualBasic::ba9d19ea56e7e73f5d051a86e25ad4e9, Microsoft.VisualBasic.Core\Net\HTTP\Stream\Base64Codec.vb"
 
     ' Author:
     ' 
@@ -109,6 +109,18 @@ Namespace Net.Http
                 Call ex.PrintException
                 Return Nothing
             End Try
+        End Function
+
+        ''' <summary>
+        ''' 将base64编码的字符串还原为原始的数据流
+        ''' </summary>
+        ''' <param name="base64"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function Base64RawBytes(base64 As String) As Byte()
+            Return Convert.FromBase64String(base64)
         End Function
 
         ''' <summary>

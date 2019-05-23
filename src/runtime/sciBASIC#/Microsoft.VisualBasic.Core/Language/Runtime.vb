@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30deefa92e7d315553e5d0af3cc38feb, Microsoft.VisualBasic.Core\Language\Runtime.vb"
+﻿#Region "Microsoft.VisualBasic::07b523fb539260b7cd01bff7c4c2311e, Microsoft.VisualBasic.Core\Language\Runtime.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: Expression, Key, ValueType
     ' 
-    '         Function: [As], ToString
+    '         Function: [As], GetUnderlyingType, ToString
     '         Operators: <>, =
     ' 
     '     Class TypeSchema
@@ -85,7 +85,7 @@ Namespace Language
             Get
                 Dim val$
 
-                Static [isNot] As New DefaultValue(Of Assert(Of String))(Function(var) False)
+                Static [isNot] As New [Default](Of Assert(Of String))(Function(var) False)
 
                 If value Is Nothing Then
                     val = null

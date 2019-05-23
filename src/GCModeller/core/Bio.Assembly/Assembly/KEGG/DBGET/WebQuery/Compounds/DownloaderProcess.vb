@@ -68,7 +68,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
             If entryID.StartsWith("G") Then
 
                 Call query.Query(Of Glycan)(entryID, ".html") _
-                    .With(Sub(ByRef glycan)
+                    .With(Sub(glycan)
                               If Not category.Value Is Nothing AndAlso Not glycan Is Nothing Then
                                   glycan.category = {category.Value}
                               End If
@@ -79,7 +79,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
             ElseIf entryID.StartsWith("C") Then
                 Dim compound As Compound = query _
                     .Query(Of Compound)(entryID, ".html") _
-                    .With(Sub(ByRef metabolite)
+                    .With(Sub(metabolite)
                               If Not category.Value Is Nothing AndAlso Not metabolite Is Nothing Then
                                   metabolite.category = {category.Value}
                               End If

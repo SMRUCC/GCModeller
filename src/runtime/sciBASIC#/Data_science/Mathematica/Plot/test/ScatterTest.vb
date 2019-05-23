@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9d45a2876c7f74b524e585516dbfd82, Data_science\Mathematica\Plot\test\ScatterTest.vb"
+﻿#Region "Microsoft.VisualBasic::a4e4c6f8e9401fdb34ac2b609d0a7fbf, Data_science\Mathematica\Plot\test\ScatterTest.vb"
 
     ' Author:
     ' 
@@ -147,9 +147,9 @@ Module ScatterTest
 
         For Each file As String In (ls - l - r - "*.csv" <= "D:\OneDrive\2017-9-25\DENV-1234")
             Dim csv As csv = csv.Load(file)
-            Dim X = csv.Columns(0).Skip(1).AsNumeric
-            Dim Y = csv.Columns(csv.Headers.IndexOf("mean")).Skip(1).AsNumeric
-            Dim err = csv.Columns(csv.Headers.IndexOf("sem")).Skip(1).AsNumeric
+            Dim X = csv.Columns(0).Skip(1).AsDouble
+            Dim Y = csv.Columns(csv.Headers.IndexOf("mean")).Skip(1).AsDouble
+            Dim err = csv.Columns(csv.Headers.IndexOf("sem")).Skip(1).AsDouble
             Dim points = X.SeqIterator.Select(Function(i) New PointData With {.errMinus = err(i), .errPlus = err(i), .pt = New PointF With {.X = i.value, .Y = Y(i)}}).ToArray
             Dim s As New SerialData With {
                 .color = Color.DarkCyan,
@@ -162,8 +162,8 @@ Module ScatterTest
 
             csv = csv.Load(file.ParentPath.ParentPath & $"\TCL\{file.BaseName}.csv")
 
-            X = csv.Columns(0).Skip(1).AsNumeric
-            Dim YV = csv.Columns(1).Skip(1).AsNumeric.AsVector
+            X = csv.Columns(0).Skip(1).AsDouble
+            Dim YV = csv.Columns(1).Skip(1).AsDouble.AsVector
 
             YV = Vector.Log(YV, base:=10)
 

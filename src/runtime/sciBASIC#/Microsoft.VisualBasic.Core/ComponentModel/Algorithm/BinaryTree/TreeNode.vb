@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d6f40f39249d756b3e4d54f50cbc486, Microsoft.VisualBasic.Core\ComponentModel\Algorithm\BinaryTree\TreeNode.vb"
+﻿#Region "Microsoft.VisualBasic::ff0ebaeaf4c489ac88a8afa9bebe5cea, Microsoft.VisualBasic.Core\ComponentModel\Algorithm\BinaryTree\TreeNode.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     '     Class BinaryTree
     ' 
-    '         Properties: Key, Left, QualifiedName, Right, Value
+    '         Properties: Key, Left, Members, QualifiedName, Right
+    '                     Value
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -126,7 +127,7 @@ Namespace ComponentModel.Algorithm.BinaryTree
             End Get
         End Property
 
-        ReadOnly defaultView As New DefaultValue(Of Func(Of K, String))(Function(key) Scripting.ToString(key))
+        ReadOnly defaultView As New [Default](Of Func(Of K, String))(Function(key) Scripting.ToString(key))
 
         ''' <summary>
         ''' 

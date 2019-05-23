@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::910c052beb4b0120dff1662c7c709019, Microsoft.VisualBasic.Core\Net\Tcp\TcpRequest.vb"
+﻿#Region "Microsoft.VisualBasic::c9866ca0e9d3f96a044e4f2c90918e2c, Microsoft.VisualBasic.Core\Net\Tcp\TcpRequest.vb"
 
     ' Author:
     ' 
@@ -130,7 +130,7 @@ Namespace Net.Tcp
             Call Me.New(remoteDevice.IPAddress, remoteDevice.Port, exceptionHandler)
         End Sub
 
-        Shared ReadOnly defaultHandler As New DefaultValue(Of ExceptionHandler)(AddressOf VBDebugger.PrintException)
+        Shared ReadOnly defaultHandler As New [Default](Of ExceptionHandler)(AddressOf VBDebugger.PrintException)
 
         ''' <summary>
         '''

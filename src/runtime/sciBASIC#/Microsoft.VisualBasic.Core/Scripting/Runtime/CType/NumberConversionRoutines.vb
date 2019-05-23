@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fd356624247730ac0b79e2c04911f69, Microsoft.VisualBasic.Core\Scripting\Runtime\CType\NumberConversionRoutines.vb"
+﻿#Region "Microsoft.VisualBasic::29831c8ff24f4c67b81f284d385e1d74, Microsoft.VisualBasic.Core\Scripting\Runtime\CType\NumberConversionRoutines.vb"
 
 ' Author:
 ' 
@@ -42,6 +42,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Scripting.Runtime
 
@@ -146,6 +147,17 @@ Namespace Scripting.Runtime
                 With CType(obj, IEnumerable(Of Byte)).ToArray
                     Return .ToBase64String
                 End With
+            Else
+                Select Case type
+                    Case GetType(Integer())
+                        Return DirectCast(obj, Integer()).GetJson
+                    Case GetType(Long())
+                        Return DirectCast(obj, Long()).GetJson
+                    Case GetType(Double())
+                        Return DirectCast(obj, Double()).GetJson
+                    Case GetType(String())
+                        Return DirectCast(obj, String()).GetJson
+                End Select
             End If
 
             ' 2018-3-18 假若找不到操作符的话，函数会返回Nothing

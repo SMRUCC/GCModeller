@@ -237,7 +237,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             Dim entries As BriteHEntry.Pathway() = SolveEntries(briteFile)
             Dim rtvl% = Scan0
-            Dim EXPORT_dir = New DefaultValue(Of String)(EXPORT).When(Not directoryOrganized)
+            Dim EXPORT_dir = New [Default](Of  String)(EXPORT).When(Not directoryOrganized)
             Dim testSuccess = Function(xml As String) As Boolean
                                   If xml.FileLength <= 0 Then
                                       Return False

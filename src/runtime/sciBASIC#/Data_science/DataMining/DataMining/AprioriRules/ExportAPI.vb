@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9aaee591575d0afd2a1e24fa1959336a, Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\AprioriRules\ExportAPI.vb"
+﻿#Region "Microsoft.VisualBasic::537e2ceb6350f84164a1fafc67df66bf, Data_science\DataMining\DataMining\AprioriRules\ExportAPI.vb"
 
     ' Author:
     ' 
@@ -60,7 +60,7 @@ Namespace AprioriRules
     ''' </summary>
     Public Module AprioriExport
 
-        ReadOnly aprioriDefaultWorker As DefaultValue(Of AprioriPredictions) = New AprioriPredictions(AddressOf Apriori.GetAssociateRules)
+        ReadOnly aprioriDefaultWorker As [Default](Of  AprioriPredictions) = New AprioriPredictions(AddressOf Apriori.GetAssociateRules)
 
         <Extension>
         Public Function AnalysisTransactions(transactions As IEnumerable(Of String),

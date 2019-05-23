@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb2bb3421acf300369e3510a009c287d, Microsoft.VisualBasic.Core\Language\Linq\List(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::acb8407a1bbb0de61d0ac95bc959f5b6, Microsoft.VisualBasic.Core\Language\Linq\List(Of T).vb"
 
     ' Author:
     ' 
@@ -37,8 +37,8 @@
     ' 
     '         Constructor: (+5 Overloads) Sub New
     '         Function: [Default], Pop, PopAll, ReverseIterator, ValuesEnumerator
-    '         Operators: (+5 Overloads) -, *, ^, (+8 Overloads) +, (+2 Overloads) <
-    '                    (+2 Overloads) <>, (+2 Overloads) =, (+2 Overloads) >, >>
+    '         Operators: (+5 Overloads) -, *, ^, (+8 Overloads) +, <
+    '                    (+2 Overloads) <>, (+2 Overloads) =, >, >>
     ' 
     ' 
     ' /********************************************************************************/
@@ -590,17 +590,6 @@ Namespace Language
         End Operator
 
         ''' <summary>
-        ''' Dump this collection data to the file system.
-        ''' </summary>
-        ''' <param name="source"></param>
-        ''' <param name="path"></param>
-        ''' <returns></returns>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Operator >(source As List(Of T), path As String) As Boolean
-            Return IOHandler.DefaultHandle()(source, path, System.Text.Encoding.UTF8)
-        End Operator
-
-        ''' <summary>
         ''' <see cref="Count"/> of <paramref name="list"/> &gt; <paramref name="n"/>
         ''' </summary>
         ''' <param name="list"></param>
@@ -618,12 +607,8 @@ Namespace Language
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator >>(source As List(Of T), path As Integer) As Boolean
-            Dim file As FileHandle = __getHandle(path)
+            Dim file As FileHandle = My.File.GetHandle(path)
             Return source > file.FileName
-        End Operator
-
-        Public Shared Operator <(source As List(Of T), path As String) As Boolean
-            Throw New NotImplementedException
         End Operator
 
         ''' <summary>
@@ -650,7 +635,7 @@ Namespace Language
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function [Default]() As DefaultValue(Of List(Of T))
+        Public Shared Function [Default]() As [Default](Of List(Of T))
             Return New List(Of T)
         End Function
 

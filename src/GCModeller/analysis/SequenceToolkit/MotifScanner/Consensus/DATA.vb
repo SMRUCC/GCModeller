@@ -81,7 +81,7 @@ Public Class PopulatorParameter
         Return Me.GetJson
     End Function
 
-    Public Shared Function DefaultParameter() As DefaultValue(Of PopulatorParameter)
+    Public Shared Function DefaultParameter() As [Default](Of  PopulatorParameter)
         Return New PopulatorParameter With {
             .minW = 8,
             .maxW = 14,

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf94938635a08a9016c1122e0cbe750c, Data_science\Mathematica\Plot\Plots-statistics\BoxPlot.vb"
+﻿#Region "Microsoft.VisualBasic::60bb8a8f7e2cab539d2c8a5f5eb702cd, Data_science\Mathematica\Plot\Plots-statistics\BoxPlot.vb"
 
     ' Author:
     ' 
@@ -71,7 +71,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 ''' </summary>
 Public Module BoxPlot
 
-    ReadOnly Zero As DefaultValue(Of Double()) = LanguageAPI.[Default]({0R}, Function(x) TryCast(x, Double()).IsNullOrEmpty)
+    ReadOnly Zero As [Default](Of  Double()) = LanguageAPI.[Default]({0R}, Function(x) TryCast(x, Double()).IsNullOrEmpty)
 
     <Extension> Public Function Plot(data As BoxData,
                                      Optional size$ = "3000,2700",
