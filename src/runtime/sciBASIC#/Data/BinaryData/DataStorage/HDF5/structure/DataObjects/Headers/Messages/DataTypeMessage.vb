@@ -1,48 +1,49 @@
-﻿#Region "Microsoft.VisualBasic::e02be0d092ef3bf652a70ab87ad63fed, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\DataTypeMessage.vb"
+﻿#Region "Microsoft.VisualBasic::177b42cd0d815e63c0ce67350a811ddc, Data\BinaryData\DataStorage\HDF5\structure\DataObjects\Headers\Messages\DataTypeMessage.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class DataTypeMessage
-' 
-'         Properties: byteSize, isBigEndian, isLittleEndian, structureMembers, type
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: ToString
-' 
-'         Sub: printValues
-' 
-' 
-' /********************************************************************************/
+    '     Class DataTypeMessage
+    ' 
+    '         Properties: byteOrder, byteSize, reader, structureMembers, type
+    '                     version
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: printValues
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -84,6 +85,7 @@ Namespace HDF5.[Structure]
         Dim m_referenceType As Integer
         Dim m_isOK As Boolean
         Dim m_base As DataTypeMessage
+        Dim m_classBits As BitSet
 
         Dim encoding As Encoding
 
@@ -92,6 +94,8 @@ Namespace HDF5.[Structure]
         Public ReadOnly Property type As DataTypes
         Public ReadOnly Property byteSize As Integer
         Public ReadOnly Property structureMembers As List(Of StructureMember)
+
+        Public ReadOnly Property reader As DataType
 
         Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
             Call MyBase.New(address)
@@ -105,6 +109,7 @@ Namespace HDF5.[Structure]
             Me.version = ((tandv And &HF0) >> 4)
 
             Me.m_flags = [in].readBytes(3)
+            Me.m_classBits = BitSet.ValueOf(m_flags.Take(2).ToArray)
             Me.byteSize = [in].readInt()
             Me.byteOrder = If((Me.m_flags(0) And &H1) = 0, ByteOrder.LittleEndian, ByteOrder.BigEndian)
             Me.m_timeTypeByteSize = 4
@@ -117,6 +122,17 @@ Namespace HDF5.[Structure]
                 Dim bitPrecision As Short = [in].readShort()
 
                 Me.m_isOK = (bitOffset = 0) AndAlso (bitPrecision Mod 8 = 0)
+                Me.reader = New FixedPoint With {
+                    .bitOffset = bitOffset,
+                    .bitPrecision = bitPrecision,
+                    .[class] = DataTypes.DATATYPE_FIXED_POINT,
+                    .byteOrder = byteOrder,
+                    .signed = Not m_unsigned,
+                    .size = byteSize,
+                    .version = version,
+                    .lowPadding = m_classBits.Get(1),
+                    .highPadding = m_classBits.Get(2)
+                }
             ElseIf Me.type = DataTypes.DATATYPE_FLOATING_POINT Then
                 Dim bitOffset As Short = [in].readShort()
                 Dim bitPrecision As Short = [in].readShort()
@@ -191,6 +207,14 @@ Namespace HDF5.[Structure]
                 Else
                     Throw New NotImplementedException
                 End If
+
+                Me.reader = New VariableLength With {
+                    .[class] = Me.type,
+                    .encoding = encoding,
+                    .version = version,
+                    .paddingType = paddingType,
+                    .size = byteSize
+                }
 
             ElseIf Me.type = DataTypes.DATATYPE_ARRAY Then
                 Throw New Exception("data type array is not implemented")

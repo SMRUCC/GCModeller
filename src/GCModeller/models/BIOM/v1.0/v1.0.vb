@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d9dfe6095f59656252e32d638527f68, models\BIOM\v1.0.vb"
+﻿#Region "Microsoft.VisualBasic::842d321d6c7e644cd636f0495c4522eb, v1.0\v1.0.vb"
 
     ' Author:
     ' 
@@ -31,22 +31,6 @@
 
     ' Summaries:
 
-    '     Class types
-    ' 
-    ' 
-    ' 
-    '     Class IntegerMatrix
-    ' 
-    '         Function: LoadFile
-    ' 
-    '     Class FloatMatrix
-    ' 
-    '         Function: LoadFile
-    ' 
-    '     Class StringMatrix
-    ' 
-    '         Function: LoadFile
-    ' 
     '     Class Json
     ' 
     '         Properties: [date], columns, comment, data, format
@@ -55,89 +39,15 @@
     ' 
     '         Function: LoadFile, ToString
     ' 
-    '     Class row
-    ' 
-    '         Properties: id, metadata
-    ' 
-    '     Class meta
-    ' 
-    '         Properties: KEGG_Pathways, taxonomy
-    ' 
-    '     Class column
-    ' 
-    '         Properties: id, metadata
-    ' 
-    '     Class columnMeta
-    ' 
-    '         Properties: BarcodeSequence, BODY_SITE, Description, LinkerPrimerSequence
-    ' 
-    '         Function: ToString
-    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.foundation.BIOM.v10.components
 
 Namespace v10
-
-    ''' <summary>
-    ''' ``&lt;string>`` Table type (a controlled vocabulary) acceptable values
-    ''' </summary>
-    Public Class types
-
-        Public Const OTU_table As String = "OTU table"
-        Public Const Pathway_table As String = "Pathway table"
-        Public Const Function_table As String = "Function table"
-        Public Const Ortholog_table As String = "Ortholog table"
-        Public Const Gene_table As String = "Gene table"
-        Public Const Metabolite_table As String = "Metabolite table"
-        Public Const Taxon_table As String = "Taxon table"
-
-        Public Const MatrixTypeSparse As String = "sparse"
-        Public Const MatrixTypeDense As String = "dense"
-
-        Public Const MatrixElTypeInt As String = "int"
-        Public Const MatrixElTypeFloat As String = "float"
-        Public Const MatrixElTypeUnicode As String = "unicode"
-    End Class
-
-    ''' <summary>
-    ''' BIOM json with integer matrix data
-    ''' </summary>
-    Public Class IntegerMatrix : Inherits Json(Of Integer)
-
-        Public Overloads Shared Function LoadFile(path$) As IntegerMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As IntegerMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of IntegerMatrix)
-            Return biom
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' BIOM json with double matrix data
-    ''' </summary>
-    Public Class FloatMatrix : Inherits Json(Of Double)
-
-        Public Overloads Shared Function LoadFile(path$) As FloatMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As FloatMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of FloatMatrix)
-            Return biom
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' BIOM json with string matrix data
-    ''' </summary>
-    Public Class StringMatrix : Inherits Json(Of String)
-
-        Public Overloads Shared Function LoadFile(path$) As StringMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As StringMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of StringMatrix)
-            Return biom
-        End Function
-    End Class
 
     ''' <summary>
     ''' ##### The biom file format: Version 1.0
@@ -264,29 +174,4 @@ Namespace v10
         End Function
     End Class
 
-    Public Class row
-        Public Property id As String
-        Public Property metadata As meta
-    End Class
-
-    Public Class meta
-        Public Property taxonomy As String()
-        Public Property KEGG_Pathways As String()
-    End Class
-
-    Public Class column
-        Public Property id As String
-        Public Property metadata As columnMeta
-    End Class
-
-    Public Class columnMeta
-        Public Property BarcodeSequence As String
-        Public Property LinkerPrimerSequence As String
-        Public Property BODY_SITE As String
-        Public Property Description As String
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
 End Namespace
