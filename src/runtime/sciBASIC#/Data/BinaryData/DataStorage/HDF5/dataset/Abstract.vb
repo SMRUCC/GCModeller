@@ -9,6 +9,7 @@
 ' MIT License see 'LICENSE' file
 ' *****************************************************************************
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5.struct
 Imports Microsoft.VisualBasic.Data.IO.HDF5.type
 
@@ -18,6 +19,8 @@ Namespace HDF5.dataset
 
         Public Property dataType As DataType
         Public Property dataSpace As DataspaceMessage
+        Public Property dataLayout As Layout
+        Public Property pipeline As FilterPipelineMessage
 
         Public Overridable ReadOnly Property scalar() As Boolean
             Get
@@ -25,7 +28,17 @@ Namespace HDF5.dataset
             End Get
         End Property
 
-        Public MustOverride Function data(sb As Superblock) As Object
+        Public Function data(sb As Superblock) As Object
+            Dim buffer = getBuffer(sb)
+
+        End Function
+
+        Protected Function readDataSet() As Object
+
+        End Function
+
+        Protected MustOverride Function getBuffer(sb As Superblock) As MemoryStream
+
 
         'Dim type As DataType = dataType
         'Dim bb As ByteBuffer = dataBuffer
