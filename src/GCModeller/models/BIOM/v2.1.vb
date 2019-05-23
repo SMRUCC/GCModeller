@@ -81,6 +81,17 @@ Namespace v21
                 Throw New InvalidProgramException("Target biom hdf5 file is not in v2.1 version!")
             End If
 
+            ' observation/
+            Dim observation_ids = hdf5("/observation/ids")
+            Dim observation_data = hdf5("/observation/matrix/data")
+            Dim observation_indices = hdf5("/observation/matrix/indices")
+            Dim observation_indptr = hdf5("/observation/matrix/indptr")
+
+            Dim sample_ids = hdf5("/sample/ids")
+            Dim sample_data = hdf5("/sample/matrix/data")
+            Dim sample_indices = hdf5("/sample/matrix/indices")
+            Dim sample_indptr = hdf5("/sample/matrix/indptr")
+
             Return data
         End Function
     End Module
