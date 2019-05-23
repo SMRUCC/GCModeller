@@ -8,6 +8,8 @@
 ' MIT License see 'LICENSE' file
 ' *****************************************************************************
 
+Imports Microsoft.VisualBasic.Data.IO.HDF5.struct
+
 Namespace HDF5.dataset
 
     ''' <summary>
@@ -19,13 +21,15 @@ Namespace HDF5.dataset
         ''' (2 bytes) This field contains the size of the raw data for the dataset array, in bytes.
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property size As Integer
+        Public Property size As Integer
         ''' <summary>
         ''' This field contains the raw data for the dataset array.
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property rawData As Byte()
+        Public Property rawData As Byte()
 
-
+        Public Overrides Function data(sb As Superblock) As Object
+            Throw New NotImplementedException()
+        End Function
     End Class
 End Namespace
