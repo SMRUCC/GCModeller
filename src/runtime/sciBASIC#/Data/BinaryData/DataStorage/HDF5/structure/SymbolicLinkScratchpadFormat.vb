@@ -59,11 +59,13 @@ Namespace HDF5.[Structure]
 
     Public Class SymbolicLinkScratchpadFormat : Inherits HDF5Ptr
 
-        Public Overridable ReadOnly Property offsetToLinkValue As Integer
-        Public Overridable ReadOnly Property totalSymbolicLinkScratchpadFormatSize As Integer
+        Public  ReadOnly Property offsetToLinkValue As Integer
+        Public  ReadOnly Property totalSymbolicLinkScratchpadFormatSize As Integer
 
-        Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
+        Public Sub New(sb As Superblock, address As Long)
             Call MyBase.New(address)
+
+            Dim [in] As BinaryReader = sb.file.reader
 
             [in].offset = address
 

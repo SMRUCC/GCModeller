@@ -71,7 +71,7 @@ Namespace HDF5.[Structure]
         Dim m_facade As DataObjectFacade
         Dim NESTED_OBJECTS As New List(Of DataObjectFacade)
 
-        Public Overridable ReadOnly Property objects() As List(Of DataObjectFacade)
+        Public  ReadOnly Property objects() As List(Of DataObjectFacade)
             Get
                 Return NESTED_OBJECTS
             End Get
@@ -87,7 +87,7 @@ Namespace HDF5.[Structure]
             End Get
         End Property
 
-        Public Sub New([in] As BinaryReader, sb As Superblock, facade As DataObjectFacade)
+        Public Sub New(sb As Superblock, facade As DataObjectFacade)
             Dim gm As GroupMessage = facade.dataObject.groupMessage
 
             If gm Is Nothing Then
@@ -95,12 +95,12 @@ Namespace HDF5.[Structure]
             End If
 
             m_facade = facade
-            readGroup([in], sb, gm.bTreeAddress, gm.nameHeapAddress)
+            readGroup(sb, gm.bTreeAddress, gm.nameHeapAddress)
         End Sub
 
-        Private Sub readGroup([in] As BinaryReader, sb As Superblock, bTreeAddress As Long, nameHeapAddress As Long)
-            Dim nameHeap As New LocalHeap([in], sb, nameHeapAddress)
-            Dim btree As New GroupBTree([in], sb, bTreeAddress)
+        Private Sub readGroup(sb As Superblock, bTreeAddress As Long, nameHeapAddress As Long)
+            Dim nameHeap As New LocalHeap(sb, nameHeapAddress)
+            Dim btree As New GroupBTree(sb, bTreeAddress)
             Dim dobj As DataObjectFacade
             Dim linkName As String
 
@@ -109,9 +109,9 @@ Namespace HDF5.[Structure]
 
                 If symbol.cacheType = 2 Then
                     linkName = nameHeap.getString(CInt(symbol.linkNameOffset))
-                    dobj = New DataObjectFacade([in], sb, name, linkName)
+                    dobj = New DataObjectFacade(sb, name, linkName)
                 Else
-                    dobj = New DataObjectFacade([in], sb, name, symbol.objectHeaderAddress)
+                    dobj = New DataObjectFacade(sb, name, symbol.objectHeaderAddress)
                 End If
 
                 Call NESTED_OBJECTS.Add(dobj)

@@ -138,8 +138,8 @@ Namespace HDF5
         Private Sub parseHeader()
             Dim sb As Superblock = Me.superblock
             Dim rootSymbolTableEntry As SymbolTableEntry = sb.rootGroupSymbolTableEntry
-            Dim objectFacade As New DataObjectFacade(Me.reader, sb, "root", rootSymbolTableEntry.objectHeaderAddress)
-            Dim rootGroup As New Group(Me.reader, sb, objectFacade)
+            Dim objectFacade As New DataObjectFacade(sb, "root", rootSymbolTableEntry.objectHeaderAddress)
+            Dim rootGroup As New Group(sb, objectFacade)
             Dim objects As List(Of DataObjectFacade) = rootGroup.objects
 
             _attributes = attributeTable(rootGroup.attributes, Me)
@@ -166,7 +166,7 @@ Namespace HDF5
         Private disposedValue As Boolean ' 要检测冗余调用
 
         ' IDisposable
-        Protected Overridable Sub Dispose(disposing As Boolean)
+        Protected  Sub Dispose(disposing As Boolean)
             If Not disposedValue Then
                 If disposing Then
                     ' TODO: 释放托管状态(托管对象)。

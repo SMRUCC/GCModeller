@@ -68,9 +68,9 @@ Namespace HDF5.[Structure]
         ''' local heap and to a B-tree which points to symbol nodes.
         ''' </summary>
         ''' <returns></returns>
-        Public Overridable ReadOnly Property groupMessage As GroupMessage
+        Public  ReadOnly Property groupMessage As GroupMessage
 
-        Public Overridable ReadOnly Property messages As List(Of ObjectHeaderMessage)
+        Public  ReadOnly Property messages As List(Of ObjectHeaderMessage)
             Get
                 If Me.objectHeader IsNot Nothing Then
                     Return Me.objectHeader.headerMessages
@@ -79,12 +79,14 @@ Namespace HDF5.[Structure]
             End Get
         End Property
 
-        Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
+        Public Sub New(sb As Superblock, address As Long)
             Call MyBase.New(address)
+
+            Dim [in] As BinaryReader = sb.file.reader
 
             [in].offset = address
 
-            Me.objectHeader = New ObjectHeader([in], sb, address)
+            Me.objectHeader = New ObjectHeader(sb, address)
 
             For Each msg As ObjectHeaderMessage In Me.objectHeader.headerMessages
                 If msg.headerMessageType Is ObjectHeaderMessageType.Group Then

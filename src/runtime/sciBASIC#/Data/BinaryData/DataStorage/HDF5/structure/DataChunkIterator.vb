@@ -62,22 +62,24 @@ Namespace HDF5.[Structure]
 
         Dim root As DataNode
 
-        Public Sub New([in] As BinaryReader, sb As Superblock, layout As Layout)
+        Public Sub New(sb As Superblock, layout As Layout)
             Call MyBase.New(layout.dataAddress)
+
+            Dim [in] As BinaryReader = sb.file.reader
 
             [in].offset = Me.m_address
 
-            Me.root = New DataNode([in], sb, layout, Me.m_address)
+            Me.root = New DataNode(sb, layout, Me.m_address)
             Me.root.first([in], sb)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overridable Function hasNext([in] As BinaryReader, sb As Superblock) As Boolean
+        Public  Function hasNext([in] As BinaryReader, sb As Superblock) As Boolean
             Return Me.root.hasNext([in], sb)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overridable Function [next]([in] As BinaryReader, sb As Superblock) As DataChunk
+        Public  Function [next]([in] As BinaryReader, sb As Superblock) As DataChunk
             Return Me.root.[next]([in], sb)
         End Function
 
