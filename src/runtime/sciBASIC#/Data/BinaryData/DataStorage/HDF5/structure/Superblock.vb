@@ -54,13 +54,14 @@
 ' 
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.IO.HDF5.device
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
-Namespace HDF5.[Structure]
+Namespace HDF5.struct
 
     ''' <summary>
     ''' The superblock may begin at certain predefined offsets within the HDF5 file, allowing a 
@@ -89,7 +90,7 @@ Namespace HDF5.[Structure]
         Dim reserved1 As Integer
         Dim reserved2 As Integer
 
-        Friend ReadOnly file As HDF5File
+        ReadOnly file As HDF5File
 
         Public ReadOnly Property versionOfSuperblock() As Integer
         Public ReadOnly Property versionOfFileFreeSpaceStorage() As Integer
@@ -140,6 +141,29 @@ Namespace HDF5.[Structure]
                 Throw New IOException("Unknown superblock version " & Me.versionOfSuperblock)
             End If
         End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetCacheObject(address As Long) As DataObject
+            Return file.GetCacheObject(address:=address)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub AddCacheObject(obj As DataObject)
+            Call file.addCache(obj)
+        End Sub
+
+        ''' <summary>
+        ''' 可以通过这个函数来设置文件读取对象的当前读取位置
+        ''' </summary>
+        ''' <param name="address">小于零的数表示不进行位移</param>
+        ''' <returns></returns>
+        Public Function FileReader(address As Long) As BinaryReader
+            If address >= 0 Then
+                file.reader.offset = address
+            End If
+
+            Return file.reader
+        End Function
 
         Private Sub readVersion1([in] As BinaryReader)
             _versionOfFileFreeSpaceStorage = [in].readByte()

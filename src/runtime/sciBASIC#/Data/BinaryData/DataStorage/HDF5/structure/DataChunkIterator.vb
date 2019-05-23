@@ -56,7 +56,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
-Namespace HDF5.[Structure]
+Namespace HDF5.struct
 
     Public Class DataChunkIterator : Inherits HDF5Ptr
 
@@ -65,9 +65,7 @@ Namespace HDF5.[Structure]
         Public Sub New(sb As Superblock, layout As Layout)
             Call MyBase.New(layout.dataAddress)
 
-            Dim [in] As BinaryReader = sb.file.reader
-
-            [in].offset = Me.m_address
+            Dim [in] As BinaryReader = sb.FileReader(address)
 
             Me.root = New DataNode(sb, layout, Me.m_address)
             Me.root.first([in], sb)

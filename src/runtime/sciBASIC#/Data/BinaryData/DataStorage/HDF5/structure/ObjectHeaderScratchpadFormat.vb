@@ -58,7 +58,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5.device
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
-Namespace HDF5.[Structure]
+Namespace HDF5.struct
 
     Public Class ObjectHeaderScratchpadFormat : Inherits HDF5Ptr
 
@@ -69,9 +69,7 @@ Namespace HDF5.[Structure]
         Public Sub New(sb As Superblock, address As Long)
             Call MyBase.New(address)
 
-            Dim [in] As BinaryReader = sb.file.reader
-
-            [in].offset = address
+            Dim [in] As BinaryReader = sb.FileReader(address)
 
             Me.addressOfBTree = ReadHelper.readO([in], sb)
             Me.addressOfNameHeap = ReadHelper.readO([in], sb)

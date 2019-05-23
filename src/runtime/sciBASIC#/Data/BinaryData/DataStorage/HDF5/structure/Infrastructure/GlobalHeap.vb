@@ -53,7 +53,7 @@
 Imports System.IO
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
-Namespace HDF5.[Structure]
+Namespace HDF5.struct
 
     ''' <summary>
     ''' Each HDF5 file has a global heap which stores various types of information 
@@ -124,7 +124,7 @@ Namespace HDF5.[Structure]
         Public Sub New(sb As Superblock, address As Long)
             MyBase.New(address)
 
-            Dim reader As BinaryReader = sb.file.reader
+            Dim reader As BinaryReader = sb.FileReader(-1)
             Dim headerSize As Integer = 4 + 1 + 3 + sb.sizeOfLengths
 
             reader.offset = address
@@ -187,7 +187,7 @@ Namespace HDF5.[Structure]
         Public ReadOnly Property data As Byte()
 
         Sub New(gh As GlobalHeap, sb As Superblock)
-            Dim reader = sb.file.reader
+            Dim reader As BinaryReader = sb.FileReader(-1)
 
             Call reader.Mark()
 

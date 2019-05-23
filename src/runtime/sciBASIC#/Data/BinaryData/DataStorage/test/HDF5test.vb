@@ -49,7 +49,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5
 Imports Microsoft.VisualBasic.Data.IO.HDF5.device
-Imports Microsoft.VisualBasic.Data.IO.HDF5.Structure
+Imports Microsoft.VisualBasic.Data.IO.HDF5.struct
 Imports Microsoft.VisualBasic.Data.IO.HDF5.type
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
@@ -95,13 +95,14 @@ Namespace edu.arizona.cs.hdf5.test
 
                     If showData Then
 
-                        Dim dataValue = reader.dataType.reader.readDataset(filepos, reader.dataSpace, reader.Superblock, reader.dataSpace.dimensionLength)
+                        ' Dim dataValue = reader.dataType.reader.readDataset(filepos, reader.dataSpace, reader.Superblock, reader.dataSpace.dimensionLength)
 
 
                         Dim dataCountPerChunk As Integer = chunk.size \ chunkSize(0)
                         For i As Integer = 0 To dataCountPerChunk - 1
                             Dim bytes As Byte() = chunkReader.readBytes(chunkSize(0))
 
+                            Dim dataValue = reader.dataType.reader.ParseDataChunk(bytes, reader.dataSpace.dimensionLength)
 
 
                             For j As Integer = 0 To fields.Count - 1

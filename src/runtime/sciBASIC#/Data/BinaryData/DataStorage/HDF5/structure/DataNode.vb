@@ -57,7 +57,7 @@ Imports Microsoft.VisualBasic.Data.IO.HDF5.device
 Imports Microsoft.VisualBasic.Language
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
-Namespace HDF5.[Structure]
+Namespace HDF5.struct
 
     Public Class DataNode : Inherits HDF5Ptr
 
@@ -82,9 +82,7 @@ Namespace HDF5.[Structure]
         Public Sub New(sb As Superblock, layout As Layout, address As Long)
             Call MyBase.New(address)
 
-            Dim [in] As BinaryReader = sb.file.reader
-
-            [in].offset = address
+            Dim [in] As BinaryReader = sb.FileReader(address)
 
             Me.layout = layout
 

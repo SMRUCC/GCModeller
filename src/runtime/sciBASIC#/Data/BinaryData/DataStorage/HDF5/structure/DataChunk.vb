@@ -56,7 +56,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Data.IO.HDF5.device
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
-Namespace HDF5.[Structure]
+Namespace HDF5.struct
 
     ''' <summary>
     ''' 所存储的数据块
@@ -71,9 +71,7 @@ Namespace HDF5.[Structure]
         Friend Sub New(sb As Superblock, address As Long, numberOfDimensions As Integer, last As Boolean)
             Call MyBase.New(address)
 
-            Dim [in] As BinaryReader = sb.file.reader
-
-            [in].offset = address
+            Dim [in] As BinaryReader = sb.FileReader(address)
 
             Me.size = [in].readInt()
             Me.filterMask = [in].readInt()

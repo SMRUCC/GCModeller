@@ -60,7 +60,7 @@ Imports Microsoft.VisualBasic.Data.IO.HDF5.type
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 
-Namespace HDF5.[Structure]
+Namespace HDF5.struct
 
     Public Class AttributeMessage : Inherits Message
 
@@ -156,7 +156,7 @@ Namespace HDF5.[Structure]
             Dim dims = msg.dataSpace.dimensionLength
             Dim dataType As DataTypes = type.type
 
-            sb.file.reader.offset = msg.dataPos
+            Call sb.FileReader(msg.dataPos)
 
             Select Case dataType
                 Case DataTypes.DATATYPE_VARIABLE_LENGTH
