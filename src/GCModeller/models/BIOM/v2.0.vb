@@ -42,7 +42,10 @@
 
 Namespace v20
 
-    Public Class HDF5
+    ''' <summary>
+    ''' v2.0 BIOM hdf5 file parser
+    ''' </summary>
+    <HideModuleName> Public Module HDF5
 
-    End Class
+    End Module
 End Namespace
