@@ -42,6 +42,7 @@
 
 Imports Microsoft.VisualBasic.Data.IO.HDF5
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 
 Namespace v21
 
@@ -60,7 +61,7 @@ Namespace v21
         ''' </remarks>
         Public Function ReadFile(biom As String) As v10.Json(Of Double)
             Dim hdf5 As New HDF5File(biom)
-            Dim attributes = hdf5.attributes.AsCharacter
+            Dim attributes = hdf5.attributes.AsCharacter.AsVBIdentifier
             Dim data As New v10.Json(Of Double)
 
             With attributes
@@ -68,7 +69,10 @@ Namespace v21
                 data.type = !type
                 data.format_url = !format_url
                 data.date = Date.Parse(!creation_date)
-
+                data.generated_by = !generated_by
+                data.shape = !shape.Split(","c) _
+                    .Select(Function(i) Integer.Parse(i)) _
+                    .ToArray
             End With
 
             Return data
