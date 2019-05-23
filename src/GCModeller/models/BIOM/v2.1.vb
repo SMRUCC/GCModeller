@@ -79,6 +79,8 @@ Namespace v21
 
             If Not version.SequenceEqual({2, 1}) Then
                 Throw New InvalidProgramException("Target biom hdf5 file is not in v2.1 version!")
+            Else
+                ' Call hdf5.superblock.CreateFileDump(Console.Out)
             End If
 
             ' observation/

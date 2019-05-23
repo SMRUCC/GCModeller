@@ -208,9 +208,9 @@ Namespace HDF5
 
         Public Overrides Function ToString() As String
             If Not layout Is Nothing AndAlso Not layout.isEmpty Then
-                Return $"{reader} => {layout}"
+                Return $"Dim {datasetName} As {dataType.reader} = &{layout.dataAddress}"
             Else
-                Return $"{reader} => {dataGroup}"
+                Return dataGroup.ToString
             End If
         End Function
 
