@@ -117,7 +117,7 @@ Namespace HDF5.device
 
             ' final int skipBytes = length - hdfFc.getSizeOfOffsets() - 4;
             Dim skipBytes As Integer = length - sb.sizeOfOffsets - 4
-            Dim buffer = sb.FileReader(-1)
+            Dim buffer As BinaryReader = sb.FileReader(-1)
 
             Call buffer.Mark()
 

@@ -94,6 +94,8 @@ Namespace v21
             Dim sample_indices = hdf5("/sample/matrix/indices")
             Dim sample_indptr = hdf5("/sample/matrix/indptr")
 
+            Dim observation_ids_data = observation_ids.dataset.data(observation_ids.superblock)
+
             Return data
         End Function
     End Module
