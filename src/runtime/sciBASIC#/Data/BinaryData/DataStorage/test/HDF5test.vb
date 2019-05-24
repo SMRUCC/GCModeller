@@ -58,6 +58,9 @@ Namespace edu.arizona.cs.hdf5.test
     Public Class ParseTest
 
         Private Shared Sub dumpData(reader As HDF5Reader, showHeader As Boolean, showData As Boolean, dumpFile$)
+
+            Dim result = reader.dataset.data(reader.superblock)
+
             If showHeader Then
                 Dim headerSize As Long = reader.headerSize
                 Console.WriteLine("header size : " & headerSize)
@@ -95,7 +98,7 @@ Namespace edu.arizona.cs.hdf5.test
 
                     If showData Then
 
-                        ' Dim dataValue = reader.dataType.reader.readDataset(filepos, reader.dataSpace, reader.Superblock, reader.dataSpace.dimensionLength)
+                        '  Dim dataValue = reader.dataType.reader.readDataset(filepos, reader.dataSpace, reader.superblock, reader.dataSpace.dimensionLength)
 
 
                         Dim dataCountPerChunk As Integer = chunk.size \ chunkSize(0)
@@ -137,7 +140,7 @@ Namespace edu.arizona.cs.hdf5.test
 
         Public Shared Sub Main(args As String())
             Dim [option] As String = "hd"
-            Dim filename As String = "D:\GCModeller\src\runtime\sciBASIC#\Data\BinaryData\data\EP388069_K40_BS1D.otu_table.biom"
+            Dim filename As String = "E:\GCModeller\src\runtime\sciBASIC#\Data\BinaryData\data\EP388069_K40_BS1D.otu_table.biom"
 
             If args.Length = 2 Then
                 [option] = args(0)
