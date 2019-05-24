@@ -24,6 +24,11 @@ Namespace HDF5.device
 
         Sub New(memory As MemoryStream)
             Me.memory = memory
+
+            Me.offset = 0
+            Me.filesize = memory.Length
+            Me.m_littleEndian = True
+            Me.m_maxOffset = 0
         End Sub
 
         Private Sub setPosition(value As Long)
