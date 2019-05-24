@@ -101,7 +101,7 @@ Namespace edu.arizona.cs.hdf5.test
                         '  Dim dataValue = reader.dataType.reader.readDataset(filepos, reader.dataSpace, reader.superblock, reader.dataSpace.dimensionLength)
 
 
-                        Dim dataCountPerChunk As Integer = chunk.size \ chunkSize(0)
+                        Dim dataCountPerChunk As Integer = chunk.sizeOfChunk \ chunkSize(0)
                         For i As Integer = 0 To dataCountPerChunk - 1
                             Dim bytes As Byte() = chunkReader.readBytes(chunkSize(0))
 
@@ -140,7 +140,7 @@ Namespace edu.arizona.cs.hdf5.test
 
         Public Shared Sub Main(args As String())
             Dim [option] As String = "hd"
-            Dim filename As String = "E:\GCModeller\src\runtime\sciBASIC#\Data\BinaryData\data\EP388069_K40_BS1D.otu_table.biom"
+            Dim filename As String = "D:\GCModeller\src\runtime\sciBASIC#\Data\BinaryData\data\EP388069_K40_BS1D.otu_table.biom"
 
             If args.Length = 2 Then
                 [option] = args(0)
@@ -170,14 +170,14 @@ Namespace edu.arizona.cs.hdf5.test
             Dim reader As HDF5Reader = file!sample
             ' reader.parseHeader()
 
-            Dim ids = reader.ParseDataObject("matrix")
+            ' Dim ids = reader.ParseDataObject("matrix")
 
-            Dim data = ids.ParseDataObject("data")
+            '  Dim data = ids.ParseDataObject("data")
 
-            Call dumpData(data, True, True, "./test.dump")
+            '  Call dumpData(data, True, True, "./test.dump")
 
-            data = Nothing
-            data = file("/sample/matrix/data")
+            ' Data = Nothing
+            Dim Data = file("/sample/matrix/data")
 
             Call dumpData(data, True, True, "./test2.dump")
         End Sub

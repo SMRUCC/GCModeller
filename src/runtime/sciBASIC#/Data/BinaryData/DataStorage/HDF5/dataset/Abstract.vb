@@ -10,7 +10,10 @@
 ' *****************************************************************************
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
 Imports Microsoft.VisualBasic.Data.IO.HDF5.struct
+Imports Microsoft.VisualBasic.Data.IO.HDF5.struct.messages
 Imports Microsoft.VisualBasic.Data.IO.HDF5.type
 
 Namespace HDF5.dataset
@@ -22,32 +25,30 @@ Namespace HDF5.dataset
         Public Property dataLayout As Layout
         Public Property pipeline As FilterPipelineMessage
 
-        Public Overridable ReadOnly Property scalar() As Boolean
+        Public MustOverride ReadOnly Property dimensions As Integer()
+
+        Public Overridable ReadOnly Property scalar As Boolean
             Get
                 Return dataSpace.dimensionLength.Length = 0
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function data(sb As Superblock) As Object
-            Dim buffer = getBuffer(sb)
-
+            Return readDataSet(getBuffer(sb), sb)
         End Function
 
-        Protected Function readDataSet() As Object
+        Protected Function readDataSet(dataBuffer As MemoryStream, sb As Superblock) As Object
+            Dim type As DataType = dataType
 
+            If TypeOf type Is VariableLength Then
+                Return VariableLengthDatasetReader.readDataSet(type, dimensions, sb, New MemoryReader(dataBuffer))
+            Else
+                Return DatasetReader.ParseDataChunk(type, dataBuffer.ToArray, dimensions)
+            End If
         End Function
 
         Protected MustOverride Function getBuffer(sb As Superblock) As MemoryStream
-
-
-        'Dim type As DataType = dataType
-        'Dim bb As ByteBuffer = dataBuffer
-
-        'If TypeOf type Is VariableLength Then
-        '    Return VariableLengthDatasetReader.readDataset(DirectCast(type, VariableLength), bb, dimensions, hdfFc)
-        'Else
-        '    Return DatasetReader.readDataset(type, bb, dimensions)
-        'End If
 
         Public Overrides Function ToString() As String
             Return $"{Me.GetType.Name} {Scripting.ToString(dataSpace)} {Scripting.ToString(dataType)}"

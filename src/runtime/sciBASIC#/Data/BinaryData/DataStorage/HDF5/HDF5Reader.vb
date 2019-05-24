@@ -56,6 +56,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.IO.HDF5.dataset
 Imports Microsoft.VisualBasic.Data.IO.HDF5.device
 Imports Microsoft.VisualBasic.Data.IO.HDF5.struct
+Imports Microsoft.VisualBasic.Data.IO.HDF5.struct.messages
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5
@@ -103,6 +104,20 @@ Namespace HDF5
         Public ReadOnly Property isDataSet As Boolean
             Get
                 Return dataGroup Is Nothing
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 非数据集的时候总是返回空值
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property data As Object
+            Get
+                If Not isDataSet Then
+                    Return Nothing
+                Else
+                    Return dataset.data(file.superblock)
+                End If
             End Get
         End Property
 
@@ -203,6 +218,7 @@ Namespace HDF5
                     container.dataset.dataSpace = container.dataSpace
                     container.dataset.dataType = container.dataType.reader
                     container.dataset.dataLayout = layout
+                    container.dataset.pipeline = dobj.filterMessage
                 End If
 
                 While iter.hasNext()
