@@ -92,7 +92,7 @@ Namespace v21
             ' dataset 
 
             ' observation/
-            Dim observation_ids = hdf5("/observation/ids")
+            Dim observation_ids = hdf5("/observation/ids").data
             Dim observation_data = hdf5("/observation/matrix/data")
             Dim observation_indices = hdf5("/observation/matrix/indices")
             Dim observation_indptr = hdf5("/observation/matrix/indptr")

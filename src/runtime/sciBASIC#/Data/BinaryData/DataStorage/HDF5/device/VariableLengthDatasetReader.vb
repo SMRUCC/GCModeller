@@ -129,7 +129,7 @@ Namespace HDF5.device
             Call buffer.Mark()
 
             ' id=4
-            While buffer.deltaSize < length
+            While buffer.deltaSize < length * datasetTotalSize
                 ' Move past the skipped bytes. TODO figure out what this is for
                 buffer.offset += skipBytes
 
