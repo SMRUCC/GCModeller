@@ -158,6 +158,11 @@ Namespace HDF5
             _headerSize = reader.maxOffset
         End Sub
 
+        ''' <summary>
+        ''' 如果目标数据集不存在的话，这个函数会返回空值
+        ''' </summary>
+        ''' <param name="dataSetName"></param>
+        ''' <returns></returns>
         Public Function ParseDataObject(dataSetName As String) As HDF5Reader
             Dim reader As New HDF5Reader(Me.file, dataSetName)
             Dim dobj As DataObjectFacade = dataGroup _
@@ -165,6 +170,10 @@ Namespace HDF5
                 .FirstOrDefault(Function(d)
                                     Return d.symbolName.TextEquals(dataSetName)
                                 End Function)
+
+            If dobj Is Nothing Then
+                Return Nothing
+            End If
 
             reader._dataGroup = parserObject(dobj, container:=reader)
             _headerSize = Me.reader.maxOffset

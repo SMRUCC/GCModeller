@@ -115,6 +115,11 @@ Namespace HDF5
 
                 For Each token As String In path.Skip(1)
                     reader = reader.ParseDataObject(dataSetName:=token)
+
+                    If reader Is Nothing Then
+                        ' 数据集或者文件夹对象不存在
+                        Exit For
+                    End If
                 Next
 
                 Return reader
