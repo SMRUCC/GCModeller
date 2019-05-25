@@ -83,12 +83,19 @@ Namespace v21
                 ' Call hdf5.superblock.CreateFileDump(Console.Out)
             End If
 
+            ' group
+            Dim observation_atttrs = hdf5("/observation").attributes
+
+
+            ' dataset 
+
             ' observation/
             Dim observation_ids = hdf5("/observation/ids")
             Dim observation_data = hdf5("/observation/matrix/data")
             Dim observation_indices = hdf5("/observation/matrix/indices")
             Dim observation_indptr = hdf5("/observation/matrix/indptr")
 
+            ' sample/
             Dim sample_ids = hdf5("/sample/ids")
             Dim sample_data = hdf5("/sample/matrix/data")
             Dim sample_indices = hdf5("/sample/matrix/indices")
