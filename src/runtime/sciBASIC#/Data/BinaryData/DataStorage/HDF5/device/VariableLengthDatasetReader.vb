@@ -76,7 +76,12 @@ Namespace HDF5.device
                 data = {""}
             Else
                 isScalar = False
-                data = Array.CreateInstance(GetType(String), dimensions)
+
+                If dimensions.Length = 1 Then
+                    data = Array.CreateInstance(GetType(String), dimensions)
+                Else
+                    data = MAT(Of String)(dimensions(Scan0), dimensions(1))
+                End If
             End If
 
             Dim charset As Encoding = type.encoding
