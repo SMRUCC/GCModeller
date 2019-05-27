@@ -142,7 +142,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BIOM.vbproj">
+    <ProjectReference Include="..\BIOM\BIOM.vbproj">
       <Project>{ee17be25-17e3-48f5-bef2-a7d540ae09e1}</Project>
       <Name>BIOM</Name>
     </ProjectReference>
