@@ -76,7 +76,19 @@ Namespace v10
         ''' </remarks>
         <Extension>
         Public Function ToDenseMatrix(Of T)(table As T()(), shape As Integer()) As T()()
+            Dim rows = shape(Scan0)
+            Dim columns = shape(1)
+            Dim matrix As T()() = MAT(Of T)(rows, columns)
+            Dim i, j As Integer
 
+            For Each row As T() In table
+                i = CInt(CObj(row(Scan0)))
+                j = CInt(CObj(row(1)))
+
+                matrix(i)(j) = row(2)
+            Next
+
+            Return matrix
         End Function
     End Module
 End Namespace
