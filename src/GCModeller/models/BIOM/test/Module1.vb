@@ -73,6 +73,9 @@ Module Module1
 
     Sub loadertest()
 
+
+        Dim json = Microsoft.VisualBasic.MIME.application.json.ParseJsonFile("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
+
         Dim a = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
         Dim c = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_sparse_OTU_table.json")
         Dim d = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_dense_OTU_table.json")
