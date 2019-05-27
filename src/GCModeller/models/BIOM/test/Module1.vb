@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.foundation.BIOM.v10
 Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.MIME.application.json.Parser
 
 Module Module1
 
@@ -75,7 +76,7 @@ Module Module1
     Sub loadertest()
 
 
-        Dim json = Microsoft.VisualBasic.MIME.application.json.ParseJsonFile("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
+        Dim json As JsonElement = Microsoft.VisualBasic.MIME.application.json.ParseJsonFile("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
 
         Dim modify = json.BuildJsonString
 
