@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.Data.IO.HDF5
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.foundation.BIOM.v10
 Imports SMRUCC.genomics.foundation.BIOM.v10.components
 
 Namespace v21
@@ -66,9 +67,10 @@ Namespace v21
             Dim hdf5 As New HDF5File(biom)
             Dim attributes = hdf5.attributes.AsCharacter.AsVBIdentifier
             Dim data As New v10.Json(Of Double) With {
-                .matrix_type = "dense",
+                .matrix_type = matrix_type.dense,
                 .matrix_element_type = "float",
-                .comment = "Imports from v2.1 BIOM hdf5 file."
+                .comment = "Imports from v2.1 BIOM hdf5 file.",
+                .format = "1.0.0"
             }
             Dim version As Integer()
 
@@ -127,9 +129,9 @@ Namespace v21
         <Extension>
         Private Iterator Function sampleColumns(biom As HDF5File) As IEnumerable(Of column)
             Dim sample_ids As Array = biom("/sample/ids").data
-            Dim sample_data = biom("/sample/matrix/data").data
-            Dim sample_indices = biom("/sample/matrix/indices").data
-            Dim sample_indptr = biom("/sample/matrix/indptr").data
+            ' Dim sample_data = biom("/sample/matrix/data").data
+            ' Dim sample_indices = biom("/sample/matrix/indices").data
+            ' Dim sample_indptr = biom("/sample/matrix/indptr").data
             ' Dim sample_collapsed_ids = biom("/sample/metadata/collapsed_ids").data
 
             For i As Integer = 0 To sample_ids.Length - 1
@@ -143,8 +145,8 @@ Namespace v21
         Private Iterator Function observationRows(biom As HDF5File) As IEnumerable(Of row)
             Dim observation_ids As Array = biom("/observation/ids").data
             ' Dim observation_data = biom("/observation/matrix/data").data
-            Dim observation_indices = biom("/observation/matrix/indices").data
-            Dim observation_indptr As Integer() = biom("/observation/matrix/indptr").data
+            ' Dim observation_indices = biom("/observation/matrix/indices").data
+            ' Dim observation_indptr As Integer() = biom("/observation/matrix/indptr").data
             ' 一个otu就是一个taxonomy
             Dim observation_taxonomy As String()() = biom("/observation/metadata/taxonomy").data
 

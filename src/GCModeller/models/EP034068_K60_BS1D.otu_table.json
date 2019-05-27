@@ -159,7 +159,7 @@
         ]
     ],
     "date": "\/Date(1472668498467+0800)\/",
-    "format": null,
+    "format": "1.0.0",
     "format_url": "http:\/\/biom-format.org",
     "generated_by": "QIIME 1.9.1",
     "id": "No Table ID",
