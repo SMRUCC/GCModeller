@@ -66,6 +66,8 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Metagenomics
 
@@ -109,9 +111,14 @@ Namespace v10
 
     Namespace components
 
-        Public Class row
-            Public Property id As String
+        Public Class row : Implements INamedValue
+
+            Public Property id As String Implements IKeyedEntity(Of String).Key
             Public Property metadata As meta
+
+            Public Overrides Function ToString() As String
+                Return id
+            End Function
         End Class
 
         Public Class meta
@@ -133,15 +140,20 @@ Namespace v10
                     If taxonomy.IsNullOrEmpty Then
                         Return Nothing
                     Else
-                        Return New Taxonomy(taxonomy)
+                        Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(taxonomy))
                     End If
                 End Get
             End Property
         End Class
 
-        Public Class column
-            Public Property id As String
+        Public Class column : Implements INamedValue
+
+            Public Property id As String Implements IKeyedEntity(Of String).Key
             Public Property metadata As columnMeta
+
+            Public Overrides Function ToString() As String
+                Return id
+            End Function
         End Class
 
         Public Class columnMeta
