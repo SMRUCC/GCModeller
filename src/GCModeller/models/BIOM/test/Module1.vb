@@ -54,6 +54,8 @@ Module Module1
 
     Sub Main()
 
+        Call loadertest()
+
         '   Call exports()
         Call testCDFBIOM()
 
@@ -65,6 +67,16 @@ Module Module1
         Dim biom = SMRUCC.genomics.foundation.BIOM.v10.Json(Of Double).LoadFile("C:\Users\xieguigang\Desktop\predictions_ko.L3.biom.json")
 
         Call biom.GetJson(indent:=True).SaveTo("C:\Users\xieguigang\Desktop\predictions_ko.L3.biom.formatted.json")
+
+        Pause()
+    End Sub
+
+    Sub loadertest()
+
+        Dim a = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
+        Dim c = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_sparse_OTU_table.json")
+        Dim d = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_dense_OTU_table.json")
+        Dim e = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_sparse_OTU_table.json")
 
         Pause()
     End Sub
