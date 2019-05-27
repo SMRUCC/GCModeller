@@ -66,14 +66,16 @@ Module Module1
         Pause()
     End Sub
 
+    Sub jsonDumpTest(file As String)
+        Dim biom = SMRUCC.genomics.foundation.BIOM.v21.ReadFile(file)
+
+        Call biom.GetJson(indent:=True).SaveTo(file.ChangeSuffix("json"))
+    End Sub
 
     Sub testCDFBIOM()
 
-        Dim file = "D:\GCModeller\src\GCModeller\models\EP418446_K40_BS1D.otu_table.biom"
-        file = "D:\GCModeller\src\GCModeller\models\EP034068_K60_BS1D.otu_table.biom"
-        Dim biom = SMRUCC.genomics.foundation.BIOM.v21.ReadFile(file)
-
-        Call biom.GetJson(indent:=True).SaveTo("D:\GCModeller\src\GCModeller\models\EP034068_K60_BS1D.otu_table.json")
+        Call jsonDumpTest("D:\GCModeller\src\GCModeller\models\EP418446_K40_BS1D.otu_table.biom")
+        Call jsonDumpTest("D:\GCModeller\src\GCModeller\models\EP034068_K60_BS1D.otu_table.biom")
 
         Pause()
     End Sub
