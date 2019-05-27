@@ -40,10 +40,12 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.IO.HDF5
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.foundation.BIOM.v10.components
 
 Namespace v21
 
@@ -63,7 +65,11 @@ Namespace v21
         Public Function ReadFile(biom As String) As v10.Json(Of Double)
             Dim hdf5 As New HDF5File(biom)
             Dim attributes = hdf5.attributes.AsCharacter.AsVBIdentifier
-            Dim data As New v10.Json(Of Double)
+            Dim data As New v10.Json(Of Double) With {
+                .matrix_type = "dense",
+                .matrix_element_type = "float",
+                .comment = "Imports from v2.1 BIOM hdf5 file."
+            }
             Dim version As Integer()
 
             With attributes
@@ -83,32 +89,73 @@ Namespace v21
                 ' Call hdf5.superblock.CreateFileDump(Console.Out)
             End If
 
-            ' group
-            Dim observation_attrs = hdf5("/observation").attributes
-            Dim observation_matrix_attrs = hdf5("/observation/matrix").attributes
-            Dim sample_attrs = hdf5("/sample").attributes
-            Dim sample_matrix_attrs = hdf5("/sample/matrix").attributes
-
-            ' dataset 
-
             ' observation/
-            Dim observation_ids = hdf5("/observation/ids") ' .data
-            Dim observation_data = hdf5("/observation/matrix/data")
-            Dim observation_indices = hdf5("/observation/matrix/indices")
-            Dim observation_indptr = hdf5("/observation/matrix/indptr")
-            Dim observation_taxonomy = hdf5("/observation/metadata/taxonomy").data
-
+            ' 相当于row数据
+            data.rows = hdf5.observationRows.ToArray
+            ' 矩阵数据从observation里面提取
+            data.data = hdf5.matrixRows.ToArray
 
             ' sample/
-            Dim sample_ids = hdf5("/sample/ids")
-            Dim sample_data = hdf5("/sample/matrix/data")
-            Dim sample_indices = hdf5("/sample/matrix/indices")
-            Dim sample_indptr = hdf5("/sample/matrix/indptr")
-            Dim sample_collapsed_ids = hdf5("/sample/metadata/collapsed_ids")
-
-
+            ' 相当于column数据
+            data.columns = hdf5.sampleColumns.ToArray
 
             Return data
+        End Function
+
+        <Extension>
+        Private Iterator Function matrixRows(biom As HDF5File) As IEnumerable(Of Double())
+            Dim observation_data As Array = biom("/observation/matrix/data").data
+            Dim otuNumbers As Integer = DirectCast(biom("/observation/ids").data, Array).Length
+            Dim a As Array
+
+            If observation_data.Rank = 1 Then
+                For i As Integer = 0 To otuNumbers - 1
+                    Yield {CDbl(observation_data.GetValue(i))}
+                Next
+            ElseIf observation_data.Rank = 2 Then
+                For i As Integer = 0 To otuNumbers - 1
+                    a = observation_data.GetValue(i)
+                    a = (From x In a Select CDbl(x)).ToArray
+
+                    Yield a
+                Next
+            Else
+                Throw New NotSupportedException
+            End If
+        End Function
+
+        <Extension>
+        Private Iterator Function sampleColumns(biom As HDF5File) As IEnumerable(Of column)
+            Dim sample_ids As Array = biom("/sample/ids").data
+            Dim sample_data = biom("/sample/matrix/data").data
+            Dim sample_indices = biom("/sample/matrix/indices").data
+            Dim sample_indptr = biom("/sample/matrix/indptr").data
+            ' Dim sample_collapsed_ids = biom("/sample/metadata/collapsed_ids").data
+
+            For i As Integer = 0 To sample_ids.Length - 1
+                Yield New column With {
+                    .id = sample_ids.GetValue(i)
+                }
+            Next
+        End Function
+
+        <Extension>
+        Private Iterator Function observationRows(biom As HDF5File) As IEnumerable(Of row)
+            Dim observation_ids As Array = biom("/observation/ids").data
+            ' Dim observation_data = biom("/observation/matrix/data").data
+            Dim observation_indices = biom("/observation/matrix/indices").data
+            Dim observation_indptr As Integer() = biom("/observation/matrix/indptr").data
+            ' 一个otu就是一个taxonomy
+            Dim observation_taxonomy As String()() = biom("/observation/metadata/taxonomy").data
+
+            For i As Integer = 0 To observation_ids.Length - 1
+                Yield New row With {
+                    .id = observation_ids.GetValue(i),
+                    .metadata = New meta With {
+                        .taxonomy = observation_taxonomy(i)
+                    }
+                }
+            Next
         End Function
     End Module
 End Namespace
