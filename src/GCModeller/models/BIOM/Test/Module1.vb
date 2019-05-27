@@ -73,6 +73,8 @@ Module Module1
         file = "D:\GCModeller\src\GCModeller\models\EP034068_K60_BS1D.otu_table.biom"
         Dim biom = SMRUCC.genomics.foundation.BIOM.v21.ReadFile(file)
 
+        Call biom.GetJson(indent:=True).SaveTo("D:\GCModeller\src\GCModeller\models\EP034068_K60_BS1D.otu_table.json")
+
         Pause()
     End Sub
 
