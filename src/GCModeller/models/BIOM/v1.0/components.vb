@@ -71,107 +71,68 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Metagenomics
 
-Namespace v10
+Namespace v10.components
 
     ''' <summary>
-    ''' BIOM json with integer matrix data
+    ''' 主要是存储OTU信息
     ''' </summary>
-    Public Class IntegerMatrix : Inherits Json(Of Integer)
+    Public Class row : Implements INamedValue
 
-        Public Overloads Shared Function LoadFile(path$) As IntegerMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As IntegerMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of IntegerMatrix)
-            Return biom
+        Public Property id As String Implements IKeyedEntity(Of String).Key
+        Public Property metadata As meta
+
+        Public Overrides Function ToString() As String
+            Return id
         End Function
     End Class
 
-    ''' <summary>
-    ''' BIOM json with double matrix data
-    ''' </summary>
-    Public Class FloatMatrix : Inherits Json(Of Double)
-
-        Public Overloads Shared Function LoadFile(path$) As FloatMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As FloatMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of FloatMatrix)
-            Return biom
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' BIOM json with string matrix data
-    ''' </summary>
-    Public Class StringMatrix : Inherits Json(Of String)
-
-        Public Overloads Shared Function LoadFile(path$) As StringMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As StringMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of StringMatrix)
-            Return biom
-        End Function
-    End Class
-
-    Namespace components
+    Public Class meta
 
         ''' <summary>
-        ''' 主要是存储OTU信息
+        ''' 这个字符串数组就是一个taxonomy对象的数据
         ''' </summary>
-        Public Class row : Implements INamedValue
-
-            Public Property id As String Implements IKeyedEntity(Of String).Key
-            Public Property metadata As meta
-
-            Public Overrides Function ToString() As String
-                Return id
-            End Function
-        End Class
-
-        Public Class meta
-
-            ''' <summary>
-            ''' 这个字符串数组就是一个taxonomy对象的数据
-            ''' </summary>
-            ''' <returns></returns>
-            Public Property taxonomy As String()
-            Public Property KEGG_Pathways As String()
-
-            ''' <summary>
-            ''' 将<see cref="taxonomy"/>属性值转换为标准的物种信息数据模型，
-            ''' 如果目标字符串数组是空的，则这个属性返回空值
-            ''' </summary>
-            ''' <returns></returns>
-            Public ReadOnly Property lineage As Taxonomy
-                Get
-                    If taxonomy.IsNullOrEmpty Then
-                        Return Nothing
-                    Else
-                        Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(taxonomy))
-                    End If
-                End Get
-            End Property
-        End Class
+        ''' <returns></returns>
+        Public Property taxonomy As String()
+        Public Property KEGG_Pathways As String()
 
         ''' <summary>
-        ''' 主要是存储sample信息
+        ''' 将<see cref="taxonomy"/>属性值转换为标准的物种信息数据模型，
+        ''' 如果目标字符串数组是空的，则这个属性返回空值
         ''' </summary>
-        Public Class column : Implements INamedValue
+        ''' <returns></returns>
+        Public ReadOnly Property lineage As Taxonomy
+            Get
+                If taxonomy.IsNullOrEmpty Then
+                    Return Nothing
+                Else
+                    Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(taxonomy))
+                End If
+            End Get
+        End Property
+    End Class
 
-            Public Property id As String Implements IKeyedEntity(Of String).Key
-            Public Property metadata As columnMeta
+    ''' <summary>
+    ''' 主要是存储sample信息
+    ''' </summary>
+    Public Class column : Implements INamedValue
 
-            Public Overrides Function ToString() As String
-                Return id
-            End Function
-        End Class
+        Public Property id As String Implements IKeyedEntity(Of String).Key
+        Public Property metadata As columnMeta
 
-        Public Class columnMeta
+        Public Overrides Function ToString() As String
+            Return id
+        End Function
+    End Class
 
-            Public Property BarcodeSequence As String
-            Public Property LinkerPrimerSequence As String
-            Public Property BODY_SITE As String
-            Public Property Description As String
+    Public Class columnMeta
 
-            Public Overrides Function ToString() As String
-                Return Me.GetJson
-            End Function
-        End Class
-    End Namespace
+        Public Property BarcodeSequence As String
+        Public Property LinkerPrimerSequence As String
+        Public Property BODY_SITE As String
+        Public Property Description As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
 End Namespace

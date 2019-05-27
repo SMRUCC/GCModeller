@@ -69,6 +69,12 @@ Namespace v10
         End Sub
     End Class
 
+    ''' <summary>
+    ''' ###### 2019-05-27
+    ''' 
+    ''' 因为自带的JSON序列化函数会将枚举类型转换为对应的值，而非枚举成员的名称字符串
+    ''' 所以在这里就直接使用字符串常数来表示枚举了
+    ''' </summary>
     Public NotInheritable Class matrix_type
 
         Public Const dense As String = "dense"
