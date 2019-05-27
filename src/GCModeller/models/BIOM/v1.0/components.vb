@@ -111,6 +111,9 @@ Namespace v10
 
     Namespace components
 
+        ''' <summary>
+        ''' 主要是存储OTU信息
+        ''' </summary>
         Public Class row : Implements INamedValue
 
             Public Property id As String Implements IKeyedEntity(Of String).Key
@@ -146,6 +149,9 @@ Namespace v10
             End Property
         End Class
 
+        ''' <summary>
+        ''' 主要是存储sample信息
+        ''' </summary>
         Public Class column : Implements INamedValue
 
             Public Property id As String Implements IKeyedEntity(Of String).Key
@@ -157,6 +163,7 @@ Namespace v10
         End Class
 
         Public Class columnMeta
+
             Public Property BarcodeSequence As String
             Public Property LinkerPrimerSequence As String
             Public Property BODY_SITE As String

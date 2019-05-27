@@ -151,6 +151,10 @@ Namespace v10
         ''' 
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' + 行表示一个OTU，对应的物种信息可以在row属性之中查找到
+        ''' + 列表示一个sample，对应的sample编号，类型等信息可以在column属性之中查找到
+        ''' </remarks>
         Public Property data As T()()
         ''' <summary>
         ''' ``&lt;list of objects>`` An ORDERED list of obj describing the rows
@@ -167,7 +171,7 @@ Namespace v10
             Return Me.GetJson
         End Function
 
-        Public Shared Function LoadFile(path$) As Json(Of T)
+        Public Shared Function LoadFile(path As String) As Json(Of T)
             Dim json$ = path.ReadAllText
             Dim biom As Json(Of T) = JsonContract.EnsureDate(json, "date").LoadJSON(Of Json(Of T))
             Return biom
