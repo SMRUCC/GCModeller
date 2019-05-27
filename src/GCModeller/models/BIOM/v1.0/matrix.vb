@@ -90,5 +90,28 @@ Namespace v10
 
             Return matrix
         End Function
+
+        <Extension>
+        Public Function ToSparseMatrix(Of T)(table As T()(), isEmpty As Func(Of T, Boolean)) As T()()
+            Dim columns As Integer = table(Scan0).Length
+            Dim obj As T
+            Dim sparser = Iterator Function() As IEnumerable(Of T())
+                              For i As Integer = 0 To table.Length - 1
+                                  For j As Integer = 0 To columns - 1
+                                      obj = table(i)(j)
+
+                                      If Not isEmpty(obj) Then
+                                          Yield {
+                                              CType(CObj(i), T),  ' row
+                                              CType(CObj(j), T),  ' column
+                                              obj                 ' value
+                                          }
+                                      End If
+                                  Next
+                              Next
+                          End Function
+
+            Return sparser().ToArray
+        End Function
     End Module
 End Namespace
