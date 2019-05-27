@@ -47,6 +47,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.foundation.BIOM.v10
+Imports Microsoft.VisualBasic.MIME.application.json
 
 Module Module1
 
@@ -75,6 +76,8 @@ Module Module1
 
 
         Dim json = Microsoft.VisualBasic.MIME.application.json.ParseJsonFile("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
+
+        Dim modify = json.BuildJsonString
 
         Dim a = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
         Dim c = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_sparse_OTU_table.json")
