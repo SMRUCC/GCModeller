@@ -44,6 +44,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.foundation.BIOM.v10.components
 
@@ -168,7 +169,12 @@ Namespace v10
         Public Property columns As column()
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return ToJSON()
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ToJSON() As String
+            Return GetJson
         End Function
 
         Public Shared Function LoadFile(path As String) As Json(Of T)
