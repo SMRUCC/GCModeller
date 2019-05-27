@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Serialization.JSON
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace v10
 
@@ -37,4 +38,45 @@ Namespace v10
             Return biom
         End Function
     End Class
+
+    ''' <summary>
+    ''' 在<see cref="matrix_type.sparse"/>和<see cref="matrix_type.dense"/>
+    ''' 这两种布局的矩阵之间相互转换
+    ''' </summary>
+    Public Module MatrixConversion
+
+        ''' <summary>
+        ''' 目标是否是稀疏矩阵，需要转换为一个完整的矩阵对象
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="table"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function RequiredConvertToDenseMatrix(Of T As {IComparable(Of T), IEquatable(Of T), IComparable})(table As Json(Of T)) As Boolean
+            Return Strings.LCase(table.matrix_type) = matrix_type.sparse
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="table"></param>
+        ''' <param name="shape">``[rows, columns]``</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' if matrix_type is "sparse", 
+        ''' 
+        ''' ```
+        ''' [[row, column, value],
+        '''  [row, column, value],
+        '''  ...
+        ''' ]
+        ''' ```
+        ''' </remarks>
+        <Extension>
+        Public Function ToDenseMatrix(Of T)(table As T()(), shape As Integer()) As T()()
+
+        End Function
+    End Module
 End Namespace
