@@ -77,8 +77,8 @@ Module Module1
 
     Sub testCDFBIOM()
 
-        Call jsonDumpTest("D:\GCModeller\src\GCModeller\models\EP418446_K40_BS1D.otu_table.biom")
-        Call jsonDumpTest("D:\GCModeller\src\GCModeller\models\EP034068_K60_BS1D.otu_table.biom")
+        Call jsonDumpTest("D:\GCModeller\src\GCModeller\models\BIOM\data\EP418446_K40_BS1D.otu_table.biom")
+        Call jsonDumpTest("D:\GCModeller\src\GCModeller\models\BIOM\data\EP034068_K60_BS1D.otu_table.biom")
 
         Pause()
     End Sub
