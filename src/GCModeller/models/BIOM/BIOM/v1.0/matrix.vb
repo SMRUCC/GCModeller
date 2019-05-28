@@ -1,10 +1,13 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.MIME.application
-Imports Microsoft.VisualBasic.MIME.application.json.Parser
 Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.MIME.application.json.Parser
 
 Namespace v10
+
+    ' 20190528 The json deserializer of json contract module 
+    ' have bugs On parse Date time string using new json 
+    ' deserilizer for void such problem
 
     ''' <summary>
     ''' BIOM json with integer matrix data

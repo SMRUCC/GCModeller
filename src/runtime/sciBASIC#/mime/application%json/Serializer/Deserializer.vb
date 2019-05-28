@@ -2,6 +2,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.MIME.application.json.Parser
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Public Module Deserializer
 
@@ -16,7 +17,14 @@ Public Module Deserializer
         ElseIf TypeOf json Is JsonObject Then
             Return DirectCast(json, JsonObject).createObject(schema)
         ElseIf TypeOf json Is JsonValue Then
-            Return Scripting.CTypeDynamic(DirectCast(json, JsonValue).Value, schema)
+            If schema Is GetType(String) Then
+                Return DirectCast(json, JsonValue).GetStripString
+            ElseIf schema Is GetType(Date) Then
+                Return Casting.CastDate(DirectCast(json, JsonValue).GetStripString)
+            Else
+                Dim literal As String = DirectCast(json, JsonValue).Value
+                Return Scripting.CTypeDynamic(literal, schema)
+            End If
         Else
             Throw New InvalidCastException
         End If
