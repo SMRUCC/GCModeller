@@ -187,6 +187,7 @@
     <Compile Include="CLI\Difference.vb" />
     <Compile Include="CLI\HMP\HMP.vb" />
     <Compile Include="CLI\AntibioticResistance.vb" />
+    <Compile Include="CLI\gast.vb" />
     <Compile Include="CLI\Network.vb" />
     <Compile Include="CLI\SILVA.vb" />
     <Compile Include="Program.vb" />
@@ -322,6 +323,10 @@
     <ProjectReference Include="..\..\core\Bio.Repository\Bio.Repository.vbproj">
       <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
       <Name>Bio.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\models\BIOM\BIOM\BIOM.vbproj">
+      <Project>{ee17be25-17e3-48f5-bef2-a7d540ae09e1}</Project>
+      <Name>BIOM</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\models\Networks\Microbiome\Microbiome.vbproj">
       <Project>{98b68c31-ea5a-4b07-a748-3a009fabfa39}</Project>

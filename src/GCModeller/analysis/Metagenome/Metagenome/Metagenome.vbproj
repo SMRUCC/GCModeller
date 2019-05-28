@@ -396,7 +396,7 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\models\BIOM\BIOM.vbproj">
+    <ProjectReference Include="..\..\..\models\BIOM\BIOM\BIOM.vbproj">
       <Project>{ee17be25-17e3-48f5-bef2-a7d540ae09e1}</Project>
       <Name>BIOM</Name>
     </ProjectReference>

@@ -86,6 +86,7 @@ Namespace Metagenomics
         ''' </summary>
         ''' <param name="lineage">
         ''' Lineage tokens text array data from <see cref="Taxonomy.ToArray()"/> method.
+        ''' (这里所输入的字符串数组应该是没有BIOM前缀的)
         ''' </param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -146,12 +147,29 @@ Namespace Metagenomics
         ''' greengenes数据库之中的taxonomy name会存在``[]``这类的符号，不清楚是因为什么？
         ''' 在这里替换掉
         ''' </remarks>
-        Public Function TaxonomyParser(taxonomy$) As Dictionary(Of String, String)
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TaxonomyParser(taxonomy As String) As Dictionary(Of String, String)
+            Return TaxonomyParser(taxonomy.Split(";"c))
+        End Function
+
+        ''' <summary>
+        ''' For <see cref="BIOMPrefix"/>
+        ''' </summary>
+        ''' <param name="taxonomy$"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' greengenes数据库之中的taxonomy name会存在``[]``这类的符号，不清楚是因为什么？
+        ''' 在这里替换掉
+        ''' </remarks>
+        Public Function TaxonomyParser(taxonomy As String()) As Dictionary(Of String, String)
             Dim tokens$() = taxonomy _
-                .Replace("[", "") _
-                .Replace("]", "") _
-                .StringReplace("\s+", " ") _
-                .Split(";"c) _
+                .Select(Function(name)
+                            Return name _
+                                .Replace("[", "") _
+                                .Replace("]", "") _
+                                .StringReplace("\s+", " ")
+                        End Function) _
                 .Select(AddressOf Strings.Trim) _
                 .ToArray
             Dim catalogs As NamedValue(Of String)() = tokens _
@@ -159,10 +177,10 @@ Namespace Metagenomics
                 .ToArray
             Dim out As New Dictionary(Of String, String)
 
-            For Each x As NamedValue(Of String) In catalogs
-                Dim name$ = x.Value
+            For Each level As NamedValue(Of String) In catalogs
+                Dim name$ = level.Value
 
-                Select Case x.Name
+                Select Case level.Name
                     Case "k" : Call out.Add(NcbiTaxonomyTree.superkingdom, name)
                     Case "p" : Call out.Add(NcbiTaxonomyTree.phylum, name)
                     Case "c" : Call out.Add(NcbiTaxonomyTree.class, name)
