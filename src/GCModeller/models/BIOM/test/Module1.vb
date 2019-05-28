@@ -80,10 +80,18 @@ Module Module1
 
         'Dim modify = json.BuildJsonString
 
-        Dim a = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
-        Dim c = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_sparse_OTU_table.json")
-        Dim d = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_dense_OTU_table.json")
-        Dim e = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_sparse_OTU_table.json")
+        Dim aaaaa = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
+        Dim ccccc = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_sparse_OTU_table.json")
+        Dim ddddd = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_dense_OTU_table.json")
+        Dim eeeee = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_sparse_OTU_table.json")
+
+
+        Dim needsConversion = eeeee.RequiredConvertToDenseMatrix
+        Dim matrix = eeeee.data.ToDenseMatrix(eeeee.shape)
+
+        needsConversion = ddddd.RequiredConvertToDenseMatrix
+        matrix = ddddd.data.ToSparseMatrix(Function(x) x = 0.0)
+
 
         Pause()
     End Sub
