@@ -93,6 +93,9 @@ Module Module1
         matrix = ddddd.data.ToSparseMatrix(Function(x) x = 0.0)
 
 
+        Dim [default] = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_sparse_OTU_table.json")
+        Dim dense = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_sparse_OTU_table.json", denseMatrix:=True)
+
         Pause()
     End Sub
 
