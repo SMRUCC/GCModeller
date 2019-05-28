@@ -45,6 +45,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.foundation.BIOM.v10.components
 
@@ -170,6 +172,32 @@ Namespace v10
 
         Public Overrides Function ToString() As String
             Return ToJSON()
+        End Function
+
+        Public Iterator Function PopulateRows(Optional metaInfoAsRowID As Boolean = True) As IEnumerable(Of NamedValue(Of [Property](Of T)))
+            Dim rowID As String
+            Dim rowValue As T()
+            Dim dataSet As [Property](Of T)
+
+            For Each row As SeqValue(Of row) In rows.SeqIterator
+                rowValue = data(row)
+                dataSet = New [Property](Of T)
+
+                For i As Integer = 0 To columns.Length - 1
+                    Call dataSet.Add(columns(i).id, rowValue(i))
+                Next
+
+                If metaInfoAsRowID AndAlso row.value.hasMetaInfo Then
+                    rowID = row.value.metadata.lineage.ToString
+                Else
+                    rowID = row.value.id
+                End If
+
+                Yield New NamedValue(Of [Property](Of T)) With {
+                    .Name = rowID,
+                    .Value = dataSet
+                }
+            Next
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

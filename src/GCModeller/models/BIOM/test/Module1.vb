@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.foundation.BIOM.v10
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.Parser
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Module Module1
 
@@ -56,9 +57,11 @@ Module Module1
 
     Sub Main()
 
+        Call exports()
+
         Call loadertest()
 
-        '   Call exports()
+
         Call testCDFBIOM()
 
         '2016-10-31T17:30:49.768484
@@ -114,11 +117,18 @@ Module Module1
     End Sub
 
     Sub exports()
-        Dim data As New List(Of Json(Of Double))
+        Dim matrix As New Dictionary(Of String, [Property](Of Double))
 
         For Each biom As String In ls - l - r - "*.biom" <= "W:\HMP_biom\downloads.hmpdacc.org\ihmp\ptb\genome\microbiome\16s\analysis\hmqcp"
-            Dim json = SMRUCC.genomics.foundation.BIOM.v21.ReadFile(biom)
-            Call data.Add(json)
+            Dim json As Json(Of Double) = SMRUCC.genomics.foundation.BIOM.v21.ReadFile(biom)
+
+            For Each otu In json.PopulateRows
+                If Not matrix.ContainsKey(otu.Name) Then
+                    matrix.Add(otu.Name, New [Property](Of Double))
+                End If
+
+                matrix(otu.Name) += otu.Value
+            Next
         Next
 
         Pause()
