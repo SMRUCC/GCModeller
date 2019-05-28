@@ -17,14 +17,7 @@ Public Module Deserializer
         ElseIf TypeOf json Is JsonObject Then
             Return DirectCast(json, JsonObject).createObject(schema)
         ElseIf TypeOf json Is JsonValue Then
-            If schema Is GetType(String) Then
-                Return DirectCast(json, JsonValue).GetStripString
-            ElseIf schema Is GetType(Date) Then
-                Return Casting.CastDate(DirectCast(json, JsonValue).GetStripString)
-            Else
-                Dim literal As String = DirectCast(json, JsonValue).Value
-                Return Scripting.CTypeDynamic(literal, schema)
-            End If
+            Return DirectCast(json, JsonValue).Literal(schema)
         Else
             Throw New InvalidCastException
         End If
