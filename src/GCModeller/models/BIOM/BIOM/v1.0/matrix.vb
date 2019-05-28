@@ -1,5 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.MIME.application
+Imports Microsoft.VisualBasic.MIME.application.json.Parser
+Imports Microsoft.VisualBasic.MIME.application.json
 
 Namespace v10
 
@@ -9,8 +12,9 @@ Namespace v10
     Public Class IntegerMatrix : Inherits Json(Of Integer)
 
         Public Overloads Shared Function LoadFile(path$) As IntegerMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As IntegerMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of IntegerMatrix)
+            Dim jsonText$ = path.ReadAllText
+            Dim jsonObj As JsonElement = json.ParseJson(jsonText)
+            Dim biom As IntegerMatrix = jsonObj.CreateObject(GetType(IntegerMatrix))
             Return biom
         End Function
     End Class
@@ -21,8 +25,9 @@ Namespace v10
     Public Class FloatMatrix : Inherits Json(Of Double)
 
         Public Overloads Shared Function LoadFile(path$) As FloatMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As FloatMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of FloatMatrix)
+            Dim jsonText$ = path.ReadAllText
+            Dim jsonObj As JsonElement = json.ParseJson(jsonText)
+            Dim biom As FloatMatrix = jsonObj.CreateObject(GetType(FloatMatrix))
             Return biom
         End Function
     End Class
@@ -33,8 +38,9 @@ Namespace v10
     Public Class StringMatrix : Inherits Json(Of String)
 
         Public Overloads Shared Function LoadFile(path$) As StringMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As StringMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of StringMatrix)
+            Dim jsonText$ = path.ReadAllText
+            Dim jsonObj As JsonElement = json.ParseJson(jsonText)
+            Dim biom As StringMatrix = jsonObj.CreateObject(GetType(StringMatrix))
             Return biom
         End Function
     End Class
