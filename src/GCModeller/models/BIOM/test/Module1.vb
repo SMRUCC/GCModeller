@@ -69,7 +69,7 @@ Module Module1
         Dim ddd = Regex.Match("2016-10-31T17:30:49.768484", JsonLongTime).Value
         Dim json = Date.Parse(ddd).GetJson
 
-        Dim biom = SMRUCC.genomics.foundation.BIOM.v10.Json(Of Double).LoadFile("C:\Users\xieguigang\Desktop\predictions_ko.L3.biom.json")
+        Dim biom = SMRUCC.genomics.foundation.BIOM.v10.BIOMDataSet(Of Double).LoadFile("C:\Users\xieguigang\Desktop\predictions_ko.L3.biom.json")
 
         Call biom.GetJson(indent:=True).SaveTo("C:\Users\xieguigang\Desktop\predictions_ko.L3.biom.formatted.json")
 
@@ -120,7 +120,7 @@ Module Module1
         Dim matrix As New Dictionary(Of String, [Property](Of Double))
 
         For Each biom As String In ls - l - r - "*.biom" <= "W:\HMP_biom\downloads.hmpdacc.org\ihmp\ptb\genome\microbiome\16s\analysis\hmqcp"
-            Dim json As Json(Of Double) = SMRUCC.genomics.foundation.BIOM.v21.ReadFile(biom)
+            Dim json As BIOMDataSet(Of Double) = SMRUCC.genomics.foundation.BIOM.v21.ReadFile(biom)
 
             For Each otu In json.PopulateRows
                 If Not matrix.ContainsKey(otu.Name) Then

@@ -12,7 +12,7 @@ Namespace v10
     ''' <summary>
     ''' BIOM json with integer matrix data
     ''' </summary>
-    Public Class IntegerMatrix : Inherits Json(Of Integer)
+    Public Class IntegerMatrix : Inherits BIOMDataSet(Of Integer)
 
         Public Overloads Shared Function LoadFile(path$) As IntegerMatrix
             Dim jsonText$ = path.ReadAllText
@@ -25,7 +25,7 @@ Namespace v10
     ''' <summary>
     ''' BIOM json with double matrix data
     ''' </summary>
-    Public Class FloatMatrix : Inherits Json(Of Double)
+    Public Class FloatMatrix : Inherits BIOMDataSet(Of Double)
 
         Public Overloads Shared Function LoadFile(path$) As FloatMatrix
             Dim jsonText$ = path.ReadAllText
@@ -38,7 +38,7 @@ Namespace v10
     ''' <summary>
     ''' BIOM json with string matrix data
     ''' </summary>
-    Public Class StringMatrix : Inherits Json(Of String)
+    Public Class StringMatrix : Inherits BIOMDataSet(Of String)
 
         Public Overloads Shared Function LoadFile(path$) As StringMatrix
             Dim jsonText$ = path.ReadAllText
@@ -62,7 +62,7 @@ Namespace v10
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function RequiredConvertToDenseMatrix(Of T As {IComparable(Of T), IEquatable(Of T), IComparable})(table As Json(Of T)) As Boolean
+        Public Function RequiredConvertToDenseMatrix(Of T As {IComparable(Of T), IEquatable(Of T), IComparable})(table As BIOMDataSet(Of T)) As Boolean
             Return Strings.LCase(table.matrix_type) = matrix_type.sparse
         End Function
 

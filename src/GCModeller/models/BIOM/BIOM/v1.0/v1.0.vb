@@ -59,7 +59,7 @@ Namespace v10
     ''' JSON is a widely supported format with native parsers available within many programming 
     ''' languages.
     ''' </summary>
-    Public Class Json(Of T As {IComparable(Of T), IEquatable(Of T), IComparable})
+    Public Class BIOMDataSet(Of T As {IComparable(Of T), IEquatable(Of T), IComparable})
 
         ''' <summary>
         ''' ``&lt;string or null>`` a field that can be used to id a table (or null)
@@ -205,9 +205,9 @@ Namespace v10
             Return GetJson
         End Function
 
-        Public Shared Function LoadFile(path As String) As Json(Of T)
+        Public Shared Function LoadFile(path As String) As BIOMDataSet(Of T)
             Dim json$ = path.ReadAllText
-            Dim biom As Json(Of T) = JsonContract.EnsureDate(json, "date").LoadJSON(Of Json(Of T))
+            Dim biom As BIOMDataSet(Of T) = JsonContract.EnsureDate(json, "date").LoadJSON(Of BIOMDataSet(Of T))
             Return biom
         End Function
     End Class

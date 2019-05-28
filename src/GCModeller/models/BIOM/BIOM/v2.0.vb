@@ -60,10 +60,10 @@ Namespace v20
         ''' <remarks>
         ''' All of the integer/long value that read from hdf5 file will be convert to double type.
         ''' </remarks>
-        Public Function ReadFile(biom As String) As v10.Json(Of Double)
+        Public Function ReadFile(biom As String) As v10.BIOMDataSet(Of Double)
             Dim hdf5 As New HDF5File(biom)
             Dim attributes = hdf5.attributes.AsCharacter.AsVBIdentifier
-            Dim data As New v10.Json(Of Double)
+            Dim data As New v10.BIOMDataSet(Of Double)
             Dim version As Integer()
 
             With attributes

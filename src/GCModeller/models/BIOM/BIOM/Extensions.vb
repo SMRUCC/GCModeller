@@ -14,8 +14,8 @@ Imports SMRUCC.genomics.foundation.BIOM.v10
     ''' 当这个参数为真的时候，所返回的json对象之中的矩阵数据都会被强制的转换为全矩阵
     ''' </param>
     ''' <returns></returns>
-    Public Function ReadAuto(path As String, Optional denseMatrix As Boolean = False) As v10.Json(Of Double)
-        Dim BIOM As v10.Json(Of Double)
+    Public Function ReadAuto(path As String, Optional denseMatrix As Boolean = False) As v10.BIOMDataSet(Of Double)
+        Dim BIOM As v10.BIOMDataSet(Of Double)
 
         If path.ExtensionSuffix.TextEquals("json") Then
             BIOM = v10.FloatMatrix.LoadFile(path)
