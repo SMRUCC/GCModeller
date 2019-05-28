@@ -52,6 +52,7 @@
 
 Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.Text
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
 Namespace HDF5.struct
@@ -217,7 +218,17 @@ Namespace HDF5.struct
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"#{index} > ({objectSize} bytes) {Encoding.ASCII.GetString(data)}"
+            Dim debugView$
+
+            If data.All(Function(b) Not ASCII.IsNonPrinting(b)) Then
+                debugView = Encoding.ASCII.GetString(data)
+            Else
+                debugView = data _
+                    .Select(Function(b) b.ToString("X2")) _
+                    .JoinBy("-")
+            End If
+
+            Return $"#{index} > ({objectSize} bytes) {debugView}"
         End Function
     End Class
 End Namespace
