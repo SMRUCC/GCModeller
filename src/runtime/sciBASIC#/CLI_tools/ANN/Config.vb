@@ -78,7 +78,7 @@ Public Class Config
     ''' ``a,b,c``使用逗号分隔的隐藏层每一层网络的节点数量的列表
     ''' </summary>
     ''' <returns></returns>
-    <DataFrameColumn> Public Property hidden_size As String
+    <DataFrameColumn> Public Property hidden_size As String = "100,100,100"
 
     <DataFrameColumn> Public Property selective As String = "no"
 
