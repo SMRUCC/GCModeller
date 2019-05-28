@@ -84,8 +84,8 @@ Namespace v10.components
         Public ReadOnly Property hasMetaInfo As Boolean
             Get
                 Return Not metadata Is Nothing AndAlso
-                    Not metadata.KEGG_Pathways.IsNullOrEmpty AndAlso
-                    Not metadata.taxonomy.IsNullOrEmpty
+                    (Not metadata.KEGG_Pathways.IsNullOrEmpty OrElse
+                     Not metadata.taxonomy.IsNullOrEmpty)
             End Get
         End Property
 

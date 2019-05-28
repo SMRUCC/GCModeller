@@ -88,7 +88,7 @@ Namespace ComponentModel.DataSourceModel
 
         Public Shared Operator +(base As [Property](Of T), append As [Property](Of T)) As [Property](Of T)
             For Each item As NamedValue(Of T) In append.src
-                Call base.Add(item.Name, item.Value)
+                base(item.Name) = item.Value
             Next
 
             Return base
