@@ -44,9 +44,13 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data.Repository.NIH.HMP
+Imports SMRUCC.genomics.foundation
+Imports SMRUCC.genomics.foundation.BIOM.v10
 
 Partial Module CLI
 
@@ -91,5 +95,32 @@ Partial Module CLI
         End Using
 
         Return 0
+    End Function
+
+    <ExportAPI("/hmp.otu_table")>
+    <Usage("/hmp.otu_table /in <download.directory> [/out <out.csv>]")>
+    <Description("Export otu table from hmp biom files.")>
+    <Argument("/in", False, CLITypes.File,
+              Description:="A directory contains the otu BIOM files which is download by ``/handle.hmp.manifest`` command.")>
+    Public Function ExportsOTUTable(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimDIR}.otu_table.csv"
+        Dim matrix As New Dictionary(Of String, DataSet)
+
+        For Each biomHdf5 As String In ls - l - r - "*.biom" <= [in]
+            Dim json As BIOMDataSet(Of Double) = BIOM.ReadAuto(biomHdf5, denseMatrix:=True)
+
+            For Each otu In json.PopulateRows
+                If Not matrix.ContainsKey(otu.Name) Then
+                    matrix.Add(otu.Name, New DataSet With {.ID = otu.Name})
+                End If
+
+                matrix(otu.Name).Append(otu)
+            Next
+        Next
+
+        Return matrix.Values _
+            .SaveTo(out) _
+            .CLICode
     End Function
 End Module

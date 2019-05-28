@@ -81,6 +81,14 @@ Namespace v10.components
         Public Property id As String Implements IKeyedEntity(Of String).Key
         Public Property metadata As meta
 
+        Public ReadOnly Property hasMetaInfo As Boolean
+            Get
+                Return Not metadata Is Nothing AndAlso
+                    (Not metadata.KEGG_Pathways.IsNullOrEmpty OrElse
+                     Not metadata.taxonomy.IsNullOrEmpty)
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return id
         End Function

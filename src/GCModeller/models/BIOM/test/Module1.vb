@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.foundation.BIOM.v10
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.Parser
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Module Module1
 
@@ -56,9 +57,11 @@ Module Module1
 
     Sub Main()
 
+        Call exports()
+
         Call loadertest()
 
-        '   Call exports()
+
         Call testCDFBIOM()
 
         '2016-10-31T17:30:49.768484
@@ -66,7 +69,7 @@ Module Module1
         Dim ddd = Regex.Match("2016-10-31T17:30:49.768484", JsonLongTime).Value
         Dim json = Date.Parse(ddd).GetJson
 
-        Dim biom = SMRUCC.genomics.foundation.BIOM.v10.Json(Of Double).LoadFile("C:\Users\xieguigang\Desktop\predictions_ko.L3.biom.json")
+        Dim biom = SMRUCC.genomics.foundation.BIOM.v10.BIOMDataSet(Of Double).LoadFile("C:\Users\xieguigang\Desktop\predictions_ko.L3.biom.json")
 
         Call biom.GetJson(indent:=True).SaveTo("C:\Users\xieguigang\Desktop\predictions_ko.L3.biom.formatted.json")
 
@@ -76,14 +79,25 @@ Module Module1
     Sub loadertest()
 
 
-        Dim json As JsonElement = Microsoft.VisualBasic.MIME.application.json.ParseJsonFile("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
+        ' Dim json As JsonElement = Microsoft.VisualBasic.MIME.application.json.ParseJsonFile("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
 
-        Dim modify = json.BuildJsonString
+        'Dim modify = json.BuildJsonString
 
-        Dim a = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
-        Dim c = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_sparse_OTU_table.json")
-        Dim d = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_dense_OTU_table.json")
-        Dim e = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_sparse_OTU_table.json")
+        Dim aaaaa = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_dense_OTU_table.json")
+        Dim ccccc = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Minimal_sparse_OTU_table.json")
+        Dim ddddd = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_dense_OTU_table.json")
+        Dim eeeee = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_sparse_OTU_table.json")
+
+
+        Dim needsConversion = eeeee.RequiredConvertToDenseMatrix
+        Dim matrix = eeeee.data.ToDenseMatrix(eeeee.shape)
+
+        needsConversion = ddddd.RequiredConvertToDenseMatrix
+        matrix = ddddd.data.ToSparseMatrix(Function(x) x = 0.0)
+
+
+        Dim [default] = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_sparse_OTU_table.json")
+        Dim dense = SMRUCC.genomics.foundation.BIOM.ReadAuto("D:\GCModeller\src\GCModeller\models\BIOM\data\Rich_sparse_OTU_table.json", denseMatrix:=True)
 
         Pause()
     End Sub
@@ -103,11 +117,18 @@ Module Module1
     End Sub
 
     Sub exports()
-        Dim data As New List(Of Json(Of Double))
+        Dim matrix As New Dictionary(Of String, [Property](Of Double))
 
         For Each biom As String In ls - l - r - "*.biom" <= "W:\HMP_biom\downloads.hmpdacc.org\ihmp\ptb\genome\microbiome\16s\analysis\hmqcp"
-            Dim json = SMRUCC.genomics.foundation.BIOM.v21.ReadFile(biom)
-            Call data.Add(json)
+            Dim json As BIOMDataSet(Of Double) = SMRUCC.genomics.foundation.BIOM.v21.ReadFile(biom)
+
+            For Each otu In json.PopulateRows
+                If Not matrix.ContainsKey(otu.Name) Then
+                    matrix.Add(otu.Name, New [Property](Of Double))
+                End If
+
+                matrix(otu.Name) += otu.Value
+            Next
         Next
 
         Pause()
