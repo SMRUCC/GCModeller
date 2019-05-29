@@ -24,12 +24,14 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.Megan.BIOM")>
-    <Usage("/Export.Megan.BIOM /in <relative.table.csv> [/rebuildBIOM.tax /out <out.biom.json>]")>
+    <Usage("/Export.Megan.BIOM /in <relative.table.csv> [/rebuildBIOM.tax /dense /out <out.biom.json>]")>
     <Description("Export v1.0 biom json file for data visualize in Megan program.")>
     <Argument("/in", False, AcceptTypes:={GetType(OTUData), GetType(DataSet)},
               Extensions:="*.csv",
               Description:="If the type of this input file is a dataset, then row ID should 
               be the taxonomy string, and all of the column should be the OTU abundance data.")>
+    <Argument("/dense", True, CLITypes.Boolean,
+              Description:="Dense matrxi type in biom json output file?")>
     Public Function ExportToMegan(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom.json")
@@ -51,7 +53,7 @@ Partial Module CLI
             data = [in].LoadCsv(Of OTUData)()
         End If
 
-        Return data.EXPORT(alreadyBIOMTax:=Not rebuildBIOM) _
+        Return data.EXPORT(alreadyBIOMTax:=Not rebuildBIOM, denseMatrix:=args("/dense")) _
             .ToJSON _
             .SaveTo(out) _
             .CLICode

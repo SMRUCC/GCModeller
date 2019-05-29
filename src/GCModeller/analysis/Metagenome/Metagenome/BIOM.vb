@@ -118,7 +118,7 @@ Public Module BIOM
             .type = "OTU table",
             .generated_by = "GCModeller",
             .date = Now,
-            .matrix_type = "sparse",
+            .matrix_type = If(denseMatrix, matrix_type.dense, matrix_type.sparse),
             .matrix_element_type = "int",
             .shape = {array.Length, 4},
             .data = data,
