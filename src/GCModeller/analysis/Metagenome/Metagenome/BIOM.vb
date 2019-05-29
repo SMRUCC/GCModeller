@@ -130,7 +130,7 @@ Public Module BIOM
             .date = Now,
             .matrix_type = If(denseMatrix, matrix_type.dense, matrix_type.sparse),
             .matrix_element_type = "int",
-            .shape = {array.Length, data(Scan0).Length},
+            .shape = data.SizeOf.ToArray,
             .data = data,
             .rows = rows,
             .columns = names,
