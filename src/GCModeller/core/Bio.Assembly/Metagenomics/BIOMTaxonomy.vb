@@ -136,17 +136,6 @@ Namespace Metagenomics
             Return New Taxonomy(lineage)
         End Function
 
-        ReadOnly allPrefix As Index(Of String) = BIOMPrefix.AsList + BIOMPrefixAlt.Objects
-
-        ''' <summary>
-        ''' 将物种名称字符串归一化为BIOM格式的字符串
-        ''' </summary>
-        ''' <param name="taxonomy"></param>
-        ''' <returns></returns>
-        Public Function NormalizeTaxonomyString(taxonomy As String) As String
-
-        End Function
-
 #Region "Parsing BIOM style taxonomy string"
 
         ''' <summary>
@@ -191,14 +180,22 @@ Namespace Metagenomics
             For Each level As NamedValue(Of String) In catalogs
                 Dim name$ = level.Value
 
-                Select Case level.Name
-                    Case "k" : Call out.Add(NcbiTaxonomyTree.superkingdom, name)
-                    Case "p" : Call out.Add(NcbiTaxonomyTree.phylum, name)
-                    Case "c" : Call out.Add(NcbiTaxonomyTree.class, name)
-                    Case "o" : Call out.Add(NcbiTaxonomyTree.order, name)
-                    Case "f" : Call out.Add(NcbiTaxonomyTree.family, name)
-                    Case "g" : Call out.Add(NcbiTaxonomyTree.genus, name)
-                    Case "s" : Call out.Add(NcbiTaxonomyTree.species, name)
+                ' "superkingdom__", "phylum__", "class__", "order__", "family__", "genus__", "species__"
+                Select Case LCase(level.Name)
+                    Case "k", "superkingdom"
+                        Call out.Add(NcbiTaxonomyTree.superkingdom, name)
+                    Case "p", "phylum"
+                        Call out.Add(NcbiTaxonomyTree.phylum, name)
+                    Case "c", "class"
+                        Call out.Add(NcbiTaxonomyTree.class, name)
+                    Case "o", "order"
+                        Call out.Add(NcbiTaxonomyTree.order, name)
+                    Case "f", "family"
+                        Call out.Add(NcbiTaxonomyTree.family, name)
+                    Case "g", "genus"
+                        Call out.Add(NcbiTaxonomyTree.genus, name)
+                    Case "s", "species"
+                        Call out.Add(NcbiTaxonomyTree.species, name)
                     Case Else
                 End Select
             Next

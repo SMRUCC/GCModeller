@@ -45,6 +45,7 @@
 
 Imports System.Data.Linq.Mapping
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Metagenomics
@@ -71,15 +72,20 @@ Namespace Metagenomics
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Copy data
+        ''' </summary>
+        ''' <param name="data"></param>
         Sub New(data As OTUData)
             With Me
                 .OTU = data.OTU
+                .taxonomy = data.taxonomy
                 .data = New Dictionary(Of String, String)(data.data)
             End With
         End Sub
 
         Public Overrides Function ToString() As String
-            Return OTU & " --> " & data.GetJson
+            Return $"{taxonomy Or OTU.AsDefault}: {data.GetJson(indent:=True)}"
         End Function
     End Class
 End Namespace
