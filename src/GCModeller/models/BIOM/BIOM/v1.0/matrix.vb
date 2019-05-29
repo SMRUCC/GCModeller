@@ -1,16 +1,23 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.MIME.application
+Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.MIME.application.json.Parser
 
 Namespace v10
+
+    ' 20190528 The json deserializer of json contract module 
+    ' have bugs On parse Date time string using new json 
+    ' deserilizer for void such problem
 
     ''' <summary>
     ''' BIOM json with integer matrix data
     ''' </summary>
-    Public Class IntegerMatrix : Inherits Json(Of Integer)
+    Public Class IntegerMatrix : Inherits BIOMDataSet(Of Integer)
 
         Public Overloads Shared Function LoadFile(path$) As IntegerMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As IntegerMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of IntegerMatrix)
+            Dim jsonText$ = path.ReadAllText
+            Dim jsonObj As JsonElement = json.ParseJson(jsonText)
+            Dim biom As IntegerMatrix = jsonObj.CreateObject(GetType(IntegerMatrix))
             Return biom
         End Function
     End Class
@@ -18,11 +25,12 @@ Namespace v10
     ''' <summary>
     ''' BIOM json with double matrix data
     ''' </summary>
-    Public Class FloatMatrix : Inherits Json(Of Double)
+    Public Class FloatMatrix : Inherits BIOMDataSet(Of Double)
 
         Public Overloads Shared Function LoadFile(path$) As FloatMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As FloatMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of FloatMatrix)
+            Dim jsonText$ = path.ReadAllText
+            Dim jsonObj As JsonElement = json.ParseJson(jsonText)
+            Dim biom As FloatMatrix = jsonObj.CreateObject(GetType(FloatMatrix))
             Return biom
         End Function
     End Class
@@ -30,11 +38,12 @@ Namespace v10
     ''' <summary>
     ''' BIOM json with string matrix data
     ''' </summary>
-    Public Class StringMatrix : Inherits Json(Of String)
+    Public Class StringMatrix : Inherits BIOMDataSet(Of String)
 
         Public Overloads Shared Function LoadFile(path$) As StringMatrix
-            Dim json$ = path.ReadAllText
-            Dim biom As StringMatrix = JsonContract.EnsureDate(json, "date").LoadJSON(Of StringMatrix)
+            Dim jsonText$ = path.ReadAllText
+            Dim jsonObj As JsonElement = json.ParseJson(jsonText)
+            Dim biom As StringMatrix = jsonObj.CreateObject(GetType(StringMatrix))
             Return biom
         End Function
     End Class
@@ -53,7 +62,7 @@ Namespace v10
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function RequiredConvertToDenseMatrix(Of T As {IComparable(Of T), IEquatable(Of T), IComparable})(table As Json(Of T)) As Boolean
+        Public Function RequiredConvertToDenseMatrix(Of T As {IComparable(Of T), IEquatable(Of T), IComparable})(table As BIOMDataSet(Of T)) As Boolean
             Return Strings.LCase(table.matrix_type) = matrix_type.sparse
         End Function
 
