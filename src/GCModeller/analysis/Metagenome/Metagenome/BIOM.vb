@@ -160,7 +160,7 @@ Public Module BIOM
             For Each cpi In x.value.composition
                 ix = x.i
                 iy = nameIndex(cpi.Key)
-                composition = CInt(n * Val(cpi.Value) / 100) + 1
+                composition = CInt(n * Val(cpi.Value) / 100)
 
                 Yield New Integer() {ix, iy, composition}
             Next
@@ -174,7 +174,7 @@ Public Module BIOM
         For Each row As gast.Names In array
             Yield names _
                 .Select(Function(name)
-                            Return CInt(row.numOfSeqs * Val(row.composition.TryGetValue(name, [default]:="0")) / 100) + 1
+                            Return CInt(row.numOfSeqs * Val(row.composition.TryGetValue(name, [default]:="0")) / 100)
                         End Function) _
                 .ToArray
         Next
