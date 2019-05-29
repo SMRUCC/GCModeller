@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.ComponentModel
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Text
@@ -21,12 +22,13 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.Megan.BIOM")>
-    <Usage("/Export.Megan.BIOM /in <relative.table.csv> [/rebuildBIOM.tax /out <out.json.biom>]")>
+    <Usage("/Export.Megan.BIOM /in <relative.table.csv> [/rebuildBIOM.tax /out <out.biom.json>]")>
+    <Description("Export v1.0 biom json file for data visualize in Megan program.")>
     <Argument("/in", False, AcceptTypes:={GetType(OTUData)})>
     Public Function ExportToMegan(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom")
-        Dim rebuildBIOM As Boolean = args.GetBoolean("/rebuildBIOM.tax")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom.json")
+        Dim rebuildBIOM As Boolean = args("/rebuildBIOM.tax")
         Dim data As OTUData() = [in].LoadCsv(Of OTUData)()
         Dim result = data.EXPORT(alreadyBIOMTax:=Not rebuildBIOM)
 

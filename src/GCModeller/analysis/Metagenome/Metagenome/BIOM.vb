@@ -66,11 +66,11 @@ Public Module BIOM
     Public Function [Imports](source As IEnumerable(Of Names), Optional takes% = 100, Optional cut% = 50) As IntegerMatrix
         Dim array As Names() = LinqAPI.Exec(Of Names) _
  _
-        () <= From x As Names
-              In source
-              Where x.NumOfSeqs >= cut
-              Select x
-              Order By x.NumOfSeqs Descending
+            () <= From x As Names
+                  In source
+                  Where x.NumOfSeqs >= cut
+                  Select x
+                  Order By x.NumOfSeqs Descending
 
         array = array.Take(takes).ToArray
 
@@ -90,7 +90,9 @@ Public Module BIOM
  _
             () <= From sid As String
                   In array _
-                      .Where(Function(x) x.Composition IsNot Nothing) _
+                      .Where(Function(x)
+                                 Return Not x.Composition Is Nothing
+                             End Function) _
                       .Select(Function(x) x.Composition.Keys) _
                       .IteratesALL _
                       .Distinct
@@ -99,10 +101,11 @@ Public Module BIOM
                   }
 
         Dim data As New List(Of Integer())
-        Dim nameIndex = names _
-            .SeqIterator _
-            .ToDictionary(Function(x) x.value.id,
-                          Function(x) x.i)
+        Dim nameIndex As Index(Of String) = names _
+            .Select(Function(col) col.id) _
+            .ToArray
+        Dim ix, iy As Integer
+        Dim composition%
 
         For Each x As SeqValue(Of Names) In array _
             .Where(Function(xx)
@@ -113,7 +116,10 @@ Public Module BIOM
             Dim n% = x.value.NumOfSeqs
 
             For Each cpi In x.value.Composition
-                data += {x.i, nameIndex(cpi.Key), CInt(n * Val(cpi.Value) / 100) + 1}
+                ix = x.i
+                iy = nameIndex(cpi.Key)
+                composition = CInt(n * Val(cpi.Value) / 100) + 1
+                data += {ix, iy, composition}
             Next
         Next
 
@@ -179,6 +185,14 @@ Public Module BIOM
         Return s
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="table"></param>
+    ''' <param name="alreadyBIOMTax">
+    ''' 如果物种数据么有BIOM的等级划分的前缀的话，会需要进行重建，这个参数的默认值是总是重建BIOM的分类等级前缀字符串
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
     Public Function EXPORT(table As IEnumerable(Of OTUData), Optional alreadyBIOMTax As Boolean = False) As IntegerMatrix
         Dim getTax As Func(Of String, String)
