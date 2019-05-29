@@ -224,7 +224,7 @@ Public Module BIOM
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function EXPORT(table As IEnumerable(Of OTUData), Optional alreadyBIOMTax As Boolean = False) As IntegerMatrix
+    Public Function EXPORT(table As IEnumerable(Of OTUData), Optional alreadyBIOMTax As Boolean = False, Optional denseMatrix As Boolean = True) As IntegerMatrix
         Dim getTax As Func(Of String, String)
 
         If alreadyBIOMTax Then
@@ -250,6 +250,6 @@ Public Module BIOM
                       .unique = x.OTU
                   }
 
-        Return array.Imports(array.Length + 10, 0)
+        Return array.Imports(array.Length + 10, 0, denseMatrix:=denseMatrix)
     End Function
 End Module
