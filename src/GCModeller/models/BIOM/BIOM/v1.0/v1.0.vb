@@ -202,7 +202,16 @@ Namespace v10
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToJSON() As String
-            Return JsonContract.GetObjectJson(GetType(BIOMDataSet(Of T)), Me, indent:=True)
+            Return JsonContract.GetObjectJson(
+                type:=GetType(BIOMDataSet(Of T)),
+                obj:=Me,
+                indent:=True,
+                knownTypes:={
+                    GetType(IntegerMatrix),
+                    GetType(FloatMatrix),
+                    GetType(StringMatrix)
+                }
+            )
         End Function
 
         Public Shared Function LoadFile(path As String) As BIOMDataSet(Of T)
