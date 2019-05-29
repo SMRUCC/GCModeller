@@ -25,7 +25,10 @@ Partial Module CLI
     <ExportAPI("/Export.Megan.BIOM")>
     <Usage("/Export.Megan.BIOM /in <relative.table.csv> [/rebuildBIOM.tax /out <out.biom.json>]")>
     <Description("Export v1.0 biom json file for data visualize in Megan program.")>
-    <Argument("/in", False, AcceptTypes:={GetType(OTUData), GetType(DataSet)})>
+    <Argument("/in", False, AcceptTypes:={GetType(OTUData), GetType(DataSet)},
+              Extensions:="*.csv",
+              Description:="If the type of this input file is a dataset, then row ID should 
+              be the taxonomy string, and all of the column should be the OTU abundance data.")>
     Public Function ExportToMegan(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom.json")
