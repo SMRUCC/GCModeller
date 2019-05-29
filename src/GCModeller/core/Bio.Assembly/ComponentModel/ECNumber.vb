@@ -1,55 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::24578e19a112e44c35d57b05c4f368b6, Bio.Assembly\ComponentModel\ECNumber.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ECNumber
-    ' 
-    ' 
-    '         Enum ClassTypes
-    ' 
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Properties: SerialNumber, SubCategory, SubType, Type
-    ' 
-    '     Function: ToString, ValidateValue, ValueParser
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ECNumber
+' 
+' 
+'         Enum ClassTypes
+' 
+' 
+' 
+' 
+'  
+' 
+'     Properties: SerialNumber, SubCategory, SubType, Type
+' 
+'     Function: ToString, ValidateValue, ValueParser
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 
@@ -121,28 +122,36 @@ Namespace ComponentModel
         ''' <remarks></remarks>
         <XmlAttribute> Public Property SerialNumber As Integer
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Widening Operator CType(s As String) As ECNumber
             Return ValueParser(s)
         End Operator
 
+        ''' <summary>
+        ''' 解析一个EC编号字符串，如果出现格式错误，则返回空值
+        ''' </summary>
+        ''' <param name="expr"></param>
+        ''' <returns></returns>
         Public Shared Function ValueParser(expr As String) As ECNumber
-            Dim Regex As New Regex("/d[.]/d+[.]/d+[.]/d+")
-            Dim m As Match = Regex.Match(expr)
+            Dim r As New Regex("/d[.]/d+[.]/d+[.]/d+")
+            Dim m As Match = r.Match(expr)
 
-            If Not m.Success Then Return Nothing ' 格式错误，没有找到相应的编号格式字符串
+            ' 格式错误，没有找到相应的编号格式字符串
+            If Not m.Success Then Return Nothing
 
-            Dim Tokens As String() = m.Value.Split(CChar("."))
-            Dim _ec As New ECNumber With {
-                .Type = CInt(Val(Tokens(0))),
-                .SubType = CInt(Val(Tokens(1))),
-                .SubCategory = CInt(Val(Tokens(2))),
-                .SerialNumber = CInt(Val(Tokens(3)))
+            Dim tokens As String() = m.Value.Split(CChar("."))
+            Dim ecNum As New ECNumber With {
+                .Type = CInt(Val(tokens(0))),
+                .SubType = CInt(Val(tokens(1))),
+                .SubCategory = CInt(Val(tokens(2))),
+                .SerialNumber = CInt(Val(tokens(3)))
             }
 
-            If _ec.Type > 6 OrElse _ec.Type < 0 Then
-                Return Nothing  '格式错误
+            If ecNum.Type > 6 OrElse ecNum.Type < 0 Then
+                ' 格式错误
+                Return Nothing
             Else
-                Return _ec
+                Return ecNum
             End If
         End Function
 
@@ -162,7 +171,7 @@ Namespace ComponentModel
         ''' 1.2.-.-
         ''' ```
         ''' </summary>
-        Public Const RegexEC$ = "\d+(\.((\d+)|[-]))+"
+        Public Const PatternECNumber$ = "\d+(\.((\d+)|[-]))+"
 
         ''' <summary>
         ''' 验证所输入的字符串的格式是否正确
@@ -170,7 +179,7 @@ Namespace ComponentModel
         ''' <param name="s$"></param>
         ''' <returns></returns>
         Public Shared Function ValidateValue(s$) As Boolean
-            Return s.MatchPattern(regex:=RegexEC)
+            Return s.MatchPattern(regex:=PatternECNumber)
         End Function
     End Class
 End Namespace

@@ -174,18 +174,6 @@ Partial Module CLI
         Return gast_tools.ExportNt([in], gi2taxid, taxonomy, out)
     End Function
 
-    <ExportAPI("/gast.stat.names",
-               Usage:="/gast.stat.names /in <*.names> /gast <gast.out> [/out <out.Csv>]")>
-    Public Function StateNames(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".stat.Csv")
-        Dim gastOut As String = args("/gast")
-        Dim result As Names() = ParseNames([in]).FillTaxonomy(gastOut).ToArray
-        Call BIOM.Imports(result, 1000).GetJson.SaveTo(out.TrimSuffix & ".Megan.biom")
-        Call MeganImports.Out(result).Save(out.TrimSuffix & ".Megan.Csv", Encodings.ASCII)
-        Return result.SaveTo(out).CLICode
-    End Function
-
     <ExportAPI("/Cluster.OTUs", Usage:="/Cluster.OTUs /in <contigs.fasta> [/similarity <default:97> /out <outDIR>]")>
     Public Function ClusterOTU(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -212,18 +200,6 @@ Partial Module CLI
 
             Return table.SaveTo(out & "/OTUs.csv").CLICode
         End Using
-    End Function
-
-    <ExportAPI("/Export.Megan.BIOM",
-               Usage:="/Export.Megan.BIOM /in <relative.table.csv> [/rebuildBIOM.tax /out <out.json.biom>]")>
-    <Argument("/in", False, AcceptTypes:={GetType(OTUData)})>
-    Public Function ExportToMegan(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom")
-        Dim rebuildBIOM As Boolean = args.GetBoolean("/rebuildBIOM.tax")
-        Dim data As OTUData() = [in].LoadCsv(Of OTUData)()
-        Dim result = data.EXPORT(alreadyBIOMTax:=Not rebuildBIOM)
-        Return result.GetJson.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("/Rank.Statics",

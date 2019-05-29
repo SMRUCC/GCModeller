@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::c89d09652c00324f0ba015a265fddf9a, Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BIOMTaxonomy
-    ' 
-    '         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
-    '         Delegate Function
-    ' 
-    '             Function: AsTaxonomy, FillLineageEmpty, TaxonomyFromString, TaxonomyParser, TaxonomyParserAlt
-    '                       TaxonomyString
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BIOMTaxonomy
+' 
+'         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
+'         Delegate Function
+' 
+'             Function: AsTaxonomy, FillLineageEmpty, TaxonomyFromString, TaxonomyParser, TaxonomyParserAlt
+'                       TaxonomyString
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -81,11 +81,32 @@ Namespace Metagenomics
 
         Public Delegate Function TaxonomyLineageParser(taxonomy As String) As Dictionary(Of String, String)
 
+        Dim biomPrefixTable As New Dictionary(Of String, String)
+
+        Sub New()
+            Dim word$
+
+            For Each prefix As String In BIOMPrefix
+                word = prefix.Trim("_"c)
+
+                Call biomPrefixTable.Add(prefix, word)
+                Call biomPrefixTable.Add(word, word)
+            Next
+
+            For i As Integer = 0 To BIOMPrefix.Length - 1
+                word = BIOMPrefix(i).Trim("_"c)
+
+                Call biomPrefixTable.Add(BIOMPrefixAlt(i), word)
+                Call biomPrefixTable.Add(BIOMPrefixAlt(i).Trim("_"c), word)
+            Next
+        End Sub
+
         ''' <summary>
         ''' Contact the taxonomy lineage tokens as a taxonomy lineage string uin BIOM format. 
         ''' </summary>
         ''' <param name="lineage">
         ''' Lineage tokens text array data from <see cref="Taxonomy.ToArray()"/> method.
+        ''' (这里所输入的字符串数组可以是没有BIOM前缀的，也可以是具有分类等级前缀的，这个函数会自动执行归一化)
         ''' </param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -93,7 +114,18 @@ Namespace Metagenomics
         Public Function TaxonomyString(lineage As String()) As String
             Return lineage _
                 .SeqIterator _
-                .Select(Function(l) BIOMPrefix(l.i) & l.value) _
+                .Select(Function(level)
+                            Dim node As NamedValue(Of String) = level.value.GetTagValue("__")
+                            Dim prefix As String = LCase(node.Name)
+
+                            If Not prefix.StringEmpty Then
+                                prefix = biomPrefixTable(prefix)
+                            Else
+                                prefix = BIOMPrefix(level)
+                            End If
+
+                            Return $"{prefix}__{node.Value}"
+                        End Function) _
                 .JoinBy(";")
         End Function
 
@@ -146,12 +178,29 @@ Namespace Metagenomics
         ''' greengenes数据库之中的taxonomy name会存在``[]``这类的符号，不清楚是因为什么？
         ''' 在这里替换掉
         ''' </remarks>
-        Public Function TaxonomyParser(taxonomy$) As Dictionary(Of String, String)
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TaxonomyParser(taxonomy As String) As Dictionary(Of String, String)
+            Return TaxonomyParser(taxonomy.Split(";"c))
+        End Function
+
+        ''' <summary>
+        ''' For <see cref="BIOMPrefix"/>
+        ''' </summary>
+        ''' <param name="taxonomy$"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' greengenes数据库之中的taxonomy name会存在``[]``这类的符号，不清楚是因为什么？
+        ''' 在这里替换掉
+        ''' </remarks>
+        Public Function TaxonomyParser(taxonomy As String()) As Dictionary(Of String, String)
             Dim tokens$() = taxonomy _
-                .Replace("[", "") _
-                .Replace("]", "") _
-                .StringReplace("\s+", " ") _
-                .Split(";"c) _
+                .Select(Function(name)
+                            Return name _
+                                .Replace("[", "") _
+                                .Replace("]", "") _
+                                .StringReplace("\s+", " ")
+                        End Function) _
                 .Select(AddressOf Strings.Trim) _
                 .ToArray
             Dim catalogs As NamedValue(Of String)() = tokens _
@@ -159,17 +208,25 @@ Namespace Metagenomics
                 .ToArray
             Dim out As New Dictionary(Of String, String)
 
-            For Each x As NamedValue(Of String) In catalogs
-                Dim name$ = x.Value
+            For Each level As NamedValue(Of String) In catalogs
+                Dim name$ = level.Value
 
-                Select Case x.Name
-                    Case "k" : Call out.Add(NcbiTaxonomyTree.superkingdom, name)
-                    Case "p" : Call out.Add(NcbiTaxonomyTree.phylum, name)
-                    Case "c" : Call out.Add(NcbiTaxonomyTree.class, name)
-                    Case "o" : Call out.Add(NcbiTaxonomyTree.order, name)
-                    Case "f" : Call out.Add(NcbiTaxonomyTree.family, name)
-                    Case "g" : Call out.Add(NcbiTaxonomyTree.genus, name)
-                    Case "s" : Call out.Add(NcbiTaxonomyTree.species, name)
+                ' "superkingdom__", "phylum__", "class__", "order__", "family__", "genus__", "species__"
+                Select Case LCase(level.Name)
+                    Case "k", "superkingdom"
+                        Call out.Add(NcbiTaxonomyTree.superkingdom, name)
+                    Case "p", "phylum"
+                        Call out.Add(NcbiTaxonomyTree.phylum, name)
+                    Case "c", "class"
+                        Call out.Add(NcbiTaxonomyTree.class, name)
+                    Case "o", "order"
+                        Call out.Add(NcbiTaxonomyTree.order, name)
+                    Case "f", "family"
+                        Call out.Add(NcbiTaxonomyTree.family, name)
+                    Case "g", "genus"
+                        Call out.Add(NcbiTaxonomyTree.genus, name)
+                    Case "s", "species"
+                        Call out.Add(NcbiTaxonomyTree.species, name)
                     Case Else
                 End Select
             Next

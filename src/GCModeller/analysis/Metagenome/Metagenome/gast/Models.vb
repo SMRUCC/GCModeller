@@ -59,23 +59,28 @@ Imports SMRUCC.genomics.Metagenomics
 Namespace gast
 
     ''' <summary>
-    ''' *.names
+    ''' ``*.names`` 相当于一个OTU数据 
     ''' </summary>
     Public Class Names : Implements INamedValue
         Implements ITaxonomyLineage
 
-        Public Property Unique As String Implements INamedValue.Key
+        Public Property unique As String Implements INamedValue.Key
         <Ignored>
         Public Property members As String()
-        Public Property NumOfSeqs As Integer
+        Public Property numOfSeqs As Integer
         Public Property taxonomy As String Implements ITaxonomyLineage.Taxonomy
         Public Property distance As Double
         Public Property refs As String
+
+        ''' <summary>
+        ''' 当前的这个OTU在不同的样本间的丰度构成 ``[sampleName => abundance]``
+        ''' </summary>
+        ''' <returns></returns>
         <Meta>
-        Public Property Composition As Dictionary(Of String, String)
+        Public Property composition As Dictionary(Of String, String)
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"{taxonomy}: {composition.GetJson(indent:=True)}"
         End Function
     End Class
 

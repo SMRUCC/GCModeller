@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7cdcee0f9c1010fd3239abb95a42fd09, v1.0\namesOf.vb"
+﻿#Region "Microsoft.VisualBasic::2713d81c7a1bd6735daa510054d42127, Data\BinaryData\DataStorage\HDF5\dataset\filters\ReservedFilters.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,10 @@
 
     ' Summaries:
 
-    '     Class namesOf
+    '     Enum ReservedFilters
+    ' 
+    ' 
+    '  
     ' 
     ' 
     ' 
@@ -40,26 +43,39 @@
 
 #End Region
 
-Namespace v10
+Namespace HDF5.dataset.filters
 
     ''' <summary>
-    ''' ``&lt;string>`` Table type (a controlled vocabulary) acceptable values
+    ''' The filters currently in library version 1.8.0 are listed below:
     ''' </summary>
-    Public Class namesOf
-
-        Public Const OTU_table As String = "OTU table"
-        Public Const Pathway_table As String = "Pathway table"
-        Public Const Function_table As String = "Function table"
-        Public Const Ortholog_table As String = "Ortholog table"
-        Public Const Gene_table As String = "Gene table"
-        Public Const Metabolite_table As String = "Metabolite table"
-        Public Const Taxon_table As String = "Taxon table"
-
-        Public Const MatrixTypeSparse As String = "sparse"
-        Public Const MatrixTypeDense As String = "dense"
-
-        Public Const MatrixElTypeInt As String = "int"
-        Public Const MatrixElTypeFloat As String = "float"
-        Public Const MatrixElTypeUnicode As String = "unicode"
-    End Class
+    Public Enum ReservedFilters As Short
+        ''' <summary>
+        ''' Reserved
+        ''' </summary>
+        NA = 0
+        ''' <summary>
+        ''' GZIP deflate compression
+        ''' </summary>
+        deflate = 1
+        ''' <summary>
+        ''' Data element shuffling
+        ''' </summary>
+        shuffle = 2
+        ''' <summary>
+        ''' Fletcher32 checksum
+        ''' </summary>
+        fletcher32 = 3
+        ''' <summary>
+        ''' SZIP compression
+        ''' </summary>
+        szip = 4
+        ''' <summary>
+        ''' N-bit packing
+        ''' </summary>
+        nbit = 5
+        ''' <summary>
+        ''' Scale and offset encoded values
+        ''' </summary>
+        scaleoffset = 6
+    End Enum
 End Namespace

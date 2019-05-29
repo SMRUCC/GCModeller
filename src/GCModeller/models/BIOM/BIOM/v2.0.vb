@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85d714db4d4eb7b250db227d502a781b, v2.1.vb"
+﻿#Region "Microsoft.VisualBasic::1ec6538184e8fd096c0c738d2ec8d71b, v2.0.vb"
 
 ' Author:
 ' 
@@ -33,7 +33,7 @@
 
 '     Module HDF5
 ' 
-'         Function: ReadFile
+' 
 ' 
 ' 
 ' /********************************************************************************/
@@ -45,25 +45,28 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace v21
+Namespace v20
 
     ''' <summary>
-    ''' V2.1 BIOM hdf5 file parser
+    ''' v2.0 BIOM hdf5 file parser
     ''' </summary>
     <HideModuleName> Public Module HDF5
 
         ''' <summary>
-        ''' Parse v2.1 biom hdf5 file.
+        ''' Parse v2.0 biom hdf5 file.
         ''' </summary>
         ''' <param name="biom"></param>
         ''' <returns></returns>
         ''' <remarks>
         ''' All of the integer/long value that read from hdf5 file will be convert to double type.
         ''' </remarks>
-        Public Function ReadFile(biom As String) As v10.Json(Of Double)
+        Public Function ReadFile(biom As String) As v10.BIOMDataSet(Of Double)
+
+            Throw New NotImplementedException
+
             Dim hdf5 As New HDF5File(biom)
             Dim attributes = hdf5.attributes.AsCharacter.AsVBIdentifier
-            Dim data As New v10.Json(Of Double)
+            Dim data As New v10.BIOMDataSet(Of Double)
             Dim version As Integer()
 
             With attributes
@@ -77,10 +80,8 @@ Namespace v21
                 data.shape = !shape.LoadJSON(Of Integer())
             End With
 
-            If Not version.SequenceEqual({2, 1}) Then
-                Throw New InvalidProgramException("Target biom hdf5 file is not in v2.1 version!")
-            Else
-                ' Call hdf5.superblock.CreateFileDump(Console.Out)
+            If Not version.SequenceEqual({2, 0}) Then
+                Throw New InvalidProgramException("Target biom hdf5 file is not in v2.0 version!")
             End If
 
             ' observation/

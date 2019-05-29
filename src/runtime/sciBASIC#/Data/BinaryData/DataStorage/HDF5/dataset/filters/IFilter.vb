@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34a85405dd53236656c19fbb1d7b353a, Data_science\Mathematica\Math\Math.Statistics\Distributions\ContinuousDistributionError.vb"
+﻿#Region "Microsoft.VisualBasic::748bc18ab0b51bfcce4e4c18269f2364, Data\BinaryData\DataStorage\HDF5\dataset\filters\IFilter.vb"
 
     ' Author:
     ' 
@@ -31,35 +31,39 @@
 
     ' Summaries:
 
-    ' 	Class ContinuousDistributionError
+    '     Interface IFilter
     ' 
-    ' 	    Constructor: (+1 Overloads) Sub New
-    ' 	    Function: ErrorMessage
+    '         Properties: id, name
+    ' 
+    '         Function: decode
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-'
-' * To change this license header, choose License Headers in Project Properties.
-' * To change this template file, choose Tools | Templates
-' * and open the template in the editor.
-' 
-Namespace Distributions
+Namespace HDF5.dataset.filters
 
-	''' 
-	''' <summary>
-	''' @author Will_and_Sara
-	''' </summary>
-	Public Class ContinuousDistributionError
-		Private _ErrorMessage As String
-		Public Overridable Function ErrorMessage() As String
-			Return _ErrorMessage
-		End Function
-		Public Sub New( Message As String)
-			_ErrorMessage = Message
-		End Sub
-	End Class
+    ''' <summary>
+    ''' Interface to be implemented to be a HDF5 filter.
+    ''' 
+    ''' @author James Mudd
+    ''' </summary>
+    Public Interface IFilter
 
+        ''' <summary>
+        ''' Gets the ID of this filter, this must match the ID in the dataset header.
+        ''' </summary>
+        ''' <returns> the ID of this filter </returns>
+        ReadOnly Property id As Integer
+
+        ''' <summary>
+        ''' Gets the name of this filter e.g. 'deflate', 'shuffle'
+        ''' </summary>
+        ''' <returns> the name of this filter </returns>
+        ReadOnly Property name As String
+
+        Function decode(encodedData As Byte(), filterData As Integer()) As Byte()
+
+    End Interface
 End Namespace

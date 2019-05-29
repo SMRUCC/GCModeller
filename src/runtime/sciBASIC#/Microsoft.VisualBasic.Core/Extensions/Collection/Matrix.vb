@@ -147,6 +147,26 @@ Public Module MatrixExtensions
         Return newMAT
     End Function
 
+    <Extension>
+    Public Function Rectangle(type As Type, m%, n%) As Array
+        Dim newMatrix As Array = Array.CreateInstance(type.MakeArrayType, m)
+
+        For i As Integer = 0 To m - 1
+            Call newMatrix.SetValue(Array.CreateInstance(type, n), i)
+        Next
+
+        Return newMatrix
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function SizeOf(Of T)(rect As T()()) As Size
+        Return New Size With {
+            .Width = rect(Scan0).Length,
+            .Height = rect.Length
+        }
+    End Function
+
     ''' <summary>
     ''' Convert the data collection into a matrix value.
     ''' </summary>

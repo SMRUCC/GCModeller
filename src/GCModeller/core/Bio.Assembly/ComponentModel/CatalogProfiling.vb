@@ -72,14 +72,14 @@ Namespace ComponentModel
         ''' <returns></returns>
         Public Property IDs As String() Implements Value(Of String()).IValueOf.value
             Get
-                Return __list.ToArray
+                Return list.ToArray
             End Get
             Set(value As String())
-                __list = New List(Of String)(value)
+                list = New List(Of String)(value)
             End Set
         End Property
 
-        Dim __list As List(Of String)
+        Dim list As List(Of String)
 
         ''' <summary>
         ''' Number of the list IDs
@@ -87,7 +87,7 @@ Namespace ComponentModel
         ''' <returns></returns>
         Public ReadOnly Property Count As Integer Implements ICollection(Of String).Count
             Get
-                Return If(IDs Is Nothing, 0, IDs.Length)
+                Return list.Count
             End Get
         End Property
 
@@ -107,23 +107,23 @@ Namespace ComponentModel
         End Property
 
         Private Sub Insert(index As Integer, item As String) Implements IList(Of String).Insert
-            Call __list.Insert(index, item)
+            Call list.Insert(index, item)
         End Sub
 
         Private Sub RemoveAt(index As Integer) Implements IList(Of String).RemoveAt
-            Call __list.RemoveAt(index)
+            Call list.RemoveAt(index)
         End Sub
 
         Private Sub Add(item As String) Implements ICollection(Of String).Add
-            Call __list.Add(item)
+            Call list.Add(item)
         End Sub
 
         Private Sub Clear() Implements ICollection(Of String).Clear
-            Call __list.Clear()
+            Call list.Clear()
         End Sub
 
         Private Sub CopyTo(array() As String, arrayIndex As Integer) Implements ICollection(Of String).CopyTo
-            Call __list.CopyTo(array, arrayIndex)
+            Call list.CopyTo(array, arrayIndex)
         End Sub
 
         Public Overrides Function ToString() As String
@@ -137,15 +137,15 @@ Namespace ComponentModel
         End Function
 
         Public Function IndexOf(item As String) As Integer Implements IList(Of String).IndexOf
-            Return __list.IndexOf(item)
+            Return list.IndexOf(item)
         End Function
 
         Private Function Contains(item As String) As Boolean Implements ICollection(Of String).Contains
-            Return __list.Contains(item)
+            Return list.Contains(item)
         End Function
 
         Private Function Remove(item As String) As Boolean Implements ICollection(Of String).Remove
-            Return __list.Remove(item)
+            Return list.Remove(item)
         End Function
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
