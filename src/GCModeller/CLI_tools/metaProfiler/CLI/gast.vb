@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
@@ -24,7 +25,7 @@ Partial Module CLI
     <ExportAPI("/Export.Megan.BIOM")>
     <Usage("/Export.Megan.BIOM /in <relative.table.csv> [/rebuildBIOM.tax /out <out.biom.json>]")>
     <Description("Export v1.0 biom json file for data visualize in Megan program.")>
-    <Argument("/in", False, AcceptTypes:={GetType(OTUData)})>
+    <Argument("/in", False, AcceptTypes:={GetType(OTUData), GetType(DataSet)})>
     Public Function ExportToMegan(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom.json")
