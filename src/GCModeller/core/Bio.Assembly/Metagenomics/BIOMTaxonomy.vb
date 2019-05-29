@@ -48,6 +48,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
@@ -86,11 +87,18 @@ Namespace Metagenomics
         Sub New()
             Dim word$
 
-            For Each prefix As String In BIOMPrefix.AsList + BIOMPrefixAlt.Objects
+            For Each prefix As String In BIOMPrefix
                 word = prefix.Trim("_"c)
 
                 Call biomPrefixTable.Add(prefix, word)
                 Call biomPrefixTable.Add(word, word)
+            Next
+
+            For i As Integer = 0 To BIOMPrefix.Length - 1
+                word = BIOMPrefix(i).Trim("_"c)
+
+                Call biomPrefixTable.Add(BIOMPrefixAlt(i), word)
+                Call biomPrefixTable.Add(BIOMPrefixAlt(i).Trim("_"c), word)
             Next
         End Sub
 
