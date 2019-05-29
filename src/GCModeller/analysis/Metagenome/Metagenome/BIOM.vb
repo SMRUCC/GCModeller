@@ -43,6 +43,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.foundation.BIOM.v10
@@ -59,11 +60,18 @@ Public Module BIOM
     ''' 按照OTU的序列数量进行降序排序之后，所取出来的OTU的数量，默认只截取前100个OTU
     ''' </summary>
     ''' <param name="source"></param>
-    ''' <param name="takes%"></param>
-    ''' <param name="cut%"></param>
+    ''' <param name="takes">Reorder <see cref="Names.numOfSeqs"/> desc and then take top n otu for imports as biom data.</param>
+    ''' <param name="cut">
+    ''' <see cref="Names.numOfSeqs"/> should at least greater than this number cutoff value that will be imports as biom data.
+    ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function [Imports](source As IEnumerable(Of Names), Optional takes% = 100, Optional cut% = 50, Optional denseMatrix As Boolean = True) As IntegerMatrix
+    Public Function [Imports](source As IEnumerable(Of Names),
+                              Optional takes% = 100,
+                              Optional cut% = 50,
+                              Optional denseMatrix As Boolean = True,
+                              Optional comments$ = Nothing) As IntegerMatrix
+
         Dim array As Names() = LinqAPI.Exec(Of Names) _
  _
             () <= From x As Names
@@ -74,18 +82,20 @@ Public Module BIOM
 
         array = array.Take(takes).ToArray
 
+        ' OTU list
         Dim rows As row() = LinqAPI.Exec(Of row) <=
  _
-            From x As Names
+            From otu As Names
             In array
-            Where Not x.taxonomy.StringEmpty AndAlso x.composition IsNot Nothing
+            Where Not otu.taxonomy.StringEmpty AndAlso otu.composition IsNot Nothing
             Select New row With {
-                .id = x.unique,
+                .id = otu.unique,
                 .metadata = New meta With {
-                    .taxonomy = x.taxonomy.Split(";"c)
+                    .taxonomy = otu.taxonomy.Split(";"c)
                 }
             }
 
+        ' Sample list
         Dim names As column() = LinqAPI.Exec(Of column) _
  _
             () <= From sid As String
@@ -115,15 +125,16 @@ Public Module BIOM
             .id = Guid.NewGuid.ToString,
             .format = "Biological Observation Matrix 1.0.0",
             .format_url = "http://biom-format.org",
-            .type = "OTU table",
+            .type = namesOf.OTU_table,
             .generated_by = "GCModeller",
             .date = Now,
             .matrix_type = If(denseMatrix, matrix_type.dense, matrix_type.sparse),
             .matrix_element_type = "int",
-            .shape = {array.Length, 4},
+            .shape = data.SizeOf.ToArray,
             .data = data,
             .rows = rows,
-            .columns = names
+            .columns = names,
+            .comment = comments Or $"Number of sequence cutoff={cut} and takes top {takes} OTU.".AsDefault
         }
     End Function
 
@@ -149,7 +160,7 @@ Public Module BIOM
             For Each cpi In x.value.composition
                 ix = x.i
                 iy = nameIndex(cpi.Key)
-                composition = CInt(n * Val(cpi.Value) / 100) + 1
+                composition = CInt(n * Val(cpi.Value) / 100)
 
                 Yield New Integer() {ix, iy, composition}
             Next
@@ -163,26 +174,10 @@ Public Module BIOM
         For Each row As gast.Names In array
             Yield names _
                 .Select(Function(name)
-                            Return CInt(row.numOfSeqs * Val(row.composition.TryGetValue(name, [default]:="0")) / 100) + 1
+                            Return CInt(row.numOfSeqs * Val(row.composition.TryGetValue(name, [default]:="0")) / 100)
                         End Function) _
                 .ToArray
         Next
-    End Function
-
-    ''' <summary>
-    ''' 为Taxonomy Lineage添加BIOM前缀
-    ''' </summary>
-    ''' <param name="tax$"></param>
-    ''' <returns></returns>
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function TaxonomyString(tax$()) As String
-        Return tax _
-            .TakeWhile(Function(s) Not s.TaxonomyRankEmpty) _
-            .SeqIterator _
-            .Select(Function(s)
-                        Return BIOMTaxonomy.BIOMPrefix(s.i) & s.value
-                    End Function) _
-            .JoinBy(";")
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -218,36 +213,47 @@ Public Module BIOM
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="table"></param>
-    ''' <param name="alreadyBIOMTax">
-    ''' 如果物种数据么有BIOM的等级划分的前缀的话，会需要进行重建，这个参数的默认值是总是重建BIOM的分类等级前缀字符串
+    ''' <param name="table">
+    ''' 因为丰度数据可能是0到1之间的，也可能是原始的序列数量，也可能是经过归一化的，所以在这里会需要进行归一化操作，归一化为0到100之间的数
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function EXPORT(table As IEnumerable(Of OTUData), Optional alreadyBIOMTax As Boolean = False, Optional denseMatrix As Boolean = True) As IntegerMatrix
-        Dim getTax As Func(Of String, String)
+    Public Function EXPORT(table As IEnumerable(Of OTUData), Optional denseMatrix As Boolean = True) As IntegerMatrix
+        Dim matrix As OTUData() = table.ToArray
+        Dim allSamples = matrix _
+            .Select(Function(otu) otu.data.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
 
-        If alreadyBIOMTax Then
-            getTax = Function(s) s
-        Else
-            getTax = Function(tax)
-                         Return tax.Split(";"c).TaxonomyString
-                     End Function
-        End If
+        ' 在这里归一化为[0, 100]之间
+        For Each sampleName As String In allSamples
+            Dim counts As Vector = matrix _
+                .Select(Function(otu)
+                            Return otu.data.TryGetValue(sampleName, [default]:="0")
+                        End Function) _
+                .Select(AddressOf Val) _
+                .AsVector
+
+            counts = counts / counts.Max * 100
+
+            For i As Integer = 0 To matrix.Length - 1
+                matrix(i).data(sampleName) = CInt(counts(i))
+            Next
+        Next
 
         Dim array() = LinqAPI.Exec(Of Names) _
  _
-            () <= From x As OTUData
+            () <= From otu As OTUData
                   In table
-                  Let comp = x.Data.ToDictionary(
-                      Function(xx) xx.Key,
-                      Function(xx) CStr(Val(xx.Value) * 100)
-                  )
+                  Let taxonomy As String = otu.taxonomy _
+                      .Split(";"c) _
+                      .TaxonomyString
                   Select New Names With {
                       .numOfSeqs = 100,
-                      .composition = comp,
-                      .taxonomy = getTax(x.Taxonomy),
-                      .unique = x.OTU
+                      .composition = otu.data,
+                      .taxonomy = taxonomy,
+                      .unique = otu.OTU
                   }
 
         Return array.Imports(array.Length + 10, 0, denseMatrix:=denseMatrix)
