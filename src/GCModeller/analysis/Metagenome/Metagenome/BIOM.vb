@@ -169,22 +169,6 @@ Public Module BIOM
         Next
     End Function
 
-    ''' <summary>
-    ''' 为Taxonomy Lineage添加BIOM前缀
-    ''' </summary>
-    ''' <param name="tax$"></param>
-    ''' <returns></returns>
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function TaxonomyString(tax$()) As String
-        Return tax _
-            .TakeWhile(Function(s) Not s.TaxonomyRankEmpty) _
-            .SeqIterator _
-            .Select(Function(s)
-                        Return BIOMTaxonomy.BIOMPrefix(s.i) & s.value
-                    End Function) _
-            .JoinBy(";")
-    End Function
-
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function BIOMTaxonomyString(taxonomy As Metagenomics.Taxonomy, Optional ranks As TaxonomyRanks = TaxonomyRanks.Strain) As String
