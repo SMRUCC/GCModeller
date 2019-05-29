@@ -51,6 +51,9 @@ Partial Module CLI
             data = [in].LoadCsv(Of OTUData)()
         End If
 
-        Return data.EXPORT(alreadyBIOMTax:=Not rebuildBIOM).ToJSON.SaveTo(out).CLICode
+        Return data.EXPORT(alreadyBIOMTax:=Not rebuildBIOM) _
+            .ToJSON _
+            .SaveTo(out) _
+            .CLICode
     End Function
 End Module
