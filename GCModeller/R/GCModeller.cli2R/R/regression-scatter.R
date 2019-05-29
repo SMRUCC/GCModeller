@@ -6,7 +6,7 @@ consistency.plot <- function(sample, pairs, repeats = 3, size = c(6000,4500), re
 }
 
 ### regression scatter plot function tools for the iTraq data samples consistency check
-### @sample: iTraq sample data output
+### @sample: sample data matrix input file path
 ### @pairs: a dataframe object, that each row should contians two string value, like
 ###  ,  X,  Y 
 ### 1, C1, C2

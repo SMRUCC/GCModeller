@@ -115,12 +115,12 @@ Partial Module CLI
                     matrix.Add(otu.Name, New DataSet With {.ID = otu.Name})
                 End If
 
-                matrix(otu.Name).Append(otu)
+                matrix(otu.Name).Append(otu, AddressOf Math.Max)
             Next
         Next
 
         Return matrix.Values _
-            .SaveTo(out) _
+            .SaveTo(out, metaBlank:=0) _
             .CLICode
     End Function
 End Module

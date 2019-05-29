@@ -63,14 +63,14 @@ Public Module BIOM
     ''' <param name="cut%"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function [Imports](source As IEnumerable(Of Names), Optional takes% = 100, Optional cut% = 50) As IntegerMatrix
+    Public Function [Imports](source As IEnumerable(Of Names), Optional takes% = 100, Optional cut% = 50, Optional denseMatrix As Boolean = True) As IntegerMatrix
         Dim array As Names() = LinqAPI.Exec(Of Names) _
  _
-        () <= From x As Names
-              In source
-              Where x.NumOfSeqs >= cut
-              Select x
-              Order By x.NumOfSeqs Descending
+            () <= From x As Names
+                  In source
+                  Where x.numOfSeqs >= cut
+                  Select x
+                  Order By x.numOfSeqs Descending
 
         array = array.Take(takes).ToArray
 
@@ -78,9 +78,9 @@ Public Module BIOM
  _
             From x As Names
             In array
-            Where Not x.taxonomy.StringEmpty AndAlso x.Composition IsNot Nothing
+            Where Not x.taxonomy.StringEmpty AndAlso x.composition IsNot Nothing
             Select New row With {
-                .id = x.Unique,
+                .id = x.unique,
                 .metadata = New meta With {
                     .taxonomy = x.taxonomy.Split(";"c)
                 }
@@ -90,32 +90,26 @@ Public Module BIOM
  _
             () <= From sid As String
                   In array _
-                      .Where(Function(x) x.Composition IsNot Nothing) _
-                      .Select(Function(x) x.Composition.Keys) _
+                      .Where(Function(x)
+                                 Return Not x.composition Is Nothing
+                             End Function) _
+                      .Select(Function(x) x.composition.Keys) _
                       .IteratesALL _
                       .Distinct
                   Select New column With {
                       .id = sid
                   }
 
-        Dim data As New List(Of Integer())
-        Dim nameIndex = names _
-            .SeqIterator _
-            .ToDictionary(Function(x) x.value.id,
-                          Function(x) x.i)
+        Dim nameIndex As Index(Of String) = names _
+            .Select(Function(col) col.id) _
+            .ToArray
+        Dim data As Integer()()
 
-        For Each x As SeqValue(Of Names) In array _
-            .Where(Function(xx)
-                       Return xx.Composition IsNot Nothing
-                   End Function) _
-            .SeqIterator
-
-            Dim n% = x.value.NumOfSeqs
-
-            For Each cpi In x.value.Composition
-                data += {x.i, nameIndex(cpi.Key), CInt(n * Val(cpi.Value) / 100) + 1}
-            Next
-        Next
+        If denseMatrix Then
+            data = array.denseMatrix(nameIndex).ToArray
+        Else
+            data = array.sparseMatrix(nameIndex).ToArray
+        End If
 
         Return New IntegerMatrix With {
             .id = Guid.NewGuid.ToString,
@@ -124,13 +118,55 @@ Public Module BIOM
             .type = "OTU table",
             .generated_by = "GCModeller",
             .date = Now,
-            .matrix_type = "sparse",
+            .matrix_type = If(denseMatrix, matrix_type.dense, matrix_type.sparse),
             .matrix_element_type = "int",
             .shape = {array.Length, 4},
             .data = data,
             .rows = rows,
             .columns = names
         }
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="array"></param>
+    ''' <param name="nameIndex">The column name index</param>
+    ''' <returns></returns>
+    <Extension>
+    Private Iterator Function sparseMatrix(array As gast.Names(), nameIndex As Index(Of String)) As IEnumerable(Of Integer())
+        Dim ix, iy As Integer
+        Dim composition%
+
+        For Each x As SeqValue(Of Names) In array _
+            .Where(Function(xx)
+                       Return xx.composition IsNot Nothing
+                   End Function) _
+            .SeqIterator
+
+            Dim n% = x.value.numOfSeqs
+
+            For Each cpi In x.value.composition
+                ix = x.i
+                iy = nameIndex(cpi.Key)
+                composition = CInt(n * Val(cpi.Value) / 100) + 1
+
+                Yield New Integer() {ix, iy, composition}
+            Next
+        Next
+    End Function
+
+    <Extension>
+    Private Iterator Function denseMatrix(array As gast.Names(), nameIndex As Index(Of String)) As IEnumerable(Of Integer())
+        Dim names$() = nameIndex.Objects
+
+        For Each row As gast.Names In array
+            Yield names _
+                .Select(Function(name)
+                            Return CInt(row.numOfSeqs * Val(row.composition.TryGetValue(name, [default]:="0")) / 100) + 1
+                        End Function) _
+                .ToArray
+        Next
     End Function
 
     ''' <summary>
@@ -179,8 +215,16 @@ Public Module BIOM
         Return s
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="table"></param>
+    ''' <param name="alreadyBIOMTax">
+    ''' 如果物种数据么有BIOM的等级划分的前缀的话，会需要进行重建，这个参数的默认值是总是重建BIOM的分类等级前缀字符串
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
-    Public Function EXPORT(table As IEnumerable(Of OTUData), Optional alreadyBIOMTax As Boolean = False) As IntegerMatrix
+    Public Function EXPORT(table As IEnumerable(Of OTUData), Optional alreadyBIOMTax As Boolean = False, Optional denseMatrix As Boolean = True) As IntegerMatrix
         Dim getTax As Func(Of String, String)
 
         If alreadyBIOMTax Then
@@ -200,12 +244,12 @@ Public Module BIOM
                       Function(xx) CStr(Val(xx.Value) * 100)
                   )
                   Select New Names With {
-                      .NumOfSeqs = 100,
-                      .Composition = comp,
+                      .numOfSeqs = 100,
+                      .composition = comp,
                       .taxonomy = getTax(x.Taxonomy),
-                      .Unique = x.OTU
+                      .unique = x.OTU
                   }
 
-        Return array.Imports(array.Length + 10, 0)
+        Return array.Imports(array.Length + 10, 0, denseMatrix:=denseMatrix)
     End Function
 End Module
