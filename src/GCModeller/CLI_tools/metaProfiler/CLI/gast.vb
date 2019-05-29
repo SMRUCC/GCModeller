@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
@@ -33,9 +34,23 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom.json")
         Dim rebuildBIOM As Boolean = args("/rebuildBIOM.tax")
-        Dim data As OTUData() = [in].LoadCsv(Of OTUData)()
-        Dim result = data.EXPORT(alreadyBIOMTax:=Not rebuildBIOM)
+        Dim data As OTUData()
+        Dim type As Type = IO.TypeOf(File.ReadHeaderRow([in]), GetType(OTUData), GetType(DataSet))
 
-        Return result.ToJSON.SaveTo(out).CLICode
+        If type Is GetType(DataSet) Then
+            data = DataSet.LoadDataSet([in]) _
+                .Select(Function(d, i)
+                            Return New OTUData With {
+                                .OTU = $"OTU_{i.ToHexString}",
+                                .Taxonomy = d.ID,
+                                .Data = d.Properties.AsCharacter
+                            }
+                        End Function) _
+                .ToArray
+        Else
+            data = [in].LoadCsv(Of OTUData)()
+        End If
+
+        Return data.EXPORT(alreadyBIOMTax:=Not rebuildBIOM).ToJSON.SaveTo(out).CLICode
     End Function
 End Module
