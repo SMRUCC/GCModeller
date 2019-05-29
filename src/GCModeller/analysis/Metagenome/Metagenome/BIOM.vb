@@ -69,7 +69,8 @@ Public Module BIOM
     Public Function [Imports](source As IEnumerable(Of Names),
                               Optional takes% = 100,
                               Optional cut% = 50,
-                              Optional denseMatrix As Boolean = True) As IntegerMatrix
+                              Optional denseMatrix As Boolean = True,
+                              Optional comments$ = Nothing) As IntegerMatrix
 
         Dim array As Names() = LinqAPI.Exec(Of Names) _
  _
@@ -124,7 +125,7 @@ Public Module BIOM
             .id = Guid.NewGuid.ToString,
             .format = "Biological Observation Matrix 1.0.0",
             .format_url = "http://biom-format.org",
-            .type = "OTU table",
+            .type = namesOf.OTU_table,
             .generated_by = "GCModeller",
             .date = Now,
             .matrix_type = If(denseMatrix, matrix_type.dense, matrix_type.sparse),
@@ -132,7 +133,8 @@ Public Module BIOM
             .shape = {array.Length, data(Scan0).Length},
             .data = data,
             .rows = rows,
-            .columns = names
+            .columns = names,
+            .comment = comments Or $"Number of sequence cutoff={cut} and takes top {takes} OTU.".AsDefault
         }
     End Function
 
