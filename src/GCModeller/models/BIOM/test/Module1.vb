@@ -57,9 +57,9 @@ Module Module1
 
     Sub Main()
 
-        Call exports()
+        ' Call exports()
 
-        Call loadertest()
+        ' Call loadertest()
 
 
         Call testCDFBIOM()
