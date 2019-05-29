@@ -237,17 +237,17 @@ Public Module BIOM
 
         Dim array() = LinqAPI.Exec(Of Names) _
  _
-            () <= From x As OTUData
+            () <= From otu As OTUData
                   In table
-                  Let comp = x.Data.ToDictionary(
-                      Function(xx) xx.Key,
-                      Function(xx) CStr(Val(xx.Value) * 100)
+                  Let comp = otu.data.ToDictionary(
+                      Function(sample) sample.Key,
+                      Function(sample) CStr(Val(sample.Value) * 100)
                   )
                   Select New Names With {
                       .numOfSeqs = 100,
                       .composition = comp,
-                      .taxonomy = getTax(x.Taxonomy),
-                      .unique = x.OTU
+                      .taxonomy = getTax(otu.taxonomy),
+                      .unique = otu.OTU
                   }
 
         Return array.Imports(array.Length + 10, 0, denseMatrix:=denseMatrix)

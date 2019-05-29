@@ -136,6 +136,17 @@ Namespace Metagenomics
             Return New Taxonomy(lineage)
         End Function
 
+        ReadOnly allPrefix As Index(Of String) = BIOMPrefix.AsList + BIOMPrefixAlt.Objects
+
+        ''' <summary>
+        ''' 将物种名称字符串归一化为BIOM格式的字符串
+        ''' </summary>
+        ''' <param name="taxonomy"></param>
+        ''' <returns></returns>
+        Public Function NormalizeTaxonomyString(taxonomy As String) As String
+
+        End Function
+
 #Region "Parsing BIOM style taxonomy string"
 
         ''' <summary>
