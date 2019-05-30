@@ -163,9 +163,9 @@ Please check the threshold and ceil of gene set size (values of min_size and max
 
         Dim def_mean_pos = Function(x As Vector) x(x >= 0).Average
         Dim def_mean_neg = Function(x As Vector) Vector.Abs(x(x <= 0)).Average
-        Dim def_nor = Function(x As Vector) np.Where(x[:     -2]>=0, x[:-2]/x[-2], x[:-2]/x[-1])
+        Dim def_nor = Function(x As Vector) np.Where(x(, -2) >= 0, x(, -2) / x(-2), x(, -2) / x(-1))
 
-  Dim mean_p As Vector = es_null.Select(def_mean_pos)
+        Dim mean_p As Vector = es_null.Select(def_mean_pos)
         mean_p = mean_p.reshape(Len(mean_p), 1)          ' shape=(m,1)
         Dim mean_n As Vector = es_null.Select(def_mean_neg).ToArray
         mean_n = mean_n.reshape(Len(mean_n), 1)
