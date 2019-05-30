@@ -22,13 +22,14 @@ Public Module KOBAS_GSEA
     ''' <param name="gene_list">所需要进行富集分析的目标基因列表</param>
     ''' <param name="gene_num">目标基因列表的长度</param>
     ''' <param name="gset_name">代谢途径的名称列表</param>
-    ''' <param name="gset_des"></param>
+    ''' <param name="gset_des">应该是与<paramref name="gset_name"/>等长的唯一标识符，其实这个参数可以直接用<paramref name="gset_name"/>来代替</param>
     ''' <param name="gset_genes">每一个代谢途径之中的背景基因列表</param>
     ''' <param name="min_size"></param>
     ''' <param name="max_size"></param>
     ''' <returns></returns>
     ''' <remarks>
     ''' 在这里的gene set是某一个代谢途径之中的所有的背景基因编号列表
+    ''' 背景基因的数据一般来自于<see cref="Gmt"/>文件的读取结果
     ''' </remarks>
     Public Function get_hit_matrix(gene_list As String(), gene_num%, gset_name As String(), gset_des As String(), gset_genes As Index(Of String)(), min_size%, max_size%) As hitMatrix
         Dim hit_m As New List(Of List(Of Integer))
@@ -87,7 +88,16 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         }
     End Function
 
-    Public Function rankPro(lb As Integer(), md As String, expr_data As Vector, sample0#, sample1#)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="lb">Labels</param>
+    ''' <param name="md"></param>
+    ''' <param name="expr_data"></param>
+    ''' <param name="sample0#"></param>
+    ''' <param name="sample1#"></param>
+    ''' <returns></returns>
+    Public Function rank_pro(lb As Integer(), md As String, expr_data As Vector, sample0#, sample1#)
         Dim index_0 As New List(Of Integer)
         Dim index_1 As New List(Of Integer)
 

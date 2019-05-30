@@ -10,7 +10,17 @@ Module KOBASTest
 
         Dim name = {"test"}
 
-        Dim m = KOBAS_GSEA.get_hit_matrix(genelist, genelist.Length, name, {}, {background}, 3, 1000)
+        ' (labels,phnameA,phnameB,sample_num,sample0,sample1) =gsea.read_cls_file(cls=opt.cls)
+
+        Dim labels%()
+        Dim expr_data
+        Dim sample0
+        Dim sample1
+
+
+        Dim m = KOBAS_GSEA.get_hit_matrix(genelist, genelist.Length, name, name.ToArray, {background}, 3, 1000)
+        Dim rank As (sort_r As Object, sort_gene_index As Object) = KOBAS_GSEA.rank_pro(labels, md:="ttest", expr_data:=expr_data, sample0:=sample0, sample1:=sample1)
+
 
         Pause()
     End Sub
