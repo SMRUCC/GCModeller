@@ -4,6 +4,10 @@
         Dim start As Integer
         Dim length As Integer
         Dim steps As Integer
+
+        Public Function Index(seqLen As Integer) As IEnumerable(Of Integer)
+
+        End Function
     End Structure
 
     Public Module SliceExtensions
