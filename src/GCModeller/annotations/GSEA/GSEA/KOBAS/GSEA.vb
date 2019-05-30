@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
+Imports numpy = Microsoft.VisualBasic.Math
 
 Public Module KOBAS_GSEA
 
@@ -98,7 +99,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
     ''' <param name="sample0#"></param>
     ''' <param name="sample1#"></param>
     ''' <returns></returns>
-    Public Function rank_pro(lb As Integer(), md As String, expr_data As Vector(Of Vector), sample0#, sample1#)
+    Public Function rank_pro(lb As Integer(), md As String, expr_data As Vector(Of Vector), sample0#, sample1#) As (sort_r As Vector, sort_gene_index As Vector)
         Dim index_0 As New List(Of Integer)
         Dim index_1 As New List(Of Integer)
 
@@ -120,15 +121,15 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         Dim std_0 = expr_0.Std(axis:=1)
         Dim std_1 = expr_0.Std(axis:=1)
 
-        Dim sort_gene_index
-        Dim sort_r
+        Dim sort_gene_index As Vector
+        Dim sort_r As Vector
 
         If md = "snr" Then
             Dim s2n = (mean_0 - mean_1) / (std_0 + std_1)
             ' this step get index after sorted, then use this index to get gene list from gene_name
             sort_gene_index = np.argsort(s2n).AsVector.slice(, -1) '.T 
             ' this step get s2n value after sorted
-
+            sort_r = np.Sort(s2n).slice(, -1) '.T 
         ElseIf md = "ttest" Then
             Dim a = mean_0 - mean_1
             Dim s0 = std_0 ^ 2
@@ -136,6 +137,10 @@ Please check the threshold and ceil of gene set size (values of min_size and max
             Dim b = Vector.Sqrt(s0 / sample0 + s1 / sample1)
             Dim ttest = a / b
 
+            sort_gene_index = np.argsort(ttest).AsVector.slice(, -1) '.T
+            sort_r = np.Sort(ttest).slice(, -1) '.T
+        Else
+            Throw New NotSupportedException(md)
         End If
 
         ' NOTE: sort_r is 1*gene_num matrix
