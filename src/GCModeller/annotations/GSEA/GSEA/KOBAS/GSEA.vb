@@ -21,9 +21,9 @@ Public Module KOBAS_GSEA
     ''' </summary>
     ''' <param name="gene_list">所需要进行富集分析的目标基因列表</param>
     ''' <param name="gene_num">目标基因列表的长度</param>
-    ''' <param name="gset_name"></param>
+    ''' <param name="gset_name">代谢途径的名称列表</param>
     ''' <param name="gset_des"></param>
-    ''' <param name="gset_genes"></param>
+    ''' <param name="gset_genes">每一个代谢途径之中的背景基因列表</param>
     ''' <param name="min_size"></param>
     ''' <param name="max_size"></param>
     ''' <returns></returns>
