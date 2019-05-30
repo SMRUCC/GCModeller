@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
@@ -97,7 +98,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
     ''' <param name="sample0#"></param>
     ''' <param name="sample1#"></param>
     ''' <returns></returns>
-    Public Function rank_pro(lb As Integer(), md As String, expr_data As Vector, sample0#, sample1#)
+    Public Function rank_pro(lb As Integer(), md As String, expr_data As Vector(Of Vector), sample0#, sample1#)
         Dim index_0 As New List(Of Integer)
         Dim index_1 As New List(Of Integer)
 
@@ -114,10 +115,10 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         ' abstract all rows in column index_0 includes. [row,column]
         Dim expr_0 = expr_data(index_0)
         Dim expr_1 = expr_data(index_1)
-        Dim mean_0 = expr_0.Average
-        Dim mean_1 = expr_1.Average
-        Dim std_0 = expr_0.StdError
-        Dim std_1 = expr_0.StdError
+        Dim mean_0 = expr_0.Mean(axis:=1)
+        Dim mean_1 = expr_1.Mean(axis:=1)
+        Dim std_0 = expr_0.Std(axis:=1)
+        Dim std_1 = expr_0.Std(axis:=1)
 
         Dim sort_gene_index
         Dim sort_r
@@ -125,7 +126,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         If md = "snr" Then
             Dim s2n = (mean_0 - mean_1) / (std_0 + std_1)
             ' this step get index after sorted, then use this index to get gene list from gene_name
-
+            sort_gene_index = np.argsort(s2n)[:-1].T 
             ' this step get s2n value after sorted
 
         ElseIf md = "ttest" Then
