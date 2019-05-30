@@ -12,10 +12,7 @@ Module KOBASTest
 
         ' (labels,phnameA,phnameB,sample_num,sample0,sample1) =gsea.read_cls_file(cls=opt.cls)
 
-        Dim labels%()
-        Dim expr_data
-        Dim sample0
-        Dim sample1
+        Dim cls As phenotype = phenotype.FromClsFile("D:\GCModeller\src\GCModeller\annotations\GSEA\test_cls.txt")
 
 
         Dim m = KOBAS_GSEA.get_hit_matrix(genelist, genelist.Length, name, name.ToArray, {background}, 3, 1000)
