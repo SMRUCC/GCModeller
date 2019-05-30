@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 Imports numpy = Microsoft.VisualBasic.Math
 
@@ -147,7 +148,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         Return (sort_r, sort_gene_index)
     End Function
 
-    Public Function ES_all(sort_r#, sort_gene_index As Object, hit_matrix_filtered As Object, weighted_score_type%, gene_num%)
+    Public Function ES_all(sort_r#, sort_gene_index As Vector, hit_matrix_filtered As Object, weighted_score_type%, gene_num%)
         Dim hitm As Vector = hit_matrix_filtered(sort_gene_index)
         Dim missm = hitm - 1
         Dim sort_arr As Vector = sort_r.Repeats(hitm.Length)
@@ -169,11 +170,14 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         Dim pre_score = hit_score + miss_score
 
         Dim RES As Vector = pre_score.CumSum
-        Dim es_idx = Function(x As Vector) As Integer()
-                         ' Return Which.IsTrue(Math.Abs(x.Max()) > Math.Abs(x.Min()), (x.Max(), x.argmax()), (x.Min(), x.argmin()))
+        Dim es_idx = Function(x As Vector)
+                         Return np.Where(Math.Abs(x.Max()) > Math.Abs(x.Min()), (Val:=x.Max(), Index:=Which.Max(x)), (Val:=x.Min(), Index:=Which.Min(x)))
                      End Function
         Dim re = es_idx(RES)
+        Dim es = re.slice(, 0)
+        Dim idx = re.slice(, 1)
 
+        Return (es, idx, RES)
     End Function
 
     Public Function ES_null(lb%(), times%, method$, sample0 As Vector, sample1 As Vector, hit_matrix_filtered As Vector(), weighted_score_type%, expr_data As Vector, gene_num%)
@@ -246,7 +250,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         Return fdr
     End Function
 
-    Public Function ES_for_permutation(lb%(), md$, sample0 As Vector, sample1 As Vector, hit_matrix_filtered As Vector(), weighted_score_type%, expr_data As Vector, gene_num%) As Double()
+    Public Function ES_for_permutation(lb%(), md$, sample0 As Vector, sample1 As Vector, hit_matrix_filtered As Vector(Of Vector), weighted_score_type%, expr_data As Vector(Of Vector), gene_num%) As Double()
         Dim index_0 As New List(Of Integer)
         Dim index_1 As New List(Of Integer)
 
@@ -260,43 +264,37 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         Next
 
         ' : abstract all rows In column index_0 includes. [row, column]
-        Dim expr_0 As Vector = expr_data(index_0)
-        Dim expr_1 As Vector = expr_data(index_1)
+        Dim expr_0 = expr_data(index_0)
+        Dim expr_1 = expr_data(index_1)
         ' axis 1 Is meaning Get average from column adds
-        Dim mean_0 As Vector = expr_0.Average  ' expr_0.mean(1)
-        Dim mean_1 As Vector = expr_1.Average  '  expr_1.mean(1)
-        Dim std_0 As Vector = expr_0.StdError  ' expr_0.std(1)
-        Dim std_1 As Vector = expr_1.StdError  ' expr_1.std(1)
+        Dim mean_0 As Vector = expr_0.Mean(axis:=1)
+        Dim mean_1 As Vector = expr_1.Mean(axis:=1)
+        Dim std_0 As Vector = expr_0.Std(axis:=1)
+        Dim std_1 As Vector = expr_1.Std(axis:=1)
         Dim s2n As Vector
         Dim sort_gene_index As Integer()
         Dim sort_r
 
         If (md = "snr") Then
             s2n = (mean_0 - mean_1) / (std_0 + std_1)
-            ' sort_gene_index = np.argsort(s2n).AsVector()(Slice(, -1)) '.T  ' this step get index after sorted, then use this index to get gene list from gene_name
+            sort_gene_index = np.argsort(s2n).AsVector().slice(, -1).AsInteger  '.T  ' this step get index after sorted, then use this index to get gene list from gene_name
             sort_r = np.Sort(s2n).slice(, -1) ' this step get s2n value after sorted
-        End If
-
-        Dim a As Vector
-        Dim s0 As Vector
-        Dim s1 As Vector
-        Dim b As Vector
-        Dim ttest As Vector
-
-        If (md = "ttest") Then
-            a = mean_0 - mean_1
-            s0 = std_0 ^ 2 ' np.square(std_0)
-            s1 = std_1 ^ 2 ' np.square(std_1)
-            b = Vector.Sqrt(s0 / sample0 + s1 / sample1)  ' np.sqrt(s0 / sample0 + s1 / sample1)
-            ttest = a / b
-            '  sort_gene_index = np.argsort(ttest).AsVector()(Slice(, -1)) '.T
+        ElseIf (md = "ttest") Then
+            Dim a = mean_0 - mean_1
+            Dim s0 = std_0 ^ 2 ' np.square(std_0)
+            Dim s1 = std_1 ^ 2 ' np.square(std_1)
+            Dim b = Vector.Sqrt(s0 / sample0 + s1 / sample1)  ' np.sqrt(s0 / sample0 + s1 / sample1)
+            Dim ttest = a / b
+            sort_gene_index = np.argsort(ttest).AsVector().slice(, -1).AsInteger  '.T
             sort_r = np.Sort(ttest).slice(, -1) '.T
+        Else
+            Throw New NotSupportedException(md)
         End If
 
-        Dim hitm '= hit_matrix_filtered(Slice(, sort_gene_index))
+        Dim hitm As New GeneralMatrix(hit_matrix_filtered(sort_gene_index))
         Dim missm = hitm - 1
         Dim sort_arr As Vector '= Enumerable.Range(hitm.Length).Select(Function(null) sort_r).ToArray    '  np.array([sort_r for i in range(len(hitm))])
-        Dim tmp As Vector
+        Dim tmp As GeneralMatrix
 
         If weighted_score_type = 0 Then
             tmp = hitm
