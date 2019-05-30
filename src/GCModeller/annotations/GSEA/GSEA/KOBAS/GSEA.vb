@@ -126,14 +126,14 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         If md = "snr" Then
             Dim s2n = (mean_0 - mean_1) / (std_0 + std_1)
             ' this step get index after sorted, then use this index to get gene list from gene_name
-            sort_gene_index = np.argsort(s2n)[:-1].T 
+            sort_gene_index = np.argsort(s2n).AsVector.slice(, -1) '.T 
             ' this step get s2n value after sorted
 
         ElseIf md = "ttest" Then
             Dim a = mean_0 - mean_1
             Dim s0 = std_0 ^ 2
             Dim s1 = std_1 ^ 2
-            Dim b = Math.Sqrt(s0 / sample0 + s1 / sample1)
+            Dim b = Vector.Sqrt(s0 / sample0 + s1 / sample1)
             Dim ttest = a / b
 
         End If
@@ -181,7 +181,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
 
     Public Function nominal_p(es As Vector, es_null As Vector)
         Dim ES_all = np.column_stack(es_null, es)
-        Dim def_pval = Function(x As Vector) np.Sum(x(Slice(, -1)) >= x(-1)) / np.Sum(x(Slice(, -1)) >= 0) Or (np.Sum(x(Slice(, -1)) <= x(-1)) / np.Sum(x(Slice(, -1)) <= 0)).When(x(-1) >= 0)
+        Dim def_pval = Function(x As Vector) np.Sum(x.slice(, -1) >= x(-1)) / np.Sum(x.slice(, -1) >= 0) Or (np.Sum(x.slice(, -1) <= x(-1)) / np.Sum(x.slice(, -1) <= 0)).When(x(-1) >= 0)
         ' def_pval = lambda x: where(x[-1]>=0, sum(x[:-1] >= x[-1])/float(sum(x[:-1]) >=0), sum(x[:-1] <= x[-1])/float(sum(x[:-1]) <=0))
         Dim r = ES_all.Select(def_pval).ToArray
         Dim pval ' = np.Array([r]).T     ' m*1 array  m: num of filter gene sets
@@ -193,7 +193,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
 
         Dim def_mean_pos = Function(x As Vector) x(x >= 0).Average
         Dim def_mean_neg = Function(x As Vector) Vector.Abs(x(x <= 0)).Average
-        Dim def_nor = Function(x As Vector) np.Where(x.Slice(, -2) >= 0, x(Slice(, -2)) / x(-2), x(Slice(, -2)) / x(-1))
+        Dim def_nor = Function(x As Vector) np.Where(x.slice(, -2) >= 0, x.slice(, -2) / x(-2), x.slice(, -2) / x(-1))
 
         Dim mean_p As Vector = es_null.Select(def_mean_pos)
         ' mean_p = mean_p.reshape(Len(mean_p), 1)          ' shape=(m,1)
@@ -269,7 +269,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         If (md = "snr") Then
             s2n = (mean_0 - mean_1) / (std_0 + std_1)
             ' sort_gene_index = np.argsort(s2n).AsVector()(Slice(, -1)) '.T  ' this step get index after sorted, then use this index to get gene list from gene_name
-            sort_r = np.Sort(s2n)(Slice(, -1)) ' this step get s2n value after sorted
+            sort_r = np.Sort(s2n).slice(, -1) ' this step get s2n value after sorted
         End If
 
         Dim a As Vector
@@ -285,7 +285,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
             b = Vector.Sqrt(s0 / sample0 + s1 / sample1)  ' np.sqrt(s0 / sample0 + s1 / sample1)
             ttest = a / b
             '  sort_gene_index = np.argsort(ttest).AsVector()(Slice(, -1)) '.T
-            sort_r = np.Sort(ttest)(Slice(, -1)) '.T
+            sort_r = np.Sort(ttest).slice(, -1) '.T
         End If
 
         Dim hitm '= hit_matrix_filtered(Slice(, sort_gene_index))
