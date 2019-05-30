@@ -8,18 +8,29 @@ Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Public Module KOBAS_GSEA
 
+    Public Structure hitMatrix
+        Dim hit_matrix_filtered As np()
+        Dim hit_genes_filtered As List(Of String)()
+        Dim hit_sum_filtered As Vector
+        Dim gset_name_filtered As String()
+        Dim gset_des_filtered As String()
+    End Structure
+
     ''' <summary>
     ''' This function get a matrix of all gene sets
     ''' </summary>
-    ''' <param name="gene_list"></param>
-    ''' <param name="gene_num"></param>
+    ''' <param name="gene_list">所需要进行富集分析的目标基因列表</param>
+    ''' <param name="gene_num">目标基因列表的长度</param>
     ''' <param name="gset_name"></param>
     ''' <param name="gset_des"></param>
     ''' <param name="gset_genes"></param>
     ''' <param name="min_size"></param>
     ''' <param name="max_size"></param>
     ''' <returns></returns>
-    Public Function get_hit_matrix(gene_list As String(), gene_num%, gset_name As String(), gset_des As String(), gset_genes As Index(Of String)(), min_size%, max_size%)
+    ''' <remarks>
+    ''' 在这里的gene set是某一个代谢途径之中的所有的背景基因编号列表
+    ''' </remarks>
+    Public Function get_hit_matrix(gene_list As String(), gene_num%, gset_name As String(), gset_des As String(), gset_genes As Index(Of String)(), min_size%, max_size%) As hitMatrix
         Dim hit_m As New List(Of List(Of Integer))
         Dim hit_genes As New List(Of List(Of String))
 
@@ -67,7 +78,13 @@ All gene sets" & hit_matrix.Length & "have been filtered.
 Please check the threshold and ceil of gene set size (values of min_size and max_size). ")
         End If
 
-        Return (hit_matrix_filtered, hit_genes_filtered, hit_sum_filtered, gset_name_filtered, gset_des_filtered)
+        Return New hitMatrix With {
+            .hit_matrix_filtered = hit_matrix_filtered,
+            .hit_genes_filtered = hit_genes_filtered,
+            .hit_sum_filtered = hit_sum_filtered,
+            .gset_name_filtered = gset_name_filtered,
+            .gset_des_filtered = gset_des_filtered
+        }
     End Function
 
     Public Function rankPro(lb As Integer(), md As String, expr_data As Vector, sample0#, sample1#)
