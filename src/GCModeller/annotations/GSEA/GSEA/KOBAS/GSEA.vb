@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Public Module KOBAS_GSEA
 
@@ -140,9 +141,9 @@ Please check the threshold and ceil of gene set size (values of min_size and max
 
     End Function
 
-    Public Function ES_null(lb, times, method, sample0, sample1, hit_matrix_filtered, weighted_score_type, expr_data, gene_num)
-        Dim lb_matrix As Integer()() = np.array([lb for i in range(times)])
-   Dim ran_labels = lb_matrix.Select(Function(x) x.Shuffles).ToArray
+    Public Function ES_null(lb%(), times%, method$, sample0, sample1, hit_matrix_filtered, weighted_score_type, expr_data, gene_num)
+        Dim lb_matrix As Integer()() = Enumerable.Range(0, times).Select(Function(null) lb).ToArray   ' np.array([lb for i in range(times)])
+        Dim ran_labels = lb_matrix.Select(Function(x) x.Shuffles).ToArray
         Dim def_get_es_null = Function(x As Integer()) ES_for_permutation(x, method, sample0, sample1, hit_matrix_filtered, weighted_score_type, expr_data, gene_num)
         Dim es_null2 = ran_labels.Select(Function(x) def_get_es_null(x)).MatrixTranspose
         Return es_null2
@@ -158,22 +159,22 @@ Please check the threshold and ceil of gene set size (values of min_size and max
     End Function
 
 
-    Public Function normalized(es, es_null)
+    Public Function normalized(es As Vector, es_null As Vector)
 
-        Dim def_mean_pos = Function(x) np.mean(x[x>=0])
-        Dim def_mean_neg = Function(x) np.mean(abs(x[x<=0]))
-        Dim def_nor = Function(x) np.where(x[:  -2]>=0, x[:-2]/x[-2], x[:-2]/x[-1])
+        Dim def_mean_pos = Function(x As Vector) x(x >= 0).Average
+        Dim def_mean_neg = Function(x As Vector) Vector.Abs(x(x <= 0)).Average
+        Dim def_nor = Function(x As Vector) np.Where(x[:     -2]>=0, x[:-2]/x[-2], x[:-2]/x[-1])
 
-  Dim mean_p = np.array(map(def_mean_pos, es_null))
-        mean_p = mean_p.reshape(Len(mean_p), 1)          # shape=(m,1)
-   Dim mean_n = np.array(map(def_mean_neg, es_null))
+  Dim mean_p As Vector = es_null.Select(def_mean_pos)
+        mean_p = mean_p.reshape(Len(mean_p), 1)          ' shape=(m,1)
+        Dim mean_n As Vector = es_null.Select(def_mean_neg).ToArray
         mean_n = mean_n.reshape(Len(mean_n), 1)
 
-        Dim es_null_mean = np.column_stack((es_null, mean_p, mean_n))
-        Dim nes_null = np.array(map(def_nor, es_null_mean))
+        Dim es_null_mean = np.column_stack(es_null, mean_p, mean_n).ToArray
+        Dim nes_null = es_null_mean.Select(def_nor).toarray
 
-        Dim es_mean = np.column_stack((es, mean_p, mean_n))
-        Dim nes_obs = np.array(map(def_nor, es_mean))
+        Dim es_mean = np.column_stack(es, mean_p, mean_n).ToArray
+        Dim nes_obs = es_mean.Select(def_nor).toarray
         Return (nes_obs, nes_null)
     End Function
 
@@ -202,11 +203,12 @@ Dim def_down = Function(x) If(x >= 0, np.sum(nes >= x) / Float(obsmore0) If(obsm
         Dim fdr = cal.Select(def_fdr).ToArray
         Return fdr
     End Function
-    Public Function ES_for_permutation(lb, md, sample0, sample1, hit_matrix_filtered, weighted_score_type, expr_data, gene_num) As Double()
+    Public Function ES_for_permutation(lb%(), md$, sample0, sample1, hit_matrix_filtered, weighted_score_type, expr_data, gene_num) As Double()
         Dim index_0 As New List(Of Integer)
         Dim index_1 As New List(Of Integer)
 
-        For Each element As (i%, j%) In enumerate(lb)   ' abstract index as i, content as j
+        ' abstract index as i, content as j
+        For Each element As (i%, j%) In lb.SeqIterator.Tuples
             If element.j = 0 Then
                 index_0.Add(element.i)
             Else
@@ -214,14 +216,16 @@ Dim def_down = Function(x) If(x >= 0, np.sum(nes >= x) / Float(obsmore0) If(obsm
             End If
         Next
 
-        Dim expr_0 = expr_data(index_0) ' : abstract all rows In column index_0 includes. [row, column]
+        ' : abstract all rows In column index_0 includes. [row, column]
+        Dim expr_0 = expr_data(index_0)
         Dim expr_1 = expr_data(index_1)
-        Dim mean_0 = expr_0.mean(1) ' axis 1 Is meaning Get average from column adds
-        Dim mean_1 = expr_1.mean(1)
-        Dim std_0 = expr_0.std(1)
-        Dim std_1 = expr_1.std(1)
-        Dim s2n
-        Dim sort_gene_index
+        ' axis 1 Is meaning Get average from column adds
+        Dim mean_0 As Vector = expr_0.mean(1)
+        Dim mean_1 As Vector = expr_1.mean(1)
+        Dim std_0 As Vector = expr_0.std(1)
+        Dim std_1 As Vector = expr_1.std(1)
+        Dim s2n As Vector
+        Dim sort_gene_index As Integer()
         Dim sort_r
 
         If (md = "snr") Then
@@ -230,17 +234,17 @@ Dim def_down = Function(x) If(x >= 0, np.sum(nes >= x) / Float(obsmore0) If(obsm
         sort_r = np.sort(s2n, 0)[:-1].T ' this step get s2n value after sorted
         End If
 
-        Dim a
-        Dim s0
-        Dim s1
-        Dim b
-        Dim ttest
+        Dim a As Vector
+        Dim s0 As Vector
+        Dim s1 As Vector
+        Dim b As Vector
+        Dim ttest As Vector
 
         If (md = "ttest") Then
             a = mean_0 - mean_1
-            s0 = np.square(std_0)
-            s1 = np.square(std_1)
-            b = np.sqrt(s0 / sample0 + s1 / sample1)
+            s0 = std_0 ^ 2 ' np.square(std_0)
+            s1 = std_1 ^ 2 ' np.square(std_1)
+            b = Vector.Sqrt(s0 / sample0 + s1 / sample1)  ' np.sqrt(s0 / sample0 + s1 / sample1)
             ttest = a / b
             sort_gene_index = np.argsort(ttest, 0)[:-1].T
         sort_r = np.sort(ttest, 0)[:-1].T
@@ -248,19 +252,19 @@ Dim def_down = Function(x) If(x >= 0, np.sum(nes >= x) / Float(obsmore0) If(obsm
 
         Dim hitm = hit_matrix_filtered[:,sort_gene_index]
   Dim missm = hitm - 1
-        Dim sort_arr = np.array([sort_r for i in range(len(hitm))])
-            Dim tmp
+        Dim sort_arr As Vector = Enumerable.Range(hitm.length).Select(Function(null) sort_r).ToArray    '  np.array([sort_r for i in range(len(hitm))])
+        Dim tmp
 
         If weighted_score_type = 0 Then
             tmp = hitm
         End If
         If weighted_score_type = 1 Then
-            tmp = np.absolute(sort_arr) * hitm
+            tmp = Vector.Abs(sort_arr) * hitm  ' np.absolute(sort_arr) * hitm
         End If
         If weighted_score_type = 2 Then
             tmp = sort_arr ^ 2 * hitm
         Else
-            tmp = np.absolute(sort_arr) ^ weighted_score_type * hitm
+            tmp = Vector.Abs(sort_arr) ^ weighted_score_type * hitm '  np.absolute(sort_arr) ^ weighted_score_type * hitm
         End If
 
         Dim NR = np.sum(tmp, axis = 1)
