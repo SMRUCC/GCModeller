@@ -45,5 +45,7 @@ Module FileTest
 
         Call trainer.TakeSnapshot.GetXml.SaveTo("./format1.Xml")
         Call trainer.TakeSnapshot.GetJson.SaveTo("./format2.json")
+
+        Call trainer.TakeSnapshot.ScatteredStore("./scatters/")
     End Sub
 End Module
