@@ -12,7 +12,7 @@ Imports numpy = Microsoft.VisualBasic.Math
 Public Module KOBAS_GSEA
 
     Public Structure hitMatrix
-        Dim hit_matrix_filtered As np()
+        Dim hit_matrix_filtered As Vector(Of np)
         Dim hit_genes_filtered As List(Of String)()
         Dim hit_sum_filtered As Vector
         Dim gset_name_filtered As String()
@@ -83,7 +83,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         End If
 
         Return New hitMatrix With {
-            .hit_matrix_filtered = hit_matrix_filtered,
+            .hit_matrix_filtered = New Vector(Of np)(hit_matrix_filtered),
             .hit_genes_filtered = hit_genes_filtered,
             .hit_sum_filtered = hit_sum_filtered,
             .gset_name_filtered = gset_name_filtered,
@@ -171,7 +171,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
 
         Dim RES As Vector = pre_score.CumSum
         Dim es_idx = Function(x As Vector)
-                         Return np.Where(Math.Abs(x.Max()) > Math.Abs(x.Min()), (Val:=x.Max(), Index:=Which.Max(x)), (Val:=x.Min(), Index:=Which.Min(x)))
+                         ' Return np.Where(Math.Abs(x.Max()) > Math.Abs(x.Min()), (Val:=x.Max(), Index:=Which.Max(x)), (Val:=x.Min(), Index:=Which.Min(x)))
                      End Function
         Dim re As Vector = es_idx(RES)
         Dim es As Vector = re.slice(, 0)
@@ -273,7 +273,7 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         Dim std_1 As Vector = expr_1.Std(axis:=1)
         Dim s2n As Vector
         Dim sort_gene_index As Integer()
-        Dim sort_r
+        Dim sort_r As Vector
 
         If (md = "snr") Then
             s2n = (mean_0 - mean_1) / (std_0 + std_1)
@@ -293,24 +293,24 @@ Please check the threshold and ceil of gene set size (values of min_size and max
 
         Dim hitm As New GeneralMatrix(hit_matrix_filtered(sort_gene_index))
         Dim missm = hitm - 1
-        Dim sort_arr As Vector '= Enumerable.Range(hitm.Length).Select(Function(null) sort_r).ToArray    '  np.array([sort_r for i in range(len(hitm))])
+        Dim sort_arr As New GeneralMatrix(Enumerable.Range(0, hitm.Length).Select(Function(null) sort_r).ToArray)  '  np.array([sort_r for i in range(len(hitm))])
         Dim tmp As GeneralMatrix
 
         If weighted_score_type = 0 Then
             tmp = hitm
         End If
         If weighted_score_type = 1 Then
-            tmp = Vector.Abs(sort_arr) * hitm  ' np.absolute(sort_arr) * hitm
+            ' tmp = Vector.Abs(sort_arr) * hitm  ' np.absolute(sort_arr) * hitm
         End If
         If weighted_score_type = 2 Then
-            tmp = sort_arr ^ 2 * hitm
+            'tmp = sort_arr ^ 2 * hitm
         Else
-            tmp = Vector.Abs(sort_arr) ^ weighted_score_type * hitm '  np.absolute(sort_arr) ^ weighted_score_type * hitm
+            '  tmp = Vector.Abs(sort_arr) ^ weighted_score_type * hitm '  np.absolute(sort_arr) ^ weighted_score_type * hitm
         End If
 
         Dim NR '= np.Sum(tmp, axis = 1)
         Dim hit_score = tmp / NR
-        Dim miss_score = 1.0 / (gene_num - Len(hitm)) * missm
+        Dim miss_score = 1.0 / (gene_num - hitm.Length) * missm
         Dim res As DoubleRange() '= np.CumSum(hit_score + miss_score, axis = 1)
         Dim get_es = Function(x As DoubleRange)
                          Return If(Math.Abs(x.Max()) > Math.Abs(x.Min()), x.Max(), x.Min())
