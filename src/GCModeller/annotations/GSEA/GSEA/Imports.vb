@@ -5,6 +5,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports Synonym = SMRUCC.genomics.ComponentModel.DBLinkBuilder.Synonym
 
 ''' <summary>
 ''' 进行富集计算分析所需要的基因组背景模型的导入模块
@@ -73,7 +74,7 @@ Public Module [Imports]
                                    Optional genomeName$ = Nothing,
                                    Optional outputAll As Boolean = False) As Background
 
-        Dim clusters As New Dictionary(Of String, List(Of String))
+        Dim clusters As New Dictionary(Of String, List(Of Synonym))
 
         For Each protein As entry In db
             Dim terms = getTerm(protein)
@@ -89,10 +90,13 @@ Public Module [Imports]
 
             For Each clusterID As String In clusterNames
                 If Not clusters.ContainsKey(clusterID) Then
-                    clusters.Add(clusterID, New List(Of String))
+                    clusters.Add(clusterID, New List(Of Synonym))
                 End If
 
-                clusters(clusterID) += protein.accessions
+                clusters(clusterID) += New Synonym With {
+                    .accessionID = protein.accessions(Scan0),
+                    .[alias] = protein.accessions
+                }
             Next
         Next
 
@@ -108,9 +112,7 @@ Public Module [Imports]
                            End If
                        End Function) _
                 .Select(Function(c)
-                            Dim geneIDs$() = c.Value _
-                                              .Distinct _
-                                              .ToArray
+                            Dim geneIDs As Synonym() = c.Value.ToArray
 
                             Return New Cluster With {
                                 .ID = c.Key,
