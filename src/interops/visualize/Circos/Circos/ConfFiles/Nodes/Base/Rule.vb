@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f2f41c37fe977bdf2752fcc20ccfd8f, visualize\Circos\Circos\ConfFiles\Nodes\Base\Rule.vb"
+﻿#Region "Microsoft.VisualBasic::0847e59ec7634e7e2cc0b8a838a24659, Circos\ConfFiles\Nodes\Base\Rule.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::686210fe64f8faae0ad29c5cc0b30fd2, visualize\Circos\Circos\Karyotype\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::5bd3b77b7b2d6aff18b94d4f054cdec8, Circos\Karyotype\SkeletonInfo.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,9 @@
 
     '     Class SkeletonInfo
     ' 
-    '         Properties: Size
+    '         Properties: size
     ' 
-    '         Function: Build, (+2 Overloads) Save
+    '         Function: AddBands, Build, (+2 Overloads) Save
     ' 
     '         Sub: __karyotype
     ' 

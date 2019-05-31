@@ -1,61 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::ff1d9ccd57e10c601281f58b1703a81b, visualize\Circos\Circos\Karyotype\Karyotype.vb"
+﻿#Region "Microsoft.VisualBasic::573c8fa38c5314aea0acb04aa06a08ae, Circos\Karyotype\Karyotype.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module KaryotypeExtensions
-' 
-'         Function: LoopHole, MapsRaw, nt
-' 
-'     Class Karyotype
-' 
-'         Properties: [end], chrLabel, chrName, color, start
-' 
-'         Function: ToString
-' 
-'     Interface IKaryotype
-' 
-'         Properties: [end], chrName, color, start
-' 
-'         Function: GetData
-' 
-'     Class Band
-' 
-'         Properties: [end], bandX, bandY, chrName, color
-'                     start
-' 
-'         Function: GetData, ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class Karyotype
+    ' 
+    '         Properties: [end], chrLabel, chrName, color, start
+    ' 
+    '         Function: ToString
+    ' 
+    '     Interface IKaryotype
+    ' 
+    '         Properties: [end], chrName, color, start
+    ' 
+    '         Function: GetData
+    ' 
+    '     Class Band
+    ' 
+    '         Properties: [end], bandX, bandY, chrName, color
+    '                     start
+    ' 
+    '         Function: GetData, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

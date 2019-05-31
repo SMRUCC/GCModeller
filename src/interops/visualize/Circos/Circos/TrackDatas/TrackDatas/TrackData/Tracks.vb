@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fe77925897826dc33d80a47b544568b, visualize\Circos\Circos\TrackDatas\TrackDatas\TrackData\Tracks.vb"
+﻿#Region "Microsoft.VisualBasic::01663ed853e60737e5a44a2ceb1b89b8, Circos\TrackDatas\TrackDatas\TrackData\Tracks.vb"
 
     ' Author:
     ' 
@@ -33,25 +33,25 @@
 
     '     Class RegionTrackData
     ' 
-    '         Function: __trackData
+    '         Function: trackData
     ' 
     '     Class ValueTrackData
     ' 
     '         Properties: value
     ' 
-    '         Function: __trackData
+    '         Function: trackData
     ' 
     '     Class StackedTrackData
     ' 
     '         Properties: values
     ' 
-    '         Function: __trackData
+    '         Function: trackData
     ' 
     '     Class TextTrackData
     ' 
     '         Properties: text
     ' 
-    '         Function: __trackData
+    '         Function: trackData
     ' 
     ' 
     ' /********************************************************************************/

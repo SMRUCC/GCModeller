@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2d02234d67dedd6925af26d79694c98, visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GCContent.vb"
+﻿#Region "Microsoft.VisualBasic::d1fe649a54bda7ad68749779bdf61038, Circos\TrackDatas\Adapter\NtProps\GCContent.vb"
 
     ' Author:
     ' 

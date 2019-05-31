@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b824b78be27e68840f8249683dee6ab, visualize\Circos\Circos\TrackDatas\Adapter\Highlights\MotifSites.vb"
+﻿#Region "Microsoft.VisualBasic::26d3d05d193ac2c34e6da2033e86dd8d, Circos\TrackDatas\Adapter\Highlights\MotifSites.vb"
 
     ' Author:
     ' 

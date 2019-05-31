@@ -261,7 +261,7 @@
     <Compile Include="TrackDatas\TrackDatas\TrackData\LinkConnector.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData\TrackData.vb" />
     <Compile Include="Karyotype\Adapters\PPTMarks.vb" />
-    <Compile Include="Colors\Maps\ColorAPI.vb" />
+    <Compile Include="Colors\Maps\CategoryProfiles.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCSkew.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GenomeGCContent.vb" />
     <Compile Include="TrackDatas\Adapter\Connector.vb" />

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d76382b19fae2e78e0837d27c42d502, visualize\Circos\Circos\Colors\GradientMaps.vb"
+﻿#Region "Microsoft.VisualBasic::4938627def26487988197a465f060b79, Circos\Colors\Maps\GradientMaps.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,6 @@
     '     Module GradientMaps
     ' 
     '         Function: GradientMappings, MapAnnotations
-    '         Structure __maps
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: CreateMaps
-    ' 
-    ' 
     ' 
     ' 
     ' /********************************************************************************/
