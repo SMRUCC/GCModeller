@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::86c623d8c34b796f28c3d3dba3f8519d, Circos\CircosAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CircosAPI
-    ' 
-    '     Function: __createGenomeCircle, (+2 Overloads) __geneHighlights, __includesRemoveCommon, AddGenbankData, AddGeneInfoTrack
-    '               (+2 Overloads) AddGradientMappings, AddMotifSites, AddPlotTrack, AddScoredMotifs, AddSites
-    '               CircosOption, CreateDataModel, CreateGCContent, CreateGCSkewPlots, CreateGenomeCircle
-    '               DrawingImageAddLegend, GenerateBlastnAlignment, GenerateGeneCircle, GetCircosScript, GetGenomeCircle
-    '               GetIdeogram, (+2 Overloads) IdentityColors, PlotsSeperatorLine, PTT2Dump, RemoveIdeogram
-    '               RemoveStroke, RemoveTicks, RNAVisualize, (+3 Overloads) SetBasicProperty, (+2 Overloads) SetIdeogramRadius
-    '               SetIdeogramWidth, SetPlotElementPosition, (+2 Overloads) SetRadius, SetTrackFillColor, SetTrackOrientation
-    '               Shell, SitesFrequency, SkeletonFromDoor, VariantsHighlights, VariationAsDump
-    '               WriteData
-    ' 
-    '     Sub: __addDisplayName, __STDOUT_Threads, setProperty, ShowTicksLabel
-    ' 
-    ' /********************************************************************************/
+' Module CircosAPI
+' 
+'     Function: __createGenomeCircle, (+2 Overloads) __geneHighlights, __includesRemoveCommon, AddGenbankData, AddGeneInfoTrack
+'               (+2 Overloads) AddGradientMappings, AddMotifSites, AddPlotTrack, AddScoredMotifs, AddSites
+'               CircosOption, CreateDataModel, CreateGCContent, CreateGCSkewPlots, CreateGenomeCircle
+'               DrawingImageAddLegend, GenerateBlastnAlignment, GenerateGeneCircle, GetCircosScript, GetGenomeCircle
+'               GetIdeogram, (+2 Overloads) IdentityColors, PlotsSeperatorLine, PTT2Dump, RemoveIdeogram
+'               RemoveStroke, RemoveTicks, RNAVisualize, (+3 Overloads) SetBasicProperty, (+2 Overloads) SetIdeogramRadius
+'               SetIdeogramWidth, SetPlotElementPosition, (+2 Overloads) SetRadius, SetTrackFillColor, SetTrackOrientation
+'               Shell, SitesFrequency, SkeletonFromDoor, VariantsHighlights, VariationAsDump
+'               WriteData
+' 
+'     Sub: __addDisplayName, __STDOUT_Threads, setProperty, ShowTicksLabel
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -82,6 +82,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize.Circos.Colors
 Imports SMRUCC.genomics.Visualize.Circos.Configurations
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype.GeneObjects
@@ -297,7 +298,7 @@ different with the ideogram configuration document was not included in the circo
     <ExportAPI("Set.Radius")>
     <Extension>
     Public Function SetRadius(circos As Configurations.Circos, rMax#, rMin#) As Configurations.Circos
-        Dim d = (rMax - rMin) / (circos.NumberOfTracks + 1)
+        Dim d = (rMax - rMin) / (circos.numberOfTracks + 1)
         Dim dd = d * 0.2
         Dim r As Double = rMax - dd
 
@@ -1063,7 +1064,7 @@ SET_END:    Dim ends = i
 
     <ExportAPI("Set.Property.Basic")>
     Public Function SetBasicProperty(doc As Configurations.Circos, data As PTTMarks) As Boolean
-        doc.SkeletonKaryotype = data
+        doc.skeletonKaryotype = data
 
         Call doc.includes.Add(New Ticks(Circos:=doc))
         Call doc.includes.Add(New Ideogram(doc))
@@ -1096,7 +1097,7 @@ SET_END:    Dim ends = i
         Call circos.includes.Add(New Ideogram(circos))
 
         circos.skeletonKaryotype = New KaryotypeChromosomes(totalSize, "white", bands)
-        circos.SkeletonKaryotype.LoopHole.value = loopHole
+        circos.skeletonKaryotype.LoopHole.value = loopHole
         circos.karyotype = "./data/genome_skeleton.txt"
 
         Return True

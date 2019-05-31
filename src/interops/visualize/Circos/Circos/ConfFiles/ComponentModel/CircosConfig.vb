@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 
-Namespace Configurations
+Namespace Configurations.ComponentModel
 
     ''' <summary>
     ''' Abstract of the circos config files.
@@ -96,7 +96,7 @@ Namespace Configurations
             Dim refPath As String = Tools.TrimPath(include)
 
             If TypeOf include Is CircosDistributed Then
-                Dim name As String = DirectCast(include, CircosDistributed).Section
+                Dim name As String = DirectCast(include, CircosDistributed).section
 
                 If Not String.IsNullOrEmpty(name) Then
                     Call sb.AppendLine($"<{name}>")

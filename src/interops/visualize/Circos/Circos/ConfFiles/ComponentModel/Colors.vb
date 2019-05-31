@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Configurations
+Namespace Configurations.ComponentModel
 
     ''' <summary>
     ''' Use ``<see cref="Circos.chromosomes_color"/>`` to change

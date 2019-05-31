@@ -43,11 +43,7 @@
 
 #End Region
 
-Imports System.Text
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Settings
-
-Namespace Configurations
+Namespace Configurations.ComponentModel
 
     ''' <summary>
     ''' The circos distributed includes files.

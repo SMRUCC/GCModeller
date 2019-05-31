@@ -50,7 +50,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel
 
-Namespace Configurations
+Namespace Configurations.ComponentModel
 
     Public MustInherit Class CircosDocument : Implements ICircosDocNode
         Public MustOverride Function Build(indents As Integer, directory As String) As String Implements ICircosDocNode.Build

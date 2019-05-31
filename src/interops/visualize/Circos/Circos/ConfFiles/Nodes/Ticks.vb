@@ -1,60 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::ff96e5b981e80178ec71ad1edc494689, Circos\ConfFiles\Nodes\Ticks.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Ticks
-    ' 
-    '         Properties: color, label_offset, label_separation, label_size, min_label_distance_to_edge
-    '                     multiplier, radius, size, skip_first_label, skip_last_label
-    '                     thickness, tick_separation, Ticks
-    ' 
-    '         Function: Build, DefaultConfiguration
-    ' 
-    '     Class Tick
-    ' 
-    '         Properties: color, format, grid, grid_color, grid_thickness
-    '                     label_offset, label_size, show_label, size, spacing
-    '                     suffix
-    ' 
-    '         Function: Build
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Ticks
+' 
+'         Properties: color, label_offset, label_separation, label_size, min_label_distance_to_edge
+'                     multiplier, radius, size, skip_first_label, skip_last_label
+'                     thickness, tick_separation, Ticks
+' 
+'         Function: Build, DefaultConfiguration
+' 
+'     Class Tick
+' 
+'         Properties: color, format, grid, grid_color, grid_thickness
+'                     label_offset, label_size, show_label, size, spacing
+'                     suffix
+' 
+'         Function: Build
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports Microsoft.VisualBasic
-Imports System.Text
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Configurations.Nodes
 

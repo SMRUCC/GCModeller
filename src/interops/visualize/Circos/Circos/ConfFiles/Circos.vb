@@ -57,6 +57,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 
@@ -363,7 +364,7 @@ Namespace Configurations
             If Not Plots.IsNullOrEmpty Then
                 Call sb.AppendLine(vbCrLf & "<plots>")
 
-                For Each plotRule In plotTracks
+                For Each plotRule As ITrackPlot In plotTracks
                     Call sb.AppendLine()
                     Call sb.AppendLine(plotRule.Build(IndentLevel + 2, directory))
                 Next
