@@ -96,11 +96,17 @@ Module Program
         Dim size = nt.Length
         Dim doc = Circos.CreateDataModel
 
-        Dim AT As New Plots.Histogram(New NtProps.GCSkew(nt.GCSkew(50, 2, True), 5))
+        ' doc = Circos.CircosAPI.GenerateGeneCircle(doc, "G:\5.14.circos\KU527068_ann.csv".LoadCsv(Of GeneDumpInfo), False)
 
-        Call Circos.CircosAPI.AddPlotTrack(doc, AT)
+        Dim GCSkew As New Plots.Histogram(Circos.CreateGCSkewPlots(nt, 500, 300))
+        Call Circos.AddPlotTrack(doc, GCSkew)
 
-        Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=512)
+        Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=5120)
+
+        Call Circos.CircosAPI.SetIdeogramWidth(Circos.GetIdeogram(doc), 0)
+        Call Circos.CircosAPI.ShowTicksLabel(doc, True)
+        Call doc.ForceAutoLayout()
+        Call Circos.CircosAPI.SetIdeogramRadius(Circos.GetIdeogram(doc), 0.25)
 
         Call Circos.CircosAPI.WriteData(doc, "P:\deg\91001\circos", debug:=False)
 
