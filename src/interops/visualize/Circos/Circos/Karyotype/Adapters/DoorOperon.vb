@@ -58,7 +58,7 @@ Namespace Karyotype
             Dim DOOR As DOOR = DOOR_API.Load(DoorFile)
             Me.bands = New List(Of Band)(GenerateDocument(DOOR))
             Me.Size = bands.Select(Function(x) {x.start, x.end}).IteratesALL.Max
-            Call __karyotype()
+            Call singleKaryotypeChromosome()
         End Sub
 
         Private Overloads Iterator Function GenerateDocument(DOOR As DOOR) As IEnumerable(Of Band)

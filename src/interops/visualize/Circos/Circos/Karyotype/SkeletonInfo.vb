@@ -86,13 +86,13 @@ Namespace Karyotype
         ''' <summary>
         ''' 只有一个基因组的时候可以调用这个方法
         ''' </summary>
-        Protected Sub __karyotype(Optional color As String = "black")
+        Protected Sub singleKaryotypeChromosome(Optional color As String = "black")
             Me.karyos = New List(Of Karyotype) From {
                 New Karyotype With {
                     .chrLabel = "1",
                     .chrName = "chr1",
                     .start = 1,
-                    .end = Size,
+                    .end = size,
                     .color = color
                 }
             }

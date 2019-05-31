@@ -61,11 +61,11 @@ Namespace Karyotype
         ''' <param name="gSize">The genome size.</param>
         ''' <param name="color"></param>
         ''' <param name="bandData"><see cref="NamedTuple(Of String).Name"/>为颜色，其余的两个属性分别为左端起始和右端结束</param>
-        Sub New(gSize As Integer, color As String, Optional bandData As NamedTuple(Of String)() = Nothing)
+        Sub New(gSize As Integer, color As String, Optional bandData As IEnumerable(Of NamedTuple(Of String)) = Nothing)
             Me.size = gSize
             Me.bands = New List(Of Band)(GenerateDocument(bandData))
 
-            Call __karyotype(color)
+            Call singleKaryotypeChromosome(color)
         End Sub
 
         Sub New(Karyotypes As IEnumerable(Of Karyotype))

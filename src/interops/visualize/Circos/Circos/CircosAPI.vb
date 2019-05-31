@@ -1090,13 +1090,13 @@ SET_END:    Dim ends = i
                                      NT As FastaSeq,
                                      bands As IEnumerable(Of NamedTuple(Of String)),
                                      Optional loopHole As Integer = 0) As Boolean
+
+        Dim totalSize% = Len(NT.SequenceData) + loopHole
+
         Call circos.includes.Add(New Ticks(Circos:=circos))
         Call circos.includes.Add(New Ideogram(circos))
 
-        circos.SkeletonKaryotype = New KaryotypeChromosomes(
-            Len(NT.SequenceData) + loopHole,
-            "white",
-            bands.SafeQuery.ToArray)
+        circos.skeletonKaryotype = New KaryotypeChromosomes(totalSize, "white", bands)
         circos.SkeletonKaryotype.LoopHole.value = loopHole
         circos.karyotype = "./data/genome_skeleton.txt"
 
