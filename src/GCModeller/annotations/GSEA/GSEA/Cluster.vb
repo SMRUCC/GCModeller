@@ -4,6 +4,8 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 ''' <summary>
 ''' 主要是KEGG代谢途径，也可以是其他的具有生物学意义的聚类结果
@@ -24,19 +26,20 @@ Public Class Cluster : Implements INamedValue
     ''' 当前的这个聚类之中的基因列表
     ''' </summary>
     ''' <returns></returns>
-    Public Property members As String()
-        Get
-            Return index.Objects
-        End Get
-        Set(value As String())
-            index = value
-        End Set
-    End Property
+    Public Property members As Synonym()
 
     Dim index As Index(Of String)
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Intersect(list As IEnumerable(Of String)) As IEnumerable(Of String)
+        If index Is Nothing Then
+            index = members _
+                .Select(Function(name) name.AsEnumerable) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End If
+
         Return index.Intersect(collection:=list)
     End Function
 
