@@ -499,8 +499,7 @@ different with the ideogram configuration document was not included in the circo
             Select gene.COG
             Distinct
 
-        Dim Colors As Dictionary(Of String, String) =
-            CircosColor.ColorProfiles(COGVector)
+        Dim Colors As Dictionary(Of String, String) = CircosColor.ColorProfiles(COGVector)
 
         Call Colors.Remove("CDS")
         Call Colors.Add("CDS", "rdylbu-6-div-1")

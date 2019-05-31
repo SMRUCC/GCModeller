@@ -89,8 +89,8 @@ Namespace Configurations
 
             Call sb.AppendLine("<colors>")
 
-            For Each x As NamedValue(Of String) In colors.Values
-                Call sb.AppendLine($"  {x.Name} = {x.Value}")
+            For Each color As NamedValue(Of String) In colors.Values
+                Call sb.AppendLine($"  {color.Name} = {color.Value}")
             Next
 
             Call sb.AppendLine("</colors>")

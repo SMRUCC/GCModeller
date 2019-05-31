@@ -43,6 +43,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
@@ -95,8 +96,14 @@ Module Program
         Dim nt = gb.Origin.ToFasta
         Dim size = nt.Length
         Dim doc = Circos.CreateDataModel
+        Dim annotations = EntityObject _
+            .LoadDataSet("P:\deg\91001\91001_NC_005810 Annotations.csv") _
+            .Select(Function(anno)
+                        Return New GeneDumpInfo
+                    End Function) _
+            .ToArray
 
-        ' doc = Circos.CircosAPI.GenerateGeneCircle(doc, "G:\5.14.circos\KU527068_ann.csv".LoadCsv(Of GeneDumpInfo), False)
+        doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, False)
 
         Dim GCSkew As New Plots.Histogram(Circos.CreateGCSkewPlots(nt, 500, 300))
         Call Circos.AddPlotTrack(doc, GCSkew)
