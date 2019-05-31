@@ -337,7 +337,7 @@
     <Compile Include="NeuralNetwork\Models\Network.vb" />
     <Compile Include="NeuralNetwork\Models\Neuron.vb" />
     <Compile Include="NeuralNetwork\Models\Synapse.vb" />
-    <Compile Include="NeuralNetwork\StoreProcedure.vb" />
+    <Compile Include="NeuralNetwork\StoreProcedure\StoreProcedure.vb" />
     <Compile Include="NeuralNetwork\TrainingUtils.vb" />
     <Compile Include="QLearning\Action.vb" />
     <Compile Include="QLearning\Model.vb" />
