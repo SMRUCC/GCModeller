@@ -1,22 +1,40 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Matrix
+Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
+Imports numpy = Microsoft.VisualBasic.Math
 
 Public Module KOBAS_GSEA
+
+    Public Structure hitMatrix
+        Dim hit_matrix_filtered As Vector(Of np)
+        Dim hit_genes_filtered As List(Of String)()
+        Dim hit_sum_filtered As Vector
+        Dim gset_name_filtered As String()
+        Dim gset_des_filtered As String()
+    End Structure
 
     ''' <summary>
     ''' This function get a matrix of all gene sets
     ''' </summary>
-    ''' <param name="gene_list"></param>
-    ''' <param name="gene_num"></param>
-    ''' <param name="gset_name"></param>
-    ''' <param name="gset_des"></param>
-    ''' <param name="gset_genes"></param>
+    ''' <param name="gene_list">所需要进行富集分析的目标基因列表</param>
+    ''' <param name="gene_num">目标基因列表的长度</param>
+    ''' <param name="gset_name">代谢途径的名称列表</param>
+    ''' <param name="gset_des">应该是与<paramref name="gset_name"/>等长的唯一标识符，其实这个参数可以直接用<paramref name="gset_name"/>来代替</param>
+    ''' <param name="gset_genes">每一个代谢途径之中的背景基因列表</param>
     ''' <param name="min_size"></param>
     ''' <param name="max_size"></param>
     ''' <returns></returns>
-    Public Function get_hit_matrix(gene_list As String(), gene_num%, gset_name As String(), gset_des As String(), gset_genes As Index(Of String)(), min_size%, max_size%)
+    ''' <remarks>
+    ''' 在这里的gene set是某一个代谢途径之中的所有的背景基因编号列表
+    ''' 背景基因的数据一般来自于<see cref="Gmt"/>文件的读取结果
+    ''' </remarks>
+    Public Function get_hit_matrix(gene_list As String(), gene_num%, gset_name As String(), gset_des As String(), gset_genes As Index(Of String)(), min_size%, max_size%) As hitMatrix
         Dim hit_m As New List(Of List(Of Integer))
         Dim hit_genes As New List(Of List(Of String))
 
@@ -64,10 +82,25 @@ All gene sets" & hit_matrix.Length & "have been filtered.
 Please check the threshold and ceil of gene set size (values of min_size and max_size). ")
         End If
 
-        Return (hit_matrix_filtered, hit_genes_filtered, hit_sum_filtered, gset_name_filtered, gset_des_filtered)
+        Return New hitMatrix With {
+            .hit_matrix_filtered = New Vector(Of np)(hit_matrix_filtered),
+            .hit_genes_filtered = hit_genes_filtered,
+            .hit_sum_filtered = hit_sum_filtered,
+            .gset_name_filtered = gset_name_filtered,
+            .gset_des_filtered = gset_des_filtered
+        }
     End Function
 
-    Public Function rankPro(lb As Integer(), md As String, expr_data As Vector, sample0#, sample1#)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="lb">Labels</param>
+    ''' <param name="md"></param>
+    ''' <param name="expr_data"></param>
+    ''' <param name="sample0#"></param>
+    ''' <param name="sample1#"></param>
+    ''' <returns></returns>
+    Public Function rank_pro(lb As Integer(), md As String, expr_data As Vector(Of Vector), sample0#, sample1#) As (sort_r As Vector, sort_gene_index As Vector)
         Dim index_0 As New List(Of Integer)
         Dim index_1 As New List(Of Integer)
 
@@ -84,34 +117,38 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         ' abstract all rows in column index_0 includes. [row,column]
         Dim expr_0 = expr_data(index_0)
         Dim expr_1 = expr_data(index_1)
-        Dim mean_0 = expr_0.Average
-        Dim mean_1 = expr_1.Average
-        Dim std_0 = expr_0.StdError
-        Dim std_1 = expr_0.StdError
+        Dim mean_0 = expr_0.Mean(axis:=1)
+        Dim mean_1 = expr_1.Mean(axis:=1)
+        Dim std_0 = expr_0.Std(axis:=1)
+        Dim std_1 = expr_0.Std(axis:=1)
 
-        Dim sort_gene_index
-        Dim sort_r
+        Dim sort_gene_index As Vector
+        Dim sort_r As Vector
 
         If md = "snr" Then
             Dim s2n = (mean_0 - mean_1) / (std_0 + std_1)
             ' this step get index after sorted, then use this index to get gene list from gene_name
-
+            sort_gene_index = np.argsort(s2n).AsVector.slice(, -1) '.T 
             ' this step get s2n value after sorted
-
+            sort_r = np.Sort(s2n).slice(, -1) '.T 
         ElseIf md = "ttest" Then
             Dim a = mean_0 - mean_1
             Dim s0 = std_0 ^ 2
             Dim s1 = std_1 ^ 2
-            Dim b = Math.Sqrt(s0 / sample0 + s1 / sample1)
+            Dim b = Vector.Sqrt(s0 / sample0 + s1 / sample1)
             Dim ttest = a / b
 
+            sort_gene_index = np.argsort(ttest).AsVector.slice(, -1) '.T
+            sort_r = np.Sort(ttest).slice(, -1) '.T
+        Else
+            Throw New NotSupportedException(md)
         End If
 
         ' NOTE: sort_r is 1*gene_num matrix
         Return (sort_r, sort_gene_index)
     End Function
 
-    Public Function ES_all(sort_r#, sort_gene_index As Object, hit_matrix_filtered As Object, weighted_score_type%, gene_num%)
+    Public Function ES_all(sort_r#, sort_gene_index As Vector, hit_matrix_filtered As Object, weighted_score_type%, gene_num%)
         Dim hitm As Vector = hit_matrix_filtered(sort_gene_index)
         Dim missm = hitm - 1
         Dim sort_arr As Vector = sort_r.Repeats(hitm.Length)
@@ -133,80 +170,92 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         Dim pre_score = hit_score + miss_score
 
         Dim RES As Vector = pre_score.CumSum
-        Dim es_idx = Function(x As Vector) As Integer()
-                         ' Return Which.IsTrue(Math.Abs(x.Max()) > Math.Abs(x.Min()), (x.Max(), x.argmax()), (x.Min(), x.argmin()))
+        Dim es_idx = Function(x As Vector)
+                         ' Return np.Where(Math.Abs(x.Max()) > Math.Abs(x.Min()), (Val:=x.Max(), Index:=Which.Max(x)), (Val:=x.Min(), Index:=Which.Min(x)))
                      End Function
-        Dim re = es_idx(RES)
+        Dim re As Vector = es_idx(RES)
+        Dim es As Vector = re.slice(, 0)
+        Dim idx As Vector = re.slice(, 1)
 
+        Return (es, idx, RES)
     End Function
 
-    Public Function ES_null(lb, times, method, sample0, sample1, hit_matrix_filtered, weighted_score_type, expr_data, gene_num)
-        Dim lb_matrix As Integer()() = np.array([lb for i in range(times)])
-   Dim ran_labels = lb_matrix.Select(Function(x) x.Shuffles).ToArray
+    Public Function ES_null(lb%(), times%, method$, sample0 As Vector, sample1 As Vector, hit_matrix_filtered As Vector(Of Vector), weighted_score_type%, expr_data As Vector(Of Vector), gene_num%)
+        Dim lb_matrix As Integer()() = Enumerable.Range(0, times).Select(Function(null) lb).ToArray   ' np.array([lb for i in range(times)])
+        Dim ran_labels = lb_matrix.Select(Function(x) x.Shuffles).ToArray
         Dim def_get_es_null = Function(x As Integer()) ES_for_permutation(x, method, sample0, sample1, hit_matrix_filtered, weighted_score_type, expr_data, gene_num)
         Dim es_null2 = ran_labels.Select(Function(x) def_get_es_null(x)).MatrixTranspose
         Return es_null2
     End Function
 
-    Public Function nominal_p(es, es_null)
-        Dim ES_all = np.column_stack((es_null, es))
-        Dim def_pval = Function(x) sum(x[:   -1] >= x[-1])/float(sum(x[:-1] >=0)) if (x[-1]>=0) else sum(x[:-1] <= x[-1])/float(sum(x[:-1] <=0))
-    ' def_pval = lambda x: where(x[-1]>=0, sum(x[:-1] >= x[-1])/float(sum(x[:-1]) >=0), sum(x[:-1] <= x[-1])/float(sum(x[:-1]) <=0))
-  Dim r = map(def_pval, ES_all)
-        Dim pval = np.array([r]).T     ' m*1 array  m: num of filter gene sets
+    Public Function nominal_p(es As Vector, es_null As Vector) As Vector
+        Dim ES_all = np.column_stack(es_null, es)
+        Dim def_pval = Function(x As Vector) np.Sum(x.slice(, -1) >= x(-1)) / np.Sum(x.slice(, -1) >= 0) Or (np.Sum(x.slice(, -1) <= x(-1)) / np.Sum(x.slice(, -1) <= 0)).When(x(-1) >= 0)
+        ' def_pval = lambda x: where(x[-1]>=0, sum(x[:-1] >= x[-1])/float(sum(x[:-1]) >=0), sum(x[:-1] <= x[-1])/float(sum(x[:-1]) <=0))
+        Dim r = ES_all.Select(def_pval).ToArray
+        Dim pval = r.IteratesALL.AsVector      ' m*1 array  m: num of filter gene sets
         Return pval
     End Function
 
 
-    Public Function normalized(es, es_null)
+    Public Function normalized(es As Vector, es_null As Vector)
 
-        Dim def_mean_pos = Function(x) np.mean(x[x>=0])
-        Dim def_mean_neg = Function(x) np.mean(abs(x[x<=0]))
-        Dim def_nor = Function(x) np.where(x[:  -2]>=0, x[:-2]/x[-2], x[:-2]/x[-1])
+        Dim def_mean_pos = Function(x As Vector) x(x >= 0).Average
+        Dim def_mean_neg = Function(x As Vector) Vector.Abs(x(x <= 0)).Average
+        Dim def_nor = Function(x As Vector) np.Where(x.slice(, -2) >= 0, x.slice(, -2) / x(-2), x.slice(, -2) / x(-1))
 
-  Dim mean_p = np.array(map(def_mean_pos, es_null))
-        mean_p = mean_p.reshape(Len(mean_p), 1)          # shape=(m,1)
-   Dim mean_n = np.array(map(def_mean_neg, es_null))
-        mean_n = mean_n.reshape(Len(mean_n), 1)
+        Dim mean_p As Vector = es_null.Select(def_mean_pos)
+        ' mean_p = mean_p.reshape(Len(mean_p), 1)          ' shape=(m,1)
+        Dim mean_n As Vector = es_null.Select(def_mean_neg).ToArray
+        ' mean_n = mean_n.reshape(Len(mean_n), 1)
 
-        Dim es_null_mean = np.column_stack((es_null, mean_p, mean_n))
-        Dim nes_null = np.array(map(def_nor, es_null_mean))
+        Dim es_null_mean = np.column_stack(es_null, mean_p, mean_n).ToArray
+        Dim nes_null = es_null_mean.Select(def_nor).ToArray
 
-        Dim es_mean = np.column_stack((es, mean_p, mean_n))
-        Dim nes_obs = np.array(map(def_nor, es_mean))
+        Dim es_mean = np.column_stack(es, mean_p, mean_n).ToArray
+        Dim nes_obs = es_mean.Select(def_nor).ToArray
         Return (nes_obs, nes_null)
     End Function
 
     Public Function fdr_cal(nes_obs As Vector, nes_null As Vector) As Double()
+        Dim nullmore0 = BooleanVector.Sum(nes_null >= 0)
+        Dim nullless0 = BooleanVector.Sum(nes_null <= 0)
+        Dim obsmore0 = BooleanVector.Sum(nes_obs >= 0)
+        Dim obsless0 = BooleanVector.Sum(nes_obs <= 0)
+        Dim nes As New Vector(nes_obs)
 
-        Dim nullmore0 = np.sum(nes_null >= 0)
-        Dim nullless0 = np.sum(nes_null <= 0)
+        Dim def_top = Function(x As Vector)
+                          Dim a = (BooleanVector.Sum(nes_null >= x) / nullmore0) Or 0#.When(nullmore0 > 0)
+                          Dim b = (BooleanVector.Sum(nes_null <= x) / nullless0) Or 0#.When(nullless0 > 0)
 
-        Dim obsmore0 = np.sum(nes_obs >= 0)
-        Dim obsless0 = np.sum(nes_obs <= 0)
+                          Return np.Where(x >= 0, a, b)
+                      End Function
+        Dim def_down = Function(x As Vector)
+                           Dim a = (BooleanVector.Sum(nes >= x) / obsmore0) Or 0#.When(obsmore0 > 0)
+                           Dim b = (BooleanVector.Sum(nes <= x) / obsless0) Or 0#.When(obsless0 > 0)
 
-        Dim def_top = Function(x As Double) If(x >= 0, np.sum(nes_null >= x) / Float(nullmore0) If (nullmore0>0) Else 0,
-                              np.sum(nes_null <= x)/float(nullless0) If(nullless0>0) Else 0)
+                           Return np.Where(x >= 0, a, b)
+                       End Function
 
-Dim def_down = Function(x) If(x >= 0, np.sum(nes >= x) / Float(obsmore0) If(obsmore0>0) Else 0,
-                               np.sum(nes <= x)/float(obsless0) If(obsless0>0) Else 0)
+        'def_top = lambda x : where(x>=0, sum(nes_null >= x)/float(nullmore0), sum(nes_null <= x)/float(nullless0))
+        'def_down = lambda x : where(x>=0, sum(nes>= x)/float(obsmore0), sum(nes <= x)/float(obsless0))
 
-    'def_top = lambda x : where(x>=0, sum(nes_null >= x)/float(nullmore0), sum(nes_null <= x)/float(nullless0))
-    'def_down = lambda x : where(x>=0, sum(nes>= x)/float(obsmore0), sum(nes <= x)/float(obsless0))
-
-   Dim top = nes_obs.Select(def_top).toarray
-        Dim nes = nes_obs.copy()
-        Dim down = np.array(map(def_down, nes_obs))
-        Dim cal As Double()() = np.column_stack((top, down))
-        Dim def_fdr = Function(x As Double()) If(x(0) / x(1) < 1, x(0) / x(1), 1)
+        Dim top = nes_obs.Select(def_top).ToArray
+        Dim down = nes_obs.Select(def_down).ToArray
+        Dim cal As Double()() ' = np.column_stack(top, down)
+        Dim def_fdr = Function(x As Double())
+                          Return If(x(0) / x(1) < 1, x(0) / x(1), 1)
+                      End Function
         Dim fdr = cal.Select(def_fdr).ToArray
         Return fdr
     End Function
-    Public Function ES_for_permutation(lb, md, sample0, sample1, hit_matrix_filtered, weighted_score_type, expr_data, gene_num) As Double()
+
+    Public Function ES_for_permutation(lb%(), md$, sample0 As Vector, sample1 As Vector, hit_matrix_filtered As Vector(Of Vector), weighted_score_type%, expr_data As Vector(Of Vector), gene_num%) As Double()
         Dim index_0 As New List(Of Integer)
         Dim index_1 As New List(Of Integer)
 
-        For Each element As (i%, j%) In enumerate(lb)   ' abstract index as i, content as j
+        ' abstract index as i, content as j
+        For Each element As (i%, j%) In lb.SeqIterator.Tuples
             If element.j = 0 Then
                 index_0.Add(element.i)
             Else
@@ -214,61 +263,59 @@ Dim def_down = Function(x) If(x >= 0, np.sum(nes >= x) / Float(obsmore0) If(obsm
             End If
         Next
 
-        Dim expr_0 = expr_data(index_0) ' : abstract all rows In column index_0 includes. [row, column]
+        ' : abstract all rows In column index_0 includes. [row, column]
+        Dim expr_0 = expr_data(index_0)
         Dim expr_1 = expr_data(index_1)
-        Dim mean_0 = expr_0.mean(1) ' axis 1 Is meaning Get average from column adds
-        Dim mean_1 = expr_1.mean(1)
-        Dim std_0 = expr_0.std(1)
-        Dim std_1 = expr_1.std(1)
-        Dim s2n
-        Dim sort_gene_index
-        Dim sort_r
+        ' axis 1 Is meaning Get average from column adds
+        Dim mean_0 As Vector = expr_0.Mean(axis:=1)
+        Dim mean_1 As Vector = expr_1.Mean(axis:=1)
+        Dim std_0 As Vector = expr_0.Std(axis:=1)
+        Dim std_1 As Vector = expr_1.Std(axis:=1)
+        Dim s2n As Vector
+        Dim sort_gene_index As Integer()
+        Dim sort_r As Vector
 
         If (md = "snr") Then
             s2n = (mean_0 - mean_1) / (std_0 + std_1)
-            sort_gene_index = np.argsort(s2n, 0)[:-1].T  ' this step get index after sorted, then use this index to get gene list from gene_name
-        sort_r = np.sort(s2n, 0)[:-1].T ' this step get s2n value after sorted
+            sort_gene_index = np.argsort(s2n).AsVector().slice(, -1).AsInteger  '.T  ' this step get index after sorted, then use this index to get gene list from gene_name
+            sort_r = np.Sort(s2n).slice(, -1) ' this step get s2n value after sorted
+        ElseIf (md = "ttest") Then
+            Dim a = mean_0 - mean_1
+            Dim s0 = std_0 ^ 2 ' np.square(std_0)
+            Dim s1 = std_1 ^ 2 ' np.square(std_1)
+            Dim b = Vector.Sqrt(s0 / sample0 + s1 / sample1)  ' np.sqrt(s0 / sample0 + s1 / sample1)
+            Dim ttest = a / b
+            sort_gene_index = np.argsort(ttest).AsVector().slice(, -1).AsInteger  '.T
+            sort_r = np.Sort(ttest).slice(, -1) '.T
+        Else
+            Throw New NotSupportedException(md)
         End If
 
-        Dim a
-        Dim s0
-        Dim s1
-        Dim b
-        Dim ttest
-
-        If (md = "ttest") Then
-            a = mean_0 - mean_1
-            s0 = np.square(std_0)
-            s1 = np.square(std_1)
-            b = np.sqrt(s0 / sample0 + s1 / sample1)
-            ttest = a / b
-            sort_gene_index = np.argsort(ttest, 0)[:-1].T
-        sort_r = np.sort(ttest, 0)[:-1].T
-        End If
-
-        Dim hitm = hit_matrix_filtered[:,sort_gene_index]
-  Dim missm = hitm - 1
-        Dim sort_arr = np.array([sort_r for i in range(len(hitm))])
-            Dim tmp
+        Dim hitm As New GeneralMatrix(hit_matrix_filtered(sort_gene_index))
+        Dim missm = hitm - 1
+        Dim sort_arr As New GeneralMatrix(Enumerable.Range(0, hitm.Length).Select(Function(null) sort_r).ToArray)  '  np.array([sort_r for i in range(len(hitm))])
+        Dim tmp As GeneralMatrix
 
         If weighted_score_type = 0 Then
             tmp = hitm
         End If
         If weighted_score_type = 1 Then
-            tmp = np.absolute(sort_arr) * hitm
+            ' tmp = Vector.Abs(sort_arr) * hitm  ' np.absolute(sort_arr) * hitm
         End If
         If weighted_score_type = 2 Then
-            tmp = sort_arr ^ 2 * hitm
+            'tmp = sort_arr ^ 2 * hitm
         Else
-            tmp = np.absolute(sort_arr) ^ weighted_score_type * hitm
+            '  tmp = Vector.Abs(sort_arr) ^ weighted_score_type * hitm '  np.absolute(sort_arr) ^ weighted_score_type * hitm
         End If
 
-        Dim NR = np.sum(tmp, axis = 1)
-        Dim hit_score = np.array(map(np.divide, tmp, NR))
-        Dim miss_score = 1.0 / (gene_num - Len(hitm)) * missm
-        Dim Res As DoubleRange() = np.cumsum(hit_score + miss_score, axis = 1)
-        Dim get_es = Function(x As DoubleRange) If(Math.Abs(x.Max()) > Math.Abs(x.Min()), x.Max(), x.Min())
-        Dim es = Res.Select(get_es).ToArray
+        Dim NR '= np.Sum(tmp, axis = 1)
+        Dim hit_score = tmp / NR
+        Dim miss_score = 1.0 / (gene_num - hitm.Length) * missm
+        Dim res As DoubleRange() '= np.CumSum(hit_score + miss_score, axis = 1)
+        Dim get_es = Function(x As DoubleRange)
+                         Return If(Math.Abs(x.Max()) > Math.Abs(x.Min()), x.Max(), x.Min())
+                     End Function
+        Dim es = res.Select(get_es).ToArray
         Return es
     End Function
 
