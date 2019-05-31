@@ -226,7 +226,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfFiles\Nodes\Base\Module1.vb" />
+    <Compile Include="ConfFiles\Nodes\Base\ITrackPlot.vb" />
     <Compile Include="DebugGroups.vb" />
     <Compile Include="Colors\NtPropsMaps.vb" />
     <Compile Include="Colors\Mappings.vb" />
