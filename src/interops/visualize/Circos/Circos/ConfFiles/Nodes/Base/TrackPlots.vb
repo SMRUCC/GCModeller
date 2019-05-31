@@ -93,7 +93,7 @@ Namespace Configurations.Nodes.Plots
         ''' </remarks>
         <Circos> Property r0 As String
 
-        Property orientation As String
+        Property orientation As orientations
         Property fill_color As String
         Property stroke_thickness As String
         Property stroke_color As String
@@ -116,10 +116,10 @@ Namespace Configurations.Nodes.Plots
         ''' <returns></returns>
         <Circos> Public Property file As String Implements ITrackPlot.file
             Get
-                Return Tools.TrimPath(TracksData.FileName)
+                Return Tools.TrimPath(tracksData.FileName)
             End Get
             Set(value As String)
-                TracksData.FileName = value
+                tracksData.FileName = value
             End Set
         End Property
 
@@ -149,7 +149,7 @@ Namespace Configurations.Nodes.Plots
         ''' 圈的朝向，是<see cref="ORIENTATION_IN"/>向内还是<see cref="ORIENTATION_OUT"/>向外
         ''' </summary>
         ''' <returns></returns>
-        <Circos> Public Property orientation As String = "in" Implements ITrackPlot.orientation
+        <Circos> Public Property orientation As orientations = orientations.in Implements ITrackPlot.orientation
         ''' <summary>
         ''' To turn off default outline, set the outline thickness to zero. 
         ''' If you want To permanently disable this Default, edit
@@ -169,18 +169,18 @@ Namespace Configurations.Nodes.Plots
         ''' data文件夹之中的绘图数据
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property TracksData As Idata Implements ITrackPlot.TracksData
+        Public ReadOnly Property tracksData As Idata Implements ITrackPlot.TracksData
 
         ''' <summary>
         ''' Creates plot element from the tracks data file.
         ''' </summary>
         ''' <param name="data"></param>
         Public Sub New(data As data(Of T))
-            TracksData = data
+            tracksData = data
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"({type}  --> {Me.TracksData.GetType.Name})  {Me.TracksData.ToString}"
+            Return $"({type}  --> {Me.tracksData.GetType.Name})  {Me.tracksData.ToString}"
         End Function
 
         Public Overridable Function Build(IndentLevel As Integer, directory$) As String Implements ICircosDocument.Build
@@ -188,12 +188,12 @@ Namespace Configurations.Nodes.Plots
             Dim sb As StringBuilder = New StringBuilder(IndentBlanks & "<plot>" & vbCrLf, 1024)
 
             Call sb.AppendLine()
-            Call sb.AppendLine(String.Format("{0}#   --> ""{1}""", IndentBlanks, TracksData.GetType.FullName))
+            Call sb.AppendLine(String.Format("{0}#   --> ""{1}""", IndentBlanks, tracksData.GetType.FullName))
             Call sb.AppendLine()
 
-            If TypeOf TracksData.GetEnumerator.FirstOrDefault Is ValueTrackData Then
+            If TypeOf tracksData.GetEnumerator.FirstOrDefault Is ValueTrackData Then
                 Dim ranges As DoubleRange =
-                    TrackDatas.Ranges(TracksData.GetEnumerator.Select(Function(o) TryCast(o, ValueTrackData)))
+                    TrackDatas.Ranges(tracksData.GetEnumerator.Select(Function(o) TryCast(o, ValueTrackData)))
 
                 Me.max = CStr(ranges.Max)
                 Me.min = CStr(ranges.Min)
@@ -239,7 +239,7 @@ Namespace Configurations.Nodes.Plots
         End Function
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
-            Return TracksData.GetDocumentText.SaveTo(FilePath, Encoding)
+            Return tracksData.GetDocumentText.SaveTo(FilePath, Encoding)
         End Function
 
         Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

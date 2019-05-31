@@ -538,7 +538,7 @@ different with the ideogram configuration document was not included in the circo
                 hTrack.r0 = "0.82r"
                 hTrack.r1 = "0.86r"
                 hTrack.fill_color = "blue"
-                hTrack.orientation = "out"
+                hTrack.orientation = orientations.out
 
                 Call doc.AddTrack(hTrack)
             Else
@@ -935,7 +935,7 @@ SET_END:    Dim ends = i
     ''' <remarks></remarks>
     <ExportAPI("Plots.Element.Set.Orientation", Info:="ori = ""in"" or ""out""")>
     Public Function SetTrackOrientation(track As ITrackPlot, orientation$) As ITrackPlot
-        track.orientation = orientation
+        track.orientation = DirectCast([Enum].Parse(GetType(orientations), Strings.LCase(orientation)), orientations)
         Return track
     End Function
 
