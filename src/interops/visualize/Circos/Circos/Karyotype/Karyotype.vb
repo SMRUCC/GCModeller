@@ -1,101 +1,70 @@
 ﻿#Region "Microsoft.VisualBasic::ff1d9ccd57e10c601281f58b1703a81b, visualize\Circos\Circos\Karyotype\Karyotype.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module KaryotypeExtensions
-    ' 
-    '         Function: LoopHole, MapsRaw, nt
-    ' 
-    '     Class Karyotype
-    ' 
-    '         Properties: [end], chrLabel, chrName, color, start
-    ' 
-    '         Function: ToString
-    ' 
-    '     Interface IKaryotype
-    ' 
-    '         Properties: [end], chrName, color, start
-    ' 
-    '         Function: GetData
-    ' 
-    '     Class Band
-    ' 
-    '         Properties: [end], bandX, bandY, chrName, color
-    '                     start
-    ' 
-    '         Function: GetData, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module KaryotypeExtensions
+' 
+'         Function: LoopHole, MapsRaw, nt
+' 
+'     Class Karyotype
+' 
+'         Properties: [end], chrLabel, chrName, color, start
+' 
+'         Function: ToString
+' 
+'     Interface IKaryotype
+' 
+'         Properties: [end], chrName, color, start
+' 
+'         Function: GetData
+' 
+'     Class Band
+' 
+'         Properties: [end], bandX, bandY, chrName, color
+'                     start
+' 
+'         Function: GetData, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Karyotype
-
-    Public Module KaryotypeExtensions
-
-        ''' <summary>
-        ''' 缺口的大小，这个仅仅在单个染色体的基因组绘图模型之中有效
-        ''' </summary>
-        ''' <param name="x"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function LoopHole(x As SkeletonInfo) As PropertyValue(Of Integer)
-            Return PropertyValue(Of Integer).Read(Of SkeletonInfo)(x, NameOf(LoopHole))
-        End Function
-
-        ''' <summary>
-        ''' nt核苷酸基因组序列拓展属性
-        ''' </summary>
-        ''' <param name="x"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function nt(x As Karyotype) As PropertyValue(Of FastaSeq)
-            Return PropertyValue(Of FastaSeq).Read(Of Karyotype)(x, NameOf(nt))
-        End Function
-
-        <Extension>
-        Public Function MapsRaw(x As Band) As PropertyValue(Of BlastnMapping)
-            Return PropertyValue(Of BlastnMapping).Read(Of Band)(x, NameOf(MapsRaw))
-        End Function
-    End Module
 
     ''' <summary>
     ''' The ideogram using karyotype file to define the genome skeleton information, which defines the name, size and color of chromosomes. 
@@ -141,6 +110,7 @@ Namespace Karyotype
         Public Property [end] As Integer Implements IKaryotype.end
         Public Property color As String Implements IKaryotype.color
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String Implements IKaryotype.GetData
             Return $"chr - {chrName} {chrLabel} {start} {[end]} {color}"
         End Function
@@ -186,6 +156,7 @@ Namespace Karyotype
             Return Me.GetJson
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetData() As String Implements IKaryotype.GetData
             Return $"band {chrName} {bandX} {bandY} {start} {[end]} {color}"
         End Function

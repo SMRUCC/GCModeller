@@ -68,7 +68,7 @@ Namespace Karyotype
         ''' <param name="bandData"><see cref="NamedTuple(Of String).Name"/>为颜色，其余的两个属性分别为左端起始和右端结束</param>
         Sub New(gSize As Integer, color As String, Optional bandData As NamedTuple(Of String)() = Nothing)
             Me.Size = gSize
-            Me.__bands = New List(Of Band)(GenerateDocument(bandData))
+            Me.bands = New List(Of Band)(GenerateDocument(bandData))
             Call __karyotype(color)
         End Sub
 
@@ -113,7 +113,7 @@ Namespace Karyotype
                                                   .First _
                                                   .NormalizePathString(True) _
                                                   .Replace(" ", "_")
-                                              Let clInd As Integer = rnd.NextInteger(colors.Length).value
+                                              Let clInd As Integer = rnd.NextInteger(colors.Length).Value
                                               Select New Karyotype With {
                                                   .chrName = "chr" & nt.i,
                                                   .chrLabel = name,
@@ -126,7 +126,7 @@ Namespace Karyotype
             End With
 
             Return New KaryotypeChromosomes With {
-                .__karyotypes = ks.AsList
+                .karyos = ks.AsList
             }
         End Function
 
@@ -139,7 +139,7 @@ Namespace Karyotype
         Public Shared Function FromBlastnMappings(source As IEnumerable(Of BlastnMapping), chrs As IEnumerable(Of FastaSeq)) As KaryotypeChromosomes
             Dim ks As KaryotypeChromosomes = FromNts(chrs)
             Dim labels As Dictionary(Of String, Karyotype) =
-                ks.__karyotypes.ToDictionary(Function(x) x.nt.value.Title,
+                ks.karyos.ToDictionary(Function(x) x.nt.value.Title,
                                              Function(x) x)
             Dim reads = source.ToArray
             Dim bands As List(Of Band) =
@@ -170,14 +170,14 @@ Namespace Karyotype
                 End Function)
 
             Dim __getNt As Func(Of Band, FastaSeq) = Function(x) As FastaSeq
-                                                           Dim map As BlastnMapping = x.MapsRaw.value
-                                                           Dim nt As SimpleSegment = nts(map.Reference)
-                                                           Dim fragment As FastaSeq =
+                                                         Dim map As BlastnMapping = x.MapsRaw.value
+                                                         Dim nt As SimpleSegment = nts(map.Reference)
+                                                         Dim fragment As FastaSeq =
                                                                nt _
                                                                .CutSequenceLinear(map.MappingLocation) _
                                                                .SimpleFasta(map.ReadQuery)
-                                                           Return fragment
-                                                       End Function
+                                                         Return fragment
+                                                     End Function
 
             Dim props = bands.Select(__getNt).PropertyMaps
 
@@ -186,7 +186,7 @@ Namespace Karyotype
                 band.color = props.GC(GC)
             Next
 
-            ks.__bands = bands.OrderBy(Function(x) x.chrName).AsList
+            ks.bands = bands.OrderBy(Function(x) x.chrName).AsList
 
             Return ks
         End Function
