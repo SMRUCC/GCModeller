@@ -173,7 +173,7 @@ Public Module LociExtensions
             GetType(Repeats),
             GetType(PalindromeLoci)
         }
-        Dim type As Type = df.GetType(types)
+        Dim type As Type = df.TypeOf(types)
         Dim handler As Func(Of IO.File, SimpleSegment()) = __types(type)
         Dim result As SimpleSegment() = handler(df)
 

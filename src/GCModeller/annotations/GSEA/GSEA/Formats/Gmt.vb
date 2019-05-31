@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports tsv = Microsoft.VisualBasic.Data.csv.IO.File
 
 ''' <summary>
@@ -51,7 +52,14 @@ Public Class Gmt : Implements IEnumerable(Of Cluster)
                         .ID = row(0),
                         .description = row(1),
                         .names = .ID,
-                        .Members = row.Skip(2).ToArray
+                        .members = row.Skip(2) _
+                            .Select(Function(name)
+                                        Return New Synonym With {
+                                            .accessionID = name,
+                                            .[alias] = {name}
+                                        }
+                                    End Function) _
+                            .ToArray
                     }
                 Next
             End Function().ToArray

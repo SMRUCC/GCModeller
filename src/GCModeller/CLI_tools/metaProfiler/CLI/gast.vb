@@ -1,6 +1,9 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.ComponentModel
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
@@ -21,15 +24,37 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.Megan.BIOM")>
-    <Usage("/Export.Megan.BIOM /in <relative.table.csv> [/rebuildBIOM.tax /out <out.json.biom>]")>
-    <Argument("/in", False, AcceptTypes:={GetType(OTUData)})>
+    <Usage("/Export.Megan.BIOM /in <relative.table.csv> [/dense /out <out.biom.json>]")>
+    <Description("Export v1.0 biom json file for data visualize in Megan program.")>
+    <Argument("/in", False, AcceptTypes:={GetType(OTUData), GetType(DataSet)},
+              Extensions:="*.csv",
+              Description:="If the type of this input file is a dataset, then row ID should 
+              be the taxonomy string, and all of the column should be the OTU abundance data.")>
+    <Argument("/dense", True, CLITypes.Boolean,
+              Description:="Dense matrxi type in biom json output file?")>
     Public Function ExportToMegan(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom")
-        Dim rebuildBIOM As Boolean = args.GetBoolean("/rebuildBIOM.tax")
-        Dim data As OTUData() = [in].LoadCsv(Of OTUData)()
-        Dim result = data.EXPORT(alreadyBIOMTax:=Not rebuildBIOM)
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom.json")
+        Dim data As OTUData()
+        Dim type As Type = IO.TypeOf(File.ReadHeaderRow([in]), GetType(OTUData), GetType(DataSet))
 
-        Return result.ToJSON.SaveTo(out).CLICode
+        If type Is GetType(DataSet) Then
+            data = DataSet.LoadDataSet([in]) _
+                .Select(Function(d, i)
+                            Return New OTUData With {
+                                .OTU = $"OTU_{i.ToHexString}",
+                                .Taxonomy = d.ID,
+                                .Data = d.Properties.AsCharacter
+                            }
+                        End Function) _
+                .ToArray
+        Else
+            data = [in].LoadCsv(Of OTUData)()
+        End If
+
+        Return data.EXPORT(denseMatrix:=args("/dense")) _
+            .ToJSON _
+            .SaveTo(out) _
+            .CLICode
     End Function
 End Module

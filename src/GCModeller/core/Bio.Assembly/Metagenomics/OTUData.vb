@@ -1,50 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::5ea0a31bad3b513c7883055dd638cdf9, Bio.Assembly\Metagenomics\OTUData.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class OTUData
-    ' 
-    '         Properties: Data, OTU, Taxonomy
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class OTUData
+' 
+'         Properties: Data, OTU, Taxonomy
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Data.Linq.Mapping
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Metagenomics
@@ -65,21 +66,26 @@ Namespace Metagenomics
         ''' Usually this property is the BIOM format taxonomy information
         ''' </summary>
         ''' <returns></returns>
-        Public Property Taxonomy As String Implements ITaxonomyLineage.Taxonomy
-        Public Property Data As Dictionary(Of String, String)
+        Public Property taxonomy As String Implements ITaxonomyLineage.Taxonomy
+        Public Property data As Dictionary(Of String, String)
 
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Copy data
+        ''' </summary>
+        ''' <param name="data"></param>
         Sub New(data As OTUData)
             With Me
                 .OTU = data.OTU
-                .Data = New Dictionary(Of String, String)(data.Data)
+                .taxonomy = data.taxonomy
+                .data = New Dictionary(Of String, String)(data.data)
             End With
         End Sub
 
         Public Overrides Function ToString() As String
-            Return OTU & " --> " & Data.GetJson
+            Return $"{taxonomy Or OTU.AsDefault}: {data.GetJson(indent:=True)}"
         End Function
     End Class
 End Namespace
