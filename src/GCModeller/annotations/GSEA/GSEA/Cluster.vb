@@ -24,7 +24,7 @@ Public Class Cluster : Implements INamedValue
     ''' 当前的这个聚类之中的基因列表
     ''' </summary>
     ''' <returns></returns>
-    Public Property Members As String()
+    Public Property members As String()
         Get
             Return index.Objects
         End Get

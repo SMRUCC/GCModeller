@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.IO.ManagedSqlite.Core
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -11,9 +12,18 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Module Module1
 
     Sub Main()
+        Call buildFromKOBAS()
         '  Call KEGGmodelBuildTest()
         ' Call modelBuildTest()
         Call enrichmentTest()
+    End Sub
+
+    Sub buildFromKOBAS()
+
+        Dim db = Sqlite3Database.OpenFile("D:\kobas-3.0\sqlite3\hsa.db")
+        Dim background = KOBASDatabase.ImportsKOBASSqlite3(db)
+
+        Pause()
     End Sub
 
     Sub enrichmentTest()
