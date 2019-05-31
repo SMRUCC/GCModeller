@@ -297,6 +297,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("GCSkew", Info:="Calculation the GC skew of a specific nucleotide acid sequence.")>
+        <Extension>
         Public Function GCSkew(SequenceModel As IPolymerSequenceModel, slideWindowSize As Integer, steps As Integer, isCircular As Boolean) As Double()
             Dim SequenceData As String = SequenceModel.SequenceData.ToUpper
             Dim bufs As New List(Of Double)

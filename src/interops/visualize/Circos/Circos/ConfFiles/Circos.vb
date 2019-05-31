@@ -277,7 +277,7 @@ Namespace Configurations
 
                 ' 首先保存数据文件
                 track.file = path
-                track.Save(path, Encoding.ASCII)
+                track.Save($"{directory}/{path}", Encoding.ASCII)
             Next
 
             Call _skeletonKaryotype.Save($"{base}/{karyotype}", encoding:=Encoding.ASCII)
