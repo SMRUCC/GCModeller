@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.DBLinkBuilder
 
+    <XmlType("synonym")>
     Public Class Synonym : Implements Enumeration(Of String)
 
         <XmlAttribute> Public Property accessionID As String

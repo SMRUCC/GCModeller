@@ -19,7 +19,7 @@ Public Class Cluster : Implements INamedValue
     <XmlAttribute>
     Public Property ID As String Implements IKeyedEntity(Of String).Key
     Public Property names As String
-    <XmlText>
+    <XmlElement>
     Public Property description As String
 
     ''' <summary>
