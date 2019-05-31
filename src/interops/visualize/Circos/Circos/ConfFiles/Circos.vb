@@ -1,60 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::f8be0a68e3ca83f6a6e084b42a31eb87, Circos\ConfFiles\Circos.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Circos
-    ' 
-    '         Properties: chromosomes, chromosomes_breaks, chromosomes_color, chromosomes_display_default, chromosomes_order
-    '                     chromosomes_radius, chromosomes_reverse, chromosomes_scale, chromosomes_units, colors
-    '                     genome, karyotype, numberOfTracks, Plots, show_heatmap
-    '                     show_heatmaps, show_highlight, show_highlights, show_histogram, show_line
-    '                     show_links, show_scatter, show_text, show_tile, Size
-    '                     skeletonKaryotype, track_start, track_step, track_width, use_rules
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Build, CreateObject, GetEnumerator, IEnumerable_GetEnumerator, Save
-    ' 
-    '         Sub: AddTrack, (+2 Overloads) ForceAutoLayout
-    ' 
-    '         Operators: +
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Circos
+' 
+'         Properties: chromosomes, chromosomes_breaks, chromosomes_color, chromosomes_display_default, chromosomes_order
+'                     chromosomes_radius, chromosomes_reverse, chromosomes_scale, chromosomes_units, colors
+'                     genome, karyotype, numberOfTracks, Plots, show_heatmap
+'                     show_heatmaps, show_highlight, show_highlights, show_histogram, show_line
+'                     show_links, show_scatter, show_text, show_tile, Size
+'                     skeletonKaryotype, track_start, track_step, track_width, use_rules
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: Build, CreateObject, GetEnumerator, IEnumerable_GetEnumerator, Save
+' 
+'         Sub: AddTrack, (+2 Overloads) ForceAutoLayout
+' 
+'         Operators: +
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -223,6 +222,8 @@ Namespace Configurations
         ''' <returns></returns>
         Public Property skeletonKaryotype As SkeletonInfo
 
+        ReadOnly plotTracks As New List(Of ITrackPlot)
+
         ''' <summary>
         ''' The genome size.(基因组的大小，当<see cref="SkeletonKaryotype"/>为空值的时候返回数值0)
         ''' </summary>
@@ -232,7 +233,7 @@ Namespace Configurations
                 If skeletonKaryotype Is Nothing Then
                     Return 0
                 End If
-                Return _skeletonKaryotype.Size - skeletonKaryotype.LoopHole.value
+                Return _skeletonKaryotype.size - skeletonKaryotype.LoopHole.value
             End Get
         End Property
 
@@ -244,11 +245,9 @@ Namespace Configurations
         ''' <remarks></remarks>
         Public ReadOnly Property Plots As ITrackPlot()
             Get
-                Return _plots.ToArray
+                Return plotTracks.ToArray
             End Get
         End Property
-
-        Dim _plots As New List(Of ITrackPlot)
 
         ''' <summary>
         ''' Gets the number of the tracks that defined in this circos model
@@ -256,7 +255,7 @@ Namespace Configurations
         ''' <returns></returns>
         Public ReadOnly Property numberOfTracks As Integer
             Get
-                Return _plots.Count
+                Return plotTracks.Count
             End Get
         End Property
 
@@ -265,19 +264,20 @@ Namespace Configurations
             Me.main = Me
         End Sub
 
-        Public Overloads Function Save(directory$, Encoding As Encoding) As Boolean
+        Public Overloads Overrides Function Save(directory$, encoding As Encoding) As Boolean
             Dim base = directory Or FilePath.ParentPath.AsDefault
             Dim dataDIR As String = $"{base}/data/"
 
             Call FilePath.SetValue($"{base}/{FileIO.FileSystem.GetFileInfo(FilePath).Name}")
             Call FileIO.FileSystem.CreateDirectory(dataDIR)
 
-            For Each i As SeqValue(Of ITrackPlot) In _plots.SeqIterator
+            For Each i As SeqValue(Of ITrackPlot) In plotTracks.SeqIterator
                 Dim track As ITrackPlot = i.value
                 Dim path$ = $"data/{track.type}_data_{i.i + 1}.txt"
 
+                ' 首先保存数据文件
                 track.file = path
-                track.Save(path, Encoding.ASCII)  ' 首先保存数据文件
+                track.Save(path, Encoding.ASCII)
             Next
 
             Call _skeletonKaryotype.Save(karyotype, encoding:=Encoding.ASCII)
@@ -310,7 +310,7 @@ Namespace Configurations
         ''' <param name="track"></param>
         ''' <remarks></remarks>
         Public Sub AddTrack(track As ITrackPlot)
-            Call Me._plots.Add(track)
+            Call Me.plotTracks.Add(track)
 
             If Not String.IsNullOrEmpty(stroke_thickness) Then
                 track.stroke_thickness = stroke_thickness
@@ -363,7 +363,7 @@ Namespace Configurations
             If Not Plots.IsNullOrEmpty Then
                 Call sb.AppendLine(vbCrLf & "<plots>")
 
-                For Each plotRule In _plots
+                For Each plotRule In plotTracks
                     Call sb.AppendLine()
                     Call sb.AppendLine(plotRule.Build(IndentLevel + 2, directory))
                 Next
@@ -381,7 +381,7 @@ Namespace Configurations
         End Operator
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of ITrackPlot) Implements IEnumerable(Of ITrackPlot).GetEnumerator
-            For Each x As ITrackPlot In _plots
+            For Each x As ITrackPlot In plotTracks
                 Yield x
             Next
         End Function

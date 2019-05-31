@@ -144,7 +144,7 @@ Namespace Configurations
         ''' <param name="directory"></param>
         ''' <param name="Encoding"></param>
         ''' <returns></returns>
-        Public Function Save(directory$, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
+        Public Overridable Function Save(directory$, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
             If TypeOf Me Is CircosDistributed Then
                 Return True ' 系统自带的不需要进行保存了
             End If
