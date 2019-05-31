@@ -53,6 +53,7 @@
 #End Region
 
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
+Imports Microsoft.VisualBasic.Language
 
 Namespace Configurations.Nodes
 
@@ -81,19 +82,23 @@ Namespace Configurations.Nodes
         <Circos> Public Property thickness As String = "3p"
         <Circos> Public Property size As String = "20p"
 
-        Public Property Ticks As List(Of Tick) = New List(Of Tick)
+        Public Property ticks As New List(Of Tick)
 
         Public Shared Function DefaultConfiguration() As Ticks
-            Dim Ticks As New List(Of Tick)
-            Call Ticks.Add(New Tick With {.spacing = "1u", .show_label = no, .grid_thickness = "1p"})
-            'Call Ticks.Add(New Tick With {.spacing = "0.5u", .show_label = YES, .label_size = "20p", .format = "%d"})
-            Call Ticks.Add(New Tick With {.spacing = "5u", .show_label = yes, .label_size = "28p", .format = "%d"})
+            Dim ticks As New List(Of Tick)
 
-            Return New Ticks With {.Ticks = Ticks}
+            ' sub ticks
+            ticks += New Tick With {.spacing = "1u", .show_label = no, .grid_thickness = "1p"}
+            ' main ticks
+            ticks += New Tick With {.spacing = "5u", .show_label = yes, .label_size = "28p", .format = "%d"}
+
+            Return New Ticks With {
+                .ticks = ticks
+            }
         End Function
 
         Public Overrides Function Build(IndentLevel As Integer, directory$) As String
-            Return Me.GenerateCircosDocumentElement("ticks", IndentLevel, inserts:=Ticks, directory:=directory)
+            Return Me.GenerateCircosDocumentElement("ticks", IndentLevel, inserts:=ticks, directory:=directory)
         End Function
     End Class
 
