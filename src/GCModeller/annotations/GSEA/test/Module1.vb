@@ -13,7 +13,7 @@ Module Module1
 
     Sub Main()
         ' Call buildFromKOBAS()
-        '  Call KEGGmodelBuildTest()
+        Call KEGGmodelBuildTest()
         ' Call modelBuildTest()
         Call enrichmentTest()
     End Sub
@@ -69,6 +69,8 @@ Module Module1
         Dim uniprot = UniProtXML.EnumerateEntries($"{folder}\uniprot-taxonomy_314565.xml")
         Dim model As Background = GSEA.Imports.ImportsUniProt(uniprot, GSEA.UniProtGetKOTerms, define:=GSEA.KEGGClusters(kegg))
 
+        model.name = "uniprot-taxonomy_314565"
+        model.comments = "KEGG pathway background"
 
         Call model.GetXml.SaveTo($"{folder}\xcb_KO.Xml")
 

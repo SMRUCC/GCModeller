@@ -98,6 +98,7 @@ Public Module [Imports]
 
         Return New Background With {
             .name = genomeName,
+            .build = Now,
             .clusters = clusters _
                 .Where(Function(c)
                            If outputAll Then
@@ -113,7 +114,7 @@ Public Module [Imports]
 
                             Return New Cluster With {
                                 .ID = c.Key,
-                                .Members = geneIDs
+                                .members = geneIDs
                             }
                         End Function) _
                 .ToArray
