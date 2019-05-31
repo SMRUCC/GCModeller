@@ -42,7 +42,7 @@ Namespace NeuralNetwork.StoreProcedure
         ''' </summary>
         ''' <param name="instance"></param>
         ''' <returns></returns>
-        Public Function TakeSnapshot(instance As Network) As NeuralNetwork
+        Public Function TakeSnapshot(instance As Network, errors#) As NeuralNetwork
             Dim nodes As New List(Of NeuronNode)
             Dim hiddenlayers As New List(Of NeuronLayer)
             Dim inputlayer As String()
@@ -80,6 +80,7 @@ Namespace NeuralNetwork.StoreProcedure
             Return New NeuralNetwork With {
                 .learnRate = instance.LearnRate,
                 .momentum = instance.Momentum,
+                .errors = errors,
                 .neurons = nodes,
                 .hiddenlayers = New HiddenLayer With {
                     .activation = instance.Activations!hiddens,

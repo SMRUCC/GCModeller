@@ -93,8 +93,8 @@ Namespace NeuralNetwork.StoreProcedure
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function Snapshot(instance As Network) As NeuralNetwork
-            Return StoreProcedure.TakeSnapshot(instance)
+        Public Shared Function Snapshot(instance As Network, Optional errors# = 0) As NeuralNetwork
+            Return StoreProcedure.TakeSnapshot(instance, errors)
         End Function
     End Class
 End Namespace
