@@ -146,7 +146,7 @@ Public Module [Imports]
                                 .ID = c.Key,
                                 .members = geneIDs,
                                 .description = note.Description,
-                                .names = note.Name
+                                .names = note.Value
                             }
                         End Function) _
                 .ToArray
