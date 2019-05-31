@@ -3,14 +3,14 @@
   <!--
      model:     SMRUCC.genomics.Analysis.HTS.GSEA.Background
      assembly:  SMRUCC.genomics.Analysis.HTS.GSEA, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-     md5:       5ae2bc3bb477800a6fd126ba6526e5c8
+     md5:       d1a10a194d8ebe3b970751cfe43b91dc
      timestamp: 2019年5月31日
   -->
   <name>uniprot-taxonomy_314565</name>
   <comments>KEGG pathway background</comments>
-  <build>2019-05-31T10:45:35.9881948+08:00</build>
+  <build>2019-05-31T10:52:57.9691948+08:00</build>
   <clusters ID="map01100">
-    <names>map01100</names>
+    <names>Metabolic pathways - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01100</description>
     <members>
       <synonym accessionID="Q4UXK8" alias="Q4UXK8" />
@@ -651,7 +651,7 @@
     </members>
   </clusters>
   <clusters ID="map00790">
-    <names>map00790</names>
+    <names>Folate biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00790</description>
     <members>
       <synonym accessionID="Q4UXK8" alias="Q4UXK8" />
@@ -683,7 +683,7 @@
     </members>
   </clusters>
   <clusters ID="map03010">
-    <names>map03010</names>
+    <names>Ribosome - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03010</description>
     <members>
       <synonym accessionID="Q4US35" alias="Q4US35" />
@@ -743,7 +743,7 @@
     </members>
   </clusters>
   <clusters ID="map01110">
-    <names>map01110</names>
+    <names>Biosynthesis of secondary metabolites - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01110</description>
     <members>
       <synonym accessionID="Q4UZH5" alias="Q4UZH5" />
@@ -1020,7 +1020,7 @@
     </members>
   </clusters>
   <clusters ID="map01130">
-    <names>map01130</names>
+    <names>Biosynthesis of antibiotics - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01130</description>
     <members>
       <synonym accessionID="Q4UZH5" alias="Q4UZH5" />
@@ -1233,7 +1233,7 @@
     </members>
   </clusters>
   <clusters ID="map00230">
-    <names>map00230</names>
+    <names>Purine metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00230</description>
     <members>
       <synonym accessionID="Q4UZH5" alias="Q4UZH5" />
@@ -1307,7 +1307,7 @@
     </members>
   </clusters>
   <clusters ID="map00250">
-    <names>map00250</names>
+    <names>Alanine, aspartate and glutamate metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00250</description>
     <members>
       <synonym accessionID="Q4URT6" alias="Q4URT6" />
@@ -1337,7 +1337,7 @@
     </members>
   </clusters>
   <clusters ID="map00670">
-    <names>map00670</names>
+    <names>One carbon pool by folate - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00670</description>
     <members>
       <synonym accessionID="Q4US21" alias="Q4US21" />
@@ -1358,7 +1358,7 @@
     </members>
   </clusters>
   <clusters ID="map03020">
-    <names>map03020</names>
+    <names>RNA polymerase - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03020</description>
     <members>
       <synonym accessionID="Q4URG3" alias="Q4URG3" />
@@ -1368,7 +1368,7 @@
     </members>
   </clusters>
   <clusters ID="map00240">
-    <names>map00240</names>
+    <names>Pyrimidine metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00240</description>
     <members>
       <synonym accessionID="Q4URG3" alias="Q4URG3" />
@@ -1414,7 +1414,7 @@
     </members>
   </clusters>
   <clusters ID="map03030">
-    <names>map03030</names>
+    <names>DNA replication - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03030</description>
     <members>
       <synonym accessionID="Q4USP6" alias="Q4USP6" />
@@ -1436,7 +1436,7 @@
     </members>
   </clusters>
   <clusters ID="map02024">
-    <names>map02024</names>
+    <names>Quorum sensing - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map02024</description>
     <members>
       <synonym accessionID="Q4UU85" alias="Q4UU85 Q9L433" />
@@ -1483,7 +1483,7 @@
     </members>
   </clusters>
   <clusters ID="map02020">
-    <names>map02020</names>
+    <names>Two-component system - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map02020</description>
     <members>
       <synonym accessionID="Q4UU85" alias="Q4UU85 Q9L433" />
@@ -1622,7 +1622,7 @@
     </members>
   </clusters>
   <clusters ID="map00030">
-    <names>map00030</names>
+    <names>Pentose phosphate pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00030</description>
     <members>
       <synonym accessionID="Q4UYA0" alias="Q4UYA0" />
@@ -1654,7 +1654,7 @@
     </members>
   </clusters>
   <clusters ID="map00710">
-    <names>map00710</names>
+    <names>Carbon fixation in photosynthetic organisms - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00710</description>
     <members>
       <synonym accessionID="Q4UYA0" alias="Q4UYA0" />
@@ -1672,7 +1672,7 @@
     </members>
   </clusters>
   <clusters ID="map01120">
-    <names>map01120</names>
+    <names>Microbial metabolism in diverse environments - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01120</description>
     <members>
       <synonym accessionID="Q4UYA0" alias="Q4UYA0" />
@@ -1868,7 +1868,7 @@
     </members>
   </clusters>
   <clusters ID="map01200">
-    <names>map01200</names>
+    <names>Carbon metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01200</description>
     <members>
       <synonym accessionID="Q4UYA0" alias="Q4UYA0" />
@@ -1969,7 +1969,7 @@
     </members>
   </clusters>
   <clusters ID="map01230">
-    <names>map01230</names>
+    <names>Biosynthesis of amino acids - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01230</description>
     <members>
       <synonym accessionID="Q4UYA0" alias="Q4UYA0" />
@@ -2084,7 +2084,7 @@
     </members>
   </clusters>
   <clusters ID="map03018">
-    <names>map03018</names>
+    <names>RNA degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03018</description>
     <members>
       <synonym accessionID="Q4UZF0" alias="Q4UZF0" />
@@ -2105,7 +2105,7 @@
     </members>
   </clusters>
   <clusters ID="map00190">
-    <names>map00190</names>
+    <names>Oxidative phosphorylation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00190</description>
     <members>
       <synonym accessionID="Q4UQF0" alias="Q4UQF0" />
@@ -2163,7 +2163,7 @@
     </members>
   </clusters>
   <clusters ID="map00195">
-    <names>map00195</names>
+    <names>Photosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00195</description>
     <members>
       <synonym accessionID="Q4UQF0" alias="Q4UQF0" />
@@ -2177,7 +2177,7 @@
     </members>
   </clusters>
   <clusters ID="map00780">
-    <names>map00780</names>
+    <names>Biotin metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00780</description>
     <members>
       <synonym accessionID="Q4UZN9" alias="Q4UZN9" />
@@ -2199,7 +2199,7 @@
     </members>
   </clusters>
   <clusters ID="map00260">
-    <names>map00260</names>
+    <names>Glycine, serine and threonine metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00260</description>
     <members>
       <synonym accessionID="Q4UYN4" alias="Q4UYN4" />
@@ -2239,7 +2239,7 @@
     </members>
   </clusters>
   <clusters ID="map03440">
-    <names>map03440</names>
+    <names>Homologous recombination - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03440</description>
     <members>
       <synonym accessionID="Q4UXM1" alias="Q4UXM1" />
@@ -2268,7 +2268,7 @@
     </members>
   </clusters>
   <clusters ID="map00270">
-    <names>map00270</names>
+    <names>Cysteine and methionine metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00270</description>
     <members>
       <synonym accessionID="Q4UQZ8" alias="Q4UQZ8" />
@@ -2309,7 +2309,7 @@
     </members>
   </clusters>
   <clusters ID="map03070">
-    <names>map03070</names>
+    <names>Bacterial secretion system - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03070</description>
     <members>
       <synonym accessionID="Q4V073" alias="Q4V073" />
@@ -2378,7 +2378,7 @@
     </members>
   </clusters>
   <clusters ID="map03060">
-    <names>map03060</names>
+    <names>Protein export - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03060</description>
     <members>
       <synonym accessionID="Q4V073" alias="Q4V073" />
@@ -2400,7 +2400,7 @@
     </members>
   </clusters>
   <clusters ID="map00730">
-    <names>map00730</names>
+    <names>Thiamine metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00730</description>
     <members>
       <synonym accessionID="Q4UYJ6" alias="Q4UYJ6" />
@@ -2415,7 +2415,7 @@
     </members>
   </clusters>
   <clusters ID="map00564">
-    <names>map00564</names>
+    <names>Glycerophospholipid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00564</description>
     <members>
       <synonym accessionID="Q4UWE4" alias="Q4UWE4" />
@@ -2448,7 +2448,7 @@
     </members>
   </clusters>
   <clusters ID="map02010">
-    <names>map02010</names>
+    <names>ABC transporters - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map02010</description>
     <members>
       <synonym accessionID="Q4UT63" alias="Q4UT63" />
@@ -2510,7 +2510,7 @@
     </members>
   </clusters>
   <clusters ID="map00330">
-    <names>map00330</names>
+    <names>Arginine and proline metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00330</description>
     <members>
       <synonym accessionID="Q4UVI0" alias="Q4UVI0" />
@@ -2539,7 +2539,7 @@
     </members>
   </clusters>
   <clusters ID="map00332">
-    <names>map00332</names>
+    <names>Carbapenem biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00332</description>
     <members>
       <synonym accessionID="Q4UVI0" alias="Q4UVI0" />
@@ -2547,7 +2547,7 @@
     </members>
   </clusters>
   <clusters ID="map00970">
-    <names>map00970</names>
+    <names>Aminoacyl-tRNA biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00970</description>
     <members>
       <synonym accessionID="Q4US40" alias="Q4US40" />
@@ -2577,7 +2577,7 @@
     </members>
   </clusters>
   <clusters ID="map00860">
-    <names>map00860</names>
+    <names>Porphyrin and chlorophyll metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00860</description>
     <members>
       <synonym accessionID="Q4UWS6" alias="Q4UWS6" />
@@ -2611,7 +2611,7 @@
     </members>
   </clusters>
   <clusters ID="map04146">
-    <names>map04146</names>
+    <names>Peroxisome - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04146</description>
     <members>
       <synonym accessionID="P0C0F9" alias="P0C0F9 Q4UVM3" />
@@ -2629,7 +2629,7 @@
     </members>
   </clusters>
   <clusters ID="map04013">
-    <names>map04013</names>
+    <names>MAPK signaling pathway - fly - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04013</description>
     <members>
       <synonym accessionID="P0C0F9" alias="P0C0F9 Q4UVM3" />
@@ -2638,7 +2638,7 @@
     </members>
   </clusters>
   <clusters ID="map04068">
-    <names>map04068</names>
+    <names>FoxO signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04068</description>
     <members>
       <synonym accessionID="P0C0F9" alias="P0C0F9 Q4UVM3" />
@@ -2650,7 +2650,7 @@
     </members>
   </clusters>
   <clusters ID="map05016">
-    <names>map05016</names>
+    <names>Huntington disease - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05016</description>
     <members>
       <synonym accessionID="P0C0F9" alias="P0C0F9 Q4UVM3" />
@@ -2665,7 +2665,7 @@
     </members>
   </clusters>
   <clusters ID="map04211">
-    <names>map04211</names>
+    <names>Longevity regulating pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04211</description>
     <members>
       <synonym accessionID="P0C0F9" alias="P0C0F9 Q4UVM3" />
@@ -2677,7 +2677,7 @@
     </members>
   </clusters>
   <clusters ID="map04212">
-    <names>map04212</names>
+    <names>Longevity regulating pathway - worm - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04212</description>
     <members>
       <synonym accessionID="P0C0F9" alias="P0C0F9 Q4UVM3" />
@@ -2694,7 +2694,7 @@
     </members>
   </clusters>
   <clusters ID="map04213">
-    <names>map04213</names>
+    <names>Longevity regulating pathway - multiple species - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04213</description>
     <members>
       <synonym accessionID="P0C0F9" alias="P0C0F9 Q4UVM3" />
@@ -2710,7 +2710,7 @@
     </members>
   </clusters>
   <clusters ID="map00450">
-    <names>map00450</names>
+    <names>Selenocompound metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00450</description>
     <members>
       <synonym accessionID="Q4USM5" alias="Q4USM5" />
@@ -2727,7 +2727,7 @@
     </members>
   </clusters>
   <clusters ID="map00020">
-    <names>map00020</names>
+    <names>Citrate cycle (TCA cycle) - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00020</description>
     <members>
       <synonym accessionID="Q4UXU0" alias="Q4UXU0" />
@@ -2757,7 +2757,7 @@
     </members>
   </clusters>
   <clusters ID="map00640">
-    <names>map00640</names>
+    <names>Propanoate metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00640</description>
     <members>
       <synonym accessionID="Q4UXU0" alias="Q4UXU0" />
@@ -2782,7 +2782,7 @@
     </members>
   </clusters>
   <clusters ID="map00660">
-    <names>map00660</names>
+    <names>C5-Branched dibasic acid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00660</description>
     <members>
       <synonym accessionID="Q4UXU0" alias="Q4UXU0" />
@@ -2796,7 +2796,7 @@
     </members>
   </clusters>
   <clusters ID="map00720">
-    <names>map00720</names>
+    <names>Carbon fixation pathways in prokaryotes - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00720</description>
     <members>
       <synonym accessionID="Q4UXU0" alias="Q4UXU0" />
@@ -2826,7 +2826,7 @@
     </members>
   </clusters>
   <clusters ID="map00920">
-    <names>map00920</names>
+    <names>Sulfur metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00920</description>
     <members>
       <synonym accessionID="Q4UVH1" alias="Q4UVH1" />
@@ -2852,7 +2852,7 @@
     </members>
   </clusters>
   <clusters ID="map00040">
-    <names>map00040</names>
+    <names>Pentose and glucuronate interconversions - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00040</description>
     <members>
       <synonym accessionID="Q4UNZ4" alias="Q4UNZ4" />
@@ -2878,7 +2878,7 @@
     </members>
   </clusters>
   <clusters ID="map00051">
-    <names>map00051</names>
+    <names>Fructose and mannose metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00051</description>
     <members>
       <synonym accessionID="Q4UNZ4" alias="Q4UNZ4" />
@@ -2908,7 +2908,7 @@
     </members>
   </clusters>
   <clusters ID="map00500">
-    <names>map00500</names>
+    <names>Starch and sucrose metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00500</description>
     <members>
       <synonym accessionID="Q4UZ12" alias="Q4UZ12" />
@@ -2955,7 +2955,7 @@
     </members>
   </clusters>
   <clusters ID="map00400">
-    <names>map00400</names>
+    <names>Phenylalanine, tyrosine and tryptophan biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00400</description>
     <members>
       <synonym accessionID="Q4UZF8" alias="Q4UZF8" />
@@ -2988,7 +2988,7 @@
     </members>
   </clusters>
   <clusters ID="map00680">
-    <names>map00680</names>
+    <names>Methane metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00680</description>
     <members>
       <synonym accessionID="Q4UTC9" alias="Q4UTC9" />
@@ -3013,7 +3013,7 @@
     </members>
   </clusters>
   <clusters ID="map00750">
-    <names>map00750</names>
+    <names>Vitamin B6 metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00750</description>
     <members>
       <synonym accessionID="Q4UTC9" alias="Q4UTC9" />
@@ -3026,7 +3026,7 @@
     </members>
   </clusters>
   <clusters ID="map00410">
-    <names>map00410</names>
+    <names>beta-Alanine metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00410</description>
     <members>
       <synonym accessionID="Q4UPN0" alias="Q4UPN0" />
@@ -3040,7 +3040,7 @@
     </members>
   </clusters>
   <clusters ID="map00480">
-    <names>map00480</names>
+    <names>Glutathione metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00480</description>
     <members>
       <synonym accessionID="Q4UPN0" alias="Q4UPN0" />
@@ -3071,7 +3071,7 @@
     </members>
   </clusters>
   <clusters ID="map00740">
-    <names>map00740</names>
+    <names>Riboflavin metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00740</description>
     <members>
       <synonym accessionID="Q4UQU3" alias="Q4UQU3" />
@@ -3087,7 +3087,7 @@
     </members>
   </clusters>
   <clusters ID="map03008">
-    <names>map03008</names>
+    <names>Ribosome biogenesis in eukaryotes - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03008</description>
     <members>
       <synonym accessionID="Q4USF7" alias="Q4USF7" />
@@ -3096,14 +3096,14 @@
     </members>
   </clusters>
   <clusters ID="map05205">
-    <names>map05205</names>
+    <names>Proteoglycans in cancer - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05205</description>
     <members>
       <synonym accessionID="Q4USF7" alias="Q4USF7" />
     </members>
   </clusters>
   <clusters ID="map00010">
-    <names>map00010</names>
+    <names>Glycolysis / Gluconeogenesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00010</description>
     <members>
       <synonym accessionID="Q4UWC0" alias="Q4UWC0" />
@@ -3141,7 +3141,7 @@
     </members>
   </clusters>
   <clusters ID="map00562">
-    <names>map00562</names>
+    <names>Inositol phosphate metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00562</description>
     <members>
       <synonym accessionID="Q4UWC0" alias="Q4UWC0" />
@@ -3154,7 +3154,7 @@
     </members>
   </clusters>
   <clusters ID="map00983">
-    <names>map00983</names>
+    <names>Drug metabolism - other enzymes - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00983</description>
     <members>
       <synonym accessionID="Q4UST1" alias="Q4UST1" />
@@ -3177,7 +3177,7 @@
     </members>
   </clusters>
   <clusters ID="map03420">
-    <names>map03420</names>
+    <names>Nucleotide excision repair - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03420</description>
     <members>
       <synonym accessionID="Q4UV60" alias="Q4UV60" />
@@ -3192,7 +3192,7 @@
     </members>
   </clusters>
   <clusters ID="map00760">
-    <names>map00760</names>
+    <names>Nicotinate and nicotinamide metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00760</description>
     <members>
       <synonym accessionID="Q4UQS8" alias="Q4UQS8" />
@@ -3212,7 +3212,7 @@
     </members>
   </clusters>
   <clusters ID="map00520">
-    <names>map00520</names>
+    <names>Amino sugar and nucleotide sugar metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00520</description>
     <members>
       <synonym accessionID="Q4UTX4" alias="Q4UTX4" />
@@ -3254,7 +3254,7 @@
     </members>
   </clusters>
   <clusters ID="map00550">
-    <names>map00550</names>
+    <names>Peptidoglycan biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00550</description>
     <members>
       <synonym accessionID="Q4UTX4" alias="Q4UTX4" />
@@ -3281,7 +3281,7 @@
     </members>
   </clusters>
   <clusters ID="map00471">
-    <names>map00471</names>
+    <names>D-Glutamine and D-glutamate metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00471</description>
     <members>
       <synonym accessionID="Q4UQX1" alias="Q4UQX1" />
@@ -3289,7 +3289,7 @@
     </members>
   </clusters>
   <clusters ID="map00300">
-    <names>map00300</names>
+    <names>Lysine biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00300</description>
     <members>
       <synonym accessionID="Q4UQW6" alias="Q4UQW6" />
@@ -3309,7 +3309,7 @@
     </members>
   </clusters>
   <clusters ID="map01501">
-    <names>map01501</names>
+    <names>beta-Lactam resistance - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01501</description>
     <members>
       <synonym accessionID="Q4USG7" alias="Q4USG7" />
@@ -3330,7 +3330,7 @@
     </members>
   </clusters>
   <clusters ID="map00531">
-    <names>map00531</names>
+    <names>Glycosaminoglycan degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00531</description>
     <members>
       <synonym accessionID="Q4USG7" alias="Q4USG7" />
@@ -3339,7 +3339,7 @@
     </members>
   </clusters>
   <clusters ID="map03430">
-    <names>map03430</names>
+    <names>Mismatch repair - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03430</description>
     <members>
       <synonym accessionID="Q4UVP3" alias="Q4UVP3" />
@@ -3363,7 +3363,7 @@
     </members>
   </clusters>
   <clusters ID="map04122">
-    <names>map04122</names>
+    <names>Sulfur relay system - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04122</description>
     <members>
       <synonym accessionID="Q4URN0" alias="Q4URN0" />
@@ -3376,7 +3376,7 @@
     </members>
   </clusters>
   <clusters ID="map04112">
-    <names>map04112</names>
+    <names>Cell cycle - Caulobacter - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04112</description>
     <members>
       <synonym accessionID="Q4UQX0" alias="Q4UQX0" />
@@ -3393,7 +3393,7 @@
     </members>
   </clusters>
   <clusters ID="map01502">
-    <names>map01502</names>
+    <names>Vancomycin resistance - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01502</description>
     <members>
       <synonym accessionID="Q4UQX0" alias="Q4UQX0" />
@@ -3407,14 +3407,14 @@
     </members>
   </clusters>
   <clusters ID="map00908">
-    <names>map00908</names>
+    <names>Zeatin biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00908</description>
     <members>
       <synonym accessionID="Q4UTQ7" alias="Q4UTQ7" />
     </members>
   </clusters>
   <clusters ID="map00540">
-    <names>map00540</names>
+    <names>Lipopolysaccharide biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00540</description>
     <members>
       <synonym accessionID="Q4UV63" alias="Q4UV63" />
@@ -3435,7 +3435,7 @@
     </members>
   </clusters>
   <clusters ID="map00380">
-    <names>map00380</names>
+    <names>Tryptophan metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00380</description>
     <members>
       <synonym accessionID="Q4UT92" alias="Q4UT92" />
@@ -3459,7 +3459,7 @@
     </members>
   </clusters>
   <clusters ID="map05134">
-    <names>map05134</names>
+    <names>Legionellosis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05134</description>
     <members>
       <synonym accessionID="Q4USF4" alias="Q4USF4" />
@@ -3471,7 +3471,7 @@
     </members>
   </clusters>
   <clusters ID="map00290">
-    <names>map00290</names>
+    <names>Valine, leucine and isoleucine biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00290</description>
     <members>
       <synonym accessionID="Q4UYG2" alias="Q4UYG2" />
@@ -3490,7 +3490,7 @@
     </members>
   </clusters>
   <clusters ID="map01210">
-    <names>map01210</names>
+    <names>2-Oxocarboxylic acid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01210</description>
     <members>
       <synonym accessionID="Q4UYG2" alias="Q4UYG2" />
@@ -3517,7 +3517,7 @@
     </members>
   </clusters>
   <clusters ID="map00785">
-    <names>map00785</names>
+    <names>Lipoic acid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00785</description>
     <members>
       <synonym accessionID="Q4UYT2" alias="Q4UYT2" />
@@ -3525,7 +3525,7 @@
     </members>
   </clusters>
   <clusters ID="map00620">
-    <names>map00620</names>
+    <names>Pyruvate metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00620</description>
     <members>
       <synonym accessionID="Q4V0H2" alias="Q4V0H2" />
@@ -3565,7 +3565,7 @@
     </members>
   </clusters>
   <clusters ID="map04217">
-    <names>map04217</names>
+    <names>Necroptosis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04217</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3576,7 +3576,7 @@
     </members>
   </clusters>
   <clusters ID="map04151">
-    <names>map04151</names>
+    <names>PI3K-Akt signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04151</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3584,7 +3584,7 @@
     </members>
   </clusters>
   <clusters ID="map04141">
-    <names>map04141</names>
+    <names>Protein processing in endoplasmic reticulum - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04141</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3593,7 +3593,7 @@
     </members>
   </clusters>
   <clusters ID="map05200">
-    <names>map05200</names>
+    <names>Pathways in cancer - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05200</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3612,7 +3612,7 @@
     </members>
   </clusters>
   <clusters ID="map05215">
-    <names>map05215</names>
+    <names>Prostate cancer - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05215</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3620,7 +3620,7 @@
     </members>
   </clusters>
   <clusters ID="map05418">
-    <names>map05418</names>
+    <names>Fluid shear stress and atherosclerosis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05418</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3641,7 +3641,7 @@
     </members>
   </clusters>
   <clusters ID="map04914">
-    <names>map04914</names>
+    <names>Progesterone-mediated oocyte maturation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04914</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3649,7 +3649,7 @@
     </members>
   </clusters>
   <clusters ID="map04915">
-    <names>map04915</names>
+    <names>Estrogen signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04915</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3657,7 +3657,7 @@
     </members>
   </clusters>
   <clusters ID="map04626">
-    <names>map04626</names>
+    <names>Plant-pathogen interaction - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04626</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3672,7 +3672,7 @@
     </members>
   </clusters>
   <clusters ID="map04612">
-    <names>map04612</names>
+    <names>Antigen processing and presentation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04612</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3680,7 +3680,7 @@
     </members>
   </clusters>
   <clusters ID="map04621">
-    <names>map04621</names>
+    <names>NOD-like receptor signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04621</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3693,7 +3693,7 @@
     </members>
   </clusters>
   <clusters ID="map04657">
-    <names>map04657</names>
+    <names>IL-17 signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04657</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3701,7 +3701,7 @@
     </members>
   </clusters>
   <clusters ID="map04659">
-    <names>map04659</names>
+    <names>Th17 cell differentiation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04659</description>
     <members>
       <synonym accessionID="Q4UVY7" alias="Q4UVY7" />
@@ -3709,14 +3709,14 @@
     </members>
   </clusters>
   <clusters ID="map00966">
-    <names>map00966</names>
+    <names>Glucosinolate biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00966</description>
     <members>
       <synonym accessionID="Q4UYG5" alias="Q4UYG5" />
     </members>
   </clusters>
   <clusters ID="map00770">
-    <names>map00770</names>
+    <names>Pantothenate and CoA biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00770</description>
     <members>
       <synonym accessionID="Q4UTV5" alias="Q4UTV5" />
@@ -3737,7 +3737,7 @@
     </members>
   </clusters>
   <clusters ID="map00630">
-    <names>map00630</names>
+    <names>Glyoxylate and dicarboxylate metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00630</description>
     <members>
       <synonym accessionID="Q4URH2" alias="Q4URH2" />
@@ -3774,7 +3774,7 @@
     </members>
   </clusters>
   <clusters ID="map04016">
-    <names>map04016</names>
+    <names>MAPK signaling pathway - plant - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04016</description>
     <members>
       <synonym accessionID="Q4UUL4" alias="Q4UUL4" />
@@ -3784,7 +3784,7 @@
     </members>
   </clusters>
   <clusters ID="map00340">
-    <names>map00340</names>
+    <names>Histidine metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00340</description>
     <members>
       <synonym accessionID="Q4UU40" alias="Q4UU40" />
@@ -3807,7 +3807,7 @@
     </members>
   </clusters>
   <clusters ID="map00900">
-    <names>map00900</names>
+    <names>Terpenoid backbone biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00900</description>
     <members>
       <synonym accessionID="Q4URC0" alias="Q4URC0" />
@@ -3826,7 +3826,7 @@
     </members>
   </clusters>
   <clusters ID="map00360">
-    <names>map00360</names>
+    <names>Phenylalanine metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00360</description>
     <members>
       <synonym accessionID="Q4US88" alias="Q4US88" />
@@ -3846,7 +3846,7 @@
     </members>
   </clusters>
   <clusters ID="map00940">
-    <names>map00940</names>
+    <names>Phenylpropanoid biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00940</description>
     <members>
       <synonym accessionID="Q4US88" alias="Q4US88" />
@@ -3859,7 +3859,7 @@
     </members>
   </clusters>
   <clusters ID="map01503">
-    <names>map01503</names>
+    <names>Cationic antimicrobial peptide (CAMP) resistance - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01503</description>
     <members>
       <synonym accessionID="Q4USP8" alias="Q4USP8" />
@@ -3881,7 +3881,7 @@
     </members>
   </clusters>
   <clusters ID="map02030">
-    <names>map02030</names>
+    <names>Bacterial chemotaxis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map02030</description>
     <members>
       <synonym accessionID="Q4UWU6" alias="Q4UWU6" />
@@ -3937,7 +3937,7 @@
     </members>
   </clusters>
   <clusters ID="map02025">
-    <names>map02025</names>
+    <names>Biofilm formation - Pseudomonas aeruginosa - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map02025</description>
     <members>
       <synonym accessionID="Q4UZF6" alias="Q4UZF6" />
@@ -3963,7 +3963,7 @@
     </members>
   </clusters>
   <clusters ID="map02026">
-    <names>map02026</names>
+    <names>Biofilm formation - Escherichia coli - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map02026</description>
     <members>
       <synonym accessionID="Q4UZF6" alias="Q4UZF6" />
@@ -3980,7 +3980,7 @@
     </members>
   </clusters>
   <clusters ID="map05111">
-    <names>map05111</names>
+    <names>Biofilm formation - Vibrio cholerae - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05111</description>
     <members>
       <synonym accessionID="Q4UZF6" alias="Q4UZF6" />
@@ -4018,7 +4018,7 @@
     </members>
   </clusters>
   <clusters ID="map04152">
-    <names>map04152</names>
+    <names>AMPK signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04152</description>
     <members>
       <synonym accessionID="Q4V0I4" alias="Q4V0I4" />
@@ -4027,14 +4027,14 @@
     </members>
   </clusters>
   <clusters ID="map04910">
-    <names>map04910</names>
+    <names>Insulin signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04910</description>
     <members>
       <synonym accessionID="Q4V0I4" alias="Q4V0I4" />
     </members>
   </clusters>
   <clusters ID="map04066">
-    <names>map04066</names>
+    <names>HIF-1 signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04066</description>
     <members>
       <synonym accessionID="Q4UTP2" alias="Q4UTP2" />
@@ -4044,7 +4044,7 @@
     </members>
   </clusters>
   <clusters ID="map01212">
-    <names>map01212</names>
+    <names>Fatty acid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01212</description>
     <members>
       <synonym accessionID="Q4USP9" alias="Q4USP9" />
@@ -4077,7 +4077,7 @@
     </members>
   </clusters>
   <clusters ID="map00061">
-    <names>map00061</names>
+    <names>Fatty acid biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00061</description>
     <members>
       <synonym accessionID="Q4USP9" alias="Q4USP9" />
@@ -4102,7 +4102,7 @@
     </members>
   </clusters>
   <clusters ID="map03410">
-    <names>map03410</names>
+    <names>Base excision repair - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03410</description>
     <members>
       <synonym accessionID="Q4UNU6" alias="Q4UNU6" />
@@ -4126,14 +4126,14 @@
     </members>
   </clusters>
   <clusters ID="map04940">
-    <names>map04940</names>
+    <names>Type I diabetes mellitus - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04940</description>
     <members>
       <synonym accessionID="Q4UZA7" alias="Q4UZA7" />
     </members>
   </clusters>
   <clusters ID="map05152">
-    <names>map05152</names>
+    <names>Tuberculosis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05152</description>
     <members>
       <synonym accessionID="Q4UZA7" alias="Q4UZA7" />
@@ -4144,7 +4144,7 @@
     </members>
   </clusters>
   <clusters ID="map00261">
-    <names>map00261</names>
+    <names>Monobactam biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00261</description>
     <members>
       <synonym accessionID="Q4UY06" alias="Q4UY06" />
@@ -4157,7 +4157,7 @@
     </members>
   </clusters>
   <clusters ID="map04714">
-    <names>map04714</names>
+    <names>Thermogenesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04714</description>
     <members>
       <synonym accessionID="Q4UPT7" alias="Q4UPT7" />
@@ -4170,7 +4170,7 @@
     </members>
   </clusters>
   <clusters ID="map00052">
-    <names>map00052</names>
+    <names>Galactose metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00052</description>
     <members>
       <synonym accessionID="Q4UTT5" alias="Q4UTT5" />
@@ -4196,7 +4196,7 @@
     </members>
   </clusters>
   <clusters ID="map00350">
-    <names>map00350</names>
+    <names>Tyrosine metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00350</description>
     <members>
       <synonym accessionID="Q4UZI9" alias="Q4UZI9" />
@@ -4215,7 +4215,7 @@
     </members>
   </clusters>
   <clusters ID="map00643">
-    <names>map00643</names>
+    <names>Styrene degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00643</description>
     <members>
       <synonym accessionID="Q4UZI9" alias="Q4UZI9" />
@@ -4227,7 +4227,7 @@
     </members>
   </clusters>
   <clusters ID="map00401">
-    <names>map00401</names>
+    <names>Novobiocin biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00401</description>
     <members>
       <synonym accessionID="Q4UU41" alias="Q4UU41" />
@@ -4238,7 +4238,7 @@
     </members>
   </clusters>
   <clusters ID="map00960">
-    <names>map00960</names>
+    <names>Tropane, piperidine and pyridine alkaloid biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00960</description>
     <members>
       <synonym accessionID="Q4UU41" alias="Q4UU41" />
@@ -4249,14 +4249,14 @@
     </members>
   </clusters>
   <clusters ID="map03013">
-    <names>map03013</names>
+    <names>RNA transport - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03013</description>
     <members>
       <synonym accessionID="Q4UYN8" alias="Q4UYN8" />
     </members>
   </clusters>
   <clusters ID="map00627">
-    <names>map00627</names>
+    <names>Aminobenzoate degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00627</description>
     <members>
       <synonym accessionID="Q4URB1" alias="Q4URB1" />
@@ -4267,7 +4267,7 @@
     </members>
   </clusters>
   <clusters ID="map00473">
-    <names>map00473</names>
+    <names>D-Alanine metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00473</description>
     <members>
       <synonym accessionID="Q4UQB5" alias="Q4UQB5" />
@@ -4276,7 +4276,7 @@
     </members>
   </clusters>
   <clusters ID="map00999">
-    <names>map00999</names>
+    <names>Biosynthesis of secondary metabolites - unclassified - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00999</description>
     <members>
       <synonym accessionID="Q4URQ3" alias="Q4URQ3" />
@@ -4284,7 +4284,7 @@
     </members>
   </clusters>
   <clusters ID="map00130">
-    <names>map00130</names>
+    <names>Ubiquinone and other terpenoid-quinone biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00130</description>
     <members>
       <synonym accessionID="Q4UZF3" alias="Q4UZF3" />
@@ -4301,7 +4301,7 @@
     </members>
   </clusters>
   <clusters ID="map01523">
-    <names>map01523</names>
+    <names>Antifolate resistance - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01523</description>
     <members>
       <synonym accessionID="Q4UQT6" alias="Q4UQT6" />
@@ -4313,7 +4313,7 @@
     </members>
   </clusters>
   <clusters ID="map00460">
-    <names>map00460</names>
+    <names>Cyanoamino acid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00460</description>
     <members>
       <synonym accessionID="Q4UQT6" alias="Q4UQT6" />
@@ -4330,7 +4330,7 @@
     </members>
   </clusters>
   <clusters ID="map00561">
-    <names>map00561</names>
+    <names>Glycerolipid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00561</description>
     <members>
       <synonym accessionID="Q4UZR8" alias="Q4UZR8" />
@@ -4344,7 +4344,7 @@
     </members>
   </clusters>
   <clusters ID="map03320">
-    <names>map03320</names>
+    <names>PPAR signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03320</description>
     <members>
       <synonym accessionID="Q4UZR8" alias="Q4UZR8" />
@@ -4354,7 +4354,7 @@
     </members>
   </clusters>
   <clusters ID="map00521">
-    <names>map00521</names>
+    <names>Streptomycin biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00521</description>
     <members>
       <synonym accessionID="Q4UV84" alias="Q4UV84" />
@@ -4371,7 +4371,7 @@
     </members>
   </clusters>
   <clusters ID="map00524">
-    <names>map00524</names>
+    <names>Neomycin, kanamycin and gentamicin biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00524</description>
     <members>
       <synonym accessionID="Q4UV84" alias="Q4UV84" />
@@ -4380,7 +4380,7 @@
     </members>
   </clusters>
   <clusters ID="map05230">
-    <names>map05230</names>
+    <names>Central carbon metabolism in cancer - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05230</description>
     <members>
       <synonym accessionID="Q4UWV1" alias="Q4UWV1" />
@@ -4393,7 +4393,7 @@
     </members>
   </clusters>
   <clusters ID="map04922">
-    <names>map04922</names>
+    <names>Glucagon signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04922</description>
     <members>
       <synonym accessionID="Q4UWV1" alias="Q4UWV1" />
@@ -4404,7 +4404,7 @@
     </members>
   </clusters>
   <clusters ID="map02040">
-    <names>map02040</names>
+    <names>Flagellar assembly - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map02040</description>
     <members>
       <synonym accessionID="Q4UUH8" alias="Q4UUH8" />
@@ -4445,7 +4445,7 @@
     </members>
   </clusters>
   <clusters ID="map00650">
-    <names>map00650</names>
+    <names>Butanoate metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00650</description>
     <members>
       <synonym accessionID="Q4V0G3" alias="Q4V0G3" />
@@ -4475,7 +4475,7 @@
     </members>
   </clusters>
   <clusters ID="map00220">
-    <names>map00220</names>
+    <names>Arginine biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00220</description>
     <members>
       <synonym accessionID="Q4UVI5" alias="Q4UVI5" />
@@ -4494,7 +4494,7 @@
     </members>
   </clusters>
   <clusters ID="map05340">
-    <names>map05340</names>
+    <names>Primary immunodeficiency - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05340</description>
     <members>
       <synonym accessionID="Q4UPY9" alias="Q4UPY9" />
@@ -4502,7 +4502,7 @@
     </members>
   </clusters>
   <clusters ID="map00053">
-    <names>map00053</names>
+    <names>Ascorbate and aldarate metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00053</description>
     <members>
       <synonym accessionID="Q4UY45" alias="Q4UY45" />
@@ -4522,7 +4522,7 @@
     </members>
   </clusters>
   <clusters ID="map00280">
-    <names>map00280</names>
+    <names>Valine, leucine and isoleucine degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00280</description>
     <members>
       <synonym accessionID="A0A0H2X364" alias="A0A0H2X364" />
@@ -4548,7 +4548,7 @@
     </members>
   </clusters>
   <clusters ID="map01040">
-    <names>map01040</names>
+    <names>Biosynthesis of unsaturated fatty acids - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01040</description>
     <members>
       <synonym accessionID="A0A0H2XBJ4" alias="A0A0H2XBJ4" />
@@ -4563,7 +4563,7 @@
     </members>
   </clusters>
   <clusters ID="map04142">
-    <names>map04142</names>
+    <names>Lysosome - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04142</description>
     <members>
       <synonym accessionID="A0A0H2X6Y8" alias="A0A0H2X6Y8" />
@@ -4573,7 +4573,7 @@
     </members>
   </clusters>
   <clusters ID="map00511">
-    <names>map00511</names>
+    <names>Other glycan degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00511</description>
     <members>
       <synonym accessionID="A0A0H2X6Y8" alias="A0A0H2X6Y8" />
@@ -4588,7 +4588,7 @@
     </members>
   </clusters>
   <clusters ID="map05014">
-    <names>map05014</names>
+    <names>Amyotrophic lateral sclerosis (ALS) - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05014</description>
     <members>
       <synonym accessionID="A0A0H2X315" alias="A0A0H2X315" />
@@ -4600,7 +4600,7 @@
     </members>
   </clusters>
   <clusters ID="map05020">
-    <names>map05020</names>
+    <names>Prion diseases - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05020</description>
     <members>
       <synonym accessionID="A0A0H2X315" alias="A0A0H2X315" />
@@ -4608,14 +4608,14 @@
     </members>
   </clusters>
   <clusters ID="map01051">
-    <names>map01051</names>
+    <names>Biosynthesis of ansamycins - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01051</description>
     <members>
       <synonym accessionID="A0A0H2X496" alias="A0A0H2X496" />
     </members>
   </clusters>
   <clusters ID="map00362">
-    <names>map00362</names>
+    <names>Benzoate degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00362</description>
     <members>
       <synonym accessionID="A0A0H2XC69" alias="A0A0H2XC69" />
@@ -4640,7 +4640,7 @@
     </members>
   </clusters>
   <clusters ID="map00624">
-    <names>map00624</names>
+    <names>Polycyclic aromatic hydrocarbon degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00624</description>
     <members>
       <synonym accessionID="A0A0H2XC69" alias="A0A0H2XC69" />
@@ -4650,7 +4650,7 @@
     </members>
   </clusters>
   <clusters ID="map00072">
-    <names>map00072</names>
+    <names>Synthesis and degradation of ketone bodies - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00072</description>
     <members>
       <synonym accessionID="A0A0H2XCM8" alias="A0A0H2XCM8" />
@@ -4662,7 +4662,7 @@
     </members>
   </clusters>
   <clusters ID="map01220">
-    <names>map01220</names>
+    <names>Degradation of aromatic compounds - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01220</description>
     <members>
       <synonym accessionID="A0A0H2X4P3" alias="A0A0H2X4P3" />
@@ -4681,7 +4681,7 @@
     </members>
   </clusters>
   <clusters ID="map05204">
-    <names>map05204</names>
+    <names>Chemical carcinogenesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05204</description>
     <members>
       <synonym accessionID="A0A0H2XBQ4" alias="A0A0H2XBQ4" />
@@ -4698,7 +4698,7 @@
     </members>
   </clusters>
   <clusters ID="map05225">
-    <names>map05225</names>
+    <names>Hepatocellular carcinoma - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05225</description>
     <members>
       <synonym accessionID="A0A0H2XBQ4" alias="A0A0H2XBQ4" />
@@ -4713,7 +4713,7 @@
     </members>
   </clusters>
   <clusters ID="map01524">
-    <names>map01524</names>
+    <names>Platinum drug resistance - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01524</description>
     <members>
       <synonym accessionID="A0A0H2XBQ4" alias="A0A0H2XBQ4" />
@@ -4728,7 +4728,7 @@
     </members>
   </clusters>
   <clusters ID="map00980">
-    <names>map00980</names>
+    <names>Metabolism of xenobiotics by cytochrome P450 - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00980</description>
     <members>
       <synonym accessionID="A0A0H2XBQ4" alias="A0A0H2XBQ4" />
@@ -4744,7 +4744,7 @@
     </members>
   </clusters>
   <clusters ID="map00982">
-    <names>map00982</names>
+    <names>Drug metabolism - cytochrome P450 - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00982</description>
     <members>
       <synonym accessionID="A0A0H2XBQ4" alias="A0A0H2XBQ4" />
@@ -4761,7 +4761,7 @@
     </members>
   </clusters>
   <clusters ID="map02060">
-    <names>map02060</names>
+    <names>Phosphotransferase system (PTS) - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map02060</description>
     <members>
       <synonym accessionID="A0A0H2X789" alias="A0A0H2X789" />
@@ -4775,7 +4775,7 @@
     </members>
   </clusters>
   <clusters ID="map00310">
-    <names>map00310</names>
+    <names>Lysine degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00310</description>
     <members>
       <synonym accessionID="A0A0H2XC64" alias="A0A0H2XC64" />
@@ -4790,7 +4790,7 @@
     </members>
   </clusters>
   <clusters ID="map00071">
-    <names>map00071</names>
+    <names>Fatty acid degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00071</description>
     <members>
       <synonym accessionID="A0A0H2XC64" alias="A0A0H2XC64" />
@@ -4808,7 +4808,7 @@
     </members>
   </clusters>
   <clusters ID="map00903">
-    <names>map00903</names>
+    <names>Limonene and pinene degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00903</description>
     <members>
       <synonym accessionID="A0A0H2XC64" alias="A0A0H2XC64" />
@@ -4817,7 +4817,7 @@
     </members>
   </clusters>
   <clusters ID="map00981">
-    <names>map00981</names>
+    <names>Insect hormone biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00981</description>
     <members>
       <synonym accessionID="A0A0H2XC64" alias="A0A0H2XC64" />
@@ -4825,7 +4825,7 @@
     </members>
   </clusters>
   <clusters ID="map00625">
-    <names>map00625</names>
+    <names>Chloroalkane and chloroalkene degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00625</description>
     <members>
       <synonym accessionID="A0A0H2XC64" alias="A0A0H2XC64" />
@@ -4835,21 +4835,21 @@
     </members>
   </clusters>
   <clusters ID="map01054">
-    <names>map01054</names>
+    <names>Nonribosomal peptide structures - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01054</description>
     <members>
       <synonym accessionID="A0A0H2XA12" alias="A0A0H2XA12" />
     </members>
   </clusters>
   <clusters ID="map05132">
-    <names>map05132</names>
+    <names>Salmonella infection - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05132</description>
     <members>
       <synonym accessionID="A0A0H2X9H9" alias="A0A0H2X9H9" />
     </members>
   </clusters>
   <clusters ID="map05133">
-    <names>map05133</names>
+    <names>Pertussis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05133</description>
     <members>
       <synonym accessionID="A0A0H2X881" alias="A0A0H2X881" />
@@ -4858,28 +4858,28 @@
     </members>
   </clusters>
   <clusters ID="map05211">
-    <names>map05211</names>
+    <names>Renal cell carcinoma - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05211</description>
     <members>
       <synonym accessionID="A0A0H2X928" alias="A0A0H2X928" />
     </members>
   </clusters>
   <clusters ID="map04934">
-    <names>map04934</names>
+    <names>Cushing syndrome - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04934</description>
     <members>
       <synonym accessionID="A0A0H2X928" alias="A0A0H2X928" />
     </members>
   </clusters>
   <clusters ID="map04974">
-    <names>map04974</names>
+    <names>Protein digestion and absorption - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04974</description>
     <members>
       <synonym accessionID="A0A0H2XDT3" alias="A0A0H2XDT3" />
     </members>
   </clusters>
   <clusters ID="map00404">
-    <names>map00404</names>
+    <names>Staurosporine biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00404</description>
     <members>
       <synonym accessionID="A0A0H2X771" alias="A0A0H2X771" />
@@ -4888,7 +4888,7 @@
     </members>
   </clusters>
   <clusters ID="map00930">
-    <names>map00930</names>
+    <names>Caprolactam degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00930</description>
     <members>
       <synonym accessionID="A0A0H2XCQ0" alias="A0A0H2XCQ0" />
@@ -4897,7 +4897,7 @@
     </members>
   </clusters>
   <clusters ID="map00910">
-    <names>map00910</names>
+    <names>Nitrogen metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00910</description>
     <members>
       <synonym accessionID="A0A0H2X8J4" alias="A0A0H2X8J4" />
@@ -4918,7 +4918,7 @@
     </members>
   </clusters>
   <clusters ID="map01053">
-    <names>map01053</names>
+    <names>Biosynthesis of siderophore group nonribosomal peptides - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01053</description>
     <members>
       <synonym accessionID="A0A0H2XAG2" alias="A0A0H2XAG2" />
@@ -4926,7 +4926,7 @@
     </members>
   </clusters>
   <clusters ID="map04931">
-    <names>map04931</names>
+    <names>Insulin resistance - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04931</description>
     <members>
       <synonym accessionID="A0A0H2X469" alias="A0A0H2X469" />
@@ -4934,49 +4934,49 @@
     </members>
   </clusters>
   <clusters ID="map00510">
-    <names>map00510</names>
+    <names>N-Glycan biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00510</description>
     <members>
       <synonym accessionID="A0A0H2XBZ1" alias="A0A0H2XBZ1" />
     </members>
   </clusters>
   <clusters ID="map04216">
-    <names>map04216</names>
+    <names>Ferroptosis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04216</description>
     <members>
       <synonym accessionID="A0A0H2X9L8" alias="A0A0H2X9L8" />
     </members>
   </clusters>
   <clusters ID="map04920">
-    <names>map04920</names>
+    <names>Adipocytokine signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04920</description>
     <members>
       <synonym accessionID="A0A0H2X9L8" alias="A0A0H2X9L8" />
     </members>
   </clusters>
   <clusters ID="map05030">
-    <names>map05030</names>
+    <names>Cocaine addiction - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05030</description>
     <members>
       <synonym accessionID="A0A0H2X4G0" alias="A0A0H2X4G0" />
     </members>
   </clusters>
   <clusters ID="map05031">
-    <names>map05031</names>
+    <names>Amphetamine addiction - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05031</description>
     <members>
       <synonym accessionID="A0A0H2X4G0" alias="A0A0H2X4G0" />
     </members>
   </clusters>
   <clusters ID="map05034">
-    <names>map05034</names>
+    <names>Alcoholism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05034</description>
     <members>
       <synonym accessionID="A0A0H2X4G0" alias="A0A0H2X4G0" />
     </members>
   </clusters>
   <clusters ID="map00950">
-    <names>map00950</names>
+    <names>Isoquinoline alkaloid biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00950</description>
     <members>
       <synonym accessionID="A0A0H2X4G0" alias="A0A0H2X4G0" />
@@ -4984,21 +4984,21 @@
     </members>
   </clusters>
   <clusters ID="map04726">
-    <names>map04726</names>
+    <names>Serotonergic synapse - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04726</description>
     <members>
       <synonym accessionID="A0A0H2X4G0" alias="A0A0H2X4G0" />
     </members>
   </clusters>
   <clusters ID="map04728">
-    <names>map04728</names>
+    <names>Dopaminergic synapse - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04728</description>
     <members>
       <synonym accessionID="A0A0H2X4G0" alias="A0A0H2X4G0" />
     </members>
   </clusters>
   <clusters ID="map04070">
-    <names>map04070</names>
+    <names>Phosphatidylinositol signaling system - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04070</description>
     <members>
       <synonym accessionID="A0A0H2X9C7" alias="A0A0H2X9C7" />
@@ -5008,7 +5008,7 @@
     </members>
   </clusters>
   <clusters ID="map00121">
-    <names>map00121</names>
+    <names>Secondary bile acid biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00121</description>
     <members>
       <synonym accessionID="A0A0H2X7F0" alias="A0A0H2X7F0" />
@@ -5016,7 +5016,7 @@
     </members>
   </clusters>
   <clusters ID="map00281">
-    <names>map00281</names>
+    <names>Geraniol degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00281</description>
     <members>
       <synonym accessionID="A0A0H2X9L4" alias="A0A0H2X9L4" />
@@ -5026,7 +5026,7 @@
     </members>
   </clusters>
   <clusters ID="map00430">
-    <names>map00430</names>
+    <names>Taurine and hypotaurine metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00430</description>
     <members>
       <synonym accessionID="A0A0H2X6K5" alias="A0A0H2X6K5" />
@@ -5037,7 +5037,7 @@
     </members>
   </clusters>
   <clusters ID="map04210">
-    <names>map04210</names>
+    <names>Apoptosis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04210</description>
     <members>
       <synonym accessionID="A0A0H2X8N3" alias="A0A0H2X8N3" />
@@ -5045,7 +5045,7 @@
     </members>
   </clusters>
   <clusters ID="map04918">
-    <names>map04918</names>
+    <names>Thyroid hormone synthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04918</description>
     <members>
       <synonym accessionID="A0A0H2X618" alias="A0A0H2X618" />
@@ -5055,35 +5055,35 @@
     </members>
   </clusters>
   <clusters ID="map04973">
-    <names>map04973</names>
+    <names>Carbohydrate digestion and absorption - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04973</description>
     <members>
       <synonym accessionID="A0A0H2XCB3" alias="A0A0H2XCB3" />
     </members>
   </clusters>
   <clusters ID="map05203">
-    <names>map05203</names>
+    <names>Viral carcinogenesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05203</description>
     <members>
       <synonym accessionID="A0A0H2X4P5" alias="A0A0H2X4P5" />
     </members>
   </clusters>
   <clusters ID="map04930">
-    <names>map04930</names>
+    <names>Type II diabetes mellitus - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04930</description>
     <members>
       <synonym accessionID="A0A0H2X4P5" alias="A0A0H2X4P5" />
     </members>
   </clusters>
   <clusters ID="map05165">
-    <names>map05165</names>
+    <names>Human papillomavirus infection - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05165</description>
     <members>
       <synonym accessionID="A0A0H2X4P5" alias="A0A0H2X4P5" />
     </members>
   </clusters>
   <clusters ID="map04614">
-    <names>map04614</names>
+    <names>Renin-angiotensin system - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04614</description>
     <members>
       <synonym accessionID="A0A0H2X3W9" alias="A0A0H2X3W9" />
@@ -5091,7 +5091,7 @@
     </members>
   </clusters>
   <clusters ID="map04214">
-    <names>map04214</names>
+    <names>Apoptosis - fly - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04214</description>
     <members>
       <synonym accessionID="A0A0H2XAN6" alias="A0A0H2XAN6" />
@@ -5100,7 +5100,7 @@
     </members>
   </clusters>
   <clusters ID="map00333">
-    <names>map00333</names>
+    <names>Prodigiosin biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00333</description>
     <members>
       <synonym accessionID="A0A0H2X527" alias="A0A0H2X527" />
@@ -5112,7 +5112,7 @@
     </members>
   </clusters>
   <clusters ID="map00523">
-    <names>map00523</names>
+    <names>Polyketide sugar unit biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00523</description>
     <members>
       <synonym accessionID="A0A0H2XB59" alias="A0A0H2XB59" />
@@ -5123,7 +5123,7 @@
     </members>
   </clusters>
   <clusters ID="map00830">
-    <names>map00830</names>
+    <names>Retinol metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00830</description>
     <members>
       <synonym accessionID="A0A0H2X5R0" alias="A0A0H2X5R0" />
@@ -5131,7 +5131,7 @@
     </members>
   </clusters>
   <clusters ID="map00626">
-    <names>map00626</names>
+    <names>Naphthalene degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00626</description>
     <members>
       <synonym accessionID="A0A0H2X5R0" alias="A0A0H2X5R0" />
@@ -5139,7 +5139,7 @@
     </members>
   </clusters>
   <clusters ID="map04724">
-    <names>map04724</names>
+    <names>Glutamatergic synapse - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04724</description>
     <members>
       <synonym accessionID="A0A0H2X6K8" alias="A0A0H2X6K8" />
@@ -5148,7 +5148,7 @@
     </members>
   </clusters>
   <clusters ID="map04727">
-    <names>map04727</names>
+    <names>GABAergic synapse - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04727</description>
     <members>
       <synonym accessionID="A0A0H2X6K8" alias="A0A0H2X6K8" />
@@ -5157,7 +5157,7 @@
     </members>
   </clusters>
   <clusters ID="map00405">
-    <names>map00405</names>
+    <names>Phenazine biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00405</description>
     <members>
       <synonym accessionID="A0A0H2X4W7" alias="A0A0H2X4W7" />
@@ -5166,7 +5166,7 @@
     </members>
   </clusters>
   <clusters ID="map04932">
-    <names>map04932</names>
+    <names>Non-alcoholic fatty liver disease (NAFLD) - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04932</description>
     <members>
       <synonym accessionID="A0A0H2X6M9" alias="A0A0H2X6M9" />
@@ -5176,7 +5176,7 @@
     </members>
   </clusters>
   <clusters ID="map05010">
-    <names>map05010</names>
+    <names>Alzheimer disease - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05010</description>
     <members>
       <synonym accessionID="A0A0H2X6M9" alias="A0A0H2X6M9" />
@@ -5187,7 +5187,7 @@
     </members>
   </clusters>
   <clusters ID="map05012">
-    <names>map05012</names>
+    <names>Parkinson disease - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05012</description>
     <members>
       <synonym accessionID="A0A0H2X6M9" alias="A0A0H2X6M9" />
@@ -5197,7 +5197,7 @@
     </members>
   </clusters>
   <clusters ID="map04260">
-    <names>map04260</names>
+    <names>Cardiac muscle contraction - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04260</description>
     <members>
       <synonym accessionID="A0A0H2X6M9" alias="A0A0H2X6M9" />
@@ -5206,14 +5206,14 @@
     </members>
   </clusters>
   <clusters ID="map00621">
-    <names>map00621</names>
+    <names>Dioxin degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00621</description>
     <members>
       <synonym accessionID="A0A0H2X401" alias="A0A0H2X401" />
     </members>
   </clusters>
   <clusters ID="map00622">
-    <names>map00622</names>
+    <names>Xylene degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00622</description>
     <members>
       <synonym accessionID="A0A0H2X401" alias="A0A0H2X401" />
@@ -5221,7 +5221,7 @@
     </members>
   </clusters>
   <clusters ID="map00361">
-    <names>map00361</names>
+    <names>Chlorocyclohexane and chlorobenzene degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00361</description>
     <members>
       <synonym accessionID="A0A0H2X656" alias="A0A0H2X656" />
@@ -5230,7 +5230,7 @@
     </members>
   </clusters>
   <clusters ID="map00364">
-    <names>map00364</names>
+    <names>Fluorobenzoate degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00364</description>
     <members>
       <synonym accessionID="A0A0H2X656" alias="A0A0H2X656" />
@@ -5239,7 +5239,7 @@
     </members>
   </clusters>
   <clusters ID="map00623">
-    <names>map00623</names>
+    <names>Toluene degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00623</description>
     <members>
       <synonym accessionID="A0A0H2X656" alias="A0A0H2X656" />
@@ -5249,7 +5249,7 @@
     </members>
   </clusters>
   <clusters ID="map00565">
-    <names>map00565</names>
+    <names>Ether lipid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00565</description>
     <members>
       <synonym accessionID="A0A0H2XAU3" alias="A0A0H2XAU3" />
@@ -5258,7 +5258,7 @@
     </members>
   </clusters>
   <clusters ID="map00590">
-    <names>map00590</names>
+    <names>Arachidonic acid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00590</description>
     <members>
       <synonym accessionID="A0A0H2XAU3" alias="A0A0H2XAU3" />
@@ -5268,7 +5268,7 @@
     </members>
   </clusters>
   <clusters ID="map00591">
-    <names>map00591</names>
+    <names>Linoleic acid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00591</description>
     <members>
       <synonym accessionID="A0A0H2XAU3" alias="A0A0H2XAU3" />
@@ -5276,7 +5276,7 @@
     </members>
   </clusters>
   <clusters ID="map00592">
-    <names>map00592</names>
+    <names>alpha-Linolenic acid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00592</description>
     <members>
       <synonym accessionID="A0A0H2XAU3" alias="A0A0H2XAU3" />
@@ -5284,7 +5284,7 @@
     </members>
   </clusters>
   <clusters ID="map00440">
-    <names>map00440</names>
+    <names>Phosphonate and phosphinate metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00440</description>
     <members>
       <synonym accessionID="A0A0H2XBM7" alias="A0A0H2XBM7" />
@@ -5292,7 +5292,7 @@
     </members>
   </clusters>
   <clusters ID="map04011">
-    <names>map04011</names>
+    <names>MAPK signaling pathway - yeast - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04011</description>
     <members>
       <synonym accessionID="A0A0H2XDN1" alias="A0A0H2XDN1" />
@@ -5301,14 +5301,14 @@
     </members>
   </clusters>
   <clusters ID="map05120">
-    <names>map05120</names>
+    <names>Epithelial cell signaling in Helicobacter pylori infection - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05120</description>
     <members>
       <synonym accessionID="A0A0H2X6A8" alias="A0A0H2X6A8" />
     </members>
   </clusters>
   <clusters ID="map00525">
-    <names>map00525</names>
+    <names>Acarbose and validamycin biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00525</description>
     <members>
       <synonym accessionID="A0A0H2XB39" alias="A0A0H2XB39" />
@@ -5316,21 +5316,21 @@
     </members>
   </clusters>
   <clusters ID="map04072">
-    <names>map04072</names>
+    <names>Phospholipase D signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04072</description>
     <members>
       <synonym accessionID="A0A0H2XAP4" alias="A0A0H2XAP4" />
     </members>
   </clusters>
   <clusters ID="map05231">
-    <names>map05231</names>
+    <names>Choline metabolism in cancer - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05231</description>
     <members>
       <synonym accessionID="A0A0H2XAP4" alias="A0A0H2XAP4" />
     </members>
   </clusters>
   <clusters ID="map03450">
-    <names>map03450</names>
+    <names>Non-homologous end-joining - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map03450</description>
     <members>
       <synonym accessionID="A0A0H2X2C3" alias="A0A0H2X2C3" />
@@ -5339,42 +5339,42 @@
     </members>
   </clusters>
   <clusters ID="map05146">
-    <names>map05146</names>
+    <names>Amoebiasis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05146</description>
     <members>
       <synonym accessionID="A0A0H2XC82" alias="A0A0H2XC82" />
     </members>
   </clusters>
   <clusters ID="map00965">
-    <names>map00965</names>
+    <names>Betalain biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00965</description>
     <members>
       <synonym accessionID="A0A0H2XD80" alias="A0A0H2XD80" />
     </members>
   </clusters>
   <clusters ID="map04080">
-    <names>map04080</names>
+    <names>Neuroactive ligand-receptor interaction - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04080</description>
     <members>
       <synonym accessionID="A0A0H2X876" alias="A0A0H2X876" />
     </members>
   </clusters>
   <clusters ID="map05166">
-    <names>map05166</names>
+    <names>Human T-cell leukemia virus 1 infection - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05166</description>
     <members>
       <synonym accessionID="A0A0H2X876" alias="A0A0H2X876" />
     </members>
   </clusters>
   <clusters ID="map04979">
-    <names>map04979</names>
+    <names>Cholesterol metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04979</description>
     <members>
       <synonym accessionID="A0A0H2X876" alias="A0A0H2X876" />
     </members>
   </clusters>
   <clusters ID="map00311">
-    <names>map00311</names>
+    <names>Penicillin and cephalosporin biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00311</description>
     <members>
       <synonym accessionID="A0A0H2X6R0" alias="A0A0H2X6R0" />
@@ -5383,7 +5383,7 @@
     </members>
   </clusters>
   <clusters ID="map05110">
-    <names>map05110</names>
+    <names>Vibrio cholerae infection - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05110</description>
     <members>
       <synonym accessionID="A0A0H2X975" alias="A0A0H2X975" />
@@ -5391,14 +5391,14 @@
     </members>
   </clusters>
   <clusters ID="map05150">
-    <names>map05150</names>
+    <names>Staphylococcus aureus infection - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05150</description>
     <members>
       <synonym accessionID="A0A0H2X9J4" alias="A0A0H2X9J4" />
     </members>
   </clusters>
   <clusters ID="map00600">
-    <names>map00600</names>
+    <names>Sphingolipid metabolism - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00600</description>
     <members>
       <synonym accessionID="A0A0H2XA76" alias="A0A0H2XA76" />
@@ -5408,14 +5408,14 @@
     </members>
   </clusters>
   <clusters ID="map05410">
-    <names>map05410</names>
+    <names>Hypertrophic cardiomyopathy (HCM) - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05410</description>
     <members>
       <synonym accessionID="A0A0H2XBK9" alias="A0A0H2XBK9" />
     </members>
   </clusters>
   <clusters ID="map05142">
-    <names>map05142</names>
+    <names>Chagas disease (American trypanosomiasis) - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05142</description>
     <members>
       <synonym accessionID="A0A0H2XBK9" alias="A0A0H2XBK9" />
@@ -5423,14 +5423,14 @@
     </members>
   </clusters>
   <clusters ID="map04924">
-    <names>map04924</names>
+    <names>Renin secretion - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04924</description>
     <members>
       <synonym accessionID="A0A0H2XBK9" alias="A0A0H2XBK9" />
     </members>
   </clusters>
   <clusters ID="map04919">
-    <names>map04919</names>
+    <names>Thyroid hormone signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04919</description>
     <members>
       <synonym accessionID="A0A0H2XAH3" alias="A0A0H2XAH3" />
@@ -5438,28 +5438,28 @@
     </members>
   </clusters>
   <clusters ID="map00633">
-    <names>map00633</names>
+    <names>Nitrotoluene degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00633</description>
     <members>
       <synonym accessionID="A0A0H2XB25" alias="A0A0H2XB25" />
     </members>
   </clusters>
   <clusters ID="map05206">
-    <names>map05206</names>
+    <names>MicroRNAs in cancer - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05206</description>
     <members>
       <synonym accessionID="A0A0H2X7C5" alias="A0A0H2X7C5" />
     </members>
   </clusters>
   <clusters ID="map00642">
-    <names>map00642</names>
+    <names>Ethylbenzene degradation - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00642</description>
     <members>
       <synonym accessionID="A0A0H2X7Q8" alias="A0A0H2X7Q8" />
     </members>
   </clusters>
   <clusters ID="map04113">
-    <names>map04113</names>
+    <names>Meiosis - yeast - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04113</description>
     <members>
       <synonym accessionID="A0A0H2X8G4" alias="A0A0H2X8G4" />
@@ -5467,119 +5467,119 @@
     </members>
   </clusters>
   <clusters ID="map04115">
-    <names>map04115</names>
+    <names>p53 signaling pathway - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04115</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map04215">
-    <names>map04215</names>
+    <names>Apoptosis - multiple species - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map04215</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map05210">
-    <names>map05210</names>
+    <names>Colorectal cancer - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05210</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map05222">
-    <names>map05222</names>
+    <names>Small cell lung cancer - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05222</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map05416">
-    <names>map05416</names>
+    <names>Viral myocarditis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05416</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map05145">
-    <names>map05145</names>
+    <names>Toxoplasmosis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05145</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map05161">
-    <names>map05161</names>
+    <names>Hepatitis B - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05161</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map05163">
-    <names>map05163</names>
+    <names>Human cytomegalovirus infection - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05163</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map05164">
-    <names>map05164</names>
+    <names>Influenza A - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05164</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map05167">
-    <names>map05167</names>
+    <names>Kaposi sarcoma-associated herpesvirus infection - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05167</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map05168">
-    <names>map05168</names>
+    <names>Herpes simplex infection - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05168</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map05170">
-    <names>map05170</names>
+    <names>Human immunodeficiency virus 1 infection - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05170</description>
     <members>
       <synonym accessionID="A0A0H2X8L9" alias="A0A0H2X8L9" />
     </members>
   </clusters>
   <clusters ID="map01055">
-    <names>map01055</names>
+    <names>Biosynthesis of vancomycin group antibiotics - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map01055</description>
     <members>
       <synonym accessionID="A0A0H2XCT2" alias="A0A0H2XCT2" />
     </members>
   </clusters>
   <clusters ID="map05143">
-    <names>map05143</names>
+    <names>African trypanosomiasis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map05143</description>
     <members>
       <synonym accessionID="A0A0H2X3K6" alias="A0A0H2X3K6" />
     </members>
   </clusters>
   <clusters ID="map00513">
-    <names>map00513</names>
+    <names>Various types of N-glycan biosynthesis - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00513</description>
     <members>
       <synonym accessionID="A0A0H2X5I4" alias="A0A0H2X5I4" />
     </members>
   </clusters>
   <clusters ID="map00603">
-    <names>map00603</names>
+    <names>Glycosphingolipid biosynthesis - globo and isoglobo series - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00603</description>
     <members>
       <synonym accessionID="A0A0H2X5I4" alias="A0A0H2X5I4" />
     </members>
   </clusters>
   <clusters ID="map00604">
-    <names>map00604</names>
+    <names>Glycosphingolipid biosynthesis - ganglio series - Reference pathway</names>
     <description>http://www.genome.jp/kegg-bin/show_pathway?map00604</description>
     <members>
       <synonym accessionID="A0A0H2X5I4" alias="A0A0H2X5I4" />
