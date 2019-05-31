@@ -4,6 +4,9 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace NeuralNetwork.StoreProcedure
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
     Module Snapshot
 
         Private Iterator Function GetLayerNodes(layer As Layer) As IEnumerable(Of NeuronNode)

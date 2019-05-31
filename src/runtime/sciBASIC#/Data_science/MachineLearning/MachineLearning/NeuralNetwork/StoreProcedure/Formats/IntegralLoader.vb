@@ -53,13 +53,16 @@ Namespace NeuralNetwork.StoreProcedure
     ''' 与<see cref="Snapshot"/>之中的快照生成函数执行相反的操作,从模型数据文件之中创建计算用的对象模型
     ''' </summary>
     <HideModuleName>
-    Public Module StoreProcedureExtensions
+    Public Module IntegralLoader
 
         ''' <summary>
         ''' 将保存在Xml文件之中的已经训练好的模型加载为人工神经网络对象用来进行后续的分析操作
         ''' </summary>
         ''' <param name="model"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 这个加载器函数主要是针对小文件使用的
+        ''' </remarks>
         <Extension> Public Function LoadModel(model As StoreProcedure.NeuralNetwork) As Network
             Dim activations As LayerActives = LayerActives.FromXmlModel(
                 functions:=New Dictionary(Of String, ActiveFunction) From {
@@ -119,7 +122,10 @@ Namespace NeuralNetwork.StoreProcedure
         End Function
 
         <Extension>
-        Private Iterator Function createNeurons(layer As NeuronLayer, active As IActivationFunction, neuronDataTable As Dictionary(Of String, NeuronNode)) As IEnumerable(Of NamedValue(Of Neuron))
+        Private Iterator Function createNeurons(layer As NeuronLayer,
+                                                active As IActivationFunction,
+                                                neuronDataTable As Dictionary(Of String, NeuronNode)) As IEnumerable(Of NamedValue(Of Neuron))
+
             For Each id As String In layer.neurons
                 Dim data As NeuronNode = neuronDataTable(id)
                 Dim neuron As New Neuron(active) With {

@@ -327,6 +327,7 @@
     <Compile Include="NeuralNetwork\Models\Layer.vb" />
     <Compile Include="NeuralNetwork\Importance.vb" />
     <Compile Include="NeuralNetwork\StoreProcedure\Models\ActiveFunction.vb" />
+    <Compile Include="NeuralNetwork\StoreProcedure\NamespaceDoc.vb" />
     <Compile Include="NeuralNetwork\StoreProcedure\Snapshot.vb" />
     <Compile Include="NeuralNetwork\StoreProcedure\Models\Sample.vb" />
     <Compile Include="NeuralNetwork\StoreProcedure\Models\NormalizeMatrix.vb" />
@@ -337,7 +338,7 @@
     <Compile Include="NeuralNetwork\Models\Network.vb" />
     <Compile Include="NeuralNetwork\Models\Neuron.vb" />
     <Compile Include="NeuralNetwork\Models\Synapse.vb" />
-    <Compile Include="NeuralNetwork\StoreProcedure\StoreProcedure.vb" />
+    <Compile Include="NeuralNetwork\StoreProcedure\Formats\IntegralLoader.vb" />
     <Compile Include="NeuralNetwork\TrainingUtils.vb" />
     <Compile Include="QLearning\Action.vb" />
     <Compile Include="QLearning\Model.vb" />
