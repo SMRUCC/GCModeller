@@ -57,6 +57,11 @@ Namespace NeuralNetwork.StoreProcedure
 
         Public Property learnRate As Double
         Public Property momentum As Double
+        ''' <summary>
+        ''' 当前的这个模型快照在训练数据集上的预测误差
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property errors As Double
 
         Public Property neurons As NeuronNode()
         Public Property connections As Synapse()
