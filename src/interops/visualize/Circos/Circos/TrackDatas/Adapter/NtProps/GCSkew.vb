@@ -101,7 +101,7 @@ Namespace TrackDatas.NtProps
                 Call Console.Write(">")
             Next
 
-            __source = list
+            source = list
         End Sub
 
         Friend Shared Function __avgData(data As IEnumerable(Of Double)) As Double()

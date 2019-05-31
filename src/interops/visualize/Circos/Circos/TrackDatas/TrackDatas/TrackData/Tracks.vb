@@ -65,7 +65,7 @@ Namespace TrackDatas
     ''' </summary>
     Public Class RegionTrackData : Inherits TrackData
 
-        Protected Overrides Function __trackData() As String
+        Protected Overrides Function trackData() As String
             Return $"{chr} {start} {[end]}"
         End Function
     End Class
@@ -91,7 +91,7 @@ Namespace TrackDatas
 
         Public Overridable Property value As Double
 
-        Protected Overrides Function __trackData() As String
+        Protected Overrides Function trackData() As String
             Return $"{chr} {start} {[end]} {value}"
         End Function
     End Class
@@ -108,7 +108,7 @@ Namespace TrackDatas
 
         Public Property values As Double()
 
-        Protected Overrides Function __trackData() As String
+        Protected Overrides Function trackData() As String
             Dim values As String = Me.values.Select(Function(d) d.ToString).JoinBy(",")
             Return $"{chr} {start} {[end]} {values}"
         End Function
@@ -126,7 +126,7 @@ Namespace TrackDatas
 
         Public Property text As String
 
-        Protected Overrides Function __trackData() As String
+        Protected Overrides Function trackData() As String
             Return $"{chr} {start} {[end]} {text}"
         End Function
     End Class

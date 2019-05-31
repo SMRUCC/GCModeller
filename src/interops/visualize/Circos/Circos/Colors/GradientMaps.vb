@@ -75,20 +75,20 @@ Namespace Colors
                                        Optional min As Double = 0,
                                        Optional max As Double = 1) As Image
 
-            Dim Gr As Graphics2D = New Size(1024, 300).CreateGDIDevice
+            Dim g As Graphics2D = New Size(1024, 300).CreateGDIDevice
             Dim titleFont As New Font(FontFace.MicrosoftYaHei, 64, FontStyle.Regular)
-            Dim sz As SizeF = Gr.Graphics.MeasureString(title, titleFont)
+            Dim sz As SizeF = g.Graphics.MeasureString(title, titleFont)
 
-            Call Gr.Graphics.DrawString(title, titleFont, Brushes.Black, New Point)
+            Call g.Graphics.DrawString(title, titleFont, Brushes.Black, New Point)
 
             Dim Y As Integer = CInt(5 + sz.Height) - 20
             Dim X As Double = 5
             Dim maps As New ColorMap(mapLevel * 2)
             Dim clSequence As Color() = ColorSequence(maps, mapName).Reverse.ToArray
             Dim offset = CInt(clSequence.Length * offsetPercentage)
-            Dim drWidth As Integer = Gr.Width - 5 * 2
+            Dim drWidth As Integer = g.Width - 5 * 2
             Dim dx As Double = drWidth / (clSequence.Length - offset)
-            Dim drHeight As Integer = CInt((Gr.Height - sz.Height) * 0.85)
+            Dim drHeight As Integer = CInt((g.Height - sz.Height) * 0.85)
 
             Dim sMin, sMax As String
             Dim ruleFont As New Font(FontFace.MicrosoftYaHei, 24, FontStyle.Bold)
@@ -101,7 +101,7 @@ Namespace Colors
                 sMax = Mid(CStr(max), 1, 6)
             End If
 
-            Call Gr.DrawString(sMin, ruleFont, Brushes.Black, New Point(CInt(X), Y + drHeight))
+            Call g.DrawString(sMin, ruleFont, Brushes.Black, New Point(CInt(X), Y + drHeight))
 
             For idx As Integer = offset To clSequence.Length - 1
                 Dim color As Color = clSequence(idx)
@@ -112,13 +112,13 @@ Namespace Colors
                 Dim currXNext As Integer = CInt(X)
                 Dim rect As New Rectangle(New Point(currX, Y), New Size(CInt(dx), drHeight))
 
-                Call Gr.FillRectangle(New SolidBrush(color), rect)
+                Call g.FillRectangle(New SolidBrush(color), rect)
             Next
 
-            sz = Gr.MeasureString(sMax, ruleFont)
-            Call Gr.DrawString(sMax, ruleFont, Brushes.Black, New Point(CInt(Gr.Width - sz.Width), Y + drHeight))
+            sz = g.MeasureString(sMax, ruleFont)
+            Call g.DrawString(sMax, ruleFont, Brushes.Black, New Point(CInt(g.Width - sz.Width), Y + drHeight))
 
-            Return Gr.ImageResource
+            Return g.ImageResource
         End Function
 
         Dim offsetPercentage As Double = 0.06

@@ -90,15 +90,15 @@ Namespace TrackDatas
         Public Overrides Function ToString() As String
             Dim s As New StringBuilder
 
-            Call __attach(s, NameOf(glyph), glyph)
-            Call __attach(s, NameOf(glyph_size), glyph_size)
-            Call __attach(s, NameOf(fill_color), fill_color)
-            Call __attach(s, "url", URL)
+            Call attach(s, NameOf(glyph), glyph)
+            Call attach(s, NameOf(glyph_size), glyph_size)
+            Call attach(s, NameOf(fill_color), fill_color)
+            Call attach(s, "url", URL)
 
             Return s.ToString
         End Function
 
-        Private Shared Sub __attach(ByRef s As StringBuilder, name As String, value As String)
+        Private Shared Sub attach(ByRef s As StringBuilder, name As String, value As String)
             If String.IsNullOrEmpty(value) Then
                 Return
             End If

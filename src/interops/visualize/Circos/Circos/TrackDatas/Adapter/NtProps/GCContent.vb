@@ -87,7 +87,7 @@ Namespace TrackDatas.NtProps
                 Call Console.Write(">")
             Next
 
-            __source = list
+            source = list
         End Sub
     End Class
 End Namespace

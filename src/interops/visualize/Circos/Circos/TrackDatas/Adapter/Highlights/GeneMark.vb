@@ -74,7 +74,7 @@ Namespace TrackDatas.Highlights
         Sub New(annos As IEnumerable(Of IGeneBrief), Color As Dictionary(Of String, String))
             Dim noname As [Default](Of String) = "-"
 
-            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+            source = LinqAPI.MakeList(Of ValueTrackData) <=
  _
                 From gene As IGeneBrief
                 In annos
@@ -120,7 +120,7 @@ Namespace TrackDatas.Highlights
             Dim notype As [Default](Of String) = "-"
 
             COGColors = color
-            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+            source = LinqAPI.MakeList(Of ValueTrackData) <=
                 From site As IMotifSite
                 In locis
                 Let COG = site.Type Or notype
@@ -164,7 +164,7 @@ Namespace TrackDatas.Highlights
         End Sub
 
         ''' <summary>
-        ''' 假若使用这个构造函数的话，这个需要手工初始化<see cref="__source"/>和<see cref="COGColors"/>
+        ''' 假若使用这个构造函数的话，这个需要手工初始化<see cref="source"/>和<see cref="COGColors"/>
         ''' </summary>
         Protected Sub New()
         End Sub
