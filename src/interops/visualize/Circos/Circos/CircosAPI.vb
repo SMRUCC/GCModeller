@@ -327,7 +327,7 @@ different with the ideogram configuration document was not included in the circo
         Dim LQuery As Ideogram =
             LinqAPI.DefaultFirst(Of Ideogram) <=
                 From node As CircosConfig
-                In doc.Includes
+                In doc.includes
                 Where TypeOf node Is Ideogram
                 Select DirectCast(node, Ideogram)
 
@@ -1066,8 +1066,8 @@ SET_END:    Dim ends = i
     Public Function SetBasicProperty(doc As Configurations.Circos, data As PTTMarks) As Boolean
         doc.SkeletonKaryotype = data
 
-        Call doc.Includes.Add(New Ticks(Circos:=doc))
-        Call doc.Includes.Add(New Ideogram(doc))
+        Call doc.includes.Add(New Ticks(Circos:=doc))
+        Call doc.includes.Add(New Ideogram(doc))
 
         Return True
     End Function
@@ -1090,8 +1090,8 @@ SET_END:    Dim ends = i
                                      NT As FastaSeq,
                                      bands As IEnumerable(Of NamedTuple(Of String)),
                                      Optional loopHole As Integer = 0) As Boolean
-        Call circos.Includes.Add(New Ticks(Circos:=circos))
-        Call circos.Includes.Add(New Ideogram(circos))
+        Call circos.includes.Add(New Ticks(Circos:=circos))
+        Call circos.includes.Add(New Ideogram(circos))
 
         circos.SkeletonKaryotype = New KaryotypeChromosomes(
             Len(NT.SequenceData) + loopHole,
@@ -1206,14 +1206,14 @@ SET_END:    Dim ends = i
 
     <ExportAPI("Ticks.ShowLabel")>
     Public Sub ShowTicksLabel(circos As Configurations.Circos, value As Boolean)
-        If circos.Includes.IsNullOrEmpty Then
+        If circos.includes.IsNullOrEmpty Then
             Return
         End If
 
         Dim ticks = LinqAPI.DefaultFirst(Of Ticks) <=
  _
             From include As CircosConfig
-            In circos.Includes
+            In circos.includes
             Where InStr(include.RefPath, Configurations.Circos.TicksConf, CompareMethod.Text) > 0
             Select DirectCast(include, Ticks)
 
@@ -1243,15 +1243,15 @@ SET_END:    Dim ends = i
     End Function
 
     Private Function __includesRemoveCommon(conf As String, doc As Configurations.Circos) As Boolean
-        If doc.Includes.IsNullOrEmpty Then
+        If doc.includes.IsNullOrEmpty Then
             Return True
         End If
 
-        Dim LQuery = (From include In doc.Includes.AsParallel
+        Dim LQuery = (From include In doc.includes.AsParallel
                       Where InStr(include.RefPath, conf, CompareMethod.Text) > 0
                       Select include).ToArray
         If Not LQuery.IsNullOrEmpty Then
-            Call doc.Includes.Remove(LQuery(Scan0))
+            Call doc.includes.Remove(LQuery(Scan0))
         End If
 
         Return True
@@ -1259,7 +1259,7 @@ SET_END:    Dim ends = i
 
     <ExportAPI("Ideogram.Remove", Info:="Removes the ideogram plots element from the circos document node.")>
     Public Function RemoveIdeogram(doc As Configurations.Circos) As Boolean
-        Dim Ideogram = (From include In doc.Includes
+        Dim Ideogram = (From include In doc.includes
                         Where InStr(include.RefPath, Configurations.Ideogram.IdeogramConf, CompareMethod.Text) > 0
                         Select DirectCast(include, Configurations.Ideogram)).FirstOrDefault
         If Ideogram Is Nothing Then

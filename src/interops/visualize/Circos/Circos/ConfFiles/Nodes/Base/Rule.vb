@@ -52,8 +52,8 @@ Namespace Configurations.Nodes.Plots
         <Circos> Public Property condition As String = "var(value) > 0.6"
         <Circos> Public Property color As String = "red"
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("rule", IndentLevel, Nothing)
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("rule", IndentLevel, Nothing, directory)
         End Function
     End Class
 End Namespace

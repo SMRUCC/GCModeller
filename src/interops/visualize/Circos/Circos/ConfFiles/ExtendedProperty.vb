@@ -60,7 +60,7 @@ Namespace Configurations
 
         <Extension>
         Public Function Ideogram(x As Circos) As Ideogram
-            For Each include In x.Includes
+            For Each include In x.includes
                 If TypeOf include Is Ideogram Then
                     Return DirectCast(include, Ideogram)
                 End If

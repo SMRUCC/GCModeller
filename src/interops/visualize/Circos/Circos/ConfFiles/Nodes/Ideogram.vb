@@ -66,8 +66,8 @@ Namespace Configurations.Nodes
         <Circos> Public Property [default] As String = "1u"
         <Circos> Public Property break As String = "0u"
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("spacing", IndentLevel, Nothing)
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("spacing", IndentLevel, Nothing, directory)
         End Function
     End Class
 
@@ -175,8 +175,8 @@ Namespace Configurations.Nodes
 
         Public Property Spacing As Spacing = New Spacing
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("ideogram", IndentLevel + 2, {Spacing})
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("ideogram", IndentLevel + 2, {Spacing}, directory)
         End Function
     End Class
 End Namespace

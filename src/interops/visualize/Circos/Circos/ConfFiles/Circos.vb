@@ -265,16 +265,12 @@ Namespace Configurations
             Me.main = Me
         End Sub
 
-        Public Overloads Function Save(outDIR$, Encoding As Encoding) As Boolean
-            If String.IsNullOrEmpty(outDIR) Then
-                outDIR = FileIO.FileSystem.GetParentPath(Me.FilePath)
-            End If
+        Public Overloads Function Save(directory$, Encoding As Encoding) As Boolean
+            Dim base = directory Or FilePath.ParentPath.AsDefault
+            Dim dataDIR As String = $"{base}/data/"
 
-            Dim dataDIR As String = $"{outDIR}/data/"
-            Call FilePath.SetValue($"{outDIR}/{FileIO.FileSystem.GetFileInfo(FilePath).Name}")
+            Call FilePath.SetValue($"{base}/{FileIO.FileSystem.GetFileInfo(FilePath).Name}")
             Call FileIO.FileSystem.CreateDirectory(dataDIR)
-
-            App.CurrentDirectory = outDIR
 
             For Each i As SeqValue(Of ITrackPlot) In _plots.SeqIterator
                 Dim track As ITrackPlot = i.value
@@ -286,20 +282,18 @@ Namespace Configurations
 
             Call _SkeletonKaryotype.Save(karyotype, encoding:=Encoding.ASCII)
 
-            App.CurrentDirectory = outDIR
-
             ' 最后在这里生成配置文件
-            Return Build(0).SaveTo(FilePath, Encoding.ASCII)
+            Return Build(0, directory:=base).SaveTo(FilePath, Encoding.ASCII)
         End Function
 
         Public Overloads Shared Function CreateObject() As Circos
             Dim circos As New Circos With {
-                .Includes = New List(Of CircosConfig)
+                .includes = New List(Of CircosConfig)
             }
 
-            Call circos.Includes.Add(CircosDistributed.ColorFontsPatterns)
-            Call circos.Includes.Add(CircosDistributed.HouseKeeping)
-            Call circos.Includes.Add(CircosDistributed.Image)
+            Call circos.includes.Add(CircosDistributed.ColorFontsPatterns)
+            Call circos.includes.Add(CircosDistributed.HouseKeeping)
+            Call circos.includes.Add(CircosDistributed.Image)
 
             Return circos
         End Function
@@ -351,9 +345,9 @@ Namespace Configurations
             Next
         End Sub
 
-        Protected Overrides Function Build(IndentLevel As Integer) As String
+        Protected Overrides Function Build(IndentLevel As Integer, directory$) As String
             Dim sb As New StringBuilder(1024)
-            Call sb.AppendLine(Me.GenerateIncludes)
+            Call sb.AppendLine(Me.GenerateIncludes(directory))
             Call sb.AppendLine()
 
             For Each line As String In SimpleConfig.GenerateConfigurations(Of Circos)(Me)
@@ -362,7 +356,7 @@ Namespace Configurations
 
             If Not colors Is Nothing Then
                 Dim line As String =
-                    DirectCast(colors, ICircosDocument).Build(Scan0)
+                    DirectCast(colors, ICircosDocument).Build(Scan0, directory)
                 Call sb.AppendLine(line)
             End If
 
@@ -371,7 +365,7 @@ Namespace Configurations
 
                 For Each plotRule In _plots
                     Call sb.AppendLine()
-                    Call sb.AppendLine(plotRule.Build(IndentLevel + 2))
+                    Call sb.AppendLine(plotRule.Build(IndentLevel + 2, directory))
                 Next
 
                 Call sb.AppendLine()

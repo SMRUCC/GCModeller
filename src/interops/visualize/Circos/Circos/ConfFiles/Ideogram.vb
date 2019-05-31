@@ -62,8 +62,8 @@ Namespace Configurations
             Call MyBase.New(IdeogramConf, Circos)
         End Sub
 
-        Protected Overrides Function Build(IndentLevel As Integer) As String
-            Return Ideogram.Build(IndentLevel)
+        Protected Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Ideogram.Build(IndentLevel, directory)
         End Function
     End Class
 End Namespace

@@ -49,6 +49,7 @@ Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
 Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
+Imports gbff = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File
 
 Module Program
 
@@ -79,12 +80,21 @@ Module Program
         '        End Try
 
         '#End If
-
+        Call testPlot2()
         '#If DEBUG Then
         '        Call CircosFromGBK()
         '#End If
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
+
+    Sub testPlot2()
+        Dim gb = gbff.Load("P:\deg\91001\NC_005810.gbk")
+        Dim size = gb.Origin.ToFasta.Length
+        Dim doc = Circos.CreateDataModel
+
+        Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=512)
+        Call Circos.CircosAPI.WriteData(doc, "P:\deg\91001\circos", debug:=False)
+    End Sub
 
     'Public Function Circos2016228() As Integer
     '    Dim gb = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Load("G:\5.14.circos\KU527068_updated.gb")

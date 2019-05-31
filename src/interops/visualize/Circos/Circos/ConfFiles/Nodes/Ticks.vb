@@ -94,8 +94,8 @@ Namespace Configurations.Nodes
             Return New Ticks With {.Ticks = Ticks}
         End Function
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("ticks", IndentLevel, inserts:=Ticks)
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("ticks", IndentLevel, inserts:=Ticks, directory:=directory)
         End Function
     End Class
 
@@ -133,8 +133,8 @@ Namespace Configurations.Nodes
         <Circos> Public Property grid_color As String = "black"
         <Circos> Public Property grid_thickness As String = "4p"
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("tick", IndentLevel, Nothing)
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("tick", IndentLevel, Nothing, directory)
         End Function
     End Class
 End Namespace

@@ -64,7 +64,7 @@ Namespace Configurations
         ''' <returns></returns>
         <ExportAPI("GenerateDoc", Info:="Generates the docuemtn text data for write circos file.")>
         <Extension>
-        Public Function GenerateCircosDocumentElement(Of T As CircosDocument)(data As T, tag$, indentLevel%, inserts As IEnumerable(Of ICircosDocNode)) As String
+        Public Function GenerateCircosDocumentElement(Of T As CircosDocument)(data As T, tag$, indentLevel%, inserts As IEnumerable(Of ICircosDocNode), directory$) As String
             Dim IndentBlanks As String = New String(" "c, indentLevel + 2)
             Dim sb As New StringBuilder(1024)
 
@@ -80,7 +80,7 @@ Namespace Configurations
                         Continue For
                     End If
 
-                    Call sb.AppendLine(item.Build(indentLevel + 2))
+                    Call sb.AppendLine(item.Build(indentLevel + 2, directory))
                 Next
             End If
 
