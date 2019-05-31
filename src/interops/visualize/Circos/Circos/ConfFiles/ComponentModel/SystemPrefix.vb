@@ -73,7 +73,7 @@ Namespace Configurations
             Me.Section = name
         End Sub
 
-        Protected Overrides Function Build(IndentLevel As Integer) As String
+        Protected Overrides Function Build(IndentLevel As Integer, directory$) As String
             Return ""
         End Function
 

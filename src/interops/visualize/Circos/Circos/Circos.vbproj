@@ -226,10 +226,15 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Colors\Maps\LevelMapGenerator.vb" />
+    <Compile Include="Colors\Maps\NtPropsMapsExtensions.vb" />
+    <Compile Include="Colors\Maps\MvyaColorProfile.vb" />
+    <Compile Include="Colors\PerlColor.vb" />
+    <Compile Include="ConfFiles\Nodes\Base\ITrackPlot.vb" />
     <Compile Include="DebugGroups.vb" />
-    <Compile Include="Colors\NtPropsMaps.vb" />
+    <Compile Include="Colors\Maps\NtPropsMaps.vb" />
     <Compile Include="Colors\Mappings.vb" />
-    <Compile Include="Colors\GradientMaps.vb" />
+    <Compile Include="Colors\Maps\GradientMaps.vb" />
     <Compile Include="ConfFiles\ComponentModel\Interface.vb" />
     <Compile Include="ConfFiles\ComponentModel\DocAbstract.vb" />
     <Compile Include="ConfFiles\Extensions.vb" />
@@ -241,9 +246,11 @@
     <Compile Include="ConfFiles\Nodes\Connector.vb" />
     <Compile Include="ConfFiles\Nodes\Line\Nodes.vb" />
     <Compile Include="ConfFiles\Nodes\Line\Line.vb" />
-    <Compile Include="Karyotype\Abstract.vb" />
+    <Compile Include="Karyotype\Adapters\ChromosomeGenerator.vb" />
+    <Compile Include="Karyotype\SkeletonInfo.vb" />
     <Compile Include="Karyotype\Karyotype.vb" />
     <Compile Include="CircosDebugger.vb" />
+    <Compile Include="Karyotype\Extensions.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\MotifSites.vb" />
     <Compile Include="TrackDatas\Adapter\DataExtensions.vb" />
     <Compile Include="TrackDatas\TrackDatas\Idata.vb" />
@@ -254,7 +261,7 @@
     <Compile Include="TrackDatas\TrackDatas\TrackData\LinkConnector.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData\TrackData.vb" />
     <Compile Include="Karyotype\Adapters\PPTMarks.vb" />
-    <Compile Include="Colors\ColorAPI.vb" />
+    <Compile Include="Colors\Maps\ColorAPI.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCSkew.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GenomeGCContent.vb" />
     <Compile Include="TrackDatas\Adapter\Connector.vb" />

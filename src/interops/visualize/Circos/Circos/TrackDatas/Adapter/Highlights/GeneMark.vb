@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::3584a31f184e055ac852a7643228e92a, visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GeneMark.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GeneMark
-    ' 
-    '         Properties: COGColors
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    ' 
-    '         Function: LegendsDrawing
-    ' 
-    '         Sub: __motifSitesCommon
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GeneMark
+' 
+'         Properties: COGColors
+' 
+'         Constructor: (+4 Overloads) Sub New
+' 
+'         Function: LegendsDrawing
+' 
+'         Sub: __motifSitesCommon
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,6 +50,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -71,11 +72,13 @@ Namespace TrackDatas.Highlights
         ''' <param name="annos"></param>
         ''' <param name="Color"></param>
         Sub New(annos As IEnumerable(Of IGeneBrief), Color As Dictionary(Of String, String))
-            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+            Dim noname As [Default](Of String) = "-"
+
+            source = LinqAPI.MakeList(Of ValueTrackData) <=
  _
                 From gene As IGeneBrief
                 In annos
-                Let COG As String = If(String.IsNullOrEmpty(gene.Feature), "-", gene.Feature)
+                Let COG As String = gene.Feature Or noname
                 Let fill As String = If(
                     Color.ContainsKey(COG),
                     Color(COG),
@@ -110,15 +113,17 @@ Namespace TrackDatas.Highlights
                 .Distinct _
                 .ToArray
 
-            Call __motifSitesCommon(locis, color, chr)
+            Call motifSitesCommon(locis, color, chr)
         End Sub
 
-        Private Sub __motifSitesCommon(locis As IMotifSite(), color As Dictionary(Of String, String), chr$)
+        Private Sub motifSitesCommon(locis As IMotifSite(), color As Dictionary(Of String, String), chr$)
+            Dim notype As [Default](Of String) = "-"
+
             COGColors = color
-            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+            source = LinqAPI.MakeList(Of ValueTrackData) <=
                 From site As IMotifSite
                 In locis
-                Let COG = If(String.IsNullOrEmpty(site.Type), "-", site.Type)
+                Let COG = site.Type Or notype
                 Let fill = If(
                     color.ContainsKey(COG),
                     color(COG),
@@ -151,13 +156,15 @@ Namespace TrackDatas.Highlights
                 types _
                 .SeqIterator _
                 .ToDictionary(Function(name) name.value,
-                              Function(color) colorlist(color.i).RGBExpression)
+                              Function(color)
+                                  Return colorlist(color.i).RGBExpression
+                              End Function)
 
-            Call __motifSitesCommon(locis, colorData, chr)
+            Call motifSitesCommon(locis, colorData, chr)
         End Sub
 
         ''' <summary>
-        ''' 假若使用这个构造函数的话，这个需要手工初始化<see cref="__source"/>和<see cref="COGColors"/>
+        ''' 假若使用这个构造函数的话，这个需要手工初始化<see cref="source"/>和<see cref="COGColors"/>
         ''' </summary>
         Protected Sub New()
         End Sub

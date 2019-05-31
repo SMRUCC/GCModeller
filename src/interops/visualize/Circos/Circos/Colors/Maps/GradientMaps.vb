@@ -47,12 +47,12 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Math
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Colors
 
@@ -73,22 +73,23 @@ Namespace Colors
                                        <Parameter("Title")> title As String,
                                        <Parameter("Is.Percentage?")> Optional isPercentage As Boolean = True,
                                        Optional min As Double = 0,
-                                       Optional max As Double = 1) As Image
+                                       Optional max As Double = 1,
+                                       Optional offsetPercentage# = 0.06) As Image
 
-            Dim Gr As Graphics2D = New Size(1024, 300).CreateGDIDevice
+            Dim g As Graphics2D = New Size(1024, 300).CreateGDIDevice
             Dim titleFont As New Font(FontFace.MicrosoftYaHei, 64, FontStyle.Regular)
-            Dim sz As SizeF = Gr.Graphics.MeasureString(title, titleFont)
+            Dim sz As SizeF = g.Graphics.MeasureString(title, titleFont)
 
-            Call Gr.Graphics.DrawString(title, titleFont, Brushes.Black, New Point)
+            Call g.DrawString(title, titleFont, Brushes.Black, New Point)
 
             Dim Y As Integer = CInt(5 + sz.Height) - 20
             Dim X As Double = 5
             Dim maps As New ColorMap(mapLevel * 2)
-            Dim clSequence As Color() = ColorSequence(maps, mapName).Reverse.ToArray
-            Dim offset = CInt(clSequence.Length * offsetPercentage)
-            Dim drWidth As Integer = Gr.Width - 5 * 2
-            Dim dx As Double = drWidth / (clSequence.Length - offset)
-            Dim drHeight As Integer = CInt((Gr.Height - sz.Height) * 0.85)
+            Dim colorSeq As Color() = ColorSequence(maps, mapName).Reverse.ToArray
+            Dim offset = CInt(colorSeq.Length * offsetPercentage)
+            Dim drWidth As Integer = g.Width - 5 * 2
+            Dim dx As Double = drWidth / (colorSeq.Length - offset)
+            Dim drHeight As Integer = CInt((g.Height - sz.Height) * 0.85)
 
             Dim sMin, sMax As String
             Dim ruleFont As New Font(FontFace.MicrosoftYaHei, 24, FontStyle.Bold)
@@ -101,10 +102,10 @@ Namespace Colors
                 sMax = Mid(CStr(max), 1, 6)
             End If
 
-            Call Gr.DrawString(sMin, ruleFont, Brushes.Black, New Point(CInt(X), Y + drHeight))
+            Call g.DrawString(sMin, ruleFont, Brushes.Black, New Point(CInt(X), Y + drHeight))
 
-            For idx As Integer = offset To clSequence.Length - 1
-                Dim color As Color = clSequence(idx)
+            For idx As Integer = offset To colorSeq.Length - 1
+                Dim color As Color = colorSeq(idx)
                 Dim currX As Integer = CInt(X)
 
                 X += dx
@@ -112,16 +113,14 @@ Namespace Colors
                 Dim currXNext As Integer = CInt(X)
                 Dim rect As New Rectangle(New Point(currX, Y), New Size(CInt(dx), drHeight))
 
-                Call Gr.FillRectangle(New SolidBrush(color), rect)
+                Call g.FillRectangle(New SolidBrush(color), rect)
             Next
 
-            sz = Gr.MeasureString(sMax, ruleFont)
-            Call Gr.DrawString(sMax, ruleFont, Brushes.Black, New Point(CInt(Gr.Width - sz.Width), Y + drHeight))
+            sz = g.MeasureString(sMax, ruleFont)
+            Call g.DrawString(sMax, ruleFont, Brushes.Black, New Point(CInt(g.Width - sz.Width), Y + drHeight))
 
-            Return Gr.ImageResource
+            Return g.ImageResource
         End Function
-
-        Dim offsetPercentage As Double = 0.06
 
         ''' <summary>
         ''' Creates a scale gradient color mappings between a vector and the circos RGB color.
@@ -139,13 +138,15 @@ Namespace Colors
                                          Optional mapName As String = "Jet",
                                          Optional mapLevel As Integer = 512,
                                          Optional offset As Double = Double.NaN,
-                                         Optional replaceBase As Boolean = False) As Mappings()
+                                         Optional replaceBase As Boolean = False,
+                                         Optional offsetPercentage# = 0.06) As Mappings()
+
             If Not Double.IsNaN(offset) Then
                 values = values.Join(offset)
             End If
 
             Dim mapLvs = values.GenerateMapping(mapLevel)
-            Dim maps As New __maps(values, mapName, mapLevel, replaceBase)
+            Dim maps As New LevelMapGenerator(values, mapName, mapLevel, offsetPercentage, replaceBase)
 
             Call mapLvs.Max.__DEBUG_ECHO
             Call mapLvs.Min.__DEBUG_ECHO
@@ -154,47 +155,5 @@ Namespace Colors
                 mapLvs.Select(AddressOf maps.CreateMaps).ToArray
             Return mappings
         End Function
-
-        Private Structure __maps
-
-            Public values As Double()
-            Public clSequence As Color()
-            Public replaceBase As Boolean
-
-            Dim highest As Color
-            Dim offset As Integer
-
-            Sub New(values As IEnumerable(Of Double), name As String, mapLevels As Integer, replaceBase As Boolean)
-                Dim maps As New ColorMap(mapLevels * 2)
-                Me.clSequence = ColorSequence(maps, name).Reverse.ToArray
-                Me.values = values.ToArray
-                Me.replaceBase = replaceBase
-                Me.highest = clSequence.Last
-                Me.offset = CInt(clSequence.Length * offsetPercentage)
-            End Sub
-
-            Public Function CreateMaps(lv As Integer, index As Integer) As Mappings
-                Dim value As Double = values(index)
-                Dim Color As Color
-
-                If lv <= 1 AndAlso replaceBase Then
-                    Color = Color.WhiteSmoke
-                Else
-                    Dim idx As Integer = lv + offset
-
-                    If idx < clSequence.Length Then
-                        Color = clSequence(idx)
-                    Else
-                        Color = highest
-                    End If
-                End If
-
-                Return New Mappings With {
-                    .value = value,
-                    .Level = lv,
-                    .Color = Color
-                }
-            End Function
-        End Structure
     End Module
 End Namespace

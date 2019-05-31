@@ -63,7 +63,7 @@ Namespace TrackDatas.Highlights
 
             MyBase.COGColors = CircosColor.ColorProfiles(types)
 
-            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+            source = LinqAPI.MakeList(Of ValueTrackData) <=
  _
               From gene As IMotifSite
               In array
@@ -104,7 +104,7 @@ Namespace TrackDatas.Highlights
                 .ToDictionary(Function(x) x.Key,
                               Function(x) x.First.CircosColor)
 
-            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+            source = LinqAPI.MakeList(Of ValueTrackData) <=
  _
                 From gene As IMotifScoredSite
                 In array

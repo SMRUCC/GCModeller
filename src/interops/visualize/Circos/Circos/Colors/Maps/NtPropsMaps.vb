@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::548682df4ee8410ef1728cf927b794fd, visualize\Circos\Circos\ConfFiles\Ideogram.vb"
+﻿#Region "Microsoft.VisualBasic::83ddf0d3c053d2bf62d6a9dd0ad58991, visualize\Circos\Circos\Colors\NtPropsMaps.vb"
 
 ' Author:
 ' 
@@ -31,39 +31,40 @@
 
 ' Summaries:
 
-'     Class Ideogram
+'     Module NtPropsMapsExtensions
 ' 
-'         Properties: Ideogram
+'         Function: FromAT, FromGC, PropertyMaps
 ' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: Build
+'     Structure NtPropsMaps
+' 
+'         Function: ToString
 ' 
 ' 
 ' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.NtProps
 
-Namespace Configurations
+Namespace Colors
 
-    ''' <summary>
-    ''' The ``&lt;ideogram>`` block defines the position, size, labels and other
-    ''' properties Of the segments On which data are drawn. These segments
-    ''' are usually chromosomes, but can be any Integer axis.
-    ''' </summary>
-    Public Class Ideogram : Inherits CircosConfig
-        Implements ICircosDocument
+    Public Structure NtPropsMaps
 
-        Public Property Ideogram As Nodes.Ideogram = New Nodes.Ideogram
+        Public source As FastaFile
+        ''' <summary>
+        ''' {value, circos color expression}
+        ''' </summary>
+        Public AT As Dictionary(Of Double, String)
+        ''' <summary>
+        ''' {value, circos color expression}
+        ''' </summary>
+        Public GC As Dictionary(Of Double, String)
+        Public props As Dictionary(Of String, GeneObjectGC)
 
-        Sub New(circos As Circos)
-            Call MyBase.New(IdeogramConf, circos)
-        End Sub
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Protected Overrides Function Build(IndentLevel As Integer, directory$) As String
-            Return Ideogram.Build(IndentLevel, directory)
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
         End Function
-    End Class
+    End Structure
 End Namespace

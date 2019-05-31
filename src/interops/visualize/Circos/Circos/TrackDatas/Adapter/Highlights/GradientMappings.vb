@@ -67,7 +67,7 @@ Namespace TrackDatas.Highlights
                 Function(site) site.Left,
                 Function(site) CDbl(site.Group.ToArray.Length))
 
-            __source = __initCommon(chr, d, length, mapName, winSize, replaceBase, extTails)
+            source = __initCommon(chr, d, length, mapName, winSize, replaceBase, extTails)
         End Sub
 
         Protected Shared Function __initCommon(chr$,
@@ -151,7 +151,7 @@ Namespace TrackDatas.Highlights
                 Optional extTails As Boolean = False, Optional chr As String = "chr1")
             Dim d As Dictionary(Of Integer, Double) =
                 values.Sequence.ToDictionary(Function(i) i, Function(i) values(i))
-            Me.__source = __initCommon(
+            Me.source = __initCommon(
                 chr, d, length, mapName, winSize, replaceBase, extTails)
         End Sub
 
@@ -168,7 +168,7 @@ Namespace TrackDatas.Highlights
                        Select x
                        Group x By x.chr Into Group
 
-            Me.__source = New List(Of ValueTrackData)
+            Me.source = New List(Of ValueTrackData)
 
             For Each ch In chrs
                 Dim length As Integer = labels(ch.chr).end
@@ -183,7 +183,7 @@ Namespace TrackDatas.Highlights
                     mapName, -1,
                     replaceBase, extTails, 2048)
 
-                Call __source.AddRange(chunk)
+                Call source.AddRange(chunk)
             Next
         End Sub
     End Class

@@ -48,10 +48,8 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 
 Namespace Configurations
 
@@ -66,7 +64,7 @@ Namespace Configurations
         ''' 文档的对其他的配置文件的引用列表
         ''' </summary>
         ''' <returns></returns>
-        Public Property Includes As List(Of CircosConfig)
+        Public Property includes As List(Of CircosConfig)
 
         ''' <summary>
         ''' This config file was included in ``circos.conf``.(主配置文件Circos.conf)
@@ -79,26 +77,27 @@ Namespace Configurations
             Me.main = Circos
         End Sub
 
-        Protected Function GenerateIncludes() As String
-            If Includes.IsNullOrEmpty Then
+        Protected Function GenerateIncludes(directory As String) As String
+            If includes.IsNullOrEmpty Then
                 Return ""
             End If
 
             Dim sb As New StringBuilder(1024)
 
-            For Each includeFile As CircosConfig In Includes
-                Call __appendLine(sb, includeFile)
-                Call includeFile.Save()
+            For Each includeFile As CircosConfig In includes
+                Call appendLine(sb, includeFile)
+                Call includeFile.Save(directory, Encodings.ASCII)
             Next
 
             Return sb.ToString
         End Function
 
-        Private Shared Sub __appendLine(ByRef sb As StringBuilder, include As CircosConfig)
+        Private Shared Sub appendLine(ByRef sb As StringBuilder, include As CircosConfig)
             Dim refPath As String = Tools.TrimPath(include)
 
             If TypeOf include Is CircosDistributed Then
                 Dim name As String = DirectCast(include, CircosDistributed).Section
+
                 If Not String.IsNullOrEmpty(name) Then
                     Call sb.AppendLine($"<{name}>")
                     Call sb.AppendLine($"   <<include {refPath}>>")
@@ -131,29 +130,33 @@ Namespace Configurations
         ''' </summary>
         Public Const IdeogramConf As String = "ideogram.conf"
 
-        Protected MustOverride Function Build(indents%) As String Implements ICircosDocument.Build
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="indents"></param>
+        ''' <param name="directory">The config base directory path</param>
+        ''' <returns></returns>
+        Protected MustOverride Function build(indents%, directory$) As String Implements ICircosDocument.Build
 
         ''' <summary>
         ''' Auto detected that current is circos distribution or not, if true, then this file will not be saved.
         ''' </summary>
-        ''' <param name="path"></param>
+        ''' <param name="directory"></param>
         ''' <param name="Encoding"></param>
         ''' <returns></returns>
-        Public Function Save(path$, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
+        Public Function Save(directory$, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
             If TypeOf Me Is CircosDistributed Then
                 Return True ' 系统自带的不需要进行保存了
             End If
 
-            Dim doc As String = Build(indents:=Scan0)
+            Dim doc As String = build(indents:=Scan0, directory:=directory)
+            Dim path$ = $"{directory}/{FilePath}"
+
             Return doc.SaveTo(path, Encoding Or Encoding.ASCII.AsDefault)
         End Function
 
-        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
-            Return Save(path, encoding.CodePage)
+        Public Function Save(directory$, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(directory, encoding.CodePage)
         End Function
-
-        Public Sub Save()
-            Call Save(FilePath, Encoding.ASCII)
-        End Sub
     End Class
 End Namespace

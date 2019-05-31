@@ -57,7 +57,7 @@ Namespace TrackDatas.Highlights
         Sub New(repeat As IEnumerable(Of NtProps.Repeat), attrs As IEnumerable(Of Double))
             Dim clMaps As IdentityColors = New IdentityGradients(attrs.Min, attrs.Max, 512)
             Dim v As Double() = attrs.ToArray
-            Me.__source = New List(Of ValueTrackData)(
+            Me.source = New List(Of ValueTrackData)(
                 repeat.Select(Function(x) __creates(x, maps:=clMaps, attrs:=v)))
         End Sub
 
@@ -76,7 +76,7 @@ Namespace TrackDatas.Highlights
         End Function
 
         Sub New(repeat As IEnumerable(Of NtProps.Repeat), Optional Color As String = "Brown")
-            Me.__source = LinqAPI.MakeList(Of ValueTrackData) <=
+            Me.source = LinqAPI.MakeList(Of ValueTrackData) <=
  _
                 From x As NtProps.Repeat
                 In repeat

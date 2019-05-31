@@ -84,7 +84,7 @@ Namespace Configurations
             Return Me.GetJson
         End Function
 
-        Protected Overrides Function Build(IndentLevel As Integer) As String
+        Protected Overrides Function Build(IndentLevel As Integer, directory$) As String
             Dim sb As New StringBuilder
 
             Call sb.AppendLine("<colors>")

@@ -60,7 +60,7 @@ Namespace TrackDatas
         Public Function FromColorMapping(cl As Circos.Colors.Mappings, idx As Integer, offset As Integer) As ValueTrackData
             Return New ValueTrackData With {
                 .formatting = New Formatting With {
-                    .fill_color = $"({cl.Color.R},{cl.Color.G},{cl.Color.B})"
+                    .fill_color = $"({cl.color.R},{cl.color.G},{cl.color.B})"
                 },
                 .start = idx,
                 .end = idx + 1 + offset,
