@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Namespace NeuralNetwork.StoreProcedure
 
     ''' <summary>
-    ''' Xml文件存储格式
+    ''' Xml/json文件存储格式
     ''' </summary>
     <XmlRoot("NeuralNetwork", [Namespace]:="http://machinelearning.scibasic.net/ANN/")>
     Public Class NeuralNetwork : Inherits XmlDataModel
