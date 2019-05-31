@@ -13,7 +13,7 @@ Module Module1
 
     Sub Main()
         ' Call buildFromKOBAS()
-        Call KEGGmodelBuildTest()
+        '  Call KEGGmodelBuildTest()
         ' Call modelBuildTest()
         Call enrichmentTest()
     End Sub
@@ -40,7 +40,7 @@ Module Module1
                                          Return prot.Xrefs!KEGG.First.id.Split(":"c).Last
                                      End Function,
                                      Function(prot) prot.accessions)
-            list = list.Select(Function(id) .ByRef(id)).IteratesALL.ToArray
+            list = list.Select(Function(id) .ByRef(id)(Scan0)).ToArray
             list.SaveTo("./uniprot.txt")
         End With
 
