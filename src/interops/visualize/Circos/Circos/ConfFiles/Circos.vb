@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::3c2afa6dbd67f985a11e45d60e4371f9, visualize\Circos\Circos\ConfFiles\Circos.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Circos
-    ' 
-    '         Properties: chromosomes, chromosomes_breaks, chromosomes_color, chromosomes_display_default, chromosomes_order
-    '                     chromosomes_radius, chromosomes_reverse, chromosomes_scale, chromosomes_units, colors
-    '                     genome, karyotype, NumberOfTracks, Plots, show_heatmap
-    '                     show_heatmaps, show_highlight, show_highlights, show_histogram, show_line
-    '                     show_links, show_scatter, show_text, show_tile, Size
-    '                     SkeletonKaryotype, track_start, track_step, track_width, use_rules
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Build, CreateObject, GetEnumerator, IEnumerable_GetEnumerator, Save
-    ' 
-    '         Sub: AddTrack, (+2 Overloads) ForceAutoLayout
-    ' 
-    '         Operators: +
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Circos
+' 
+'         Properties: chromosomes, chromosomes_breaks, chromosomes_color, chromosomes_display_default, chromosomes_order
+'                     chromosomes_radius, chromosomes_reverse, chromosomes_scale, chromosomes_units, colors
+'                     genome, karyotype, NumberOfTracks, Plots, show_heatmap
+'                     show_heatmaps, show_highlight, show_highlights, show_histogram, show_line
+'                     show_links, show_scatter, show_text, show_tile, Size
+'                     SkeletonKaryotype, track_start, track_step, track_width, use_rules
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: Build, CreateObject, GetEnumerator, IEnumerable_GetEnumerator, Save
+' 
+'         Sub: AddTrack, (+2 Overloads) ForceAutoLayout
+' 
+'         Operators: +
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -221,7 +221,7 @@ Namespace Configurations
         ''' 基因组的骨架信息
         ''' </summary>
         ''' <returns></returns>
-        Public Property SkeletonKaryotype As SkeletonInfo
+        Public Property skeletonKaryotype As SkeletonInfo
 
         ''' <summary>
         ''' The genome size.(基因组的大小，当<see cref="SkeletonKaryotype"/>为空值的时候返回数值0)
@@ -229,10 +229,10 @@ Namespace Configurations
         ''' <returns></returns>
         Public ReadOnly Property Size As Integer
             Get
-                If SkeletonKaryotype Is Nothing Then
+                If skeletonKaryotype Is Nothing Then
                     Return 0
                 End If
-                Return _SkeletonKaryotype.Size - SkeletonKaryotype.LoopHole.value
+                Return _skeletonKaryotype.Size - skeletonKaryotype.LoopHole.value
             End Get
         End Property
 
@@ -254,7 +254,7 @@ Namespace Configurations
         ''' Gets the number of the tracks that defined in this circos model
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property NumberOfTracks As Integer
+        Public ReadOnly Property numberOfTracks As Integer
             Get
                 Return _plots.Count
             End Get
@@ -280,7 +280,7 @@ Namespace Configurations
                 track.Save(path, Encoding.ASCII)  ' 首先保存数据文件
             Next
 
-            Call _SkeletonKaryotype.Save(karyotype, encoding:=Encoding.ASCII)
+            Call _skeletonKaryotype.Save(karyotype, encoding:=Encoding.ASCII)
 
             ' 最后在这里生成配置文件
             Return Build(0, directory:=base).SaveTo(FilePath, Encoding.ASCII)

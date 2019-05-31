@@ -136,7 +136,7 @@ Namespace Configurations
         ''' <param name="indents"></param>
         ''' <param name="directory">The config base directory path</param>
         ''' <returns></returns>
-        Protected MustOverride Function Build(indents%, directory$) As String Implements ICircosDocument.Build
+        Protected MustOverride Function build(indents%, directory$) As String Implements ICircosDocument.Build
 
         ''' <summary>
         ''' Auto detected that current is circos distribution or not, if true, then this file will not be saved.
@@ -149,7 +149,7 @@ Namespace Configurations
                 Return True ' 系统自带的不需要进行保存了
             End If
 
-            Dim doc As String = Build(indents:=Scan0, directory:=directory)
+            Dim doc As String = build(indents:=Scan0, directory:=directory)
             Dim path$ = $"{directory}/{FilePath}"
 
             Return doc.SaveTo(path, Encoding Or Encoding.ASCII.AsDefault)
