@@ -280,7 +280,7 @@ Namespace Configurations
                 track.Save(path, Encoding.ASCII)
             Next
 
-            Call _skeletonKaryotype.Save(karyotype, encoding:=Encoding.ASCII)
+            Call _skeletonKaryotype.Save($"{base}/{karyotype}", encoding:=Encoding.ASCII)
 
             ' 最后在这里生成配置文件
             Return Build(0, directory:=base).SaveTo(FilePath, Encoding.ASCII)
