@@ -218,3 +218,4 @@ pip-log.txt
 .mr.developer.cfg
 /.vs/Circos/v15/sqlite3/storage.ide
 /.vs/Circos/v16/Server/sqlite3
+/.vs/Circos.App/v16/Server/sqlite3

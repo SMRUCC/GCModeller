@@ -63,7 +63,7 @@ Namespace Karyotype
         ''' 基因组的大小，在这里默认是所有的染色体的总长度
         ''' </summary>
         ''' <returns></returns>
-        Public Overridable ReadOnly Property Size As Integer
+        Public Overridable ReadOnly Property size As Integer
             Get
                 Return Aggregate karyo As Karyotype
                        In karyos
@@ -97,6 +97,11 @@ Namespace Karyotype
                 }
             }
         End Sub
+
+        Public Function AddBands(bands As IEnumerable(Of Band)) As SkeletonInfo
+            Call Me.bands.AddRange(bands)
+            Return Me
+        End Function
 
         Public Function Build(IndentLevel As Integer, directory$) As String Implements ICircosDocNode.Build
             Dim sb As New StringBuilder

@@ -47,18 +47,19 @@ Imports System.Drawing
 Namespace Colors
 
     Public Structure Mappings
+
         Public Property value As Double
-        Public Property Level As Integer
-        Public Property Color As Color
+        Public Property level As Integer
+        Public Property color As Color
 
         Public ReadOnly Property CircosColor As String
             Get
-                Return $"({Color.R},{Color.G},{Color.B})"
+                Return $"({color.R},{color.G},{color.B})"
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return $"{value} ==> {Level}   @{Color.ToString}"
+            Return $"{value} ==> {level}   @{color.ToString}"
         End Function
     End Structure
 End Namespace
