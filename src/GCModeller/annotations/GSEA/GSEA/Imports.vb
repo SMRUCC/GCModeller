@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -12,30 +13,50 @@ Imports Synonym = SMRUCC.genomics.ComponentModel.DBLinkBuilder.Synonym
 ''' </summary>
 Public Module [Imports]
 
-    Public Delegate Function GetClusterTerms(geneID As String) As String()
+    ''' <summary>
+    ''' [geneID => [clusterID, name, description]]
+    ''' </summary>
+    ''' <param name="geneID"></param>
+    ''' <returns></returns>
+    Public Delegate Function GetClusterTerms(geneID As String) As NamedValue(Of String)()
+
+    <Extension>
+    Public Function KEGGMapRelation(maps As IEnumerable(Of Map)) As Dictionary(Of String, String())
+         Return maps.Select(Function(m)
+                                Return m.Areas.Select(Function(a) a.IDVector) _
+                                    .IteratesALL _
+                                    .Where(Function(id) id.IsPattern("K\d+")) _
+                                    .Distinct _
+                                    .Select(Function(id)
+                                                Return (mapID:=m.ID, KO:=id)
+                                            End Function)
+                            End Function) _
+                    .IteratesALL _
+                    .GroupBy(Function(ko) ko.KO) _
+                    .ToDictionary(Function(g) g.Key,
+                                    Function(g)
+                                        Return g.Select(Function(t) t.mapID) _
+                                                .Distinct _
+                                                .ToArray
+                                    End Function)
+    End Function
 
     <Extension>
     Public Function KEGGClusters(maps As IEnumerable(Of Map)) As GetClusterTerms
-        Dim clusters = maps.Select(Function(m)
-                                       Return m.Areas.Select(Function(a) a.IDVector) _
-                                                     .IteratesALL _
-                                                     .Where(Function(id) id.IsPattern("K\d+")) _
-                                                     .Distinct _
-                                                     .Select(Function(id)
-                                                                 Return (mapID:=m.ID, KO:=id)
-                                                             End Function)
-                                   End Function) _
-                           .IteratesALL _
-                           .GroupBy(Function(ko) ko.KO) _
-                           .ToDictionary(Function(g) g.Key,
-                                         Function(g)
-                                             Return g.Select(Function(t) t.mapID) _
-                                                     .Distinct _
-                                                     .ToArray
-                                         End Function)
+        Dim mapsList = maps.ToDictionary(Function(m) m.ID)
+        Dim clusters = mapsList.Values.KEGGMapRelation
+
         Return Function(id)
                    If clusters.ContainsKey(id) Then
-                       Return clusters(id)
+                       Return Iterator Function() As IEnumerable(Of NamedValue(Of String))
+                                  For Each mapID As String In clusters(id)
+                                      Yield New NamedValue(Of String) With {
+                                          .Name = mapID,
+                                          .Value = mapsList(mapID).Name,
+                                          .Description = mapsList(mapID).URL
+                                      }
+                                  Next
+                              End Function().ToArray
                    Else
                        Return {}
                    End If
@@ -45,12 +66,16 @@ Public Module [Imports]
     <Extension>
     Public Function GOClusters(GO_terms As IEnumerable(Of Term)) As GetClusterTerms
         Dim tree As New Graph(GO_terms)
-        Dim parentPopulator = Iterator Function(termID As String) As IEnumerable(Of String)
+        Dim parentPopulator = Iterator Function(termID As String) As IEnumerable(Of NamedValue(Of String))
                                   Dim chains = tree.Family(termID).ToArray
 
                                   For Each route In chains
                                       For Each node In route.Route
-                                          Yield node.GO_term.id
+                                          Yield New NamedValue(Of String) With {
+                                              .Name = node.GO_term.id,
+                                              .Value = node.GO_term.name,
+                                              .Description = node.GO_term.def
+                                          }
                                       Next
                                   Next
                               End Function
@@ -75,25 +100,27 @@ Public Module [Imports]
                                    Optional outputAll As Boolean = False) As Background
 
         Dim clusters As New Dictionary(Of String, List(Of Synonym))
+        Dim clusterNotes As New Dictionary(Of String, NamedValue(Of String))
 
         For Each protein As entry In db
             Dim terms = getTerm(protein)
-            Dim clusterNames$()
+            Dim clusterNames As NamedValue(Of String)()
 
             If terms.IsNullOrEmpty Then
-                clusterNames = {"NA"}
+                clusterNames = {}
             Else
                 clusterNames = terms.Select(Function(geneID) define(geneID)) _
                                     .IteratesALL _
                                     .ToArray
             End If
 
-            For Each clusterID As String In clusterNames
-                If Not clusters.ContainsKey(clusterID) Then
-                    clusters.Add(clusterID, New List(Of Synonym))
+            For Each clusterID As NamedValue(Of String) In clusterNames
+                If Not clusters.ContainsKey(clusterID.Name) Then
+                    Call clusters.Add(clusterID.Name, New List(Of Synonym))
+                    Call clusterNotes.Add(clusterID.Name, clusterID)
                 End If
 
-                clusters(clusterID) += New Synonym With {
+                clusters(clusterID.Name) += New Synonym With {
                     .accessionID = protein.accessions(Scan0),
                     .[alias] = protein.accessions
                 }
@@ -113,10 +140,13 @@ Public Module [Imports]
                        End Function) _
                 .Select(Function(c)
                             Dim geneIDs As Synonym() = c.Value.ToArray
+                            Dim note = clusterNotes(c.Key)
 
                             Return New Cluster With {
                                 .ID = c.Key,
-                                .members = geneIDs
+                                .members = geneIDs,
+                                .description = note.Description,
+                                .names = note.Name
                             }
                         End Function) _
                 .ToArray
