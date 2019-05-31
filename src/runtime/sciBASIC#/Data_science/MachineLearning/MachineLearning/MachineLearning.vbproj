@@ -327,6 +327,8 @@
     <Compile Include="NeuralNetwork\Models\Layer.vb" />
     <Compile Include="NeuralNetwork\Importance.vb" />
     <Compile Include="NeuralNetwork\StoreProcedure\ActiveFunction.vb" />
+    <Compile Include="NeuralNetwork\StoreProcedure\Snapshot.vb" />
+    <Compile Include="NeuralNetwork\StoreProcedure\Sample.vb" />
     <Compile Include="NeuralNetwork\StoreProcedure\NormalizeMatrix.vb" />
     <Compile Include="NeuralNetwork\StoreProcedure\Neuron.vb" />
     <Compile Include="NeuralNetwork\StoreProcedure\NeuralNetwork.vb" />
