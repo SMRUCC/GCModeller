@@ -173,14 +173,14 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         Dim es_idx = Function(x As Vector)
                          Return np.Where(Math.Abs(x.Max()) > Math.Abs(x.Min()), (Val:=x.Max(), Index:=Which.Max(x)), (Val:=x.Min(), Index:=Which.Min(x)))
                      End Function
-        Dim re = es_idx(RES)
-        Dim es = re.slice(, 0)
-        Dim idx = re.slice(, 1)
+        Dim re As Vector = es_idx(RES)
+        Dim es As Vector = re.slice(, 0)
+        Dim idx As Vector = re.slice(, 1)
 
         Return (es, idx, RES)
     End Function
 
-    Public Function ES_null(lb%(), times%, method$, sample0 As Vector, sample1 As Vector, hit_matrix_filtered As Vector(), weighted_score_type%, expr_data As Vector, gene_num%)
+    Public Function ES_null(lb%(), times%, method$, sample0 As Vector, sample1 As Vector, hit_matrix_filtered As Vector(Of Vector), weighted_score_type%, expr_data As Vector(Of Vector), gene_num%)
         Dim lb_matrix As Integer()() = Enumerable.Range(0, times).Select(Function(null) lb).ToArray   ' np.array([lb for i in range(times)])
         Dim ran_labels = lb_matrix.Select(Function(x) x.Shuffles).ToArray
         Dim def_get_es_null = Function(x As Integer()) ES_for_permutation(x, method, sample0, sample1, hit_matrix_filtered, weighted_score_type, expr_data, gene_num)
@@ -188,12 +188,12 @@ Please check the threshold and ceil of gene set size (values of min_size and max
         Return es_null2
     End Function
 
-    Public Function nominal_p(es As Vector, es_null As Vector)
+    Public Function nominal_p(es As Vector, es_null As Vector) As Vector
         Dim ES_all = np.column_stack(es_null, es)
         Dim def_pval = Function(x As Vector) np.Sum(x.slice(, -1) >= x(-1)) / np.Sum(x.slice(, -1) >= 0) Or (np.Sum(x.slice(, -1) <= x(-1)) / np.Sum(x.slice(, -1) <= 0)).When(x(-1) >= 0)
         ' def_pval = lambda x: where(x[-1]>=0, sum(x[:-1] >= x[-1])/float(sum(x[:-1]) >=0), sum(x[:-1] <= x[-1])/float(sum(x[:-1]) <=0))
         Dim r = ES_all.Select(def_pval).ToArray
-        Dim pval ' = np.Array([r]).T     ' m*1 array  m: num of filter gene sets
+        Dim pval = r.IteratesALL.AsVector      ' m*1 array  m: num of filter gene sets
         Return pval
     End Function
 
