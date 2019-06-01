@@ -220,15 +220,19 @@ Namespace Configurations.Nodes.Plots
         <Circos> Public Property snuggle_link_overlap_tolerance As String = "2p"
         <Circos> Public Property snuggle_refine As String = yes
 
-        Sub New(data As data(Of TextTrackData))
-            Call MyBase.New(data)
-        End Sub
-
         <Circos> Public Overrides ReadOnly Property type As String
             Get
                 Return "text"
             End Get
         End Property
+
+        ''' <summary>
+        ''' 创建一个圈用来显示位点的标签文本信息
+        ''' </summary>
+        ''' <param name="data"></param>
+        Sub New(data As data(Of TextTrackData))
+            Call MyBase.New(data)
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetProperties() As String()

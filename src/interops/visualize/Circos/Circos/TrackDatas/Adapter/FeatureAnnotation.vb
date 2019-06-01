@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::4a7fc3be11e532ec973400e2a12486a9, Circos\TrackDatas\Adapter\FeatureAnnotation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module FeatureAnnotations
-    ' 
-    '         Function: (+2 Overloads) __geneHighlights, GenerateGeneCircle, RNAVisualize
-    ' 
-    '         Sub: __addDisplayName
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module FeatureAnnotations
+' 
+'         Function: (+2 Overloads) __geneHighlights, GenerateGeneCircle, RNAVisualize
+' 
+'         Sub: __addDisplayName
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -110,11 +110,11 @@ Namespace TrackDatas
         ''' </summary>
         ''' <param name="doc"></param>
         ''' <param name="anno"></param>
-        ''' <param name="IDRegex">
+        ''' <param name="IDregex">
         ''' Regular expression for parsing the number value in the gene's locus_tag.
         ''' (基因的名称的正则表达式解析字符串。如果为空字符串，则默认输出全部的名称)
         ''' </param>
-        ''' <param name="onlyGeneName">当本参数为真的时候，<paramref name=" IDRegex "></paramref>参数失效</param>
+        ''' <param name="onlyGeneName">当本参数为真的时候，<paramref name="IDregex"></paramref>参数失效</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Plots.add.Gene_Circle")>
@@ -123,8 +123,8 @@ Namespace TrackDatas
                                            anno As IEnumerable(Of GeneDumpInfo),
                                            <Parameter("Gene.Name.Only")> Optional onlyGeneName As Boolean = True,
                                            <Parameter("ID.Regex", "Regular expression for parsing the number value in the gene's locus_tag")>
-                                           Optional IDRegex As String = "",
-                                           Optional DisplayName As Boolean = True,
+                                           Optional IDregex As String = "",
+                                           Optional displayName As Boolean = True,
                                            <Parameter("Snuggle.Refine?", "Enable the circos program layouts the lable of your gene in the best position? Please notices that,
                                        this option is set to False as default, if your genome have more than thousands number of gene to plots,
                                        then we recommends that not enable this option as the drawing plot will be easily go into a deadloop situation.")>
@@ -138,15 +138,15 @@ Namespace TrackDatas
                 Select gene.COG
                 Distinct
 
-            Dim Colors As Dictionary(Of String, String) = CircosColor.ColorProfiles(COGVector)
+            Dim colors As Dictionary(Of String, String) = CircosColor.ColorProfiles(COGVector)
 
-            Call Colors.Remove("CDS")
-            Call Colors.Add("CDS", "rdylbu-6-div-1")
+            Call colors.Remove("CDS")
+            Call colors.Add("CDS", "rdylbu-6-div-1")
 
-            If DisplayName Then Call __addDisplayName(onlyGeneName, IDRegex, anno, doc, snuggleRefine)
+            If displayName Then Call addDisplayName(onlyGeneName, IDregex, anno, doc, snuggleRefine)
 
             Dim highlightsTrack As HighLight() =
-                __geneHighlights(anno, Colors, Strands.Forward, splitOverlaps)
+                __geneHighlights(anno, colors, Strands.Forward, splitOverlaps)
 
             If Not highlightsTrack.IsNullOrEmpty Then
                 If highlightsTrack.Length = 1 AndAlso
@@ -167,7 +167,7 @@ Namespace TrackDatas
                 End If
             End If
 
-            highlightsTrack = __geneHighlights(anno, Colors, Strands.Reverse, splitOverlaps)
+            highlightsTrack = __geneHighlights(anno, colors, Strands.Reverse, splitOverlaps)
 
             If Not highlightsTrack.IsNullOrEmpty Then
                 If highlightsTrack.Length = 1 AndAlso highlightsTrack.First.Highlights.Count > 0 Then
@@ -281,19 +281,31 @@ Namespace TrackDatas
             Return circles.ToArray
         End Function
 
-        Private Sub __addDisplayName(onlyGeneName As Boolean,
-                             IDRegex As String,
-                             ByRef anno As IEnumerable(Of GeneDumpInfo),
-                             ByRef doc As Configurations.Circos,
-                             snuggleRefine As Boolean)
-
-            Dim setValue = New SetValue(Of GeneDumpInfo) <= NameOf(GeneDumpInfo.LocusID)
+        ''' <summary>
+        ''' 添加一个显示基因名称的圈
+        ''' </summary>
+        ''' <param name="onlyGeneName">是否只显示基因名称</param>
+        ''' <param name="IDRegex"></param>
+        ''' <param name="anno"></param>
+        ''' <param name="doc"></param>
+        ''' <param name="snuggleRefine"></param>
+        Private Sub addDisplayName(onlyGeneName As Boolean,
+                                   IDRegex As String,
+                                   ByRef anno As IEnumerable(Of GeneDumpInfo),
+                                   ByRef doc As Configurations.Circos,
+                                   snuggleRefine As Boolean)
 
             If Not onlyGeneName Then
-                Dim getID As Func(Of String, String) = If(
-                    Not String.IsNullOrEmpty(IDRegex),
-                    Function(ID As String) Regex.Match(ID, IDRegex).Value,
-                    Function(ID As String) ID.Split("_"c).Last)
+                Dim getID As Func(Of String, String)
+
+                ' 如果不仅仅显示基因名称的话，则
+                ' 如果idregex正则表达式不是空的话，则显示匹配出来的结果
+
+                If Not String.IsNullOrEmpty(IDRegex) Then
+                    getID = Function(ID As String) Regex.Match(ID, IDRegex).Value
+                Else
+                    getID = Function(ID As String) ID.Split("_"c).Last
+                End If
 
                 anno = LinqAPI.Exec(Of GeneDumpInfo) <= From gene As GeneDumpInfo
                                                         In anno
@@ -301,14 +313,15 @@ Namespace TrackDatas
                                                             String.IsNullOrEmpty(gene.GeneName),
                                                             getID(gene.LocusID),
                                                             gene.GeneName)
-                                                        Select setValue(gene, uid)
+                                                        Select gene.With(Sub(g) g.LocusID = uid)
             Else  ' 仅仅显示基因名称
                 anno = LinqAPI.Exec(Of GeneDumpInfo) <=
                     From gene As GeneDumpInfo
                     In anno
-                    Select setValue(gene, gene.GeneName)
+                    Select gene.With(Function(g) g.LocusID = gene.GeneName)
             End If
 
+            ' 然后在这里过滤掉目标名称是空值的位点不进行标签的显示
             Dim LabelGenes As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
  _
                 From gene As GeneDumpInfo
@@ -317,6 +330,10 @@ Namespace TrackDatas
                 Select gene
 
             If LabelGenes.IsNullOrEmpty Then
+                ' 20190601
+                ' 已经没有任何元素可以进行显示的了
+                ' 需要在这里跳过
+                ' 否则放置一个空的圈会导致错误产生
                 Return
             End If
 
