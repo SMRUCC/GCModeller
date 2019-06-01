@@ -102,14 +102,15 @@ Module Program
             .Left = anno!Minimum.Match("\d+"),
             .Right = anno!Maximum.Match("\d+"),
             .CDS = anno!Sequence,
-            .COG = anno("NCBI Feature Key"),
+            .COG = anno("note").Match("COG\d+"),
             .CommonName = anno("gene"),
             .EC_Number = "",
             .[Function] = anno!note,
             .GeneName = anno!gene,
             .Strand = anno!Direction.GetStrand,
             .Location = New NucleotideLocation(.Left, .Right, .Strand),
-            .Translation = anno!translation
+            .Translation = anno!translation,
+            .Species = anno("NCBI Feature Key")
         }
 
         If info.LocusID.StringEmpty Then
@@ -163,12 +164,12 @@ Module Program
         Dim size = nt.Length
         Dim doc = Circos.CreateDataModel
 
-        Dim degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv").Where(Function(g) g.Properties.Values.First > 0.7).ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
+        Dim degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv").Where(Function(g) g.Properties.Values.First > 0.8).ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
 
         Dim annotations = EntityObject _
             .LoadDataSet("P:\deg\91001\91001_NC_005810 Annotations.csv") _
             .Select(AddressOf convert) _
-            .Where(Function(g) g.COG <> "source") _
+            .Where(Function(g) g.Species <> "source") _
             .GroupBy(Function(gene) gene.LocusID) _
             .Select(Function(g)
                         Return g _
@@ -181,18 +182,22 @@ Module Program
             .Select(Function(anno)
                         Return anno.pickAnno.With(Sub(g)
                                                       If g.COG Like otherFeatures Then
-                                                          g.LocusID = Nothing
+                                                          g.LocusID = ""
                                                           g.GeneName = Nothing
                                                       ElseIf Not degPredicts.ContainsKey(g.LocusID) Then
                                                           ' 只显示较为可能为deg的名称标记
-                                                          g.LocusID = Nothing
+                                                          g.LocusID = ""
                                                           g.GeneName = Nothing
                                                       End If
                                                   End Sub)
                     End Function) _
+            .Where(Function(g) degPredicts.ContainsKey(g.LocusID)) _
             .ToArray
 
         doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, True)
+
+        ' 绘制 essential 预测得分曲线
+        Dim ptt = gb.
 
         Dim GCSkew As New Plots.Histogram(Circos.CreateGCSkewPlots(nt, 500, 300))
         Call Circos.AddPlotTrack(doc, GCSkew)
