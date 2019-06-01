@@ -129,7 +129,8 @@ Namespace TrackDatas
                                        this option is set to False as default, if your genome have more than thousands number of gene to plots,
                                        then we recommends that not enable this option as the drawing plot will be easily go into a deadloop situation.")>
                                            Optional snuggleRefine As Boolean = False,
-                                           Optional splitOverlaps As Boolean = False) As Configurations.Circos
+                                           Optional splitOverlaps As Boolean = False,
+                                           Optional colorProfiles As Dictionary(Of String, String) = Nothing) As Configurations.Circos
 
             Dim COGVector$() = LinqAPI.Exec(Of String) <=
  _
@@ -138,7 +139,7 @@ Namespace TrackDatas
                 Select gene.COG
                 Distinct
 
-            Dim colors As Dictionary(Of String, String) = CircosColor.ColorProfiles(COGVector)
+            Dim colors As Dictionary(Of String, String) = colorProfiles Or CircosColor.ColorProfiles(COGVector).AsDefault
 
             Call colors.Remove("CDS")
             Call colors.Add("CDS", "rdylbu-6-div-1")
@@ -278,8 +279,16 @@ Namespace TrackDatas
                     End If
                 Next
 
-                circles += New HighLight(New GeneMark(genes, colors))
+                If genes = 0 Then
+                    Exit Do
+                Else
+                    circles += New HighLight(New GeneMark(genes, colors))
+                End If
             Loop
+
+            If list > 0 Then
+                circles += New HighLight(New GeneMark(list, colors))
+            End If
 
             Return circles.ToArray
         End Function

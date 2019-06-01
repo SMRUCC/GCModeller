@@ -41,6 +41,7 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -167,8 +168,9 @@ Module Program
         Dim size = nt.Length
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
 
+        ' g.Properties.Values.First > 0.9) _
         Dim degPredicts = DataSet.LoadDataSet("P:\deg\A16R\A16R_prediction.csv") _
-            .Where(Function(g) g.Properties.Values.First > 0.9) _
+            .Where(Function(g) True) _
             .ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
 
         Dim annotations = EntityObject _
@@ -193,17 +195,38 @@ Module Program
                                                           ' 只显示较为可能为deg的名称标记
                                                           g.LocusID = ""
                                                           g.GeneName = Nothing
-                                                      ElseIf degPredicts(g.LocusID) < 0.95 Then
+                                                      ElseIf degPredicts(g.LocusID) < 0.99 Then
                                                           g.GeneName = Nothing
+                                                          g.LocusID = ""
                                                       End If
                                                   End Sub)
                     End Function) _
             .Where(Function(g) degPredicts.ContainsKey(g.LocusID)) _
+            .Select(Function(g)
+                        If degPredicts(g.LocusID) > 0.5 Then
+                            g.Location = New NucleotideLocation(g.Left, g.Right, Strands.Forward)
+                            g.COG = "up"
+                        Else
+                            g.Location = New NucleotideLocation(g.Left, g.Right, Strands.Reverse)
+                            g.COG = "down"
+                        End If
+
+                        Return g
+                    End Function) _
             .ToArray
 
         Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=5120)
 
-        doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, True, splitOverlaps:=True)
+        Dim darkblue As Color = Color.DarkBlue
+        Dim darkred As Color = Color.OrangeRed
+
+        doc = Circos.CircosAPI.GenerateGeneCircle(
+            doc, annotations, True,
+            splitOverlaps:=False,
+            colorProfiles:=New Dictionary(Of String, String) From {
+                {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
+                {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
+            })
 
         ' 绘制 essential 预测得分曲线
         ' 需要使用这个表对象来获取坐标信息
