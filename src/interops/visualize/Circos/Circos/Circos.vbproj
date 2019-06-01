@@ -253,6 +253,7 @@
     <Compile Include="Karyotype\Extensions.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\MotifSites.vb" />
     <Compile Include="TrackDatas\Adapter\DataExtensions.vb" />
+    <Compile Include="TrackDatas\Adapter\FeatureAnnotation.vb" />
     <Compile Include="TrackDatas\TrackDatas\Idata.vb" />
     <Compile Include="TrackDatas\TrackDatas\data.vb" />
     <Compile Include="TrackDatas\TrackDatas\Extensions.vb" />
