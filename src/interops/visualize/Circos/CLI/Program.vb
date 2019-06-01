@@ -213,9 +213,10 @@ Module Program
 
         Call Circos.AddPlotTrack(doc, plot2)
 
-        Dim GCSkew = nt.GCSkew(1000, 500, True)
+        Dim skewSteps = 2000
+        Dim GCSkew = nt.GCSkew(2000, skewSteps, True).Select(Function(v, i) New ValueTrackData With {.chr = "chr1", .start = i * skewSteps, .value = v, .[end] = skewSteps * (i + 1)}).ToArray
 
-        Call Circos.CircosAPI.AddGradientMappings(doc, GCSkew, ColorMap.PatternSummer, winSize:=64, replaceBase:=True, extTails:=True)
+        Call Circos.CircosAPI.AddGradientMappings(doc, GCSkew, ColorMap.PatternSummer)
 
         ' Call Circos.AddPlotTrack(doc, GCSkew)
 
