@@ -10,6 +10,14 @@ Imports F = Microsoft.VisualBasic.Math.Statistics.FisherTest
 ''' </summary>
 Public Module Enrichment
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="list">需要进行富集计算分析的目标基因列表</param>
+    ''' <param name="outputAll"></param>
+    ''' <param name="showProgress"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function Enrichment(genome As Background,
                                         list As IEnumerable(Of String),
@@ -62,15 +70,15 @@ Public Module Enrichment
     ''' </summary>
     ''' <param name="cluster"></param>
     ''' <param name="enriched$"></param>
-    ''' <param name="backgroundSize%"></param>
+    ''' <param name="inputSize%"></param>
     ''' <param name="genes%"></param>
     ''' <param name="outputAll"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function calcResult(cluster As Cluster, enriched$(), backgroundSize%, genes%, outputAll As Boolean) As EnrichmentResult
+    Private Function calcResult(cluster As Cluster, enriched$(), inputSize%, genes%, outputAll As Boolean) As EnrichmentResult
         Dim a% = enriched.Length
         Dim b% = cluster.members.Length
-        Dim c% = backgroundSize - a
+        Dim c% = inputSize - a
         Dim d% = genes - b
         Dim pvalue# = F.FisherPvalue(a, b, c, d)
         Dim score# = a / b
@@ -95,7 +103,7 @@ Public Module Enrichment
     Public Function FDRCorrection(enrichments As IEnumerable(Of EnrichmentResult)) As EnrichmentResult()
         With enrichments.Shadows
             !FDR = !Pvalue.FDR
-            Return .ByRef.ToArray
+            Return .ToArray
         End With
     End Function
 End Module
