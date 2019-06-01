@@ -482,6 +482,14 @@ different with the ideogram configuration document was not included in the circo
     End Function
 
     <ExportAPI("Plots.add.Gradients")>
+    Public Function AddGradientMappings(circos As Configurations.Circos, values As IEnumerable(Of ValueTrackData), Optional mapName As String = "Jet") As Configurations.Circos
+        Dim node As New GradientMappings(values, circos.skeletonKaryotype, mapName)
+        Dim hTrack As New HighLight(node)
+        Call circos.AddTrack(track:=hTrack)
+        Return circos
+    End Function
+
+    <ExportAPI("Plots.add.Gradients")>
     Public Function AddGradientMappings(circos As Configurations.Circos,
                                         values As IEnumerable(Of ILoci),
                                         Optional mapName$ = "Jet",

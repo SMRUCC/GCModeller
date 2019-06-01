@@ -1,48 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::3272f1af0fde5f57bb9a2bff4a76839e, Circos\TrackDatas\Adapter\Highlights\GradientMappings.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GradientMappings
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: (+2 Overloads) __initCommon
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GradientMappings
+' 
+'         Constructor: (+3 Overloads) Sub New
+'         Function: (+2 Overloads) __initCommon
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
@@ -63,9 +67,10 @@ Namespace TrackDatas.Highlights
                     Select site
                     Group site By site.Left Into Group
             Dim d As Dictionary(Of Integer, Double) =
-                g.ToDictionary(
-                Function(site) site.Left,
-                Function(site) CDbl(site.Group.ToArray.Length))
+                g.ToDictionary(Function(site) site.Left,
+                               Function(site)
+                                   Return CDbl(site.Group.ToArray.Length)
+                               End Function)
 
             source = __initCommon(chr, d, length, mapName, winSize, replaceBase, extTails)
         End Sub
@@ -78,21 +83,27 @@ Namespace TrackDatas.Highlights
                                                replaceBase As Boolean,
                                                extTails As Boolean,
                                                Optional steps As Integer = 0) As List(Of ValueTrackData)
-            Dim values As Double() =
-                length.Sequence.Select(Function(idx) d.TryGetValue(idx, [default]:=0)).ToArray
 
-            Return __initCommon(
+            Dim values As Double() = length _
+                .Sequence _
+                .Select(Function(idx)
+                            Return d.TryGetValue(idx, [default]:=0)
+                        End Function) _
+                .ToArray
+
+            Return mapGenerator(
                 chr, values, length,
                 mapName,
                 winSize, replaceBase,
-                extTails, steps)
+                extTails, steps
+            ).AsList
         End Function
 
-        Protected Shared Function __initCommon(chr$, values#(), len%,
+        Protected Shared Iterator Function mapGenerator(chr$, values#(), len%,
                                                mapName$, winSize%,
                                                replaceBase As Boolean,
                                                extTails As Boolean,
-                                               Optional steps% = 0) As List(Of ValueTrackData)
+                                               Optional steps% = 0) As IEnumerable(Of ValueTrackData)
             Dim avgs As Double()
 
             Call $"  >>{GetType(GradientMappings).FullName}   min= {values.Min};   max={values.Max};  @{mapName}".__DEBUG_ECHO
@@ -106,43 +117,49 @@ Namespace TrackDatas.Highlights
 
             Dim colors As Mappings() = GradientMaps.GradientMappings(
                 avgs, mapName,
-                replaceBase:=replaceBase)
-
-            Dim out As List(Of ValueTrackData)
+                replaceBase:=replaceBase
+            )
 
             If winSize > 0 Then
-                out = New List(Of ValueTrackData)(
-                    colors.Select(
-                    Function(site, idx) FromColorMapping(site, idx + 1, 0)))
+                For Each point In colors.Select(Function(site, idx) FromColorMapping(site, idx + 1, 0))
+                    point.chr = chr
+                    point.value = 1
+
+                    Yield point
+                Next
             Else
-                Dim bufs As New List(Of ValueTrackData)
                 Dim i As Integer
 
                 For Each x As Mappings In colors
                     Dim o As ValueTrackData = FromColorMapping(x, i, steps)
-                    i += steps
-                    bufs += o
-                Next
 
-                out = bufs
+                    i += steps
+                    o.chr = chr
+                    o.value = 1
+
+                    Yield o
+                Next
             End If
 
-            For Each x As ValueTrackData In out
-                x.chr = chr
-                x.value = 1
-            Next
-
-            out += New ValueTrackData With {
+            Yield New ValueTrackData With {
                 .value = 0,
                 .chr = "chr1",
                 .start = 1,
                 .end = 1,
                 .comment = "This data point used for makes ranges of [0, 1]"
             }
-
-            Return out
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="values">这个数据点应该是和基因组等长的？</param>
+        ''' <param name="length"></param>
+        ''' <param name="mapName"></param>
+        ''' <param name="winSize"></param>
+        ''' <param name="replaceBase"></param>
+        ''' <param name="extTails"></param>
+        ''' <param name="chr"></param>
         Sub New(values As IEnumerable(Of Double),
                 length As Integer,
                 mapName As String,
@@ -155,13 +172,7 @@ Namespace TrackDatas.Highlights
                 chr, d, length, mapName, winSize, replaceBase, extTails)
         End Sub
 
-        Sub New(values As IEnumerable(Of ValueTrackData),
-                karyotype As Karyotype.SkeletonInfo,
-                mapName As String,
-                Optional replaceBase As Boolean = False,
-                Optional extTails As Boolean = False,
-                Optional winsize As Integer = 2048)
-
+        Sub New(values As IEnumerable(Of ValueTrackData), karyotype As Karyotype.SkeletonInfo, mapName As String)
             Dim labels As Dictionary(Of String, Karyotype.Karyotype) = karyotype.GetchrLabels
             Dim chrs = From x As ValueTrackData
                        In values
@@ -172,16 +183,21 @@ Namespace TrackDatas.Highlights
 
             For Each ch In chrs
                 Dim length As Integer = labels(ch.chr).end
-                Dim bufs As Double() = ch.Group.Vector(length, Function(x) x.value)
+                Dim ranges As DoubleRange = ch.Group.Vector(length, Function(x) x.value)
+                Dim colors As String() = New ColorMap(500) _
+                    .ColorSequence(mapName) _
+                    .Select(Function(cl) $"({cl.R},{cl.G},{cl.B})") _
+                    .ToArray
+                Dim indexRange As DoubleRange = {0, colors.Length - 1}
+                Dim chunk As ValueTrackData() = ch.Group _
+                    .Select(Function(p)
+                                p.formatting = New Formatting With {
+                                    .fill_color = colors(CInt(Fix(ranges.ScaleMapping(p.value, indexRange))))
+                                }
 
-                Dim slides = bufs.SlideWindows(winsize, 2048)
-
-                bufs = slides.Select(Function(x) x.Average).ToArray
-
-                Dim chunk As List(Of ValueTrackData) = __initCommon(
-                    ch.chr, bufs, length,
-                    mapName, -1,
-                    replaceBase, extTails, 2048)
+                                Return p
+                            End Function) _
+                    .ToArray
 
                 Call source.AddRange(chunk)
             Next

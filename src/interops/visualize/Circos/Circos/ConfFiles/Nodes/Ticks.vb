@@ -109,7 +109,7 @@ Namespace Configurations.Nodes
     Public Class Tick : Inherits CircosDocument
         Implements ICircosDocNode
 
-        <Circos> Public Property size As String
+        <Circos> Public Property size As String = "20p"
         <Circos> Public Property spacing As String = "500u"
         <Circos> Public Property color As String = "black"
         <Circos> Public Property show_label As String = yes

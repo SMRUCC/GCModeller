@@ -44,7 +44,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -156,7 +155,7 @@ Namespace TrackDatas.NtProps
                     .chr = "chr1",
                     .[end] = i + winSize,
                     .start = i,
-                    .value = If(values.Length = 0, 0, values.Max)
+                    .value = If(values.Length = 0, 0, values.Average)
                 }
             Next
         End Function

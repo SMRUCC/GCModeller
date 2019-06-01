@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::402cf59d469abd52a285179cc904fd7c, CLI\Program.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Program
-    ' 
-    '     Function: convert, Main, pickAnno
-    ' 
-    '     Sub: testPlot2
-    ' 
-    ' /********************************************************************************/
+' Module Program
+' 
+'     Function: convert, Main, pickAnno
+' 
+'     Sub: testPlot2
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,8 +47,10 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -160,17 +162,17 @@ Module Program
     ReadOnly otherFeatures As Index(Of String) = {"repeat_region", "mobile_element"}
 
     Sub testPlot2()
-        Dim gb = gbff.Load("P:\deg\91001\NC_005810.gbk")
+        Dim gb = gbff.Load("P:\deg\A16R\Bacillus anthracis str. A16R chromosome, complete genome_NZ_CP001974.2.gb")
         Dim nt = gb.Origin.ToFasta
         Dim size = nt.Length
-        Dim doc = Circos.CreateDataModel
+        Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
 
-        Dim degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv") _
-            .Where(Function(g) g.Properties.Values.First > 0.8) _
+        Dim degPredicts = DataSet.LoadDataSet("P:\deg\A16R\A16R_prediction.csv") _
+            .Where(Function(g) g.Properties.Values.First > 0.9) _
             .ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
 
         Dim annotations = EntityObject _
-            .LoadDataSet("P:\deg\91001\91001_NC_005810 Annotations.csv") _
+            .LoadDataSet("P:\deg\A16R\A16R_NZ_CP001974 Annotations.csv") _
             .Select(AddressOf convert) _
             .Where(Function(g) g.Species <> "source") _
             .GroupBy(Function(gene) gene.LocusID) _
@@ -191,35 +193,56 @@ Module Program
                                                           ' 只显示较为可能为deg的名称标记
                                                           g.LocusID = ""
                                                           g.GeneName = Nothing
+                                                      ElseIf degPredicts(g.LocusID) < 0.95 Then
+                                                          g.GeneName = Nothing
                                                       End If
                                                   End Sub)
                     End Function) _
             .Where(Function(g) degPredicts.ContainsKey(g.LocusID)) _
             .ToArray
 
-        doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, True)
+        Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=5120)
+
+        doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, True, splitOverlaps:=True)
 
         ' 绘制 essential 预测得分曲线
         ' 需要使用这个表对象来获取坐标信息
         Dim ptt = gb.GbffToPTT(ORF:=False)
-        degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv").ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
-        Dim predictsTracks = NtProps.GCSkew.FromValueContents(ptt.GeneObjects, degPredicts, 5000, 2000)
+        degPredicts = DataSet.LoadDataSet("P:\deg\A16R\A16R_prediction.csv").Where(Function(g) g.Properties.Values.First > 0).ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
+        Dim keys = degPredicts.Keys.ToArray
+        Dim values = keys.Select(Function(name) degPredicts(name)).ToArray.QuantileLevels
+        degPredicts = keys.SeqIterator.ToDictionary(Function(key) key.value, Function(key)
+                                                                                 Select Case values(key)
+                                                                                     Case > 0.8
+                                                                                         Return 1
+                                                                                     Case > 0.45
+                                                                                         Return 0.45
+                                                                                     Case > 0.3
+                                                                                         Return 0.3
+                                                                                     Case Else
+                                                                                         Return 0
+                                                                                 End Select
+                                                                             End Function)
+
+        Dim predictsTracks = NtProps.GCSkew.FromValueContents(ptt.GeneObjects, degPredicts, 10000, 10000)
 
         Dim plot2 As New Plots.Histogram(New NtProps.GCSkew(predictsTracks))
 
         Call Circos.AddPlotTrack(doc, plot2)
 
-        Dim GCSkew As New Plots.Histogram(Circos.CreateGCSkewPlots(nt, 500, 300))
-        Call Circos.AddPlotTrack(doc, GCSkew)
+        Dim skewSteps = 2000
+        Dim GCSkew = nt.GCSkew(5000, skewSteps, True).Select(Function(v, i) New ValueTrackData With {.chr = "chr1", .start = i * skewSteps, .value = v, .[end] = skewSteps * (i + 1)}).ToArray
 
-        Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=5120)
+        Call Circos.CircosAPI.AddGradientMappings(doc, GCSkew, ColorMap.PatternJet)
+
+        ' Call Circos.AddPlotTrack(doc, GCSkew)
 
         Call Circos.CircosAPI.SetIdeogramWidth(Circos.GetIdeogram(doc), 0)
         Call Circos.CircosAPI.ShowTicksLabel(doc, True)
         Call doc.ForceAutoLayout()
         Call Circos.CircosAPI.SetIdeogramRadius(Circos.GetIdeogram(doc), 0.25)
 
-        Call Circos.CircosAPI.WriteData(doc, "P:\deg\91001\circos", debug:=False)
+        Call Circos.CircosAPI.WriteData(doc, "P:\deg\A16R\circos", debug:=False)
 
 
         Pause()

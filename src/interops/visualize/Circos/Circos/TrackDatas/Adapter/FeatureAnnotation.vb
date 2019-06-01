@@ -147,7 +147,7 @@ Namespace TrackDatas
                 Call addDisplayName(onlyGeneName, IDregex, anno, doc, snuggleRefine)
             End If
 
-            Dim highlightsTrack As HighLight() = __geneHighlights(anno, colors, Strands.Forward, splitOverlaps)
+            Dim highlightsTrack As HighLight() = anno.geneHighlights(colors, Strands.Forward, splitOverlaps)
 
             If Not highlightsTrack.IsNullOrEmpty Then
                 If highlightsTrack.Length = 1 AndAlso Not highlightsTrack.First.Highlights.Count = 0 Then
@@ -167,7 +167,7 @@ Namespace TrackDatas
                 End If
             End If
 
-            highlightsTrack = __geneHighlights(anno, colors, Strands.Reverse, splitOverlaps)
+            highlightsTrack = anno.geneHighlights(colors, Strands.Reverse, splitOverlaps)
 
             If Not highlightsTrack.IsNullOrEmpty Then
                 If highlightsTrack.Length = 1 AndAlso highlightsTrack.First.Highlights.Count > 0 Then
@@ -230,7 +230,9 @@ Namespace TrackDatas
         ''' <param name="strands"></param>
         ''' <param name="splitOverlaps">假若检测到基因有重叠的情况，是否分开为多个圆圈显示？</param>
         ''' <returns></returns>
-        Private Function __geneHighlights(anno As IEnumerable(Of GeneDumpInfo),
+        ''' 
+        <Extension>
+        Private Function geneHighlights(anno As IEnumerable(Of GeneDumpInfo),
                                       colors As Dictionary(Of String, String),
                                       strands As Strands,
                                       splitOverlaps As Boolean) As HighLight()
