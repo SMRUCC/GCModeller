@@ -1,54 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::5fbe80f7f41368e99505aa8ce62ca1fe, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GeneBrief.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GeneBrief
-    ' 
-    '         Properties: ATG, Code, COG, Gene, IsBlankSegment
-    '                     IsORF, Length, Location, PID, Product
-    '                     Synonym, TGA
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: Clone, (+2 Overloads) CreateObject, (+2 Overloads) DocumentParser, getCOGEntry, Strand
-    '                   ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GeneBrief
+' 
+'         Properties: ATG, Code, COG, Gene, IsBlankSegment
+'                     IsORF, Length, Location, PID, Product
+'                     Synonym, TGA
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: Clone, (+2 Overloads) CreateObject, (+2 Overloads) DocumentParser, getCOGEntry, Strand
+'                   ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
@@ -171,33 +172,33 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
         ''' <param name="strLine">Ptt文档之中的一行数据</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function DocumentParser(strLine As String, FillBlankGeneName As Boolean) As GeneBrief
-            Dim Tokens As String() = strLine.Split(CChar(vbTab))
-            Dim Gene As GeneBrief = New GeneBrief
-
-            Dim strLocation As Long() = (From str As String
-                                         In Strings.Split(Tokens(Scan0), "..")
-                                         Let n = CType(Val(str), Long)
-                                         Select n).ToArray
-
-            Gene.Location = New NucleotideLocation(
-                strLocation(0), strLocation(1),
-                If(Tokens(1)(0) = "+"c, Strands.Forward, Strands.Reverse))
-            Call Gene.Location.Normalization()
-
+        Public Shared Function DocumentParser(strLine As String, fillBlankGeneName As Boolean) As GeneBrief
+            Dim tokens As String() = strLine.Split(ASCII.TAB)
+            Dim location As Long() = (From str As String
+                                      In Strings.Split(tokens(Scan0), "..")
+                                      Let n = CType(Val(str), Long)
+                                      Select n).ToArray
             Dim p As VBInteger = 2
-            Gene.Length = Tokens(++p)
-            Gene.PID = Tokens(++p)
-            Gene.Gene = Tokens(++p)
-            Gene.Synonym = Tokens(++p)
-            If (String.Equals(Gene.Gene, "-") OrElse String.IsNullOrEmpty(Gene.Gene)) AndAlso FillBlankGeneName Then
-                Gene.Gene = Gene.Synonym  '假若基因名称为空值的话，假设填充则使用基因号进行填充
-            End If
-            Gene.Code = Tokens(++p)
-            Gene.COG = Tokens(++p)
-            Gene.Product = Tokens(++p)
+            Dim strand As Strands = tokens(1)(0).GetStrands
+            Dim loci = New NucleotideLocation(location(0), location(1), strand).Normalization
+            Dim gene As New GeneBrief With {
+                .Location = loci,
+                .Length = tokens(++p),
+                .PID = tokens(++p),
+                .Gene = tokens(++p),
+                .Synonym = tokens(++p),
+                .Code = tokens(++p),
+                .COG = tokens(++p),
+                .Product = tokens(++p)
+            }
 
-            Return Gene
+            If (String.Equals(gene.Gene, "-") OrElse String.IsNullOrEmpty(gene.Gene)) AndAlso fillBlankGeneName Then
+                ' 假若基因名称为空值的话，假设填充则使用基因号进行填充
+                gene.Gene = gene.Synonym
+            End If
+
+
+            Return gene
         End Function
 
         ''' <summary>

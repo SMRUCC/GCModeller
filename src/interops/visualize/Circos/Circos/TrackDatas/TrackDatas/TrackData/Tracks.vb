@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fe77925897826dc33d80a47b544568b, visualize\Circos\Circos\TrackDatas\TrackDatas\TrackData\Tracks.vb"
+﻿#Region "Microsoft.VisualBasic::01663ed853e60737e5a44a2ceb1b89b8, Circos\TrackDatas\TrackDatas\TrackData\Tracks.vb"
 
     ' Author:
     ' 
@@ -33,25 +33,25 @@
 
     '     Class RegionTrackData
     ' 
-    '         Function: __trackData
+    '         Function: trackData
     ' 
     '     Class ValueTrackData
     ' 
     '         Properties: value
     ' 
-    '         Function: __trackData
+    '         Function: trackData
     ' 
     '     Class StackedTrackData
     ' 
     '         Properties: values
     ' 
-    '         Function: __trackData
+    '         Function: trackData
     ' 
     '     Class TextTrackData
     ' 
     '         Properties: text
     ' 
-    '         Function: __trackData
+    '         Function: trackData
     ' 
     ' 
     ' /********************************************************************************/
@@ -65,7 +65,7 @@ Namespace TrackDatas
     ''' </summary>
     Public Class RegionTrackData : Inherits TrackData
 
-        Protected Overrides Function __trackData() As String
+        Protected Overrides Function trackData() As String
             Return $"{chr} {start} {[end]}"
         End Function
     End Class
@@ -91,7 +91,7 @@ Namespace TrackDatas
 
         Public Overridable Property value As Double
 
-        Protected Overrides Function __trackData() As String
+        Protected Overrides Function trackData() As String
             Return $"{chr} {start} {[end]} {value}"
         End Function
     End Class
@@ -108,7 +108,7 @@ Namespace TrackDatas
 
         Public Property values As Double()
 
-        Protected Overrides Function __trackData() As String
+        Protected Overrides Function trackData() As String
             Dim values As String = Me.values.Select(Function(d) d.ToString).JoinBy(",")
             Return $"{chr} {start} {[end]} {values}"
         End Function
@@ -126,7 +126,7 @@ Namespace TrackDatas
 
         Public Property text As String
 
-        Protected Overrides Function __trackData() As String
+        Protected Overrides Function trackData() As String
             Return $"{chr} {start} {[end]} {text}"
         End Function
     End Class

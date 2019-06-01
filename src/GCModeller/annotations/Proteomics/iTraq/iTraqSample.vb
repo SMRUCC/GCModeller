@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::917c0082961c7cecbe09564bb5d1a9a4, annotations\Proteomics\iTraq\iTraqSample.vb"
+﻿#Region "Microsoft.VisualBasic::ecfa9a279f03d236ca1cc63b6a900ef7, Proteomics\iTraq\iTraqSample.vb"
 
     ' Author:
     ' 

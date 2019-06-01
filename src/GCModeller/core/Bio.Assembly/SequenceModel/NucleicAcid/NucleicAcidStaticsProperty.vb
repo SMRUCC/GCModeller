@@ -110,6 +110,7 @@ Namespace SequenceModel.NucleotideModels
             Dim n% = array _
                 .Where(Function(nn) nn = DNA.dGMP OrElse nn = DNA.dCMP) _
                 .Count
+
             Return n / array.Length
         End Function
 
@@ -244,7 +245,7 @@ Namespace SequenceModel.NucleotideModels
 
             For i As Integer = 1 To SequenceData.Length Step Steps
                 Dim Segment As String = Mid(SequenceData, i, SlideWindowSize)
-                Dim n As Double = __getPercent(Segment, SlideWindowSize, base)
+                Dim n As Double = basePercent(Segment, SlideWindowSize, base)
                 Call ChunkBuffer.Add(n)
             Next
 
@@ -259,23 +260,33 @@ Namespace SequenceModel.NucleotideModels
             Dim ChunkBuffer As List(Of Double) = New List(Of Double)
             For i As Integer = 1 To SequenceData.Length - SlideWindowSize Step Steps
                 Dim Segment As String = Mid(SequenceData, i, SlideWindowSize)
-                Dim n As Double = __getPercent(Segment, SlideWindowSize, base)
+                Dim n As Double = basePercent(Segment, SlideWindowSize, base)
                 Call ChunkBuffer.Add(n)
             Next
             For i As Integer = SequenceData.Length - SlideWindowSize + 1 To SequenceData.Length Step Steps
                 Dim Segment As String = Mid(SequenceData, i, SlideWindowSize)
                 Dim l = SlideWindowSize - Len(Segment)
                 Segment &= Mid(SequenceData, 1, l)
-                Dim n As Double = __getPercent(Segment, SlideWindowSize, base)
+                Dim n As Double = basePercent(Segment, SlideWindowSize, base)
                 Call ChunkBuffer.Add(n)
             Next
             Return ChunkBuffer.ToArray
         End Function
 
-        Private Function __getPercent(segment As String, winSize As Integer, base As Char()) As Double
-            Dim LQuery = (From b As Char In base Select segment.Count(b)).ToArray
-            Dim n As Double = LQuery.Sum
+        ''' <summary>
+        ''' Get content percentage value of the given nucleotide bases.
+        ''' </summary>
+        ''' <param name="segment"></param>
+        ''' <param name="winSize"></param>
+        ''' <param name="base"></param>
+        ''' <returns></returns>
+        Private Function basePercent(segment As String, winSize As Integer, base As Char()) As Double
+            Dim n As Double = Aggregate b As Char
+                              In base
+                              Let counts = segment.Count(b)
+                              Into Sum(counts)
             n = n / winSize
+
             Return n
         End Function
 
@@ -291,45 +302,52 @@ Namespace SequenceModel.NucleotideModels
         ''' Calculation the GC skew of a specific nucleotide acid sequence.
         ''' (对核酸链分子计算GC偏移量，请注意，当某一个滑窗区段内的GC是相等的话，则会出现正无穷)
         ''' </summary>
-        ''' <param name="SequenceModel">Target sequence object should be a nucleotide acid sequence.(目标对象必须为核酸链分子)</param>
+        ''' <param name="sequence">Target sequence object should be a nucleotide acid sequence.(目标对象必须为核酸链分子)</param>
         ''' <param name="isCircular"></param>
         ''' <returns>返回的矩阵是每一个核苷酸碱基上面的GC偏移量</returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("GCSkew", Info:="Calculation the GC skew of a specific nucleotide acid sequence.")>
-        Public Function GCSkew(SequenceModel As IPolymerSequenceModel, slideWindowSize As Integer, steps As Integer, isCircular As Boolean) As Double()
-            Dim SequenceData As String = SequenceModel.SequenceData.ToUpper
-            Dim bufs As New List(Of Double)
+        <Extension>
+        Public Function GCSkew(sequence As IPolymerSequenceModel, slideWindowSize As Integer, steps As Integer, isCircular As Boolean) As Double()
+            Dim sequenceData As String = sequence.SequenceData.ToUpper
+            Dim vector As New List(Of Double)
 
             If isCircular Then
-                For i As Integer = 1 To SequenceData.Length - slideWindowSize Step steps
-                    Dim Segment As String = Mid(SequenceData, i, slideWindowSize)
-                    Dim G = (From ch In Segment Where ch = "G"c Select 1).ToArray.Length
-                    Dim C = (From ch In Segment Where ch = "C"c Select 1).ToArray.Length
-                    Call bufs.Add((G - C) / (G + C))
+                For i As Integer = 1 To sequenceData.Length - slideWindowSize Step steps
+                    Dim Segment As String = Mid(sequenceData, i, slideWindowSize)
+                    Dim G = (From ch In Segment Where ch = "G"c Select 1).Count
+                    Dim C = (From ch In Segment Where ch = "C"c Select 1).Count
+
+                    vector += (G - C) / (G + C)
                 Next
-                For i As Integer = SequenceData.Length - slideWindowSize + 1 To SequenceData.Length Step steps
-                    Dim Segment As String = Mid(SequenceData, i, slideWindowSize)
+
+                For i As Integer = sequenceData.Length - slideWindowSize + 1 To sequenceData.Length Step steps
+                    Dim Segment As String = Mid(sequenceData, i, slideWindowSize)
                     Dim l = slideWindowSize - Len(Segment)
-                    Segment &= Mid(SequenceData, 1, l)
-                    Dim G = (From ch In Segment Where ch = "G"c Select 1).ToArray.Length
-                    Dim C = (From ch In Segment Where ch = "C"c Select 1).ToArray.Length
-                    Call bufs.Add((G - C) / (G + C))
+                    Segment &= Mid(sequenceData, 1, l)
+                    Dim G = (From ch In Segment Where ch = "G"c Select 1).Count
+                    Dim C = (From ch In Segment Where ch = "C"c Select 1).Count
+
+                    vector += (G - C) / (G + C)
                 Next
             Else
-                For i As Integer = 1 To SequenceData.Length Step steps
-                    Dim Segment As String = Mid(SequenceData, i, slideWindowSize)
-                    Dim G = (From ch In Segment Where ch = "G"c Select 1).ToArray.Length
-                    Dim C = (From ch In Segment Where ch = "C"c Select 1).ToArray.Length
-                    Call bufs.Add((G - C) / (G + C))
+                For i As Integer = 1 To sequenceData.Length Step steps
+                    Dim Segment As String = Mid(sequenceData, i, slideWindowSize)
+                    Dim G = (From ch In Segment Where ch = "G"c Select 1).Count
+                    Dim C = (From ch In Segment Where ch = "C"c Select 1).Count
+
+                    vector += (G - C) / (G + C)
                 Next
             End If
 
-            bufs = (From n As Double In bufs Select __NAHandle(n, slideWindowSize)).AsList '碱基之间是有顺序的，故而不适用并行化拓展
-            Return bufs.ToArray
+            ' 碱基之间是有顺序的，故而不适用并行化拓展
+            Return (From n As Double
+                    In vector
+                    Select removesNA(n, slideWindowSize)).ToArray
         End Function
 
-        Private Function __NAHandle(n As Double, winSize As Integer) As Double
+        Private Function removesNA(n As Double, winSize As Integer) As Double
             If n.IsNaNImaginary Then
                 Return 1 / winSize
             Else

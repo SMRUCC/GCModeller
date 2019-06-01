@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2c341f7365604c82fc72f86170d7b66, visualize\Circos\Circos\TrackDatas\TrackDatas\data.vb"
+﻿#Region "Microsoft.VisualBasic::6f3ae86f2ed997c0c62cf1e0d26f2503, Circos\TrackDatas\TrackDatas\data.vb"
 
     ' Author:
     ' 
@@ -60,7 +60,7 @@ Namespace TrackDatas
 
         Public Property FileName As String Implements Idata.FileName
 
-        Protected Friend __source As List(Of T)
+        Protected Friend source As List(Of T)
 
         ''' <summary>
         ''' Gets the element type <typeparamref name="T"/>
@@ -71,11 +71,11 @@ Namespace TrackDatas
         End Function
 
         Sub New(source As IEnumerable(Of T))
-            __source = New List(Of T)(source)
+            Me.source = New List(Of T)(source)
         End Sub
 
         Protected Sub New()
-            __source = New List(Of T)
+            source = New List(Of T)
         End Sub
 
         ''' <summary>
@@ -89,18 +89,18 @@ Namespace TrackDatas
         Public Function GetDocumentText() As String Implements Idata.GetDocumentText
             Dim sb As New StringBuilder
 
-            For Each x As T In Me
-                If Not String.IsNullOrEmpty(x.comment) Then
-                    Call sb.AppendLine("# " & x.comment)
+            For Each data As T In Me
+                If Not String.IsNullOrEmpty(data.comment) Then
+                    Call sb.AppendLine("# " & data.comment)
                 End If
-                Call sb.AppendLine(x.GetLineData)
+                Call sb.AppendLine(data.GetLineData)
             Next
 
             Return sb.ToString
         End Function
 
         Public Overridable Iterator Function GetEnumerator() As IEnumerator(Of T) Implements IEnumerable(Of T).GetEnumerator
-            For Each x As T In __source.SafeQuery
+            For Each x As T In source.SafeQuery
                 Yield x
             Next
         End Function
@@ -110,7 +110,7 @@ Namespace TrackDatas
         End Function
 
         Private Iterator Function IEnumerable_GetEnumerator1() As IEnumerable(Of ITrackData) Implements Idata.GetEnumerator
-            For Each x As T In __source.SafeQuery
+            For Each x As T In source.SafeQuery
                 Yield TryCast(x, ITrackData)
             Next
         End Function

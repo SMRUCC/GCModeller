@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b824b78be27e68840f8249683dee6ab, visualize\Circos\Circos\TrackDatas\Adapter\Highlights\MotifSites.vb"
+﻿#Region "Microsoft.VisualBasic::26d3d05d193ac2c34e6da2033e86dd8d, Circos\TrackDatas\Adapter\Highlights\MotifSites.vb"
 
     ' Author:
     ' 
@@ -63,7 +63,7 @@ Namespace TrackDatas.Highlights
 
             MyBase.COGColors = CircosColor.ColorProfiles(types)
 
-            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+            source = LinqAPI.MakeList(Of ValueTrackData) <=
  _
               From gene As IMotifSite
               In array
@@ -104,7 +104,7 @@ Namespace TrackDatas.Highlights
                 .ToDictionary(Function(x) x.Key,
                               Function(x) x.First.CircosColor)
 
-            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+            source = LinqAPI.MakeList(Of ValueTrackData) <=
  _
                 From gene As IMotifScoredSite
                 In array

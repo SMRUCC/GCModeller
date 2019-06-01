@@ -84,6 +84,20 @@ Namespace ContextModel
             End Get
         End Property
 
+        ''' <summary>
+        ''' 得到根据所输入的位点信息估算出目标基因组可能的大小
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property size As Integer
+            Get
+                Return sequence _
+                    .Select(Function(g) g.Location) _
+                    .Select(Function(loci) {loci.Left, loci.Right}) _
+                    .IteratesALL _
+                    .Max
+            End Get
+        End Property
+
         Public ReadOnly Property AllFeatureKeys As String()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get

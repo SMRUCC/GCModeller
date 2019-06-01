@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9470ffcd034ad9fae9239ce005f7fbf8, visualize\Circos\Circos\TrackDatas\TrackDatas\TrackData\TrackData.vb"
+﻿#Region "Microsoft.VisualBasic::3fafd1e0385c72112569f00edd47f079, Circos\TrackDatas\TrackDatas\TrackData\TrackData.vb"
 
     ' Author:
     ' 
@@ -37,6 +37,8 @@
     ' 
     '         Function: ToString
     ' 
+    '         Sub: Assign
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -57,7 +59,7 @@ Namespace TrackDatas
     ''' The definition Of a data point within a track Is based On the genomic range, 
     ''' which Is a combination Of chromosome And start/End position.
     ''' 
-    ''' (请注意，最终的行数据都是使用<see cref="ToString"/>方法来生成的，<see cref="__trackData"/>
+    ''' (请注意，最终的行数据都是使用<see cref="ToString"/>方法来生成的，<see cref="trackData"/>
     ''' 生成的只是绘图的原始数据，最终的style以及formats是在<see cref="ToString"/>之中合成的，所以
     ''' 请不要轻易的重写继承类的<see cref="ToString"/>方法)
     ''' </summary>
@@ -148,7 +150,7 @@ Namespace TrackDatas
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String Implements ITrackData.GetLineData
-            Dim s As String = __trackData()
+            Dim s As String = trackData()
             Dim format As String = formatting.ToString
 
             If Not String.IsNullOrEmpty(format) Then
@@ -158,7 +160,7 @@ Namespace TrackDatas
             Return s
         End Function
 
-        Protected MustOverride Function __trackData() As String
+        Protected MustOverride Function trackData() As String
 
         Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
             Me.start = address

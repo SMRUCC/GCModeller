@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83ddf0d3c053d2bf62d6a9dd0ad58991, visualize\Circos\Circos\Colors\NtPropsMaps.vb"
+﻿#Region "Microsoft.VisualBasic::01628f6fdf3cf0222e6651a4275f0aea, Circos\Colors\Maps\NtPropsMapsExtensions.vb"
 
     ' Author:
     ' 
@@ -35,22 +35,14 @@
     ' 
     '         Function: FromAT, FromGC, PropertyMaps
     ' 
-    '     Structure NtPropsMaps
-    ' 
-    '         Function: ToString
-    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.NtProps
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.NtProps
 
 Namespace Colors
 
@@ -101,22 +93,4 @@ Namespace Colors
             }
         End Function
     End Module
-
-    Public Structure NtPropsMaps
-
-        Public source As FastaFile
-        ''' <summary>
-        ''' {value, circos color expression}
-        ''' </summary>
-        Public AT As Dictionary(Of Double, String)
-        ''' <summary>
-        ''' {value, circos color expression}
-        ''' </summary>
-        Public GC As Dictionary(Of Double, String)
-        Public props As Dictionary(Of String, GeneObjectGC)
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Structure
 End Namespace
