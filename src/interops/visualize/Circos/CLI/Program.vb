@@ -191,11 +191,15 @@ Module Program
                                                           ' 只显示较为可能为deg的名称标记
                                                           g.LocusID = ""
                                                           g.GeneName = Nothing
+                                                      ElseIf degPredicts(g.LocusID) < 0.98 Then
+                                                          g.GeneName = Nothing
                                                       End If
                                                   End Sub)
                     End Function) _
             .Where(Function(g) degPredicts.ContainsKey(g.LocusID)) _
             .ToArray
+
+        Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=5120)
 
         doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, True, splitOverlaps:=True)
 
@@ -209,10 +213,11 @@ Module Program
 
         Call Circos.AddPlotTrack(doc, plot2)
 
-        Dim GCSkew As New Plots.Histogram(Circos.CreateGCSkewPlots(nt, 500, 300))
-        Call Circos.AddPlotTrack(doc, GCSkew)
+        Dim GCSkew = nt.GCSkew(1000, 500, True)
 
-        Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=5120)
+        Call Circos.CircosAPI.AddGradientMappings(doc, GCSkew, ColorMap.PatternSummer, winSize:=64, replaceBase:=True, extTails:=True)
+
+        ' Call Circos.AddPlotTrack(doc, GCSkew)
 
         Call Circos.CircosAPI.SetIdeogramWidth(Circos.GetIdeogram(doc), 0)
         Call Circos.CircosAPI.ShowTicksLabel(doc, True)

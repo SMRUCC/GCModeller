@@ -78,21 +78,27 @@ Namespace TrackDatas.Highlights
                                                replaceBase As Boolean,
                                                extTails As Boolean,
                                                Optional steps As Integer = 0) As List(Of ValueTrackData)
-            Dim values As Double() =
-                length.Sequence.Select(Function(idx) d.TryGetValue(idx, [default]:=0)).ToArray
 
-            Return __initCommon(
+            Dim values As Double() = length _
+                .Sequence _
+                .Select(Function(idx)
+                            Return d.TryGetValue(idx, [default]:=0)
+                        End Function) _
+                .ToArray
+
+            Return mapGenerator(
                 chr, values, length,
                 mapName,
                 winSize, replaceBase,
-                extTails, steps)
+                extTails, steps
+            ).AsList
         End Function
 
-        Protected Shared Function __initCommon(chr$, values#(), len%,
+        Protected Shared Iterator Function mapGenerator(chr$, values#(), len%,
                                                mapName$, winSize%,
                                                replaceBase As Boolean,
                                                extTails As Boolean,
-                                               Optional steps% = 0) As List(Of ValueTrackData)
+                                               Optional steps% = 0) As IEnumerable(Of ValueTrackData)
             Dim avgs As Double()
 
             Call $"  >>{GetType(GradientMappings).FullName}   min= {values.Min};   max={values.Max};  @{mapName}".__DEBUG_ECHO
@@ -106,41 +112,37 @@ Namespace TrackDatas.Highlights
 
             Dim colors As Mappings() = GradientMaps.GradientMappings(
                 avgs, mapName,
-                replaceBase:=replaceBase)
-
-            Dim out As List(Of ValueTrackData)
+                replaceBase:=replaceBase
+            )
 
             If winSize > 0 Then
-                out = New List(Of ValueTrackData)(
-                    colors.Select(
-                    Function(site, idx) FromColorMapping(site, idx + 1, 0)))
+                For Each point In colors.Select(Function(site, idx) FromColorMapping(site, idx + 1, 0))
+                    point.chr = chr
+                    point.value = 1
+
+                    Yield point
+                Next
             Else
-                Dim bufs As New List(Of ValueTrackData)
                 Dim i As Integer
 
                 For Each x As Mappings In colors
                     Dim o As ValueTrackData = FromColorMapping(x, i, steps)
-                    i += steps
-                    bufs += o
-                Next
 
-                out = bufs
+                    i += steps
+                    o.chr = chr
+                    o.value = 1
+
+                    Yield o
+                Next
             End If
 
-            For Each x As ValueTrackData In out
-                x.chr = chr
-                x.value = 1
-            Next
-
-            out += New ValueTrackData With {
+            Yield New ValueTrackData With {
                 .value = 0,
                 .chr = "chr1",
                 .start = 1,
                 .end = 1,
                 .comment = "This data point used for makes ranges of [0, 1]"
             }
-
-            Return out
         End Function
 
         Sub New(values As IEnumerable(Of Double),
@@ -178,10 +180,11 @@ Namespace TrackDatas.Highlights
 
                 bufs = slides.Select(Function(x) x.Average).ToArray
 
-                Dim chunk As List(Of ValueTrackData) = __initCommon(
+                Dim chunk As List(Of ValueTrackData) = mapGenerator(
                     ch.chr, bufs, length,
                     mapName, -1,
-                    replaceBase, extTails, 2048)
+                    replaceBase, extTails, 2048
+                ).AsList
 
                 Call source.AddRange(chunk)
             Next
