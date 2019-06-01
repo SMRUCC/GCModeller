@@ -1,46 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::0fcd5edee9175d759b4b23053f4ee91e, Circos\TrackDatas\Adapter\NtProps\GCSkew.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GCSkew
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: __avgData, __sourceGC, CreateLineData
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GCSkew
+' 
+'         Constructor: (+3 Overloads) Sub New
+'         Function: __avgData, __sourceGC, CreateLineData
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -58,14 +59,11 @@ Namespace TrackDatas.NtProps
                 steps As Integer,
                 isCircular As Boolean,
                 Optional chr As String = "chr1")
-            Call MyBase.New(__sourceGC(
-                 chr,
-                 NucleotideModels.GCSkew(nt, slideWinSize, steps, isCircular),
-                 steps))
+            Call MyBase.New(trackValues(chr, NucleotideModels.GCSkew(nt, slideWinSize, steps, isCircular), steps))
         End Sub
 
         Sub New(data As IEnumerable(Of Double), [step] As Integer, Optional chr As String = "chr1")
-            Call MyBase.New(__sourceGC(chr, __avgData(data), [step]))
+            Call MyBase.New(trackValues(chr, means(data), [step]))
         End Sub
 
         ''' <summary>
@@ -73,38 +71,42 @@ Namespace TrackDatas.NtProps
         ''' </summary>
         ''' <param name="genome"></param>
         ''' <param name="karyotype">chr标记的来源</param>
-        ''' <param name="SlideWindowSize"></param>
-        ''' <param name="Steps"></param>
-        ''' <param name="Circular"></param>
+        ''' <param name="winSize"></param>
+        ''' <param name="steps"></param>
+        ''' <param name="isCircular"></param>
         Sub New(genome As IEnumerable(Of FastaSeq),
                 karyotype As Karyotype.SkeletonInfo,
-                SlideWindowSize As Integer,
-                Steps As Integer,
-                Circular As Boolean)
+                winSize As Integer,
+                steps As Integer,
+                isCircular As Boolean)
 
             Dim list As New List(Of ValueTrackData)
-            Dim chrs = karyotype.Karyotypes.ToDictionary(
-                Function(x) x.chrLabel,
-                Function(x) x.chrName)
+            Dim chrs As Dictionary(Of String, String) = karyotype _
+                .Karyotypes _
+                .ToDictionary(Function(chr) chr.chrLabel,
+                              Function(chr)
+                                  Return chr.chrName
+                              End Function)
 
             For Each nt As FastaSeq In genome
                 Dim raw As Double() = NucleotideModels.GCSkew(
                     nt,
-                    SlideWindowSize,
-                    Steps,
-                    Circular)
+                    winSize,
+                    steps,
+                    isCircular
+                )
                 Dim chr As String = nt.Title.Split("."c).First
 
                 chr = chrs(chr)
-                list += __sourceGC(chr, __avgData(raw), [Steps])
+                list += trackValues(chr, means(raw), steps)
 
-                Call Console.Write(">")
+                Call $" > {nt.Title}".__DEBUG_ECHO
             Next
 
             source = list
         End Sub
 
-        Friend Shared Function __avgData(data As IEnumerable(Of Double)) As Double()
+        Friend Shared Function means(data As IEnumerable(Of Double)) As Double()
             Dim array As Double() = data.ToArray
             Dim avg As Double = array.Average
 
@@ -115,7 +117,7 @@ Namespace TrackDatas.NtProps
             Return array
         End Function
 
-        Friend Shared Iterator Function __sourceGC(chr As String, data As IEnumerable(Of Double), [step] As Integer) As IEnumerable(Of ValueTrackData)
+        Friend Shared Iterator Function trackValues(chr As String, data As IEnumerable(Of Double), [step] As Integer) As IEnumerable(Of ValueTrackData)
             Dim p As Integer
 
             For Each n As Double In data
@@ -136,8 +138,10 @@ Namespace TrackDatas.NtProps
         ''' <param name="Width">Width设置为0的时候为1个像素的宽度</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function CreateLineData(Length As Integer, Width As Integer) As GCSkew
-            Return New GCSkew({CDbl(Width)}, [step]:=Length)
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function CreateLineData(length As Integer, width As Integer) As GCSkew
+            Return New GCSkew({CDbl(width)}, [step]:=length)
         End Function
     End Class
 End Namespace

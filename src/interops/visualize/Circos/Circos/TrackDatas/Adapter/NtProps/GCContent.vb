@@ -82,7 +82,7 @@ Namespace TrackDatas.NtProps
                 Dim chr As String = nt.Title.Split("."c).First
 
                 chr = chrs(chr)
-                list += GCSkew.__sourceGC(chr, GCSkew.__avgData(raw), [steps])
+                list += GCSkew.trackValues(chr, GCSkew.means(raw), [steps])
 
                 Call Console.Write(">")
             Next

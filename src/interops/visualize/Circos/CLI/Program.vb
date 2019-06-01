@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -197,7 +198,10 @@ Module Program
         doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, True)
 
         ' 绘制 essential 预测得分曲线
-        Dim ptt = gb.
+        ' 需要使用这个表对象来获取坐标信息
+        Dim ptt = gb.GbffToPTT(ORF:=False)
+
+
 
         Dim GCSkew As New Plots.Histogram(Circos.CreateGCSkewPlots(nt, 500, 300))
         Call Circos.AddPlotTrack(doc, GCSkew)

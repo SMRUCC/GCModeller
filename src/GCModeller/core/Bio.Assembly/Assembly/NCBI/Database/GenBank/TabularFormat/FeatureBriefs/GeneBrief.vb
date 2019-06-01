@@ -180,8 +180,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
                                       Select n).ToArray
             Dim p As VBInteger = 2
             Dim strand As Strands = tokens(1)(0).GetStrands
+            Dim loci = New NucleotideLocation(location(0), location(1), strand).Normalization
             Dim gene As New GeneBrief With {
-                .Location = New NucleotideLocation(location(0), location(1), strand).Normalization,
+                .Location = loci,
                 .Length = tokens(++p),
                 .PID = tokens(++p),
                 .Gene = tokens(++p),
