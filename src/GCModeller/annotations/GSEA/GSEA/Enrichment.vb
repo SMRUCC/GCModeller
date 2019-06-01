@@ -46,7 +46,7 @@ Public Module Enrichment
 
                 Call doProgress(cluster.ID)
 
-                If (termResult = cluster.calcResult(enriched, .Length, genes, outputAll)) Is Nothing Then
+                If Not (termResult = cluster.calcResult(enriched, .Length, genes, outputAll)) Is Nothing Then
                     Yield termResult
                 End If
             Next
