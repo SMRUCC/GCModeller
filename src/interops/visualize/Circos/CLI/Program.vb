@@ -203,7 +203,11 @@ Module Program
         ' 需要使用这个表对象来获取坐标信息
         Dim ptt = gb.GbffToPTT(ORF:=False)
         degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv").ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
+        Dim predictsTracks = NtProps.GCSkew.FromValueContents(ptt.GeneObjects, degPredicts, 5000, 2000)
 
+        Dim plot2 As New Plots.Histogram(New NtProps.GCSkew(predictsTracks))
+
+        Call Circos.AddPlotTrack(doc, plot2)
 
         Dim GCSkew As New Plots.Histogram(Circos.CreateGCSkewPlots(nt, 500, 300))
         Call Circos.AddPlotTrack(doc, GCSkew)

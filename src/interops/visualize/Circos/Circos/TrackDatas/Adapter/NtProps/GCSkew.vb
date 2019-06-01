@@ -1,48 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::c02dff6c078ab92e97bc89d06d4ea030, Circos\TrackDatas\Adapter\NtProps\GCSkew.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GCSkew
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    '         Function: CreateLineData, means, trackValues
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GCSkew
+' 
+'         Constructor: (+4 Overloads) Sub New
+'         Function: CreateLineData, means, trackValues
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -135,7 +138,28 @@ Namespace TrackDatas.NtProps
             Next
         End Function
 
+        Public Shared Iterator Function FromValueContents(genes As IEnumerable(Of IGeneBrief), contents As Dictionary(Of String, Double), winSize%, steps%) As IEnumerable(Of ValueTrackData)
+            Dim context As New GenomeContext(Of IGeneBrief)(genes)
+            Dim gSize = context.size
+            Dim values#()
 
+            For i As Integer = 0 To gSize Step steps
+                genes = context.SelectByRange(i, i + winSize)
+                values = genes _
+                    .Where(Function(g) contents.ContainsKey(g.Key)) _
+                    .Select(Function(g)
+                                Return contents(g.Key)
+                            End Function) _
+                    .ToArray
+
+                Yield New ValueTrackData With {
+                    .chr = "chr1",
+                    .[end] = i + winSize,
+                    .start = i,
+                    .value = If(values.Length = 0, 0, values.Max)
+                }
+            Next
+        End Function
 
         ''' <summary>
         ''' 
