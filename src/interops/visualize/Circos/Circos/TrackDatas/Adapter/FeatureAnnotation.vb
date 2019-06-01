@@ -143,15 +143,14 @@ Namespace TrackDatas
             Call colors.Remove("CDS")
             Call colors.Add("CDS", "rdylbu-6-div-1")
 
-            If displayName Then Call addDisplayName(onlyGeneName, IDregex, anno, doc, snuggleRefine)
+            If displayName Then
+                Call addDisplayName(onlyGeneName, IDregex, anno, doc, snuggleRefine)
+            End If
 
-            Dim highlightsTrack As HighLight() =
-                __geneHighlights(anno, colors, Strands.Forward, splitOverlaps)
+            Dim highlightsTrack As HighLight() = __geneHighlights(anno, colors, Strands.Forward, splitOverlaps)
 
             If Not highlightsTrack.IsNullOrEmpty Then
-                If highlightsTrack.Length = 1 AndAlso
-                    Not highlightsTrack.First.Highlights.Count = 0 Then
-
+                If highlightsTrack.Length = 1 AndAlso Not highlightsTrack.First.Highlights.Count = 0 Then
                     Dim htrack As HighLight = highlightsTrack(Scan0)
                     htrack.r0 = "0.86r"
                     htrack.r1 = "0.90r"
@@ -162,6 +161,7 @@ Namespace TrackDatas
                         If circle.Highlights.Count = 0 Then
                             Continue For
                         End If
+
                         Call doc.AddTrack(circle)
                     Next
                 End If
@@ -184,6 +184,7 @@ Namespace TrackDatas
                         If circle.Highlights.Count = 0 Then
                             Continue For
                         End If
+
                         Call doc.AddTrack(circle)
                     Next
                 End If
@@ -318,7 +319,7 @@ Namespace TrackDatas
                 anno = LinqAPI.Exec(Of GeneDumpInfo) <=
                     From gene As GeneDumpInfo
                     In anno
-                    Select gene.With(Function(g) g.LocusID = gene.GeneName)
+                    Select gene.With(Sub(g) g.LocusID = gene.GeneName)
             End If
 
             ' 然后在这里过滤掉目标名称是空值的位点不进行标签的显示

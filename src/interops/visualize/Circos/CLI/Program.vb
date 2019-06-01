@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::5abf165cdf8afe2fa9c3f9a94f737ea0, CLI\Program.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Program
-    ' 
-    '     Function: convert, Main, pickAnno
-    ' 
-    '     Sub: testPlot2
-    ' 
-    ' /********************************************************************************/
+' Module Program
+' 
+'     Function: convert, Main, pickAnno
+' 
+'     Sub: testPlot2
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
@@ -154,11 +155,16 @@ Module Program
         Return groups.Values.First.First
     End Function
 
+    ReadOnly otherFeatures As Index(Of String) = {"repeat_region", "mobile_element"}
+
     Sub testPlot2()
         Dim gb = gbff.Load("P:\deg\91001\NC_005810.gbk")
         Dim nt = gb.Origin.ToFasta
         Dim size = nt.Length
         Dim doc = Circos.CreateDataModel
+
+        Dim degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv").Where(Function(g) g.Properties.Values.First > 0.7).ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
+
         Dim annotations = EntityObject _
             .LoadDataSet("P:\deg\91001\91001_NC_005810 Annotations.csv") _
             .Select(AddressOf convert) _
@@ -172,10 +178,21 @@ Module Program
                                               Return anno.ToArray
                                           End Function)
                     End Function) _
-            .Select(Function(anno) anno.pickAnno) _
+            .Select(Function(anno)
+                        Return anno.pickAnno.With(Sub(g)
+                                                      If g.COG Like otherFeatures Then
+                                                          g.LocusID = Nothing
+                                                          g.GeneName = Nothing
+                                                      ElseIf Not degPredicts.ContainsKey(g.LocusID) Then
+                                                          ' 只显示较为可能为deg的名称标记
+                                                          g.LocusID = Nothing
+                                                          g.GeneName = Nothing
+                                                      End If
+                                                  End Sub)
+                    End Function) _
             .ToArray
 
-        doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, False)
+        doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, True)
 
         Dim GCSkew As New Plots.Histogram(Circos.CreateGCSkewPlots(nt, 500, 300))
         Call Circos.AddPlotTrack(doc, GCSkew)
