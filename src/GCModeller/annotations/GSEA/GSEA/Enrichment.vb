@@ -20,6 +20,7 @@ Public Module Enrichment
         Dim progress As ProgressBar = Nothing
         Dim tick As New ProgressProvider(genome.clusters.Length)
         Dim ETA$
+        Dim termResult As New Value(Of EnrichmentResult)
 
         If showProgress Then
             progress = New ProgressBar("Do enrichment...")
@@ -33,44 +34,61 @@ Public Module Enrichment
                          End Sub
         End If
 
-        Dim genes% = genome.clusters _
-                           .Select(Function(c) c.Members) _
-                           .IteratesALL _
-                           .Distinct _
-                           .Count
+        Dim genes As Integer = genome.clusters _
+            .Select(Function(c) c.members) _
+            .IteratesALL _
+            .Distinct _
+            .Count
 
         With list.ToArray
             For Each cluster As Cluster In genome.clusters
                 Dim enriched$() = cluster.Intersect(.ByRef).ToArray
-                Dim a% = enriched.Length
-                Dim b% = cluster.Members.Length
-                Dim c% = .Length - a
-                Dim d% = genes - b
-                Dim pvalue# = F.FisherPvalue(a, b, c, d)
-                Dim score# = a / b
 
                 Call doProgress(cluster.ID)
 
-                If (pvalue.IsNaNImaginary OrElse enriched.Length = 0) AndAlso Not outputAll Then
-                    Continue For
+                If (termResult = cluster.calcResult(enriched, .Length, genes, outputAll)) Is Nothing Then
+                    Yield termResult
                 End If
-
-                Yield New EnrichmentResult With {
-                    .term = cluster.ID,
-                    .name = cluster.names,
-                    .description = cluster.description,
-                    .geneIDs = enriched,
-                    .pvalue = pvalue,
-                    .score = score,
-                    .cluster = b,
-                    .enriched = $"{a}/{c}"
-                }
             Next
         End With
 
         If Not progress Is Nothing Then
             progress.Dispose()
         End If
+    End Function
+
+    ''' <summary>
+    ''' 计算富集结果
+    ''' </summary>
+    ''' <param name="cluster"></param>
+    ''' <param name="enriched$"></param>
+    ''' <param name="backgroundSize%"></param>
+    ''' <param name="genes%"></param>
+    ''' <param name="outputAll"></param>
+    ''' <returns></returns>
+    <Extension>
+    Private Function calcResult(cluster As Cluster, enriched$(), backgroundSize%, genes%, outputAll As Boolean) As EnrichmentResult
+        Dim a% = enriched.Length
+        Dim b% = cluster.members.Length
+        Dim c% = backgroundSize - a
+        Dim d% = genes - b
+        Dim pvalue# = F.FisherPvalue(a, b, c, d)
+        Dim score# = a / b
+
+        If (pvalue.IsNaNImaginary OrElse enriched.Length = 0) AndAlso Not outputAll Then
+            Return Nothing
+        End If
+
+        Return New EnrichmentResult With {
+            .term = cluster.ID,
+            .name = cluster.names,
+            .description = cluster.description,
+            .geneIDs = enriched,
+            .pvalue = pvalue,
+            .score = score,
+            .cluster = b,
+            .enriched = $"{a}/{c}"
+        }
     End Function
 
     <Extension>
