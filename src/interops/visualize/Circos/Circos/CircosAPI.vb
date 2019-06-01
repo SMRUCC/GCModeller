@@ -651,8 +651,15 @@ SET_END:    Dim ends = i
                                        this option is set to False as default, if your genome have more than thousands number of gene to plots,
                                        then we recommends that not enable this option as the drawing plot will be easily go into a deadloop situation.")>
                                            Optional snuggleRefine As Boolean = False,
-                                           Optional splitOverlaps As Boolean = False) As Configurations.Circos
-        Return TrackDatas.FeatureAnnotations.GenerateGeneCircle(doc, anno, onlyGeneName, IDRegex, DisplayName, snuggleRefine, splitOverlaps)
+                                           Optional splitOverlaps As Boolean = False,
+                                           Optional colorProfiles As Dictionary(Of String, String) = Nothing) As Configurations.Circos
+        Return TrackDatas.FeatureAnnotations.GenerateGeneCircle(
+            doc, anno, onlyGeneName, IDRegex,
+            DisplayName,
+            snuggleRefine,
+            splitOverlaps,
+            colorProfiles
+        )
     End Function
 
     ''' <summary>
