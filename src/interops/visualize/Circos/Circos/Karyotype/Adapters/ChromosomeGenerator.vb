@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba79e42e368b6cb0527e2e4cbed46fd4, Circos\Karyotype\Adapters\ChromosomeGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::d76533232e05e8bdc2830d182edfa1eb, Circos\Karyotype\Adapters\ChromosomeGenerator.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Option Strict Off
 

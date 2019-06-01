@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc47e11ff958d70daec586ff6dbd8182, Circos\ConfFiles\Nodes\HighLight.vb"
+﻿#Region "Microsoft.VisualBasic::2cad5da027789e826ecfded4462cc4b2, Circos\ConfFiles\Nodes\HighLight.vb"
 
     ' Author:
     ' 

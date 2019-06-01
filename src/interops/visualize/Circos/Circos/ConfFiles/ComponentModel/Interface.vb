@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4b381de392598f23b894254db6e257d, Circos\ConfFiles\ComponentModel\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::f4234b4a13ddabd137f3fb8bfbe37590, Circos\ConfFiles\ComponentModel\Interface.vb"
 
     ' Author:
     ' 

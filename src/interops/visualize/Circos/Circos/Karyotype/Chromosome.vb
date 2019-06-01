@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c37de7632968b3ab93be934f8e5978ac, Circos\Karyotype\Chromosome.vb"
+﻿#Region "Microsoft.VisualBasic::6b55edaf95b510eb597c5634351bdb23, Circos\Karyotype\Chromosome.vb"
 
     ' Author:
     ' 
