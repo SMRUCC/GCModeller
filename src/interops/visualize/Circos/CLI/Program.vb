@@ -163,7 +163,7 @@ Module Program
         Dim gb = gbff.Load("P:\deg\91001\NC_005810.gbk")
         Dim nt = gb.Origin.ToFasta
         Dim size = nt.Length
-        Dim doc = Circos.CreateDataModel
+        Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
 
         Dim degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv") _
             .Where(Function(g) g.Properties.Values.First > 0.8) _
