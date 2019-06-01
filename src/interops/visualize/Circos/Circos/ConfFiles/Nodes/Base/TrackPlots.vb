@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::f6a6aaeadd47c5da5f17fc7ac09f6357, Circos\ConfFiles\Nodes\Base\TrackPlots.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class TracksPlot
-    ' 
-    '         Properties: file, fill_color, max, min, orientation
-    '                     r0, r1, rules, stroke_color, stroke_thickness
-    '                     thickness, tracksData
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: Build, GeneratePlotsElementListChunk, (+2 Overloads) Save, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class TracksPlot
+' 
+'         Properties: file, fill_color, max, min, orientation
+'                     r0, r1, rules, stroke_color, stroke_thickness
+'                     thickness, tracksData
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: Build, GeneratePlotsElementListChunk, (+2 Overloads) Save, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -96,7 +96,7 @@ Namespace Configurations.Nodes.Plots
         <Circos> Public Property min As String = "0"
         <Circos> Public Overridable Property fill_color As String = "orange" Implements ITrackPlot.fill_color
         ''' <summary>
-        ''' 圈的朝向，是<see cref="ORIENTATION_IN"/>向内还是<see cref="ORIENTATION_OUT"/>向外
+        ''' 圈的朝向，是<see cref="ORIENTATIONs.IN"/>向内还是<see cref="ORIENTATIONs.OUT"/>向外
         ''' </summary>
         ''' <returns></returns>
         <Circos> Public Property orientation As orientations = orientations.in Implements ITrackPlot.orientation
@@ -110,16 +110,13 @@ Namespace Configurations.Nodes.Plots
         <Circos> Public Property stroke_thickness As String = "0" Implements ITrackPlot.stroke_thickness
         <Circos> Public Property stroke_color As String = "grey" Implements ITrackPlot.stroke_color
 
-        Public Const ORIENTATION_OUT As String = "out"
-        Public Const ORIENTATION_IN As String = "in"
-
         Public Property rules As List(Of ConditionalRule)
 
         ''' <summary>
         ''' data文件夹之中的绘图数据
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property tracksData As Idata Implements ITrackPlot.TracksData
+        Public ReadOnly Property tracksData As Idata Implements ITrackPlot.tracksData
 
         ''' <summary>
         ''' Creates plot element from the tracks data file.
@@ -134,41 +131,43 @@ Namespace Configurations.Nodes.Plots
         End Function
 
         Public Overridable Function Build(IndentLevel As Integer, directory$) As String Implements ICircosDocument.Build
-            Dim IndentBlanks As String = New String(" "c, IndentLevel)
-            Dim sb As StringBuilder = New StringBuilder(IndentBlanks & "<plot>" & vbCrLf, 1024)
+            Dim blanks As New String(" "c, IndentLevel)
+            Dim sb As New StringBuilder(blanks & "<plot>" & vbCrLf, 1024)
 
             Call sb.AppendLine()
-            Call sb.AppendLine(String.Format("{0}#   --> ""{1}""", IndentBlanks, tracksData.GetType.FullName))
+            Call sb.AppendLine(String.Format("{0}#   --> ""{1}""", blanks, tracksData.GetType.FullName))
             Call sb.AppendLine()
 
             If TypeOf tracksData.GetEnumerator.FirstOrDefault Is ValueTrackData Then
-                Dim ranges As DoubleRange =
-                    TrackDatas.Ranges(tracksData.GetEnumerator.Select(Function(o) TryCast(o, ValueTrackData)))
+                Dim values As ValueTrackData() = tracksData _
+                    .GetEnumerator _
+                    .Select(Function(o) TryCast(o, ValueTrackData)) _
+                    .ToArray
+                Dim ranges As DoubleRange = TrackDatas.Ranges(values)
 
                 Me.max = CStr(ranges.Max)
                 Me.min = CStr(ranges.Min)
             End If
 
-            For Each strLine As String In GetProperties()
-                Call sb.AppendLine(IndentBlanks & "  " & strLine)
+            For Each line As String In GetProperties()
+                Call sb.AppendLine(blanks & "  " & line)
             Next
 
-            Dim PlotElements = GeneratePlotsElementListChunk()
+            Dim plots = GeneratePlotsElementListChunk()
 
-            If Not PlotElements.IsNullOrEmpty Then
-
-                For Each item In PlotElements
-                    Call sb.AppendLine(vbCrLf & IndentBlanks & String.Format("<{0}>", item.Key))
+            If Not plots.IsNullOrEmpty Then
+                For Each item In plots
+                    Call sb.AppendLine(vbCrLf & blanks & String.Format("<{0}>", item.Key))
 
                     For Each o As CircosDocument In item.Value
                         Call sb.AppendLine(o.Build(IndentLevel + 2, directory))
                     Next
 
-                    Call sb.AppendLine(IndentBlanks & String.Format("</{0}>", item.Key))
+                    Call sb.AppendLine(blanks & String.Format("</{0}>", item.Key))
                 Next
             End If
 
-            Call sb.AppendLine(IndentBlanks & "</plot>")
+            Call sb.AppendLine(blanks & "</plot>")
 
             Return sb.ToString
         End Function
@@ -181,8 +180,14 @@ Namespace Configurations.Nodes.Plots
         Protected MustOverride Function GetProperties() As String()
 
         Protected Overridable Function GeneratePlotsElementListChunk() As Dictionary(Of String, List(Of CircosDocument))
-            If Not rules.IsNullOrEmpty Then
-                Return New Dictionary(Of String, List(Of CircosDocument)) From {{"rules", (From item In rules Select DirectCast(item, CircosDocument)).AsList}}
+            If Not Me.rules.IsNullOrEmpty Then
+                Dim rules = From item As ConditionalRule
+                            In Me.rules
+                            Select DirectCast(item, CircosDocument)
+
+                Return New Dictionary(Of String, List(Of CircosDocument)) From {
+                    {"rules", rules.AsList}
+                }
             Else
                 Return Nothing
             End If

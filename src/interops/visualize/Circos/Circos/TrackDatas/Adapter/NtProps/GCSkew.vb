@@ -66,6 +66,10 @@ Namespace TrackDatas.NtProps
             Call MyBase.New(trackValues(chr, means(data), [step]))
         End Sub
 
+        Sub New(trackValues As IEnumerable(Of ValueTrackData))
+            Call MyBase.New(trackValues)
+        End Sub
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -130,6 +134,8 @@ Namespace TrackDatas.NtProps
                 p += [step]
             Next
         End Function
+
+
 
         ''' <summary>
         ''' 

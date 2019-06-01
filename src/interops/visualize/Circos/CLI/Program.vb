@@ -165,7 +165,9 @@ Module Program
         Dim size = nt.Length
         Dim doc = Circos.CreateDataModel
 
-        Dim degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv").Where(Function(g) g.Properties.Values.First > 0.8).ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
+        Dim degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv") _
+            .Where(Function(g) g.Properties.Values.First > 0.8) _
+            .ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
 
         Dim annotations = EntityObject _
             .LoadDataSet("P:\deg\91001\91001_NC_005810 Annotations.csv") _
@@ -200,7 +202,7 @@ Module Program
         ' 绘制 essential 预测得分曲线
         ' 需要使用这个表对象来获取坐标信息
         Dim ptt = gb.GbffToPTT(ORF:=False)
-
+        degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv").ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
 
 
         Dim GCSkew As New Plots.Histogram(Circos.CreateGCSkewPlots(nt, 500, 300))

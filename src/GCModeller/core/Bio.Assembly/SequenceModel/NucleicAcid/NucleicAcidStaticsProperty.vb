@@ -110,6 +110,7 @@ Namespace SequenceModel.NucleotideModels
             Dim n% = array _
                 .Where(Function(nn) nn = DNA.dGMP OrElse nn = DNA.dCMP) _
                 .Count
+
             Return n / array.Length
         End Function
 
