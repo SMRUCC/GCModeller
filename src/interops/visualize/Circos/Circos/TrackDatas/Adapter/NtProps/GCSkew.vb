@@ -155,7 +155,7 @@ Namespace TrackDatas.NtProps
                     .chr = "chr1",
                     .[end] = i + winSize,
                     .start = i,
-                    .value = If(values.Length = 0, 0, values.Max)
+                    .value = If(values.Length = 0, 0, values.Average)
                 }
             Next
         End Function
