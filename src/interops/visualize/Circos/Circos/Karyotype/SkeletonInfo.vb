@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::686210fe64f8faae0ad29c5cc0b30fd2, visualize\Circos\Circos\Karyotype\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::91ee04d4a1e90d0fdb931f8c27bf0c7a, Circos\Karyotype\SkeletonInfo.vb"
 
     ' Author:
     ' 
@@ -33,11 +33,11 @@
 
     '     Class SkeletonInfo
     ' 
-    '         Properties: Size
+    '         Properties: size
     ' 
-    '         Function: Build, (+2 Overloads) Save
+    '         Function: AddBands, Build, (+2 Overloads) Save
     ' 
-    '         Sub: __karyotype
+    '         Sub: singleKaryotypeChromosome
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Visualize.Circos.Configurations
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Karyotype
 
@@ -86,13 +86,13 @@ Namespace Karyotype
         ''' <summary>
         ''' 只有一个基因组的时候可以调用这个方法
         ''' </summary>
-        Protected Sub __karyotype(Optional color As String = "black")
+        Protected Sub singleKaryotypeChromosome(Optional color As String = "black")
             Me.karyos = New List(Of Karyotype) From {
                 New Karyotype With {
                     .chrLabel = "1",
                     .chrName = "chr1",
                     .start = 1,
-                    .end = Size,
+                    .end = size,
                     .color = color
                 }
             }

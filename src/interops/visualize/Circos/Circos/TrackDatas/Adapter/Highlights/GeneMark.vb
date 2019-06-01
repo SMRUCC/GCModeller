@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::3584a31f184e055ac852a7643228e92a, visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GeneMark.vb"
+﻿#Region "Microsoft.VisualBasic::5aa706da23cc4a9e6b1b4f2969bb307f, Circos\TrackDatas\Adapter\Highlights\GeneMark.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class GeneMark
-' 
-'         Properties: COGColors
-' 
-'         Constructor: (+4 Overloads) Sub New
-' 
-'         Function: LegendsDrawing
-' 
-'         Sub: __motifSitesCommon
-' 
-' 
-' /********************************************************************************/
+    '     Class GeneMark
+    ' 
+    '         Properties: COGColors
+    ' 
+    '         Constructor: (+4 Overloads) Sub New
+    ' 
+    '         Function: LegendsDrawing
+    ' 
+    '         Sub: motifSitesCommon
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

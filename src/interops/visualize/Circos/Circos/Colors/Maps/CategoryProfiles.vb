@@ -1,50 +1,42 @@
-﻿#Region "Microsoft.VisualBasic::10258731df83f45a59780875686a197d, visualize\Circos\Circos\Colors\ColorAPI.vb"
+﻿#Region "Microsoft.VisualBasic::8a94b240a00a489a79f88d89227dc2a8, Circos\Colors\Maps\CategoryProfiles.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module ColorAPI
-' 
-'         Properties: Colors
-' 
-'         Function: GenerateColors, GetCogColorProfile
-'         Class __innerProfiles
-' 
-'             Constructor: (+1 Overloads) Sub New
-'             Function: GetColor
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Module CategoryProfiles
+    ' 
+    '         Function: GenerateColors, GetCogColorProfile
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -59,7 +51,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Namespace Colors
 
     <Package("Circos.COGs.ColorAPI")>
-    Public Module ColorAPI
+    Public Module CategoryProfiles
 
         <ExportAPI("COG.Colors")>
         Public Function GetCogColorProfile(MyvaCOG As MyvaCOG(), defaultColor As String) As Func(Of String, String)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::730961c060a0db52e662e62869bb859e, visualize\Circos\Circos\ConfFiles\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::9c1d0a60aa20a1c6cd8b7273ec38c378, Circos\ConfFiles\Extensions.vb"
 
     ' Author:
     ' 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 

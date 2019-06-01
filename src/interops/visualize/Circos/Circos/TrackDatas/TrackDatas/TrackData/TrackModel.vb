@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9fa0a49dc8b66bd82672a192b66397af, visualize\Circos\Circos\TrackDatas\TrackDatas\TrackData\TrackModel.vb"
+﻿#Region "Microsoft.VisualBasic::6af1b8a662d9d097a86aad666eed381d, Circos\TrackDatas\TrackDatas\TrackData\TrackModel.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
     ' 
     '         Function: ToString
     ' 
-    '         Sub: __attach
+    '         Sub: attach
     ' 
     ' 
     ' /********************************************************************************/

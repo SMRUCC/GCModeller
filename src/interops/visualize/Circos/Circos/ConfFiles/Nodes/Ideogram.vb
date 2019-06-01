@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::530a90a36780d8e4b4195593e2b0e1f7, visualize\Circos\Circos\ConfFiles\Nodes\Ideogram.vb"
+﻿#Region "Microsoft.VisualBasic::fe7d564760629d50249090862757418c, Circos\ConfFiles\Nodes\Ideogram.vb"
 
     ' Author:
     ' 
@@ -51,7 +51,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Configurations.Nodes
 

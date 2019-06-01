@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::540773d039edcc13769701deb9df5481, visualize\Circos\CLI\Program.vb"
+﻿#Region "Microsoft.VisualBasic::402cf59d469abd52a285179cc904fd7c, CLI\Program.vb"
 
     ' Author:
     ' 
@@ -33,18 +33,26 @@
 
     ' Module Program
     ' 
-    '     Function: Main
+    '     Function: convert, Main, pickAnno
+    ' 
+    '     Sub: testPlot2
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
 Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
@@ -87,13 +95,134 @@ Module Program
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 
+    Private Function convert(anno As EntityObject) As GeneDumpInfo
+        Dim locus_tag$ = anno!locus_tag
+        Dim info As New GeneDumpInfo With {
+            .LocusID = locus_tag,
+            .Length = anno!Length.Match("\d+"),
+            .Left = anno!Minimum.Match("\d+"),
+            .Right = anno!Maximum.Match("\d+"),
+            .CDS = anno!Sequence,
+            .COG = anno("note").Match("COG\d+"),
+            .CommonName = anno("gene"),
+            .EC_Number = "",
+            .[Function] = anno!note,
+            .GeneName = anno!gene,
+            .Strand = anno!Direction.GetStrand,
+            .Location = New NucleotideLocation(.Left, .Right, .Strand),
+            .Translation = anno!translation,
+            .Species = anno("NCBI Feature Key")
+        }
+
+        If info.LocusID.StringEmpty Then
+            info.LocusID = $"{anno.ID}-{info.Location.ToString}"
+        End If
+
+        Return info
+    End Function
+
+    <Extension>
+    Private Function pickAnno(groups As Dictionary(Of String, GeneDumpInfo())) As GeneDumpInfo
+        If groups.ContainsKey("CDS") Then
+            Return groups("CDS").First
+        End If
+        If groups.ContainsKey("rRNA") Then
+            Return groups("rRNA").First
+        End If
+        If groups.ContainsKey("tRNA") Then
+            Return groups("tRNA").First
+        End If
+        If groups.ContainsKey("misc_RNA") Then
+            Return groups("misc_RNA").First
+        End If
+        If groups.ContainsKey("repeat_region") Then
+            Dim element = groups("repeat_region").First
+            element.LocusID = "repeat_region"
+
+            Return element
+        End If
+        If groups.ContainsKey("mobile_element") Then
+            Dim element = groups("mobile_element").First
+            element.LocusID = "mobile_element"
+
+            Return element
+        End If
+        If groups.ContainsKey("gene") Then
+            Return groups("gene").First
+        End If
+        If groups.ContainsKey("STS") Then
+            Return groups("STS").First
+        End If
+
+        Return groups.Values.First.First
+    End Function
+
+    ReadOnly otherFeatures As Index(Of String) = {"repeat_region", "mobile_element"}
+
     Sub testPlot2()
         Dim gb = gbff.Load("P:\deg\91001\NC_005810.gbk")
-        Dim size = gb.Origin.ToFasta.Length
+        Dim nt = gb.Origin.ToFasta
+        Dim size = nt.Length
         Dim doc = Circos.CreateDataModel
 
-        Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=512)
+        Dim degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv") _
+            .Where(Function(g) g.Properties.Values.First > 0.8) _
+            .ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
+
+        Dim annotations = EntityObject _
+            .LoadDataSet("P:\deg\91001\91001_NC_005810 Annotations.csv") _
+            .Select(AddressOf convert) _
+            .Where(Function(g) g.Species <> "source") _
+            .GroupBy(Function(gene) gene.LocusID) _
+            .Select(Function(g)
+                        Return g _
+                            .GroupBy(Function(anno) anno.COG) _
+                            .ToDictionary(Function(anno) anno.Key,
+                                          Function(anno)
+                                              Return anno.ToArray
+                                          End Function)
+                    End Function) _
+            .Select(Function(anno)
+                        Return anno.pickAnno.With(Sub(g)
+                                                      If g.COG Like otherFeatures Then
+                                                          g.LocusID = ""
+                                                          g.GeneName = Nothing
+                                                      ElseIf Not degPredicts.ContainsKey(g.LocusID) Then
+                                                          ' 只显示较为可能为deg的名称标记
+                                                          g.LocusID = ""
+                                                          g.GeneName = Nothing
+                                                      End If
+                                                  End Sub)
+                    End Function) _
+            .Where(Function(g) degPredicts.ContainsKey(g.LocusID)) _
+            .ToArray
+
+        doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, True)
+
+        ' 绘制 essential 预测得分曲线
+        ' 需要使用这个表对象来获取坐标信息
+        Dim ptt = gb.GbffToPTT(ORF:=False)
+        degPredicts = DataSet.LoadDataSet("P:\deg\91001\NC91001_prediction.csv").ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
+        Dim predictsTracks = NtProps.GCSkew.FromValueContents(ptt.GeneObjects, degPredicts, 5000, 2000)
+
+        Dim plot2 As New Plots.Histogram(New NtProps.GCSkew(predictsTracks))
+
+        Call Circos.AddPlotTrack(doc, plot2)
+
+        Dim GCSkew As New Plots.Histogram(Circos.CreateGCSkewPlots(nt, 500, 300))
+        Call Circos.AddPlotTrack(doc, GCSkew)
+
+        Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=5120)
+
+        Call Circos.CircosAPI.SetIdeogramWidth(Circos.GetIdeogram(doc), 0)
+        Call Circos.CircosAPI.ShowTicksLabel(doc, True)
+        Call doc.ForceAutoLayout()
+        Call Circos.CircosAPI.SetIdeogramRadius(Circos.GetIdeogram(doc), 0.25)
+
         Call Circos.CircosAPI.WriteData(doc, "P:\deg\91001\circos", debug:=False)
+
+
+        Pause()
     End Sub
 
     'Public Function Circos2016228() As Integer

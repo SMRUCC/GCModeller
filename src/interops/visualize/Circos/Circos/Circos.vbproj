@@ -236,7 +236,7 @@
     <Compile Include="Colors\Mappings.vb" />
     <Compile Include="Colors\Maps\GradientMaps.vb" />
     <Compile Include="ConfFiles\ComponentModel\Interface.vb" />
-    <Compile Include="ConfFiles\ComponentModel\DocAbstract.vb" />
+    <Compile Include="ConfFiles\ComponentModel\CircosConfig.vb" />
     <Compile Include="ConfFiles\Extensions.vb" />
     <Compile Include="ConfFiles\ExtendedProperty.vb" />
     <Compile Include="ConfFiles\Nodes\Base\Links.vb" />
@@ -253,6 +253,7 @@
     <Compile Include="Karyotype\Extensions.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\MotifSites.vb" />
     <Compile Include="TrackDatas\Adapter\DataExtensions.vb" />
+    <Compile Include="TrackDatas\Adapter\FeatureAnnotation.vb" />
     <Compile Include="TrackDatas\TrackDatas\Idata.vb" />
     <Compile Include="TrackDatas\TrackDatas\data.vb" />
     <Compile Include="TrackDatas\TrackDatas\Extensions.vb" />
@@ -261,7 +262,7 @@
     <Compile Include="TrackDatas\TrackDatas\TrackData\LinkConnector.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData\TrackData.vb" />
     <Compile Include="Karyotype\Adapters\PPTMarks.vb" />
-    <Compile Include="Colors\Maps\ColorAPI.vb" />
+    <Compile Include="Colors\Maps\CategoryProfiles.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCSkew.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GenomeGCContent.vb" />
     <Compile Include="TrackDatas\Adapter\Connector.vb" />

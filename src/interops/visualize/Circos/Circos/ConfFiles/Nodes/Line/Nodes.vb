@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::558fc0a1e20a94a4197215e9e4ae5790, visualize\Circos\Circos\ConfFiles\Nodes\Line\Nodes.vb"
+﻿#Region "Microsoft.VisualBasic::dc383b0bfddc95f050c442461e1e7dd8, Circos\ConfFiles\Nodes\Line\Nodes.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Configurations.Nodes.Plots.Lines
 

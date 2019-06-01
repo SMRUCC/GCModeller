@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::85745ac3c561681eaf7457a2fd7f7cae, visualize\Circos\Circos\ConfFiles\ComponentModel\DocAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::ec32c7cff75a4a510df0345f7438317c, Circos\ConfFiles\ComponentModel\CircosConfig.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class CircosConfig
-' 
-'         Properties: Includes, main, RefPath
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: GenerateIncludes, Save
-' 
-'         Sub: __appendLine
-' 
-' 
-' /********************************************************************************/
+    '     Class CircosConfig
+    ' 
+    '         Properties: FilePath, includes, main, RefPath
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: GenerateIncludes, (+2 Overloads) Save
+    ' 
+    '         Sub: appendLine
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 
-Namespace Configurations
+Namespace Configurations.ComponentModel
 
     ''' <summary>
     ''' Abstract of the circos config files.
@@ -96,7 +96,7 @@ Namespace Configurations
             Dim refPath As String = Tools.TrimPath(include)
 
             If TypeOf include Is CircosDistributed Then
-                Dim name As String = DirectCast(include, CircosDistributed).Section
+                Dim name As String = DirectCast(include, CircosDistributed).section
 
                 If Not String.IsNullOrEmpty(name) Then
                     Call sb.AppendLine($"<{name}>")
@@ -144,7 +144,7 @@ Namespace Configurations
         ''' <param name="directory"></param>
         ''' <param name="Encoding"></param>
         ''' <returns></returns>
-        Public Function Save(directory$, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
+        Public Overridable Function Save(directory$, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
             If TypeOf Me Is CircosDistributed Then
                 Return True ' 系统自带的不需要进行保存了
             End If

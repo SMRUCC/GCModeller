@@ -1,62 +1,62 @@
-﻿#Region "Microsoft.VisualBasic::1cb8cab5c0d77c91e84a63863efe1e78, visualize\Circos\Circos\ConfFiles\Nodes\Base\Plots.vb"
+﻿#Region "Microsoft.VisualBasic::79f324d18c99cf25261318dff8efb2c7, Circos\ConfFiles\Nodes\Base\Plots.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class HeatMap
-' 
-'         Properties: color, scale_log_base, type
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: GetProperties
-' 
-'     Class Histogram
-' 
-'         Properties: extend_bin, fill_color, type
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: GetProperties
-' 
-'     Class TextLabel
-' 
-'         Properties: color, label_font, label_size, label_snuggle, link_color
-'                     link_dims, link_thickness, max_snuggle_distance, padding, rpadding
-'                     show_links, snuggle_link_overlap_test, snuggle_link_overlap_tolerance, snuggle_refine, snuggle_sampling
-'                     snuggle_tolerance, type
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: GetProperties
-' 
-' 
-' /********************************************************************************/
+    '     Class HeatMap
+    ' 
+    '         Properties: color, scale_log_base, type
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetProperties
+    ' 
+    '     Class Histogram
+    ' 
+    '         Properties: extend_bin, fill_color, type
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: GetProperties
+    ' 
+    '     Class TextLabel
+    ' 
+    '         Properties: color, label_font, label_size, label_snuggle, link_color
+    '                     link_dims, link_thickness, max_snuggle_distance, padding, rpadding
+    '                     show_links, snuggle_link_overlap_test, snuggle_link_overlap_tolerance, snuggle_refine, snuggle_sampling
+    '                     snuggle_tolerance, type
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetProperties
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -220,15 +220,19 @@ Namespace Configurations.Nodes.Plots
         <Circos> Public Property snuggle_link_overlap_tolerance As String = "2p"
         <Circos> Public Property snuggle_refine As String = yes
 
-        Sub New(data As data(Of TextTrackData))
-            Call MyBase.New(data)
-        End Sub
-
         <Circos> Public Overrides ReadOnly Property type As String
             Get
                 Return "text"
             End Get
         End Property
+
+        ''' <summary>
+        ''' 创建一个圈用来显示位点的标签文本信息
+        ''' </summary>
+        ''' <param name="data"></param>
+        Sub New(data As data(Of TextTrackData))
+            Call MyBase.New(data)
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetProperties() As String()

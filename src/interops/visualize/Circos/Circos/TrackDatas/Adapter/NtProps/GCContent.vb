@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2d02234d67dedd6925af26d79694c98, visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GCContent.vb"
+﻿#Region "Microsoft.VisualBasic::051e1fd24773b9e9f232db044ef97dae, Circos\TrackDatas\Adapter\NtProps\GCContent.vb"
 
     ' Author:
     ' 
@@ -82,7 +82,7 @@ Namespace TrackDatas.NtProps
                 Dim chr As String = nt.Title.Split("."c).First
 
                 chr = chrs(chr)
-                list += GCSkew.__sourceGC(chr, GCSkew.__avgData(raw), [steps])
+                list += GCSkew.trackValues(chr, GCSkew.means(raw), [steps])
 
                 Call Console.Write(">")
             Next
