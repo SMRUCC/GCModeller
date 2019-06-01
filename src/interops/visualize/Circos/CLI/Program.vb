@@ -197,7 +197,7 @@ Module Program
             .Where(Function(g) degPredicts.ContainsKey(g.LocusID)) _
             .ToArray
 
-        doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, True)
+        doc = Circos.CircosAPI.GenerateGeneCircle(doc, annotations, True, splitOverlaps:=True)
 
         ' 绘制 essential 预测得分曲线
         ' 需要使用这个表对象来获取坐标信息
