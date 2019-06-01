@@ -41,6 +41,7 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -194,8 +195,9 @@ Module Program
                                                           ' 只显示较为可能为deg的名称标记
                                                           g.LocusID = ""
                                                           g.GeneName = Nothing
-                                                      ElseIf degPredicts(g.LocusID) < 0.95 Then
+                                                      ElseIf degPredicts(g.LocusID) < 0.99 Then
                                                           g.GeneName = Nothing
+                                                          g.LocusID = ""
                                                       End If
                                                   End Sub)
                     End Function) _
@@ -215,12 +217,15 @@ Module Program
 
         Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=5120)
 
+        Dim darkblue As Color = Color.DarkBlue
+        Dim darkred As Color = Color.OrangeRed
+
         doc = Circos.CircosAPI.GenerateGeneCircle(
             doc, annotations, True,
-            splitOverlaps:=True,
+            splitOverlaps:=False,
             colorProfiles:=New Dictionary(Of String, String) From {
-                {"up", "red"},
-                {"down", "darkblue"}
+                {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
+                {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
             })
 
         ' 绘制 essential 预测得分曲线

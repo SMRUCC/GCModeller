@@ -279,8 +279,16 @@ Namespace TrackDatas
                     End If
                 Next
 
-                circles += New HighLight(New GeneMark(genes, colors))
+                If genes = 0 Then
+                    Exit Do
+                Else
+                    circles += New HighLight(New GeneMark(genes, colors))
+                End If
             Loop
+
+            If list > 0 Then
+                circles += New HighLight(New GeneMark(list, colors))
+            End If
 
             Return circles.ToArray
         End Function
