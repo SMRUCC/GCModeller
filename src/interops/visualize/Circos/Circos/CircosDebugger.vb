@@ -47,7 +47,7 @@ Imports Microsoft.VisualBasic.Scripting
 ''' </summary>
 Public Module CircosDebugger
 
-    ReadOnly __options As DebugGroups() = Enums(Of DebugGroups)()
+    ReadOnly options As DebugGroups() = Enums(Of DebugGroups)()
 
     ''' <summary>
     ''' ``-debug_group`` command argument name
@@ -65,7 +65,7 @@ Public Module CircosDebugger
         Else
             Dim options As New List(Of String)
 
-            For Each o As DebugGroups In __options
+            For Each o As DebugGroups In CircosDebugger.options
                 If arg.HasFlag(o) Then
                     Call options.Add(o.ToString)
                 End If
@@ -76,7 +76,7 @@ Public Module CircosDebugger
     End Function
 
     Public Function EnableAllOptions() As String
-        Return Debugger & __options _
+        Return Debugger & options _
             .Select(AddressOf InputHandler.ToString) _
             .JoinBy(",")
     End Function
