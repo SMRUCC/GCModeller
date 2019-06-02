@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d797df998619a940700514759fd1db1, visualize\Circos\Circos\TrackDatas\Adapter\DataExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::c28f343f820b8319466599bf7066dc98, Circos\TrackDatas\Adapter\DataExtensions.vb"
 
     ' Author:
     ' 
@@ -41,9 +41,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application

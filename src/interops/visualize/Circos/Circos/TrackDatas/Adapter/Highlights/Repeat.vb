@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc6af992b14248017dc02dacf34c8855, visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Repeat.vb"
+﻿#Region "Microsoft.VisualBasic::2989dcc2dbc8860d88a4a760d862f105, Circos\TrackDatas\Adapter\Highlights\Repeat.vb"
 
     ' Author:
     ' 
@@ -41,14 +41,8 @@
 
 #End Region
 
-Imports System.Drawing
-Imports System.Text
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace TrackDatas.Highlights
 
@@ -57,7 +51,7 @@ Namespace TrackDatas.Highlights
         Sub New(repeat As IEnumerable(Of NtProps.Repeat), attrs As IEnumerable(Of Double))
             Dim clMaps As IdentityColors = New IdentityGradients(attrs.Min, attrs.Max, 512)
             Dim v As Double() = attrs.ToArray
-            Me.__source = New List(Of ValueTrackData)(
+            Me.source = New List(Of ValueTrackData)(
                 repeat.Select(Function(x) __creates(x, maps:=clMaps, attrs:=v)))
         End Sub
 
@@ -76,7 +70,7 @@ Namespace TrackDatas.Highlights
         End Function
 
         Sub New(repeat As IEnumerable(Of NtProps.Repeat), Optional Color As String = "Brown")
-            Me.__source = LinqAPI.MakeList(Of ValueTrackData) <=
+            Me.source = LinqAPI.MakeList(Of ValueTrackData) <=
  _
                 From x As NtProps.Repeat
                 In repeat

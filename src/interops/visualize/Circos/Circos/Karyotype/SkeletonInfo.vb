@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::686210fe64f8faae0ad29c5cc0b30fd2, visualize\Circos\Circos\Karyotype\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::91ee04d4a1e90d0fdb931f8c27bf0c7a, Circos\Karyotype\SkeletonInfo.vb"
 
     ' Author:
     ' 
@@ -33,11 +33,11 @@
 
     '     Class SkeletonInfo
     ' 
-    '         Properties: Size
+    '         Properties: size
     ' 
-    '         Function: Build, (+2 Overloads) Save
+    '         Function: AddBands, Build, (+2 Overloads) Save
     ' 
-    '         Sub: __karyotype
+    '         Sub: singleKaryotypeChromosome
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Visualize.Circos.Configurations
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Karyotype
 
@@ -63,19 +63,22 @@ Namespace Karyotype
         ''' 基因组的大小，在这里默认是所有的染色体的总长度
         ''' </summary>
         ''' <returns></returns>
-        Public Overridable ReadOnly Property Size As Integer
+        Public Overridable ReadOnly Property size As Integer
             Get
-                Return __karyotypes.Select(Function(x) Math.Abs(x.end - x.start)).Sum
+                Return Aggregate karyo As Karyotype
+                       In karyos
+                       Let len As Integer = Math.Abs(karyo.end - karyo.start)
+                       Into Sum(len)
             End Get
         End Property
 
-        Protected __karyotypes As List(Of Karyotype)
-        Protected __bands As List(Of Band)
+        Protected karyos As List(Of Karyotype)
+        Protected bands As List(Of Band)
 
         Public ReadOnly Iterator Property Karyotypes As IEnumerable(Of Karyotype)
             Get
-                For Each x As Karyotype In __karyotypes
-                    Yield x
+                For Each karyo As Karyotype In karyos
+                    Yield karyo
                 Next
             End Get
         End Property
@@ -83,25 +86,30 @@ Namespace Karyotype
         ''' <summary>
         ''' 只有一个基因组的时候可以调用这个方法
         ''' </summary>
-        Protected Sub __karyotype(Optional color As String = "black")
-            Me.__karyotypes = New List(Of Karyotype) From {
+        Protected Sub singleKaryotypeChromosome(Optional color As String = "black")
+            Me.karyos = New List(Of Karyotype) From {
                 New Karyotype With {
                     .chrLabel = "1",
                     .chrName = "chr1",
                     .start = 1,
-                    .end = Size,
+                    .end = size,
                     .color = color
                 }
             }
         End Sub
 
-        Public Function Build(IndentLevel As Integer) As String Implements ICircosDocNode.Build
+        Public Function AddBands(bands As IEnumerable(Of Band)) As SkeletonInfo
+            Call Me.bands.AddRange(bands)
+            Return Me
+        End Function
+
+        Public Function Build(IndentLevel As Integer, directory$) As String Implements ICircosDocNode.Build
             Dim sb As New StringBuilder
 
-            For Each x As IKaryotype In __karyotypes
+            For Each x As IKaryotype In karyos
                 Call sb.AppendLine(x.GetData)
             Next
-            For Each x As IKaryotype In __bands.SafeQuery
+            For Each x As IKaryotype In bands.SafeQuery
                 Call sb.AppendLine(x.GetData)
             Next
 
@@ -109,7 +117,7 @@ Namespace Karyotype
         End Function
 
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Return Build(Scan0).SaveTo(Path, encoding)
+            Return Build(Scan0, directory:=Path.ParentPath).SaveTo(Path, encoding)
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

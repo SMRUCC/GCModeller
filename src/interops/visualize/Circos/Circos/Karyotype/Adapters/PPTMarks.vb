@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eaf99ecf1eebe368df765a019c599369, visualize\Circos\Circos\Karyotype\Adapters\PPTMarks.vb"
+﻿#Region "Microsoft.VisualBasic::e7f5aa69a625817f1f357087bf592d22, Circos\Karyotype\Adapters\PPTMarks.vb"
 
     ' Author:
     ' 
@@ -43,13 +43,10 @@
 
 #End Region
 
-Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize.Circos.Colors
@@ -70,12 +67,12 @@ Namespace Karyotype.GeneObjects
             End If
 
             If MyvaCog.IsNullOrEmpty Then      ' 绘制基本图型
-                __bands = PTTMarks.Generate(genome, defaultColor:=defaultColor).AsList
+                bands = PTTMarks.Generate(genome, defaultColor:=defaultColor).AsList
             Else
-                __bands = PTTMarks.Generate(genome, MyvaCog, defaultColor).AsList
+                bands = PTTMarks.Generate(genome, MyvaCog, defaultColor).AsList
             End If
 
-            Call __karyotype()
+            Call singleKaryotypeChromosome()
         End Sub
 
         Sub New(genes As GeneDumpInfo(), nt As FastaSeq, Optional defaultColor As String = "blue")
@@ -88,8 +85,8 @@ Namespace Karyotype.GeneObjects
                     .QueryLength = gene.Length
                 }
             Dim genome = PTTDbLoader.CreateObject(genes, nt)
-            __bands = PTTMarks.Generate(genome, MyvaCog, defaultColor).AsList
-            Call __karyotype()
+            bands = PTTMarks.Generate(genome, MyvaCog, defaultColor).AsList
+            Call singleKaryotypeChromosome()
         End Sub
 
         Private Shared Iterator Function Generate(GenomeBrief As PTTDbLoader, MyvaCog As MyvaCOG(), Optional defaultColor As String = "blue") As IEnumerable(Of Band)

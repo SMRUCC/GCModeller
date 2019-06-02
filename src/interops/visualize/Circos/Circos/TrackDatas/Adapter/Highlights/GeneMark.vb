@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3584a31f184e055ac852a7643228e92a, visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GeneMark.vb"
+﻿#Region "Microsoft.VisualBasic::5aa706da23cc4a9e6b1b4f2969bb307f, Circos\TrackDatas\Adapter\Highlights\GeneMark.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     ' 
     '         Function: LegendsDrawing
     ' 
-    '         Sub: __motifSitesCommon
+    '         Sub: motifSitesCommon
     ' 
     ' 
     ' /********************************************************************************/
@@ -50,6 +50,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -71,11 +72,13 @@ Namespace TrackDatas.Highlights
         ''' <param name="annos"></param>
         ''' <param name="Color"></param>
         Sub New(annos As IEnumerable(Of IGeneBrief), Color As Dictionary(Of String, String))
-            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+            Dim noname As [Default](Of String) = "-"
+
+            source = LinqAPI.MakeList(Of ValueTrackData) <=
  _
                 From gene As IGeneBrief
                 In annos
-                Let COG As String = If(String.IsNullOrEmpty(gene.Feature), "-", gene.Feature)
+                Let COG As String = gene.Feature Or noname
                 Let fill As String = If(
                     Color.ContainsKey(COG),
                     Color(COG),
@@ -110,15 +113,17 @@ Namespace TrackDatas.Highlights
                 .Distinct _
                 .ToArray
 
-            Call __motifSitesCommon(locis, color, chr)
+            Call motifSitesCommon(locis, color, chr)
         End Sub
 
-        Private Sub __motifSitesCommon(locis As IMotifSite(), color As Dictionary(Of String, String), chr$)
+        Private Sub motifSitesCommon(locis As IMotifSite(), color As Dictionary(Of String, String), chr$)
+            Dim notype As [Default](Of String) = "-"
+
             COGColors = color
-            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+            source = LinqAPI.MakeList(Of ValueTrackData) <=
                 From site As IMotifSite
                 In locis
-                Let COG = If(String.IsNullOrEmpty(site.Type), "-", site.Type)
+                Let COG = site.Type Or notype
                 Let fill = If(
                     color.ContainsKey(COG),
                     color(COG),
@@ -151,13 +156,15 @@ Namespace TrackDatas.Highlights
                 types _
                 .SeqIterator _
                 .ToDictionary(Function(name) name.value,
-                              Function(color) colorlist(color.i).RGBExpression)
+                              Function(color)
+                                  Return colorlist(color.i).RGBExpression
+                              End Function)
 
-            Call __motifSitesCommon(locis, colorData, chr)
+            Call motifSitesCommon(locis, colorData, chr)
         End Sub
 
         ''' <summary>
-        ''' 假若使用这个构造函数的话，这个需要手工初始化<see cref="__source"/>和<see cref="COGColors"/>
+        ''' 假若使用这个构造函数的话，这个需要手工初始化<see cref="source"/>和<see cref="COGColors"/>
         ''' </summary>
         Protected Sub New()
         End Sub

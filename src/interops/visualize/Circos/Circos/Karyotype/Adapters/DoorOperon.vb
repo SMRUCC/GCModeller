@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d427685f04dcab15355d29d21507e5d1, visualize\Circos\Circos\Karyotype\Adapters\DOOROperon.vb"
+﻿#Region "Microsoft.VisualBasic::ab7a27b9786d4a7ff11950b710ae2234, Circos\Karyotype\Adapters\DOOROperon.vb"
 
     ' Author:
     ' 
@@ -43,11 +43,9 @@
 
 #End Region
 
-Imports System.Text
-Imports SMRUCC.genomics.Assembly.DOOR
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.DOOR
 
 Namespace Karyotype
 
@@ -58,9 +56,9 @@ Namespace Karyotype
 
         Sub New(DoorFile As String)
             Dim DOOR As DOOR = DOOR_API.Load(DoorFile)
-            Me.__bands = New List(Of Band)(GenerateDocument(DOOR))
-            Me.Size = __bands.Select(Function(x) {x.start, x.end}).IteratesALL.Max
-            Call __karyotype()
+            Me.bands = New List(Of Band)(GenerateDocument(DOOR))
+            Me.Size = bands.Select(Function(x) {x.start, x.end}).IteratesALL.Max
+            Call singleKaryotypeChromosome()
         End Sub
 
         Private Overloads Iterator Function GenerateDocument(DOOR As DOOR) As IEnumerable(Of Band)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff1d9ccd57e10c601281f58b1703a81b, visualize\Circos\Circos\Karyotype\Karyotype.vb"
+﻿#Region "Microsoft.VisualBasic::573c8fa38c5314aea0acb04aa06a08ae, Circos\Karyotype\Karyotype.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,6 @@
 
     ' Summaries:
 
-    '     Module KaryotypeExtensions
-    ' 
-    '         Function: LoopHole, MapsRaw, nt
-    ' 
     '     Class Karyotype
     ' 
     '         Properties: [end], chrLabel, chrName, color, start
@@ -61,41 +57,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Karyotype
-
-    Public Module KaryotypeExtensions
-
-        ''' <summary>
-        ''' 缺口的大小，这个仅仅在单个染色体的基因组绘图模型之中有效
-        ''' </summary>
-        ''' <param name="x"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function LoopHole(x As SkeletonInfo) As PropertyValue(Of Integer)
-            Return PropertyValue(Of Integer).Read(Of SkeletonInfo)(x, NameOf(LoopHole))
-        End Function
-
-        ''' <summary>
-        ''' nt核苷酸基因组序列拓展属性
-        ''' </summary>
-        ''' <param name="x"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function nt(x As Karyotype) As PropertyValue(Of FastaSeq)
-            Return PropertyValue(Of FastaSeq).Read(Of Karyotype)(x, NameOf(nt))
-        End Function
-
-        <Extension>
-        Public Function MapsRaw(x As Band) As PropertyValue(Of BlastnMapping)
-            Return PropertyValue(Of BlastnMapping).Read(Of Band)(x, NameOf(MapsRaw))
-        End Function
-    End Module
 
     ''' <summary>
     ''' The ideogram using karyotype file to define the genome skeleton information, which defines the name, size and color of chromosomes. 
@@ -141,6 +106,7 @@ Namespace Karyotype
         Public Property [end] As Integer Implements IKaryotype.end
         Public Property color As String Implements IKaryotype.color
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String Implements IKaryotype.GetData
             Return $"chr - {chrName} {chrLabel} {start} {[end]} {color}"
         End Function
@@ -186,6 +152,7 @@ Namespace Karyotype
             Return Me.GetJson
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetData() As String Implements IKaryotype.GetData
             Return $"band {chrName} {bandX} {bandY} {start} {[end]} {color}"
         End Function

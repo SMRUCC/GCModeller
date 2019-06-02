@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::530a90a36780d8e4b4195593e2b0e1f7, visualize\Circos\Circos\ConfFiles\Nodes\Ideogram.vb"
+﻿#Region "Microsoft.VisualBasic::fe7d564760629d50249090862757418c, Circos\ConfFiles\Nodes\Ideogram.vb"
 
     ' Author:
     ' 
@@ -51,7 +51,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Configurations.Nodes
 
@@ -66,8 +66,8 @@ Namespace Configurations.Nodes
         <Circos> Public Property [default] As String = "1u"
         <Circos> Public Property break As String = "0u"
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("spacing", IndentLevel, Nothing)
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("spacing", IndentLevel, Nothing, directory)
         End Function
     End Class
 
@@ -175,8 +175,8 @@ Namespace Configurations.Nodes
 
         Public Property Spacing As Spacing = New Spacing
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("ideogram", IndentLevel + 2, {Spacing})
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("ideogram", IndentLevel + 2, {Spacing}, directory)
         End Function
     End Class
 End Namespace

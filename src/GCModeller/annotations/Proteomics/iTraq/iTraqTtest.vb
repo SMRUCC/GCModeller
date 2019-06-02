@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffefea87ad0f039085f36ba5401dc3ca, annotations\Proteomics\iTraq\iTraqTtest.vb"
+﻿#Region "Microsoft.VisualBasic::24e3e1853bd65dd178d81fe32e64151e, Proteomics\iTraq\iTraqTtest.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module iTraqTtest
     ' 
-    '     Function: log2Test, logFCtest
+    '     Function: createResult, log2Test, logFCtest
     ' 
     ' /********************************************************************************/
 

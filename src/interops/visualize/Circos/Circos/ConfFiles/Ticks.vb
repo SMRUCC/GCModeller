@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d8975e1d1f14c137bc6416d1d151837, visualize\Circos\Circos\ConfFiles\Ticks.vb"
+﻿#Region "Microsoft.VisualBasic::4c2dbfe5dcb86cc769b1107bacfb6a33, Circos\ConfFiles\Ticks.vb"
 
     ' Author:
     ' 
@@ -45,6 +45,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports System.Text
 
 Namespace Configurations
@@ -66,14 +67,14 @@ Namespace Configurations
             Ticks = Nodes.Ticks.DefaultConfiguration
         End Sub
 
-        Protected Overrides Function Build(IndentLevel As Integer) As String
+        Protected Overrides Function Build(IndentLevel As Integer, directory$) As String
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
             For Each strLine As String In SimpleConfig.GenerateConfigurations(Me)
                 Call sBuilder.AppendLine(strLine)
             Next
 
             Call sBuilder.AppendLine()
-            Call sBuilder.AppendLine(Ticks.Build(IndentLevel + 2))
+            Call sBuilder.AppendLine(Ticks.Build(IndentLevel + 2, directory$))
 
             Return sBuilder.ToString
         End Function

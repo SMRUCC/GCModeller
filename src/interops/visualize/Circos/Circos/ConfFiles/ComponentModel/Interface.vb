@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a064cab3375a390dad8d6dc788078ab0, visualize\Circos\Circos\ConfFiles\ComponentModel\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::f4234b4a13ddabd137f3fb8bfbe37590, Circos\ConfFiles\ComponentModel\Interface.vb"
 
     ' Author:
     ' 
@@ -48,21 +48,27 @@
 
 #End Region
 
-Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Settings
 
-Namespace Configurations
+Namespace Configurations.ComponentModel
 
     Public MustInherit Class CircosDocument : Implements ICircosDocNode
-        MustOverride Function Build(indents As Integer) As String Implements ICircosDocNode.Build
+        Public MustOverride Function Build(indents As Integer, directory As String) As String Implements ICircosDocNode.Build
+
     End Class
 
     ''' <summary>
     ''' This object can be convert to text document by using method <see cref="Build"/>
     ''' </summary>
     Public Interface ICircosDocNode
-        Function Build$(indents%)
+
+        ''' <summary>
+        ''' Build doc and save components include files
+        ''' </summary>
+        ''' <param name="indents"></param>
+        ''' <param name="directory">The root directory of ``circos.conf`` file.</param>
+        ''' <returns></returns>
+        Function Build$(indents%, directory$)
     End Interface
 
     ''' <summary>

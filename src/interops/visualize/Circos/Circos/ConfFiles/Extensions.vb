@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::730961c060a0db52e662e62869bb859e, visualize\Circos\Circos\ConfFiles\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::9c1d0a60aa20a1c6cd8b7273ec38c378, Circos\ConfFiles\Extensions.vb"
 
     ' Author:
     ' 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
@@ -64,7 +65,7 @@ Namespace Configurations
         ''' <returns></returns>
         <ExportAPI("GenerateDoc", Info:="Generates the docuemtn text data for write circos file.")>
         <Extension>
-        Public Function GenerateCircosDocumentElement(Of T As CircosDocument)(data As T, tag$, indentLevel%, inserts As IEnumerable(Of ICircosDocNode)) As String
+        Public Function GenerateCircosDocumentElement(Of T As CircosDocument)(data As T, tag$, indentLevel%, inserts As IEnumerable(Of ICircosDocNode), directory$) As String
             Dim IndentBlanks As String = New String(" "c, indentLevel + 2)
             Dim sb As New StringBuilder(1024)
 
@@ -80,7 +81,7 @@ Namespace Configurations
                         Continue For
                     End If
 
-                    Call sb.AppendLine(item.Build(indentLevel + 2))
+                    Call sb.AppendLine(item.Build(indentLevel + 2, directory))
                 Next
             End If
 
