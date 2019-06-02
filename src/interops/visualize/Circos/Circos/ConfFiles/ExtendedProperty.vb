@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5874a752483aa955a313d37bb0370be, visualize\Circos\Circos\ConfFiles\ExtendedProperty.vb"
+﻿#Region "Microsoft.VisualBasic::0981431424b289897a0b718759e10e70, Circos\ConfFiles\ExtendedProperty.vb"
 
     ' Author:
     ' 
@@ -60,7 +60,7 @@ Namespace Configurations
 
         <Extension>
         Public Function Ideogram(x As Circos) As Ideogram
-            For Each include In x.Includes
+            For Each include In x.includes
                 If TypeOf include Is Ideogram Then
                     Return DirectCast(include, Ideogram)
                 End If

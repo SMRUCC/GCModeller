@@ -54,7 +54,6 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
 
@@ -134,6 +133,11 @@ Namespace Assembly.NCBI.GenBank
             Return hash
         End Function
 
+        ''' <summary>
+        ''' ``[location => locus_tag]``
+        ''' </summary>
+        ''' <param name="PTT"></param>
+        ''' <returns></returns>
         <ExportAPI("Locus.Maps"), Extension>
         Public Function LocusMaps(PTT As PTT) As Dictionary(Of String, String)
             Dim LQuery = (From x As GeneBrief

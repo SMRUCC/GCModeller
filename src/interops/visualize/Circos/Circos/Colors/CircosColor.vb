@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b49d5c1664fe8769f4e84a1604b259d3, visualize\Circos\Circos\Colors\CircosColor.vb"
+﻿#Region "Microsoft.VisualBasic::1d7ee0cfca8061650fb9e34ff340772f, Circos\Colors\CircosColor.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '         Properties: AllCircosColors, DefaultCOGColor
     ' 
-    '         Function: __loadResource, ColorFromHSV, (+2 Overloads) ColorProfiles, FromColor, FromHsv
-    '                   FromKnownColorName, FromRGB
+    '         Function: ColorFromHSV, (+2 Overloads) ColorProfiles, FromColor, FromHsv, FromKnownColorName
+    '                   FromRGB, getColorMaps, getColorNames, getColorRgb, loadResource
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,13 +45,12 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Colors
 
@@ -71,14 +70,16 @@ Namespace Colors
         ''' </summary>
         ''' <remarks></remarks>
         Dim ColorNames As KeyValuePair(Of Color, String)()
-        Dim RGBColors As Dictionary(Of String, Color) = CircosColor.__loadResource
+        Dim RGBColors As Dictionary(Of String, Color) = CircosColor.loadResource
+
+#Region "Initialize"
 
         ''' <summary>
         ''' 从资源文件之中加载可以被使用的CIRCOS颜色映射数据，这个函数会在模块的构造函数之中自动调用
         ''' </summary>
         ''' <remarks></remarks>
         ''' 
-        Private Function __loadResource() As Dictionary(Of String, Color)
+        Private Function loadResource() As Dictionary(Of String, Color)
             Dim clBufs$() = LinqAPI.Exec(Of String) <= {
  _
                 Strings.Split(My.Resources.colors, vbLf),
@@ -88,49 +89,26 @@ Namespace Colors
                 Strings.Split(My.Resources.colors_unix, vbLf)
             }
 
-            Dim Value As List(Of NamedValue(Of String)) =
-                LinqAPI.MakeList(Of NamedValue(Of String)) <= From s As String
-                                                              In clBufs.AsParallel
-                                                              Let strM As String = Regex.Match(s, ".+?=\s*\S+").Value
-                                                              Where Not String.IsNullOrEmpty(strM)
-                                                              Let Tokens As String() = Strings.Split(strM, "=")
-                                                              Let ClName = Tokens.First,
-                                                                  ColorValue = Regex.Replace(strM, Tokens.First & "\s*=\s*", "").Trim.Split.First
-                                                              Select New NamedValue(Of String) With {
-                                                                  .Name = ClName,
-                                                                  .Value = ColorValue
-                                                              }
-            Dim RGBValue = (From item As NamedValue(Of String)
-                            In Value.AsParallel
-                            Let RGB = Regex.Match(item.Value, "\d+,\d+,\d+").Value
-                            Where Not String.IsNullOrEmpty(RGB)
-                            Select item,
-                                ClName = item.Name.Trim,
-                                TokensValues = RGB.Split(","c)).ToArray
-            Dim RGBList As NamedValue(Of String)() = RGBValue.Select(Function(x) x.item).ToArray
-            Dim NameEquals =
-                LinqAPI.Exec(Of NamedValue(Of String)) <= From item As NamedValue(Of String)
-                                                          In Value.AsParallel
-                                                          Where Array.IndexOf(RGBList, item) = -1
-                                                          Select item
-            CircosColor.ColorNames =
-                LinqAPI.Exec(Of KeyValuePair(Of Color, String)) <= From item
-                                                                   In RGBValue.AsParallel
-                                                                   Where item.TokensValues.Length >= 3
-                                                                   Let R As Integer = CInt(Val(item.TokensValues(0)))
-                                                                   Let G As Integer = CInt(Val(item.TokensValues(1)))
-                                                                   Let B As Integer = CInt(Val(item.TokensValues(2)))
-                                                                   Let Color = Color.FromArgb(R, G, B)
-                                                                   Select New KeyValuePair(Of Color, String)(Color, item.ClName)
+            Dim value As List(Of NamedValue(Of String)) = clBufs.getColorNames
+            Dim RGBValue = value.getColorRgb
+            Dim RGBList As NamedValue(Of String)() = RGBValue.Select(Function(x) x.color).ToArray
+            Dim nameEquals = LinqAPI.Exec(Of NamedValue(Of String)) _
+ _
+                () <= From item As NamedValue(Of String)
+                      In value.AsParallel
+                      Where Array.IndexOf(RGBList, item) = -1
+                      Select item
 
-            Dim Colors = From item As KeyValuePair(Of Color, String)
+            CircosColor.ColorNames = RGBValue.getColorMaps
+
+            Dim colors = From item As KeyValuePair(Of Color, String)
                          In CircosColor.ColorNames.AsParallel
                          Let name As String = item.Value.ToLower.Trim.Split.Last
-                         Select ClName = name,
+                         Select clName = name,
                               item.Key
-                         Group By ClName Into Group
-            CircosColor.RGBColors = Colors.ToDictionary(Function(x) x.ClName,
-                                                        Function(x) x.Group.First.Key)
+                         Group By clName Into Group
+
+            CircosColor.RGBColors = colors.ToDictionary(Function(x) x.clName, Function(x) x.Group.First.Key)
             CircosColor.RGBColors = (From Color
                                      In CircosColor.RGBColors
                                      Where Color.Value.R <> 0 AndAlso Color.Value.G <> 0 AndAlso Color.Value.B <> 0
@@ -143,6 +121,51 @@ Namespace Colors
 
             Return CircosColor.RGBColors
         End Function
+
+        <Extension>
+        Private Function getColorMaps(RgbValues As (color As NamedValue(Of String), name$, Rgb As String())()) As KeyValuePair(Of Color, String)()
+            Return LinqAPI.Exec(Of KeyValuePair(Of Color, String)) _
+ _
+                () <= From item
+                      In RgbValues.AsParallel
+                      Where item.Rgb.Length >= 3
+                      Let R As Integer = CInt(Val(item.Rgb(0)))
+                      Let G As Integer = CInt(Val(item.Rgb(1)))
+                      Let B As Integer = CInt(Val(item.Rgb(2)))
+                      Let color = Color.FromArgb(R, G, B)
+                      Select New KeyValuePair(Of Color, String)(color, item.name)
+        End Function
+
+        <Extension>
+        Private Function getColorRgb(colors As IEnumerable(Of NamedValue(Of String))) As (color As NamedValue(Of String), name$, Rgb As String())()
+            Return LinqAPI.Exec(Of (NamedValue(Of String), String, String())) _
+ _
+                () <= From item As NamedValue(Of String)
+                      In colors.AsParallel
+                      Let rgb = r.Match(item.Value, "\d+,\d+,\d+").Value
+                      Where Not String.IsNullOrEmpty(rgb)
+                      Let name = item.Name.Trim
+                      Let Rgbtokens = rgb.Split(","c)
+                      Select (item, name, Rgbtokens)
+        End Function
+
+        <Extension>
+        Private Function getColorNames(expressions As IEnumerable(Of String)) As List(Of NamedValue(Of String))
+            Return LinqAPI.MakeList(Of NamedValue(Of String)) _
+ _
+                () <= From str As String
+                      In expressions.AsParallel
+                      Let strM As String = r.Match(str, ".+?=\s*\S+").Value
+                      Where Not String.IsNullOrEmpty(strM)
+                      Let tokens As String() = Strings.Split(strM, "=")
+                      Let name = tokens.First
+                      Let color = r.Replace(strM, $"{name}\s*=\s*", "").Trim.Split.First
+                      Select New NamedValue(Of String) With {
+                          .Name = name,
+                          .Value = color
+                      }
+        End Function
+#End Region
 
         Public ReadOnly Property AllCircosColors As String()
             Get
@@ -242,6 +265,7 @@ Namespace Colors
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("From.Color", Info:="Gets the Circos color name from the .NET color object RGB value.")>
+        <Extension>
         Public Function FromColor(Color As Drawing.Color) As String
             Return FromRGB(Color.R, Color.G, Color.B)
         End Function
@@ -254,13 +278,11 @@ Namespace Colors
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Color.Profiles",
-                   Info:="Mappings each item in the categories into the Circos color name to generates a color profiles for drawing the elements in the circos plot.")>
+        <ExportAPI("Color.Profiles", Info:="Mappings each item in the categories into the Circos color name to generates a color profiles for drawing the elements in the circos plot.")>
         <Extension> Public Function ColorProfiles(Of T)(categories As T()) As Dictionary(Of T, String)
             Dim Colors As String() = CircosColor.RGBColors.Keys.Shuffles
 
-            If categories.IsNullOrEmpty OrElse
-                (categories.Count = 1 AndAlso categories(Scan0) Is Nothing) Then
+            If categories.IsNullOrEmpty OrElse (categories.Count = 1 AndAlso categories(Scan0) Is Nothing) Then
                 Call $"{NameOf(categories)} is null...".Warning
                 categories = New T() {}
             End If
@@ -268,7 +290,9 @@ Namespace Colors
             Return categories _
                 .SeqIterator _
                 .ToDictionary(Function(cl) cl.value,
-                              Function(cl) Colors(cl.i))
+                              Function(cl)
+                                  Return Colors(cl.i)
+                              End Function)
         End Function
 
         ''' <summary>

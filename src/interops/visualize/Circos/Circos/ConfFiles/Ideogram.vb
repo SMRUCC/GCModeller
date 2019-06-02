@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::548682df4ee8410ef1728cf927b794fd, visualize\Circos\Circos\ConfFiles\Ideogram.vb"
+﻿#Region "Microsoft.VisualBasic::1de644f6578f1e481cb850b0cd1bd684, Circos\ConfFiles\Ideogram.vb"
 
     ' Author:
     ' 
@@ -43,8 +43,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports System.Text
+Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Configurations
 
@@ -58,12 +58,13 @@ Namespace Configurations
 
         Public Property Ideogram As Nodes.Ideogram = New Nodes.Ideogram
 
-        Sub New(Circos As Circos)
-            Call MyBase.New(IdeogramConf, Circos)
+        Sub New(circos As Circos)
+            Call MyBase.New(IdeogramConf, circos)
         End Sub
 
-        Protected Overrides Function Build(IndentLevel As Integer) As String
-            Return Ideogram.Build(IndentLevel)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Protected Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Ideogram.Build(IndentLevel, directory)
         End Function
     End Class
 End Namespace

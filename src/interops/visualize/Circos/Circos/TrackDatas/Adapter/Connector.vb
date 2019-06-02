@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4bf6a8b88371dd27bd6d5574d60d652, visualize\Circos\Circos\TrackDatas\Adapter\Connector.vb"
+﻿#Region "Microsoft.VisualBasic::cbd5b396754984dc0f0df802812651ac, Circos\TrackDatas\Adapter\Connector.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea00f6dde9f55e8f6e506bf3df2557ba, visualize\Circos\Circos\Colors\Mappings.vb"
+﻿#Region "Microsoft.VisualBasic::352d4541b4865449d8b709da2e1d78c8, Circos\Colors\Mappings.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Structure Mappings
     ' 
-    '         Properties: CircosColor, Color, Level, value
+    '         Properties: CircosColor, color, level, value
     ' 
     '         Function: ToString
     ' 
@@ -47,18 +47,19 @@ Imports System.Drawing
 Namespace Colors
 
     Public Structure Mappings
+
         Public Property value As Double
-        Public Property Level As Integer
-        Public Property Color As Color
+        Public Property level As Integer
+        Public Property color As Color
 
         Public ReadOnly Property CircosColor As String
             Get
-                Return $"({Color.R},{Color.G},{Color.B})"
+                Return $"({color.R},{color.G},{color.B})"
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return $"{value} ==> {Level}   @{Color.ToString}"
+            Return $"{value} ==> {level}   @{color.ToString}"
         End Function
     End Structure
 End Namespace

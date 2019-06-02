@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f2f41c37fe977bdf2752fcc20ccfd8f, visualize\Circos\Circos\ConfFiles\Nodes\Base\Rule.vb"
+﻿#Region "Microsoft.VisualBasic::abca3c17e94c74b1cf291af8f3bb1199, Circos\ConfFiles\Nodes\Base\Rule.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Configurations.Nodes.Plots
 
@@ -52,8 +52,8 @@ Namespace Configurations.Nodes.Plots
         <Circos> Public Property condition As String = "var(value) > 0.6"
         <Circos> Public Property color As String = "red"
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("rule", IndentLevel, Nothing)
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("rule", IndentLevel, Nothing, directory)
         End Function
     End Class
 End Namespace

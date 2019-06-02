@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::558fc0a1e20a94a4197215e9e4ae5790, visualize\Circos\Circos\ConfFiles\Nodes\Line\Nodes.vb"
+﻿#Region "Microsoft.VisualBasic::dc383b0bfddc95f050c442461e1e7dd8, Circos\ConfFiles\Nodes\Line\Nodes.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Configurations.Nodes.Plots.Lines
 
@@ -59,8 +59,8 @@ Namespace Configurations.Nodes.Plots.Lines
         <Circos> Public Property thickness As String = "1"
         <Circos> Public Property spacing As String = "0.025r"
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("axis", IndentLevel, Nothing)
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("axis", IndentLevel, Nothing, directory)
         End Function
     End Class
 
@@ -71,8 +71,8 @@ Namespace Configurations.Nodes.Plots.Lines
         <Circos> Public Property y1 As String = "0.002"
         <Circos> Public Property y0 As String = "0.006"
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("background", IndentLevel, Nothing)
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("background", IndentLevel, Nothing, directory)
         End Function
     End Class
 End Namespace

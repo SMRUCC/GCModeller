@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d960b35c06262358fb44e396ffb5460, annotations\Proteomics\ProteinGroups.vb"
+﻿#Region "Microsoft.VisualBasic::a2a8961d64d59c5916d5c3e76b74b51a, Proteomics\ProteinGroups.vb"
 
     ' Author:
     ' 

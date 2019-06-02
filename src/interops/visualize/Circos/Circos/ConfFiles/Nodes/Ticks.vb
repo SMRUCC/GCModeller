@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68c2243853f80d7fc2cac1d654193972, visualize\Circos\Circos\ConfFiles\Nodes\Ticks.vb"
+﻿#Region "Microsoft.VisualBasic::fc2fca26246e931a25079b87adbcf50b, Circos\ConfFiles\Nodes\Ticks.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: color, label_offset, label_separation, label_size, min_label_distance_to_edge
     '                     multiplier, radius, size, skip_first_label, skip_last_label
-    '                     thickness, tick_separation, Ticks
+    '                     thickness, tick_separation, ticks
     ' 
     '         Function: Build, DefaultConfiguration
     ' 
@@ -52,9 +52,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports Microsoft.VisualBasic
-Imports System.Text
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
+Imports Microsoft.VisualBasic.Language
 
 Namespace Configurations.Nodes
 
@@ -83,19 +82,23 @@ Namespace Configurations.Nodes
         <Circos> Public Property thickness As String = "3p"
         <Circos> Public Property size As String = "20p"
 
-        Public Property Ticks As List(Of Tick) = New List(Of Tick)
+        Public Property ticks As New List(Of Tick)
 
         Public Shared Function DefaultConfiguration() As Ticks
-            Dim Ticks As New List(Of Tick)
-            Call Ticks.Add(New Tick With {.spacing = "1u", .show_label = no, .grid_thickness = "1p"})
-            'Call Ticks.Add(New Tick With {.spacing = "0.5u", .show_label = YES, .label_size = "20p", .format = "%d"})
-            Call Ticks.Add(New Tick With {.spacing = "5u", .show_label = yes, .label_size = "28p", .format = "%d"})
+            Dim ticks As New List(Of Tick)
 
-            Return New Ticks With {.Ticks = Ticks}
+            ' sub ticks
+            ticks += New Tick With {.spacing = "1u", .show_label = no, .grid_thickness = "1p"}
+            ' main ticks
+            ticks += New Tick With {.spacing = "5u", .show_label = yes, .label_size = "28p", .format = "%d"}
+
+            Return New Ticks With {
+                .ticks = ticks
+            }
         End Function
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("ticks", IndentLevel, inserts:=Ticks)
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("ticks", IndentLevel, inserts:=ticks, directory:=directory)
         End Function
     End Class
 
@@ -106,7 +109,7 @@ Namespace Configurations.Nodes
     Public Class Tick : Inherits CircosDocument
         Implements ICircosDocNode
 
-        <Circos> Public Property size As String
+        <Circos> Public Property size As String = "20p"
         <Circos> Public Property spacing As String = "500u"
         <Circos> Public Property color As String = "black"
         <Circos> Public Property show_label As String = yes
@@ -133,8 +136,8 @@ Namespace Configurations.Nodes
         <Circos> Public Property grid_color As String = "black"
         <Circos> Public Property grid_thickness As String = "4p"
 
-        Public Overrides Function Build(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("tick", IndentLevel, Nothing)
+        Public Overrides Function Build(IndentLevel As Integer, directory$) As String
+            Return Me.GenerateCircosDocumentElement("tick", IndentLevel, Nothing, directory)
         End Function
     End Class
 End Namespace
