@@ -50,7 +50,7 @@ Imports ANN = Microsoft.VisualBasic.MachineLearning.NeuralNetwork
 Namespace NeuralNetwork.StoreProcedure
 
     ''' <summary>
-    ''' 与<see cref="Snapshot"/>之中的快照生成函数执行相反的操作,从模型数据文件之中创建计算用的对象模型
+    ''' 与<see cref="CreateSnapshot"/>之中的快照生成函数执行相反的操作,从模型数据文件之中创建计算用的对象模型
     ''' </summary>
     <HideModuleName>
     Public Module IntegralLoader
