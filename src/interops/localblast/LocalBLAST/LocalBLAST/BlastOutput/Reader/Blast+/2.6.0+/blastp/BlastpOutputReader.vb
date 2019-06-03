@@ -185,7 +185,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             If fast Then
                 LQuery = {}
             Else
-                Dim hsp = s.LineTokens.Split(3, echo:=False)
+                Dim hsp = s.LineTokens.Split(3)
 
                 ' parsing sequence aligmment details.
                 LQuery = hsp _
