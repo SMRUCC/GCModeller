@@ -70,7 +70,7 @@ Namespace Assembly.Uniprot.XML
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function KO(protein As entry) As dbReference
-            Return protein.Xrefs.TryGetValue("KO", [default]:=Nothing).ElementAtOrDefault(0)
+            Return protein.xrefs.TryGetValue("KO", [default]:=Nothing).ElementAtOrDefault(0)
         End Function
 
         <Extension>
@@ -187,9 +187,9 @@ Namespace Assembly.Uniprot.XML
             For Each prot As entry In uniprotXML.entries
                 Dim ID As String = getID(prot)
 
-                If prot.Xrefs.ContainsKey(type) Then
+                If prot.xrefs.ContainsKey(type) Then
                     out += From term As dbReference
-                           In prot.Xrefs(type)
+                           In prot.xrefs(type)
                            Select New IDMap With {
                                .Key = term.id,
                                .Maps = ID
