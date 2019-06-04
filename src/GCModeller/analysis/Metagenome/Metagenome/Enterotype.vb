@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.DataMining.KMeans
 
 ''' <summary>
 ''' Protocol module to produce enterotype clusters
@@ -33,5 +34,25 @@ Public Module Enterotype
         For Each sample As DataSet In jsdMatrix
             Yield sample
         Next
+    End Function
+
+    <Extension>
+    Public Function PAMclustering(JSD As IEnumerable(Of DataSet), Optional maxIterations% = 1000) As EntityClusterModel()
+        Dim JSDMatrix = JSD.ToArray
+        Dim sampleNames$() = JSDMatrix.PropertyNames
+        Dim entities As ClusterEntity() = JSDMatrix _
+            .Select(Function(d)
+                        Return New ClusterEntity With {
+                            .uid = d.ID,
+                            .Properties = d(sampleNames)
+                        }
+                    End Function) _
+            .ToArray
+        Dim clusters = entities.DoKMedoids(3, maxIterations)
+        Dim result = clusters _
+            .Select(Function(c) c.ToDataModel(sampleNames)) _
+            .ToArray
+
+        Return result
     End Function
 End Module
