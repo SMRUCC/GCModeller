@@ -164,9 +164,9 @@ Partial Module CLI
             Dim array As EntityClusterModel()
 
             If mapNames Is Nothing Then
-                array = cluster.Select(Function(x) setValue(x.ToLDM, CStr(i)))
+                array = cluster.Select(Function(x) setValue(x.ToDataModel, CStr(i)))
             Else
-                array = cluster.Select(Function(x) setValue(x.ToLDM(mapNames), CStr(i)))
+                array = cluster.Select(Function(x) setValue(x.ToDataModel(mapNames), CStr(i)))
             End If
 
             i += 1
@@ -242,7 +242,7 @@ Partial Module CLI
         Dim datas = result.Values.Select(Function(x) x.ToModel)
         Dim names = datas.Select(Function(x) x.uid)
         Dim Tree As KMeans.Entity() = KMeans.TreeCluster(datas)
-        Dim saveResult = Tree.Select(Function(x) x.ToLDM(mapNames))
+        Dim saveResult = Tree.Select(Function(x) x.ToDataModel(mapNames))
 
         For Each name In names
             For Each x In saveResult
