@@ -315,6 +315,10 @@
       <Project>{6CA54AF6-CADC-457E-94B9-384F2990F07E}</Project>
       <Name>hierarchical-clustering</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFrame\DataFrame.vbproj">
+      <Project>{6140AED7-E317-46DD-9C15-7FE400795992}</Project>
+      <Name>DataFrame</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>

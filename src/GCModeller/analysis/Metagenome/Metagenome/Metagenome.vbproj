@@ -298,6 +298,7 @@
     <Compile Include="gast\Models.vb" />
     <Compile Include="greengenes\Extensions.vb" />
     <Compile Include="greengenes\otu_taxonomy.vb" />
+    <Compile Include="Enterotype.vb" />
     <Compile Include="Mothur\SILVA_OTU.vb" />
     <Compile Include="Mothur\Extensions.vb" />
     <Compile Include="Mothur\MothurContigsOTU.vb" />
