@@ -248,7 +248,7 @@ Partial Module CLI
 
         Dim words As New Dictionary(Of String, Integer)
         Dim word As New Value(Of String)
-        Dim data As New List(Of Entity)
+        Dim data As New List(Of ClusterEntity)
 
         Call words.Add(" ", 0)
 
@@ -296,7 +296,7 @@ Partial Module CLI
                     .Select(Function(o) 0R)
             End If
 
-            data += New Entity With {
+            data += New ClusterEntity With {
                 .uid = s$,
                 .Properties = p
             }
@@ -340,10 +340,10 @@ Partial Module CLI
         End If
 
         Dim n As Integer = args.GetValue("/n", data.Count * 0.1)
-        Dim cl As ClusterCollection(Of Entity) = data.ClusterDataSet(n)
+        Dim cl As ClusterCollection(Of ClusterEntity) = data.ClusterDataSet(n)
         Dim output As New List(Of NamedValue(Of String()))
 
-        For Each cluster As KMeansCluster(Of Entity) In cl
+        For Each cluster As KMeansCluster(Of ClusterEntity) In cl
             Dim common$() = cluster _
                 .ClusterMean _
                 .Select(Function(x) int2Words(CInt(x)))
