@@ -47,7 +47,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  使用此强类型资源类，为所有资源查找
+        '''  重写当前线程的 CurrentUICulture 属性
         '''  重写当前线程的 CurrentUICulture 属性。
         '''</summary>
         <Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
@@ -58,68 +58,6 @@ Namespace My.Resources
             Set
                 resourceCulture = value
             End Set
-        End Property
-        
-        '''<summary>
-        '''  查找类似                     GNU GENERAL PUBLIC LICENSE
-        '''                       Version 3, 29 June 2007
-        '''
-        ''' Copyright (C) 2007 Free Software Foundation, Inc. &lt;http://fsf.org/&gt;
-        ''' Everyone is permitted to copy and distribute verbatim copies
-        ''' of this license document, but changing it is not allowed.
-        '''
-        '''                            Preamble
-        '''
-        '''  The GNU General Public License is a free, copyleft license for
-        '''software and other kinds of works.
-        '''
-        '''  The licenses for most software and other practical works are designed
-        '''to [字符串的其余部分被截断]&quot;; 的本地化字符串。
-        '''</summary>
-        Friend ReadOnly Property gpl() As String
-            Get
-                Return ResourceManager.GetString("gpl", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  查找类似 require(igraph)
-        '''#require(rJava)
-        '''
-        '''loaddata&lt;-function(file){
-        '''	a&lt;-read.table(file,row.names=1)
-        '''	a
-        '''}
-        '''
-        '''computew1&lt;-function(expr,theta1,theta2){
-        '''	ranks&lt;-apply(expr,2,function(x){
-        '''		rank(x)/length(x)
-        '''	})
-        '''	apply(ranks,2,function(x){
-        '''		q2&lt;-quantile(x,theta2,na.rm=T)
-        '''		q1&lt;-quantile(x,theta1,na.rm=T)
-        '''		m&lt;-median(x)
-        '''		mx&lt;-max(x)
-        '''		sapply(x,function(y){
-        '''			if(is.na(y)){
-        '''				NA
-        '''			}
-        '''			else if(y&gt;=q1)
-        '''				1
-        '''			else if(y&gt;=q2)
-        '''				(y-q2)/(q1-q2)
-        '''			else
-        '''				0
-        '''		})
-        '''	})
-        '''}
-        '''
-        '''pfsnet.computegenelist [字符串的其余部分被截断]&quot;; 的本地化字符串。
-        '''</summary>
-        Friend ReadOnly Property pfsnet() As String
-            Get
-                Return ResourceManager.GetString("pfsnet", resourceCulture)
-            End Get
         End Property
     End Module
 End Namespace

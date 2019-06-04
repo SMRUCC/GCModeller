@@ -170,10 +170,11 @@ Namespace DataStructure
     ''' Gene to Gene Interaction.(基因与基因之间的互作关系)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GraphEdge : Implements IInteraction
+    Public Class GraphEdge
+
         <XmlAttribute> Public Property PathwayID As String
-        <XmlAttribute("GeneObject1")> Public Property g1 As String Implements IInteraction.source
-        <XmlAttribute("GeneObject2")> Public Property g2 As String Implements IInteraction.target
+        <XmlAttribute("GeneObject1")> Public Property g1 As String
+        <XmlAttribute("GeneObject2")> Public Property g2 As String
 
         Public ReadOnly Property SelfLoop As Boolean
             Get
