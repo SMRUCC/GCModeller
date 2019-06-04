@@ -1,4 +1,9 @@
-﻿Public Module Impute
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+
+Public Module Impute
 
     ''' <summary>
     ''' 缺失值的模拟推断方法
