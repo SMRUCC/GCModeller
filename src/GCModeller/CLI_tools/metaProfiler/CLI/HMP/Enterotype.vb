@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Math.DataFrame.Impute
 Imports SMRUCC.genomics.Analysis.Metagenome
 
 Partial Module CLI
@@ -16,6 +17,7 @@ Partial Module CLI
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.DoEnterotypeCluster.csv"
         Dim data As DataSet() = DataSet _
             .LoadDataSet([in], tsv:=[in].ExtensionSuffix.TextEquals("txt")) _
+            .SimulateMissingValues(byRow:=False, infer:=InferMethods.Min) _
             .ToArray
         Dim parallel As Boolean = args("/parallel")
         Dim result = data.JSD(parallel:=parallel).PAMclustering
