@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' Protocol module to produce enterotype clusters
@@ -14,11 +15,11 @@ Public Module Enterotype
     ''' <param name="abundances"></param>
     ''' <returns>A JSD correlation matrix between samples.</returns>
     <Extension>
-    Public Iterator Function JSD(abundances As IEnumerable(Of DataSet)) As IEnumerable(Of DataSet)
+    Public Iterator Function JSD(abundances As IEnumerable(Of DataSet), Optional parallel As Boolean = True) As IEnumerable(Of DataSet)
         Dim matrix As DataSet() = abundances.ToArray
         Dim taxonomy As String() = matrix.PropertyNames
         Dim jsdMatrix = From sample As DataSet
-                        In matrix.AsParallel
+                        In matrix.Populate(parallel:=parallel)
                         Let P As Double() = sample(taxonomy)
                         Let jsdi As Dictionary(Of String, Double) = matrix.ToDictionary(
                             Function(another) another.ID,
