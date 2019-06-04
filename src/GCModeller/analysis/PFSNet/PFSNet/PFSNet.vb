@@ -80,51 +80,6 @@ Public Module PFSNet
     ''' <remarks></remarks>
     Public Delegate Function PFSNetEvaluateHandle(file1 As String, file2 As String, file3 As String, b As Double, t1 As Double, t2 As Double, n As Double) As PFSNetResultOut
 
-    '''<summary>
-    ''' The original pfsnet algorithm implemented in language R.
-    ''' 
-    ''' ```R
-    ''' require(igraph)
-    ''' #require(rJava)
-    '''
-    ''' loaddata&lt;-function(file){
-    '''	 a&lt;-read.table(file,row.names=1)
-    '''	 a
-    ''' }
-    '''
-    ''' computew1&lt;-function(expr,theta1,theta2){
-    '''	 ranks&lt;-apply(expr,2,function(x){
-    '''	 	rank(x)/length(x)
-    '''	 })
-    '''	 apply(ranks,2,function(x){
-    '''		q2&lt;-quantile(x,theta2,na.rm=T)
-    '''		q1&lt;-quantile(x,theta1,na.rm=T)
-    '''		m&lt;-median(x)
-    '''		mx&lt;-max(x)
-    '''		sapply(x,function(y){
-    '''			if(is.na(y)){
-    '''				NA
-    '''			}
-    '''			else if(y&gt;=q1)
-    '''				1
-    '''			else if(y&gt;=q2)
-    '''				(y-q2)/(q1-q2)
-    '''			else
-    '''				0
-    '''		})
-    '''	 })
-    ''' }
-    '''
-    ''' pfsnet.computegenelist&lt;-function(w,beta){
-    '''	# within [rest of string was truncated]&quot;;.
-    '''	```
-    '''</summary>
-    Public ReadOnly Property OriginalRAlgorithm As String
-        Get
-            Return My.Resources.pfsnet
-        End Get
-    End Property
-
     ''' <summary>
     ''' ```R
     ''' ranks&lt;-apply(expr,2,function(x){
