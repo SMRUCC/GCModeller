@@ -49,6 +49,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -129,7 +130,14 @@ Public Module PFSNet
                               End Function) _
             .ToArray
 
-        Return DataFrameRow.CreateDataFrameFromCache(LQueryCache.Key, fuzzyWeights)
+        Return expr _
+            .Select(Function(r, i)
+                        Return New DataFrameRow With {
+                            .Name = r.Name,
+                            .ExperimentValues = result(i)
+                        }
+                    End Function) _
+            .ToArray
     End Function
 
     ''' <summary>
@@ -170,12 +178,16 @@ Public Module PFSNet
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function computegenelist(w As DataFrameRow(), beta As Double) As String()
-        Dim list_mask = (From w_row As DataFrameRow In w.AsParallel
-                         Let x As Double() = w_row.ExperimentValues
-                         Let d = x.Sum / (From n As Double In x Let b As Integer = If(n.IsNaNImaginary, 0, 1) Select b).Sum
-                         Where d >= beta
-                         Select w_row.Name, d).ToArray
-        Return (From obj In list_mask Select obj.Name).ToArray
+        Dim geneIDs As New StringVector(From gene In w Select gene.Name)
+        Dim maskQuery = From row As DataFrameRow
+                        In w
+                        Let x As Double() = row.ExperimentValues
+                        Let sumX = x.Where(Function(y) Not y.IsNaNImaginary).Sum
+                        Let countX = x.Where(Function(y) Not y.IsNaNImaginary).Count
+                        Select (sumX / countX) >= beta
+        Dim list_mask As Boolean() = maskQuery.ToArray
+
+        Return geneIDs(list_mask)
     End Function
 
     <ExportAPI("PfsNet.Evaluate")>
