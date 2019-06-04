@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports SMRUCC.genomics.Analysis.PFSNet.R
 
-Module estimatetdist
+<HideModuleName> Module estimatetdist
 
     Public Function estimatetdist(d1 As DataFrameRow(), d2 As DataFrameRow(), ggi As GraphEdge(), b As Double, t1 As Double, t2 As Double, n As Integer) As Double()
         Dim total = cbind(d1, d2) 'total<-cbind(d1,d2)
@@ -18,8 +18,8 @@ Module estimatetdist
             Dim samplevector = Sample(total.First.Samples - 1, d1.First.Samples - 1)
             Dim expr1o = DataFrameRow.TakeSamples(total, samplevector, False)
             Dim expr2o = DataFrameRow.TakeSamples(total, samplevector, True)
-            Dim w1matrix1 = computew1(expr1o, theta1:=t1, theta2:=t2)
-            Dim w1matrix2 = computew1(expr2o, theta1:=t1, theta2:=t2)
+            Dim w1matrix1 = PFSNet.computew1(expr1o, theta1:=t1, theta2:=t2)
+            Dim w1matrix2 = PFSNet.computew1(expr2o, theta1:=t1, theta2:=t2)
 
             Dim genelist1 As Index(Of String) = computegenelist(w1matrix1, beta:=b)
             Dim genelist2 As Index(Of String) = computegenelist(w1matrix2, beta:=b)
