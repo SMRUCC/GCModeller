@@ -188,6 +188,7 @@
     <Compile Include="CLI\HMP\HMP.vb" />
     <Compile Include="CLI\AntibioticResistance.vb" />
     <Compile Include="CLI\gast.vb" />
+    <Compile Include="CLI\HMP\Enterotype.vb" />
     <Compile Include="CLI\Network.vb" />
     <Compile Include="CLI\SILVA.vb" />
     <Compile Include="Program.vb" />
