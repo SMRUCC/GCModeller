@@ -81,25 +81,28 @@ Namespace R
             Return Sample(Of Integer)(x:=n.Sequence, size:=size)
         End Function
 
-        Public Function cbind(d1 As DataFrameRow(), d2 As DataFrameRow()) As DataFrameRow()
-            Dim LQuery = From x As DataFrameRow
-                         In d1.JoinIterates(d2)
-                         Select x
-                         Group By x.Name Into Group
-            Dim bufs As DataFrameRow() =
-                LinqAPI.Exec(Of DataFrameRow) <=
- _
-                    From g
-                    In LQuery
-                    Let expr As IEnumerable(Of IEnumerable(Of Double)) = (
-                        From x As DataFrameRow
-                        In g.Group
-                        Select x.ExperimentValues)
-                    Select New DataFrameRow With {
-                        .Name = g.Name,
-                        .ExperimentValues = expr
-                    }
-            Return bufs
+        Public Iterator Function cbind(d1 As DataFrameRow(), d2 As DataFrameRow()) As IEnumerable(Of DataFrameRow)
+            Dim appendLookup = d2.ToDictionary(Function(d) d.Name)
+            Dim append As DataFrameRow
+            Dim samplesN2 As Integer = d2(Scan0).Samples
+            Dim vec As Double()
+
+            For Each gene As DataFrameRow In d1
+                append = appendLookup.TryGetValue(gene.Name)
+
+                If append Is Nothing Then
+                    vec = 0#.Repeats(samplesN2)
+                Else
+                    vec = append.experiments
+                End If
+
+                vec = gene.experiments.Join(vec).ToArray
+
+                Yield New DataFrameRow With {
+                    .Name = gene.Name,
+                    .experiments = vec
+                }
+            Next
         End Function
 
         Public Function rep(q As Boolean, n As Integer) As Double()

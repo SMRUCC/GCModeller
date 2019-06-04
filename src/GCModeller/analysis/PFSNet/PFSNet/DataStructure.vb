@@ -87,7 +87,7 @@ Namespace DataStructure
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property ExperimentValues As Double()
+        Public Property experiments As Double()
 
         ''' <summary>
         ''' Gets the sample counts of current gene expression data.(获取基因表达数据样本数目)
@@ -97,12 +97,12 @@ Namespace DataStructure
         ''' <remarks></remarks>
         Public ReadOnly Property Samples As Integer
             Get
-                Return ExperimentValues.DataCounts
+                Return experiments.DataCounts
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}   ==> {1}", Name, String.Join(", ", ExperimentValues))
+            Return String.Format("{0}   ==> {1}", Name, String.Join(", ", experiments))
         End Function
 
         ''' <summary>
@@ -118,9 +118,9 @@ Namespace DataStructure
                                                  Let Tokens As String() = Strings.Split(line, vbTab)
                                                  Select New DataFrameRow With {
                                                      .Name = Tokens.First,
-                                                     .ExperimentValues = (From s As String
+                                                     .experiments = (From s As String
                                                                           In Tokens
-                                                                          Select Val(s)).ToArray
+                                                                     Select Val(s)).ToArray
                                                  }
             Return LQuery
         End Function
@@ -128,12 +128,11 @@ Namespace DataStructure
         Public Shared Function TakeSamples(data As DataFrameRow(), sampleVector As Integer(), reversed As Boolean) As DataFrameRow()
             Dim LQuery As DataFrameRow() =
                 LinqAPI.Exec(Of DataFrameRow) <= From x As DataFrameRow
-                                                 In data.AsParallel
-                                                 Let samples As Double() =
-                                                     x.ExperimentValues.Takes(sampleVector, reversed:=reversed)
+                                                 In data
+                                                 Let samples As Double() = x.experiments.Takes(sampleVector, reversed:=reversed)
                                                  Select New DataFrameRow With {
                                                      .Name = x.Name,
-                                                     .ExperimentValues = samples
+                                                     .experiments = samples
                                                  }
             Return LQuery
         End Function
@@ -145,8 +144,8 @@ Namespace DataStructure
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function CreateApplyFunctionCache(data As DataFrameRow()) As KeyValuePair(Of String(), Double()())
-            Dim LQuery = (From i As Integer In data.First.ExperimentValues.Sequence
-                          Let rows = (From row In data Select row.ExperimentValues(i)).ToArray
+            Dim LQuery = (From i As Integer In data.First.experiments.Sequence
+                          Let rows = (From row In data Select row.experiments(i)).ToArray
                           Select rows).ToArray
             Return New KeyValuePair(Of String(), Double()())((From row In data Select row.Name).ToArray, LQuery)
         End Function
@@ -160,7 +159,7 @@ Namespace DataStructure
                                                                             Select col(i.i)).ToArray
                                                  Select New DataFrameRow With {
                                                      .Name = i.value,
-                                                     .ExperimentValues = samples
+                                                     .experiments = samples
                                                  }
             Return LQuery
         End Function

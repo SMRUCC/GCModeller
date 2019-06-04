@@ -49,10 +49,13 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.Vectorization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
@@ -105,7 +108,7 @@ Public Module PFSNet
     ''' <remarks></remarks>
     Public Function computew1(expr As DataFrameRow(), theta1 As Double, theta2 As Double) As DataFrameRow()
         Dim ranks As Vector() = expr _
-            .Select(Function(r) r.ExperimentValues.AsVector) _
+            .Select(Function(r) r.experiments.AsVector) _
             .Apply(math:=Function(x)
                              Dim data As Double() = x.ToArray
                              Dim rankVec As Vector = data.Ranking(Strategies.DenseRanking).AsVector
@@ -134,7 +137,7 @@ Public Module PFSNet
             .Select(Function(r, i)
                         Return New DataFrameRow With {
                             .Name = r.Name,
-                            .ExperimentValues = result(i)
+                            .experiments = result(i)
                         }
                     End Function) _
             .ToArray
@@ -181,7 +184,7 @@ Public Module PFSNet
         Dim geneIDs As New StringVector(From gene In w Select gene.Name)
         Dim maskQuery = From row As DataFrameRow
                         In w
-                        Let x As Double() = row.ExperimentValues
+                        Let x As Double() = row.experiments
                         Let sumX = x.Where(Function(y) Not y.IsNaNImaginary).Sum
                         Let countX = x.Where(Function(y) Not y.IsNaNImaginary).Count
                         Select (sumX / countX) >= beta
@@ -237,13 +240,13 @@ Public Module PFSNet
         cat("\t[DONE]\n")
         cat("computing subnetwork scores")
 
-        Dim pscore = Internal_get_pscore(ccs, w1matrix1)
+        Dim pscore = sapply_pscore(ccs, w1matrix1)
         cat(".")
-        Dim pscore2 = Internal_get_pscore(ccs2, w1matrix2)
+        Dim pscore2 = sapply_pscore(ccs2, w1matrix2)
         cat(".")
 
-        Dim nscore = Internal_get_nscore(ccs, w1matrix1)
-        Dim nscore2 = Internal_get_nscore(ccs2, w1matrix2)
+        Dim nscore = sapply_nscore(ccs, w1matrix1)
+        Dim nscore2 = sapply_nscore(ccs2, w1matrix2)
 
         cat(".")
         cat(".\t[DONE]\n")
@@ -314,61 +317,83 @@ Public Module PFSNet
     ''' <returns></returns>
     ''' <remarks></remarks>
     Private Function InternalVg(data As GraphEdge(), w1matrix1 As DataFrameRow(), w1matrix2 As DataFrameRow()) As PFSNetGraph
-        If data.Count < 5 Then
-            Return Nothing
-        End If
+        ' 总的网络
+        Dim g As PFSNetGraph = Graph.Data.Frame(data)
 
-        Dim g = Graph.Data.Frame(data)  '总的网络
-        For p As Integer = 0 To g.Nodes.Length - 1
-            g.Nodes(p).weight = w1matrix1.Select(g.Nodes(p).Name).ExperimentValues.Sum / w1matrix1.Select(g.Nodes.First.Name).ExperimentValues.Sum
-            g.Nodes(p).weight2 = w1matrix2.Select(g.Nodes(p).Name).ExperimentValues.Sum / w1matrix2.Select(g.Nodes.First.Name).ExperimentValues.Sum
+        For i As Integer = 0 To g.Nodes.Length - 1
+            g.Nodes(i).weight = w1matrix1.Select(g.Nodes(i).Name).experiments.Sum / w1matrix1.Select(g.Nodes.First.Name).experiments.Sum
+            g.Nodes(i).weight2 = w1matrix2.Select(g.Nodes(i).Name).experiments.Sum / w1matrix2.Select(g.Nodes.First.Name).experiments.Sum
         Next
-        g = Graph.simplify(g) '计算出总的网络之后再将总的网络分解为小得网络对象
+
+        ' 计算出总的网络之后再将总的网络分解为小得网络对象
+        g = Graph.simplify(g)
         Return g  '   Return Graph.decompose_graph(g, min_vertices:=5)
     End Function
 
     Public Function estimatetdist(d1 As DataFrameRow(), d2 As DataFrameRow(), ggi As GraphEdge(), b As Double, t1 As Double, t2 As Double, n As Integer) As Double()
         Dim total = cbind(d1, d2) 'total<-cbind(d1,d2)
-        Dim tdistribution As List(Of Double) = New List(Of Double) 'tdistribution<-c()
+        Dim tdistribution As New List(Of Double) 'tdistribution<-c()
 
-        For i As Integer = 0 To n
+        For i As Integer = 0 To n - 1
             cat(".")
+
             Dim samplevector = Sample(total.First.Samples - 1, d1.First.Samples - 1)
             Dim expr1o = DataFrameRow.TakeSamples(total, samplevector, False)
             Dim expr2o = DataFrameRow.TakeSamples(total, samplevector, True)
             Dim w1matrix1 = computew1(expr1o, theta1:=t1, theta2:=t2)
             Dim w1matrix2 = computew1(expr2o, theta1:=t1, theta2:=t2)
 
-            Dim genelist1 = computegenelist(w1matrix1, beta:=b)
-            Dim genelist2 = computegenelist(w1matrix2, beta:=b)
+            Dim genelist1 As Index(Of String) = computegenelist(w1matrix1, beta:=b)
+            Dim genelist2 As Index(Of String) = computegenelist(w1matrix2, beta:=b)
 
             'ggi_mask <- apply(ggi, 1, func <- function(i){
             ' 	if ((i[2] %in% genelist1$gl) && (i[3] %in% genelist1$gl))
             ' 		TRUE
             ' 	else FALSE
             '})
-            Dim masked_ggi = InternalMaskGGI(ggi, genelist1, genelist2, False)
-            Dim ccs = (From g In (From item In masked_ggi Select item Group item By item.PathwayID Into Group).ToArray
-                       Let V = InternalVg(g.Group.ToArray, w1matrix1, w1matrix2)
-                       Where Not V Is Nothing
-                       Select V).ToArray
+            Dim ggi_mask = ggi.Select(Function(interaction)
+                                          If interaction.g1 Like genelist1 AndAlso interaction.g2 Like genelist1 Then
+                                              Return True
+                                          Else
+                                              Return False
+                                          End If
+                                      End Function).ToArray
+            Dim masked_ggi As GraphEdge() = ggi.Takes(ggi_mask).ToArray
+
+            ' masked.ggi <- masked.ggi[(masked.ggi[, "g1"] != masked.ggi[, "g2"]), ]
+            masked_ggi = masked_ggi _
+                .Where(Function(inter) inter.g1 <> inter.g2) _
+                .ToArray
+
+            Dim bypathway = Function(pathwayid As String)
+                                ' 总的网络
+                                Dim g As PFSNetGraph = Graph.Data.Frame(masked_ggi.Where(Function(p) p.PathwayID = pathwayid).ToArray)
+
+                                For ivg As Integer = 0 To g.Nodes.Length - 1
+                                    g.Nodes(ivg).weight = w1matrix1.Select(g.Nodes(ivg).Name).experiments.Sum / w1matrix1.Select(g.Nodes.First.Name).experiments.Where(Function(y) Not y.IsNaNImaginary).Count
+                                    g.Nodes(ivg).weight2 = w1matrix2.Select(g.Nodes(ivg).Name).experiments.Sum / w1matrix2.Select(g.Nodes.First.Name).experiments.Where(Function(y) Not y.IsNaNImaginary).Count
+                                Next
+
+                                ' 计算出总的网络之后再将总的网络分解为小得网络对象
+                                g = Graph.simplify(g)
+                                Return g  '   Return Graph.decompose_graph(g, min_vertices:=5)
+                            End Function
+
+            Dim ccs = masked_ggi.Select(Function(p) p.PathwayID).Distinct.Select(bypathway).ToArray
 
             '	ccs <- unlist(ccs, recursive=FALSE)
 
-            Dim pscore = Internal_get_pscore(ccs, w1matrix1)
-            Dim nscore = Internal_get_nscore(ccs, w1matrix1)
+            Dim pscore = sapply_pscore(ccs, w1matrix1)
+            Dim nscore = sapply_nscore(ccs, w1matrix1)
 
             Dim statistics As Double() = rep(False, ccs.Length)
             Dim rand As New Random
 
             For p As Integer = 0 To ccs.Length - 1
                 Dim x = pscore(p), y = nscore(p)
-                Dim bt, lt, rt As Double
-                Dim lm As Integer = x.Length * rand.NextDouble()
-                Dim ln As Integer = y.Length * rand.NextDouble()
+                Dim ttest = t.Test(x, y)
 
-                Call ALGLIB.alglib.studentttests.studentttest2(x, ln, y, lm, bt, lt, rt)
-                statistics(p) = bt
+                statistics(i) = ttest.TestValue
             Next
 
             Call tdistribution.AddRange(statistics)
@@ -381,18 +406,21 @@ Public Module PFSNet
         Return tdistribution.ToArray
     End Function
 
-    Private Function Internal_get_pscore(ccs_nodes As PFSNetGraph(), matrix As DataFrameRow()) As Double()()
-        Dim ChunkBuffer = (From x In ccs_nodes Select Internal_pscoring(x, matrix)).ToArray
-        Return ChunkBuffer
+    Private Function sapply_pscore(ccs As PFSNetGraph(), w1matrix1 As DataFrameRow()) As Double()()
+        Return (From x In ccs Select pscoring(x, w1matrix1)).ToArray
     End Function
 
-    Private Function Internal_pscoring(ccs_nodes As PFSNetGraph, matrix As DataFrameRow()) As Double()
-        Dim vertices = (From ccs_node In ccs_nodes.Nodes Select ccs_node.Name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
-        Dim ws = matrix.Select(vertices) 'ws<-w1matrix1[vertices,,drop=FALSE]
+    Private Function pscoring(x As PFSNetGraph, w1matrix1 As DataFrameRow()) As Double()
+        Dim vertices = (From ccs_node In x.Nodes Select ccs_node.Name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
+        Dim ws = w1matrix1.Select(vertices) 'ws<-w1matrix1[vertices,,drop=FALSE]
         Dim v = New List(Of Double) '	v<-c()
-        For j As Integer = 0 To ws.First.ExperimentValues.Length - 1
+        Dim ncol = ws(Scan0).Samples
+
+        For j As Integer = 0 To ncol - 1
             Dim p = j
-            Call v.Add((From d In ws Select ccs_nodes.Node(d.Name).weight * d.ExperimentValues(p)).ToArray.Sum)
+            Dim sum = (From d In ws Select x.Node(d.Name).weight * d.experiments(p)).Sum
+
+            Call v.Add(sum)
         Next
         'v()
         '#apply(ss,2,function(y){
@@ -401,18 +429,21 @@ Public Module PFSNet
         Return v.ToArray
     End Function
 
-    Private Function Internal_get_nscore(ccs_nodes As PFSNetGraph(), matrix As DataFrameRow()) As Double()()
-        Dim ChunkBuffer = (From node As PFSNetGraph In ccs_nodes Select Internal_nscoring(node, matrix)).ToArray
-        Return ChunkBuffer
+    Private Function sapply_nscore(ccs As PFSNetGraph(), w1matrix1 As DataFrameRow()) As Double()()
+        Return (From node As PFSNetGraph In ccs Select nscoring(node, w1matrix1)).ToArray
     End Function
 
-    Private Function Internal_nscoring(ccs_nodes As PFSNetGraph, matrix As DataFrameRow()) As Double()
-        Dim vertices = (From ccs_node In ccs_nodes.Nodes Select ccs_node.Name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
-        Dim ws = matrix.Select(vertices) 'ws<-w1matrix1[vertices,,drop=FALSE]
+    Private Function nscoring(x As PFSNetGraph, w1matrix1 As DataFrameRow()) As Double()
+        Dim vertices = (From ccs_node In x.Nodes Select ccs_node.Name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
+        Dim ws = w1matrix1.Select(vertices) 'ws<-w1matrix1[vertices,,drop=FALSE]
         Dim v = New List(Of Double) '	v<-c()
-        For j As Integer = 0 To ws.First.ExperimentValues.Length - 1
+        Dim ncol = ws(Scan0).Samples
+
+        For j As Integer = 0 To ncol - 1
             Dim p = j
-            Call v.Add((From d In ws Select ccs_nodes.Node(d.Name).weight2 * d.ExperimentValues(p)).ToArray.Sum)
+            Dim sum = (From d In ws Select x.Node(d.Name).weight2 * d.experiments(p)).Sum
+
+            Call v.Add(sum)
         Next
         'v()
         '#apply(ss,2,function(y){
