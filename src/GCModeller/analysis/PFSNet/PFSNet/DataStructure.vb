@@ -68,7 +68,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -80,7 +79,7 @@ Namespace DataStructure
     ''' <remarks></remarks>
     Public Class DataFrameRow
 
-        Public Property Name As String
+        Public Property geneID As String
         ''' <summary>
         ''' This gene's expression value in the different experiment condition.(同一个基因在不同实验之下的表达值)
         ''' </summary>
@@ -102,7 +101,7 @@ Namespace DataStructure
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}   ==> {1}", Name, String.Join(", ", experiments))
+            Return String.Format("{0}   ==> {1}", geneID, String.Join(", ", experiments))
         End Function
 
         ''' <summary>
@@ -117,7 +116,7 @@ Namespace DataStructure
                                                  In IO.File.ReadAllLines(path)
                                                  Let Tokens As String() = Strings.Split(line, vbTab)
                                                  Select New DataFrameRow With {
-                                                     .Name = Tokens.First,
+                                                     .geneID = Tokens.First,
                                                      .experiments = (From s As String
                                                                           In Tokens
                                                                      Select Val(s)).ToArray
@@ -131,7 +130,7 @@ Namespace DataStructure
                                                  In data
                                                  Let samples As Double() = x.experiments.Takes(sampleVector, reversed:=reversed)
                                                  Select New DataFrameRow With {
-                                                     .Name = x.Name,
+                                                     .geneID = x.geneID,
                                                      .experiments = samples
                                                  }
             Return LQuery
@@ -147,7 +146,7 @@ Namespace DataStructure
             Dim LQuery = (From i As Integer In data.First.experiments.Sequence
                           Let rows = (From row In data Select row.experiments(i)).ToArray
                           Select rows).ToArray
-            Return New KeyValuePair(Of String(), Double()())((From row In data Select row.Name).ToArray, LQuery)
+            Return New KeyValuePair(Of String(), Double()())((From row In data Select row.geneID).ToArray, LQuery)
         End Function
 
         Public Shared Function CreateDataFrameFromCache(names As String(), cols As Double()()) As DataFrameRow()
@@ -158,7 +157,7 @@ Namespace DataStructure
                                                                             In cols
                                                                             Select col(i.i)).ToArray
                                                  Select New DataFrameRow With {
-                                                     .Name = i.value,
+                                                     .geneID = i.value,
                                                      .experiments = samples
                                                  }
             Return LQuery

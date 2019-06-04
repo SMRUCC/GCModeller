@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports SMRUCC.genomics.Analysis.PFSNet.R
 
-<HideModuleName> Module computew1
+<HideModuleName> Module computew1Function
 
     ''' <summary>
     ''' ```R
@@ -56,7 +56,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Return expr _
             .Select(Function(r, i)
                         Return New DataFrameRow With {
-                            .Name = r.Name,
+                            .geneID = r.geneID,
                             .experiments = result(i)
                         }
                     End Function) _

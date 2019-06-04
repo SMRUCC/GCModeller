@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports SMRUCC.genomics.Analysis.PFSNet.R
 
-<HideModuleName> Module estimatetdist
+<HideModuleName> Module estimatetdistFunction
 
     Public Function estimatetdist(d1 As DataFrameRow(), d2 As DataFrameRow(), ggi As GraphEdge(), b As Double, t1 As Double, t2 As Double, n As Integer) As Double()
         Dim total = cbind(d1, d2) 'total<-cbind(d1,d2)
@@ -96,7 +96,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 
         For j As Integer = 0 To ncol - 1
             Dim p = j
-            Dim sum = (From d In ws Select x.Node(d.Name).weight * d.experiments(p)).Sum
+            Dim sum = (From d In ws Select x.Node(d.geneID).weight * d.experiments(p)).Sum
 
             Call v.Add(sum)
         Next
@@ -119,7 +119,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 
         For j As Integer = 0 To ncol - 1
             Dim p = j
-            Dim sum = (From d In ws Select x.Node(d.Name).weight2 * d.experiments(p)).Sum
+            Dim sum = (From d In ws Select x.Node(d.geneID).weight2 * d.experiments(p)).Sum
 
             Call v.Add(sum)
         Next

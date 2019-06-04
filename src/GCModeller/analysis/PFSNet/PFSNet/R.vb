@@ -55,12 +55,12 @@ Namespace R
     Module Base
 
         <Extension> Public Function [Select](data As DataFrameRow(), names As String()) As DataFrameRow()
-            Dim LQuery = (From item In data Where Array.IndexOf(names, item.Name) > -1 Select item).ToArray
+            Dim LQuery = (From item In data Where Array.IndexOf(names, item.geneID) > -1 Select item).ToArray
             Return LQuery
         End Function
 
         <Extension> Public Function [Select](data As DataFrameRow(), name As String) As DataFrameRow
-            Dim LQuery = (From item In data Where String.Equals(item.Name, name) Select item).ToArray
+            Dim LQuery = (From item In data Where String.Equals(item.geneID, name) Select item).ToArray
             Return LQuery.FirstOrDefault
         End Function
 
@@ -82,13 +82,13 @@ Namespace R
         End Function
 
         Public Iterator Function cbind(d1 As DataFrameRow(), d2 As DataFrameRow()) As IEnumerable(Of DataFrameRow)
-            Dim appendLookup = d2.ToDictionary(Function(d) d.Name)
+            Dim appendLookup = d2.ToDictionary(Function(d) d.geneID)
             Dim append As DataFrameRow
             Dim samplesN2 As Integer = d2(Scan0).Samples
             Dim vec As Double()
 
             For Each gene As DataFrameRow In d1
-                append = appendLookup.TryGetValue(gene.Name)
+                append = appendLookup.TryGetValue(gene.geneID)
 
                 If append Is Nothing Then
                     vec = 0#.Repeats(samplesN2)
@@ -99,7 +99,7 @@ Namespace R
                 vec = gene.experiments.Join(vec).ToArray
 
                 Yield New DataFrameRow With {
-                    .Name = gene.Name,
+                    .geneID = gene.geneID,
                     .experiments = vec
                 }
             Next

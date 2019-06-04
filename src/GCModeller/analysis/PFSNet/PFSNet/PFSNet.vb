@@ -66,7 +66,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 <Package("PfsNET.Parallel",
                     Description:="PfsNET algorithm implments in VisualBasic language for large scale network high-performance calculation.",
                     Publisher:="xie.guigang@gcmodeller.org")>
-Public Module PFSNet
+<HideModuleName> Public Module PFSNetAlgorithm
 
     ''' <summary>
     ''' The united PfsNET evaluate interface handler for the R version scripting engine and VisualBasic evaluation engine.
@@ -100,7 +100,7 @@ Public Module PFSNet
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function computegenelist(w As DataFrameRow(), beta As Double) As String()
-        Dim geneIDs As New StringVector(From gene In w Select gene.Name)
+        Dim geneIDs As New StringVector(From gene In w Select gene.geneID)
         Dim maskQuery = From row As DataFrameRow
                         In w
                         Let x As Double() = row.experiments
