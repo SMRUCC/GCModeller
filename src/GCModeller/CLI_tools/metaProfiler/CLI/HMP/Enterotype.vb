@@ -1,7 +1,9 @@
 ﻿Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports SMRUCC.genomics.Analysis.Metagenome
 
 Partial Module CLI
 
@@ -15,8 +17,8 @@ Partial Module CLI
         Dim data As DataSet() = DataSet _
             .LoadDataSet([in], tsv:=[in].ExtensionSuffix.TextEquals("txt")) _
             .ToArray
+        Dim result = data.JSD.PAMclustering
 
-
-
+        Return result.SaveTo(out).CLICode
     End Function
 End Module
