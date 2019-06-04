@@ -41,11 +41,12 @@
 
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Text
-Imports RDotNET
-Imports RDotNET.Extensions.VisualBasic.API
-Imports RDotNET.Extensions.VisualBasic.RSystem
+Imports RDotNet
+Imports RDotNet.Extensions.VisualBasic.API
+Imports RDotNet.Extensions.VisualBasic.RSystem
 Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner

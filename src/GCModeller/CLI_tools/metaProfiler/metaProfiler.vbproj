@@ -188,6 +188,7 @@
     <Compile Include="CLI\HMP\HMP.vb" />
     <Compile Include="CLI\AntibioticResistance.vb" />
     <Compile Include="CLI\gast.vb" />
+    <Compile Include="CLI\HMP\Enterotype.vb" />
     <Compile Include="CLI\Network.vb" />
     <Compile Include="CLI\SILVA.vb" />
     <Compile Include="Program.vb" />
@@ -267,6 +268,10 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\GraphTheory.vbproj">
       <Project>{203bc68f-a0cd-443a-ab62-4af4110f752f}</Project>
       <Name>GraphTheory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFrame\DataFrame.vbproj">
+      <Project>{6140aed7-e317-46dd-9c15-7fe400795992}</Project>
+      <Name>DataFrame</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>

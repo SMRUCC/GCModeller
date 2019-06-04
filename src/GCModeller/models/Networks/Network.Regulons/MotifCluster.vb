@@ -59,26 +59,26 @@ Public Module MotifCluster
     ''' 首先和目标表型的LDM进行全局比对做Mapping映射为长度一致的实体对象
     ''' </summary>
     ''' <param name="source">无法进行比对的结果将会被忽略掉</param>
-    ''' <param name="LDM"></param>
+    ''' <param name="annotations"></param>
     ''' <param name="param">TOM全局比对的参数信息</param>
     ''' <returns></returns>
     ''' 
     <ExportAPI("Lev.Mappings")>
-    Public Function Mappings(source As IEnumerable(Of AnnotationModel), LDM As AnnotationModel, param As Parameters) As Entity()
+    Public Function Mappings(source As IEnumerable(Of AnnotationModel), annotations As AnnotationModel, param As Parameters) As ClusterEntity()
         Dim method As ColumnCompare = TomTOm.GetMethod(param.Method)
         Dim LQuery = (From x As AnnotationModel In source
-                      Let edits = TomTOm.Compare(x, LDM, method, param)
+                      Let edits = TomTOm.Compare(x, annotations, method, param)
                       Where Not edits Is Nothing
                       Select x,
                           edits,
                           el = edits.DistEdits.Length).ToArray
-        Dim buffer As New List(Of Entity)
+        Dim buffer As New List(Of ClusterEntity)
 
         For Each map In LQuery  ' 获取得到映射
             Dim mapResult As ResidueSite() = Nothing
-            Call map.edits.GetMatches(map.x.PWM, LDM.PWM, mapResult, Nothing) ' 长度不一样？？？
+            Call map.edits.GetMatches(map.x.PWM, annotations.PWM, mapResult, Nothing) ' 长度不一样？？？
 
-            Dim mapObj As New Entity With {
+            Dim mapObj As New ClusterEntity With {
                 .uid = map.x.Uid,
                 .Properties = mapResult.Where(Function(x) Not x Is Nothing).Select(Function(x) x.Bits + x.PWM.Average)
             }
@@ -88,7 +88,7 @@ Public Module MotifCluster
         Dim maxL = buffer.Select(Function(x) x.Length).Max
 
         If maxL = 0 Then
-            Return New Entity() {}
+            Return New ClusterEntity() {}
         End If
 
         For Each x In buffer
