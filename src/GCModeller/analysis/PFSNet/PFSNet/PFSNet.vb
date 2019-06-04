@@ -49,6 +49,10 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
@@ -99,21 +103,33 @@ Public Module PFSNet
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function computew1(expr As DataFrameRow(), theta1 As Double, theta2 As Double) As DataFrameRow()
-        Dim data = (From item In expr Select item.ExperimentValues).ToArray.ToMatrix
-        Call ALGLIB.alglib.rankdata(data)
-        Dim ldata = data.ToVectorList
-        expr = (From i As Integer In expr.Sequence Select New DataFrameRow With {.Name = expr(i).Name, .ExperimentValues = ldata(i)}).ToArray
-        Dim LQueryCache = DataFrameRow.CreateApplyFunctionCache(expr)
-        Dim fuzzyWeights = (From line In LQueryCache.Value Select computew1(line, theta1, theta2)).ToArray
-        Return DataFrameRow.CreateDataFrameFromCache(LQueryCache.Key, fuzzyWeights)
-    End Function
+        Dim ranks As Vector() = expr _
+            .Select(Function(r) r.ExperimentValues.AsVector) _
+            .Apply(math:=Function(x)
+                             Dim data As Double() = x.ToArray
+                             Dim rankVec As Vector = data.Ranking(Strategies.DenseRanking).AsVector
+                             Return rankVec / data.Length
+                         End Function,
+                   axis:=ApplyOnAxis.Column,
+                   aggregate:=Function(x) x.Select(Function(v) v.AsVector)) _
+            .ToArray
+        Dim result = ranks _
+            .Apply(math:=Function(x)
+                             Dim q2 = Quantile.Threshold(x, theta2)
+                             Dim q1 = Quantile.Threshold(x, theta1)
+                             Dim m = x.Median
+                             Dim mx = x.Max
+                             Dim delta_q12 As Double = q1 - q2
 
-    Public Function computew1(expr As Double(), theta1 As Double, theta2 As Double) As Double()
-        Dim q1 As Double = R.Base.Quantile(expr, theta1)
-        Dim q2 As Double = R.Base.Quantile(expr, theta2)
-        Dim delta_q12 As Double = q1 - q2
-        Dim Weights As Double() = (From x As Double In expr Select Internal_getFuzzyWeight(x, q1, q2, delta_q12)).ToArray
-        Return Weights
+                             Return x.Select(Function(y) getFuzzyWeight(y, q1, q2, delta_q12))
+                         End Function,
+                   axis:=ApplyOnAxis.Column,
+                   aggregate:=Function(x)
+                                  Return x.Select(Function(v) v.AsVector)
+                              End Function) _
+            .ToArray
+
+        Return DataFrameRow.CreateDataFrameFromCache(LQueryCache.Key, fuzzyWeights)
     End Function
 
     ''' <summary>
@@ -125,13 +141,13 @@ Public Module PFSNet
     ''' <param name="delta_q12"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function Internal_getFuzzyWeight(y As Double, q1 As Double, q2 As Double, delta_q12 As Double) As Double
-        If y >= q1 Then
+    Private Function getFuzzyWeight(y As Double, q1 As Double, q2 As Double, delta_q12 As Double) As Double
+        If y.IsNaNImaginary Then
+            Return Double.NaN
+        ElseIf y >= q1 Then
             Return 1
         ElseIf y >= q2 Then
             Return (y - q2) / delta_q12
-        ElseIf q1.IsNaNImaginary OrElse q2.IsNaNImaginary Then
-            Return Double.NaN
         Else
             Return 0
         End If

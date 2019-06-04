@@ -54,37 +54,6 @@ Namespace R
 
     Module Base
 
-        ''' <summary>
-        ''' The generic function quantile produces sample quantiles corresponding to the given probabilities. 
-        ''' The smallest observation corresponds to a probability of 0 and the largest to a probability of 1.
-        ''' </summary>
-        ''' <param name="x">
-        ''' numeric vector whose sample quantiles are wanted, or an object of a class for which a method has been defined (see also ‘details’). 
-        ''' NA and NaN values are not allowed in numeric vectors unless na.rm is TRUE.</param>
-        ''' <param name="probs">
-        ''' numeric vector of probabilities with values in [0,1]. (Values up to 2e-14 outside that range are accepted and moved to the nearby endpoint.)
-        ''' </param>
-        ''' <remarks></remarks>
-        Public Function Quantile(x As Double(), probs As Double) As Double
-            'Dim groupedList = (From n As Double In x Select n Group n By n Into Group).ToArray
-            'Dim xLen As Integer = x.Length
-            'Dim dist = (From n In groupedList Let data As Double() = n.Group.ToArray Select n.n, pro = data.Count / xLen, data Order By data.Count Descending).ToArray
-            'Dim ChunkBuffer = (From item In dist Where item.pro >= probs Select item.data).ToArray.MatrixToList
-            Dim q As Double
-
-            'If ChunkBuffer.IsNullOrEmpty Then
-            '    q = dist.First.n
-            'Else
-            '    q = ChunkBuffer.Average
-            'End If
-
-            'Return q
-
-            Call ALGLIB.alglib.samplepercentile(x, probs, q)
-
-            Return q
-        End Function
-
         <Extension> Public Function [Select](data As DataFrameRow(), names As String()) As DataFrameRow()
             Dim LQuery = (From item In data Where Array.IndexOf(names, item.Name) > -1 Select item).ToArray
             Return LQuery
