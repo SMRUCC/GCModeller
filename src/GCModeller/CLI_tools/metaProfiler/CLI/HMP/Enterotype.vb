@@ -10,14 +10,14 @@ Partial Module CLI
 
     <ExportAPI("/do.enterotype.cluster")>
     <Description("")>
-    <Usage("/do.enterotype.cluster /in <dataset.csv/txt> [/iterations 10000 /parallel /out <clusters.csv>]")>
+    <Usage("/do.enterotype.cluster /in <dataset.csv/txt> [/iterations 50000 /parallel /out <clusters.csv>]")>
     Public Function DoEnterotypeCluster(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim iterations% = args("/iterations") Or 10000
+        Dim iterations% = args("/iterations") Or 50000
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.DoEnterotypeCluster.csv"
         Dim data As DataSet() = DataSet _
             .LoadDataSet([in], tsv:=[in].ExtensionSuffix.TextEquals("txt")) _
-            .SimulateMissingValues(byRow:=False, infer:=InferMethods.Min) _
+            .SimulateMissingValues(byRow:=True, infer:=InferMethods.Min) _
             .ToArray
         Dim parallel As Boolean = args("/parallel")
         Dim result = data.JSD(parallel:=parallel).PAMclustering
