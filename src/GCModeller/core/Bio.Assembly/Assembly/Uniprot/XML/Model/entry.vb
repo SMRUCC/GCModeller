@@ -54,9 +54,10 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Assembly.Uniprot.XML
 
     ''' <summary>
-    ''' 因为<see cref="accessions"/>可能会出现多个值，所以会需要使用
+    ''' Describes a UniProtKB entry.
+    ''' (因为<see cref="accessions"/>可能会出现多个值，所以会需要使用
     ''' <see cref="entry.ShadowCopy()"/>函数来解决实体多态的问题。
-    ''' 经过shadow copy之后可以使用主键<see cref="accession"/>来创建字典
+    ''' 经过shadow copy之后可以使用主键<see cref="accession"/>来创建字典)
     ''' </summary>
     Public Class entry : Implements INamedValue
 
@@ -113,20 +114,20 @@ Namespace Assembly.Uniprot.XML
         End Property
 
         ''' <summary>
-        ''' Dictionary table can be read from <see cref="Xrefs"/> property
+        ''' Dictionary table can be read from <see cref="xrefs"/> property
         ''' </summary>
         ''' <returns></returns>
         <XmlElement("dbReference")> Public Property dbReferences As dbReference()
             Get
-                Return Xrefs.Values.ToVector
+                Return xrefs.Values.ToVector
             End Get
             Set(value As dbReference())
                 If value Is Nothing Then
-                    _Xrefs = New Dictionary(Of String, dbReference())
+                    _xrefs = New Dictionary(Of String, dbReference())
                     Return
                 End If
 
-                _Xrefs = value _
+                _xrefs = value _
                     .OrderBy(Function(ref) ref.type) _
                     .GroupBy(Function(ref) ref.type) _
                     .ToDictionary(Function(t) t.Key,
@@ -142,7 +143,7 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <returns></returns>
         <XmlIgnore>
-        Public ReadOnly Property Xrefs As Dictionary(Of String, dbReference())
+        Public ReadOnly Property xrefs As Dictionary(Of String, dbReference())
 
         Public Overrides Function ToString() As String
             Return accessions.GetJson

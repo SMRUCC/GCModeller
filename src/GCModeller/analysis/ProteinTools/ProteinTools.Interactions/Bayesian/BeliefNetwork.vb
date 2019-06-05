@@ -42,8 +42,10 @@
 #End Region
 
 Imports Microsoft.VisualBasic.DataMining
+Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.Kernel.BayesianBeliefNetwork.BeliefNetwork.NetworkLayout
 Imports Microsoft.VisualBasic.DataMining.Kernel.BayesianBeliefNetwork.BeliefNetwork.NetworkLayout.BeliefNode.CPTableF
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SequenceAssembler
 
@@ -82,8 +84,7 @@ Public Class BeliefNetwork
                 InitializeFirstNode()
             }
         For colIndex As Integer = 1 To Data.Count - 1
-            Dim EntityList As DataMining.ComponentModel.Entity() =
-                Convert(New SequenceAssembler.AlignmentColumn() {Data(colIndex - 1)}, Data(colIndex))
+            Dim EntityList As IntegerEntity() = Convert(New SequenceAssembler.AlignmentColumn() {Data(colIndex - 1)}, Data(colIndex)).ToArray
             Dim CpTable As List(Of CPColumn) = New List(Of CPColumn)
             Dim Bayesian = DataMining.Kernel.Classifier.Bayesian.Load(EntityList)
 
@@ -173,21 +174,20 @@ Public Class BeliefNetwork
     ''' <param name="TargetColumn">Entity.Class</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function Convert(SubjectColumns As AlignmentColumn(), TargetColumn As AlignmentColumn) As DataMining.ComponentModel.Entity()
-        Dim EntityList As New List(Of DataMining.ComponentModel.Entity)
-        For Handle As Integer = 0 To TargetColumn.CharArray.Count - 1
-            Dim TargetClass As Integer = AlignmentColumn.ProteinAlphabetDictionary(TargetColumn.CharArray(Handle))
-            Dim Hwnd As Integer = Handle
+    Public Shared Iterator Function Convert(SubjectColumns As AlignmentColumn(), TargetColumn As AlignmentColumn) As IEnumerable(Of IntegerEntity)
+        For index As Integer = 0 To TargetColumn.CharArray.Length - 1
+
+            Dim TargetClass As Integer = AlignmentColumn.ProteinAlphabetDictionary(TargetColumn.CharArray(index))
+            Dim Hwnd As Integer = index
             Dim EntityProperty As Integer() = (From idx As Integer
                                                In SubjectColumns.Sequence
                                                Let col As SequenceAssembler.AlignmentColumn = SubjectColumns(idx)
                                                Let residue As Char = col.CharArray(Hwnd)
                                                Select SequenceAssembler.AlignmentColumn.ProteinAlphabetDictionary(residue)).ToArray
-            Call EntityList.Add(New DataMining.ComponentModel.Entity With {
-                                    .Class = TargetClass,
-                                    .Properties = EntityProperty})
+            Yield New IntegerEntity With {
+                .Class = TargetClass,
+                .Properties = EntityProperty
+            }
         Next
-
-        Return EntityList.ToArray
     End Function
 End Class
