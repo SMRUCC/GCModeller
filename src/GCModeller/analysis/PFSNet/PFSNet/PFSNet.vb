@@ -49,6 +49,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
@@ -67,21 +68,6 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
                     Description:="PfsNET algorithm implments in VisualBasic language for large scale network high-performance calculation.",
                     Publisher:="xie.guigang@gcmodeller.org")>
 <HideModuleName> Public Module PFSNetAlgorithm
-
-    ''' <summary>
-    ''' The united PfsNET evaluate interface handler for the R version scripting engine and VisualBasic evaluation engine.
-    ''' (R版本和VB版本的计算函数的统一接口(好像R的版本不能够并行化))
-    ''' </summary>
-    ''' <param name="file1">The expression data file of mutation for one phenotype.(基因表达数据1)</param>
-    ''' <param name="file2">The expression data file of mutation for another phenotype.(基因表达数据2)</param>
-    ''' <param name="file3">The gene interaction relationship table.(基因互作关系列表)</param>
-    ''' <param name="b">The sub network screening cutoff value.(子网络基因筛选阈值)</param>
-    ''' <param name="t1">The upbound value of the fuzzy weight calculation.(模糊权重计算上限)</param>
-    ''' <param name="t2">The lower bound value of the fuzzy weight calculation.(模糊权重计算下限)</param>
-    ''' <param name="n">The hypothesis testing count of the PfsNET calculation sub network.(假设检验的统计次数)</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Delegate Function PFSNetEvaluateHandle(file1 As String, file2 As String, file3 As String, b As Double, t1 As Double, t2 As Double, n As Double) As PFSNetResultOut
 
     ''' <summary>
     ''' ```R
@@ -112,6 +98,19 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Return geneIDs(list_mask)
     End Function
 
+    ''' <summary>
+    ''' The united PfsNET evaluate interface handler for the R version scripting engine and VisualBasic evaluation engine.
+    ''' (R版本和VB版本的计算函数的统一接口(好像R的版本不能够并行化))
+    ''' </summary>
+    ''' <param name="file1">The expression data file of mutation for one phenotype.(基因表达数据1)</param>
+    ''' <param name="file2">The expression data file of mutation for another phenotype.(基因表达数据2)</param>
+    ''' <param name="file3">The gene interaction relationship table.(基因互作关系列表)</param>
+    ''' <param name="b">The sub network screening cutoff value.(子网络基因筛选阈值)</param>
+    ''' <param name="t1">The upbound value of the fuzzy weight calculation.(模糊权重计算上限)</param>
+    ''' <param name="t2">The lower bound value of the fuzzy weight calculation.(模糊权重计算下限)</param>
+    ''' <param name="n">The hypothesis testing count of the PfsNET calculation sub network.(假设检验的统计次数)</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     <ExportAPI("PfsNet.Evaluate")>
     Public Function pfsnet(file1 As String, file2 As String, file3 As String, Optional b As Double = 0.5, Optional t1 As Double = 0.95, Optional t2 As Double = 0.85, Optional n As Double = 1000) _
         As PFSNetResultOut
@@ -138,10 +137,25 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim w1matrix1 = computew1(expr1o, theta1:=t1, theta2:=t2)
         Dim w1matrix2 = computew1(expr2o, theta1:=t1, theta2:=t2)
         cat(".")
-        Dim genelist1 As String() = computegenelist(w1matrix1, beta:=b)
-        Dim genelist2 As String() = computegenelist(w1matrix2, beta:=b)
+        Dim genelist1 As Index(Of String) = computegenelist(w1matrix1, beta:=b)
+        Dim genelist2 As Index(Of String) = computegenelist(w1matrix2, beta:=b)
         cat("\t[DONE]\n")
         cat("computing subnetworks")
+
+        Dim ggi_mask = ggi.Select(Function(i)
+                                      If i.g1 Like genelist1 AndAlso i.g2 Like genelist1 Then
+                                          Return True
+                                      Else
+                                          Return False
+                                      End If
+                                  End Function).ToArray
+        Dim masked_ggi = ggi.Takes(ggi_mask).ToArray
+        masked_ggi = masked_ggi.Where(Function(i) i.g1 <> i.g2).ToArray
+
+        cat(".")
+
+
+
 
         Dim masked_ggi = InternalMaskGGI(ggi, genelist1, genelist2, False)
         Dim ccs = (From g In (From item In masked_ggi Select item Group item By item.PathwayID Into Group).ToArray
