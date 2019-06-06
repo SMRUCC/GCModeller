@@ -52,13 +52,13 @@ Namespace R.Graph
         Public Function simplify(graph As PFSNetGraph) As PFSNetGraph
             Dim edges As GraphEdge() = (From edge As GraphEdge
                                         In graph.edges
-                                        Where Not edge.SelfLoop
+                                        Where Not edge.isSelfLoop
                                         Select edge).ToArray
             Return New PFSNetGraph With {
                 .nodes = graph.nodes,
                 .edges = edges,
                 .masked = graph.masked,
-                .Id = graph.edges.First.PathwayID
+                .Id = graph.edges.First.pathwayID
             }
         End Function
     End Module

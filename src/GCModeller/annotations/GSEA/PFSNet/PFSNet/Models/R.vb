@@ -82,7 +82,7 @@ Namespace R
         Public Iterator Function cbind(d1 As DataFrameRow(), d2 As DataFrameRow()) As IEnumerable(Of DataFrameRow)
             Dim appendLookup = d2.ToDictionary(Function(d) d.geneID)
             Dim append As DataFrameRow
-            Dim samplesN2 As Integer = d2(Scan0).Samples
+            Dim samplesN2 As Integer = d2(Scan0).samples
             Dim vec As Double()
 
             For Each gene As DataFrameRow In d1

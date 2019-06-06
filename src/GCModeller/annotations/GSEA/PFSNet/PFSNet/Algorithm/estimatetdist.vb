@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 
     <Extension>
     Private Function estimatetdistLoop(total As DataFrameRow(), ggi As GraphEdge(), d1 As DataFrameRow(), d2 As DataFrameRow(), t1#, t2#, b#) As Double()
-        Dim samplevector = Sample(total.First.Samples - 1, d1.First.Samples - 1)
+        Dim samplevector = Sample(total.First.samples - 1, d1.First.samples - 1)
         Dim expr1o = DataFrameRow.TakeSamples(total, samplevector, False)
         Dim expr2o = DataFrameRow.TakeSamples(total, samplevector, True)
         Dim w1matrix1 = computew1(expr1o, theta1:=t1, theta2:=t2)

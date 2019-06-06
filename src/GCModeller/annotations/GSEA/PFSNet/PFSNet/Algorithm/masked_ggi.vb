@@ -83,7 +83,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim pathwayList = (From gene As GraphEdge
                            In masked_ggi
                            Select gene
-                           Group gene By gene.PathwayID Into Group) _
+                           Group gene By gene.pathwayID Into Group) _
             .ToDictionary(Function(g) g.PathwayID,
                           Function(genes)
                               Return genes.Group.ToArray

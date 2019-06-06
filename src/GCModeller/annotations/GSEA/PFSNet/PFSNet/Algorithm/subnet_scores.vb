@@ -37,7 +37,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim vertices = (From ccs_node In x.nodes Select ccs_node.name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
         Dim ws = w1matrix1.Select(vertices) 'ws<-w1matrix1[vertices,,drop=FALSE]
         Dim v = New List(Of Double) '	v<-c()
-        Dim ncol = ws(Scan0).Samples
+        Dim ncol = ws(Scan0).samples
 
         For j As Integer = 0 To ncol - 1
             Dim p = j
@@ -60,7 +60,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim vertices = (From ccs_node In x.nodes Select ccs_node.name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
         Dim ws = w1matrix1.Select(vertices) 'ws<-w1matrix1[vertices,,drop=FALSE]
         Dim v = New List(Of Double) '	v<-c()
-        Dim ncol = ws(Scan0).Samples
+        Dim ncol = ws(Scan0).samples
 
         For j As Integer = 0 To ncol - 1
             Dim p = j
