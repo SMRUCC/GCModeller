@@ -1,6 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
@@ -8,7 +7,14 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 
 <HideModuleName> Module estimatetdistFunction
 
-    Public Function estimatetdist(d1 As DataFrameRow(), d2 As DataFrameRow(), ggi As GraphEdge(), b As Double, t1 As Double, t2 As Double, n As Integer) As Double()
+    Public Function estimatetdist(d1 As DataFrameRow(),
+                                  d2 As DataFrameRow(),
+                                  ggi As GraphEdge(),
+                                  b As Double,
+                                  t1 As Double,
+                                  t2 As Double,
+                                  n As Integer) As Double()
+
         Dim total = cbind(d1, d2) 'total<-cbind(d1,d2)
         Dim tdistribution As New List(Of Double) 'tdistribution<-c()
 
@@ -18,8 +24,8 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
             Dim samplevector = Sample(total.First.Samples - 1, d1.First.Samples - 1)
             Dim expr1o = DataFrameRow.TakeSamples(total, samplevector, False)
             Dim expr2o = DataFrameRow.TakeSamples(total, samplevector, True)
-            Dim w1matrix1 = PFSNet.computew1(expr1o, theta1:=t1, theta2:=t2)
-            Dim w1matrix2 = PFSNet.computew1(expr2o, theta1:=t1, theta2:=t2)
+            Dim w1matrix1 = computew1(expr1o, theta1:=t1, theta2:=t2)
+            Dim w1matrix2 = computew1(expr2o, theta1:=t1, theta2:=t2)
 
             Dim genelist1 As Index(Of String) = computegenelist(w1matrix1, beta:=b)
             Dim genelist2 As Index(Of String) = computegenelist(w1matrix2, beta:=b)
@@ -29,35 +35,9 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
             ' 		TRUE
             ' 	else FALSE
             '})
-            Dim ggi_mask = ggi.Select(Function(interaction)
-                                          If interaction.g1 Like genelist1 AndAlso interaction.g2 Like genelist1 Then
-                                              Return True
-                                          Else
-                                              Return False
-                                          End If
-                                      End Function).ToArray
-            Dim masked_ggi As GraphEdge() = ggi.Takes(ggi_mask).ToArray
-
-            ' masked.ggi <- masked.ggi[(masked.ggi[, "g1"] != masked.ggi[, "g2"]), ]
-            masked_ggi = masked_ggi _
-                .Where(Function(inter) inter.g1 <> inter.g2) _
-                .ToArray
-
-            Dim bypathway = Function(pathwayid As String)
-                                ' 总的网络
-                                Dim g As PFSNetGraph = Graph.Data.Frame(masked_ggi.Where(Function(p) p.PathwayID = pathwayid).ToArray)
-
-                                For ivg As Integer = 0 To g.Nodes.Length - 1
-                                    g.Nodes(ivg).weight = w1matrix1.Select(g.Nodes(ivg).Name).experiments.Sum / w1matrix1.Select(g.Nodes.First.Name).experiments.Where(Function(y) Not y.IsNaNImaginary).Count
-                                    g.Nodes(ivg).weight2 = w1matrix2.Select(g.Nodes(ivg).Name).experiments.Sum / w1matrix2.Select(g.Nodes.First.Name).experiments.Where(Function(y) Not y.IsNaNImaginary).Count
-                                Next
-
-                                ' 计算出总的网络之后再将总的网络分解为小得网络对象
-                                g = Graph.simplify(g)
-                                Return g  '   Return Graph.decompose_graph(g, min_vertices:=5)
-                            End Function
-
-            Dim ccs = masked_ggi.Select(Function(p) p.PathwayID).Distinct.Select(bypathway).ToArray
+            Dim ggi_mask = ggi.ggi_mask(genelist1)
+            Dim masked_ggi As GraphEdge() = ggi.getMasked_ggi(ggi_mask)
+            Dim ccs = masked_ggi.ccs(w1matrix1, w1matrix2).ToArray
 
             '	ccs <- unlist(ccs, recursive=FALSE)
 
@@ -65,7 +45,6 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
             Dim nscore = sapply_nscore(ccs, w1matrix1)
 
             Dim statistics As Double() = rep(False, ccs.Length)
-            Dim rand As New Random
 
             For p As Integer = 0 To ccs.Length - 1
                 Dim x = pscore(p), y = nscore(p)

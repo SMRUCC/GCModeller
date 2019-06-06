@@ -201,27 +201,6 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Return xml.SaveTo(saveto)
     End Function
 
-    Private Function InternalMaskGGI(ggi As GraphEdge(), genelist1 As String(), genelist2 As String(), reversed As Boolean) As GraphEdge()
-        Dim masked_ggi As GraphEdge()
-
-        If Not reversed Then
-            '# ggi_mask <- apply(ggi, 1, func <- function(i){
-            '# 	if ((i[2] %in% genelist1$gl) && (i[3] %in% genelist1$gl))
-            '# 		TRUE
-            '# 	else FALSE
-            '# })
-            masked_ggi = (From item As GraphEdge In ggi
-                          Where (Array.IndexOf(genelist1, item.g1) > -1 AndAlso Array.IndexOf(genelist1, item.g2) > -1) AndAlso Not String.Equals(item.g1, item.g2)
-                          Select item).ToArray       '	masked.ggi <- masked.ggi[(masked.ggi[, "g1"] != masked.ggi[, "g2"]), ]
-        Else
-            masked_ggi = (From item As GraphEdge In ggi
-                          Where (Array.IndexOf(genelist1, item.g2) > -1 AndAlso Array.IndexOf(genelist1, item.g1) > -1) AndAlso Not String.Equals(item.g1, item.g2)
-                          Select item).ToArray
-        End If
-
-        Return masked_ggi
-    End Function
-
     Private Function Internal_statics(ccs_nodes As PFSNetGraph(), _pscore As Double()(), _nscore As Double()(), _tdist As Double()) As PFSNetGraph()
         For i As Integer = 0 To ccs_nodes.Length - 1
             Dim ccs_node = ccs_nodes(i)

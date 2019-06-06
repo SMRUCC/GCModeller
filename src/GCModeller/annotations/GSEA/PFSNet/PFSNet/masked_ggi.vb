@@ -78,6 +78,8 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     ''' 
     <Extension>
     Public Function ccs(masked_ggi As GraphEdge(), w1matrix1 As DataFrameRow(), w1matrix2 As DataFrameRow()) As IEnumerable(Of PFSNetGraph)
+        ' masked.ggi[ masked.ggi[,"pathway"]==pathwayid, c("g1", "g2", "pathway")]
+        ' 这段R代码和下面的Group操作的效果是一样的
         Dim pathwayList = (From gene As GraphEdge
                            In masked_ggi
                            Select gene
