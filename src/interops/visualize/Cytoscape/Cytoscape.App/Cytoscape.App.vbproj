@@ -257,10 +257,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\PFSNet\PFSNet.vbproj">
-      <Project>{8f90da49-5d2b-463d-9b36-5cd64b7846aa}</Project>
-      <Name>PFSNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
       <Project>{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}</Project>
       <Name>Toolkits.RNA-Seq.RTools</Name>
