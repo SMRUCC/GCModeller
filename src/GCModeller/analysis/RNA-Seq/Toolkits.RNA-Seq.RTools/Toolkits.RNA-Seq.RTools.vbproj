@@ -296,13 +296,13 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\annotations\GSEA\PFSNet\PFSNet\PFSNet.vbproj">
+      <Project>{8f90da49-5d2b-463d-9b36-5cd64b7846aa}</Project>
+      <Name>PFSNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\PFSNet\PFSNet.vbproj">
-      <Project>{8f90da49-5d2b-463d-9b36-5cd64b7846aa}</Project>
-      <Name>PFSNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
       <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>

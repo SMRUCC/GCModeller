@@ -48,7 +48,6 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.DataMining.DFL_Driver
-Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators
 
 Namespace TRN.KineticsModel

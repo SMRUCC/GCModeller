@@ -323,17 +323,17 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25rdf+xml\application.rdf_xml.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25RDF+xml\application.RDF_xml.vbproj">
       <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
-      <Name>application.rdf_xml</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SBML\SBML.vbproj">
-      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
-      <Name>SBML</Name>
+      <Name>application.RDF_xml</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SBML\SBML.vbproj">
+      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
+      <Name>SBML</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

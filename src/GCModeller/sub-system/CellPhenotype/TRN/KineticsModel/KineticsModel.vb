@@ -154,7 +154,7 @@ Namespace TRN.KineticsModel
 
         Public ReadOnly Property RegulatorCounts As Integer
             Get
-                Return (From item In RegulatorySites Select item.Regulators.DataCounts).Sum
+                Return (From item In RegulatorySites Select item.Regulators.TryCount).Sum
             End Get
         End Property
 
