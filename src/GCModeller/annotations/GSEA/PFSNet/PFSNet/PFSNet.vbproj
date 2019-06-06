@@ -209,6 +209,8 @@
     <Compile Include="computew1.vb" />
     <Compile Include="Models\R.vb" />
     <Compile Include="masked_ggi.vb" />
+    <Compile Include="ccs_statistics.vb" />
+    <Compile Include="Extensions.vb" />
     <Compile Include="subnet_scores.vb" />
     <Compile Include="PFSNet.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

@@ -194,23 +194,4 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         }
         Return analysisResult
     End Function
-
-    <ExportAPI("Write.Xml.PfsNET", Info:="Write the PfsNET calculation result into a xml model.")>
-    Public Function WriteXMLPfsNET(data As PFSNetResultOut, saveto As String) As Boolean
-        Dim xml As String = data.GetXml
-        Return xml.SaveTo(saveto)
-    End Function
-
-    Private Function Internal_statics(ccs_nodes As PFSNetGraph(), _pscore As Double()(), _nscore As Double()(), _tdist As Double()) As PFSNetGraph()
-        For i As Integer = 0 To ccs_nodes.Length - 1
-            Dim ccs_node = ccs_nodes(i)
-            Dim x = _pscore(i), y = _nscore(i)
-            Dim b, l, r As Double
-            Call ALGLIB.alglib.studentttests.studentttest2(x, x.Length, y, y.Length, b, l, r)
-            ccs_node.statistics = b
-            ccs_node.pvalue = (From p In _tdist.Sequence Where Math.Abs(_tdist(p)) >= ccs_node.statistics Select _tdist(p)).Sum / _tdist.Length
-            ccs_node.masked = ccs_node.pvalue < 0.05
-        Next
-        Return ccs_nodes
-    End Function
 End Module
