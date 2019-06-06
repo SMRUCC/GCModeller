@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c789c5458203acb65a91cdd9c5f60775, Data_science\MachineLearning\MachineLearning\QLearning\QState.vb"
+﻿#Region "Microsoft.VisualBasic::d905c75c6a19898f5417868a2e7c335a, Data_science\MachineLearning\MachineLearning\QLearning\QState.vb"
 
     ' Author:
     ' 
@@ -50,10 +50,10 @@ Namespace QLearning
     ''' <typeparam name="T">Status object</typeparam>
     Public MustInherit Class QState(Of T As ICloneable)
 
-        Protected __state As T
+        Protected stateValue As T
 
         Public Sub SetState(x As T)
-            __state = x
+            stateValue = x
         End Sub
 
         ''' <summary>
@@ -63,7 +63,7 @@ Namespace QLearning
         ''' <returns></returns>
         Public ReadOnly Property State As T
             Get
-                Return __state
+                Return stateValue
             End Get
         End Property
 
@@ -73,7 +73,7 @@ Namespace QLearning
         ''' <returns></returns>
         Public ReadOnly Property Current As T
             Get
-                Return DirectCast(__state.Clone, T)
+                Return DirectCast(stateValue.Clone, T)
             End Get
         End Property
 

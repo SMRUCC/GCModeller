@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b54975d5aecd969cadb05a679bc23fe, Microsoft.VisualBasic.Core\Language\Linq\Vectorization\BooleanVector.vb"
+﻿#Region "Microsoft.VisualBasic::0743d2cffc813cbf5f50cfaf6e2c9841, Microsoft.VisualBasic.Core\Language\Linq\Vectorization\BooleanVector.vb"
 
     ' Author:
     ' 
@@ -87,6 +87,10 @@ Namespace Language.Vectorization
         Sub New(b As IEnumerable(Of Boolean))
             MyBase.New(b)
         End Sub
+
+        Public Function Sum() As Integer
+            Return BooleanVector.Sum(Me)
+        End Function
 
         Public Overrides Function ToString() As String
             Dim countTrue% = Linq.Which.IsTrue(buffer).Count

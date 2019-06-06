@@ -93,7 +93,7 @@ Namespace PfsNET
         Public Property STD_OUTPUT As String()
 
         Public Overrides Function ToString() As String
-            Return DataTag
+            Return tag
         End Function
     End Class
 End Namespace

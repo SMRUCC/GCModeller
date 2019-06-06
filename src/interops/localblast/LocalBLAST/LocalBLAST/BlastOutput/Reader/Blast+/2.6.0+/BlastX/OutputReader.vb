@@ -119,7 +119,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
         <Extension> Private Function subjectParser(subject$) As Components.Subject
             Dim info As NamedValue(Of Integer) = subjectInfo(subject)
-            Dim fragments = __hitFragments(subject, info)
+            Dim fragments = parseHitFragments(subject, info)
 
             Return New Components.Subject With {
                 .SubjectName = info.Name,
@@ -148,7 +148,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             Return block
         End Function
 
-        Private Function __hitFragments(block$, subjectInfo As NamedValue(Of Integer)) As List(Of Components.HitFragment)
+        Private Function parseHitFragments(block$, subjectInfo As NamedValue(Of Integer)) As List(Of Components.HitFragment)
             Dim tmp As New List(Of Components.HitFragment)
             Dim HSP$() = r _
                 .Matches(block, BlastXScore.REGEX_BLASTX_SCORE, RegexICSng) _
@@ -158,7 +158,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
             For Each score As String In HSP
                 hspRegion = parseFragment(block, score, pos)
-                tmp += __hspParser(hspRegion, score)
+                tmp += hspParser(hspRegion, score)
                 pos += score.Length
             Next
 
@@ -268,8 +268,8 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             Return Temp
         End Function
 
-        Private Function __hspParser(s As String, Score As String) As Components.HitFragment
-            Dim hsp = s.LineTokens.Split(3, echo:=False)
+        Private Function hspParser(s As String, Score As String) As Components.HitFragment
+            Dim hsp = s.LineTokens.Split(3)
             Dim LQuery As HitSegment() = hsp _
                 .Select(Function(x) HitSegment.TryParse(x)) _
                 .ToArray

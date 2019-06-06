@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c3086309ed003f353e618f339cb86d5, Data_science\MachineLearning\MachineLearning\QLearning\QLearning.vb"
+﻿#Region "Microsoft.VisualBasic::67bb961de269ca975642792bbcf9fa14, Data_science\MachineLearning\MachineLearning\QLearning\QLearning.vb"
 
     ' Author:
     ' 
@@ -36,15 +36,12 @@
     '         Properties: GoalPenalty, GoalRewards, Q
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Sub: __finishLearn, RunLearningLoop
+    '         Sub: finishQLearn, RunLearningLoop
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
-
-Imports System
-Imports System.Collections
 
 Namespace QLearning
 
@@ -103,24 +100,27 @@ Namespace QLearning
             For count As Integer = 0 To n
                 Call __reset(count)
 
-                Do While Not GoalReached   ' CHECK IF WON, THEN RESET
+                ' CHECK IF WON, THEN RESET
+                Do While Not GoalReached
                     Call __run(count)
 
                     If Not GoalReached Then
-                        Call Q.UpdateQvalue(GoalPenalty, _stat.Current)  ' 目标还没有达成，则罚分
+                        ' 目标还没有达成，则罚分
+                        Call Q.UpdateQvalue(GoalPenalty, _stat.Current)
                     End If
                 Loop
 
-                Call Q.UpdateQvalue(GoalRewards, _stat.Current)  ' REWARDS AND ADJUSTMENT OF WEIGHTS SHOULD TAKE PLACE HERE
+                ' REWARDS AND ADJUSTMENT OF WEIGHTS SHOULD TAKE PLACE HERE
+                Call Q.UpdateQvalue(GoalRewards, _stat.Current)
             Next
 
-            Call __finishLearn()
+            Call finishQLearn()
         End Sub
 
         ''' <summary>
-        ''' You can save you q table by overrides at here.
+        ''' You can save you Q table by overrides at here.
         ''' </summary>
-        Protected Overridable Sub __finishLearn()
+        Protected Overridable Sub finishQLearn()
 
         End Sub
     End Class

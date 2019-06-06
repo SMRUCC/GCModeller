@@ -1,44 +1,44 @@
-﻿#Region "Microsoft.VisualBasic::ba4905f2f8bc0929b3279a0a16de7eab, CLI_tools\ANN\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::c73bfb1bbca41991d58011a94d65eec4, CLI_tools\ANN\CLI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module CLI
-' 
-'     Function: ANNInputImportantFactors, ConfigTemplate, Encourage, ExportErrorCurve, MinErrorSnapshot
-'               ROCData, runTrainingCommon, Train
-' 
-'     Sub: SummaryDebuggerDump
-' 
-' /********************************************************************************/
+    ' Module CLI
+    ' 
+    '     Function: ANNInputImportantFactors, ConfigTemplate, Encourage, ExportErrorCurve, MinErrorSnapshot
+    '               ROCData, runTrainingCommon, Train
+    ' 
+    '     Sub: SummaryDebuggerDump
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.IO.netCDF
 Imports Microsoft.VisualBasic.DataMining
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Debugger
@@ -244,6 +245,7 @@ Module CLI
         Dim debugger As New ANNDebugger(trainer.NeuronNetwork)
         Dim minError# = 999999
         Dim snapshotFile$ = inFile.TrimSuffix & ".minerr.Xml"
+        Dim circle As VBInteger = 666
 
         Call Console.WriteLine(trainer.NeuronNetwork.ToString)
         Call trainer _
@@ -257,12 +259,19 @@ Module CLI
                                     ' 这个临时文件而导致保存失败
                                     ' 所以在这里忽略掉这个错误就好了
                                     With trainer.TakeSnapshot
+                                        Call $"  [{circle.Hex}] start write snapshot....".__DEBUG_ECHO
+                                        Call $"  Current min_error={err}".__INFO_ECHO
+
                                         If multipleParts Then
                                             Call .ScatteredStore(snapshotFile.TrimSuffix)
                                         Else
                                             Call .GetXml.SaveTo(snapshotFile, throwEx:=False)
                                         End If
+
+                                        Call $"  [{(++circle).ToHexString}] done!".__INFO_ECHO
                                     End With
+
+                                    minError = err
                                 End If
                             End Sub) _
             .Train(parallel)

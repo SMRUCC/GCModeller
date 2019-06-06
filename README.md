@@ -77,7 +77,10 @@ GCModeller provides a set of .NET libraries and CLI tools for processing biologi
 
 ###### 2.Biological Data Visualization software API for .NET
 
-+ Circos API(genomic visualizing), Cytoscape DataModel API(Biological network visualizing), SequenceLogo(Molecular motif site visualize)
++ Circos API(genomic visualizing)
++ Cytoscape DataModel API(Biological network visualizing)
++ SequenceLogo(Molecular motif site visualize)
++ KEGG pathway map visualizer
 
 ###### 3.Annotation Tools:
 
@@ -86,12 +89,19 @@ GCModeller provides a set of .NET libraries and CLI tools for processing biologi
 + Nucleotide sequence topology feature site analysis toolkit.
 + RegPrecise database tool and MEME software toolkit for the annotation of bacterial genomics regulation network.
 + Go(Gene Ontology) annotation tools
++ KEGG/GO GSEA functional enrichment tools and reference genome background model creator based on UniProt database.
 
 ###### 4.R language hybrids environment for bioinformatics
 
-+ Includes basically R language API, and some R package API from CRAN and Bioconductor
++ Includes basically R language API wrapper for VisualBasic, like Api in ``base``, ``utils``, ``stats`` namespace from R base.
++ and some R package wrapper API from CRAN and Bioconductor is also included.
 
 ###### 5.WebAPI wrapper for KEGG database and RegPrecise Database
+
+###### 6.Feature tools 
+
++ Cellular module simulator, and virtual cell model generator protocol.
++ Proteomics data analysis toolkit
 
 ### Publications
 

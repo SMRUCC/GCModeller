@@ -117,7 +117,7 @@ Namespace DataStorage.FileModel
             If data Is Nothing Then
                 Return 0
             End If
-            Return data.First.Samples.DataCounts
+            Return data.First.Samples.TryCount
         End Function
     End Module
 End Namespace

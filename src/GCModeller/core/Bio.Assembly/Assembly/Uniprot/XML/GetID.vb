@@ -99,8 +99,8 @@ Namespace Assembly.Uniprot.XML
                            End Function
                 Case IDTypes.EMBL
                     Return Function(prot As entry)
-                               If prot.Xrefs.ContainsKey(NameOf(IDTypes.EMBL)) Then
-                                   Return prot.Xrefs(NameOf(IDTypes.EMBL)) _
+                               If prot.xrefs.ContainsKey(NameOf(IDTypes.EMBL)) Then
+                                   Return prot.xrefs(NameOf(IDTypes.EMBL)) _
                                        .First _
                                        .properties _
                                        .Where(Function(p) p.type = "protein sequence ID") _
@@ -111,8 +111,8 @@ Namespace Assembly.Uniprot.XML
                            End Function
                 Case IDTypes.KEGG
                     Return Function(prot As entry)
-                               If prot.Xrefs.ContainsKey(NameOf(IDTypes.KEGG)) Then
-                                   Return prot.Xrefs(NameOf(IDTypes.KEGG)).FirstOrDefault?.id
+                               If prot.xrefs.ContainsKey(NameOf(IDTypes.KEGG)) Then
+                                   Return prot.xrefs(NameOf(IDTypes.KEGG)).FirstOrDefault?.id
                                Else
                                    Return Nothing
                                End If
@@ -133,8 +133,8 @@ Namespace Assembly.Uniprot.XML
                            End Function
                 Case IDTypes.RefSeq
                     Return Function(prot As entry)
-                               If prot.Xrefs.ContainsKey(NameOf(IDTypes.RefSeq)) Then
-                                   Return prot.Xrefs(NameOf(IDTypes.RefSeq)).FirstOrDefault?.id
+                               If prot.xrefs.ContainsKey(NameOf(IDTypes.RefSeq)) Then
+                                   Return prot.xrefs(NameOf(IDTypes.RefSeq)).FirstOrDefault?.id
                                Else
                                    Return Nothing
                                End If

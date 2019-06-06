@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::850f05baadcea20dacbadf73ddf1f79b, Data_science\DataMining\DataMining\Abundance.vb"
+﻿#Region "Microsoft.VisualBasic::b19287518133d3ab8115906f482149b9, Data_science\DataMining\DataMining\Abundance.vb"
 
     ' Author:
     ' 
@@ -68,9 +68,7 @@ Public Module Abundance
             In allTags
             Select mxVal = array _
                 .Where(Function(x) x.Samples.ContainsKey(tag)) _
-                .Select(Function(x) x.Samples(tag)).Max,
-                tag).ToDictionary(Function(x) x.tag,
-                                  Function(x) x.mxVal)
+                .Select(Function(x) x.Samples(tag)).Max, tag).ToDictionary(Function(x) x.tag, Function(x) x.mxVal)
         For Each x As T In array
             x.Samples = (From tag As String
                          In allTags

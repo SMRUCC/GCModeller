@@ -76,7 +76,7 @@ Namespace PfsNET
 
         Public Function GenerateDefaultStruct(data As KeyValuePair(Of PfsNET(), PfsNET()), dataTag As String) As PFSNetResultOut
             Dim Result As New PFSNetResultOut With {
-                .DataTag = dataTag
+                .tag = dataTag
             }
             Result.Phenotype1 = (From x As PfsNET In data.Key Select x.ToPFSNet).ToArray
             Result.Phenotype2 = (From x As PfsNET In data.Value Select x.ToPFSNet).ToArray

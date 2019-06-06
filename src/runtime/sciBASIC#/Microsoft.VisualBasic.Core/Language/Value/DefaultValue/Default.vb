@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa33410acc96b1edfc3ab8c7b8236a22, Microsoft.VisualBasic.Core\Language\Value\DefaultValue\Default.vb"
+﻿#Region "Microsoft.VisualBasic::785eb26d8a54495265b64c2193620383, Microsoft.VisualBasic.Core\Language\Value\DefaultValue\Default.vb"
 
     ' Author:
     ' 
@@ -93,7 +93,8 @@ Namespace Language.Default
     ''' The default value
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    Public Structure [Default](Of T) : Implements IDefault(Of T)
+    Public Structure [Default](Of T)
+        Implements IDefault(Of T)
         Implements IsEmpty
 
         Public ReadOnly Property DefaultValue As T Implements IDefault(Of T).DefaultValue

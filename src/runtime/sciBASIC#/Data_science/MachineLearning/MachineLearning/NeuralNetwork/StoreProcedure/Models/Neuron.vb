@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a081c4e0a15e5c6094a356e0f9244ef, Data_science\MachineLearning\MachineLearning\NeuralNetwork\StoreProcedure\Neuron.vb"
+﻿#Region "Microsoft.VisualBasic::ed8d48b8c84ebd0c77f8a4aec0cbf1a0, Data_science\MachineLearning\MachineLearning\NeuralNetwork\StoreProcedure\Models\Neuron.vb"
 
     ' Author:
     ' 
@@ -41,6 +41,8 @@
     ' 
     '         Properties: bias, delta, gradient, id
     ' 
+    '         Function: ToString
+    ' 
     '     Class NeuronLayer
     ' 
     '         Properties: activation, id, neurons
@@ -61,7 +63,6 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace NeuralNetwork.StoreProcedure
@@ -82,7 +83,7 @@ Namespace NeuralNetwork.StoreProcedure
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"|{[in]} => {out}| = {w}"
         End Function
     End Class
 
@@ -100,8 +101,15 @@ Namespace NeuralNetwork.StoreProcedure
         <XmlAttribute> Public Property delta As Double
         <XmlAttribute> Public Property gradient As Double
 
+        Public Overrides Function ToString() As String
+            Return id
+        End Function
+
     End Class
 
+    ''' <summary>
+    ''' Layer对象之中只放置神经元节点的引用唯一编号
+    ''' </summary>
     <XmlType("layer")> Public Class NeuronLayer : Inherits ListOf(Of String)
         Implements INamedValue
 

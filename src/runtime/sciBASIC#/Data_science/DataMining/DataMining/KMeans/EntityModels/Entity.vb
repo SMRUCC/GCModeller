@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecaebdc046433067d6995949a1717047, Data_science\DataMining\DataMining\KMeans\EntityModels\Entity.vb"
+﻿#Region "Microsoft.VisualBasic::480dded4ce5b30945c837bf8fa4567e3, Data_science\DataMining\DataMining\KMeans\EntityModels\Entity.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,17 @@
 
     ' Summaries:
 
+    '     Class ClusterEntity
+    ' 
+    '         Properties: cluster
+    ' 
+    '         Function: ToString
+    ' 
     '     Class Entity
     ' 
     '         Properties: uid
     ' 
-    '         Function: (+2 Overloads) ToLDM, ToString
+    '         Function: (+2 Overloads) ToDataModel, ToString
     '         Operators: <>, =
     ' 
     ' 
@@ -43,6 +49,8 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Linq
@@ -54,18 +62,26 @@ Namespace KMeans
     ''' <summary>
     ''' 计算所使用的对象实例实体模型
     ''' </summary>
-    Public Class Entity : Inherits EntityBase(Of Double)
+    Public Class ClusterEntity : Inherits EntityBase(Of Double)
         Implements INamedValue
 
-        Public Property uid As String Implements INamedValue.Key
+        <XmlAttribute> Public Property uid As String Implements INamedValue.Key
+        <XmlAttribute> Public Property cluster As Integer
 
         Public Overrides Function ToString() As String
-            Return $"{uid}  ({Length} Properties)"
+            Return $"[{Properties.JoinBy(", ")}]"
         End Function
 
-        Public Function ToLDM() As EntityClusterModel
+        ''' <summary>
+        ''' 使用index序列编号来作为属性名称
+        ''' </summary>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ToDataModel() As EntityClusterModel
             Return New EntityClusterModel With {
                 .ID = uid,
+                .Cluster = cluster,
                 .Properties = Properties _
                     .SeqIterator _
                     .ToDictionary(Function(x) CStr(x.i),
@@ -73,9 +89,16 @@ Namespace KMeans
             }
         End Function
 
-        Public Function ToLDM(maps As String()) As EntityClusterModel
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="maps">名称字符串向量应该是和<see cref="Properties"/>属性向量等长的</param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ToDataModel(maps As String()) As EntityClusterModel
             Return New EntityClusterModel With {
                 .ID = uid,
+                .Cluster = cluster,
                 .Properties = Properties _
                     .SeqIterator _
                     .ToDictionary(Function(x) maps(x.i),
@@ -89,12 +112,14 @@ Namespace KMeans
         ''' <param name="a"></param>
         ''' <param name="b"></param>
         ''' <returns></returns>
-        Public Shared Operator =(a As Entity, b As Entity) As Boolean
-            Return a.uid.TextEquals(b.uid) AndAlso
-                VectorEqualityComparer.VectorEqualsToAnother(a.Properties, b.Properties)
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator =(a As ClusterEntity, b As ClusterEntity) As Boolean
+            Return a.uid.TextEquals(b.uid) AndAlso VectorEqualityComparer.VectorEqualsToAnother(a.Properties, b.Properties)
         End Operator
 
-        Public Shared Operator <>(a As Entity, b As Entity) As Boolean
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator <>(a As ClusterEntity, b As ClusterEntity) As Boolean
             Return Not a = b
         End Operator
     End Class

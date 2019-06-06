@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B8D9B266-355C-42C3-9669-457B3874E5D7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Testing.AprioriTest</StartupObject>
+    <StartupObject>Testing.KmedoidsTest</StartupObject>
     <RootNamespace>Testing</RootNamespace>
     <AssemblyName>Testing</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -95,6 +95,7 @@
     <Compile Include="DBSCAN\Program.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="AprioriTest.vb" />
+    <Compile Include="KmedoidsTest.vb" />
     <Compile Include="SCStest.vb" />
     <Compile Include="TestingMain.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -140,15 +141,15 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+      <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.VisualBasic.DataMining.Framework.vbproj">
+    <ProjectReference Include="..\DataMining.vbproj">
       <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
-      <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
+      <Name>DataMining</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

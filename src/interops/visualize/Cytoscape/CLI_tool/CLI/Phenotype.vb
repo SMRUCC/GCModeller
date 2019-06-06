@@ -144,7 +144,7 @@ Partial Module CLI
 
         Dim LDM As AnnotationModel = name.LoadXml(Of AnnotationModel)
         Dim param As New Parameters
-        Dim Maps As KMeans.Entity() = Mappings(source, LDM, param)
+        Dim Maps As ClusterEntity() = Mappings(source, LDM, param)
         Dim nClusters As Integer = args.GetValue("/clusters", 3)
         If nClusters >= Maps.Length Then
             nClusters = Maps.Length / 2
@@ -154,19 +154,19 @@ Partial Module CLI
         Return result.SaveTo(out).CLICode
     End Function
 
-    Private Function __clusteringCommon(nClusters As Integer, Maps As KMeans.Entity(), mapNames As String()) As List(Of EntityClusterModel)
-        Dim Clusters As ClusterCollection(Of KMeans.Entity) = Maps.ClusterDataSet(nClusters)
+    Private Function __clusteringCommon(nClusters As Integer, Maps As ClusterEntity(), mapNames As String()) As List(Of EntityClusterModel)
+        Dim Clusters As ClusterCollection(Of ClusterEntity) = Maps.ClusterDataSet(nClusters)
         Dim result As New List(Of EntityClusterModel)
         Dim i As Integer = 1
         Dim setValue = New SetValue(Of EntityClusterModel) <= NameOf(EntityClusterModel.Cluster)
 
-        For Each cluster As KMeansCluster(Of KMeans.Entity) In Clusters
+        For Each cluster As KMeansCluster(Of ClusterEntity) In Clusters
             Dim array As EntityClusterModel()
 
             If mapNames Is Nothing Then
-                array = cluster.Select(Function(x) setValue(x.ToLDM, CStr(i)))
+                array = cluster.Select(Function(x) setValue(x.ToDataModel, CStr(i)))
             Else
-                array = cluster.Select(Function(x) setValue(x.ToLDM(mapNames), CStr(i)))
+                array = cluster.Select(Function(x) setValue(x.ToDataModel(mapNames), CStr(i)))
             End If
 
             i += 1
@@ -210,7 +210,7 @@ Partial Module CLI
 
         For Each xml As String In FileIO.FileSystem.GetFiles(LDM, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
             Dim Model As AnnotationModel = xml.LoadXml(Of AnnotationModel)
-            Dim Maps As KMeans.Entity() = Mappings(source, Model, param)
+            Dim Maps As ClusterEntity() = Mappings(source, Model, param)
 
             If Maps.IsNullOrEmpty Then
                 Call $"{xml.ToFileURL} unable creates mappings...".__DEBUG_ECHO
@@ -241,8 +241,8 @@ Partial Module CLI
         Dim mapNames = result.First.Value.Properties.Keys.ToArray
         Dim datas = result.Values.Select(Function(x) x.ToModel)
         Dim names = datas.Select(Function(x) x.uid)
-        Dim Tree As KMeans.Entity() = KMeans.TreeCluster(datas)
-        Dim saveResult = Tree.Select(Function(x) x.ToLDM(mapNames))
+        Dim Tree As ClusterEntity() = KMeans.TreeCluster(datas)
+        Dim saveResult = Tree.Select(Function(x) x.ToDataModel(mapNames))
 
         For Each name In names
             For Each x In saveResult

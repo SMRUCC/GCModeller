@@ -55,7 +55,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Linq
 Namespace Assembly.Uniprot.XML
 
     ''' <summary>
-    ''' Download from the uniprot database id mappings result
+    ''' Describes a collection of UniProtKB entries, XML file can be download from the uniprot database id mappings result.
     ''' </summary>
     <XmlType("uniprot")> Public Class UniProtXML
 
