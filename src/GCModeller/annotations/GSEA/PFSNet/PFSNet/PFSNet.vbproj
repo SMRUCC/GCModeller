@@ -204,7 +204,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\DataStructure.vb" />
+    <Compile Include="Models\PfsNet.vb" />
+    <Compile Include="Models\DataFrameRow.vb" />
+    <Compile Include="Models\Graph.vb" />
+    <Compile Include="Models\PFSNetResultOut.vb" />
     <Compile Include="Algorithm\estimatetdist.vb" />
     <Compile Include="Algorithm\computew1.vb" />
     <Compile Include="Models\R.vb" />
