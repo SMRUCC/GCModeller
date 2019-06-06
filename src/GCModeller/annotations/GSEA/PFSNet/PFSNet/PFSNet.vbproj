@@ -209,6 +209,7 @@
     <Compile Include="computew1.vb" />
     <Compile Include="Models\R.vb" />
     <Compile Include="masked_ggi.vb" />
+    <Compile Include="subnet_scores.vb" />
     <Compile Include="PFSNet.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

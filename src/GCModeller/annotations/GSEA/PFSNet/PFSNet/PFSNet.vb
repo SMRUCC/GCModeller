@@ -128,47 +128,41 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     End Function
 
     <ExportAPI("PfsNET.Evaluate")>
-    Public Function pfsnet(expr1o As DataFrameRow(), expr2o As DataFrameRow(), ggi As GraphEdge(), Optional b As Double = 0.5, Optional t1 As Double = 0.95, Optional t2 As Double = 0.85, Optional n As Double = 1000) _
-        As PFSNetResultOut
+    Public Function pfsnet(expr1o As DataFrameRow(),
+                           expr2o As DataFrameRow(),
+                           ggi As GraphEdge(),
+                           Optional b As Double = 0.5,
+                           Optional t1 As Double = 0.95,
+                           Optional t2 As Double = 0.85,
+                           Optional n As Double = 1000) As PFSNetResultOut
 
         Dim proc As Stopwatch = Stopwatch.StartNew
 
         cat("computing fuzzy weights")
+
         Dim w1matrix1 = computew1(expr1o, theta1:=t1, theta2:=t2)
         Dim w1matrix2 = computew1(expr2o, theta1:=t1, theta2:=t2)
+
         cat(".")
+
         Dim genelist1 As Index(Of String) = computegenelist(w1matrix1, beta:=b)
         Dim genelist2 As Index(Of String) = computegenelist(w1matrix2, beta:=b)
+
         cat("\t[DONE]\n")
         cat("computing subnetworks")
 
-        Dim ggi_mask = ggi.Select(Function(i)
-                                      If i.g1 Like genelist1 AndAlso i.g2 Like genelist1 Then
-                                          Return True
-                                      Else
-                                          Return False
-                                      End If
-                                  End Function).ToArray
-        Dim masked_ggi = ggi.Takes(ggi_mask).ToArray
-        masked_ggi = masked_ggi.Where(Function(i) i.g1 <> i.g2).ToArray
+        Dim ggi_mask = ggi.ggi_mask(genelist1)
+        Dim masked_ggi = ggi.getMasked_ggi(ggi_mask)
 
         cat(".")
 
+        Dim ccs = masked_ggi.ccs(w1matrix1, w1matrix2).ToArray
 
+        ggi_mask = ggi.ggi_mask(genelist2)
+        masked_ggi = ggi.getMasked_ggi(ggi_mask)
 
+        Dim ccs2 = masked_ggi.ccs(w1matrix1, w1matrix2).ToArray
 
-        Dim masked_ggi = InternalMaskGGI(ggi, genelist1, genelist2, False)
-        Dim ccs = (From g In (From item In masked_ggi Select item Group item By item.PathwayID Into Group).ToArray
-                   Let V = InternalVg(g.Group.ToArray, w1matrix1, w1matrix2)
-                   Where Not V Is Nothing
-                   Select V).ToArray
-        'ccs <- unlist(ccs, recursive=FALSE)
-        masked_ggi = InternalMaskGGI(ggi, genelist1, genelist2, True)
-        Dim ccs2 = (From g In (From item In masked_ggi Select item Group item By item.PathwayID Into Group).ToArray
-                    Let V = InternalVg(g.Group.ToArray, w1matrix1, w1matrix2)
-                    Where Not V Is Nothing
-                    Select V).ToArray
-        ' ccs2 <- unlist(ccs2, recursive=FALSE)
         cat(".")
         cat("\t[DONE]\n")
         cat("computing subnetwork scores")

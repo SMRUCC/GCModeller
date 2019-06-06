@@ -75,6 +75,8 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     ''' <param name="w1matrix1"></param>
     ''' <param name="w1matrix2"></param>
     ''' <returns></returns>
+    ''' 
+    <Extension>
     Public Function ccs(masked_ggi As GraphEdge(), w1matrix1 As DataFrameRow(), w1matrix2 As DataFrameRow()) As IEnumerable(Of PFSNetGraph)
         Dim pathwayList = (From gene As GraphEdge
                            In masked_ggi
