@@ -205,13 +205,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\DataStructure.vb" />
-    <Compile Include="estimatetdist.vb" />
-    <Compile Include="computew1.vb" />
+    <Compile Include="Algorithm\estimatetdist.vb" />
+    <Compile Include="Algorithm\computew1.vb" />
     <Compile Include="Models\R.vb" />
-    <Compile Include="masked_ggi.vb" />
-    <Compile Include="ccs_statistics.vb" />
-    <Compile Include="Extensions.vb" />
-    <Compile Include="subnet_scores.vb" />
+    <Compile Include="Algorithm\masked_ggi.vb" />
+    <Compile Include="Algorithm\ccs_statistics.vb" />
+    <Compile Include="Algorithm\subnet_scores.vb" />
     <Compile Include="PFSNet.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
