@@ -65,8 +65,8 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 ''' <remarks></remarks>
 ''' 
 <Package("PfsNET.Parallel",
-                    Description:="PfsNET algorithm implments in VisualBasic language for large scale network high-performance calculation.",
-                    Publisher:="xie.guigang@gcmodeller.org")>
+         Description:="PfsNET algorithm implments in VisualBasic language for large scale network high-performance calculation.",
+         Publisher:="xie.guigang@gcmodeller.org")>
 <HideModuleName> Public Module PFSNetAlgorithm
 
     ''' <summary>
@@ -112,8 +112,13 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("PfsNet.Evaluate")>
-    Public Function pfsnet(file1 As String, file2 As String, file3 As String, Optional b As Double = 0.5, Optional t1 As Double = 0.95, Optional t2 As Double = 0.85, Optional n As Double = 1000) _
-        As PFSNetResultOut
+    Public Function pfsnet(file1 As String,
+                           file2 As String,
+                           file3 As String,
+                           Optional b As Double = 0.5,
+                           Optional t1 As Double = 0.95,
+                           Optional t2 As Double = 0.85,
+                           Optional n As Double = 1000) As PFSNetResultOut
 
         cat("reading data files")
         Dim ggi As GraphEdge() = GraphEdge.LoadData(file3)
@@ -182,16 +187,15 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim tdist = estimatetdist(expr1o, expr2o, ggi, b, t1, t2, n)
         Dim tdist2 = estimatetdist(expr2o, expr1o, ggi, b, t1, t2, n)
 
-        ccs = Internal_statics(ccs, pscore, nscore, tdist)
-        ccs2 = Internal_statics(ccs2, pscore2, nscore2, tdist2)
+        ccs = ccs.doStatics(pscore, nscore, tdist)
+        ccs2 = ccs2.doStatics(pscore2, nscore2, tdist2)
 
         cat("\t[DONE]\n")
         cat("total time elapsed: ", proc.ElapsedMilliseconds / 1000, " seconds\n")
 
-        Dim analysisResult As New PFSNetResultOut With {
+        Return New PFSNetResultOut With {
             .Phenotype1 = (From item In ccs Where item.masked Select item).ToArray,
             .Phenotype2 = (From item In ccs2 Where item.masked Select item).ToArray
         }
-        Return analysisResult
     End Function
 End Module
