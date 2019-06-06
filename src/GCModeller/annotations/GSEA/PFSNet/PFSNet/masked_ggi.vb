@@ -6,6 +6,18 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 
 <HideModuleName> Module masked_ggi
 
+    ''' <summary>
+    ''' ```R
+    ''' ggi_mask &lt;- apply(ggi, 1, func &lt;- function(i){
+	'''	if ((i[2] %in% genelist1$gl) &amp;&amp; (i[3] %in% genelist1$gl))
+	''' 		TRUE
+	''' 	else FALSE
+	''' })
+    ''' ```
+    ''' </summary>
+    ''' <param name="ggi"></param>
+    ''' <param name="genelist"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function ggi_mask(ggi As IEnumerable(Of GraphEdge), genelist As Index(Of String)) As Boolean()
         Return ggi _
@@ -19,6 +31,17 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' ```R
+    ''' masked.ggi &lt;- ggi[ggi_mask, ]
+    ''' colnames(masked.ggi) &lt;- c("pathway", "g1", "g2")
+    '''
+    ''' masked.ggi &lt;- masked.ggi[(masked.ggi[, "g1"] != masked.ggi[, "g2"]), ]
+    ''' ```
+    ''' </summary>
+    ''' <param name="ggi"></param>
+    ''' <param name="ggi_mask"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function getMasked_ggi(ggi As IEnumerable(Of GraphEdge), ggi_mask As Boolean()) As GraphEdge()
         Dim masked_ggi As GraphEdge() = ggi _
@@ -31,6 +54,27 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Return masked_ggi
     End Function
 
+    ''' <summary>
+    ''' ```R
+    ''' ccs &lt;- sapply(unique(masked.ggi[, "pathway"]), bypathway &lt;- function(pathwayid) {
+    '''     g &lt;- graph.data.frame(masked.ggi[ masked.ggi[,"pathway"]==pathwayid, c("g1", "g2", "pathway")],directed=FALSE)
+    '''     
+    '''     for(i in 1:length(V(g))){
+    '''
+    '''	        V(g)[V(g)$name[i]]$weight&lt;-sum(w1matrix1[V(g)$name[[i]],])/sum(!is.na(w1matrix1[V(g)$name[[1]],]))
+    '''         V(g)[V(g)$name[i]]$weight2&lt;-sum(w1matrix2[V(g)$name[[i]],])/sum(!is.na(w1matrix2[V(g)$name[[1]],]))
+    '''     }
+    '''     g&lt;-simplify(g)
+    '''     decompose.graph(g,min.vertices=5)
+    ''' })
+    '''
+    ''' ccs &lt;- unlist(ccs, recursive=FALSE)
+    ''' ```
+    ''' </summary>
+    ''' <param name="masked_ggi"></param>
+    ''' <param name="w1matrix1"></param>
+    ''' <param name="w1matrix2"></param>
+    ''' <returns></returns>
     Public Function ccs(masked_ggi As GraphEdge(), w1matrix1 As DataFrameRow(), w1matrix2 As DataFrameRow()) As IEnumerable(Of PFSNetGraph)
         Dim pathwayList = (From gene As GraphEdge
                            In masked_ggi
