@@ -63,7 +63,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis.PFSNet.PFSNet
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
 Imports SMRUCC.genomics.Assembly
