@@ -69,7 +69,7 @@ Namespace PfamFastaComponentModels
             Dim DataToken As String() = strValue.Split
 
             If DataToken.IsNullOrEmpty OrElse
-                DataToken.DataCounts = 0 OrElse
+                DataToken.TryCount = 0 OrElse
                 DataToken.Length < 2 Then
 
                 Call $"NULL title tokens!!!  ----->   ""{strValue}""".__DEBUG_ECHO

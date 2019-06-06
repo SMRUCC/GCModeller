@@ -204,10 +204,16 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStructure.vb" />
-    <Compile Include="estimatetdist.vb" />
-    <Compile Include="computew1.vb" />
-    <Compile Include="R.vb" />
+    <Compile Include="Models\PfsNet.vb" />
+    <Compile Include="Models\DataFrameRow.vb" />
+    <Compile Include="Models\Graph.vb" />
+    <Compile Include="Models\PFSNetResultOut.vb" />
+    <Compile Include="Algorithm\estimatetdist.vb" />
+    <Compile Include="Algorithm\computew1.vb" />
+    <Compile Include="Models\R.vb" />
+    <Compile Include="Algorithm\masked_ggi.vb" />
+    <Compile Include="Algorithm\ccs_statistics.vb" />
+    <Compile Include="Algorithm\subnet_scores.vb" />
     <Compile Include="PFSNet.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -245,19 +251,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\Math.Statistics.vbproj">
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\Math.Statistics.vbproj">
       <Project>{3e195df1-9feb-44d5-904b-15626bbe74d7}</Project>
       <Name>Math.Statistics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>

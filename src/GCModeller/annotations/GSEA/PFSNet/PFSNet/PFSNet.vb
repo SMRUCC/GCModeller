@@ -65,8 +65,8 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 ''' <remarks></remarks>
 ''' 
 <Package("PfsNET.Parallel",
-                    Description:="PfsNET algorithm implments in VisualBasic language for large scale network high-performance calculation.",
-                    Publisher:="xie.guigang@gcmodeller.org")>
+         Description:="PfsNET algorithm implments in VisualBasic language for large scale network high-performance calculation.",
+         Publisher:="xie.guigang@gcmodeller.org")>
 <HideModuleName> Public Module PFSNetAlgorithm
 
     ''' <summary>
@@ -112,8 +112,13 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("PfsNet.Evaluate")>
-    Public Function pfsnet(file1 As String, file2 As String, file3 As String, Optional b As Double = 0.5, Optional t1 As Double = 0.95, Optional t2 As Double = 0.85, Optional n As Double = 1000) _
-        As PFSNetResultOut
+    Public Function pfsnet(file1 As String,
+                           file2 As String,
+                           file3 As String,
+                           Optional b As Double = 0.5,
+                           Optional t1 As Double = 0.95,
+                           Optional t2 As Double = 0.85,
+                           Optional n As Double = 1000) As PFSNetResultOut
 
         cat("reading data files")
         Dim ggi As GraphEdge() = GraphEdge.LoadData(file3)
@@ -128,47 +133,41 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     End Function
 
     <ExportAPI("PfsNET.Evaluate")>
-    Public Function pfsnet(expr1o As DataFrameRow(), expr2o As DataFrameRow(), ggi As GraphEdge(), Optional b As Double = 0.5, Optional t1 As Double = 0.95, Optional t2 As Double = 0.85, Optional n As Double = 1000) _
-        As PFSNetResultOut
+    Public Function pfsnet(expr1o As DataFrameRow(),
+                           expr2o As DataFrameRow(),
+                           ggi As GraphEdge(),
+                           Optional b As Double = 0.5,
+                           Optional t1 As Double = 0.95,
+                           Optional t2 As Double = 0.85,
+                           Optional n As Double = 1000) As PFSNetResultOut
 
         Dim proc As Stopwatch = Stopwatch.StartNew
 
         cat("computing fuzzy weights")
+
         Dim w1matrix1 = computew1(expr1o, theta1:=t1, theta2:=t2)
         Dim w1matrix2 = computew1(expr2o, theta1:=t1, theta2:=t2)
+
         cat(".")
+
         Dim genelist1 As Index(Of String) = computegenelist(w1matrix1, beta:=b)
         Dim genelist2 As Index(Of String) = computegenelist(w1matrix2, beta:=b)
+
         cat("\t[DONE]\n")
         cat("computing subnetworks")
 
-        Dim ggi_mask = ggi.Select(Function(i)
-                                      If i.g1 Like genelist1 AndAlso i.g2 Like genelist1 Then
-                                          Return True
-                                      Else
-                                          Return False
-                                      End If
-                                  End Function).ToArray
-        Dim masked_ggi = ggi.Takes(ggi_mask).ToArray
-        masked_ggi = masked_ggi.Where(Function(i) i.g1 <> i.g2).ToArray
+        Dim ggi_mask = ggi.ggi_mask(genelist1)
+        Dim masked_ggi = ggi.getMasked_ggi(ggi_mask)
 
         cat(".")
 
+        Dim ccs = masked_ggi.ccs(w1matrix1, w1matrix2).ToArray
 
+        ggi_mask = ggi.ggi_mask(genelist2)
+        masked_ggi = ggi.getMasked_ggi(ggi_mask)
 
+        Dim ccs2 = masked_ggi.ccs(w1matrix1, w1matrix2).ToArray
 
-        Dim masked_ggi = InternalMaskGGI(ggi, genelist1, genelist2, False)
-        Dim ccs = (From g In (From item In masked_ggi Select item Group item By item.PathwayID Into Group).ToArray
-                   Let V = InternalVg(g.Group.ToArray, w1matrix1, w1matrix2)
-                   Where Not V Is Nothing
-                   Select V).ToArray
-        'ccs <- unlist(ccs, recursive=FALSE)
-        masked_ggi = InternalMaskGGI(ggi, genelist1, genelist2, True)
-        Dim ccs2 = (From g In (From item In masked_ggi Select item Group item By item.PathwayID Into Group).ToArray
-                    Let V = InternalVg(g.Group.ToArray, w1matrix1, w1matrix2)
-                    Where Not V Is Nothing
-                    Select V).ToArray
-        ' ccs2 <- unlist(ccs2, recursive=FALSE)
         cat(".")
         cat("\t[DONE]\n")
         cat("computing subnetwork scores")
@@ -188,78 +187,15 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim tdist = estimatetdist(expr1o, expr2o, ggi, b, t1, t2, n)
         Dim tdist2 = estimatetdist(expr2o, expr1o, ggi, b, t1, t2, n)
 
-        ccs = Internal_statics(ccs, pscore, nscore, tdist)
-        ccs2 = Internal_statics(ccs2, pscore2, nscore2, tdist2)
+        ccs = ccs.doStatics(pscore, nscore, tdist)
+        ccs2 = ccs2.doStatics(pscore2, nscore2, tdist2)
 
         cat("\t[DONE]\n")
         cat("total time elapsed: ", proc.ElapsedMilliseconds / 1000, " seconds\n")
 
-        Dim analysisResult As New PFSNetResultOut With {
-            .Phenotype1 = (From item In ccs Where item.masked Select item).ToArray,
-            .Phenotype2 = (From item In ccs2 Where item.masked Select item).ToArray
+        Return New PFSNetResultOut With {
+            .phenotype1 = (From item In ccs Where item.masked Select item).ToArray,
+            .phenotype2 = (From item In ccs2 Where item.masked Select item).ToArray
         }
-        Return analysisResult
-    End Function
-
-    <ExportAPI("Write.Xml.PfsNET", Info:="Write the PfsNET calculation result into a xml model.")>
-    Public Function WriteXMLPfsNET(data As PFSNetResultOut, saveto As String) As Boolean
-        Dim xml As String = data.GetXml
-        Return xml.SaveTo(saveto)
-    End Function
-
-    Private Function InternalMaskGGI(ggi As GraphEdge(), genelist1 As String(), genelist2 As String(), reversed As Boolean) As GraphEdge()
-        Dim masked_ggi As GraphEdge()
-
-        If Not reversed Then
-            '# ggi_mask <- apply(ggi, 1, func <- function(i){
-            '# 	if ((i[2] %in% genelist1$gl) && (i[3] %in% genelist1$gl))
-            '# 		TRUE
-            '# 	else FALSE
-            '# })
-            masked_ggi = (From item As GraphEdge In ggi
-                          Where (Array.IndexOf(genelist1, item.g1) > -1 AndAlso Array.IndexOf(genelist1, item.g2) > -1) AndAlso Not String.Equals(item.g1, item.g2)
-                          Select item).ToArray       '	masked.ggi <- masked.ggi[(masked.ggi[, "g1"] != masked.ggi[, "g2"]), ]
-        Else
-            masked_ggi = (From item As GraphEdge In ggi
-                          Where (Array.IndexOf(genelist1, item.g2) > -1 AndAlso Array.IndexOf(genelist1, item.g1) > -1) AndAlso Not String.Equals(item.g1, item.g2)
-                          Select item).ToArray
-        End If
-
-        Return masked_ggi
-    End Function
-
-    Private Function Internal_statics(ccs_nodes As PFSNetGraph(), _pscore As Double()(), _nscore As Double()(), _tdist As Double()) As PFSNetGraph()
-        For i As Integer = 0 To ccs_nodes.Length - 1
-            Dim ccs_node = ccs_nodes(i)
-            Dim x = _pscore(i), y = _nscore(i)
-            Dim b, l, r As Double
-            Call ALGLIB.alglib.studentttests.studentttest2(x, x.Length, y, y.Length, b, l, r)
-            ccs_node.statistics = b
-            ccs_node.pvalue = (From p In _tdist.Sequence Where Math.Abs(_tdist(p)) >= ccs_node.statistics Select _tdist(p)).Sum / _tdist.Length
-            ccs_node.masked = ccs_node.pvalue < 0.05
-        Next
-        Return ccs_nodes
-    End Function
-
-    ''' <summary>
-    ''' 函数会忽略掉边数目少于5的网络
-    ''' </summary>
-    ''' <param name="data"></param>
-    ''' <param name="w1matrix1"></param>
-    ''' <param name="w1matrix2"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Private Function InternalVg(data As GraphEdge(), w1matrix1 As DataFrameRow(), w1matrix2 As DataFrameRow()) As PFSNetGraph
-        ' 总的网络
-        Dim g As PFSNetGraph = Graph.Data.Frame(data)
-
-        For i As Integer = 0 To g.Nodes.Length - 1
-            g.Nodes(i).weight = w1matrix1.Select(g.Nodes(i).Name).experiments.Sum / w1matrix1.Select(g.Nodes.First.Name).experiments.Sum
-            g.Nodes(i).weight2 = w1matrix2.Select(g.Nodes(i).Name).experiments.Sum / w1matrix2.Select(g.Nodes.First.Name).experiments.Sum
-        Next
-
-        ' 计算出总的网络之后再将总的网络分解为小得网络对象
-        g = Graph.simplify(g)
-        Return g  '   Return Graph.decompose_graph(g, min_vertices:=5)
     End Function
 End Module

@@ -81,7 +81,7 @@ Module PFSNet
     ''' The default PFSNet engine is the R script version.(默认是使用R脚本的计算版本)
     ''' </summary>
     ''' <remarks></remarks>
-    Public PFSNet_EvaluateHandle As PFSNetEvaluateHandle = AddressOf PfsNETModuleAPI.Evaluate
+    Public PFSNet_EvaluateHandle As Func(Of String, String, String, String, String, String, String, PFSNetResultOut) = AddressOf PfsNETModuleAPI.Evaluate
 
     Public Function Evaluate(file1 As String, file2 As String, file3 As String, b As Double, t1 As Double, t2 As Double, n As Double) As DataStructure.PFSNetResultOut
         Return PFSNet_EvaluateHandle(file1, file2, file3, b, t1, t2, n)
@@ -104,7 +104,7 @@ Module PfsNET_FootprintMappingPathway_API
     Public Sub SetPfsNETHandle(<Parameter("Handle.PfsNET.Evaluation",
                                           "The PfsNET evaluate handle interface, you can choosing the engine handle interface from: " & vbCrLf &
                                           "PfsNET Get.Handle.PfsNET_Evaluate(R_Implements)   or" & vbCrLf &
-                                          "PfsNET Get.Handle.PfsNET_Evaluate(VB_Implements)")> Handle As PFSNetEvaluateHandle)
+                                          "PfsNET Get.Handle.PfsNET_Evaluate(VB_Implements)")> Handle As Func(Of String, String, String, String, String, String, String, PFSNetResultOut))
         PFSNet.PFSNet_EvaluateHandle = Handle
     End Sub
 
@@ -168,7 +168,7 @@ Module PfsNET_FootprintMappingPathway_API
             MAT = InternalCreateMatrix(m_Mutant) : Call InternalSaveFile(MAT, file2)
 
             Dim Result = PFSNet.Evaluate(file1, file2, file3, b, t1, t2, n)
-            Result.DataTag = "$Time=" & i
+            Result.tag = "$Time=" & i
             Call ChunkList.Add(Result)
 
             Call Console.WriteLine("[DONE] {0}%", 100 * i / WT.Count)
@@ -184,8 +184,8 @@ Module PfsNET_FootprintMappingPathway_API
                           Function(x) DirectCast(x, ComponentModel.PathwayBrief))
         Dim LQuery = (From item As DataStructure.PFSNetResultOut
                       In Result
-                      Let p1 = SubNetTable.CreateObject(item.Phenotype1, item.DataTag & ".Class1", Pathways, 1)
-                      Let p2 = SubNetTable.CreateObject(item.Phenotype2, item.DataTag & ".Class2", Pathways, 2)
+                      Let p1 = SubNetTable.CreateObject(item.phenotype1, item.tag & ".Class1", Pathways, 1)
+                      Let p2 = SubNetTable.CreateObject(item.phenotype2, item.tag & ".Class2", Pathways, 2)
                       Select {p1, p2}.Unlist).ToArray.ToVector
         Dim KEGGCategory = KEGGPhenotypes.PhenotypeAssociations(LQuery, KEGG.Archives.Csv.Pathway.CreateObjects(Model.KEGG_Pathways))
         Return KEGGCategory
