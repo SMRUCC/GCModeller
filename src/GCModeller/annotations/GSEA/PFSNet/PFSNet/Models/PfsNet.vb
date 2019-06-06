@@ -16,7 +16,7 @@ Namespace DataStructure
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Name As String
+        <XmlAttribute> Public Property name As String
         ''' <summary>
         ''' Fuzzy weight of this gene node in current sub network.(这个基因节点在当前的这个子网络之中的模糊权重)
         ''' </summary>
@@ -33,7 +33,7 @@ Namespace DataStructure
         <XmlAttribute> Public Property weight2 As Double
 
         Public Overrides Function ToString() As String
-            Return Name
+            Return name
         End Function
     End Class
 
@@ -43,7 +43,7 @@ Namespace DataStructure
     ''' <remarks></remarks>
     Public Class PFSNetGraph
 
-        Dim __nodes As New Dictionary(Of String, PFSNetGraphNode)
+        Dim nodelist As New Dictionary(Of String, PFSNetGraphNode)
 
         ''' <summary>
         ''' The nodes in the PfsNET sub network.(网络之中的基因节点)
@@ -51,12 +51,12 @@ Namespace DataStructure
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Nodes As PFSNetGraphNode()
+        Public Property nodes As PFSNetGraphNode()
             Get
-                Return __nodes.Values.ToArray
+                Return nodelist.Values.ToArray
             End Get
             Set(value As PFSNetGraphNode())
-                __nodes = value.ToDictionary(Function(n) n.Name)
+                nodelist = value.ToDictionary(Function(n) n.name)
             End Set
         End Property
 
@@ -66,7 +66,8 @@ Namespace DataStructure
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Edges As GraphEdge()
+        Public Property edges As GraphEdge()
+
         <XmlAttribute> Public Property Id As String
         <XmlAttribute> Public Property statistics As Double
         <XmlAttribute> Public Property pvalue As Double
@@ -79,9 +80,9 @@ Namespace DataStructure
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property Length As Integer
+        Public ReadOnly Property length As Integer
             Get
-                Return Nodes.DataCounts
+                Return nodes.TryCount
             End Get
         End Property
 
@@ -94,8 +95,8 @@ Namespace DataStructure
         ''' <remarks></remarks>
         Default Public ReadOnly Property Node(Name As String) As PFSNetGraphNode
             Get
-                If __nodes.ContainsKey(Name) Then
-                    Return __nodes(Name)
+                If nodelist.ContainsKey(Name) Then
+                    Return nodelist(Name)
                 Else
                     Return Nothing
                 End If
@@ -103,10 +104,10 @@ Namespace DataStructure
         End Property
 
         Public Overrides Function ToString() As String
-            If Edges.IsNullOrEmpty Then
-                Return String.Format("{0} ({1})", Id, String.Join("; ", (From Node In Me.Nodes Select Node.Name).ToArray))
+            If edges.IsNullOrEmpty Then
+                Return String.Format("{0} ({1})", Id, String.Join("; ", (From Node In Me.nodes Select Node.name).ToArray))
             End If
-            Return String.Format("{0}: {1}", Id, String.Join("; ", (From ed In Edges Select String.Format("{0} <-> {1}", ed.g1, ed.g2))))
+            Return String.Format("{0}: {1}", Id, String.Join("; ", (From ed In edges Select String.Format("{0} <-> {1}", ed.g1, ed.g2))))
         End Function
     End Class
 

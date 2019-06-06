@@ -23,12 +23,12 @@ Namespace R.Graph
                                       Select {edge.g1, edge.g2}).IteratesALL.Distinct.ToArray
             Dim nodes = (From id As String In allsId
                          Let node As PFSNetGraphNode = New PFSNetGraphNode With {
-                             .Name = id
+                             .name = id
                          }
                          Select node).ToArray
             Return New PFSNetGraph With {
                 .masked = True,
-                .Edges = d,
+                .edges = d,
                 .nodes = nodes
             }
         End Function
@@ -51,14 +51,14 @@ Namespace R.Graph
         ''' <remarks></remarks>
         Public Function simplify(graph As PFSNetGraph) As PFSNetGraph
             Dim edges As GraphEdge() = (From edge As GraphEdge
-                                        In graph.Edges
+                                        In graph.edges
                                         Where Not edge.SelfLoop
                                         Select edge).ToArray
             Return New PFSNetGraph With {
-                .Nodes = graph.Nodes,
+                .nodes = graph.nodes,
                 .edges = edges,
                 .masked = graph.masked,
-                .Id = graph.Edges.First.PathwayID
+                .Id = graph.edges.First.PathwayID
             }
         End Function
     End Module

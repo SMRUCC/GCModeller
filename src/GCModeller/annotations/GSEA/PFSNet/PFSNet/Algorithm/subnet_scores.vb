@@ -34,7 +34,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     End Function
 
     Private Function pscoring(x As PFSNetGraph, w1matrix1 As DataFrameRow()) As Double()
-        Dim vertices = (From ccs_node In x.Nodes Select ccs_node.Name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
+        Dim vertices = (From ccs_node In x.nodes Select ccs_node.name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
         Dim ws = w1matrix1.Select(vertices) 'ws<-w1matrix1[vertices,,drop=FALSE]
         Dim v = New List(Of Double) '	v<-c()
         Dim ncol = ws(Scan0).Samples
@@ -57,7 +57,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     End Function
 
     Private Function nscoring(x As PFSNetGraph, w1matrix1 As DataFrameRow()) As Double()
-        Dim vertices = (From ccs_node In x.Nodes Select ccs_node.Name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
+        Dim vertices = (From ccs_node In x.nodes Select ccs_node.name).ToArray  'vertices<-get.vertex.attribute(x,name="name")
         Dim ws = w1matrix1.Select(vertices) 'ws<-w1matrix1[vertices,,drop=FALSE]
         Dim v = New List(Of Double) '	v<-c()
         Dim ncol = ws(Scan0).Samples

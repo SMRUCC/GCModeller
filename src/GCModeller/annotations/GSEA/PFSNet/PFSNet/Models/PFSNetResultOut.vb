@@ -85,7 +85,7 @@ Namespace DataStructure
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property DataTag As String
+        Public Property tag As String
 
         ''' <summary>
         ''' The mutation phenotype 1 evaluation data for the significant sub network.(Class1)
@@ -93,17 +93,17 @@ Namespace DataStructure
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement> Public Property Phenotype1 As PFSNetGraph()
+        <XmlElement> Public Property phenotype1 As PFSNetGraph()
         ''' <summary>
         ''' The another mutation phenotype evaluation data for the significant sub network.(Class2)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement> Public Property Phenotype2 As PFSNetGraph()
+        <XmlElement> Public Property phenotype2 As PFSNetGraph()
 
         Public Overrides Function ToString() As String
-            Return DataTag
+            Return tag
         End Function
     End Class
 End Namespace

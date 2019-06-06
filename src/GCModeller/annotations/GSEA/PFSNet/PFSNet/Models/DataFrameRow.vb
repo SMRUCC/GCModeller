@@ -27,7 +27,7 @@ Namespace DataStructure
         ''' <remarks></remarks>
         Public ReadOnly Property Samples As Integer
             Get
-                Return experiments.DataCounts
+                Return experiments.TryCount
             End Get
         End Property
 

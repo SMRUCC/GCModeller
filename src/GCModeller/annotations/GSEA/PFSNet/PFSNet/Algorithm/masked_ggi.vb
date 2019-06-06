@@ -108,9 +108,9 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         ' 总的网络
         Dim g As PFSNetGraph = Graph.Data.Frame(data)
 
-        For i As Integer = 0 To g.Nodes.Length - 1
-            g.Nodes(i).weight = w1matrix1.Select(g.Nodes(i).Name).experiments.Sum / w1matrix1.Select(g.Nodes.First.Name).experiments.Sum
-            g.Nodes(i).weight2 = w1matrix2.Select(g.Nodes(i).Name).experiments.Sum / w1matrix2.Select(g.Nodes.First.Name).experiments.Sum
+        For i As Integer = 0 To g.nodes.Length - 1
+            g.nodes(i).weight = w1matrix1.Select(g.nodes(i).name).experiments.Sum / w1matrix1.Select(g.nodes.First.name).experiments.Sum
+            g.nodes(i).weight2 = w1matrix2.Select(g.nodes(i).name).experiments.Sum / w1matrix2.Select(g.nodes.First.name).experiments.Sum
         Next
 
         ' 计算出总的网络之后再将总的网络分解为小得网络对象
