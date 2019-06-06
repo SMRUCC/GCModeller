@@ -204,10 +204,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStructure.vb" />
+    <Compile Include="Models\DataStructure.vb" />
     <Compile Include="estimatetdist.vb" />
     <Compile Include="computew1.vb" />
-    <Compile Include="R.vb" />
+    <Compile Include="Models\R.vb" />
     <Compile Include="PFSNet.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
