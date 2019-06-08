@@ -62,7 +62,7 @@ Namespace LocalBLAST.BLASTOutput.Views
     ''' 方便程序调试的一个对象数据结构
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Overview : Inherits BaseClass
+    Public Class Overview
 
         <XmlElement> Public Property Queries As Query()
 

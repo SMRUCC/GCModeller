@@ -88,7 +88,7 @@ Namespace Karyotype
     ''' Colors are taken from the spectral Brewer palette. 
     ''' To learn about Brewer palettes, see (www.colorbrewer.org)[http://www.colorbrewer.org]
     ''' </remarks>
-    Public Class Karyotype : Inherits BaseClass
+    Public Class Karyotype
         Implements IKaryotype
         Implements INamedValue
 
@@ -138,7 +138,7 @@ Namespace Karyotype
     ''' ``data/karyotype`` In the Circos distribution directory.
     ''' Or data/karyotype In the course directory.
     ''' </summary>
-    Public Class Band : Inherits BaseClass
+    Public Class Band
         Implements IKaryotype
 
         Public Property chrName As String Implements IKaryotype.chrName

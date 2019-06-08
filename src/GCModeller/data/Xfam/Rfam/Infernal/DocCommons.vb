@@ -64,7 +64,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Infernal
 
-    Public MustInherit Class STDOUT : Inherits BaseClass
+    Public MustInherit Class STDOUT
 
         Public Property version As String
         ''' <summary>

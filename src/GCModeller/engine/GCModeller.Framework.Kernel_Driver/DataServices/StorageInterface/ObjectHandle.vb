@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.Language
 
 Namespace DataStorage.FileModel
 
-    Public Class ObjectHandle : Inherits BaseClass
+    Public Class ObjectHandle
         Implements IKeyValuePairObject(Of String, Integer)
         Implements IAddressOf
         Implements INamedValue

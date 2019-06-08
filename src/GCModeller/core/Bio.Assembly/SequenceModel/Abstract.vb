@@ -75,7 +75,7 @@ Namespace SequenceModel
     ''' <summary>
     ''' This class can be using for build a <see cref="FASTA.FastaSeq"/> object.
     ''' </summary>
-    Public MustInherit Class ISequenceBuilder : Inherits BaseClass
+    Public MustInherit Class ISequenceBuilder
 
         ''' <summary>
         ''' <see cref="GetSequenceData()"/> length.(序列的长度)

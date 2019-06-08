@@ -42,7 +42,7 @@
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 
-Public Class ChromosomePartitioningEntry : Inherits BaseClass
+Public Class ChromosomePartitioningEntry
 
     <Column("QueryProtein")>
     Public Property ORF As String

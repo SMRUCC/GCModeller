@@ -56,7 +56,7 @@ Namespace Karyotype
     ''' <summary>
     ''' The annotated genome skeleton information.
     ''' </summary>
-    Public MustInherit Class SkeletonInfo : Inherits BaseClass
+    Public MustInherit Class SkeletonInfo
         Implements ICircosDocument
 
         ''' <summary>
