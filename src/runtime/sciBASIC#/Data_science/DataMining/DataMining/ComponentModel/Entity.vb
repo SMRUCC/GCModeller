@@ -88,7 +88,7 @@ Namespace ComponentModel
             Return $"<{String.Join("; ", entityVector)}> --> {[Class]}"
         End Function
 
-        Default Public Overloads ReadOnly Property Item(Index As Integer) As Integer
+        Default Public Overloads ReadOnly Property ItemValue(Index As Integer) As Integer
             Get
                 Return entityVector(Index)
             End Get
