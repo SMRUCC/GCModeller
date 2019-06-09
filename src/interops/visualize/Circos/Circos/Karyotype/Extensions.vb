@@ -57,7 +57,7 @@ Namespace Karyotype
         ''' <returns></returns>
         <Extension>
         Public Function LoopHole(x As SkeletonInfo) As PropertyValue(Of Integer)
-            Return PropertyValue(Of Integer).Read(Of SkeletonInfo)(x, NameOf(LoopHole))
+            Return PropertyValue(Of Object).Read(Of SkeletonInfo, Integer)(x, NameOf(LoopHole))
         End Function
 
         ''' <summary>
@@ -67,12 +67,12 @@ Namespace Karyotype
         ''' <returns></returns>
         <Extension>
         Public Function nt(x As Karyotype) As PropertyValue(Of FastaSeq)
-            Return PropertyValue(Of FastaSeq).Read(Of Karyotype)(x, NameOf(nt))
+            Return PropertyValue(Of Object).Read(Of Karyotype, FastaSeq)(x, NameOf(nt))
         End Function
 
         <Extension>
         Public Function MapsRaw(x As Band) As PropertyValue(Of BlastnMapping)
-            Return PropertyValue(Of BlastnMapping).Read(Of Band)(x, NameOf(MapsRaw))
+            Return PropertyValue(Of Object).Read(Of Band, BlastnMapping)(x, NameOf(MapsRaw))
         End Function
     End Module
 End Namespace

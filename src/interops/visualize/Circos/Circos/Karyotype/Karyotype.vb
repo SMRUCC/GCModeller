@@ -1,63 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::573c8fa38c5314aea0acb04aa06a08ae, Circos\Karyotype\Karyotype.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Karyotype
-    ' 
-    '         Properties: [end], chrLabel, chrName, color, start
-    ' 
-    '         Function: ToString
-    ' 
-    '     Interface IKaryotype
-    ' 
-    '         Properties: [end], chrName, color, start
-    ' 
-    '         Function: GetData
-    ' 
-    '     Class Band
-    ' 
-    '         Properties: [end], bandX, bandY, chrName, color
-    '                     start
-    ' 
-    '         Function: GetData, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Karyotype
+' 
+'         Properties: [end], chrLabel, chrName, color, start
+' 
+'         Function: ToString
+' 
+'     Interface IKaryotype
+' 
+'         Properties: [end], chrName, color, start
+' 
+'         Function: GetData
+' 
+'     Class Band
+' 
+'         Properties: [end], bandX, bandY, chrName, color
+'                     start
+' 
+'         Function: GetData, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Karyotype
@@ -88,7 +88,7 @@ Namespace Karyotype
     ''' Colors are taken from the spectral Brewer palette. 
     ''' To learn about Brewer palettes, see (www.colorbrewer.org)[http://www.colorbrewer.org]
     ''' </remarks>
-    Public Class Karyotype
+    Public Class Karyotype : Inherits DynamicPropertyBase(Of Object)
         Implements IKaryotype
         Implements INamedValue
 
@@ -138,7 +138,7 @@ Namespace Karyotype
     ''' ``data/karyotype`` In the Circos distribution directory.
     ''' Or data/karyotype In the course directory.
     ''' </summary>
-    Public Class Band
+    Public Class Band : Inherits DynamicPropertyBase(Of Object)
         Implements IKaryotype
 
         Public Property chrName As String Implements IKaryotype.chrName
