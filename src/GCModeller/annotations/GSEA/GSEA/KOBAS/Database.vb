@@ -41,10 +41,12 @@
 
 Imports Microsoft.VisualBasic.Data.IO.ManagedSqlite.Core
 
-Public Module KOBASDatabase
+Namespace KOBAS
 
-    Public Function ImportsKOBASSqlite3(kobas_db As Sqlite3Database) As Background
+    Public Module KOBASDatabase
 
-    End Function
-End Module
+        Public Function ImportsKOBASSqlite3(kobas_db As Sqlite3Database) As Background
 
+        End Function
+    End Module
+End Namespace
