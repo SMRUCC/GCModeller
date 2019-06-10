@@ -69,6 +69,10 @@ Namespace Assembly.KEGG.WebServices
         <XmlAttribute>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
+        ''' <summary>
+        ''' The map title
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("name")>
         Public Property Name As String
         Public Property URL As String
