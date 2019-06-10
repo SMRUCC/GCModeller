@@ -103,6 +103,9 @@ Namespace Assembly.KEGG.WebServices
         End Function
     End Class
 
+    ''' <summary>
+    ''' The repository xml data of kegg <see cref="Map"/>
+    ''' </summary>
     Public Class MapRepository : Inherits XmlDataModel
         Implements IRepositoryRead(Of String, MapIndex)
         Implements Enumeration(Of Map)
