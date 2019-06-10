@@ -143,7 +143,7 @@ Public Class TaxonomyRepository
     ''' <returns></returns>
     Public Function StorageReference(taxonomy As Taxonomy, Optional relative As Boolean = True) As String
         Dim part As String = taxonomy _
-            .ToArray _
+            .Select(TaxonomyRanks.Genus) _
             .Select(Function(t) t.NormalizePathString(alphabetOnly:=False)) _
             .JoinBy("/") _
             .Trim("/"c, "_"c)
