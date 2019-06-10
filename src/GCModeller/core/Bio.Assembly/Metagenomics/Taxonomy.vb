@@ -309,7 +309,9 @@ Namespace Metagenomics
 
         Public Overloads Function ToString(BIOMstyle As Boolean) As String
             If BIOMstyle Then
-                Return Me.Select.TaxonomyString
+                Return Me.Select(TaxonomyRanks.Species) _
+                    .ToArray _
+                    .TaxonomyString
             Else
                 Return Me.ToString
             End If
