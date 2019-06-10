@@ -3,7 +3,7 @@
   <!--
      model:     SMRUCC.genomics.Model.Network.Microbiome.TaxonomyRef
      assembly:  SMRUCC.genomics.Model.Network.Microbiome, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-     md5:       069305329c9c0ac0a0c562eb8a79c6bc
+     md5:       541832cbc74c4ff4ff3e1b085c20edd3
      timestamp: Monday, June 10, 2019
   -->
   <ncbi_taxon_id>314565</ncbi_taxon_id>

@@ -210,18 +210,24 @@ Partial Module CLI
         Dim out$
         Dim ref As TaxonomyRepository
 
-        If [in].FileExists Then
+        If [in].Contains("|") OrElse [in].FileExists Then
             Dim cache As CacheGenerator = Nothing
+            Dim files = [in].Split("|"c)
 
-            out = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.json")
-            ref = UniProtXML.EnumerateEntries([in]).ScanUniProt(out.TrimSuffix, cache)
+            out = args("/out") Or (files(Scan0).TrimSuffix & ".taxonomy_ref.json")
+            ref = UniProtXML _
+                .EnumerateEntries(files) _
+                .ScanUniProt(out.ParentPath & "/taxonomy_ref", cache)
 
             If args.IsTrue("/cache") Then
                 Call cache.CopyTo(destination:=out.TrimSuffix)
             End If
         Else
             out = args("/out") Or ([in].TrimDIR & ".taxonomy_ref.json")
-            ref = UniProtBuild.ScanModels(cache:=New CacheGenerator([in]), export:=out.TrimSuffix)
+            ref = UniProtBuild.ScanModels(
+                cache:=New CacheGenerator([in]),
+                export:=out.ParentPath & "/taxonomy_ref"
+            )
         End If
 
         Return ref _
