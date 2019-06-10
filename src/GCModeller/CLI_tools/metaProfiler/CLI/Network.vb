@@ -202,7 +202,8 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Metagenome.UniProt.Ref")>
-    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /out <out.XML>]")>
+    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /out <out.json>]")>
+    <Description("Create background model for apply pathway enrichment analysis of the Metagenome data.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function BuildUniProtReference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
