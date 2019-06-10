@@ -169,7 +169,9 @@ Public Module [Imports]
 
                 clusters(clusterID.Name) += New BackgroundGene With {
                     .accessionID = protein.accessions(Scan0),
-                    .[alias] = protein.accessions
+                    .[alias] = protein.accessions,
+                    .name = protein.name,
+                    .description = protein.protein.fullName
                 }
             Next
         Next

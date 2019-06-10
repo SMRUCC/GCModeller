@@ -277,11 +277,15 @@ Namespace Assembly.Uniprot.XML
         <XmlElement("alternativeName")>
         Public Property alternativeNames As recommendedName()
 
+        ''' <summary>
+        ''' <see cref="recommendedName"/> -> <see cref="submittedName"/> -> <see cref="alternativeNames"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property fullName As String
             Get
                 If recommendedName Is Nothing OrElse recommendedName.fullName Is Nothing Then
                     If submittedName Is Nothing OrElse submittedName.fullName Is Nothing Then
-                        Return Nothing
+                        Return alternativeNames.FirstOrDefault().fullName.value
                     Else
                         Return submittedName.fullName.value
                     End If
@@ -290,6 +294,10 @@ Namespace Assembly.Uniprot.XML
                 End If
             End Get
         End Property
+
+        Public Overrides Function ToString() As String
+            Return fullName
+        End Function
     End Class
 
     ''' <summary>
@@ -493,6 +501,10 @@ Namespace Assembly.Uniprot.XML
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
+
+        Public Shared Narrowing Operator CType(val As value) As String
+            Return val.value
+        End Operator
     End Class
 
     Public Class dbReference
