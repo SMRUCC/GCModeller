@@ -205,6 +205,12 @@ Partial Module CLI
     <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /out <out.json>]")>
     <Description("Create background model for apply pathway enrichment analysis of the Metagenome data.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.Xml",
+              Description:="This argument should be the uniprot database file, multiple file is supported, which the multiple xml file path can be contract by ``|`` as delimiter.")>
+    <Argument("/cache", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="Debug used only.")>
     Public Function BuildUniProtReference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$
