@@ -142,7 +142,11 @@ Public Class TaxonomyRepository
     ''' <param name="taxonomy"></param>
     ''' <returns></returns>
     Public Function StorageReference(taxonomy As Taxonomy, Optional relative As Boolean = True) As String
-        Dim part$ = taxonomy.ToArray.JoinBy("/").Trim("/"c, "_"c)
+        Dim part As String = taxonomy _
+            .ToArray _
+            .Select(Function(t) t.NormalizePathString(alphabetOnly:=False)) _
+            .JoinBy("/") _
+            .Trim("/"c, "_"c)
         Dim groupName$ = $"/{part}"
 
         If Not relative Then
