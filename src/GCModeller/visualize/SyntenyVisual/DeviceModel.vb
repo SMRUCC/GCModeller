@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Public Class DeviceModel : Inherits BaseClass
+Public Class DeviceModel
 
     Public Property Margin As Size
     Public Property Size As Size

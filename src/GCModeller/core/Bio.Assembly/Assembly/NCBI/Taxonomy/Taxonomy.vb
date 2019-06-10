@@ -102,7 +102,7 @@ Namespace Assembly.NCBI.Taxonomy
         End Function
     End Class
 
-    Public Class TaxonValue : Inherits BaseClass
+    Public Class TaxonValue
 
         ''' <summary>
         ''' Class level
@@ -117,7 +117,7 @@ Namespace Assembly.NCBI.Taxonomy
         Public Property sp As NamedValue(Of BriefInfo)
     End Class
 
-    Public Class BriefInfo : Inherits BaseClass
+    Public Class BriefInfo
 
     End Class
 

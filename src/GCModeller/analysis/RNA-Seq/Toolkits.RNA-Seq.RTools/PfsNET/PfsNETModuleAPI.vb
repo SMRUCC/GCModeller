@@ -63,7 +63,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis.PFSNet.PFSNet
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
 Imports SMRUCC.genomics.Assembly
@@ -99,12 +98,6 @@ In addition, large pathways may not give much insight to the cause of the diseas
 We further show that thosemethods which initially declared some large pathways to be insignificant would declare subnetworks detected by PFSNet in those large pathways to be significant, if they were given those subnetworks as input instead of the entire large pathways.
 Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:="kevinl@comp.nus.edu.sg")>
     Public Module PfsNETModuleAPI
-
-        ''' <summary>
-        ''' 默认是使用R脚本的计算版本
-        ''' </summary>
-        ''' <remarks></remarks>
-        Dim PFSNet_EvaluateHandle As PFSNetEvaluateHandle = AddressOf PfsNETRInvoke.Evaluate
 
         <ExportAPI("Session.Initialize")>
         Public Function Initialize(Optional Java_Path As String = "", Optional R_HOME As String = "") As Boolean
@@ -384,23 +377,8 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
                                  Optional t1 As String = "0.95",
                                  Optional t2 As String = "0.85",
                                  Optional n As String = "1000") As PFSNetResultOut
-            Return PfsNETModuleAPI.PFSNet_EvaluateHandle(file1, file2, file3, b, t1, t2, n)
-        End Function
 
-        <ExportAPI("set.pfsnet_evaluate_handle")>
-        Public Function set_Handle(handle As Analysis.PFSNet.PFSNetEvaluateHandle) As Boolean
-            PfsNETModuleAPI.PFSNet_EvaluateHandle = handle
-            Return True
-        End Function
-
-        <ExportAPI("Get.Handle.PfsNET_Evaluate(VB_Implements)")>
-        Public Function get_PFSNet_VB_Handle() As Analysis.PFSNet.PFSNetEvaluateHandle
-            Return AddressOf Analysis.PFSNet.PFSNet.pfsnet
-        End Function
-
-        <ExportAPI("Get.Handle.PfsNET_Evaluate(R_Implements)")>
-        Public Function get_PFSNet_R_Handle() As Analysis.PFSNet.PFSNetEvaluateHandle
-            Return AddressOf PfsNETRInvoke.Evaluate
+            ' Return PfsNETModuleAPI.PFSNet_EvaluateHandle(file1, file2, file3, b, t1, t2, n)
         End Function
 
         <ExportAPI("phenotypes.automatically")>
@@ -522,7 +500,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         Public Function SavePFSNet(data As IEnumerable(Of PFSNetResultOut), EXPORT As String) As Boolean
             For Each i As SeqValue(Of PFSNetResultOut) In data.SeqIterator
                 Dim net As PFSNetResultOut = i.value
-                Dim name As String = If(String.IsNullOrEmpty(net.DataTag), CStr(i.i), net.DataTag)
+                Dim name As String = If(String.IsNullOrEmpty(net.tag), CStr(i.i), net.tag)
                 Dim path As String = $"{EXPORT}/{name}.xml"
 
                 Call SavePfsNET(net, path)

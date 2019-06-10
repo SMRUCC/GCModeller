@@ -298,11 +298,11 @@ Partial Module CLI
 
             data += New ClusterEntity With {
                 .uid = s$,
-                .Properties = p
+                .entityVector = p
             }
         Next
 
-        Call (From x In data Select x.Properties.Length Distinct) _
+        Call (From x In data Select x.entityVector.Length Distinct) _
             .ToArray _
             .GetJson _
             .__DEBUG_ECHO
@@ -315,7 +315,7 @@ Partial Module CLI
             Dim LQuery = From x
                          In data
                          Select x.uid,
-                             u = String.Join("-", x.Properties.Select(Function(o) CStr(o)))
+                             u = String.Join("-", x.entityVector.Select(Function(o) CStr(o)))
                          Group By u Into Group
 
             'Return LQuery.ToArray(
