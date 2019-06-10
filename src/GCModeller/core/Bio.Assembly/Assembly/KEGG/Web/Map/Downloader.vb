@@ -102,7 +102,7 @@ Namespace Assembly.KEGG.WebServices
 
                     Try
                         If Not save.FileExists(True) Then
-                            Call Map.ParseHTML(url) _
+                            Call Map.ParseFromUrl(url) _
                                 .GetXml _
                                 .SaveTo(save, TextEncodings.UTF8WithoutBOM)
                             Call Thread.Sleep(5000)
