@@ -167,11 +167,15 @@ Module Program
         Dim nt = gb.Origin.ToFasta
         Dim size = nt.Length
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
+        Dim predictsTable = "P:\deg\A16R\the_best_AR1.csv"
 
         ' g.Properties.Values.First > 0.9) _
-        Dim degPredicts = DataSet.LoadDataSet("P:\deg\A16R\A16R_prediction.csv") _
+        Dim degPredicts = EntityObject.LoadDataSet(predictsTable) _
             .Where(Function(g) True) _
-            .ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
+            .ToDictionary(Function(g) g.ID,
+                          Function(g)
+                              Return Val(g!prediction)
+                          End Function)
 
         Dim annotations = EntityObject _
             .LoadDataSet("P:\deg\A16R\A16R_NZ_CP001974 Annotations.csv") _
@@ -231,7 +235,14 @@ Module Program
         ' 绘制 essential 预测得分曲线
         ' 需要使用这个表对象来获取坐标信息
         Dim ptt = gb.GbffToPTT(ORF:=False)
-        degPredicts = DataSet.LoadDataSet("P:\deg\A16R\A16R_prediction.csv").Where(Function(g) g.Properties.Values.First > 0).ToDictionary(Function(g) g.ID, Function(g) g.Properties.Values.First)
+
+        degPredicts = EntityObject.LoadDataSet(predictsTable) _
+            .Where(Function(g) Val(g!prediction) > 0) _
+            .ToDictionary(Function(g) g.ID,
+                          Function(g)
+                              Return Val(g!prediction)
+                          End Function)
+
         Dim keys = degPredicts.Keys.ToArray
         Dim values = keys.Select(Function(name) degPredicts(name)).ToArray.QuantileLevels
         degPredicts = keys.SeqIterator.ToDictionary(Function(key) key.value, Function(key)
