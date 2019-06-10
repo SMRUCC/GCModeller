@@ -105,7 +105,7 @@ Namespace Metagenomics
         ''' Contact the taxonomy lineage tokens as a taxonomy lineage string uin BIOM format. 
         ''' </summary>
         ''' <param name="lineage">
-        ''' Lineage tokens text array data from <see cref="Taxonomy.ToArray()"/> method.
+        ''' Lineage tokens text array data from <see cref="Taxonomy.Select()"/> method.
         ''' (这里所输入的字符串数组可以是没有BIOM前缀的，也可以是具有分类等级前缀的，这个函数会自动执行归一化)
         ''' </param>
         ''' <returns></returns>

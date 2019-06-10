@@ -49,7 +49,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
@@ -67,7 +66,16 @@ Public Class Cluster : Implements INamedValue
     ''' <returns></returns>
     <XmlAttribute>
     Public Property ID As String Implements IKeyedEntity(Of String).Key
+    ''' <summary>
+    ''' The common name of current term <see cref="ID"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public Property names As String
+
+    ''' <summary>
+    ''' A brief description on term function.
+    ''' </summary>
+    ''' <returns></returns>
     <XmlElement>
     Public Property description As String
 
@@ -75,7 +83,7 @@ Public Class Cluster : Implements INamedValue
     ''' 当前的这个聚类之中的基因列表
     ''' </summary>
     ''' <returns></returns>
-    Public Property members As Synonym()
+    Public Property members As BackgroundGene()
 
     Dim index As Index(Of String)
 
@@ -97,21 +105,20 @@ Public Class Cluster : Implements INamedValue
     End Function
 End Class
 
-''' <summary>
-''' 假设基因组是有许多个功能聚类的集合构成的
-''' </summary>
-<XmlRoot("background", [Namespace]:="http://gcmodeller.org/GSEA/background.xml")>
-Public Class Background : Inherits XmlDataModel
-    Implements INamedValue
+<XmlType("gene")>
+Public Class BackgroundGene : Inherits Synonym
 
-    Public Property name As String Implements IKeyedEntity(Of String).Key
-    Public Property comments As String
-    Public Property build As Date = Now
-
-    <XmlElement>
-    Public Property clusters As Cluster()
+    ''' <summary>
+    ''' The gene name
+    ''' </summary>
+    ''' <returns></returns>
+    <XmlAttribute>
+    Public Property name As String
+    <XmlText>
+    Public Property description As String
 
     Public Overrides Function ToString() As String
-        Return name
+        Return $"{MyBase.ToString}  [{description}]"
     End Function
+
 End Class

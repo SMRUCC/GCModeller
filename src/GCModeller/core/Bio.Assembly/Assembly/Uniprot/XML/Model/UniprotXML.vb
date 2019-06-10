@@ -124,6 +124,16 @@ Namespace Assembly.Uniprot.XML
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function EnumerateEntries(files$(), Optional isUniParc As Boolean = False) As IEnumerable(Of entry)
+            Return files _
+                .Select(Function(path)
+                            Call $"Populate {path}".__INFO_ECHO
+                            Return EnumerateEntries(path, isUniParc)
+                        End Function) _
+                .IteratesALL
+        End Function
+
         ''' <summary>
         ''' 因为可能会存在一个蛋白质entry对应多个accession的情况，
         ''' 所以这个函数会自动将这些重复的<see cref="entry.accessions"/>进行展开，

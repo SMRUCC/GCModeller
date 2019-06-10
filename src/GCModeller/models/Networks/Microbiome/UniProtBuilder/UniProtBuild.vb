@@ -76,38 +76,37 @@ Public Module UniProtBuild
                           End Function)
     End Function
 
-    <Extension> Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), Optional ByRef cache As (KO_list$, taxonomy$, counts$) = Nothing) As TaxonomyRepository
+    <Extension>
+    Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), export$, Optional ByRef cache As CacheGenerator = Nothing) As TaxonomyRepository
         ' 因为在这里是处理一个非常大的UniProt注释数据库，所以需要首先做一次扫描
         ' 将需要提取的信息先放到缓存之中
-        Dim tmp$ = App.GetAppSysTempFile(, App.PID)
+        Dim tmp$ = App.GetAppSysTempFile(".cache", App.PID, "metaprofiler_")
         Dim model As TaxonomyRepository
 
-        cache = UniProtXml.ScanInternal(tmp)
-        model = ScanModels(cache)
+        cache = New CacheGenerator(tmp).ScanInternal(UniProtXml)
+        model = ScanModels(cache, export)
 
         Return model
     End Function
 
-    <Extension>
-    Public Sub CopyTo(cache As (KO_list$, taxonomy$, counts$), destination$)
-        With destination & "/"
-            Call cache.KO_list.FileCopy(.ByRef)
-            Call cache.taxonomy.FileCopy(.ByRef)
-            Call cache.counts.FileCopy(.ByRef)
-        End With
-    End Sub
+    Const blankPattern$ = "\+{10,}\n"
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function ScanModels(cache As String) As TaxonomyRepository
-        Return (cache & "/" & KO_list, cache & "/" & Taxonomy_data, cache & "/" & gene_counts).ScanModels
-    End Function
-
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="cache"></param>
+    ''' <param name="export">因为UniProt数据库可能达到1TB的数量级,所以在这里必须要使用这个参数来导出数据文件,否则内存会溢出</param>
+    ''' <returns></returns>
     <Extension>
-    Public Function ScanModels(cache As (KO_list$, taxonomy$, counts$)) As TaxonomyRepository
+    Public Function ScanModels(cache As CacheGenerator, export$) As TaxonomyRepository
         Dim ko00000 = ko00000Provider()
-        Dim list As New List(Of TaxonomyRef)
         Dim organismKO As New Dictionary(Of String, List(Of String))
         Dim counts As New Dictionary(Of String, Counter)
+        Dim repository As New TaxonomyRepository With {
+            .taxonomy = New Dictionary(Of String, Metagenomics.Taxonomy)
+        }
+
+        DirectCast(repository, IFileReference).FilePath = $"{export}/main.json"
 
         For Each line As String In cache.KO_list.IterateAllLines
             With line.Split(ASCII.TAB)
@@ -160,7 +159,7 @@ Public Module UniProtBuild
                                 Return New XmlProperty With {
                                     .name = id,
                                     .value = term.Name,
-                                    .Comment = term.Value
+                                    .comment = term.Value
                                 }
                             Else
                                 Return New XmlProperty With {
@@ -170,19 +169,23 @@ Public Module UniProtBuild
                         End Function) _
                 .ToArray
 
-            list += New TaxonomyRef With {
+            Dim refModel As New TaxonomyRef With {
                 .organism = organism,
-                .TaxonID = taxon,
+                .taxonID = taxon,
                 .genome = New OrthologyTerms With {
                     .Terms = terms
                 },
-                .Coverage = annotated / counts(taxon)
+                .coverage = annotated / counts(taxon)
             }
+            Dim refFile$ = repository.StorageReference(refModel.TaxonomyString, relative:=False) & $"/{taxon}.Xml"
+
+            Call repository.taxonomy.Add(taxon, refModel.TaxonomyString)
+            Call refModel _
+                .GetXml _
+                .SaveTo(refFile)
         Next
 
-        Return New TaxonomyRepository With {
-            .Taxonomy = list
-        }
+        Return repository
     End Function
 
     ''' <summary>
@@ -213,80 +216,4 @@ Public Module UniProtBuild
         Next
     End Function
 
-    Const KO_list$ = "KO.list"
-    Const Taxonomy_data$ = "taxonomy.txt"
-    Const gene_counts$ = "gene.counts"
-    Const blank$ = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-    Const blankPattern$ = "\+{10,}\n"
-
-    ''' <summary>
-    ''' 函数返回来的是临时文件夹的路径位置
-    ''' </summary>
-    ''' <param name="UniProtXml"></param>
-    ''' <param name="tmp">工作区缓存文件夹</param>
-    ''' <returns></returns>
-    <Extension>
-    Private Function ScanInternal(UniProtXml As IEnumerable(Of entry), tmp$) As (KO_list$, taxonomy$, counts$)
-        ' KO 缓存文件示例
-        ' 
-        ' taxonomy_id KO
-        ' taxonomy_id KO
-        ' taxonomy_id KO
-        '
-        ' 
-        Dim taxonomyIndex As New Dictionary(Of String, String)
-
-        Using KO As StreamWriter = $"{tmp}/{KO_list}".OpenWriter,
-            taxon As StreamWriter = $"{tmp}/{Taxonomy_data}".OpenWriter,
-            counts As StreamWriter = $"{tmp}/{gene_counts}".OpenWriter
-
-            For Each protein As entry In UniProtXml _
-                .Where(Function(org)
-                           Return Not org.organism Is Nothing AndAlso
-                                  Not org.organism.dbReference Is Nothing
-                       End Function)
-
-                Dim taxonomy As organism = protein.organism
-                Dim taxonID$ = taxonomy.dbReference.id
-
-                ' 为了计算出覆盖度，需要知道基因组之中有多少个基因的记录
-                ' 在这里直接记录下物种的编号，在后面分组计数就可以了解基因组
-                ' 之中的基因的总数了
-                Call counts.WriteLine(taxonID)
-
-                ' 如果已经存在index了，则不会写入taxo文件之中
-                If Not taxonomyIndex.ContainsKey(taxonID) Then
-                    Call taxon.WriteLine(taxonomy.GetXml)
-                    Call taxon.WriteLine(blank)
-                    Call taxonomyIndex.Add(taxonID, "null")
-                End If
-
-                Dim KOlist$() = protein.Xrefs _
-                    .TryGetValue("KO") _
-                    .SafeQuery _
-                    .Select(Function(KEGG) KEGG.id) _
-                    .ToArray
-
-                If KOlist.Length > 0 Then
-                    Call KO.WriteLine(
-                        value:=KOlist _
-                            .Select(Function(id)
-                                        Return taxonID & vbTab & id
-                                    End Function) _
-                            .JoinBy(KO.NewLine)
-                    )
-                End If
-            Next
-
-            Call KO.Flush()
-            Call counts.Flush()
-            Call taxon.Flush()
-        End Using
-
-        Return (
-            $"{tmp}/{KO_list}",
-            $"{tmp}/{Taxonomy_data}",
-            $"{tmp}/{gene_counts}"
-        )
-    End Function
 End Module

@@ -158,7 +158,7 @@ Public Module RankAbundance
         ' 2017-12-19 当指定rank为Genus的时候，直接减去100则只会返回family级别的结果
         ' 在这里添加1来修复这个BUG
         Dim length% = rank - 100 + 1
-        Dim array = taxonomy.ToArray.Take(length).AsList
+        Dim array = taxonomy.Select.Take(length).AsList
 
         If fillNA AndAlso array.Count < length Then
             array += Repeats("NA", length - array.Count)

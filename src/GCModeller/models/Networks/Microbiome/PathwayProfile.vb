@@ -93,11 +93,11 @@ Public Module PathwayProfile
                 .ToArray
 
             For Each map As MapIndex In pathways
-                If Not profile.ContainsKey(map.MapID) Then
-                    Call profile.Add(map.MapID, New Counter)
+                If Not profile.ContainsKey(map.ID) Then
+                    Call profile.Add(map.ID, New Counter)
                 End If
 
-                Call profile(map.MapID).Hit()
+                Call profile(map.ID).Hit()
             Next
         Next
 
@@ -327,7 +327,7 @@ Public Module PathwayProfile
             .ToDictionary(Function(g) g.Key,
                           Function(mapProfiles) mapProfiles.ToArray)
         Dim maps = idlist _
-            .Select(Function(mapID) KEGG.GetByKey(mapID).Map) _
+            .Select(Function(mapID) KEGG.GetByKey(mapID)) _
             .ToArray
         Dim network As NetworkGraph = maps.BuildNetwork(
             Sub(mapNode)
