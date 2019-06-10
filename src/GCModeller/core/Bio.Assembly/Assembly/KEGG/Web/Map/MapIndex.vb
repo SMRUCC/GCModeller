@@ -1,57 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::68b7fc8191805da7904583267c3be41d, Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class MapIndex
-    ' 
-    '         Properties: CompoundIndex, Index, KeyVector, KOIndex, Map
-    '                     MapID, MapTitle
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class MapRepository
-    ' 
-    '         Properties: Maps
-    ' 
-    '         Function: BuildRepository, CreateIndex, Exists, GetAll, GetByKey
-    '                   GetWhere, QueryMapsByMembers
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class MapIndex
+' 
+'         Properties: CompoundIndex, Index, KeyVector, KOIndex, Map
+'                     MapID, MapTitle
+' 
+'         Function: ToString
+' 
+'     Class MapRepository
+' 
+'         Properties: Maps
+' 
+'         Function: BuildRepository, CreateIndex, Exists, GetAll, GetByKey
+'                   GetWhere, QueryMapsByMembers
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
@@ -64,7 +65,7 @@ Namespace Assembly.KEGG.WebServices
     Public Class MapIndex : Implements INamedValue
 
         <XmlAttribute>
-        Public Property MapID As String Implements IKeyedEntity(Of String).Key
+        Public Property mapID As String Implements IKeyedEntity(Of String).Key
         Public Property KeyVector As TermsVector
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -89,7 +90,7 @@ Namespace Assembly.KEGG.WebServices
             End Set
         End Property
 
-        Public Property Map As Map
+        Public Property map As Map
 
         ''' <summary>
         ''' KO, compoundID, reactionID, etc.
@@ -102,16 +103,17 @@ Namespace Assembly.KEGG.WebServices
         Public ReadOnly Property MapTitle As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Map.Name
+                Return map.Name
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return MapID
+            Return mapID
         End Function
     End Class
 
-    Public Class MapRepository : Implements IRepositoryRead(Of String, MapIndex)
+    Public Class MapRepository : Inherits XmlDataModel
+        Implements IRepositoryRead(Of String, MapIndex)
 
         <XmlElement(NameOf(MapIndex))> Public Property Maps As MapIndex()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -120,7 +122,7 @@ Namespace Assembly.KEGG.WebServices
             End Get
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Set(value As MapIndex())
-                table = value.ToDictionary(Function(map) map.MapID)
+                table = value.ToDictionary(Function(map) map.mapID)
             End Set
         End Property
 
@@ -178,8 +180,8 @@ Namespace Assembly.KEGG.WebServices
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function CreateIndex(map As Map) As MapIndex
             Return New MapIndex With {
-                .Map = map,
-                .MapID = map.ID,
+                .map = map,
+                .mapID = map.ID,
                 .KeyVector = New TermsVector With {
                     .Terms = map _
                         .Areas _
