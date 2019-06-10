@@ -177,11 +177,12 @@ Public Module UniProtBuild
                 },
                 .coverage = annotated / counts(taxon)
             }
+            Dim refFile$ = repository.StorageReference(refModel.TaxonomyString, relative:=False) & $"/{taxon}.Xml"
 
             Call repository.taxonomy.Add(taxon, refModel.TaxonomyString)
             Call refModel _
                 .GetXml _
-                .SaveTo(repository.StorageReference(refModel.TaxonomyString, relative:=False))
+                .SaveTo(refFile)
         Next
 
         Return repository

@@ -137,7 +137,7 @@ Public Class TaxonomyRepository
     End Function
 
     ''' <summary>
-    ''' 
+    ''' 这个函数只是得到了文件夹部分,还需要与taxonomy id组合在一起才能够得到文件
     ''' </summary>
     ''' <param name="taxonomy"></param>
     ''' <returns></returns>
