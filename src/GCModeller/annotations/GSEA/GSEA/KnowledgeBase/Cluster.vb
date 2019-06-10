@@ -105,6 +105,7 @@ Public Class Cluster : Implements INamedValue
     End Function
 End Class
 
+<XmlType("gene")>
 Public Class BackgroundGene : Inherits Synonym
 
     ''' <summary>
