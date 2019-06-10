@@ -654,11 +654,11 @@ SET_END:    Dim ends = i
                                            Optional splitOverlaps As Boolean = False,
                                            Optional colorProfiles As Dictionary(Of String, String) = Nothing) As Configurations.Circos
         Return TrackDatas.FeatureAnnotations.GenerateGeneCircle(
-            doc, anno, onlyGeneName, IDRegex,
-            DisplayName,
-            snuggleRefine,
-            splitOverlaps,
-            colorProfiles
+            doc:=doc, anno:=anno, onlyGeneName:=onlyGeneName, IDregex:=IDRegex,
+            displayName:=DisplayName,
+            snuggleRefine:=snuggleRefine,
+            splitOverlaps:=splitOverlaps,
+            colorProfiles:=colorProfiles
         )
     End Function
 

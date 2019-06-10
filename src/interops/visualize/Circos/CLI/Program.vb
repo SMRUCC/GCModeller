@@ -163,11 +163,11 @@ Module Program
     ReadOnly otherFeatures As Index(Of String) = {"repeat_region", "mobile_element"}
 
     Sub testPlot2()
-        Dim gb = gbff.Load("P:\deg\A16R\Bacillus anthracis str. A16R chromosome, complete genome_NZ_CP001974.2.gb")
+        Dim gb = gbff.Load("P:\deg\91001\NC_005810.gbk")
         Dim nt = gb.Origin.ToFasta
         Dim size = nt.Length
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
-        Dim predictsTable = "P:\deg\A16R\the_best_AR1.csv"
+        Dim predictsTable = "P:\deg\91001\the_best_NC91001.csv"
 
         ' g.Properties.Values.First > 0.9) _
         Dim degPredicts = EntityObject.LoadDataSet(predictsTable) _
@@ -178,7 +178,7 @@ Module Program
                           End Function)
 
         Dim annotations = EntityObject _
-            .LoadDataSet("P:\deg\A16R\A16R_NZ_CP001974 Annotations.csv") _
+            .LoadDataSet("P:\deg\91001\91001_NC_005810 Annotations.csv") _
             .Select(AddressOf convert) _
             .Where(Function(g) g.Species <> "source") _
             .GroupBy(Function(gene) gene.LocusID) _
@@ -199,9 +199,11 @@ Module Program
                                                           ' 只显示较为可能为deg的名称标记
                                                           g.LocusID = ""
                                                           g.GeneName = Nothing
-                                                      ElseIf degPredicts(g.LocusID) < 0.99 Then
+                                                      ElseIf degPredicts(g.LocusID) < 0.05 Then
                                                           g.GeneName = Nothing
                                                           g.LocusID = ""
+                                                      ElseIf degPredicts(g.LocusID) < 0.999 Then
+                                                          g.GeneName = Nothing
                                                       End If
                                                   End Sub)
                     End Function) _
@@ -227,6 +229,7 @@ Module Program
         doc = Circos.CircosAPI.GenerateGeneCircle(
             doc, annotations, True,
             splitOverlaps:=False,
+            snuggleRefine:=False,
             colorProfiles:=New Dictionary(Of String, String) From {
                 {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
                 {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
@@ -276,7 +279,7 @@ Module Program
         Call doc.ForceAutoLayout()
         Call Circos.CircosAPI.SetIdeogramRadius(Circos.GetIdeogram(doc), 0.25)
 
-        Call Circos.CircosAPI.WriteData(doc, "P:\deg\A16R\circos", debug:=False)
+        Call Circos.CircosAPI.WriteData(doc, "P:\deg\91001\circos", debug:=False)
 
 
         Pause()
