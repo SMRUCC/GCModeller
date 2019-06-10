@@ -66,7 +66,16 @@ Public Class Cluster : Implements INamedValue
     ''' <returns></returns>
     <XmlAttribute>
     Public Property ID As String Implements IKeyedEntity(Of String).Key
+    ''' <summary>
+    ''' The common name of current term <see cref="ID"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public Property names As String
+
+    ''' <summary>
+    ''' A brief description on term function.
+    ''' </summary>
+    ''' <returns></returns>
     <XmlElement>
     Public Property description As String
 
@@ -74,7 +83,7 @@ Public Class Cluster : Implements INamedValue
     ''' 当前的这个聚类之中的基因列表
     ''' </summary>
     ''' <returns></returns>
-    Public Property members As Synonym()
+    Public Property members As BackgroundGene()
 
     Dim index As Index(Of String)
 
@@ -94,4 +103,21 @@ Public Class Cluster : Implements INamedValue
     Public Overrides Function ToString() As String
         Return ID
     End Function
+End Class
+
+Public Class BackgroundGene : Inherits Synonym
+
+    ''' <summary>
+    ''' The gene name
+    ''' </summary>
+    ''' <returns></returns>
+    <XmlAttribute>
+    Public Property name As String
+    <XmlText>
+    Public Property description As String
+
+    Public Overrides Function ToString() As String
+        Return $"{MyBase.ToString}  [{description}]"
+    End Function
+
 End Class
