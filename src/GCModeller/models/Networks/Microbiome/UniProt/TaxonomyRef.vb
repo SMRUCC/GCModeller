@@ -100,6 +100,14 @@ Public Class TaxonomyRef : Inherits XmlDataModel
         End Get
     End Property
 
+    <XmlNamespaceDeclarations()>
+    Public xmlnsImports As XmlSerializerNamespaces
+
+    Public Sub New()
+        xmlnsImports = New XmlSerializerNamespaces
+        xmlnsImports.Add("KO", OrthologyTerms.Xmlns)
+    End Sub
+
     Public Overrides Function ToString() As String
         Return $"[{TaxonID}] {organism.scientificName}"
     End Function
