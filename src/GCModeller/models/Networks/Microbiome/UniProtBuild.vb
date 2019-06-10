@@ -76,7 +76,8 @@ Public Module UniProtBuild
                           End Function)
     End Function
 
-    <Extension> Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), Optional ByRef cache As (KO_list$, taxonomy$, counts$) = Nothing) As TaxonomyRepository
+    <Extension>
+    Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), Optional ByRef cache As (KO_list$, taxonomy$, counts$) = Nothing) As TaxonomyRepository
         ' 因为在这里是处理一个非常大的UniProt注释数据库，所以需要首先做一次扫描
         ' 将需要提取的信息先放到缓存之中
         Dim tmp$ = App.GetAppSysTempFile(, App.PID)
@@ -97,19 +98,32 @@ Public Module UniProtBuild
         End With
     End Sub
 
+    ''' <summary>
+    ''' 从一个已经缓存有数据的文件夹之中构建模型
+    ''' </summary>
+    ''' <param name="cache"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function ScanModels(cache As String) As TaxonomyRepository
         Return (cache & "/" & KO_list, cache & "/" & Taxonomy_data, cache & "/" & gene_counts).ScanModels
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="cache"></param>
+    ''' <param name="export">因为UniProt数据库可能达到1TB的数量级,所以在这里必须要使用这个参数来导出数据文件,否则内存会溢出</param>
+    ''' <returns></returns>
     <Extension>
-    Public Function ScanModels(cache As (KO_list$, taxonomy$, counts$)) As TaxonomyRepository
+    Public Function ScanModels(cache As (KO_list$, taxonomy$, counts$), export$) As TaxonomyRepository
         Dim ko00000 = ko00000Provider()
         Dim organismKO As New Dictionary(Of String, List(Of String))
         Dim counts As New Dictionary(Of String, Counter)
         Dim repository As New TaxonomyRepository With {
             .taxonomy = New Dictionary(Of String, Metagenomics.Taxonomy)
         }
+
+        DirectCast(repository, IFileReference).FilePath = $"{export}/main.json"
 
         For Each line As String In cache.KO_list.IterateAllLines
             With line.Split(ASCII.TAB)
@@ -162,7 +176,7 @@ Public Module UniProtBuild
                                 Return New XmlProperty With {
                                     .name = id,
                                     .value = term.Name,
-                                    .Comment = term.Value
+                                    .comment = term.Value
                                 }
                             Else
                                 Return New XmlProperty With {
@@ -174,15 +188,17 @@ Public Module UniProtBuild
 
             Dim refModel As New TaxonomyRef With {
                 .organism = organism,
-                .TaxonID = taxon,
+                .taxonID = taxon,
                 .genome = New OrthologyTerms With {
                     .Terms = terms
                 },
                 .coverage = annotated / counts(taxon)
             }
 
-            Call repository.cache.Add(taxon, refModel)
             Call repository.taxonomy.Add(taxon, refModel.TaxonomyString)
+            Call refModel _
+                .GetXml _
+                .SaveTo(repository.StorageReference(refModel.TaxonomyString, relative:=False))
         Next
 
         Return repository

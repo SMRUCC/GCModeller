@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
@@ -195,6 +196,11 @@ Partial Module CLI
             .CLICode
     End Function
 
+    ''' <summary>
+    ''' 创建微生物组代谢途径富集计算所需要的背景参考库
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Metagenome.UniProt.Ref")>
     <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /out <out.XML>]")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
@@ -218,7 +224,7 @@ Partial Module CLI
         End If
 
         Return ref _
-            .GetXml _
+            .GetJson _
             .SaveTo(out) _
             .CLICode
     End Function
