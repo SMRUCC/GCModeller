@@ -65,7 +65,7 @@ Imports XmlProperty = Microsoft.VisualBasic.Text.Xml.Models.Property
 Namespace Assembly.KEGG.DBGET.bGetObject
 
     <XmlType("Orthology-terms", [Namespace]:=OrthologyTerms.Xmlns)>
-    Public Structure OrthologyTerms
+    Public Class OrthologyTerms : Inherits ListOf(Of XmlProperty)
 
         Public Const Xmlns$ = "http://GCModeller.org/core/KEGG/Model/OrthologyTerm.xsd"
 
@@ -74,13 +74,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Terms.Keys
-            End Get
-        End Property
-
-        <XmlIgnore>
-        Public ReadOnly Property Length As Integer
-            Get
-                Return Terms?.Length
             End Get
         End Property
 
@@ -94,7 +87,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Overrides Function ToString() As String
             Return EntityList.GetJson
         End Function
-    End Structure
+
+        Protected Overrides Function getSize() As Integer
+            Return Terms.Length
+        End Function
+
+        Protected Overrides Function getCollection() As IEnumerable(Of XmlProperty)
+            Return Terms
+        End Function
+    End Class
 
     ''' <summary>
     ''' KEGG reaction annotation data.

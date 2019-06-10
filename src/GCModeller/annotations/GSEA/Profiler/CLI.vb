@@ -67,12 +67,12 @@ Public Module CLI
               Description:="Uniprot database that contains the uniprot_id to KO_id mapping.")>
     <Argument("/maps", False, CLITypes.File,
               AcceptTypes:={GetType(Map)},
-              Description:="This argument should be a directory path which this folder contains multiple KEGG reference pathway map xml files.")>
+              Description:="This argument should be a directory path which this folder contains multiple KEGG reference pathway map xml files. A xml file path of the kegg pathway map database is also accepted!")>
     Public Function CreateKOCluster(args As CommandLine) As Integer
         Dim uniprot$ = args <= "/uniprot"
         Dim maps$ = args <= "/maps"
         Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}_KO.XML"
-        Dim kegg = (ls - l - r - "*.Xml" <= maps).Select(AddressOf LoadXml(Of Map))
+        Dim kegg As IEnumerable(Of Map) = getMapsAuto(maps)
         Dim entries = UniProtXML.EnumerateEntries(uniprot)
         Dim model As Background = GSEA.ImportsUniProt(
             entries,
@@ -81,6 +81,14 @@ Public Module CLI
         )
 
         Return model.GetXml.SaveTo(out).CLICode
+    End Function
+
+    Private Function getMapsAuto(repository As String) As IEnumerable(Of Map)
+        If repository.DirectoryExists Then
+            Return (ls - l - r - "*.Xml" <= repository).Select(AddressOf LoadXml(Of Map))
+        Else
+            Return repository.LoadXml(Of MapRepository)
+        End If
     End Function
 
     <ExportAPI("/GO.clusters")>

@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
@@ -195,30 +196,48 @@ Partial Module CLI
             .CLICode
     End Function
 
+    ''' <summary>
+    ''' 创建微生物组代谢途径富集计算所需要的背景参考库
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Metagenome.UniProt.Ref")>
-    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /out <out.XML>]")>
+    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /out <out.json>]")>
+    <Description("Create background model for apply pathway enrichment analysis of the Metagenome data.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.Xml",
+              Description:="This argument should be the uniprot database file, multiple file is supported, which the multiple xml file path can be contract by ``|`` as delimiter.")>
+    <Argument("/cache", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="Debug used only.")>
     Public Function BuildUniProtReference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$
         Dim ref As TaxonomyRepository
 
-        If [in].FileExists Then
-            Dim cache As (String, String, String) = Nothing
+        If [in].Contains("|") OrElse [in].FileExists Then
+            Dim cache As CacheGenerator = Nothing
+            Dim files = [in].Split("|"c)
 
-            out = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.Xml")
-            ref = UniProtXML.EnumerateEntries([in]).ScanUniProt(cache)
+            out = args("/out") Or (files(Scan0).TrimSuffix & ".taxonomy_ref.json")
+            ref = UniProtXML _
+                .EnumerateEntries(files) _
+                .ScanUniProt(out.ParentPath & "/taxonomy_ref", cache)
 
             If args.IsTrue("/cache") Then
                 Call cache.CopyTo(destination:=out.TrimSuffix)
             End If
         Else
-            out = args("/out") Or ([in].TrimDIR & ".taxonomy_ref.Xml")
-            ref = UniProtBuild.ScanModels(cache:=[in])
+            out = args("/out") Or ([in].TrimDIR & ".taxonomy_ref.json")
+            ref = UniProtBuild.ScanModels(
+                cache:=New CacheGenerator([in]),
+                export:=out.ParentPath & "/taxonomy_ref"
+            )
         End If
 
         Return ref _
-            .GetXml _
+            .GetJson _
             .SaveTo(out) _
             .CLICode
     End Function
@@ -232,18 +251,22 @@ Partial Module CLI
         Dim coverage# = args.GetValue("/coverage", 0.6)
         Dim terms% = args.GetValue("/terms", 1000)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix},coverage={coverage},terms={terms}.Xml"
-        Dim models As TaxonomyRepository = [in].LoadXml(Of TaxonomyRepository)
+        Dim repository As TaxonomyRepository = [in].LoadXml(Of TaxonomyRepository)
+        Dim idlist As String() = repository.taxonomy _
+            .Keys _
+            .Where(Function(taxid)
+                       Dim genome As TaxonomyRef = repository.LoadByTaxonomyId(taxid)
 
-        models.Taxonomy = models.Taxonomy _
-            .Where(Function(genome)
                        Return Not genome.organism Is Nothing AndAlso
                               Not genome.genome.Terms.IsNullOrEmpty AndAlso
-                                  genome.Coverage >= coverage AndAlso
+                                  genome.coverage >= coverage AndAlso
                                   genome.genome.Terms.Length >= terms
                    End Function) _
             .ToArray
 
-        Return models _
+        repository.taxonomy = repository.taxonomy.Subset(idlist)
+
+        Return repository _
             .GetXml _
             .SaveTo(out) _
             .CLICode

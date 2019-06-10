@@ -60,10 +60,10 @@ Public Module PathwayMapNetwork
     ''' <returns></returns>
     Public Function BuildModel(br08901$) As NetworkTables
         Dim nodes As New List(Of Node)
+        Dim pathwayMap As PathwayMap
 
         For Each Xml As String In ls - l - r - "*.XML" <= br08901
-            Dim pathwayMap As PathwayMap = Xml.LoadXml(Of PathwayMap)
-
+            pathwayMap = Xml.LoadXml(Of PathwayMap)
             nodes += New Node(pathwayMap.EntryId) With {
                 .NodeType = pathwayMap.brite?.class,
                 .Properties = New Dictionary(Of String, String) From {
@@ -73,7 +73,7 @@ Public Module PathwayMapNetwork
                         .Select(Function(x) x.name) _
                         .JoinBy(PathwayMapNetwork.delimiter)
                     },
-                    {"KO.counts", pathwayMap.KEGGOrthology.Length},
+                    {"KO.counts", pathwayMap.KEGGOrthology.size},
                     {"pathway.name", pathwayMap.name} ' 直接使用name作为键名会和cytoscape网络模型之中的name产生冲突
                 }
             }

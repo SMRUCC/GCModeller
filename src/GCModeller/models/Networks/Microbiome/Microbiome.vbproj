@@ -249,9 +249,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PathwayProfile.vb" />
+    <Compile Include="UniProtBuilder\CacheGenerator.vb" />
     <Compile Include="UniProtExtensions.vb" />
-    <Compile Include="UniProtBuild.vb" />
+    <Compile Include="UniProtBuilder\UniProtBuild.vb" />
     <Compile Include="UniProt\TaxonomyIndex.vb" />
+    <Compile Include="UniProt\TaxonomyIndexExtensions.vb" />
     <Compile Include="UniProt\TaxonomyRepository.vb" />
     <Compile Include="UniProt\TaxonomyRef.vb" />
     <Compile Include="MetabolicComplementation.vb" />
