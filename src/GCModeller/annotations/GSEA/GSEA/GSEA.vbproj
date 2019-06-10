@@ -165,6 +165,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KnowledgeBase\Background.vb" />
     <Compile Include="KOBAS\Formats\CLS.vb" />
     <Compile Include="KOBAS\Formats\Gct.vb" />
     <Compile Include="KOBAS\Formats\Gmt.vb" />
