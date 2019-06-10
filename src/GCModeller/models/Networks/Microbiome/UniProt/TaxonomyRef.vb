@@ -62,16 +62,17 @@ Public Class TaxonomyRef : Inherits XmlDataModel
     ''' </summary>
     ''' <returns></returns>
     ''' 
-    <XmlAttribute("ncbi_taxon_id")>
+    <XmlElement("ncbi_taxon_id")>
     Public Property taxonID As String Implements IKeyedEntity(Of String).Key
-    Public Property organism As organism
-    Public Property genome As OrthologyTerms
+
     ''' <summary>
     ''' 具有KEGG直系同源注释结果的基因的数量和该基因组内的总基因数量的比值结果
     ''' </summary>
     ''' <returns></returns>
-    <XmlAttribute>
+    <XmlElement>
     Public Property coverage As Double
+    Public Property organism As organism
+    Public Property genome As OrthologyTerms
 
     Dim ts As Taxonomy
 
