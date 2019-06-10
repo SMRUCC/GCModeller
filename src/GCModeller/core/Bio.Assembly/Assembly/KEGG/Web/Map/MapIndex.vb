@@ -66,23 +66,25 @@ Namespace Assembly.KEGG.WebServices
 
         <XmlAttribute>
         Public Property mapID As String Implements IKeyedEntity(Of String).Key
+
+        <XmlElement("keys")>
         Public Property KeyVector As TermsVector
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New TermsVector With {
-                    .Terms = Index.Objects
+                    .terms = Index.Objects
                 }
             End Get
             Set(value As TermsVector)
-                _Index = New Index(Of String)(value.Terms)
+                _Index = New Index(Of String)(value.terms)
                 _KOIndex = value _
-                    .Terms _
+                    .terms _
                     .Where(Function(id)
                                Return id.IsPattern("K\d+", RegexICSng)
                            End Function) _
                     .Indexing
                 _CompoundIndex = value _
-                    .Terms _
+                    .terms _
                     .Where(Function(id)
                                Return id.IsPattern("C\d+", RegexICSng)
                            End Function) _
@@ -114,6 +116,7 @@ Namespace Assembly.KEGG.WebServices
 
     Public Class MapRepository : Inherits XmlDataModel
         Implements IRepositoryRead(Of String, MapIndex)
+        Implements Enumeration(Of Map)
 
         <XmlElement(NameOf(MapIndex))> Public Property Maps As MapIndex()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -130,6 +133,14 @@ Namespace Assembly.KEGG.WebServices
         ''' Get by ID
         ''' </summary>
         Dim table As Dictionary(Of String, MapIndex)
+
+        <XmlNamespaceDeclarations()>
+        Public xmlns As XmlSerializerNamespaces
+
+        Sub New()
+            xmlns = New XmlSerializerNamespaces
+            xmlns.Add("map", Map.XmlNamespace)
+        End Sub
 
         Public Iterator Function QueryMapsByMembers(entity As IEnumerable(Of String)) As IEnumerable(Of MapIndex)
             For Each key As String In entity
@@ -185,7 +196,7 @@ Namespace Assembly.KEGG.WebServices
                 .map = map,
                 .mapID = map.ID,
                 .KeyVector = New TermsVector With {
-                    .Terms = map _
+                    .terms = map _
                         .Areas _
                         .Select(Function(a) a.IDVector) _
                         .IteratesALL _
@@ -194,6 +205,16 @@ Namespace Assembly.KEGG.WebServices
                         .ToArray
                 }
             }
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of Map) Implements Enumeration(Of Map).GenericEnumerator
+            For Each index In Maps
+                Yield index.map
+            Next
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Map).GetEnumerator
+            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace
