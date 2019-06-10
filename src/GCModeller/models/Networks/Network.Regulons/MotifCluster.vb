@@ -80,7 +80,7 @@ Public Module MotifCluster
 
             Dim mapObj As New ClusterEntity With {
                 .uid = map.x.Uid,
-                .Properties = mapResult.Where(Function(x) Not x Is Nothing).Select(Function(x) x.Bits + x.PWM.Average)
+                .entityVector = mapResult.Where(Function(x) Not x Is Nothing).Select(Function(x) x.Bits + x.PWM.Average)
             }
             Call buffer.Add(mapObj)
         Next
@@ -97,7 +97,7 @@ Public Module MotifCluster
                 Continue For
             End If
             Dim v As Double() = NullSite.Repeats(d)
-            x.Properties = x.Properties.Join(v).ToArray
+            x.entityVector = x.entityVector.Join(v).ToArray
         Next
 
         Return buffer.ToArray

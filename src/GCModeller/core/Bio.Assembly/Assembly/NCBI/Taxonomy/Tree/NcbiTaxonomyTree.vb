@@ -82,7 +82,7 @@ Namespace Assembly.NCBI.Taxonomy
     ''' Here I make available my In-memory mapping Of the NCBI taxonomy : a Python 2.7 Class that maps the ``names.dmp`` 
     ''' And ``nodes.dmp`` files In a Python dictionnary which can be used To retrieve lineages, descendants, etc ...
     ''' </remarks>
-    Public Class NcbiTaxonomyTree : Inherits BaseClass
+    Public Class NcbiTaxonomyTree
 
         ''' <summary>
         ''' 这个列表是从小到大进行排序的

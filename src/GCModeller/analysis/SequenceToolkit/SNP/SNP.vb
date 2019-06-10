@@ -78,7 +78,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 ''' + Variant Raw Frequency	
 ''' + Variant Sequences
 ''' </remarks>
-Public Class SNP : Inherits BaseClass
+Public Class SNP
     Implements IMotifSite
     Implements IMotifScoredSite
 

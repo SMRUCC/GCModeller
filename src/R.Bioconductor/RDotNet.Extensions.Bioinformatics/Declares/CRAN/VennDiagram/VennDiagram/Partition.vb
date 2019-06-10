@@ -52,7 +52,7 @@ Namespace VennDiagram.ModelAPI
     ''' <summary>
     ''' A partition in the venn diagram.
     ''' </summary>
-    Public Class Partition : Inherits BaseClass
+    Public Class Partition
         Implements INamedValue
 
         ''' <summary>

@@ -55,7 +55,7 @@ Public Class IDConvertor
     Sub New(entries As IEnumerable(Of entry))
         Dim parsers = GetIDs.EnumerateParsers _
             .Select(Function(type)
-                        typesID.Add(type.Key, New Dictionary(Of NamedVector(Of String)))
+                        Call typesID.Add(type.Key, New Dictionary(Of NamedVector(Of String)))
                         Return type
                     End Function) _
             .ToArray
