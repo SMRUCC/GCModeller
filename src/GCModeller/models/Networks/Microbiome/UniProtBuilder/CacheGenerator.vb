@@ -67,8 +67,11 @@ Public Class CacheGenerator
 
         For Each protein As entry In UniProtXml _
             .Where(Function(org)
+                       ' 因为在这里构建的是微生物组的参考库
+                       ' 所以在这里只需要细菌的数据
                        Return Not org.organism Is Nothing AndAlso
-                              Not org.organism.dbReference Is Nothing
+                              Not org.organism.dbReference Is Nothing AndAlso
+                                  org.organism.lineage.taxonlist(Scan0).TextEquals("Bacteria")
                    End Function)
 
             Dim taxonomy As organism = protein.organism
