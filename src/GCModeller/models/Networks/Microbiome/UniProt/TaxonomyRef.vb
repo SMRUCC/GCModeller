@@ -63,7 +63,7 @@ Public Class TaxonomyRef : Inherits XmlDataModel
     ''' <returns></returns>
     ''' 
     <XmlAttribute("ncbi_taxon_id")>
-    Public Property TaxonID As String Implements IKeyedEntity(Of String).Key
+    Public Property taxonID As String Implements IKeyedEntity(Of String).Key
     Public Property organism As organism
     Public Property genome As OrthologyTerms
     ''' <summary>
@@ -71,7 +71,7 @@ Public Class TaxonomyRef : Inherits XmlDataModel
     ''' </summary>
     ''' <returns></returns>
     <XmlAttribute>
-    Public Property Coverage As Double
+    Public Property coverage As Double
 
     Dim ts As Taxonomy
 

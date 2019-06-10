@@ -232,22 +232,22 @@ Partial Module CLI
         Dim coverage# = args.GetValue("/coverage", 0.6)
         Dim terms% = args.GetValue("/terms", 1000)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix},coverage={coverage},terms={terms}.Xml"
-        Dim models As TaxonomyRepository = [in].LoadXml(Of TaxonomyRepository)
-        Dim idlist As String() = models.taxonomy _
+        Dim repository As TaxonomyRepository = [in].LoadXml(Of TaxonomyRepository)
+        Dim idlist As String() = repository.taxonomy _
             .Keys _
             .Where(Function(taxid)
-                       Dim genome As TaxonomyRef = models.LoadByTaxonomyId(taxid)
+                       Dim genome As TaxonomyRef = repository.LoadByTaxonomyId(taxid)
 
                        Return Not genome.organism Is Nothing AndAlso
                               Not genome.genome.Terms.IsNullOrEmpty AndAlso
-                                  genome.Coverage >= coverage AndAlso
+                                  genome.coverage >= coverage AndAlso
                                   genome.genome.Terms.Length >= terms
                    End Function) _
             .ToArray
 
-        models.taxonomy = models.taxonomy.Subset(idlist)
+        repository.taxonomy = repository.taxonomy.Subset(idlist)
 
-        Return models _
+        Return repository _
             .GetXml _
             .SaveTo(out) _
             .CLICode

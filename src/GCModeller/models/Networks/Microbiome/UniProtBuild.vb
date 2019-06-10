@@ -105,9 +105,11 @@ Public Module UniProtBuild
     <Extension>
     Public Function ScanModels(cache As (KO_list$, taxonomy$, counts$)) As TaxonomyRepository
         Dim ko00000 = ko00000Provider()
-        Dim list As New List(Of TaxonomyRef)
         Dim organismKO As New Dictionary(Of String, List(Of String))
         Dim counts As New Dictionary(Of String, Counter)
+        Dim repository As New TaxonomyRepository With {
+            .taxonomy = New Dictionary(Of String, Metagenomics.Taxonomy)
+        }
 
         For Each line As String In cache.KO_list.IterateAllLines
             With line.Split(ASCII.TAB)
@@ -170,19 +172,20 @@ Public Module UniProtBuild
                         End Function) _
                 .ToArray
 
-            list += New TaxonomyRef With {
+            Dim refModel As New TaxonomyRef With {
                 .organism = organism,
                 .TaxonID = taxon,
                 .genome = New OrthologyTerms With {
                     .Terms = terms
                 },
-                .Coverage = annotated / counts(taxon)
+                .coverage = annotated / counts(taxon)
             }
+
+            Call repository.cache.Add(taxon, refModel)
+            Call repository.taxonomy.Add(taxon, refModel.TaxonomyString)
         Next
 
-        Return New TaxonomyRepository With {
-            .Taxonomy = list
-        }
+        Return repository
     End Function
 
     ''' <summary>

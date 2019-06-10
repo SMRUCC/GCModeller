@@ -72,7 +72,7 @@ Public Class TaxonomyRepository
     ''' <summary>
     ''' [taxonomy_id => reference]
     ''' </summary>
-    Dim cache As Dictionary(Of String, TaxonomyRef)
+    Friend ReadOnly cache As New Dictionary(Of String, TaxonomyRef)
 
     ''' <summary>
     ''' 用于查找给定的编号的物种参考数据信息
