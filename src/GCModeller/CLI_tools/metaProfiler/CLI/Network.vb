@@ -210,17 +210,17 @@ Partial Module CLI
         Dim ref As TaxonomyRepository
 
         If [in].FileExists Then
-            Dim cache As (String, String, String) = Nothing
+            Dim cache As ModelTabular = Nothing
 
-            out = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.Xml")
-            ref = UniProtXML.EnumerateEntries([in]).ScanUniProt(cache)
+            out = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.json")
+            ref = UniProtXML.EnumerateEntries([in]).ScanUniProt(out.TrimSuffix, cache)
 
             If args.IsTrue("/cache") Then
                 Call cache.CopyTo(destination:=out.TrimSuffix)
             End If
         Else
-            out = args("/out") Or ([in].TrimDIR & ".taxonomy_ref.Xml")
-            ref = UniProtBuild.ScanModels(cache:=[in])
+            out = args("/out") Or ([in].TrimDIR & ".taxonomy_ref.json")
+            ref = UniProtBuild.ScanModels(cache:=New ModelTabular([in]), export:=out.TrimSuffix)
         End If
 
         Return ref _
