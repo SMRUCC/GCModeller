@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
-Public Class ModelTabular
+Public Class CacheGenerator
 
     Public ReadOnly Property KO_list As String
     Public ReadOnly Property taxonomy As String
@@ -40,7 +40,7 @@ Public Class ModelTabular
     ''' </summary>
     ''' <param name="UniProtXml"></param>
     ''' <returns></returns>
-    Public Function ScanInternal(UniProtXml As IEnumerable(Of entry)) As ModelTabular
+    Public Function ScanInternal(UniProtXml As IEnumerable(Of entry)) As CacheGenerator
         Using KO As StreamWriter = Me.KO_list.OpenWriter,
             taxon As StreamWriter = Me.taxonomy.OpenWriter,
             counts As StreamWriter = Me.counts.OpenWriter

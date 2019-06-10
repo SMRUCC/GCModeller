@@ -77,13 +77,13 @@ Public Module UniProtBuild
     End Function
 
     <Extension>
-    Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), export$, Optional ByRef cache As ModelTabular = Nothing) As TaxonomyRepository
+    Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), export$, Optional ByRef cache As CacheGenerator = Nothing) As TaxonomyRepository
         ' 因为在这里是处理一个非常大的UniProt注释数据库，所以需要首先做一次扫描
         ' 将需要提取的信息先放到缓存之中
         Dim tmp$ = App.GetAppSysTempFile(, App.PID)
         Dim model As TaxonomyRepository
 
-        cache = New ModelTabular(tmp).ScanInternal(UniProtXml)
+        cache = New CacheGenerator(tmp).ScanInternal(UniProtXml)
         model = ScanModels(cache, export)
 
         Return model
@@ -98,7 +98,7 @@ Public Module UniProtBuild
     ''' <param name="export">因为UniProt数据库可能达到1TB的数量级,所以在这里必须要使用这个参数来导出数据文件,否则内存会溢出</param>
     ''' <returns></returns>
     <Extension>
-    Public Function ScanModels(cache As ModelTabular, export$) As TaxonomyRepository
+    Public Function ScanModels(cache As CacheGenerator, export$) As TaxonomyRepository
         Dim ko00000 = ko00000Provider()
         Dim organismKO As New Dictionary(Of String, List(Of String))
         Dim counts As New Dictionary(Of String, Counter)

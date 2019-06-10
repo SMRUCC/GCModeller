@@ -249,7 +249,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PathwayProfile.vb" />
-    <Compile Include="UniProtBuilder\ModelTabular.vb" />
+    <Compile Include="UniProtBuilder\CacheGenerator.vb" />
     <Compile Include="UniProtExtensions.vb" />
     <Compile Include="UniProtBuilder\UniProtBuild.vb" />
     <Compile Include="UniProt\TaxonomyIndex.vb" />

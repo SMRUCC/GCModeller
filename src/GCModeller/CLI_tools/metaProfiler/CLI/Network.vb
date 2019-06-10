@@ -211,7 +211,7 @@ Partial Module CLI
         Dim ref As TaxonomyRepository
 
         If [in].FileExists Then
-            Dim cache As ModelTabular = Nothing
+            Dim cache As CacheGenerator = Nothing
 
             out = args("/out") Or ([in].TrimSuffix & ".taxonomy_ref.json")
             ref = UniProtXML.EnumerateEntries([in]).ScanUniProt(out.TrimSuffix, cache)
@@ -221,7 +221,7 @@ Partial Module CLI
             End If
         Else
             out = args("/out") Or ([in].TrimDIR & ".taxonomy_ref.json")
-            ref = UniProtBuild.ScanModels(cache:=New ModelTabular([in]), export:=out.TrimSuffix)
+            ref = UniProtBuild.ScanModels(cache:=New CacheGenerator([in]), export:=out.TrimSuffix)
         End If
 
         Return ref _
