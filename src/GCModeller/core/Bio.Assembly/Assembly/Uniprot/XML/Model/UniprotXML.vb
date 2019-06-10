@@ -127,7 +127,10 @@ Namespace Assembly.Uniprot.XML
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function EnumerateEntries(files$(), Optional isUniParc As Boolean = False) As IEnumerable(Of entry)
             Return files _
-                .Select(Function(path) EnumerateEntries(path, isUniParc)) _
+                .Select(Function(path)
+                            Call $"Populate {path}".__INFO_ECHO
+                            Return EnumerateEntries(path, isUniParc)
+                        End Function) _
                 .IteratesALL
         End Function
 
