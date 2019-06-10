@@ -233,15 +233,19 @@ Partial Module CLI
         Dim terms% = args.GetValue("/terms", 1000)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix},coverage={coverage},terms={terms}.Xml"
         Dim models As TaxonomyRepository = [in].LoadXml(Of TaxonomyRepository)
+        Dim idlist As String() = models.taxonomy _
+            .Keys _
+            .Where(Function(taxid)
+                       Dim genome As TaxonomyRef = models.LoadByTaxonomyId(taxid)
 
-        models.Taxonomy = models.Taxonomy _
-            .Where(Function(genome)
                        Return Not genome.organism Is Nothing AndAlso
                               Not genome.genome.Terms.IsNullOrEmpty AndAlso
                                   genome.Coverage >= coverage AndAlso
                                   genome.genome.Terms.Length >= terms
                    End Function) _
             .ToArray
+
+        models.taxonomy = models.taxonomy.Subset(idlist)
 
         Return models _
             .GetXml _
