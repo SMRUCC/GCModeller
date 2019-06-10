@@ -881,7 +881,7 @@ SET_END:    Dim ends = i
         Call circos.includes.Add(New Ideogram(circos))
 
         circos.skeletonKaryotype = New KaryotypeChromosomes(totalSize, "white", bands)
-        circos.skeletonKaryotype.LoopHole.value = loopHole
+        circos.skeletonKaryotype.loopHole = loopHole
         circos.karyotype = "./data/genome_skeleton.txt"
 
         Return True

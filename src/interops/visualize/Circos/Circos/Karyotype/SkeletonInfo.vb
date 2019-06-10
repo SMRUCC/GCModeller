@@ -73,6 +73,12 @@ Namespace Karyotype
             End Get
         End Property
 
+        ''' <summary>
+        ''' 缺口的大小，这个仅仅在单个染色体的基因组绘图模型之中有效
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property loopHole As Integer
+
         Protected karyos As List(Of Karyotype)
         Protected bands As List(Of Band)
 
