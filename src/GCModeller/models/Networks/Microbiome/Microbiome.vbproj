@@ -253,6 +253,7 @@
     <Compile Include="UniProtExtensions.vb" />
     <Compile Include="UniProtBuilder\UniProtBuild.vb" />
     <Compile Include="UniProt\TaxonomyIndex.vb" />
+    <Compile Include="UniProt\TaxonomyIndexExtensions.vb" />
     <Compile Include="UniProt\TaxonomyRepository.vb" />
     <Compile Include="UniProt\TaxonomyRef.vb" />
     <Compile Include="MetabolicComplementation.vb" />
