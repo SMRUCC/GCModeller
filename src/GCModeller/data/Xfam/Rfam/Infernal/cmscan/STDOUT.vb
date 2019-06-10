@@ -66,7 +66,7 @@ Namespace Infernal.cmscan
         Public Property QueryHits As Query
     End Class
 
-    Public Class Query : Inherits BaseClass
+    Public Class Query
         Public Property title As String
         Public Property Length As Long
         Public Property Description As String

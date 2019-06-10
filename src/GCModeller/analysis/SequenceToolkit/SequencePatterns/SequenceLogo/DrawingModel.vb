@@ -69,7 +69,7 @@ Namespace SequenceLogo
     ''' <summary>
     ''' Drawing model for the sequence logo visualization.
     ''' </summary>
-    Public Class DrawingModel : Inherits BaseClass
+    Public Class DrawingModel
 
         ''' <summary>
         ''' The motif model is consist of a sequence of residue sites.
