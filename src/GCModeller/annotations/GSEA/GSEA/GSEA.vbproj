@@ -165,9 +165,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Formats\CLS.vb" />
-    <Compile Include="Formats\Gct.vb" />
-    <Compile Include="Formats\Gmt.vb" />
+    <Compile Include="KOBAS\Formats\CLS.vb" />
+    <Compile Include="KOBAS\Formats\Gct.vb" />
+    <Compile Include="KOBAS\Formats\Gmt.vb" />
     <Compile Include="IDConvertor.vb" />
     <Compile Include="Imports.vb" />
     <Compile Include="EnrichmentResult.vb" />
