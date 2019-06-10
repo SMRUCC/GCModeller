@@ -80,7 +80,7 @@ Public Module UniProtBuild
     Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), export$, Optional ByRef cache As CacheGenerator = Nothing) As TaxonomyRepository
         ' 因为在这里是处理一个非常大的UniProt注释数据库，所以需要首先做一次扫描
         ' 将需要提取的信息先放到缓存之中
-        Dim tmp$ = App.GetAppSysTempFile(, App.PID)
+        Dim tmp$ = App.GetAppSysTempFile(".cache", App.PID, "metaprofiler_")
         Dim model As TaxonomyRepository
 
         cache = New CacheGenerator(tmp).ScanInternal(UniProtXml)
