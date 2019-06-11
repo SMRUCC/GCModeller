@@ -52,6 +52,29 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
 Partial Module CLI
 
+    <ExportAPI("/UniProt.ID.Maps")>
+    <Usage("/UniProt.ID.Maps /in <uniprot.Xml> /dbName <xref_dbname> [/out <maps.list>]")>
+    Public Function UniProtIDMaps(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim dbName$ = args <= "/dbName"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{dbName.NormalizePathString}.txt"
+
+        Using list As StreamWriter = out.OpenWriter
+            For Each protein As entry In UniProtXML.EnumerateEntries([in])
+                Dim accession = protein.accessions.JoinBy("|")
+                Dim xref$ = protein.xrefs _
+                    .TryGetValue(dbName) _
+                    .SafeQuery _
+                    .Select(Function(ref) ref.id) _
+                    .JoinBy(vbTab)
+
+                Call list.WriteLine({accession, xref}.JoinBy(vbTab))
+            Next
+        End Using
+
+        Return 0
+    End Function
+
     ''' <summary>
     ''' ```
     ''' 0  1      2
@@ -96,10 +119,10 @@ Partial Module CLI
         Dim entries As entry() = UniProtXML.EnumerateEntries([in]).ToArray
         Dim maps = entries _
             .Where(Function(protein)
-                       Return protein.Xrefs.ContainsKey(dbName)
+                       Return protein.xrefs.ContainsKey(dbName)
                    End Function) _
             .Select(Function(protein)
-                        Dim id = protein.Xrefs(dbName).First.id
+                        Dim id = protein.xrefs(dbName).First.id
                         Dim name = protein.name
 
                         Return protein.accessions _
