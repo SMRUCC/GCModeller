@@ -217,7 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IO\Models\RawTerm.vb" />
-    <Compile Include="IO\Reflector.vb" />
+    <Compile Include="IO\Reflection\Reflector.vb" />
     <Compile Include="IO\Writer.vb" />
     <Compile Include="IO\ParserIO.vb" />
     <Compile Include="IO\Models\header.vb" />
@@ -237,7 +237,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="IO\Models\Field.vb" />
+    <Compile Include="IO\Reflection\Field.vb" />
     <Compile Include="Tree\GenericTree.vb" />
     <Compile Include="Tree\Builder.vb" />
   </ItemGroup>

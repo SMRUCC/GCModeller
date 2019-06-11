@@ -43,102 +43,109 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection
+Imports Field = SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection.Field
 
-Public Module ParserIO
+Namespace IO
 
-    ''' <summary>
-    ''' header or term object.
-    ''' </summary>
-    ''' <typeparam name="T"></typeparam>
-    ''' <param name="lines"></param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function LoadData(Of T As Class)(lines As IEnumerable(Of String)) As T
-        Dim schema As Dictionary(Of BindProperty(Of Field)) = LoadClassSchema(Of T)()
-        Dim data As Dictionary(Of String, String()) = createModel(lines.ToArray)
+    Public Module ParserIO
 
-        Return schema.LoadData(Of T)(data)
-    End Function
+        ''' <summary>
+        ''' header or term object.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="lines"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function LoadData(Of T As Class)(lines As IEnumerable(Of String)) As T
+            Dim schema As Dictionary(Of BindProperty(Of Field)) = Reflector.LoadClassSchema(Of T)()
+            Dim data As Dictionary(Of String, String()) = createModel(lines.ToArray)
 
-#Const DEVELOPMENT = 1
+            Return schema.LoadData(Of T)(data)
+        End Function
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <typeparam name="T"></typeparam>
-    ''' <param name="schema">对象的定义</param>
-    ''' <param name="data">从文件之中读取出来的一段数据</param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function LoadData(Of T As Class)(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String())) As T
-        Dim o As T = Activator.CreateInstance(Of T)()
+#Const DEVELOPMENT = DEBUG
 
-        For Each field As BindProperty(Of Field) In schema.Values
-            Dim name As String = field.field.name
+        Const TypeMissMatch1$ = "The type of the property is ""System.String"", but the data from file is ""Array(Of System.String)""!"
 
-            ' Class之中有定义但是文件之中没有数据，这个是正常现象，则跳过
-            If Not data.ContainsKey(name) Then
-                Continue For
-            End If
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="schema">对象的定义</param>
+        ''' <param name="data">从文件之中读取出来的一段数据</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function LoadData(Of T As Class)(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String())) As T
+            Dim o As T = Activator.CreateInstance(Of T)()
+            Dim array$()
 
-            Dim array$() = data(name)
+            For Each field As BindProperty(Of Field) In schema.Values
+                Dim name As String = field.field.name
 
-            If field.Type = GetType(String) Then
-#If DEVELOPMENT Then
-                If array.Length > 1 Then
-                    ' Class之中定义为字符串，但是文件之中是数组，则定义出错了
-                    Throw New InvalidCastException(name & ": " & TypeMissMatch1)
+                ' Class之中有定义但是文件之中没有数据，这个是正常现象，则跳过
+                If Not data.ContainsKey(name) Then
+                    Continue For
+                Else
+                    array$ = data(name)
                 End If
+
+                If field.Type = GetType(String) Then
+#If DEVELOPMENT Then
+                    If array.Length > 1 Then
+                        ' Class之中定义为字符串，但是文件之中是数组，则定义出错了
+                        Throw New InvalidCastException(name & ": " & TypeMissMatch1)
+                    End If
 #End If
-                Call field.SetValue(o, array$(Scan0%))
-            Else
-                Call field.SetValue(o, array$)
-            End If
-        Next
+                    Call field.SetValue(o, array$(Scan0%))
+                Else
+                    Call field.SetValue(o, array$)
+                End If
+            Next
 
 #If DEVELOPMENT Then
-        Call checkField(schema, data)
+            Call checkField(schema, data)
 #End If
+            Return o
+        End Function
 
-        Return o
-    End Function
+        Private Sub checkField(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String()))
+            Dim names As String() = schema _
+                .Values _
+                .Select(Function(x) x.field.name) _
+                .ToArray
 
-    Private Sub checkField(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String()))
-        Dim names As String() = schema.Values.Select(Function(x) x.field.name).ToArray
+            For Each key As String In data.Keys
+                If Array.IndexOf(names, key$) = -1 Then
+                    ' 文件之中定义有的但是Class之中没有被定义
+                    Dim array$() = data(key$)
+                    Dim type$ = If(array.Length = 1, GetType(String), GetType(String())).ToString
+                    Dim msg$ = $"Missing property definition in the object: <Field(""{key$}"")>Public Property {key} As {type$}"
 
-        For Each key As String In data.Keys
-            If Array.IndexOf(names, key$) = -1 Then
-                ' 文件之中定义有的但是Class之中没有被定义
-                Dim array$() = data(key$)
-                Dim type$ = If(array.Length = 1, GetType(String), GetType(String())).ToString
-                Dim msg$ = $"Missing property definition in the object: <Field(""{key$}"")>Public Property {key} As {type$}"
+                    Throw New Exception(msg)
+                End If
+            Next
+        End Sub
 
-                Throw New Exception(msg)
-            End If
-        Next
-    End Sub
+        ''' <summary>
+        ''' Parsing a term object as data model
+        ''' </summary>
+        ''' <param name="lines"></param>
+        ''' <returns></returns>
+        Private Function createModel(lines As String()) As Dictionary(Of String, String())
+            Dim LQuery = From line As String
+                         In lines
+                         Let x = line.GetTagValue(": ")
+                         Where Not String.IsNullOrEmpty(x.Name)
+                         Select x
+                         Group x By x.Name Into Group
 
-    Const TypeMissMatch1$ = "The type of the property is ""System.String"", but the data from file is ""Array(Of System.String)""!"
-    Const TAG As String = ".+?: "
-
-    ''' <summary>
-    ''' Parsing a term object as data model
-    ''' </summary>
-    ''' <param name="lines"></param>
-    ''' <returns></returns>
-    Private Function createModel(lines As String()) As Dictionary(Of String, String())
-        Dim LQuery = From line As String
-                     In lines
-                     Let x = line.GetTagValue(": ")
-                     Where Not String.IsNullOrEmpty(x.Name)
-                     Select x
-                     Group x By x.Name Into Group
-
-        Return LQuery.ToDictionary(Function(x) x.Name,
-                                   Function(x)
-                                       Return x.Group _
-                                           .Select(Function(value) value.Value) _
-                                           .ToArray
-                                   End Function)
-    End Function
-End Module
+            Return LQuery.ToDictionary(Function(x) x.Name,
+                                       Function(x)
+                                           Return x.Group _
+                                               .Select(Function(value) value.Value) _
+                                               .ToArray
+                                       End Function)
+        End Function
+    End Module
+End Namespace

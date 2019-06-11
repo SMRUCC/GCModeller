@@ -45,35 +45,38 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Public Structure RawTerm
+Namespace IO.Models
 
-    Public Const Key_relationship$ = "relationship"
-    Public Const Key_is_a$ = "is_a"
+    Public Structure RawTerm
 
-    ''' <summary>
-    ''' Example: ``[Term]``
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property type As String
-    ''' <summary>
-    ''' 在这里不使用字典是因为为了Xml序列化的考虑
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property data As NamedValue(Of String())()
+        Public Const Key_relationship$ = "relationship"
+        Public Const Key_is_a$ = "is_a"
 
-    ''' <summary>
-    ''' Create dictionary table from <see cref="data"/>
-    ''' </summary>
-    ''' <returns></returns>
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function GetData() As Dictionary(Of String, String())
-        Return data.ToDictionary(Function(x) x.Name,
-                                 Function(x)
-                                     Return x.Value
-                                 End Function)
-    End Function
+        ''' <summary>
+        ''' Example: ``[Term]``
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property type As String
+        ''' <summary>
+        ''' 在这里不使用字典是因为为了Xml序列化的考虑
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property data As NamedValue(Of String())()
 
-    Public Overrides Function ToString() As String
-        Return Me.GetJson
-    End Function
-End Structure
+        ''' <summary>
+        ''' Create dictionary table from <see cref="data"/>
+        ''' </summary>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetData() As Dictionary(Of String, String())
+            Return data.ToDictionary(Function(x) x.Name,
+                                     Function(x)
+                                         Return x.Value
+                                     End Function)
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Structure
+End Namespace
