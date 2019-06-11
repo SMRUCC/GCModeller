@@ -422,7 +422,7 @@ Public Class GAF
         Dim strLines As String() = LinqAPI.Exec(Of String) _
  _
             () <= From strLine As String
-                  In IO.File.ReadLines(path)
+                  In path.ReadAllLines
                   Where strLine.First <> "!"c
                   Select strLine
 
