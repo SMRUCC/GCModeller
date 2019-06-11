@@ -43,6 +43,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.IO
 Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
@@ -499,22 +500,35 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Download.Mapped.Sequence")>
-    <Usage("/Download.Mapped.Sequence /map <map.list> [/out <seq.fasta>]")>
+    <Usage("/Download.Mapped.Sequence /map <map.list> [/nucl /out <seq.fasta>]")>
     Public Function DownloadMappedSequence(args As CommandLine) As Integer
         Dim in$ = args <= "/map"
-        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.seq.fasta"
+        Dim isNucl As Boolean = args.IsTrue("/nucl")
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{"prot" Or "nucl".When(isNucl)}_seq.fasta"
         Dim tokens$()
         Dim accession$
         Dim kegg_ids$()
-        Dim fastaQuery As New 
+        Dim fastaQuery As New FetchSequence(isNucl, cache:=$"{out.ParentPath}/.dbget/{"prot" Or "nucl".When(isNucl)}/")
 
-        For Each line In [in].ReadAllLines
-            tokens = line.Split(ASCII.TAB)
-            accession = tokens(Scan0)
-            kegg_ids = tokens.Skip(1).ToArray
+        Using writer As StreamWriter = out.OpenWriter
+            For Each line In [in].ReadAllLines
+                tokens = line.Split(ASCII.TAB)
+                accession = tokens(Scan0)
+                kegg_ids = tokens.Skip(1).ToArray
 
+                For Each fa As FastaSeq In kegg_ids.SafeQuery _
+                    .Select(Function(id)
+                                Return fastaQuery.Query(Of FastaSeq)(New QueryEntry(id), ".html")
+                            End Function)
 
-        Next
+                    If Not fa Is Nothing Then
+                        Call writer.WriteLine(fa.GenerateDocument(-1))
+                    End If
+                Next
+            Next
+        End Using
+
+        Return 0
     End Function
 
     <ExportAPI("/Download.Fasta", Usage:="/Download.Fasta /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
