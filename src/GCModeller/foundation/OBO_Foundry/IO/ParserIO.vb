@@ -39,12 +39,9 @@
 
 #End Region
 
-Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 Public Module ParserIO
@@ -77,7 +74,7 @@ Public Module ParserIO
         Dim o As T = Activator.CreateInstance(Of T)()
 
         For Each field As BindProperty(Of Field) In schema.Values
-            Dim name As String = field.field._Name
+            Dim name As String = field.field.name
 
             ' Class之中有定义但是文件之中没有数据，这个是正常现象，则跳过
             If Not data.ContainsKey(name) Then
@@ -107,7 +104,7 @@ Public Module ParserIO
     End Function
 
     Private Sub checkField(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String()))
-        Dim names As String() = schema.Values.Select(Function(x) x.field._Name).ToArray
+        Dim names As String() = schema.Values.Select(Function(x) x.field.name).ToArray
 
         For Each key As String In data.Keys
             If Array.IndexOf(names, key$) = -1 Then
@@ -143,48 +140,5 @@ Public Module ParserIO
                                            .Select(Function(value) value.Value) _
                                            .ToArray
                                    End Function)
-    End Function
-
-    ''' <summary>
-    ''' Parsing the object fields template in the obo files
-    ''' </summary>
-    ''' <typeparam name="T"></typeparam>
-    ''' <returns></returns>
-    Public Function LoadClassSchema(Of T As Class)() As Dictionary(Of BindProperty(Of Field))
-        Dim type As TypeInfo = GetType(T)
-        Dim properties = type.GetProperties(BindingFlags.Instance Or BindingFlags.Public)
-        Dim stringListType As Type = GetType(String())
-        Dim LQuery = LinqAPI.Exec(Of BindProperty(Of Field)) _
- _
-            () <= From [property] As PropertyInfo
-                  In properties
-                  Let attrs As Object() = [property].GetCustomAttributes(
-                      attributeType:=GetType(Field),
-                      inherit:=True
-                  )
-                  Let tName = [property].PropertyType
-                  Where Not attrs.IsNullOrEmpty AndAlso DataFramework.IsPrimitive(tName) OrElse tName = stringListType
-                  Let field = DirectCast(attrs.First, Field)
-                  Select New BindProperty(Of Field)(field, [property])
-
-        If LQuery.IsNullOrEmpty Then
-            Return Nothing
-        End If
-
-        Dim schema As New Dictionary(Of BindProperty(Of Field))
-
-        For Each f As BindProperty(Of Field) In LQuery
-            If String.IsNullOrEmpty(f.field._Name) Then
-                If f.field._toLower Then
-                    f.field._Name = f.Identity.ToLower
-                Else
-                    f.field._Name = f.Identity
-                End If
-            End If
-
-            Call schema.Add(f)
-        Next
-
-        Return schema
     End Function
 End Module

@@ -77,6 +77,15 @@ Public Class Field : Inherits Attribute
         Me.index = Index
     End Sub
 
+    Friend Sub SetFields(Optional name$ = Nothing, Optional toLower As Boolean? = Nothing)
+        If Not name.StringEmpty Then
+            _name = name
+        End If
+        If Not toLower Is Nothing Then
+            _toLower = toLower
+        End If
+    End Sub
+
     Public Overrides Function ToString() As String
         Return Me.GetJson
     End Function

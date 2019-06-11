@@ -238,11 +238,11 @@ Public Class OBOFile : Implements IDisposable
     End Sub
 
     Private Sub parseHeader()
-        Dim s As New Value(Of String)
+        Dim str As New Value(Of String)
         Dim bufs As New List(Of String)
 
-        Do While Not String.IsNullOrEmpty(s = reader.ReadLine)
-            bufs += s
+        Do While Not String.IsNullOrEmpty(str = reader.ReadLine)
+            bufs += str
         Loop
 
         header = bufs.LoadData(Of header)()
@@ -273,7 +273,7 @@ Public Class OBOFile : Implements IDisposable
                       }
 
             Yield New RawTerm With {
-                .Type = block.Name,
+                .type = block.Name,
                 .data = data
             }
         Next
