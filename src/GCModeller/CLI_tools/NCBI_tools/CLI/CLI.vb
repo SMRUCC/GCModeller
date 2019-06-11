@@ -782,7 +782,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                     .kingdom = table.TryGetValue(NcbiTaxonomyTree.superkingdom)
 
                     taxonomy = $"k__{ .kingdom};p__{ .phylum};c__{ .class};o__{ .order};f__{ .family};g__{ .genus};s__{ .species}"
-                    lineage = .ToArray
+                    lineage = .Select
 
                     If appendByID Then
                         additionals = indexAppendData.TryGetValue(accession)

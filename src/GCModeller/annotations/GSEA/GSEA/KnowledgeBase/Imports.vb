@@ -146,7 +146,7 @@ Public Module [Imports]
                                    Optional genomeName$ = Nothing,
                                    Optional outputAll As Boolean = False) As Background
 
-        Dim clusters As New Dictionary(Of String, List(Of Synonym))
+        Dim clusters As New Dictionary(Of String, List(Of BackgroundGene))
         Dim clusterNotes As New Dictionary(Of String, NamedValue(Of String))
 
         For Each protein As entry In db
@@ -163,13 +163,15 @@ Public Module [Imports]
 
             For Each clusterID As NamedValue(Of String) In clusterNames
                 If Not clusters.ContainsKey(clusterID.Name) Then
-                    Call clusters.Add(clusterID.Name, New List(Of Synonym))
+                    Call clusters.Add(clusterID.Name, New List(Of BackgroundGene))
                     Call clusterNotes.Add(clusterID.Name, clusterID)
                 End If
 
-                clusters(clusterID.Name) += New Synonym With {
+                clusters(clusterID.Name) += New BackgroundGene With {
                     .accessionID = protein.accessions(Scan0),
-                    .[alias] = protein.accessions
+                    .[alias] = protein.accessions,
+                    .name = protein.name,
+                    .description = protein.protein.fullName
                 }
             Next
         Next
@@ -186,7 +188,7 @@ Public Module [Imports]
                            End If
                        End Function) _
                 .Select(Function(c)
-                            Dim geneIDs As Synonym() = c.Value.ToArray
+                            Dim geneIDs As BackgroundGene() = c.Value.ToArray
                             Dim note = clusterNotes(c.Key)
 
                             Return New Cluster With {

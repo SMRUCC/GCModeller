@@ -168,12 +168,13 @@ Namespace Metagenomics
         End Function
 
         ''' <summary>
-        ''' Convert current <see cref="Taxonomy"/> object as a string array.(返回来的元素值是按照<see cref="TaxonomyRanks"/>从大到小排列的)
+        ''' Convert current <see cref="Taxonomy"/> object as a string array.
+        ''' (返回来的元素值是按照<see cref="TaxonomyRanks"/>从大到小排列的)
         ''' </summary>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function ToArray() As String()
-            Return {kingdom, phylum, [class], order, family, genus, species}
+        Public Function [Select](Optional rank As TaxonomyRanks = TaxonomyRanks.Species) As IEnumerable(Of String)
+            Return {kingdom, phylum, [class], order, family, genus, species}.Take(CInt(rank) - 100 + 1)
         End Function
 
         ''' <summary>
@@ -308,7 +309,9 @@ Namespace Metagenomics
 
         Public Overloads Function ToString(BIOMstyle As Boolean) As String
             If BIOMstyle Then
-                Return Me.ToArray.TaxonomyString
+                Return Me.Select(TaxonomyRanks.Species) _
+                    .ToArray _
+                    .TaxonomyString
             Else
                 Return Me.ToString
             End If

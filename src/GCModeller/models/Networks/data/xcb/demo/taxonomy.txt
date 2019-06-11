@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<organism xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <name type="scientific">Xanthomonas campestris pv. campestris (strain 8004)</name>
+  <dbReference type="NCBI Taxonomy" id="314565" />
+  <lineage>
+    <taxon>Bacteria</taxon>
+    <taxon>Proteobacteria</taxon>
+    <taxon>Gammaproteobacteria</taxon>
+    <taxon>Xanthomonadales</taxon>
+    <taxon>Xanthomonadaceae</taxon>
+    <taxon>Xanthomonas</taxon>
+  </lineage>
+</organism>
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
