@@ -7,7 +7,6 @@ Imports Field = SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection.Field
 
 Namespace IO
 
-        Dim vals As Object()
     Public Module Writer
 
         ''' <summary>
