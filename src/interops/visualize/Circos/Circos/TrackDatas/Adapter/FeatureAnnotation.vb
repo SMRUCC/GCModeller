@@ -145,7 +145,7 @@ Namespace TrackDatas
             Call colors.Add("CDS", "rdylbu-6-div-1")
 
             If displayName Then
-                Call addDisplayName(onlyGeneName, IDregex, anno, doc, snuggleRefine)
+                Call addDisplayName(onlyGeneName, IDregex, anno, doc, snuggleRefine:=snuggleRefine)
             End If
 
             Dim highlightsTrack As HighLight() = anno.geneHighlights(colors, Strands.Forward, splitOverlaps)
@@ -357,6 +357,7 @@ Namespace TrackDatas
             Call doc.AddTrack(labels)
 
             labels.snuggle_refine = If(snuggleRefine, yes, no)
+            labels.label_snuggle = labels.snuggle_refine
         End Sub
     End Module
 End Namespace
