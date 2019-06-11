@@ -257,7 +257,7 @@ Public Module RegressionPlot
                 End If
 
                 If showLegend Then
-                    Dim eq$ = "f<sub>(x)</sub> = " & fit.Polynomial.ToString("G2")
+                    Dim eq$ = "f<sub>(x)</sub> = " & fit.Polynomial.ToString("G2", html:=True)
                     Dim R2$ = "R<sup>2</sup> = " & fit.CorrelationCoefficient.ToString("F4")
                     Dim pt As New PointF With {
                         .X = rect.Left + g.MeasureString("00", legendLabelFont).Width,
