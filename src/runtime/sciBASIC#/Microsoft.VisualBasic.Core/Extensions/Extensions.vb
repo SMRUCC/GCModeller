@@ -113,6 +113,14 @@ Imports sys = System.Math
 Public Module Extensions
 #End If
 
+    ''' <summary>
+    ''' Delegate pipeline function
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <typeparam name="Tout"></typeparam>
+    ''' <param name="input"></param>
+    ''' <param name="apply"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function DoCall(Of T, Tout)(input As T, apply As Func(Of T, Tout)) As Tout
