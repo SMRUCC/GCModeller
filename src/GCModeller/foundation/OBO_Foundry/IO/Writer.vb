@@ -15,18 +15,22 @@ Public Module Writer
     <Extension>
     Public Function ToLines(Of T As Class)(target As T, schema As Dictionary(Of BindProperty(Of Field))) As String()
         Dim bufs As New List(Of String)
+        Dim name$
+        Dim value As Object
+        Dim vals As Object()
 
         For Each [property] As BindProperty(Of Field) In schema.Values
-            If [property].Type = GetType(String) Then
-                Dim value As Object = [property].GetValue(target)
+            If [property].Type Is GetType(String) Then
+                name = [property].field.name
+                value = [property].GetValue(target)
 
                 If value Is Nothing Then
                     Continue For
                 End If
 
-                Call bufs.Add(String.Format("{0}: {1}", [property].field._Name, value.ToString))
+                bufs += String.Format("{0}: {1}", name, value.ToString)
             Else
-                Dim vals As Object() = [property].GetValue(target)
+                vals = [property].GetValue(target)
 
                 If vals.IsNullOrEmpty Then
                     Continue For
@@ -34,13 +38,13 @@ Public Module Writer
 
                 Dim pvalue = From o As Object
                              In vals
-                             Let strValue As String = o.ToString
-                             Select strValue
+                             Let str As String = Scripting.ToString(o)
+                             Select str
 
-                bufs += From value As String
+                bufs += From val As String
                         In pvalue
-                        Let Name As String = [property].field._Name
-                        Select String.Format("{0}: {1}", Name, value)
+                        Let pname As String = [property].field.name
+                        Select String.Format("{0}: {1}", pname, val)
             End If
         Next
 
