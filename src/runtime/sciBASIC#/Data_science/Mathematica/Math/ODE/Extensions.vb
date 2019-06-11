@@ -104,8 +104,7 @@ Public Module Extensions
         Dim ODEs As New GenericODEs(system.ToArray, df)
 
         With dt
-            Dim result As ODEsOut = ODEs _
-                .Solve((.to - .from) / .step, .from, .to)
+            Dim result As ODEsOut = ODEs.Solve((.to - .from) / .step, .from, .to)
             Return result
         End With
     End Function
