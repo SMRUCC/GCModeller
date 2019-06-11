@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::53078d4eb29c8d75017c6eae0e467d06, data\GO_gene-ontology\GeneOntology\Files\GAF.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class GAF
-    ' 
-    '     Properties: [Date], AnnotationExtension, Aspect, AssignedBy, DB
-    '                 DBObjectID, DBObjectName, DBObjectSymbol, DBObjectSynonym, DBObjectType
-    '                 DBReference, EvidenceCode, GeneProductFormID, GOID, Qualifier
-    '                 Taxon, WithOrFrom
-    ' 
-    '     Function: GenerateLine, (+2 Overloads) Load, Save, ToString
-    ' 
-    ' /********************************************************************************/
+' Class GAF
+' 
+'     Properties: [Date], AnnotationExtension, Aspect, AssignedBy, DB
+'                 DBObjectID, DBObjectName, DBObjectSymbol, DBObjectSynonym, DBObjectType
+'                 DBReference, EvidenceCode, GeneProductFormID, GOID, Qualifier
+'                 Taxon, WithOrFrom
+' 
+'     Function: GenerateLine, (+2 Overloads) Load, Save, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Reflection
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.foundation.OBO_Foundry
+Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection
 
 ''' <summary>
 ''' GO Annotation File (GAF) Format 2.0
@@ -430,7 +430,7 @@ Public Class GAF
             From x As SchemaMaps.BindProperty(Of Field)
             In LoadClassSchema(Of GAF)().Values
             Select x
-            Order By x.Field.Index Ascending
+            Order By x.field.index Ascending
 
         Dim classSchema = schemaBufs _
             .Select(Function(x) DirectCast(x.member, PropertyInfo)) _

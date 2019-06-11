@@ -127,6 +127,18 @@ Public Module Extensions
         Return apply(input)
     End Function
 
+    ''' <summary>
+    ''' Delegate pipeline function
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="input"></param>
+    ''' <param name="apply"></param>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Sub DoCall(Of T)(input As T, apply As Action(Of T))
+        Call apply(input)
+    End Sub
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Average(range As DoubleRange) As Double

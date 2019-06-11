@@ -7,7 +7,7 @@ Imports Microsoft.VisualBasic.Language
 
 Namespace IO.Reflection
 
-    Module Reflector
+    Public Module Reflector
 
         ReadOnly cache As New Dictionary(Of Type, Dictionary(Of BindProperty(Of Field)))
 
@@ -57,7 +57,7 @@ Namespace IO.Reflection
             For Each bField As BindProperty(Of Field) In fields
                 field = bField.field
 
-                If String.IsNullOrEmpty(field.Name) Then
+                If String.IsNullOrEmpty(field.name) Then
                     If field.toLower Then
                         name = bField.Identity.ToLower
                     Else
