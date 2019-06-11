@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -61,17 +62,19 @@ Namespace Assembly.KEGG.WebServices
                 Return Nothing
             End If
 
-            Dim text$ = r.Match(html, PAGE_CONTENT_FASTA_SEQUENCE, RegexOptions.Singleline).Value
-            Dim previewLen% '= Len(String.Format("<pre>" & vbCrLf & "<!-- bget:db:genes --><!-- {0}:{1} -->", specieId, accessionId))
+            Dim text$ = r.Match(html, PAGE_CONTENT_FASTA_SEQUENCE, RegexOptions.Singleline) _
+                .Value _
+                .RemoveXmlComments
 
-            text = Mid(text, previewLen + 1, Len(text) - previewLen - 6)
+            ' fasta text
+            text = text.StringReplace("[<][/]?pre[>]", "", RegexICSng) _
+                .Trim(ASCII.CR, ASCII.LF) _
+                .UnescapeHTML
 
             Dim tokens As String() = text.LineTokens
             Dim fa As New FastaSeq With {
-                .Headers = {
-                    XmlEntity.UnescapeHTML(tokens.First).Trim(">")
-                },
-                .SequenceData = Mid(text, Len(tokens.First) + 1).TrimNewLine("")
+                .Headers = {tokens(Scan0).Trim(">"c)},
+                .SequenceData = tokens.Skip(1).JoinBy("")
             }
 
             If String.IsNullOrEmpty(fa.SequenceData) Then
