@@ -95,7 +95,7 @@ Namespace Regtransbase.WebServices
                     Dim Err As String = String.Format("[KEGG_ID_NOT_FOUND] Regulog:={0}" & vbCrLf & vbCrLf, Item.Key)
                     Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, True)
                     Call Console.WriteLine(Err)
-                ElseIf RegulatorEntries.Count = 1 AndAlso String.Equals(RegulatorEntries.First.LocusId, RegulatorId) Then
+                ElseIf RegulatorEntries.Count = 1 AndAlso String.Equals(RegulatorEntries.First.locusID, RegulatorId) Then
                     '则本Regulog列表之下的所有调控位点都被认为可以被该Regulator对象所调控
                     Dim RegulatorEntry = RegulatorEntries.First
 
@@ -119,7 +119,7 @@ Namespace Regtransbase.WebServices
                         Call FileIO.FileSystem.WriteAllText(FileSaved, Fsa.GenerateDocument(lineBreak:=60) & vbCrLf, append:=True)
                         Call FsaFile.Add(item:=Fsa)
                     Catch ex As Exception
-                        Dim Err = String.Format("[KEGG_DBGET_QUERY_EXCEPTION] [Regulog={0}] [KEGG_ENTRY={1}:{2}]" & vbCrLf, Item.Key, RegulatorEntry.SpeciesId, RegulatorId)
+                        Dim Err = String.Format("[KEGG_DBGET_QUERY_EXCEPTION] [Regulog={0}] [KEGG_ENTRY={1}:{2}]" & vbCrLf, Item.Key, RegulatorEntry.speciesID, RegulatorId)
                         Call Console.WriteLine(Err)
                         Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, append:=True)
                     End Try
@@ -130,7 +130,7 @@ Namespace Regtransbase.WebServices
                     For Each LocusId In Item.Value  'LocusId的物种是唯一的
                         Dim Entries = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.HandleQuery(keyword:=LocusId.Key)
                         If Not Entries.IsNullOrEmpty Then '获得目标物种编号
-                            Dim Temp As String() = (From Entry In Entries Where String.Equals(Entry.LocusId, LocusId.Key) Select Entry.SpeciesId).ToArray
+                            Dim Temp As String() = (From Entry In Entries Where String.Equals(Entry.locusID, LocusId.Key) Select Entry.speciesID).ToArray
                             Dim KEGG_speciesId As String = ""
                             If Temp.IsNullOrEmpty Then
                                 Dim Err As String = String.Format("[KEGG_ID_NOT_FOUND] Locus_tag:={0}, Regulog:={1}" & vbCrLf & vbCrLf, LocusId, Item.Key)

@@ -80,7 +80,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
         End Function
 
         Public Shared Function Download(locusTag As QueryEntry) As OrthologREST
-            Dim html As String = String.Format(URL, locusTag.SpeciesId, locusTag.LocusId).GET
+            Dim html As String = String.Format(URL, locusTag.speciesID, locusTag.locusID).GET
             Dim tokens = Strings.Split(html, SEPRATOR)
             Dim hits As String() = Regex.Matches(tokens.Last, REGEX_ORTHO_ITEM, RegexICSng).ToArray
 

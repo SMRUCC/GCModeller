@@ -119,7 +119,7 @@ Namespace Assembly.KEGG.WebServices
                 If entry Is Nothing Then
 
                 Else
-                    sp = EntryAPI.GetValue(entry.SpeciesId)
+                    sp = EntryAPI.GetValue(entry.speciesID)
 
                     If sp Is Nothing Then
                         Return ""
@@ -129,7 +129,7 @@ Namespace Assembly.KEGG.WebServices
                         If lev Is Nothing OrElse lev.NumMatches < 2 Then
                             Return ""
                         Else
-                            Return entry.SpeciesId
+                            Return entry.speciesID
                         End If
                     End If
                 End If
@@ -230,21 +230,21 @@ Namespace Assembly.KEGG.WebServices
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property SpeciesId As String
+        <XmlAttribute> Public Property speciesID As String
         ''' <summary>
         ''' LocusId in the NCBI database.(NCBI数据库中的基因号)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property LocusId As String
+        <XmlAttribute> Public Property locusID As String
         <XmlText>
         Public Property Description As String
 
         Sub New(str As String, Description As String)
             Dim Tokens As String() = str.Split(CChar(":"))
-            SpeciesId = Tokens.First
-            LocusId = Tokens.Last
+            speciesID = Tokens.First
+            locusID = Tokens.Last
             Me.Description = Description
         End Sub
 
@@ -252,7 +252,7 @@ Namespace Assembly.KEGG.WebServices
         End Sub
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}:{1}", SpeciesId, LocusId)
+            Return String.Format("{0}:{1}", speciesID, locusID)
         End Function
 
         Public Shared Widening Operator CType(strArray As String()) As QueryEntry
@@ -261,13 +261,13 @@ Namespace Assembly.KEGG.WebServices
             Else
                 If strArray.Length = 2 Then
                     Return New QueryEntry With {
-                        .SpeciesId = strArray(0),
-                        .LocusId = strArray(1)
+                        .speciesID = strArray(0),
+                        .locusID = strArray(1)
                     }
                 Else
                     Return New QueryEntry With {
-                        .SpeciesId = strArray(0),
-                        .LocusId = strArray(1),
+                        .speciesID = strArray(0),
+                        .locusID = strArray(1),
                         .Description = strArray(2)
                     }
                 End If

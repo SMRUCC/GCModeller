@@ -100,7 +100,7 @@ Namespace Regprecise
                 Call ErrLog.WriteLine(Msg, NameOf(RegulatorDownloads), MSG_TYPES.DEBUG)
                 Return Nothing
             End If
-            EntryList = (From item In EntryList Where String.Equals(locusTag, item.LocusId, StringComparison.OrdinalIgnoreCase) Select item).ToArray
+            EntryList = (From item In EntryList Where String.Equals(locusTag, item.locusID, StringComparison.OrdinalIgnoreCase) Select item).ToArray
             If EntryList.IsNullOrEmpty Then
                 Dim Msg = String.Format("[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={0}] [Bacteria={1}]", locusTag, bacteria)
                 Call ErrLog.WriteLine(Msg, NameOf(RegulatorDownloads), MSG_TYPES.DEBUG)

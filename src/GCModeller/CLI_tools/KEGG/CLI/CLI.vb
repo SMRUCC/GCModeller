@@ -265,8 +265,8 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
                             DataRow = (From entry As QueryEntry
                                        In path.LoadCsv(Of QueryEntry)(False)
                                        Select entry
-                                       Group By entry.SpeciesId Into Group) _
-                                               .ToDictionary(Function(obj) obj.SpeciesId,
+                                       Group By entry.speciesID Into Group) _
+                                               .ToDictionary(Function(obj) obj.speciesID,
                                                              Function(obj) obj.Group.First)).ToArray
         Dim File As New IO.File
         Dim MatrixBuilder As New IO.File
@@ -291,7 +291,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
 
             For Each col In GeneData
                 If col.DataRow.ContainsKey(sp.KEGGId) Then
-                    Call File.Last.Add(col.DataRow(sp.KEGGId).LocusId)
+                    Call File.Last.Add(col.DataRow(sp.KEGGId).locusID)
                     Call MatrixBuilder.Last.Add("1")
                 Else
                     Call File.Last.Add("")
@@ -320,7 +320,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Dim GeneEntries As New List(Of QueryEntry)
 
         For Each EntryPoint As QueryEntry In EntryList
-            Call GeneEntries.AddRange(SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleDownload(EntryPoint.LocusId))
+            Call GeneEntries.AddRange(SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleDownload(EntryPoint.locusID))
         Next
 
         Call GeneEntries.SaveTo(argvs <= "-o", False)
