@@ -380,11 +380,13 @@ Partial Module CLI
             ' 假设这里的编号都是uniprot编号，还需要转换为KEGG基因编号
             Dim uniprot = UniProtXML.LoadDictionary(args <= "/uniprot")
             Dim mapID = uniprot _
-                .Where(Function(gene) gene.Value.Xrefs.ContainsKey("KEGG")) _
+                .Where(Function(gene)
+                           Return gene.Value.xrefs.ContainsKey("KEGG")
+                       End Function) _
                 .ToDictionary(Function(gene) gene.Key,
                               Function(gene)
                                   Return gene.Value _
-                                      .Xrefs("KEGG") _
+                                      .xrefs("KEGG") _
                                       .Select(Function(x) x.id) _
                                       .ToArray
                               End Function)
