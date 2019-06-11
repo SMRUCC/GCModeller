@@ -151,18 +151,4 @@ Public Module ODESolver
 
         Return out
     End Function
-
-    '<Extension>
-    'Public Function DataFrame(out As ODEOutput) As csv
-    '    Dim csv As New csv
-
-    '    csv += {"X", "Y"}
-    '    csv += out.X _
-    '        .ToArray _
-    '        .Select(Function(x, i)
-    '                    Return New RowObject(New String() {x, out.Y(i)})
-    '                End Function)
-
-    '    Return csv
-    'End Function
 End Module
