@@ -221,7 +221,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Nt.Fetch", Info:="Fetch the nucleotide sequence fasta data from the kegg database.")>
-        Public Function FetchNt(Entry As KEGG.WebServices.QueryEntry) As FASTA.FastaSeq
+        Public Function FetchNt(Entry As QueryEntry) As FastaSeq
             Return FetchNt(Entry.SpeciesId, Entry.LocusId)
         End Function
 
@@ -233,7 +233,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Fasta.Fetch", Info:="Download a protein sequence data from the KEGG database.")>
-        Public Function FetchSeq(Entry As QueryEntry) As FASTA.FastaSeq
+        Public Function FetchSeq(Entry As QueryEntry) As FastaSeq
             If Entry Is Nothing Then
                 Return Nothing
             End If

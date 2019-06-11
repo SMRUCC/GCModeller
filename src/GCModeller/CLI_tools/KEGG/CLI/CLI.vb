@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
@@ -492,9 +493,34 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Return New FASTA.FastaFile(LQuery).Save(out, Encoding.ASCII)
     End Function
 
+    ''' <summary>
+    ''' 下载通过uniprot数据库map得到的kegg编号的序列的列表
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Download.Mapped.Sequence")>
+    <Usage("/Download.Mapped.Sequence /map <map.list> [/out <seq.fasta>]")>
+    Public Function DownloadMappedSequence(args As CommandLine) As Integer
+        Dim in$ = args <= "/map"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.seq.fasta"
+        Dim tokens$()
+        Dim accession$
+        Dim kegg_ids$()
+        Dim fastaQuery As New 
+
+        For Each line In [in].ReadAllLines
+            tokens = line.Split(ASCII.TAB)
+            accession = tokens(Scan0)
+            kegg_ids = tokens.Skip(1).ToArray
+
+
+        Next
+    End Function
+
     <ExportAPI("/Download.Fasta", Usage:="/Download.Fasta /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
     <Description("Download fasta sequence from KEGG database web api.")>
-    <Argument("/query", False, CLITypes.File, PipelineTypes.std_in, AcceptTypes:={GetType(QuerySource)},
+    <Argument("/query", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(QuerySource)},
               Description:="This file should contains the locus_tag id list for download sequence.")>
     Public Function DownloadSequence(args As CommandLine) As Integer
         Dim query As String = args("/query")
@@ -548,7 +574,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
                   Select New FastaSeq(fa)
 
         Return New FastaFile(result) _
-            .Save(Path:=outFile) _
+            .Save(path:=outFile) _
             .CLICode
     End Function
 End Module
