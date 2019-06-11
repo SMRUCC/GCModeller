@@ -27,6 +27,7 @@ Namespace ComponentModel
         ''' 404状态的资源列表
         ''' </summary>
         Dim url404 As New Index(Of String)
+        Dim offlineMode As Boolean
 
         ''' <summary>
         ''' 原始请求结果数据的缓存文件夹,同时也可以用这个文件夹来存放错误日志
@@ -65,7 +66,8 @@ Namespace ComponentModel
                 Optional prefix As Func(Of String, String) = Nothing,
                 <CallerMemberName>
                 Optional cache$ = Nothing,
-                Optional interval% = -1)
+                Optional interval% = -1,
+                Optional offline As Boolean = False)
 
             Me.url = url
             Me.cache = cache
@@ -73,6 +75,11 @@ Namespace ComponentModel
             Me.deserialization = parser Or XmlParser
             Me.sleepInterval = interval Or WebQuery(Of Context).interval
             Me.prefix = prefix
+            Me.offlineMode = offline
+
+            If offlineMode Then
+                Call $"WebQuery of '{Me.GetType.Name}' running in offline mode!".__DEBUG_ECHO
+            End If
         End Sub
 
         ''' <summary>
@@ -103,7 +110,7 @@ Namespace ComponentModel
                 If Not url Like url404 Then
                     Dim is404 As Boolean = False
 
-                    If cache.FileLength <= 0 Then
+                    If cache.FileLength <= 0 AndAlso Not offlineMode Then
                         Call url.GET(is404:=is404).SaveTo(cache)
                         Call Thread.Sleep(interval)
 
