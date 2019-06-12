@@ -62,7 +62,7 @@ Namespace BEBaC
             End Get
             Set(value As Dictionary(Of I3Mers, Double))
                 f = value
-                Properties = f.Values.ToArray
+                entityVector = f.Values.ToArray
             End Set
         End Property
 

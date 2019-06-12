@@ -92,7 +92,7 @@ Namespace sparcc
         End Function
     End Module
 
-    Public Class Correlations : Inherits BaseClass
+    Public Class Correlations
 
         Public Property CORR As Double()()
         Public Property COV As Double()()

@@ -132,7 +132,7 @@ Namespace hmmscan
     ''' <summary>
     ''' Scores for complete sequence (score includes all domains)
     ''' </summary>
-    Public Class Query : Inherits BaseClass
+    Public Class Query
 
         Public Property name As String
         Public Property length As Integer

@@ -55,7 +55,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Public Class Identifier : Inherits BaseClass
+Public Class Identifier
 
     Public Property BIOGRID_ID As String
     Public Property ORGANISM_OFFICIAL_NAME As String

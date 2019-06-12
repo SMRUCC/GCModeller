@@ -186,7 +186,7 @@ Public Class BeliefNetwork
                                                Select SequenceAssembler.AlignmentColumn.ProteinAlphabetDictionary(residue)).ToArray
             Yield New IntegerEntity With {
                 .Class = TargetClass,
-                .Properties = EntityProperty
+                .entityVector = EntityProperty
             }
         Next
     End Function

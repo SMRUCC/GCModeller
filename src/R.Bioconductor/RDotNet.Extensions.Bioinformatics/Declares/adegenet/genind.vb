@@ -64,7 +64,7 @@ Namespace adegenet
     ''' To the @tab slot. Note that As In other S4 classes, slots are accessed 
     ''' Using @ instead Of \$.
     ''' </summary>
-    Public Class genind : Inherits BaseClass
+    Public Class genind
 
         ''' <summary>
         ''' matrix integers containing genotypes data for individuals (in rows) for 

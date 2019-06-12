@@ -50,7 +50,7 @@ Namespace Platform
     ''' <summary>
     ''' Web App engine platform components.
     ''' </summary>
-    Public MustInherit Class Submodule : Inherits BaseClass
+    Public MustInherit Class Submodule
 
         ''' <summary>
         ''' Platform engine parent host

@@ -107,8 +107,8 @@ both of these relationships hold
 
                 Result(i) = New QueryEntry With {
                     .Description = Description,
-                    .LocusId = value,
-                    .SpeciesId = "ko"
+                    .locusID = value,
+                    .speciesID = "ko"
                 }
             Next
 
@@ -129,7 +129,7 @@ both of these relationships hold
                                         EntryList As IEnumerable(Of QueryEntry)) As QueryEntry()
             Dim LQuery = (From EntryPoint As QueryEntry
                           In EntryList
-                          Select HandleDownload(EntryPoint.LocusId)).ToArray
+                          Select HandleDownload(EntryPoint.locusID)).ToArray
             Return LQuery.ToVector
         End Function
 
@@ -181,8 +181,8 @@ both of these relationships hold
             End If
 
             Dim EntryData As QueryEntry = New QueryEntry With {
-                .LocusId = Entry.GetValue,
-                .SpeciesId = Entry.href.Split(CChar("?")).Last.Split(CChar(":")).First,
+                .locusID = Entry.GetValue,
+                .speciesID = Entry.href.Split(CChar("?")).Last.Split(CChar(":")).First,
                 .Description = Name
             }
             Return EntryData

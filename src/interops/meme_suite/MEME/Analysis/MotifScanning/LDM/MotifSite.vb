@@ -112,7 +112,7 @@ Namespace Analysis.MotifScans
         End Function
     End Class
 
-    Public Class MatchResult : Inherits BaseClass
+    Public Class MatchResult
         Implements INamedValue
 
         ''' <summary>
@@ -168,7 +168,7 @@ Namespace Analysis.MotifScans
         End Function
     End Class
 
-    Public Class FootprintTrace : Inherits BaseClass
+    Public Class FootprintTrace
 
         <XmlElement>
         Public Property Footprints As MatchResult()

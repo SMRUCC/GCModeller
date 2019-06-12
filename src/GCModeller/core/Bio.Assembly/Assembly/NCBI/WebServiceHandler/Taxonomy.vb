@@ -149,11 +149,11 @@ Namespace Assembly.NCBI.Entrez
         End Function
     End Module
 
-    Public Class TSeqSet : Inherits BaseClass
+    Public Class TSeqSet
         <XmlElement> Public Property TSeq As TSeq()
     End Class
 
-    Public Class SeqBrief : Inherits BaseClass
+    Public Class SeqBrief
         Public Property TSeq_gi As String
         Public Property TSeq_accver As String
         Public Property TSeq_taxid As String

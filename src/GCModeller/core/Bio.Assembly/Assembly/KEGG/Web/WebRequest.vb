@@ -53,11 +53,9 @@ Imports System.Windows.Forms
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
-Imports Microsoft.VisualBasic.Text.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices
 
@@ -119,8 +117,7 @@ Namespace Assembly.KEGG.WebServices
 
             If String.IsNullOrEmpty(url) Then Return ""
             If url.Equals("about:blank") Then Return ""
-            If Not url.StartsWith("http://") AndAlso
-            Not url.StartsWith("https://") Then
+            If Not url.StartsWith("http://") AndAlso Not url.StartsWith("https://") Then
                 url = "http://" & url
             End If
 
@@ -148,10 +145,6 @@ Namespace Assembly.KEGG.WebServices
             Return LQuery
         End Function
 
-        Const KEGG_DBGET_QUERY_NT As String = "http://www.genome.jp/dbget-bin/www_bget?-f+-n+n+{0}:{1}"
-        Const KEGG_DBGET_QUERY_PROTEIN As String = "http://www.genome.jp/dbget-bin/www_bget?-f+-n+a+{0}:{1}"
-        Const PAGE_CONTENT_FASTA_SEQUENCE As String = "[<]pre[>].+[<][/]pre[>]"
-
         ''' <summary>
         ''' Download a protein sequence data from the KEGG database.(从KEGG数据库之中下载一条蛋白质分子序列)
         ''' </summary>
@@ -162,42 +155,9 @@ Namespace Assembly.KEGG.WebServices
         ''' 
         <ExportAPI("Fasta.Fetch", Info:="Download a protein sequence data from the KEGG database.")>
         Public Function FetchSeq(<Parameter("sp.Id", "KEGG species id.")> specieId As String,
-                                 <Parameter("locusId", "NCBI gene locus tag.")> accessionId As String) As FASTA.FastaSeq
-            Return fetchSequence(KEGG_DBGET_QUERY_PROTEIN, specieId, accessionId)
-        End Function
-
-        ''' <summary>
-        ''' 从KEGG数据库下载基因或者蛋白序列数据
-        ''' </summary>
-        ''' <param name="url"></param>
-        ''' <param name="specieId"></param>
-        ''' <param name="accessionId"></param>
-        ''' <returns></returns>
-        Private Function fetchSequence(url As String, specieId As String, accessionId As String) As FastaSeq
-            Dim html As String = String.Format(url, specieId, accessionId).GET
-
-            If String.IsNullOrEmpty(html) OrElse InStr(html, ": No such data.", CompareMethod.Text) > 0 Then
-                Return Nothing
-            End If
-
-            Dim text$ = r.Match(html, PAGE_CONTENT_FASTA_SEQUENCE, RegexOptions.Singleline).Value
-            Dim previewLen% = Len(String.Format("<pre>" & vbCrLf & "<!-- bget:db:genes --><!-- {0}:{1} -->", specieId, accessionId))
-
-            text = Mid(text, previewLen + 1, Len(text) - previewLen - 6)
-
-            Dim tokens As String() = text.LineTokens
-            Dim fa As New FASTA.FastaSeq With {
-                .Headers = {
-                    XmlEntity.UnescapeHTML(tokens.First).Trim(">")
-                },
-                .SequenceData = Mid(text, Len(tokens.First) + 1).TrimNewLine("")
-            }
-
-            If String.IsNullOrEmpty(fa.SequenceData) Then
-                Return Nothing
-            Else
-                Return fa
-            End If
+                                 <Parameter("locusId", "NCBI gene locus tag.")> accessionId As String) As FastaSeq
+            Static prot As New FetchSequence(isNucl:=False, cache:="./.kegg/dbget/fetchSeq/prot/")
+            Return prot.Query(Of FastaSeq)(New QueryEntry With {.locusID = accessionId, .speciesID = specieId})
         End Function
 
         ''' <summary>
@@ -210,7 +170,8 @@ Namespace Assembly.KEGG.WebServices
         ''' 
         <ExportAPI("Nt.Fetch", Info:="Fetch the nucleotide sequence fasta data from the kegg database.")>
         Public Function FetchNt(specieId As String, accessionId As String) As FASTA.FastaSeq
-            Return fetchSequence(KEGG_DBGET_QUERY_NT, specieId, accessionId)
+            Static nucl As New FetchSequence(isNucl:=True, cache:="./.kegg/dbget/fetchSeq/nucl/")
+            Return nucl.Query(Of FastaSeq)(New QueryEntry With {.locusID = accessionId, .speciesID = specieId})
         End Function
 
         ''' <summary>
@@ -221,8 +182,8 @@ Namespace Assembly.KEGG.WebServices
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Nt.Fetch", Info:="Fetch the nucleotide sequence fasta data from the kegg database.")>
-        Public Function FetchNt(Entry As KEGG.WebServices.QueryEntry) As FASTA.FastaSeq
-            Return FetchNt(Entry.SpeciesId, Entry.LocusId)
+        Public Function FetchNt(Entry As QueryEntry) As FastaSeq
+            Return FetchNt(Entry.speciesID, Entry.locusID)
         End Function
 
         ''' <summary>
@@ -233,18 +194,17 @@ Namespace Assembly.KEGG.WebServices
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Fasta.Fetch", Info:="Download a protein sequence data from the KEGG database.")>
-        Public Function FetchSeq(Entry As QueryEntry) As FASTA.FastaSeq
+        Public Function FetchSeq(Entry As QueryEntry) As FastaSeq
             If Entry Is Nothing Then
                 Return Nothing
             End If
-            Return FetchSeq(Entry.SpeciesId, Entry.LocusId)
+            Return FetchSeq(Entry.speciesID, Entry.locusID)
         End Function
 
         Const KEGG_DBGET_WWW_QUERY As String = "http://www.genome.jp/dbget-bin/www_bfind_sub?mode=bfind&max_hit=1000&locale=en&serv=gn&dbkey=genes&keywords={0}&page="
 
         'Const QUERY_RESULT_LINK_ITEM As String = "<a href=""/dbget-bin/www_bget?[^:]+[:][^:]+"">[^:]+[:][^:]+</a><br><div style=""margin-left:2em"">[^<^>]+</div>"
         Public Const QUERY_RESULT_LINK_ITEM As String = "<a href=""/dbget-bin/www_bget\?.+?</div>"
-        Const QUERY_RESULT_ACCESSION As String = "<a href=""/dbget-bin/www_bget?[^:]+[:][^:]+"">[^:]+[:][^:]+</a>"
         Public Const QUERY_RESULT_LINK1 As String = ">[^:]+[:][^:]+<"
         Public Const QUERY_RESULT_LINK2 As String = ">[^<^>]+<"
 
@@ -356,7 +316,7 @@ Namespace Assembly.KEGG.WebServices
 
             Dim Entry As QueryEntry = (From queryEntry As QueryEntry
                                        In EntryList
-                                       Where String.Equals(locusId, queryEntry.LocusId, StringComparison.OrdinalIgnoreCase)
+                                       Where String.Equals(locusId, queryEntry.locusID, StringComparison.OrdinalIgnoreCase)
                                        Select queryEntry).FirstOrDefault
             If Entry Is Nothing Then
                 Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locusId}]".__DEBUG_ECHO
@@ -407,7 +367,7 @@ Namespace Assembly.KEGG.WebServices
                 Return Nothing
             End If
 
-            Dim sp As String = LQuery.SpeciesId
+            Dim sp As String = LQuery.speciesID
             Dim batchDownloads = (From sId As String In list Select __downloadDirect(DIR, sId, sp)).ToArray ' invoke the batch downloads task
 
             Return New FastaFile(batchDownloads)
@@ -421,8 +381,8 @@ Namespace Assembly.KEGG.WebServices
             Else
                 Try
                     Dim entry As New QueryEntry With {
-                        .SpeciesId = sp,
-                        .LocusId = sId
+                        .speciesID = sp,
+                        .locusID = sId
                     }
                     Dim fa As FastaSeq = WebRequest.FetchSeq(entry)
                     If Not fa Is Nothing Then
@@ -455,14 +415,14 @@ Namespace Assembly.KEGG.WebServices
             Dim out As New List(Of FastaSeq)
 
             For Each gene As QueryEntry In ortholog.genes
-                Dim fa As FastaSeq = KEGG.WebServices.FetchNt(gene.SpeciesId, gene.LocusId)
+                Dim fa As FastaSeq = KEGG.WebServices.FetchNt(gene.speciesID, gene.locusID)
 
                 If Not fa Is Nothing Then
-                    Dim path As String = $"{outDIR}/{gene.SpeciesId}_{gene.LocusId}.fasta"
+                    Dim path As String = $"{outDIR}/{gene.speciesID}_{gene.locusID}.fasta"
                     Call fa.SaveTo(path)
                     Call out.Add(fa)
                 Else
-                    Call $"{gene.SpeciesId}:{gene.LocusId} Download failure!".__DEBUG_ECHO
+                    Call $"{gene.speciesID}:{gene.locusID} Download failure!".__DEBUG_ECHO
                 End If
             Next
 
@@ -483,13 +443,13 @@ Namespace Assembly.KEGG.WebServices
             End If
 
             Dim LQuery = (From x As QueryEntry In query
-                          Where String.Equals(locusId, x.LocusId, StringComparison.OrdinalIgnoreCase)
+                          Where String.Equals(locusId, x.locusID, StringComparison.OrdinalIgnoreCase)
                           Select x).FirstOrDefault
 
             If LQuery Is Nothing Then
                 Return ""
             Else
-                Return LQuery.SpeciesId
+                Return LQuery.speciesID
             End If
         End Function
     End Module

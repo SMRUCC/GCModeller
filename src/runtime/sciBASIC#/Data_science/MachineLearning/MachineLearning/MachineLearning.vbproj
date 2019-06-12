@@ -347,6 +347,7 @@
     <Compile Include="QLearning\QLearning.vb" />
     <Compile Include="QLearning\QState.vb" />
     <Compile Include="QLearning\QTable.vb" />
+    <Compile Include="RandomForests\NamespaceDoc.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -376,9 +377,9 @@
       <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
       <Name>DataMining</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Mathematica\Math\Math\Math-core.vbproj">
+    <ProjectReference Include="..\..\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
-      <Name>Math-core</Name>
+      <Name>math-core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

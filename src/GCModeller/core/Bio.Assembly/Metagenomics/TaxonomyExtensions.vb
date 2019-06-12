@@ -80,7 +80,7 @@ Namespace Metagenomics
         ''' <param name="tax"></param>
         ''' <returns></returns>
         <Extension> Public Function Trim(tax As Taxonomy) As String
-            Dim lineage$() = tax.ToArray
+            Dim lineage$() = tax.Select
             Dim ranks As New List(Of String)
 
             ' 从大到小

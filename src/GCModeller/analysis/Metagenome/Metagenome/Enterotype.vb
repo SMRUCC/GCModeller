@@ -45,7 +45,7 @@ Public Module Enterotype
             .Select(Function(d)
                         Return New ClusterEntity With {
                             .uid = d.ID,
-                            .Properties = d(sampleNames)
+                            .entityVector = d(sampleNames)
                         }
                     End Function) _
             .ToArray

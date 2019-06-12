@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 ''' <summary>
 ''' [index] BASys Annotation Summary
 ''' </summary>
-Public Class Summary : Inherits BaseClass
+Public Class Summary
 
     ''' <summary>
     ''' Chromosome Id

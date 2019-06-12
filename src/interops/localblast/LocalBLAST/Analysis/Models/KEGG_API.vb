@@ -112,8 +112,8 @@ Namespace Analysis
         <Extension>
         Private Function __export(kegg As SSDB.SShit) As Hit
             Return New Hit With {
-                .HitName = kegg.Entry.LocusId,
-                .tag = kegg.Entry.SpeciesId,
+                .HitName = kegg.Entry.locusID,
+                .tag = kegg.Entry.speciesID,
                 .Identities = Val(kegg.Identity),
                 .Positive = Val(kegg.Identity)
             }

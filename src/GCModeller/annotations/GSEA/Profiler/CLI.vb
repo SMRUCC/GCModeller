@@ -1,44 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::c116f2566012a55d8a6190858acae6ec, GSEA\Profiler\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: CreateGOClusters, CreateKOCluster, EnrichmentTest, IDconverts
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: CreateGOClusters, CreateKOCluster, EnrichmentTest, IDconverts
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -59,11 +60,19 @@ Public Module CLI
 
     <ExportAPI("/KO.clusters")>
     <Usage("/KO.clusters /uniprot <uniprot.XML> /maps <kegg_maps.XML/directory> [/out <clusters.XML>]")>
+    <Description("Create KEGG pathway map background for a given genome data.")>
+    <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(UniProtXML)},
+              Extensions:="*.xml",
+              Description:="Uniprot database that contains the uniprot_id to KO_id mapping.")>
+    <Argument("/maps", False, CLITypes.File,
+              AcceptTypes:={GetType(Map)},
+              Description:="This argument should be a directory path which this folder contains multiple KEGG reference pathway map xml files. A xml file path of the kegg pathway map database is also accepted!")>
     Public Function CreateKOCluster(args As CommandLine) As Integer
         Dim uniprot$ = args <= "/uniprot"
         Dim maps$ = args <= "/maps"
         Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}_KO.XML"
-        Dim kegg = (ls - l - r - "*.Xml" <= maps).Select(AddressOf LoadXml(Of Map))
+        Dim kegg As IEnumerable(Of Map) = getMapsAuto(maps)
         Dim entries = UniProtXML.EnumerateEntries(uniprot)
         Dim model As Background = GSEA.ImportsUniProt(
             entries,
@@ -72,6 +81,14 @@ Public Module CLI
         )
 
         Return model.GetXml.SaveTo(out).CLICode
+    End Function
+
+    Private Function getMapsAuto(repository As String) As IEnumerable(Of Map)
+        If repository.DirectoryExists Then
+            Return (ls - l - r - "*.Xml" <= repository).Select(AddressOf LoadXml(Of Map))
+        Else
+            Return repository.LoadXml(Of MapRepository)
+        End If
     End Function
 
     <ExportAPI("/GO.clusters")>
