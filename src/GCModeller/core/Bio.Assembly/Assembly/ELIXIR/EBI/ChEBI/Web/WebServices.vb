@@ -44,9 +44,9 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
-Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.XML
 
-Namespace Assembly.EBI.ChEBI.WebServices
+Namespace Assembly.ELIXIR.EBI.ChEBI.WebServices
 
     ''' <summary>
     ''' The main aim of ChEBI Web Services is to provide programmatic access 

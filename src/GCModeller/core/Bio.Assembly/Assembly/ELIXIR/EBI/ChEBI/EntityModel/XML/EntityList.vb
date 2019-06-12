@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports XmlLinq = Microsoft.VisualBasic.Text.Xml.Linq.Data
 
-Namespace Assembly.EBI.ChEBI.XML
+Namespace Assembly.ELIXIR.EBI.ChEBI.XML
 
     <XmlRoot("ChEBI-DataSet", [Namespace]:=EntityList.Xmlns)>
     Public Class EntityList : Inherits ListOf(Of ChEBIEntity)

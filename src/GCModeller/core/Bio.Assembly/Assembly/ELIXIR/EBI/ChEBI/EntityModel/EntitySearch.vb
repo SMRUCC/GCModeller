@@ -45,9 +45,9 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Levenshtein
-Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.XML
 
-Namespace Assembly.EBI.ChEBI
+Namespace Assembly.ELIXIR.EBI.ChEBI
 
     Public Module EntitySearch
 

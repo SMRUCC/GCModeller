@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 
-Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
+Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv
 
     Public Class Compound : Implements INamedValue
 
