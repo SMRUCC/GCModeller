@@ -63,7 +63,7 @@ Namespace ManagedSqlite.Core.Objects.Enums
                     Return SqliteDataType.Integer
                 Case "float"
                     Return SqliteDataType.Float
-                Case "text"
+                Case "text", "blob_text"
                     Return SqliteDataType.Text
                 Case "blob"
                     Return SqliteDataType.Blob
