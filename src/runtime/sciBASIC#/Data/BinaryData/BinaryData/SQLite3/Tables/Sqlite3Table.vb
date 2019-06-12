@@ -79,6 +79,7 @@ Namespace ManagedSqlite.Core.Tables
             Dim metaInfo As New List(Of ColumnDataMeta)()
             Dim rowData As Object()
             Dim index As VBInteger = Scan0
+            Dim schema = SchemaDefinition.ParseSchema
 
             For Each cell As BTreeCellData In cells
                 ' Create a new stream to cover any fragmentation that might occur

@@ -70,12 +70,12 @@ Namespace ManagedSqlite.Core
         Dim _sizeInPages As UInteger
         Dim _masterTable As Sqlite3MasterTable
 
-        Public Property Header() As DatabaseHeader
+        Public Property Header As DatabaseHeader
 
         Public ReadOnly Property GetTables() As IEnumerable(Of Sqlite3SchemaRow)
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return _masterTable.Tables
+                Return _masterTable.tables
             End Get
         End Property
 

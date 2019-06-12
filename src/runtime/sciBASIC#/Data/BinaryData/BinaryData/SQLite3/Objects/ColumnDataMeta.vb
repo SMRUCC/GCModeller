@@ -44,13 +44,21 @@ Imports Microsoft.VisualBasic.Data.IO.ManagedSqlite.Core.Objects.Enums
 
 Namespace ManagedSqlite.Core.Objects
 
-    Friend Structure ColumnDataMeta
+    Public Class ColumnDataMeta
 
+        Public ReadOnly Property type As SqliteDataType
+
+        ''' <summary>
+        ''' 对于文本或者blob类型,长度是可变的
+        ''' </summary>
         Public Length As UShort
-        Public Type As SqliteDataType
+
+        Sub New(type As SqliteDataType)
+            Me.type = type
+        End Sub
 
         Public Overrides Function ToString() As String
             Return $"{Type.Description} ~ {Length}"
         End Function
-    End Structure
+    End Class
 End Namespace
