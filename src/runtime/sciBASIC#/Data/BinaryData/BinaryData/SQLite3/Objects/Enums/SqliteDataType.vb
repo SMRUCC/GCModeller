@@ -61,7 +61,7 @@ Namespace ManagedSqlite.Core.Objects.Enums
             Select Case Strings.LCase(type)
                 Case "integer"
                     Return SqliteDataType.Integer
-                Case "float"
+                Case "float", "double"
                     Return SqliteDataType.Float
                 Case "text", "blob_text"
                     Return SqliteDataType.Text
