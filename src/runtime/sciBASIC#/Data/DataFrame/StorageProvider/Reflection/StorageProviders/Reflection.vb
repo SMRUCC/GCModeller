@@ -106,18 +106,26 @@ Namespace StorageProvider.Reflection
         End Function
 #End If
 
+        Public Function CreateRowBuilder(Of T)(Optional strict As Boolean = False) As RowBuilder
+            Dim type As Type = GetType(T)
+            Dim schema As TableSchema = TableSchema.CreateObjectInternal(type, strict).CopyWriteDataToObject
+            Dim rowBuilder As New RowBuilder(schema)
+
+            Return rowBuilder
+        End Function
+
         ''' <summary>
         ''' 将Csv文件加载至一个目标集合之中以完成数据从文件之中的读取操作
         ''' </summary>
         ''' <param name="csv"></param>
         ''' <param name="type"></param>
-        ''' <param name="explicit"></param>
+        ''' <param name="strict"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <Extension>
-        Public Function LoadDataToObject(csv As DataFrame, type As Type, Optional explicit As Boolean = False) As IEnumerable(Of Object)
-            Dim schema As TableSchema = TableSchema.CreateObjectInternal(type, explicit).CopyWriteDataToObject
+        Public Function LoadDataToObject(csv As DataFrame, type As Type, Optional strict As Boolean = False) As IEnumerable(Of Object)
+            Dim schema As TableSchema = TableSchema.CreateObjectInternal(type, strict).CopyWriteDataToObject
             Dim rowBuilder As New RowBuilder(schema)
             Dim parallel As Boolean = True
 
