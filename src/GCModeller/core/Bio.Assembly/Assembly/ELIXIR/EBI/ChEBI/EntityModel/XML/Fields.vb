@@ -79,7 +79,7 @@
 
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Assembly.EBI.ChEBI.XML
+Namespace Assembly.ELIXIR.EBI.ChEBI.XML
 
     Public Class CompoundOrigin
         Public Property speciesText As String

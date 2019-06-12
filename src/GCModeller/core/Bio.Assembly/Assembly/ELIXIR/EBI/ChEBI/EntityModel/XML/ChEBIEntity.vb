@@ -52,7 +52,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel
 
-Namespace Assembly.EBI.ChEBI.XML
+Namespace Assembly.ELIXIR.EBI.ChEBI.XML
 
     ''' <summary>
     ''' The complete entity including synonyms, database links and chemical structures.

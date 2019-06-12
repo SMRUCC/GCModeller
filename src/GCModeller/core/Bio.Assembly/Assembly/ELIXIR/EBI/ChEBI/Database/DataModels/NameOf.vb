@@ -47,9 +47,9 @@ Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Similarity
-Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv
 
-Namespace Assembly.EBI.ChEBI
+Namespace Assembly.ELIXIR.EBI.ChEBI
 
     ''' <summary>
     ''' 使用这个模块进行chebi的编号的匹配，
@@ -100,7 +100,7 @@ Namespace Assembly.EBI.ChEBI
                 .Select(Function(t)
                             Return New DoubleTagged(Of Tables.ChemicalData()) With {
                                 .Tag = t.Key,
-                                .value = t.ToArray
+                                .Value = t.ToArray
                             }
                         End Function) _
                 .OrderBy(Function(x) x.Tag) _
@@ -338,7 +338,7 @@ Namespace Assembly.EBI.ChEBI
             For Each massGroup As DoubleTagged(Of Tables.ChemicalData()) In masses
                 If Math.Abs(massGroup.Tag - mass) <= deltaPPM Then
                     enter = False
-                    result += massGroup.value
+                    result += massGroup.Value
                 Else
                     ' 已经被设置过了，由于是经过升序排序了的，所以后面肯定不会满足要求了
                     If Not enter Then
