@@ -144,8 +144,8 @@ Public Module DumpProcedures
             For Each gene In orthology.Genes
                 KOgenes += New mysql.class_orthology_genes With {
                     .orthology = KO,
-                    .locus_tag = gene.LocusId,
-                    .organism = gene.SpeciesId,
+                    .locus_tag = gene.locusID,
+                    .organism = gene.speciesID,
                     .geneName = gene.Description,
                     .uid = LocusTagGuid(.organism, .locus_tag)
                 }

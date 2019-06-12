@@ -100,8 +100,8 @@ Public Module OrthologExport
     <ExportAPI("HandleQuery")>
     Public Sub HandleQuery(locusId As String, sp As String, outDIR As String)
         Dim query As New QueryEntry With {
-            .LocusId = locusId,
-            .SpeciesId = sp
+            .locusID = locusId,
+            .speciesID = sp
         }
         Call HandleQuery(query, outDIR)
     End Sub
@@ -110,8 +110,8 @@ Public Module OrthologExport
     Public Sub HandleQuery(query As QueryEntry, outDIR As String)
         Dim Ortholog = SSDB.OrthologREST.Download(query)
 
-        Call Ortholog.GetXml.SaveTo($"{outDIR}/{query.LocusId}.xml")
-        Call OrthologExport.Export(Ortholog).Save($"{outDIR}/{query.LocusId}.csv", Text.Encoding.ASCII)
+        Call Ortholog.GetXml.SaveTo($"{outDIR}/{query.locusID}.xml")
+        Call OrthologExport.Export(Ortholog).Save($"{outDIR}/{query.locusID}.csv", Text.Encoding.ASCII)
     End Sub
 
     <ExportAPI("HandleQuery")>
@@ -125,7 +125,7 @@ Public Module OrthologExport
 
         Dim LQuery = (From entry As QueryEntry
                       In Entries
-                      Where String.Equals(entry.LocusId, locusId, StringComparison.OrdinalIgnoreCase)
+                      Where String.Equals(entry.locusID, locusId, StringComparison.OrdinalIgnoreCase)
                       Select entry).FirstOrDefault
         If LQuery Is Nothing Then
             Call Console.WriteLine($"[ENTRY_IS_NULL] GeneId:={locusId}")
