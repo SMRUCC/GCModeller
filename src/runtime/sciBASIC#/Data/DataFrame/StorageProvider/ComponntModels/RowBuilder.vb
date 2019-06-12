@@ -257,6 +257,10 @@ Namespace StorageProvider.ComponentModels
                     propValue = Defaults(column.BindProperty.Name)
                 End If
 
+                If Not propValue Is Nothing AndAlso GetType(Byte()) Is propValue.GetType Then
+
+                End If
+
                 Call column.SetValue(obj, propValue)
             Next
 

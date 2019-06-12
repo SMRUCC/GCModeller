@@ -54,15 +54,16 @@ Namespace ManagedSqlite.Core.Tables
     Public Class Sqlite3Table
 
         ReadOnly reader As ReaderBase
+        ReadOnly rootPage As BTreePage
 
-        Private ReadOnly Property RootPage() As BTreePage
+        Public ReadOnly Property SchemaDefinition As Sqlite3SchemaRow
+        Public ReadOnly Property Settings As Sqlite3Settings
 
-        Public ReadOnly Property SchemaDefinition() As Sqlite3SchemaRow
-
-        Friend Sub New(reader As ReaderBase, rootPage As BTreePage, table As Sqlite3SchemaRow)
+        Friend Sub New(reader As ReaderBase, rootPage As BTreePage, table As Sqlite3SchemaRow, settings As Sqlite3Settings)
             Me.SchemaDefinition = table
             Me.reader = reader
-            Me.RootPage = rootPage
+            Me.rootPage = rootPage
+            Me.Settings = settings
         End Sub
 
         Public Overrides Function ToString() As String
@@ -74,7 +75,7 @@ Namespace ManagedSqlite.Core.Tables
         ''' </summary>
         ''' <returns></returns>
         Public Iterator Function EnumerateRows() As IEnumerable(Of Sqlite3Row)
-            Dim cells As IEnumerable(Of BTreeCellData) = BTreeTools.WalkTableBTree(RootPage)
+            Dim cells As IEnumerable(Of BTreeCellData) = BTreeTools.WalkTableBTree(rootPage)
             Dim metaInfo As New List(Of ColumnDataMeta)()
             Dim rowData As Object()
             Dim index As VBInteger = Scan0
@@ -97,6 +98,9 @@ Namespace ManagedSqlite.Core.Tables
             Dim null As Byte
             Dim headerSize As Long = reader.ReadVarInt(null)
 
+            ' 似乎在sqlite3之中,每一个数据区都有自己的一个header区域
+            ' 因为字符串或者bytes blob这些可变长的数据需要长度信息
+            ' 所以在这里每读取一个数据块之前都需要重新读取一次header信息
             While reader.Position < headerSize
                 Dim columnInfo As Long = reader.ReadVarInt(null)
                 Dim meta As New ColumnDataMeta()
@@ -166,7 +170,12 @@ Namespace ManagedSqlite.Core.Tables
                         rowData(i) = True
 
                     Case SqliteDataType.Blob
-                        rowData(i) = reader.Read(meta.Length)
+
+                        If Settings.blobAsBase64 Then
+                            rowData(i) = Convert.ToBase64String(reader.Read(meta.Length))
+                        Else
+                            rowData(i) = reader.Read(meta.Length)
+                        End If
 
                     Case SqliteDataType.Text
                         rowData(i) = reader.ReadString(meta.Length)

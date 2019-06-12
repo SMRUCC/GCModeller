@@ -123,7 +123,7 @@ Namespace ManagedSqlite.Core
                  .Sql = "CREATE TABLE sqlite_master (type TEXT, name TEXT, tbl_name TEXT, rootpage INTEGER, sql TEXT);"
             }
 
-            Dim table As New Sqlite3Table(_reader, rootBtree, schemaRow)
+            Dim table As New Sqlite3Table(_reader, rootBtree, schemaRow, _settings)
             _masterTable = New Sqlite3MasterTable(table)
         End Sub
 
@@ -137,7 +137,7 @@ Namespace ManagedSqlite.Core
 
                 ' Found it
                 Dim root As BTreePage = BTreePage.Parse(_reader, table.RootPage)
-                Dim tbl As New Sqlite3Table(_reader, root, table)
+                Dim tbl As New Sqlite3Table(_reader, root, table, _settings)
 
                 Return tbl
             Next

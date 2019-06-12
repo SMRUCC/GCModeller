@@ -95,7 +95,7 @@ Namespace ManagedSqlite
                     Next
                 End Function
 
-            For Each row As Sqlite3Row In table.EnumerateRows.Skip(6755)
+            For Each row As Sqlite3Row In table.EnumerateRows
                 Yield activator(populateValues(row))
             Next
         End Function
