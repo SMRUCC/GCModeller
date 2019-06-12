@@ -13,48 +13,18 @@ Namespace DecisionTree
 
         Public Property root As TreeNode
 
-        Public Shared Sub Print(node As TreeNode, result As String)
-            If node?.childNodes Is Nothing OrElse node.childNodes.Count = 0 Then
-                Dim seperatedResult = result.Split(" "c)
-
-                For Each item In seperatedResult
-                    If item.Equals(seperatedResult(0)) Then
-                        Console.ForegroundColor = ConsoleColor.Magenta
-                        ' empty if but better than checking at .ToUpper() and .ToLower() if
-                    ElseIf item.Equals("--") OrElse item.Equals("-->") Then
-                    ElseIf item.Equals("YES") OrElse item.Equals("NO") Then
-                        Console.ForegroundColor = ConsoleColor.Green
-                    ElseIf item.ToUpper().Equals(item) Then
-                        Console.ForegroundColor = ConsoleColor.Cyan
-                    Else
-                        Console.ForegroundColor = ConsoleColor.Yellow
-                    End If
-
-                    Console.Write($"{item} ")
-                    Console.ResetColor()
-                Next
-
-                Console.WriteLine()
-
-            Else
-                For Each child In node.childNodes
-                    Print(child, result & " -- " & child.edge.ToLower() & " --> " & child.name.ToUpper())
-                Next
-            End If
+        ''' <summary>
+        ''' Create a new empty ID3 based decision tree.
+        ''' </summary>
+        Sub New()
         End Sub
 
-        Public Shared Sub PrintLegend(headline As String)
-            Console.ForegroundColor = ConsoleColor.White
-            Console.WriteLine(vbLf & $"{headline}")
-            Console.ForegroundColor = ConsoleColor.Magenta
-            Console.WriteLine("Magenta color indicates the root node")
-            Console.ForegroundColor = ConsoleColor.Yellow
-            Console.WriteLine("Yellow color indicates an edge")
-            Console.ForegroundColor = ConsoleColor.Cyan
-            Console.WriteLine("Cyan color indicates a node")
-            Console.ForegroundColor = ConsoleColor.Green
-            Console.WriteLine("Green color indicates a decision")
-            Console.ResetColor()
+        ''' <summary>
+        ''' Create a new decision tree and train for <see cref="root"/>.
+        ''' </summary>
+        ''' <param name="data"></param>
+        Sub New(data As DataTable)
+            root = Tree.Learn(data, "")
         End Sub
 
         Public Shared Function CalculateResult(root As TreeNode, valuesForQuery As IDictionary(Of String, String), result As String) As String
@@ -85,8 +55,14 @@ Namespace DecisionTree
             Return result
         End Function
 
-        Public Shared Function Learn(data As DataTable, edgeName As String) As TreeNode
-            Dim root = GetRootNode(data, edgeName)
+        ''' <summary>
+        ''' Create tree of <see cref="root"/>
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="edgeName"></param>
+        ''' <returns></returns>
+        Public Shared Function Learn(data As DataTable, Optional edgeName As String = "") As TreeNode
+            Dim root As TreeNode = GetRootNode(data, edgeName)
 
             For Each item In root.nodeAttr.differentAttributeNames
                 ' if a leaf, leaf will be added in this method
@@ -155,14 +131,14 @@ Namespace DecisionTree
         End Function
 
         Private Shared Function GetRootNode(data As DataTable, edge As String) As TreeNode
-            Dim attributes = New List(Of MyAttribute)()
+            Dim attributes = New List(Of NodeAttr)()
             Dim highestInformationGainIndex = -1
             Dim highestInformationGain = Double.MinValue
 
             ' Get all names, amount of attributes and attributes for every column             
             For i As Integer = 0 To data.Columns.Count - 2
-                Dim differentAttributenames = MyAttribute.GetDifferentAttributeNamesOfColumn(data, i)
-                attributes.Add(New MyAttribute(data.Columns(i).ToString(), differentAttributenames))
+                Dim differentAttributenames = NodeAttr.GetDifferentAttributeNamesOfColumn(data, i)
+                attributes.Add(New NodeAttr(data.Columns(i).ToString(), differentAttributenames))
             Next
 
             ' Calculate Entropy (S)
