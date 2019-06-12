@@ -392,6 +392,7 @@
     <Compile Include="AprioriRules\Algorithm\Implementation\StrongRules.vb" />
     <Compile Include="AprioriRules\Helper\Encoding.vb" />
     <Compile Include="ComponentModel\Class.vb" />
+    <Compile Include="ComponentModel\IntegerEntity.vb" />
     <Compile Include="ComponentModel\Extensions.vb" />
     <Compile Include="Clustering\DBSCAN\DatasetItemBase.vb" />
     <Compile Include="Clustering\DBSCAN\DbscanAlgorithm.vb" />
@@ -401,6 +402,10 @@
     <Compile Include="Clustering\FuzzyCMeans\Algorithm\Utils.vb" />
     <Compile Include="Clustering\Clustering.vb" />
     <Compile Include="Clustering\FuzzyCMeans\Entity.vb" />
+    <Compile Include="DecisionTree\Attribute.vb" />
+    <Compile Include="DecisionTree\CSVFileHandler.vb" />
+    <Compile Include="DecisionTree\Tree.vb" />
+    <Compile Include="DecisionTree\TreeNode.vb" />
     <Compile Include="Interface\DFL\I_FactorElement.vb" />
     <Compile Include="Interface\DFL\Node.vb" />
     <Compile Include="Kernel\Neuron\NeuronEntity.vb" />
