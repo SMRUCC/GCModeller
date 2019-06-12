@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.IO.ManagedSqlite.Core.Helpers
 Imports Microsoft.VisualBasic.Data.IO.ManagedSqlite.Core.Internal
 Imports Microsoft.VisualBasic.Data.IO.ManagedSqlite.Core.Objects
 Imports Microsoft.VisualBasic.Data.IO.ManagedSqlite.Core.Objects.Enums
+Imports Microsoft.VisualBasic.Language
 
 Namespace ManagedSqlite.Core.Tables
 
@@ -76,15 +77,17 @@ Namespace ManagedSqlite.Core.Tables
             Dim cells As IEnumerable(Of BTreeCellData) = BTreeTools.WalkTableBTree(RootPage)
             Dim metaInfo As New List(Of ColumnDataMeta)()
             Dim rowData As Object()
+            Dim index As VBInteger = Scan0
 
             For Each cell As BTreeCellData In cells
                 ' Create a new stream to cover any fragmentation that might occur
-                ' The stream is started in the current cells "resident" data, and will overflow to any other pages as needed
+                ' The stream is started in the current cells "resident" data, 
+                ' And will overflow to any other pages as needed
                 Using dataStream As New SqliteDataStream(Me.reader, cell)
                     metaInfo.Clear()
                     rowData = ParseRow(dataStream, metaInfo)
 
-                    Yield New Sqlite3Row(Me, cell.Cell.RowId, rowData)
+                    Yield New Sqlite3Row(++index, Me, cell.Cell.RowId, rowData)
                 End Using
             Next
         End Function
