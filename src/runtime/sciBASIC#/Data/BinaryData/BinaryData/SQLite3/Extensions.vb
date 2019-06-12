@@ -71,12 +71,18 @@ Namespace ManagedSqlite
         ''' <typeparam name="T"></typeparam>
         ''' <param name="table"></param>
         ''' <param name="activator"></param>
+        ''' <param name="trimNameEscape">
+        ''' 将表之中的字段名称之中可能出现的``[]``转义删除
+        ''' </param>
         ''' <returns></returns>
         <Extension>
-        Public Iterator Function ExportTable(Of T)(table As Sqlite3Table, activator As Func(Of IEnumerable(Of NamedValue(Of Object)), T)) As IEnumerable(Of T)
+        Public Iterator Function ExportTable(Of T)(table As Sqlite3Table,
+                                                   activator As Func(Of IEnumerable(Of NamedValue(Of Object)), T),
+                                                   Optional trimNameEscape As Boolean = False) As IEnumerable(Of T)
+
             Dim schema As SeqValue(Of NamedValue(Of String))() = table.SchemaDefinition _
-                .ParseSchema _
-                .Columns _
+                .ParseSchema(removeNameEscape:=trimNameEscape) _
+                .columns _
                 .SeqIterator _
                 .ToArray
             Dim populateValues =
