@@ -2,9 +2,9 @@
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.XML
 
-Namespace Assembly.EBI.ChEBI
+Namespace Assembly.ELIXIR.EBI.ChEBI
 
     ''' <summary>
     ''' 物质注释信息摘要表格

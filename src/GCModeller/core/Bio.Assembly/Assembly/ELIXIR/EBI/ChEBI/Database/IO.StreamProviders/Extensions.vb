@@ -54,9 +54,9 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 
-Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
+Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv
 
     ''' <summary>
     ''' Extension for ChEBI tsv tables entity.

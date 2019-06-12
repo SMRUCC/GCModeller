@@ -49,9 +49,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 
-Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
+Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv
 
     ''' <summary>
     ''' 可以使用这个对象从ChEBI的ftp文件夹下载结果之中加载相应的表数据

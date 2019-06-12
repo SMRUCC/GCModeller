@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel
 
-Namespace Assembly.EBI.ChEBI.WebServices
+Namespace Assembly.ELIXIR.EBI.ChEBI.WebServices
 
     Public Class QueryImpl : Inherits WebQuery(Of String)
 

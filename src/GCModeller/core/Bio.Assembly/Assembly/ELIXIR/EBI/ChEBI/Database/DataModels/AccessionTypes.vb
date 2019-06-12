@@ -44,9 +44,9 @@
 #End Region
 
 Imports System.ComponentModel
-Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.XML
 
-Namespace Assembly.EBI.ChEBI
+Namespace Assembly.ELIXIR.EBI.ChEBI
 
     ''' <summary>
     ''' Chebi accession types, table key name in <see cref="RegistryNumbers"/>
