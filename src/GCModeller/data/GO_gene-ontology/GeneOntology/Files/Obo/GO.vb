@@ -1,56 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::e182348b0f7751c507df43e88c8846b7, data\GO_gene-ontology\GeneOntology\Files\Obo\GO.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GO_OBO
-    ' 
-    '         Properties: header, Terms
-    ' 
-    '         Function: LoadDocument, Open, ParseHeader, ReadTerms, Save
-    ' 
-    '         Sub: SaveTable
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GO_OBO
+' 
+'         Properties: header, Terms
+' 
+'         Function: LoadDocument, Open, ParseHeader, ReadTerms, Save
+' 
+'         Sub: SaveTable
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.foundation.OBO_Foundry
+Imports SMRUCC.genomics.foundation.OBO_Foundry.IO
+Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Models
+Imports Field = SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection.Field
 
 Namespace OBO
 
@@ -65,7 +68,7 @@ Namespace OBO
 
         Public Function Save(path As String) As Boolean
             Dim bufs As List(Of String) = New List(Of String)
-            Dim schema = LoadClassSchema(Of Term)()
+            Dim schema = Reflection.LoadClassSchema(Of Term)()
             Dim LQuery = From x As Term
                          In Terms
                          Select x.ToLines(schema)
@@ -103,11 +106,10 @@ Namespace OBO
         End Function
 
         Public Shared Iterator Function ReadTerms(obo As OBOFile) As IEnumerable(Of Term)
-            Dim schema As Dictionary(Of BindProperty(Of foundation.OBO_Foundry.Field)) =
-                LoadClassSchema(Of Term)()
+            Dim schema As Dictionary(Of BindProperty(Of Field)) = Reflection.LoadClassSchema(Of Term)()
 
             For Each x As RawTerm In obo.GetRawTerms
-                If x.Type = Term.Term Then
+                If x.type = Term.Term Then
                     Yield schema.LoadData(Of Term)(x.GetData)
                 End If
             Next
@@ -118,18 +120,24 @@ Namespace OBO
         ''' </summary>
         ''' <param name="path$"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Open(path$) As IEnumerable(Of Term)
             Return ReadTerms(New OBOFile(path))
         End Function
 
         Public Sub SaveTable(path$, Optional encoding As Encodings = Encodings.ASCII)
             Using writer As StreamWriter = path.OpenWriter(encoding)
-                Call writer.WriteLine(
-                    New RowObject({"goID", "namespace", "name"}).AsLine)
+                Dim write As Action(Of String) = AddressOf writer.WriteLine
+
+                Call New RowObject({"goID", "namespace", "name"}) _
+                    .AsLine _
+                    .DoCall(write)
 
                 For Each term As Term In Terms
-                    Call writer.WriteLine(
-                        New RowObject({term.id, term.namespace, term.name}).AsLine)
+                    Call New RowObject({term.id, term.namespace, term.name}) _
+                        .AsLine _
+                        .DoCall(write)
                 Next
             End Using
         End Sub

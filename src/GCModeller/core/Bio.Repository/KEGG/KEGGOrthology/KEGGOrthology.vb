@@ -115,10 +115,10 @@ Public Class KEGGOrthology
                 In ko.Genes
                 Let desc = If(gene.Description Is Nothing, "", gene.Description)
                 Let og = New KO_gene With {
-                    .gene = gene.LocusId,
+                    .gene = gene.locusID,
                     .ko = ko.Entry,
                     .name = desc,
-                    .sp_code = gene.SpeciesId,
+                    .sp_code = gene.speciesID,
                     .url = ""
                 }
                 Select og

@@ -111,8 +111,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
             Dim TempChunk As String() = EntryTemp(0).Split(CChar(":"))
             ResultItem.Entry = New KEGG.WebServices.QueryEntry With {
                 .Description = EntryTemp(1),
-                .SpeciesId = TempChunk(0),
-                .LocusId = TempChunk(1)
+                .speciesID = TempChunk(0),
+                .locusID = TempChunk(1)
             }
 
             Dim strTemp As String = Regex.Match(strData, "<A HREF=""[^>]+?""  TARGET=""_blank"">K.+?</a>", RegexOptions.IgnoreCase).Value

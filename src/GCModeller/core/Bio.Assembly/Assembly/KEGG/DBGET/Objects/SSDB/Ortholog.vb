@@ -90,14 +90,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
                 .bestAll = $"{hit.Best.Key} {hit.Best.Value}",
                 .bits = Val(hit.Bits),
                 .Definition = hit.Entry.Description,
-                .hit_name = hit.Entry.LocusId,
+                .hit_name = hit.Entry.locusID,
                 .LocusId = result.KEGG_ID,
                 .identity = Val(hit.Identity),
                 .KO = hit.KO.Key,
                 .len = Val(hit.Length),
                 .margin = Val(hit.Margin),
                 .overlap = Val(hit.Overlap),
-                .sp = hit.Entry.SpeciesId,
+                .sp = hit.Entry.speciesID,
                 .SW = Val(hit.SWScore),
                 .query_length = Strings.Len(result.Sequence)
             }

@@ -44,12 +44,13 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Expressions
-Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
-Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.XML
 Imports SMRUCC.genomics.ComponentModel
 
-Namespace Assembly.EBI.ChEBI
+Namespace Assembly.ELIXIR.EBI.ChEBI
 
+    <HideModuleName>
     Public Module Extensions
 
         <Extension> Public Function RewriteMass(mass#, molecule As IMolecule) As Double

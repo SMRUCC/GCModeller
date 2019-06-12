@@ -43,6 +43,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.IO
 Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
@@ -56,6 +57,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
@@ -264,8 +266,8 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
                             DataRow = (From entry As QueryEntry
                                        In path.LoadCsv(Of QueryEntry)(False)
                                        Select entry
-                                       Group By entry.SpeciesId Into Group) _
-                                               .ToDictionary(Function(obj) obj.SpeciesId,
+                                       Group By entry.speciesID Into Group) _
+                                               .ToDictionary(Function(obj) obj.speciesID,
                                                              Function(obj) obj.Group.First)).ToArray
         Dim File As New IO.File
         Dim MatrixBuilder As New IO.File
@@ -290,7 +292,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
 
             For Each col In GeneData
                 If col.DataRow.ContainsKey(sp.KEGGId) Then
-                    Call File.Last.Add(col.DataRow(sp.KEGGId).LocusId)
+                    Call File.Last.Add(col.DataRow(sp.KEGGId).locusID)
                     Call MatrixBuilder.Last.Add("1")
                 Else
                     Call File.Last.Add("")
@@ -319,7 +321,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Dim GeneEntries As New List(Of QueryEntry)
 
         For Each EntryPoint As QueryEntry In EntryList
-            Call GeneEntries.AddRange(SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleDownload(EntryPoint.LocusId))
+            Call GeneEntries.AddRange(SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleDownload(EntryPoint.locusID))
         Next
 
         Call GeneEntries.SaveTo(argvs <= "-o", False)
@@ -492,9 +494,47 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Return New FASTA.FastaFile(LQuery).Save(out, Encoding.ASCII)
     End Function
 
+    ''' <summary>
+    ''' 下载通过uniprot数据库map得到的kegg编号的序列的列表
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Download.Mapped.Sequence")>
+    <Usage("/Download.Mapped.Sequence /map <map.list> [/nucl /out <seq.fasta>]")>
+    Public Function DownloadMappedSequence(args As CommandLine) As Integer
+        Dim in$ = args <= "/map"
+        Dim isNucl As Boolean = args.IsTrue("/nucl")
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{"prot" Or "nucl".When(isNucl)}_seq.fasta"
+        Dim tokens$()
+        Dim accession$
+        Dim kegg_ids$()
+        Dim fastaQuery As New FetchSequence(isNucl, cache:=$"{out.ParentPath}/.dbget/{"prot" Or "nucl".When(isNucl)}/")
+
+        Using writer As StreamWriter = out.OpenWriter
+            For Each line In [in].ReadAllLines
+                tokens = line.Split(ASCII.TAB)
+                accession = tokens(Scan0)
+                kegg_ids = tokens.Skip(1).ToArray
+
+                For Each fa As FastaSeq In kegg_ids.SafeQuery _
+                    .Select(Function(id)
+                                Return fastaQuery.Query(Of FastaSeq)(New QueryEntry(id), ".html")
+                            End Function)
+
+                    If Not fa Is Nothing Then
+                        Call writer.WriteLine(fa.GenerateDocument(-1))
+                    End If
+                Next
+            Next
+        End Using
+
+        Return 0
+    End Function
+
     <ExportAPI("/Download.Fasta", Usage:="/Download.Fasta /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
     <Description("Download fasta sequence from KEGG database web api.")>
-    <Argument("/query", False, CLITypes.File, PipelineTypes.std_in, AcceptTypes:={GetType(QuerySource)},
+    <Argument("/query", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(QuerySource)},
               Description:="This file should contains the locus_tag id list for download sequence.")>
     Public Function DownloadSequence(args As CommandLine) As Integer
         Dim query As String = args("/query")
@@ -548,7 +588,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
                   Select New FastaSeq(fa)
 
         Return New FastaFile(result) _
-            .Save(Path:=outFile) _
+            .Save(path:=outFile) _
             .CLICode
     End Function
 End Module

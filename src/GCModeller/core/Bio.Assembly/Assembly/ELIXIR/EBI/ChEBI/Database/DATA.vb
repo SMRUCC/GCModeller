@@ -47,10 +47,10 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
-Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.XML
 
-Namespace Assembly.EBI.ChEBI
+Namespace Assembly.ELIXIR.EBI.ChEBI
 
     ''' <summary>
     ''' Chebi <see cref="ChEBIEntity"/> model extensions

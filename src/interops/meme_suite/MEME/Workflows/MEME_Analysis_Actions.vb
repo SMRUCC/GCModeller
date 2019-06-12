@@ -294,7 +294,7 @@ Namespace Workflows
                 Dim entryList As SMRUCC.genomics.Assembly.KEGG.WebServices.QueryEntry()
                 If String.IsNullOrEmpty(Locus_Tag) Then
                     entryList = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.HandleQuery(item.Key) '模糊查找多条记录
-                    Dim LQuery = (From entry In entryList Where String.Equals(entry.SpeciesId, "eco") Select entry).ToArray
+                    Dim LQuery = (From entry In entryList Where String.Equals(entry.speciesID, "eco") Select entry).ToArray
 
                     If Not LQuery.IsNullOrEmpty Then
                         Dim fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(LQuery.First)
