@@ -67,6 +67,7 @@ Namespace ManagedSqlite.Core.Tables
             Me.Table = table
             Me.RowId = rowId
             Me.ColumnData = columnData
+            Me.ReadIndex = index
         End Sub
 
         Public Overrides Function ToString() As String
