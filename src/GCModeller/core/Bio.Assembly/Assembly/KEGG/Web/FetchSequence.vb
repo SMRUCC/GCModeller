@@ -58,7 +58,7 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         ''' <returns></returns>
         Private Shared Function parseSeqHtml(html As String, null As Type) As FastaSeq
-            If String.IsNullOrEmpty(html) OrElse InStr(html, ": No such data.", CompareMethod.Text) > 0 Then
+            If String.IsNullOrEmpty(html) OrElse InStr(html, "No such data was found.", CompareMethod.Text) > 0 Then
                 Return Nothing
             End If
 
