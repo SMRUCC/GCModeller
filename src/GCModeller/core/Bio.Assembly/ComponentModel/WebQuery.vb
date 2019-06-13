@@ -39,10 +39,10 @@ Namespace ComponentModel
         ''' </summary>
         Protected cache$
 
-        Shared ReadOnly interval As [Default](Of  Integer)
+        Shared ReadOnly interval As [Default](Of Integer)
 
         Shared Sub New()
-            Static defaultInterval As [Default](Of  String) = "3000"
+            Static defaultInterval As [Default](Of String) = "3000"
 
             With Val(App.GetVariable("sleep") Or defaultInterval)
                 ' controls of the interval by /@set sleep=xxxxx
