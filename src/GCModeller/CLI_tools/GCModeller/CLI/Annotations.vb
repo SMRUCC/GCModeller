@@ -39,12 +39,9 @@
 
 #End Region
 
-Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
-Imports SMRUCC.genomics.Assembly.EBI
 Imports SMRUCC.genomics.Data.BASys
 
 Partial Module CLI
