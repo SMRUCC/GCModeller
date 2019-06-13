@@ -27,7 +27,12 @@ Namespace ComponentModel
         ''' 404状态的资源列表
         ''' </summary>
         Dim url404 As New Index(Of String)
-        Dim offlineMode As Boolean
+
+        ''' <summary>
+        ''' 是否是处于仅从缓存数据之中查找结果的离线模式
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property offlineMode As Boolean
 
         ''' <summary>
         ''' 原始请求结果数据的缓存文件夹,同时也可以用这个文件夹来存放错误日志
