@@ -38,7 +38,7 @@ Namespace DecisionTree
             ' get all leaf values for the attribute in question
             For i As Integer = 0 To data.rows.Count - 1
                 If data.rows(i)(root.index).Equals(attributeToCheck) Then
-                    allEndValues.Add(data.rows(i)(data.columns - 1).ToString())
+                    allEndValues.Add(data.rows(i).decisions)
                 End If
             Next
 
@@ -67,8 +67,7 @@ Namespace DecisionTree
             For i As Integer = 0 To data.rows.Count - 1
                 If data.rows(i)(rootTableIndex).Equals(edgePointingToNextNode) Then
                     Dim row As New Entity With {
-                        .entityVector = data.rows(i).entityVector.ToArray,
-                        .decisions = data.rows(i).decisions
+                        .entityVector = data.rows(i).entityVector.ToArray
                     }
 
                     Call rows.Add(row)
@@ -90,7 +89,7 @@ Namespace DecisionTree
             Dim differentAttributenames As String()
 
             ' Get all names, amount of attributes and attributes for every column             
-            For i As Integer = 0 To data.columns - 1
+            For i As Integer = 0 To data.columns - 2
                 differentAttributenames = DecisionTree.Attributes.GetDifferentAttributeNamesOfColumn(data, i)
                 attributes.Add(New Attributes(data.headers(i), differentAttributenames))
             Next
@@ -99,10 +98,10 @@ Namespace DecisionTree
             Dim tableEntropy As Double = CalculateTableEntropy(data)
 
             For i As Integer = 0 To attributes.Count - 1
-                attributes(i).InformationGain = GetGainForAllAttributes(data, i, tableEntropy)
+                attributes(i).informationGain = GetGainForAllAttributes(data, i, tableEntropy)
 
-                If attributes(i).InformationGain > highestInformationGain Then
-                    highestInformationGain = attributes(i).InformationGain
+                If attributes(i).informationGain > highestInformationGain Then
+                    highestInformationGain = attributes(i).informationGain
                     highestInformationGainIndex = i
                 End If
             Next
@@ -121,7 +120,7 @@ Namespace DecisionTree
                 Dim secondDivision = (item(0, 0) - item(0, 1)) / CDbl(item(0, 0))
 
                 ' prevent dividedByZeroException
-                If firstDivision = 0 OrElse secondDivision = 0 Then
+                If firstDivision = 0.0 OrElse secondDivision = 0.0 Then
                     stepsForCalculation.Add(0.0)
                 Else
                     stepsForCalculation.Add(-firstDivision * Math.Log(firstDivision, 2) - secondDivision * Math.Log(secondDivision, 2))

@@ -4,6 +4,7 @@
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.DataMining.DecisionTree
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace DecisionTree
 
@@ -11,14 +12,24 @@ Namespace DecisionTree
 
         Sub Main()
 
-            Dim data As DataTable = CsvFileHandler.ImportFromCsvFile("D:\GCModeller\src\runtime\sciBASIC#\Data_science\algorithms\DecisionTree\trainingdata.csv")
+            Dim data As DataTable = CsvFileHandler.ImportFromCsvFile("E:\GCModeller\src\runtime\sciBASIC#\Data_science\algorithms\DecisionTree\trainingdata.csv")
             Dim decisionTree As New Tree(data)
             Dim valueForQuery As New Dictionary(Of String, String) From {{"Outlook", "Sunny"}, {"Temperatur", "Hot"}, {"Humidity", "High"}, {"Wind", "Weak"}}
+            ' OUTLOOK -- sunny --> HUMIDITY -- high --> YES
             Dim result = decisionTree.CalculateResult(valueForQuery)
 
             valueForQuery = New Dictionary(Of String, String) From {{"Outlook", "Overcast"}, {"Temperatur", "Hot"}, {"Humidity", "High"}, {"Wind", "Weak"}}
 
-            result = decisionTree.CalculateResult(valueForQuery)
+            Dim query3 As New Dictionary(Of String, String)(valueForQuery)
+
+            ' OUTLOOK -- overcast --> NO
+            Dim result2 = decisionTree.CalculateResult(valueForQuery)
+
+            Call decisionTree.root.GetJson.SaveTo("./trainingdata.json")
+
+            Dim tree2 As New Tree("./trainingdata.json".LoadJsonFile(Of TreeNode))
+
+            Dim result3 = decisionTree.CalculateResult(query3)
 
             Pause()
         End Sub
@@ -32,12 +43,12 @@ Namespace DecisionTree
             Dim headers = lines(Scan0).Trim(";"c).Split(";"c)
             Dim rows = lines.Skip(1).Select(Function(line)
                                                 Dim t = line.Trim(";"c).Split(";"c)
-                                                Dim obj As New Entity With {.decisions = t.Last, .entityVector = t.Take(t.Length - 1).ToArray}
+                                                Dim obj As New Entity With {.entityVector = t}
 
                                                 Return obj
                                             End Function).ToArray
 
-            Return New DataTable With {.headers = headers.Take(headers.Length - 1).ToArray, .decisions = headers.Last, .rows = rows}
+            Return New DataTable With {.headers = headers, .rows = rows}
 
             'Dim rows = 0
             'Dim data = New DataTable()

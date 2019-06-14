@@ -1,38 +1,65 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.DecisionTree
-Imports Microsoft.VisualBasic.Math.Distributions
+Imports Microsoft.VisualBasic.Linq
 
 Namespace RandomForests
 
-    Public Module RandomForests
+    Public Class RandomForests
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="trainingSet"></param>
-        ''' <param name="n">随机森林之中的决策树的数量</param>
-        ''' <param name="size">随机采样得到的子数据集内的样本数量</param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function Bagging(trainingSet As Entity(), n%, size%) As IEnumerable(Of Entity())
-            Return Bootstraping _
-                .Samples(Of Entity)(trainingSet, size, n) _
-                .Select(Function(subSample)
-                            Return subSample.value
-                        End Function)
+        Public ReadOnly Property trees As Tree()
+
+        Public Function Predicts(test As IDictionary(Of String, String)) As ClassifyResult
+            Dim votes = trees.AsParallel _
+                .Select(Function(tree)
+                            Return tree.CalculateResult(valuesForQuery:=test)
+                        End Function) _
+                .GroupBy(Function(result) result.result) _
+                .Select(Function(vote)
+                            Return New NamedCollection(Of ClassifyResult) With {
+                                .Name = vote.Key,
+                                .Value = vote.ToArray
+                            }
+                        End Function) _
+                .OrderByDescending(Function(g) g.Length) _
+                .ToArray
+            Dim mostVoted As NamedCollection(Of ClassifyResult) = votes(Scan0)
+            Dim explains As String() = mostVoted _
+                .Select(Function(vote)
+                            Return vote.explains.Take(vote.explains.Count - 1).Split(2)
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(exp) exp(Scan0)) _
+                .Select(Function(explain)
+                            Dim mostExplains = explain _
+                                .Select(Function(reason) reason(1)) _
+                                .GroupBy(Function(r) r) _
+                                .OrderByDescending(Function(g) g.Count) _
+                                .First
+
+                            Return {explain.Key, mostExplains.Key}
+                        End Function) _
+                .IteratesALL _
+                .ToArray
+            Dim classify As New ClassifyResult With {
+                .explains = explains.AsList,
+                .result = mostVoted.Name
+            }
+
+            Return classify
         End Function
 
-        ''' <summary>
-        ''' 基尼系数的选择的标准就是每个子节点达到最高的纯度，即落在子节点中的所有观察都属于同一个分类，
-        ''' 此时基尼系数最小，纯度最高，不确定度最小。
-        ''' 
-        ''' 基尼指数越大，说明不确定性就越大；基尼系数越小，不确定性越小，数据分割越彻底，越干净。
-        ''' </summary>
-        ''' <param name="p"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function Gini(p As IEnumerable(Of Double)) As Double
-            Return 1 - (Aggregate pk As Double In p Into Sum(pk ^ 2))
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function CreateForests(trainingSet As DataTable, n%, size%) As RandomForests
+            Return trainingSet.Sampling(n, size) _
+                .AsParallel _
+                .Select(Function(data) New Tree(data)) _
+                .ToArray
         End Function
-    End Module
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(trees As Tree()) As RandomForests
+            Return New RandomForests With {._trees = trees}
+        End Operator
+    End Class
 End Namespace
