@@ -7,18 +7,20 @@ Namespace DecisionTree
     ''' </summary>
     Public Class NodeAttr
 
-        Public ReadOnly Property name As String
-        Public ReadOnly Property differentAttributeNames As List(Of String)
-
-        Public Property InformationGain As Double
+        Public Property name As String
+        Public Property differentAttributeNames As List(Of String)
+        Public Property informationGain As Double
 
         Public Sub New(name As String, differentAttributenames As List(Of String))
             Me.name = name
             Me.differentAttributeNames = differentAttributenames
         End Sub
 
+        Sub New()
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return $"Dim {name} As {differentAttributeNames.GetJson} = {InformationGain}"
+            Return $"Dim {name} As {differentAttributeNames.GetJson} = {informationGain}"
         End Function
 
         Public Shared Function GetDifferentAttributeNamesOfColumn(data As DataTable, columnIndex As Integer) As List(Of String)
