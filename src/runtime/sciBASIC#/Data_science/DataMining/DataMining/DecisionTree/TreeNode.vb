@@ -9,11 +9,11 @@ Namespace DecisionTree
         Public Property index As Integer
         Public Property isLeaf As Boolean
 
-        Public Sub New(name As String, tableIndex As Integer, nodeAttribute As NodeAttr, edge As String)
+        Public Sub New(name As String, tableIndex As Integer, attributes As Attributes, edge As String)
             Me.name = name
-            index = tableIndex
-            attributes = nodeAttribute
-            childNodes = New List(Of TreeNode)()
+            Me.index = tableIndex
+            Me.attributes = attributes
+            Me.childNodes = New List(Of TreeNode)()
             Me.edge = edge
         End Sub
 
