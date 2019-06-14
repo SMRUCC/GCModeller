@@ -4,7 +4,7 @@ Namespace DecisionTree
 
         Public Property name As String
         Public Property edge As String
-        Public Property attributes As NodeAttr
+        Public Property attributes As Attributes
         Public Property childNodes As List(Of TreeNode)
         Public Property index As Integer
         Public Property isLeaf As Boolean
