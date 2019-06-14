@@ -4,7 +4,7 @@ Namespace DecisionTree
 
         Public Property name As String
         Public Property edge As String
-        Public Property nodeAttr As NodeAttr
+        Public Property attributes As NodeAttr
         Public Property childNodes As List(Of TreeNode)
         Public Property index As Integer
         Public Property isLeaf As Boolean
@@ -12,7 +12,7 @@ Namespace DecisionTree
         Public Sub New(name As String, tableIndex As Integer, nodeAttribute As NodeAttr, edge As String)
             Me.name = name
             index = tableIndex
-            nodeAttr = nodeAttribute
+            attributes = nodeAttribute
             childNodes = New List(Of TreeNode)()
             Me.edge = edge
         End Sub

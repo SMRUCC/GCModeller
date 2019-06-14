@@ -70,7 +70,7 @@ Namespace DecisionTree
         Public Shared Function Learn(data As DataTable, Optional edgeName As String = "") As TreeNode
             Dim root As TreeNode = GetRootNode(data, edgeName)
 
-            For Each item In root.nodeAttr.differentAttributeNames
+            For Each item In root.attributes.differentAttributeNames
                 ' if a leaf, leaf will be added in this method
                 Dim isLeaf = CheckIfIsLeaf(root, data, item)
 
