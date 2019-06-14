@@ -1,5 +1,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace DecisionTree
@@ -85,5 +86,21 @@ Namespace DecisionTree
             Return headers.GetJson
         End Function
 
+    End Class
+
+    Public Class ClassifyResult
+
+        Public Property result As String
+        Public Property explains As New List(Of String)
+
+        Public Overrides Function ToString() As String
+            Dim reason As String = explains _
+                .Take(explains.Count - 1) _
+                .Split(2) _
+                .Select(Function(exp) $"({exp(Scan0)} Is '{exp(1)}')") _
+                .JoinBy(" And ")
+
+            Return $"{result} As [ {reason} ]"
+        End Function
     End Class
 End Namespace
