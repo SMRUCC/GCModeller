@@ -245,6 +245,10 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.InteractionModel\Bio.InteractionModel.vbproj">
+      <Project>{DF6469FA-36AC-4959-812F-8EBC54FAF7F3}</Project>
+      <Name>Bio.InteractionModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>

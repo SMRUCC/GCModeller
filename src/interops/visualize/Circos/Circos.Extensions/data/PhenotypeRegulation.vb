@@ -47,7 +47,6 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.InteractionModel
 Imports SMRUCC.genomics.InteractionModel.Regulon
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 
