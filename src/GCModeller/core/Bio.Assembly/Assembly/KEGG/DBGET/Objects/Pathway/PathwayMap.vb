@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::453b3dcd6784f07990424f628d0cec46, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class PathwayMap
-    ' 
-    '         Properties: brite, disease, KEGGCompound, KEGGEnzyme, KEGGGlycan
-    '                     KEGGOrthology, KEGGReaction, KOpathway, Map, modules
-    '                     name
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __parserInternal, (+2 Overloads) Download, DownloadAll, GetMapImage, GetPathwayGenes
-    '                   SolveEntries
-    ' 
-    '         Sub: SetMapImage
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class PathwayMap
+' 
+'         Properties: brite, disease, KEGGCompound, KEGGEnzyme, KEGGGlycan
+'                     KEGGOrthology, KEGGReaction, KOpathway, Map, modules
+'                     name
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __parserInternal, (+2 Overloads) Download, DownloadAll, GetMapImage, GetPathwayGenes
+'                   SolveEntries
+' 
+'         Sub: SetMapImage
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.LinkDB
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -71,7 +72,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' <see cref="BriteHEntry.Pathway.LoadFromResource()"/>.
     ''' (相对于<see cref="Pathway"/>而言，这个对象是参考用的，并非某个特定的物种的)
     ''' </summary>
-    Public Class PathwayMap : Inherits ComponentModel.PathwayBrief
+    Public Class PathwayMap : Inherits PathwayBrief
 
         ''' <summary>
         ''' The name value of this pathway object
@@ -237,7 +238,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             Dim entries As BriteHEntry.Pathway() = SolveEntries(briteFile)
             Dim rtvl% = Scan0
-            Dim EXPORT_dir = New [Default](Of  String)(EXPORT).When(Not directoryOrganized)
+            Dim EXPORT_dir = New [Default](Of String)(EXPORT).When(Not directoryOrganized)
             Dim testSuccess = Function(xml As String) As Boolean
                                   If xml.FileLength <= 0 Then
                                       Return False
