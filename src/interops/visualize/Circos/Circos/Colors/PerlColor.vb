@@ -42,7 +42,7 @@
 
 Namespace Colors
 
-    Module PerlColor
+    Public Module PerlColor
 
         ''' <summary>
         ''' all color names in perl system

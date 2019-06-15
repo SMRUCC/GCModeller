@@ -61,6 +61,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
 Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
@@ -181,7 +182,7 @@ Module PfsNET_FootprintMappingPathway_API
     Public Function ExportCSV(Result As IEnumerable(Of DataStructure.PFSNetResultOut), Model As XmlresxLoader) As KEGGPhenotypes()
         Dim Pathways = Model.KEGG_Pathways.GetAllPathways _
             .ToDictionary(Function(x) x.EntryId,
-                          Function(x) DirectCast(x, ComponentModel.PathwayBrief))
+                          Function(x) DirectCast(x, PathwayBrief))
         Dim LQuery = (From item As DataStructure.PFSNetResultOut
                       In Result
                       Let p1 = SubNetTable.CreateObject(item.phenotype1, item.tag & ".Class1", Pathways, 1)

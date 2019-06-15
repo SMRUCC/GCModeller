@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::544a79784dfe29ab2d744ab2e82d6a02, visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\ModInteractions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ModInteractions
-    ' 
-    '         Function: (+2 Overloads) __modProperty, __tfNode, AddFootprints, (+3 Overloads) BuildNET, LoadModules
-    '                   LoadPathways, SaveNetwork
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ModInteractions
+' 
+'         Function: (+2 Overloads) __modProperty, __tfNode, AddFootprints, (+3 Overloads) BuildNET, LoadModules
+'                   LoadPathways, SaveNetwork
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 
 Namespace NetworkModel.KEGG
@@ -99,11 +99,11 @@ Namespace NetworkModel.KEGG
                     Select x
                     Group x By x.g Into Group) _
                          .Select(Function(x) (From edge In x.Group
-                                               Select New NetworkEdge With {
-                                                   .value = 1,
-                                                   .FromNode = edge.__mod.EntryId,
-                                                   .ToNode = edge.g,
-                                                   .Interaction = PathwayGene})).IteratesALL
+                                              Select New NetworkEdge With {
+                                                  .value = 1,
+                                                  .FromNode = edge.__mod.EntryId,
+                                                  .ToNode = edge.g,
+                                                  .Interaction = PathwayGene})).IteratesALL
             net += net.__modProperty(net.Edges)
 
             Return net

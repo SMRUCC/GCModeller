@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::26c26fbac5ec14cb570ab8c19ccc4caf, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\Output\SubNetTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class SubNetTable
-    ' 
-    '         Properties: Description, Flag, n, PhenotypePair, PValue
-    '                     SignificantGeneObjects, Statistics, SubNET_Vector, UniqueId, weight2
-    '                     weights
-    ' 
-    '         Function: __creates, Copy, (+3 Overloads) CreateObject, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class SubNetTable
+' 
+'         Properties: Description, Flag, n, PhenotypePair, PValue
+'                     SignificantGeneObjects, Statistics, SubNET_Vector, UniqueId, weight2
+'                     weights
+' 
+'         Function: __creates, Copy, (+3 Overloads) CreateObject, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.PFSNet
 Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace PfsNET.TabularArchives
 
@@ -129,12 +130,12 @@ Namespace PfsNET.TabularArchives
             Dim result = From graph As DataStructure.PFSNetGraph
                          In ResultSet
                          Let subNET = New NetDetails With {
-                             .Nodes = (From node In graph.Nodes Select node.Name).ToArray,
+                             .Nodes = (From node In graph.nodes Select node.name).ToArray,
                              .weight = New Vector With {
-                                .x = (From node In graph.Nodes Select node.weight).ToArray
+                                .x = (From node In graph.nodes Select node.weight).ToArray
                              },
                              .weight2 = New Vector With {
-                                .x = (From node In graph.Nodes Select node.weight2).ToArray
+                                .x = (From node In graph.nodes Select node.weight2).ToArray
                              },
                              .Pvalue = graph.pvalue,
                              .statistics = graph.statistics
@@ -142,7 +143,7 @@ Namespace PfsNET.TabularArchives
                          Select New PfsNET With {
                              .Class = [Class],
                              .Flag = True,
-                             .n = graph.Length,
+                             .n = graph.length,
                              .Identifier = graph.Id,
                              .SubNET = subNET
                          }
@@ -155,7 +156,7 @@ Namespace PfsNET.TabularArchives
 
         Public Shared Function CreateObject(ResultSet As PfsNET(),
                                             PhenotypeName As String,
-                                            PathwayBrief As Dictionary(Of String, ComponentModel.PathwayBrief)) As SubNetTable()
+                                            PathwayBrief As Dictionary(Of String, Annotation.PathwayBrief)) As SubNetTable()
 
             Dim LQuery As SubNetTable() =
                 LinqAPI.Exec(Of SubNetTable) <= From x As PfsNET
@@ -166,7 +167,7 @@ Namespace PfsNET.TabularArchives
 
         Private Shared Function __creates(net As PfsNET,
                                           PhenotypeName As String,
-                                          PathwayBrief As Dictionary(Of String, ComponentModel.PathwayBrief)) As SubNetTable
+                                          PathwayBrief As Dictionary(Of String, Annotation.PathwayBrief)) As SubNetTable
 
             Dim tbl As New SubNetTable With {
                 .PhenotypePair = PhenotypeName
@@ -180,7 +181,7 @@ Namespace PfsNET.TabularArchives
             tbl.UniqueId = net.Identifier
             tbl.weight2 = net.SubNET.weight2.x
             tbl.weights = net.SubNET.weight.x
-            tbl.Description = PathwayBrief(tbl.UniqueId).Description
+            tbl.Description = PathwayBrief(tbl.UniqueId).description
 
             Return tbl
         End Function

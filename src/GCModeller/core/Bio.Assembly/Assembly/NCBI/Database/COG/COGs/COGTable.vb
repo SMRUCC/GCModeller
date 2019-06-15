@@ -1,53 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::d71d4951c7a1fe90d4decfff60ee566d, Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class COGTable
-    ' 
-    '         Properties: COGId, DomainID, Ends, GenomeName, Membership
-    '                     ProteinID, ProteinLength, Start
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: GI2COGs, LoadCsv, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class COGTable
+' 
+'         Properties: COGId, DomainID, Ends, GenomeName, Membership
+'                     ProteinID, ProteinLength, Start
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: GI2COGs, LoadCsv, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Assembly.NCBI.COG.COGs
 
@@ -56,7 +58,7 @@ Namespace Assembly.NCBI.COG.COGs
     ''' CSV table row for COG, Contains list of orthology domains. Comma-delimited,
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class COGTable
+    Public Class COGTable : Implements ICOGCatalog
 
         ''' <summary>
         ''' &lt;domain-id>
@@ -77,7 +79,7 @@ Namespace Assembly.NCBI.COG.COGs
         ''' &lt;protein-id>: GI
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute("protein-id")> Public Property ProteinID As String
+        <XmlAttribute("protein-id")> Public Property ProteinID As String Implements IKeyedEntity(Of String).Key
         ''' <summary>
         ''' &lt;protein-length>
         ''' </summary>
@@ -97,23 +99,23 @@ Namespace Assembly.NCBI.COG.COGs
         ''' &lt;COG-id>
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute("COG-id")> Public Property COGId As String
+        <XmlAttribute("COG-id")> Public Property COGId As String Implements ICOGCatalog.COG
         ''' <summary>
         ''' &lt;membership-Class>
         ''' 
         ''' The &lt;membership-class> field indicates the nature of the match
         ''' between the sequence And the COG consensus
         ''' 
-        ''' 0 - the domain matches the COG consensus;
+        ''' + ``0`` - the domain matches the COG consensus;
+        ''' + ``1`` - the domain Is significantly longer than the COG consensus;
+        ''' + ``2`` - the domain Is significantly shorter than the COG consensus;
+        ''' + ``3`` - partial match between the domain And the COG consensus.
         ''' 
-        ''' 1 - the domain Is significantly longer than the COG consensus;
-        ''' 
-        ''' 2 - the domain Is significantly shorter than the COG consensus;
-        ''' 
-        ''' 3 - partial match between the domain And the COG consensus.
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("membership-class")> Public Property Membership As Integer
+
+        Private Property Catalog As String Implements ICOGCatalog.Catalog
 
         Sub New()
         End Sub
@@ -162,13 +164,15 @@ Namespace Assembly.NCBI.COG.COGs
             Dim proteins = cogTable.GroupBy(Function(prot) prot.ProteinID)
             Dim out = proteins.ToDictionary(
                 Function(prot) prot.Key,
-                Function(prot) New NamedValue(Of String()) With {
-                    .Name = prot.First.GenomeName,
-                    .Value = prot _
-                        .Select(Function(x) x.COGId) _
-                        .Distinct _
-                        .ToArray
-                })
+                Function(prot)
+                    Return New NamedValue(Of String()) With {
+                        .Name = prot.First.GenomeName,
+                        .Value = prot _
+                            .Select(Function(x) x.COGId) _
+                            .Distinct _
+                            .ToArray
+                    }
+                End Function)
 
             Return out
         End Function

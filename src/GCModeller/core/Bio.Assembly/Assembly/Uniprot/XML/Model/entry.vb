@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac37bfa4b67a5741cab8a36b47bafbcf, Bio.Assembly\Assembly\UniProt\XML\Model\entry.vb"
+﻿#Region "Microsoft.VisualBasic::6a5e73341581a16c3434fc21e3edfd15, Bio.Assembly\Assembly\UniProt\XML\Model\entry.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: accession, accessions, CommentList, comments, created
     '                     dataset, dbReferences, features, gene, keywords
     '                     modified, name, organism, protein, proteinExistence
-    '                     references, sequence, version, Xrefs
+    '                     references, sequence, version, xrefs
     ' 
     '         Function: ShadowCopy, ToString
     ' 

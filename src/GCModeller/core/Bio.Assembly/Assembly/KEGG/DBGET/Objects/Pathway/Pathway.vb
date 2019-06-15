@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::4fee344c9239f14f4e3602b03832b790, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Pathway
-    ' 
-    '         Properties: BriteId, compound, disease, drugs, genes
-    '                     KOpathway, modules, name, organism, otherDBs
-    '                     pathwayMap, references
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __source, Download, (+2 Overloads) DownloadPage, DownloadPathwayMap, (+2 Overloads) GetCompoundCollection
-    '                   GetPathwayGenes, IsContainsCompound, IsContainsGeneObject, IsContainsModule
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Pathway
+' 
+'         Properties: BriteId, compound, disease, drugs, genes
+'                     KOpathway, modules, name, organism, otherDBs
+'                     pathwayMap, references
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: __source, Download, (+2 Overloads) DownloadPage, DownloadPathwayMap, (+2 Overloads) GetCompoundCollection
+'                   GetPathwayGenes, IsContainsCompound, IsContainsGeneObject, IsContainsModule
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.DBGET.bGetObject
@@ -63,7 +64,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' </summary>
     ''' <remarks></remarks>
     <XmlRoot("KEGG_pathway", Namespace:="http://www.genome.jp/kegg/pathway.html")>
-    Public Class Pathway : Inherits ComponentModel.PathwayBrief
+    Public Class Pathway : Inherits PathwayBrief
 
         ''' <summary>
         ''' The name value of this pathway object
@@ -148,7 +149,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Sub
 
         Public Function IsContainsCompound(KEGGCompound As String) As Boolean
-            If Compound.IsNullOrEmpty Then
+            If compound.IsNullOrEmpty Then
                 Return False
             End If
 
@@ -173,13 +174,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function IsContainsModule(ModuleId As String) As Boolean
-            If Modules.IsNullOrEmpty Then
+            If modules.IsNullOrEmpty Then
                 Return False
             End If
             Dim LQuery As KeyValuePair = LinqAPI.DefaultFirst(Of KeyValuePair) <=
  _
                 From [mod] As NamedValue
-                In Modules
+                In modules
                 Where String.Equals([mod].name, ModuleId)
                 Select [mod]
 
@@ -282,12 +283,12 @@ Exit_LOOP:
             Dim out As New List(Of String)
 
             For Each pwy As Pathway In source
-                If pwy.Compound.IsNullOrEmpty Then
+                If pwy.compound.IsNullOrEmpty Then
                     Continue For
                 End If
 
                 out += From met As NamedValue
-                       In pwy.Compound
+                       In pwy.compound
                        Select met.name
             Next
 
@@ -322,12 +323,12 @@ Exit_LOOP:
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function GetPathwayGenes() As String()
-            If Genes.IsNullOrEmpty Then
+            If genes.IsNullOrEmpty Then
                 Call $"{EntryId} gene set is Null!".__DEBUG_ECHO
                 Return {}
             End If
 
-            Dim LQuery As String() = Genes _
+            Dim LQuery As String() = genes _
                 .Select(Function(g) g.name.Split(":"c).Last) _
                 .ToArray
             Return LQuery

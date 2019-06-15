@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea12e871142d2565da875d0f76088e8f, Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb"
+﻿#Region "Microsoft.VisualBasic::07c62e12f2519260f9ff4b6578bbeb1e, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\ChEBIEntity.vb"
 
     ' Author:
     ' 
@@ -33,15 +33,13 @@
 
     '     Class ChEBIEntity
     ' 
-    '         Properties: Address, charge, chebiAsciiName, chebiId, ChemicalStructures
-    '                     Citations, CompoundOrigins, DatabaseLinks, definition, entityStar
-    '                     Formula, Formulae, inchi, inchiKey, IupacNames
-    '                     mass, OntologyChildren, OntologyParents, RegistryNumbers, SecondaryChEBIIds
-    '                     smiles, status, Synonyms
+    '         Properties: charge, chebiAsciiName, chebiId, ChemicalStructures, Citations
+    '                     CompoundOrigins, DatabaseLinks, definition, entityStar, Formula
+    '                     Formulae, inchi, inchiKey, IupacNames, mass
+    '                     OntologyChildren, OntologyParents, RegistryNumbers, SecondaryChEBIIds, smiles
+    '                     status, Synonyms
     ' 
     '         Function: ToString
-    ' 
-    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/
