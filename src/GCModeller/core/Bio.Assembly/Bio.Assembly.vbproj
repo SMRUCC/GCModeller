@@ -676,6 +676,7 @@
     <Compile Include="Metagenomics\TaxonomyRanks.vb" />
     <Compile Include="Metagenomics\TaxonomyExtensions.vb" />
     <Compile Include="Metagenomics\Taxonomy.vb" />
+    <Compile Include="ProteinModel\Chou-Fasman\SecondaryStructures.vb" />
     <Compile Include="Query\IQueryExtensions.vb" />
     <Compile Include="Metagenomics\BIOMTaxonomy.vb" />
     <Compile Include="Metagenomics\OTUData.vb" />

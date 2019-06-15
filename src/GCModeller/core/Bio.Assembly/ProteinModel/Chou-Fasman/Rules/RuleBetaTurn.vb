@@ -64,9 +64,9 @@ Namespace ProteinModel.ChouFasmanRules.Rules
                     Pi *= ChouFasmanTable(ChunkBuffer(p)).f(p)
                 Next
                 If Pi > FT Then
-                    Dim Pt As Double = Avg(ChunkBuffer, AddressOf ChouFasmanParameter.Get_Pt)
-                    Dim Pa As Double = Avg(ChunkBuffer, AddressOf ChouFasmanParameter.Get_Pa)
-                    Dim Pb As Double = Avg(ChunkBuffer, AddressOf ChouFasmanParameter.Get_Pb)
+                    Dim Pt As Double = Avg(ChunkBuffer, Function(t) t.Pt)
+                    Dim Pa As Double = Avg(ChunkBuffer, Function(t) t.Pa)
+                    Dim Pb As Double = Avg(ChunkBuffer, Function(t) t.Pb)
 
                     If Pt > 100 AndAlso (Pt > Pa AndAlso Pt > Pb) Then
                         For p As Integer = 0 To 3

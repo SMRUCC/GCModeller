@@ -49,6 +49,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
@@ -56,48 +57,19 @@ Imports SMRUCC.genomics.SequenceModel.Polypeptides
 Namespace ProteinModel.ChouFasmanRules
 
     ''' <summary>
-    ''' @ - <see cref="ChouFasman.SecondaryStructures.AlphaHelix"></see>;
-    ''' 1 - <see cref="ChouFasman.SecondaryStructures.BetaSheet"></see>;
-    ''' ^ - <see cref="ChouFasman.SecondaryStructures.BetaTurn"></see>;
-    ''' &amp; - <see cref="ChouFasman.SecondaryStructures.Coils"></see>
+    ''' @ - <see cref="SecondaryStructures.AlphaHelix"></see>;
+    ''' 1 - <see cref="SecondaryStructures.BetaSheet"></see>;
+    ''' ^ - <see cref="SecondaryStructures.BetaTurn"></see>;
+    ''' &amp; - <see cref="SecondaryStructures.Coils"></see>
     ''' </summary>
     ''' <remarks></remarks>
     Public Module ChouFasman
 
-        ''' <summary>
-        ''' 蛋白质的二级结构分类
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Enum SecondaryStructures
-
-            ''' <summary>
-            ''' alpha螺旋
-            ''' </summary>
-            ''' <remarks></remarks>
-            AlphaHelix
-            ''' <summary>
-            ''' Beta折叠
-            ''' </summary>
-            ''' <remarks></remarks>
-            BetaSheet
-            ''' <summary>
-            ''' Beta转角
-            ''' </summary>
-            ''' <remarks></remarks>
-            BetaTurn
-            ''' <summary>
-            ''' 无规则卷曲
-            ''' </summary>
-            ''' <remarks></remarks>
-            Coils
-        End Enum
-
-        Friend ReadOnly StructureTypesToChar As Dictionary(Of ChouFasman.SecondaryStructures, String) =
-            New Dictionary(Of SecondaryStructures, String) From {
-                {SecondaryStructures.AlphaHelix, "@"},
-                {SecondaryStructures.BetaSheet, "-"},
-                {SecondaryStructures.BetaTurn, "^"},
-                {SecondaryStructures.Coils, "&"}
+        Friend ReadOnly StructureTypesToChar As New Dictionary(Of SecondaryStructures, String) From {
+            {SecondaryStructures.AlphaHelix, "@"},
+            {SecondaryStructures.BetaSheet, "-"},
+            {SecondaryStructures.BetaTurn, "^"},
+            {SecondaryStructures.Coils, "&"}
         }
 
         Private Function __sequenceData(SequenceData As String) As AminoAcid()
@@ -134,13 +106,15 @@ Namespace ProteinModel.ChouFasmanRules
         ''' <param name="sequence"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Calculate(sequence As IPolymerSequenceModel) As AminoAcid()
             Return ChouFasman.Calculate(sequence.SequenceData)
         End Function
 
         Public Function ToString(aa As AminoAcid()) As String
-            Dim aa_Builder As StringBuilder = New StringBuilder(aa.Length - 1)
-            Dim st_Builder As StringBuilder = New StringBuilder(aa.Length - 1)
+            Dim aa_Builder As New StringBuilder(aa.Length - 1)
+            Dim st_Builder As New StringBuilder(aa.Length - 1)
 
             For Each residue As AminoAcid In aa
                 Call aa_Builder.Append(Polypeptide.ToChar(residue.AminoAcid))

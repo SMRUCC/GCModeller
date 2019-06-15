@@ -1,56 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::17705357aa6f91e0ab03f281b33ee0bf, Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\AminoAcid.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class AminoAcid
-    ' 
-    '         Properties: [StructureType], AminoAcid, Coil, HelixSheetOverlap, HelixTurnOverlap
-    '                     SheetTurnOverlap, StructureChar
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class AminoAcid
+' 
+'         Properties: [StructureType], AminoAcid, Coil, HelixSheetOverlap, HelixTurnOverlap
+'                     SheetTurnOverlap, StructureChar
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace ProteinModel.ChouFasmanRules
 
     Public Class AminoAcid
 
-        Public ReadOnly Property AminoAcid As SequenceModel.Polypeptides.AminoAcid
+        Public ReadOnly Property AminoAcid As Polypeptides.AminoAcid
 
         Protected Friend _MaskAlphaHelix As Boolean
         Protected Friend _MaskBetaSheet_ As Boolean
@@ -62,7 +63,7 @@ Namespace ProteinModel.ChouFasmanRules
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property [StructureType] As ChouFasman.SecondaryStructures
+        Public Property [StructureType] As SecondaryStructures
 
         ''' <summary>
         ''' 使用一个字符用来表示的二级结构特征
@@ -76,8 +77,8 @@ Namespace ProteinModel.ChouFasmanRules
             End Get
         End Property
 
-        Sub New(Type As SequenceModel.Polypeptides.AminoAcid)
-            _AminoAcid = Type
+        Sub New(aa As Polypeptides.AminoAcid)
+            _AminoAcid = aa
         End Sub
 
         Protected Friend ReadOnly Property HelixSheetOverlap As Boolean
