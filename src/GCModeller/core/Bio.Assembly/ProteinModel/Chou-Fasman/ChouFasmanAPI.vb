@@ -50,8 +50,10 @@
 #End Region
 
 Imports System.Text
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
-Namespace SequenceModel.Polypeptides.SecondaryStructure
+Namespace ProteinModel.ChouFasmanRules
 
     ''' <summary>
     ''' @ - <see cref="ChouFasman.SecondaryStructures.AlphaHelix"></see>;
@@ -117,11 +119,11 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure
         ''' <remarks></remarks>
         Public Function Calculate(sequence As String) As AminoAcid()
             Dim SequenceData As AminoAcid() = __sequenceData(sequence)
-            Dim AlphaMaskCounts = ChouFasmanRules.RuleAlphaHelix.Invoke(SequenceData)
-            Dim BetaSheetMasks_ = ChouFasmanRules.RuleBetaSheet.Invoke(SequenceData)
-            Dim BetaTurnMasks__ = ChouFasmanRules.RuleBetaTurn.Invoke(SequenceData)
+            Dim AlphaMaskCounts = Rules.RuleAlphaHelix.Invoke(SequenceData)
+            Dim BetaSheetMasks_ = Rules.RuleBetaSheet.Invoke(SequenceData)
+            Dim BetaTurnMasks__ = Rules.RuleBetaTurn.Invoke(SequenceData)
 
-            Call ChouFasmanRules.RuleOverlap.Invoke(SequenceData)
+            Call Rules.RuleOverlap.Invoke(SequenceData)
 
             Return SequenceData
         End Function
@@ -141,7 +143,7 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure
             Dim st_Builder As StringBuilder = New StringBuilder(aa.Length - 1)
 
             For Each residue As AminoAcid In aa
-                Call aa_Builder.Append(SequenceModel.Polypeptides.Polypeptide.ToChar(residue.AminoAcid))
+                Call aa_Builder.Append(Polypeptide.ToChar(residue.AminoAcid))
                 Call st_Builder.Append(ChouFasman.StructureTypesToChar(residue.StructureType))
             Next
 

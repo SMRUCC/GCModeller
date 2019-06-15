@@ -46,7 +46,7 @@
 
 Imports System.Text
 
-Namespace SequenceModel.Polypeptides.SecondaryStructure
+Namespace ProteinModel.ChouFasmanRules
 
     Public Class AminoAcid
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9269066b436baa41951ff8efb3a6d8f, Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleBetaSheet.vb"
+﻿#Region "Microsoft.VisualBasic::14eed0851fb59abe29ea8fa787d19092, Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleAlphaHelix.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,9 @@
 
     ' Summaries:
 
-    '     Module RuleBetaSheet
+    '     Module RuleAlphaHelix
     ' 
-    '         Function: CalculateCore, ExtendCore, Invoke
+    '         Function: CalculateCore, ExtendCore, get_ProPosition, Invoke
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,9 +42,9 @@
 
 Imports SMRUCC.genomics.ComponentModel.Loci
 
-Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
+Namespace ProteinModel.ChouFasmanRules.Rules
 
-    Public Module RuleBetaSheet
+    Public Module RuleAlphaHelix
 
         ''' <summary>
         ''' Invoke calculation
@@ -54,7 +54,7 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
         Public Function Invoke(SequenceData As AminoAcid()) As Integer
             Dim SequenceEnums As SequenceModel.Polypeptides.AminoAcid() = (From token In SequenceData Select token.AminoAcid).ToArray
             Dim ChunkBuffer As SequenceModel.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.AminoAcid(CORE_LENGTH - 1) {}
-            Dim Count_bs As Integer = 0
+            Dim Count_a As Integer = 0
             Dim pp As Integer
 
             For i As Integer = 0 To SequenceEnums.Count - (CORE_LENGTH + 1)
@@ -63,22 +63,21 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
 
                 If CalculateCore(ChunkBuffer) Then '计算核心
                     Dim Segment = ExtendCore(SequenceEnums, i, CORE_LENGTH) '延伸核心
-                    Dim TempChunk As SequenceModel.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.AminoAcid(Segment.FragmentSize - 1) {}
-                    Call Array.ConstrainedCopy(SequenceEnums, Segment.Left, TempChunk, 0, Segment.FragmentSize)
-
-                    Dim Avg_Pa As Double = Avg(TempChunk, AddressOf ChouFasmanParameter.Get_Pa), Avg_Pb As Double = Avg(TempChunk, AddressOf ChouFasmanParameter.Get_Pb)
-
-                    If Avg_Pb > 105 AndAlso Avg_Pb > Avg_Pa Then
-                        For p As Integer = Segment.Left To Segment.Right
-                            SequenceData(p)._MaskBetaSheet_ = True
-                        Next
-                        i = If(Segment.Right > pp, Segment.Right, pp + 1)
-                        pp = i
+                    If Segment.FragmentSize > 5 Then
+                        Dim TempChunk As SequenceModel.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.AminoAcid(Segment.FragmentSize - 1) {}
+                        Call Array.ConstrainedCopy(SequenceEnums, Segment.Left, TempChunk, 0, Segment.FragmentSize)
+                        If Avg(TempChunk, AddressOf ChouFasmanParameter.Get_Pa) > Avg(TempChunk, AddressOf ChouFasmanParameter.Get_Pb) Then
+                            For p As Integer = Segment.Left To Segment.Right
+                                SequenceData(p)._MaskAlphaHelix = True
+                            Next
+                            i = If(Segment.Right > pp, Segment.Right, pp + 1)
+                            pp = i
+                        End If
                     End If
                 End If
             Next
 
-            Return Count_bs
+            Return Count_a
         End Function
 
         Private Function ExtendCore(SequenceData As SequenceModel.Polypeptides.AminoAcid(), i As Integer, Length As Integer) As Location
@@ -92,6 +91,16 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
                 If Pa_avg < 100 OrElse p = 0 Then
                     Left = p
                     Exit For
+                Else
+                    Dim pp = p
+                    Dim p_Pro = get_ProPosition(ChunkBuffer, pp:=Function(i_Pro As Integer) pp - i_Pro)
+
+                    If Not p_Pro.IsNullOrEmpty Then
+                        If p_Pro.Min > 3 AndAlso p_Pro.Min < SequenceData.Count - 3 Then
+                            Left = p
+                            Exit For
+                        End If
+                    End If
                 End If
             Next
 
@@ -102,17 +111,30 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
                 If Pa_avg < 100 OrElse p = d Then
                     Right = p + Length
                     Exit For
+                Else
+                    Dim pp = p
+                    Dim p_Pro = get_ProPosition(ChunkBuffer, pp:=Function(i_Pro As Integer) i_Pro + pp)
+
+                    If Not p_Pro.IsNullOrEmpty Then
+                        If p_Pro.Max < SequenceData.Count - 3 AndAlso p_Pro.Min > 3 Then
+                            Right = p - 1 + Length
+                            Exit For
+                        End If
+                    End If
                 End If
             Next
 
-            Return New Location With {
-                .Left = Left,
-                .Right = Right
-            }
+            Return New Location With {.Left = Left, .Right = Right}
+        End Function
+
+        Private Function get_ProPosition(ChunkBuffer As SequenceModel.Polypeptides.AminoAcid(), pp As Func(Of Integer, Integer)) As Integer()
+            Dim p_Pro = (From i_Pro As Integer In ChunkBuffer.Sequence Let Token As SequenceModel.Polypeptides.AminoAcid = ChunkBuffer(i_Pro)
+                         Where Token = SequenceModel.Polypeptides.AminoAcid.Praline Select pp(i_Pro)).ToArray
+            Return p_Pro
         End Function
 
         Private Function CalculateCore(ChunkBuffer As SequenceModel.Polypeptides.AminoAcid()) As Boolean
-            Dim LQuery = (From token In ChunkBuffer Let p = ChouFasmanTable(token).P_b Where p > 100 Select 1).ToArray
+            Dim LQuery = (From token In ChunkBuffer Let p = ChouFasmanTable(token).P_a Where p > 100 Select 1).ToArray
             Return (LQuery.Count / ChunkBuffer.Count) > PROPORTION
         End Function
     End Module

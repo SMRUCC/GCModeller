@@ -42,7 +42,7 @@
 
 Imports Microsoft.VisualBasic
 
-Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
+Namespace ProteinModel.ChouFasmanRules.Rules
 
     Public Module RuleOverlap
 

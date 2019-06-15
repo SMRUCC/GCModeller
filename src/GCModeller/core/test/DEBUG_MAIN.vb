@@ -99,7 +99,7 @@ Module DEBUG_MAIN
         Pause()
 
 
-        Dim cpdTest As KEGG.DBGET.bGetObject.Compound = MetaboliteDBGET.DownloadCompoundFrom("G:\GCModeller\GCModeller\test\KEGG\dbget\cpd_Test.html") 'MetabolitesDBGet.DownloadCompound("C00311")
+        Dim cpdTest As KEGG.DBGET.bGetObject.Compound = MetaboliteWebApi.DownloadCompound("G:\GCModeller\GCModeller\test\KEGG\dbget\cpd_Test.html") 'MetabolitesDBGet.DownloadCompound("C00311")
 
         ' Call "http://www.kegg.jp/dbget-bin/www_bget?gl:G00112".GET.SaveTo("x:\gl_Test.html")
 
