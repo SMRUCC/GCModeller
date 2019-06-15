@@ -41,7 +41,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.DataMining.Serials.PeriodAnalysis
+Imports Microsoft.VisualBasic.Math.SignalProcessing.Serials.PeriodAnalysis
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace GeneticClock
