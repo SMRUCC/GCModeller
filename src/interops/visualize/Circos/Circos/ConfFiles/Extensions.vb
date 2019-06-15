@@ -48,7 +48,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
 Namespace Configurations
 
@@ -86,26 +85,6 @@ Namespace Configurations
             End If
 
             Return String.Format("<{0}>{1}{2}{1}</{0}>", tag, vbCrLf, sb.ToString)
-        End Function
-
-        ''' <summary>
-        ''' 不可以使用并行拓展，因为有顺序之分
-        ''' 
-        ''' {SpeciesName, Color}
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        ''' 
-        <Extension>
-        Public Function GetBlastAlignmentData(circos As Circos) As NamedValue(Of String)()
-            Dim LQuery As NamedValue(Of String)() =
-                LinqAPI.Exec(Of NamedValue(Of String)) <= From trackPlot As ITrackPlot
-                                                          In circos.Plots
-                                                          Where String.Equals(trackPlot.type, "highlight", StringComparison.OrdinalIgnoreCase) AndAlso
-                                                              TypeOf trackPlot.TracksData Is BlastMaps
-                                                          Let Alignment = DirectCast(trackPlot.TracksData, BlastMaps)
-                                                          Select New NamedValue(Of String)(Alignment.SubjectSpecies, Alignment.SpeciesColor)
-            Return LQuery
         End Function
     End Module
 End Namespace

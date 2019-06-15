@@ -171,6 +171,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -194,8 +195,7 @@
     <Compile Include="localblast\BlastMaps.vb" />
     <Compile Include="localblast\Module1.vb" />
     <Compile Include="localblast\DataExtensions.vb" />
-    <Compile Include="COG\COGColors.vb" />
-    <Compile Include="COG\MvyaColorProfile.vb" />
+    <Compile Include="localblast\Legends.vb" />
     <Compile Include="localblast\PPTMarksHelper.vb" />
     <Compile Include="NameExtensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

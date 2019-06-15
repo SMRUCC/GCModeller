@@ -226,6 +226,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Colors\Maps\COG\COGColors.vb" />
+    <Compile Include="Colors\Maps\COG\MvyaColorProfile.vb" />
     <Compile Include="Colors\Maps\LevelMapGenerator.vb" />
     <Compile Include="Colors\Maps\NtPropsMapsExtensions.vb" />
     <Compile Include="Colors\PerlColor.vb" />

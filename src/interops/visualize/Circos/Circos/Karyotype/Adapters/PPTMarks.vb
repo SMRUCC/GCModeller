@@ -44,10 +44,13 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.NCBI.COG.COGs
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Visualize.Circos.Colors
 
 Namespace Karyotype.GeneObjects
 
@@ -59,7 +62,13 @@ Namespace Karyotype.GeneObjects
 
         Public Overrides ReadOnly Property Size As Integer
 
-        Sub New(genome As PTTDbLoader, Optional MyvaCog As MyvaCOG() = Nothing, Optional defaultColor As String = "blue")
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="genome"></param>
+        ''' <param name="MyvaCog">基因的功能分类注释数据</param>
+        ''' <param name="defaultColor"></param>
+        Sub New(genome As PTTDbLoader, Optional MyvaCog As ICOGCatalog() = Nothing, Optional defaultColor As String = "blue")
             If genome Is Nothing Then
                 Throw New Exception("No data was found in the genome information!")
             End If
@@ -74,21 +83,21 @@ Namespace Karyotype.GeneObjects
         End Sub
 
         Sub New(genes As GeneDumpInfo(), nt As FastaSeq, Optional defaultColor As String = "blue")
-            Dim MyvaCog = LinqAPI.Exec(Of MyvaCOG) <=
+            Dim MyvaCog = LinqAPI.Exec(Of ICOGCatalog) <=
                 From gene As GeneDumpInfo
                 In genes
-                Select New MyvaCOG With {
-                    .COG = gene.COG,
-                    .QueryName = gene.LocusID,
-                    .QueryLength = gene.Length
+                Select New COGTable With {
+                    .COGId = gene.COG,
+                    .ProteinID = gene.LocusID,
+                    .ProteinLength = gene.Length
                 }
             Dim genome = PTTDbLoader.CreateObject(genes, nt)
             bands = PTTMarks.Generate(genome, MyvaCog, defaultColor).AsList
             Call singleKaryotypeChromosome()
         End Sub
 
-        Private Shared Iterator Function Generate(GenomeBrief As PTTDbLoader, MyvaCog As MyvaCOG(), Optional defaultColor As String = "blue") As IEnumerable(Of Band)
-            Dim GetColorProfile As Func(Of String, String) = GetCogColorProfile(MyvaCog, defaultColor)
+        Private Shared Iterator Function Generate(GenomeBrief As PTTDbLoader, MyvaCog As ICOGCatalog(), Optional defaultColor As String = "blue") As IEnumerable(Of Band)
+            Dim GetColorProfile As Func(Of String, String) = COGColors.GetCogColorProfile(MyvaCog, defaultColor)
             Dim genome As PTT = GenomeBrief.ORF_PTT
 
             If Not genome Is Nothing AndAlso Not genome.GeneObjects.IsNullOrEmpty Then
