@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e9e9e654bd1f8e35308f4b2b3029d5c, Bio.Assembly\Assembly\UniProt\XML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::18e186189f3c7e292d7aff07b3c34f27, Bio.Assembly\Assembly\UniProt\XML\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     '     Module Extensions
     ' 
-    '         Function: ECNumberList, EnumerateAllIDs, GetDomainData, ORF, OrganismScientificName
-    '                   proteinFullName, SubCellularLocations, Term2Gene
+    '         Function: ECNumberList, EnumerateAllIDs, GetDomainData, KO, ORF
+    '                   OrganismScientificName, proteinFullName, ProteinSequence, SubCellularLocations, Term2Gene
     ' 
     ' 
     ' /********************************************************************************/

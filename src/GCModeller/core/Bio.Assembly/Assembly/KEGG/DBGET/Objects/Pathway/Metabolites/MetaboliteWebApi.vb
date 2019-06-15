@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c700a8a1bd5086f8d9aec1139103a04f, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb"
+﻿#Region "Microsoft.VisualBasic::9adf6b4f82ebcede9b1c93eafc87de94, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetaboliteWebApi.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,9 @@
 
     ' Summaries:
 
-    '     Module MetaboliteDBGET
+    '     Module MetaboliteWebApi
     ' 
-    '         Function: __parseNamedData, DownloadCompound, DownloadCompoundFrom, FetchTo, GetCommonNames
-    '                   GetDBLinks, LoadCompoundObject, MatchByName, ParseCompound, ScanLoad
-    '                   TryParse
+    '         Function: DownloadCompound, FetchTo, LoadCompoundObject, MatchByName, ScanLoad
     ' 
     ' 
     ' /********************************************************************************/

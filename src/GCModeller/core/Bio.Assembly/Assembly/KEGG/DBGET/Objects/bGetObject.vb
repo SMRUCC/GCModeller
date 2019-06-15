@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4ae3d36874d08adbadc47e05a3979db, Bio.Assembly\Assembly\KEGG\DBGET\Objects\bGetObject.vb"
+﻿#Region "Microsoft.VisualBasic::d08fe697207589b38172c75dc38258f1, Bio.Assembly\Assembly\KEGG\DBGET\Objects\bGetObject.vb"
 
     ' Author:
     ' 

@@ -1,111 +1,120 @@
-﻿#Region "Microsoft.VisualBasic::da550f774a4c3e6e70e7e93dedd26045, Bio.Assembly\Assembly\UniProt\XML\Model\Data.vb"
+﻿#Region "Microsoft.VisualBasic::366eca8b7342491209d8a04ac16d8e15, Bio.Assembly\Assembly\UniProt\XML\Model\Data.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class sequence
-' 
-'         Properties: checksum, length, mass, modified, sequence
-'                     version
-' 
-'         Function: ToString
-' 
-'     Class gene
-' 
-'         Properties: names, ORF, Primary
-' 
-'         Function: HaveKey, ToString
-' 
-'     Class organism
-' 
-'         Properties: commonName, dbReference, evidence, lineage, names
-'                     namesData, scientificName
-' 
-'     Class lineage
-' 
-'         Properties: taxonlist
-' 
-'     Class protein
-' 
-'         Properties: alternativeNames, FullName, recommendedName, submittedName
-' 
-'     Class feature
-' 
-'         Properties: description, evidence, location, original, type
-'                     value, variation
-' 
-'         Function: ToString
-' 
-'     Class location
-' 
-'         Properties: [end], begin, IsRegion, IsSite, position
-' 
-'         Function: ToString
-' 
-'     Class position
-' 
-'         Properties: position
-' 
-'         Function: ToString
-' 
-'     Class recommendedName
-' 
-'         Properties: ecNumber, fullName, shortNames
-' 
-'     Class value
-' 
-'         Properties: description, evidence, id, type, value
-' 
-'         Function: ToString
-' 
-'     Class dbReference
-' 
-'         Properties: id, molecule, properties, type
-' 
-'         Function: ToString
-' 
-'     Structure molecule
-' 
-'         Properties: id
-' 
-'         Function: ToString
-' 
-'     Class [property]
-' 
-'         Properties: type, value
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class sequence
+    ' 
+    '         Properties: checksum, length, mass, modified, sequence
+    '                     version
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class gene
+    ' 
+    '         Properties: names, ORF, Primary
+    ' 
+    '         Function: HaveKey, ToString
+    ' 
+    '     Class organism
+    ' 
+    '         Properties: commonName, dbReference, evidence, lineage, names
+    '                     namesData, scientificName
+    ' 
+    '     Class lineage
+    ' 
+    '         Properties: taxonlist
+    ' 
+    '     Class protein
+    ' 
+    '         Properties: alternativeNames, fullName, recommendedName, submittedName
+    ' 
+    '         Function: ToString
+    ' 
+    '     Enum featureTypes
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class feature
+    ' 
+    '         Properties: description, evidence, location, original, status
+    '                     type, value, variation
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class location
+    ' 
+    '         Properties: [end], begin, IsRegion, IsSite, position
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class position
+    ' 
+    '         Properties: position, status
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class recommendedName
+    ' 
+    '         Properties: ecNumber, fullName, shortNames
+    ' 
+    '     Class value
+    ' 
+    '         Properties: description, evidence, id, type, value
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class dbReference
+    ' 
+    '         Properties: id, molecule, properties, type
+    ' 
+    '         Function: ToString
+    ' 
+    '     Structure molecule
+    ' 
+    '         Properties: id
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class [property]
+    ' 
+    '         Properties: type, value
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

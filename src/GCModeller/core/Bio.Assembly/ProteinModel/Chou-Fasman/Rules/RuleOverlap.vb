@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::625f072a89d7fac7b21f424fa64d7ba6, Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleOverlap.vb"
+﻿#Region "Microsoft.VisualBasic::318b57966ecb29fa31074d6a8baf1361, Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleOverlap.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9bdc77332dc0effb617c046a48bff418, Bio.Assembly\SequenceModel\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::757027966b3bf196f243538bdb69a204, Bio.Assembly\SequenceModel\Abstract.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,14 @@
 
     ' Summaries:
 
+    '     Enum SeqTypes
+    ' 
+    '         DNA, Protein, RNA
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
     '     Interface IPolymerSequenceModel
     ' 
     '         Properties: SequenceData

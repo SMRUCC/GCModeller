@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f39aed596265e04305a24f47e7d478c, Bio.Assembly\ContextModel\GenomeContext.vb"
+﻿#Region "Microsoft.VisualBasic::c1fdc439c7da6e9621e966033a80e835, Bio.Assembly\ContextModel\GenomeContext.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class GenomeContext
     ' 
-    '         Properties: AllFeatureKeys, N
+    '         Properties: AllFeatureKeys, N, size
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: Absent, Delta, GetByFeature, SelectByRange, selectByStrand

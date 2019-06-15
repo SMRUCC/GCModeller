@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7dcd24c8b9794198c251f8bafa837cc4, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::de63fca553f9d9a05f09ab3af12dcbc1, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Compound.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,9 @@
 
     '     Class Compound
     ' 
-    '         Properties: __cheBI, __pubChem, CHEBI, CommonName, ComponentOf
-    '                     Components, DBLinks, Identifier, KEGGCompound, MolecularWeight
-    '                     MonoisotopicMW, Names, PUBCHEM, Regulates, Table
-    '                     Types
+    '         Properties: CHEBI, CommonName, ComponentOf, Components, DBLinks
+    '                     Identifier, KEGGCompound, MolecularWeight, MonoisotopicMW, Names
+    '                     PUBCHEM, Regulates, Table, Types
     ' 
     '         Function: GetDBLinkManager, GetMolecularWeight, Trim, TrimHTML
     ' 

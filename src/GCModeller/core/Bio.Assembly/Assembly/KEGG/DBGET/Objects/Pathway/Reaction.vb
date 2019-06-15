@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5647f1ceb681956f24bc8743d7f79185, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::18d49e4ae46647948bbe5a7fa3acaaf5, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,11 @@
 
     ' Summaries:
 
-    '     Structure OrthologyTerms
+    '     Class OrthologyTerms
     ' 
-    '         Properties: EntityList, Length, Terms
+    '         Properties: EntityList, Terms
     ' 
-    '         Function: ToString
+    '         Function: getCollection, getSize, ToString
     ' 
     '     Class Reaction
     ' 

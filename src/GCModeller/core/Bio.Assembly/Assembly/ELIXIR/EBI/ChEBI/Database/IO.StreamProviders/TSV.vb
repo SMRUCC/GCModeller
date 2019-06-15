@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ac493c578bb8f4b52b1cc32444db9c0, Bio.Assembly\Assembly\EBI\ChEBI\Database\IO.StreamProviders\TSV.vb"
+﻿#Region "Microsoft.VisualBasic::ebc026f8741786ef997fde490c6158a1, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\TSV.vb"
 
     ' Author:
     ' 

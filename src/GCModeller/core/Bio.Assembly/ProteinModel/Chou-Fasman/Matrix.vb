@@ -1,48 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::1cae69105bb239d1034657a94c6d5334, Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::83b25d99bd3e55b5f063818e56c866cf, Bio.Assembly\ProteinModel\Chou-Fasman\Matrix.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module MatrixAPI
-' 
-'         Function: Avg
-' 
-'     Structure ChouFasmanParameter
-' 
-'         Properties: ChouFasmanTable
-' 
-'         Function: Get_Pa, Get_Pb, Get_Pt
-' 
-' 
-' /********************************************************************************/
+    '     Module MatrixAPI
+    ' 
+    '         Function: Avg
+    ' 
+    '     Structure ChouFasmanParameter
+    ' 
+    '         Properties: ChouFasmanTable
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

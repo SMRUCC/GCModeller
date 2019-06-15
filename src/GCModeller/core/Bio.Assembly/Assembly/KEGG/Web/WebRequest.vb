@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab511cfcdcce9acdde5e9a725628e757, Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::fee7fa1ccbf9defe24d77c2e82e208ab, Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
 
     ' Author:
     ' 
@@ -38,8 +38,7 @@
     ' 
     '             Function: __downloadDirect, __downloads, __queryEntryParser, BatchQuery, Download16S_rRNA
     '                       Downloads, DownloadsBatch, DownloadSequence, (+2 Overloads) FetchNt, (+2 Overloads) FetchSeq
-    '                       fetchSequence, GetPageContent, GetQueryEntry, GetSpCode, (+2 Overloads) HandleQuery
-    '                       LoadList
+    '                       GetPageContent, GetQueryEntry, GetSpCode, (+2 Overloads) HandleQuery, LoadList
     ' 
     ' 
     ' 

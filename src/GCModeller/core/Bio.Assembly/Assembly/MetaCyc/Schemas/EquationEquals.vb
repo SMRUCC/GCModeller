@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27a2cc8281461f9b9698679b2c6fe5c1, Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
+﻿#Region "Microsoft.VisualBasic::34f01dfa8a44ec00cbdd0919ae0dfc40, Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,6 @@
     ' 
     '         Properties: CompoundMapping
     ' 
-    '         Constructor: (+2 Overloads) Sub New
     '         Function: (+2 Overloads) Equals, SideEquals, SideEqualsExplicit, SideEqualsNOTExplicit
     ' 
     ' 
