@@ -54,7 +54,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 
-Namespace ComponentModel
+Namespace ComponentModel.Annotation
 
     ''' <summary>
     ''' Enzyme Commission Number

@@ -47,7 +47,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
-Namespace ComponentModel
+Namespace ComponentModel.Annotation
 
     Public MustInherit Class PathwayBrief : Inherits XmlDataModel
         Implements IKeyValuePairObject(Of String, String)

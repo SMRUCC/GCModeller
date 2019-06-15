@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace ComponentModel
+Namespace ComponentModel.Annotation
 
     Public Class CatalogProfiling
         Implements IGrouping(Of String, String)
@@ -70,7 +70,7 @@ Namespace ComponentModel
         ''' A list of gene ID that belongs to this catalog classify.
         ''' </summary>
         ''' <returns></returns>
-        Public Property IDs As String() Implements Value(Of String()).IValueOf.value
+        Public Property IDs As String() Implements Value(Of String()).IValueOf.Value
             Get
                 Return list.ToArray
             End Get
