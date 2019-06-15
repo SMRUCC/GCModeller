@@ -269,7 +269,7 @@
       <Name>math-core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\SignalProcessing\SignalProcessing\SignalProcessing.vbproj">
-      <Project>{83975074-CBE1-4ABC-BA91-91D63DA156C8}</Project>
+      <Project>{83975074-cbe1-4abc-ba91-91d63da156c8}</Project>
       <Name>SignalProcessing</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\Plots.vbproj">
