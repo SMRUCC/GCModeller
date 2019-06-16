@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::4598f3004f50fce0b7227c2993f25c11, LocalBLAST\Web\ParserAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module AlignmentTableParserAPI
-    ' 
-    '         Function: (+2 Overloads) __createFromBlastn, __hits, __hspHits, __parseTable, CreateFromBlastn
-    '                   CreateFromBlastnFile, CreateFromBlastnFiles, CreateFromBlastX, IterateTables, LoadTable
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module AlignmentTableParserAPI
+' 
+'         Function: (+2 Overloads) __createFromBlastn, __hits, __hspHits, __parseTable, CreateFromBlastn
+'                   CreateFromBlastnFile, CreateFromBlastnFiles, CreateFromBlastX, IterateTables, LoadTable
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,13 +49,22 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 
 Namespace NCBIBlastResult
 
-    ''' <summary>
-    ''' 从NCBI网站之中下载的比对结果的表格文本文件之中进行数据的解析操作
-    ''' </summary>
-    Public Module AlignmentTableParserAPI
+    Public Module AlignmentTableParser
+
+        ''' <summary>
+        ''' 当文件之中包含有多个表的时候使用
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function IterateTables(path$, headerSplit As Boolean) As IEnumerable(Of AlignmentTable)
+            Return HitTableParser.IterateTables(path, headerSplit)
+        End Function
 
         ''' <summary>
         ''' 适用于一个文件只有一个表的时候
@@ -65,93 +74,10 @@ Namespace NCBIBlastResult
         ''' 当<see cref="HitRecord.SubjectIDs"/>之中包含有多个比对结果序列的时候，是否使用分号``;``作为分隔符将表头分开？默认不分开
         ''' </param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function LoadTable(path$, Optional headerSplit As Boolean = False) As AlignmentTable
-            Dim lines$() = LinqAPI.Exec(Of String) <=
- _
-                From s As String
-                In path.ReadAllLines
-                Where Not String.IsNullOrEmpty(s)
-                Select s
-
-            Dim header$() = LinqAPI.Exec(Of String) <=
- _
-                From s As String
-                In lines
-                Where InStr(s, "# ") = 1
-                Select s
-
-            If lines.IsNullOrEmpty Then
-                Throw New InvalidExpressionException($"Target alignment table file ""{path}"" have no data!")
-            End If
-
-            Return lines _
-                .Skip(header.Length) _
-                .ToArray _
-                .__parseTable(path$, header, headerSplit)
-        End Function
-
-        <Extension>
-        Private Function __parseTable(lines$(), path$, header$(), headerSplit As Boolean) As AlignmentTable
-            Dim hits As HitRecord() = lines _
-                .Select(AddressOf HitRecord.Mapper).ToArray
-            Dim headAttrs As Dictionary(Of String, String) =
-                header _
-                .Skip(1) _
-                .Select(Function(s) s.GetTagValue(": ")) _
-                .ToDictionary(Function(x) x.Name,
-                              Function(x) x.Value)
-
-            If headerSplit Then
-                hits = hits _
-                    .Select(Function(x) x.SplitByHeaders) _
-                    .ToVector
-            End If
-
-            Return New AlignmentTable With {
-                .Hits = hits,
-                .Program = header.First.Trim.Split.Last,
-                .Query = headAttrs("# Query"),
-                .Database = headAttrs("# Database"),
-                .RID = headAttrs("# RID")
-            }
-        End Function
-
-        ''' <summary>
-        ''' 当文件之中包含有多个表的时候使用
-        ''' </summary>
-        ''' <param name="path$"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Iterator Function IterateTables(path$, headerSplit As Boolean) As IEnumerable(Of AlignmentTable)
-            Dim headers As New List(Of String)
-            Dim lines As New List(Of String)
-            Dim line As New Value(Of String)
-            Dim reader As StreamReader = path.OpenReader
-
-            Do While Not reader.EndOfStream
-                Do While (line = reader.ReadLine).First = "#"c
-                    headers += (+line)
-                Loop
-
-                lines += (+line)
-
-                Do While Not String.IsNullOrEmpty(line = reader.ReadLine) AndAlso
-                    (+line).First <> "#"c
-                    lines += (+line)
-                Loop
-
-                Yield lines.ToArray.__parseTable(path$, headers, headerSplit)
-
-                headers *= 0
-                lines *= 0
-                headers += (+line)
-
-                If String.IsNullOrEmpty(headers.First) Then
-                    Do While Not reader.EndOfStream AndAlso String.IsNullOrEmpty(line = reader.ReadLine)
-                    Loop
-                    headers += (+line)
-                End If
-            Loop
+            Return HitTableParser.LoadTable(path, headerSplit)
         End Function
 
         Private Function __createFromBlastn(sId As String, out As v228) As HitRecord()
