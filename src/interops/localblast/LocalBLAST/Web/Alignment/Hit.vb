@@ -181,18 +181,5 @@ Namespace NCBIBlastResult.WebBlast
                 Return String.Format("[{0}, {1}]   ===> {2}", QueryStart, QueryEnd, SubjectIDs)
             End If
         End Function
-
-        Public Shared Iterator Function TopBest(raw As IEnumerable(Of HitRecord)) As IEnumerable(Of HitRecord)
-            Dim gg = From x As HitRecord In raw Select x Group x By x.QueryID Into Group
-
-            For Each groups In gg
-                Dim orders = From x As HitRecord
-                             In groups.Group
-                             Select x
-                             Order By x.Identity Descending
-
-                Yield orders.First
-            Next
-        End Function
     End Class
 End Namespace

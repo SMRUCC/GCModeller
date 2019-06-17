@@ -47,7 +47,6 @@
 #End Region
 
 Imports System.Text
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -89,20 +88,6 @@ Namespace NCBIBlastResult.WebBlast
 
         Public Overrides Function ToString() As String
             Return $"[{RID}]  {Program} -query {Query} -database {Database}  // {Hits.Length} hits found."
-        End Function
-
-        Const LOCUS_ID As String = "(emb|gb|dbj)\|[a-z]+\d+"
-
-        Public Function GetHitsEntryList() As String()
-            Dim LQuery As String() =
-                LinqAPI.Exec(Of String) <= From hit As HitRecord
-                                           In Me.Hits
-                                           Let hitID As String =
-                                               Regex.Match(hit.SubjectIDs, LOCUS_ID, RegexICSng).Value
-                                           Where Not String.IsNullOrEmpty(hitID)
-                                           Select hitID.Split(CChar("|")).Last
-                                           Distinct
-            Return LQuery
         End Function
 
         ''' <summary>
@@ -178,19 +163,6 @@ Namespace NCBIBlastResult.WebBlast
         ''' <returns></returns>
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return Me.GetXml.SaveTo(Path, encoding)
-        End Function
-
-        ''' <summary>
-        ''' 导出绘制的顺序
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks>这里不能够使用并行拓展</remarks>
-        Public Function ExportOrderByGI() As String()
-            Dim LQuery As String() = (From hit As HitRecord
-                                      In Hits
-                                      Select hit.GI.FirstOrDefault
-                                      Distinct).ToArray
-            Return LQuery
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
