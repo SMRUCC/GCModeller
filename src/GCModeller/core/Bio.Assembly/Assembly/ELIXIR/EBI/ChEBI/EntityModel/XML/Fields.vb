@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::809b5b976c4fff075620a680fde5988c, Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\XML\Fields.vb"
+﻿#Region "Microsoft.VisualBasic::1422b7b23ec4e6bb39c610347b850b65, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\Fields.vb"
 
     ' Author:
     ' 

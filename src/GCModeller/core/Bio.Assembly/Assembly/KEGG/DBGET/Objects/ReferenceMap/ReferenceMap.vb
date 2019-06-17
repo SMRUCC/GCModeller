@@ -1,46 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::e25c66218b8b02a318a9a950e928b1a5, Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb"
+﻿#Region "Microsoft.VisualBasic::85241c6ef44f2207457932969f8fe035, Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ReferenceMapData
-    ' 
-    '         Properties: [Class], [Module], Disease, Name, OtherDBs
-    '                     Reactions, ReferenceGenes, References
-    ' 
-    '         Function: __DBLinksParser, __diseaseParser, __downloadRefRxn, __parserLinks, Download
-    '                   (+2 Overloads) GetGeneOrthology, GetPathwayGenes, GetReaction
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ReferenceMapData
+' 
+'         Properties: [Class], [Module], Disease, Name, OtherDBs
+'                     Reactions, ReferenceGenes, References
+' 
+'         Function: __DBLinksParser, __diseaseParser, __downloadRefRxn, __parserLinks, Download
+'                   (+2 Overloads) GetGeneOrthology, GetPathwayGenes, GetReaction
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Assembly.KEGG.DBGET.ReferenceMap
@@ -63,7 +64,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
     ''' <remarks></remarks>
     ''' 
     <XmlType("KEGG-ReferenceMapData", Namespace:="http://code.google.com/p/genome-in-code/kegg/reference_map_data")>
-    Public Class ReferenceMapData : Inherits ComponentModel.PathwayBrief
+    Public Class ReferenceMapData : Inherits PathwayBrief
 
         ''' <summary>
         ''' 直系同源的参考基因
@@ -147,7 +148,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
             Dim RefMap As New ReferenceMapData With {.EntryId = ID}
 
             RefMap.Name = Form("Name").FirstOrDefault
-            RefMap.Description = Form("Description").FirstOrDefault
+            RefMap.description = Form("Description").FirstOrDefault
             RefMap.Class = Form("Class").FirstOrDefault
 
             Dim sValue As String

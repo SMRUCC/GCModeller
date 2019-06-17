@@ -80,8 +80,7 @@ Namespace Assembly.NCBI.COG.COGs
     ''' the class listed first Is considered to be primary.
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class COGName
-        Implements INamedValue
+    Public Class COGName : Implements INamedValue
 
         ''' <summary>
         ''' COG-id

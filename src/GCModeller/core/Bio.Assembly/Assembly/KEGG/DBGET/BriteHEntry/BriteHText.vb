@@ -1,47 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::a5c88dbcdb495b1b416ddf33d70cd77a, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb"
+﻿#Region "Microsoft.VisualBasic::26a856576c47be28a867a33c36480940, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class BriteHText
-' 
-'         Properties: [Class], CategoryItems, CategoryLevel, ClassLabel, Degree
-'                     Description, EntryId, Level, Parent
-' 
-'         Function: BuildPath, EnumerateEntries, GetEntries, GetHPath, GetRoot
-'                   (+2 Overloads) Load, Load_ko00001, Load_ko00002, LoadData, NormalizePath
-'                   ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class BriteHText
+    ' 
+    '         Properties: [class], categoryItems, CategoryLevel, classLabel, degree
+    '                     description, entryID, level, parent
+    ' 
+    '         Function: BuildPath, EnumerateEntries, GetEntries, GetHPath, GetRoot
+    '                   Load, Load_ko00001, Load_ko00002, NormalizePath, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

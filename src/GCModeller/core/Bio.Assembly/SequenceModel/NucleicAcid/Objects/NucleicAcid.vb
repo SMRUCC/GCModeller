@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::012af44e3fcfa87d2fe57136ef6078f7, Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::2b4a17cf7e780f7e951777b213fbb7c4, Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
 
     ' Author:
     ' 
@@ -37,17 +37,12 @@
     ' 
     '         Constructor: (+6 Overloads) Sub New
     ' 
-    '         Function: (+2 Overloads) Complement, CopyNT, Counts, CreateObject, GetSegment
-    '                   IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1, InvalidForNt, ReadSegment, RemoveInvalids
-    '                   Replace, Reverse, Split, ToArray, (+3 Overloads) ToString
+    '         Function: (+2 Overloads) Complement, CopyNT, Counts, CreateObject, Enums
+    '                   GetSegment, IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1, InvalidForNt, ReadSegment
+    '                   RemoveInvalids, Replace, Reverse, Split, ToArray
+    '                   (+3 Overloads) ToString
     ' 
     '         Sub: __convertSequence
-    '         Structure __cacheHelper
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: __getList
-    ' 
-    ' 
     ' 
     ' 
     ' /********************************************************************************/

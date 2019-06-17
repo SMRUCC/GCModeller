@@ -219,3 +219,6 @@ pip-log.txt
 /.vs/Circos/v15/sqlite3/storage.ide
 /.vs/Circos/v16/Server/sqlite3
 /.vs/Circos.App/v16/Server/sqlite3
+/.vs/Circos.Extensions/v16/Server/sqlite3/db.lock
+*.ide
+*.lock

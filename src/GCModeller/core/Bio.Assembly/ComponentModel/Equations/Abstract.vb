@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b26eb165b0ac1e5120820a0a371e35d, Bio.Assembly\ComponentModel\Equations\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::fc753b82c0acec5eadd7e94f835dc0eb, Bio.Assembly\ComponentModel\Equations\Abstract.vb"
 
     ' Author:
     ' 
@@ -38,10 +38,6 @@
     '     Interface IEquation
     ' 
     '         Properties: Products, Reactants, Reversible
-    ' 
-    '     Interface ICompoundObject
-    ' 
-    '         Properties: CHEBI, CommonNames, KEGG_cpd, PUBCHEM
     ' 
     ' 
     ' /********************************************************************************/

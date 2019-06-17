@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b69efb1498d71e6de64fe4b02e44bf30, Bio.Assembly\Assembly\DOOR\Models\DOOR.vb"
+﻿#Region "Microsoft.VisualBasic::604dd213aadbf57061246382c24fec15, Bio.Assembly\Assembly\DOOR\Models\DOOR.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Function: [Select], CreateEmpty, Export, GetEnumerator, GetOperon
     '                   HaveGene, HaveOperon, IEnumerable_GetEnumerator, IsOprPromoter, SameOperon
-    '                   Save
+    '                   (+2 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/

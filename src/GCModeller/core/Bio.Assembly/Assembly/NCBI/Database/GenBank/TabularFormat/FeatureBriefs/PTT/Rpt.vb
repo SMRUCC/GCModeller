@@ -1,46 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::a83b81dd27bb9a0bbad9586a8d5d22e6, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb"
+﻿#Region "Microsoft.VisualBasic::e07c271d78ba202131573779d48f3c42, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Rpt
-' 
-'         Properties: Accession, CDSCount, GeneticCode, GI, NumberOfGenes
-'                     Others, ProteinCount, PseudoCDSCount, PseudoGeneCount, Publications
-'                     RNACount, Size, Taxid, Taxname, Total
-' 
-'         Function: CopyTo, GetValue, Load, Save, ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class Rpt
+    ' 
+    '         Properties: Accession, CDSCount, GeneticCode, GI, NumberOfGenes
+    '                     Others, ProteinCount, PseudoCDSCount, PseudoGeneCount, Publications
+    '                     RNACount, Size, Taxid, Taxname, Total
+    ' 
+    '         Function: CopyTo, GetValue, Load, (+2 Overloads) Save, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

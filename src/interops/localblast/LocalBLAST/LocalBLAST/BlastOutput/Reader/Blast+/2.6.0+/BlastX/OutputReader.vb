@@ -170,7 +170,14 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             Return tmp
         End Function
 
-        Const queryInfoRegexp$ = "Query=\s*.+?Length=\d+"
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <remarks>
+        ''' ###### 20190615
+        ''' 当queryName是空的时候，这个正则表达式将无法正常工作
+        ''' </remarks>
+        Const queryInfoRegexp$ = "Query\s*[=]\s*(.+?)?Length\s*[=]\s*\d+"
 
         <Extension> Friend Function queryInfo(block$) As NamedValue(Of Integer)
             Dim info$ = r.Match(block, queryInfoRegexp, RegexICSng).Value.TrimNewLine
@@ -179,7 +186,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
             Return New NamedValue(Of Integer) With {
                 .Name = name,
-                .Value = tuple(1)
+                .Value = Val(tuple(1).Trim.Split.First)
             }
         End Function
 
