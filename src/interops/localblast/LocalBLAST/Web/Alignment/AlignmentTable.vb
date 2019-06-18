@@ -47,7 +47,6 @@
 #End Region
 
 Imports System.Text
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -56,35 +55,39 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 
-Namespace NCBIBlastResult
+Namespace NCBIBlastResult.WebBlast
 
-    Public Class AlignmentTable
+    Public Class AlignmentTable : Implements Enumeration(Of HitRecord)
+
         Implements ISaveHandle
 
         <XmlAttribute>
         Public Property Program As String
+        Public Property Iteration As Integer
+        ''' <summary>
+        ''' The query fasta file name or NCBI sequence accession id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Query As String
+        ''' <summary>
+        ''' NCBI blast task id
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute>
         Public Property RID As String
+        ''' <summary>
+        ''' Selected NCBI blast sequence database name
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Database As String
+        ''' <summary>
+        ''' The alignment result
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Hits As HitRecord()
 
         Public Overrides Function ToString() As String
             Return $"[{RID}]  {Program} -query {Query} -database {Database}  // {Hits.Length} hits found."
-        End Function
-
-        Const LOCUS_ID As String = "(emb|gb|dbj)\|[a-z]+\d+"
-
-        Public Function GetHitsEntryList() As String()
-            Dim LQuery As String() =
-                LinqAPI.Exec(Of String) <= From hit As HitRecord
-                                           In Me.Hits
-                                           Let hitID As String =
-                                               Regex.Match(hit.SubjectIDs, LOCUS_ID, RegexICSng).Value
-                                           Where Not String.IsNullOrEmpty(hitID)
-                                           Select hitID.Split(CChar("|")).Last
-                                           Distinct
-            Return LQuery
         End Function
 
         ''' <summary>
@@ -95,12 +98,12 @@ Namespace NCBIBlastResult
         ''' <remarks></remarks>
         Public Function DescriptionSubstituted(Info As gbEntryBrief()) As Integer
             Dim giTable = Info.ToDictionary(Function(item) item.GI)
-            Dim LQuery = (From entry As HitRecord In Hits Select __substituted(entry, giTable)).ToArray
+            Dim LQuery = (From entry As HitRecord In Hits Select substituted(entry, giTable)).ToArray
             Hits = LQuery
             Return Hits.Length
         End Function
 
-        Private Shared Function __substituted(hitEntry As HitRecord, giTable As Dictionary(Of String, gbEntryBrief)) As HitRecord
+        Private Shared Function substituted(hitEntry As HitRecord, giTable As Dictionary(Of String, gbEntryBrief)) As HitRecord
             Dim entry = LinqAPI.DefaultFirst(Of gbEntryBrief) <=
  _
                 From id As String
@@ -162,21 +165,18 @@ Namespace NCBIBlastResult
             Return Me.GetXml.SaveTo(Path, encoding)
         End Function
 
-        ''' <summary>
-        ''' 导出绘制的顺序
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks>这里不能够使用并行拓展</remarks>
-        Public Function ExportOrderByGI() As String()
-            Dim LQuery As String() = (From hit As HitRecord
-                                      In Hits
-                                      Select hit.GI.FirstOrDefault
-                                      Distinct).ToArray
-            Return LQuery
-        End Function
-
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(path, encoding.CodePage)
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of HitRecord) Implements Enumeration(Of HitRecord).GenericEnumerator
+            For Each hit As HitRecord In Hits
+                Yield hit
+            Next
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of HitRecord).GetEnumerator
+            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

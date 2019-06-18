@@ -43,8 +43,6 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic
 
 Public Class ColorProfiles
 
@@ -69,10 +67,9 @@ Public Class ColorProfiles
         If _defaultColor = Nothing Then _defaultColor = Color.Black
     End Sub
 
+    Const __describ$ = "{0} color(s) in the rendering profile, default color is ""{1}"""
+
     Public Overrides Function ToString() As String
         Return String.Join(__describ, ColorProfiles.Count, _defaultColor.ToString)
     End Function
-
-    Const __describ$ = "{0} color(s) in the rendering profile, default color is ""{1}"""
-
 End Class

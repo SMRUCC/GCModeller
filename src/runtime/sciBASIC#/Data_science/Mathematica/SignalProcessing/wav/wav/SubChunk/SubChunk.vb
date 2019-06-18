@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::655c885d9ea4459024586b044265cf40, SVG.Extensions\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::02c1a8fa6bf9d02b4740215c98f586c8, Data_science\Mathematica\SignalProcessing\wav\wav\SubChunk.vb"
 
     ' Author:
     ' 
@@ -31,29 +31,31 @@
 
     ' Summaries:
 
-    ' Module Module1
+    ' Class SubChunk
     ' 
-    '     Sub: Main
+    '     Properties: ChunkID, ChunkSize
+    ' 
+    ' Class FMTSubChunk
+    ' 
+    '     Properties: audioFormat, BitsPerSample, BlockAlign, ByteRate, Channels
+    '                 SampleRate
+    ' 
+    ' Class DataSubChunk
+    ' 
+    '     Properties: Data
+    ' 
+    '     Function: loadData, ParseData
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Module Module1
+Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO
 
-    Sub Main()
+Public MustInherit Class SubChunk
 
+    Public Property chunkID As String
+    Public Property chunkSize As Integer
 
-
-        Dim doc As New SVG.SvgDocument
-
-        Dim box As New SVG.SvgRectangle() With {.X = New SvgUnit(100), .Y = New SvgUnit(100), .Width = New SvgUnit(100), .Height = New SvgUnit(100)}
-
-        Call doc.Children.Add(box)
-
-
-        Call doc.Write("x:\sfsdf.svg")
-
-    End Sub
-
-End Module
+End Class

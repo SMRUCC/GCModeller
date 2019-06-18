@@ -60,15 +60,15 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Public Class ColorMgr
 
     ''' <summary>
-    ''' <see cref="ClMap.Identifier"/> --> <see cref="ClMap.map"/>
+    ''' <see cref="ColorMap.Identifier"/> --> <see cref="ColorMap.map"/>
     ''' </summary>
-    ReadOnly __entityMaps As Dictionary(Of ClMap)
+    ReadOnly __entityMaps As Dictionary(Of ColorMap)
     ''' <summary>
-    ''' <see cref="ClMap.map"/> --> <see cref="Color"/>
+    ''' <see cref="ColorMap.map"/> --> <see cref="Color"/>
     ''' </summary>
     ReadOnly __colorMaps As MapsHelper(Of Color)
     ''' <summary>
-    ''' Array of <see cref="ClMap.map"/>
+    ''' Array of <see cref="ColorMap.map"/>
     ''' </summary>
     ReadOnly __categories As String()
 
@@ -78,17 +78,17 @@ Public Class ColorMgr
         End Get
     End Property
 
-    Sub New(source As IEnumerable(Of ClMap), [default] As Color)
+    Sub New(source As IEnumerable(Of ColorMap), [default] As Color)
         __entityMaps = source.ToDictionary
-        __categories = (From x As ClMap In source Select x.map Distinct).ToArray
+        __categories = (From x As ColorMap In source Select x.map Distinct).ToArray
         __colorMaps =
             New MapsHelper(Of Color)(__categories.GenerateColorProfiles, [default])
     End Sub
 
     ''' <summary>
-    ''' <see cref="ClMap.Identifier"/>
+    ''' <see cref="ColorMap.Identifier"/>
     ''' </summary>
-    ''' <param name="id"><see cref="ClMap.Identifier"/></param>
+    ''' <param name="id"><see cref="ColorMap.Identifier"/></param>
     ''' <returns></returns>
     Public Function GetEntityColor(id As String) As Color
         If __entityMaps.ContainsKey(id) Then
@@ -99,9 +99,9 @@ Public Class ColorMgr
     End Function
 
     ''' <summary>
-    ''' <see cref="ClMap.map"/>
+    ''' <see cref="ColorMap.map"/>
     ''' </summary>
-    ''' <param name="category"><see cref="ClMap.map"/></param>
+    ''' <param name="category"><see cref="ColorMap.map"/></param>
     ''' <returns></returns>
     Public Function GetValue(category As String) As Color
         Return __colorMaps.GetValue(category)
@@ -115,7 +115,7 @@ End Class
 ''' <summary>
 ''' Entity to color mapper
 ''' </summary>
-Public Class ClMap : Implements INamedValue
+Public Class ColorMap : Implements INamedValue
 
     Public Property Identifier As String Implements INamedValue.Key
     Public Property map As String

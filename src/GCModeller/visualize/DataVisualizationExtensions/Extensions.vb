@@ -111,7 +111,11 @@ Public Module Extensions
                    End Sub
 
         ' 不会绘制空名称以及未赋值的分类的颜色
-        For Each color As KeyValuePair(Of String, Brush) In colors.Where(Function(k) Not k.Key.StringEmpty AndAlso k.Key <> COGNotAssign)
+        For Each color As KeyValuePair(Of String, Brush) In colors _
+            .Where(Function(k)
+                       Return Not k.Key.StringEmpty AndAlso k.Key <> COGNotAssign
+                   End Function)
+
             Call plot(category:=color.Key, color:=color.Value)
         Next
 

@@ -51,7 +51,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 
-Namespace NCBIBlastResult
+Namespace NCBIBlastResult.WebBlast
 
     ''' <summary>
     ''' 在目标基因组之上的blast hit的结果
@@ -113,7 +113,7 @@ Namespace NCBIBlastResult
 
         Friend DebugTag As String
 
-        Public Property Data As Dictionary(Of String, String)
+        Public Property data As Dictionary(Of String, String)
 
         Public ReadOnly Property GI As String()
             Get
@@ -132,27 +132,27 @@ Namespace NCBIBlastResult
         ''' <summary>
         ''' 请注意，在这里是按值复制
         ''' </summary>
-        ''' <param name="x"></param>
-        Sub New(x As HitRecord)
+        ''' <param name="copy"></param>
+        Sub New(copy As HitRecord)
             With Me
-                .AlignmentLength = x.AlignmentLength
-                .BitScore = x.BitScore
-                .DebugTag = x.DebugTag
-                .EValue = x.EValue
-                .GapOpens = x.GapOpens
-                .Identity = x.Identity
-                .MisMatches = x.MisMatches
-                .QueryAccVer = x.QueryAccVer
-                .QueryEnd = x.QueryEnd
-                .QueryID = x.QueryID
-                .QueryStart = x.QueryStart
-                .SubjectAccVer = x.SubjectAccVer
-                .SubjectEnd = x.SubjectEnd
-                .SubjectIDs = x.SubjectIDs
-                .SubjectStart = x.SubjectStart
+                .AlignmentLength = copy.AlignmentLength
+                .BitScore = copy.BitScore
+                .DebugTag = copy.DebugTag
+                .EValue = copy.EValue
+                .GapOpens = copy.GapOpens
+                .Identity = copy.Identity
+                .MisMatches = copy.MisMatches
+                .QueryAccVer = copy.QueryAccVer
+                .QueryEnd = copy.QueryEnd
+                .QueryID = copy.QueryID
+                .QueryStart = copy.QueryStart
+                .SubjectAccVer = copy.SubjectAccVer
+                .SubjectEnd = copy.SubjectEnd
+                .SubjectIDs = copy.SubjectIDs
+                .SubjectStart = copy.SubjectStart
 
-                If Not x.Data Is Nothing Then
-                    .Data = New Dictionary(Of String, String)(x.Data)
+                If Not copy.data Is Nothing Then
+                    .data = New Dictionary(Of String, String)(copy.data)
                 End If
             End With
         End Sub
@@ -180,47 +180,6 @@ Namespace NCBIBlastResult
             Else
                 Return String.Format("[{0}, {1}]   ===> {2}", QueryStart, QueryEnd, SubjectIDs)
             End If
-        End Function
-
-        ''' <summary>
-        ''' Document line parser
-        ''' </summary>
-        ''' <param name="s"></param>
-        ''' <returns></returns>
-        Public Shared Function Mapper(s As String) As HitRecord
-            Dim tokens As String() = Strings.Split(s, vbTab)
-            Dim i As VBInteger = Scan0
-            Dim hit As New HitRecord With {
-                .QueryID = tokens(++i),
-                .SubjectIDs = tokens(++i),
-                .QueryAccVer = tokens(++i),
-                .SubjectAccVer = tokens(++i),
-                .Identity = Val(tokens(++i)),
-                .AlignmentLength = Val(tokens(++i)),
-                .MisMatches = Val(tokens(++i)),
-                .GapOpens = Val(tokens(++i)),
-                .QueryStart = Val(tokens(++i)),
-                .QueryEnd = Val(tokens(++i)),
-                .SubjectStart = Val(tokens(++i)),
-                .SubjectEnd = Val(tokens(++i)),
-                .EValue = Val(tokens(++i)),
-                .BitScore = Val(tokens(++i))
-            }
-
-            Return hit
-        End Function
-
-        Public Shared Iterator Function TopBest(raw As IEnumerable(Of HitRecord)) As IEnumerable(Of HitRecord)
-            Dim gg = From x As HitRecord In raw Select x Group x By x.QueryID Into Group
-
-            For Each groups In gg
-                Dim orders = From x As HitRecord
-                             In groups.Group
-                             Select x
-                             Order By x.Identity Descending
-
-                Yield orders.First
-            Next
         End Function
     End Class
 End Namespace
