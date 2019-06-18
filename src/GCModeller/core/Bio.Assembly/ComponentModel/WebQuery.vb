@@ -54,7 +54,7 @@ Imports Microsoft.VisualBasic.Serialization
 Namespace ComponentModel
 
     ''' <summary>
-    ''' 
+    ''' <typeparamref name="Context"/>类型参数应该是查询的term的数据类型, 而非返回的查询结果的数据类型
     ''' </summary>
     ''' <typeparam name="Context"></typeparam>
     ''' <remarks>
