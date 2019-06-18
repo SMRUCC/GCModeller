@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2f50eb60a504c96f9983c966b3f840d, Bio.Assembly\Metagenomics\TaxonomyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::6f84d03d4d40637a7a3201e90e913b4d, Bio.Assembly\Metagenomics\TaxonomyExtensions.vb"
 
     ' Author:
     ' 
@@ -41,11 +41,6 @@
     '         Delegate Function
     ' 
     '             Function: ParseRank, (+2 Overloads) SelectByTaxonomyRange, TaxonomyLineage, TaxonomyRankEmpty, Trim
-    ' 
-    '     Class SampleAbundanceSelector
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: SelectSamples
     ' 
     ' 
     ' 

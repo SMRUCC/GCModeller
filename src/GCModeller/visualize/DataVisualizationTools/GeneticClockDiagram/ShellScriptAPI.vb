@@ -43,12 +43,43 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DataMining.Serials.PeriodAnalysis
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Math.SignalProcessing.Serials.PeriodAnalysis
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SheetTable = Microsoft.VisualBasic.Data.csv.IO.File
 
 Namespace GeneticClock
 
     <[Namespace]("Diagram.Genetic_Clock")> Public Module ShellScriptAPI
+
+        <ExportAPI("Data.ConvertToCsv")>
+        Public Function ConvertData(sample As SamplingData) As SheetTable
+            Dim DataFile As New SheetTable
+            Dim Row As New RowObject From {"Sampling"}
+
+            For i As Integer = 0 To sample.TimePoints
+                Dim n = TimePoint.GetData(i, sample.Peaks)
+                If n = 0.0R Then
+                    n = TimePoint.GetData(i, sample.Trough)
+                End If
+                Call Row.Add(n)
+            Next
+
+            Call DataFile.Add(Row)
+            Row = New RowObject From {"Filted"}
+
+            Dim avg = (From p In sample.FiltedData Select p.value).Average
+            For i As Integer = 0 To sample.TimePoints
+                Dim n = TimePoint.GetData(i, sample.FiltedData)
+                If n = 0.0R Then
+                    n = avg
+                End If
+                Call Row.Add(n)
+            Next
+            Call DataFile.Add(Row)
+
+            Return DataFile
+        End Function
 
         <ExportAPI("Doppler_Effect.New_Analysis_Session")>
         Public Function CreateDopplerEffectsAnalyser(ExperimentData As NumericVector()) As DopplerEffect

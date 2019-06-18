@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::c80c3bc39b653a5caa8f891eee68ea9d, Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class [Module]
-    ' 
-    '         Properties: [Class], BriteId, Category, EntryId, Name
-    '                     NumberGenes, PathwayGenes, Reactions, Type
-    ' 
-    '         Function: [Imports], GenerateObject, GetPathwayGenes
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class [Module]
+' 
+'         Properties: [Class], BriteId, Category, EntryId, Name
+'                     NumberGenes, PathwayGenes, Reactions, Type
+' 
+'         Function: [Imports], GenerateObject, GetPathwayGenes
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,10 +47,11 @@ Imports System.Data.Linq.Mapping
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Assembly.KEGG.Archives.Csv
 
-    Public Class [Module] : Inherits ComponentModel.PathwayBrief
+    Public Class [Module] : Inherits PathwayBrief
         Implements IKeyValuePairObject(Of String, String())
 
         Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Key
@@ -119,7 +120,7 @@ Namespace Assembly.KEGG.Archives.Csv
 
             Return New [Module] With {
                 .EntryId = XmlModel.EntryId,
-                .Description = XmlModel.Description,
+                .description = XmlModel.Description,
                 .PathwayGenes = XmlModel.GetPathwayGenes,
                 .Name = XmlModel.Name,
                 .Reactions = ReactionIdlist

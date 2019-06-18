@@ -586,7 +586,8 @@
     <Compile Include="Assembly\UniProt\Web\Retrieve_IDmapping.vb" />
     <Compile Include="Assembly\UniProt\Web\Entry.vb" />
     <Compile Include="Assembly\UniProt\XML\UniRef\entry.vb" />
-    <Compile Include="ComponentModel\CatalogProfiling.vb" />
+    <Compile Include="ComponentModel\Annotation\CatalogProfiling.vb" />
+    <Compile Include="ComponentModel\Annotation\COG.vb" />
     <Compile Include="ComponentModel\WebQuery.vb" />
     <Compile Include="ComponentModel\IMolecule.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\Xref.vb" />
@@ -614,7 +615,7 @@
     <Compile Include="ComponentModel\Equations\Reaction%28Of T%29.vb" />
     <Compile Include="ComponentModel\Equations\Equation%28Of T%29.vb" />
     <Compile Include="ComponentModel\Equations\Equivalence.vb" />
-    <Compile Include="ComponentModel\GeneBrief.vb" />
+    <Compile Include="ComponentModel\Annotation\GeneBrief.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Region.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\ProteinTable\ProteinTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Feature.vb" />
@@ -634,7 +635,7 @@
     <Compile Include="ComponentModel\Locus\LociSites\LociModel.vb" />
     <Compile Include="ComponentModel\Locus\ExtensionMethods.vb" />
     <Compile Include="ComponentModel\Locus\Nucleotide\NucleotideLocation.vb" />
-    <Compile Include="ComponentModel\PathwayBrief.vb" />
+    <Compile Include="ComponentModel\Annotation\PathwayBrief.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\XmlModel.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Pathway.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compounds\Compound.vb" />
@@ -676,6 +677,7 @@
     <Compile Include="Metagenomics\TaxonomyRanks.vb" />
     <Compile Include="Metagenomics\TaxonomyExtensions.vb" />
     <Compile Include="Metagenomics\Taxonomy.vb" />
+    <Compile Include="ProteinModel\Chou-Fasman\SecondaryStructures.vb" />
     <Compile Include="Query\IQueryExtensions.vb" />
     <Compile Include="Metagenomics\BIOMTaxonomy.vb" />
     <Compile Include="Metagenomics\OTUData.vb" />
@@ -712,14 +714,14 @@
     <Compile Include="SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb" />
     <Compile Include="SequenceModel\Patterns\IPatterns.vb" />
     <Compile Include="SequenceModel\Patterns\PatternsAPI.vb" />
-    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\ChouFasmanAPI.vb" />
+    <Compile Include="ProteinModel\Chou-Fasman\ChouFasmanAPI.vb" />
     <Compile Include="SequenceModel\MWCalculator.vb" />
-    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Matrix.vb" />
-    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleBetaTurn.vb" />
-    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\AminoAcid.vb" />
-    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleBetaSheet.vb" />
-    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleAlphaHelix.vb" />
-    <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleOverlap.vb" />
+    <Compile Include="ProteinModel\Chou-Fasman\Matrix.vb" />
+    <Compile Include="ProteinModel\Chou-Fasman\Rules\RuleBetaTurn.vb" />
+    <Compile Include="ProteinModel\Chou-Fasman\AminoAcid.vb" />
+    <Compile Include="ProteinModel\Chou-Fasman\Rules\RuleBetaSheet.vb" />
+    <Compile Include="ProteinModel\Chou-Fasman\Rules\RuleAlphaHelix.vb" />
+    <Compile Include="ProteinModel\Chou-Fasman\Rules\RuleOverlap.vb" />
     <Compile Include="SequenceModel\Polypeptides\AminoAcid.vb" />
     <Compile Include="SequenceModel\Polypeptides\Polypeptides.vb" />
     <Compile Include="Assembly\UniProt\Web\Uniprot.vb" />
@@ -758,7 +760,7 @@
     <Compile Include="Assembly\NCBI\Database\CDD\BLAST\DomnArch.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\Qualifier.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\NucleicAcid.vb" />
-    <Compile Include="ComponentModel\ECNumber.vb" />
+    <Compile Include="ComponentModel\Annotation\ECNumber.vb" />
     <Compile Include="SequenceModel\FASTA\IO\FastaToken.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\AttributeValue.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\BindRxns.vb" />

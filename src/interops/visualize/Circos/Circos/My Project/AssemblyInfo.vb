@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("[Circos interacts shell] Generate circos documents")> 
-<Assembly: AssemblyDescription("Circos interacts shell")> 
-<Assembly: AssemblyCompany("蓝思生物信息工程师工作站")> 
+<Assembly: AssemblyTitle("Generate circos documents and data I/O")>
+<Assembly: AssemblyDescription("Generate circos documents and data I/O")>
+<Assembly: AssemblyCompany("SMRUCC")>
 <Assembly: AssemblyProduct("Circos")>
-<Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2014")>
+<Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2019")>
 <Assembly: AssemblyTrademark("GCModeller")> 
 
 <Assembly: ComVisible(False)>

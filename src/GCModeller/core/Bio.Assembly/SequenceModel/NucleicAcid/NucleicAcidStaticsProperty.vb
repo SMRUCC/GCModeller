@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91091f4efebbcdbbd3003c032e351d4a, Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
+﻿#Region "Microsoft.VisualBasic::4496ebb7e80c4f14eb898b8b4a2bb1e0, Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
 
     ' Author:
     ' 
@@ -33,12 +33,12 @@
 
     '     Module NucleicAcidStaticsProperty
     ' 
-    '         Function: __circular, __contentCommon, __getPercent, __liner, ATPercent
+    '         Function: __circular, __contentCommon, __liner, ATPercent, basePercent
     '                   Count, GC_Content, (+3 Overloads) GCContent, GCData, (+2 Overloads) GetCompositionVector
     '                   Tm
     '         Delegate Function
     ' 
-    '             Function: __NAHandle, GCSkew
+    '             Function: GCSkew, removesNA
     ' 
     ' 
     ' 

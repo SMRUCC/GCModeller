@@ -41,7 +41,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.DataMining.Serials.PeriodAnalysis
+Imports Microsoft.VisualBasic.Math.SignalProcessing.Serials.PeriodAnalysis
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace GeneticClock
@@ -69,7 +69,7 @@ Namespace GeneticClock
             Dim DopplerEffects = (From Sample In Data
                                   Select New NumericVector With {
                                       .name = Sample.UniqueId,
-                                      .vector = (From item In Sample.Sample.TSerials Select item.Value).ToArray}).AsList   '计算出其中的周期变化
+                                      .vector = (From item In Sample.Sample.TSerials Select item.value).ToArray}).AsList   '计算出其中的周期变化
             Dim init As New NumericVector With {
                 .name = "Time",
                 .vector = (From n As Integer

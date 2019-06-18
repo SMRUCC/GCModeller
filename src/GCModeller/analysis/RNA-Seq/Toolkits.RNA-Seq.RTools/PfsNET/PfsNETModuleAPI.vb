@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::4b9b7f1e64d81defa171d2ce6df963fa, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\PfsNETModuleAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module PfsNETModuleAPI
-    ' 
-    '         Function: __getPath, AnalysisPhenotype, BatchScript, CreateList, CreateMatrix
-    '                   CreatePathwayData, DenormalizePhenotypeData, Evaluate, ExportCytoscape, get_PFSNet_R_Handle
-    '                   get_PFSNet_VB_Handle, GetRegulationGeneIdlist, Initialize, KEGGPathwaysPhenotypeAnalysis, LoadResult
-    '                   (+2 Overloads) ParseCsv, PathwayGeneRelationship, ReadPfsnet, ReadRegulations, RegulationRelationship
-    '                   SaveCsvResult, SavePathwayData, SavePfsNET, SavePFSNet, set_Handle
-    '                   WriteKEGGPhenotypes
-    '         Class Regulation
-    ' 
-    '             Properties: DoorId, Pcc, SequenceId, TF
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module PfsNETModuleAPI
+' 
+'         Function: __getPath, AnalysisPhenotype, BatchScript, CreateList, CreateMatrix
+'                   CreatePathwayData, DenormalizePhenotypeData, Evaluate, ExportCytoscape, get_PFSNet_R_Handle
+'                   get_PFSNet_VB_Handle, GetRegulationGeneIdlist, Initialize, KEGGPathwaysPhenotypeAnalysis, LoadResult
+'                   (+2 Overloads) ParseCsv, PathwayGeneRelationship, ReadPfsnet, ReadRegulations, RegulationRelationship
+'                   SaveCsvResult, SavePathwayData, SavePfsNET, SavePFSNet, set_Handle
+'                   WriteKEGGPhenotypes
+'         Class Regulation
+' 
+'             Properties: DoorId, Pcc, SequenceId, TF
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -68,6 +68,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.PathwayBrief
+Imports SMRUCC.genomics.ComponentModel
 
 #Const DEBUG = True
 
@@ -122,7 +123,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <returns>返回所保存的文件的路径</returns>
         ''' <remarks></remarks>
         <ExportAPI("relationship.from_pathways")>
-        Public Function PathwayGeneRelationship(pathways As IEnumerable(Of ComponentModel.PathwayBrief),
+        Public Function PathwayGeneRelationship(pathways As IEnumerable(Of Annotation.PathwayBrief),
                                                 Optional pathwayIds As IEnumerable(Of String) = Nothing,
                                                 Optional saveto As String = "") As String
             Dim bufs As New List(Of String)
@@ -138,7 +139,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
                 strPathwayIds = (From item In pathways Select item.EntryId).ToArray
             End If
 
-            For Each PathwayInfo As ComponentModel.PathwayBrief In pathways
+            For Each PathwayInfo As Annotation.PathwayBrief In pathways
                 If Array.IndexOf(strPathwayIds, PathwayInfo.EntryId) = -1 OrElse
                     PathwayInfo.GetPathwayGenes.IsNullOrEmpty Then
 
@@ -244,7 +245,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("pathway_genelist.create_from")>
-        Public Function CreateList(pathwaydata As IEnumerable(Of ComponentModel.PathwayBrief), Optional pathwayIds As IEnumerable(Of String) = Nothing) As String()
+        Public Function CreateList(pathwaydata As IEnumerable(Of Annotation.PathwayBrief), Optional pathwayIds As IEnumerable(Of String) = Nothing) As String()
             Dim strPathwayIds As String()
 
             If Not pathwayIds Is Nothing Then
@@ -259,8 +260,8 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
 
             Dim gIds As New List(Of String)
 
-            For Each brief As ComponentModel.PathwayBrief
-                In From pwy As ComponentModel.PathwayBrief
+            For Each brief As Annotation.PathwayBrief
+                In From pwy As Annotation.PathwayBrief
                    In pathwaydata
                    Where Array.IndexOf(strPathwayIds, pwy.EntryId) > -1
                    Select pwy
@@ -428,8 +429,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <remarks></remarks>
         <ExportAPI("generate.csv_result")>
         Public Function ParseCsv([Imports] As String, PathwayBriefs As String) As TabularArchives.SubNetTable()
-            Dim DictPathwayBriefs As Dictionary(Of String, ComponentModel.PathwayBrief) =
-                New Dictionary(Of String, ComponentModel.PathwayBrief)
+            Dim DictPathwayBriefs As New Dictionary(Of String, Annotation.PathwayBrief)
             For Each item In PathwayBriefs.LoadCsv(Of PathwayBrief)(False)
                 Call DictPathwayBriefs.Add(item.EntryId, item)
             Next
@@ -451,8 +451,8 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("export.csv_result", Info:="export the pfsnet data log file into the csv data file.")>
-        Public Function ParseCsv([imports] As String, PathwayBriefs As IEnumerable(Of ComponentModel.PathwayBrief)) As TabularArchives.SubNetTable()
-            Dim DictPathwayBriefs As New Dictionary(Of String, ComponentModel.PathwayBrief)
+        Public Function ParseCsv([imports] As String, PathwayBriefs As IEnumerable(Of Annotation.PathwayBrief)) As TabularArchives.SubNetTable()
+            Dim DictPathwayBriefs As New Dictionary(Of String, Annotation.PathwayBrief)
 
             For Each item In PathwayBriefs
                 Call DictPathwayBriefs.Add(item.EntryId, item)

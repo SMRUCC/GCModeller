@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fbe80f7f41368e99505aa8ce62ca1fe, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GeneBrief.vb"
+﻿#Region "Microsoft.VisualBasic::551a80632780d357a069dd6141c52223, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GeneBrief.vb"
 
 ' Author:
 ' 
@@ -50,7 +50,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 

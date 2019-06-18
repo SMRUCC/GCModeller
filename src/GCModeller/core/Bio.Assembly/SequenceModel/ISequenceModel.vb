@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19faf5d4e49919596b99d45aea583b83, Bio.Assembly\SequenceModel\ISequenceModel.vb"
+﻿#Region "Microsoft.VisualBasic::1401ec0746ce6cba53208bb0549ea513, Bio.Assembly\SequenceModel\ISequenceModel.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: IsProtSource, Length, SequenceData
     ' 
-    '         Function: GetCompositionVector, IsProteinSource
+    '         Function: GetCompositionVector
     ' 
     ' 
     ' /********************************************************************************/

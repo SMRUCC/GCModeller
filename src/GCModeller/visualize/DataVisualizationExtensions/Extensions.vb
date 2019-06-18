@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::e81f803c8bababf1d5b6e6a7b3185d7a, GCModeller.DataVisualization\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Extensions
-    ' 
-    '     Function: DrawCatalogProfiling
-    ' 
-    '     Sub: DrawingCOGColors
-    ' 
-    ' /********************************************************************************/
+' Module Extensions
+' 
+'     Function: DrawCatalogProfiling
+' 
+'     Sub: DrawingCOGColors
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,7 +47,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Public Module Extensions
 
@@ -111,7 +111,11 @@ Public Module Extensions
                    End Sub
 
         ' 不会绘制空名称以及未赋值的分类的颜色
-        For Each color As KeyValuePair(Of String, Brush) In colors.Where(Function(k) Not k.Key.StringEmpty AndAlso k.Key <> COGNotAssign)
+        For Each color As KeyValuePair(Of String, Brush) In colors _
+            .Where(Function(k)
+                       Return Not k.Key.StringEmpty AndAlso k.Key <> COGNotAssign
+                   End Function)
+
             Call plot(category:=color.Key, color:=color.Value)
         Next
 

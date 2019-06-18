@@ -42,7 +42,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Karyotype
@@ -58,11 +57,6 @@ Namespace Karyotype
         <Extension>
         Public Function nt(x As Karyotype) As PropertyValue(Of FastaSeq)
             Return PropertyValue(Of Object).Read(Of Karyotype, FastaSeq)(x, NameOf(nt))
-        End Function
-
-        <Extension>
-        Public Function MapsRaw(x As Band) As PropertyValue(Of BlastnMapping)
-            Return PropertyValue(Of Object).Read(Of Band, BlastnMapping)(x, NameOf(MapsRaw))
         End Function
     End Module
 End Namespace

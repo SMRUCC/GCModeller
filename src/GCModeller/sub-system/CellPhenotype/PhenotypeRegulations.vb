@@ -1,65 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::ab4e636d4ac681fafe8944bedf49d57e, sub-system\CellPhenotype\PhenotypeRegulations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module PhenotypeRegulations
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: __existsItem, __exportTCS_CrossTalks, __levelMapping, __phenotypeRegulats, __quantile
-    '               __ranking, AssignPhenotype, AssignPhenotype2, (+2 Overloads) CommandLineTools, CreateDefaultConfig
-    '               (+2 Overloads) CreateDynamicNetwork, CreateEmptyInput, CreateExpressionMatrix, CreateInput_AllRegulators, CreateMutationInit
-    '               ExportCytoscapeNetwork, ExportNetworkModel, ExportPfsNET, ExportTCSCrossTalksCytoscape, FamilyStatics
-    '               ImportantPhenotypeRegulators, ModelApplyingConfiguration, ModelSetupKernelLoops, ModelSetupMutation, MonteCarloExperiment
-    '               ReadInputStatus, SaveNetworkModel, Simulation, StaticsFamilyDistributions, WriteNetworkStateData
-    '               WriteRegulationState
-    ' 
-    '     Sub: CommandLineTools
-    '     Class CrossTalk
-    ' 
-    ' 
-    '         Class TCS_GeneObject
-    ' 
-    '             Properties: Quantity
-    ' 
-    ' 
-    ' 
-    '     Structure __phenotype
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module PhenotypeRegulations
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: __existsItem, __exportTCS_CrossTalks, __levelMapping, __phenotypeRegulats, __quantile
+'               __ranking, AssignPhenotype, AssignPhenotype2, (+2 Overloads) CommandLineTools, CreateDefaultConfig
+'               (+2 Overloads) CreateDynamicNetwork, CreateEmptyInput, CreateExpressionMatrix, CreateInput_AllRegulators, CreateMutationInit
+'               ExportCytoscapeNetwork, ExportNetworkModel, ExportPfsNET, ExportTCSCrossTalksCytoscape, FamilyStatics
+'               ImportantPhenotypeRegulators, ModelApplyingConfiguration, ModelSetupKernelLoops, ModelSetupMutation, MonteCarloExperiment
+'               ReadInputStatus, SaveNetworkModel, Simulation, StaticsFamilyDistributions, WriteNetworkStateData
+'               WriteRegulationState
+' 
+'     Sub: CommandLineTools
+'     Class CrossTalk
+' 
+' 
+'         Class TCS_GeneObject
+' 
+'             Properties: Quantity
+' 
+' 
+' 
+'     Structure __phenotype
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -81,6 +81,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
 Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Framework
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
@@ -331,7 +332,7 @@ Public Module PhenotypeRegulations
                                            Optional Level As Double = 0.7) As IO.File
         Dim Cache = (From path As String
                      In FileIO.FileSystem.GetFiles(dir, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").AsParallel
-                     Let Csv = IO.File.FastLoad(path, Parallel:=False)
+                     Let Csv = IO.File.FastLoad(path, parallel:=False)
                      Select Csv).ToArray '获取同一批次的蒙特卡洛计算实验之中所得到的所有的计算样本
         Dim RankMapping = (From obj In (From Csv In Cache.AsParallel Select (From row In Csv Let ID As String = row.First Where ID.First <> "#"c Let data As Double() = (From s As String In row.Skip(1) Select Val(s)).ToArray Select New SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.CHUNK_BUFFER_EntityQuantities With {.UniqueId = ID, .Samples = data}).ToArray).ToArray.Unlist Select obj Group By obj.UniqueId Into Group).ToArray
         Dim GetModalLevel = (From GeneObject In RankMapping.AsParallel Select __levelMapping(GeneObject.Group.ToArray, p:=Level)).ToArray
@@ -616,7 +617,7 @@ Public Module PhenotypeRegulations
         Dim Result = (From file As String
                       In FileIO.FileSystem.GetFiles(dir, FileIO.SearchOption.SearchTopLevelOnly).AsParallel
                       Select PfsNET = RTools.PfsNET.LoadResult(file), Regulator = FileIO.FileSystem.GetFileInfo(file).Name).ToArray
-        Dim PathwayDict = (From item In KEGGPathways Select CType(item, ComponentModel.PathwayBrief)).ToDictionary(Function(t) t.EntryId)
+        Dim PathwayDict = (From item In KEGGPathways Select CType(item, PathwayBrief)).ToDictionary(Function(t) t.EntryId)
         Dim Csv = (From item In Result Select SubNetTable.CreateObject(item.PfsNET, PhenotypeName:=item.Regulator, PathwayBrief:=PathwayDict))
         Dim Output = (From item As SubNetTable()
                       In Csv.AsParallel
