@@ -1,6 +1,8 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Values
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
@@ -26,26 +28,26 @@ Namespace NCBIBlastResult.WebBlast
 
             Do While Not reader.EndOfStream
                 Do While (line = reader.ReadLine).First = "#"c
-                    headers += (+line)
+                    headers += line
                 Loop
 
-                lines += (+line)
+                lines += line
 
                 Do While Not String.IsNullOrEmpty(line = reader.ReadLine) AndAlso
-                    (+line).First <> "#"c
-                    lines += (+line)
+                    line.First <> "#"c
+                    lines += line
                 Loop
 
-                Yield lines.ToArray.__parseTable(path$, headers, headerSplit)
+                Yield lines.ToArray.parseTable(path$, headers, headerSplit)
 
                 headers *= 0
                 lines *= 0
-                headers += (+line)
+                headers += line
 
                 If String.IsNullOrEmpty(headers.First) Then
                     Do While Not reader.EndOfStream AndAlso String.IsNullOrEmpty(line = reader.ReadLine)
                     Loop
-                    headers += (+line)
+                    headers += line
                 End If
             Loop
         End Function
@@ -80,19 +82,25 @@ Namespace NCBIBlastResult.WebBlast
             Return lines _
                 .Skip(header.Length) _
                 .ToArray _
-                .__parseTable(path$, header, headerSplit)
+                .parseTable(path$, header, headerSplit)
         End Function
 
         <Extension>
-        Private Function __parseTable(lines$(), path$, header$(), headerSplit As Boolean) As AlignmentTable
-            Dim hits As HitRecord() = lines _
-                .Select(AddressOf HitTableParser.Mapper).ToArray
+        Private Function parseTable(lines$(), path$, header$(), headerSplit As Boolean) As AlignmentTable
             Dim headAttrs As Dictionary(Of String, String) =
                 header _
                 .Skip(1) _
-                .Select(Function(s) s.GetTagValue(": ")) _
+                .Select(Function(s) s.GetTagValue(":", trim:=True)) _
                 .ToDictionary(Function(x) x.Name,
-                              Function(x) x.Value)
+                              Function(x)
+                                  Return x.Value
+                              End Function)
+            Dim fields As Index(Of String) = headAttrs("# Fields").StringSplit("\s*,\s+")
+            Dim hits As HitRecord() = lines _
+                .Select(Function(line)
+                            Return HitTableParser.Mapper(line, fields)
+                        End Function) _
+                .ToArray
 
             If headerSplit Then
                 hits = hits _
@@ -114,14 +122,22 @@ Namespace NCBIBlastResult.WebBlast
         ''' </summary>
         ''' <param name="s"></param>
         ''' <returns></returns>
-        Public Function Mapper(s As String) As HitRecord
+        Private Function Mapper(s As String, fields As Index(Of String)) As HitRecord
             Dim tokens As String() = s.Split(ASCII.TAB)
             Dim i As VBInteger = Scan0
+            Dim queryID As String = Nothing
+            Dim subjectID As String = Nothing
+
+            If "query id" Like fields AndAlso "subject ids" Like fields Then
+                queryID = fields(++i)
+                subjectID = fields(++i)
+            End If
+
             Dim hit As New HitRecord With {
-                .QueryID = tokens(++i),
-                .SubjectIDs = tokens(++i),
                 .QueryAccVer = tokens(++i),
                 .SubjectAccVer = tokens(++i),
+                .QueryID = queryID Or .QueryAccVer.AsDefault,
+                .SubjectIDs = subjectID Or .SubjectAccVer.AsDefault,
                 .Identity = Val(tokens(++i)),
                 .AlignmentLength = Val(tokens(++i)),
                 .MisMatches = Val(tokens(++i)),

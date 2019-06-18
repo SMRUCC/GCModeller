@@ -39,6 +39,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -48,16 +49,15 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 
 Partial Module CLI
 
-    <ExportAPI("/Export.AlignmentTable",
-               Usage:="/Export.AlignmentTable /in <alignment.txt> [/split /header.split /out <outDIR/file>]")>
+    <ExportAPI("/Export.AlignmentTable", Usage:="/Export.AlignmentTable /in <alignment.txt> [/split /header.split /out <outDIR/file>]")>
+    <Description("Export the web alignment result file as csv table.")>
     <Group(CLIGrouping.WebTools)>
     Public Function ExportWebAlignmentTable(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim isSplit As Boolean = args.GetBoolean("/split")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix)
         Dim headerSplit? = args.GetBoolean("/header.split")
-        Dim tables As IEnumerable(Of AlignmentTable) =
-            [in].IterateTables(headerSplit)
+        Dim tables As IEnumerable(Of AlignmentTable) = [in].IterateTables(headerSplit)
 
         If isSplit Then
             out = out & "-EXPORT/"
@@ -94,15 +94,15 @@ Partial Module CLI
         Return list.FlushAllLines(out).CLICode
     End Function
 
-    <ExportAPI("/AlignmentTable.TopBest",
-               Usage:="/AlignmentTable.TopBest /in <table.csv> [/out <out.csv>]")>
+    <ExportAPI("/AlignmentTable.TopBest", Usage:="/AlignmentTable.TopBest /in <table.csv> [/out <out.csv>]")>
+    <Description("Export the top best hit result from the input web alignment table output.")>
     <Group(CLIGrouping.WebTools)>
     Public Function AlignmentTableTopBest(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".top_best.csv")
         Dim data = [in].LoadCsv(Of HitRecord)
 
-        Return HitRecord.TopBest(data) _
+        Return data.TopBest() _
             .ToArray _
             .SaveTo(out) _
             .CLICode
