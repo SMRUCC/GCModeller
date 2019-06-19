@@ -153,8 +153,8 @@ Public Module MetabolicComplementation
     ''' </summary>
     ''' <param name="graph"></param>
     <Extension> Private Sub RenderColors(graph As NetworkGraph)
-        Dim families$() = graph.nodes _
-            .Select(Function(n) n.Data!Family) _
+        Dim families$() = graph.vertex _
+            .Select(Function(n) n.data!Family) _
             .Distinct _
             .ToArray
         Dim colors$() = Designer _
@@ -168,8 +168,8 @@ Public Module MetabolicComplementation
             .SeqIterator _
             .ToDictionary(Function(family) family.value, Function(i) colors(i))
 
-        For Each node As Node In graph.nodes
-            With node.Data
+        For Each node As Node In graph.vertex
+            With node.data
                 !Color = colorRender(!Family)
             End With
         Next
@@ -221,13 +221,13 @@ Public Module MetabolicComplementation
             !Secondary_metabolite _
             .LoadJSON(Of String())
 
-        For Each member As Node In graph.nodes _
+        For Each member As Node In graph.vertex _
             .Where(Function(n)
                        ' 忽略掉自身对自身的边连接，无意义
                        Return Not n Is genome
                    End Function)
 
-            Dim B = member.Data
+            Dim B = member.data
 
             ' 通过查看A和B的输入输出端点是否有重合来了解二者是否存在营养互补的关系
             ' A input vs B output
@@ -237,10 +237,10 @@ Public Module MetabolicComplementation
                 If Not .IsNullOrEmpty Then
                     ' 输入与输出有重叠部分，则可能存在营养互补
                     Dim complementary = graph.CreateEdge(member, genome)
-                    complementary.Data!compounds = .GetJson
+                    complementary.data!compounds = .GetJson
                     complementary.Directed = True
-                    complementary.Weight = .Length
-                    complementary.Data.label = $"{member.Label} => {genome.Label}"
+                    complementary.weight = .Length
+                    complementary.data.label = $"{member.Label} => {genome.Label}"
                 End If
             End With
 
@@ -251,11 +251,11 @@ Public Module MetabolicComplementation
                 If Not .IsNullOrEmpty Then
                     ' 输入与输出有重叠部分，则可能存在营养互补
                     Dim complementary = graph.CreateEdge(genome, member)
-                    complementary.Data!compounds = .GetJson
+                    complementary.data!compounds = .GetJson
                     complementary.Directed = True
-                    complementary.Weight = .Length
-                    complementary.Data.label = $"{genome.Label} => {member.Label}"
-                    complementary.Data(names.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = NameOf(complementary)
+                    complementary.weight = .Length
+                    complementary.data.label = $"{genome.Label} => {member.Label}"
+                    complementary.data(names.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = NameOf(complementary)
                 End If
             End With
 
@@ -265,11 +265,11 @@ Public Module MetabolicComplementation
                 If Not .IsNullOrEmpty Then
                     ' 两个基因组的代谢网络输入端点存在重叠的部分，则可能存在营养竞争关系
                     Dim competition = graph.CreateEdge(genome, member)
-                    competition.Data!compounds = .GetJson
+                    competition.data!compounds = .GetJson
                     competition.Directed = False
-                    competition.Weight = .Length
-                    competition.Data.label = $"{genome.Label} vs {member.Label}"
-                    competition.Data(names.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = NameOf(competition)
+                    competition.weight = .Length
+                    competition.data.label = $"{genome.Label} vs {member.Label}"
+                    competition.data(names.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = NameOf(competition)
                 End If
             End With
         Next
@@ -277,12 +277,12 @@ Public Module MetabolicComplementation
 
     <Extension> Private Sub linkNodes(graph As NetworkGraph)
         Using progress As New ProgressBar("Link networks...", 1, CLS:=True)
-            Dim ticks As New ProgressProvider(graph.nodes.Count)
+            Dim ticks As New ProgressProvider(graph.vertex.Count)
             Dim msg$
 
-            For Each genome As Node In graph.nodes
+            For Each genome As Node In graph.vertex
                 genome.link(graph)
-                msg$ = $"ETA={ticks.ETA(progress.ElapsedMilliseconds).FormatTime}  // {genome.Data.label}"
+                msg$ = $"ETA={ticks.ETA(progress.ElapsedMilliseconds).FormatTime}  // {genome.data.label}"
                 progress.SetProgress(ticks.StepProgress, msg)
             Next
         End Using

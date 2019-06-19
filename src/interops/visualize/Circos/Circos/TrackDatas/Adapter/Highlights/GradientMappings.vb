@@ -46,11 +46,11 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.Visualize.Circos.Colors
+Imports ColorPattern = Microsoft.VisualBasic.Imaging.ColorMap
 
 Namespace TrackDatas.Highlights
 
@@ -184,7 +184,7 @@ Namespace TrackDatas.Highlights
             For Each ch In chrs
                 Dim length As Integer = labels(ch.chr).end
                 Dim ranges As DoubleRange = ch.Group.Vector(length, Function(x) x.value)
-                Dim colors As String() = New ColorMap(500) _
+                Dim colors As String() = New ColorPattern(500) _
                     .ColorSequence(mapName) _
                     .Select(Function(cl) $"({cl.R},{cl.G},{cl.B})") _
                     .ToArray
