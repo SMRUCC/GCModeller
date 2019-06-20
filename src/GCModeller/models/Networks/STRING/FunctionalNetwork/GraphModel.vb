@@ -53,7 +53,6 @@ Public Module GraphModel
 
     <Extension>
     Public Function CreateGraph(edges As IEnumerable(Of InteractExports), nodes As IEnumerable(Of Coordinates), Optional factor# = 1500) As NetworkGraph
-        Dim g As New NetworkGraph
         Dim gEdges As New List(Of Edge)
         Dim gNodes = nodes _
             .Select(Function(n)
@@ -79,8 +78,7 @@ Public Module GraphModel
             }
         Next
 
-        g.nodes = gNodes.Values.AsList
-        g.edges = gEdges
+        Dim g As New NetworkGraph(gNodes.Values, gEdges)
 
         Call g.ComputeNodeDegrees
         Call g.UsingDegreeAsRadius

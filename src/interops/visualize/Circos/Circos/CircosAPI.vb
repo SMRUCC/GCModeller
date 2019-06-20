@@ -82,6 +82,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype.GeneObjects
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
+Imports ColorPatterns = Microsoft.VisualBasic.Imaging.ColorMap
 
 ''' <summary>
 ''' Shoal shell interaction with circos perl program to draw a circle diagram of a bacteria genome.
@@ -396,7 +397,7 @@ different with the ideogram configuration document was not included in the circo
     Public Function AddScoredMotifs(circos As Configurations.Circos,
                                     motifs As IEnumerable(Of IMotifScoredSite),
                                     Optional levels% = 100,
-                                    Optional mapName$ = ColorMap.PatternJet,
+                                    Optional mapName$ = ColorPatterns.PatternJet,
                                     Optional snuggle_refine As Boolean = True) As Configurations.Circos
 
         Dim sites As IMotifScoredSite() = motifs.ToArray

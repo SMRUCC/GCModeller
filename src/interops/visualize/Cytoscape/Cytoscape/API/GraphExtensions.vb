@@ -69,10 +69,7 @@ Namespace API
                 LinqAPI.Exec(Of Network.Graph.Edge) <= From edge As XGMML.Edge
                                                        In g.Edges
                                                        Select edge.__edge(nodeHash)
-            Dim net As New NetworkGraph() With {
-                .nodes = New List(Of Network.Graph.Node)(nodes),
-                .edges = New List(Of Network.Graph.Edge)(edges)
-            }
+            Dim net As New NetworkGraph(nodes, edges)
 
             Return net
         End Function

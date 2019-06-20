@@ -57,6 +57,7 @@ Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
@@ -138,11 +139,9 @@ Partial Module CLI
         Dim alignments As AlignmentTable
 
         If local Then
-            alignments = AlignmentTableParserAPI.CreateFromBlastnFile([in], 120)
+            alignments = AlignmentTableParser.CreateFromBlastnFile([in], 120)
         Else
-            alignments = AlignmentTableParserAPI.LoadTable(
-                [in],
-                headerSplit:=True)
+            alignments = AlignmentTableParser.LoadTable([in], headerSplit:=True)
         End If
 
         GCSkew.Steps = 250

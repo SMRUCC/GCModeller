@@ -113,15 +113,15 @@ Public Module FunctionalNetwork
             ' 直接使用所提供的布局信息
             Dim layoutTable = layouts.ToDictionary(Function(x) x.ID)
 
-            For Each node In graph.nodes
+            For Each node In graph.vertex
                 With layoutTable(node.ID)
                     Dim point As New FDGVector2(.X * 1000, .Y * 1000)
-                    node.Data.initialPostion = point
+                    node.data.initialPostion = point
                 End With
             Next
         End If
 
-        Dim graphNodes = graph.nodes.ToDictionary
+        Dim graphNodes = graph.vertex.ToDictionary
         Dim nodeGroups = model.Nodes _
             .Select(Function(n)
                         Return Strings _

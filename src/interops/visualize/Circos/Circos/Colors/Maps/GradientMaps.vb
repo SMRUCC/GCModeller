@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports ColorPattern = Microsoft.VisualBasic.Imaging.ColorMap
 
 Namespace Colors
 
@@ -78,7 +79,7 @@ Namespace Colors
 
             Dim Y As Integer = CInt(5 + sz.Height) - 20
             Dim X As Double = 5
-            Dim maps As New ColorMap(mapLevel * 2)
+            Dim maps As New ColorPattern(mapLevel * 2)
             Dim colorSeq As Color() = ColorSequence(maps, mapName).Reverse.ToArray
             Dim offset = CInt(colorSeq.Length * offsetPercentage)
             Dim drWidth As Integer = g.Width - 5 * 2

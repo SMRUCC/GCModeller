@@ -66,6 +66,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
@@ -149,12 +150,12 @@ Namespace NCBIBlastResult
 
         <ExportAPI("alignment_dump.from.blastx")>
         Public Function AlignmentTableFromBlastX(<Parameter("dir.source", "The directory which contains the blastx output data.")> source As String) As AlignmentTable
-            Return AlignmentTableParserAPI.CreateFromBlastX(source)
+            Return AlignmentTableParser.CreateFromBlastX(source)
         End Function
 
         <ExportAPI("alignment_dump.from.blastn")>
         Public Function AlignmentTableFromBlastn(<Parameter("dir.source", "The directory which contains the blastn output data.")> source As String) As AlignmentTable
-            Return AlignmentTableParserAPI.CreateFromBlastn(source)
+            Return AlignmentTableParser.CreateFromBlastn(source)
         End Function
 
         Private Function InternalShortID_s(srcFasta As FASTA.FastaSeq) As String
@@ -261,7 +262,7 @@ Namespace NCBIBlastResult
 
         <ExportAPI("read.txt.blast_result", Info:="Read the blast output table result text file which was download from the NCBI blast website.")>
         Public Function LoadResult(path As String) As AlignmentTable
-            Return AlignmentTableParserAPI.LoadTable(path)
+            Return AlignmentTableParser.LoadTable(path)
         End Function
 
         ''' <summary>

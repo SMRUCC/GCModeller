@@ -44,7 +44,7 @@
 #End Region
 
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 
 Namespace TrackDatas.Highlights
 

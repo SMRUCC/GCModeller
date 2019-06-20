@@ -10,7 +10,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 Imports SMRUCC.genomics.Visualize.Circos.Colors
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype.GeneObjects
