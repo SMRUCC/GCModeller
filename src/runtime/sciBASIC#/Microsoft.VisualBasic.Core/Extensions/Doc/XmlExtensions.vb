@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ba3175e197f6226ab472b4c6c497bba, Microsoft.VisualBasic.Core\Extensions\Doc\XmlExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::0f0a1457babe6094d042d9534c9a9e52, Microsoft.VisualBasic.Core\Extensions\Doc\XmlExtensions.vb"
 
     ' Author:
     ' 
@@ -311,6 +311,14 @@ Public Module XmlExtensions
     ''' <returns></returns>
     ''' <remarks></remarks>
     <Extension> Public Function LoadFromXml(xml$, schema As Type, Optional throwEx As Boolean = True) As Object
+        If xml.StringEmpty Then
+            If throwEx Then
+                Throw New XmlException("Empty xml content!")
+            Else
+                Return Nothing
+            End If
+        End If
+
         Using stream As New StringReader(s:=xml)
             Try
                 Return New XmlSerializer(schema).Deserialize(stream)

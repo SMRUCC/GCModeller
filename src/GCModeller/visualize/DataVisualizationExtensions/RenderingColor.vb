@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::172ac1af12fc401fad035a14c83e9dbc, GCModeller.DataVisualization\RenderingColor.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module RenderingColor
-    ' 
-    '     Function: __directlyMapping, __interpolateMapping, CategoryMapsTextures, GenerateColorProfiles, InitCOGColors
-    ' 
-    ' /********************************************************************************/
+' Module RenderingColor
+' 
+'     Function: __directlyMapping, __interpolateMapping, CategoryMapsTextures, GenerateColorProfiles, InitCOGColors
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.Assembly.NCBI
 
 Public Module RenderingColor
@@ -68,10 +69,15 @@ Public Module RenderingColor
             categories = categories.Distinct.ToArray
         End If
 
-        Dim mapping As Dictionary(Of String, Brush) =
-            If(categories.Length > textures.Length,
-               __interpolateMapping(categories, textures), ' 材质不足，则会使用颜色来绘制
-               __directlyMapping(categories, textures))    ' 直接映射
+        Dim mapping As Dictionary(Of String, Brush)
+
+        If categories.Length > textures.Length Then
+            ' 材质不足，则会使用颜色来绘制
+            mapping = interpolateMapping(categories, textures)
+        Else
+            ' 直接映射
+            mapping = directlyMapping(categories, textures)
+        End If
 
         Return mapping
     End Function
@@ -80,7 +86,7 @@ Public Module RenderingColor
     ''' 材质不足，则会使用颜色来绘制
     ''' </summary>
     ''' <returns></returns>
-    Private Function __interpolateMapping(categories As String(), Textures As Image()) As Dictionary(Of String, Brush)
+    Private Function interpolateMapping(categories As String(), Textures As Image()) As Dictionary(Of String, Brush)
         Dim tmpBuf As String() = New String(Textures.Length - 1) {}
         Dim hash As Dictionary(Of String, Brush) = New Dictionary(Of String, Brush)
 
@@ -96,14 +102,15 @@ Public Module RenderingColor
             .Skip(tmpBuf.Length) _
             .CreateSlideWindows(Textures.Length, Textures.Length)
         Dim J As Integer = 0
+        Dim res As Image
 
         Do While True
             For Each cats As SlideWindow(Of String) In wins
-                Dim Color As Color = ColorList(J)
+                Dim color As Color = ColorList(J)
 
                 For i As Integer = 0 To cats.Items.Length - 1
-                    Dim res As Image = TextureResourceLoader.AdjustColor(Textures(i), Color)
-                    Call hash.Add(cats(i), New TextureBrush(res))
+                    res = TextureResourceLoader.AdjustColor(Textures(i), color)
+                    hash(cats(i)) = New TextureBrush(res)
                 Next
 
                 J += 1
@@ -118,14 +125,14 @@ Public Module RenderingColor
     ''' </summary>
     ''' <param name="categories"></param>
     ''' <returns></returns>
-    Private Function __directlyMapping(categories$(), Textures As Image()) As Dictionary(Of String, Brush)
-        Dim DictData As Dictionary(Of String, Brush) = New Dictionary(Of String, Brush)
+    Private Function directlyMapping(categories$(), Textures As Image()) As Dictionary(Of String, Brush)
+        Dim table As New Dictionary(Of String, Brush)
 
-        For i As Integer = 0 To categories.Count - 1
-            Call DictData.Add(categories(i), New TextureBrush(Textures(i)))
+        For i As Integer = 0 To categories.Length - 1
+            Call table.Add(categories(i), New TextureBrush(Textures(i)))
         Next
 
-        Return DictData
+        Return table
     End Function
 
     ''' <summary>
@@ -144,14 +151,13 @@ Public Module RenderingColor
         Dim R As Double = f
         Dim COGColors As New Dictionary(Of String, Color)
         Dim cl As Color
-        Dim rand As New Random
 
         For Each cata As COG.Catalog In CogCategory.Catalogs
             Dim f2 As Double = 255 / cata.SubClasses.Count
             Dim G As Double = f2
 
             For Each [class] As KeyValuePair(Of Char, String) In cata.SubClasses
-                cl = Color.FromArgb(alpha, R, G, 255 * rand.NextDouble())
+                cl = Color.FromArgb(alpha, R, G, 255 * seeds.NextDouble())
                 G += f2
 
                 Call COGColors.Add([class].Key, cl)

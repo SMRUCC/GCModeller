@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca016eecc9816504bde7a267d869738f, Microsoft.VisualBasic.Core\Extensions\Math\Random\RandomExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::1fdcb64ae24bd5da374378525524491e, Microsoft.VisualBasic.Core\Extensions\Math\Random\RandomExtensions.vb"
 
     ' Author:
     ' 
@@ -281,7 +281,9 @@ Namespace Math
 
         ''' <summary>
         ''' Returns n unique random numbers in the range [1, n], inclusive. 
-        ''' This is equivalent to getting the first n numbers of some random permutation of the sequential numbers from 1 to max. 
+        ''' This is equivalent to getting the first n numbers of some random permutation of the sequential 
+        ''' numbers from 1 to max. 
+        ''' 
         ''' Runs in O(k^2) time.
         ''' </summary>
         ''' <param name="rand"></param>

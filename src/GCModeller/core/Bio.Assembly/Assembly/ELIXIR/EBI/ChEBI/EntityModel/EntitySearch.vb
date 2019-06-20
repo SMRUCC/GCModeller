@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edcdacbf5717da2f72baad9785a27e66, Bio.Assembly\Assembly\EBI\ChEBI\EntityModel\EntitySearch.vb"
+﻿#Region "Microsoft.VisualBasic::f88c90700134047be0eb2c14ebae263a, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\EntitySearch.vb"
 
     ' Author:
     ' 

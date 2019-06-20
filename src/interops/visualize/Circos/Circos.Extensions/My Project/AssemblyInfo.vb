@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Circos.Extensions")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("Circos.Extensions")> 
-<Assembly: AssemblyCopyright("Copyright ©  2016")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("Circos data adapters and visualize models")>
+<Assembly: AssemblyDescription("Circos data adapters and visualize models")>
+<Assembly: AssemblyCompany("SMRUCC")>
+<Assembly: AssemblyProduct("Circos")>
+<Assembly: AssemblyCopyright("Copyright © SMRUCC 2019")>
+<Assembly: AssemblyTrademark("GCModeller")>
 
 <Assembly: ComVisible(False)>
 

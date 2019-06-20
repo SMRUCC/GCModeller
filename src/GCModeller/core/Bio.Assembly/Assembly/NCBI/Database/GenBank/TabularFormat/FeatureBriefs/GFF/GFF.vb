@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b762164a9ee3f5666752cf5c19ea762, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\GFF.vb"
+﻿#Region "Microsoft.VisualBasic::2312388a830c3405544abc8c663f003d, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\GFF.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: __getStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes, GetStrandFeatures
-    '                   LoadDocument, ProtId2Locus, Save, ToString, TryGetFreaturesData
+    '                   LoadDocument, ProtId2Locus, (+2 Overloads) Save, ToString, TryGetFreaturesData
     '                   TryGetMetaData
     ' 
     '         Sub: TrySetMetaData

@@ -53,7 +53,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Class DeviceModel
@@ -71,7 +70,7 @@ Public Class DeviceModel
     Public Property Orders As String()
     Public Property Titles As String
     ''' <summary>
-    ''' <see cref="ClMap"/>
+    ''' <see cref="ColorMap"/>
     ''' </summary>
     ''' <returns></returns>
     Public Property Colors As String
@@ -92,7 +91,7 @@ Public Class DeviceModel
         If Not path.FileExists Then
             Return New ColorMgr({}, [default])
         Else
-            Return New ColorMgr(path.LoadCsv(Of ClMap), [default])
+            Return New ColorMgr(path.LoadCsv(Of ColorMap), [default])
         End If
     End Function
 

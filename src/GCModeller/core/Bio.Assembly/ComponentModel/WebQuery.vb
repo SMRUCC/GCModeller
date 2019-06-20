@@ -1,15 +1,61 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::93594110b4c3d31299919e51f38a97eb, Bio.Assembly\ComponentModel\WebQuery.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+'     Class WebQuery
+' 
+'         Properties: offlineMode
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: (+2 Overloads) Query, queryText
+' 
+' 
+' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization
 
 Namespace ComponentModel
 
     ''' <summary>
-    ''' 
+    ''' <typeparamref name="Context"/>类型参数应该是查询的term的数据类型, 而非返回的查询结果的数据类型
     ''' </summary>
     ''' <typeparam name="Context"></typeparam>
     ''' <remarks>
@@ -27,17 +73,22 @@ Namespace ComponentModel
         ''' 404状态的资源列表
         ''' </summary>
         Dim url404 As New Index(Of String)
-        Dim offlineMode As Boolean
+
+        ''' <summary>
+        ''' 是否是处于仅从缓存数据之中查找结果的离线模式
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property offlineMode As Boolean
 
         ''' <summary>
         ''' 原始请求结果数据的缓存文件夹,同时也可以用这个文件夹来存放错误日志
         ''' </summary>
         Protected cache$
 
-        Shared ReadOnly interval As [Default](Of  Integer)
+        Shared ReadOnly interval As [Default](Of Integer)
 
         Shared Sub New()
-            Static defaultInterval As [Default](Of  String) = "3000"
+            Static defaultInterval As [Default](Of String) = "3000"
 
             With Val(App.GetVariable("sleep") Or defaultInterval)
                 ' controls of the interval by /@set sleep=xxxxx
@@ -82,6 +133,11 @@ Namespace ComponentModel
             End If
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function IsNullKey(key As Object) As Boolean
+            Return ExceptionHandle.Default(key)
+        End Function
+
         ''' <summary>
         ''' 这个函数返回的是缓存的本地文件的路径列表
         ''' </summary>
@@ -91,8 +147,11 @@ Namespace ComponentModel
         Protected Iterator Function queryText(query As IEnumerable(Of Context), type$) As IEnumerable(Of String)
             ' 因为在这里是进行批量的数据库查询
             ' 所以在这个函数内的代码的执行效率不会被考虑在内
-
             For Each context As Context In query
+                If IsNullKey(context) Then
+                    Yield ""
+                End If
+
                 Dim url = Me.url(context)
                 Dim id$ = Me.contextGuid(context)
                 Dim cache$
@@ -108,21 +167,7 @@ Namespace ComponentModel
                 End If
 
                 If Not url Like url404 Then
-                    Dim is404 As Boolean = False
-
-                    If cache.FileLength <= 0 AndAlso Not offlineMode Then
-                        Call url.GET(is404:=is404).SaveTo(cache)
-                        Call Thread.Sleep(interval)
-
-                        If is404 Then
-                            url404 += url
-                            Call $"{url} 404 Not Found!".PrintException
-                        Else
-                            Call $"Worker thread sleep {interval}ms...".__INFO_ECHO
-                        End If
-                    Else
-                        Call "hit cache!".__DEBUG_ECHO
-                    End If
+                    Call runHttpGet(cache, url)
                 Else
                     Call $"{id} 404 Not Found!".PrintException
                 End If
@@ -130,6 +175,24 @@ Namespace ComponentModel
                 Yield cache
             Next
         End Function
+
+        Private Sub runHttpGet(cache As String, url$)
+            Dim is404 As Boolean = False
+
+            If cache.FileLength <= 0 AndAlso Not offlineMode Then
+                Call url.GET(is404:=is404).SaveTo(cache)
+                Call Thread.Sleep(interval)
+
+                If is404 Then
+                    url404 += url
+                    Call $"{url} 404 Not Found!".PrintException
+                Else
+                    Call $"Worker thread sleep {interval}ms...".__INFO_ECHO
+                End If
+            Else
+                Call "hit cache!".__DEBUG_ECHO
+            End If
+        End Sub
 
         ''' <summary>
         ''' 
@@ -140,7 +203,7 @@ Namespace ComponentModel
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Query(Of T)(context As Context, Optional cacheType$ = ".xml") As T
-            Return deserialization(queryText({context}, cacheType).First.ReadAllText, GetType(T))
+            Return deserialization(queryText({context}, cacheType).First.ReadAllText(throwEx:=False), GetType(T))
         End Function
 
         ''' <summary>
@@ -153,7 +216,7 @@ Namespace ComponentModel
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Query(Of T)(context As IEnumerable(Of Context), Optional cacheType$ = ".xml") As IEnumerable(Of T)
             Return queryText(context, cacheType) _
-                .Select(Function(file) deserialization(file.ReadAllText, GetType(T))) _
+                .Select(Function(file) deserialization(file.ReadAllText(throwEx:=False), GetType(T))) _
                 .As(Of T)
         End Function
     End Class

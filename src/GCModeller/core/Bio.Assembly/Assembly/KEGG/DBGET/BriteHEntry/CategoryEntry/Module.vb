@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97ffa59ba0138d3c2c2c06d66e3211c2, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Module.vb"
+﻿#Region "Microsoft.VisualBasic::b83ec26f062334105809beef25a4b434, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Module.vb"
 
     ' Author:
     ' 
