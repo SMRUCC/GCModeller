@@ -83,11 +83,14 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         End Function
 
         Private Shared Function queryArguments(url As String) As String
-            Throw New NotImplementedException
+            Return url.GetTagValue("?", trim:=True) _
+                .Value _
+                .NormalizePathString(alphabetOnly:=False) _
+                .Replace("+", "/")
         End Function
 
         Private Shared Function argumentPrefix(arg As String) As String
-            Throw New NotImplementedException
+            Return Nothing
         End Function
 
         Private Shared Function ParsePage(html$, null As Type) As Object
