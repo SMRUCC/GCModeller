@@ -45,7 +45,6 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
@@ -216,7 +215,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Else
                     entries += entry
                     url = $"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}"
-                    data.genes = KEGGgenes.Download(url) _
+                    data.genes = KEGGgenes.Download(url, cache:=$"{cache}/linkdb/", offline:=offline) _
                         .Select(Function(t) New NamedValue(t.Key, t.Value)) _
                         .ToArray
 

@@ -505,7 +505,7 @@
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\bGetObject.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\LinkDB\KEGGgenes.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\LinkDB\ParserHelper.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Module.vb" />

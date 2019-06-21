@@ -45,7 +45,7 @@ Imports System.Text.RegularExpressions
 
 Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
-    Public Module Extensions
+    <HideModuleName> Public Module Extensions
 
         Public Const DBGET$ = "DBGET integrated database retrieval system"
 
