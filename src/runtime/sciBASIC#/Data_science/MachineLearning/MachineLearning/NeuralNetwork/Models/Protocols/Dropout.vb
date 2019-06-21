@@ -1,5 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Linq
 
 Namespace NeuralNetwork.Protocols
 
@@ -14,8 +14,8 @@ Namespace NeuralNetwork.Protocols
         ''' </param>
         <Extension> Public Sub DoDropOut(model As Network, Optional percentage As Double = 0.5)
             For Each layer As Layer In model.HiddenLayer
-                For Each node As Neuron In layer.Shuffles
-
+                For Each node As Neuron In layer.TakeRandomly(layer.Neurons.Length * percentage)
+                    node.isDroppedOut = True
                 Next
             Next
         End Sub
