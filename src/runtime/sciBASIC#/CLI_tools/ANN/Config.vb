@@ -82,6 +82,7 @@ Public Class Config
 
     <DataFrameColumn> Public Property selective As String = "no"
     <DataFrameColumn> Public Property scattered As String = "no"
+    <DataFrameColumn> Public Property layerNormalize As String = "no"
 
     Public Shared ReadOnly Property [Default] As [Default](Of Config) = New Config
 
