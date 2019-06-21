@@ -158,6 +158,12 @@ Namespace NeuralNetwork
             Next
         End Sub
 
+        Public Sub SetLayerNormalize(opt As Boolean)
+            For Each layer As Layer In network.HiddenLayer
+                layer.doNormalize = opt
+            Next
+        End Sub
+
         ''' <summary>
         ''' 在这里添加训练使用的数据集
         ''' (请注意,因为ANN的output结果向量只输出``[0,1]``之间的结果,所以在训练的时候,output应该是被编码为0或者1的;
