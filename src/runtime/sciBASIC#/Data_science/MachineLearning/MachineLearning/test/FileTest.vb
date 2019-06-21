@@ -101,11 +101,16 @@ Module FileTest
         Dim model1 = Scattered.ScatteredLoader("./scatters/").LoadModel
         Dim model2 = "./format1.Xml".LoadXml(Of StoreProcedure.NeuralNetwork).LoadModel
 
+        ' predicts should be 
+        ' 0, 0, 0, 1
         Dim predict1 = model1.Compute(1, 1, 1, 1, 0)
         Dim predict2 = model2.Compute(1, 1, 1, 1, 0)
 
         Call StoreProcedure.NeuralNetwork.Snapshot(model1).GetXml.SaveTo("./scatterLoaded.Xml")
         Call StoreProcedure.NeuralNetwork.Snapshot(model2).GetXml.SaveTo("./interalLoaded.Xml")
+
+        Call Console.WriteLine(predict1.GetJson)
+        Call Console.WriteLine(predict2.GetJson)
 
         Pause()
     End Sub
