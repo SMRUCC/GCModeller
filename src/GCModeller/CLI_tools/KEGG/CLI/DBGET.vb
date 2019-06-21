@@ -175,7 +175,7 @@ Partial Module CLI
                 .CLICode
         Else
             Return LinkDB.Pathways _
-                .Downloads(sp, EXPORT, cache:=EXPORT) _
+                .Downloads(sp, EXPORT, cache:=EXPORT & "/.kegg/") _
                 .SaveTo(EXPORT & "/failures.txt") _
                 .CLICode
         End If

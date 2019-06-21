@@ -116,7 +116,6 @@ Namespace Assembly.KEGG.DBGET.LinkDB
 
             For Each entry As ListEntry In all
                 Dim imageUrl = String.Format("http://www.genome.jp/kegg/pathway/{0}/{1}.png", sp, entry.EntryID)
-                Dim path As String = EXPORT & "/webpages/" & entry.EntryID & ".html"
                 Dim img As String = EXPORT & $"/{entry.EntryID}.png"
                 Dim bCode As String = Regex.Match(entry.EntryID, "\d+").Value
                 Dim xml$ = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.EntryID}.Xml"
