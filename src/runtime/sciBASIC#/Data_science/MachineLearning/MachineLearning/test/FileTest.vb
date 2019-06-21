@@ -84,7 +84,7 @@ Module FileTest
         Helpers.MaxEpochs = 100000
 
         ' config drop out mode
-        trainer.SetDropOut(0.45)
+        '  trainer.SetDropOut(0.45)
         trainer.SetLayerNormalize(True)
 
         Dim snapshot As New Snapshot(trainer.NeuronNetwork)
