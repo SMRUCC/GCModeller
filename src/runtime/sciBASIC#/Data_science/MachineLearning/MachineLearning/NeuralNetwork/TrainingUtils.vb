@@ -50,6 +50,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Protocols
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text
@@ -74,6 +75,7 @@ Namespace NeuralNetwork
         ''' </summary>
         ''' <returns></returns>
         Public Property Selective As Boolean = True
+        Public Property dropOutRate As Double = 0
 
         ''' <summary>
         ''' 最终得到的训练结果神经网络
@@ -202,10 +204,21 @@ Namespace NeuralNetwork
             End Using
         End Sub
 
+        ''' <summary>
+        ''' 在这个函数之中实现一次训练循环过程
+        ''' </summary>
+        ''' <param name="dataSets"></param>
+        ''' <param name="parallel"></param>
+        ''' <param name="selective"></param>
+        ''' <returns></returns>
         Private Function trainingImpl(dataSets As Sample(), parallel As Boolean, selective As Boolean) As Double
             Dim errors As New List(Of Double)()
             Dim err#
             Dim outputSize% = dataSets(Scan0).target.Length
+
+            If dropOutRate > 0 Then
+                Call network.DoDropOut(percentage:=dropOutRate)
+            End If
 
             For Each dataSet As Sample In dataSets
                 If selective Then

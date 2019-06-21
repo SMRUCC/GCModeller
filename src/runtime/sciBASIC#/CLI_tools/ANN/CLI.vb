@@ -220,6 +220,9 @@ Module CLI
                 layer.doNormalize = True
             Next
         End If
+        If config.dropoutRate > 0 AndAlso config.dropoutRate < 1 Then
+            trainingHelper.dropOutRate = config.dropoutRate
+        End If
 
         For Each sample As Sample In samples.PopulateNormalizedSamples(dummyExtends)
             Call trainingHelper.Add(sample.status, sample.target)

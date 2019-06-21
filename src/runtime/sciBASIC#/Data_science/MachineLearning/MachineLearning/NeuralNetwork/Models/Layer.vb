@@ -82,6 +82,11 @@ Namespace NeuralNetwork
         ''' </summary>
         ''' <returns></returns>
         Public Property doNormalize As Boolean
+        ''' <summary>
+        ''' 是否处于DropOut模式
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property doDropOutMode As Boolean
 
         ''' <summary>
         ''' 用于XML模型的加载操作
@@ -125,16 +130,24 @@ Namespace NeuralNetwork
         ''' <param name="parallel"></param>
         Public Sub UpdateWeights(learnRate#, momentum#, Optional parallel As Boolean = False)
             If Not parallel Then
-                For Each neuron As Neuron In Neurons
+                For Each neuron As Neuron In allActiveNodes()
                     Call neuron.UpdateWeights(learnRate, momentum)
                 Next
             Else
                 With Aggregate neuron As Neuron
-                     In Neurons.AsParallel
+                     In allActiveNodes.AsParallel
                      Into Sum(neuron.UpdateWeights(learnRate, momentum))
                 End With
             End If
         End Sub
+
+        Private Function allActiveNodes() As IEnumerable(Of Neuron)
+            If doDropOutMode Then
+                Return Neurons.Where(Function(n) Not n.isDroppedOut)
+            Else
+                Return Neurons
+            End If
+        End Function
 
         ''' <summary>
         ''' 计算输出层的结果值,即通过这个函数的调用计算出分类的结果值,结果值为``[0,1]``之间的小数
@@ -144,7 +157,7 @@ Namespace NeuralNetwork
         ''' </remarks>
         Public Sub CalculateValue(Optional parallel As Boolean = False)
             If Not parallel Then
-                For Each neuron As Neuron In Neurons
+                For Each neuron As Neuron In allActiveNodes()
                     Call neuron.CalculateValue()
                 Next
             Else
@@ -156,16 +169,16 @@ Namespace NeuralNetwork
                 ' 并没有修改上一层网络的任何参数
                 ' 所以在这里的并行是没有问题的
                 With Aggregate neuron As Neuron
-                     In Neurons.AsParallel
+                     In allActiveNodes.AsParallel
                      Into Sum(neuron.CalculateValue)
                 End With
             End If
 
             If doNormalize Then
                 ' 将当前层之中的所有的神经元的值都归一化为[0,1]这个区间内
-                Dim max = Neurons.Max(Function(n) n.Value)
+                Dim max = allActiveNodes.Max(Function(n) n.Value)
 
-                For Each neuron As Neuron In Neurons
+                For Each neuron As Neuron In allActiveNodes()
                     neuron.Value /= max
                 Next
             End If
@@ -179,12 +192,12 @@ Namespace NeuralNetwork
 
         Public Sub CalculateGradient(Optional parallel As Boolean = False, Optional truncate# = -1)
             If Not parallel Then
-                For Each neuron As Neuron In Neurons
+                For Each neuron As Neuron In allActiveNodes()
                     Call neuron.CalculateGradient(truncate)
                 Next
             Else
                 With Aggregate neuron As Neuron
-                     In Neurons.AsParallel
+                     In allActiveNodes.AsParallel
                      Into Sum(neuron.CalculateGradient(truncate))
                 End With
             End If
