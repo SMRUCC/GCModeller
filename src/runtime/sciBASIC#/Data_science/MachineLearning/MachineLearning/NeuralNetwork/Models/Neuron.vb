@@ -81,6 +81,12 @@ Namespace NeuralNetwork
         Public Property Value As Double
 
         ''' <summary>
+        ''' 当前的这个神经元节点是否是被随机失活的一个节点?
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property isDroppedOut As Boolean
+
+        ''' <summary>
         ''' 当前的这个神经元对象的唯一标识符
         ''' </summary>
         ''' <returns></returns>
