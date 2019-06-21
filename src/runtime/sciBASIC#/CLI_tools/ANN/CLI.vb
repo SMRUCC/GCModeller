@@ -221,7 +221,7 @@ Module CLI
             Next
         End If
         If config.dropoutRate > 0 AndAlso config.dropoutRate < 1 Then
-            trainingHelper.dropOutRate = config.dropoutRate
+            Call trainingHelper.SetDropOut(percentage:=config.dropoutRate)
         End If
 
         For Each sample As Sample In samples.PopulateNormalizedSamples(dummyExtends)

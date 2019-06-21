@@ -75,7 +75,8 @@ Namespace NeuralNetwork
         ''' </summary>
         ''' <returns></returns>
         Public Property Selective As Boolean = True
-        Public Property dropOutRate As Double = 0
+
+        Public ReadOnly Property dropOutRate As Double = 0
 
         ''' <summary>
         ''' 最终得到的训练结果神经网络
@@ -147,6 +148,14 @@ Namespace NeuralNetwork
             If Not _dataSets.Count = 0 Then
                 Call _dataSets.RemoveLast
             End If
+        End Sub
+
+        Public Sub SetDropOut(percentage As Double)
+            _dropOutRate = percentage
+
+            For Each layer As Layer In network.HiddenLayer
+                layer.doDropOutMode = True
+            Next
         End Sub
 
         ''' <summary>

@@ -56,6 +56,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -70,6 +71,7 @@ Namespace NeuralNetwork
         Public ReadOnly Property Neurons As Neuron()
 
         Public ReadOnly Property Output As Double()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Neurons _
                     .Select(Function(n) n.Value) _
@@ -131,12 +133,13 @@ Namespace NeuralNetwork
         Public Sub UpdateWeights(learnRate#, momentum#, Optional parallel As Boolean = False)
             If Not parallel Then
                 For Each neuron As Neuron In allActiveNodes()
-                    Call neuron.UpdateWeights(learnRate, momentum)
+                    Call neuron.UpdateWeights(learnRate, momentum, doDropOutMode)
                 Next
             Else
                 With Aggregate neuron As Neuron
                      In allActiveNodes.AsParallel
-                     Into Sum(neuron.UpdateWeights(learnRate, momentum))
+                     Let run = neuron.UpdateWeights(learnRate, momentum, doDropOutMode)
+                     Into Sum(run)
                 End With
             End If
         End Sub
@@ -158,7 +161,7 @@ Namespace NeuralNetwork
         Public Sub CalculateValue(Optional parallel As Boolean = False)
             If Not parallel Then
                 For Each neuron As Neuron In allActiveNodes()
-                    Call neuron.CalculateValue()
+                    Call neuron.CalculateValue(doDropOutMode)
                 Next
             Else
                 ' 在这里将结果值赋值到一个临时的匿名变量中
@@ -170,7 +173,8 @@ Namespace NeuralNetwork
                 ' 所以在这里的并行是没有问题的
                 With Aggregate neuron As Neuron
                      In allActiveNodes.AsParallel
-                     Into Sum(neuron.CalculateValue)
+                     Let run = neuron.CalculateValue(doDropOutMode)
+                     Into Sum(run)
                 End With
             End If
 
@@ -193,12 +197,13 @@ Namespace NeuralNetwork
         Public Sub CalculateGradient(Optional parallel As Boolean = False, Optional truncate# = -1)
             If Not parallel Then
                 For Each neuron As Neuron In allActiveNodes()
-                    Call neuron.CalculateGradient(truncate)
+                    Call neuron.CalculateGradient(truncate, doDropOutMode)
                 Next
             Else
                 With Aggregate neuron As Neuron
                      In allActiveNodes.AsParallel
-                     Into Sum(neuron.CalculateGradient(truncate))
+                     Let run = neuron.CalculateGradient(truncate, doDropOutMode)
+                     Into Sum(run)
                 End With
             End If
         End Sub
