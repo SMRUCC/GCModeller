@@ -80,6 +80,12 @@ Namespace NeuralNetwork
         End Property
 
         ''' <summary>
+        ''' 将当前层之中的所有的神经元的值都归一化为[0,1]这个区间内
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property doNormalize As Boolean
+
+        ''' <summary>
         ''' 用于XML模型的加载操作
         ''' </summary>
         Friend Sub New(neurons As Neuron())
@@ -155,6 +161,15 @@ Namespace NeuralNetwork
                      In Neurons.AsParallel
                      Into Sum(neuron.CalculateValue)
                 End With
+            End If
+
+            If doNormalize Then
+                ' 将当前层之中的所有的神经元的值都归一化为[0,1]这个区间内
+                Dim max = Neurons.Max(Function(n) n.Value)
+
+                For Each neuron As Neuron In Neurons
+                    neuron.Value /= max
+                Next
             End If
         End Sub
 
@@ -259,7 +274,8 @@ Namespace NeuralNetwork
         ''' 前向传播
         ''' </summary>
         ''' <remarks>
-        ''' 因为隐藏层的层数也不是很多,所以在这个函数也不需要并行?
+        ''' 因为输入的样本信息在网络之中的传播是有方向性的
+        ''' 所以这个函数的layer之间不可以出现并行关系
         ''' </remarks>
         Public Sub ForwardPropagate(parallel As Boolean)
             For Each layer As Layer In Layers
