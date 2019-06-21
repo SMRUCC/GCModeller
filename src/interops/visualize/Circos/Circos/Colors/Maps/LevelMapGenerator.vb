@@ -43,6 +43,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports ColorPattern = Microsoft.VisualBasic.Imaging.ColorMap
 
 Namespace Colors
 
@@ -56,7 +57,7 @@ Namespace Colors
         Dim offset As Integer
 
         Sub New(values As IEnumerable(Of Double), name As String, mapLevels As Integer, offsetPercentage#, replaceBase As Boolean)
-            Dim maps As New ColorMap(mapLevels * 2)
+            Dim maps As New ColorPattern(mapLevels * 2)
             Me.clSequence = ColorSequence(maps, name).Reverse.ToArray
             Me.values = values.ToArray
             Me.replaceBase = replaceBase

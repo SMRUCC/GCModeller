@@ -54,7 +54,10 @@ Namespace Layouts
 
     Public Module LayoutUpdater
 
-        Private Class __layoutGenerator : Inherits AbstractRenderer
+        ''' <summary>
+        ''' Do nothing, just used for generate network layout
+        ''' </summary>
+        Private Class layoutGenerator : Inherits AbstractRenderer
 
             Public Sub New(iForceDirected As IForceDirected)
                 MyBase.New(iForceDirected)
@@ -73,13 +76,13 @@ Namespace Layouts
             ''' <param name="iNode"></param>
             ''' <param name="iPosition"></param>
             Protected Overrides Sub drawNode(iNode As Node, iPosition As AbstractVector)
-                iNode.Data.initialPostion = iPosition
+                iNode.data.initialPostion = iPosition
             End Sub
         End Class
 
         <Extension>
         Public Sub Updates(Of T As AbstractVector)(engine As ForceDirected(Of T), ByRef net As NetworkGraph, Optional loops As Integer = 100)
-            Dim updater As New __layoutGenerator(engine)
+            Dim updater As New layoutGenerator(engine)
 
             For i As Integer = 0 To loops - 1
                 Call updater.Draw(0.05F)

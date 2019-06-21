@@ -53,6 +53,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
 Imports SMRUCC.genomics.SequenceModel.Patterns
+Imports ColorPattern = Microsoft.VisualBasic.Imaging.ColorMap
 
 Public Module GCPlot
 
@@ -154,8 +155,7 @@ Public Module GCPlot
                 .Name = ntArray(i).Name,
                 .Value = i.value
             })
-        Dim mapColors As Color() = New ColorMap(levels * 2 + 1) _
-            .ColorSequence(colors)
+        Dim mapColors As Color() = New ColorPattern(levels * 2 + 1).ColorSequence(colors)
         Dim margin As Padding = padding
 
         If size.IsEmpty Then
