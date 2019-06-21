@@ -226,11 +226,23 @@ Namespace Configurations
 
         ReadOnly plotTracks As New List(Of ITrackPlot)
 
+        Public ReadOnly Property Ideogram As Ideogram
+            Get
+                For Each include In Me.includes
+                    If TypeOf include Is Ideogram Then
+                        Return DirectCast(include, Ideogram)
+                    End If
+                Next
+
+                Return Nothing
+            End Get
+        End Property
+
         ''' <summary>
         ''' The genome size.(基因组的大小，当<see cref="SkeletonKaryotype"/>为空值的时候返回数值0)
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Size As Integer
+        Public ReadOnly Property size As Integer
             Get
                 If skeletonKaryotype Is Nothing Then
                     Return 0
@@ -382,8 +394,8 @@ Namespace Configurations
         End Operator
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of ITrackPlot) Implements IEnumerable(Of ITrackPlot).GetEnumerator
-            For Each x As ITrackPlot In plotTracks
-                Yield x
+            For Each track As ITrackPlot In plotTracks
+                Yield track
             Next
         End Function
 
