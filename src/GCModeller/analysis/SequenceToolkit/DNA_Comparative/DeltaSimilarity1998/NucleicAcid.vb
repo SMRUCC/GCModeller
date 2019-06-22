@@ -55,12 +55,12 @@ Namespace DeltaSimilarity1998
     ''' <remarks></remarks>
     Public Class NucleicAcid : Inherits NucleotideModels.NucleicAcid
 
-        Protected Friend __biasTable As New Dictionary(Of String, Double)
+        Protected Friend biasTable As New Dictionary(Of String, Double)
 
         ''' <summary>
         ''' 为了防止反复重新创建划窗而构建出来的计算数据缓存
         ''' </summary>
-        Protected Friend __DNA_segments As SlideWindow(Of DNA)()
+        Protected Friend DNA_segments As SlideWindow(Of DNA)()
 
         ''' <summary>
         ''' Get value by using a paired of base.
@@ -69,7 +69,7 @@ Namespace DeltaSimilarity1998
         ''' <param name="Y"></param>
         ''' <returns></returns>
         Public Function GetValue(X As DNA, Y As DNA) As Double
-            Return __biasTable($"{ToChar(X)} -> {ToChar(Y)}")
+            Return biasTable($"{ToChar(X)} -> {ToChar(Y)}")
         End Function
 
         ''' <summary>
@@ -81,7 +81,7 @@ Namespace DeltaSimilarity1998
             Call MyBase.New(nt)
 
             ' 因为__createSigma函数需要这个滑窗数据，所以需要先于__createSigma函数进行调用
-            __DNA_segments = Me.SlideWindows(2, offset:=1).ToArray
+            DNA_segments = Me.SlideWindows(2, offset:=1).ToArray
 
             For Each X As (a As DNA, B As DNA) In {
                 (DNA.dAMP, DNA.dAMP),
@@ -102,7 +102,7 @@ Namespace DeltaSimilarity1998
                 (DNA.dTMP, DNA.dTMP)
             }
                 With __createSigma(Me, X.a, X.B)
-                    Call __biasTable.Add(.Key, .Value)
+                    Call biasTable.Add(.Key, .Value)
                 End With
             Next
         End Sub
@@ -119,6 +119,16 @@ Namespace DeltaSimilarity1998
         Sub New(nt$)
             Call Me.New(New NucleotideModels.NucleicAcid(nt).ToArray)
         End Sub
+
+        Private Sub New(nt As IEnumerable(Of DNA))
+            Call MyBase.New(nt)
+        End Sub
+
+        Public Iterator Function CreateFragments(winSize%, step%) As IEnumerable(Of NucleicAcid)
+            For Each region In MyBase.SlideWindows(winSize, offset:=[step])
+                Yield New NucleicAcid(region)
+            Next
+        End Function
 
         Private Shared Function __createSigma(nt As NucleicAcid,
                                               X As DNA,
