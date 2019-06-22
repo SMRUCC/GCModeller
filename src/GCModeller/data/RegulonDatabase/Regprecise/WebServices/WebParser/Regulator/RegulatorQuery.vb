@@ -30,11 +30,11 @@ Namespace Regprecise
         ' 因为在这里是进行Web请求，所以为了降低目标服务器的压力，在这里可以牺牲掉代码的执行效率
 
         Private Shared Function UrlParser(str As String) As String
-            Return basicParser(str).regulator.text
+            Return basicParser(str, Nothing).regulator.text
         End Function
 
         Private Shared Function NameParser(str As String) As String
-            Return basicParser(str).regulator.name
+            Return basicParser(str, Nothing).regulator.name
         End Function
 
         ''' <summary>
@@ -42,12 +42,16 @@ Namespace Regprecise
         ''' </summary>
         ''' <param name="str"></param>
         ''' <returns></returns>
-        Private Shared Function basicParser(str As String) As Regulator
+        Friend Shared Function basicParser(str As String, regulator As Regulator) As Regulator
             Dim list$() = r.Matches(str, "<td.+?</td>").ToArray
             Dim i As VBInteger = Scan0
-            Dim regulator As New Regulator With {
-                .type = If(InStr(list(++i), " RNA "), Types.RNA, Types.TF)
-            }
+
+            If regulator Is Nothing Then
+                regulator = New Regulator
+            End If
+
+            regulator.type = If(InStr(list(++i), " RNA "), Types.RNA, Types.TF)
+
             Dim entry As String = r.Match(list(++i), "href="".+?"">.+?</a>").Value
             Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & entry.href
             regulator.regulator = New NamedValue With {

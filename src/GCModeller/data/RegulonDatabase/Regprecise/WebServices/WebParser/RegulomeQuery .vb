@@ -44,7 +44,7 @@ Namespace Regprecise
 
             For i As Integer = 0 To list.Length - 1
                 str = list(i)
-                regulators += regulatorQuery.Query(Of Regulator)(str, ".txt")
+                regulators += RegulatorQuery.basicParser(str, regulatorQuery.Query(Of Regulator)(str, ".txt"))
             Next
 
             Return New Regulon With {
@@ -54,12 +54,16 @@ Namespace Regprecise
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function doParseGuid(context As String) As String
-            Return GetsId(context)
+            Dim str$ = r.Match(context, "href="".+?"">.+?</a>").Value
+            Dim genomeName As String = GetsId(str).NormalizePathString(False)
+
+            Return genomeName
         End Function
 
         <ExportAPI("Get.sId")>
         Public Shared Function GetsId(strData As String) As String
-            Dim Id As String = Mid(strData, InStr(strData, """>") + 2)
+            Dim left As Integer = InStr(strData, """>") + 2
+            Dim Id As String = Mid(strData, left)
 
             If String.IsNullOrEmpty(Trim(Id)) Then
                 Return ""
