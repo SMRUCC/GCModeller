@@ -136,7 +136,7 @@ Namespace DeltaSimilarity1998
         End Sub
 
         Private Sub New(nt As IEnumerable(Of DNA))
-            Call MyBase.New(nt)
+            Call Me.New(nt)
         End Sub
 
         Public Iterator Function CreateFragments(winSize%, step%) As IEnumerable(Of NucleicAcid)
