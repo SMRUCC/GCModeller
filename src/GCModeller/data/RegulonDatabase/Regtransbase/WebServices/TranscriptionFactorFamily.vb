@@ -447,8 +447,8 @@ Namespace Regtransbase.WebServices
         End Property
 
         Public Shared Function Parse(url As String) As MotifFasta()
-            Dim Text As String = url.GET
-            Dim FASTA As FastaFile = FastaFile.ParseDocument(doc:=Text)
+            Dim text As String = url.GET
+            Dim FASTA As FastaFile = FastaFile.ParseDocument(doc:=text)
             Dim LQuery = (From fsa As FastaSeq In FASTA Select MotifFasta.[New](fsa)).ToArray
             Return LQuery
         End Function

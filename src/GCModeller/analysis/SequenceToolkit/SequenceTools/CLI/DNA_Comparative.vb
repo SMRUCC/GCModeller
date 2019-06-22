@@ -40,6 +40,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -84,13 +85,49 @@ Partial Module Utilities
         Return matrix.SaveTo(out).CLICode
     End Function
 
+    <ExportAPI("/ruler.dist.calc")>
+    <Usage("/ruler.dist.calc /in <ruler.fasta> /genomes <genome.gb.DIR> [/winSize <default=1000> /step <default=500> /out <out.csv.dir>]")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in, AcceptTypes:={GetType(FastaSeq)},
+              Description:="A single fasta sequence file contains only one sequence that used for external ruler")>
+    Public Function RulerSlideWindowMatrix(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim genomes = args <= "/genomes"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.ruler_vs_{genomes.BaseName}/"
+        Dim ruler As FastaSeq = FastaFile.LoadNucleotideData([in]).First
+        Dim rulerModel As New DeltaSimilarity1998.NucleicAcid(ruler)
+        Dim winSize As Integer = args("/winSize") Or 1000
+        Dim steps As Integer = args("/step") Or 500
+        Dim dist As Double
+
+        For Each genome As String In ls - l - r - {"*.gb", "*.gbff", "*.gbk"} <= genomes
+            For Each replicon As GBFF.File In GBFF.File.LoadDatabase(genome)
+                Dim nt As FastaSeq = replicon.Origin.ToFasta
+                Dim ntModel As New DeltaSimilarity1998.NucleicAcid(nt)
+
+                Using writer As StreamWriter = $"{out}/{genome.BaseName}/{replicon.Accession.AccessionId}.csv".OpenWriter()
+                    writer.WriteLine("title=," & nt.Title)
+
+                    For Each segment As DeltaSimilarity1998.NucleicAcid In ntModel.CreateFragments(winSize, [step]:=steps)
+                        dist = DifferenceMeasurement.Sigma(rulerModel, segment)
+                        writer.WriteLine(dist)
+                    Next
+                End Using
+
+                Call nt.Title.__INFO_ECHO
+            Next
+        Next
+
+        Return 0
+    End Function
+
     <ExportAPI("/gwANI", Usage:="/gwANI /in <in.fasta> [/fast /out <out.Csv>]")>
+    <Description("Given a multi-FASTA alignment, output the genome wide average nucleotide identity (gwANI) for Each sample against all other samples. A matrix containing the percentages Is outputted.")>
     <Group(CLIGrouping.DNA_ComparativeTools)>
-    Public Function gwANI(args As CommandLine) As Integer
+    Public Function gwANIEvaluate(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gwANI.Csv")
         Dim fast As Boolean = args.GetBoolean("/fast")
-        Call gwANIExtensions.Evaluate([in], out, fast)
+        Call gwANI.Evaluate([in], out, fast)
         Return 0
     End Function
 

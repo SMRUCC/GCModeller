@@ -589,7 +589,8 @@
     <Compile Include="Assembly\UniProt\XML\UniRef\entry.vb" />
     <Compile Include="ComponentModel\Annotation\CatalogProfiling.vb" />
     <Compile Include="ComponentModel\Annotation\COG.vb" />
-    <Compile Include="ComponentModel\WebQuery.vb" />
+    <Compile Include="ComponentModel\Web\WebQueryModule.vb" />
+    <Compile Include="ComponentModel\Web\WebQuery.vb" />
     <Compile Include="ComponentModel\IMolecule.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\Xref.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb" />

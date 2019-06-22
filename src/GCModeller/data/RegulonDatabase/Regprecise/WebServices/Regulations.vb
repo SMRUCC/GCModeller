@@ -49,7 +49,6 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.InteractionModel.Regulon
 
 Namespace Regprecise.WebServices
 
@@ -78,7 +77,7 @@ Namespace Regprecise.WebServices
     ''' %Repository%/Regprecise/MEME/regulations.xml
     ''' (在进行了MEME分析之后，使用这个模块来生成所预测的调控关系)
     ''' </summary>
-    Public Class Regulations : Implements IRegulationDatabase
+    Public Class Regulations
 
         Public Property Regulations As Regulation()
             Get
@@ -256,7 +255,7 @@ Namespace Regprecise.WebServices
             End If
         End Function
 
-        Public Function IsRegulates(regulator As String, site As String) As Boolean Implements IRegulationDatabase.IsRegulates
+        Public Function IsRegulates(regulator As String, site As String) As Boolean
             Dim regulatorLDM = Me._regulatorsDict(regulator)
             Dim id As Integer = regulatorLDM.vimssId
             Dim regulations = Me._regulatorRegulations(id)
@@ -264,20 +263,20 @@ Namespace Regprecise.WebServices
             Return Not LQuery Is Nothing
         End Function
 
-        Public Function GetRegulators(site As String) As String() Implements IRegulationDatabase.GetRegulators
+        Public Function GetRegulators(site As String) As String()
             Dim regulations As Regulation() = GetRegulations(site)
             Dim TF = regulations.Select(Function(x) GetRegulator(x.Regulator))
             Dim locus As String() = (From x In TF Where Not x Is Nothing Select x.locusTag).ToArray
             Return locus
         End Function
 
-        Public Function GetRegulatesSites(regulator As String) As String() Implements IRegulationDatabase.GetRegulatesSites
+        Public Function GetRegulatesSites(regulator As String) As String()
             Dim regulatorLDM = Me._regulatorsDict(regulator)
             Dim regulations = Me._regulatorRegulations(regulatorLDM.vimssId)
             Return regulations.Select(Function(x) x.Site)
         End Function
 
-        Public Function listRegulators() As String() Implements IRegulationDatabase.listRegulators
+        Public Function listRegulators() As String()
             Dim LQuery = (From x In Me.Regulators Select x.locusTag).ToArray
             Return LQuery
         End Function

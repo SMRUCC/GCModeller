@@ -48,7 +48,6 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -64,17 +63,6 @@ Imports SMRUCC.genomics.SequenceModel
 
 <Package("RegPrecise.CLI", Category:=APICategories.CLI_MAN)>
 <CLI> Public Module CLI
-
-    <ExportAPI("Download.Regprecise", Info:="Download Regprecise database from Web API",
-               Usage:="Download.Regprecise [/work ./ /save <saveXml>]")>
-    <Group(CLIGroups.WebAPI)>
-    Public Function DownloadRegprecise222(args As CommandLine) As Integer
-        Dim WORK As String = args.GetValue("/work", App.CurrentDirectory & "/RegpreciseDownloads/")
-        Dim Db As TranscriptionFactors = WebAPI.Download(WORK)
-        Dim out As String = args.GetValue("/save", App.CurrentDirectory & "/Regprecise.Xml")
-
-        Return Db.GetXml.SaveTo(out)
-    End Function
 
     ''' <summary>
     ''' 下载数据库
@@ -325,7 +313,7 @@ Imports SMRUCC.genomics.SequenceModel
     <Description("Download Regprecise database from Web API")>
     <Usage("/Download.Regprecise [/work ./ /save <save.Xml>]")>
     <Group(CLIGroups.WebAPI)>
-    <Argument("/work", True, CLITypes.File, Description:="The temporary directory for save the xml data.")>
+    <Argument("/work", True, CLITypes.File, Description:="The temporary directory for save the xml data. Is a cache directory path, Value is current directory by default.")>
     <Argument("/save", True, CLITypes.File, Description:="The repository saved xml file path.")>
     Public Function DownloadRegprecise2(args As CommandLine) As Integer
         Dim WORK$ = args("/work") Or (App.CurrentDirectory & "/RegpreciseDownloads/")
@@ -344,9 +332,16 @@ Imports SMRUCC.genomics.SequenceModel
         Dim inDIR As String = args("/imports")
         Dim genomes = inDIR.EnumerateFiles("*.xml").Select(Function(path) path.LoadXml(Of BacteriaRegulome))
         Dim EXPORT As String = args.GetValue("/export", inDIR.ParentPath & "/Motif_PWM/")
-        Dim sites As IEnumerable(Of String) = genomes.Where(
-            Function(g) Not g.regulons Is Nothing AndAlso
-                        Not g.regulons.regulators.IsNullOrEmpty).Select(Function(g) g.regulons.regulators.Select(Function(x) x.infoURL)).IteratesALL.Distinct.ToArray
+        Dim sites As IEnumerable(Of String) = genomes _
+            .Where(Function(g)
+                       Return Not g.regulons Is Nothing AndAlso Not g.regulons.regulators.IsNullOrEmpty
+                   End Function) _
+            .Select(Function(g)
+                        Return g.regulons.regulators.Select(Function(x) x.infoURL)
+                    End Function) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
         Dim list As New List(Of String)((App.SysTemp & "/process.txt").ReadAllLines)
 
         For Each url In sites.SeqIterator

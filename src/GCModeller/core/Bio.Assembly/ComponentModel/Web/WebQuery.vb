@@ -63,11 +63,10 @@ Namespace ComponentModel
     ''' </remarks>
     Public Class WebQuery(Of Context)
 
-        Dim url As Func(Of Context, String)
-        Dim contextGuid As IToString(Of Context)
-        Dim deserialization As IObjectBuilder
-        Dim sleepInterval As Integer
-        Dim prefix As Func(Of String, String)
+        Friend url As Func(Of Context, String)
+        Friend contextGuid As IToString(Of Context)
+        Friend deserialization As IObjectBuilder
+        Friend prefix As Func(Of String, String)
 
         ''' <summary>
         ''' 404状态的资源列表
@@ -84,6 +83,7 @@ Namespace ComponentModel
         ''' 原始请求结果数据的缓存文件夹,同时也可以用这个文件夹来存放错误日志
         ''' </summary>
         Protected cache$
+        Protected sleepInterval As Integer
 
         Shared ReadOnly interval As [Default](Of Integer)
 
@@ -120,12 +120,17 @@ Namespace ComponentModel
                 Optional interval% = -1,
                 Optional offline As Boolean = False)
 
+            Call Me.New(cache, interval, offline)
+
             Me.url = url
-            Me.cache = cache
             Me.contextGuid = contextGuid Or Scripting.ToString(Of Context)
             Me.deserialization = parser Or XmlParser
-            Me.sleepInterval = interval Or WebQuery(Of Context).interval
             Me.prefix = prefix
+        End Sub
+
+        Friend Sub New(cache$, interval%, offline As Boolean)
+            Me.cache = cache
+            Me.sleepInterval = interval Or WebQuery(Of Context).interval
             Me.offlineMode = offline
 
             If offlineMode Then
@@ -181,13 +186,13 @@ Namespace ComponentModel
 
             If cache.FileLength <= 0 AndAlso Not offlineMode Then
                 Call url.GET(is404:=is404).SaveTo(cache)
-                Call Thread.Sleep(interval)
+                Call Thread.Sleep(sleepInterval)
 
                 If is404 Then
                     url404 += url
                     Call $"{url} 404 Not Found!".PrintException
                 Else
-                    Call $"Worker thread sleep {interval}ms...".__INFO_ECHO
+                    Call $"Worker thread sleep {sleepInterval}ms...".__INFO_ECHO
                 End If
             Else
                 Call "hit cache!".__DEBUG_ECHO
