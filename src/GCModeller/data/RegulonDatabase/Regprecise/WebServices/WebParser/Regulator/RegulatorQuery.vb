@@ -94,7 +94,7 @@ Namespace Regprecise
             End If
 
             regulator.regulationMode = getTagValue_td(properties(++i))
-            regulator.biological_process = getTagValue_td(properties(++i))
+            regulator.biological_process = getTagValue_td(properties(++i)).StringSplit("\s*;\s*")
 
             Dim regulogEntry$ = r.Match(properties(i + 1), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
             Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & regulogEntry.href

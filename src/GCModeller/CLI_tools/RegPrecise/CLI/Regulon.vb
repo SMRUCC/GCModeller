@@ -272,7 +272,7 @@ Partial Module CLI
                     End If
 
                     map = New RegPreciseRegulatorMatch With {
-                        .biological_process = regulator.biological_process,
+                        .biological_process = regulator.biological_process.JoinBy("; "),
                         .effector = regulator.effector,
                         .Family = regulator.family,
                         .Identities = BBHIndex.GetIdentities(hit),

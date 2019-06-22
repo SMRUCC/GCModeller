@@ -75,7 +75,7 @@ Namespace Regprecise
         <XmlElement> Public Property effector As String
         <XmlElement> Public Property pathway As String
         <XmlElement> Public Property locus_tag As NamedValue
-        <XmlElement> Public Property biological_process As String
+        <XmlElement> Public Property biological_process As String()
         <XmlElement> Public Property regulog As NamedValue
 
         ''' <summary>

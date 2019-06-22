@@ -217,7 +217,7 @@ Partial Module CLI
                            In tokens
                            Select New Effectors With {
                                .Effector = name.Trim,
-                               .BiologicalProcess = x.biological_process,
+                               .BiologicalProcess = x.biological_process.JoinBy("; "),
                                .Pathway = x.pathway,
                                .Regulon = x.regulog.name,
                                .TF = x.LocusId

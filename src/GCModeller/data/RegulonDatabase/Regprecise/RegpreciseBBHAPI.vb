@@ -267,7 +267,7 @@ Namespace Regprecise
             End If
 
             If Not RegpreciseRegulator Is Nothing Then
-                MatchedItem.RegprecisePhenotypeAssociation = RegpreciseRegulator.biological_process
+                MatchedItem.RegprecisePhenotypeAssociation = RegpreciseRegulator.biological_process.JoinBy("; ")
                 MatchedItem.Effectors = If(String.IsNullOrEmpty(RegpreciseRegulator.effector), Nothing, Strings.Split(RegpreciseRegulator.effector, "; "))
                 MatchedItem.Family = RegpreciseRegulator.family
                 MatchedItem.RegpreciseTfbsIds = (From site In RegpreciseRegulator.regulatorySites Select String.Join(":", site.locus_tag, site.position)).ToArray
@@ -328,7 +328,7 @@ Namespace Regprecise
 
         Private Function __applyProperty(RegpreciseTF As Regprecise.Regulator, MatchedItem As RegpreciseMPBBH) As RegpreciseMPBBH
             If RegpreciseTF IsNot Nothing Then
-                MatchedItem.RegprecisePhenotypeAssociation = RegpreciseTF.biological_process
+                MatchedItem.RegprecisePhenotypeAssociation = RegpreciseTF.biological_process.JoinBy("; ")
                 MatchedItem.Effectors = Strings.Split(RegpreciseTF.effector, "; ")
                 MatchedItem.Family = RegpreciseTF.family
             End If

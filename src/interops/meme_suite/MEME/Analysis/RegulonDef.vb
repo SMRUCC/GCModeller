@@ -122,7 +122,7 @@ Namespace Analysis
 
         <Extension> Private Function __creates(regulonRef As Regprecise.Regulator, query As Similarity.TOMQuery.CompareResult) As Regulon
             Dim regulon As New Regulon With {
-                .BiologicalProcess = regulonRef.biological_process,
+                .BiologicalProcess = regulonRef.biological_process.JoinBy("; "),
                 .Family = regulonRef.family,
                 .Hit = query.HitName,
                 .HitMotif = query.HitMotif,
@@ -130,14 +130,14 @@ Namespace Analysis
                 .Motif = query.QueryMotif,
                 .Pathway = regulonRef.pathway,
                 .refLocus = regulonRef.locus_tag.text,
-                .Regulates = regulonRef.Regulates.Select(Function(x) x.LocusId),
+                .Regulates = regulonRef.Regulates.Select(Function(x) x.locusId),
                 .Regulator = regulonRef.locus_tag.name,
                 .Similarity = query.Similarity,
                 .Consensus = query.Consensus,
                 .Distance = query.Distance,
                 .Edits = query.Edits,
                 .Gaps = query.Gaps,
-                .ref = regulonRef.Regulog.name,
+                .ref = regulonRef.regulog.name,
                 .Score = query.Score,
                 .Trace = "",
                 .Effector = regulonRef.effector

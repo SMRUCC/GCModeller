@@ -66,12 +66,15 @@ Namespace Regprecise
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement> Public Property genome As JSON.genome
+        <XmlElement("genome", [Namespace]:=regulomeNamespace)>
+        Public Property genome As JSON.genome
+
         ''' <summary>
         ''' 调控组
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement> Public Property regulome As Regulome
+        <XmlElement>
+        Public Property regulome As Regulome
 
         ''' <summary>
         ''' 这个基因组里面的Regulon的数目
