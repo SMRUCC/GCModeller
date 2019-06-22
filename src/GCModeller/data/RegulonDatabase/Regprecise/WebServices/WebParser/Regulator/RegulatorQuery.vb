@@ -2,7 +2,6 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel
@@ -11,13 +10,39 @@ Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Regprecise
 
-    Public Class RegulatorQuery : Inherits WebQuery(Of NamedValue)
+    Friend Class RegulatorQuery : Inherits WebQuery(Of String)
 
-        Public Sub New(url As Func(Of NamedValue, String), Optional contextGuid As IToString(Of NamedValue) = Nothing, Optional parser As IObjectBuilder = Nothing, Optional prefix As Func(Of String, String) = Nothing, <CallerMemberName> Optional cache As String = Nothing, Optional interval As Integer = -1, Optional offline As Boolean = False)
-            MyBase.New(url, contextGuid, parser, prefix, cache, interval, offline)
+        Public Sub New(<CallerMemberName>
+                       Optional cache As String = Nothing,
+                       Optional interval As Integer = -1,
+                       Optional offline As Boolean = False)
+
+            MyBase.New(url:=AddressOf UrlParser,
+                       contextGuid:=AddressOf NameParser,
+                       parser:=AddressOf More,
+                       prefix:=Nothing,
+                       cache:=cache,
+                       interval:=interval,
+                       offline:=offline
+                   )
         End Sub
 
-        Public Shared Function CreateObject(str As String) As Regulator
+        ' 因为在这里是进行Web请求，所以为了降低目标服务器的压力，在这里可以牺牲掉代码的执行效率
+
+        Private Shared Function UrlParser(str As String) As String
+            Return basicParser(str).regulator.text
+        End Function
+
+        Private Shared Function NameParser(str As String) As String
+            Return basicParser(str).regulator.name
+        End Function
+
+        ''' <summary>
+        ''' 解析基本的信息
+        ''' </summary>
+        ''' <param name="str"></param>
+        ''' <returns></returns>
+        Private Shared Function basicParser(str As String) As Regulator
             Dim list$() = r.Matches(str, "<td.+?</td>").ToArray
             Dim i As VBInteger = Scan0
             Dim regulator As New Regulator With {
@@ -32,14 +57,14 @@ Namespace Regprecise
             regulator.effector = __getTagValue(list(++i))
             regulator.pathway = __getTagValue(list(++i))
 
-            Return More(regulator)
+            Return regulator
         End Function
 
-        Private Shared Function More(regulator As Regulator, cache$) As Regulator
-            Dim html$ = regulator.regulator.text.GET
+        Private Shared Function More(html$, null As Type) As Object
             Dim infoTable$ = html.Match("<table class=""proptbl"">.+?</table>", RegexOptions.Singleline)
             Dim properties$() = r.Matches(infoTable, "<tr>.+?</tr>", RegexICSng).ToArray
             Dim i As VBInteger = 1
+            Dim regulator As New Regulator
 
             With r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
                 If Not .StringEmpty Then
@@ -84,7 +109,7 @@ Namespace Regprecise
             }
 
             Dim exportServletLnks$() = __exportServlet(html)
-            regulator.operons = OperonQuery.OperonParser(html, cache)
+            regulator.operons = OperonQuery.OperonParser(html, Nothing)
             regulator.regulatorySites = MotifFasta.Parse(url:=exportServletLnks.ElementAtOrDefault(1))
 
             Return regulator
