@@ -77,5 +77,17 @@ Namespace Regprecise
                 End If
             End With
         End Function
+
+        Public Shared Function PageParser(url As String, Optional cache$ = "./.regprecise/operons/") As Operon()
+            Static query As New Dictionary(Of String, OperonQuery)
+
+            Dim webApi As OperonQuery = query.ComputeIfAbsent(
+                key:=cache,
+                lazyValue:=Function()
+                               Return New OperonQuery(cache,,)
+                           End Function)
+
+            Return webApi.Query(Of Operon())(url, ".html")
+        End Function
     End Class
 End Namespace

@@ -192,7 +192,7 @@ Namespace Regprecise
             Return More(regulator)
         End Function
 
-        Private Shared Function More(regulator As Regulator) As Regulator
+        Private Shared Function More(regulator As Regulator, cache$) As Regulator
             Dim html$ = regulator.regulator.text.GET
             Dim infoTable$ = html.Match("<table class=""proptbl"">.+?</table>", RegexOptions.Singleline)
             Dim properties$() = r.Matches(infoTable, "<tr>.+?</tr>", RegexICSng).ToArray
@@ -200,7 +200,7 @@ Namespace Regprecise
 
             With r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
                 If Not .StringEmpty Then
-                    regulator.infoURL = $"http://regprecise.lbl.gov/RegPrecise/{.href}" 
+                    regulator.infoURL = $"http://regprecise.lbl.gov/RegPrecise/{ .href}"
                 End If
             End With
 
@@ -241,7 +241,7 @@ Namespace Regprecise
             }
 
             Dim exportServletLnks$() = __exportServlet(html)
-            regulator.operons = Operon.OperonParser(html)
+            regulator.operons = OperonQuery.OperonParser(html, cache)
             regulator.regulatorySites = MotifFasta.Parse(url:=exportServletLnks.ElementAtOrDefault(1))
 
             Return regulator
