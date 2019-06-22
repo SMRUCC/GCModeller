@@ -32,6 +32,7 @@ Namespace Regprecise
         Protected Overrides Function doParseObject(html As String, schema As Type) As Object
             Dim list$()
             Dim regulators As New List(Of Regulator)
+            Dim regulator As Regulator
             Dim str$
             Dim regulatorQuery As New RegulatorQuery($"{cache}/regulators/", sleepInterval, offlineMode)
 
@@ -44,7 +45,8 @@ Namespace Regprecise
 
             For i As Integer = 0 To list.Length - 1
                 str = list(i)
-                regulators += RegulatorQuery.basicParser(str, regulatorQuery.Query(Of Regulator)(str, ".txt"))
+                regulator = regulatorQuery.Query(Of Regulator)(str, ".txt")
+                regulators += RegulatorQuery.basicParser(str, regulator)
             Next
 
             Return New Regulon With {
