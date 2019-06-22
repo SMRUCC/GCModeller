@@ -71,11 +71,10 @@ Partial Module Utilities
             .CLICode
     End Function
 
-    <ExportAPI("/Rule.dnaA_gyrB.Matrix",
-               Usage:="/Rule.dnaA_gyrB.Matrix /genomes <genomes.gb.DIR> [/out <out.csv>]")>
+    <ExportAPI("/Rule.dnaA_gyrB.Matrix", Usage:="/Rule.dnaA_gyrB.Matrix /genomes <genomes.gb.DIR> [/out <out.csv>]")>
     Public Function RuleMatrix(args As CommandLine) As Integer
         Dim in$ = args <= "/genomes"
-        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".dnaA-gyrB.sigma_matrix.csv")
+        Dim out As String = args("/out") Or ([in].TrimDIR & ".dnaA-gyrB.sigma_matrix.csv")
         Dim genomes As GBFF.File() = (ls - l - r - {"*.gb", "*.gbk"} <= in$) _
             .Select(AddressOf GBFF.File.Load) _
             .ToArray
@@ -100,23 +99,32 @@ Partial Module Utilities
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Sigma",
-               Usage:="/Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
+    <ExportAPI("/Sigma", Usage:="/Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
+    <Description("Create a distance similarity matrix for the input sequence.")>
+    <Argument("/simple", True, CLITypes.Boolean, AcceptTypes:={GetType(Boolean)},
+              Description:="Just use a simple tag for generated data vector or the full fasta sequence title if this argument is not presented in cli input.")>
     <Group(CLIGrouping.DNA_ComparativeTools)>
     Public Function Sigma(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Sigma.Csv")
+        Dim out As String = args("/out") Or ([in].TrimSuffix & ".Sigma.Csv")
         Dim fasta As New FastaFile([in])
         Dim simple As Boolean = args.GetBoolean("/simple")
-        Dim round As Integer = args.GetValue("/round", -1)
-        Dim keys As String() =
-            If(simple,
-            fasta.Select(AddressOf IdentityResult.SimpleTag),
-            fasta.Select(Function(x) x.Title))
+        Dim round As Integer = args("/round") Or -1
+        Dim keys As String()
+
+        If simple Then
+            keys = fasta _
+                .Select(AddressOf IdentityResult.SimpleTag) _
+                .ToArray
+        Else
+            keys = fasta.Select(Function(x) x.Title).ToArray
+        End If
 
         Using writer As New WriteStream(Of IdentityResult)(out, metaKeys:=keys)
-            For Each x As IdentityResult In IdentityResult.SigmaMatrix(fasta, round, simple)
-                Call writer.Flush(x)
+            ' 在这里是序列之间两两比较，创建一个相似度的矩阵
+            ' 矩阵之中的值越小，距离越近
+            For Each seqVal As IdentityResult In IdentityResult.SigmaMatrix(fasta, round, simple)
+                Call writer.Flush(seqVal)
             Next
 
             Return 0
