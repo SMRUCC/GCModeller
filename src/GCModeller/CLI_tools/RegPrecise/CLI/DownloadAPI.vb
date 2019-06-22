@@ -64,21 +64,6 @@ Imports SMRUCC.genomics.SequenceModel
 <Package("RegPrecise.CLI", Category:=APICategories.CLI_MAN)>
 <CLI> Public Module CLI
 
-    <ExportAPI("/Download.Regprecise", Info:="Download Regprecise database from Web API",
-               Usage:="/Download.Regprecise [/work ./ /save <saveXml>]")>
-    <Group(CLIGroups.WebAPI)>
-    <Argument("/work", True, CLITypes.File, Description:="The cache directory path, Value is current directory by default.")>
-    <Argument("/save", True, CLITypes.File, PipelineTypes.std_out,
-              Extensions:="*.xml",
-              Description:="The database output file location.")>
-    Public Function DownloadRegprecise222(args As CommandLine) As Integer
-        Dim WORK As String = args("/work") Or (App.CurrentDirectory & "/RegpreciseDownloads/")
-        Dim Db As TranscriptionFactors = WebAPI.Download(WORK)
-        Dim out As String = args("/save") Or (App.CurrentDirectory & "/Regprecise.Xml")
-
-        Return Db.GetXml.SaveTo(out)
-    End Function
-
     ''' <summary>
     ''' 下载数据库
     ''' </summary>
@@ -328,7 +313,7 @@ Imports SMRUCC.genomics.SequenceModel
     <Description("Download Regprecise database from Web API")>
     <Usage("/Download.Regprecise [/work ./ /save <save.Xml>]")>
     <Group(CLIGroups.WebAPI)>
-    <Argument("/work", True, CLITypes.File, Description:="The temporary directory for save the xml data.")>
+    <Argument("/work", True, CLITypes.File, Description:="The temporary directory for save the xml data. Is a cache directory path, Value is current directory by default.")>
     <Argument("/save", True, CLITypes.File, Description:="The repository saved xml file path.")>
     Public Function DownloadRegprecise2(args As CommandLine) As Integer
         Dim WORK$ = args("/work") Or (App.CurrentDirectory & "/RegpreciseDownloads/")
