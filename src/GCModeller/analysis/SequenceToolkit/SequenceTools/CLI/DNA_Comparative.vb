@@ -1,44 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::f83dfdc5e68adca9280ce844e27c44ee, analysis\SequenceToolkit\SequenceTools\CLI\DNA_Comparative.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Utilities
-    ' 
-    '     Function: CAI, dnaA_gyrB_rule, gwANI, RuleMatrix, Sigma
-    ' 
-    ' /********************************************************************************/
+' Module Utilities
+' 
+'     Function: CAI, dnaA_gyrB_rule, gwANI, RuleMatrix, Sigma
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -56,12 +57,14 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module Utilities
 
-    <ExportAPI("/Rule.dnaA_gyrB",
-               Usage:="/Rule.dnaA_gyrB /genome <genbank.gb> [/out <out.fasta>]")>
+    <ExportAPI("/Rule.dnaA_gyrB", Usage:="/Rule.dnaA_gyrB /genome <genbank.gb> [/out <out.fasta>]")>
+    <Description("Create a ruler fasta sequence for DNA sequence distance computing.")>
+    <LastUpdated("2019-06-22 09:25:00")>
     Public Function dnaA_gyrB_rule(args As CommandLine) As Integer
         Dim in$ = args <= "/genome"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "_dnaA-gyrB.fasta")
+        Dim out As String = args("/out") Or ([in].TrimSuffix & "_dnaA-gyrB.fasta")
         Dim genome As GBFF.File = GBFF.File.Load(in$)
+
         Return genome _
             .dnaA_gyrB _
             .Save(out, Encodings.ASCII) _
