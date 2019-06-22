@@ -181,13 +181,13 @@ Namespace ComponentModel
 
             If cache.FileLength <= 0 AndAlso Not offlineMode Then
                 Call url.GET(is404:=is404).SaveTo(cache)
-                Call Thread.Sleep(interval)
+                Call Thread.Sleep(sleepInterval)
 
                 If is404 Then
                     url404 += url
                     Call $"{url} 404 Not Found!".PrintException
                 Else
-                    Call $"Worker thread sleep {interval}ms...".__INFO_ECHO
+                    Call $"Worker thread sleep {sleepInterval}ms...".__INFO_ECHO
                 End If
             Else
                 Call "hit cache!".__DEBUG_ECHO
