@@ -84,13 +84,15 @@ Partial Module Utilities
         Return matrix.SaveTo(out).CLICode
     End Function
 
+
+
     <ExportAPI("/gwANI", Usage:="/gwANI /in <in.fasta> [/fast /out <out.Csv>]")>
     <Group(CLIGrouping.DNA_ComparativeTools)>
-    Public Function gwANI(args As CommandLine) As Integer
+    Public Function gwANIEvaluate(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gwANI.Csv")
         Dim fast As Boolean = args.GetBoolean("/fast")
-        Call gwANIExtensions.Evaluate([in], out, fast)
+        Call gwANI.Evaluate([in], out, fast)
         Return 0
     End Function
 
