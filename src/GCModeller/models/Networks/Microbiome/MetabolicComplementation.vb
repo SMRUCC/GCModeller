@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::f189f3fdbdbc851171938d5f6afd9857, models\Networks\Microbiome\MetabolicComplementation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module MetabolicComplementation
-    ' 
-    '     Function: (+2 Overloads) BuildInternalNetwork, BuildMicrobiomeMetabolicNetwork
-    ' 
-    '     Sub: FetchModels, link, linkNodes, RenderColors
-    ' 
-    ' /********************************************************************************/
+' Module MetabolicComplementation
+' 
+'     Function: (+2 Overloads) BuildInternalNetwork, BuildMicrobiomeMetabolicNetwork
+' 
+'     Sub: FetchModels, link, linkNodes, RenderColors
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -188,21 +188,21 @@ Public Module MetabolicComplementation
             Dim family$ = genome.TaxonomyString.BIOMTaxonomyString(TaxonomyRanks.Family)
 
             ' 将该微生物的代谢网络端点写入缓存之中
-            With node.Data
+            With node.data
                 !Family = family
                 .ItemValue(names.REFLECTION_ID_MAPPING_NODETYPE) = family
 
                 ' 当前的这个基因组所必须的营养物，无法进行自身的合成
                 !Essential_nutrients = endPoints _
                     .input _
-                    .Select(Function(n) n.Data.label) _
+                    .Select(Function(n) n.data.label) _
                     .ToArray _
                     .GetJson
 
                 ' 当前的这个基因组所能够合成的次生代谢物网络终点
                 !Secondary_metabolite = endPoints _
                     .output _
-                    .Select(Function(n) n.Data.label) _
+                    .Select(Function(n) n.data.label) _
                     .ToArray _
                     .GetJson
             End With
@@ -213,11 +213,11 @@ Public Module MetabolicComplementation
 
     <Extension> Private Sub link(genome As Node, graph As NetworkGraph)
         Dim Ainput$() = genome _
-            .Data _
+            .data _
             !Essential_nutrients _
             .LoadJSON(Of String())
         Dim Aoutput$() = genome _
-            .Data _
+            .data _
             !Secondary_metabolite _
             .LoadJSON(Of String())
 
@@ -238,7 +238,7 @@ Public Module MetabolicComplementation
                     ' 输入与输出有重叠部分，则可能存在营养互补
                     Dim complementary = graph.CreateEdge(member, genome)
                     complementary.data!compounds = .GetJson
-                    complementary.Directed = True
+                    complementary.isDirected = True
                     complementary.weight = .Length
                     complementary.data.label = $"{member.Label} => {genome.Label}"
                 End If
@@ -252,7 +252,7 @@ Public Module MetabolicComplementation
                     ' 输入与输出有重叠部分，则可能存在营养互补
                     Dim complementary = graph.CreateEdge(genome, member)
                     complementary.data!compounds = .GetJson
-                    complementary.Directed = True
+                    complementary.isDirected = True
                     complementary.weight = .Length
                     complementary.data.label = $"{genome.Label} => {member.Label}"
                     complementary.data(names.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = NameOf(complementary)
@@ -266,7 +266,7 @@ Public Module MetabolicComplementation
                     ' 两个基因组的代谢网络输入端点存在重叠的部分，则可能存在营养竞争关系
                     Dim competition = graph.CreateEdge(genome, member)
                     competition.data!compounds = .GetJson
-                    competition.Directed = False
+                    competition.isDirected = False
                     competition.weight = .Length
                     competition.data.label = $"{genome.Label} vs {member.Label}"
                     competition.data(names.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = NameOf(competition)

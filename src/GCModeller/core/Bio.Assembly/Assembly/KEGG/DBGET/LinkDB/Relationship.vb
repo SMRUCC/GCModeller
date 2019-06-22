@@ -87,21 +87,6 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         reverse
     End Enum
 
-    Module Parserhelper
-
-        <Extension>
-        Public Function GetRelationship(link As String) As Relationships
-            If link.StringEmpty Then
-                Return Relationships.unknown
-            End If
-
-            Dim type$ = link.Split("/"c).Last
-            Dim value As Relationships = [Enum].Parse(GetType(Relationships), type)
-
-            Return value
-        End Function
-    End Module
-
     Public Class Relationship
 
         Public Property left As String

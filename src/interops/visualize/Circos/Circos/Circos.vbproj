@@ -239,7 +239,7 @@
     <Compile Include="ConfFiles\ComponentModel\Interface.vb" />
     <Compile Include="ConfFiles\ComponentModel\CircosConfig.vb" />
     <Compile Include="ConfFiles\Extensions.vb" />
-    <Compile Include="ConfFiles\ExtendedProperty.vb" />
+    <Compile Include="ConfFiles\CircosAttribute.vb" />
     <Compile Include="ConfFiles\Nodes\Base\Links.vb" />
     <Compile Include="ConfFiles\Nodes\Base\Plots.vb" />
     <Compile Include="ConfFiles\Nodes\Base\Rule.vb" />

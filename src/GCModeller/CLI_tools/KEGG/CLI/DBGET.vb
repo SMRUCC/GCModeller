@@ -144,6 +144,7 @@ Partial Module CLI
               AcceptTypes:={GetType(String)},
               Description:="The 3 characters kegg organism code, example as: ""xcb"" is stands for organism ""Xanthomonas campestris pv. campestris 8004 (Beijing)""")>
     <Group(CLIGroups.DBGET_tools)>
+    <LastUpdated("2019-06-22 21:00:00.00")>
     Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
         Dim EXPORT As String = args("/out") Or (App.CurrentDirectory & "/" & sp)
@@ -174,7 +175,7 @@ Partial Module CLI
                 .CLICode
         Else
             Return LinkDB.Pathways _
-                .Downloads(sp, EXPORT) _
+                .Downloads(sp, EXPORT, cache:=EXPORT & "/.kegg/") _
                 .SaveTo(EXPORT & "/failures.txt") _
                 .CLICode
         End If
