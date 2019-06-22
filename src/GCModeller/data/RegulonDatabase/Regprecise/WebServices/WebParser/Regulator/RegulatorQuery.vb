@@ -27,7 +27,10 @@ Namespace Regprecise
         End Function
 
         Protected Overrides Function doParseGuid(context As String) As String
-            Return basicParser(context, Nothing).regulator.name
+            Dim info = basicParser(context, Nothing).regulator
+            Dim guid As String = $"[{info.text.Split("="c).Last}]{info.name}"
+
+            Return guid
         End Function
 
         ''' <summary>

@@ -34,7 +34,11 @@ Namespace Regprecise
             Dim regulators As New List(Of Regulator)
             Dim regulator As Regulator
             Dim str$
-            Dim regulatorQuery As New RegulatorQuery($"{cache}/regulators/", sleepInterval, offlineMode)
+            Dim genomeName$ = r.Match(html, "<i>.*?</i>", RegexICSng) _
+                .Value _
+                .GetValue _
+                .NormalizePathString(False)
+            Dim regulatorQuery As New RegulatorQuery($"{cache}/regulators/{genomeName}", sleepInterval, offlineMode)
 
             html$ = r _
                 .Match(html, "<table class=""stattbl"".+?</table>", RegexOptions.Singleline) _
