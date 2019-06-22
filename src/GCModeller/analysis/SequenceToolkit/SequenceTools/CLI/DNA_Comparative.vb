@@ -99,20 +99,22 @@ Partial Module Utilities
         Dim steps As Integer = args("/step") Or 500
         Dim dist As Double
 
-        For Each genome As GBFF.File In (ls - l - r - {"*.gb", "*.gbff", "*.gbk"} <= genomes).Select(AddressOf GBFF.File.Load)
-            Dim nt As FastaSeq = genome.Origin.ToFasta
-            Dim ntModel As New DeltaSimilarity1998.NucleicAcid(nt)
+        For Each genome As String In ls - l - r - {"*.gb", "*.gbff", "*.gbk"} <= genomes
+            For Each replicon As GBFF.File In GBFF.File.LoadDatabase(genome)
+                Dim nt As FastaSeq = replicon.Origin.ToFasta
+                Dim ntModel As New DeltaSimilarity1998.NucleicAcid(nt)
 
-            Using writer As StreamWriter = $"{out}/{genome.Accession.AccessionId}.csv".OpenWriter()
-                writer.WriteLine("title=," & nt.Title)
+                Using writer As StreamWriter = $"{out}/{genome.BaseName}/{replicon.Accession.AccessionId}.csv".OpenWriter()
+                    writer.WriteLine("title=," & nt.Title)
 
-                For Each segment As DeltaSimilarity1998.NucleicAcid In ntModel.CreateFragments(winSize, [step]:=steps)
-                    dist = DifferenceMeasurement.Sigma(rulerModel, segment)
-                    writer.WriteLine(dist)
-                Next
-            End Using
+                    For Each segment As DeltaSimilarity1998.NucleicAcid In ntModel.CreateFragments(winSize, [step]:=steps)
+                        dist = DifferenceMeasurement.Sigma(rulerModel, segment)
+                        writer.WriteLine(dist)
+                    Next
+                End Using
 
-            Call nt.Title.__INFO_ECHO
+                Call nt.Title.__INFO_ECHO
+            Next
         Next
 
         Return 0
