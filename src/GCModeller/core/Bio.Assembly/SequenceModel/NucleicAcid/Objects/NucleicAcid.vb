@@ -90,7 +90,9 @@ Namespace SequenceModel.NucleotideModels
             For Each dgBase As DNA In dbEntries
                 Dim cd% = _innerSeqModel.Where(Function(b) b = dgBase).Count
                 Dim l = 1 / Conversion.DegenerateBases(dgBase).Length
-                n += cd * l  ' 因为计算简并碱基的时候，是平均分配的，所以在这里就除以该简并碱基的可替换的碱基数量
+
+                ' 因为计算简并碱基的时候，是平均分配的，所以在这里就除以该简并碱基的可替换的碱基数量
+                n += cd * l
             Next
 
             ' 故而包含有简并碱基的计算结果应该是带有小数的
@@ -114,7 +116,7 @@ Namespace SequenceModel.NucleotideModels
                 Return _innerSeqCache
             End Get
             Set(value As String)
-                _innerSeqModel = NucleicAcid.Enums(value).ToList
+                _innerSeqModel = NucleicAcid.Enums(value).AsList
                 MyBase.SequenceData = value
                 _innerSeqCache = value
             End Set
