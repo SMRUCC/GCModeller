@@ -58,8 +58,8 @@ Namespace Regprecise
                 .name = RegulomeQuery.GetsId(entry),
                 .text = url
             }
-            regulator.effector = __getTagValue(list(++i))
-            regulator.pathway = __getTagValue(list(++i))
+            regulator.effector = getTagValue(list(++i))
+            regulator.pathway = getTagValue(list(++i))
 
             Return regulator
         End Function
@@ -84,7 +84,7 @@ Namespace Regprecise
                     .name = RegulomeQuery.GetsId(LocusTag),
                     .text = LocusTag.href
                 }
-                regulator.family = __getTagValue_td(properties(++i).Replace("<td>Regulator family:</td>", ""))
+                regulator.family = getTagValue_td(properties(++i).Replace("<td>Regulator family:</td>", ""))
             Else
                 Dim Name As String = r.Matches(properties(++i), "<td>.+?</td>", RegexICSng).ToArray.Last
                 Name = Mid(Name, 5)
@@ -94,11 +94,11 @@ Namespace Regprecise
                     .text = ""
                 }
                 regulator.family = r.Match(infoTable, "<td class=""[^""]+?"">RFAM:</td>[^<]+?<td>.+?</td>", RegexOptions.Singleline).Value
-                regulator.family = __getTagValue_td(regulator.family)
+                regulator.family = getTagValue_td(regulator.family)
             End If
 
-            regulator.regulationMode = __getTagValue_td(properties(++i))
-            regulator.biological_process = __getTagValue_td(properties(++i))
+            regulator.regulationMode = getTagValue_td(properties(++i))
+            regulator.biological_process = getTagValue_td(properties(++i))
 
             Dim regulogEntry$ = r.Match(properties(i + 1), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
             Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & regulogEntry.href
@@ -112,14 +112,14 @@ Namespace Regprecise
                 .text = url
             }
 
-            Dim exportServletLnks$() = __exportServlet(html)
+            Dim exportServletLnks$() = exportServlet(html)
             regulator.operons = OperonQuery.OperonParser(html, Nothing)
             regulator.regulatorySites = MotifFasta.Parse(url:=exportServletLnks.ElementAtOrDefault(1))
 
             Return regulator
         End Function
 
-        Private Shared Function __getTagValue_td(strData As String) As String
+        Private Shared Function getTagValue_td(strData As String) As String
             strData = r.Match(strData, "<td>.+?</td>", RegexOptions.Singleline).Value
             If String.IsNullOrEmpty(Trim(strData)) Then
                 Return ""
@@ -129,17 +129,19 @@ Namespace Regprecise
             Return strData
         End Function
 
-        Private Shared Function __exportServlet(pageContent As String) As String()
+        Private Shared Function exportServlet(pageContent As String) As String()
             Dim url As String = Regex.Match(pageContent, "<table class=""tblexport"">.+?</table>", RegexOptions.Singleline).Value
-            Dim links$() = r.Matches(url, "<tr>.+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase).ToArray
+            Dim links$() = r.Matches(url, "<tr>.+?</tr>", RegexICSng).ToArray
+
             links = links _
                 .Select(Function(s) Regex.Match(s, "href="".+?""><b>DOWNLOAD</b>").Value) _
                 .Select(Function(s) "http://regprecise.lbl.gov/RegPrecise/" & s.href) _
                 .ToArray
+
             Return links
         End Function
 
-        Private Shared Function __getTagValue(s As String) As String
+        Private Shared Function getTagValue(s As String) As String
             s = Regex.Match(s, """>.+?</td>").Value
             s = Mid(s, 3)
             s = Mid(s, 1, Len(s) - 5)

@@ -108,14 +108,22 @@ Namespace Regprecise
             Dim html$
             Dim list$()
             Dim genomes As New List(Of BacteriaRegulome)
+            Dim index$ = $"{EXPORT}/index.html"
 
             Call "Start to fetch regprecise genome information....".__DEBUG_ECHO
 
+            If index.FileLength > 1024 Then
+                html = index.ReadAllText
+            Else
+                html = browse_genomes.GET
+                html.SaveTo(index)
+            End If
+
             html$ = r _
-                .Match(browse_genomes.GET, TABLE_REGEX, RegexOptions.Singleline) _
+                .Match(html, TABLE_REGEX, RegexOptions.Singleline) _
                 .Value
             list$ = r _
-                .Matches(html, "<tr .+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) _
+                .Matches(html, "<tr .+?</tr>", RegexICSng) _
                 .ToArray
 
             Call $"{list.Length} bacteria genome are ready to download!".__DEBUG_ECHO
