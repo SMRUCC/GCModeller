@@ -149,9 +149,9 @@ Partial Module CLI
                                           Function(x) x.Group.Select(Function(xx) xx.x))
         Dim genomes As IEnumerable(Of BacteriaRegulome) = inDIR.LoadXml(Of TranscriptionFactors).genomes
         Dim all = (From x As BacteriaRegulome In genomes
-                   Where Not x.regulons Is Nothing AndAlso
-                       Not x.regulons.regulators.IsNullOrEmpty
-                   Select xx = x.regulons.regulators).Unlist
+                   Where Not x.regulome Is Nothing AndAlso
+                       Not x.regulome.regulators.IsNullOrEmpty
+                   Select xx = x.regulome.regulators).Unlist
         Dim regulators = (From regulator As Regulator In all
                           Let sid As String = regulator.LocusId
                           Where hitsHash.ContainsKey(sid)
@@ -209,7 +209,7 @@ Partial Module CLI
 
         For Each genome As BacteriaRegulome In From xml As String In xmls Select xml.LoadXml(Of BacteriaRegulome)
             list += From x As Regulator
-                    In genome.regulons.regulators
+                    In genome.regulome.regulators
                     Where x.type = Types.TF
                     Where Not x.effector.StringEmpty
                     Let tokens As String() = x.effector.Split(";"c)
@@ -217,7 +217,7 @@ Partial Module CLI
                            In tokens
                            Select New Effectors With {
                                .Effector = name.Trim,
-                               .BiologicalProcess = x.biological_process,
+                               .BiologicalProcess = x.biological_process.JoinBy("; "),
                                .Pathway = x.pathway,
                                .Regulon = x.regulog.name,
                                .TF = x.LocusId

@@ -65,7 +65,7 @@ Public Module NameExtensions
     Private Function __loadCommon(DIR As String, gb As PTT) As KeyValuePair(Of String, GeneBrief)()
         Dim bbh = (From file As String
                    In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                   Select file.LoadXml(Of BacteriaRegulome).regulons.regulators).ToArray.Unlist
+                   Select file.LoadXml(Of BacteriaRegulome).regulome.regulators).ToArray.Unlist
         Dim Maps = gb.LocusMaps
         Dim regLocus = (From x In bbh Select New With {.Family = x.family, .Locus = x.LocusId}).ToArray
 

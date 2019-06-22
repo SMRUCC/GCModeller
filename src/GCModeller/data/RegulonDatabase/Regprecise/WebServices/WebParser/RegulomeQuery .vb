@@ -53,7 +53,7 @@ Namespace Regprecise
                 regulators += RegulatorQuery.basicParser(str, regulator)
             Next
 
-            Return New Regulon With {
+            Return New Regulome With {
                 .regulators = regulators
             }
         End Function

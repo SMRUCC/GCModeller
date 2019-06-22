@@ -334,10 +334,10 @@ Imports SMRUCC.genomics.SequenceModel
         Dim EXPORT As String = args.GetValue("/export", inDIR.ParentPath & "/Motif_PWM/")
         Dim sites As IEnumerable(Of String) = genomes _
             .Where(Function(g)
-                       Return Not g.regulons Is Nothing AndAlso Not g.regulons.regulators.IsNullOrEmpty
+                       Return Not g.regulome Is Nothing AndAlso Not g.regulome.regulators.IsNullOrEmpty
                    End Function) _
             .Select(Function(g)
-                        Return g.regulons.regulators.Select(Function(x) x.infoURL)
+                        Return g.regulome.regulators.Select(Function(x) x.infoURL)
                     End Function) _
             .IteratesALL _
             .Distinct _

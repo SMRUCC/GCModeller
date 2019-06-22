@@ -46,32 +46,35 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Regprecise
 
     ''' <summary>
     ''' Operon that regulated in a regulon
     ''' </summary>
-    Public Class Operon
+    ''' 
+    <XmlType("operon")> Public Class Operon : Inherits ListOf(Of RegulatedGene)
 
         <XmlAttribute("id")>
         Public Property ID As String
-        <XmlElement>
+
+        <XmlElement("member")>
         Public Property members As RegulatedGene()
 
         Public Overrides Function ToString() As String
             With members _
                 .Where(Function(g)
-                           Return Not g.Name.StringEmpty
+                           Return Not g.name.StringEmpty
                        End Function) _
-                .Select(Function(g) g.Name) _
+                .Select(Function(g) g.name) _
                 .ToArray
 
                 If Not .IsNullOrEmpty Then
                     Return .GetJson
                 Else
                     Return members _
-                        .Select(Function(g) g.LocusId) _
+                        .Select(Function(g) g.locusId) _
                         .ToArray _
                         .GetJson
                 End If
@@ -88,6 +91,14 @@ Namespace Regprecise
                            End Function)
 
             Return webApi.Query(Of Operon())(url, ".html")
+        End Function
+
+        Protected Overrides Function getSize() As Integer
+            Return members.Length
+        End Function
+
+        Protected Overrides Function getCollection() As IEnumerable(Of RegulatedGene)
+            Return members
         End Function
     End Class
 End Namespace

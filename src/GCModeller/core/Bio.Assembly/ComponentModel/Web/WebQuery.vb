@@ -149,12 +149,12 @@ Namespace ComponentModel
         ''' <param name="query"></param>
         ''' <param name="type">文件拓展名，可以不带有小数点</param>
         ''' <returns></returns>
-        Protected Iterator Function queryText(query As IEnumerable(Of Context), type$) As IEnumerable(Of String)
+        Protected Iterator Function queryText(query As IEnumerable(Of Context), type$) As IEnumerable(Of (cache$, hitCache As Boolean))
             ' 因为在这里是进行批量的数据库查询
             ' 所以在这个函数内的代码的执行效率不会被考虑在内
             For Each context As Context In query
                 If IsNullKey(context) Then
-                    Yield ""
+                    Yield ("", True)
                 End If
 
                 Dim url = Me.url(context)
@@ -164,6 +164,7 @@ Namespace ComponentModel
                 ' 所以在这里需要截短一下文件名称
                 ' 因为路径的总长度不能超过260个字符,所以文件名这里截短到200字符以内,留给文件夹名称一些长度
                 Dim baseName$ = Mid(id, 1, 192)
+                Dim hitCache As Boolean = True
 
                 If prefix Is Nothing Then
                     cache = $"{Me.cache}/{baseName}.{type.Trim("."c, "*"c)}"
@@ -172,16 +173,16 @@ Namespace ComponentModel
                 End If
 
                 If Not url Like url404 Then
-                    Call runHttpGet(cache, url)
+                    Call runHttpGet(cache, url, hitCache)
                 Else
                     Call $"{id} 404 Not Found!".PrintException
                 End If
 
-                Yield cache
+                Yield (cache, hitCache)
             Next
         End Function
 
-        Private Sub runHttpGet(cache As String, url$)
+        Private Sub runHttpGet(cache As String, url$, ByRef hitCache As Boolean)
             Dim is404 As Boolean = False
 
             If cache.FileLength <= 0 AndAlso Not offlineMode Then
@@ -194,6 +195,8 @@ Namespace ComponentModel
                 Else
                     Call $"Worker thread sleep {sleepInterval}ms...".__INFO_ECHO
                 End If
+
+                hitCache = False
             Else
                 Call "hit cache!".__DEBUG_ECHO
             End If
@@ -207,8 +210,13 @@ Namespace ComponentModel
         ''' <param name="cacheType">缓存文件的文本格式拓展名</param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Query(Of T)(context As Context, Optional cacheType$ = ".xml") As T
-            Return deserialization(queryText({context}, cacheType).First.ReadAllText(throwEx:=False), GetType(T))
+        Public Function Query(Of T)(context As Context, Optional cacheType$ = ".xml", Optional ByRef hitCache As Boolean = False) As T
+            Dim result = queryText({context}, cacheType).First
+            Dim cache As String = result.cache.ReadAllText(throwEx:=False)
+
+            hitCache = result.hitCache
+
+            Return deserialization(cache, GetType(T))
         End Function
 
         ''' <summary>
@@ -219,9 +227,16 @@ Namespace ComponentModel
         ''' <param name="cacheType">缓存文件的文本格式拓展名</param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Query(Of T)(context As IEnumerable(Of Context), Optional cacheType$ = ".xml") As IEnumerable(Of T)
-            Return queryText(context, cacheType) _
-                .Select(Function(file) deserialization(file.ReadAllText(throwEx:=False), GetType(T))) _
+        Public Function Query(Of T)(context As IEnumerable(Of Context), Optional cacheType$ = ".xml", Optional ByRef hitCache As Boolean = False) As IEnumerable(Of T)
+            Dim result = queryText(context, cacheType).ToArray
+            Dim hits = result.Where(Function(pop) pop.hitCache).Count
+
+            hitCache = (hits / result.Length) > 0.6
+
+            Return result _
+                .Select(Function(file)
+                            Return deserialization(file.cache.ReadAllText(throwEx:=False), GetType(T))
+                        End Function) _
                 .As(Of T)
         End Function
     End Class

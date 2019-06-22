@@ -826,7 +826,7 @@ Partial Module CLI
         If (args <= "/familyinfo").DirectoryExists Then
             Dim regulons = (From file As String
                             In FileIO.FileSystem.GetFiles(args("/familyinfo"), FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                            Let regs = file.LoadXml(Of BacteriaRegulome).regulons
+                            Let regs = file.LoadXml(Of BacteriaRegulome).regulome
                             Where Not regs Is Nothing OrElse regs.regulators.IsNullOrEmpty
                             Select regs.regulators).ToArray.ToVector
             FamilyHash = (From x As Regulator In regulons
@@ -863,7 +863,7 @@ Partial Module CLI
                     Dim Family = FamilyHash(bbh)
                     Call edge.Properties.Add("Family", Family.family)
                     Call edge.Properties.Add("Effector", Family.effector)
-                    Call edge.Properties.Add("BiologicalProcess", Family.biological_process)
+                    Call edge.Properties.Add("BiologicalProcess", Family.biological_process.JoinBy("; "))
                     Call edge.Properties.Add("Pathway", Family.pathway)
                 End If
             End If
@@ -889,7 +889,7 @@ Partial Module CLI
                     Dim Family = FamilyHash(bbh)
                     Call node.Properties.Add("Family", Family.family)
                     Call node.Properties.Add("Effector", Family.effector)
-                    Call node.Properties.Add("BiologicalProcess", Family.biological_process)
+                    Call node.Properties.Add("BiologicalProcess", Family.biological_process.JoinBy("; "))
                     Call node.Properties.Add("Pathway", Family.pathway)
                     Call node.Properties.Add("Phenotype", $"[{hit(Scan0)}]{Family.biological_process}")
                 End If
