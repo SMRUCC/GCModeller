@@ -183,7 +183,7 @@ Namespace Regprecise
             Dim entry As String = r.Match(list(++i), "href="".+?"">.+?</a>").Value
             Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & entry.href
             regulator.regulator = New NamedValue With {
-                .name = WebAPI.GetsId(entry),
+                .name = RegulomeQuery.GetsId(entry),
                 .text = url
             }
             regulator.effector = __getTagValue(list(++i))
@@ -209,7 +209,7 @@ Namespace Regprecise
                     .Match(properties(++i), "href="".+?"">.+?</a>", RegexOptions.Singleline) _
                     .Value
                 regulator.locus_tag = New NamedValue With {
-                    .name = WebAPI.GetsId(LocusTag),
+                    .name = RegulomeQuery.GetsId(LocusTag),
                     .text = LocusTag.href
                 }
                 regulator.family = __getTagValue_td(properties(++i).Replace("<td>Regulator family:</td>", ""))
@@ -232,7 +232,7 @@ Namespace Regprecise
             Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & regulogEntry.href
 
             regulator.regulog = New NamedValue With {
-                .name = WebAPI _
+                .name = RegulomeQuery _
                     .GetsId(regulogEntry) _
                     .TrimNewLine("") _
                     .Replace(vbTab, "") _

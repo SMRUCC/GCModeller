@@ -242,6 +242,7 @@
     <Compile Include="RegPrecise\WebServices\DataModels\Stats.vb" />
     <Compile Include="RegPrecise\WebServices\Regulations.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\BacteriaGenome.vb" />
+    <Compile Include="RegPrecise\WebServices\WebParser\RegulomeQuery .vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Motif\MotifWebAPI.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Motif\MotifSite.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Regulator.vb" />
