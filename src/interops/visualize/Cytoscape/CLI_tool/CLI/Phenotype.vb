@@ -863,7 +863,7 @@ Partial Module CLI
                     Dim Family = FamilyHash(bbh)
                     Call edge.Properties.Add("Family", Family.family)
                     Call edge.Properties.Add("Effector", Family.effector)
-                    Call edge.Properties.Add("BiologicalProcess", Family.biological_process)
+                    Call edge.Properties.Add("BiologicalProcess", Family.biological_process.JoinBy("; "))
                     Call edge.Properties.Add("Pathway", Family.pathway)
                 End If
             End If
@@ -889,7 +889,7 @@ Partial Module CLI
                     Dim Family = FamilyHash(bbh)
                     Call node.Properties.Add("Family", Family.family)
                     Call node.Properties.Add("Effector", Family.effector)
-                    Call node.Properties.Add("BiologicalProcess", Family.biological_process)
+                    Call node.Properties.Add("BiologicalProcess", Family.biological_process.JoinBy("; "))
                     Call node.Properties.Add("Pathway", Family.pathway)
                     Call node.Properties.Add("Phenotype", $"[{hit(Scan0)}]{Family.biological_process}")
                 End If
