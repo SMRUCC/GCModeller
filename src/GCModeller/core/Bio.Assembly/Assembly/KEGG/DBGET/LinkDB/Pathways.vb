@@ -105,6 +105,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             Dim all As ListEntry() = AllEntries(sp, cache, offline:=offline).ToArray
             Dim url$
             Dim i As VBInteger = 1
+            Dim hitCache As Boolean = False
 
             Static handlers As New Dictionary(Of String, PathwayMapDownloader)
 
@@ -119,7 +120,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Dim img As String = EXPORT & $"/maps/{entry.EntryID}.png"
                 Dim bCode As String = Regex.Match(entry.EntryID, "\d+").Value
                 Dim xml$ = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.EntryID}.Xml"
-                Dim data As Pathway = query.Query(Of Pathway)(entry, ".html")
+                Dim data As Pathway = query.Query(Of Pathway)(entry, ".html", hitCache)
 
                 If img.FileLength < 1024 Then
                     Call imageUrl.DownloadFile(img)
@@ -137,7 +138,10 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                     Call data.SaveAsXml(xml)
                 End If
 
-                Call Thread.Sleep(sleep)
+                If Not hitCache Then
+                    Call Thread.Sleep(sleep)
+                End If
+
 EXIT_LOOP:      Call progress.SetProgress(++i / all.Length * 100, entry.GetJson)
             Next
 
