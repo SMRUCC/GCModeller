@@ -1,85 +1,19 @@
-﻿#Region "Microsoft.VisualBasic::f802b624648675c019f2af695f383742, data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    '     Class Operon
-    ' 
-    '         Properties: ID, members
-    ' 
-    '         Function: __geneParser, __locusParser, __operonParser, OperonParser, PageParser
-    '                   ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
+﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
+Imports SMRUCC.genomics.ComponentModel
 Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Regprecise
 
-    ''' <summary>
-    ''' Operon that regulated in a regulon
-    ''' </summary>
-    Public Class Operon
+    Public Class OperonQuery : Inherits WebQuery(Of String)
 
-        <XmlAttribute("id")>
-        Public Property ID As String
-        <XmlElement>
-        Public Property members As RegulatedGene()
-
-        Public Overrides Function ToString() As String
-            With members _
-                .Where(Function(g)
-                           Return Not g.Name.StringEmpty
-                       End Function) _
-                .Select(Function(g) g.Name) _
-                .ToArray
-
-                If Not .IsNullOrEmpty Then
-                    Return .GetJson
-                Else
-                    Return members _
-                        .Select(Function(g) g.LocusId) _
-                        .ToArray _
-                        .GetJson
-                End If
-            End With
-        End Function
+        Public Sub New(url As Func(Of String, String), Optional contextGuid As IToString(Of String) = Nothing, Optional parser As IObjectBuilder = Nothing, Optional prefix As Func(Of String, String) = Nothing, <CallerMemberName> Optional cache As String = Nothing, Optional interval As Integer = -1, Optional offline As Boolean = False)
+            MyBase.New(url, contextGuid, parser, prefix, cache, interval, offline)
+        End Sub
 
         Friend Shared Function OperonParser(page As String) As Operon()
             Dim tokens$()
@@ -132,8 +66,8 @@ Namespace Regprecise
             Dim vmssid As String = locus.TryGetValue(locusId)
             Dim gene As New RegulatedGene With {
                 .description = func,
-                .LocusId = locusId,
-                .Name = name,
+                .locusId = locusId,
+                .name = name,
                 .vimssId = vmssid
             }
             Return gene

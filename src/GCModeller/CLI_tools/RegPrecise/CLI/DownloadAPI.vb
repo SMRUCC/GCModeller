@@ -347,9 +347,16 @@ Imports SMRUCC.genomics.SequenceModel
         Dim inDIR As String = args("/imports")
         Dim genomes = inDIR.EnumerateFiles("*.xml").Select(Function(path) path.LoadXml(Of BacteriaRegulome))
         Dim EXPORT As String = args.GetValue("/export", inDIR.ParentPath & "/Motif_PWM/")
-        Dim sites As IEnumerable(Of String) = genomes.Where(
-            Function(g) Not g.regulons Is Nothing AndAlso
-                        Not g.regulons.regulators.IsNullOrEmpty).Select(Function(g) g.regulons.regulators.Select(Function(x) x.infoURL)).IteratesALL.Distinct.ToArray
+        Dim sites As IEnumerable(Of String) = genomes _
+            .Where(Function(g)
+                       Return Not g.regulons Is Nothing AndAlso Not g.regulons.regulators.IsNullOrEmpty
+                   End Function) _
+            .Select(Function(g)
+                        Return g.regulons.regulators.Select(Function(x) x.infoURL)
+                    End Function) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
         Dim list As New List(Of String)((App.SysTemp & "/process.txt").ReadAllLines)
 
         For Each url In sites.SeqIterator
