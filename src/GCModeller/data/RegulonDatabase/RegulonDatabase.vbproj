@@ -422,10 +422,6 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\core\Bio.InteractionModel\Bio.InteractionModel.vbproj">
-      <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
-      <Name>Bio.InteractionModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MicrobesOnline\MicrobesOnline.vbproj">
       <Project>{43c14bc7-22f6-4340-9af8-b01908619911}</Project>
       <Name>MicrobesOnline</Name>
