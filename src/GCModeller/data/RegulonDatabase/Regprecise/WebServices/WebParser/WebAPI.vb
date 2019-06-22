@@ -1,55 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::4e2dd0d9262ad393b7c41dfbffb8139f, data\RegulonDatabase\Regprecise\WebServices\WebParser\WebAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module WebAPI
-    ' 
-    '         Function: __download, __downloads, CreateRegulator, Download, DownloadRegulatorSequence
-    '                   DownloadRegulon, GetRegulates, GetsId, ToType
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module WebAPI
+' 
+'         Function: __download, __downloads, CreateRegulator, Download, DownloadRegulatorSequence
+'                   DownloadRegulon, GetRegulates, GetsId, ToType
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.SequenceModel
 Imports r = System.Text.RegularExpressions.Regex
@@ -61,33 +64,6 @@ Namespace Regprecise
                       Description:="Tools API for download and search RegPrecise database.",
                       Publisher:="")>
     Public Module WebAPI
-
-        ''' <summary>
-        ''' 下载某一个基因组内所有预测的调控元的数据
-        ''' </summary>
-        ''' <param name="url"></param>
-        ''' <returns></returns>
-        <ExportAPI("Regulon.Downloads")>
-        Public Function DownloadRegulon(url As String) As Regulon
-            Dim html$ = r _
-                .Match(url.GET, "<table class=""stattbl"".+?</table>", RegexOptions.Singleline) _
-                .Match("<tbody>.+</tbody>", RegexOptions.Singleline)
-            Dim list$() = r _
-                .Matches(html, "<tr .+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) _
-                .ToArray
-            Dim regulators As New List(Of Regulator)
-            Dim str$
-
-            For i As Integer = 0 To list.Length - 1
-                str = list(i)
-                regulators += Regulator.CreateObject(str)
-                Thread.Sleep(2000)
-            Next
-
-            Return New Regulon With {
-                .regulators = regulators
-            }
-        End Function
 
         <ExportAPI("Get.RegulatedGenes")>
         Public Function GetRegulates(url As String) As RegulatedGene()
@@ -114,17 +90,6 @@ Namespace Regprecise
                 .regulatorySites = regSites
             }
             Return Regulator
-        End Function
-
-        <ExportAPI("Get.sId")>
-        Public Function GetsId(strData As String) As String
-            Dim Id As String = Mid(strData, InStr(strData, """>") + 2)
-            If String.IsNullOrEmpty(Trim(Id)) Then
-                Return ""
-            Else
-                Id = Mid(Id, 1, Len(Id) - 4)
-                Return Id
-            End If
         End Function
 
         <ExportAPI("s.ToType")>
@@ -182,11 +147,85 @@ Namespace Regprecise
             }
         End Function
 
+        Public Class RegulomeQuery : Inherits WebQuery(Of String)
+
+            Public Sub New(<CallerMemberName>
+                           Optional cache As String = Nothing,
+                           Optional interval As Integer = -1,
+                           Optional offline As Boolean = False
+                       )
+
+                MyBase.New(url:=AddressOf RegulomeQuery.url,
+                           contextGuid:=AddressOf GetsId,
+                           parser:=AddressOf ParseRegulon,
+                           prefix:=Nothing,
+                           cache:=cache,
+                           interval:=interval,
+                           offline:=offline
+                       )
+            End Sub
+
+            Private Shared Function url(entryHref As String) As String
+                Dim str$ = r.Match(entryHref, "href="".+?"">.+?</a>").Value
+                Dim strUrl$ = "http://regprecise.lbl.gov/RegPrecise/" & str.href
+
+                Return strUrl
+            End Function
+
+            <ExportAPI("Get.sId")>
+            Public Shared Function GetsId(strData As String) As String
+                Dim Id As String = Mid(strData, InStr(strData, """>") + 2)
+
+                If String.IsNullOrEmpty(Trim(Id)) Then
+                    Return ""
+                Else
+                    Id = Mid(Id, 1, Len(Id) - 4)
+                    Return Id
+                End If
+            End Function
+
+            ''' <summary>
+            ''' 下载某一个基因组内所有预测的调控元的数据
+            ''' </summary>
+            ''' <returns></returns>
+            <ExportAPI("Regulon.Downloads")>
+            Private Shared Function ParseRegulon(html As String, null As Type) As Object
+                Dim list$()
+                Dim regulators As New List(Of Regulator)
+                Dim str$
+
+                html$ = r _
+                    .Match(html, "<table class=""stattbl"".+?</table>", RegexOptions.Singleline) _
+                    .Match("<tbody>.+</tbody>", RegexOptions.Singleline)
+                list = r _
+                    .Matches(html, "<tr .+?</tr>", RegexICSng) _
+                    .ToArray
+
+                For i As Integer = 0 To list.Length - 1
+                    str = list(i)
+                    regulators += Regulator.CreateObject(str)
+                    Thread.Sleep(2000)
+                Next
+
+                Return New Regulon With {
+                    .regulators = regulators
+                }
+            End Function
+        End Class
+
         Private Function __download(entryHref$, EXPORT$, ByRef skip As Boolean) As BacteriaRegulome
             Dim str$ = r.Match(entryHref, "href="".+?"">.+?</a>").Value
-            Dim entry As KeyValuePair = KeyValuePair.CreateObject(GetsId(str), "http://regprecise.lbl.gov/RegPrecise/" & str.href)
-            Dim name$ = entry.Key.NormalizePathString
+            Dim entry$ = RegulomeQuery.GetsId(str)
+            Dim name$ = entry.NormalizePathString
             Dim save$ = EXPORT & $"/{name}.xml"
+
+            Static webQuery As New Dictionary(Of String, RegulomeQuery)
+
+            Dim WebApi As RegulomeQuery = webQuery.ComputeIfAbsent(
+                key:=$"{EXPORT}/.cache/",
+                lazyValue:=Function(cache)
+                               Return New RegulomeQuery(cache,,)
+                           End Function)
 
             skip = False
 
@@ -196,9 +235,9 @@ Namespace Regprecise
             Else
                 With New BacteriaRegulome With {
                     .genome = New JSON.genome With {
-                        .name = entry.Key
+                        .name = entry
                     },
-                    .regulons = WebAPI.DownloadRegulon(entry.Value)
+                    .regulons = WebApi.Query(Of Regulon)(entryHref)
                 }
                     Call .GetXml.SaveTo(save)
 
@@ -242,7 +281,7 @@ Namespace Regprecise
             End If
 
             If String.IsNullOrEmpty(regulator.locus_tag.name) Then
-                Dim exMsg As String = $"[null_LOCUS_ID] [Regulog={regulator.Regulog.name}] [Bacteria={genome.genome.name}]" & vbCrLf
+                Dim exMsg As String = $"[null_LOCUS_ID] [Regulog={regulator.regulog.name}] [Bacteria={genome.genome.name}]" & vbCrLf
                 Call ErrLog.WriteLine(exMsg, "", MSG_TYPES.INF)
                 Return Nothing
             End If
