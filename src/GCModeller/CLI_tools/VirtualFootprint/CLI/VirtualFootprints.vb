@@ -754,9 +754,9 @@ Partial Module CLI
         Dim regulators = (From xml As String
                           In ls - l - wildcards("*.xml") <= RegDIR
                           Let g As BacteriaRegulome = xml.LoadXml(Of BacteriaRegulome)
-                          Where Not (g.regulons Is Nothing OrElse
-                              g.regulons.regulators.IsNullOrEmpty)
-                          Select tfs = g.regulons.regulators).IteratesALL
+                          Where Not (g.regulome Is Nothing OrElse
+                              g.regulome.regulators.IsNullOrEmpty)
+                          Select tfs = g.regulome.regulators).IteratesALL
         Dim reghash = (From x As Regulator
                        In regulators
                        Select x

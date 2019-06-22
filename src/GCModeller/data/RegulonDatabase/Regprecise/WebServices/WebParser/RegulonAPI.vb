@@ -124,7 +124,7 @@ Namespace Regprecise
                 .genome = New JSON.genome With {
                     .name = BaseName(mappings)
                 },
-                .regulons = New Regulon With {
+                .regulome = New Regulome With {
                     .regulators = regulators
                 }
             }
@@ -158,7 +158,7 @@ Namespace Regprecise
                                     Regprecise As BacteriaRegulome,
                                     Operons As DOOR) As Regulator()
             Dim LQuery As Regulator() = (From x As Regulator
-                                         In Regprecise.regulons.regulators
+                                         In Regprecise.regulome.regulators
                                          Select mappings.Reconstruct(regulon:=x, DOOR:=Operons)).ToVector
             Return LQuery
         End Function

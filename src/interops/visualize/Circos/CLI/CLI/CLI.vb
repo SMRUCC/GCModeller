@@ -46,6 +46,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -104,7 +105,7 @@ Public Module CLI
         Dim lst As FastaFile = FastaFile.Read(inFasta)
 
         If lst.NumberOfFasta = 1 Then
-            Return __propertyVector(AddressOf NucleicAcidStaticsProperty.ATPercent, lst.First, out, winSize, steps)
+            Return propertyVector(AddressOf NucleicAcidStaticsProperty.ATPercent, lst.First, out, winSize, steps)
         End If
 
         Dim LQuery = (From genome As Integer
@@ -112,11 +113,11 @@ Public Module CLI
                       Select genome,
                           percent = NucleicAcidStaticsProperty.ATPercent(lst(genome), winSize, steps, True)
                       Order By genome Ascending).ToArray
-        Dim vector As Double() = __vectorCommon(LQuery.Select(Function(genome) genome.percent))
+        Dim vector As Double() = LQuery.Select(Function(genome) genome.percent).vector
         Return vector.Select(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
-    Private Function __propertyVector(method As NtProperty, inFasta As FastaSeq, out As String, winSize As Integer, steps As Integer) As Integer
+    Private Function propertyVector(method As NtProperty, inFasta As FastaSeq, out As String, winSize As Integer, steps As Integer) As Integer
         Dim vector As Double() = method(inFasta, winSize, steps, True)
         Return vector.Select(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
@@ -134,7 +135,7 @@ Public Module CLI
         Dim out As String = args.GetValue("/out", inFasta.FilePath.TrimSuffix & ".GCSkew.txt")
 
         If inFasta.NumberOfFasta = 1 Then
-            Return __propertyVector(AddressOf NucleicAcidStaticsProperty.GCSkew, inFasta.First, out, winSize, steps)
+            Return propertyVector(AddressOf NucleicAcidStaticsProperty.GCSkew, inFasta.First, out, winSize, steps)
         End If
 
         Dim LQuery = (From genome As Integer
@@ -142,13 +143,13 @@ Public Module CLI
                       Select genome,
                           skew = SMRUCC.genomics.SequenceModel.NucleotideModels.GCSkew(inFasta(genome), winSize, steps, True)
                       Order By genome Ascending).ToArray  ' 排序是因为可能没有做多序列比对对齐，在这里需要使用第一条序列的长度作为参考
-        Dim vector As Double() = __vectorCommon(LQuery.Select(Function(genome) genome.skew))
+        Dim vector As Double() = LQuery.Select(Function(genome) genome.skew).vector
         Return vector.Select(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
-    Private Function __vectorCommon(vectors As Double()()) As Double()
-        Dim LQuery As Double() = vectors(Scan0).Select(
-            Function(null, idx) vectors.Select(Function(genome) genome(idx)).Average)
+    <Extension>
+    Private Function vector(vectors As IEnumerable(Of Double())) As Double()
+        Dim LQuery As Double() = vectors(Scan0).Select(Function(null, idx) vectors.Select(Function(genome) genome(idx)).Average)
         Return LQuery
     End Function
 

@@ -242,11 +242,16 @@
     <Compile Include="RegPrecise\WebServices\DataModels\Stats.vb" />
     <Compile Include="RegPrecise\WebServices\Regulations.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\BacteriaGenome.vb" />
+    <Compile Include="RegPrecise\WebServices\WebParser\Motif\MotifWebQuery.vb" />
+    <Compile Include="RegPrecise\WebServices\WebParser\Regulator\RegulatorTypes.vb" />
+    <Compile Include="RegPrecise\WebServices\WebParser\Regulator\RegulatorQuery.vb" />
+    <Compile Include="RegPrecise\WebServices\WebParser\Operon\OperonQuery.vb" />
+    <Compile Include="RegPrecise\WebServices\WebParser\RegulomeQuery .vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Motif\MotifWebAPI.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Motif\MotifSite.vb" />
-    <Compile Include="RegPrecise\WebServices\WebParser\Regulator.vb" />
+    <Compile Include="RegPrecise\WebServices\WebParser\Regulator\Regulator.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\KEGGDownloader.vb" />
-    <Compile Include="RegPrecise\WebServices\WebParser\Operon.vb" />
+    <Compile Include="RegPrecise\WebServices\WebParser\Operon\Operon.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Regulon.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\RegulonAPI.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\TranscriptionFactors.vb" />
@@ -416,10 +421,6 @@
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\Bio.InteractionModel\Bio.InteractionModel.vbproj">
-      <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
-      <Name>Bio.InteractionModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\MicrobesOnline\MicrobesOnline.vbproj">
       <Project>{43c14bc7-22f6-4340-9af8-b01908619911}</Project>

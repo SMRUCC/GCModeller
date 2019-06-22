@@ -68,8 +68,13 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <remarks></remarks>
         Dim _innerSeqCache As String
-        Dim _innerSeqModel As List(Of DNA)
 
+        Protected _innerSeqModel As DNA()
+
+        ''' <summary>
+        ''' 序列的所以的碱基枚举的数组，可以看作为一个完整的序列
+        ''' </summary>
+        ''' <returns></returns>
         Public Function ToArray() As DNA()
             Return _innerSeqModel.ToArray
         End Function
@@ -86,7 +91,9 @@ Namespace SequenceModel.NucleotideModels
             For Each dgBase As DNA In dbEntries
                 Dim cd% = _innerSeqModel.Where(Function(b) b = dgBase).Count
                 Dim l = 1 / Conversion.DegenerateBases(dgBase).Length
-                n += cd * l  ' 因为计算简并碱基的时候，是平均分配的，所以在这里就除以该简并碱基的可替换的碱基数量
+
+                ' 因为计算简并碱基的时候，是平均分配的，所以在这里就除以该简并碱基的可替换的碱基数量
+                n += cd * l
             Next
 
             ' 故而包含有简并碱基的计算结果应该是带有小数的
@@ -110,7 +117,7 @@ Namespace SequenceModel.NucleotideModels
                 Return _innerSeqCache
             End Get
             Set(value As String)
-                _innerSeqModel = NucleicAcid.Enums(value).ToList
+                _innerSeqModel = NucleicAcid.Enums(value).AsList
                 MyBase.SequenceData = value
                 _innerSeqCache = value
             End Set
@@ -147,7 +154,7 @@ Namespace SequenceModel.NucleotideModels
         End Property
 
         Sub New(Sequence As IEnumerable(Of DNA))
-            Call __convertSequence(ToString(Sequence), True)
+            Call convertSequence(ToString(Sequence), True)
         End Sub
 
         ''' <summary>
@@ -155,7 +162,7 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="SequenceData"></param>
         Sub New(SequenceData As IPolymerSequenceModel)
-            Call __convertSequence(SequenceData.SequenceData, True)
+            Call convertSequence(SequenceData.SequenceData, True)
         End Sub
 
         Sub New()
@@ -167,7 +174,7 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="SequenceData">This sequence data can be user input from the interface or sequence data from the <see cref="FASTA.FastaSeq"/> object.</param>
         Sub New(SequenceData As String)
-            Call __convertSequence(SequenceData, True)
+            Call convertSequence(SequenceData, True)
         End Sub
 
         ''' <summary>
@@ -175,7 +182,7 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="SequenceData"></param>
         Sub New(SequenceData As ISequenceModel)
-            Call __convertSequence(SequenceData.SequenceData, True)
+            Call convertSequence(SequenceData.SequenceData, True)
         End Sub
 
         ''' <summary>
@@ -185,7 +192,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="strict">默认参数表示当核酸序列之中存在非法字符的时候会直接抛出错误</param>
         Sub New(nt As FASTA.FastaSeq, Optional strict As Boolean = True)
             Try
-                Call __convertSequence(nt.SequenceData, strict)
+                Call convertSequence(nt.SequenceData, strict)
             Catch ex As Exception
                 ex = New Exception(nt.Title, ex)
                 Throw ex
@@ -196,7 +203,7 @@ Namespace SequenceModel.NucleotideModels
         ''' 检查序列的可用性
         ''' </summary>
         ''' <param name="seq"></param>
-        Private Sub __convertSequence(seq$, strict As Boolean)
+        Private Sub convertSequence(seq$, strict As Boolean)
             Dim nt As String = seq.ToUpper.Replace("N", "-").Replace(".", "-")
             Dim invalids As Char() = InvalidForNt(nt)
 

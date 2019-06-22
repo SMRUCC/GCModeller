@@ -127,7 +127,7 @@ Public Class RegPreciseRegulon
         Dim sites = (From x In source Select x.regulatorySites.Select(Function(xx) xx.UniqueId)).Unlist
         Dim regulon As New RegPreciseRegulon With {
             .Family = __1st.family,
-            .BiologicalProcess = __1st.biological_process,
+            .BiologicalProcess = __1st.biological_process.JoinBy("; "),
             .Members = (From sId As String In regulates Select sId Distinct Order By sId).ToArray,
             .Pathway = __1st.pathway,
             .Regulator = __1st.LocusId,
@@ -143,12 +143,12 @@ Public Class RegPreciseRegulon
                      In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
                      Select xml.LoadXml(Of BacteriaRegulome)).ToArray
         Dim regulons = (From x As BacteriaRegulome In loads
-                        Where x.NumOfRegulons > 0
-                        Select x.regulons.regulators).Unlist
+                        Where x.numOfRegulons > 0
+                        Select x.regulome.regulators).Unlist
         Dim Groups = (From xx In (From x As Regulator
                                   In regulons
                                   Select x,
-                                      uid = x.biological_process.Replace(" ", "").ToLower
+                                      uid = x.biological_process.JoinBy(";").Replace(" ", "").ToLower
                                   Group By x.LocusId Into Group).AsParallel
                       Select xx.LocusId,
                           parts = (From x In xx.Group

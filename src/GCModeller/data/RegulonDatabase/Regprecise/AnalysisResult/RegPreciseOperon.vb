@@ -125,7 +125,7 @@ Namespace Regprecise
             Regulators = TF
             Effector = regulon.effector
             Pathway = regulon.pathway
-            BiologicalProcess = regulon.biological_process
+            BiologicalProcess = regulon.biological_process.JoinBy("; ")
             source = regulon.Regulog.name
             Strand = cstrand
             bbh = bbhHits
