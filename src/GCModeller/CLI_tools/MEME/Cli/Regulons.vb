@@ -64,7 +64,7 @@ Partial Module CLI
         Dim queryList = AnnotationModel.LoadDocument(inMEME)
         Dim source = inRegulon.LoadXml(Of BacteriaRegulome)
         Dim sourceHash = (From x As Regulator
-                          In source.regulons.regulators
+                          In source.regulome.regulators
                           Let uid As String = $"{x.LocusId}.{x.locus_tag.text.Replace(":", "_")}"
                           Select uid, x)
         Dim target = (From x In sourceHash Where String.Equals(x.uid, inId, StringComparison.OrdinalIgnoreCase) Select x).FirstOrDefault
@@ -149,7 +149,7 @@ Partial Module CLI
                       Where Not regulators.IsNullOrEmpty
                       Let id As String = BaseName(x)
                       Select id, _genome = New BacteriaRegulome With {
-                          .regulons = New Data.Regprecise.Regulome With {
+                          .regulome = New Data.Regprecise.Regulome With {
                                 .regulators = regulators
                           },
                           .genome = New JSON.genome With {

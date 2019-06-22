@@ -511,9 +511,9 @@ Partial Module CLI
                                 In FileIO.FileSystem.GetFiles(args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
                                 Let regulon As BacteriaRegulome = file.LoadXml(Of BacteriaRegulome)
                                 Where Not regulon Is Nothing AndAlso
-                                    Not regulon.regulons Is Nothing AndAlso
-                                    Not regulon.regulons.regulators.IsNullOrEmpty
-                                Select regulon.regulons.regulators).IteratesALL
+                                    Not regulon.regulome Is Nothing AndAlso
+                                    Not regulon.regulome.regulators.IsNullOrEmpty
+                                Select regulon.regulome.regulators).IteratesALL
                 bbhs = regulons.ToList(
                     Function(x) New BBHIndex With {
                         .HitName = x.locus_tag.name,

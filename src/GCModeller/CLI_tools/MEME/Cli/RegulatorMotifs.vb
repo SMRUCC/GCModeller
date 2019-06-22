@@ -129,7 +129,7 @@ Partial Module CLI
         Call bbh.SaveTo(out & "/Regulators.bbh.csv")
 
         Dim regs = (From reg As Regulator
-                    In genomes.Select(Function(x) x.regulons.regulators).IteratesALL
+                    In genomes.Select(Function(x) x.regulome.regulators).IteratesALL
                     Select reg
                     Group reg By reg.LocusId Into Group) _
                          .ToDictionary(Function(x) x.LocusId,

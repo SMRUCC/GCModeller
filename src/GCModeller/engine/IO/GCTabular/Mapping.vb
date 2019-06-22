@@ -391,7 +391,7 @@ Public Class Mapping : Implements System.IDisposable
             From item As Regprecise.BacteriaRegulome
             In Regprecise.genomes
             Select From regulator
-                   In item.regulons.regulators
+                   In item.regulome.regulators
                    Where Not String.IsNullOrEmpty(regulator.effector)
                    Select regulator.effector.ToLower.Trim
 

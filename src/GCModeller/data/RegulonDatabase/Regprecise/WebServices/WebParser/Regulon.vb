@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Regprecise
 
+    <XmlType("regulome", [Namespace]:=BacteriaRegulome.regulomeNamespace)>
     Public Class Regulome : Inherits ListOf(Of Regulator)
         Implements Enumeration(Of Regulator)
 

@@ -143,6 +143,8 @@ Namespace Regprecise
                     If Not skip Then
                         Call Thread.Sleep(60 * 1000)
                     End If
+
+                    Call Console.Clear()
                 Next
             End Using
 
@@ -170,7 +172,7 @@ Namespace Regprecise
                 .genome = New JSON.genome With {
                     .name = entry
                 },
-                .regulons = WebApi.Query(Of Regulome)(entryHref, hitCache:=skip)
+                .regulome = WebApi.Query(Of Regulome)(entryHref, hitCache:=skip)
             }
                 Call .GetXml.SaveTo(save)
 
@@ -192,7 +194,7 @@ Namespace Regprecise
             Using ErrLog As New LogFile($"{DownloadDIR}/DownloadError_{Now.ToString.NormalizePathString}.log")
                 For Each Bacteria As BacteriaRegulome In Regprecise.genomes
                     Dim downloads = (From regulator As Regulator
-                                     In Bacteria.regulons.regulators
+                                     In Bacteria.regulome.regulators
                                      Let fa As FASTA.FastaSeq = __downloads(regulator, Bacteria, ErrLog, DownloadDIR)
                                      Where Not fa Is Nothing
                                      Select fa).ToArray

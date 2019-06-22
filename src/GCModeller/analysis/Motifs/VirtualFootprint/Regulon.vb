@@ -143,8 +143,8 @@ Public Class RegPreciseRegulon
                      In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
                      Select xml.LoadXml(Of BacteriaRegulome)).ToArray
         Dim regulons = (From x As BacteriaRegulome In loads
-                        Where x.NumOfRegulons > 0
-                        Select x.regulons.regulators).Unlist
+                        Where x.numOfRegulons > 0
+                        Select x.regulome.regulators).Unlist
         Dim Groups = (From xx In (From x As Regulator
                                   In regulons
                                   Select x,
