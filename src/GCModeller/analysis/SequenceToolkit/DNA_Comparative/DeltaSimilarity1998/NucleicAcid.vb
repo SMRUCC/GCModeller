@@ -80,8 +80,11 @@ Namespace DeltaSimilarity1998
         Sub New(nt As DNA())
             Call MyBase.New(nt)
 
+            ' 20190622
             ' 因为__createSigma函数需要这个滑窗数据，所以需要先于__createSigma函数进行调用
-            DNA_segments = Me.SlideWindows(2, offset:=1).ToArray
+            ' 因为全基因可能会非常长，所以在这里就不可以使用通用的滑窗数据创建方法了
+            ' 否则会非常慢
+            DNA_segments = slideWindows().ToArray
 
             For Each X As (a As DNA, B As DNA) In {
                 (DNA.dAMP, DNA.dAMP),
@@ -106,6 +109,18 @@ Namespace DeltaSimilarity1998
                 End With
             Next
         End Sub
+
+        Private Iterator Function slideWindows() As IEnumerable(Of SlideWindow(Of DNA))
+            Dim len = Length
+
+            For i As Integer = 0 To len - 2
+                Yield New SlideWindow(Of DNA) With {
+                    .Index = i,
+                    .Items = {_innerSeqModel(i), _innerSeqModel(i + 1)},
+                    .Left = .Index
+                }
+            Next
+        End Function
 
         ''' <summary>
         ''' Fasta序列会自动使用<see cref="FastaSeq.Title"/>来作为序列的<see cref="UserTag"/>

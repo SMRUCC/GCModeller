@@ -68,7 +68,8 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <remarks></remarks>
         Dim _innerSeqCache As String
-        Dim _innerSeqModel As List(Of DNA)
+
+        Protected _innerSeqModel As DNA()
 
         ''' <summary>
         ''' 序列的所以的碱基枚举的数组，可以看作为一个完整的序列
