@@ -10,31 +10,24 @@ Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Regprecise
 
-    Friend Class RegulatorQuery : Inherits WebQuery(Of String)
+    Friend Class RegulatorQuery : Inherits WebQueryModule(Of String)
 
         Public Sub New(<CallerMemberName>
                        Optional cache As String = Nothing,
                        Optional interval As Integer = -1,
                        Optional offline As Boolean = False)
 
-            MyBase.New(url:=AddressOf UrlParser,
-                       contextGuid:=AddressOf NameParser,
-                       parser:=AddressOf More,
-                       prefix:=Nothing,
-                       cache:=cache,
-                       interval:=interval,
-                       offline:=offline
-                   )
+            MyBase.New(cache:=cache, interval:=interval, offline:=offline)
         End Sub
 
         ' 因为在这里是进行Web请求，所以为了降低目标服务器的压力，在这里可以牺牲掉代码的执行效率
 
-        Private Shared Function UrlParser(str As String) As String
-            Return basicParser(str, Nothing).regulator.text
+        Protected Overrides Function doParseUrl(context As String) As String
+            Return basicParser(context, Nothing).regulator.text
         End Function
 
-        Private Shared Function NameParser(str As String) As String
-            Return basicParser(str, Nothing).regulator.name
+        Protected Overrides Function doParseGuid(context As String) As String
+            Return basicParser(context, Nothing).regulator.name
         End Function
 
         ''' <summary>
@@ -64,7 +57,7 @@ Namespace Regprecise
             Return regulator
         End Function
 
-        Private Shared Function More(html$, null As Type) As Object
+        Protected Overrides Function doParseObject(html As String, schema As Type) As Object
             Dim infoTable$ = html.Match("<table class=""proptbl"">.+?</table>", RegexOptions.Singleline)
             Dim properties$() = r.Matches(infoTable, "<tr>.+?</tr>", RegexICSng).ToArray
             Dim i As VBInteger = 1
@@ -113,8 +106,17 @@ Namespace Regprecise
             }
 
             Dim exportServletLnks$() = exportServlet(html)
+            Dim motifFile$ = exportServletLnks.ElementAtOrDefault(1)
+            Dim cache$ = motifFile.Replace("http://regprecise.lbl.gov/RegPrecise/", "").NormalizePathString(True).Replace("_", "/")
+
+            cache = $"{Me.cache}/{cache}.txt"
+
+            If Not cache.FileLength > 10 Then
+                Call motifFile.GET.SaveTo(cache)
+            End If
+
             regulator.operons = OperonQuery.OperonParser(html, Nothing)
-            regulator.regulatorySites = MotifFasta.Parse(url:=exportServletLnks.ElementAtOrDefault(1))
+            regulator.regulatorySites = MotifFasta.Parse(url:=cache)
 
             Return regulator
         End Function
