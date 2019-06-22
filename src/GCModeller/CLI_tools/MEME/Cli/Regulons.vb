@@ -149,7 +149,7 @@ Partial Module CLI
                       Where Not regulators.IsNullOrEmpty
                       Let id As String = BaseName(x)
                       Select id, _genome = New BacteriaRegulome With {
-                          .regulons = New Data.Regprecise.Regulon With {
+                          .regulons = New Data.Regprecise.Regulome With {
                                 .regulators = regulators
                           },
                           .genome = New JSON.genome With {

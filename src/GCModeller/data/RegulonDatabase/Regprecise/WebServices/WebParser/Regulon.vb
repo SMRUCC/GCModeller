@@ -51,26 +51,26 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Regprecise
 
-    Public Class Regulon : Implements Enumeration(Of Regulator)
+    Public Class Regulome : Inherits ListOf(Of Regulator)
+        Implements Enumeration(Of Regulator)
 
-        <XmlElement>
+        <XmlElement("regulator")>
         Public Property regulators As Regulator()
 
         Public Overrides Function ToString() As String
             Return regulators.GetJson
         End Function
 
-        Public Iterator Function GenericEnumerator() As IEnumerator(Of Regulator) Implements Enumeration(Of Regulator).GenericEnumerator
-            For Each regulator As Regulator In regulators
-                Yield regulator
-            Next
+        Protected Overrides Function getSize() As Integer
+            Return regulators.Length
         End Function
 
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Regulator).GetEnumerator
-            Yield GenericEnumerator()
+        Protected Overrides Function getCollection() As IEnumerable(Of Regulator)
+            Return regulators
         End Function
     End Class
 

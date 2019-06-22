@@ -124,7 +124,7 @@ Namespace Regprecise
                 .genome = New JSON.genome With {
                     .name = BaseName(mappings)
                 },
-                .regulons = New Regulon With {
+                .regulons = New Regulome With {
                     .regulators = regulators
                 }
             }

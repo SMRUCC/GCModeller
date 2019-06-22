@@ -90,7 +90,7 @@ Namespace Regprecise
             Dim BacteriaGenome As BacteriaRegulome = GetBacteriaGenomeProfile(Bacteria)
 
             If BacteriaGenome Is Nothing Then '不存在这条记录，则插入新的记录
-                Dim Regulog = New Regulon With {
+                Dim Regulog = New Regulome With {
                     .regulators = {CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)}
                 }
                 BacteriaGenome = New BacteriaRegulome With {

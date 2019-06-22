@@ -68,21 +68,22 @@ Namespace Regprecise
     Public Class Regulator : Implements IReadOnlyId
 
         <XmlAttribute> Public Property type As Types
-        ''' <summary>
-        ''' 用来下载生成motif数据库的时候所需要使用的
-        ''' </summary>
-        ''' <returns></returns>
-        <XmlAttribute("url")>
-        Public Property infoURL As String
+        <XmlAttribute> Public Property family As String
+        <XmlAttribute> Public Property regulationMode As String
 
         <XmlElement> Public Property regulator As NamedValue
         <XmlElement> Public Property effector As String
         <XmlElement> Public Property pathway As String
         <XmlElement> Public Property locus_tag As NamedValue
-        <XmlAttribute> Public Property family As String
-        <XmlAttribute> Public Property regulationMode As String
         <XmlElement> Public Property biological_process As String
         <XmlElement> Public Property regulog As NamedValue
+
+        ''' <summary>
+        ''' 用来下载生成motif数据库的时候所需要使用的
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("url")>
+        Public Property infoURL As String
 
         <XmlArray("regulatory_sites", [Namespace]:=MotifFasta.xmlns)>
         Public Property regulatorySites As MotifFasta()

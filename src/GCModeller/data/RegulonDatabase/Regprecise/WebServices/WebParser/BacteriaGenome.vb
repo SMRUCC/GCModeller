@@ -64,7 +64,7 @@ Namespace Regprecise
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlElement> Public Property genome As JSON.genome
-        <XmlElement> Public Property regulons As Regulon
+        <XmlElement> Public Property regulons As Regulome
 
         ''' <summary>
         ''' 这个基因组里面的Regulon的数目

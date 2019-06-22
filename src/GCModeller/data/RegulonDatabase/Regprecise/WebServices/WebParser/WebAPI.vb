@@ -166,23 +166,16 @@ Namespace Regprecise
                                Return New RegulomeQuery(cache,,)
                            End Function)
 
-            skip = False
+            With New BacteriaRegulome With {
+                .genome = New JSON.genome With {
+                    .name = entry
+                },
+                .regulons = WebApi.Query(Of Regulome)(entryHref, hitCache:=skip)
+            }
+                Call .GetXml.SaveTo(save)
 
-            If save.FileLength > 1024 Then
-                skip = True
-                Return save.LoadXml(Of BacteriaRegulome)()
-            Else
-                With New BacteriaRegulome With {
-                    .genome = New JSON.genome With {
-                        .name = entry
-                    },
-                    .regulons = WebApi.Query(Of Regulon)(entryHref)
-                }
-                    Call .GetXml.SaveTo(save)
-
-                    Return .ByRef
-                End With
-            End If
+                Return .ByRef
+            End With
         End Function
 
         ''' <summary>
