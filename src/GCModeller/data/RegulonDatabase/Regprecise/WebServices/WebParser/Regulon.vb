@@ -81,7 +81,7 @@ Namespace Regprecise
         <XmlAttribute> Public Property locusId As String
         <XmlAttribute> Public Property name As String
 
-        <XmlText>
+        <XmlAttribute>
         Public Property description As String
 
         Public Overrides Function ToString() As String
