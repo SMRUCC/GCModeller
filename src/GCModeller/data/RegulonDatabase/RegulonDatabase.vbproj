@@ -243,11 +243,13 @@
     <Compile Include="RegPrecise\WebServices\Regulations.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\BacteriaGenome.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Motif\MotifWebQuery.vb" />
+    <Compile Include="RegPrecise\WebServices\WebParser\Regulator\RegulatorTypes.vb" />
+    <Compile Include="RegPrecise\WebServices\WebParser\Regulator\RegulatorQuery.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Operon\OperonQuery.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\RegulomeQuery .vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Motif\MotifWebAPI.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Motif\MotifSite.vb" />
-    <Compile Include="RegPrecise\WebServices\WebParser\Regulator.vb" />
+    <Compile Include="RegPrecise\WebServices\WebParser\Regulator\Regulator.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\KEGGDownloader.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Operon\Operon.vb" />
     <Compile Include="RegPrecise\WebServices\WebParser\Regulon.vb" />
