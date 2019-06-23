@@ -201,7 +201,7 @@ Namespace CommandLine.InteropService.SharedORM
             Dim param$
 
             For Each arg As NamedValue(Of String) In API.ParameterList
-                param = $"{VisualBasic.__normalizedAsIdentifier(arg.Name)} As String"
+                param = $"{VisualBasic.normalizedAsVisualBasicIdentifier(arg.Name)} As String"
 
                 If Not arg.Description.StringEmpty Then
                     ' 可选参数
@@ -211,7 +211,7 @@ Namespace CommandLine.InteropService.SharedORM
                 out += param
             Next
             For Each bool In API.BoolFlags
-                out += $"Optional {VisualBasic.__normalizedAsIdentifier(bool)} As Boolean = False"
+                out += $"Optional {VisualBasic.normalizedAsVisualBasicIdentifier(bool)} As Boolean = False"
             Next
 
             Return out
@@ -245,12 +245,17 @@ Namespace CommandLine.InteropService.SharedORM
             Return value
         End Function
 
+        ''' <summary>
+        ''' 创建命令行调用字符串
+        ''' </summary>
+        ''' <param name="API"></param>
+        ''' <returns></returns>
         Private Shared Function __CLI(API As CommandLine) As String
             Dim CLI As New StringBuilder
             Dim vbcode$
 
             For Each param In API.ParameterList
-                Dim var$ = __normalizedAsIdentifier(param.Name)
+                Dim var$ = normalizedAsVisualBasicIdentifier(param.Name)
 
                 ' 注意：在这句代码的最后有一个空格，是间隔参数所必需的，不可以删除
                 vbcode = $"    Call CLI.Append(""{param.Name} "" & """""""" & {var} & """""" "")"
@@ -267,12 +272,14 @@ Namespace CommandLine.InteropService.SharedORM
             Next
 
             For Each b In API.BoolFlags
-                Dim var$ = __normalizedAsIdentifier(b)
+                Dim var$ = normalizedAsVisualBasicIdentifier(b)
 
                 Call CLI.AppendLine($"    If {var} Then")
                 Call CLI.AppendLine($"        Call CLI.Append(""{b} "")") ' 逻辑参数后面有一个空格，是正确的生成CLI所必需的
                 Call CLI.AppendLine("    End If")
             Next
+
+            Call CLI.AppendLine($"     Call CLI.Append(""/@set {Microsoft.VisualBasic.App.FlagInternalPipeline}=TRUE "")")
 
             Return CLI.ToString
         End Function
@@ -284,7 +291,7 @@ Namespace CommandLine.InteropService.SharedORM
         ''' </summary>
         ''' <param name="arg$"></param>
         ''' <returns></returns>
-        Private Shared Function __normalizedAsIdentifier(arg$) As String
+        Private Shared Function normalizedAsVisualBasicIdentifier(arg$) As String
             ' 在命令行的参数名称前面一般都会有/-之类的控制符前缀，在这里去掉
             Dim name$ = arg.Trim("/"c, "\"c, "-"c)
             Dim s As Char() = name.ToArray

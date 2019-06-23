@@ -1440,6 +1440,8 @@ Public Module App
         End SyncLock
     End Sub
 
+    Public Const FlagInternalPipeline As String = "--internal_pipeline"
+
     ''' <summary>
     ''' 自动停止GC当前程序的线程
     ''' </summary>
@@ -1473,7 +1475,7 @@ Public Module App
 
         ' this option enable you disable the pause in debug mode 
         ' when the program is going to end.
-        If Not App.GetVariable("--internal_pipeline").ParseBoolean = True Then
+        If Not App.GetVariable(name:=FlagInternalPipeline).ParseBoolean = True Then
             ' 应用程序在 debug 模式下会自动停止在这里
             ' 在这里调试模式下结束之前自动暂停是为了
             ' 方便查看程序的命令行终端上面的输出信息
