@@ -46,13 +46,11 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports System.Threading
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Terminal
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
@@ -103,8 +101,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 _genes = Value
 
                 If Not Value.IsNullOrEmpty Then
-                    _geneTable = Value.ToDictionary(
-                        Function(x) x.name.Split(":"c).Last)
+                    _geneTable = Value.ToDictionary(Function(gene)
+                                                        Return gene.name.Split(":"c).Last
+                                                    End Function)
                 Else
                     _geneTable = New Dictionary(Of String, NamedValue)
                 End If
@@ -135,9 +134,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Dim _genes As NamedValue()
         Dim _geneTable As New Dictionary(Of String, NamedValue)
-
-        Const SEARCH_URL As String = "http://www.kegg.jp/kegg-bin/search_pathway_text?map={0}&keyword=&mode=1&viewImage=false"
-        Const PATHWAY_DBGET As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:{0}{1}"
 
         <XmlNamespaceDeclarations()>
         Public xmlns As XmlSerializerNamespaces
@@ -185,98 +181,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Select [mod]
 
             Return Not LQuery Is Nothing
-        End Function
-
-        ''' <summary>
-        ''' Downloads all of the available pathway information for the target species genome.
-        ''' (下载目标基因组对象之中的所有可用的代谢途径信息)
-        ''' </summary>
-        ''' <param name="sp">
-        ''' The brief code of the target genome species in KEGG database.(目标基因组在KEGG数据库之中的简写编号.)
-        ''' </param>
-        ''' <param name="EXPORT"></param>
-        ''' <returns>函数返回下载失败的代谢途径的编号代码</returns>
-        ''' <remarks></remarks>
-        Public Shared Function Download(sp$, EXPORT As String, Optional briefFile$ = "") As String()
-            Dim source As BriteHEntry.Pathway() = __source(briefFile)
-            Dim failures As New List(Of String)
-
-            Using progress As New ProgressBar("Download KEGG pathway data for " & sp, 1, CLS:=True)
-                Dim tick As New ProgressProvider(source.Length)
-                Dim ETA$
-
-                For Each entry As KEGG.DBGET.BriteHEntry.Pathway In source
-                    Dim EntryID As String = String.Format("{0}{1}", sp, entry.entry.name)
-                    Dim saveDIR As String = $"{EXPORT}/{entry.GetPathCategory}"
-
-                    Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryID)
-                    Dim png As String = String.Format("{0}/{1}.png", saveDIR, EntryID)
-
-                    If xml.FileExists AndAlso png.FileExists Then
-                        Continue For
-                    End If
-
-                    Dim pathway As Pathway = DownloadPage(sp, entry.entry.name)
-
-                    If pathway Is Nothing Then
-                        Call $"[{sp}] {entry.ToString} is not exists in the KEGG!".__DEBUG_ECHO
-                        failures += EntryID
-                    Else
-                        Call pathway.GetXml.SaveTo(xml)
-                        Call DownloadPathwayMap(sp, entry.entry.name, EXPORT:=saveDIR)
-                        Call Thread.Sleep(1000)
-                    End If
-Exit_LOOP:
-                    ETA = "ETA:= " & tick.ETA(progress.ElapsedMilliseconds).FormatTime
-                    Call progress.SetProgress(tick.StepProgress, ETA)
-                Next
-            End Using
-
-            Return failures
-        End Function
-
-        Private Shared Function __source(path$) As BriteHEntry.Pathway()
-            If path.FileLength = 0 Then
-                Return BriteHEntry.Pathway.LoadFromResource
-            Else
-                Return BriteHEntry.Pathway.LoadData(path)
-            End If
-        End Function
-
-        ''' <summary>
-        ''' 下载pathway的图片
-        ''' </summary>
-        ''' <param name="sp$"></param>
-        ''' <param name="entry$"></param>
-        ''' <param name="EXPORT$"></param>
-        ''' <returns></returns>
-        Public Shared Function DownloadPathwayMap(sp$, entry$, EXPORT$) As Boolean
-            Dim url As String = $"http://www.genome.jp/kegg/pathway/{sp}/{sp}{entry}.png"
-            Dim path$ = String.Format("{0}/{1}{2}.png", EXPORT, sp, entry)
-            Return url.DownloadFile(save:=path)
-        End Function
-
-        Public Shared Function DownloadPage(sp As String, Entry As String) As Pathway
-            Return DownloadPage(url:=String.Format(PATHWAY_DBGET, sp, Entry))
-        End Function
-
-        ''' <summary>
-        ''' 从某一个页面url或者文件路径所指向的网页文件之中解析出模型数据
-        ''' </summary>
-        ''' <param name="url"></param>
-        ''' <returns></returns>
-        Public Shared Function DownloadPage(url As String) As Pathway
-#If Not DEBUG Then
-            Try
-#End If
-            Return url.PageParser
-#If Not DEBUG Then
-            Catch ex As Exception
-                ex = New Exception(url, ex)
-                Call ex.PrintException
-                Throw ex
-            End Try
-#End If
         End Function
 
         Public Shared Function GetCompoundCollection(source As IEnumerable(Of Pathway)) As String()
@@ -332,6 +236,24 @@ Exit_LOOP:
                 .Select(Function(g) g.name.Split(":"c).Last) _
                 .ToArray
             Return LQuery
+        End Function
+
+        Const PATHWAY_DBGET As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:{0}{1}"
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function DownloadPage(sp As String, entry As String) As Pathway
+            Return String.Format(PATHWAY_DBGET, sp, entry).PageParser
+        End Function
+
+        ''' <summary>
+        ''' 从某一个页面url或者文件路径所指向的网页文件之中解析出模型数据
+        ''' </summary>
+        ''' <param name="url"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function DownloadPage(url As String) As Pathway
+            Return url.PageParser
         End Function
     End Class
 End Namespace

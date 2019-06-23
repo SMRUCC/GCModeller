@@ -231,6 +231,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="v2\NamespaceDoc.vb" />
     <Compile Include="v2\Genome.vb" />
     <Compile Include="v2\MetabolismStructure.vb" />
     <Compile Include="EquationGenerator.vb" />

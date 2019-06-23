@@ -164,6 +164,8 @@ Partial Module CLI
             ' 在这里写入两个空文件是为了方便进行标记
             Call "".SaveTo($"{EXPORT}/{ .FullName}.txt")
             Call "".SaveTo($"{EXPORT}/{assembly}.txt")
+            ' 这个文件方便程序进行信息的读取操作
+            Call { .FullName, assembly}.FlushAllLines($"{EXPORT}/index.txt")
         End With
 
         If isKGML AndAlso args("/out").IsEmpty Then

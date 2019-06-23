@@ -82,6 +82,10 @@ Namespace Karyotype
         Protected karyos As List(Of Karyotype)
         Protected bands As List(Of Band)
 
+        ''' <summary>
+        ''' 枚举出当前的这个圈图内的所有的染色体的定义数据
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Iterator Property Karyotypes As IEnumerable(Of Karyotype)
             Get
                 For Each karyo As Karyotype In karyos
@@ -94,14 +98,12 @@ Namespace Karyotype
         ''' 只有一个基因组的时候可以调用这个方法
         ''' </summary>
         Protected Sub singleKaryotypeChromosome(Optional color As String = "black")
-            Me.karyos = New List(Of Karyotype) From {
-                New Karyotype With {
-                    .chrLabel = "1",
-                    .chrName = "chr1",
-                    .start = 1,
-                    .end = size,
-                    .color = color
-                }
+            Me.karyos = New Karyotype With {
+                .chrLabel = "1",
+                .chrName = "chr1",
+                .start = 1,
+                .end = size,
+                .color = color
             }
         End Sub
 
@@ -113,11 +115,11 @@ Namespace Karyotype
         Public Function Build(IndentLevel As Integer, directory$) As String Implements ICircosDocNode.Build
             Dim sb As New StringBuilder
 
-            For Each x As IKaryotype In karyos
-                Call sb.AppendLine(x.GetData)
+            For Each chr As IKaryotype In karyos
+                Call sb.AppendLine(chr.GetData)
             Next
-            For Each x As IKaryotype In bands.SafeQuery
-                Call sb.AppendLine(x.GetData)
+            For Each chr As IKaryotype In bands.SafeQuery
+                Call sb.AppendLine(chr.GetData)
             Next
 
             Return sb.ToString
