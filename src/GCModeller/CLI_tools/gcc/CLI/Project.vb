@@ -71,7 +71,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/compile.KEGG")>
-    <Description("Create GCModeller virtual cell data model file.")>
+    <Description("Create GCModeller virtual cell data model file from KEGG reference data.")>
     <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
     <Argument("/regulations", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in)>
@@ -84,11 +84,7 @@ Partial Module CLI
             .KEGGReactions = args <= "/reactions"
         }
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GCMarkup"
-        Dim genome As Dictionary(Of String, GBFF.File) = GBFF.File _
-            .LoadDatabase(filePath:=[in]) _
-            .ToDictionary(Function(gb)
-                              Return gb.Locus.AccessionID
-                          End Function)
+        Dim genome As Dictionary(Of String, GBFF.File) = [in].loadRepliconTable
         Dim geneKO As Dictionary(Of String, String) = EntityObject _
             .LoadDataSet(KO) _
             .ToDictionary(Function(protein) protein.ID,
@@ -108,6 +104,31 @@ Partial Module CLI
                         .WriteXlsx(out) _
                         .CLICode
         End If
+    End Function
+
+    <Extension>
+    Private Function loadRepliconTable(genome As String) As Dictionary(Of String, GBFF.File)
+        Return GBFF.File _
+           .LoadDatabase(filePath:=genome) _
+           .ToDictionary(Function(gb)
+                             Return gb.Locus.AccessionID
+                         End Function)
+    End Function
+
+    <ExportAPI("/compile.organism")>
+    <Usage("/compile.KEGG /in <genome.gb> /kegg <kegg.organism_pathways.repository> [/regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
+    <Description("Create GCModeller virtual cell data model from KEGG organism pathway data")>
+    <Argument("/kegg", False, CLITypes.File,
+              Description:="A directory path that contains pathway data from command ``kegg_tools /Download.Pathway.Maps``.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.gb, *.gbk, *.gbff",
+              Description:="A NCBI genbank file that contains the genomics data. If the genome contains multiple replicon like plasmids, 
+              you can union all of the replicon data into one genbankfile and then using this union file as this input argument.")>
+    Public Function CompileKEGGOrganism(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim kegg$ = args <= "/kegg"
+        Dim regulations = (args <= "/regulations").LoadCsv(Of RegulationFootprint)
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.CellAssembly.Xml"
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
