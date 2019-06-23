@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 Partial Module CLI
 
     <ExportAPI("compile", Info:="Compile data source into a model file so that the fba program can using the data to performing the simulation calculation.",
-        Usage:="compile -i <input_file> -o <output_file>[ -if <sbml/metacyc> -of <fba/fba2> -f <objective_function> -d <max/min>]",
+        Usage:="compile -i <input_file> -o <output_file> [-if <sbml/metacyc> -of <fba/fba2> -f <objective_function> -d <max/min>]",
         Example:="compile -i /home/xieguigang/ecoli/ -o /home/xieguigang/ecoli.xml -if metacyc -of fba2 -f v2+v3 -d max")>
     <Argument("-i", False,
         Description:="The input datasource path of the compiled model, it can be a MetaCyc data directory or a xml file in sbml format, format was specific by the value of switch '-if'")>
