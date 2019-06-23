@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.*
+'  // VERSION:   1.0.0.0
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
 '  // 
@@ -25,6 +25,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' All of the command that available in this program has been list below:
 ' 
 '  /Analysis.Phenotype:         
+'  /disruptions:                
 '  /Flux.Coefficient:           
 '  /Flux.KEGG.Filter:           
 '  /Func.Coefficient:           
@@ -50,7 +51,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' ----------------------------------------------------------------------------------------------------
 ' 
-'    You can using "Settings ??<commandName>" for getting more details command help.
+'    1. You can using "Settings ??<commandName>" for getting more details command help.
+'    2. Using command "Settings /CLI.dev [---echo]" for CLI pipeline development.
+'    3. Using command "Settings /i" for enter interactive console mode.
 
 Namespace GCModellerApps
 
@@ -102,6 +105,30 @@ Public Function rFBABatch([in] As String, reg As String, obj As String, Optional
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /disruptions /model &lt;virtualcell.gcmarkup> [/parallel &lt;num_threads, default=1> /out &lt;output.directory>]
+''' ```
+''' </summary>
+'''
+Public Function SingleGeneDisruptions(model As String, Optional parallel As String = "1", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/disruptions")
+    Call CLI.Append(" ")
+    Call CLI.Append("/model " & """" & model & """ ")
+    If Not parallel.StringEmpty Then
+            Call CLI.Append("/parallel " & """" & parallel & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -130,6 +157,7 @@ Public Function FluxCoefficient([in] As String, Optional footprints As String = 
     If kegg Then
         Call CLI.Append("/kegg ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -150,6 +178,7 @@ Public Function KEGGFilter([in] As String, model As String, Optional out As Stri
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -176,6 +205,7 @@ Public Function FuncCoefficient(func As String, [in] As String, Optional footpri
     If spcc Then
         Call CLI.Append("/spcc ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -215,6 +245,7 @@ Public Function PhenotypeAnalysisBatch(model As String, phenotypes As String, fo
     If Not parallel.StringEmpty Then
             Call CLI.Append("/parallel " & """" & parallel & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -244,6 +275,7 @@ Public Function Heatmap(x As String, Optional out As String = "", Optional name 
     If Not height.StringEmpty Then
             Call CLI.Append("/height " & """" & height & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -266,6 +298,7 @@ Public Function ScaleHeatmap(x As String, Optional factor As String = "", Option
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -282,6 +315,7 @@ Public Function ImportsRxns([in] As String) As Integer
     Dim CLI As New StringBuilder("/Imports")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -302,6 +336,7 @@ Public Function ObjMAT([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -329,6 +364,7 @@ Public Function PhenosOUTCoefficient(gene As String, pheno As String, Optional f
     If spcc Then
         Call CLI.Append("/spcc ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -353,6 +389,7 @@ Public Function PhenoOUT_MAT([in] As String, samples As String, Optional out As 
     If Not model.StringEmpty Then
             Call CLI.Append("/model " & """" & model & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -381,6 +418,7 @@ Public Function Solve(i As String, o As String, d As String, Optional m As Strin
     If Not knock_out.StringEmpty Then
             Call CLI.Append("-knock_out " & """" & knock_out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -409,6 +447,7 @@ Public Function SolveGCMarkup(model As String, Optional mute As String = "", Opt
     If trim Then
         Call CLI.Append("/trim ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -429,6 +468,7 @@ Public Function KEGGSolver([in] As String, objs As String, Optional out As Strin
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -465,6 +505,7 @@ Public Function AnalysisPhenotype([in] As String, reg As String, obj As String, 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -491,6 +532,7 @@ Public Function VisualKEGGPathways(model As String, maps As String, Optional gen
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -499,7 +541,7 @@ End Function
 
 ''' <summary>
 ''' ```
-''' compile -i &lt;input_file> -o &lt;output_file>[ -if &lt;sbml/metacyc> -of &lt;fba/fba2> -f &lt;objective_function> -d &lt;max/min>]
+''' compile -i &lt;input_file> -o &lt;output_file> [-if &lt;sbml/metacyc> -of &lt;fba/fba2> -f &lt;objective_function> -d &lt;max/min>]
 ''' ```
 ''' Compile data source into a model file so that the fba program can using the data to performing the simulation calculation.
 ''' </summary>
@@ -521,6 +563,7 @@ Public Function Compile(i As String, o As String, Optional [if] As String = "", 
     If Not d.StringEmpty Then
             Call CLI.Append("-d " & """" & d & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

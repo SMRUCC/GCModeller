@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.*
+'  // VERSION:   1.0.0.0
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
 '  // 
@@ -25,7 +25,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' All of the command that available in this program has been list below:
 ' 
 '  /box.plot:                               
+'  /do.enterotype.cluster:                  
+'  /Export.Megan.BIOM:                      Export v1.0 biom json file for data visualize in Megan program.
+'  /gast.stat.names:                        
 '  /heatmap.plot:                           
+'  /hmp.otu_table:                          Export otu table from hmp biom files.
 '  /LefSe.Matrix:                           Processing the relative aboundance matrix to the input format
 '                                           file as it describ: http://huttenhower.sph.harvard.edu/galaxy/root?tool_id=lefse_upload
 '  /OTU.cluster:                            
@@ -47,7 +51,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 2. 03. Human Microbiome Project cli tool
 ' 
 ' 
-'    /handle.hmp.manifest:                    
+'    /handle.hmp.manifest:                    Download files from HMP website through http/fasp.
 '    /hmp.manifest.files:                     
 ' 
 ' 
@@ -60,7 +64,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 4. Microbiome network cli tools
 ' 
 ' 
-'    /Metagenome.UniProt.Ref:                 
+'    /Metagenome.UniProt.Ref:                 Create background model for apply pathway enrichment analysis
+'                                             of the Metagenome data.
 '    /microbiome.metabolic.network:           
 '    /microbiome.pathway.profile:             Generates the pathway network profile for the microbiome
 '                                             OTU result based on the KEGG and UniProt reference.
@@ -84,7 +89,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' ----------------------------------------------------------------------------------------------------
 ' 
-'    You can using "Settings ??<commandName>" for getting more details command help.
+'    1. You can using "Settings ??<commandName>" for getting more details command help.
+'    2. Using command "Settings /CLI.dev [---echo]" for CLI pipeline development.
+'    3. Using command "Settings /i" for enter interactive console mode.
 
 Namespace GCModellerApps
 
@@ -119,6 +126,7 @@ Public Function AROSeqTable([in] As String, Optional out As String = "") As Inte
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -139,6 +147,78 @@ Public Function Boxplot([in] As String, groups As String, Optional out As String
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /do.enterotype.cluster /in &lt;dataset.csv/txt> [/iterations 50000 /parallel /out &lt;clusters.csv>]
+''' ```
+''' </summary>
+'''
+Public Function DoEnterotypeCluster([in] As String, Optional iterations As String = "", Optional out As String = "", Optional parallel As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/do.enterotype.cluster")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not iterations.StringEmpty Then
+            Call CLI.Append("/iterations " & """" & iterations & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If parallel Then
+        Call CLI.Append("/parallel ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Export.Megan.BIOM /in &lt;relative.table.csv> [/dense /out &lt;out.biom.json>]
+''' ```
+''' Export v1.0 biom json file for data visualize in Megan program.
+''' </summary>
+'''
+Public Function ExportToMegan([in] As String, Optional out As String = "", Optional dense As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Export.Megan.BIOM")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If dense Then
+        Call CLI.Append("/dense ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /gast.stat.names /in &lt;*.names> /gast &lt;gast.out> [/out &lt;out.Csv>]
+''' ```
+''' </summary>
+'''
+Public Function StateNames([in] As String, gast As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/gast.stat.names")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/gast " & """" & gast & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -170,6 +250,7 @@ Public Function gastTaxonomy_greengenes([in] As String, query As String, taxonom
     If gast_consensus Then
         Call CLI.Append("/gast.consensus ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -180,6 +261,7 @@ End Function
 ''' ```
 ''' /handle.hmp.manifest /in &lt;manifest.tsv> [/out &lt;save.directory>]
 ''' ```
+''' Download files from HMP website through http/fasp.
 ''' </summary>
 '''
 Public Function Download16sSeq([in] As String, Optional out As String = "") As Integer
@@ -189,6 +271,7 @@ Public Function Download16sSeq([in] As String, Optional out As String = "") As I
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -224,6 +307,7 @@ Public Function HeatmapPlot([in] As String, groups As String, Optional schema As
     If group Then
         Call CLI.Append("/group ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -243,6 +327,28 @@ Public Function ExportFileList([in] As String, Optional out As String = "") As I
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /hmp.otu_table /in &lt;download.directory> [/out &lt;out.csv>]
+''' ```
+''' Export otu table from hmp biom files.
+''' </summary>
+'''
+Public Function ExportsOTUTable([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/hmp.otu_table")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -267,6 +373,7 @@ Public Function LefSeMatrix([in] As String, ncbi_taxonomy As String, Optional ou
     If all_rank Then
         Call CLI.Append("/all_rank ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -275,8 +382,9 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Metagenome.UniProt.Ref /in &lt;uniprot.ultralarge.xml/cache.directory> [/cache /out &lt;out.XML>]
+''' /Metagenome.UniProt.Ref /in &lt;uniprot.ultralarge.xml/cache.directory> [/cache /out &lt;out.json>]
 ''' ```
+''' Create background model for apply pathway enrichment analysis of the Metagenome data.
 ''' </summary>
 '''
 Public Function BuildUniProtReference([in] As String, Optional out As String = "", Optional cache As Boolean = False) As Integer
@@ -289,6 +397,7 @@ Public Function BuildUniProtReference([in] As String, Optional out As String = "
     If cache Then
         Call CLI.Append("/cache ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -310,6 +419,7 @@ Public Function MetabolicComplementationNetwork(metagenome As String, ref As Str
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -341,6 +451,7 @@ Public Function PathwayProfiles([in] As String, ref As String, maps As String, O
     If just_profiles Then
         Call CLI.Append("/just.profiles ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -365,6 +476,7 @@ Public Function RunProfile([in] As String, maps As String, Optional p_value As S
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -392,6 +504,7 @@ Public Function ClusterOTU(left As String, right As String, silva As String, Opt
     If Not _set.StringEmpty Then
             Call CLI.Append("/@set " & """" & _set & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -415,6 +528,7 @@ Public Function Rank_Abundance([in] As String, Optional schema As String = "Rain
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -455,6 +569,7 @@ Public Function Relative_abundance_barplot([in] As String, Optional group As Str
     If asc Then
         Call CLI.Append("/asc ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -477,6 +592,7 @@ Public Function Relative_abundance_stackedbarplot([in] As String, Optional group
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -497,6 +613,7 @@ Public Function SignificantDifference([in] As String, groups As String, Optional
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -516,6 +633,7 @@ Public Function SILVABacterial([in] As String, Optional out As String = "") As I
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -533,6 +651,7 @@ Public Function SILVA_headers([in] As String, out As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/out " & """" & out & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -558,6 +677,7 @@ Public Function ScreenModels([in] As String, Optional coverage As String = "0.6"
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -577,6 +697,7 @@ Public Function UPGMATree([in] As String, Optional out As String = "") As Intege
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

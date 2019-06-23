@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.*
+'  // VERSION:   1.0.0.0
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
 '  // 
@@ -44,7 +44,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' ----------------------------------------------------------------------------------------------------
 ' 
-'    You can using "Settings ??<commandName>" for getting more details command help.
+'    1. You can using "Settings ??<commandName>" for getting more details command help.
+'    2. Using command "Settings /CLI.dev [---echo]" for CLI pipeline development.
+'    3. Using command "Settings /i" for enter interactive console mode.
 
 Namespace GCModellerApps
 
@@ -80,6 +82,7 @@ Public Function [GET](url As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -105,6 +108,7 @@ Public Function POST(url As String, Optional __args1 As String = "", Optional ar
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -128,6 +132,7 @@ Public Function RunApp(dll As String, Optional port As String = "80", Optional w
     If Not wwwroot.StringEmpty Then
             Call CLI.Append("/wwwroot " & """" & wwwroot & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -147,6 +152,7 @@ Public Function RunDll(api As String, Optional ____ As Boolean = False) As Integ
     If ____ Then
         Call CLI.Append(".... ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -175,6 +181,7 @@ Public Function Start(Optional port As String = "", Optional wwwroot As String =
     If cache Then
         Call CLI.Append("/cache ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -195,6 +202,7 @@ Public Function StressTest(url As String, Optional out As String = "") As Intege
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

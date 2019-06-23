@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.*
+'  // VERSION:   1.0.0.0
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
 '  // 
@@ -41,6 +41,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 1. NCBI ``nt`` database tools
 ' 
 ' 
+'    /nt.matches.accession:          Create subset of the nt database by a given list of Accession ID.
 '    /nt.matches.key:                
 '    /nt.matches.name:               
 '    /word.tokens:                   
@@ -100,7 +101,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' ----------------------------------------------------------------------------------------------------
 ' 
-'    You can using "Settings ??<commandName>" for getting more details command help.
+'    1. You can using "Settings ??<commandName>" for getting more details command help.
+'    2. Using command "Settings /CLI.dev [---echo]" for CLI pipeline development.
+'    3. Using command "Settings /i" for enter interactive console mode.
 
 Namespace GCModellerApps
 
@@ -146,6 +149,7 @@ Public Function accidMatch([in] As String, acc2taxid As String, Optional accid_g
     If append_src Then
         Call CLI.Append("/append.src ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -176,6 +180,7 @@ Public Function AssignFastaTaxonomy([in] As String, accession2taxid As String, t
     If summary_tsv Then
         Call CLI.Append("/summary.tsv ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -199,6 +204,7 @@ Public Function AssignTaxonomy([in] As String, gi As String, index As String, ta
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -225,6 +231,7 @@ Public Function AssignTaxonomyFromRef([in] As String, ref As String, Optional in
     If non_biom Then
         Call CLI.Append("/non-biom ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -246,6 +253,7 @@ Public Function AssignTaxonomy2([in] As String, index As String, ref As String, 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -270,6 +278,7 @@ Public Function AssociateTaxonomy([in] As String, tax As String, gi2taxi As Stri
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -293,6 +302,7 @@ Public Function Associates([in] As String, ls As String, Optional index As Strin
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -312,6 +322,7 @@ Public Function Build_gi2taxi([in] As String, Optional out As String = "") As In
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -331,6 +342,7 @@ Public Function ExportGI([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -354,6 +366,7 @@ Public Function FilterExports([in] As String, tax As String, gi2taxid As String,
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -362,7 +375,7 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /gbff.union /in &lt;data.directory> [/out &lt;directory>]
+''' /gbff.union /in &lt;data.directory> [/out &lt;output.union.gb>]
 ''' ```
 ''' </summary>
 '''
@@ -373,6 +386,7 @@ Public Function UnionGBK([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -393,6 +407,7 @@ Public Function giMatch([in] As String, gi2taxid As String, Optional out As Stri
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -416,6 +431,7 @@ Public Function giMatchs([in] As String, gi2taxid As String, Optional out As Str
     If Not num_threads.StringEmpty Then
             Call CLI.Append("/num_threads " & """" & num_threads & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -435,6 +451,7 @@ Public Function gpff2Fasta([in] As String, Optional out As String = "") As Integ
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -454,6 +471,32 @@ Public Function GetMapHitsList([in] As String, Optional out As String = "") As I
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /nt.matches.accession /in &lt;nt.fasta> /list &lt;accession.list> [/accid &lt;default="tokens '.' first"> /out &lt;subset.fasta>]
+''' ```
+''' Create subset of the nt database by a given list of Accession ID.
+''' </summary>
+'''
+Public Function NtAccessionMatches([in] As String, list As String, Optional accid As String = "tokens '.' first", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/nt.matches.accession")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/list " & """" & list & """ ")
+    If Not accid.StringEmpty Then
+            Call CLI.Append("/accid " & """" & accid & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -474,6 +517,7 @@ Public Function NtKeyMatches([in] As String, list As String, Optional out As Str
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -494,6 +538,7 @@ Public Function NtNameMatches([in] As String, list As String, Optional out As St
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -515,6 +560,7 @@ Public Function NtTaxonomy([in] As String, gi2taxi As String, tax As String, Opt
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -541,6 +587,7 @@ Public Function OTUAssociated([in] As String, maps As String, Optional rawmap As
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -561,6 +608,7 @@ Public Function OTUDiff(ref As String, parts As String, Optional out As String =
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -582,6 +630,7 @@ Public Function OTU_Taxonomy([in] As String, maps As String, tax As String, Opti
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -603,6 +652,7 @@ Public Function OTUTaxonomyReplace([in] As String, maps As String, Optional out 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -632,6 +682,7 @@ Public Function SearchTaxonomy([in] As String, ncbi_taxonomy As String, Optional
     If expression Then
         Call CLI.Append("/expression ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -655,6 +706,7 @@ Public Function SplitByTaxid([in] As String, Optional gi2taxid As String = "", O
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -677,6 +729,7 @@ Public Function SplitByTaxidBatch([in] As String, Optional num_threads As String
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -699,6 +752,7 @@ Public Function TaxonomyTreeData(data As String, field_gi As String, gi2taxid As
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -718,6 +772,7 @@ Public Function TaxidMapHitViews([in] As String, Optional out As String = "") As
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -739,6 +794,7 @@ Public Function TaxonomyTree(taxid As String, tax As String, Optional out As Str
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -758,6 +814,7 @@ Public Function GetWordTokens([in] As String, Optional out As String = "") As In
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
@@ -116,7 +117,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/compile.organism")>
-    <Usage("/compile.KEGG /in <genome.gb> /kegg <kegg.organism_pathways.repository> [/regulations <transcription.regulates.csv> /out <out.model.Xml>]")>
+    <Usage("/compile.organism /in <genome.gb> /kegg <kegg.organism_pathways.repository/model.xml> [/regulations <transcription.regulates.csv> /out <out.model.Xml>]")>
     <Description("Create GCModeller virtual cell data model from KEGG organism pathway data")>
     <Argument("/kegg", False, CLITypes.File,
               Description:="A directory path that contains pathway data from command ``kegg_tools /Download.Pathway.Maps``.")>
@@ -129,9 +130,10 @@ Partial Module CLI
         Dim kegg$ = args <= "/kegg"
         Dim regulations = (args <= "/regulations").LoadCsv(Of RegulationFootprint)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.CellAssembly.Xml"
+        Dim keggModel As OrganismModel = OrganismModel.CreateModel(kegg)
 
         Return [in].loadRepliconTable _
-            .CompileOrganism _
+            .CompileOrganism(keggModel) _
             .GetXml _
             .SaveTo(out) _
             .CLICode
