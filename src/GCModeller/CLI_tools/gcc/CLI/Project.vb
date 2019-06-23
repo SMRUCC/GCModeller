@@ -116,7 +116,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/compile.organism")>
-    <Usage("/compile.KEGG /in <genome.gb> /kegg <kegg.organism_pathways.repository> [/regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
+    <Usage("/compile.KEGG /in <genome.gb> /kegg <kegg.organism_pathways.repository> [/regulations <transcription.regulates.csv> /out <out.model.Xml>]")>
     <Description("Create GCModeller virtual cell data model from KEGG organism pathway data")>
     <Argument("/kegg", False, CLITypes.File,
               Description:="A directory path that contains pathway data from command ``kegg_tools /Download.Pathway.Maps``.")>
@@ -129,6 +129,12 @@ Partial Module CLI
         Dim kegg$ = args <= "/kegg"
         Dim regulations = (args <= "/regulations").LoadCsv(Of RegulationFootprint)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.CellAssembly.Xml"
+
+        Return [in].loadRepliconTable _
+            .CompileOrganism _
+            .GetXml _
+            .SaveTo(out) _
+            .CLICode
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
