@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.*
+'  // VERSION:   1.0.0.0
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
 '  // 
@@ -27,6 +27,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
+'  /align.union:                      
 '  /Bash.Venn:                        
 '  /bbh.topbest:                      
 '  /COG.myva:                         COG myva annotation using blastp raw output or exports sbh/bbh
@@ -145,8 +146,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 6. NCBI Web Blast Tools
 ' 
 ' 
-'    /AlignmentTable.TopBest:           
-'    /Export.AlignmentTable:            
+'    /AlignmentTable.TopBest:           Export the top best hit result from the input web alignment table
+'                                       output.
+'    /Export.AlignmentTable:            Export the web alignment result file as csv table.
 '    /Export.AlignmentTable.giList:     
 '    /Taxonomy.efetch:                  Fetch the taxonomy information of the fasta sequence from NCBI
 '                                       web server.
@@ -164,7 +166,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' ----------------------------------------------------------------------------------------------------
 ' 
-'    You can using "Settings ??<commandName>" for getting more details command help.
+'    1. You can using "Settings ??<commandName>" for getting more details command help.
+'    2. Using command "Settings /CLI.dev [---echo]" for CLI pipeline development.
+'    3. Using command "Settings /i" for enter interactive console mode.
 
 Namespace GCModellerApps
 
@@ -205,6 +209,7 @@ Public Function AddLocusTag(gb As String, prefix As String, Optional out As Stri
     If add_gene Then
         Call CLI.Append("/add.gene ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -228,6 +233,29 @@ Public Function AddNames(anno As String, gb As String, Optional out As String = 
     If Not tag.StringEmpty Then
             Call CLI.Append("/tag " & """" & tag & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /align.union /query &lt;input.fasta> /ref &lt;input.fasta> /besthit &lt;besthit.csv> [/out &lt;union_hits.csv>]
+''' ```
+''' </summary>
+'''
+Public Function AlignUnion(query As String, ref As String, besthit As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/align.union")
+    Call CLI.Append(" ")
+    Call CLI.Append("/query " & """" & query & """ ")
+    Call CLI.Append("/ref " & """" & ref & """ ")
+    Call CLI.Append("/besthit " & """" & besthit & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -238,6 +266,7 @@ End Function
 ''' ```
 ''' /AlignmentTable.TopBest /in &lt;table.csv> [/out &lt;out.csv>]
 ''' ```
+''' Export the top best hit result from the input web alignment table output.
 ''' </summary>
 '''
 Public Function AlignmentTableTopBest([in] As String, Optional out As String = "") As Integer
@@ -247,6 +276,7 @@ Public Function AlignmentTableTopBest([in] As String, Optional out As String = "
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -271,6 +301,7 @@ Public Function BashShell(blast As String, inDIR As String, inRef As String, Opt
     If Not evalue.StringEmpty Then
             Call CLI.Append("/evalue " & """" & evalue & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -304,6 +335,7 @@ Public Function BBHExportFile(query As String, subject As String, Optional out A
     If trim Then
         Call CLI.Append("/trim ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -323,6 +355,7 @@ Public Function MergeBBH([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -342,6 +375,7 @@ Public Function BBHTopBest([in] As String, Optional out As String = "") As Integ
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -371,6 +405,7 @@ Public Function BlastnMapsTaxonomy([in] As String, _2taxid As String, Optional t
     If trim Then
         Call CLI.Append("/trim ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -401,6 +436,7 @@ Public Function BlastnQuery(query As String, db As String, Optional evalue As St
     If thread Then
         Call CLI.Append("/thread ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -440,6 +476,7 @@ Public Function BlastnQueryAll(query As String, db As String, Optional evalue As
     If parallel Then
         Call CLI.Append("/parallel ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -460,6 +497,7 @@ Public Function MatchTaxid([in] As String, acc2taxid As String, Optional out As 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -480,6 +518,7 @@ Public Function SelectMaps([in] As String, data As String, Optional out As Strin
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -499,6 +538,7 @@ Public Function TopBlastnMapReads([in] As String, Optional out As String = "") A
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -521,6 +561,7 @@ Public Function BlastnMapsSummery([in] As String, Optional split As String = "-"
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -549,6 +590,7 @@ Public Function BlastpBBHQuery(query As String, hit As String, Optional out As S
     If [overrides] Then
         Call CLI.Append("/overrides ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -569,6 +611,7 @@ Public Function ChromosomesBlastnResult(reads As String, maps As String, Optiona
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -599,6 +642,7 @@ Public Function COG_myva(blastp As String, whog As String, Optional grep As Stri
     If simple Then
         Call CLI.Append("/simple ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -625,6 +669,7 @@ Public Function COGStatics([in] As String, Optional locus As String = "", Option
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -648,6 +693,7 @@ Public Function COG2014_result(sbh As String, cog As String, Optional cog_names 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -671,6 +717,7 @@ Public Function CopyFasta([imports] As String, Optional type As String = "", Opt
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -690,6 +737,7 @@ Public Function CopyPTT([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -709,6 +757,7 @@ Public Function Copys([imports] As String, Optional out As String = "") As Integ
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -719,6 +768,7 @@ End Function
 ''' ```
 ''' /Export.AlignmentTable /in &lt;alignment.txt> [/split /header.split /out &lt;outDIR/file>]
 ''' ```
+''' Export the web alignment result file as csv table.
 ''' </summary>
 '''
 Public Function ExportWebAlignmentTable([in] As String, Optional out As String = "", Optional split As Boolean = False, Optional header_split As Boolean = False) As Integer
@@ -734,6 +784,7 @@ Public Function ExportWebAlignmentTable([in] As String, Optional out As String =
     If header_split Then
         Call CLI.Append("/header.split ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -753,6 +804,7 @@ Public Function ParseAlignmentTableGIlist([in] As String, Optional out As String
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -772,6 +824,7 @@ Public Function ExportBlastn([in] As String, Optional out As String = "") As Int
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -794,6 +847,7 @@ Public Function ExportBlastnMaps([in] As String, Optional out As String = "", Op
     If best Then
         Call CLI.Append("/best ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -820,6 +874,7 @@ Public Function ExportBlastnMapsBatch([in] As String, Optional out As String = "
     If best Then
         Call CLI.Append("/best ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -839,6 +894,7 @@ Public Function ExportBlastnMapsSmall([in] As String, Optional out As String = "
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -862,6 +918,7 @@ Public Function ExportBlastnMapsBatchWrite([in] As String, Optional out As Strin
     If best Then
         Call CLI.Append("/best ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -888,6 +945,7 @@ Public Function ExportBlastX([in] As String, Optional out As String = "", Option
     If uncharacterized_exclude Then
         Call CLI.Append("/uncharacterized.exclude ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -907,6 +965,7 @@ Public Function ExportDOORCogs([in] As String, Optional out As String = "") As I
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -915,17 +974,20 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Export.gb /gb &lt;genbank.gb/DIR> [/out &lt;outDIR> /simple /batch]
+''' /Export.gb /gb &lt;genbank.gb/DIR> [/flat /out &lt;outDIR> /simple /batch]
 ''' ```
 ''' Export the *.fna, *.faa, *.ptt file from the gbk file.
 ''' </summary>
 '''
-Public Function ExportGenbank(gb As String, Optional out As String = "", Optional simple As Boolean = False, Optional batch As Boolean = False) As Integer
+Public Function ExportGenbank(gb As String, Optional out As String = "", Optional flat As Boolean = False, Optional simple As Boolean = False, Optional batch As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.gb")
     Call CLI.Append(" ")
     Call CLI.Append("/gb " & """" & gb & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If flat Then
+        Call CLI.Append("/flat ")
     End If
     If simple Then
         Call CLI.Append("/simple ")
@@ -933,6 +995,7 @@ Public Function ExportGenbank(gb As String, Optional out As String = "", Optiona
     If batch Then
         Call CLI.Append("/batch ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -955,6 +1018,7 @@ Public Function ExportGenesFasta(gb As String, Optional out As String = "", Opti
     If genename Then
         Call CLI.Append("/genename ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -975,6 +1039,7 @@ Public Function EXPORTgpff([in] As String, gff As String, Optional out As String
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -993,6 +1058,7 @@ Public Function EXPORTgpffs(Optional [in] As String = "") As Integer
     If Not [in].StringEmpty Then
             Call CLI.Append("/in " & """" & [in] & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1015,6 +1081,7 @@ Public Function ExportLocus([in] As String, Optional out As String = "", Optiona
     If hit Then
         Call CLI.Append("/hit ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1035,6 +1102,7 @@ Public Function ExportProt(gb As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1062,6 +1130,7 @@ Public Function Filter([in] As String, key As String, Optional out As String = "
     If p Then
         Call CLI.Append("/p ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1081,6 +1150,7 @@ Public Function HitsIDList([in] As String, Optional out As String = "") As Integ
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1103,6 +1173,7 @@ Public Function IdentitiesMAT(hit As String, Optional out As String = "", Option
     If Not cut.StringEmpty Then
             Call CLI.Append("/cut " & """" & cut & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1121,6 +1192,7 @@ Public Function InstallCOGDatabase(db As String) As Integer
     Dim CLI As New StringBuilder("/install.cog2003-2014")
     Call CLI.Append(" ")
     Call CLI.Append("/db " & """" & db & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1141,6 +1213,7 @@ Public Function LocusSelects(locus As String, bh As String, Optional out As Stri
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1163,6 +1236,7 @@ Public Function EvalueMatrix([in] As String, Optional out As String = "", Option
     If flip Then
         Call CLI.Append("/flip ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1180,6 +1254,7 @@ Public Function MergeFaa([in] As String, out As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/out " & """" & out & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1205,6 +1280,7 @@ Public Function ExportParalog(blastp As String, Optional coverage As String = ""
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1227,6 +1303,7 @@ Public Function Print([in] As String, Optional ext As String = "", Optional out 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1253,6 +1330,7 @@ Public Function proteinEXPORT([in] As String, Optional sp As String = "", Option
     If exclude Then
         Call CLI.Append("/exclude ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1291,6 +1369,7 @@ Public Function COG2003_2014(query As String, Optional evalue As String = "", Op
     If all Then
         Call CLI.Append("/all ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1316,6 +1395,7 @@ Public Function ReadsOTU_Taxonomy([in] As String, OTU As String, tax As String, 
     If fill_empty Then
         Call CLI.Append("/fill.empty ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1335,6 +1415,7 @@ Public Function AccessionList([in] As String, Optional out As String = "") As In
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1354,6 +1435,7 @@ Public Function GiList([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1385,6 +1467,7 @@ Public Function SBH_BBH_Batch([in] As String, Optional identities As String = ""
     If all Then
         Call CLI.Append("/all ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1393,12 +1476,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /SBH.Export.Large /in &lt;blastp_out.txt> [/top.best /trim-kegg /out &lt;sbh.csv> /s.pattern &lt;default=-> /q.pattern &lt;default=-> /identities 0.15 /coverage 0.5]
+''' /SBH.Export.Large /in &lt;blastp_out.txt/directory> [/top.best /trim-kegg /out &lt;sbh.csv> /s.pattern &lt;default=-> /q.pattern &lt;default=-> /identities 0.15 /coverage 0.5 /split]
 ''' ```
 ''' Using this command for export the sbh result of your blastp raw data.
 ''' </summary>
 '''
-Public Function ExportBBHLarge([in] As String, Optional out As String = "", Optional s_pattern As String = "-", Optional q_pattern As String = "-", Optional identities As String = "", Optional coverage As String = "", Optional top_best As Boolean = False, Optional trim_kegg As Boolean = False) As Integer
+Public Function ExportBBHLarge([in] As String, Optional out As String = "", Optional s_pattern As String = "-", Optional q_pattern As String = "-", Optional identities As String = "", Optional coverage As String = "", Optional top_best As Boolean = False, Optional trim_kegg As Boolean = False, Optional split As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SBH.Export.Large")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1423,6 +1506,10 @@ Public Function ExportBBHLarge([in] As String, Optional out As String = "", Opti
     If trim_kegg Then
         Call CLI.Append("/trim-kegg ")
     End If
+    If split Then
+        Call CLI.Append("/split ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1446,6 +1533,7 @@ Public Function SBH_topHits([in] As String, Optional out As String = "", Optiona
     If uniprotkb Then
         Call CLI.Append("/uniprotkb ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1472,6 +1560,7 @@ Public Function SBHTrim([in] As String, evalue As String, Optional identities As
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1511,6 +1600,7 @@ Public Function BBHExport2(qvs As String, svq As String, Optional query_pattern 
     If all Then
         Call CLI.Append("/all ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1531,6 +1621,7 @@ Public Function SelectsMeta([in] As String, bbh As String, Optional out As Strin
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1551,6 +1642,7 @@ Public Function FetchTaxnData([in] As String, Optional out As String = "") As In
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1570,6 +1662,7 @@ Public Function MergeFetchTaxonData([in] As String, Optional out As String = "")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1589,6 +1682,7 @@ Public Function _2_KOBASOutput([in] As String, Optional out As String = "") As I
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1611,6 +1705,7 @@ Public Function UniProtBBHMapTable([in] As String, Optional out As String = "", 
     If reverse Then
         Call CLI.Append("/reverse ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1630,6 +1725,7 @@ Public Function ExportKOFromUniprot([in] As String, Optional out As String = "")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1665,6 +1761,7 @@ Public Function VennBBH([imports] As String, Optional query As String = "", Opti
     If all Then
         Call CLI.Append("/all ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1703,6 +1800,7 @@ Public Function vennBlastAll(query As String, Optional out As String = "", Optio
     If all Then
         Call CLI.Append("/all ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1736,6 +1834,7 @@ Public Function VennCache([imports] As String, Optional out As String = "", Opti
     If [overrides] Then
         Call CLI.Append("/overrides ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1764,6 +1863,7 @@ Public Function SBHThread([in] As String, Optional out As String = "", Optional 
     If [overrides] Then
         Call CLI.Append("/overrides ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1784,6 +1884,7 @@ Public Function WhogXML([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1816,6 +1917,7 @@ Public Function ExportBBH([in] As String, Optional out As String = "", Optional 
     If all Then
         Call CLI.Append("/all ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1839,6 +1941,7 @@ Public Function SelfBlast(query As String, Optional blast As String = "", Option
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1857,6 +1960,7 @@ Public Function ExportFasta(hits As String, query As String, subject As String) 
     Call CLI.Append("/hits " & """" & hits & """ ")
     Call CLI.Append("/query " & """" & query & """ ")
     Call CLI.Append("/subject " & """" & subject & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1876,6 +1980,7 @@ Public Function ExportOverviews(blast As String, Optional out As String = "") As
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1897,6 +2002,7 @@ Public Function ExportSBH([in] As String, prefix As String, out As String, Optio
     If txt Then
         Call CLI.Append("/txt ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1916,6 +2022,7 @@ Public Function XmlToExcel([in] As String, Optional out As String = "") As Integ
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1938,6 +2045,7 @@ Public Function XmlToExcelBatch([in] As String, Optional out As String = "", Opt
     If merge Then
         Call CLI.Append("/merge ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
