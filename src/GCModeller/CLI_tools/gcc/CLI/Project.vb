@@ -117,7 +117,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/compile.organism")>
-    <Usage("/compile.KEGG /in <genome.gb> /kegg <kegg.organism_pathways.repository/model.xml> [/regulations <transcription.regulates.csv> /out <out.model.Xml>]")>
+    <Usage("/compile.organism /in <genome.gb> /kegg <kegg.organism_pathways.repository/model.xml> [/regulations <transcription.regulates.csv> /out <out.model.Xml>]")>
     <Description("Create GCModeller virtual cell data model from KEGG organism pathway data")>
     <Argument("/kegg", False, CLITypes.File,
               Description:="A directory path that contains pathway data from command ``kegg_tools /Download.Pathway.Maps``.")>
