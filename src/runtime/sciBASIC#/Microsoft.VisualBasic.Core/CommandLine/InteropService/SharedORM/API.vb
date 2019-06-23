@@ -82,7 +82,15 @@ Namespace CommandLine.InteropService.SharedORM
             Dim params As NamedValue(Of String)()
 
             Try
-                params = arguments.BuildArguments(optionals, booleans)
+                With arguments.BuildArguments(optionals, booleans)
+                    If .ByRef Like GetType(NamedValue(Of String)) Then
+                        params = {
+                            .TryCast(Of NamedValue(Of String))
+                        }
+                    Else
+                        params = .TryCast(Of NamedValue(Of String)())
+                    End If
+                End With
             Catch ex As Exception
                 Dim msg$ = $"Invalid commandline usage({usage})!" & vbCrLf & vbCrLf
                 Dim details = New Dictionary(Of String, String()) From {
@@ -114,7 +122,15 @@ Namespace CommandLine.InteropService.SharedORM
         ''' <param name="booleans$"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function BuildArguments(args$(), optionals$(), ByRef booleans$()) As NamedValue(Of String)()
+        Public Function BuildArguments(args$(), optionals$(), ByRef booleans$()) As [Variant](Of NamedValue(Of String)(), NamedValue(Of String))
+            If args.Length = 1 Then
+                ' 类似于 /command term 这样子的情况
+                Return New NamedValue(Of String) With {
+                    .Name = args(0),
+                    .Value = .Name
+                }
+            End If
+
             Dim out As List(Of NamedValue(Of String)) = args _
                 .Split(2) _
                 .Select(Function(a)
@@ -130,7 +146,7 @@ Namespace CommandLine.InteropService.SharedORM
                 .CreateParameterValues(False, note:=NameOf(optionals)) _
                 .ToArray
 
-            Return out
+            Return out.ToArray
         End Function
 
         <Extension>

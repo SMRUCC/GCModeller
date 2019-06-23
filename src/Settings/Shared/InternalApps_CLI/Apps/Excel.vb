@@ -95,6 +95,7 @@ Public Function Association(a As String, b As String, Optional column_a As Strin
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -131,6 +132,7 @@ Public Function cbind([in] As String, append As String, Optional id_a As String 
     If nothing_as_empty Then
         Call CLI.Append("/nothing.as.empty ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -148,6 +150,7 @@ Public Function newEmpty(target As String) As Integer
     Dim CLI As New StringBuilder("/Create")
     Call CLI.Append(" ")
     Call CLI.Append("/target " & """" & target & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -171,6 +174,7 @@ Public Function Extract(open As String, Optional sheetname As String = "*", Opti
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -190,6 +194,7 @@ Public Function FillZero([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -213,6 +218,7 @@ Public Function Print([in] As String, Optional sheet As String = "", Optional ou
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -237,6 +243,7 @@ Public Function PushTable(write As String, table As String, Optional sheetname A
     If Not saveas.StringEmpty Then
             Call CLI.Append("/saveas " & """" & saveas & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -257,6 +264,7 @@ Public Function rbind([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -276,6 +284,7 @@ Public Function rbindGroup([in] As String, Optional out As String = "") As Integ
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -300,6 +309,7 @@ Public Function Removes([in] As String, pattern As String, Optional out As Strin
     If by_row Then
         Call CLI.Append("/by_row ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -320,6 +330,7 @@ Public Function Subtract(a As String, b As String, Optional out As String = "") 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -342,6 +353,7 @@ Public Function Union([in] As String, Optional tag_field As String = "", Optiona
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -362,6 +374,7 @@ Public Function Unique([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

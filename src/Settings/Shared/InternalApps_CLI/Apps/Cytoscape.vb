@@ -152,6 +152,7 @@ Public Function AnalysisNetworkProperty([in] As String, Optional colors As Strin
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -180,6 +181,7 @@ Public Function NodeCluster([in] As String, Optional size As String = "10000,100
     If spcc Then
         Call CLI.Append("/spcc ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -200,6 +202,7 @@ Public Function Assciates([in] As String, nodes As String, Optional out As Strin
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -222,6 +225,7 @@ Public Function SimpleBBH([in] As String, Optional evalue As String = "", Option
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -244,6 +248,7 @@ Public Function BBHTrimIdentities([in] As String, Optional identities As String 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -290,6 +295,7 @@ Public Function SSU_MetagenomeNetwork(net As String, tax As String, taxonomy As 
     If parallel Then
         Call CLI.Append("/parallel ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -315,6 +321,7 @@ Public Function GenerateBlastNetwork([in] As String, Optional out As String = ""
     If Not dict.StringEmpty Then
             Call CLI.Append("/dict " & """" & dict & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -337,6 +344,7 @@ Public Function MetaBuildBLAST([in] As String, Optional out As String = "", Opti
     If Not dict.StringEmpty Then
             Call CLI.Append("/dict " & """" & dict & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -362,6 +370,7 @@ Public Function BuildTreeNET([in] As String, Optional out As String = "", Option
     If brief Then
         Call CLI.Append("/brief ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -382,6 +391,7 @@ Public Function BuildTreeNETCOGs(cluster As String, COGs As String, Optional out
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -406,6 +416,7 @@ Public Function BuildTreeNET_DEGs([in] As String, up As String, down As String, 
     If brief Then
         Call CLI.Append("/brief ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -432,6 +443,7 @@ Public Function BuildTreeNET_KEGGModules([in] As String, mods As String, Optiona
     If trim Then
         Call CLI.Append("/trim ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -458,6 +470,7 @@ Public Function BuildTreeNET_KEGGPathways([in] As String, mods As String, Option
     If trim Then
         Call CLI.Append("/trim ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -481,6 +494,7 @@ Public Function BuildTreeNET_MergeRegulons([in] As String, family As String, Opt
     If brief Then
         Call CLI.Append("/brief ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -509,6 +523,7 @@ Public Function BuildTreeNetTF([in] As String, maps As String, map As String, mo
     If brief Then
         Call CLI.Append("/brief ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -543,6 +558,7 @@ Public Function ModsNET([in] As String, Optional out As String = "", Optional fo
     If brief Then
         Call CLI.Append("/brief ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -565,6 +581,7 @@ Public Function KEGGPathwayMapNetwork([in] As String, Optional node As String = 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -584,6 +601,7 @@ Public Function BuildKOLinks([in] As String, Optional out As String = "") As Int
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -609,6 +627,7 @@ Public Function LinkageKnowledgeNetwork([in] As String, Optional schema As Strin
     If no_type_prefix Then
         Call CLI.Append("/no-type_prefix ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -641,6 +660,7 @@ Public Function MatrixToNetwork([in] As String, Optional out As String = "", Opt
     If cutoff_paired Then
         Call CLI.Append("/cutoff.paired ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -663,6 +683,7 @@ Public Function SimpleModesNET([in] As String, Optional out As String = "", Opti
     If pathway Then
         Call CLI.Append("/pathway ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -686,6 +707,7 @@ Public Function MotifCluster(query As String, LDM As String, Optional clusters A
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -717,6 +739,7 @@ Public Function FastCluster(query As String, Optional ldm As String = "", Option
     If ldm_loads Then
         Call CLI.Append("/ldm_loads ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -739,6 +762,7 @@ Public Function MotifClusterSites([in] As String, Optional out As String = "", O
     If Not ldm.StringEmpty Then
             Call CLI.Append("/ldm " & """" & ldm & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -764,6 +788,7 @@ Public Function ClusterMatrix(query As String, Optional ldm As String = "", Opti
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -786,6 +811,7 @@ Public Function BuildModelNet(model As String, Optional out As String = "", Opti
     If not_trim Then
         Call CLI.Append("/not-trim ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -808,6 +834,7 @@ Public Function PathwayNet(model As String, Optional out As String = "", Optiona
     If trim Then
         Call CLI.Append("/trim ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -828,6 +855,7 @@ Public Function net_rFBA([in] As String, fba_out As String, Optional out As Stri
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -851,6 +879,7 @@ Public Function TFNet([in] As String, Optional out As String = "", Optional cut 
     If Not cut.StringEmpty Then
             Call CLI.Append("/cut " & """" & cut & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -875,6 +904,7 @@ Public Function KEGGModulesPhenotypeRegulates(mods As String, [in] As String, Op
     If pathway Then
         Call CLI.Append("/pathway ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -897,6 +927,7 @@ Public Function PlotCytoscapeTable([in] As String, Optional size As String = "16
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -921,6 +952,7 @@ Public Function ReactionNET(Optional model As String = "", Optional source As St
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -939,6 +971,7 @@ Public Function replaceName([in] As String, nodes As String, out As String) As I
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/nodes " & """" & nodes & """ ")
     Call CLI.Append("/out " & """" & out & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -962,6 +995,7 @@ Public Function TreeCluster([in] As String, Optional out As String = "", Optiona
     If Not locus_map.StringEmpty Then
             Call CLI.Append("/locus.map " & """" & locus_map & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -981,6 +1015,7 @@ Public Function rFBATreeCluster([in] As String, Optional out As String = "") As 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1000,6 +1035,7 @@ Public Function WriteReactionTable([in] As String, Optional out As String = "") 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1030,6 +1066,7 @@ Public Function DrawingInvoke(network As String, parser As String, Optional size
     If Not style_parser.StringEmpty Then
             Call CLI.Append("/style_parser " & """" & style_parser & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1049,6 +1086,7 @@ Public Function SimpleRegulation(footprint As String, Optional trim As Boolean =
     If trim Then
         Call CLI.Append("/trim ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1076,6 +1114,7 @@ Public Function ModuleRegulations(model As String, footprints As String, out As 
     If type Then
         Call CLI.Append("/type ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1097,6 +1136,7 @@ Public Function TCS([in] As String, regulations As String, out As String, Option
     If fill_pcc Then
         Call CLI.Append("/fill-pcc ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
