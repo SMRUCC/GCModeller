@@ -112,6 +112,8 @@ Partial Module CLI
             For Each dir As String In ls - l - lsDIR <= [in]
                 Call Apps.KEGG_tools.CompileGenomePathwayModule([in]:=dir, batch:=False)
             Next
+
+            Return 0
         Else
             Dim out = args("/out")
             Dim model As OrganismModel = OrganismModel.CreateModel(directory:=[in])
