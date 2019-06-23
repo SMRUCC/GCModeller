@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::0f5621b4e5556f6cbc4f27f4ce3d77b6, Microsoft.VisualBasic.Core\CommandLine\InteropService\SharedORM\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module API
-    ' 
-    '         Function: BuildArguments, CommandLineModel, Tokenize
-    ' 
-    '         Sub: Tokenize
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module API
+' 
+'         Function: BuildArguments, CommandLineModel, Tokenize
+' 
+'         Sub: Tokenize
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 
@@ -107,7 +108,10 @@ Namespace CommandLine.InteropService.SharedORM
             Dim model As New CommandLine With {
                 .Name = name,
                 .__arguments = params.AsList,
-                .BoolFlags = booleans.Select(AddressOf LCase).ToArray,
+                .BoolFlags = booleans _
+                    .SafeQuery _
+                    .Select(AddressOf LCase) _
+                    .ToArray,
                 .cliCommandArgvs = usage
             }
 
@@ -126,8 +130,8 @@ Namespace CommandLine.InteropService.SharedORM
             If args.Length = 1 Then
                 ' 类似于 /command term 这样子的情况
                 Return New NamedValue(Of String) With {
-                    .Name = args(0),
-                    .Value = .Name
+                    .Name = Nothing,
+                    .Value = args(Scan0)
                 }
             End If
 

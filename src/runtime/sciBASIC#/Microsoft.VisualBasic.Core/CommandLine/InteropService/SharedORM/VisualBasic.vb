@@ -175,7 +175,7 @@ Namespace CommandLine.InteropService.SharedORM
             Call vb.AppendLine($"Public Function {func}({params.JoinBy(", ")}) As Integer")
             Call vb.AppendLine($"    Dim CLI As New StringBuilder(""{API.Value.Name}"")")
             Call vb.AppendLine("    Call CLI.Append("" "")") ' 插入命令名称和参数值之间的一个必须的空格
-            Call vb.AppendLine(__CLI(+API))
+            Call vb.AppendLine(createCliCalls(+API))
             Call vb.AppendLine()
 
             If incompatible Then
@@ -200,16 +200,22 @@ Namespace CommandLine.InteropService.SharedORM
             Dim out As New List(Of String)
             Dim param$
 
-            For Each arg As NamedValue(Of String) In API.ParameterList
-                param = $"{VisualBasic.normalizedAsVisualBasicIdentifier(arg.Name)} As String"
+            If API.__arguments = 1 AndAlso API.__arguments(Scan0).Name.StringEmpty Then
+                ' /command <term>
+                out += $"term As String"
+            Else
+                For Each arg As NamedValue(Of String) In API.ParameterList
+                    param = $"{VisualBasic.normalizedAsVisualBasicIdentifier(arg.Name)} As String"
 
-                If Not arg.Description.StringEmpty Then
-                    ' 可选参数
-                    param = $"Optional {param} = ""{__defaultValue(arg.Value)}"""
-                End If
+                    If Not arg.Description.StringEmpty Then
+                        ' 可选参数
+                        param = $"Optional {param} = ""{__defaultValue(arg.Value)}"""
+                    End If
 
-                out += param
-            Next
+                    out += param
+                Next
+            End If
+
             For Each bool In API.BoolFlags
                 out += $"Optional {VisualBasic.normalizedAsVisualBasicIdentifier(bool)} As Boolean = False"
             Next
@@ -248,30 +254,36 @@ Namespace CommandLine.InteropService.SharedORM
         ''' <summary>
         ''' 创建命令行调用字符串
         ''' </summary>
-        ''' <param name="API"></param>
+        ''' <param name="Api"></param>
         ''' <returns></returns>
-        Private Shared Function __CLI(API As CommandLine) As String
+        Private Shared Function createCliCalls(Api As CommandLine) As String
             Dim CLI As New StringBuilder
             Dim vbcode$
 
-            For Each param In API.ParameterList
-                Dim var$ = normalizedAsVisualBasicIdentifier(param.Name)
+            If Api.__arguments = 1 AndAlso Api.__arguments(Scan0).Name.StringEmpty Then
+                ' /command <term>
+                vbcode = "    Call CLI.Append($""{term}"")"
+                CLI.AppendLine(vbcode)
+            Else
+                For Each param As NamedValue(Of String) In Api.ParameterList
+                    Dim var$ = normalizedAsVisualBasicIdentifier(param.Name)
 
-                ' 注意：在这句代码的最后有一个空格，是间隔参数所必需的，不可以删除
-                vbcode = $"    Call CLI.Append(""{param.Name} "" & """""""" & {var} & """""" "")"
+                    ' 注意：在这句代码的最后有一个空格，是间隔参数所必需的，不可以删除
+                    vbcode = $"    Call CLI.Append(""{param.Name} "" & """""""" & {var} & """""" "")"
 
-                If param.Description.StringEmpty Then
-                    ' 必须参数不需要进一步判断，直接添加                    
-                    Call CLI.AppendLine(vbcode)
-                Else
-                    ' 可选参数还需要IF判断是否存在                  
-                    Call CLI.AppendLine($"    If Not {var}.{NameOf(StringEmpty)} Then")
-                    Call CLI.AppendLine("        " & vbcode)
-                    Call CLI.AppendLine("    End If")
-                End If
-            Next
+                    If param.Description.StringEmpty Then
+                        ' 必须参数不需要进一步判断，直接添加                    
+                        Call CLI.AppendLine(vbcode)
+                    Else
+                        ' 可选参数还需要IF判断是否存在                  
+                        Call CLI.AppendLine($"    If Not {var}.{NameOf(StringEmpty)} Then")
+                        Call CLI.AppendLine("        " & vbcode)
+                        Call CLI.AppendLine("    End If")
+                    End If
+                Next
+            End If
 
-            For Each b In API.BoolFlags
+            For Each b In Api.BoolFlags
                 Dim var$ = normalizedAsVisualBasicIdentifier(b)
 
                 Call CLI.AppendLine($"    If {var} Then")
