@@ -62,6 +62,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' </summary>
     ''' <remarks></remarks>
     <XmlRoot("KEGG_pathway", Namespace:="http://www.genome.jp/kegg/pathway.html")>
+    <XmlType("pathway", Namespace:="http://www.genome.jp/kegg/pathway.html")>
     Public Class Pathway : Inherits PathwayBrief
 
         ''' <summary>
@@ -70,6 +71,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
+        <XmlAttribute>
         Public Property name As String
 
         ''' <summary>
