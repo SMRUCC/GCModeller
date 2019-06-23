@@ -61,7 +61,6 @@ Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.LinkDB
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -302,6 +301,19 @@ EXIT_LOOP:
             End Using
 
             Return rtvl
+        End Function
+
+        ''' <summary>
+        ''' 下载pathway的图片
+        ''' </summary>
+        ''' <param name="sp$"></param>
+        ''' <param name="entry$"></param>
+        ''' <param name="EXPORT$"></param>
+        ''' <returns></returns>
+        Public Shared Function DownloadPathwayMap(sp$, entry$, EXPORT$) As Boolean
+            Dim url As String = $"http://www.genome.jp/kegg/pathway/{sp}/{sp}{entry}.png"
+            Dim path$ = String.Format("{0}/{1}{2}.png", EXPORT, sp, entry)
+            Return url.DownloadFile(save:=path)
         End Function
     End Class
 End Namespace

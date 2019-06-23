@@ -46,13 +46,11 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports System.Threading
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Terminal
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
@@ -238,6 +236,24 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Select(Function(g) g.name.Split(":"c).Last) _
                 .ToArray
             Return LQuery
+        End Function
+
+        Const PATHWAY_DBGET As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:{0}{1}"
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function DownloadPage(sp As String, entry As String) As Pathway
+            Return String.Format(PATHWAY_DBGET, sp, entry).PageParser
+        End Function
+
+        ''' <summary>
+        ''' 从某一个页面url或者文件路径所指向的网页文件之中解析出模型数据
+        ''' </summary>
+        ''' <param name="url"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function DownloadPage(url As String) As Pathway
+            Return url.PageParser
         End Function
     End Class
 End Namespace
