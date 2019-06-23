@@ -116,7 +116,7 @@ Partial Module CLI
             Return 0
         Else
             Dim out = args("/out")
-            Dim model As OrganismModel = OrganismModel.CreateModel(directory:=[in])
+            Dim model As OrganismModel = OrganismModel.CreateModel(handle:=[in])
             Dim name$ = model _
                 .organism _
                 .FullName _
