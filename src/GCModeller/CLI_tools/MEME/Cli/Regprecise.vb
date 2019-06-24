@@ -652,7 +652,7 @@ Partial Module CLI
         Dim LQuery = (From modObj As bGetObject.Module
                       In mods
                       Where Array.IndexOf(modObj.GetPathwayGenes, locusId) > -1
-                      Select modObj.BriteId).ToArray
+                      Select modObj.briteID).ToArray
         Return LQuery
     End Function
 
@@ -675,7 +675,7 @@ Partial Module CLI
         Dim Csv As New IO.File
         Dim pwyBrits = BriteHEntry.Pathway.LoadFromResource.ToDictionary(Function(x) x.EntryId)
         Dim pwyGroup = (From gr In (From pwy In Pathways
-                                    Let brite = pwyBrits(pwy.BriteId)
+                                    Let brite = pwyBrits(pwy.briteID)
                                     Select brite,
                                         pwy
                                     Group By brite.Class Into Group).ToArray

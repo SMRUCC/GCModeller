@@ -103,9 +103,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 _genes = Value
 
                 If Not Value.IsNullOrEmpty Then
-                    _geneTable = Value.ToDictionary(Function(gene)
-                                                        Return gene.name.Split(":"c).Last
-                                                    End Function)
+                    _geneTable = Value _
+                        .ToDictionary(Function(gene)
+                                          Return gene.name.Split(":"c).Last
+                                      End Function)
                 Else
                     _geneTable = New Dictionary(Of String, NamedValue)
                 End If
@@ -113,9 +114,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Property
 
         <XmlIgnore>
-        Public Overrides ReadOnly Property BriteId As String
+        Public Overrides ReadOnly Property briteID As String
             Get
                 Dim id As String = Regex.Match(EntryId, "\d+").Value
+
                 If String.IsNullOrEmpty(id) Then
                     Return EntryId
                 Else

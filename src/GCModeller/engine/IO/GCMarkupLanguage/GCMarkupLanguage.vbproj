@@ -333,10 +333,6 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\data\ExternalDBSource\DatabaseServices.vbproj">
-      <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
-      <Name>DatabaseServices</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>

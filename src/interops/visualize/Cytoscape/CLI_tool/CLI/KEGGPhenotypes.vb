@@ -157,7 +157,7 @@ Partial Module CLI
                       In mods.Modules
                       Select x,
                           x.EntryId,
-                          x.BriteId,
+                          x.briteID,
                           x.GetPathwayGenes).ToArray
         Dim net As New FileStream.NetworkTables
         net += From x In LQuery

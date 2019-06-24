@@ -81,21 +81,27 @@ Public Module Workflow
         Return model
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Friend Function getTaxonomy(replicons As Dictionary(Of String, GBFF.File)) As Taxonomy
+        Return replicons.Values _
+           .First(Function(gb) Not gb.IsPlasmidSource) _
+           .Source _
+           .GetTaxonomy
+    End Function
+
     ''' <summary>
     ''' 输出Model，然后再从Model写出模型文件
     ''' </summary>
-    ''' <param name="genomes"></param>
-    ''' <param name="KOfunction"></param>
+    ''' <param name="replicons"></param>
+    ''' <param name="KOfunction">``[geneID => KO]`` maps</param>
     ''' <param name="repo"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function AssemblingMetabolicNetwork(genomes As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
-        Dim taxonomy As Taxonomy = genomes.Values _
-            .First(Function(gb) Not gb.IsPlasmidSource) _
-            .Source _
-            .GetTaxonomy
+    Public Function AssemblingMetabolicNetwork(replicons As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
+        Dim taxonomy As Taxonomy = replicons.getTaxonomy
         Dim genotype As New Genotype With {
-            .centralDogmas = genomes _
+            .centralDogmas = replicons _
                 .GetCentralDogmas(KOfunction) _
                 .ToArray
         }
@@ -117,7 +123,7 @@ Public Module Workflow
     End Function
 
     <Extension>
-    Private Iterator Function createMetabolicProcess(KOfunction As Dictionary(Of String, String), reactions As ReactionRepository) As IEnumerable(Of Regulation)
+    Friend Iterator Function createMetabolicProcess(KOfunction As Dictionary(Of String, String), reactions As ReactionRepository) As IEnumerable(Of Regulation)
         Dim KOreactions = reactions _
             .MetabolicNetwork _
             .Where(Function(r)
@@ -193,7 +199,7 @@ Public Module Workflow
     ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA"}
 
     <Extension>
-    Private Iterator Function GetCentralDogmas(genomes As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String)) As IEnumerable(Of CentralDogma)
+    Friend Iterator Function GetCentralDogmas(genomes As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String)) As IEnumerable(Of CentralDogma)
         Dim centralDogmaFeatures = genomes.Values _
             .Select(Function(genome)
                         Dim repliconId$ = genome.Locus.AccessionID

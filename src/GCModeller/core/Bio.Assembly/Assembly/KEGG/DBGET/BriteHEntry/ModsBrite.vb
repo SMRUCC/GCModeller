@@ -104,7 +104,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Overloads Function [GetType](x As TMod) As String
-            Dim name As String = x.BriteId
+            Dim name As String = x.briteID
             If table.ContainsKey(name) Then
                 Return table(name).name
             Else
@@ -118,7 +118,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function GetClass(x As TMod) As String
-            Dim name As String = x.BriteId
+            Dim name As String = x.briteID
             If table.ContainsKey(name) Then
                 Return table(name).value
             Else
@@ -132,7 +132,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function GetCategory(x As TMod) As String
-            Dim name As String = x.BriteId
+            Dim name As String = x.briteID
             If table.ContainsKey(name) Then
                 Return table(name).comment
             Else
