@@ -45,6 +45,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
@@ -67,6 +68,24 @@ Public Class OrganismModel : Inherits XmlDataModel
 
     <XmlNamespaceDeclarations()>
     Public xmlns As New XmlSerializerNamespaces
+
+    ''' <summary>
+    ''' ``[geneID => KO]`` maps
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property KoFunction As Dictionary(Of String, String)
+        Get
+            Return genome.Select(Function(pathway As Pathway)
+                                     Return pathway.genes
+                                 End Function) _
+                         .IteratesALL _
+                         .GroupBy(Function(gene) gene.name.Split(":"c).First) _
+                         .ToDictionary(Function(gene) gene.Key,
+                                       Function(gene)
+                                           Return gene.First.text.Split.First
+                                       End Function)
+        End Get
+    End Property
 
     Sub New()
         Call xmlns.Add("gcmodeller", LICENSE.GCModeller)
