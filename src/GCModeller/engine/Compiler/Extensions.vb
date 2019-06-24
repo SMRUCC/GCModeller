@@ -57,7 +57,7 @@ Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Re
 Public Module Extensions
 
     <Extension>
-    Private Iterator Function populateReplicons(model As CellularModule, genomes As Dictionary(Of String, GBFF.File)) As IEnumerable(Of replicon)
+    Friend Iterator Function populateReplicons(model As CellularModule, genomes As Dictionary(Of String, GBFF.File)) As IEnumerable(Of replicon)
         For Each genome In genomes
             Yield New replicon With {
                 .genomeName = genome.Value.Locus.AccessionID,

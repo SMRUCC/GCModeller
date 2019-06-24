@@ -69,7 +69,7 @@ Namespace ComponentModel.Annotation
         ''' <returns></returns>
         ''' 
         <XmlIgnore>
-        Public Overridable ReadOnly Property BriteId As String
+        Public Overridable ReadOnly Property briteID As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return EntryId
