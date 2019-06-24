@@ -1,4 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
@@ -36,11 +38,36 @@ Public Module PathwayCompiler
                        Return Not process.IsRNAGene AndAlso Not process.orthology.StringEmpty
                    End Function) _
             .ToDictionary(Function(term) term.geneID)
+        Dim pathwayCategory = BriteHEntry.Pathway.LoadFromResource
         Dim pathwayIndex = kegg.genome.ToDictionary(Function(map) map.briteID)
-        Dim maps As FunctionalCategory() = kegg _
-            .genome _
-            .Select(Function(pathway)
-                        Return New FunctionalCategory
+        Dim maps As FunctionalCategory() = pathwayCategory _
+            .GroupBy(Function(pathway) pathway.class) _
+            .Select(Function(category)
+                        Dim pathways = category _
+                            .Where(Function(entry) pathwayIndex.ContainsKey(entry.EntryId)) _
+                            .Select(Function(entry)
+                                        Dim map = pathwayIndex(entry.EntryId)
+
+                                        Return New Pathway With {
+                                            .ID = map.EntryId,
+                                            .name = map.name,
+                                            .enzymes = map.genes _
+                                                .Select(Function(gene)
+                                                            Return New [Property] With {
+                                                                .name = gene.name.GetTagValue(":", trim:=True).Value,
+                                                                .comment = gene.name,
+                                                                .value = gene.text.Split.First
+                                                            }
+                                                        End Function) _
+                                                .ToArray
+                                        }
+                                    End Function) _
+                            .ToArray
+
+                        Return New FunctionalCategory With {
+                            .category = category.Key,
+                            .pathways = pathways
+                        }
                     End Function) _
             .ToArray
 
