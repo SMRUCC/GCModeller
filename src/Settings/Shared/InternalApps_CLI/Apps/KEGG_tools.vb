@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.*
+'  // VERSION:   1.0.0.0
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
 '  // 
@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Cut_sequence.upstream:                  
 '  /Download.Fasta:                         Download fasta sequence from KEGG database web api.
 '  /Download.human.genes:                   
+'  /Download.Mapped.Sequence:               
 '  /Download.Module.Maps:                   Download the KEGG reference modules map data.
 '  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
 '                                           web server.
@@ -88,13 +89,16 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /Build.Compounds.Repository:             
 '    /Build.Ko.repository:                    
 '    /Build.Reactions.Repository:             
-'    /Maps.Repository.Build:                  
+'    /Maps.Repository.Build:                  Union the individual kegg reference pathway map file into
+'                                             one integral database file, usually used for fast loading.
 '    /Pathway.Modules.Build:                  
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
 ' 
-'    You can using "Settings ??<commandName>" for getting more details command help.
+'    1. You can using "Settings ??<commandName>" for getting more details command help.
+'    2. Using command "Settings /CLI.dev [---echo]" for CLI pipeline development.
+'    3. Using command "Settings /i" for enter interactive console mode.
 
 Namespace GCModellerApps
 
@@ -129,6 +133,7 @@ Public Function Download16SRNA(Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -149,6 +154,7 @@ Public Function Blastn(query As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -171,6 +177,7 @@ Public Function BuildCompoundsRepository([in] As String, Optional out As String 
     If glycan_ignore Then
         Call CLI.Append("/glycan.ignore ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -188,6 +195,7 @@ Public Function BuildKORepository(DIR As String, repo As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("/DIR " & """" & DIR & """ ")
     Call CLI.Append("/repo " & """" & repo & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -207,6 +215,7 @@ Public Function BuildReactionsRepository([in] As String, Optional out As String 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -229,6 +238,7 @@ Public Function Compile(pathway As String, mods As String, sp As String, Optiona
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -258,6 +268,7 @@ Public Function CompoundMapRender(list As String, Optional repo As String = "", 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -285,6 +296,7 @@ Public Function CutSequence_Upstream([in] As String, PTT As String, org As Strin
     If [overrides] Then
         Call CLI.Append("/overrides ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -313,6 +325,7 @@ Public Function DownloadCompounds(Optional chebi As String = "", Optional save A
     If updates Then
         Call CLI.Append("/updates ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -336,6 +349,7 @@ Public Function DownloadSequence(query As String, Optional out As String = "", O
     If Not source.StringEmpty Then
             Call CLI.Append("/source " & """" & source & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -358,6 +372,30 @@ Public Function DownloadHumanGenes([in] As String, Optional out As String = "", 
     If batch Then
         Call CLI.Append("/batch ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Download.Mapped.Sequence /map &lt;map.list> [/nucl /out &lt;seq.fasta>]
+''' ```
+''' </summary>
+'''
+Public Function DownloadMappedSequence(map As String, Optional out As String = "", Optional nucl As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Download.Mapped.Sequence")
+    Call CLI.Append(" ")
+    Call CLI.Append("/map " & """" & map & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If nucl Then
+        Call CLI.Append("/nucl ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -377,6 +415,7 @@ Public Function DownloadReferenceModule(Optional out As String = "./") As Intege
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -401,6 +440,7 @@ Public Function DownloadOrthologs(i As String, export As String, Optional sp As 
     If gbk Then
         Call CLI.Append("/gbk ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -427,6 +467,7 @@ Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", O
     If kgml Then
         Call CLI.Append("/kgml ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -451,6 +492,7 @@ Public Function DownloadsBacteriasRefMaps(Optional [in] As String = "", Optional
     If kgml Then
         Call CLI.Append("/kgml ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -473,6 +515,7 @@ Public Function DownloadPathwayMapsBatchTask(sp As String, Optional out As Strin
     If kgml Then
         Call CLI.Append("/kgml ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -495,6 +538,7 @@ Public Function DownloadKEGGReaction(Optional save As String = "", Optional _set
     If Not _set.StringEmpty Then
             Call CLI.Append("/@set " & """" & _set & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -517,6 +561,7 @@ Public Function DumpKEGGMaps(Optional htext As String = "", Optional out As Stri
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -538,6 +583,7 @@ Public Function DumpOrganisms(Optional res As String = "", Optional out As Strin
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -561,6 +607,7 @@ Public Function EnrichmentMapRender(url As String, Optional repo As String = "",
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -582,6 +629,7 @@ Public Function GetFastaBySp([in] As String, sp As String, Optional out As Strin
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -601,6 +649,7 @@ Public Function ProteinMotifs(query As String, Optional out As String = "") As I
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -629,6 +678,7 @@ Public Function GetsProteinMotifs(query As String, Optional sp As String = "", O
     If update Then
         Call CLI.Append("/update ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -650,6 +700,7 @@ Public Function ImportsKODatabase(pathways As String, KO As String, Optional sav
     If Not save.StringEmpty Then
             Call CLI.Append("/save " & """" & save & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -669,6 +720,7 @@ Public Function ImportsDb([in] As String, Optional out As String = "") As Intege
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -691,6 +743,7 @@ Public Function IndexSubMatch(index As String, maps As String, key As String, ma
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -701,6 +754,7 @@ End Function
 ''' ```
 ''' /Maps.Repository.Build /imports &lt;directory> [/out &lt;repository.XML>]
 ''' ```
+''' Union the individual kegg reference pathway map file into one integral database file, usually used for fast loading.
 ''' </summary>
 '''
 Public Function BuildPathwayMapsRepository([imports] As String, Optional out As String = "") As Integer
@@ -710,6 +764,7 @@ Public Function BuildPathwayMapsRepository([imports] As String, Optional out As 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -734,6 +789,7 @@ Public Function KEGGOrganismTable(Optional [in] As String = "", Optional out As 
     If bacteria Then
         Call CLI.Append("/bacteria ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -753,6 +809,7 @@ Public Function PathwayGeneList([in] As String, Optional out As String = "") As 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -775,6 +832,7 @@ Public Function CompileGenomePathwayModule([in] As String, Optional out As Strin
     If batch Then
         Call CLI.Append("/batch ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -794,6 +852,7 @@ Public Function DownloadsAllPathways(Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -819,6 +878,7 @@ Public Function QueryKOAnno([in] As String, Optional out As String = "", Optiona
     If batch Then
         Call CLI.Append("/batch ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -838,6 +898,7 @@ Public Function ShowOrganism(code As String, Optional out As String = "") As Int
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -864,6 +925,7 @@ Public Function Stats([in] As String, locus As String, Optional locus_map As Str
     If pathway Then
         Call CLI.Append("/pathway ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -883,6 +945,7 @@ Public Function BuildKEGGOrthology(Optional fill_missing As Boolean = False) As 
     If fill_missing Then
         Call CLI.Append("/fill-missing ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -903,6 +966,7 @@ Public Function DumpDb(KEGG_Pathways As String, KEGG_Modules As String, KEGG_Rea
     Call CLI.Append("/KEGG.Reactions " & """" & KEGG_Reactions & """ ")
     Call CLI.Append("/sp " & """" & sp & """ ")
     Call CLI.Append("/out " & """" & out & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -919,6 +983,7 @@ Public Function FunctionAnalysis(i As String) As Integer
     Dim CLI As New StringBuilder("-function.association.analysis")
     Call CLI.Append(" ")
     Call CLI.Append("-i " & """" & i & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -935,6 +1000,7 @@ Public Function GetKOAnnotation([in] As String) As Integer
     Dim CLI As New StringBuilder("--Get.KO")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -959,6 +1025,7 @@ Public Function GetSource(source As String, ref As String, Optional out As Strin
     If brief Then
         Call CLI.Append("/brief ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -977,6 +1044,7 @@ Public Function QueryGenes(keyword As String, o As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("-keyword " & """" & keyword & """ ")
     Call CLI.Append("-o " & """" & o & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -994,6 +1062,7 @@ Public Function QueryOrthology(keyword As String, o As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("-keyword " & """" & keyword & """ ")
     Call CLI.Append("-o " & """" & o & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1011,6 +1080,7 @@ Public Function DownloadReferenceMap(id As String, o As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("-id " & """" & id & """ ")
     Call CLI.Append("-o " & """" & o & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1027,6 +1097,7 @@ Public Function DownloadReferenceMapDatabase(o As String) As Integer
     Dim CLI As New StringBuilder("-ref.map.download")
     Call CLI.Append(" ")
     Call CLI.Append("-o " & """" & o & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1044,6 +1115,7 @@ Public Function CreateTABLE(i As String, o As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("-i " & """" & i & """ ")
     Call CLI.Append("-o " & """" & o & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

@@ -103,7 +103,7 @@ Namespace Assembly.KEGG.Archives.Csv
         ''' <remarks></remarks>
         Public Property PathwayGenes As String() Implements IKeyValuePairObject(Of String, String()).Value
 
-        Public Overrides ReadOnly Property BriteId As String
+        Public Overrides ReadOnly Property briteID As String
             Get
                 Return Regex.Match(EntryId, "\d+").Value
             End Get

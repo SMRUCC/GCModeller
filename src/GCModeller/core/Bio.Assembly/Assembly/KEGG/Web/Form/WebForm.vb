@@ -79,6 +79,10 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         Public ReadOnly Property WebPageTitle As String
         Public Property AllLinksWidget As AllLinksWidget
 
+        ''' <summary>
+        ''' 这个构造函数同时支持url或者文本内容
+        ''' </summary>
+        ''' <param name="resource"></param>
         Sub New(resource As String)
             Dim html As String = getHtml(resource)
             Dim tokens As String() = Regex.Split(html, "<th class="".+?"" align="".+?""").Skip(1).ToArray

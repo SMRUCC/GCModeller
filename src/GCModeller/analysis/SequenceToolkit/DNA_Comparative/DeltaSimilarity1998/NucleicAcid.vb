@@ -55,12 +55,12 @@ Namespace DeltaSimilarity1998
     ''' <remarks></remarks>
     Public Class NucleicAcid : Inherits NucleotideModels.NucleicAcid
 
-        Protected Friend __biasTable As New Dictionary(Of String, Double)
+        Protected Friend biasTable As New Dictionary(Of String, Double)
 
         ''' <summary>
         ''' 为了防止反复重新创建划窗而构建出来的计算数据缓存
         ''' </summary>
-        Protected Friend __DNA_segments As SlideWindow(Of DNA)()
+        Protected Friend DNA_segments As SlideWindow(Of DNA)()
 
         ''' <summary>
         ''' Get value by using a paired of base.
@@ -69,7 +69,7 @@ Namespace DeltaSimilarity1998
         ''' <param name="Y"></param>
         ''' <returns></returns>
         Public Function GetValue(X As DNA, Y As DNA) As Double
-            Return __biasTable($"{ToChar(X)} -> {ToChar(Y)}")
+            Return biasTable($"{ToChar(X)} -> {ToChar(Y)}")
         End Function
 
         ''' <summary>
@@ -80,8 +80,11 @@ Namespace DeltaSimilarity1998
         Sub New(nt As DNA())
             Call MyBase.New(nt)
 
+            ' 20190622
             ' 因为__createSigma函数需要这个滑窗数据，所以需要先于__createSigma函数进行调用
-            __DNA_segments = Me.SlideWindows(2, offset:=1).ToArray
+            ' 因为全基因可能会非常长，所以在这里就不可以使用通用的滑窗数据创建方法了
+            ' 否则会非常慢
+            DNA_segments = slideWindows().ToArray
 
             For Each X As (a As DNA, B As DNA) In {
                 (DNA.dAMP, DNA.dAMP),
@@ -102,10 +105,22 @@ Namespace DeltaSimilarity1998
                 (DNA.dTMP, DNA.dTMP)
             }
                 With __createSigma(Me, X.a, X.B)
-                    Call __biasTable.Add(.Key, .Value)
+                    Call biasTable.Add(.Key, .Value)
                 End With
             Next
         End Sub
+
+        Private Iterator Function slideWindows() As IEnumerable(Of SlideWindow(Of DNA))
+            Dim len = Length
+
+            For i As Integer = 0 To len - 2
+                Yield New SlideWindow(Of DNA) With {
+                    .Index = i,
+                    .Items = {_innerSeqModel(i), _innerSeqModel(i + 1)},
+                    .Left = .Index
+                }
+            Next
+        End Function
 
         ''' <summary>
         ''' Fasta序列会自动使用<see cref="FastaSeq.Title"/>来作为序列的<see cref="UserTag"/>
@@ -119,6 +134,16 @@ Namespace DeltaSimilarity1998
         Sub New(nt$)
             Call Me.New(New NucleotideModels.NucleicAcid(nt).ToArray)
         End Sub
+
+        Private Sub New(nt As IEnumerable(Of DNA))
+            Call Me.New(nt.ToArray)
+        End Sub
+
+        Public Iterator Function CreateFragments(winSize%, step%) As IEnumerable(Of NucleicAcid)
+            For Each region In MyBase.SlideWindows(winSize, offset:=[step])
+                Yield New NucleicAcid(region)
+            Next
+        End Function
 
         Private Shared Function __createSigma(nt As NucleicAcid,
                                               X As DNA,

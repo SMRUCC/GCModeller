@@ -92,7 +92,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Dim Entry As String = Regex.Match(Item, ">.+?</a>").Value
                 Entry = Mid(Entry, 2, Len(Entry) - 5)
                 Dim Description As String = Strings.Split(Item, "</a>").Last.Trim
-                Dim Url As String = String.Format(KEGGgenes.URL_MODULE_GENES, Entry)
+                Dim Url As String = String.Format(ParserHelper.URL_MODULE_GENES, Entry)
                 Dim ImageUrl = String.Format("http://www.genome.jp/tmp/pathway_thumbnail/{0}.png", Entry)
 
                 Try
@@ -109,7 +109,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
 
                 Genes(i) = New KeyValuePairObject(Of KeyValuePair(Of String, String), KeyValuePair()) With {
                     .Key = New KeyValuePair(Of String, String)(Entry, Description),
-                    .Value = KEGGgenes.Download(Url).ToArray
+                    .Value = Url.LinkDbEntries.ToArray
                 }
             Next
 

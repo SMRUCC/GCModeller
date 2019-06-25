@@ -99,7 +99,7 @@ Namespace Assembly.KEGG.Archives.Csv
         Public Property Name As String
         Public Property Reactions As String()
 
-        Public Overrides ReadOnly Property BriteId As String
+        Public Overrides ReadOnly Property briteID As String
             Get
                 Return EntryId.Split("_"c).Last
             End Get
@@ -141,7 +141,7 @@ Namespace Assembly.KEGG.Archives.Csv
             Dim defBr = KEGG.DBGET.BriteHEntry.Module.GetDictionary
 
             For Each kmod As [Module] In mods
-                Dim brMod = defBr(kmod.BriteId)
+                Dim brMod = defBr(kmod.briteID)
                 kmod.Type = brMod.Class
                 kmod.Class = brMod.Category
                 kmod.Category = brMod.SubCategory

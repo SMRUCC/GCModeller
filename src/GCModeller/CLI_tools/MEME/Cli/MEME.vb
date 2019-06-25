@@ -434,7 +434,7 @@ Partial Module CLI
                        In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
                        Select file.LoadXml(Of BacteriaRegulome)
         Dim RfamSitesLQuery = (From x In loadFile.AsParallel
-                               Let rfam = (From regulator In x.regulons.regulators Where regulator.type = Types.RNA Select regulator)
+                               Let rfam = (From regulator In x.regulome.regulators Where regulator.type = Types.RNA Select regulator)
                                Select (From rna In rfam Select rna.family, rna.regulatorySites).ToArray).Unlist
         Dim RfamCategory = (From x In RfamSitesLQuery
                             Select x

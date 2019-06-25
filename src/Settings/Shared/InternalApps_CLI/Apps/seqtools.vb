@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.*
+'  // VERSION:   1.0.0.0
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
 '  // 
@@ -36,8 +36,10 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Promoter.Palindrome.Fasta:              
 '  /Promoter.Regions.Palindrome:            
 '  /Promoter.Regions.Parser.gb:             
-'  /Rule.dnaA_gyrB:                         
+'  /Rule.dnaA_gyrB:                         Create a ruler fasta sequence for DNA sequence distance
+'                                           computing.
 '  /Rule.dnaA_gyrB.Matrix:                  
+'  /ruler.dist.calc:                        
 '  /Screen.sites:                           
 '  /Sites2Fasta:                            Converts the simple segment object collection as fasta file.
 '  /SSR:                                    Search for SSR on a nt sequence.
@@ -58,8 +60,10 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' 
 '    /CAI:                                    
-'    /gwANI:                                  
-'    /Sigma:                                  
+'    /gwANI:                                  Given a multi-FASTA alignment, output the genome wide average
+'                                             nucleotide identity (gwANI) for Each sample against all
+'                                             other samples. A matrix containing the percentages Is outputted.
+'    /Sigma:                                  Create a distance similarity matrix for the input sequence.
 ' 
 ' 
 ' 2. Fasta Sequence Tools
@@ -161,7 +165,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' ----------------------------------------------------------------------------------------------------
 ' 
-'    You can using "Settings ??<commandName>" for getting more details command help.
+'    1. You can using "Settings ??<commandName>" for getting more details command help.
+'    2. Using command "Settings /CLI.dev [---echo]" for CLI pipeline development.
+'    3. Using command "Settings /i" for enter interactive console mode.
 
 Namespace GCModellerApps
 
@@ -200,6 +206,7 @@ Public Function Align2(query As String, subject As String, Optional blosum As St
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -219,6 +226,7 @@ Public Function CAI(ORF As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -239,6 +247,7 @@ Public Function CheckHeaders([in] As String, n As String, Optional all As Boolea
     If all Then
         Call CLI.Append("/all ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -264,6 +273,7 @@ Public Function CutMlAlignment([in] As String, Optional left As String = "", Opt
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -281,6 +291,7 @@ Public Function CompareFile(file1 As String, file2 As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("/file1 " & """" & file1 & """ ")
     Call CLI.Append("/file2 " & """" & file2 & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -297,6 +308,7 @@ Public Function Count([in] As String) As Integer
     Dim CLI As New StringBuilder("/Count")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -320,6 +332,7 @@ Public Function Distinct([in] As String, Optional out As String = "", Optional b
     If Not by_uid.StringEmpty Then
             Call CLI.Append("/by_uid " & """" & by_uid & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -346,6 +359,7 @@ Public Function ToFasta([in] As String, Optional out As String = "", Optional at
     If Not seq.StringEmpty Then
             Call CLI.Append("/seq " & """" & seq & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -369,6 +383,7 @@ Public Function SubsetFastaDb([in] As String, db As String, Optional out As Stri
     If keyword_map_multiple Then
         Call CLI.Append("/keyword.map.multiple ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -388,6 +403,7 @@ Public Function Genotype([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -407,6 +423,7 @@ Public Function GenotypeStatics([in] As String, Optional out As String = "") As 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -427,6 +444,7 @@ Public Function GetSimpleSegments([in] As String, nt As String, Optional out As 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -447,6 +465,7 @@ Public Function GffSites(fna As String, gff As String, Optional out As String = 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -457,9 +476,10 @@ End Function
 ''' ```
 ''' /gwANI /in &lt;in.fasta> [/fast /out &lt;out.Csv>]
 ''' ```
+''' Given a multi-FASTA alignment, output the genome wide average nucleotide identity (gwANI) for Each sample against all other samples. A matrix containing the percentages Is outputted.
 ''' </summary>
 '''
-Public Function gwANI([in] As String, Optional out As String = "", Optional fast As Boolean = False) As Integer
+Public Function gwANIEvaluate([in] As String, Optional out As String = "", Optional fast As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/gwANI")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -469,6 +489,7 @@ Public Function gwANI([in] As String, Optional out As String = "", Optional fast
     If fast Then
         Call CLI.Append("/fast ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -495,6 +516,7 @@ Public Function LociDescript(ptt As String, Optional test As String = "", Option
     If unstrand Then
         Call CLI.Append("/unstrand ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -518,6 +540,7 @@ Public Function SequenceLogo([in] As String, Optional out As String = "", Option
     If Not title.StringEmpty Then
             Call CLI.Append("/title " & """" & title & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -550,6 +573,7 @@ Public Function Merge([in] As String, Optional out As String = "", Optional ext 
     If brief Then
         Call CLI.Append("/brief ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -576,6 +600,7 @@ Public Function SimpleMerge([in] As String, Optional exts As String = "", Option
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -607,6 +632,7 @@ Public Function MirrorBatch(nt As String, Optional out As String = "", Optional 
     If mp Then
         Call CLI.Append("/mp ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -638,6 +664,7 @@ Public Function FuzzyMirrors([in] As String, Optional out As String = "", Option
     If Not max.StringEmpty Then
             Call CLI.Append("/max " & """" & max & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -672,6 +699,7 @@ Public Function FuzzyMirrorsBatch([in] As String, Optional out As String = "", O
     If Not num_threads.StringEmpty Then
             Call CLI.Append("/num_threads " & """" & num_threads & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -692,6 +720,7 @@ Public Function MirrorsVector([in] As String, size As String, Optional out As St
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -725,6 +754,7 @@ Public Function MirrorContext([in] As String, PTT As String, Optional strand As 
     If stranded Then
         Call CLI.Append("/stranded ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -761,6 +791,7 @@ Public Function MirrorContextBatch([in] As String, PTT As String, Optional stran
     If stranded Then
         Call CLI.Append("/stranded ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -786,6 +817,7 @@ Public Function MirrorGroups([in] As String, Optional fuzzy As String = "", Opti
     If batch Then
         Call CLI.Append("/batch ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -811,6 +843,7 @@ Public Function MirrorGroupsBatch([in] As String, Optional fuzzy As String = "",
     If Not num_threads.StringEmpty Then
             Call CLI.Append("/num_threads " & """" & num_threads & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -830,6 +863,7 @@ Public Function TrimNtMirrors([in] As String, Optional out As String = "") As In
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -862,6 +896,7 @@ Public Function FindMotifs([in] As String, Optional min_w As String = "6", Optio
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -879,6 +914,7 @@ Public Function NWNT(query As String, subject As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("/query " & """" & query & """ ")
     Call CLI.Append("/subject " & """" & subject & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -900,6 +936,7 @@ Public Function NW(query As String, subject As String, Optional out As String = 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -943,6 +980,7 @@ Public Function PalindromeBatchTask([in] As String, Optional num_threads As Stri
     If palindrome Then
         Call CLI.Append("/palindrome ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -963,6 +1001,7 @@ Public Function FilteringMatches([in] As String, min As String, Optional out As 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -986,6 +1025,7 @@ Public Function FilteringMatchesBatch([in] As String, min As String, Optional ou
     If Not num_threads.StringEmpty Then
             Call CLI.Append("/num_threads " & """" & num_threads & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1029,6 +1069,7 @@ Public Function PalindromeWorkflow([in] As String, Optional min_appears As Strin
     If palindrome Then
         Call CLI.Append("/palindrome ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1048,6 +1089,7 @@ Public Function PromoterPalindrome2Fasta([in] As String, Optional out As String 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1079,6 +1121,7 @@ Public Function PromoterRegionPalindrome([in] As String, Optional min As String 
     If mirror Then
         Call CLI.Append("/mirror ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1098,6 +1141,7 @@ Public Function PromoterRegionParser_gb(gb As String, Optional out As String = "
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1108,6 +1152,7 @@ End Function
 ''' ```
 ''' /Rule.dnaA_gyrB /genome &lt;genbank.gb> [/out &lt;out.fasta>]
 ''' ```
+''' Create a ruler fasta sequence for DNA sequence distance computing.
 ''' </summary>
 '''
 Public Function dnaA_gyrB_rule(genome As String, Optional out As String = "") As Integer
@@ -1117,6 +1162,7 @@ Public Function dnaA_gyrB_rule(genome As String, Optional out As String = "") As
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1136,6 +1182,34 @@ Public Function RuleMatrix(genomes As String, Optional out As String = "") As In
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /ruler.dist.calc /in &lt;ruler.fasta> /genomes &lt;genome.gb.DIR> [/winSize &lt;default=1000> /step &lt;default=500> /out &lt;out.csv.dir>]
+''' ```
+''' </summary>
+'''
+Public Function RulerSlideWindowMatrix([in] As String, genomes As String, Optional winsize As String = "1000", Optional [step] As String = "500", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/ruler.dist.calc")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/genomes " & """" & genomes & """ ")
+    If Not winsize.StringEmpty Then
+            Call CLI.Append("/winsize " & """" & winsize & """ ")
+    End If
+    If Not [step].StringEmpty Then
+            Call CLI.Append("/step " & """" & [step] & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1159,6 +1233,7 @@ Public Function ScreenRepeats([in] As String, range As String, Optional type As 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1186,6 +1261,7 @@ Public Function SelectByLocus([in] As String, fa As String, Optional field As St
     If reverse Then
         Call CLI.Append("/reverse ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1196,6 +1272,7 @@ End Function
 ''' ```
 ''' /Sigma /in &lt;in.fasta> [/out &lt;out.Csv> /simple /round &lt;-1>]
 ''' ```
+''' Create a distance similarity matrix for the input sequence.
 ''' </summary>
 '''
 Public Function Sigma([in] As String, Optional out As String = "", Optional round As String = "", Optional simple As Boolean = False) As Integer
@@ -1211,6 +1288,7 @@ Public Function Sigma([in] As String, Optional out As String = "", Optional roun
     If simple Then
         Call CLI.Append("/simple ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1230,6 +1308,7 @@ Public Function ConvertsAuto([in] As String, Optional out As String = "") As Int
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1249,6 +1328,7 @@ Public Function ConvertMirrors([in] As String, Optional out As String = "") As I
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1268,6 +1348,7 @@ Public Function ConvertMirrorsBatch([in] As String, Optional out As String = "")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1291,6 +1372,7 @@ Public Function Sites2Fasta([in] As String, Optional out As String = "", Optiona
     If assemble Then
         Call CLI.Append("/assemble ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1319,6 +1401,7 @@ Public Function SNP([in] As String, Optional ref As String = "", Optional high A
     If monomorphic Then
         Call CLI.Append("/monomorphic ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1341,6 +1424,7 @@ Public Function Split([in] As String, Optional n As String = "", Optional out As
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1367,6 +1451,7 @@ Public Function SSRFinder([in] As String, Optional range As String = "2,6", Opti
     If parallel Then
         Call CLI.Append("/parallel ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1384,6 +1469,7 @@ Public Function SubSet(lstID As String, fa As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("/lstID " & """" & lstID & """ ")
     Call CLI.Append("/fa " & """" & fa & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1410,6 +1496,7 @@ Public Function TimeDiffs([in] As String, Optional ref As String = "", Optional 
     If cumulative Then
         Call CLI.Append("/cumulative ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1432,6 +1519,7 @@ Public Function WriteSeeds(out As String, Optional max As String = "", Optional 
     If prot Then
         Call CLI.Append("/prot ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1452,6 +1540,7 @@ Public Function PolypeptideBriefs([in] As String, Optional out As String = "") A
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1475,6 +1564,7 @@ Public Function Align(query As String, subject As String, Optional out As String
     If Not cost.StringEmpty Then
             Call CLI.Append("/cost " & """" & cost & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1495,6 +1585,7 @@ Public Function AlignSelf(query As String, out As String, Optional cost As Strin
     If Not cost.StringEmpty Then
             Call CLI.Append("/cost " & """" & cost & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1514,6 +1605,7 @@ Public Function Complement(i As String, Optional o As String = "") As Integer
     If Not o.StringEmpty Then
             Call CLI.Append("-o " & """" & o & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1536,6 +1628,7 @@ Public Function DrawClustalW([in] As String, Optional out As String = "", Option
     If Not dot_size.StringEmpty Then
             Call CLI.Append("/dot.size " & """" & dot_size & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1567,6 +1660,7 @@ Public Function Hairpinks([in] As String, Optional out As String = "", Optional 
     If Not max_dist.StringEmpty Then
             Call CLI.Append("/max-dist " & """" & max_dist & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1601,6 +1695,7 @@ Public Function HairpinksBatch([in] As String, Optional out As String = "", Opti
     If Not num_threads.StringEmpty Then
             Call CLI.Append("/num_threads " & """" & num_threads & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1633,6 +1728,7 @@ Public Function BatchSearchImperfectsPalindrome([in] As String, out As String, O
     If Not num_threads.StringEmpty Then
             Call CLI.Append("/num_threads " & """" & num_threads & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1659,6 +1755,7 @@ Public Function SearchMirrotFasta(nt As String, Optional out As String = "", Opt
     If Not max.StringEmpty Then
             Call CLI.Append("/max " & """" & max & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1683,6 +1780,7 @@ Public Function SearchMirrotNT(nt As String, out As String, Optional min As Stri
     If Not max.StringEmpty Then
             Call CLI.Append("/max " & """" & max & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1709,6 +1807,7 @@ Public Function BatchSearchPalindrome([in] As String, out As String, Optional mi
     If Not num_threads.StringEmpty Then
             Call CLI.Append("/num_threads " & """" & num_threads & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1734,6 +1833,7 @@ Public Function SearchPalindromeFasta(nt As String, Optional out As String = "",
     If Not max.StringEmpty Then
             Call CLI.Append("/max " & """" & max & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1758,6 +1858,7 @@ Public Function SearchPalindromeNT(nt As String, out As String, Optional min As 
     If Not max.StringEmpty Then
             Call CLI.Append("/max " & """" & max & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1793,6 +1894,7 @@ Public Function ImperfectPalindrome([in] As String, Optional out As String = "",
     If Not partitions.StringEmpty Then
             Call CLI.Append("/partitions " & """" & partitions & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1801,7 +1903,7 @@ End Function
 
 ''' <summary>
 ''' ```
-''' -pattern_search -i &lt;file_name> -p &lt;regex_pattern>[ -o &lt;output_directory> -f &lt;format:fsa/gbk>]
+''' -pattern_search -i &lt;file_name> -p &lt;regex_pattern> [-o &lt;output_directory> -f &lt;format:fsa/gbk>]
 ''' ```
 ''' Parsing the sequence segment from the sequence source using regular expression.
 ''' </summary>
@@ -1817,6 +1919,7 @@ Public Function PatternSearchA(i As String, p As String, Optional o As String = 
     If Not f.StringEmpty Then
             Call CLI.Append("-f " & """" & f & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1839,6 +1942,7 @@ Public Function FilterPerfectPalindrome([in] As String, Optional min As String =
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1863,6 +1967,7 @@ Public Function RepeatsDensity(dir As String, size As String, ref As String, Opt
     If Not cutoff.StringEmpty Then
             Call CLI.Append("/cutoff " & """" & cutoff & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1882,6 +1987,7 @@ Public Function Reverse(i As String, Optional o As String = "") As Integer
     If Not o.StringEmpty Then
             Call CLI.Append("-o " & """" & o & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1906,6 +2012,7 @@ Public Function revRepeatsDensity(dir As String, size As String, ref As String, 
     If Not cutoff.StringEmpty Then
             Call CLI.Append("/cutoff " & """" & cutoff & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1935,6 +2042,7 @@ Public Function BatchSearch(aln As String, Optional min As String = "", Optional
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1978,6 +2086,7 @@ Public Function GetSegment(fasta As String, Optional loci As String = "", Option
     If downstream_ Then
         Call CLI.Append("/downstream] ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2004,6 +2113,7 @@ Public Function GetSegments(regions As String, fasta As String, Optional complem
     If brief_dump Then
         Call CLI.Append("/brief-dump ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2024,6 +2134,7 @@ Public Function ToVector([in] As String, min As String, max As String, out As St
     Call CLI.Append("/max " & """" & max & """ ")
     Call CLI.Append("/out " & """" & out & """ ")
     Call CLI.Append("/size " & """" & size & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2047,6 +2158,7 @@ Public Function Translates(orf As String, Optional transl_table As String = "", 
     If force Then
         Call CLI.Append("/force ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2075,6 +2187,7 @@ Public Function Trim([in] As String, Optional [case] As String = "", Optional br
     If brief Then
         Call CLI.Append("/brief ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

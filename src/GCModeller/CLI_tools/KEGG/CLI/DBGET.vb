@@ -144,6 +144,7 @@ Partial Module CLI
               AcceptTypes:={GetType(String)},
               Description:="The 3 characters kegg organism code, example as: ""xcb"" is stands for organism ""Xanthomonas campestris pv. campestris 8004 (Beijing)""")>
     <Group(CLIGroups.DBGET_tools)>
+    <LastUpdated("2019-06-22 21:00:00.00")>
     Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
         Dim EXPORT As String = args("/out") Or (App.CurrentDirectory & "/" & sp)
@@ -163,6 +164,8 @@ Partial Module CLI
             ' 在这里写入两个空文件是为了方便进行标记
             Call "".SaveTo($"{EXPORT}/{ .FullName}.txt")
             Call "".SaveTo($"{EXPORT}/{assembly}.txt")
+            ' 这个文件方便程序进行信息的读取操作
+            Call { .FullName, assembly}.FlushAllLines($"{EXPORT}/index.txt")
         End With
 
         If isKGML AndAlso args("/out").IsEmpty Then
@@ -174,7 +177,7 @@ Partial Module CLI
                 .CLICode
         Else
             Return LinkDB.Pathways _
-                .Downloads(sp, EXPORT) _
+                .Downloads(sp, EXPORT, cache:=EXPORT & "/.kegg/") _
                 .SaveTo(EXPORT & "/failures.txt") _
                 .CLICode
         End If

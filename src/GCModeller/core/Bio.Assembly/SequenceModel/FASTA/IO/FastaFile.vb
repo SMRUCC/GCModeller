@@ -223,7 +223,7 @@ Namespace SequenceModel.FASTA
         ''' <param name="path"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function LoadNucleotideData(path As String, Optional Explicit As Boolean = False) As FastaFile
+        Public Shared Function LoadNucleotideData(path As String, Optional strict As Boolean = False) As FastaFile
             Dim Data As FastaFile = FastaFile.Read(path)
 
             If Data.IsNullOrEmpty Then
@@ -239,7 +239,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
                           In Data._innerList
                           Where Not fa.IsProtSource
                           Select fa).ToArray
-            If Explicit Then
+            If strict Then
                 LQuery = (From fa As FastaSeq
                           In LQuery
                           Where Not fa.HaveGaps

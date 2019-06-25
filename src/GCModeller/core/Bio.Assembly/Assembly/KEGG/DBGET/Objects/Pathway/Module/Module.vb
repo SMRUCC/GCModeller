@@ -165,7 +165,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return rnTable.ContainsKey(Id)
         End Function
 
-        Public Overrides ReadOnly Property BriteId As String
+        Public Overrides ReadOnly Property briteID As String
             Get
                 Return EntryId.Split("_"c).Last.ToUpper
             End Get

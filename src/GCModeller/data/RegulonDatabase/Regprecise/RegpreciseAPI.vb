@@ -143,17 +143,17 @@ Rodionov, D. A.", Volume:=14)>
 
         Public Function Distinct(data As BacteriaRegulome) As BacteriaRegulome
             Dim Regulators = (From reg As Regulator
-                              In data.regulons.regulators
+                              In data.regulome.regulators
                               Select reg.locus_tag.name
                               Distinct).ToArray
-            If Regulators.Length = data.NumOfRegulons Then
+            If Regulators.Length = data.numOfRegulons Then
                 Return data       '没有重复的数据，则直接返回
             End If
 
             Dim DistinctedRegulators = (From sId As String
                                         In Regulators
                                         Select RegulatorId = sId,
-                                            ddata = (From reg As Regulator In data.regulons.regulators
+                                            ddata = (From reg As Regulator In data.regulome.regulators
                                                      Where String.Equals(reg.locus_tag.name, sId)
                                                      Select reg).ToArray).ToArray
             Dim LQuery = (From Line In DistinctedRegulators
@@ -165,7 +165,7 @@ Rodionov, D. A.", Volume:=14)>
                 Dim Regulator = LQuery(i)
                 Regulator.Regulator.regulatorySites = Regulator.DistinctedSites
             Next
-            data.regulons.regulators = (From item In LQuery Select item.Regulator).ToArray
+            data.regulome.regulators = (From item In LQuery Select item.Regulator).ToArray
             Return data
         End Function
 
@@ -366,7 +366,7 @@ Rodionov, D. A.", Volume:=14)>
                 New List(Of KeyValuePairData(Of Regtransbase.WebServices.MotifFasta))
 
             For Each BacterialGenome As BacteriaRegulome In Regprecise.genomes
-                For Each Regulon As Regulator In BacterialGenome.regulons.regulators
+                For Each Regulon As Regulator In BacterialGenome.regulome.regulators
                     If Regulon.type = Types.RNA Then
                         Continue For
                     End If
@@ -407,7 +407,7 @@ Rodionov, D. A.", Volume:=14)>
             Next
 
             For Each BacterialGenome In Regprecise.genomes
-                For Each Regulon In BacterialGenome.regulons.regulators
+                For Each Regulon In BacterialGenome.regulome.regulators
                     If Regulon.type = Types.RNA Then
                         Continue For
                     End If
@@ -436,7 +436,7 @@ Rodionov, D. A.", Volume:=14)>
 
             For Each BacterialGenome As BacteriaRegulome In Regprecise.genomes
                 Call Chunkbuffer.AddRange((From regulator As Regulator
-                                           In BacterialGenome.regulons.regulators
+                                           In BacterialGenome.regulome.regulators
                                            Where regulator.type = Types.TF
                                            Select regulator.family).ToArray)
             Next
@@ -466,7 +466,7 @@ Rodionov, D. A.", Volume:=14)>
             End If
 
             For Each Bacteria In Regprecise.genomes
-                For Each Regulator In Bacteria.regulons.regulators
+                For Each Regulator In Bacteria.regulome.regulators
                     Dim Path As String = String.Format("{0}/{1}.fasta", Regulators, Regulator.locus_tag.name)
 
                     If Regulator.type = Types.RNA Then
