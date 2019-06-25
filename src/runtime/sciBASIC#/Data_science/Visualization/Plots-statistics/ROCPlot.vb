@@ -55,9 +55,11 @@ Public Module ROCPlot
     <Extension>
     Public Function CreateSerial(test As IEnumerable(Of Validation)) As SerialData
         Dim points As New List(Of PointData)
+        Dim testData As Validation() = test.ToArray
+        Dim AUC As Double = Validation.AUC(testData)
 
         points += New PointData(0, 0)
-        points += test _
+        points += testData _
             .Select(Function(pct)
                         Dim x! = (100 - pct.Specificity) / 100
                         Dim y! = pct.Sensibility / 100
@@ -73,7 +75,8 @@ Public Module ROCPlot
             .Shape = LegendStyles.Triangle,
             .pts = points _
                 .OrderBy(Function(p) p.pt.X) _
-                .ToArray
+                .ToArray,
+            .title = AUC
         }
     End Function
 
@@ -87,7 +90,8 @@ Public Module ROCPlot
             .Select(Function(d)
                         Return New Validation With {
                             .Specificity = d(specificity),
-                            .Sensibility = d(sensibility)
+                            .Sensibility = d(sensibility),
+                            .Threshold = Val(d.ID)
                         }
                     End Function) _
             .CreateSerial
@@ -99,7 +103,8 @@ Public Module ROCPlot
                          Optional bg$ = "white",
                          Optional lineWidth! = 10,
                          Optional fillAUC As Boolean = True,
-                         Optional AUCfillColor$ = "skyblue") As GraphicsData
+                         Optional AUCfillColor$ = "skyblue",
+                         Optional showReference As Boolean = False) As GraphicsData
 
         Dim reference As New SerialData With {
             .color = AUCfillColor.TranslateColor,
@@ -113,15 +118,28 @@ Public Module ROCPlot
         roc.width = lineWidth
         roc.color = AUCfillColor.TranslateColor
 
+        Dim input As SerialData()
+
+        If showReference Then
+            input = {reference, roc}
+        Else
+            input = {roc}
+        End If
+
         Dim img = Scatter.Plot(
-            {roc, reference},
+            input,
             size:=size,
             padding:=margin,
             bg:=bg,
             interplot:=Splines.B_Spline,
             xaxis:="0,1", yaxis:="0,1",
             showLegend:=False,
-            fill:=fillAUC
+            fill:=fillAUC,
+            Xlabel:="1 - Specificity",
+            Ylabel:="Sensibility",
+            drawAxis:=True,
+            htmlLabel:=False,
+            title:=$"ROC (AUC={roc.title})"
         )
 
         Return img
