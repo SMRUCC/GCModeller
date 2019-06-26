@@ -1,49 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::0fb7d8cf9bc2c572f1869869bf0350eb, data\RegulonDatabase\Regprecise\WebServices\WebParser\BacteriaGenome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BacteriaRegulome
-    ' 
-    '         Properties: genome, NumOfRegulons, regulons
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateKEGGQuery, ListRegulatedGenes, ListRegulators, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BacteriaRegulome
+' 
+'         Properties: genome, NumOfRegulons, regulons
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CreateKEGGQuery, ListRegulatedGenes, ListRegulators, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
@@ -54,8 +55,10 @@ Namespace Regprecise
     ''' <summary>
     ''' 微生物的调控组数据模型
     ''' </summary>
-    <XmlType("bacterial_regulome", [Namespace]:="http://regprecise.lbl.gov/RegPrecise/genome.jsp?genome_id=taxonomy")>
-    Public Class BacteriaRegulome
+    <XmlType("bacterial_regulome", [Namespace]:=BacteriaRegulome.regulomeNamespace)>
+    Public Class BacteriaRegulome : Inherits XmlDataModel
+
+        Public Const regulomeNamespace$ = "http://regprecise.lbl.gov/RegPrecise/genome.jsp?genome_id=taxonomy"
 
         ''' <summary>
         ''' {GenomeName, Url}
@@ -63,20 +66,27 @@ Namespace Regprecise
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement> Public Property genome As JSON.genome
-        <XmlElement> Public Property regulons As Regulon
+        <XmlElement("genome", [Namespace]:=regulomeNamespace)>
+        Public Property genome As JSON.genome
+
+        ''' <summary>
+        ''' 调控组
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement>
+        Public Property regulome As Regulome
 
         ''' <summary>
         ''' 这个基因组里面的Regulon的数目
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property NumOfRegulons As Integer
+        Public ReadOnly Property numOfRegulons As Integer
             Get
-                If regulons Is Nothing OrElse
-                    regulons.regulators.IsNullOrEmpty Then
+                If regulome Is Nothing OrElse
+                    regulome.regulators.IsNullOrEmpty Then
                     Return 0
                 Else
-                    Return regulons.regulators.Length
+                    Return regulome.regulators.Length
                 End If
             End Get
         End Property
@@ -97,7 +107,7 @@ Namespace Regprecise
         ''' </summary>
         ''' <returns></returns>
         Public Function ListRegulators() As String()
-            Dim list As String() = (From x As Regulator In regulons.regulators
+            Dim list As String() = (From x As Regulator In regulome.regulators
                                     Where x.type = Types.TF
                                     Select x.locus_tag.name
                                     Distinct).ToArray
@@ -110,7 +120,7 @@ Namespace Regprecise
         ''' <returns></returns>
         Public Function ListRegulatedGenes() As String()
             Dim list As List(Of String) = (From x As Regulator
-                                           In regulons.regulators
+                                           In regulome.regulators
                                            Select x.operons.Select(Function(o) o.members.Select(Function(g) g.locusId))).ToArray.Unlist.Unlist
             Dim dlist As String() = list.Distinct.ToArray
             Return dlist

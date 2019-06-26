@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::4e2dd0d9262ad393b7c41dfbffb8139f, data\RegulonDatabase\Regprecise\WebServices\WebParser\WebAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module WebAPI
-    ' 
-    '         Function: __download, __downloads, CreateRegulator, Download, DownloadRegulatorSequence
-    '                   DownloadRegulon, GetRegulates, GetsId, ToType
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module WebAPI
+' 
+'         Function: __download, __downloads, CreateRegulator, Download, DownloadRegulatorSequence
+'                   DownloadRegulon, GetRegulates, GetsId, ToType
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,8 +47,8 @@ Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
-Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.SequenceModel
@@ -61,33 +61,6 @@ Namespace Regprecise
                       Description:="Tools API for download and search RegPrecise database.",
                       Publisher:="")>
     Public Module WebAPI
-
-        ''' <summary>
-        ''' 下载某一个基因组内所有预测的调控元的数据
-        ''' </summary>
-        ''' <param name="url"></param>
-        ''' <returns></returns>
-        <ExportAPI("Regulon.Downloads")>
-        Public Function DownloadRegulon(url As String) As Regulon
-            Dim html$ = r _
-                .Match(url.GET, "<table class=""stattbl"".+?</table>", RegexOptions.Singleline) _
-                .Match("<tbody>.+</tbody>", RegexOptions.Singleline)
-            Dim list$() = r _
-                .Matches(html, "<tr .+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) _
-                .ToArray
-            Dim regulators As New List(Of Regulator)
-            Dim str$
-
-            For i As Integer = 0 To list.Length - 1
-                str = list(i)
-                regulators += Regulator.CreateObject(str)
-                Thread.Sleep(2000)
-            Next
-
-            Return New Regulon With {
-                .regulators = regulators
-            }
-        End Function
 
         <ExportAPI("Get.RegulatedGenes")>
         Public Function GetRegulates(url As String) As RegulatedGene()
@@ -116,17 +89,6 @@ Namespace Regprecise
             Return Regulator
         End Function
 
-        <ExportAPI("Get.sId")>
-        Public Function GetsId(strData As String) As String
-            Dim Id As String = Mid(strData, InStr(strData, """>") + 2)
-            If String.IsNullOrEmpty(Trim(Id)) Then
-                Return ""
-            Else
-                Id = Mid(Id, 1, Len(Id) - 4)
-                Return Id
-            End If
-        End Function
-
         <ExportAPI("s.ToType")>
         Public Function ToType(type As String) As Types
             If String.Equals(type, "tf", StringComparison.OrdinalIgnoreCase) Then
@@ -146,14 +108,22 @@ Namespace Regprecise
             Dim html$
             Dim list$()
             Dim genomes As New List(Of BacteriaRegulome)
+            Dim index$ = $"{EXPORT}/index.html"
 
             Call "Start to fetch regprecise genome information....".__DEBUG_ECHO
 
+            If index.FileLength > 1024 Then
+                html = index.ReadAllText
+            Else
+                html = browse_genomes.GET
+                html.SaveTo(index)
+            End If
+
             html$ = r _
-                .Match(browse_genomes.GET, TABLE_REGEX, RegexOptions.Singleline) _
+                .Match(html, TABLE_REGEX, RegexOptions.Singleline) _
                 .Value
             list$ = r _
-                .Matches(html, "<tr .+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) _
+                .Matches(html, "<tr .+?</tr>", RegexICSng) _
                 .ToArray
 
             Call $"{list.Length} bacteria genome are ready to download!".__DEBUG_ECHO
@@ -165,7 +135,7 @@ Namespace Regprecise
                 Dim skip As Boolean = False
 
                 For i As Integer = 0 To list.Length - 1
-                    genomes += __download(list(i), EXPORT, skip:=skip)
+                    genomes += doDownload(list(i), EXPORT, skip:=skip)
                     ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
                     message = $"{genomes(i).genome.name}  ETA: {ETA}"
                     progress.SetProgress(tick.StepProgress, message)
@@ -173,6 +143,8 @@ Namespace Regprecise
                     If Not skip Then
                         Call Thread.Sleep(60 * 1000)
                     End If
+
+                    ' Call Console.Clear()
                 Next
             End Using
 
@@ -182,29 +154,30 @@ Namespace Regprecise
             }
         End Function
 
-        Private Function __download(entryHref$, EXPORT$, ByRef skip As Boolean) As BacteriaRegulome
+        Private Function doDownload(entryHref$, EXPORT$, ByRef skip As Boolean) As BacteriaRegulome
             Dim str$ = r.Match(entryHref, "href="".+?"">.+?</a>").Value
-            Dim entry As KeyValuePair = KeyValuePair.CreateObject(GetsId(str), "http://regprecise.lbl.gov/RegPrecise/" & str.href)
-            Dim name$ = entry.Key.NormalizePathString
+            Dim entry$ = RegulomeQuery.GetsId(str)
+            Dim name$ = entry.NormalizePathString
             Dim save$ = EXPORT & $"/{name}.xml"
 
-            skip = False
+            Static webQuery As New Dictionary(Of String, RegulomeQuery)
 
-            If save.FileLength > 1024 Then
-                skip = True
-                Return save.LoadXml(Of BacteriaRegulome)()
-            Else
-                With New BacteriaRegulome With {
-                    .genome = New JSON.genome With {
-                        .name = entry.Key
-                    },
-                    .regulons = WebAPI.DownloadRegulon(entry.Value)
-                }
-                    Call .GetXml.SaveTo(save)
+            Dim WebApi As RegulomeQuery = webQuery.ComputeIfAbsent(
+                key:=$"{EXPORT}/.cache/",
+                lazyValue:=Function(cache)
+                               Return New RegulomeQuery(cache,,)
+                           End Function)
 
-                    Return .ByRef
-                End With
-            End If
+            With New BacteriaRegulome With {
+                .genome = New JSON.genome With {
+                    .name = entry
+                },
+                .regulome = WebApi.Query(Of Regulome)(entryHref, hitCache:=skip)
+            }
+                Call .GetXml.SaveTo(save)
+
+                Return .ByRef
+            End With
         End Function
 
         ''' <summary>
@@ -221,7 +194,7 @@ Namespace Regprecise
             Using ErrLog As New LogFile($"{DownloadDIR}/DownloadError_{Now.ToString.NormalizePathString}.log")
                 For Each Bacteria As BacteriaRegulome In Regprecise.genomes
                     Dim downloads = (From regulator As Regulator
-                                     In Bacteria.regulons.regulators
+                                     In Bacteria.regulome.regulators
                                      Let fa As FASTA.FastaSeq = __downloads(regulator, Bacteria, ErrLog, DownloadDIR)
                                      Where Not fa Is Nothing
                                      Select fa).ToArray
@@ -242,7 +215,7 @@ Namespace Regprecise
             End If
 
             If String.IsNullOrEmpty(regulator.locus_tag.name) Then
-                Dim exMsg As String = $"[null_LOCUS_ID] [Regulog={regulator.Regulog.name}] [Bacteria={genome.genome.name}]" & vbCrLf
+                Dim exMsg As String = $"[null_LOCUS_ID] [Regulog={regulator.regulog.name}] [Bacteria={genome.genome.name}]" & vbCrLf
                 Call ErrLog.WriteLine(exMsg, "", MSG_TYPES.INF)
                 Return Nothing
             End If

@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.*
+'  // VERSION:   1.0.0.0
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
 '  // 
@@ -25,13 +25,16 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
+'  /cluster.tree:     
 '  /mapping.plot:     
 '  /test:             
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
 ' 
-'    You can using "Settings ??<commandName>" for getting more details command help.
+'    1. You can using "Settings ??<commandName>" for getting more details command help.
+'    2. Using command "Settings /CLI.dev [---echo]" for CLI pipeline development.
+'    3. Using command "Settings /i" for enter interactive console mode.
 
 Namespace GCModellerApps
 
@@ -52,6 +55,27 @@ Public Class Synteny : Inherits InteropService
     Public Shared Function FromEnvironment(directory As String) As Synteny
           Return New Synteny(App:=directory & "/" & Synteny.App)
      End Function
+
+''' <summary>
+''' ```
+''' /cluster.tree /in &lt;besthit.csv> /genomes &lt;fasta.directory> [/out &lt;clusters.csv>]
+''' ```
+''' </summary>
+'''
+Public Function ClusterTree([in] As String, genomes As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/cluster.tree")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/genomes " & """" & genomes & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
 
 ''' <summary>
 ''' ```
@@ -80,6 +104,7 @@ Public Function PlotMapping(mapping As String, query As String, ref As String, O
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -95,6 +120,7 @@ End Function
 Public Function Test() As Integer
     Dim CLI As New StringBuilder("/test")
     Call CLI.Append(" ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

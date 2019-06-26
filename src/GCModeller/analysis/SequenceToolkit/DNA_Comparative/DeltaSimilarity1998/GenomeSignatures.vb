@@ -73,7 +73,7 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
         <Extension>
         Public Function DinucleotideBIAS(nt As NucleicAcid, X As DNA, Y As DNA) As Double
             Dim len As Integer = nt.Length
-            Dim dibias As Double = nt.__DNA_segments.__counts({X, Y}) / (len - 1)
+            Dim dibias As Double = nt.DNA_segments.__counts({X, Y}) / (len - 1)
             Dim fx# = nt.Counts(X) / len
             Dim fy# = nt.Counts(Y) / len
             Dim value As Double = dibias / (fx * fy)
@@ -113,7 +113,7 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
         <Extension>
         Public Function DinucleotideBIAS_p(nt As NucleicAcid, X As DNA, Y As DNA) As Double
             Dim len As Integer = nt.Length
-            Dim DNA_segments = nt.__DNA_segments
+            Dim DNA_segments = nt.DNA_segments
             Dim dinucleotideBias# = DNA_segments.__counts_p({X, Y}) / (len - 1)
             Dim fx# = nt.Counts(X) / len
             Dim fy# = nt.Counts(Y) / len

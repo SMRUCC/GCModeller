@@ -232,7 +232,8 @@ Partial Module Utilities
             LQuery = New List(Of FastaSeq)
 
             For Each seq In fasta.GroupBy(Function(x) x.GetLocusTag)
-                If index.IndexOf(seq.Key) = -1 Then  ' 不在列表之中的
+                If index.IndexOf(seq.Key) = -1 Then
+                    ' 不在列表之中的
                     ' 反选就是将不在列表之中的添加进去
                     LQuery += seq
                 End If

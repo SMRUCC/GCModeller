@@ -188,7 +188,7 @@ Partial Module CLI
                                                   Where siteHash.ContainsKey(x)
                                                   Select siteHash(x)
 
-            Dim base As String = out & "/" & pathway.BriteId
+            Dim base As String = out & "/" & pathway.briteID
 
             locis = (From x As SimpleSegment
                      In locis

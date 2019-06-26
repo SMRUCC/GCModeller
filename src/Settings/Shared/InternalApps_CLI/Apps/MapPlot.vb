@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.*
+'  // VERSION:   1.0.0.0
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
 '  // 
@@ -40,7 +40,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' ----------------------------------------------------------------------------------------------------
 ' 
-'    You can using "Settings ??<commandName>" for getting more details command help.
+'    1. You can using "Settings ??<commandName>" for getting more details command help.
+'    2. Using command "Settings /CLI.dev [---echo]" for CLI pipeline development.
+'    3. Using command "Settings /i" for enter interactive console mode.
 
 Namespace GCModellerApps
 
@@ -74,6 +76,7 @@ Public Function WriteConfigTemplate(Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -111,6 +114,7 @@ Public Function DrawMapRegion(gb As String, Optional cog As String = "", Optiona
     If disable_level_skip Then
         Call CLI.Append("/disable.level.skip ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -136,6 +140,7 @@ Public Function PlotGC([in] As String, Optional plot As String = "", Optional co
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -161,6 +166,7 @@ Public Function BBHVisual([in] As String, PTT As String, density As String, Opti
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -180,6 +186,7 @@ Public Function VisualOrthologyProfiles([in] As String, Optional out As String =
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -210,6 +217,7 @@ Public Function BlastnVisualizeWebResult([in] As String, genbank As String, Opti
     If local Then
         Call CLI.Append("/local ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -236,6 +244,7 @@ Public Function DrawingChrMap(ptt As String, Optional conf As String = "", Optio
     If Not cog.StringEmpty Then
             Call CLI.Append("/cog " & """" & cog & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -244,12 +253,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' --Draw.ChromosomeMap.genbank /gb &lt;genome.gbk> [/motifs &lt;motifs.csv> /conf &lt;config.inf> /out &lt;dir.export> /COG &lt;cog.csv>]
+''' --Draw.ChromosomeMap.genbank /gb &lt;genome.gbk> [/motifs &lt;motifs.csv> /hide.mics /conf &lt;config.inf> /out &lt;dir.export> /COG &lt;cog.csv>]
 ''' ```
 ''' Draw bacterial genome map from genbank annotation dataset.
 ''' </summary>
 '''
-Public Function DrawGenbank(gb As String, Optional motifs As String = "", Optional conf As String = "", Optional out As String = "", Optional cog As String = "") As Integer
+Public Function DrawGenbank(gb As String, Optional motifs As String = "", Optional conf As String = "", Optional out As String = "", Optional cog As String = "", Optional hide_mics As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--Draw.ChromosomeMap.genbank")
     Call CLI.Append(" ")
     Call CLI.Append("/gb " & """" & gb & """ ")
@@ -265,6 +274,10 @@ Public Function DrawGenbank(gb As String, Optional motifs As String = "", Option
     If Not cog.StringEmpty Then
             Call CLI.Append("/cog " & """" & cog & """ ")
     End If
+    If hide_mics Then
+        Call CLI.Append("/hide.mics ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

@@ -45,7 +45,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 
 Namespace Configurations
@@ -55,18 +54,4 @@ Namespace Configurations
     ''' </summary>
     Public Class CircosAttribute : Inherits SimpleConfig
     End Class
-
-    Public Module ExtendedProperty
-
-        <Extension>
-        Public Function Ideogram(x As Circos) As Ideogram
-            For Each include In x.includes
-                If TypeOf include Is Ideogram Then
-                    Return DirectCast(include, Ideogram)
-                End If
-            Next
-
-            Return Nothing
-        End Function
-    End Module
 End Namespace

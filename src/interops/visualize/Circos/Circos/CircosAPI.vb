@@ -425,7 +425,7 @@ different with the ideogram configuration document was not included in the circo
                                         Optional replaceBase As Boolean = False,
                                         Optional extTails As Boolean = False) As Configurations.Circos
         Dim node As New GradientMappings(
-            values, circos.Size, mapName,
+            values, circos.size, mapName,
             winSize,
             replaceBase, extTails)
         Dim hTrack As New HighLight(node)
@@ -449,7 +449,7 @@ different with the ideogram configuration document was not included in the circo
                                         Optional replaceBase As Boolean = False,
                                         Optional extTails As Boolean = False) As Configurations.Circos
         Dim node As New GradientMappings(
-            values, circos.Size, mapName,
+            values, circos.size, mapName,
             winSize,
             replaceBase,
             extTails)

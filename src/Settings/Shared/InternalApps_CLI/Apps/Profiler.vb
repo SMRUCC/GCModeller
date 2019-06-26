@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.*
+'  // VERSION:   1.0.0.0
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
 '  // 
@@ -28,12 +28,14 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /GO.clusters:     
 '  /GSEA:            
 '  /id.converts:     
-'  /KO.clusters:     
+'  /KO.clusters:     Create KEGG pathway map background for a given genome data.
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
 ' 
-'    You can using "Settings ??<commandName>" for getting more details command help.
+'    1. You can using "Settings ??<commandName>" for getting more details command help.
+'    2. Using command "Settings /CLI.dev [---echo]" for CLI pipeline development.
+'    3. Using command "Settings /i" for enter interactive console mode.
 
 Namespace GCModellerApps
 
@@ -69,6 +71,7 @@ Public Function CreateGOClusters(uniprot As String, go As String, Optional out A
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -92,6 +95,7 @@ Public Function EnrichmentTest(background As String, geneSet As String, Optional
     If hide_progress Then
         Call CLI.Append("/hide.progress ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -112,6 +116,7 @@ Public Function IDconverts(uniprot As String, geneSet As String, Optional out As
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -122,6 +127,7 @@ End Function
 ''' ```
 ''' /KO.clusters /uniprot &lt;uniprot.XML> /maps &lt;kegg_maps.XML/directory> [/out &lt;clusters.XML>]
 ''' ```
+''' Create KEGG pathway map background for a given genome data.
 ''' </summary>
 '''
 Public Function CreateKOCluster(uniprot As String, maps As String, Optional out As String = "") As Integer
@@ -132,6 +138,7 @@ Public Function CreateKOCluster(uniprot As String, maps As String, Optional out 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

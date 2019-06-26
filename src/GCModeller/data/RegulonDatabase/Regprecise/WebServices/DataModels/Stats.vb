@@ -216,7 +216,9 @@ Namespace Regprecise.WebServices.JSON
     ''' </summary>
     ''' 
     <Description("http://regprecise.lbl.gov/Services/rest/genomes")>
-    <XmlType("bacterial.genome", [Namespace]:="http://regprecise.lbl.gov/Services/rest/genomes")> Public Class genome
+    <XmlType("bacterial.genome", [Namespace]:="http://regprecise.lbl.gov/Services/rest/genomes")>
+    Public Class genome
+
         ''' <summary>
         ''' genome identifier
         ''' </summary>

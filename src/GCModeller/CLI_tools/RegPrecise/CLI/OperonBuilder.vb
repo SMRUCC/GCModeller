@@ -185,7 +185,7 @@ Partial Module CLI
         Dim result As New List(Of RegPreciseOperon)
 
         For Each genome As BacteriaRegulome In RegPrecise.genomes
-            For Each regulon As Regulator In genome.regulons.regulators
+            For Each regulon As Regulator In genome.regulome.regulators
                 Dim TF As String() = If(tfHash.ContainsKey(regulon.LocusId), tfHash(regulon.LocusId), Nothing)
                 Dim isRNA As Boolean = regulon.type = Types.RNA
 

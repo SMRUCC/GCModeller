@@ -72,8 +72,8 @@ Partial Module CLI
         Dim Xmls As IEnumerable(Of String) = FileIO.FileSystem.GetFiles(GCModeller.FileSystem.GetRepositoryRoot & "/RegpreciseDownloads/", FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
         Dim MotifLDMs = (From log As BacteriaRegulome
                          In Xmls.Select(AddressOf LoadXml(Of BacteriaRegulome))
-                         Where Not log.regulons Is Nothing AndAlso
-                             Not log.regulons.regulators.IsNullOrEmpty
+                         Where Not log.regulome Is Nothing AndAlso
+                             Not log.regulome.regulators.IsNullOrEmpty
                          Select log)
         Dim result As New List(Of MotifLog)
         Dim bbhhash = BBHIndex.BuildHitsTable(bbh, True)
@@ -86,7 +86,7 @@ Partial Module CLI
         Dim logsHash As New List(Of Regulator)
 
         For Each regulog As BacteriaRegulome In MotifLDMs
-            For Each TF As Regulator In regulog.regulons.regulators
+            For Each TF As Regulator In regulog.regulome.regulators
                 If TF.type <> Types.TF Then
                     Continue For
                 End If
@@ -137,7 +137,7 @@ Partial Module CLI
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
             For Each genome As String In ls - l - "*.xml" <= [in]
                 Dim data As BacteriaRegulome = genome.LoadXml(Of BacteriaRegulome)
-                Dim regulators As Regulator() = data.regulons.regulators
+                Dim regulators As Regulator() = data.regulome.regulators
 
                 For Each regulator As Regulator In regulators
                     For Each site In regulator.regulatorySites.Where(Function(motif) Not motif.SequenceData.StringEmpty)
@@ -243,7 +243,7 @@ Partial Module CLI
         For Each genome As BacteriaRegulome In genomes
             Dim genomeName$ = genome.genome.name
 
-            For Each regulator As Regulator In genome.regulons.regulators
+            For Each regulator As Regulator In genome.regulome.regulators
                 If Not regulator.type = Types.TF Then
                     Call $"Not working for non-TF type: {regulator.regulog.name}".Warning
                     Continue For
@@ -272,7 +272,7 @@ Partial Module CLI
                     End If
 
                     map = New RegPreciseRegulatorMatch With {
-                        .biological_process = regulator.biological_process,
+                        .biological_process = regulator.biological_process.JoinBy("; "),
                         .effector = regulator.effector,
                         .Family = regulator.family,
                         .Identities = BBHIndex.GetIdentities(hit),

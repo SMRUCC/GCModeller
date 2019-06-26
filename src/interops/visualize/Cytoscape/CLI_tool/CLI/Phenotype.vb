@@ -512,7 +512,7 @@ Partial Module CLI
     ''' <returns></returns>
     Private Function __getMods(keys As String(), mods As bGetObject.Module(), cats As Dictionary(Of String, BriteHEntry.Module), ByRef modSum As Dictionary(Of String, Integer)) As String()
         Dim LQuery = (From id As String In keys Select (From x In mods Where x.ContainsReaction(id) Select x)).IteratesALL
-        Dim mIds = (From x In LQuery Select x.BriteId Group By BriteId Into Count).ToArray
+        Dim mIds = (From x In LQuery Select x.briteID Group By BriteId Into Count).ToArray
         Dim catQuery = (From x In mIds Select [mod] = cats(x.BriteId).SubCategory, x.Count Group By [mod] Into Group).ToArray
         Dim orders = (From x In catQuery
                       Where Not String.Equals(CCM, x.mod, StringComparison.Ordinal)
@@ -673,7 +673,7 @@ Partial Module CLI
             Call node.Properties.Add(NameOf(mName), mName)
 
             If modsLoad.ContainsKey(mName) Then
-                Dim modX = brits(modsLoad(mName).BriteId)
+                Dim modX = brits(modsLoad(mName).briteID)
 
                 Call node.Properties.Add(NameOf(modX.category), modX.category)
                 Call node.Properties.Add(NameOf(modX.class), modX.class)
@@ -733,7 +733,7 @@ Partial Module CLI
 
             If modsLoad.ContainsKey(mName) Then
                 Dim m = modsLoad(mName)
-                Dim modX = brits(m.BriteId)
+                Dim modX = brits(m.briteID)
                 Dim title As String = $"[{modX.SubCategory} - {m.EntryId}]{m.Name}"
 
                 Call node.Properties.Add(NameOf(modX.Category), modX.Category)
@@ -826,7 +826,7 @@ Partial Module CLI
         If (args <= "/familyinfo").DirectoryExists Then
             Dim regulons = (From file As String
                             In FileIO.FileSystem.GetFiles(args("/familyinfo"), FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                            Let regs = file.LoadXml(Of BacteriaRegulome).regulons
+                            Let regs = file.LoadXml(Of BacteriaRegulome).regulome
                             Where Not regs Is Nothing OrElse regs.regulators.IsNullOrEmpty
                             Select regs.regulators).ToArray.ToVector
             FamilyHash = (From x As Regulator In regulons
@@ -863,7 +863,7 @@ Partial Module CLI
                     Dim Family = FamilyHash(bbh)
                     Call edge.Properties.Add("Family", Family.family)
                     Call edge.Properties.Add("Effector", Family.effector)
-                    Call edge.Properties.Add("BiologicalProcess", Family.biological_process)
+                    Call edge.Properties.Add("BiologicalProcess", Family.biological_process.JoinBy("; "))
                     Call edge.Properties.Add("Pathway", Family.pathway)
                 End If
             End If
@@ -889,7 +889,7 @@ Partial Module CLI
                     Dim Family = FamilyHash(bbh)
                     Call node.Properties.Add("Family", Family.family)
                     Call node.Properties.Add("Effector", Family.effector)
-                    Call node.Properties.Add("BiologicalProcess", Family.biological_process)
+                    Call node.Properties.Add("BiologicalProcess", Family.biological_process.JoinBy("; "))
                     Call node.Properties.Add("Pathway", Family.pathway)
                     Call node.Properties.Add("Phenotype", $"[{hit(Scan0)}]{Family.biological_process}")
                 End If
