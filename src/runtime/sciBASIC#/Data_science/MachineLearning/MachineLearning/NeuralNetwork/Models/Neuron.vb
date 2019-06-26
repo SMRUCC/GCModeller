@@ -190,24 +190,10 @@ Namespace NeuralNetwork
             Gradient = CalculateError(target) * activation.Derivative(Value)
 
             If truncate > 0 Then
-                Gradient = gradientTruncate(Gradient, truncate)
+                Gradient = Helpers.ValueTruncate(Gradient, truncate)
             End If
 
             Return Gradient
-        End Function
-
-        Private Shared Function gradientTruncate(gradient#, truncate#) As Double
-            If Double.IsNegativeInfinity(gradient) Then
-                gradient = -truncate
-            ElseIf Double.IsPositiveInfinity(gradient) Then
-                gradient = truncate
-            ElseIf Double.IsNaN(gradient) Then
-                gradient = 0
-            ElseIf gradient > truncate OrElse gradient < -truncate Then
-                gradient = Math.Sign(gradient) * truncate
-            End If
-
-            Return gradient
         End Function
 
         ''' <summary>
@@ -229,7 +215,7 @@ Namespace NeuralNetwork
             Gradient = Gradient * activation.Derivative(Value)
 
             If truncate > 0 Then
-                Gradient = gradientTruncate(Gradient, truncate)
+                Gradient = Helpers.ValueTruncate(Gradient, truncate)
             End If
 
             Return Gradient

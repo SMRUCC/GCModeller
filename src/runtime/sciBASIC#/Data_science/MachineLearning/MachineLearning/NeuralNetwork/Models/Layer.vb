@@ -184,6 +184,7 @@ Namespace NeuralNetwork
             If doNormalize Then
                 ' 将当前层之中的所有的神经元的值都归一化为[0,1]这个区间内
                 Dim max As Double = allActiveNodes _
+                    .Where(Function(x) Not x.Value.IsNaNImaginary) _
                     .Max(Function(n)
                              ' 2019-06-26
                              '
@@ -197,7 +198,10 @@ Namespace NeuralNetwork
                          End Function)
 
                 For Each neuron As Neuron In allActiveNodes()
-                    neuron.Value /= max
+                    ' 因为节点的值在约束之前可能就已经存在NaN的结果了
+                    ' 所以在这里会需要使用这个帮助函数来剪裁NaN的值到
+                    ' 归一化之后的最大值-1或者1
+                    neuron.Value = Helpers.ValueTruncate(neuron.Value / max, 1)
                 Next
             End If
         End Sub

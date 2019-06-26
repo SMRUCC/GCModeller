@@ -50,7 +50,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Data.IO.netCDF
-Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
 Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -61,7 +60,6 @@ Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Accelerator
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports DataFrame = Microsoft.VisualBasic.Data.csv.IO.DataFrame
 Imports Excel = Microsoft.VisualBasic.Data.csv.IO.DataSet
-Imports VisualBasic = Microsoft.VisualBasic.Language.Runtime
 
 Module CLI
 
@@ -154,16 +152,13 @@ Module CLI
     Public Function ExportErrorCurve(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.errors.csv"
-        Dim cdf As New netCDFReader([in])
-        Dim errors = cdf.getDataVariable("fitness").numerics
-        Dim index = cdf.getDataVariable("iterations").integers
 
-        With New VisualBasic
-            Return New DataFrame(!iterations = index, !fitness = errors) _
+        Using cdf As New netCDFReader([in])
+            Return FrameExports.ExportErrorCurve(cdf) _
                 .csv _
                 .Save(out) _
                 .CLICode
-        End With
+        End Using
     End Function
 
     <ExportAPI("/Export.NodeValue.Frames")>
@@ -174,37 +169,11 @@ Module CLI
         Dim out$ = args("/out") Or $"{dump.TrimSuffix}.nodeValue_frames.csv"
 
         Using cdf As netCDFReader = netCDFReader.Open(dump)
-            Dim nodes As variable() = cdf.variables _
-                .Where(Function(var)
-                           Dim isANeuron As attribute = var _
-                               .attributes _
-                               .FirstOrDefault(Function(a)
-                                                   Return a.name = "type" AndAlso a.value = "neuron"
-                                               End Function)
+            Dim times = FrameExports.GetTimeIndex(cdf)
 
-                           Return Not isANeuron Is Nothing
-                       End Function) _
-                .ToArray
-            Dim times = cdf.getDataVariable("iterations") _
-                .integers _
-                .Select(Function(i) $"T{i}") _
-                .SeqIterator _
-                .ToArray
-            Dim row As Excel
-            Dim nodeValue As Double()
-
-            Using csv As New WriteStream(Of Excel)(out, metaKeys:=times.Select(Function(i) i.value).ToArray)
-                For Each node As variable In nodes
-                    nodeValue = cdf.getDataVariable(node).numerics
-                    row = New Excel With {
-                        .ID = node.name,
-                        .Properties = times.ToDictionary(
-                            Function(tag) tag.value,
-                            Function(i)
-                                Return nodeValue.ElementAtOrDefault(i, [default]:=Double.NaN)
-                            End Function)
-                    }
-                    csv.Flush(row)
+            Using csv As New WriteStream(Of Excel)(out, metaKeys:=times)
+                For Each node As Excel In FrameExports.ExportValueFrames(cdf)
+                    csv.Flush(node)
                 Next
             End Using
         End Using
