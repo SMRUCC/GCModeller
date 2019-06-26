@@ -201,7 +201,7 @@ Module CLI
                         .Properties = times.ToDictionary(
                             Function(tag) tag.value,
                             Function(i)
-                                Return nodeValue(i)
+                                Return nodeValue.ElementAtOrDefault(i, [default]:=Double.NaN)
                             End Function)
                     }
                     csv.Flush(row)
