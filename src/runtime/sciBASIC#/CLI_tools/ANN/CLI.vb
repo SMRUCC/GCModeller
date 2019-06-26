@@ -219,6 +219,7 @@ Module CLI
         ) With {.Selective = config.selective.ParseBoolean}
 
         trainingHelper.NeuronNetwork.LearnRateDecay = config.learnRateDecay
+        trainingHelper.Truncate = config.truncate
 
         If True = config.layerNormalize.ParseBoolean Then
             For Each layer As Layer In trainingHelper.NeuronNetwork.HiddenLayer
