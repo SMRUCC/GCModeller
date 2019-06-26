@@ -177,6 +177,10 @@ Module CLI
     ''' <returns></returns>
     <ExportAPI("/training")>
     <Usage("/training /samples <sample_matrix.Xml> [/config <config.ini> /debug /parallel /GA.optimize /out <ANN.Xml>]")>
+    <Description("Training a ANN model based on the training set input.")>
+    <Argument("/samples", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.Xml",
+              Description:="Training dataset as the data set input for the ANN model")>
     Public Function Train(args As CommandLine) As Integer
         Dim in$ = args <= "/samples"
         Dim parallel As Boolean = args("/parallel")
