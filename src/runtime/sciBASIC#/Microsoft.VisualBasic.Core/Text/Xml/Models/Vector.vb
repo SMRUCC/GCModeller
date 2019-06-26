@@ -61,7 +61,15 @@ Namespace Text.Xml.Models
     <XmlType("numerics")>
     Public Class NumericVector : Implements Enumeration(Of Double)
 
+        ''' <summary>
+        ''' 可以用这个属性来简单的标记这个向量所属的对象名称
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property name As String
+        ''' <summary>
+        ''' 存储于XML文档之中的数据向量
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property vector As Double()
 
         ''' <summary>
