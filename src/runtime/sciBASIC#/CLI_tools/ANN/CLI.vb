@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::3a504045db45c69fc6b79a304a4e2bac, CLI_tools\ANN\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: ANNInputImportantFactors, ConfigTemplate, Encourage, ExportErrorCurve, MinErrorSnapshot
-    '               ROCData, runTrainingCommon, Train
-    ' 
-    '     Sub: SummaryDebuggerDump
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: ANNInputImportantFactors, ConfigTemplate, Encourage, ExportErrorCurve, MinErrorSnapshot
+'               ROCData, runTrainingCommon, Train
+' 
+'     Sub: SummaryDebuggerDump
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,7 +48,9 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Data.IO.netCDF
+Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
 Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -58,6 +60,7 @@ Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Accelerator
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports DataFrame = Microsoft.VisualBasic.Data.csv.IO.DataFrame
+Imports Excel = Microsoft.VisualBasic.Data.csv.IO.DataSet
 Imports VisualBasic = Microsoft.VisualBasic.Language.Runtime
 
 Module CLI
@@ -85,7 +88,7 @@ Module CLI
             .ROC(result, Function(a, p) a(labelActuals) >= p, Function(a, p) a(labelPredicts) >= p) _
             .Select(Function(level)
                         Return New IO.DataSet With {
-                            .ID = level.Percentile,
+                            .ID = level.Threshold,
                             .Properties = level.ToDataSet
                         }
                     End Function) _
@@ -163,8 +166,55 @@ Module CLI
         End With
     End Function
 
+    <ExportAPI("/Export.NodeValue.Frames")>
+    <Usage("/Export.NodeValue.Frames /in <debugger.cdf> [/out <table.csv>]")>
+    <Description("Export node value of each iteration frame, for debug used only!")>
+    Public Function ExportValueFrames(args As CommandLine) As Integer
+        Dim dump$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{dump.TrimSuffix}.nodeValue_frames.csv"
+
+        Using cdf As netCDFReader = netCDFReader.Open(dump)
+            Dim nodes As variable() = cdf.variables _
+                .Where(Function(var)
+                           Dim isANeuron As attribute = var _
+                               .attributes _
+                               .FirstOrDefault(Function(a)
+                                                   Return a.name = "type" AndAlso a.value = "neuron"
+                                               End Function)
+
+                           Return Not isANeuron Is Nothing
+                       End Function) _
+                .ToArray
+            Dim times = cdf.getDataVariable("iterations") _
+                .integers _
+                .Select(Function(i) $"T{i}") _
+                .SeqIterator _
+                .ToArray
+            Dim row As Excel
+            Dim nodeValue As Double()
+
+            Using csv As New WriteStream(Of Excel)(out, metaKeys:=times.Select(Function(i) i.value).ToArray)
+                For Each node As variable In nodes
+                    nodeValue = cdf.getDataVariable(node).numerics
+                    row = New Excel With {
+                        .ID = node.name,
+                        .Properties = times.ToDictionary(
+                            Function(tag) tag.value,
+                            Function(i)
+                                Return nodeValue.ElementAtOrDefault(i, [default]:=Double.NaN)
+                            End Function)
+                    }
+                    csv.Flush(row)
+                Next
+            End Using
+        End Using
+
+        Return 0
+    End Function
+
     <ExportAPI("/config.template")>
     <Usage("/config.template [/save <default=./config.ini>]")>
+    <Description("Create the default config file for the ANN model.")>
     Public Function ConfigTemplate(args As CommandLine) As Integer
         Return New Config().WriteProfile(args("/save") Or "./config.ini")
     End Function
@@ -177,6 +227,10 @@ Module CLI
     ''' <returns></returns>
     <ExportAPI("/training")>
     <Usage("/training /samples <sample_matrix.Xml> [/config <config.ini> /debug /parallel /GA.optimize /out <ANN.Xml>]")>
+    <Description("Training a ANN model based on the training set input.")>
+    <Argument("/samples", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.Xml",
+              Description:="Training dataset as the data set input for the ANN model")>
     Public Function Train(args As CommandLine) As Integer
         Dim in$ = args <= "/samples"
         Dim parallel As Boolean = args("/parallel")
@@ -214,6 +268,7 @@ Module CLI
         ) With {.Selective = config.selective.ParseBoolean}
 
         trainingHelper.NeuronNetwork.LearnRateDecay = config.learnRateDecay
+        trainingHelper.Truncate = config.truncate
 
         If True = config.layerNormalize.ParseBoolean Then
             For Each layer As Layer In trainingHelper.NeuronNetwork.HiddenLayer
