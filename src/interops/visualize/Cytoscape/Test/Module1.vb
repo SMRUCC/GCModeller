@@ -123,6 +123,9 @@ Module Module1
         xml.xmlns.xsi = "@#"
         xml.xmlns.Set("ggy", "oK!")
         Call xml.Save("x:\dddd.xml", Encodings.UTF8)
+
+
+        Return 0
     End Function
 
 
