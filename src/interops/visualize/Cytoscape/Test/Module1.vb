@@ -62,9 +62,38 @@ End Class
 
 Module Module1
 
+    Private Sub xgmmlLoaderTest()
+        Dim g = Graph.Load("D:\MassSpectrum-toolkits\MetaDNA\test\human_blood\network-edges.csv.xgmml")
+        Dim net As NetworkGraph = g.CreateGraph
+
+
+        Dim stiffness = 81.76F
+        Dim repulsion = 40000.0F
+        Dim damping = 0.5F
+
+
+        Dim m_fdgPhysics = New ForceDirected2D(net, '// instance of Graph
+        stiffness, '// stiffness of the spring
+                                                   repulsion, '// Node repulsion rate 
+                                                   damping    '// damping rate  
+                                                   )
+
+        Call m_fdgPhysics.Updates(net)
+
+        Call net.ApplyAnalysis
+
+        Dim ress = net.DrawImage("1024,768", displayId:=False)
+
+        Call ress.Save("x:\gggg.bmp")
+
+
+        Pause()
+    End Sub
 
 
     Function Main() As Integer
+
+        Call xgmmlLoaderTest()
 
         Dim styles = Cyjs.style.JSON.Load("G:\GCModeller\src\interops\visualize\Cytoscape\data\metabolome-network.json")
         Dim asss = styles.Values.First
@@ -87,28 +116,7 @@ Module Module1
 
         '  Dim fdsfs = Graph.Load("x:\11223.xml")
 
-        Dim g = Graph.Load("F:\GCModeller\GCI Project\DataVisualization\Cytoscape\test.cytoscape.xgmml")
-        Dim net As NetworkGraph = g.CreateGraph
 
-
-        Dim stiffness = 81.76F
-        Dim repulsion = 40000.0F
-        Dim damping = 0.5F
-
-
-        Dim m_fdgPhysics = New ForceDirected2D(net, '// instance of Graph
-        stiffness, '// stiffness of the spring
-                                                   repulsion, '// Node repulsion rate 
-                                                   damping    '// damping rate  
-                                                   )
-
-        Call m_fdgPhysics.Updates(net)
-
-        Call net.ApplyAnalysis
-
-        Dim ress = net.DrawImage("1024,768", displayId:=False)
-
-        Call ress.Save("x:\gggg.bmp")
 
         ' Dim m_fdgRenderer As New IRenderer(m_fdgPhysics)
 
