@@ -62,32 +62,8 @@ End Class
 
 Module Module1
 
-
-
-    Function Main() As Integer
-
-        Dim styles = Cyjs.style.JSON.Load("G:\GCModeller\src\interops\visualize\Cytoscape\data\metabolome-network.json")
-        Dim asss = styles.Values.First
-
-        Dim seleeee = asss.style.First.GetStyle
-        Dim ssssss = asss.style(3).MySelector
-
-        Pause()
-
-        Dim ddd As New vTable With {.AA = 234234234}
-
-        ddd.Add("123", "ffff")
-        ddd.Add("6666", "fdasdasd")
-
-        Call ddd.GetJson.__DEBUG_ECHO
-        Pause()
-        '     Dim mm As New GraphAttribute With {.RDF = New InnerRDF With {.meta = New NetworkMetadata}, .Name = RandomDouble()}
-        '  Dim gf As New Graph With {.Attributes = {mm, New GraphAttribute With {.Name = Now.ToString}}}
-        '   Call gf.SaveAsXml("x:\11223.xml")
-
-        '  Dim fdsfs = Graph.Load("x:\11223.xml")
-
-        Dim g = Graph.Load("F:\GCModeller\GCI Project\DataVisualization\Cytoscape\test.cytoscape.xgmml")
+    Private Sub xgmmlLoaderTest()
+        Dim g = Graph.Load("D:\MassSpectrum-toolkits\MetaDNA\test\human_blood\network-edges.csv.xgmml")
         Dim net As NetworkGraph = g.CreateGraph
 
 
@@ -110,6 +86,38 @@ Module Module1
 
         Call ress.Save("x:\gggg.bmp")
 
+
+        Pause()
+    End Sub
+
+
+    Function Main() As Integer
+
+        Call xgmmlLoaderTest()
+
+        Dim styles = Cyjs.style.JSON.Load("G:\GCModeller\src\interops\visualize\Cytoscape\data\metabolome-network.json")
+        Dim asss = styles.Values.First
+
+        Dim seleeee = asss.style.First.GetStyle
+        Dim ssssss = asss.style(3).MySelector
+
+        Pause()
+
+        Dim ddd As New vTable With {.AA = 234234234}
+
+        ddd.Add("123", "ffff")
+        ddd.Add("6666", "fdasdasd")
+
+        Call ddd.GetJson.__DEBUG_ECHO
+        Pause()
+        '     Dim mm As New GraphAttribute With {.RDF = New InnerRDF With {.meta = New NetworkMetadata}, .Name = RandomDouble()}
+        '  Dim gf As New Graph With {.Attributes = {mm, New GraphAttribute With {.Name = Now.ToString}}}
+        '   Call gf.SaveAsXml("x:\11223.xml")
+
+        '  Dim fdsfs = Graph.Load("x:\11223.xml")
+
+
+
         ' Dim m_fdgRenderer As New IRenderer(m_fdgPhysics)
 
         '  Dim timeStep = 0.05F
@@ -123,6 +131,9 @@ Module Module1
         xml.xmlns.xsi = "@#"
         xml.xmlns.Set("ggy", "oK!")
         Call xml.Save("x:\dddd.xml", Encodings.UTF8)
+
+
+        Return 0
     End Function
 
 
