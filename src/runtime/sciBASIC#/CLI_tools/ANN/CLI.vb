@@ -337,6 +337,24 @@ Module CLI
 
                                     minError = err
                                 End If
+
+                                If i Mod 5 = 0 AndAlso trainer.dropOutRate > 0 Then
+                                    ' 因为在dropout模式下,有一部分的神经元随机失活
+                                    ' 所以非最小error的网络不一定是不和要求的
+                                    ' 在开启dropout模式之后,程序会定时写网络文件供调试监控
+                                    With trainer.TakeSnapshot
+                                        Call $"  [{circle.Hex}] start write snapshot....".__DEBUG_ECHO
+                                        Call $"  Current min_error={err}".__INFO_ECHO
+
+                                        If multipleParts Then
+                                            Call .ScatteredStore(inFile.TrimSuffix & ".dropout")
+                                        Else
+                                            Call .GetXml.SaveTo(inFile.TrimSuffix & ".dropout.Xml", throwEx:=False)
+                                        End If
+
+                                        Call $"  [{(++circle).ToHexString}] done!".__INFO_ECHO
+                                    End With
+                                End If
                             End Sub) _
             .Train(parallel)
 
