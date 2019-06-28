@@ -79,9 +79,9 @@ Public Module DumpProcedures
 
             data_pathways += New mysql.data_pathway With {
                 .map = image,
-                .KO = "ko" & map.BriteId,
+                .KO = "ko" & map.briteID,
                 .name = MySqlEscaping(map.name),
-                .uid = Val(map.BriteId),
+                .uid = Val(map.briteID),
                 .description = MySqlEscaping(map.description)
             }
 
@@ -97,7 +97,7 @@ Public Module DumpProcedures
                 }
             Next
 
-            Dim h As BriteHText = br.TryGetValue(map.BriteId)
+            Dim h As BriteHText = br.TryGetValue(map.briteID)
 
             For Each O In map.KEGGOrthology.Terms.SafeQuery
                 orthologyClass += New mysql.class_ko00001_orthology With {

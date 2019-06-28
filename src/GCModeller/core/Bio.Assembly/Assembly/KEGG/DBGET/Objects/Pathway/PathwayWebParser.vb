@@ -62,6 +62,9 @@ Imports XmlProperty = Microsoft.VisualBasic.Text.Xml.Models.Property
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
+    ''' <summary>
+    ''' Html parser for <see cref="Pathway"/>
+    ''' </summary>
     Module PathwayWebParser
 
         Const PATHWAY_SPLIT As String = "<a href=""/kegg-bin/show_pathway.+?"">.+?"

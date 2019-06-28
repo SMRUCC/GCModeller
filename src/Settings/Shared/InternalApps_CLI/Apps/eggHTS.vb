@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.*
+'  // VERSION:   1.0.0.0
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
 '  // 
@@ -39,8 +39,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /KOBAS.Sim.Heatmap:                     
 '  /KOBAS.similarity:                      
 '  /KOBAS.Term.Kmeans:                     
-'  /labelFree.matrix:                      
-'  /labelFree.t.test:                      
 '  /Network.PCC:                           
 '  /paired.sample.designer:                
 '  /Perseus.MajorityProteinIDs:            Export the uniprot ID list from ``Majority Protein IDs``
@@ -49,7 +47,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Perseus.Table.annotations:             
 '  /pfamstring.enrichment:                 
 '  /protein.annotations.shotgun:           
-'  /UniProt.IDs:                           
+'  /UniProt.ID.Maps:                       
 '  /Uniprot.Mappings:                      Retrieve the uniprot annotation data by using ID mapping
 '                                          operations.
 '  /UniRef.map.organism:                   
@@ -84,11 +82,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' 
 '    /blastX.fill.ORF:                       
-'    /ID.Replace.bbh:                        Replace the source ID to a unify organism protein ID by using
-'                                            ``bbh`` method.
-'                                            This tools required the protein in ``datatset.csv`` associated
-'                                            with the alignment result in ``bbh.csv`` by using the ``query_name``
-'                                            property.
+'    /ID.Replace.bbh:                        LabelFree result helper: replace the source ID to a unify
+'                                            organism protein ID by using ``bbh`` method.
+'                                            This tools required the protein in ``datatset.csv``
+'                                            associated with the alignment result in ``bbh.csv`` by using
+'                                            the ``query_name`` property.
 '    /KEGG.Color.Pathway:                    
 '    /protein.annotations:                   Total proteins functional annotation by using uniprot database.
 '    /proteins.Go.plot:                      ProteinGroups sample data go profiling plot from the uniprot
@@ -194,16 +192,36 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '                                             by using log2FC threshold and t.test pvalue threshold.
 ' 
 ' 
-' 11. Repository data tools
+' 11. Label Free data analysis tools
+' 
+' 
+'     /labelFree.matrix:                      
+'     /labelFree.matrix.split:                
+'     /labelFree.t.test:                      
+'     /Matrix.Normalization:                  
+'     /names:                                 
+' 
+' 
+' 12. Repository data tools
 ' 
 ' 
 '     /Imports.Go.obo.mysql:                  Dumping GO obo database as mysql database files.
 '     /Imports.Uniprot.Xml:                   Dumping the UniprotKB XML database as mysql database file.
 ' 
 ' 
+' 13. UniProt tools
+' 
+' 
+'     /Retrieve.ID.mapping:                   Convert the protein id from other database to UniProtKB.
+'     /UniProt.IDs:                           
+'     /Uniprot.organism_id:                   Get uniprot_id to Organism-specific databases id map table.
+' 
+' 
 ' ----------------------------------------------------------------------------------------------------
 ' 
-'    You can using "Settings ??<commandName>" for getting more details command help.
+'    1. You can using "Settings ??<commandName>" for getting more details command help.
+'    2. Using command "Settings /CLI.dev [---echo]" for CLI pipeline development.
+'    3. Using command "Settings /i" for enter interactive console mode.
 
 Namespace GCModellerApps
 
@@ -240,6 +258,7 @@ Public Function BlastXFillORF([in] As String, blastx As String, Optional out As 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -263,6 +282,7 @@ Public Function COGCatalogProfilingPlot([in] As String, Optional size As String 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -282,6 +302,7 @@ Public Function Converts([in] As String, Optional out As String = "") As Integer
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -307,6 +328,7 @@ Public Function AddReMapping([in] As String, bbh As String, ID_mappings As Strin
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -330,6 +352,7 @@ Public Function DataAddORF([in] As String, uniprot As String, Optional id As Str
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -350,6 +373,7 @@ Public Function DataAddUniprotIDs([in] As String, data As String, Optional out A
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -369,6 +393,7 @@ Public Function SplitDAVID([in] As String, Optional out As String = "./") As Int
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -377,16 +402,19 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /DEP.heatmap.scatter.3D /in &lt;kmeans.csv> /sampleInfo &lt;sampleInfo.csv> [/cluster.prefix &lt;default="cluster: #"> /size &lt;default=1600,1400> /schema &lt;default=clusters> /view.angle &lt;default=30,60,-56.25> /view.distance &lt;default=2500> /arrow.factor &lt;default=1,2> /cluster.title &lt;names.csv> /out &lt;out.png>]
+''' /DEP.heatmap.scatter.3D /in &lt;kmeans.csv> /sampleInfo &lt;sampleInfo.csv> [/display.labels &lt;default=-1> /cluster.prefix &lt;default="cluster: #"> /size &lt;default=1600,1400> /schema &lt;default=clusters> /view.angle &lt;default=30,60,-56.25> /view.distance &lt;default=2500> /arrow.factor &lt;default=1,2> /cluster.title &lt;names.csv> /out &lt;out.png>]
 ''' ```
 ''' Visualize the DEPs' kmeans cluster result by using 3D scatter plot.
 ''' </summary>
 '''
-Public Function DEPHeatmapScatter3D([in] As String, sampleInfo As String, Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional arrow_factor As String = "1,2", Optional cluster_title As String = "", Optional out As String = "") As Integer
+Public Function DEPHeatmapScatter3D([in] As String, sampleInfo As String, Optional display_labels As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional arrow_factor As String = "1,2", Optional cluster_title As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.heatmap.scatter.3D")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
+    If Not display_labels.StringEmpty Then
+            Call CLI.Append("/display.labels " & """" & display_labels & """ ")
+    End If
     If Not cluster_prefix.StringEmpty Then
             Call CLI.Append("/cluster.prefix " & """" & cluster_prefix & """ ")
     End If
@@ -411,6 +439,7 @@ Public Function DEPHeatmapScatter3D([in] As String, sampleInfo As String, Option
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -446,6 +475,7 @@ Public Function DEPKmeansScatter2D([in] As String, sampleInfo As String, Optiona
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -484,6 +514,7 @@ Public Function logFCHistogram([in] As String, Optional [step] As String = "", O
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -492,12 +523,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /DEP.logFC.Volcano /in &lt;DEP-log2FC.t.test-table.csv> [/title &lt;title> /p.value &lt;default=0.05> /level &lt;default=1.5> /colors &lt;up=red;down=green;other=black> /size &lt;1400,1400> /display.count /out &lt;plot.csv>]
+''' /DEP.logFC.Volcano /in &lt;DEP-log2FC.t.test-table.csv> [/title &lt;title> /p.value &lt;default=0.05> /level &lt;default=1.5> /colors &lt;up=red;down=green;other=black> /label.p &lt;default=-1> /size &lt;1400,1400> /display.count /out &lt;plot.csv>]
 ''' ```
 ''' Volcano plot of the DEPs' analysis result.
 ''' </summary>
 '''
-Public Function logFCVolcano([in] As String, Optional title As String = "", Optional p_value As String = "0.05", Optional level As String = "1.5", Optional colors As String = "", Optional size As String = "", Optional out As String = "", Optional display_count As Boolean = False) As Integer
+Public Function logFCVolcano([in] As String, Optional title As String = "", Optional p_value As String = "0.05", Optional level As String = "1.5", Optional colors As String = "", Optional label_p As String = "-1", Optional size As String = "", Optional out As String = "", Optional display_count As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/DEP.logFC.Volcano")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -513,6 +544,9 @@ Public Function logFCVolcano([in] As String, Optional title As String = "", Opti
     If Not colors.StringEmpty Then
             Call CLI.Append("/colors " & """" & colors & """ ")
     End If
+    If Not label_p.StringEmpty Then
+            Call CLI.Append("/label.p " & """" & label_p & """ ")
+    End If
     If Not size.StringEmpty Then
             Call CLI.Append("/size " & """" & size & """ ")
     End If
@@ -522,6 +556,7 @@ Public Function logFCVolcano([in] As String, Optional title As String = "", Opti
     If display_count Then
         Call CLI.Append("/display.count ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -542,6 +577,7 @@ Public Function DEPUniprotIDlist(DEP As String, sample As String, Optional out A
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -573,6 +609,7 @@ Public Function DEPUniprotIDs2([in] As String, Optional dep_flag As String = "",
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -596,6 +633,7 @@ Public Function VennData(data As String, Optional title As String = "", Optional
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -604,12 +642,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /DEPs.heatmap /data &lt;Directory/csv_file> [/schema &lt;color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation &lt;annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n &lt;default=6> /sampleInfo &lt;sampleinfo.csv> /non_DEP.blank /title "Heatmap of DEPs log2FC" /t.log2 /tick &lt;-1> /size &lt;size, default=2000,3000> /legend.size &lt;size, default=600,100> /out &lt;out.DIR>]
+''' /DEPs.heatmap /data &lt;Directory/csv_file> [/labelFree /schema &lt;color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation &lt;annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n &lt;default=6> /sampleInfo &lt;sampleinfo.csv> /non_DEP.blank /title "Heatmap of DEPs log2FC" /t.log2 /tick &lt;-1> /size &lt;size, default=2000,3000> /legend.size &lt;size, default=600,100> /out &lt;out.DIR>]
 ''' ```
 ''' Generates the heatmap plot input data. The default label profile is using for the iTraq result.
 ''' </summary>
 '''
-Public Function DEPs_heatmapKmeans(data As String, Optional schema As String = "RdYlGn:c11", Optional annotation As String = "", Optional cluster_n As String = "6", Optional sampleinfo As String = "", Optional title As String = "Heatmap of DEPs log2FC", Optional tick As String = "", Optional size As String = "2000,3000", Optional legend_size As String = "600,100", Optional out As String = "", Optional no_clrev As Boolean = False, Optional ko_class As Boolean = False, Optional row_labels_genename As Boolean = False, Optional hide_labels As Boolean = False, Optional is_matrix As Boolean = False, Optional non_dep_blank As Boolean = False, Optional t_log2 As Boolean = False) As Integer
+Public Function DEPs_heatmapKmeans(data As String, Optional schema As String = "RdYlGn:c11", Optional annotation As String = "", Optional cluster_n As String = "6", Optional sampleinfo As String = "", Optional title As String = "Heatmap of DEPs log2FC", Optional tick As String = "", Optional size As String = "2000,3000", Optional legend_size As String = "600,100", Optional out As String = "", Optional labelfree As Boolean = False, Optional no_clrev As Boolean = False, Optional ko_class As Boolean = False, Optional row_labels_genename As Boolean = False, Optional hide_labels As Boolean = False, Optional is_matrix As Boolean = False, Optional non_dep_blank As Boolean = False, Optional t_log2 As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/DEPs.heatmap")
     Call CLI.Append(" ")
     Call CLI.Append("/data " & """" & data & """ ")
@@ -640,6 +678,9 @@ Public Function DEPs_heatmapKmeans(data As String, Optional schema As String = "
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+    If labelfree Then
+        Call CLI.Append("/labelfree ")
+    End If
     If no_clrev Then
         Call CLI.Append("/no-clrev ")
     End If
@@ -661,6 +702,7 @@ Public Function DEPs_heatmapKmeans(data As String, Optional schema As String = "
     If t_log2 Then
         Call CLI.Append("/t.log2 ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -684,6 +726,7 @@ Public Function DEPStatics([in] As String, Optional log2fc As String = "log2FC",
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -715,6 +758,7 @@ Public Function TakeDEPsValues([in] As String, Optional boolean_tag As String = 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -737,6 +781,7 @@ Public Function DEPsUnion([in] As String, Optional fc As String = "logFC", Optio
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -764,6 +809,7 @@ Public Function edgeRDesigner([in] As String, designer As String, Optional label
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -787,6 +833,7 @@ Public Function Backgrounds([in] As String, Optional mapping As String = "", Opt
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -811,6 +858,7 @@ Public Function GoEnrichment(deg As String, backgrounds As String, t2g As String
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -832,6 +880,7 @@ Public Function EnrichmentTermFilter([in] As String, filter As String, Optional 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -859,6 +908,7 @@ Public Function RetriveEnrichmentGeneInfo([in] As String, proteins As String, Op
     If orf Then
         Call CLI.Append("/orf ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -880,6 +930,7 @@ Public Function ExocartaHits([in] As String, annotation As String, exocarta As S
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -899,6 +950,7 @@ Public Function GetFastaIDlist([in] As String, Optional out As String = "") As I
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -922,6 +974,7 @@ Public Function iTraqInvert([in] As String, Optional out As String = "", Optiona
     If log2fc Then
         Call CLI.Append("/log2fc ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -956,6 +1009,7 @@ Public Function FunctionalNetworkEnrichment([in] As String, uniprot As String, D
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -979,6 +1033,7 @@ Public Function GeneIDListFromKOBASResult([in] As String, Optional p_value As St
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1008,6 +1063,7 @@ Public Function GO_cellularLocationPlot([in] As String, Optional go As String = 
     If _3d Then
         Call CLI.Append("/3d ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1045,6 +1101,7 @@ Public Function DAVID_GOplot([in] As String, Optional go As String = "", Optiona
     If tsv Then
         Call CLI.Append("/tsv ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1101,6 +1158,7 @@ Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,
     If gray Then
         Call CLI.Append("/gray ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1124,6 +1182,7 @@ Public Function DEPsCloudPlot([in] As String, annotations As String, DEPs As Str
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1132,20 +1191,24 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /ID.Replace.bbh /in &lt;dataset.csv> /bbh &lt;bbh.csv> [/out &lt;ID.replaced.csv>]
+''' /ID.Replace.bbh /in &lt;dataset.csv> /bbh &lt;bbh/sbh.csv> [/description &lt;fieldName, default=Description> /out &lt;ID.replaced.csv>]
 ''' ```
-''' Replace the source ID to a unify organism protein ID by using ``bbh`` method.
+''' LabelFree result helper: replace the source ID to a unify organism protein ID by using ``bbh`` method.
 ''' This tools required the protein in ``datatset.csv`` associated with the alignment result in ``bbh.csv`` by using the ``query_name`` property.
 ''' </summary>
 '''
-Public Function BBHReplace([in] As String, bbh As String, Optional out As String = "") As Integer
+Public Function BBHReplace([in] As String, bbh As String, Optional description As String = "Description", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/ID.Replace.bbh")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
+    If Not description.StringEmpty Then
+            Call CLI.Append("/description " & """" & description & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1166,6 +1229,7 @@ Public Function DumpGOAsMySQL([in] As String, Optional out As String = "") As In
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1186,6 +1250,7 @@ Public Function DumpUniprot([in] As String, Optional out As String = "") As Inte
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1213,6 +1278,7 @@ Public Function iTraqBridge(A As String, B As String, C As String, Optional symb
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1238,6 +1304,7 @@ Public Function iTraqAnalysisMatrixSplit([in] As String, sampleInfo As String, d
     If allowed_swap Then
         Call CLI.Append("/allowed.swap ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1257,6 +1324,7 @@ Public Function iTraqRSDPvalueDensityPlot([in] As String, Optional out As String
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1265,12 +1333,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /iTraq.Symbol.Replacement /in &lt;iTraq.data.csv/xlsx> /symbols &lt;symbols.csv> [/sheet.name &lt;Sheet1> /out &lt;out.DIR>]
+''' /iTraq.Symbol.Replacement /in &lt;iTraq.data.csv/xlsx> /symbols &lt;symbols.csv/xlsx> [/sheet.name &lt;Sheet1> /symbolSheet &lt;sheetName> /out &lt;out.DIR>]
 ''' ```
 ''' * Using this CLI tool for processing the tag header of iTraq result at first.
 ''' </summary>
 '''
-Public Function iTraqSignReplacement([in] As String, symbols As String, Optional sheet_name As String = "", Optional out As String = "") As Integer
+Public Function iTraqSignReplacement([in] As String, symbols As String, Optional sheet_name As String = "", Optional symbolsheet As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/iTraq.Symbol.Replacement")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1278,9 +1346,13 @@ Public Function iTraqSignReplacement([in] As String, symbols As String, Optional
     If Not sheet_name.StringEmpty Then
             Call CLI.Append("/sheet.name " & """" & sheet_name & """ ")
     End If
+    If Not symbolsheet.StringEmpty Then
+            Call CLI.Append("/symbolsheet " & """" & symbolsheet & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1316,6 +1388,7 @@ Public Function iTraqTtest([in] As String, Optional level As String = "1.5", Opt
     If skip_significant_test Then
         Call CLI.Append("/skip.significant.test ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1336,6 +1409,7 @@ Public Function ColorKEGGPathwayMap([in] As String, ref As String, Optional out 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1373,6 +1447,7 @@ Public Function DAVID_KEGGplot([in] As String, Optional custom As String = "", O
     If tsv Then
         Call CLI.Append("/tsv ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1408,6 +1483,7 @@ Public Function DAVID_KEGGPathwayMap([in] As String, uniprot As String, Optional
     If tsv Then
         Call CLI.Append("/tsv ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1443,6 +1519,7 @@ Public Function KEGGEnrichmentPathwayMap([in] As String, Optional deps As String
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1481,6 +1558,7 @@ Public Function KEGGEnrichmentPathwayMapLocal([in] As String, Optional repo As S
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1519,6 +1597,7 @@ Public Function KEGG_enrichment([in] As String, Optional colors As String = "Set
     If label_right Then
         Call CLI.Append("/label.right ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1546,6 +1625,7 @@ Public Function KOCatalogs([in] As String, ko As String, Optional key As String 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1566,6 +1646,7 @@ Public Function KOBASaddORFsource([in] As String, sample As String, Optional out
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1591,6 +1672,7 @@ Public Function SimHeatmap([in] As String, Optional size As String = "", Optiona
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1614,6 +1696,7 @@ Public Function KOBASSimilarity(group1 As String, group2 As String, Optional fil
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1634,6 +1717,7 @@ Public Function KOBASSplit([in] As String, Optional out As String = "") As Integ
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1656,6 +1740,7 @@ Public Function KOBASKMeans([in] As String, Optional n As String = "3", Optional
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1687,6 +1772,7 @@ Public Function LabelFreeMatrix([in] As String, Optional sheet As String = "prot
     If intensity Then
         Call CLI.Append("/intensity ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1695,16 +1781,42 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /labelFree.t.test /in &lt;matrix.csv> /sampleInfo &lt;sampleInfo.csv> /design &lt;analysis_designer.csv> [/level &lt;default=1.5> /p.value &lt;default=0.05> /FDR &lt;default=0.05> /out &lt;out.csv>]
+''' /labelFree.matrix.split /in &lt;matrix.csv> /sampleInfo &lt;sampleInfo.csv> /designer &lt;analysis_designer.csv> [/out &lt;directory>]
 ''' ```
 ''' </summary>
 '''
-Public Function labelFreeTtest([in] As String, sampleInfo As String, design As String, Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional out As String = "") As Integer
+Public Function LabelFreeMatrixSplit([in] As String, sampleInfo As String, designer As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/labelFree.matrix.split")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
+    Call CLI.Append("/designer " & """" & designer & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /labelFree.t.test /in &lt;matrix.csv> /sampleInfo &lt;sampleInfo.csv> /control &lt;groupName> /treatment &lt;groupName> [/significant &lt;t.test/AB, default=t.test> /level &lt;default=1.5> /p.value &lt;default=0.05> /FDR &lt;default=0.05> /out &lt;out.csv>]
+''' ```
+''' </summary>
+'''
+Public Function labelFreeTtest([in] As String, sampleInfo As String, control As String, treatment As String, Optional significant As String = "t.test", Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/labelFree.t.test")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
-    Call CLI.Append("/design " & """" & design & """ ")
+    Call CLI.Append("/control " & """" & control & """ ")
+    Call CLI.Append("/treatment " & """" & treatment & """ ")
+    If Not significant.StringEmpty Then
+            Call CLI.Append("/significant " & """" & significant & """ ")
+    End If
     If Not level.StringEmpty Then
             Call CLI.Append("/level " & """" & level & """ ")
     End If
@@ -1717,6 +1829,7 @@ Public Function labelFreeTtest([in] As String, sampleInfo As String, design As S
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1739,6 +1852,28 @@ Public Function MatrixClustering([in] As String, Optional cluster_n As String = 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Matrix.Normalization /in &lt;matrix.csv> /infer &lt;min/avg, default=min> [/out &lt;normalized.csv>]
+''' ```
+''' </summary>
+'''
+Public Function MatrixNormalize([in] As String, infer As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Matrix.Normalization")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/infer " & """" & infer & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1768,6 +1903,28 @@ Public Function MergeDEPs([in] As String, Optional threshold As String = "log(1.
     If log2 Then
         Call CLI.Append("/log2 ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /names /in &lt;matrix.csv> /sampleInfo &lt;sampleInfo.csv> [/out &lt;out.csv>]
+''' ```
+''' </summary>
+'''
+Public Function MatrixColRenames([in] As String, sampleInfo As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/names")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1790,6 +1947,7 @@ Public Function PccNetwork([in] As String, Optional cut As String = "0.45", Opti
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1811,6 +1969,7 @@ Public Function PairedSampleDesigner(sampleinfo As String, designer As String, t
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1831,6 +1990,7 @@ Public Function MajorityProteinIDs([in] As String, Optional out As String = "") 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1850,6 +2010,7 @@ Public Function PerseusStatics([in] As String, Optional out As String = "") As I
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1869,6 +2030,7 @@ Public Function PerseusTable([in] As String, Optional out As String = "") As Int
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1892,6 +2054,7 @@ Public Function PerseusTableAnnotations([in] As String, uniprot As String, Optio
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1912,6 +2075,7 @@ Public Function PfamStringEnrichment([in] As String, pfamstring As String, Optio
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1959,6 +2123,7 @@ Public Function pimwScatterPlot([in] As String, Optional field_pi As String = "c
     If Not pt_size.StringEmpty Then
             Call CLI.Append("/pt.size " & """" & pt_size & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -1991,6 +2156,7 @@ Public Function SampleAnnotations(uniprot As String, Optional list As String = "
     If itraq Then
         Call CLI.Append("/itraq ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2015,6 +2181,7 @@ Public Function SampleAnnotations2(p1 As String, p2 As String, uniprot As String
     If remapping Then
         Call CLI.Append("/remapping ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2041,6 +2208,7 @@ Public Function proteinGroupsVenn([in] As String, designer As String, Optional l
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2082,6 +2250,7 @@ Public Function ProteinsGoPlot([in] As String, Optional go As String = "", Optio
     If label_right Then
         Call CLI.Append("/label.right ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2090,12 +2259,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /proteins.KEGG.plot /in &lt;proteins-uniprot-annotations.csv> [/field &lt;default=KO> /geneId.field &lt;default=nothing> /label.right /colors &lt;default=Set1:c6> /custom &lt;sp00001.keg> /size &lt;2200,2000> /tick 20 /out &lt;out.DIR>]
+''' /proteins.KEGG.plot /in &lt;proteins-uniprot-annotations.csv> [/field &lt;default=KO> /not.human /geneId.field &lt;default=nothing> /label.right /colors &lt;default=Set1:c6> /custom &lt;sp00001.keg> /size &lt;2200,2000> /tick 20 /out &lt;out.DIR>]
 ''' ```
 ''' KEGG function catalog profiling plot of the TP sample.
 ''' </summary>
 '''
-Public Function proteinsKEGGPlot([in] As String, Optional field As String = "KO", Optional geneid_field As String = "nothing", Optional colors As String = "Set1:c6", Optional custom As String = "", Optional size As String = "", Optional tick As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
+Public Function proteinsKEGGPlot([in] As String, Optional field As String = "KO", Optional geneid_field As String = "nothing", Optional colors As String = "Set1:c6", Optional custom As String = "", Optional size As String = "", Optional tick As String = "", Optional out As String = "", Optional not_human As Boolean = False, Optional label_right As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/proteins.KEGG.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2120,9 +2289,13 @@ Public Function proteinsKEGGPlot([in] As String, Optional field As String = "KO"
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+    If not_human Then
+        Call CLI.Append("/not.human ")
+    End If
     If label_right Then
         Call CLI.Append("/label.right ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2153,6 +2326,29 @@ Public Function RelativeAmount([in] As String, designer As String, Optional unip
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Retrieve.ID.mapping /list &lt;geneID.list> /uniprot &lt;uniprot/uniparc.Xml> [/out &lt;map.list.csv>]
+''' ```
+''' Convert the protein id from other database to UniProtKB.
+''' </summary>
+'''
+Public Function RetrieveIDmapping(list As String, uniprot As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Retrieve.ID.mapping")
+    Call CLI.Append(" ")
+    Call CLI.Append("/list " & """" & list & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2190,6 +2386,7 @@ Public Function KOBASNetwork([in] As String, uniprot As String, DEP As String, K
     If itraq Then
         Call CLI.Append("/itraq ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2218,6 +2415,7 @@ Public Function NormalizeSpecies_samples(bbh As String, uniprot As String, idMap
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2241,6 +2439,7 @@ Public Function GetIDlistFromSampleTable([in] As String, Optional out As String 
     If uniprot Then
         Call CLI.Append("/uniprot ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2260,6 +2459,7 @@ Public Function StripShotgunData([in] As String, Optional out As String = "") As
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2282,6 +2482,7 @@ Public Function NormalizeSpecies(bbh As String, uniprot As String, idMapping As 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2309,6 +2510,7 @@ Public Function TtestDesigner([in] As String, designer As String, Optional label
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2336,6 +2538,7 @@ Public Function TtestDesignerLFQ([in] As String, designer As String, Optional la
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2361,6 +2564,28 @@ Public Function Term2Genes([in] As String, Optional term As String = "", Optiona
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /UniProt.ID.Maps /in &lt;uniprot.Xml> /dbName &lt;xref_dbname> [/out &lt;maps.list>]
+''' ```
+''' </summary>
+'''
+Public Function UniProtIDMaps([in] As String, dbName As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/UniProt.ID.Maps")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/dbName " & """" & dbName & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2380,6 +2605,7 @@ Public Function UniProtIDList([in] As String, Optional out As String = "") As In
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2403,6 +2629,29 @@ Public Function UniprotMappings([in] As String, Optional type As String = "", Op
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Uniprot.organism_id /in &lt;uniprot_data.Xml> /dbName &lt;name> [/out &lt;out.csv>]
+''' ```
+''' Get uniprot_id to Organism-specific databases id map table.
+''' </summary>
+'''
+Public Function OrganismSpecificDatabases([in] As String, dbName As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Uniprot.organism_id")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/dbName " & """" & dbName & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2425,6 +2674,7 @@ Public Function UniRefMap2Organism([in] As String, Optional org As String = "", 
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2444,6 +2694,7 @@ Public Function UniRef2UniprotKB([in] As String, Optional out As String = "") As
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -2467,6 +2718,7 @@ Public Function Update2UniprotMappedID([in] As String, mapping As String, Option
     If source Then
         Call CLI.Append("/source ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

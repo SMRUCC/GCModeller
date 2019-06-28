@@ -151,7 +151,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("-pattern_search", Info:="Parsing the sequence segment from the sequence source using regular expression.",
-        Usage:="-pattern_search -i <file_name> -p <regex_pattern>[ -o <output_directory> -f <format:fsa/gbk>]",
+        Usage:="-pattern_search -i <file_name> -p <regex_pattern> [-o <output_directory> -f <format:fsa/gbk>]",
         Example:="-pattern_search -i ~/xcc8004.txt -p TTA{3}N{1,2} -f fsa")>
     <Argument("-i",
         Description:="The sequence input data source file, it can be a fasta or genbank file.")>

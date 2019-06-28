@@ -512,7 +512,7 @@ Partial Module CLI
     ''' <returns></returns>
     Private Function __getMods(keys As String(), mods As bGetObject.Module(), cats As Dictionary(Of String, BriteHEntry.Module), ByRef modSum As Dictionary(Of String, Integer)) As String()
         Dim LQuery = (From id As String In keys Select (From x In mods Where x.ContainsReaction(id) Select x)).IteratesALL
-        Dim mIds = (From x In LQuery Select x.BriteId Group By BriteId Into Count).ToArray
+        Dim mIds = (From x In LQuery Select x.briteID Group By BriteId Into Count).ToArray
         Dim catQuery = (From x In mIds Select [mod] = cats(x.BriteId).SubCategory, x.Count Group By [mod] Into Group).ToArray
         Dim orders = (From x In catQuery
                       Where Not String.Equals(CCM, x.mod, StringComparison.Ordinal)
@@ -673,7 +673,7 @@ Partial Module CLI
             Call node.Properties.Add(NameOf(mName), mName)
 
             If modsLoad.ContainsKey(mName) Then
-                Dim modX = brits(modsLoad(mName).BriteId)
+                Dim modX = brits(modsLoad(mName).briteID)
 
                 Call node.Properties.Add(NameOf(modX.category), modX.category)
                 Call node.Properties.Add(NameOf(modX.class), modX.class)
@@ -733,7 +733,7 @@ Partial Module CLI
 
             If modsLoad.ContainsKey(mName) Then
                 Dim m = modsLoad(mName)
-                Dim modX = brits(m.BriteId)
+                Dim modX = brits(m.briteID)
                 Dim title As String = $"[{modX.SubCategory} - {m.EntryId}]{m.Name}"
 
                 Call node.Properties.Add(NameOf(modX.Category), modX.Category)

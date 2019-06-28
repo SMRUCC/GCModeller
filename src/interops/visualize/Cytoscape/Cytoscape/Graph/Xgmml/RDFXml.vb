@@ -41,7 +41,6 @@
 #End Region
 
 Imports System.Text
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text.Xml
 
 Namespace CytoscapeGraphView.XGMML

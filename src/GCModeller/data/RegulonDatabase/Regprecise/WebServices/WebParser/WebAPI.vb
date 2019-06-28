@@ -144,7 +144,7 @@ Namespace Regprecise
                         Call Thread.Sleep(60 * 1000)
                     End If
 
-                    Call Console.Clear()
+                    ' Call Console.Clear()
                 Next
             End Using
 
