@@ -112,6 +112,14 @@ Namespace Text.Xml.Models
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(v As Integer()) As NumericVector
+            Return New NumericVector With {
+                .name = "NULL",
+                .vector = v.Select(Function(x) CDbl(x)).ToArray
+            }
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Narrowing Operator CType(v As NumericVector) As Double()
             Return v.vector
         End Operator

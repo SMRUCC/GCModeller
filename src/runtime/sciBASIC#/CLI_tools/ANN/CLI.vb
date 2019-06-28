@@ -51,6 +51,8 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Data.IO.netCDF
 Imports Microsoft.VisualBasic.DataMining
+Imports Microsoft.VisualBasic.DataMining.ComponentModel
+Imports Microsoft.VisualBasic.DataMining.ComponentModel.Normalizer
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -189,6 +191,34 @@ Module CLI
     End Function
 
     ''' <summary>
+    ''' Print all of the available activation functions for write config file.
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/list.activations")>
+    Public Function ListActiveFunction(args As CommandLine) As Integer
+
+    End Function
+
+    ''' <summary>
+    ''' 输出归一化之后的样本数据,测试用
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/sample.normalize")>
+    <Description("Debug used only.")>
+    <Usage("/sample.normalize /in <sample_matrix.Xml> [/method <name> /out <dataset.csv>]")>
+    Public Function NormalizeSampleDebugger(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim method$ = args("/method") Or $"{Normalizer.Methods.NormalScaler.Description}"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{method}.csv"
+        Dim samples As DataSet = [in].LoadXml(Of DataSet)
+        Dim dataset = samples.NormalizeSample(Normalizer.ParseMethod(method))
+
+        Return dataset.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
     ''' 这个函数会输出训练好的模型, 训练集测试结果, 错误率变化曲线图, 训练日志
     ''' 配置文件不存在的画，则使用默认的配置数据
     ''' </summary>
@@ -221,6 +251,7 @@ Module CLI
                 .ToArray
         End If
 
+        Dim weightInit As Func(Of Double) = Helpers.UnifyWeightInitializer(Val(config.initializer)) Or Helpers.RandomWeightInitializer.When(config.initializer.TextEquals("random"))
         Dim defaultActive As [Default](Of String) = config.default_active Or ActiveFunction.Sigmoid
         Dim actives As New Activations.LayerActives With {
             .hiddens = ActiveFunction.Parse(config.hiddens_active Or defaultActive),
@@ -233,7 +264,8 @@ Module CLI
             samples.OutputSize + dummyExtends,
             config.learnRate,
             config.momentum,
-            actives
+            actives,
+            weightInit:=weightInit
         ) With {.Selective = config.selective.ParseBoolean}
 
         trainingHelper.NeuronNetwork.LearnRateDecay = config.learnRateDecay
@@ -248,7 +280,13 @@ Module CLI
             Call trainingHelper.SetDropOut(percentage:=config.dropoutRate)
         End If
 
-        For Each sample As Sample In samples.PopulateNormalizedSamples(dummyExtends)
+        Dim normalMethod As Methods = Normalizer.ParseMethod(config.normalize)
+        Dim testDataset = samples.NormalizeSample(normalMethod)
+
+        ' 将数据集写入文件之中,以确认被正确的归一化了
+        Call testDataset.SaveTo($"{out.ParentPath}/normalize={normalMethod}.csv")
+
+        For Each sample As Sample In samples.PopulateNormalizedSamples(method:=normalMethod)
             Call trainingHelper.Add(sample.status, sample.target)
         Next
 
@@ -325,6 +363,24 @@ Module CLI
 
                                     minError = err
                                 End If
+
+                                If i Mod 5 = 0 AndAlso trainer.dropOutRate > 0 Then
+                                    ' 因为在dropout模式下,有一部分的神经元随机失活
+                                    ' 所以非最小error的网络不一定是不和要求的
+                                    ' 在开启dropout模式之后,程序会定时写网络文件供调试监控
+                                    With trainer.TakeSnapshot
+                                        Call $"  [{circle.Hex}] start write dropout snapshot....".__DEBUG_ECHO
+                                        Call $"  Current min_error={err}".__INFO_ECHO
+
+                                        If multipleParts Then
+                                            Call .ScatteredStore(inFile.TrimSuffix & ".dropout")
+                                        Else
+                                            Call .GetXml.SaveTo(inFile.TrimSuffix & ".dropout.Xml", throwEx:=False)
+                                        End If
+
+                                        Call $"  [{(++circle).ToHexString}] done!".__INFO_ECHO
+                                    End With
+                                End If
                             End Sub) _
             .Train(parallel)
 
@@ -350,11 +406,10 @@ Module CLI
         Dim parallel As Boolean = args("/parallel")
         Dim network As Network = [in].LoadXml(Of NeuralNetwork).LoadModel
         Dim training As New TrainingUtils(network)
-        Dim dummyExtends% = 8
 
         Helpers.MaxEpochs = args("/iterations") Or 10000
 
-        For Each sample As Sample In samples.LoadXml(Of DataSet).PopulateNormalizedSamples(8)
+        For Each sample As Sample In samples.LoadXml(Of DataSet).PopulateNormalizedSamples()
             Call training.Add(sample.status, sample.target)
         Next
 

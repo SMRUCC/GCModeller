@@ -53,6 +53,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -110,12 +111,12 @@ Namespace NeuralNetwork.StoreProcedure
         ''' This function will extends <see cref="Sample.target"/> when this parameter is greater than ZERO.
         ''' </param>
         ''' <returns></returns>
-        Public Iterator Function PopulateNormalizedSamples(Optional dummyExtends% = 0) As IEnumerable(Of Sample)
+        Public Iterator Function PopulateNormalizedSamples(Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler, Optional dummyExtends% = 0) As IEnumerable(Of Sample)
             Dim input#()
             Dim normSample As Sample
 
             For Each sample As Sample In DataSamples.items
-                input = NormalizeMatrix.NormalizeInput(sample)
+                input = NormalizeMatrix.NormalizeInput(sample, method)
                 normSample = New Sample With {
                     .ID = sample.ID,
                     .status = input,
