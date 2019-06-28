@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc2fca26246e931a25079b87adbcf50b, Circos\ConfFiles\Nodes\Ticks.vb"
+﻿#Region "Microsoft.VisualBasic::b6839ed9037b52897ecefdb24fb66e8c, Circos\Circos\ConfFiles\Nodes\Ticks.vb"
 
     ' Author:
     ' 
