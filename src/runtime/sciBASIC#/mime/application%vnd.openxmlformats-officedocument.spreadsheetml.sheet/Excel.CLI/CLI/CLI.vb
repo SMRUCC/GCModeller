@@ -355,4 +355,18 @@ Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
         Return result.SaveTo(out).CLICode
     End Function
+
+    <ExportAPI("/takes")>
+    <Description("Takes specific rows by a given row id list.")>
+    <Usage("/takes /in <data.csv> /id <id.list> [/out <takes.csv>]")>
+    Public Function Takes(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim id$ = args <= "/id"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{id.BaseName}.csv"
+        Dim data = EntityObject.LoadDataSet([in]).ToArray
+        Dim idlist As Index(Of String) = id.ReadAllLines
+        Dim result = data.Where(Function(row) row.ID Like idlist).ToArray
+
+        Return result.SaveTo(out).CLICode
+    End Function
 End Module
