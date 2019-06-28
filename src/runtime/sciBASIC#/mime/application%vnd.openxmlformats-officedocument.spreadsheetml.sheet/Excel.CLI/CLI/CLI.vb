@@ -66,8 +66,8 @@ Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Unique")>
-    <Usage("/Unique /in <dataset.csv> [/out <out.csv>]")>
+    <ExportAPI("/unique")>
+    <Usage("/unique /in <dataset.csv> [/out <out.csv>]")>
     <Description("Helper tools for make the ID column value uniques.")>
     <Group(Program.CsvTools)>
     Public Function Unique(args As CommandLine) As Integer
@@ -98,7 +98,7 @@ Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Cbind")>
+    <ExportAPI("/cbind")>
     <Usage("/cbind /in <a.csv> /append <b.csv> [/ID.a <default=ID> /ID.b <default=ID> /grep.ID <grep_script, default=""token <SPACE> first""> /unique /nothing.as.empty /out <ALL.csv>]")>
     <Description("Join of two table by a unique ID.")>
     <Argument("/in", False, CLITypes.File,
@@ -235,8 +235,8 @@ Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
         Return 0
     End Function
 
-    <ExportAPI("/Association")>
-    <Usage("/Association /a <a.csv> /b <dataset.csv> [/column.A <scan0> /out <out.csv>]")>
+    <ExportAPI("/association")>
+    <Usage("/association /a <a.csv> /b <dataset.csv> [/column.A <scan0> /out <out.csv>]")>
     Public Function Association(args As CommandLine) As Integer
         Dim a$ = args <= "/a"
         Dim b$ = args <= "/b"
@@ -295,8 +295,9 @@ Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
     ''' <param name="args"></param>
     ''' <returns></returns>
     ''' 
-    <ExportAPI("/Subtract")>
-    <Usage("/Subtract /a <data.csv> /b <data.csv> [/out <subtract.csv>]")>
+    <ExportAPI("/subtract")>
+    <Description("Performing ``a - b`` subtract by row unique id.")>
+    <Usage("/subtract /a <data.csv> /b <data.csv> [/out <subtract.csv>]")>
     Public Function Subtract(args As CommandLine) As Integer
         Dim a$ = args <= "/a"
         Dim b$ = args <= "/b"
