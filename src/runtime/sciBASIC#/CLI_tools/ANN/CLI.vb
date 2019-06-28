@@ -231,6 +231,7 @@ Module CLI
                 .ToArray
         End If
 
+        Dim weightInit As Func(Of Double) = Helpers.UnifyWeightInitializer(Val(config.initializer)) Or Helpers.RandomWeightInitializer.When(config.initializer.TextEquals("random"))
         Dim defaultActive As [Default](Of String) = config.default_active Or ActiveFunction.Sigmoid
         Dim actives As New Activations.LayerActives With {
             .hiddens = ActiveFunction.Parse(config.hiddens_active Or defaultActive),
@@ -243,7 +244,8 @@ Module CLI
             samples.OutputSize + dummyExtends,
             config.learnRate,
             config.momentum,
-            actives
+            actives,
+            weightInit:=weightInit
         ) With {.Selective = config.selective.ParseBoolean}
 
         trainingHelper.NeuronNetwork.LearnRateDecay = config.learnRateDecay
