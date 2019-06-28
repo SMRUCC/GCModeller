@@ -292,7 +292,7 @@ Module CLI
             Call trainingHelper.SetDropOut(percentage:=config.dropoutRate)
         End If
 
-        For Each sample As Sample In samples.PopulateNormalizedSamples(alternativeNormalize:=config.normalize.TextEquals("min/max"))
+        For Each sample As Sample In samples.PopulateNormalizedSamples(method:=Normalizer.ParseMethod(config.normalize))
             Call trainingHelper.Add(sample.status, sample.target)
         Next
 

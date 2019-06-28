@@ -42,6 +42,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.DataMining.ComponentModel.Normalizer
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 Imports Microsoft.VisualBasic.Math.Scripting
@@ -52,11 +53,10 @@ Public Class Config
     <DataFrameColumn> Public Property momentum As Double = 0.9
 
     ''' <summary>
-    ''' + ``min/max`` x / max
-    ''' + ``scaler`` (x-min)/(max-min)
+    ''' <see cref="Methods"/>
     ''' </summary>
     ''' <returns></returns>
-    <DataFrameColumn> Public Property normalize As String = "min/max"
+    <DataFrameColumn> Public Property normalize As String = Methods.NormalScaler
 
     ''' <summary>
     ''' random表示随机初始化
