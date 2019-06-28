@@ -97,5 +97,18 @@ Namespace NeuralNetwork.StoreProcedure
         Public Shared Function Snapshot(instance As Network, Optional errors# = 0) As NeuralNetwork
             Return StoreProcedure.TakeSnapshot(instance, errors)
         End Function
+
+        ''' <summary>
+        ''' 这个函数自动兼容XML文档模型或者超大型的文件夹模型数据
+        ''' </summary>
+        ''' <param name="handle"></param>
+        ''' <returns></returns>
+        Public Shared Function LoadModel(handle As String) As NeuralNetwork
+            If handle.FileLength > 0 Then
+                Return handle.LoadXml(Of NeuralNetwork)
+            Else
+                Return ScatteredLoader(store:=handle)
+            End If
+        End Function
     End Class
 End Namespace
