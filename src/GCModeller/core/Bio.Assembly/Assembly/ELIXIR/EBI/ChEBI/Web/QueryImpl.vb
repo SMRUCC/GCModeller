@@ -53,14 +53,14 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.WebServices
                 AddressOf WebServices.CreateRequest,
                 AddressOf fileId,
                 AddressOf parseREST,
-                AddressOf prefix,
+                AddressOf parsePrefix,
  _
                 cache:=cache,
                 interval:=sleep
             )
         End Sub
 
-        Private Shared Function prefix(chebiId As String) As String
+        Private Shared Function parsePrefix(chebiId As String) As String
             Return Strings.Mid(chebiId, 1, 2)
         End Function
 
