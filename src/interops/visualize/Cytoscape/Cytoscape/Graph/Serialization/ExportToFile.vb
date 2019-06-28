@@ -47,7 +47,6 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection.Reflector
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.NameOf
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
