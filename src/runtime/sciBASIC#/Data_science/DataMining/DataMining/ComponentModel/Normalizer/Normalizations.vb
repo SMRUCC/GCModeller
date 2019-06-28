@@ -26,7 +26,19 @@ Namespace ComponentModel.Normalizer
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ScalerNormalize(samples As SampleDistribution, x#) As Double
-            Return samples.GetRange.ScaleMapping(x, normalRange)
+            If x > samples.max Then
+                Return 1
+            ElseIf x < samples.min Then
+                Return 0
+            Else
+                x = samples.GetRange.ScaleMapping(x, normalRange)
+            End If
+
+            If x.IsNaNImaginary Then
+                Return samples.average
+            Else
+                Return x
+            End If
         End Function
 
         ''' <summary>
@@ -65,7 +77,7 @@ Namespace ComponentModel.Normalizer
                 lazyValue:=Function(dist)
                                Return New NormalRangeDiscretizer(dist)
                            End Function) _
-                .Normalize(x)
+               .Normalize(x)
         End Function
 
     End Module
