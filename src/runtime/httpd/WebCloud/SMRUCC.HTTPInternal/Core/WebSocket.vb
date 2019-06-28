@@ -150,7 +150,10 @@ Namespace Core
 
 
                     Dim decoded(bytes.Length - (frameCount + 4)) As Byte
-                    Dim key As Byte() = {bytes(frameCount), bytes(frameCount + 1), bytes(frameCount + 2), bytes(frameCount + 3)}
+
+                    ' 20190628 原来这里的变量名是key
+                    ' 并且下面的masks变量是丢失的
+                    Dim masks As Byte() = {bytes(frameCount), bytes(frameCount + 1), bytes(frameCount + 2), bytes(frameCount + 3)}
 
                     Dim j As Integer = 0
                     For i As Integer = (frameCount + 4) To (bytes.Length - 2) Step 1
