@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.DataMining.ComponentModel.Discretion
 Imports Microsoft.VisualBasic.Math.Distributions
 
 Namespace ComponentModel.Normalizer
@@ -48,7 +49,7 @@ Namespace ComponentModel.Normalizer
                 ' 负实数需要考察一下
                 If x < samples.min Then
                     Return -1
-                ElseIf Samples.min >= 0 Then
+                ElseIf samples.min >= 0 Then
                     Return -1
                 Else
                     Return x / Math.Abs(samples.min)
@@ -57,7 +58,14 @@ Namespace ComponentModel.Normalizer
         End Function
 
         Public Function RangeDiscretizer(samples As SampleDistribution, x#) As Double
+            Static cache As New Dictionary(Of SampleDistribution, NormalRangeDiscretizer)
 
+            Return cache.ComputeIfAbsent(
+                key:=samples,
+                lazyValue:=Function(dist)
+                               Return New NormalRangeDiscretizer(dist)
+                           End Function) _
+                .Normalize(x)
         End Function
 
     End Module
