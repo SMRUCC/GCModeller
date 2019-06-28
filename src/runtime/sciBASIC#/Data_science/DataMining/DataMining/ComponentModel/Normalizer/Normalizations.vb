@@ -22,6 +22,16 @@ Namespace ComponentModel.Normalizer
 
     Public Module Normalizations
 
+        ReadOnly methodTable As Dictionary(Of String, Methods)
+
+        Sub New()
+            methodTable = Enums(Of Methods).ToDictionary(Function(name) name.ToString.ToLower)
+        End Sub
+
+        Public Function ParseMethod(name As String) As Methods
+            Return methodTable.TryGetValue(name, [default]:=Methods.NormalScaler)
+        End Function
+
         ReadOnly normalRange As DoubleRange = {0, 1}
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

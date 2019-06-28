@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Data.IO.netCDF
 Imports Microsoft.VisualBasic.DataMining
+Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -196,6 +197,37 @@ Module CLI
     <ExportAPI("/list.activations")>
     Public Function ListActiveFunction(args As CommandLine) As Integer
 
+    End Function
+
+    ''' <summary>
+    ''' 输出归一化之后的样本数据,测试用
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/sample.normalize")>
+    <Description("Debug used only.")>
+    <Usage("/sample.normalize /in <sample_matrix.Xml> [/method <name> /out <dataset.csv>]")>
+    Public Function NormalizeSampleDebugger(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim method$ = args("/method") Or $"{Normalizer.Methods.NormalScaler.Description}"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{method}.csv"
+        Dim samples As DataSet = [in].LoadXml(Of DataSet)
+        Dim matrix As Sample() = samples.PopulateNormalizedSamples(Normalizer.ParseMethod(method)).ToArray
+        Dim names = samples.NormalizeMatrix.names.SeqIterator.ToArray
+        Dim dataset = matrix _
+            .Select(Function(r)
+                        Return New Excel With {
+                            .ID = r.ID,
+                            .Properties = names.ToDictionary(
+                                Function(name) name.value,
+                                Function(name)
+                                    Return r.status(name)
+                                End Function)
+                        }
+                    End Function) _
+            .ToArray
+
+        Return dataset.SaveTo(out).CLICode
     End Function
 
     ''' <summary>
