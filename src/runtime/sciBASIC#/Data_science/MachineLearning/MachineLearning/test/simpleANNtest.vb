@@ -43,12 +43,16 @@ Module simpleANNtest
         samples += New Sample With {.ID = ++id, .status = {0, 0, 0, 0, 0, 0}, .target = {1, 0, 0, 0.1, 0.61}}
 
 
-        Dim trainer As New TrainingUtils(6, {100, 100, 30}, 5)
+        Dim trainer As New TrainingUtils(6, {100, 300, 30}, 5, momentum:=0.9)
 
-        Helpers.MaxEpochs = 1000
+        Helpers.MaxEpochs = 5000
+
+        trainer.SetDropOut(0.8)
 
         Call samples.DoEach(Sub(dset) trainer.Add(dset))
-        Call trainer.Train()
+        Call trainer.Train(parallel:=True)
+
+        trainer.SetDropOut(0)
 
         Dim predict1 = trainer.NeuronNetwork.Compute(0, 0, 0, 0, 0, 1)
         Dim predict2 = trainer.NeuronNetwork.Compute(0.8, 0.002, 0, 0, 0, 0.0008)
