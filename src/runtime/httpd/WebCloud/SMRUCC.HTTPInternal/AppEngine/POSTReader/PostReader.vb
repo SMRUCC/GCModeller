@@ -173,7 +173,7 @@ Namespace AppEngine.POSTParser
                 Call loadjQueryPOST(fileName)
             Else
                 Using input As Stream = Me.GetSubStream()
-                    Call __loadMultiPart(boundary, input)
+                    Call loadMultiPart(boundary, input)
                 End Using
             End If
 
@@ -182,14 +182,14 @@ Namespace AppEngine.POSTParser
                               Function(names)
                                   Return names _
                                       .Value _
-                                      .Select(Function(x) x.Summary) _
+                                      .Select(Function(file) file.Summary) _
                                       .ToArray
                               End Function) _
                 .GetJson(indent:=True) _
                 .Warning
         End Sub
 
-        Private Sub __loadMultiPart(boundary$, input As Stream)
+        Private Sub loadMultiPart(boundary$, input As Stream)
             Dim multi_part As New HttpMultipart(input, boundary, ContentEncoding)
             Dim read As New Value(Of HttpMultipart.Element)
             Dim str As String
