@@ -343,7 +343,7 @@ Module CLI
                                     ' 所以非最小error的网络不一定是不和要求的
                                     ' 在开启dropout模式之后,程序会定时写网络文件供调试监控
                                     With trainer.TakeSnapshot
-                                        Call $"  [{circle.Hex}] start write snapshot....".__DEBUG_ECHO
+                                        Call $"  [{circle.Hex}] start write dropout snapshot....".__DEBUG_ECHO
                                         Call $"  Current min_error={err}".__INFO_ECHO
 
                                         If multipleParts Then
