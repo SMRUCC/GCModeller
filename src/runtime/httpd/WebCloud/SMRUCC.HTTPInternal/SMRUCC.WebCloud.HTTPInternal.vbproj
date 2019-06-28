@@ -504,7 +504,10 @@
     <Compile Include="AppEngine\SessionManager.vb" />
     <Compile Include="AppEngine\WebApp.vb" />
     <Compile Include="AppEngine\API\APIInvoker.vb" />
-    <Compile Include="Core\WebSocket.vb" />
+    <Compile Include="Core\WebSocket\Events.vb" />
+    <Compile Include="Core\WebSocket\Operations.vb" />
+    <Compile Include="Core\WebSocket\WsProcessor.vb" />
+    <Compile Include="Core\WebSocket\WebSocket.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="Core\CachedFile.vb" />
     <Compile Include="Core\Content.vb" />
