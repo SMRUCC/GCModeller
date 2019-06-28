@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f6134186136e3964ed0e1a364af8a54, WebCloud\SMRUCC.WebCloud.DataCenter\AppHelper.vb"
+﻿#Region "Microsoft.VisualBasic::bb463db20c7c0e3c89715f66e4d345cc, WebCloud\SMRUCC.WebCloud.DataCenter\AppHelper.vb"
 
     ' Author:
     ' 

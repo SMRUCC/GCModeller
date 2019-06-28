@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cc300ad86d102ec101dd9a3a6d7c1bd, WebCloud\SMRUCC.WebCloud.DataCenter\Task\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c860ba48555d5ff5cf8138f3a68a2841, WebCloud\SMRUCC.WebCloud.DataCenter\Task\Extensions.vb"
 
     ' Author:
     ' 

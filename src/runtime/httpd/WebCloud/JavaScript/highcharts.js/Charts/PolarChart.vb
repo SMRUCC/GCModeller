@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cb4df00d5ba55676293edcbe0c93cf5, WebCloud\JavaScript\highcharts.js\Charts\PolarChart.vb"
+﻿#Region "Microsoft.VisualBasic::2ce226308485c8d0d4ab06708c0da46a, WebCloud\JavaScript\highcharts.js\Charts\PolarChart.vb"
 
     ' Author:
     ' 

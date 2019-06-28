@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6930d3f350ee282df4bd420de2169ac5, WebCloud\SMRUCC.WebCloud.QRCode\BitArrayHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::976c780f19c8c6df1fa882de2591260b, WebCloud\SMRUCC.WebCloud.QRCode\BitArrayHelpers.vb"
 
     ' Author:
     ' 

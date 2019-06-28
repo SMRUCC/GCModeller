@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a9f9cdfb080ccf3dd34154891a6b5e4, WebCloud\VisitStat\visitor_stat.vb"
+﻿#Region "Microsoft.VisualBasic::2257e74a7119a8d5655206345e6060cc, WebCloud\VisitStat\visitor_stat.vb"
 
     ' Author:
     ' 

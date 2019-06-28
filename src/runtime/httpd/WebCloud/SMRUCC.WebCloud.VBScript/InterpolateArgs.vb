@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ebd6e2f99c4a902aaf34910a9dda4aa, WebCloud\SMRUCC.WebCloud.VBScript\InterpolateArgs.vb"
+﻿#Region "Microsoft.VisualBasic::df9bef2ace46f21aaddee80b7b0ad72e, WebCloud\SMRUCC.WebCloud.VBScript\InterpolateArgs.vb"
 
     ' Author:
     ' 

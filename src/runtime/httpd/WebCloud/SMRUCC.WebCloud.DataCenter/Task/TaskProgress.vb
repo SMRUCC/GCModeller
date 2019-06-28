@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::278440cac88fdc4fcf66bb53c2ee7430, WebCloud\SMRUCC.WebCloud.DataCenter\Task\TaskProgress.vb"
+﻿#Region "Microsoft.VisualBasic::ce628f02f603bd065fca6be18f2cdaad, WebCloud\SMRUCC.WebCloud.DataCenter\Task\TaskProgress.vb"
 
     ' Author:
     ' 
