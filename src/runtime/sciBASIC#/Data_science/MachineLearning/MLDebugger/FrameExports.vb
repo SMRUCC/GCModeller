@@ -1,12 +1,34 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.IO.netCDF
 Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
+Imports Microsoft.VisualBasic.DataMining.ComponentModel.Normalizer
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports Basic = Microsoft.VisualBasic.Language.Runtime
 Imports DataFrame = Microsoft.VisualBasic.Data.csv.IO.DataFrame
 Imports Excel = Microsoft.VisualBasic.Data.csv.IO.DataSet
 
 Public Module FrameExports
+
+    <Extension>
+    Public Function NormalizeSample(samples As DataSet, method As Methods) As Excel()
+        Dim matrix As Sample() = samples.PopulateNormalizedSamples(method).ToArray
+        Dim names = samples.NormalizeMatrix.names.SeqIterator.ToArray
+        Dim dataset = matrix _
+            .Select(Function(r)
+                        Return New Excel With {
+                            .ID = r.ID,
+                            .Properties = names.ToDictionary(
+                                Function(name) name.value,
+                                Function(name)
+                                    Return r.status(name)
+                                End Function)
+                        }
+                    End Function) _
+            .ToArray
+
+        Return dataset
+    End Function
 
     ''' <summary>
     ''' 导出误差率曲线数据

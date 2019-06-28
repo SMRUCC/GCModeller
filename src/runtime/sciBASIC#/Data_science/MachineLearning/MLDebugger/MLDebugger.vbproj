@@ -179,6 +179,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\DataMining\DataMining\DataMining.vbproj">
+      <Project>{4B877AB2-E15F-4AA9-B7D6-7C11B2213F10}</Project>
+      <Name>DataMining</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MachineLearning\MachineLearning.vbproj">
       <Project>{a43ec013-2b55-4d25-b9f1-96bd5fb1e577}</Project>
       <Name>MachineLearning</Name>

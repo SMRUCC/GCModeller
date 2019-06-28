@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Data.IO.netCDF
 Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
+Imports Microsoft.VisualBasic.DataMining.ComponentModel.Normalizer
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -212,20 +213,7 @@ Module CLI
         Dim method$ = args("/method") Or $"{Normalizer.Methods.NormalScaler.Description}"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{method}.csv"
         Dim samples As DataSet = [in].LoadXml(Of DataSet)
-        Dim matrix As Sample() = samples.PopulateNormalizedSamples(Normalizer.ParseMethod(method)).ToArray
-        Dim names = samples.NormalizeMatrix.names.SeqIterator.ToArray
-        Dim dataset = matrix _
-            .Select(Function(r)
-                        Return New Excel With {
-                            .ID = r.ID,
-                            .Properties = names.ToDictionary(
-                                Function(name) name.value,
-                                Function(name)
-                                    Return r.status(name)
-                                End Function)
-                        }
-                    End Function) _
-            .ToArray
+        Dim dataset = samples.NormalizeSample(Normalizer.ParseMethod(method))
 
         Return dataset.SaveTo(out).CLICode
     End Function
@@ -292,7 +280,13 @@ Module CLI
             Call trainingHelper.SetDropOut(percentage:=config.dropoutRate)
         End If
 
-        For Each sample As Sample In samples.PopulateNormalizedSamples(method:=Normalizer.ParseMethod(config.normalize))
+        Dim normalMethod As Methods = Normalizer.ParseMethod(config.normalize)
+        Dim testDataset = samples.NormalizeSample(normalMethod)
+
+        ' 将数据集写入文件之中,以确认被正确的归一化了
+        Call testDataset.SaveTo($"{out.ParentPath}/normalize={normalMethod}.csv")
+
+        For Each sample As Sample In samples.PopulateNormalizedSamples(method:=normalMethod)
             Call trainingHelper.Add(sample.status, sample.target)
         Next
 
