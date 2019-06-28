@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c0d8becabf3adf06af09b52678fe8e1, LocalBLAST\NCBILocalBlast.vb"
+﻿#Region "Microsoft.VisualBasic::0758dd9052b1abfc71fa15a2e2880036, LocalBLAST\NCBILocalBlast.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '               ExportBesthit, ExportBesthits, ExportOverviewCsv, FastCheckIntegrityProvider, Grephits
     '               GrepQuery, LoadBesthitCsv, LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput
     '               LoadOverview, LoadUltraLargeSizeBlastOutput, MyvaCogClassify, ParseScore, ReadMyvaCOG
-    '               SaveBBH, SaveBlastOutput, Version, WriteBesthit
+    '               SaveBBH, Version, WriteBesthit
     ' 
     ' /********************************************************************************/
 

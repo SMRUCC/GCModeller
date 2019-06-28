@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::672537f735d4485e5275c4011c96368e, LocalBLAST\Analysis\Models.vb"
+﻿#Region "Microsoft.VisualBasic::28987cf961745cceab46b366ffb0e077, LocalBLAST\Analysis\Models.vb"
 
     ' Author:
     ' 

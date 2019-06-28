@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34518ca93781a9cc7f0af84812839f50, LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb"
+﻿#Region "Microsoft.VisualBasic::11094897a831ccfcd51167edb80a4594, LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: identities, Positive, Properties
     ' 
-    '         Function: BuildHitsHash, ToString
+    '         Function: BuildHitsTable, GetIdentities, ToString
     ' 
     ' 
     ' /********************************************************************************/

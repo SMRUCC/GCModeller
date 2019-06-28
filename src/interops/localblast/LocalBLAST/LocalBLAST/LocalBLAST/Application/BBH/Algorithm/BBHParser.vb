@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5728d309f4a03e1b35ad88a31850e862, LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
+﻿#Region "Microsoft.VisualBasic::aeb13e129f9466f376ced0d462e072a2, LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
 
     ' Author:
     ' 
