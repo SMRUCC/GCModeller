@@ -29,7 +29,7 @@ Namespace ComponentModel.Normalizer
         End Sub
 
         Public Function ParseMethod(name As String) As Methods
-            Return methodTable.TryGetValue(name, [default]:=Methods.NormalScaler)
+            Return methodTable.TryGetValue(Strings.LCase(name), [default]:=Methods.NormalScaler)
         End Function
 
         ReadOnly normalRange As DoubleRange = {0, 1}
