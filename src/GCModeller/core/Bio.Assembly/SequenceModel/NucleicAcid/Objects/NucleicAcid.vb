@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b4a17cf7e780f7e951777b213fbb7c4, Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::cb15c6e7e5e389767bf6cd366665ef35, Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@
     '                   RemoveInvalids, Replace, Reverse, Split, ToArray
     '                   (+3 Overloads) ToString
     ' 
-    '         Sub: __convertSequence
+    '         Sub: convertSequence
     ' 
     ' 
     ' /********************************************************************************/
