@@ -56,7 +56,7 @@ Public Class Config
     ''' <see cref="Methods"/>
     ''' </summary>
     ''' <returns></returns>
-    <DataFrameColumn> Public Property normalize As String = Methods.NormalScaler
+    <DataFrameColumn> Public Property normalize As String = Methods.NormalScaler.ToString
 
     ''' <summary>
     ''' random表示随机初始化
