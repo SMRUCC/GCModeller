@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::555075a8b58be438381e82756dfa1e29, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel.CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: Association, cbind, FillZero, rbind, rbindGroup
-    '               Removes, Subtract, Union, Unique
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: Association, cbind, FillZero, rbind, rbindGroup
+'               Removes, Subtract, Union, Unique
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -358,15 +358,43 @@ Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
     <ExportAPI("/takes")>
     <Description("Takes specific rows by a given row id list.")>
-    <Usage("/takes /in <data.csv> /id <id.list> [/out <takes.csv>]")>
+    <Usage("/takes /in <data.csv> /id <id.list> [/reverse /out <takes.csv>]")>
+    <Argument("/reverse", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this argument is presents in the cli inputs, then all of the rows that not in input list will be output as result.")>
     Public Function Takes(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim id$ = args <= "/id"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{id.BaseName}.csv"
+        Dim idlist As Index(Of String) = id.ReadAllLines.Distinct.ToLower.ToArray
         Dim data = EntityObject.LoadDataSet([in]).ToArray
-        Dim idlist As Index(Of String) = id.ReadAllLines
-        Dim result = data.Where(Function(row) row.ID Like idlist).ToArray
+        Dim isReverse As Boolean = args("/reverse")
+        Dim result As EntityObject()
+
+        If Not isReverse Then
+            result = data _
+                .Where(Function(row)
+                           Return LCase(row.ID) Like idlist
+                       End Function) _
+                .ToArray
+        Else
+            result = data _
+                .Where(Function(row)
+                           Return Not LCase(row.ID) Like idlist
+                       End Function) _
+                .ToArray
+        End If
 
         Return result.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/transpose")>
+    <Usage("/transpose /in <data.csv> [/out <data.transpose.csv>]")>
+    Public Function Transpose(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.transpose.csv"
+        Dim matrix = csv.Load([in]).Transpose
+
+        Return matrix.Save(out).CLICode
     End Function
 End Module
