@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7abcd8693208905ce3585a2347e928b, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::a1be5066bcfddcf58ffa28e3982eee9c, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Relationship.vb"
 
     ' Author:
     ' 
@@ -38,10 +38,6 @@
     '  
     ' 
     ' 
-    ' 
-    '     Module Parserhelper
-    ' 
-    '         Function: GetRelationship
     ' 
     '     Class Relationship
     ' 

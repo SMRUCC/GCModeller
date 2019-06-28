@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1370670bd22e933174cdbf16537b6385, Bio.Assembly\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::28bf8ab0c3cf7ac590993f110bca7dc9, Bio.Assembly\test\Module1.vb"
 
     ' Author:
     ' 
@@ -51,4 +51,3 @@ Module Module1
         Pause()
     End Sub
 End Module
-

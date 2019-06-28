@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d82bf51d1c25872b77a9223c9a5e3ff, visualize\Cytoscape\Cytoscape\Graph\Xgmml\Node.vb"
+﻿#Region "Microsoft.VisualBasic::4ddeacaf60df064967a1c29fd04e475c, Cytoscape\Cytoscape\Graph\Xgmml\Node.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,8 @@
     '         Properties: Graphics, id, label, Location
     ' 
     '         Function: ToString
+    ' 
+    '         Sub: Assign
     ' 
     ' 
     ' /********************************************************************************/

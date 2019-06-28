@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0296e79a5b829f60bc3925ea4628756d, WebCloud\SMRUCC.WebCloud.QRCode\Enums.vb"
+﻿#Region "Microsoft.VisualBasic::c848fb72099482a974d50baeac91392f, WebCloud\SMRUCC.WebCloud.QRCode\Enums.vb"
 
     ' Author:
     ' 

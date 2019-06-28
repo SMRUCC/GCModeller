@@ -45,11 +45,8 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
-Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 
 Namespace GCML_Documents.XmlElements.Bacterial_GENOME
 
@@ -76,11 +73,11 @@ Namespace GCML_Documents.XmlElements.Bacterial_GENOME
         Public Property TransUnits As List(Of GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit)
         Public Property Regulons As GCML_Documents.XmlElements.Bacterial_GENOME.Regulon()
         Public Property Transcripts As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript()
-        Public Property ExpressionKinetics As EnzymeCatalystKineticLaw()
+        ' Public Property ExpressionKinetics As EnzymeCatalystKineticLaw()
 
-        Public Function GetExpressionKineticsLaw(EnzymeId As String) As EnzymeCatalystKineticLaw
-            Dim LQuery = (From item In ExpressionKinetics Where String.Equals(EnzymeId, item.Enzyme) Select item).First
-            Return LQuery
-        End Function
+        'Public Function GetExpressionKineticsLaw(EnzymeId As String) As EnzymeCatalystKineticLaw
+        '    Dim LQuery = (From item In ExpressionKinetics Where String.Equals(EnzymeId, item.Enzyme) Select item).First
+        '    Return LQuery
+        'End Function
     End Class
 End Namespace

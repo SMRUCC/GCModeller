@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ba56348f809e1b56ce94fc91ee4af99, Restarter\Program.vb"
+﻿#Region "Microsoft.VisualBasic::93f2d41bca7587a085ea79115fd82ec3, Restarter\Program.vb"
 
     ' Author:
     ' 

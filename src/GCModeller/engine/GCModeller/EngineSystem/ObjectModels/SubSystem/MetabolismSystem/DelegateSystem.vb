@@ -64,7 +64,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Dim CellSystem = DirectCast(Me._CellComponentContainer, SubSystem.MetabolismCompartment)._CellSystem
             Dim Metabolites = CellSystem.Metabolism.Metabolites
 
-            Me.MetabolismEnzymes = CreateEnzymeObjects(CellSystem.Metabolism.Metabolites, CellSystem.DataModel.Metabolism.MetabolismEnzymes)
+            '  Me.MetabolismEnzymes = CreateEnzymeObjects(CellSystem.Metabolism.Metabolites, CellSystem.DataModel.Metabolism.MetabolismEnzymes)
             Dim LQuery = (From model In CellSystem.DataModel.Metabolism.MetabolismNetwork
                           Let rxn As ObjectModels.Module.MetabolismFlux = CreateDelegate(model, CellSystem.Metabolism.EnzymeKinetics, Metabolites, MetabolismEnzymes, SystemLogging)
                           Select rxn).ToArray  'generate the flux object

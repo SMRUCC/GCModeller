@@ -135,11 +135,11 @@ Namespace Builder
             Proteome.AddRange(Proteins)
             Proteome.AddRange(ProtLigandCplxes)
 
-            Dim EQuery = From e In Proteome.AsParallel Where e.Catalyze.Count > 0 Select New EnzymeCatalystKineticLaw With {.Enzyme = e.locusId} '
-            Model.Metabolism.MetabolismEnzymes = EQuery.ToArray
-            For i As Integer = 0 To Model.Metabolism.MetabolismEnzymes.Length - 1
-                '      Model.Metabolism.MetabolismEnzymes(i).Catalye = Model.Metabolism.MetabolismEnzymes(i).BaseType.Catalyze.ToArray  '生成催化关系的指针链接
-            Next
+            'Dim EQuery = From e In Proteome.AsParallel Where e.Catalyze.Count > 0 Select New EnzymeCatalystKineticLaw With {.Enzyme = e.locusId} '
+            'Model.Metabolism.MetabolismEnzymes = EQuery.ToArray
+            'For i As Integer = 0 To Model.Metabolism.MetabolismEnzymes.Length - 1
+            '    '      Model.Metabolism.MetabolismEnzymes(i).Catalye = Model.Metabolism.MetabolismEnzymes(i).BaseType.Catalyze.ToArray  '生成催化关系的指针链接
+            'Next
         End Sub
     End Class
 End Namespace

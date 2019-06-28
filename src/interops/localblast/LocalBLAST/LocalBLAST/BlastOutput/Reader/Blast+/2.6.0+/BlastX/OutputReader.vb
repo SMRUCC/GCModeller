@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a58209cc9572aa9f44d9ef7043aa864d, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\BlastX\OutputReader.vb"
+﻿#Region "Microsoft.VisualBasic::755faea7a2ac05b30e6dd2e73023fdaf, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\BlastX\OutputReader.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module OutputReader
     ' 
-    '         Function: __hitFragments, __hspParser, __parser, (+2 Overloads) __queryParser, parseFragment
+    '         Function: __parser, (+2 Overloads) __queryParser, hspParser, parseFragment, parseHitFragments
     '                   QueryBlockIterator, queryInfo, subjectInfo, subjectParser, TryParseOutput
     ' 
     ' 

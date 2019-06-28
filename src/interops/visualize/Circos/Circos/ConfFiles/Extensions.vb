@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c1d0a60aa20a1c6cd8b7273ec38c378, Circos\ConfFiles\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::fd5fd73702832e6aeb8340532d379acf, Circos\Circos\ConfFiles\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Extensions
     ' 
-    '         Function: GenerateCircosDocumentElement, GetBlastAlignmentData
+    '         Function: GenerateCircosDocumentElement
     ' 
     ' 
     ' /********************************************************************************/

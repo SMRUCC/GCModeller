@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b85f47ac10190cfa7e75d18c1c378e46, WebCloud\SMRUCC.HTTPInternal\Platform\Plugin\ExternalCall.vb"
+﻿#Region "Microsoft.VisualBasic::312a2053e96ff47dae3c0980a2b6116f, WebCloud\SMRUCC.HTTPInternal\Platform\Plugin\ExternalCall.vb"
 
     ' Author:
     ' 

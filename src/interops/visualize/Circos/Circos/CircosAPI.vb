@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccf1d289cda5185f15401382ec2acd53, Circos\CircosAPI.vb"
+﻿#Region "Microsoft.VisualBasic::67f8945361b5b0e339954684595323d1, Circos\Circos\CircosAPI.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,9 @@
 
     ' Module CircosAPI
     ' 
-    '     Function: __createGenomeCircle, __includesRemoveCommon, AddGenbankData, AddGeneInfoTrack, (+2 Overloads) AddGradientMappings
-    '               AddMotifSites, AddPlotTrack, AddScoredMotifs, AddSites, CircosOption
-    '               CreateDataModel, CreateGCContent, CreateGCSkewPlots, CreateGenomeCircle, DrawingImageAddLegend
-    '               GenerateBlastnAlignment, GenerateGeneCircle, GetCircosScript, GetGenomeCircle, GetIdeogram
+    '     Function: __includesRemoveCommon, AddGenbankData, (+3 Overloads) AddGradientMappings, AddMotifSites, AddPlotTrack
+    '               AddScoredMotifs, AddSites, CircosOption, CreateDataModel, CreateGCContent
+    '               CreateGCSkewPlots, CreateGenomeCircle, GenerateGeneCircle, GetCircosScript, GetIdeogram
     '               (+2 Overloads) IdentityColors, PlotsSeperatorLine, PTT2Dump, RemoveIdeogram, RemoveStroke
     '               RemoveTicks, RNAVisualize, (+3 Overloads) SetBasicProperty, (+2 Overloads) SetIdeogramRadius, SetIdeogramWidth
     '               SetPlotElementPosition, (+2 Overloads) SetRadius, SetTrackFillColor, SetTrackOrientation, Shell

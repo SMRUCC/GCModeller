@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::717f3224ad2c2bb97a6aecbb95ee4d11, WebCloud\SMRUCC.HTTPInternal\AppEngine\POSTReader\PostReader.vb"
+﻿#Region "Microsoft.VisualBasic::b92da9ace3f6b9015db26005d71f0d93, WebCloud\SMRUCC.HTTPInternal\AppEngine\POSTReader\PostReader.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     ' 
     '         Function: GetParameter, GetSubStream
     ' 
-    '         Sub: __loadMultiPart, loadjQueryPOST, LoadMultiPart
+    '         Sub: loadjQueryPOST, loadMultiPart, LoadMultiPart
     ' 
     ' 
     ' /********************************************************************************/
