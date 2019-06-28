@@ -52,6 +52,13 @@ Public Class Config
     <DataFrameColumn> Public Property momentum As Double = 0.9
 
     ''' <summary>
+    ''' + ``min/max`` x / max
+    ''' + ``scaler`` (x-min)/(max-min)
+    ''' </summary>
+    ''' <returns></returns>
+    <DataFrameColumn> Public Property normalize As String = "min/max"
+
+    ''' <summary>
     ''' random表示随机初始化
     ''' 其他的任意数值则会将所有的数据都统一初始化为同一个数值
     ''' </summary>
