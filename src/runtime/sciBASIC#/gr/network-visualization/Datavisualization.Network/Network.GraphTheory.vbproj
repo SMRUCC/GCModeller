@@ -433,7 +433,6 @@
     <Compile Include="Layouts\ForceDirected\Layout\Layout\ForceDirected2D.vb" />
     <Compile Include="Layouts\Parameters.vb" />
     <Compile Include="Layouts\ForceDirected\LayoutUpdater.vb" />
-    <Compile Include="Layouts\ForceDirected\General\Triple.vb" />
     <Compile Include="Layouts\forceNetwork.vb" />
     <Compile Include="Analysis\Extensions.vb" />
     <Compile Include="Analysis\Statistics.vb" />
