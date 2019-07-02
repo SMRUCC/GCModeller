@@ -83,6 +83,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Property SubCategory As String
         Public Property Entry As KeyValuePair
 
+        ''' <summary>
+        ''' br08201
+        ''' </summary>
+        ''' <returns></returns>
         Public Shared Function LoadFromResource() As EnzymaticReaction()
             Dim model As BriteHText = BriteHTextParser.Load(My.Resources.br08201)
             Return Build(model)
@@ -153,7 +157,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <param name="EXPORT"></param>
         ''' <returns>返回下载失败的代谢反应过程的编号列表</returns>
         ''' <remarks></remarks>
-        Public Shared Function DownloadReactions(EXPORT$, Optional briefFile$ = "", Optional directoryOrganized As Boolean = True, Optional [overrides] As Boolean = False) As String()
+        Public Shared Function DownloadReactions(EXPORT$, Optional briefFile$ = "", Optional directoryOrganized As Boolean = True, Optional cache$ = "./br08201") As String()
             Dim sources As EnzymaticReaction() = loadSource(briefFile)
             Dim failures As New List(Of String)
 
@@ -170,9 +174,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 For Each r As EnzymaticReaction In sources
                     Call downloaderInternal(
                         r, EXPORT, directoryOrganized,
-                        [overrides],
                         failures,
-                        __tick)
+                        __tick,
+                        cache
+                    )
                 Next
             End Using
 
@@ -196,24 +201,19 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Private Shared Sub downloaderInternal(r As EnzymaticReaction,
                                               EXPORT$,
                                               directoryOrganized As Boolean,
-                                              [overrides] As Boolean,
                                               failures As List(Of String),
-                                              tick As Action)
+                                              tick As Action,
+                                              cache As String)
             Dim rnID As String = r.Entry.Key
             Dim saveDIR As String = If(directoryOrganized, __getDIR(EXPORT, r), EXPORT)
             Dim xmlFile As String = String.Format("{0}/{1}.xml", saveDIR, rnID)
 
-            If Not [overrides] AndAlso xmlFile.FileLength > 0 Then
-                GoTo EXIT_LOOP
-            End If
-
-            Dim reaction As bGetObject.Reaction = ReactionWebAPI.Download(rnID)
+            Dim reaction As Reaction = ReactionWebAPI.Download(rnID, cache, sleepTime)
 
             If reaction Is Nothing Then
                 failures += rnID
             Else
                 Call reaction.GetXml.SaveTo(xmlFile)
-                Call Thread.Sleep(sleepTime)
             End If
 EXIT_LOOP:
             Call tick()

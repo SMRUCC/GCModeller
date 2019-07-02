@@ -51,8 +51,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
     Public Module ReactionWebAPI
 
-        Const KEGG_COMPOUND_ID As String = "[A-Z]+\d+"
-
         ''' <summary>
         ''' 使用ID来下载代谢过程的模型数据
         ''' </summary>
@@ -60,13 +58,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Download(ID As String, Optional cache$ = "./reactions/") As Reaction
+        Public Function Download(ID As String, Optional cache$ = "./reactions/", Optional sleepTime% = 3000) As Reaction
             Static handlers As New Dictionary(Of String, ReactionQuery)
 
             Return handlers.ComputeIfAbsent(
                 key:=cache,
                 lazyValue:=Function()
-                               Return New ReactionQuery(cache)
+                               Return New ReactionQuery(cache, sleepTime)
                            End Function) _
                .Query(Of Reaction)(ID)
         End Function
