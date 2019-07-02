@@ -139,7 +139,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return String.Format("[{0}: {1}] {2}", String.Join("/", [Class], Category, SubCategory), EC, Entry.ToString)
         End Function
 
-        Private Shared Function __source(path$) As EnzymaticReaction()
+        Private Shared Function loadSource(path$) As EnzymaticReaction()
             If Not path.FileLength > 0 Then
                 Return LoadFromResource()
             Else
@@ -154,7 +154,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns>返回下载失败的代谢反应过程的编号列表</returns>
         ''' <remarks></remarks>
         Public Shared Function DownloadReactions(EXPORT$, Optional briefFile$ = "", Optional directoryOrganized As Boolean = True, Optional [overrides] As Boolean = False) As String()
-            Dim sources As EnzymaticReaction() = __source(briefFile)
+            Dim sources As EnzymaticReaction() = loadSource(briefFile)
             Dim failures As New List(Of String)
 
             Using progress As New ProgressBar("Download KEGG Reactions...", 1, CLS:=True)
@@ -168,7 +168,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                              End Sub
 
                 For Each r As EnzymaticReaction In sources
-                    Call __downloadInternal(
+                    Call downloaderInternal(
                         r, EXPORT, directoryOrganized,
                         [overrides],
                         failures,
@@ -193,7 +193,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             End With
         End Sub
 
-        Private Shared Sub __downloadInternal(r As EnzymaticReaction,
+        Private Shared Sub downloaderInternal(r As EnzymaticReaction,
                                               EXPORT$,
                                               directoryOrganized As Boolean,
                                               [overrides] As Boolean,
