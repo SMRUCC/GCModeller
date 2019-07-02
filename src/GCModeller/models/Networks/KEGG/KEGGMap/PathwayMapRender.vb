@@ -41,7 +41,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
@@ -62,7 +62,7 @@ Public Module PathwayMapRender
         Dim repo$ = App.GetAppSysTempFile(".zip", App.PID)
 
         Call internalResource.FlushStream(zip)
-        Call ZipLib.ImprovedExtractToDirectory(zip, repo, Overwrite.Always)
+        Call UnZip.ImprovedExtractToDirectory(zip, repo, Overwrite.Always)
 
         Return keggList.QueryMaps(repo)
     End Function
