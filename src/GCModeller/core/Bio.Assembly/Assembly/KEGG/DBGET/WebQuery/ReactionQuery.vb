@@ -19,7 +19,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery
             MyBase.New(url:=AddressOf rxnUrl,
                        contextGuid:=Function(id) id,
                        parser:=AddressOf DownloadFrom,
-                       prefix:=Nothing,
+                       prefix:=Function(id) id.Trim.Last.ToString,
                        cache:=cache,
                        interval:=interval,
                        offline:=offline
