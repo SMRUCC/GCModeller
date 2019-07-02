@@ -41,7 +41,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery
             If WebForm.Count = 0 Then
                 Return Nothing
             Else
-                Return __webFormParser(Of Reaction)(WebForm)
+                Return webFormParser(Of Reaction)(WebForm)
             End If
         End Function
 
@@ -51,13 +51,13 @@ Namespace Assembly.KEGG.DBGET.WebQuery
         ''' <typeparam name="ReactionType"></typeparam>
         ''' <param name="WebForm"></param>
         ''' <returns></returns>
-        Friend Shared Function __webFormParser(Of ReactionType As Reaction)(WebForm As WebForm) As ReactionType
+        Friend Shared Function webFormParser(Of ReactionType As Reaction)(WebForm As WebForm) As ReactionType
             Dim rn As ReactionType = Activator.CreateInstance(Of ReactionType)()
 
             On Error Resume Next
 
             rn.ID = WebForm.GetValue("Entry").FirstOrDefault.Strip_NOBR.StripHTMLTags.StripBlank.Split.First
-            rn.Comments = __trimComments(WebForm.GetValue("Comment").FirstOrDefault) _
+            rn.Comments = trimComments(WebForm.GetValue("Comment").FirstOrDefault) _
                 .Strip_NOBR _
                 .StripBlank _
                 .TrimNewLine _
@@ -72,9 +72,9 @@ Namespace Assembly.KEGG.DBGET.WebQuery
                 .Replace("&lt;=", "<=")
             rn.Pathway = WebForm.parseList(WebForm.GetValue("Pathway").FirstOrDefault, "<a href="".+?"">.+?</a>").ValueList
             rn.Module = WebForm.parseList(WebForm.GetValue("Module").FirstOrDefault, "<a href="".+?"">.+?</a>").ValueList
-            rn.CommonNames = __getCommonNames(WebForm.GetValue("Name").FirstOrDefault)
-            rn.Equation = __parsingEquation(WebForm.GetValue("Equation").FirstOrDefault)
-            rn.Orthology = __orthologyParser(WebForm.GetValue("Orthology").FirstOrDefault)
+            rn.CommonNames = getCommonNames(WebForm.GetValue("Name").FirstOrDefault)
+            rn.Equation = parsingEquation(WebForm.GetValue("Equation").FirstOrDefault)
+            rn.Orthology = orthologyParser(WebForm.GetValue("Orthology").FirstOrDefault)
             rn.Class = WebForm.parseList(WebForm.GetValue("Reaction class").FirstOrDefault, "<a href="".+?"">.+?</a>").ValueList
 
             Dim ecTemp As String = WebForm _
@@ -88,10 +88,10 @@ Namespace Assembly.KEGG.DBGET.WebQuery
             Return rn
         End Function
 
-        Private Shared Function __orthologyParser(s As String) As OrthologyTerms
+        Private Shared Function orthologyParser(s As String) As OrthologyTerms
             Dim ms As String() = Regex.Matches(s, "K\d+<.+?\[EC.+?\]", RegexOptions.IgnoreCase).ToArray
             Dim result = ms _
-                .Select(AddressOf __innerOrthParser) _
+                .Select(AddressOf innerOrthParser) _
                 .ToArray
 
             Return New OrthologyTerms With {
@@ -104,7 +104,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery
         ''' </summary>
         ''' <param name="s"></param>
         ''' <returns></returns>
-        Private Shared Function __innerOrthParser(s As String) As [Property]
+        Private Shared Function innerOrthParser(s As String) As [Property]
             Dim t As String() = Regex.Split(s, "<[/]?a>", RegexOptions.IgnoreCase)
             Dim KO As String = t.ElementAtOrDefault(Scan0)
             Dim def As String = t.ElementAtOrDefault(1).Split("["c).First.Trim
@@ -117,7 +117,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery
             }
         End Function
 
-        Private Shared Function __trimComments(html As String) As String
+        Private Shared Function trimComments(html As String) As String
             If String.IsNullOrEmpty(html) Then
                 Return ""
             End If
@@ -135,7 +135,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery
             Return sb.ToString.StripHTMLTags
         End Function
 
-        Private Shared Function __parsingEquation(strData As String) As String
+        Private Shared Function parsingEquation(strData As String) As String
             Dim sb As New StringBuilder(strData)
 
             For Each m As Match In Regex.Matches(strData, "<a href="".+?"">.+?</a>")
@@ -156,7 +156,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery
             Return s
         End Function
 
-        Private Shared Function __getCommonNames(str As String) As String()
+        Private Shared Function getCommonNames(str As String) As String()
             Return LinqAPI.Exec(Of String) <=
  _
                 From line As String
