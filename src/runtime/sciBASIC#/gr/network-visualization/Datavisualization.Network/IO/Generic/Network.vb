@@ -68,7 +68,7 @@ Namespace FileStream.Generic
         Implements IKeyValuePairObject(Of T_Node(), T_Edge())
         Implements ISaveHandle
 
-        Public Property nodes As T_Node() Implements IKeyValuePairObject(Of T_Node(), T_Edge()).nodes
+        Public Property nodes As T_Node() Implements IKeyValuePairObject(Of T_Node(), T_Edge()).Key
             Get
                 If __nodes Is Nothing Then
                     __nodes = New Dictionary(Of T_Node)
@@ -84,7 +84,7 @@ Namespace FileStream.Generic
             End Set
         End Property
 
-        Public Property edges As T_Edge() Implements IKeyValuePairObject(Of T_Node(), T_Edge()).edges
+        Public Property edges As T_Edge() Implements IKeyValuePairObject(Of T_Node(), T_Edge()).Value
             Get
                 If __edges Is Nothing Then
                     __edges = New List(Of T_Edge)

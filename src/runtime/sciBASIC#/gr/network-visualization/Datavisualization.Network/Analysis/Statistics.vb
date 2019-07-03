@@ -177,8 +177,10 @@ Namespace Analysis
                 .Select(Function(link) {link.U.Label, link.V.Label}) _
                 .IteratesALL _
                 .GroupBy(Function(id) id) _
-                .ToDictionary(Function(ID) ID.nodes,
-                              Function(list) list.Count)
+                .ToDictionary(Function(ID) ID.Key,
+                              Function(list)
+                                  Return list.Count
+                              End Function)
             Dim d%
 
             With net.graphEdges.ComputeDegreeData
@@ -218,8 +220,10 @@ Namespace Analysis
         Public Function NodesGroupCount(net As NetGraph) As Dictionary(Of String, Integer)
             Return net.nodes _
                 .GroupBy(Function(n) n.NodeType) _
-                .ToDictionary(Function(x) x.nodes,
-                              Function(c) c.Count)
+                .ToDictionary(Function(x) x.Key,
+                              Function(c)
+                                  Return c.Count
+                              End Function)
         End Function
     End Module
 End Namespace

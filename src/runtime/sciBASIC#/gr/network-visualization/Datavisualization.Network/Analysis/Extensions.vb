@@ -70,8 +70,10 @@ Namespace Analysis
                             Return (key:=getKey(edge), value:=getValue(edge))
                         End Function) _
                 .GroupBy(Function(t) t.key) _
-                .ToDictionary(Function(k) k.nodes,
-                              Function(g) New Index(Of String)(g.Select(Function(o) o.value).Distinct))
+                .ToDictionary(Function(k) k.Key,
+                              Function(g)
+                                  Return New Index(Of String)(g.Select(Function(o) o.value).Distinct)
+                              End Function)
             Return index
         End Function
     End Module

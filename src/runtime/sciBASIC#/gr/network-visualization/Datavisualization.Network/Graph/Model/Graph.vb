@@ -459,7 +459,7 @@ Namespace Graph
                 vertices.Add(U)
             End If
 
-            Return vertices(DirectCast(U, INamedValue).nodes)
+            Return vertices(DirectCast(U, INamedValue).Key)
         End Function
 
         ''' <summary>
