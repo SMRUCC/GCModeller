@@ -87,7 +87,7 @@ Public Module IEnumerations
                                                     toDiffer As IEnumerable(Of T2),
                                                     getId As Func(Of T2, String)) As String()
 
-        Dim targetIndex As String() = (From item As T In source Select item.Key).ToArray
+        Dim targetIndex As String() = (From item As T In source Select item.nodes).ToArray
         Dim LQuery$() = LinqAPI.Exec(Of String) _
  _
             () <= From item As T2
@@ -100,11 +100,11 @@ Public Module IEnumerations
     End Function
 
     <Extension> Public Function Differ(Of T As INamedValue, T2 As INamedValue)(source As IEnumerable(Of T), ToDiffer As IEnumerable(Of T2)) As String()
-        Dim targetIndex As String() = (From item In source Select item.Key).ToArray
+        Dim targetIndex As String() = (From item In source Select item.nodes).ToArray
         Dim LQuery = (From item As T2
                       In ToDiffer
-                      Where Array.IndexOf(targetIndex, item.Key) = -1
-                      Select item.Key).ToArray
+                      Where Array.IndexOf(targetIndex, item.nodes) = -1
+                      Select item.nodes).ToArray
         Return LQuery
     End Function
 
@@ -114,7 +114,7 @@ Public Module IEnumerations
     End Function
 
     <Extension> Public Function GetItems(Of T As INamedValue)(source As IEnumerable(Of T), Id As String) As T()
-        Dim LQuery = (From ItemObj As T In source Where String.Equals(Id, ItemObj.Key) Select ItemObj).ToArray
+        Dim LQuery = (From ItemObj As T In source Where String.Equals(Id, ItemObj.nodes) Select ItemObj).ToArray
         Return LQuery
     End Function
 
@@ -129,7 +129,7 @@ Public Module IEnumerations
         Dim Dictionary As New Dictionary(Of String, T)
 
         For Each obj In Collection
-            Call Dictionary.Add(obj.Key, obj)
+            Call Dictionary.Add(obj.nodes, obj)
         Next
 
         Return Dictionary
@@ -148,13 +148,13 @@ Public Module IEnumerations
 
     <Extension> Public Function FindByItemKey(Of PairItemType As IKeyValuePair)(source As IEnumerable(Of PairItemType), Key As String, Optional strict As Boolean = True) As PairItemType()
         Dim method As StringComparison = StringComparison.OrdinalIgnoreCase Or TextCompareStrict.When(strict)
-        Dim LQuery = (From item In source Where String.Equals(item.Key, Key, method) Select item).ToArray
+        Dim LQuery = (From item In source Where String.Equals(item.nodes, Key, method) Select item).ToArray
         Return LQuery
     End Function
 
     <Extension> Public Function FindByItemValue(Of PairItemType As IKeyValuePair)(source As IEnumerable(Of PairItemType), Value As String, Optional strict As Boolean = True) As PairItemType()
         Dim method As StringComparison = StringComparison.OrdinalIgnoreCase Or TextCompareStrict.When(strict)
-        Dim LQuery = (From item In source Where String.Equals(item.Key, Value, method) Select item).ToArray
+        Dim LQuery = (From item In source Where String.Equals(item.nodes, Value, method) Select item).ToArray
         Return LQuery
     End Function
 
@@ -173,8 +173,8 @@ Public Module IEnumerations
 
         If strict Then
             Dim table As Dictionary(Of String, T()) = source _
-                .GroupBy(Function(o) o.Key) _
-                .ToDictionary(Function(k) k.Key,
+                .GroupBy(Function(o) o.nodes) _
+                .ToDictionary(Function(k) k.nodes,
                               Function(g) g.ToArray)
 
             If table.ContainsKey(uniqueId) Then
@@ -187,7 +187,7 @@ Public Module IEnumerations
  _
                 () <= From x As T
                       In source
-                      Where String.Equals(x.Key, uniqueId, StringComparison.OrdinalIgnoreCase)
+                      Where String.Equals(x.nodes, uniqueId, StringComparison.OrdinalIgnoreCase)
                       Select x
         End If
     End Function
@@ -196,7 +196,7 @@ Public Module IEnumerations
     ''' 按照uniqueId列表来筛选出目标集合，这个函数是使用字典来进行查询操作的，故而效率会比较高
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    ''' <param name="list">The list of ID value for <see cref="INamedValue.Key"/></param>
+    ''' <param name="list">The list of ID value for <see cref="INamedValue.nodes"/></param>
     ''' <param name="source"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
@@ -227,14 +227,14 @@ Public Module IEnumerations
  _
             () <= From o As T
                   In source
-                  Where String.Equals(uniqueId, o.Key, comparisonType:=level)
+                  Where String.Equals(uniqueId, o.nodes, comparisonType:=level)
                   Select o
 
         Return LQuery
     End Function
 
     <Extension> Public Function ToEntryDictionary(Of T As IReadOnlyId)(source As IEnumerable(Of T)) As Dictionary(Of String, T)
-        Return source.ToDictionary(Function(item As T) item.Identity)
+        Return source.ToDictionary(Function(item As T) item.nodes)
     End Function
 
     <Extension> Public Function GetItem(Of T As IReadOnlyId)(source As IEnumerable(Of T), uniqueId As String, Optional caseSensitive As Boolean = True) As T
@@ -243,7 +243,7 @@ Public Module IEnumerations
  _
             () <= From itemObj As T
                   In source
-                  Where String.Equals(itemObj.Identity, uniqueId, method)
+                  Where String.Equals(itemObj.nodes, uniqueId, method)
                   Select itemObj
 
         Return LQuery
@@ -267,10 +267,10 @@ Public Module IEnumerations
         Dim duplicates As New List(Of String)
 
         For Each x As T In source
-            If Not table.ContainsKey(x.Key) Then
-                Call table.Add(x.Key, x)
+            If Not table.ContainsKey(x.nodes) Then
+                Call table.Add(x.nodes, x)
             Else
-                duplicates += x.Key
+                duplicates += x.nodes
             End If
         Next
 

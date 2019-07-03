@@ -81,7 +81,7 @@ Namespace Assembly.KEGG.Medical
                 .Select(Function(dr) New Tuple(Of String, Drug)(dr.TheSameAs, dr)) _
                 .Where(Function(dr) Not dr.Item1.StringEmpty) _
                 .GroupBy(Function(k) k.Item1) _
-                .ToDictionary(Function(k) k.Key,
+                .ToDictionary(Function(k) k.nodes,
                               Function(v) v.Select(Function(g) g.Item2) _
                                            .GroupBy(Function(d) d.Entry) _
                                            .Select(Function(dr) dr.First) _

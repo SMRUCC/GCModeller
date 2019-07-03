@@ -71,7 +71,7 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <returns></returns>
         <XmlIgnore>
-        Private Property accession As String Implements INamedValue.Key
+        Private Property accession As String Implements INamedValue.nodes
 
         ''' <summary>
         ''' 蛋白质的唯一标识符，可以用作为字典的键名
@@ -107,7 +107,7 @@ Namespace Assembly.Uniprot.XML
                     _CommentList = value _
                         .OrderBy(Function(c) c.type) _
                         .GroupBy(Function(c) c.type) _
-                        .ToDictionary(Function(t) t.Key,
+                        .ToDictionary(Function(t) t.nodes,
                                       Function(v) v.ToArray)
                 End If
             End Set
@@ -130,7 +130,7 @@ Namespace Assembly.Uniprot.XML
                 _xrefs = value _
                     .OrderBy(Function(ref) ref.type) _
                     .GroupBy(Function(ref) ref.type) _
-                    .ToDictionary(Function(t) t.Key,
+                    .ToDictionary(Function(t) t.nodes,
                                   Function(v) v.ToArray)
             End Set
         End Property

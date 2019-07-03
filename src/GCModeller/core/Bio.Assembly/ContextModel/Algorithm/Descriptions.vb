@@ -58,7 +58,7 @@ Namespace ContextModel
             If Gene Is Nothing Then
                 Return True
             End If
-            Return String.Equals(Gene.Key, BLANK_VALUE) OrElse
+            Return String.Equals(Gene.nodes, BLANK_VALUE) OrElse
                 Gene.Location.FragmentSize = 0
         End Function
 
@@ -68,7 +68,7 @@ Namespace ContextModel
             Dim BlankData = Activator.CreateInstance(Of T)()
             BlankData.Feature = BLANK_VALUE
             BlankData.Product = BLANK_VALUE
-            BlankData.Key = BLANK_VALUE
+            BlankData.nodes = BLANK_VALUE
             BlankData.Length = Location.FragmentSize
             BlankData.Location = Location
             Return BlankData
@@ -164,17 +164,17 @@ Namespace ContextModel
                 Return Intergenic
 
             ElseIf posi = SegmentRelationships.DownStream Then
-                Return String.Format(DownStream, data.Key)
+                Return String.Format(DownStream, data.nodes)
             ElseIf posi = SegmentRelationships.Equals Then
-                Return String.Format(IsORF, data.Key)
+                Return String.Format(IsORF, data.nodes)
             ElseIf posi = SegmentRelationships.Inside Then
-                Return String.Format(Inside, data.Key)
+                Return String.Format(Inside, data.nodes)
             ElseIf posi = SegmentRelationships.DownStreamOverlap Then
-                Return String.Format(OverloapsDownStream, data.Key)
+                Return String.Format(OverloapsDownStream, data.nodes)
             ElseIf posi = SegmentRelationships.UpStreamOverlap Then
-                Return String.Format(OverlapsUpStream, data.Key)
+                Return String.Format(OverlapsUpStream, data.nodes)
             Else
-                Return String.Format(PromoterRegion, data.Key)
+                Return String.Format(PromoterRegion, data.nodes)
             End If
         End Function
     End Module

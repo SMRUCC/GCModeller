@@ -79,7 +79,7 @@ Namespace IO
                 .ToArray
 
             Return tagsData.GroupBy(Function(o) o.Name) _
-                .ToDictionary(Function(k) k.Key,
+                .ToDictionary(Function(k) k.nodes,
                               Function(s)
                                   Return s.Select(Function(v) v.Value).ToArray
                               End Function)

@@ -123,7 +123,7 @@ Namespace Parallel
         Implements IEnumerable(Of T)
         Implements IGrouping(Of Itag, T)
 
-        Public Overrides Property Tag As Itag Implements IGrouping(Of Itag, T).Key
+        Public Overrides Property Tag As Itag Implements IGrouping(Of Itag, T).nodes
         Public Property Group As T()
             Get
                 Return __list.ToArray

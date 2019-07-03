@@ -173,9 +173,9 @@ Namespace ContextModel
                 Let sides As T() = getTF(gene.Location.Strand)
                 Let related As T() = getRelated(gene, sides, ranges)
                 Select New Density With {
-                    .locus_tag = gene.Key,
+                    .locus_tag = gene.nodes,
                     .Abundance = related.Length / numTotal,
-                    .Hits = related.Select(Function(g) g.Key).ToArray,
+                    .Hits = related.Select(Function(g) g.nodes).ToArray,
                     .loci = gene.Location,
                     .product = gene.Product
                 }
@@ -251,7 +251,7 @@ Namespace ContextModel
         ''' The gene locus_tag identifier
         ''' </summary>
         ''' <returns></returns>
-        Public Property locus_tag As String Implements INamedValue.Key
+        Public Property locus_tag As String Implements INamedValue.nodes
         Public Property loci As NucleotideLocation
         ''' <summary>
         ''' The specific features on the genome its relative abundance relative to this gene <see cref="locus_tag"/>

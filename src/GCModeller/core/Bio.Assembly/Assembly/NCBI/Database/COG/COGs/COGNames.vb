@@ -87,7 +87,7 @@ Namespace Assembly.NCBI.COG.COGs
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("COG-id")>
-        <Column(Name:="COG")> Public Property COG As String Implements INamedValue.Key
+        <Column(Name:="COG")> Public Property COG As String Implements INamedValue.nodes
 
         ''' <summary>
         ''' functional-class

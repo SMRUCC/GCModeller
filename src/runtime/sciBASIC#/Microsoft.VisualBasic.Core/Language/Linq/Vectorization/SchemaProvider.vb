@@ -106,7 +106,7 @@ Namespace Language.Vectorization
 
             Dim find = Function(opName$)
                            Return operators _
-                               .Where(Function(m) m.Key = opName) _
+                               .Where(Function(m) m.nodes = opName) _
                                .FirstOrDefault _
                               ?.OverloadsBinaryOperator
                        End Function
@@ -119,15 +119,15 @@ Namespace Language.Vectorization
             For Each op As IGrouping(Of String, MethodInfo) In operators _
                 .Where(Function(o)
                            ' 在这里将IsTrue/IsFalse/CType等表达式排除掉
-                           Return OperatorExpression.opName2Linq.ContainsKey(o.Key)
+                           Return OperatorExpression.opName2Linq.ContainsKey(o.nodes)
                        End Function)
 #If DEBUG Then
                 ' Call op.Key.EchoLine
 #End If
                 With op
-                    If .Key = stringContract OrElse
-                        .Key = objectLike OrElse
-                        .Key = nameIntegerDivision Then
+                    If .nodes = stringContract OrElse
+                        .nodes = objectLike OrElse
+                        .nodes = nameIntegerDivision Then
 
                         ' 前面已经被处理过了，不需要再额外处理这个运算符了
                         Continue For
@@ -135,7 +135,7 @@ Namespace Language.Vectorization
                 End With
 
                 ' 将运算符字符串名称转换为Linq表达式类型名称
-                Dim name As ExpressionType = OperatorExpression.opName2Linq(op.Key)
+                Dim name As ExpressionType = OperatorExpression.opName2Linq(op.nodes)
 
                 If op.First.GetParameters.Length > 1 Then
                     operatorsBinary(name) = op.OverloadsBinaryOperator
@@ -147,7 +147,7 @@ Namespace Language.Vectorization
             Me.methods = methods _
                 .Where(Function(m) Not m.IsStatic) _
                 .GroupBy(Function(func) func.Name) _
-                .Select(Function([overloads]) New OverloadsFunction([overloads].Key, [overloads])) _
+                .Select(Function([overloads]) New OverloadsFunction([overloads].nodes, [overloads])) _
                 .ToDictionary(Function(g) g.Name)
         End Sub
 

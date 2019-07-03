@@ -88,7 +88,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Namespace Graph
 
     ''' <summary>
-    ''' <see cref="Node.Label"/> -> <see cref="INamedValue.Key"/>
+    ''' <see cref="Node.Label"/> -> <see cref="INamedValue.nodes"/>
     ''' </summary>
     Public Class Node : Inherits GraphTheory.Network.Node
         Implements INamedValue

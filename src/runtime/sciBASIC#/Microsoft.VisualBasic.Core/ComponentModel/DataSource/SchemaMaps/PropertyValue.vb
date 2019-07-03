@@ -70,7 +70,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         ''' ID
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Key As String Implements IKeyedEntity(Of String).Key
+        <XmlAttribute> Public Property Key As String Implements IKeyedEntity(Of String).nodes
         ''' <summary>
         ''' Property Name
         ''' </summary>
@@ -80,7 +80,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         ''' Value text
         ''' </summary>
         ''' <returns></returns>
-        <XmlText> Public Property Value As String Implements IPropertyValue.Value
+        <XmlText> Public Property Value As String Implements IPropertyValue.edges
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

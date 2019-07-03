@@ -166,7 +166,7 @@ Namespace Assembly.Uniprot.XML
                     ' 会有多种重复的类型
                     table = value _
                         .GroupBy(Function(name) name.type) _
-                        .ToDictionary(Function(n) n.Key,
+                        .ToDictionary(Function(n) n.nodes,
                                       Function(g) g.ToArray)
                 End If
             End Set
@@ -372,7 +372,7 @@ Namespace Assembly.Uniprot.XML
         ''' of acronyms.
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property type As String Implements INamedValue.Key
+        <XmlAttribute> Public Property type As String Implements INamedValue.nodes
         <XmlAttribute> Public Property evidence As String
         <XmlAttribute> Public Property description As String
         ''' <summary>
@@ -505,7 +505,7 @@ Namespace Assembly.Uniprot.XML
         ''' 这条值对象的文本内容
         ''' </summary>
         ''' <returns></returns>
-        <XmlText> Public Property value As String Implements Value(Of String).IValueOf.Value
+        <XmlText> Public Property value As String Implements Value(Of String).IValueOf.edges
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

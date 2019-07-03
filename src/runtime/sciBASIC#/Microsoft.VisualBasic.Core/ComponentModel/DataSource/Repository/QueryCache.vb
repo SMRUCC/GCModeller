@@ -111,7 +111,7 @@ Namespace ComponentModel.DataSourceModel.Repository
                 If assertIsNothing(entity) = True Then
                     Return Nothing
                 Else
-                    cache.Add(entity.Key, entity)
+                    cache.Add(entity.nodes, entity)
                 End If
 
                 Return entity
@@ -124,7 +124,7 @@ Namespace ComponentModel.DataSourceModel.Repository
         ''' <param name="clause"></param>
         ''' <returns></returns>
         Public Overridable Function GetWhere(clause As Func(Of T, Boolean)) As IReadOnlyDictionary(Of String, T) Implements IRepositoryRead(Of String, T).GetWhere
-            Return cache.Values.Where(clause).ToDictionary(Function(t) t.Key)
+            Return cache.Values.Where(clause).ToDictionary(Function(t) t.nodes)
         End Function
 
         ''' <summary>

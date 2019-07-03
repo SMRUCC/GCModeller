@@ -97,7 +97,7 @@ Namespace Math
             Dim levels As Integer() = samples.GenerateMapping(Level)
             Dim hash = data _
                 .SeqIterator _
-                .Select(Function(x) (x.value.Key, levels(x.i))) _
+                .Select(Function(x) (x.value.nodes, levels(x.i))) _
                 .ToArray
 
             Return hash.ToDictionary(

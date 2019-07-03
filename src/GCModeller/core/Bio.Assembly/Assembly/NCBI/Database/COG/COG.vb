@@ -64,7 +64,7 @@ Namespace Assembly.NCBI.COG
         ''' COG
         ''' </summary>
         ''' <returns></returns>
-        Public Overrides Property Catalog As String Implements INamedValue.Key
+        Public Overrides Property Catalog As String Implements INamedValue.nodes
 
         Private Shared Function __notAssigned() As COGFunction
             Return New COGFunction With {
@@ -84,7 +84,7 @@ Namespace Assembly.NCBI.COG
             Dim locus = source _
                 .Select(Function(x)
                             Return New With {
-                                x.Key,
+                                x.nodes,
                                 .COG = Strings.UCase([Function].__trimCOGs(x.Feature))
                             }
                         End Function) _

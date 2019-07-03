@@ -58,8 +58,8 @@ Namespace ComponentModel.DBLinkBuilder
     End Interface
 
     Public Interface IDBLink
-        Property DbName As String
-        Property ID As String
+        Property nodes As String
+        Property edges As String
         ''' <summary>
         ''' 将对象模型转换为含有格式的字符串的值用以写入文件之中
         ''' </summary>

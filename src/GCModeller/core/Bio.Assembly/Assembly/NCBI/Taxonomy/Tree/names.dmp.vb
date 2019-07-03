@@ -106,7 +106,7 @@ Namespace Assembly.NCBI.Taxonomy
         Public Shared Function BuildTaxiIDFinder(dump$) As Func(Of String, names())
             Dim names = FileParser(dump) _
                 .GroupBy(Function(x) x.name_txt.ToLower) _
-                .ToDictionary(Function(name) name.Key,
+                .ToDictionary(Function(name) name.nodes,
                               Function(list)
                                   Return list.ToArray
                               End Function)

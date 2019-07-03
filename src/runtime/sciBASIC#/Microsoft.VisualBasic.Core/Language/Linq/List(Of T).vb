@@ -135,10 +135,10 @@ Namespace Language
         Default Public Overloads Property Item(address As IAddress(Of Integer)) As T
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Item(address.Address)
+                Return Item(address.nodes)
             End Get
             Set(value As T)
-                Item(address.Address) = value
+                Item(address.nodes) = value
             End Set
         End Property
 

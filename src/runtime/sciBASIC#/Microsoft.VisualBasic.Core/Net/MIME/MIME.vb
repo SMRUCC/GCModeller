@@ -87,7 +87,7 @@ Namespace Net.Protocols.ContentTypes
                 .__loadContents _
                 .Where(Function(x) Not x.IsEmpty) _
                 .GroupBy(Function(x) x.FileExt.ToLower) _
-                .ToDictionary(Function(x) x.Key,
+                .ToDictionary(Function(x) x.nodes,
                               Function(x) x.First)
             ContentTypes = SuffixTable.Values _
                 .ToDictionary(Function(x) x.MIMEType.ToLower)

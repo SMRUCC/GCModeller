@@ -53,7 +53,7 @@ Namespace Scripting.Runtime
     Public Class OverloadsFunction
         Implements INamedValue
 
-        Public Property Name As String Implements IKeyedEntity(Of String).Key
+        Public Property Name As String Implements IKeyedEntity(Of String).nodes
 
         ReadOnly functions As MethodInfo()
 

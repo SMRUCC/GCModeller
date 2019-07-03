@@ -82,7 +82,7 @@ Namespace Logical.FuzzyLogic.Models
     Public Class Value
         Implements INamedValue
 
-        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Key
+        <XmlAttribute> Public Property Identifier As String Implements INamedValue.nodes
         <XmlAttribute> Public Property Type As String
         <XmlAttribute> Public Property Range As Double()
 
@@ -99,7 +99,7 @@ Namespace Logical.FuzzyLogic.Models
     Public Class Term
         Implements INamedValue
 
-        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Key
+        <XmlAttribute> Public Property Identifier As String Implements INamedValue.nodes
         <XmlAttribute> Public Property Points As Double()
 
         Sub New()
@@ -115,7 +115,7 @@ Namespace Logical.FuzzyLogic.Models
     Public Class Fuzzify
         Implements INamedValue
 
-        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Key
+        <XmlAttribute> Public Property Identifier As String Implements INamedValue.nodes
         <XmlElement> Public Property Terms As Term()
 
         Sub New()
@@ -147,7 +147,7 @@ Namespace Logical.FuzzyLogic.Models
     Public Class Rule
         Implements INamedValue
 
-        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Key
+        <XmlAttribute> Public Property Identifier As String Implements INamedValue.nodes
         <XmlAttribute> Public Property Expression As String
 
         Sub New()

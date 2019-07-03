@@ -62,7 +62,7 @@ Namespace ComponentModel.Collection
     Public Module FuzzyGroup
 
         ''' <summary>
-        ''' Grouping objects in a collection based on their <see cref="INamedValue.Key"/> string Fuzzy equals to others'.
+        ''' Grouping objects in a collection based on their <see cref="INamedValue.nodes"/> string Fuzzy equals to others'.
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
@@ -74,7 +74,7 @@ Namespace ComponentModel.Collection
                Optional cut As Double = 0.6,
                Optional parallel As Boolean = False) As GroupResult(Of T, String)()
 
-            Return source.FuzzyGroups(Function(x) x.Key, cut, parallel).ToArray
+            Return source.FuzzyGroups(Function(x) x.nodes, cut, parallel).ToArray
         End Function
 
         ''' <summary>

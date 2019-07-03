@@ -52,7 +52,7 @@ Namespace Text.Xml.Linq
     Public Class Entity : Implements INamedValue
 
         <XmlAttribute>
-        Public Property ID As String Implements IKeyedEntity(Of String).Key
+        Public Property ID As String Implements IKeyedEntity(Of String).nodes
         <XmlElement>
         Public Property Properties As PropertyValue()
 

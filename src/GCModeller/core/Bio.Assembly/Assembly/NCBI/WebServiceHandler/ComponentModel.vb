@@ -55,8 +55,8 @@ Namespace Assembly.NCBI.Entrez.ComponentModels
     Public MustInherit Class I_QueryEntry
         Implements IKeyValuePairObject(Of String, String)
 
-        Public Property Title As String Implements IKeyValuePairObject(Of String, String).Value
-        Public Property URL As String Implements IKeyValuePairObject(Of String, String).Key
+        Public Property Title As String Implements IKeyValuePairObject(Of String, String).edges
+        Public Property URL As String Implements IKeyValuePairObject(Of String, String).nodes
 
         Public Overrides Function ToString() As String
             Return Title

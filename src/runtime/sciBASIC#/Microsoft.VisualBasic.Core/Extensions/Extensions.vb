@@ -265,10 +265,10 @@ Public Module Extensions
         If table Is Nothing Then
             table = New Dictionary(Of String, T)
         End If
-        If table.ContainsKey(obj.Key) Then
-            Throw New Exception($"[{obj.Key}] was duplicated in the dictionary!")
+        If table.ContainsKey(obj.nodes) Then
+            Throw New Exception($"[{obj.nodes}] was duplicated in the dictionary!")
         Else
-            Call table.Add(obj.Key, obj)
+            Call table.Add(obj.nodes, obj)
         End If
 
         Return table
@@ -976,7 +976,7 @@ Public Module Extensions
 
 #If FRAMEWORD_CORE Then
     ''' <summary>
-    ''' Insert data or update the exists data in the dictionary, if the target object with <see cref="INamedValue.Key"/> 
+    ''' Insert data or update the exists data in the dictionary, if the target object with <see cref="INamedValue.nodes"/> 
     ''' is not exists in the dictionary, then will be insert, else the old value will be replaced with the parameter 
     ''' value <paramref name="item"/>.
     ''' (向字典对象之中更新或者插入新的数据，假若目标字典对象之中已经存在了一个数据的话，则会将原有的数据覆盖，并返回原来的数据)
@@ -989,16 +989,16 @@ Public Module Extensions
     <Extension> Public Function InsertOrUpdate(Of T As INamedValue)(ByRef dict As Dictionary(Of String, T), item As T) As T
         Dim pre As T
 
-        If dict.ContainsKey(item.Key) Then
-            pre = dict(item.Key)
+        If dict.ContainsKey(item.nodes) Then
+            pre = dict(item.nodes)
 
-            Call dict.Remove(item.Key)
-            Call $"data was updated: {Scripting.ToString(pre)} -> {item.Key}".__DEBUG_ECHO
+            Call dict.Remove(item.nodes)
+            Call $"data was updated: {Scripting.ToString(pre)} -> {item.nodes}".__DEBUG_ECHO
         Else
             pre = item
         End If
 
-        Call dict.Add(item.Key, item)
+        Call dict.Add(item.nodes, item)
 
         Return pre
     End Function
@@ -1011,7 +1011,7 @@ Public Module Extensions
     ''' <param name="item"></param>
     ''' <returns></returns>
     <Extension> Public Function Remove(Of T As INamedValue)(ByRef dict As Dictionary(Of String, T), item As T) As T
-        Call dict.Remove(item.Key)
+        Call dict.Remove(item.nodes)
         Return item
     End Function
 

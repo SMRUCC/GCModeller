@@ -135,7 +135,7 @@ Namespace Linq
         End Function
 
         ''' <summary>
-        ''' Creates an array from property <see cref="Value(Of T).IValueOf.value"/>
+        ''' Creates an array from property <see cref="Value(Of T).IValueOf.edges"/>
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
@@ -144,7 +144,7 @@ Namespace Linq
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ValueArray(Of T)(source As IEnumerable(Of Value(Of T).IValueOf)) As T()
-            Return source.Select(Function(o) o.Value).ToArray
+            Return source.Select(Function(o) o.edges).ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

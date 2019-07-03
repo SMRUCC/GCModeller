@@ -215,7 +215,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' 请注意，这个属性不是基因号
         ''' </summary>
         ''' <returns></returns>
-        Public Property ID As String Implements INamedValue.Key
+        Public Property ID As String Implements INamedValue.nodes
             Get
                 Return attributes.TryGetValue("id")
             End Get
@@ -274,7 +274,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End Set
         End Property
 
-        Public Property Right As Integer Implements ILocationComponent.Right
+        Public Property Right As Integer Implements ILocationComponent.edges
             Get
                 Return _right
             End Get
@@ -286,7 +286,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
         Dim _left As Integer, _right As Integer
 
-        Public Property Left As Integer Implements ILoci.Left
+        Public Property Left As Integer Implements ILoci.nodes
             Get
                 Return _left
             End Get

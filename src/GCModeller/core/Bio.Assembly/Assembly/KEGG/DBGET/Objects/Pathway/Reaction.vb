@@ -108,11 +108,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Const Xmlns$ = "http://GCModeller.org/core/KEGG/DBGET/Reaction.xsd"
 
         ''' <summary>
-        ''' 代谢反应的KEGG编号，格式为``R\d+``，同时这个属性也是<see cref="INamedValue.Key"/>
+        ''' 代谢反应的KEGG编号，格式为``R\d+``，同时这个属性也是<see cref="INamedValue.nodes"/>
         ''' </summary>
         ''' <returns></returns>
         <XmlElement("ID")>
-        Public Property ID As String Implements INamedValue.Key
+        Public Property ID As String Implements INamedValue.nodes
         <XmlElement("commonNames")>
         Public Property CommonNames As String()
         <XmlElement("def")>

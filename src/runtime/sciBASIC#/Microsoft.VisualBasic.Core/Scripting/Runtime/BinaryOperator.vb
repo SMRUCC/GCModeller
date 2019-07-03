@@ -61,7 +61,7 @@ Namespace Scripting.Runtime
         ''' <summary>
         ''' The name of this binary operator
         ''' </summary>
-        Public Property Name As String Implements IKeyedEntity(Of String).Key
+        Public Property Name As String Implements IKeyedEntity(Of String).nodes
 
         ''' <summary>
         ''' 

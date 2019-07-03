@@ -114,7 +114,7 @@ Namespace ContextModel
                                  Return g.Feature
                              End If
                          End Function) _
-                .ToDictionary(Function(g) g.Key,
+                .ToDictionary(Function(g) g.nodes,
                               Function(genes)
                                   Return genes.ToArray
                               End Function)

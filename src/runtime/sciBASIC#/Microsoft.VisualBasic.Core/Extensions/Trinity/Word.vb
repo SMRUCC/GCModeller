@@ -52,7 +52,7 @@ Namespace Data.Trinity.NLP
         <XmlAttribute>
         Public Property [Class] As WordClass
         <XmlAttribute>
-        Public Property Text As String Implements Value(Of String).IValueOf.Value
+        Public Property Text As String Implements Value(Of String).IValueOf.edges
 
         Public Overrides Function ToString() As String
             If [Class] = WordClass.NA Then

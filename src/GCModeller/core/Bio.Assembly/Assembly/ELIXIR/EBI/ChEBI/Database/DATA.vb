@@ -171,7 +171,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
             Dim registryNumbers = chebi.RegistryNumbers _
                 .SafeQuery _
                 .GroupBy(Function(id) id.type) _
-                .ToDictionary(Function(r) r.Key,
+                .ToDictionary(Function(r) r.nodes,
                               Function(values)
                                   Return values.Select(Function(id)
                                                            Return New NamedValue(Of String) With {
@@ -195,7 +195,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
                                 }
                             End Function) _
                     .ToArray
-                Call registryNumbers.Add(type.Key, g)
+                Call registryNumbers.Add(type.nodes, g)
             Next
 
             Return registryNumbers

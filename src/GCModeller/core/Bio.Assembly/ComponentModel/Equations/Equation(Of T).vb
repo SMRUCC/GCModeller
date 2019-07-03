@@ -106,10 +106,10 @@ Namespace ComponentModel.EquaionModel
             Return (From x As T
                     In value
                     Select x
-                    Group x By x.Key.ToLower Into Group) _
+                    Group x By x.nodes.ToLower Into Group) _
  _
                 .ToDictionary(Function(x)
-                                  Return x.Group.First.Key
+                                  Return x.Group.First.nodes
                               End Function,
                               Function(x)
                                   Return x.Group.ToArray
@@ -158,7 +158,7 @@ Namespace ComponentModel.EquaionModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Produce(metabolite As T) As Boolean
-            Return __rightHash.ContainsKey(metabolite.Key)
+            Return __rightHash.ContainsKey(metabolite.nodes)
         End Function
 
         ''' <summary>
@@ -167,7 +167,7 @@ Namespace ComponentModel.EquaionModel
         ''' <param name="metabolite"></param>
         ''' <returns></returns>
         Public Function Consume(metabolite As T) As Boolean
-            Return __leftHash.ContainsKey(metabolite.Key)
+            Return __leftHash.ContainsKey(metabolite.nodes)
         End Function
 
         ''' <summary>

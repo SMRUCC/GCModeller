@@ -125,11 +125,11 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
         Public Shared Function ChemicalModel(table As IEnumerable(Of ChemicalData)) As Dictionary(Of String, Dictionary(Of String, ChemicalData()))
             Return table _
                 .GroupBy(Function(c) c.COMPOUND_ID) _
-                .ToDictionary(Function(c) c.Key,
+                .ToDictionary(Function(c) c.nodes,
                               Function(c)
                                   Return c _
                                       .GroupBy(Function(x) x.TYPE) _
-                                      .ToDictionary(Function(t) t.Key,
+                                      .ToDictionary(Function(t) t.nodes,
                                                     Function(list) list.ToArray)
                               End Function)
         End Function
@@ -219,7 +219,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
                 .GroupBy(Function(t) t.COMPOUND_ID) _
                 .Select(Function(t)
                             Return New NamedCollection(Of Accession) With {
-                                .Name = t.Key,
+                                .Name = t.nodes,
                                 .Value = t.ToArray
                             }
                         End Function) _

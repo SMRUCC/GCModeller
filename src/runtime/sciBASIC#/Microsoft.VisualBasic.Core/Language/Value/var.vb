@@ -55,7 +55,7 @@ Namespace Language
     Public Class Value : Inherits Value(Of Object)
         Implements INamedValue
 
-        Public Property Name As String Implements IKeyedEntity(Of String).Key
+        Public Property Name As String Implements IKeyedEntity(Of String).nodes
         Public Property Type As Type
         ''' <summary>
         ''' 这个变量所在的函数的位置记录

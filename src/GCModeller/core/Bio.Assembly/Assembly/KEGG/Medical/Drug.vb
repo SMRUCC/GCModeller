@@ -159,7 +159,7 @@ Namespace Assembly.KEGG.Medical
     ''' </summary>
     Public Class Drug : Implements INamedValue, IKEGGRemarks
 
-        Public Property Entry As String Implements INamedValue.Key
+        Public Property Entry As String Implements INamedValue.nodes
         Public Property Names As String()
         Public Property Formula As String
         Public Property Exact_Mass As Double
@@ -214,7 +214,7 @@ Namespace Assembly.KEGG.Medical
 
     Public Class Bound : Implements IAddress(Of Integer)
 
-        Public Property index As Integer Implements IAddress(Of Integer).Address
+        Public Property index As Integer Implements IAddress(Of Integer).nodes
         Public Property a As Integer
         Public Property b As Integer
         Public Property N As Integer
@@ -231,7 +231,7 @@ Namespace Assembly.KEGG.Medical
 
     Public Class Atom : Implements IAddress(Of Integer)
 
-        Public Property index As Integer Implements IAddress(Of Integer).Address
+        Public Property index As Integer Implements IAddress(Of Integer).nodes
         Public Property Formula As String
         Public Property Atom As String
         Public Property M As Double

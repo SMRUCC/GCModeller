@@ -54,7 +54,7 @@ Namespace ComponentModel.DBLinkBuilder
     Public Class Xref : Inherits Attribute
         Implements INamedValue
 
-        Public Property Name As String Implements IKeyedEntity(Of String).Key
+        Public Property Name As String Implements IKeyedEntity(Of String).nodes
 
         Public Overrides Function ToString() As String
             Return "Xref Link"

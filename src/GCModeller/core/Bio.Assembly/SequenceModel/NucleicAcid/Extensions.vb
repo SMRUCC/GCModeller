@@ -266,7 +266,7 @@ cause an out of memory condition when calculating the LD over two very large str
             Dim strands As Dictionary(Of String, SimpleSegment()) =
                 source _
                 .GroupBy(Function(s) s.Strand) _
-                .ToDictionary(Function(x) x.Key,
+                .ToDictionary(Function(x) x.nodes,
                               Function(x) x.ToArray)
             Dim out As New List(Of SimpleSegment)
 

@@ -48,8 +48,8 @@ Namespace ProteinModel
 
         <Extension>
         Public Function AsMetaString(Of T As IMotifDomain)(domain As T) As String
-            With domain.Location.Normalization()
-                Return $"{domain.ID}({ .Left}|{ .Right})"
+            With domain.edges.Normalization()
+                Return $"{domain.nodes}({ .Left}|{ .Right})"
             End With
         End Function
     End Module

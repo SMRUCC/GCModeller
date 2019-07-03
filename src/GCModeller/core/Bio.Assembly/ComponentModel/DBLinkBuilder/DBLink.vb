@@ -61,13 +61,13 @@ Namespace ComponentModel.DBLinkBuilder
         ''' Database name
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property DBName As String Implements IKeyValuePairObject(Of String, String).Key, INamedValue.Key, IDBLink.DbName
+        <XmlAttribute> Public Property DBName As String Implements IKeyValuePairObject(Of String, String).nodes, INamedValue.nodes, IDBLink.nodes
         ''' <summary>
         ''' Entity uid in the target database
         ''' </summary>
         ''' <returns></returns>
         <XmlText>
-        Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.ID
+        Public Property Entry As String Implements IKeyValuePairObject(Of String, String).edges, IDBLink.edges
 
         Sub New()
         End Sub

@@ -74,7 +74,7 @@ Public Class Edge(Of Vertex As V) : Implements INamedValue
     ''' <remarks>
     ''' 唯一标识符使用的是<see cref="V"/>的ID属性，而不是使用Label生成的
     ''' </remarks> 
-    Public Overridable Property ID As String Implements IKeyedEntity(Of String).Key
+    Public Overridable Property ID As String Implements IKeyedEntity(Of String).nodes
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return VertexEdge.EdgeKey(U.ID, V.ID)

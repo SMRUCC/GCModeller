@@ -65,13 +65,13 @@ Namespace ComponentModel.DataSourceModel
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute>
-        Public Property Name As String Implements INamedValue.Key, IKeyValuePairObject(Of String, T).Key
+        Public Property Name As String Implements INamedValue.nodes, IKeyValuePairObject(Of String, T).nodes
 
         ''' <summary>
         ''' Object value
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement> Public Property Value As T Implements IKeyValuePairObject(Of String, T).Value
+        <XmlElement> Public Property Value As T Implements IKeyValuePairObject(Of String, T).edges
 
         ''' <summary>
         ''' Additional description text about this variable <see cref="Value"/>

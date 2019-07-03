@@ -75,7 +75,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute>
-        Public Overridable Property entry As String Implements INamedValue.Key
+        Public Overridable Property entry As String Implements INamedValue.nodes
 
         ''' <summary>
         ''' Name

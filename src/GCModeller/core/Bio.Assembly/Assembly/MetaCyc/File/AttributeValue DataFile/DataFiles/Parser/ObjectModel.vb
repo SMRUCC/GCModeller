@@ -57,7 +57,7 @@ Namespace Assembly.MetaCyc.File
     Public Class ObjectModel : Inherits DynamicPropertyBase(Of String())
         Implements INamedValue
 
-        Public Property uid As String Implements INamedValue.Key
+        Public Property uid As String Implements INamedValue.nodes
 
         Const UNIQUE_ID As String = "UNIQUE-ID"
 

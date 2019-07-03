@@ -240,7 +240,7 @@ Namespace Assembly.KEGG.WebServices
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(x) x.Name) _
-                .ToDictionary(Function(x) x.Key,
+                .ToDictionary(Function(x) x.nodes,
                               Function(group)
                                   Dim name$ = group.First.Description
                                   Return New NamedValue(Of Area()) With {

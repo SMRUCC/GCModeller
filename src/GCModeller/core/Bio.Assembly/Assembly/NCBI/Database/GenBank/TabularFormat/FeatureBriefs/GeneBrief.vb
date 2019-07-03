@@ -100,7 +100,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Synonym As String Implements INamedValue.Key
+        <XmlAttribute> Public Property Synonym As String Implements INamedValue.nodes
 
         ''' <summary>
         ''' *.ptt => TRUE;  *.rnt => FALSE
@@ -124,7 +124,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
             obj.Feature = COG
             obj.Length = Length
             obj.Product = Product
-            obj.Key = Synonym
+            obj.nodes = Synonym
 
             Return obj
         End Function
@@ -154,7 +154,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
                 .Length = g.Length,
                 .Location = g.Location,
                 .Product = g.Product,
-                .Synonym = g.Key
+                .Synonym = g.nodes
             }
         End Function
 

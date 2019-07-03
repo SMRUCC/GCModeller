@@ -63,7 +63,7 @@ Namespace Assembly.Uniprot
         ''' UniqueIdentifier Is the primary accession number of the UniProtKB entry.
         ''' </summary>
         ''' <returns></returns>
-        Public Property UniprotID As String Implements INamedValue.Key
+        Public Property UniprotID As String Implements INamedValue.nodes
         ''' <summary>
         ''' EntryName Is the entry name of the UniProtKB entry.
         ''' </summary>
@@ -127,7 +127,7 @@ Namespace Assembly.Uniprot
     Public Class UniprotFasta : Inherits FASTA.FastaSeq
         Implements IReadOnlyId
 
-        Public ReadOnly Property UniprotID As String Implements IReadOnlyId.Identity
+        Public ReadOnly Property UniprotID As String Implements IReadOnlyId.nodes
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return UniProtHeader.UniprotID

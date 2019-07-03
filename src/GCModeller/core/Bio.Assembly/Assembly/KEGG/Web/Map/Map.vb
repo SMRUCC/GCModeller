@@ -68,7 +68,7 @@ Namespace Assembly.KEGG.WebServices
         Public Const XmlNamespace$ = "http://GCModeller.org/core/KEGG/KGML_map.xsd"
 
         <XmlAttribute>
-        Public Property ID As String Implements IKeyedEntity(Of String).Key
+        Public Property ID As String Implements IKeyedEntity(Of String).nodes
 
         ''' <summary>
         ''' The map title

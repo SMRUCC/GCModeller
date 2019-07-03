@@ -89,7 +89,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .EnumerateEntries _
                 .Where(Function(x) Not x.entryID.StringEmpty) _
                 .GroupBy(Function(t) t.entryID) _
-                .ToDictionary(Function(k) k.Key,
+                .ToDictionary(Function(k) k.nodes,
                               Function(o) o.First)
         End Function
 

@@ -243,16 +243,16 @@ Namespace Assembly.KEGG
                 .GroupBy(Function(gene) gene.Value) _
                 .Select(Function(x)
                             ' 对每一个KO进行数量上的统计分析
-                            If KOTable.ContainsKey(x.Key) Then
+                            If KOTable.ContainsKey(x.nodes) Then
                                 Return New KOCatalog With {
-                                    .Catalog = x.Key,
+                                    .Catalog = x.nodes,
                                     .IDs = x.Select(Function(gene) gene.Name).ToArray,
                                     .Description = KOTable(.Catalog).description,
                                     .Class = KOTable(.Catalog).class
                                 }
                             Else
                                 Return New KOCatalog With {
-                                    .Catalog = x.Key,
+                                    .Catalog = x.nodes,
                                     .IDs = x.Select(Function(gene) gene.Name).ToArray,
                                     .Description = "No hits in KEGG KO database",
                                     .Class = "Unclassified"

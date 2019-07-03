@@ -189,7 +189,7 @@ Public Module KeyValuePairExtensions
     <Extension>
     Public Function KeyItem(Of T As INamedValue)(source As IEnumerable(Of T), key$) As T
         Return source _
-            .Where(Function(i) i.Key = key) _
+            .Where(Function(i) i.nodes = key) _
             .FirstOrDefault
     End Function
 
@@ -203,7 +203,7 @@ Public Module KeyValuePairExtensions
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function [Select](Of T As INamedValue)(source As IEnumerable(Of T), pattern$) As IEnumerable(Of T)
-        Return source.Where(Function(i) r.Match(i.Key, pattern, RegexICSng).Success)
+        Return source.Where(Function(i) r.Match(i.nodes, pattern, RegexICSng).Success)
     End Function
 
     ''' <summary>
@@ -286,7 +286,7 @@ Public Module KeyValuePairExtensions
     <Extension> Public Function AsNamedVector(Of T)(groups As IEnumerable(Of IGrouping(Of String, T))) As IEnumerable(Of NamedCollection(Of T))
         Return groups.Select(Function(group)
                                  Return New NamedCollection(Of T) With {
-                                    .Name = group.Key,
+                                    .Name = group.nodes,
                                     .Value = group.ToArray
                                  }
                              End Function)
@@ -342,7 +342,7 @@ Public Module KeyValuePairExtensions
     End Function
 
     ''' <summary>
-    ''' Groups source by <see cref="INamedValue.Key"/>
+    ''' Groups source by <see cref="INamedValue.nodes"/>
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
@@ -350,10 +350,10 @@ Public Module KeyValuePairExtensions
     <Extension>
     Public Function GroupByKey(Of T As INamedValue)(source As IEnumerable(Of T)) As NamedCollection(Of T)()
         Return source _
-            .GroupBy(Function(o) o.Key) _
+            .GroupBy(Function(o) o.nodes) _
             .Select(Function(g)
                         Return New NamedCollection(Of T) With {
-                             .Name = g.Key,
+                             .Name = g.nodes,
                              .Value = g.ToArray
                          }
                     End Function) _
@@ -382,7 +382,7 @@ Public Module KeyValuePairExtensions
     End Function
 
     ''' <summary>
-    ''' gets all <see cref="INamedValue.Key"/> values
+    ''' gets all <see cref="INamedValue.nodes"/> values
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
@@ -390,7 +390,7 @@ Public Module KeyValuePairExtensions
     ''' <returns></returns>
     <Extension>
     Public Function Keys(Of T As INamedValue)(source As IEnumerable(Of T), Optional distinct As Boolean = False) As List(Of String)
-        Dim list As IEnumerable(Of String) = source.Select(Function(o) o.Key)
+        Dim list As IEnumerable(Of String) = source.Select(Function(o) o.nodes)
         If distinct Then
             list = list.Distinct
         End If
@@ -401,7 +401,7 @@ Public Module KeyValuePairExtensions
     <Extension>
     Public Function Keys(Of K, V)(source As IEnumerable(Of IGrouping(Of K, V))) As K()
         Return source _
-            .Select(Function(x) x.Key) _
+            .Select(Function(x) x.nodes) _
             .ToArray
     End Function
 
@@ -430,7 +430,7 @@ Public Module KeyValuePairExtensions
  _
             () <= From x As T
                   In source
-                  Where String.Equals(uid, x.Key, ignoreCase)
+                  Where String.Equals(uid, x.nodes, ignoreCase)
                   Select x
 
         Return find
@@ -718,7 +718,7 @@ Public Module KeyValuePairExtensions
     ''' Creates a <see cref="System.Collections.Generic.Dictionary"/>`2 from an <see cref="System.Collections.Generic.IEnumerable"/>`1
     ''' according to a specified key selector function.
     ''' </summary>
-    ''' <typeparam name="T">Unique identifier provider <see cref="INamedValue.Key"/></typeparam>
+    ''' <typeparam name="T">Unique identifier provider <see cref="INamedValue.nodes"/></typeparam>
     ''' <param name="source"></param>
     ''' <returns></returns>
     <Extension>
@@ -751,11 +751,11 @@ Public Module KeyValuePairExtensions
         With New Dictionary(Of T)
             If replaceOnDuplicate Then
                 For Each item As T In source
-                    .Item(item.Key) = item
+                    .Item(item.nodes) = item
                 Next
             Else
                 For Each item As T In source
-                    currentKey = item.Key
+                    currentKey = item.nodes
 
                     Call .Add(currentKey, item)
                     Call keys.Add(currentKey)

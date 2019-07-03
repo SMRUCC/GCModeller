@@ -77,7 +77,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
         ''' 基因组的编号
         ''' </summary>
         ''' <returns></returns>
-        Public Property Locus As String Implements INamedValue.Key
+        Public Property Locus As String Implements INamedValue.nodes
         Public Property AccessionID As String
         Public Property GI As String
         Public Property Organism As String

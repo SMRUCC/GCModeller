@@ -97,15 +97,15 @@ Namespace ComponentModel.DataSourceModel
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property Name As String Implements _
-            IKeyedEntity(Of String).Key,
-            IKeyValuePairObject(Of String, T()).Key,
-            IGrouping(Of String, T).Key
+            IKeyedEntity(Of String).nodes,
+            IKeyValuePairObject(Of String, T()).nodes,
+            IGrouping(Of String, T).nodes
 
         ''' <summary>
         ''' 目标集合对象
         ''' </summary>
         ''' <returns></returns>
-        Public Property Value As T() Implements IKeyValuePairObject(Of String, T()).Value, Value(Of T()).IValueOf.Value
+        Public Property Value As T() Implements IKeyValuePairObject(Of String, T()).edges, Value(Of T()).IValueOf.edges
 
         ''' <summary>
         ''' 目标集合对象的描述信息

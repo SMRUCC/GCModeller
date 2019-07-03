@@ -63,7 +63,7 @@ Namespace Assembly.DOOR
         ''' DOOR数据库之中的操纵子编号
         ''' </summary>
         ''' <returns></returns>
-        Public Property OperonID As String Implements INamedValue.Key
+        Public Property OperonID As String Implements INamedValue.nodes
         Public Property GI As String
         Public Property Synonym As String
         Public Property Length As Integer Implements IGeneBrief.Length

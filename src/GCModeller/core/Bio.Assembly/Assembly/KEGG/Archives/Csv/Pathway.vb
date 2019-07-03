@@ -70,7 +70,7 @@ Namespace Assembly.KEGG.Archives.Csv
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Key
+        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).nodes
             Get
                 Return MyBase.EntryId
             End Get
@@ -101,7 +101,7 @@ Namespace Assembly.KEGG.Archives.Csv
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property PathwayGenes As String() Implements IKeyValuePairObject(Of String, String()).Value
+        Public Property PathwayGenes As String() Implements IKeyValuePairObject(Of String, String()).edges
 
         Public Overrides ReadOnly Property briteID As String
             Get

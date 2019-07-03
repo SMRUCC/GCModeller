@@ -74,7 +74,7 @@ Namespace CommandLine.Reflection
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute>
-        Public Property [Namespace] As String Implements INamedValue.Key
+        Public Property [Namespace] As String Implements INamedValue.nodes
 
         Dim _TypeAutoExtract As Boolean
 
@@ -97,7 +97,7 @@ Namespace CommandLine.Reflection
         ''' <param name="Namespace">The name value of this namespace module.(本命名空间模块的名称值)</param>
         ''' <remarks></remarks>
         Sub New([Namespace] As String, Optional Description As String = "")
-            Me._Namespace = [Namespace]
+            Me._nodes = [Namespace]
             Me._Description = Description
             Me._TypeAutoExtract = False
         End Sub

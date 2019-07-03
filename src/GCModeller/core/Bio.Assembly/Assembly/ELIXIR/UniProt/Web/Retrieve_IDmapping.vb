@@ -201,12 +201,12 @@ Namespace Assembly.Uniprot.Web
                                 .IteratesALL _
                                 .Distinct _
                                 .ToArray
-                            Return k.Key.Split(","c) _
+                            Return k.nodes.Split(","c) _
                                 .Select(Function(key$) New KeyValuePair(Of String, String())(key, values))
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(g) g.Key) _
-                .ToDictionary(Function(k) k.Key,
+                .ToDictionary(Function(k) k.nodes,
                               Function(g)
                                   Return g.Select(Function(v) v.Value) _
                                       .IteratesALL _
@@ -262,7 +262,7 @@ Namespace Assembly.Uniprot.Web
                 .Select(AddressOf Retrieve_IDmapping.MappingReader) _
                 .IteratesALL _
                 .GroupBy(Function(k) k.Key) _
-                .ToDictionary(Function(k) k.Key,
+                .ToDictionary(Function(k) k.nodes,
                               Function(g)
                                   Return g.Select(Function(v) v.Value) _
                                       .IteratesALL _

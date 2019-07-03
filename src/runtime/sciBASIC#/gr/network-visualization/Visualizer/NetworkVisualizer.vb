@@ -389,21 +389,21 @@ Public Module NetworkVisualizer
             hullPolygon = {
                 groups.OrderByDescending(Function(node) node.Count) _
                       .First _
-                      .Key
+                      .nodes
             }
         ElseIf hullPolygonGroups.TextEquals("min") Then
             hullPolygon = {
                 groups.Where(Function(group) group.Count > 2) _
                       .OrderBy(Function(node) node.Count) _
                       .First _
-                      .Key
+                      .nodes
             }
         Else
             hullPolygon = hullPolygonGroups.Split(","c)
         End If
 
         For Each group In groups
-            If group.Count > 2 AndAlso group.Key Like hullPolygon Then
+            If group.Count > 2 AndAlso group.nodes Like hullPolygon Then
                 Dim positions = group _
                     .Select(Function(p) scalePos(p)) _
                     .JarvisMatch _

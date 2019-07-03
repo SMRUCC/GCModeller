@@ -286,7 +286,7 @@ Namespace Assembly.NCBI.COG
             Dim LQuery = (From x In (From gene As T In source.AsParallel
                                      Let categories As COGCategories() = GetCategories(gene.Feature)
                                      Select (From cat As COGCategories In categories
-                                             Select geneId = gene.Key,
+                                             Select geneId = gene.nodes,
                                                  category = GetCategory(gene.Feature)).ToArray).Unlist
                           Select geneid = x.geneId,
                               category = x.category

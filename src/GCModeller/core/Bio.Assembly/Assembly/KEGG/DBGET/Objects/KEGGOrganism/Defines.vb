@@ -71,7 +71,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' KEGG里面的物种的简称代码
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property KEGGId As String Implements INamedValue.Key
+        <XmlAttribute> Public Property KEGGId As String Implements INamedValue.nodes
         ''' <summary>
         ''' FTP url on NCBI
         ''' </summary>

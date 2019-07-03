@@ -168,7 +168,7 @@ Namespace Assembly.Uniprot.XML
                              .Select(Function(o) o.ShadowCopy) _
                              .IteratesALL
                          Select protein
-                         Group protein By DirectCast(protein, INamedValue).Key Into Group
+                         Group protein By DirectCast(protein, INamedValue).nodes Into Group
             Dim out As Dictionary(Of entry) =
                 groups _
                 .Select(Function(g) g.Group.First) _

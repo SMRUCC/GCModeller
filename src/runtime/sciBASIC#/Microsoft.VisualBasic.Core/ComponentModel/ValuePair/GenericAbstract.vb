@@ -70,14 +70,14 @@ Namespace ComponentModel.Collection.Generic
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Property Key As TKey
+        Property nodes As TKey
         ''' <summary>
         ''' Gets the value in the key/value pair.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Property Value As TValue
+        Property edges As TValue
     End Interface
 
     ''' <summary>
@@ -104,14 +104,14 @@ Namespace ComponentModel.Collection.Generic
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overridable Property Key As TKey Implements IKeyValuePairObject(Of TKey, TValue).Key
+        Public Overridable Property Key As TKey Implements IKeyValuePairObject(Of TKey, TValue).nodes
         ''' <summary>
         ''' Gets the value in the key/value pair.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overridable Property Value As TValue Implements IKeyValuePairObject(Of TKey, TValue).Value
+        Public Overridable Property Value As TValue Implements IKeyValuePairObject(Of TKey, TValue).edges
 
         Sub New()
         End Sub

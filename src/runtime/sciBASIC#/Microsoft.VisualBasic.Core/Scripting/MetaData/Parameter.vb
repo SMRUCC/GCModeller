@@ -73,7 +73,7 @@ Namespace Scripting.MetaData
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property [Alias] As String Implements INamedValue.Key
+        Public Property [Alias] As String Implements INamedValue.nodes
             Get
                 If String.IsNullOrEmpty(_alias) AndAlso Not ParameterInfo Is Nothing Then
                     _alias = ParameterInfo.Name

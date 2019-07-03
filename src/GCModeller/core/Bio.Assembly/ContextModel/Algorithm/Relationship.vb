@@ -64,15 +64,15 @@ Namespace ContextModel
         Public Property Relation As SegmentRelationships
 
         ''' <summary>
-        ''' <see cref="IGeneBrief.Key"/>
+        ''' <see cref="IGeneBrief.nodes"/>
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property locus_tag As String Implements IReadOnlyId.Identity
+        Public ReadOnly Property locus_tag As String Implements IReadOnlyId.nodes
             Get
                 If Gene Is Nothing Then
                     Return ""
                 Else
-                    Return Gene.Key
+                    Return Gene.nodes
                 End If
             End Get
         End Property

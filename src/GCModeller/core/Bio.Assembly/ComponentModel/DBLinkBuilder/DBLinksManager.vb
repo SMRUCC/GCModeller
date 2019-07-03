@@ -68,7 +68,7 @@ Namespace ComponentModel.DBLinkBuilder
  _
                     () <= From link As TLink
                           In _DBLinkObjects
-                          Where String.Equals(DBName, link.DbName, StringComparison.OrdinalIgnoreCase)
+                          Where String.Equals(DBName, link.nodes, StringComparison.OrdinalIgnoreCase)
                           Select link
 
                 Return LQuery
@@ -98,8 +98,8 @@ Namespace ComponentModel.DBLinkBuilder
  _
                 () <= From link As TLink
                       In DBLinkObjects
-                      Where String.Equals(link.DbName, Entry.DbName, StringComparison.OrdinalIgnoreCase) AndAlso
-                          String.Equals(link.ID, Entry.ID, StringComparison.OrdinalIgnoreCase)
+                      Where String.Equals(link.nodes, Entry.nodes, StringComparison.OrdinalIgnoreCase) AndAlso
+                          String.Equals(link.edges, Entry.edges, StringComparison.OrdinalIgnoreCase)
                       Select link
 
             ' 会在这里先检查是否有重复的记录数据出现，
@@ -122,7 +122,7 @@ Namespace ComponentModel.DBLinkBuilder
                            If entryID.StringEmpty Then
                                Return True
                            Else
-                               Return entryID.TextEquals(l.ID)
+                               Return entryID.TextEquals(l.edges)
                            End If
                        End Function
 
@@ -135,8 +135,8 @@ Namespace ComponentModel.DBLinkBuilder
 
         Public Sub AddEntry(DBName As String, Entry As String)
             Dim link As TLink = Activator.CreateInstance(Of TLink)()
-            link.DbName = DBName
-            link.ID = Entry
+            link.nodes = DBName
+            link.edges = Entry
             Call AddEntry(Entry:=link)
         End Sub
 

@@ -79,13 +79,13 @@ Namespace Text.Xml.Models
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute>
-        Public Property name As String Implements INamedValue.Key
+        Public Property name As String Implements INamedValue.nodes
         ''' <summary>
         ''' The term value
         ''' </summary>
         ''' <returns></returns>
         <XmlText>
-        Public Property text As String Implements Value(Of String).IValueOf.Value
+        Public Property text As String Implements Value(Of String).IValueOf.edges
 
         Sub New(name$, value$)
             Me.name = name
@@ -112,7 +112,7 @@ Namespace Text.Xml.Models
     ''' </summary>
     <XmlType("property")> Public Structure [Property] : Implements INamedValue
 
-        <XmlAttribute> Public Property name As String Implements INamedValue.Key
+        <XmlAttribute> Public Property name As String Implements INamedValue.nodes
         <XmlAttribute> Public Property value As String
         <XmlText>
         Public Property comment As String
@@ -136,7 +136,7 @@ Namespace Text.Xml.Models
         Implements INamedValue
 
         <XmlAttribute>
-        Public Property name As String Implements IKeyedEntity(Of String).Key
+        Public Property name As String Implements IKeyedEntity(Of String).nodes
         Public Property vector As T()
         ''' <summary>
         ''' 在这里不使用字典是因为Xml序列化无法序列化字典对象

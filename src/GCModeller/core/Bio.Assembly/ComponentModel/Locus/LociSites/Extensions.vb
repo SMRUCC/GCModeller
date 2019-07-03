@@ -63,7 +63,7 @@ Namespace ComponentModel.Loci
                 Dim gbt = From x As IMotifSite
                           In sites
                           Select x
-                          Group x By x.Type Into Group
+                          Group x By x.nodes Into Group
 
                 For Each g In gbt
                     out += g.Group.Assemble(False, gapOffset:=gapOffset)
@@ -78,9 +78,9 @@ Namespace ComponentModel.Loci
             Const motif As String = NameOf(motif)
 
             For Each x As IMotifSite In sitesData
-                x.Site.Extension = New ExtendedProps
-                x.Site.Extension.DynamicHashTable(motif) = x
-                locations.Add(x.Site)
+                x.edges.Extension = New ExtendedProps
+                x.edges.Extension.DynamicHashTable(motif) = x
+                locations.Add(x.edges)
             Next
 
             Dim assm As Location() = locations _
@@ -95,10 +95,10 @@ Namespace ComponentModel.Loci
                     .Properties _
                     .Remove(motif)
                 out += New MotifSite With {
-                    .Name = o.Name,
-                    .Site = o.Site,
+                    .Name = o.nodes,
+                    .Site = o.edges,
                     .Type = {
-                        o.Type
+                        o.nodes
                     } _
                     .Join(x.Extension _
                            .DynamicHashTable _
@@ -107,7 +107,7 @@ Namespace ComponentModel.Loci
                            .Select(Function(s) DirectCast(DirectCast(s, Location) _
                            .Extension _
                            .DynamicHashTable _
-                           .Properties(motif), IMotifSite).Type)) _
+                           .Properties(motif), IMotifSite).nodes)) _
                     .JoinBy("+")  ' 这里不进行Distinct了，因为这些重复的类型可能还有别的用途，例如数量上面的统计之类的
                 }
             Next

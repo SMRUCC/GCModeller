@@ -58,12 +58,12 @@ Public Class Vertex : Implements INamedValue
     ''' The unique id of this node
     ''' </summary>
     ''' <returns></returns>
-    <XmlAttribute> Public Property Label As String Implements IKeyedEntity(Of String).Key
+    <XmlAttribute> Public Property Label As String Implements IKeyedEntity(Of String).nodes
     ''' <summary>
     ''' Array index.(使用数字表示的唯一标识符)
     ''' </summary>
     ''' <returns></returns>
-    <XmlAttribute> Public Property ID As Integer Implements IAddress(Of Integer).Address
+    <XmlAttribute> Public Property ID As Integer Implements IAddress(Of Integer).nodes
 
     Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
         ID = address

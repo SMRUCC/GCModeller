@@ -75,7 +75,7 @@ Namespace HTML
 
     Public Structure ValueAttribute : Implements INamedValue, IsEmpty
 
-        Public Property Name As String Implements INamedValue.Key
+        Public Property Name As String Implements INamedValue.nodes
         Public Property Value As String
 
         Public ReadOnly Property IsEmpty As Boolean Implements IsEmpty.IsEmpty

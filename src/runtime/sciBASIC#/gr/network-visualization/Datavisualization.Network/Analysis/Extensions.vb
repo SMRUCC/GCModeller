@@ -65,12 +65,12 @@ Namespace Analysis
                                    Return e.FromNode
                                End If
                            End Function
-            Dim index = net.Edges _
+            Dim index = net.edges _
                 .Select(Function(edge)
                             Return (key:=getKey(edge), value:=getValue(edge))
                         End Function) _
                 .GroupBy(Function(t) t.key) _
-                .ToDictionary(Function(k) k.Key,
+                .ToDictionary(Function(k) k.nodes,
                               Function(g) New Index(Of String)(g.Select(Function(o) o.value).Distinct))
             Return index
         End Function

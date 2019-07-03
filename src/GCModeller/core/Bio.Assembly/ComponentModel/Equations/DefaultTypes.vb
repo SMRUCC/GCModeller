@@ -62,14 +62,14 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property StoiChiometry As Double Implements ICompoundSpecies.StoiChiometry
-        <XmlAttribute> Public Property ID As String Implements ICompoundSpecies.Key
+        <XmlAttribute> Public Property ID As String Implements ICompoundSpecies.nodes
 
         Sub New()
         End Sub
 
         Sub New(x As ICompoundSpecies)
             StoiChiometry = x.StoiChiometry
-            ID = x.Key
+            ID = x.nodes
         End Sub
 
         Public Overloads Function Equals(b As ICompoundSpecies, strict As Boolean) As Boolean
@@ -116,7 +116,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
             Reactants = left _
                 .Select(Function(x)
                             Return New CompoundSpecieReference With {
-                                .ID = idMaps(x.Key),
+                                .ID = idMaps(x.nodes),
                                 .StoiChiometry = x.StoiChiometry
                             }
                         End Function) _
@@ -124,7 +124,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
             Products = right _
                 .Select(Function(x)
                             Return New CompoundSpecieReference With {
-                                .ID = idMaps(x.Key),
+                                .ID = idMaps(x.nodes),
                                 .StoiChiometry = x.StoiChiometry
                             }
                         End Function) _

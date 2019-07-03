@@ -162,11 +162,11 @@ Namespace Language.Vectorization
         Default Public Overloads Property Item(address As IAddress(Of Integer)) As T
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return buffer(address.Address)
+                Return buffer(address.nodes)
             End Get
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Set(value As T)
-                buffer(address.Address) = value
+                buffer(address.nodes) = value
             End Set
         End Property
 

@@ -68,12 +68,12 @@ Namespace ComponentModel.Algorithm.base
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Index As Integer Implements IAddressOf.Address, IGrouping(Of Integer, T).Key
+        Public Property Index As Integer Implements IAddressOf.nodes, IGrouping(Of Integer, T).nodes
         ''' <summary>
         ''' The elements in this slide window.(这个划窗之中的元素的列表)
         ''' </summary>
         ''' <returns></returns>
-        Public Property Items As T() Implements Value(Of T()).IValueOf.Value
+        Public Property Items As T() Implements Value(Of T()).IValueOf.edges
 
 #Region "Index Range"
 
@@ -81,9 +81,9 @@ Namespace ComponentModel.Algorithm.base
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 If index < 0 Then
-                    Return _Items(Length + index)
+                    Return _edges(Length + index)
                 Else
-                    Return _Items(index)
+                    Return _edges(index)
                 End If
             End Get
         End Property

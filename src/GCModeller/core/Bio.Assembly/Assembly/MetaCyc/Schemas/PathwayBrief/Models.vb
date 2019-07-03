@@ -98,7 +98,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
             End If
         End Function
 
-        Public Property Identifier As String Implements INamedValue.Key
+        Public Property Identifier As String Implements INamedValue.nodes
     End Class
 
     Public Class PathwayBrief : Inherits Annotation.PathwayBrief
@@ -123,7 +123,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
             Return PathwayGenes
         End Function
 
-        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Key
+        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).nodes
             Get
                 Return MyBase.EntryId
             End Get
@@ -132,6 +132,6 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
             End Set
         End Property
 
-        Public Property PathwayGenes As String() Implements IKeyValuePairObject(Of String, String()).Value
+        Public Property PathwayGenes As String() Implements IKeyValuePairObject(Of String, String()).edges
     End Class
 End Namespace

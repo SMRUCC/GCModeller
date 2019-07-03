@@ -120,12 +120,12 @@ Namespace MarkDown
                 pos = 1  ' start 参数必须要大于零
 
                 Do While True
-                    pos = InStr(pos, md, headerGroup.Key)
+                    pos = InStr(pos, md, headerGroup.nodes)
 
                     If pos > 0 Then
                         orders += New SeqValue(Of String) With {
                             .i = pos,
-                            .value = headerGroup.Key
+                            .value = headerGroup.nodes
                         }
                         pos += 1  ' 必须要往前位移一个字符，否则会出现死循环
                     Else

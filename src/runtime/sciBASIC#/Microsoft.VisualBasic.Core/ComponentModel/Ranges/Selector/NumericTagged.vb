@@ -60,7 +60,7 @@ Namespace ComponentModel.Ranges
         Dim tag#
         Dim value As T
 
-        Private Property IValueOf_Value As T Implements Value(Of T).IValueOf.Value
+        Private Property IValueOf_Value As T Implements Value(Of T).IValueOf.edges
 
         Sub New(tag#, value As T)
             Me.tag = tag

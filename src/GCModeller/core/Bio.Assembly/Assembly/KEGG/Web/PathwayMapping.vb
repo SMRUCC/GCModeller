@@ -290,7 +290,7 @@ Namespace Assembly.KEGG.WebServices
                 .EnumerateEntries _
                 .Where(Function(x) Not x.entryID Is Nothing) _
                 .GroupBy(Function(x) x.entryID) _
-                .ToDictionary(Function(x) x.Key,
+                .ToDictionary(Function(x) x.nodes,
                               Function(x) x.First)
             Return KO_htext
         End Function
@@ -319,7 +319,7 @@ Namespace Assembly.KEGG.WebServices
                         End Function) _
                 .Where(Function(x) Not x.EntryID.StringEmpty) _
                 .GroupBy(Function(x) x.EntryID) _
-                .ToDictionary(Function(x) x.Key,
+                .ToDictionary(Function(x) x.nodes,
                               Function(x) x.First.KO)
             Return KO_maps.KOCatalog(KO_htext)
         End Function
@@ -349,7 +349,7 @@ Namespace Assembly.KEGG.WebServices
                        End Function) _
                .Where(Function(x) Not x.Name.StringEmpty) _
                .GroupBy(Function(x) x.Name) _
-               .ToDictionary(Function(x) x.Key,
+               .ToDictionary(Function(x) x.nodes,
                              Function(x) x.First.Value)
             Return KO_htext
         End Function

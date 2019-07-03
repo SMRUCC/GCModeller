@@ -61,7 +61,7 @@ Namespace Scripting
     Public Class Factor(Of T As IComparable(Of T)) : Inherits VBDouble
         Implements Value(Of T).IValueOf
 
-        Public Property FactorValue As T Implements Value(Of T).IValueOf.Value
+        Public Property FactorValue As T Implements Value(Of T).IValueOf.edges
 
         Sub New()
         End Sub

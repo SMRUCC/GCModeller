@@ -100,7 +100,7 @@ Namespace Serialization.JSON
     Public Class [Property] : Inherits SchemaProvider
         Implements INamedValue
 
-        Public Property name As String Implements INamedValue.Key
+        Public Property name As String Implements INamedValue.nodes
         Public Property minimum As Integer
         Public Property exclusiveMinimum As Boolean
         Public Property ref As String

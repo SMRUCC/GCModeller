@@ -78,7 +78,7 @@ Namespace ComponentModel
         ''' 可以通过这个属性来重设uid的字符串的值
         ''' </summary>
         ''' <returns></returns>
-        Public Property Key As String Implements IKeyedEntity(Of String).Key
+        Public Property Key As String Implements IKeyedEntity(Of String).nodes
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return ToString()

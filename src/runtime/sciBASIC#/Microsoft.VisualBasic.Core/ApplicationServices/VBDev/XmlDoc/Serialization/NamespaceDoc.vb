@@ -70,7 +70,7 @@ Namespace ApplicationServices.Development.XmlDoc.Serialization
                 .IteratesALL _
                 .Where(AddressOf IsNamespaceDoc) _
                 .GroupBy(Function(doc) doc.Namespace.Path) _
-                .ToDictionary(Function(ns) ns.Key,
+                .ToDictionary(Function(ns) ns.nodes,
                               Function(nsGroup)
                                   Return nsGroup _
                                       .Select(Function(doc) doc.Summary) _
