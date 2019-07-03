@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da99ef996afbe5db17a656b5bd29ba12, WebCloud\SMRUCC.WebCloud.VBScript\DimVar.vb"
+﻿#Region "Microsoft.VisualBasic::2f2c5b8ec1206130294f2d6b5d990555, WebCloud\SMRUCC.WebCloud.VBScript\DimVar.vb"
 
     ' Author:
     ' 

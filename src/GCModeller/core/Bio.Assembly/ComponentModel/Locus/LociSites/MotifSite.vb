@@ -55,13 +55,13 @@ Namespace ComponentModel.Loci
         ''' loci types
         ''' </summary>
         ''' <returns></returns>
-        Property Type As String
+        Property family As String
         ''' <summary>
         ''' loci name
         ''' </summary>
         ''' <returns></returns>
-        Property Name As String
-        Property Site As Location
+        Property name As String
+        Property site As Location
     End Interface
 
     ''' <summary>

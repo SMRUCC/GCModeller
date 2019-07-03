@@ -59,7 +59,7 @@ Namespace ComponentModel.DBLinkBuilder
 
     Public Interface IDBLink
         Property DbName As String
-        Property ID As String
+        Property EntryId As String
         ''' <summary>
         ''' 将对象模型转换为含有格式的字符串的值用以写入文件之中
         ''' </summary>

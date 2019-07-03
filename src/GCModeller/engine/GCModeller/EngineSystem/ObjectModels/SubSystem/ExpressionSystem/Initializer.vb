@@ -63,17 +63,17 @@ Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
                 Return -1
             End If
 
-            Me._ExpressionRegulationNetwork.RNAPolymerase = (From Id As String
-                                                          In Strings.Split(CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RNA_POLYMERASE_PROTEIN), "; ")
-                                                             Select New Feature.MetabolismEnzyme With {
-                                                              .EnzymeMetabolite = CellSystem.Metabolism.Metabolites.GetItem(Id),
-                                                              .Identifier = Id,
-                                                              .EnzymeKineticLaw = MathematicsModels.EnzymeKinetics.EnzymeCatalystKineticLaw.[New](CellSystem.DataModel.BacteriaGenome.GetExpressionKineticsLaw(Id))}).ToArray
-            _ExpressionRegulationNetwork.RibosomeAssemblyCompound = New Feature.MetabolismEnzyme With {
-                .EnzymeMetabolite = CellSystem.Metabolism.Metabolites.GetItem(CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES)),
-                .Identifier = CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES),
-                .EnzymeKineticLaw = MathematicsModels.EnzymeKinetics.EnzymeCatalystKineticLaw.[New](
-                    CellSystem.DataModel.BacteriaGenome.GetExpressionKineticsLaw(CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES)))}
+            'Me._ExpressionRegulationNetwork.RNAPolymerase = (From Id As String
+            '                                              In Strings.Split(CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RNA_POLYMERASE_PROTEIN), "; ")
+            '                                                 Select New Feature.MetabolismEnzyme With {
+            '                                                  .EnzymeMetabolite = CellSystem.Metabolism.Metabolites.GetItem(Id),
+            '                                                  .Identifier = Id,
+            '                                                  .EnzymeKineticLaw = MathematicsModels.EnzymeKinetics.EnzymeCatalystKineticLaw.[New](CellSystem.DataModel.BacteriaGenome.GetExpressionKineticsLaw(Id))}).ToArray
+            '_ExpressionRegulationNetwork.RibosomeAssemblyCompound = New Feature.MetabolismEnzyme With {
+            '    .EnzymeMetabolite = CellSystem.Metabolism.Metabolites.GetItem(CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES)),
+            '    .Identifier = CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES),
+            '    .EnzymeKineticLaw = MathematicsModels.EnzymeKinetics.EnzymeCatalystKineticLaw.[New](
+            '        CellSystem.DataModel.BacteriaGenome.GetExpressionKineticsLaw(CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES)))}
 
             Call _ExpressionRegulationNetwork.SystemLogging.WriteLine("Create transcripts object models......", "", MSG_TYPES.INF)
             _ExpressionRegulationNetwork._InternalTranscriptsPool = (From TranscriptModelBase As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript

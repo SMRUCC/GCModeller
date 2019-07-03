@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1569648876894a4be0f30b7350d8cdd, Circos\TrackDatas\Adapter\FeatureAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::b95b334171fd5af6d65ec34ab4620098, Circos\Circos\TrackDatas\Adapter\FeatureAnnotation.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module FeatureAnnotations
     ' 
-    '         Function: (+2 Overloads) __geneHighlights, GenerateGeneCircle, RNAVisualize
+    '         Function: __geneHighlights, geneHighlights, GenerateGeneCircle, RNAVisualize
     ' 
     '         Sub: addDisplayName
     ' 

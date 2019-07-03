@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ad315992e8369fdf16d00834a9e0b26, WebCloud\SMRUCC.WebCloud.QRCode\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::b4ffce505172b8295da97eeaf4fe6990, WebCloud\SMRUCC.WebCloud.QRCode\test\Program.vb"
 
     ' Author:
     ' 

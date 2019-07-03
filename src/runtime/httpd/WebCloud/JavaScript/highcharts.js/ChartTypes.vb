@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7dde580fecdffb37ac598b3f054f66f3, WebCloud\JavaScript\highcharts.js\ChartTypes.vb"
+﻿#Region "Microsoft.VisualBasic::eb30e5122b9fad56e8d62c8e2f545c31, WebCloud\JavaScript\highcharts.js\ChartTypes.vb"
 
     ' Author:
     ' 

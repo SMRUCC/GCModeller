@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fc568c097cb7e6d178c48b02d5b5727, WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::c72513d558e16f5515bd302d848a9107, WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
 
     ' Author:
     ' 
@@ -258,7 +258,7 @@ Namespace Core
         ''' </summary>
         Const NoData As String = "[ERR_EMPTY_RESPONSE::No data send]"
 
-        ReadOnly defaultResource As [Default](Of  IGetResource) = New IGetResource(AddressOf GetResource)
+        ReadOnly defaultResource As [Default](Of IGetResource) = New IGetResource(AddressOf GetResource)
 
         ''' <summary>
         ''' 默认的资源获取函数:<see cref="HttpFileSystem.GetResource(ByRef String)"/>.(默认是获取文件数据)

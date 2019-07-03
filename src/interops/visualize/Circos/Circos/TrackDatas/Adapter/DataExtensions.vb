@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c28f343f820b8319466599bf7066dc98, Circos\TrackDatas\Adapter\DataExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::ebabea94e11db7911eced5c67fe33491, Circos\Circos\TrackDatas\Adapter\DataExtensions.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module DataExtensions
     ' 
-    '         Function: GetchrLabels, Hits, Identities, IdentitiesTracks
+    '         Function: GetchrLabels
     ' 
     ' 
     ' /********************************************************************************/

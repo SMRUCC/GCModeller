@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0981431424b289897a0b718759e10e70, Circos\ConfFiles\ExtendedProperty.vb"
+﻿#Region "Microsoft.VisualBasic::f91d6b03fa72d0f75f03531d2e88da96, Circos\Circos\ConfFiles\CircosAttribute.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,6 @@
     '     Class CircosAttribute
     ' 
     ' 
-    ' 
-    '     Module ExtendedProperty
-    ' 
-    '         Function: Ideogram
     ' 
     ' 
     ' /********************************************************************************/

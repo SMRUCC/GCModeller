@@ -53,12 +53,12 @@ Namespace ProteinModel
         ''' 蛋白质结构域在数据库之中的编号或者名称
         ''' </summary>
         ''' <returns></returns>
-        Property ID As String
+        Property Id As String
         ''' <summary>
         ''' 在蛋白质分子序列上面的位置区域
         ''' </summary>
         ''' <returns></returns>
-        Property Location As Location
+        Property location As Location
 
     End Interface
 End Namespace

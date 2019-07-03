@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7b4581e039846134bd55a1636233825, blastn-assembler\Class1.vb"
+﻿#Region "Microsoft.VisualBasic::487d8a87cdf100564981a99709d7a7a0, assembler\Class1.vb"
 
     ' Author:
     ' 

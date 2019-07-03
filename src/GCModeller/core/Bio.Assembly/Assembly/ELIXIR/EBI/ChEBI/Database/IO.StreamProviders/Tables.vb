@@ -130,7 +130,9 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
                                   Return c _
                                       .GroupBy(Function(x) x.TYPE) _
                                       .ToDictionary(Function(t) t.Key,
-                                                    Function(list) list.ToArray)
+                                                    Function(list)
+                                                        Return list.ToArray
+                                                    End Function)
                               End Function)
         End Function
 
@@ -219,8 +221,8 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
                 .GroupBy(Function(t) t.COMPOUND_ID) _
                 .Select(Function(t)
                             Return New NamedCollection(Of Accession) With {
-                                .Name = t.Key,
-                                .Value = t.ToArray
+                                .name = t.Key,
+                                .value = t.ToArray
                             }
                         End Function) _
                 .ToDictionary

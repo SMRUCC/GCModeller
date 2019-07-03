@@ -90,7 +90,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         <ExternalKey("regulation", "", ExternalKey.Directions.Out)> <MetaCycField(Type:=MetaCycField.Types.TStr)>
         Public Property Regulates As List(Of String) Implements Regulation.IRegulator.Regulates
 
-        <MetaCycField()> Public Shadows Property Identifier As String Implements Slots.Protein.IEnzyme.locusId, Regulation.IRegulator.locusId
+        <MetaCycField()> Public Shadows Property Identifier As String Implements Slots.Protein.IEnzyme.nodes, Regulation.IRegulator.nodes
         <MetaCycField()> <XmlAttribute> Public Shadows Property CommonName As String Implements Slots.Protein.IEnzyme.Name, Regulation.IRegulator.CommonName
 
         Public Overrides ReadOnly Property Table As [Object].Tables

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c96c070a03ac4129af17ddca2ee201b, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\APIMethod.vb"
+﻿#Region "Microsoft.VisualBasic::cf11d711731ec2a03b19b3d721b9f484, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\APIMethod.vb"
 
     ' Author:
     ' 
@@ -64,7 +64,7 @@ Namespace AppEngine.APIMethods
 
         Public ReadOnly Property Response As Type
 
-        Protected Shared ReadOnly stringType As [Default](Of  Type) = GetType(String)
+        Protected Shared ReadOnly stringType As [Default](Of Type) = GetType(String)
 
         Sub New(responseExample As Type)
             Me.Response = responseExample

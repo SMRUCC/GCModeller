@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e24067b9265d9e0486625f22b802ffbb, WebCloud\JavaScript\font-awesome\Icon.vb"
+﻿#Region "Microsoft.VisualBasic::8ff47606671c5692e07cb5364198fa05, WebCloud\JavaScript\font-awesome\Icon.vb"
 
     ' Author:
     ' 

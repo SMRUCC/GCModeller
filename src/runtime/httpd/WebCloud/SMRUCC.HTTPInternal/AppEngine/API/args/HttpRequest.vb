@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ce3e330b16e00e1219e3134e4695aa2, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\args\HttpRequest.vb"
+﻿#Region "Microsoft.VisualBasic::1e0da82513a9ccc69cd79c9fb6fc28ce, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\args\HttpRequest.vb"
 
     ' Author:
     ' 
@@ -151,7 +151,7 @@ Namespace AppEngine.APIMethods.Arguments
             End Get
         End Property
 
-        Shared ReadOnly uploadfile As [Default](Of  String) = NameOf(uploadfile)
+        Shared ReadOnly uploadfile As [Default](Of String) = NameOf(uploadfile)
 
         ''' <summary>
         ''' 

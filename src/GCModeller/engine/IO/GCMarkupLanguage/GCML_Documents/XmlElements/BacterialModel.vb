@@ -191,7 +191,7 @@ Public Class BacterialModel : Inherits ModelBaseType
     Public Overloads Sub Copy(ByRef e As BacterialModel)
         e.Metabolism.Compartments = Me.Metabolism.Compartments
         e.BacteriaGenome.Genes = Me.BacteriaGenome.Genes
-        e.Metabolism.MetabolismEnzymes = Me.Metabolism.MetabolismEnzymes
+        '  e.Metabolism.MetabolismEnzymes = Me.Metabolism.MetabolismEnzymes
         e.Metabolism.MetabolismNetwork = Me.Metabolism.MetabolismNetwork
         e.Metabolism.Metabolites = Me.Metabolism.Metabolites
         e.ModelProperty = Me.ModelProperty

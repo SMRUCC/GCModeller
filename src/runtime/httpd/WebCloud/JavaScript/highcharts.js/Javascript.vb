@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68d2f67266bd673cc17b0307016418db, WebCloud\JavaScript\highcharts.js\Javascript.vb"
+﻿#Region "Microsoft.VisualBasic::10d8a118f1be5af7d2dda536ed1bff0b, WebCloud\JavaScript\highcharts.js\Javascript.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     ' Module Javascript
     ' 
-    '     Function: CreateDataSequence, FixDate, GetHtmlViewer, NewtonsoftJsonWriter, RemovesEmptyLine
-    '               RemoveTrailingComma, WriteJavascript
+    '     Function: CreateDataSequence, FixDate, GetHtmlViewer, GetHtmlViews, NewtonsoftJsonWriter
+    '               RemovesEmptyLine, RemoveTrailingComma, WriteJavascript
     ' 
     '     Sub: WriteHighchartsHTML
     ' 

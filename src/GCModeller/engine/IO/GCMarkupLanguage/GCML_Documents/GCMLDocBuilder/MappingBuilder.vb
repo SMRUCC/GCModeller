@@ -1,56 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::3a63f45dfc12382ae85c079cc9dfd4d6, IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MappingBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class MappingBuilder
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Invoke
-    ' 
-    '         Sub: GeneLinkMetabolism, Link, LinkGene
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class MappingBuilder
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: Invoke
+' 
+'         Sub: GeneLinkMetabolism, Link, LinkGene
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
-Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
 
 Namespace Builder
 
@@ -135,11 +132,11 @@ Namespace Builder
             Proteome.AddRange(Proteins)
             Proteome.AddRange(ProtLigandCplxes)
 
-            Dim EQuery = From e In Proteome.AsParallel Where e.Catalyze.Count > 0 Select New EnzymeCatalystKineticLaw With {.Enzyme = e.locusId} '
-            Model.Metabolism.MetabolismEnzymes = EQuery.ToArray
-            For i As Integer = 0 To Model.Metabolism.MetabolismEnzymes.Length - 1
-                '      Model.Metabolism.MetabolismEnzymes(i).Catalye = Model.Metabolism.MetabolismEnzymes(i).BaseType.Catalyze.ToArray  '生成催化关系的指针链接
-            Next
+            'Dim EQuery = From e In Proteome.AsParallel Where e.Catalyze.Count > 0 Select New EnzymeCatalystKineticLaw With {.Enzyme = e.locusId} '
+            'Model.Metabolism.MetabolismEnzymes = EQuery.ToArray
+            'For i As Integer = 0 To Model.Metabolism.MetabolismEnzymes.Length - 1
+            '    '      Model.Metabolism.MetabolismEnzymes(i).Catalye = Model.Metabolism.MetabolismEnzymes(i).BaseType.Catalyze.ToArray  '生成催化关系的指针链接
+            'Next
         End Sub
     End Class
 End Namespace

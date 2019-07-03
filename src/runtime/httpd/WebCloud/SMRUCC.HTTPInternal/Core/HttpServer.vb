@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccf18b3210f9f2434278516d18f334bb, WebCloud\SMRUCC.HTTPInternal\Core\HttpServer.vb"
+﻿#Region "Microsoft.VisualBasic::a9a4e743a2d821731f6bcf240951d866, WebCloud\SMRUCC.HTTPInternal\Core\HttpServer.vb"
 
     ' Author:
     ' 
@@ -97,7 +97,7 @@ Namespace Core
             End Get
         End Property
 
-        Shared ReadOnly defaultThreads As [Default](Of  Integer) = (LQuerySchedule.Recommended_NUM_THREADS * 8).AsDefault(Function(n) CInt(n) <= 0)
+        Shared ReadOnly defaultThreads As [Default](Of Integer) = (LQuerySchedule.Recommended_NUM_THREADS * 8).AsDefault(Function(n) CInt(n) <= 0)
 
         ''' <summary>
         ''' 

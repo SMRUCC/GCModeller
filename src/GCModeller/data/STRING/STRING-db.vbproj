@@ -261,10 +261,6 @@
       <Project>{387eb391-5940-40e2-83f9-20a49de9b4b6}</Project>
       <Name>psidev</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
-      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
-      <Name>SBML</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

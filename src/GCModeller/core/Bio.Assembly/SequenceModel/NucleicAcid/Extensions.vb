@@ -267,7 +267,9 @@ cause an out of memory condition when calculating the LD over two very large str
                 source _
                 .GroupBy(Function(s) s.Strand) _
                 .ToDictionary(Function(x) x.Key,
-                              Function(x) x.ToArray)
+                              Function(x)
+                                  Return x.ToArray
+                              End Function)
             Dim out As New List(Of SimpleSegment)
 
             If strands.ContainsKey("+") Then

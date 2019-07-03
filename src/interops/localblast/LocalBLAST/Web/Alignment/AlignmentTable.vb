@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::ae2b4b634f7bae8959134d4e11abf392, LocalBLAST\Web\AlignmentTable.vb"
+﻿#Region "Microsoft.VisualBasic::a0eabe67b3eeebf2ab8b34996ac44bb9, LocalBLAST\Web\Alignment\AlignmentTable.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class AlignmentTable
-' 
-'         Properties: Database, FilePath, Hits, Program, Query
-'                     RID
-' 
-'         Function: __substituted, __substituted2, DescriptionSubstituted, DescriptionSubstituted2, ExportOrderByGI
-'                   GetHitsEntryList, Save, ToString
-' 
-'         Sub: TrimLength
-' 
-' 
-' /********************************************************************************/
+    '     Class AlignmentTable
+    ' 
+    '         Properties: Database, Hits, Iteration, Program, Query
+    '                     RID
+    ' 
+    '         Function: __substituted2, DescriptionSubstituted, DescriptionSubstituted2, GenericEnumerator, GetEnumerator
+    '                   (+2 Overloads) Save, substituted, ToString
+    ' 
+    '         Sub: TrimLength
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

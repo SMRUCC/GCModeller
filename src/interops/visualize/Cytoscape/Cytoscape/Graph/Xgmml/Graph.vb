@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74343b4928575e95556becedabc4a7aa, visualize\Cytoscape\Cytoscape\Graph\Xgmml\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::03a50492fe2e8a313020230617709063, Cytoscape\Cytoscape\Graph\Xgmml\Graph.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     '                     ID, Label, NetworkMetaData, Nodes, Size
     ' 
     '         Function: (+2 Overloads) CreateObject, DeleteDuplication, ExistEdge, (+2 Overloads) GetNode, GetSize
-    '                   Load, Save
+    '                   Load, (+2 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/

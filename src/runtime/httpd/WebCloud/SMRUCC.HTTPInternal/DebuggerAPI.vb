@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27f583a525833ef3ff7de24da5ac5e0f, WebCloud\SMRUCC.HTTPInternal\DebuggerAPI.vb"
+﻿#Region "Microsoft.VisualBasic::8918ede440be5027d42e322889d74ec0, WebCloud\SMRUCC.HTTPInternal\DebuggerAPI.vb"
 
     ' Author:
     ' 

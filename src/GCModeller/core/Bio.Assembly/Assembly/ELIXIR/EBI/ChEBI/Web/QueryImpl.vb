@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::98d90a65061d17427dc1e452024f7171, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\QueryImpl.vb"
+﻿#Region "Microsoft.VisualBasic::eb8e69befec8df083d267dc51cacf92c, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\QueryImpl.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     '     Class QueryImpl
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: fileId, parseREST, prefix
+    '         Function: fileId, parsePrefix, parseREST
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::181ab7408e5ee0363b1406032ece724d, Circos\Karyotype\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::82c9e35a8c5d02c8431c12623e55ccde, Circos\Circos\Karyotype\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module KaryotypeExtensions
     ' 
-    '         Function: LoopHole, MapsRaw, nt
+    '         Function: nt
     ' 
     ' 
     ' /********************************************************************************/
