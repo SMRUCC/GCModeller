@@ -156,7 +156,7 @@ Namespace IO
             Dim duplicates$() = arrayCache _
                 .GroupBy(Function(s) s) _
                 .Where(Function(g) g.Count > 1) _
-                .Select(Function(g) g.nodes) _
+                .Select(Function(g) g.Key) _
                 .ToArray
 
             If Not duplicates.IsNullOrEmpty Then

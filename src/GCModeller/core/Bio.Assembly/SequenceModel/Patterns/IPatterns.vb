@@ -112,7 +112,7 @@ Namespace SequenceModel.Patterns
             End Get
         End Property
 
-        Public Property Address As Integer Implements IAddressOf.nodes
+        Public Property Address As Integer Implements IAddressOf.Address
 
         Sub New(f As Dictionary(Of Char, Double), i As Integer)
             Alphabets = f

@@ -61,8 +61,8 @@ Namespace Assembly.NCBI.GenBank.GBFF
         Implements IKeyValuePairObject(Of String, Feature())
 
         Public Property Gene As String
-        Public Property LocusTag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Feature()).nodes
-        Public Property Features As Feature() Implements IKeyValuePairObject(Of String, Feature()).edges
+        Public Property LocusTag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Feature()).Key
+        Public Property Features As Feature() Implements IKeyValuePairObject(Of String, Feature()).Value
 
         Public Overrides Function ToString() As String
             Return LocusTag

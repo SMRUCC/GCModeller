@@ -54,7 +54,7 @@ Namespace Assembly.KEGG.Archives.Csv
     Public Class [Module] : Inherits PathwayBrief
         Implements IKeyValuePairObject(Of String, String())
 
-        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).nodes
+        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Key
             Get
                 Return MyBase.EntryId
             End Get
@@ -69,7 +69,7 @@ Namespace Assembly.KEGG.Archives.Csv
             End Get
         End Property
 
-        Public Property PathwayGenes As String() Implements IKeyValuePairObject(Of String, String()).edges
+        Public Property PathwayGenes As String() Implements IKeyValuePairObject(Of String, String()).Value
 
         Public Overrides Function GetPathwayGenes() As String()
             Return PathwayGenes

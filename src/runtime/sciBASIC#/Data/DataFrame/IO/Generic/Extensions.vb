@@ -212,7 +212,7 @@ Namespace IO
         ''' <returns></returns>
         <Extension>
         Public Function DataFrame(Of T As IPropertyValue)(data As IEnumerable(Of T)) As EntityObject()
-            Dim objects = data.GroupBy(Function(k) k.nodes).ToArray
+            Dim objects = data.GroupBy(Function(k) k.Key).ToArray
             Dim out As EntityObject() = objects _
                 .Select(AddressOf CreateObject) _
                 .ToArray
@@ -248,12 +248,13 @@ Namespace IO
             Dim data As [Property]() = g.ToArray
             Dim props As Dictionary(Of String, String) = data _
                 .GroupBy(Function(p) p.Property) _
-                .ToDictionary(Function(k) k.nodes,
-                              Function(v) v.Select(
-                              Function(s) s.edges).JoinBy("; "))
+                .ToDictionary(Function(k) k.Key,
+                              Function(v)
+                                  Return v.Select(Function(s) s.Value).JoinBy("; ")
+                              End Function)
 
             Return New EntityObject With {
-                .ID = g.nodes,
+                .ID = g.Key,
                 .Properties = props
             }
         End Function

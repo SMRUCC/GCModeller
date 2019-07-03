@@ -63,14 +63,14 @@ Namespace ComponentModel.Annotation
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute>
-        Public Overridable Property Catalog As String Implements IGrouping(Of String, String).nodes, INamedValue.nodes
+        Public Overridable Property Catalog As String Implements IGrouping(Of String, String).Key, INamedValue.Key
         Public Property Description As String
 
         ''' <summary>
         ''' A list of gene ID that belongs to this catalog classify.
         ''' </summary>
         ''' <returns></returns>
-        Public Property IDs As String() Implements Value(Of String()).IValueOf.edges
+        Public Property IDs As String() Implements Value(Of String()).IValueOf.Value
             Get
                 Return list.ToArray
             End Get

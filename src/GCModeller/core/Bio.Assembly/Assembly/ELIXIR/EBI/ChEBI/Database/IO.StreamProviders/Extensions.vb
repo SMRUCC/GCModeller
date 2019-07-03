@@ -103,7 +103,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv
 
         Public Property ChEBI_ID As String Implements IKeyedEntity(Of String).Key
 
-        Private Property ID As Integer Implements IAddress(Of Integer).nodes
+        Private Property ID As Integer Implements IAddress(Of Integer).Address
             Get
                 Return Val(ChEBI_ID)
             End Get
