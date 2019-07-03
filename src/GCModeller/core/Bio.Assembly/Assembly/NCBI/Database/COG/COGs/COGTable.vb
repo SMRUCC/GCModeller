@@ -163,7 +163,7 @@ Namespace Assembly.NCBI.COG.COGs
         Public Shared Function GI2COGs(cogTable As IEnumerable(Of COGTable)) As Dictionary(Of String, NamedValue(Of String()))
             Dim proteins = cogTable.GroupBy(Function(prot) prot.ProteinID)
             Dim out = proteins.ToDictionary(
-                Function(prot) prot.nodes,
+                Function(prot) prot.Key,
                 Function(prot)
                     Return New NamedValue(Of String()) With {
                         .Name = prot.First.GenomeName,

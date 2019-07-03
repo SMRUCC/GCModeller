@@ -95,7 +95,7 @@ Namespace Assembly.Uniprot.XML
             Select Case type
                 Case IDTypes.Accession
                     Return Function(prot As entry)
-                               Return DirectCast(prot, INamedValue).nodes
+                               Return DirectCast(prot, INamedValue).Key
                            End Function
                 Case IDTypes.EMBL
                     Return Function(prot As entry)

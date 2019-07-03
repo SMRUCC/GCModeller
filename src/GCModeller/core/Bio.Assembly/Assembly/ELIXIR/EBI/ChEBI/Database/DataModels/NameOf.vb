@@ -87,19 +87,23 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
 
             Me.chebiInChI = table.GetInChI _
                 .GroupBy(Function(m) m.CHEBI_ID) _
-                .ToDictionary(Function(c) c.nodes,
-                              Function(g) g.ToArray)
+                .ToDictionary(Function(c) c.Key,
+                              Function(g)
+                                  Return g.ToArray
+                              End Function)
             Me.formulas = chemicals _
                 .Where(Function(c) c.TYPE = "FORMULA") _
                 .GroupBy(Function(x) x.CHEMICAL_DATA) _
-                .ToDictionary(Function(x) x.nodes,
-                              Function(g) g.ToArray)
+                .ToDictionary(Function(x) x.Key,
+                              Function(g)
+                                  Return g.ToArray
+                              End Function)
             Me.masses = chemicals _
                 .Where(Function(c) c.TYPE = "MASS") _
                 .GroupBy(Function(x) Val(x.CHEMICAL_DATA)) _
                 .Select(Function(t)
                             Return New DoubleTagged(Of Tables.ChemicalData()) With {
-                                .Tag = t.nodes,
+                                .Tag = t.Key,
                                 .Value = t.ToArray
                             }
                         End Function) _
@@ -107,23 +111,23 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
                 .ToArray
             Me.chebiChemicalDatas = chemicals _
                 .GroupBy(Function(c) c.COMPOUND_ID) _
-                .ToDictionary(Function(id) id.nodes,
+                .ToDictionary(Function(id) id.Key,
                               AddressOf __valueTable)
             Me.names = names _
                 .GroupBy(Function(name) name.NAME.ToLower) _
-                .ToDictionary(Function(k) k.nodes,
+                .ToDictionary(Function(k) k.Key,
                               Function(g) g.ToArray)
             Me.chebiNames = names _
                 .GroupBy(Function(name) name.COMPOUND_ID) _
-                .ToDictionary(Function(ID) ID.nodes,
+                .ToDictionary(Function(ID) ID.Key,
                               Function(nameList) nameList.ToArray)
             Me.chebiXrefs = accIDs _
                 .GroupBy(Function(acc) acc.COMPOUND_ID) _
-                .ToDictionary(Function(k) k.nodes,
+                .ToDictionary(Function(k) k.Key,
                               Function(g)
                                   Return g _
                                       .GroupBy(Function(db) db.TYPE) _
-                                      .ToDictionary(Function(db) accessionTypes(db.nodes),
+                                      .ToDictionary(Function(db) accessionTypes(db.Key),
                                                     Function(db) db.First)
                               End Function)
             Me.DbXrefs = accIDs _
@@ -131,9 +135,10 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
                             Return New Tuple(Of AccessionTypes, Tables.Accession)(accessionTypes(id.TYPE), id)
                         End Function) _
                 .GroupBy(Function(t) t.Item1) _
-                .ToDictionary(Function(k) k.nodes,
-                              Function(g) g.Select(
-                              Function(id) id.Item2).ToArray)
+                .ToDictionary(Function(k) k.Key,
+                              Function(g)
+                                  Return g.Select(Function(id) id.Item2).ToArray
+                              End Function)
         End Sub
 
         Public Function GetInCHIData(chebiID$) As Tables.InChI()
@@ -149,9 +154,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
                 .ToArray _
                 .GroupBy(Function(x) x.TYPE) _
                 .ToArray
-            Dim out = g.ToDictionary(
-                Function(t) t.nodes,
-                Function(t) t.First)
+            Dim out = g.ToDictionary(Function(t) t.Key, Function(t) t.First)
             Return out
         End Function
 

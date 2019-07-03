@@ -89,8 +89,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .EnumerateEntries _
                 .Where(Function(x) Not x.entryID.StringEmpty) _
                 .GroupBy(Function(t) t.entryID) _
-                .ToDictionary(Function(k) k.nodes,
-                              Function(o) o.First)
+                .ToDictionary(Function(k) k.Key,
+                              Function(o)
+                                  Return o.First
+                              End Function)
         End Function
 
         Public Overrides Function ToString() As String

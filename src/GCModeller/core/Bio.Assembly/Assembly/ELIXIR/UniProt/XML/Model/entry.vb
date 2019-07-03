@@ -107,8 +107,10 @@ Namespace Assembly.Uniprot.XML
                     _CommentList = value _
                         .OrderBy(Function(c) c.type) _
                         .GroupBy(Function(c) c.type) _
-                        .ToDictionary(Function(t) t.nodes,
-                                      Function(v) v.ToArray)
+                        .ToDictionary(Function(t) t.Key,
+                                      Function(v)
+                                          Return v.ToArray
+                                      End Function)
                 End If
             End Set
         End Property
@@ -130,8 +132,10 @@ Namespace Assembly.Uniprot.XML
                 _xrefs = value _
                     .OrderBy(Function(ref) ref.type) _
                     .GroupBy(Function(ref) ref.type) _
-                    .ToDictionary(Function(t) t.nodes,
-                                  Function(v) v.ToArray)
+                    .ToDictionary(Function(t) t.Key,
+                                  Function(v)
+                                      Return v.ToArray
+                                  End Function)
             End Set
         End Property
 

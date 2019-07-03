@@ -80,8 +80,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim maps = htext.Hierarchical _
                 .EnumerateEntries _
                 .GroupBy(Function(x) x.entryID) _
-                .ToDictionary(Function(x) x.nodes,
-                              Function(g) g.ToArray)
+                .ToDictionary(Function(x) x.Key,
+                              Function(g)
+                                  Return g.ToArray
+                              End Function)
             Return maps
         End Function
     End Class

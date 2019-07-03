@@ -155,7 +155,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                 t _
                 .Select(Function(s) s.GetTagValue(":", trim:=True)) _
                 .GroupBy(Function(o) o.Name) _
-                .ToDictionary(Function(k) k.nodes,
+                .ToDictionary(Function(k) k.Key,
                               Function(v)
                                   Return v.Select(Function(x) x.Value).ToArray
                               End Function)

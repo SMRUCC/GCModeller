@@ -58,8 +58,7 @@ Namespace ContextModel
             If Gene Is Nothing Then
                 Return True
             End If
-            Return String.Equals(Gene.nodes, BLANK_VALUE) OrElse
-                Gene.Location.FragmentSize = 0
+            Return String.Equals(Gene.Key, BLANK_VALUE) OrElse Gene.Location.FragmentSize = 0
         End Function
 
         Public Const BLANK_VALUE As String = "Blank"
@@ -68,7 +67,7 @@ Namespace ContextModel
             Dim BlankData = Activator.CreateInstance(Of T)()
             BlankData.Feature = BLANK_VALUE
             BlankData.Product = BLANK_VALUE
-            BlankData.nodes = BLANK_VALUE
+            BlankData.Key = BLANK_VALUE
             BlankData.Length = Location.FragmentSize
             BlankData.Location = Location
             Return BlankData
@@ -164,17 +163,17 @@ Namespace ContextModel
                 Return Intergenic
 
             ElseIf posi = SegmentRelationships.DownStream Then
-                Return String.Format(DownStream, data.nodes)
+                Return String.Format(DownStream, data.Key)
             ElseIf posi = SegmentRelationships.Equals Then
-                Return String.Format(IsORF, data.nodes)
+                Return String.Format(IsORF, data.Key)
             ElseIf posi = SegmentRelationships.Inside Then
-                Return String.Format(Inside, data.nodes)
+                Return String.Format(Inside, data.Key)
             ElseIf posi = SegmentRelationships.DownStreamOverlap Then
-                Return String.Format(OverloapsDownStream, data.nodes)
+                Return String.Format(OverloapsDownStream, data.Key)
             ElseIf posi = SegmentRelationships.UpStreamOverlap Then
-                Return String.Format(OverlapsUpStream, data.nodes)
+                Return String.Format(OverlapsUpStream, data.Key)
             Else
-                Return String.Format(PromoterRegion, data.nodes)
+                Return String.Format(PromoterRegion, data.Key)
             End If
         End Function
     End Module

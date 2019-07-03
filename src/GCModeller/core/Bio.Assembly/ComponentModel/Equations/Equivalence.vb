@@ -57,9 +57,9 @@ Namespace ComponentModel.EquaionModel
             End If
 
             If strict Then
-                Return b.nodes = a.nodes
+                Return b.Key = a.Key
             Else
-                Return String.Equals(b.nodes, a.nodes, StringComparison.OrdinalIgnoreCase)
+                Return String.Equals(b.Key, a.Key, StringComparison.OrdinalIgnoreCase)
             End If
         End Function
 

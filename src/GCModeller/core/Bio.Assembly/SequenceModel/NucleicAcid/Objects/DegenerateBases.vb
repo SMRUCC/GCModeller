@@ -91,7 +91,7 @@ Namespace SequenceModel.NucleotideModels
                 .GroupBy(Function(base) base.base)
 
             BaseDegenerateEntries = group _
-                .ToDictionary(Function(base) base.nodes,
+                .ToDictionary(Function(base) base.Key,
                               Function(dgBases)
                                   Return dgBases _
                                       .Select(Function(d) d.dg) _

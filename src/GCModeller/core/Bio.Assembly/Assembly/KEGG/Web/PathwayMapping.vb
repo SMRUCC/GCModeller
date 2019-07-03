@@ -290,8 +290,10 @@ Namespace Assembly.KEGG.WebServices
                 .EnumerateEntries _
                 .Where(Function(x) Not x.entryID Is Nothing) _
                 .GroupBy(Function(x) x.entryID) _
-                .ToDictionary(Function(x) x.nodes,
-                              Function(x) x.First)
+                .ToDictionary(Function(x) x.Key,
+                              Function(x)
+                                  Return x.First
+                              End Function)
             Return KO_htext
         End Function
 
@@ -319,8 +321,10 @@ Namespace Assembly.KEGG.WebServices
                         End Function) _
                 .Where(Function(x) Not x.EntryID.StringEmpty) _
                 .GroupBy(Function(x) x.EntryID) _
-                .ToDictionary(Function(x) x.nodes,
-                              Function(x) x.First.KO)
+                .ToDictionary(Function(x) x.Key,
+                              Function(x)
+                                  Return x.First.KO
+                              End Function)
             Return KO_maps.KOCatalog(KO_htext)
         End Function
 
@@ -334,11 +338,11 @@ Namespace Assembly.KEGG.WebServices
                .Load(ko00001.SolveStream) _
                .EnumerateEntries _
                .Select(Function(x)
-                           With x.Parent
+                           With x.parent
                                If .ByRef Is Nothing Then
                                    Return Nothing
                                Else
-                                   Dim PATH As String = .ClassLabel _
+                                   Dim PATH As String = .classLabel _
                                        .Match("PATH[:].+\d+") _
                                        .Trim("]"c) _
                                        .GetTagValue(":") _
@@ -349,8 +353,10 @@ Namespace Assembly.KEGG.WebServices
                        End Function) _
                .Where(Function(x) Not x.Name.StringEmpty) _
                .GroupBy(Function(x) x.Name) _
-               .ToDictionary(Function(x) x.nodes,
-                             Function(x) x.First.Value)
+               .ToDictionary(Function(x) x.Key,
+                             Function(x)
+                                 Return x.First.Value
+                             End Function)
             Return KO_htext
         End Function
 

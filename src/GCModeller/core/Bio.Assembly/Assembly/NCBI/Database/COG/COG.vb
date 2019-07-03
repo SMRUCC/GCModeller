@@ -84,7 +84,7 @@ Namespace Assembly.NCBI.COG
             Dim locus = source _
                 .Select(Function(x)
                             Return New With {
-                                x.nodes,
+                                x.Key,
                                 .COG = Strings.UCase([Function].__trimCOGs(x.Feature))
                             }
                         End Function) _
