@@ -220,8 +220,10 @@ Namespace ApplicationServices.Development
                 Dim types = methods _
                     .Where(Function(s) s.Name <> "New") _
                     .GroupBy(Function(m) m.Value) _
-                    .ToDictionary(Function(t) t.nodes,
-                                  Function(l) l.Keys.memberList)
+                    .ToDictionary(Function(t) t.Key,
+                                  Function(l)
+                                      Return l.Keys.memberList
+                                  End Function)
 
                 If constructors.Length > 0 Then
                     members += container.Description & $"    Constructor: (+{constructors.Count} Overloads) Sub New"
@@ -288,12 +290,12 @@ Namespace ApplicationServices.Development
         <Extension> Private Function memberList(names As IEnumerable(Of String)) As String()
             Return names _
                 .GroupBy(Function(pName) pName) _
-                .OrderBy(Function(pName) pName.nodes) _
+                .OrderBy(Function(pName) pName.Key) _
                 .Select(Function(overload)
                             If overload.Count = 1 Then
-                                Return overload.nodes
+                                Return overload.Key
                             Else
-                                Return $"(+{overload.Count} Overloads) " & overload.nodes
+                                Return $"(+{overload.Count} Overloads) " & overload.Key
                             End If
                         End Function) _
                 .Split(5) _

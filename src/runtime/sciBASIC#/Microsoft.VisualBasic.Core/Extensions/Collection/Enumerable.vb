@@ -87,7 +87,7 @@ Public Module IEnumerations
                                                     toDiffer As IEnumerable(Of T2),
                                                     getId As Func(Of T2, String)) As String()
 
-        Dim targetIndex As String() = (From item As T In source Select item.nodes).ToArray
+        Dim targetIndex As String() = (From item As T In source Select item.Key).ToArray
         Dim LQuery$() = LinqAPI.Exec(Of String) _
  _
             () <= From item As T2
@@ -100,11 +100,11 @@ Public Module IEnumerations
     End Function
 
     <Extension> Public Function Differ(Of T As INamedValue, T2 As INamedValue)(source As IEnumerable(Of T), ToDiffer As IEnumerable(Of T2)) As String()
-        Dim targetIndex As String() = (From item In source Select item.nodes).ToArray
+        Dim targetIndex As String() = (From item In source Select item.Key).ToArray
         Dim LQuery = (From item As T2
                       In ToDiffer
-                      Where Array.IndexOf(targetIndex, item.nodes) = -1
-                      Select item.nodes).ToArray
+                      Where Array.IndexOf(targetIndex, item.Key) = -1
+                      Select item.Key).ToArray
         Return LQuery
     End Function
 
@@ -187,7 +187,7 @@ Public Module IEnumerations
  _
                 () <= From x As T
                       In source
-                      Where String.Equals(x.nodes, uniqueId, StringComparison.OrdinalIgnoreCase)
+                      Where String.Equals(x.Key, uniqueId, StringComparison.OrdinalIgnoreCase)
                       Select x
         End If
     End Function
@@ -196,7 +196,7 @@ Public Module IEnumerations
     ''' 按照uniqueId列表来筛选出目标集合，这个函数是使用字典来进行查询操作的，故而效率会比较高
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    ''' <param name="list">The list of ID value for <see cref="INamedValue.nodes"/></param>
+    ''' <param name="list">The list of ID value for <see cref="INamedValue.Key"/></param>
     ''' <param name="source"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>

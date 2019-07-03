@@ -70,11 +70,13 @@ Namespace ApplicationServices.Development.XmlDoc.Serialization
                 .IteratesALL _
                 .Where(AddressOf IsNamespaceDoc) _
                 .GroupBy(Function(doc) doc.Namespace.Path) _
-                .ToDictionary(Function(ns) ns.nodes,
+                .ToDictionary(Function(ns) ns.Key,
                               Function(nsGroup)
                                   Return nsGroup _
                                       .Select(Function(doc) doc.Summary) _
-                                      .Where(Function(s) Not s.StringEmpty) _
+                                      .Where(Function(s)
+                                                 Return Not s.StringEmpty
+                                             End Function) _
                                       .Distinct _
                                       .JoinBy(ASCII.LF & ASCII.LF)
                               End Function)

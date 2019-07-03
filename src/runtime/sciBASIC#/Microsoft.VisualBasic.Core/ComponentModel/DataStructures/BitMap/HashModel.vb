@@ -124,7 +124,7 @@ Namespace ComponentModel
             Dim chunk As TOut() = New TOut(length - 1) {}
 
             For Each x As T In source
-                chunk(x.nodes) = getValue(x)
+                chunk(x.Address) = getValue(x)
             Next
 
             Return chunk

@@ -74,7 +74,7 @@ Namespace ComponentModel.Collection
                Optional cut As Double = 0.6,
                Optional parallel As Boolean = False) As GroupResult(Of T, String)()
 
-            Return source.FuzzyGroups(Function(x) x.nodes, cut, parallel).ToArray
+            Return source.FuzzyGroups(Function(x) x.Key, cut, parallel).ToArray
         End Function
 
         ''' <summary>
