@@ -44,7 +44,7 @@ Namespace ComponentModel
 
     Public Interface IMolecule
 
-        Property nodes As String
+        Property EntryId As String
         Property Name As String
         Property Mass As Double
         Property Formula As String

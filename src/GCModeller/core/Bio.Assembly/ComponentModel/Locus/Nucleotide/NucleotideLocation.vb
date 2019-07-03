@@ -175,8 +175,8 @@ Namespace ComponentModel.Loci
         End Sub
 
         Sub New(loci As ILocationComponent, Optional strand As Strands = Strands.Forward)
-            MyBase.Left = loci.nodes
-            MyBase.Right = loci.edges
+            MyBase.Left = loci.left
+            MyBase.Right = loci.right
             Me.Strand = strand
         End Sub
 

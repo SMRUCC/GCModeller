@@ -58,8 +58,8 @@ Namespace ComponentModel.Loci
         Implements IMotifSite
 
         Public Property TagData As String Implements IMotifSite.name, IMotifSite.family
-        Public Property Left As Integer Implements ILocationComponent.nodes
-        Public Property Right As Integer Implements ILocationComponent.edges
+        Public Property Left As Integer Implements ILocationComponent.left
+        Public Property Right As Integer Implements ILocationComponent.right
 
         Private Property Site As Location Implements IMotifSite.site
             Get

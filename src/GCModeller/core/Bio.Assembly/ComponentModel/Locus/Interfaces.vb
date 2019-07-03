@@ -98,7 +98,7 @@ Namespace ComponentModel.Loci.Abstract
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Property edges As Integer
+        Property right As Integer
     End Interface
 
     ''' <summary>
@@ -112,6 +112,6 @@ Namespace ComponentModel.Loci.Abstract
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Property nodes As Integer
+        Property left As Integer
     End Interface
 End Namespace
