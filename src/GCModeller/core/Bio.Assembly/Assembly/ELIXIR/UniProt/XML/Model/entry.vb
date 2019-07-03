@@ -108,7 +108,9 @@ Namespace Assembly.Uniprot.XML
                         .OrderBy(Function(c) c.type) _
                         .GroupBy(Function(c) c.type) _
                         .ToDictionary(Function(t) t.Key,
-                                      Function(v) v.ToArray)
+                                      Function(v)
+                                          Return v.ToArray
+                                      End Function)
                 End If
             End Set
         End Property
@@ -131,7 +133,9 @@ Namespace Assembly.Uniprot.XML
                     .OrderBy(Function(ref) ref.type) _
                     .GroupBy(Function(ref) ref.type) _
                     .ToDictionary(Function(t) t.Key,
-                                  Function(v) v.ToArray)
+                                  Function(v)
+                                      Return v.ToArray
+                                  End Function)
             End Set
         End Property
 

@@ -75,7 +75,7 @@ Partial Module CLI
         Dim save$ = args("/save") Or "./br08201/"
 
         Return EnzymaticReaction _
-            .DownloadReactions(save) _
+            .DownloadReactions(save, cache:=$"{save}/.br08201/") _
             .SaveTo(save & "/failures.txt") _
             .CLICode
     End Function

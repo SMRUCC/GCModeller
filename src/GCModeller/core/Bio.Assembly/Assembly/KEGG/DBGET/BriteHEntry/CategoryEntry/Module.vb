@@ -76,7 +76,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Property Entry As KeyValuePair
 
-        Public ReadOnly Property EntryId As String Implements IReadOnlyId.Identity
+        Public ReadOnly Property EntryId As String Implements IReadOnlyId.Key
             Get
                 Return Entry.Key
             End Get

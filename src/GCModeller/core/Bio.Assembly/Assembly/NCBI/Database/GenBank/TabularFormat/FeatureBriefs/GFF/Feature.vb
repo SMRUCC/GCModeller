@@ -274,7 +274,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End Set
         End Property
 
-        Public Property Right As Integer Implements ILocationComponent.Right
+        Public Property Right As Integer Implements ILocationComponent.right
             Get
                 Return _right
             End Get
@@ -286,7 +286,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
         Dim _left As Integer, _right As Integer
 
-        Public Property Left As Integer Implements ILoci.Left
+        Public Property Left As Integer Implements ILoci.left
             Get
                 Return _left
             End Get

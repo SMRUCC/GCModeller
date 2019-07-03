@@ -167,7 +167,9 @@ Namespace Assembly.Uniprot.XML
                     table = value _
                         .GroupBy(Function(name) name.type) _
                         .ToDictionary(Function(n) n.Key,
-                                      Function(g) g.ToArray)
+                                      Function(g)
+                                          Return g.ToArray
+                                      End Function)
                 End If
             End Set
         End Property

@@ -88,12 +88,16 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
             Me.chebiInChI = table.GetInChI _
                 .GroupBy(Function(m) m.CHEBI_ID) _
                 .ToDictionary(Function(c) c.Key,
-                              Function(g) g.ToArray)
+                              Function(g)
+                                  Return g.ToArray
+                              End Function)
             Me.formulas = chemicals _
                 .Where(Function(c) c.TYPE = "FORMULA") _
                 .GroupBy(Function(x) x.CHEMICAL_DATA) _
                 .ToDictionary(Function(x) x.Key,
-                              Function(g) g.ToArray)
+                              Function(g)
+                                  Return g.ToArray
+                              End Function)
             Me.masses = chemicals _
                 .Where(Function(c) c.TYPE = "MASS") _
                 .GroupBy(Function(x) Val(x.CHEMICAL_DATA)) _
@@ -132,8 +136,9 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
                         End Function) _
                 .GroupBy(Function(t) t.Item1) _
                 .ToDictionary(Function(k) k.Key,
-                              Function(g) g.Select(
-                              Function(id) id.Item2).ToArray)
+                              Function(g)
+                                  Return g.Select(Function(id) id.Item2).ToArray
+                              End Function)
         End Sub
 
         Public Function GetInCHIData(chebiID$) As Tables.InChI()
@@ -149,9 +154,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
                 .ToArray _
                 .GroupBy(Function(x) x.TYPE) _
                 .ToArray
-            Dim out = g.ToDictionary(
-                Function(t) t.Key,
-                Function(t) t.First)
+            Dim out = g.ToDictionary(Function(t) t.Key, Function(t) t.First)
             Return out
         End Function
 
