@@ -124,7 +124,7 @@ Namespace ComponentModel
         ''' <returns></returns>
         Public ReadOnly Property [Next] As LinkNode(Of T)
             Get
-                Return New LinkNode(Of T)(list.Next(node.nodes), list)
+                Return New LinkNode(Of T)(list.Next(node.Address), list)
             End Get
         End Property
 
@@ -134,7 +134,7 @@ Namespace ComponentModel
         ''' <returns></returns>
         Public ReadOnly Property Previous As LinkNode(Of T)
             Get
-                Return New LinkNode(Of T)(list.Previous(node.nodes), list)
+                Return New LinkNode(Of T)(list.Previous(node.Address), list)
             End Get
         End Property
 
@@ -178,11 +178,11 @@ Namespace ComponentModel
         End Function
 
         Public Function [Next](x As T) As T
-            Return [Next](x.nodes)
+            Return [Next](x.Address)
         End Function
 
         Public Function [Next](x As String) As T
-            Dim pos As Integer = __innerHash(x).nodes
+            Dim pos As Integer = __innerHash(x).Address
             Dim n As T = __innerList(pos + 1)
             Return n
         End Function
@@ -192,12 +192,12 @@ Namespace ComponentModel
         End Function
 
         Public Function Previous(x As T) As T
-            Dim pos As Integer = __innerHash(x.nodes).nodes
+            Dim pos As Integer = __innerHash(x.Address).Address
             Return __innerList(pos - 1)
         End Function
 
         Public Function Previous(x As String) As T
-            Dim pos As Integer = __innerHash(x).nodes
+            Dim pos As Integer = __innerHash(x).Address
             Return __innerList(pos - 1)
         End Function
 
@@ -210,22 +210,22 @@ Namespace ComponentModel
         End Function
 
         Public Function Current(i As Integer) As LinkNode(Of T)
-            Dim name As String = __innerList(i).nodes
+            Dim name As String = __innerList(i).Address
             Return New LinkNode(Of T)(name, Me)
         End Function
 
         Public Sub Remove(x As String)
             Dim n As T = Current(x).node
-            __innerList(n.nodes) = Nothing
-            __innerHash.Remove(n.nodes)
-            __emptys.Enqueue(n.nodes)
+            __innerList(n.Address) = Nothing
+            __innerHash.Remove(n.Address)
+            __emptys.Enqueue(n.Address)
         End Sub
 
         Public Sub Remove(i As Integer)
             Dim n As T = __innerList(i)
-            __innerList(n.nodes) = Nothing
-            __innerHash.Remove(n.nodes)
-            __emptys.Enqueue(n.nodes)
+            __innerList(n.Address) = Nothing
+            __innerHash.Remove(n.Address)
+            __emptys.Enqueue(n.Address)
         End Sub
 
         Public Sub Add(x As T)
@@ -238,7 +238,7 @@ Namespace ComponentModel
             Call x.Assign(address:=i)
 
             __innerList(i) = x
-            __innerHash(x.nodes) = x
+            __innerHash(x.Address) = x
         End Sub
 
         Public Sub Add(source As IEnumerable(Of T))

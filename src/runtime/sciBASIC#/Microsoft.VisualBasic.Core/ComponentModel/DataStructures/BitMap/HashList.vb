@@ -170,7 +170,7 @@ Namespace ComponentModel
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Contains(x As T) As Boolean
-            Return Not Me(x.nodes) Is Nothing
+            Return Not Me(x.Address) Is Nothing
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -185,7 +185,7 @@ Namespace ComponentModel
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Remove(x As T)
-            list(x.nodes) = Nothing
+            list(x.Address) = Nothing
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -205,13 +205,13 @@ Namespace ComponentModel
         ''' <param name="x"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Add(x As T)
-            If list.Count <= x.nodes Then
-                For i As Integer = 0 To x.nodes - list.Count
+            If list.Count <= x.Address Then
+                For i As Integer = 0 To x.Address - list.Count
                     list.Add(Nothing)
                 Next
             End If
 
-            list(x.nodes) = x
+            list(x.Address) = x
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

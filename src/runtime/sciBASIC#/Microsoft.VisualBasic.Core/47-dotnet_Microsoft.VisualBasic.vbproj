@@ -1186,7 +1186,7 @@
     <Compile Include="Language\Linq\Indexer.vb" />
     <Compile Include="Language\Linq\Vectorization\Vector.vb" />
     <Compile Include="Language\Linq\Vectorization\VectorShadows.vb" />
-    <Compile Include="Language\Linq\List%28Of T%29.vb" />
+    <Compile Include="Language\Linq\List.vb" />
     <Compile Include="Language\Language\Perl\die.vb" />
     <Compile Include="Language\API.vb" />
     <Compile Include="Language\Value\DefaultValue\Default.vb" />
