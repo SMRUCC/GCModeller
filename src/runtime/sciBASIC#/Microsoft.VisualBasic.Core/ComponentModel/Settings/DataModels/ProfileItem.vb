@@ -97,8 +97,8 @@ Namespace ComponentModel.Settings
         Implements IKeyValuePairObject(Of String, String)
         Implements INamedValue
 
-        <XmlAttribute> Public Overridable Property Name As String Implements IKeyValuePairObject(Of String, String).nodes, INamedValue.Key
-        <XmlAttribute> Public Overridable Property Description As String Implements IKeyValuePairObject(Of String, String).edges
+        <XmlAttribute> Public Overridable Property Name As String Implements IKeyValuePairObject(Of String, String).Key, INamedValue.Key
+        <XmlAttribute> Public Overridable Property Description As String Implements IKeyValuePairObject(Of String, String).Value
 
         ''' <summary>
         ''' 默认的数据类型是字符串类型

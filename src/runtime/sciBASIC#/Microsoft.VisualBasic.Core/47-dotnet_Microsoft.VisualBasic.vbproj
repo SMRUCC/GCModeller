@@ -1209,7 +1209,7 @@
     <Compile Include="Text\Xml\Models\Coordinate.vb" />
     <Compile Include="ComponentModel\DataSource\Property\DynamicProperty.vb" />
     <Compile Include="ComponentModel\DataSource\Iterator.vb" />
-    <Compile Include="ComponentModel\DataStructures\Tree\BinaryTree\TreeNode%28Of T%29.vb" />
+    <Compile Include="ComponentModel\DataStructures\Tree\BinaryTree\TreeNode.vb" />
     <Compile Include="ComponentModel\DataSource\Repository\ILocalSearchHandle.vb" />
     <Compile Include="Extensions\Collection\Enumerable.vb" />
     <Compile Include="ComponentModel\DataStructures\Set\Set.vb" />

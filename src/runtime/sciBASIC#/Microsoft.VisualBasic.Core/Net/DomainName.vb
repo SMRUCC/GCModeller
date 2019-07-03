@@ -50,12 +50,12 @@ Namespace Net
 
     Public Structure DomainName : Implements IKeyValuePairObject(Of String, String)
 
-        Public Property Domain As String Implements IKeyValuePairObject(Of String, String).nodes
+        Public Property Domain As String Implements IKeyValuePairObject(Of String, String).Key
         ''' <summary>
         ''' 顶级域名
         ''' </summary>
         ''' <returns></returns>
-        Public Property TLD As String Implements IKeyValuePairObject(Of String, String).edges
+        Public Property TLD As String Implements IKeyValuePairObject(Of String, String).Value
 
         Public ReadOnly Property Invalid As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
