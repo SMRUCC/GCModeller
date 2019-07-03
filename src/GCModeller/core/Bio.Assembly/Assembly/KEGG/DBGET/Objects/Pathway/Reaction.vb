@@ -108,7 +108,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Const Xmlns$ = "http://GCModeller.org/core/KEGG/DBGET/Reaction.xsd"
 
         ''' <summary>
-        ''' 代谢反应的KEGG编号，格式为``R\d+``，同时这个属性也是<see cref="INamedValue.nodes"/>
+        ''' 代谢反应的KEGG编号，格式为``R\d+``，同时这个属性也是<see cref="INamedValue.Key"/>
         ''' </summary>
         ''' <returns></returns>
         <XmlElement("ID")>

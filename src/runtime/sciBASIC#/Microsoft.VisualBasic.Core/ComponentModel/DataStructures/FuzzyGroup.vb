@@ -62,7 +62,7 @@ Namespace ComponentModel.Collection
     Public Module FuzzyGroup
 
         ''' <summary>
-        ''' Grouping objects in a collection based on their <see cref="INamedValue.nodes"/> string Fuzzy equals to others'.
+        ''' Grouping objects in a collection based on their <see cref="INamedValue.Key"/> string Fuzzy equals to others'.
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
