@@ -63,7 +63,7 @@ Public Class Vertex : Implements INamedValue
     ''' Array index.(使用数字表示的唯一标识符)
     ''' </summary>
     ''' <returns></returns>
-    <XmlAttribute> Public Property ID As Integer Implements IAddress(Of Integer).nodes
+    <XmlAttribute> Public Property ID As Integer Implements IAddress(Of Integer).Address
 
     Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
         ID = address

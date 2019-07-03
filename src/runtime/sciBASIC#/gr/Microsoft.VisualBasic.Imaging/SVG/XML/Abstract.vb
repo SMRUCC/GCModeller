@@ -70,7 +70,7 @@ Namespace SVG.XML
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("z-index")>
-        Public Property zIndex As Integer Implements CSSLayer.nodes, IAddressOf.nodes
+        Public Property zIndex As Integer Implements CSSLayer.nodes, IAddressOf.Address
 
         ''' <summary>
         ''' 
