@@ -80,7 +80,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         ''' Value text
         ''' </summary>
         ''' <returns></returns>
-        <XmlText> Public Property Value As String Implements IPropertyValue.edges
+        <XmlText> Public Property Value As String Implements IPropertyValue.Value
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

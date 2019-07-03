@@ -54,8 +54,8 @@ Namespace ComponentModel.TagData
         Implements Value(Of T).IValueOf
 
         <XmlAttribute>
-        Public Property line As Integer Implements IAddress(Of Integer).nodes
-        Public Property value As T Implements Value(Of T).IValueOf.edges
+        Public Property line As Integer Implements IAddress(Of Integer).Address
+        Public Property value As T Implements Value(Of T).IValueOf.Value
 
         Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
             line = address

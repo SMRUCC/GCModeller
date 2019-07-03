@@ -85,7 +85,7 @@ Namespace Text.Xml.Models
         ''' </summary>
         ''' <returns></returns>
         <XmlText>
-        Public Property text As String Implements Value(Of String).IValueOf.edges
+        Public Property text As String Implements Value(Of String).IValueOf.Value
 
         Sub New(name$, value$)
             Me.name = name

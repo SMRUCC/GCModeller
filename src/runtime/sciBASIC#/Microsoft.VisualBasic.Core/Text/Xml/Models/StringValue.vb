@@ -60,7 +60,7 @@ Namespace Text.Xml.Models
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute>
-        Public Property value As String Implements Value(Of String).IValueOf.edges
+        Public Property value As String Implements Value(Of String).IValueOf.Value
 
         Public Overrides Function ToString() As String
             Return value

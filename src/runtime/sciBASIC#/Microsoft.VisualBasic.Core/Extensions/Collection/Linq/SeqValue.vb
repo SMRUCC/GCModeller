@@ -71,12 +71,12 @@ Namespace Linq
         ''' The position of this object value in the original sequence.
         ''' </summary>
         ''' <returns></returns>
-        Public Property i As Integer Implements IAddressOf.nodes
+        Public Property i As Integer Implements IAddressOf.Address
         ''' <summary>
         ''' The Object data
         ''' </summary>
         ''' <returns></returns>
-        Public Property value As T Implements Value(Of T).IValueOf.edges
+        Public Property value As T Implements Value(Of T).IValueOf.Value
 
         ''' <summary>
         ''' This indexed value have no value.
