@@ -91,10 +91,10 @@ Namespace ComponentModel.Collection
         Default Public Overloads Property Item(o As V) As V
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return MyBase.Item(o.nodes)
+                Return MyBase.Item(o.Key)
             End Get
             Set(value As V)
-                MyBase.Item(o.nodes) = value
+                MyBase.Item(o.Key) = value
             End Set
         End Property
 
@@ -160,7 +160,7 @@ Namespace ComponentModel.Collection
 
             If overridesDuplicateds Then
                 For Each x As V In source
-                    Me(x.nodes) = x
+                    Me(x.Key) = x
                 Next
             Else
                 For Each x As V In source
@@ -178,20 +178,20 @@ Namespace ComponentModel.Collection
         ''' </summary>
         ''' <param name="item"></param>
         Public Overloads Sub Add(item As V)
-            Call MyBase.Add(item.nodes, item)
+            Call MyBase.Add(item.Key, item)
         End Sub
 
         Public Sub AddRange(source As IEnumerable(Of V))
             For Each x As V In source
-                Call MyBase.Add(x.nodes, x)
+                Call MyBase.Add(x.Key, x)
             Next
         End Sub
 
         Public Sub InsertOrUpdate(x As V)
-            If Me.ContainsKey(x.nodes) Then
-                Me(x.nodes) = x
+            If Me.ContainsKey(x.Key) Then
+                Me(x.Key) = x
             Else
-                Call MyBase.Add(x.nodes, x)
+                Call MyBase.Add(x.Key, x)
             End If
         End Sub
 
@@ -223,7 +223,7 @@ Namespace ComponentModel.Collection
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Have(item As V) As Boolean
-            Return MyBase.ContainsKey(item.nodes)
+            Return MyBase.ContainsKey(item.Key)
         End Function
 
         ''' <summary>
@@ -275,8 +275,8 @@ Namespace ComponentModel.Collection
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Overloads Function Remove(x As V) As Boolean
-            If Me.ContainsKey(x.nodes) Then
-                Return Me.Remove(x.nodes)
+            If Me.ContainsKey(x.Key) Then
+                Return Me.Remove(x.Key)
             Else
                 Return False
             End If
@@ -377,7 +377,7 @@ Namespace ComponentModel.Collection
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Shared Operator &(table As Dictionary(Of V), x As V) As Boolean
-            Return table & x.nodes
+            Return table & x.Key
         End Operator
 
         Public Shared Narrowing Operator CType(map As Dictionary(Of V)) As V()

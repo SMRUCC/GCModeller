@@ -1079,10 +1079,10 @@
     <Compile Include="ComponentModel\DataStructures\Tree\BinaryTree\Abstract.vb" />
     <Compile Include="ComponentModel\DriverModel.vb" />
     <Compile Include="ComponentModel\DataSource\Tsv.vb" />
-    <Compile Include="ComponentModel\DataSource\Property\NamedCollection%28Of T%29.vb" />
+    <Compile Include="ComponentModel\DataSource\Property\NamedCollection.vb" />
     <Compile Include="ComponentModel\DataSource\Property\PropertyValue.vb" />
     <Compile Include="ComponentModel\DataSource\Property\IProperty.vb" />
-    <Compile Include="ComponentModel\DataSource\Property\NamedValue%28Of T%29.vb" />
+    <Compile Include="ComponentModel\DataSource\Property\NamedValue.vb" />
     <Compile Include="ComponentModel\DataSource\SchemaMaps\BindProperty%28Of T%29.vb" />
     <Compile Include="ComponentModel\DataSource\Repository\IMatched.vb" />
     <Compile Include="ComponentModel\DataSource\Repository\Repository.vb" />
