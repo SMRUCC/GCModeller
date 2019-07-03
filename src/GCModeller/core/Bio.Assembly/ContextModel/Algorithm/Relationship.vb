@@ -67,7 +67,7 @@ Namespace ContextModel
         ''' <see cref="IGeneBrief.nodes"/>
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property locus_tag As String Implements IReadOnlyId.nodes
+        Public ReadOnly Property locus_tag As String Implements IReadOnlyId.Key
             Get
                 If Gene Is Nothing Then
                     Return ""

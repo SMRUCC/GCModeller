@@ -98,7 +98,7 @@ Namespace CommandLine
                            .Select(Function(gx) New With {gx, x})) _
                            .IteratesALL _
                            .GroupBy(Function(x) x.gx.Name) _
-                           .ToDictionary(Function(x) x.nodes,
+                           .ToDictionary(Function(x) x.Key,
                                          Function(x)
                                              Return x.Select(Function(o) o.x).ToArray
                                          End Function)

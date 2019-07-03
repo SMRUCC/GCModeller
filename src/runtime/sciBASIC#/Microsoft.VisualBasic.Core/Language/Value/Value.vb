@@ -65,7 +65,7 @@ Namespace Language
     Public Class Value(Of T) : Implements IValueOf
 
         ''' <summary>
-        ''' This object have a <see cref="IValueOf.edges"/> property for stores its data
+        ''' This object have a <see cref="IValueOf.Value"/> property for stores its data
         ''' </summary>
         Public Interface IValueOf
 
@@ -73,7 +73,7 @@ Namespace Language
             ''' value property for this object stores its data
             ''' </summary>
             ''' <returns></returns>
-            Property edges As T
+            Property Value As T
         End Interface
 
         ''' <summary>
@@ -166,7 +166,7 @@ Namespace Language
         ''' The object value with a specific type define.
         ''' </summary>
         ''' <returns></returns>
-        Public Overridable Property Value As T Implements IValueOf.edges
+        Public Overridable Property Value As T Implements IValueOf.Value
 
         ''' <summary>
         ''' Creates an reference value object with the specific object value

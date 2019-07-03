@@ -89,7 +89,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         ''' 
         <XmlIgnore>
-        Public ReadOnly Property EntryId As String Implements IReadOnlyId.nodes
+        Public ReadOnly Property EntryId As String Implements IReadOnlyId.Key
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return entry.name

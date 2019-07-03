@@ -55,7 +55,7 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
     Public Class GeneObject : Inherits FastaSeq
         Implements IReadOnlyId
 
-        Public ReadOnly Property UniqueId As String Implements IReadOnlyId.nodes
+        Public ReadOnly Property UniqueId As String Implements IReadOnlyId.Key
             Get
                 Return Headers.Last.Split.First
             End Get

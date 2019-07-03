@@ -90,7 +90,7 @@ Namespace ComponentModel.Algorithm.BinaryTree
         ''' 来添加簇成员
         ''' </summary>
         ''' <returns></returns>
-        Public Property Value As V Implements Value(Of V).IValueOf.edges
+        Public Property Value As V Implements Value(Of V).IValueOf.Value
         Public Property Left As BinaryTree(Of K, V)
         Public Property Right As BinaryTree(Of K, V)
 
@@ -161,8 +161,8 @@ Namespace ComponentModel.Algorithm.BinaryTree
         End Sub
 
         Public Sub Copy(source As BinaryTree(Of K, V))
-            _Key = source.Key
-            _edges = source.Value
+            Key = source.Key
+            Value = source.Value
             additionals.Clear()
             additionals.AddRange(source.additionals)
         End Sub

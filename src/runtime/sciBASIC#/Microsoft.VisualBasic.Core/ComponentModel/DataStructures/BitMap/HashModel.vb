@@ -90,7 +90,7 @@ Namespace ComponentModel
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks>因为索引号在赋值之后是不可以被修改了的，所以这个属性使用ReadOnly</remarks>
-        ReadOnly Property nodes As T
+        ReadOnly Property Address As T
 
         Sub Assign(address As T)
     End Interface
@@ -102,18 +102,18 @@ Namespace ComponentModel
         Implements IHashHandle
 
         Public Property obj As T
-        Public Property Address As Integer Implements IAddressOf.nodes
+        Public Property Address As Integer Implements IAddressOf.Address
         Public Property ID As String Implements INamedValue.Key
             Get
-                Return obj.nodes
+                Return obj.Key
             End Get
             Set(value As String)
-                obj.nodes = value
+                obj.Key = value
             End Set
         End Property
 
         Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
-            _nodes = address
+            Me.Address = address
         End Sub
     End Class
 

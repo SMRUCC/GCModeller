@@ -114,7 +114,7 @@ Public Module IEnumerations
     End Function
 
     <Extension> Public Function GetItems(Of T As INamedValue)(source As IEnumerable(Of T), Id As String) As T()
-        Dim LQuery = (From ItemObj As T In source Where String.Equals(Id, ItemObj.nodes) Select ItemObj).ToArray
+        Dim LQuery = (From ItemObj As T In source Where String.Equals(Id, ItemObj.Key) Select ItemObj).ToArray
         Return LQuery
     End Function
 
@@ -129,7 +129,7 @@ Public Module IEnumerations
         Dim Dictionary As New Dictionary(Of String, T)
 
         For Each obj In Collection
-            Call Dictionary.Add(obj.nodes, obj)
+            Call Dictionary.Add(obj.Key, obj)
         Next
 
         Return Dictionary
@@ -173,8 +173,8 @@ Public Module IEnumerations
 
         If strict Then
             Dim table As Dictionary(Of String, T()) = source _
-                .GroupBy(Function(o) o.nodes) _
-                .ToDictionary(Function(k) k.nodes,
+                .GroupBy(Function(o) o.Key) _
+                .ToDictionary(Function(k) k.Key,
                               Function(g) g.ToArray)
 
             If table.ContainsKey(uniqueId) Then
@@ -227,14 +227,14 @@ Public Module IEnumerations
  _
             () <= From o As T
                   In source
-                  Where String.Equals(uniqueId, o.nodes, comparisonType:=level)
+                  Where String.Equals(uniqueId, o.Key, comparisonType:=level)
                   Select o
 
         Return LQuery
     End Function
 
     <Extension> Public Function ToEntryDictionary(Of T As IReadOnlyId)(source As IEnumerable(Of T)) As Dictionary(Of String, T)
-        Return source.ToDictionary(Function(item As T) item.nodes)
+        Return source.ToDictionary(Function(item As T) item.Key)
     End Function
 
     <Extension> Public Function GetItem(Of T As IReadOnlyId)(source As IEnumerable(Of T), uniqueId As String, Optional caseSensitive As Boolean = True) As T
@@ -243,7 +243,7 @@ Public Module IEnumerations
  _
             () <= From itemObj As T
                   In source
-                  Where String.Equals(itemObj.nodes, uniqueId, method)
+                  Where String.Equals(itemObj.Key, uniqueId, method)
                   Select itemObj
 
         Return LQuery
@@ -267,10 +267,10 @@ Public Module IEnumerations
         Dim duplicates As New List(Of String)
 
         For Each x As T In source
-            If Not table.ContainsKey(x.nodes) Then
-                Call table.Add(x.nodes, x)
+            If Not table.ContainsKey(x.Key) Then
+                Call table.Add(x.Key, x)
             Else
-                duplicates += x.nodes
+                duplicates += x.Key
             End If
         Next
 

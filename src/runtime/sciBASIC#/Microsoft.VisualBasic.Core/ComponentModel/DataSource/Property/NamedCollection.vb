@@ -99,7 +99,7 @@ Namespace ComponentModel.DataSourceModel
         <XmlAttribute> Public Property Name As String Implements _
             IKeyedEntity(Of String).Key,
             IKeyValuePairObject(Of String, T()).nodes,
-            IGrouping(Of String, T).nodes
+            IGrouping(Of String, T).Key
 
         ''' <summary>
         ''' 目标集合对象
