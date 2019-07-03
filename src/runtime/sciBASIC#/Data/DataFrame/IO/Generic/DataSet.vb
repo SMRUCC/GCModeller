@@ -60,7 +60,7 @@ Namespace IO
     Public Class DataSet : Inherits DynamicPropertyBase(Of Double)
         Implements INamedValue
 
-        Public Overridable Property ID As String Implements INamedValue.nodes
+        Public Overridable Property ID As String Implements INamedValue.Key
 
         Protected Overrides ReadOnly Property MyHashCode As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>

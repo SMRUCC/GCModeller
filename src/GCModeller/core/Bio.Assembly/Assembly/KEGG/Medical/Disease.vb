@@ -53,7 +53,7 @@ Namespace Assembly.KEGG.Medical
 
     Public Class Disease : Implements INamedValue
 
-        Public Property Entry As String Implements INamedValue.nodes
+        Public Property Entry As String Implements INamedValue.Key
         Public Property Names As String()
         Public Property Description As String
         Public Property Category As String

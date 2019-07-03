@@ -65,7 +65,7 @@ Namespace Assembly.Uniprot.XML.UniRef
     Public Class entry : Implements INamedValue
 
         <XmlAttribute>
-        Public Property id As String Implements IKeyedEntity(Of String).nodes
+        Public Property id As String Implements IKeyedEntity(Of String).Key
         Public Property representativeMember As representativeMember
         <XmlElement("member")>
         Public Property members As representativeMember()

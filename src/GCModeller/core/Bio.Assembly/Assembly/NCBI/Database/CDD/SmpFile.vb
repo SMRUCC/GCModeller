@@ -86,7 +86,7 @@ Namespace Assembly.NCBI.CDD
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute>
-        Public Overridable Property Name As String Implements INamedValue.nodes
+        Public Overridable Property Name As String Implements INamedValue.Key
         <XmlAttribute("name")>
         Public Property CommonName As String
 

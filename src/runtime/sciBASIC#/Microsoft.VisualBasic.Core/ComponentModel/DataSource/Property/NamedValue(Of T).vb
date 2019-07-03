@@ -65,7 +65,7 @@ Namespace ComponentModel.DataSourceModel
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute>
-        Public Property Name As String Implements INamedValue.nodes, IKeyValuePairObject(Of String, T).nodes
+        Public Property Name As String Implements INamedValue.Key, IKeyValuePairObject(Of String, T).nodes
 
         ''' <summary>
         ''' Object value

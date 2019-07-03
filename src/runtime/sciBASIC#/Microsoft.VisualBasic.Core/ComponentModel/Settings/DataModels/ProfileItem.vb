@@ -97,7 +97,7 @@ Namespace ComponentModel.Settings
         Implements IKeyValuePairObject(Of String, String)
         Implements INamedValue
 
-        <XmlAttribute> Public Overridable Property Name As String Implements IKeyValuePairObject(Of String, String).nodes, INamedValue.nodes
+        <XmlAttribute> Public Overridable Property Name As String Implements IKeyValuePairObject(Of String, String).nodes, INamedValue.Key
         <XmlAttribute> Public Overridable Property Description As String Implements IKeyValuePairObject(Of String, String).edges
 
         ''' <summary>

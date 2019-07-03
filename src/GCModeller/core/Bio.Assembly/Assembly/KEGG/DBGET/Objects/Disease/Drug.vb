@@ -50,7 +50,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
     Public Class Drug : Implements INamedValue
 
-        Public Property Entry As String Implements IKeyedEntity(Of String).nodes
+        Public Property Entry As String Implements IKeyedEntity(Of String).Key
         Public Property Name As String
         Public Property Members As KeyValuePair()
         Public Property Remark As String

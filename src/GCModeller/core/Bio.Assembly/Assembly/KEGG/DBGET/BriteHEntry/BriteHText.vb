@@ -63,7 +63,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 大分类的标签
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property classLabel As String Implements INamedValue.nodes
+        <XmlAttribute> Public Property classLabel As String Implements INamedValue.Key
         <XmlAttribute> Public Property level As Integer
         ''' <summary>
         ''' ``ABCDEFG``, etc...

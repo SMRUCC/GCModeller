@@ -70,7 +70,7 @@ Namespace Language
     Public Class ArgumentReference : Inherits Value
         Implements INamedValue
 
-        Private Property Key As String Implements IKeyedEntity(Of String).nodes
+        Private Property Key As String Implements IKeyedEntity(Of String).Key
             Get
                 Return Name
             End Get

@@ -100,7 +100,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Synonym As String Implements INamedValue.nodes
+        <XmlAttribute> Public Property Synonym As String Implements INamedValue.Key
 
         ''' <summary>
         ''' *.ptt => TRUE;  *.rnt => FALSE

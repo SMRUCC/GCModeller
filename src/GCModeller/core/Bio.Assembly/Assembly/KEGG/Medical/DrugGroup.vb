@@ -51,7 +51,7 @@ Namespace Assembly.KEGG.Medical
 
     Public Class DrugGroup : Implements INamedValue
 
-        Public Property Entry As String Implements INamedValue.nodes
+        Public Property Entry As String Implements INamedValue.Key
         Public Property Names As String()
         Public Property Members As String()
         Public Property Remarks As String()

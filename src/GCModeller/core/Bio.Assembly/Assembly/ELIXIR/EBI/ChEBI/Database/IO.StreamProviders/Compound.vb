@@ -59,7 +59,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv
         ''' ``CHEBI:\d+``
         ''' </summary>
         ''' <returns></returns>
-        Public Property CHEBI_ACCESSION As String Implements INamedValue.nodes
+        Public Property CHEBI_ACCESSION As String Implements INamedValue.Key
         Public Property SOURCE As String
         Public Property PARENT_ID As String
         Public Property NAME As String

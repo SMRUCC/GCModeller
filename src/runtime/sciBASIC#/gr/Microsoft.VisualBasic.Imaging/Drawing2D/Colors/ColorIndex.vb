@@ -141,7 +141,7 @@ Namespace Drawing2D.Colors
 
     Public Structure ColorRange : Implements INamedValue
 
-        Public Property Level$ Implements INamedValue.nodes
+        Public Property Level$ Implements INamedValue.Key
         Public Property Points As Color()
 
         ''' <summary>

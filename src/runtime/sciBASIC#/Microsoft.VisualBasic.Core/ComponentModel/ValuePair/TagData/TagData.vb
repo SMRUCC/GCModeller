@@ -79,7 +79,7 @@ Namespace ComponentModel.TagData
         ''' ``<see cref="Tag"/> -> <see cref="GetJson"/>``
         ''' </summary>
         ''' <returns></returns>
-        Private Property Key As String Implements IKeyedEntity(Of String).nodes
+        Private Property Key As String Implements IKeyedEntity(Of String).Key
             Get
                 Return Tag.GetJson
             End Get

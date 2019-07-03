@@ -215,7 +215,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' 请注意，这个属性不是基因号
         ''' </summary>
         ''' <returns></returns>
-        Public Property ID As String Implements INamedValue.nodes
+        Public Property ID As String Implements INamedValue.Key
             Get
                 Return attributes.TryGetValue("id")
             End Get

@@ -98,7 +98,7 @@ Public Class MassPoint : Implements INamedValue
     ''' 当前的这个物体的唯一标识符
     ''' </summary>
     ''' <returns></returns>
-    Public Property ID As String Implements IKeyedEntity(Of String).nodes
+    Public Property ID As String Implements IKeyedEntity(Of String).Key
 
     ''' <summary>
     ''' 物体在dt时间段内以当前的速度<see cref="Velocity"/>之下产生一小部分的位移

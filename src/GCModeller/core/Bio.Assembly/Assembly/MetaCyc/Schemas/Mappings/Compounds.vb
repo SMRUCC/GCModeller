@@ -54,7 +54,7 @@ Namespace Assembly.MetaCyc.Schema
     ''' <remarks></remarks>
     Public Class EffectorMap : Implements INamedValue
 
-        Public Property Effector As String Implements INamedValue.nodes
+        Public Property Effector As String Implements INamedValue.Key
 
         Public Property EffectorAlias As String()
         Public Property MetaCycId As String

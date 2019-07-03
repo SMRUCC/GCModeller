@@ -105,7 +105,7 @@ Namespace Logical.FuzzyLogic
         ''' <summary>
         ''' The name that identificates the linguistic variable.
         ''' </summary>
-        Public Property Name() As String Implements INamedValue.nodes
+        Public Property Name() As String Implements INamedValue.Key
 
         ''' <summary>
         ''' A membership functions collection for the lingusitic variable.

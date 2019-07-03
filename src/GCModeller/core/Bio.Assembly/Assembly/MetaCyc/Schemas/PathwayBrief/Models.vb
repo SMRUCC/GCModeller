@@ -98,7 +98,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
             End If
         End Function
 
-        Public Property Identifier As String Implements INamedValue.nodes
+        Public Property Identifier As String Implements INamedValue.Key
     End Class
 
     Public Class PathwayBrief : Inherits Annotation.PathwayBrief

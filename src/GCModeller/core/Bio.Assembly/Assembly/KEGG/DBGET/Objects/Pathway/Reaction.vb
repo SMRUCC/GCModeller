@@ -112,7 +112,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <returns></returns>
         <XmlElement("ID")>
-        Public Property ID As String Implements INamedValue.nodes
+        Public Property ID As String Implements INamedValue.Key
         <XmlElement("commonNames")>
         Public Property CommonNames As String()
         <XmlElement("def")>

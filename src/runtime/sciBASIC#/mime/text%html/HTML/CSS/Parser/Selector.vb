@@ -60,7 +60,7 @@ Namespace HTML.CSS.Parser
         ''' 选择器的名称
         ''' </summary>
         ''' <returns></returns>
-        Public Property Selector As String Implements IKeyedEntity(Of String).nodes
+        Public Property Selector As String Implements IKeyedEntity(Of String).Key
 
         Public ReadOnly Property Type As CSSSelectorTypes
             Get

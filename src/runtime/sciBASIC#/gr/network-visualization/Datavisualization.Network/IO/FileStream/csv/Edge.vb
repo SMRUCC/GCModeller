@@ -111,7 +111,7 @@ Namespace FileStream
             Yield ToNode
         End Function
 
-        Private Property Key As String Implements IKeyedEntity(Of String).nodes
+        Private Property Key As String Implements IKeyedEntity(Of String).Key
             Get
                 Return GetDirectedGuid()
             End Get

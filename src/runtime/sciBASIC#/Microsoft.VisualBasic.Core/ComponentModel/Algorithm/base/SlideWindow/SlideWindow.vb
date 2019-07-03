@@ -68,7 +68,7 @@ Namespace ComponentModel.Algorithm.base
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Index As Integer Implements IAddressOf.nodes, IGrouping(Of Integer, T).nodes
+        Public Property Index As Integer Implements IAddressOf.nodes, IGrouping(Of Integer, T).Key
         ''' <summary>
         ''' The elements in this slide window.(这个划窗之中的元素的列表)
         ''' </summary>

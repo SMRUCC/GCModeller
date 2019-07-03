@@ -57,7 +57,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' </summary>
     <XmlRoot("HumanGene")> Public Class Hsa_gene : Implements INamedValue
 
-        Public Property Entry As String Implements IKeyedEntity(Of String).nodes
+        Public Property Entry As String Implements IKeyedEntity(Of String).Key
         Public Property GeneName As String
         Public Property Definition As KeyValuePair
         Public Property Pathway As NamedValue()

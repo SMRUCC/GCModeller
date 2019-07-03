@@ -51,7 +51,7 @@ Namespace ComponentModel
 
     Public Class NamedTuple(Of T) : Implements INamedValue
 
-        Public Property Name As String Implements IKeyedEntity(Of String).nodes
+        Public Property Name As String Implements IKeyedEntity(Of String).Key
         Public Property Item1 As T
         Public Property Item2 As T
 

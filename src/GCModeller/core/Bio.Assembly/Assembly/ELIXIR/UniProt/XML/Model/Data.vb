@@ -372,7 +372,7 @@ Namespace Assembly.Uniprot.XML
         ''' of acronyms.
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property type As String Implements INamedValue.nodes
+        <XmlAttribute> Public Property type As String Implements INamedValue.Key
         <XmlAttribute> Public Property evidence As String
         <XmlAttribute> Public Property description As String
         ''' <summary>

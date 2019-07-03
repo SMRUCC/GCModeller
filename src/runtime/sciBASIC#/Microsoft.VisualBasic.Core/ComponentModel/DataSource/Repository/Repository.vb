@@ -102,7 +102,7 @@ Namespace ComponentModel.DataSourceModel.Repository
         ''' <summary>
         ''' Get the key to find the entity by
         ''' </summary>
-        Property nodes As TKeyType
+        Property Key As TKeyType
 
     End Interface
 
@@ -118,7 +118,7 @@ Namespace ComponentModel.DataSourceModel.Repository
         ''' <remarks>
         ''' Every client has an unique id but this is not needed publically
         ''' </remarks>
-        Public Property ClientUniqueKey As Integer Implements IKeyedEntity(Of Integer).nodes
+        Public Property ClientUniqueKey As Integer Implements IKeyedEntity(Of Integer).Key
 
         ' Other non-key properties can go here
         ''' <summary>

@@ -54,7 +54,7 @@ Namespace ComponentModel.Annotation
         Implements INamedValue
 
         <XmlAttribute("id")>
-        Public Overridable Property EntryId As String Implements INamedValue.nodes, IKeyValuePairObject(Of String, String).nodes
+        Public Overridable Property EntryId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String).nodes
         Public Property description As String Implements IKeyValuePairObject(Of String, String).edges
 
         ''' <summary>

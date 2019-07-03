@@ -101,7 +101,7 @@ Namespace FileStream.Json
     Public Class node : Implements INamedValue
 
         Public Property id As Integer
-        Public Property name As String Implements INamedValue.nodes
+        Public Property name As String Implements INamedValue.Key
         Public Property degree As Integer
         Public Property type As String
         Public Property Data As Dictionary(Of String, String)

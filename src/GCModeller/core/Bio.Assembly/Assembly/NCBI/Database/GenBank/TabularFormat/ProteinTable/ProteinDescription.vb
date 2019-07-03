@@ -71,7 +71,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' Locus tag.(基因号)
         ''' </summary>
         ''' <returns></returns>
-        Public Property Locus_tag As String Implements INamedValue.nodes
+        Public Property Locus_tag As String Implements INamedValue.Key
         ''' <summary>
         ''' Protein product
         ''' </summary>

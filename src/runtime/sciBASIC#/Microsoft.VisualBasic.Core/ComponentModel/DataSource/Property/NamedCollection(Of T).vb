@@ -97,7 +97,7 @@ Namespace ComponentModel.DataSourceModel
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property Name As String Implements _
-            IKeyedEntity(Of String).nodes,
+            IKeyedEntity(Of String).Key,
             IKeyValuePairObject(Of String, T()).nodes,
             IGrouping(Of String, T).nodes
 

@@ -159,7 +159,7 @@ Namespace Assembly.KEGG.Medical
     ''' </summary>
     Public Class Drug : Implements INamedValue, IKEGGRemarks
 
-        Public Property Entry As String Implements INamedValue.nodes
+        Public Property Entry As String Implements INamedValue.Key
         Public Property Names As String()
         Public Property Formula As String
         Public Property Exact_Mass As Double

@@ -64,7 +64,7 @@ Namespace Assembly.NCBI.COG
         ''' COG
         ''' </summary>
         ''' <returns></returns>
-        Public Overrides Property Catalog As String Implements INamedValue.nodes
+        Public Overrides Property Catalog As String Implements INamedValue.Key
 
         Private Shared Function __notAssigned() As COGFunction
             Return New COGFunction With {

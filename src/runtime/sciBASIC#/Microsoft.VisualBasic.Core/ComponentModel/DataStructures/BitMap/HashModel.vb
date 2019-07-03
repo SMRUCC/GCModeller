@@ -103,7 +103,7 @@ Namespace ComponentModel
 
         Public Property obj As T
         Public Property Address As Integer Implements IAddressOf.nodes
-        Public Property ID As String Implements INamedValue.nodes
+        Public Property ID As String Implements INamedValue.Key
             Get
                 Return obj.nodes
             End Get

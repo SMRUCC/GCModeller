@@ -79,7 +79,7 @@ Namespace Assembly.NCBI.COG.COGs
         ''' &lt;protein-id>: GI
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute("protein-id")> Public Property ProteinID As String Implements IKeyedEntity(Of String).nodes
+        <XmlAttribute("protein-id")> Public Property ProteinID As String Implements IKeyedEntity(Of String).Key
         ''' <summary>
         ''' &lt;protein-length>
         ''' </summary>

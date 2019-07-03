@@ -50,7 +50,7 @@ Namespace ComponentModel.DataStructures.BinaryTree
         Implements Value(Of V).IValueOf
         Implements IComparable(Of K)
 
-        Public Property Key As K Implements IKeyedEntity(Of K).nodes
+        Public Property Key As K Implements IKeyedEntity(Of K).Key
         Public Property value As V Implements Value(Of V).IValueOf.edges
 
         Public MustOverride Function CompareTo(other As K) As Integer Implements IComparable(Of K).CompareTo

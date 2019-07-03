@@ -58,7 +58,7 @@ Namespace ProteinModel
         Implements IMotifSite
         Implements IMotifDomain
 
-        Public Property DomainId As String Implements INamedValue.nodes,
+        Public Property DomainId As String Implements INamedValue.Key,
             IKeyValuePairObject(Of String, Location).nodes,
             IMotifSite.nodes,
             IMotifSite.nodes,

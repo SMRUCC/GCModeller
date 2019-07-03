@@ -71,7 +71,7 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <returns></returns>
         <XmlIgnore>
-        Private Property accession As String Implements INamedValue.nodes
+        Private Property accession As String Implements INamedValue.Key
 
         ''' <summary>
         ''' 蛋白质的唯一标识符，可以用作为字典的键名

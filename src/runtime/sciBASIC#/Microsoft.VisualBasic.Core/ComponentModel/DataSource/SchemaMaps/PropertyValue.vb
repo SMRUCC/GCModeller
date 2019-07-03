@@ -70,7 +70,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         ''' ID
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Key As String Implements IKeyedEntity(Of String).nodes
+        <XmlAttribute> Public Property Key As String Implements IKeyedEntity(Of String).Key
         ''' <summary>
         ''' Property Name
         ''' </summary>

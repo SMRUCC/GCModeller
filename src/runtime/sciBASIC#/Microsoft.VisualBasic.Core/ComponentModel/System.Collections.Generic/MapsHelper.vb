@@ -233,7 +233,7 @@ Namespace ComponentModel
         ''' <remarks>
         ''' 虽然说这个对象也实现了<see cref="INamedValue"/>接口，但是Key也可能是会出现重复的
         ''' </remarks>
-        Public Property Key As String Implements Map(Of String, String).IMap.nodes, INamedValue.nodes
+        Public Property Key As String Implements Map(Of String, String).IMap.nodes, INamedValue.Key
         Public Property Maps As String Implements Map(Of String, String).IMap.Maps
 
         ''' <summary>

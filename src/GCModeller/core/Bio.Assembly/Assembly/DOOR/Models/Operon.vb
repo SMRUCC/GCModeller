@@ -64,7 +64,7 @@ Namespace Assembly.DOOR
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overrides Property Key As String Implements INamedValue.nodes
+        Public Overrides Property Key As String Implements INamedValue.Key
             Get
                 Return MyBase.Key
             End Get

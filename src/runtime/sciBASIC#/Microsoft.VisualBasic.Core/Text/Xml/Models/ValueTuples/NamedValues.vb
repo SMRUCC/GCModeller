@@ -79,7 +79,7 @@ Namespace Text.Xml.Models
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute>
-        Public Property name As String Implements INamedValue.nodes
+        Public Property name As String Implements INamedValue.Key
         ''' <summary>
         ''' The term value
         ''' </summary>
@@ -112,7 +112,7 @@ Namespace Text.Xml.Models
     ''' </summary>
     <XmlType("property")> Public Structure [Property] : Implements INamedValue
 
-        <XmlAttribute> Public Property name As String Implements INamedValue.nodes
+        <XmlAttribute> Public Property name As String Implements INamedValue.Key
         <XmlAttribute> Public Property value As String
         <XmlText>
         Public Property comment As String
@@ -136,7 +136,7 @@ Namespace Text.Xml.Models
         Implements INamedValue
 
         <XmlAttribute>
-        Public Property name As String Implements IKeyedEntity(Of String).nodes
+        Public Property name As String Implements IKeyedEntity(Of String).Key
         Public Property vector As T()
         ''' <summary>
         ''' 在这里不使用字典是因为Xml序列化无法序列化字典对象

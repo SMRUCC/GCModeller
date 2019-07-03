@@ -70,7 +70,7 @@ Namespace Assembly.Expasy.AnnotationsTool
         ''' </summary>
         ''' <remarks></remarks>
         Public Property EC_Class As String()
-        Public Property ProteinId As String Implements INamedValue.nodes
+        Public Property ProteinId As String Implements INamedValue.Key
         ''' <summary>
         ''' {[EC] Annotation}
         ''' </summary>
@@ -97,7 +97,7 @@ Namespace Assembly.Expasy.AnnotationsTool
     Public MustInherit Class T_ECPaired : Implements INamedValue
         Implements IKeyValuePairObject(Of String, String)
 
-        Public Property ProteinId As String Implements INamedValue.nodes, IKeyValuePairObject(Of String, String).nodes
+        Public Property ProteinId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String).nodes
         Public Property uniprot As String Implements IKeyValuePairObject(Of String, String).edges
 
         Public Overrides Function ToString() As String

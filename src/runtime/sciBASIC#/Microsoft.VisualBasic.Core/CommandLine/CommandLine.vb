@@ -103,7 +103,7 @@ Namespace CommandLine
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Name As String Implements INamedValue.nodes
+        Public Property Name As String Implements INamedValue.Key
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return _name

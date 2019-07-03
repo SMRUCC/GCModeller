@@ -58,7 +58,7 @@ Public Class Vertex : Implements INamedValue
     ''' The unique id of this node
     ''' </summary>
     ''' <returns></returns>
-    <XmlAttribute> Public Property Label As String Implements IKeyedEntity(Of String).nodes
+    <XmlAttribute> Public Property Label As String Implements IKeyedEntity(Of String).Key
     ''' <summary>
     ''' Array index.(使用数字表示的唯一标识符)
     ''' </summary>

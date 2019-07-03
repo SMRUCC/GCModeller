@@ -52,7 +52,7 @@ Namespace Assembly.iGEM
 
     Public Class PartSeq : Implements IPolymerSequenceModel, INamedValue
 
-        Public Property PartName As String Implements IKeyedEntity(Of String).nodes
+        Public Property PartName As String Implements IKeyedEntity(Of String).Key
         Public Property Status As String
         Public Property Id As String
         Public Property Type As String

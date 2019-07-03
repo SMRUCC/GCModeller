@@ -58,7 +58,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Drug As KeyValuePair()
         Public Property Pathway As NamedValue()
 
-        Public Property Entry As String Implements IKeyedEntity(Of String).nodes
+        Public Property Entry As String Implements IKeyedEntity(Of String).Key
         Public Property Name As String
 
         Public Property Genes As [Property]()
