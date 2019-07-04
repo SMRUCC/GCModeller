@@ -69,7 +69,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.XML
         ''' Chebi的主ID
         ''' </summary>
         ''' <returns></returns>
-        Public Property chebiId As String Implements INamedValue.Key, IMolecule.nodes
+        Public Property chebiId As String Implements INamedValue.Key, IMolecule.EntryId
         Public Property chebiAsciiName As String Implements IMolecule.Name
         Public Property definition As String
         Public Property status As String
