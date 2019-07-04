@@ -211,7 +211,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
             ''' <value></value>
             ''' <returns></returns>
             ''' <remarks></remarks>
-            Property locusId As String
+            Property UniqueId As String
             ''' <summary>
             ''' The displaying name of this regulator object in the citation articles.
             ''' (本调控因子对象在引用文献中的名称)

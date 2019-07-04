@@ -91,7 +91,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         End Property
 
         <MetaCycField(Name:="UNIQUE-ID")>
-        Public Overrides Property Identifier As String Implements Regulation.IRegulator.locusId, INamedValue.Key
+        Public Overrides Property Identifier As String Implements Regulation.IRegulator.UniqueId, INamedValue.Key
             Get
                 Return MyBase.Identifier
             End Get

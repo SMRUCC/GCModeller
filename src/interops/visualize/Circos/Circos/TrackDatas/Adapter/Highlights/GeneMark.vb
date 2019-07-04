@@ -109,7 +109,7 @@ Namespace TrackDatas.Highlights
         Sub New(sites As IEnumerable(Of IMotifSite), color As Dictionary(Of String, String), Optional chr$ = "chr1")
             Dim locis As IMotifSite() = sites.ToArray
             Dim types$() = locis _
-                .Select(Function(x) x.Type) _
+                .Select(Function(x) x.family) _
                 .Distinct _
                 .ToArray
 
@@ -123,14 +123,14 @@ Namespace TrackDatas.Highlights
             source = LinqAPI.MakeList(Of ValueTrackData) <=
                 From site As IMotifSite
                 In locis
-                Let COG = site.Type Or notype
+                Let COG = site.family Or notype
                 Let fill = If(
                     color.ContainsKey(COG),
                     color(COG),
                     CircosColor.DefaultCOGColor)
                 Select New ValueTrackData With {
-                    .start = site.Site.Left,
-                    .end = site.Site.Right,
+                    .start = site.site.Left,
+                    .end = site.site.Right,
                     .value = 1,
                     .chr = chr,
                     .formatting = New Formatting With {
@@ -148,7 +148,7 @@ Namespace TrackDatas.Highlights
         Sub New(sites As IEnumerable(Of IMotifSite), Optional colors$ = "Paired:c10", Optional chr$ = "chr1")
             Dim locis As IMotifSite() = sites.ToArray
             Dim types$() = locis _
-                .Select(Function(x) x.Type.Split("+"c).Distinct.JoinBy("_")) _
+                .Select(Function(x) x.family.Split("+"c).Distinct.JoinBy("_")) _
                 .Distinct _
                 .ToArray
             Dim colorlist As Color() = Designer.FromSchema(colors, types.Length)

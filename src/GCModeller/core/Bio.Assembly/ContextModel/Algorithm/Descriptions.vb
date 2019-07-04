@@ -58,8 +58,7 @@ Namespace ContextModel
             If Gene Is Nothing Then
                 Return True
             End If
-            Return String.Equals(Gene.Key, BLANK_VALUE) OrElse
-                Gene.Location.FragmentSize = 0
+            Return String.Equals(Gene.Key, BLANK_VALUE) OrElse Gene.Location.FragmentSize = 0
         End Function
 
         Public Const BLANK_VALUE As String = "Blank"

@@ -81,7 +81,9 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .EnumerateEntries _
                 .GroupBy(Function(x) x.entryID) _
                 .ToDictionary(Function(x) x.Key,
-                              Function(g) g.ToArray)
+                              Function(g)
+                                  Return g.ToArray
+                              End Function)
             Return maps
         End Function
     End Class

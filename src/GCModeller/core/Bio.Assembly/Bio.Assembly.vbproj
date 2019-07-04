@@ -615,8 +615,8 @@
     <Compile Include="ComponentModel\DBLinkBuilder\Abstract.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\DBLinksManager.vb" />
     <Compile Include="ComponentModel\Equations\Abstract.vb" />
-    <Compile Include="ComponentModel\Equations\Reaction%28Of T%29.vb" />
-    <Compile Include="ComponentModel\Equations\Equation%28Of T%29.vb" />
+    <Compile Include="ComponentModel\Equations\Reaction.vb" />
+    <Compile Include="ComponentModel\Equations\Equation.vb" />
     <Compile Include="ComponentModel\Equations\Equivalence.vb" />
     <Compile Include="ComponentModel\Annotation\GeneBrief.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Region.vb" />

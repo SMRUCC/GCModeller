@@ -49,7 +49,7 @@ Namespace LDM
     ''' </summary>
     Public Class Protein : Implements INode
 
-        Public Property LocusId As String Implements INode.ID
+        Public Property LocusId As String Implements INode.Id
         ''' <summary>
         ''' 家族分类
         ''' </summary>

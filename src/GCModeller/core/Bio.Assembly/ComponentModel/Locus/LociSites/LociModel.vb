@@ -57,11 +57,11 @@ Namespace ComponentModel.Loci
     Public Class Loci : Implements ILocationComponent
         Implements IMotifSite
 
-        Public Property TagData As String Implements IMotifSite.Type, IMotifSite.Name
-        Public Property Left As Integer Implements ILocationComponent.Left
-        Public Property Right As Integer Implements ILocationComponent.Right
+        Public Property TagData As String Implements IMotifSite.name, IMotifSite.family
+        Public Property Left As Integer Implements ILocationComponent.left
+        Public Property Right As Integer Implements ILocationComponent.right
 
-        Private Property Site As Location Implements IMotifSite.Site
+        Private Property Site As Location Implements IMotifSite.site
             Get
                 Return New Location(Left, Right)
             End Get
@@ -84,9 +84,9 @@ Namespace ComponentModel.Loci
     Public Structure MotifSite
         Implements IMotifSite
 
-        Public Property Name As String Implements IMotifSite.Name
-        Public Property Site As Location Implements IMotifSite.Site
-        Public Property Type As String Implements IMotifSite.Type
+        Public Property Name As String Implements IMotifSite.name
+        Public Property Site As Location Implements IMotifSite.site
+        Public Property Type As String Implements IMotifSite.family
 
     End Structure
 End Namespace

@@ -202,7 +202,9 @@ Namespace Assembly.Uniprot.Web
                                 .Distinct _
                                 .ToArray
                             Return k.Key.Split(","c) _
-                                .Select(Function(key$) New KeyValuePair(Of String, String())(key, values))
+                                .Select(Function(key$)
+                                            Return New KeyValuePair(Of String, String())(key, values)
+                                        End Function)
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(g) g.Key) _

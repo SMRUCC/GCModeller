@@ -72,7 +72,7 @@ Namespace ComponentModel.Loci
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Left As Integer Implements ILocationComponent.Left, IKeyValuePairObject(Of Integer, Integer).Key
+        <XmlAttribute> Public Property Left As Integer Implements ILocationComponent.left, IKeyValuePairObject(Of Integer, Integer).Key
             Get
                 Return MyBase.Min
             End Get
@@ -87,7 +87,7 @@ Namespace ComponentModel.Loci
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Right As Integer Implements ILocationComponent.Right, IKeyValuePairObject(Of Integer, Integer).Value
+        <XmlAttribute> Public Property Right As Integer Implements ILocationComponent.right, IKeyValuePairObject(Of Integer, Integer).Value
             Get
                 Return MyBase.Max
             End Get

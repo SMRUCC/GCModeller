@@ -60,9 +60,9 @@ Namespace ProteinModel
         Implements IMotifDomain
 
         <XmlAttribute>
-        Public Overrides Property Name As String Implements IMotifDomain.ID
+        Public Overrides Property Name As String Implements IMotifDomain.Id
 
-        Public Property Position As Location Implements IMotifDomain.Location
+        Public Property Position As Location Implements IMotifDomain.location
         Public Property EValue As Double
         Public Property BitScore As String
         ''' <summary>
