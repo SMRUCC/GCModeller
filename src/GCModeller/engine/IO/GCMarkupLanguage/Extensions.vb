@@ -137,7 +137,7 @@ Public Module Extensions
     ''' <returns></returns>
     ''' <remarks></remarks>
     <Extension> Public Function [Select](List As List(Of Slots.Protein.IEnzyme), UniqueId As String) As Slots.Protein.IEnzyme
-        Dim LQuery = From Enz In List.AsParallel Where String.Equals(Enz.locusId, UniqueId) Select Enz '
+        Dim LQuery = From Enz In List.AsParallel Where String.Equals(Enz.UniqueId, UniqueId) Select Enz '
         Return LQuery.FirstOrDefault
     End Function
 

@@ -127,7 +127,7 @@ Namespace Assembly.Uniprot
     Public Class UniprotFasta : Inherits FASTA.FastaSeq
         Implements IReadOnlyId
 
-        Public ReadOnly Property UniprotID As String Implements IReadOnlyId.Key
+        Public ReadOnly Property UniprotID As String Implements IReadOnlyId.Identity
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return UniProtHeader.UniprotID
