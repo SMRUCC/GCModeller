@@ -295,12 +295,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analysis\LocalBLAST.vb" />
-    <Compile Include="Analysis\BBHLogs.vb" />
-    <Compile Include="Analysis\Models.vb" />
-    <Compile Include="Analysis\Models\Besthit.vb" />
-    <Compile Include="Analysis\Models\KEGG_API.vb" />
-    <Compile Include="Analysis\Models\Hits.vb" />
+    <Compile Include="Tasks\LocalBLAST.vb" />
+    <Compile Include="Tasks\BBHLogs.vb" />
+    <Compile Include="Tasks\Models.vb" />
+    <Compile Include="Tasks\Models\Besthit.vb" />
+    <Compile Include="Tasks\Models\KEGG_API.vb" />
+    <Compile Include="Tasks\Models\Hits.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnOutputReader.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnQuery.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\BlastpOutputReader.vb" />
@@ -377,6 +377,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Pipeline\NamespaceDoc.vb" />
+    <Compile Include="Tasks\NamespaceDoc.vb" />
     <Compile Include="Web\Alignment\AlignmentTable.vb" />
     <Compile Include="Web\Alignment\HitTableParser.vb" />
     <Compile Include="Web\Alignment\Extensions.vb" />
