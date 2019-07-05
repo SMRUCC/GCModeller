@@ -318,7 +318,7 @@ Partial Module CLI
                             In hits
                             Where x.evalue <= evalue AndAlso
                                 x.IsMatchedBesthit(identities, coverage) AndAlso
-                                Not x.SelfHit
+                                Not x.isSelfHit
                             Select x).ToArray
                     Call writeStream.Flush(hits)
                 End Sub)

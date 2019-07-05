@@ -159,7 +159,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
 
         Dim Allbbh = (From hitPair As BiDirectionalBesthit
                       In ParsingTask.Select(Function(sp) sp.bbh).IteratesALL.AsParallel
-                      Where hitPair.Matched
+                      Where hitPair.isMatched
                       Select hitPair).ToArray  ' 最后将所有的结果进行合并然后保存
         Dim inDIR As String = FileIO.FileSystem.GetParentPath(entries.First.Key.FilePath)
 

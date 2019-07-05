@@ -363,7 +363,7 @@ Partial Module CLI
         Dim LQuery As BBH.BestHit() =
             LinqAPI.Exec(Of BestHit) <= From x As BBH.BestHit()
                                         In blastp
-                                        Select x.Where(Function(xx) xx.Matched)
+                                        Select x.Where(Function(xx) xx.isMatched)
         Return LQuery.SaveTo(out).CLICode
     End Function
 

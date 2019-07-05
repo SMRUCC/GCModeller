@@ -66,7 +66,7 @@ Namespace LocalBLAST.Application.BBH.Abstract
     End Interface
 
     Public Interface IQueryHits : Inherits IBlastHit
-        Property identities As Double
+        ReadOnly Property identities As Double
     End Interface
 
     ''' <summary>
@@ -104,7 +104,8 @@ Namespace LocalBLAST.Application.BBH.Abstract
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Ignored> Public ReadOnly Property Matched As Boolean
+        <Ignored>
+        Public ReadOnly Property isMatched As Boolean
             Get
                 If String.IsNullOrEmpty(QueryName) OrElse
                     String.Equals(QueryName, IBlastOutput.HITS_NOT_FOUND) Then
@@ -115,7 +116,8 @@ Namespace LocalBLAST.Application.BBH.Abstract
             End Get
         End Property
 
-        <Ignored> Public ReadOnly Property SelfHit As Boolean
+        <Ignored>
+        Public ReadOnly Property isSelfHit As Boolean
             Get
                 Return String.Equals(QueryName, HitName, StringComparison.OrdinalIgnoreCase)
             End Get
@@ -127,7 +129,8 @@ Namespace LocalBLAST.Application.BBH.Abstract
         ''' 会忽略掉基因号ID的先后顺序的，重新按照字符先后进行排序
         ''' </summary>
         ''' <returns></returns>
-        <Ignored> Public ReadOnly Property BBH_ID As String
+        <Ignored>
+        Public ReadOnly Property BBH_ID As String
             Get
                 Dim asc As String() = LinqAPI.Exec(Of String) <=
  _

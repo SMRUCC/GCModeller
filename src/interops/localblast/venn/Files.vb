@@ -89,7 +89,7 @@ Namespace BlastAPI
 
             Dim selecteds = (From genome
                          In LQuery.AsParallel
-                             Let screenedData = (From x In genome.Besthits Where x.Matched Select x).ToArray
+                             Let screenedData = (From x In genome.Besthits Where x.isMatched Select x).ToArray
                              Where Not screenedData.IsNullOrEmpty    ' 筛选出符合条件的基因组
                              Select Besthits = screenedData,
                              genome.ID,
