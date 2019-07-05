@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.COG.COGs
 Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
-Namespace LocalBLAST.Application.RpsBLAST
+Namespace Pipeline.COG
 
     Public Module COG2014
 

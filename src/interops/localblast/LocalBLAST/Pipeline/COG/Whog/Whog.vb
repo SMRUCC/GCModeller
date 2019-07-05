@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
-Namespace LocalBLAST.Application.RpsBLAST.Whog
+Namespace Pipeline.COG.Whog
 
     ''' <summary>
     ''' Cog Category

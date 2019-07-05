@@ -60,7 +60,7 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
-Namespace LocalBLAST.Application.RpsBLAST
+Namespace Pipeline.COG
 
     ''' <summary>
     ''' COG output data from http://weizhong-lab.ucsd.edu/metagenomic-analysis/server/

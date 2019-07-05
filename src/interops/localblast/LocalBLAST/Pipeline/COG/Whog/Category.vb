@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
-Namespace LocalBLAST.Application.RpsBLAST.Whog
+Namespace Pipeline.COG.Whog
 
     <XmlType("category", [Namespace]:=Category.NCBI_COG)>
     Public Class Category
@@ -75,14 +75,14 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
                     () <= From item In value
                           Let list As String() = item.text.Split
                           Select New NamedCollection(Of String) With {
-                              .Name = item.name,
-                              .Value = list,
-                              .Description = item.text
+                              .name = item.name,
+                              .value = list,
+                              .description = item.text
                           }
 
                 list = value
                 IdTokens = LQuery
-                _locus_tags = New Index(Of String)((From item In LQuery Let IdList As String() = item.Value Select IdList).IteratesALL)
+                _locus_tags = New Index(Of String)((From item In LQuery Let IdList As String() = item.value Select IdList).IteratesALL)
             End Set
         End Property
 
@@ -149,8 +149,8 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
             Dim LQuery$ = LinqAPI.DefaultFirst(Of String) _
                 () <= From item
                       In IdTokens
-                      Where Array.IndexOf(item.Value, Id) > -1
-                      Select item.Name
+                      Where Array.IndexOf(item.value, Id) > -1
+                      Select item.name
 
             Return LQuery
         End Function
