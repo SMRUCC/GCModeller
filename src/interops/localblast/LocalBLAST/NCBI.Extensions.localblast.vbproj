@@ -347,6 +347,8 @@
     <Compile Include="LocalBLAST\BlastOutput\Xml\BlastOutput.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Xml\BireHits.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\PartialBestBLAST.vb" />
+    <Compile Include="Pipeline\COG\Whog\Assigner.vb" />
+    <Compile Include="Pipeline\COG\Whog\TextParser.vb" />
     <Compile Include="Pipeline\COG\Whog\Whog.vb" />
     <Compile Include="Pipeline\COG\COGsUtils.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Workflows.vb" />

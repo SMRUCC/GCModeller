@@ -49,7 +49,6 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Namespace Pipeline.COG.Whog
 
@@ -113,7 +112,7 @@ Namespace Pipeline.COG.Whog
                 From strToken As String()
                 In tokens
                 Where Not strToken.IsNullOrEmpty
-                Let cat As Category = Category.Parse(strToken)
+                Let cat As Category = TextParser.Parse(strToken)
                 Select cat
                 Order By cat.COG_id
 
@@ -131,32 +130,9 @@ Namespace Pipeline.COG.Whog
         Public Function MatchCogCategory(MatchedData As IEnumerable(Of MyvaCOG)) As MyvaCOG()
             Dim LQuery = (From prot As MyvaCOG
                           In MatchedData.AsParallel
-                          Let assignCOG As MyvaCOG = __assignInvoke(prot)
+                          Let assignCOG As MyvaCOG = Me.DoAssign(prot)
                           Select assignCOG).ToArray
             Return LQuery
-        End Function
-
-        Private Function __assignInvoke(prot As MyvaCOG) As MyvaCOG
-            If String.IsNullOrEmpty(prot.MyvaCOG) OrElse
-                String.Equals(prot.MyvaCOG, IBlastOutput.HITS_NOT_FOUND) Then
-                Return prot '没有可以分类的数据
-            End If
-
-            Dim Cog = (From entry As Category
-                       In Me.Categories
-                       Where entry.ContainsGene(prot.MyvaCOG)
-                       Select entry).FirstOrDefault
-
-            If Cog Is Nothing Then
-                Call $"Could Not found the COG category id for myva cog {prot.QueryName} <-> {prot.MyvaCOG}....".Warning
-                Return prot
-            End If
-
-            prot.COG = Cog.COG_id
-            prot.Category = Cog.Category
-            prot.Description = Cog.Description
-
-            Return prot
         End Function
 
         ''' <summary>
