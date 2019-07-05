@@ -57,7 +57,7 @@ Namespace Tasks.Models
     ''' 元数据Xml文件
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class BestHit
+    Public Class SpeciesBesthit
 
         ''' <summary>
         ''' The species name of query.(进行当前匹配操作的物种名称，这个属性不是蛋白质的名称)
@@ -66,22 +66,21 @@ Namespace Tasks.Models
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute> Public Property sp As String
+
         <XmlElement> Public Property hits As HitCollection()
             Get
-                Return __hits
+                Return hitTable.Values.ToArray
             End Get
             Set(value As HitCollection())
-                __hits = value
-                If __hits.IsNullOrEmpty Then
-                    __protHash = New Dictionary(Of HitCollection)
+                If value.IsNullOrEmpty Then
+                    hitTable = New Dictionary(Of HitCollection)
                 Else
-                    __protHash = value.ToDictionary
+                    hitTable = value.ToDictionary
                 End If
             End Set
         End Property
 
-        Dim __hits As HitCollection()
-        Dim __protHash As Dictionary(Of HitCollection)
+        Dim hitTable As Dictionary(Of HitCollection)
 
         Public Function IndexOf(QueryName As String) As Integer
             Dim LQuery = LinqAPI.DefaultFirst(Of HitCollection) <=
@@ -97,8 +96,8 @@ Namespace Tasks.Models
             End If
         End Function
 
-        Public Function Take(ParamArray spTags$()) As BestHit
-            Return New BestHit With {
+        Public Function Take(ParamArray spTags$()) As SpeciesBesthit
+            Return New SpeciesBesthit With {
                 .sp = sp,
                 .hits =
                 LinqAPI.Exec(Of HitCollection) <= From x As HitCollection
@@ -169,8 +168,8 @@ Namespace Tasks.Models
         ''' <returns></returns>
         Default Public ReadOnly Property Hit(queryName As String) As HitCollection
             Get
-                If __protHash.ContainsKey(queryName) Then
-                    Return __protHash(queryName)
+                If hitTable.ContainsKey(queryName) Then
+                    Return hitTable(queryName)
                 Else
                     Return Nothing
                 End If
@@ -216,7 +215,7 @@ Namespace Tasks.Models
         ''' <param name="p">0-1</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TrimEmpty(p As Double) As BestHit
+        Public Function TrimEmpty(p As Double) As SpeciesBesthit
             Dim LQuery As IEnumerable(Of Hit) =
                 Me.hits.Select(Function(hit) hit.Hits).IteratesALL
             Dim Grouped = (From hit As Hit

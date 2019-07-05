@@ -53,9 +53,9 @@ Namespace Tasks.Models
 
         Public Function EXPORT(source As IEnumerable(Of SSDB.OrthologREST),
                                Optional coverage As Double = 0.8,
-                               Optional identities As Double = 0.3) As BestHit
+                               Optional identities As Double = 0.3) As SpeciesBesthit
 
-            Dim result As New BestHit With {
+            Dim result As New SpeciesBesthit With {
                 .sp = source.First.KEGG_ID.Split(":"c).First,
                 .hits = LinqAPI.Exec(Of HitCollection) <= From query As SSDB.OrthologREST
                                                           In source.AsParallel
