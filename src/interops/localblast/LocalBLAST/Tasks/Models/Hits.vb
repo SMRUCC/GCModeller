@@ -64,25 +64,6 @@ Namespace Tasks.Models
     Public Class HitCollection : Implements INamedValue
 
         ''' <summary>
-        ''' 按照物种编号取出数据构建一个新的bbh集合
-        ''' </summary>
-        ''' <param name="spTags"></param>
-        ''' <returns></returns>
-        Public Function Take(spTags As String()) As HitCollection
-            Dim LQuery As Hit() =
-                LinqAPI.Exec(Of Hit) <= From hitData As Hit
-                                        In Hits
-                                        Where Array.IndexOf(spTags, hitData.tag) > -1
-                                        Select hitData
-
-            Return New HitCollection With {
-                .Hits = LQuery,
-                .Description = Description,
-                .QueryName = QueryName
-            }
-        End Function
-
-        ''' <summary>
         ''' The locus tag of the query protein.(主键蛋白质名称)
         ''' </summary>
         ''' <value></value>
@@ -163,6 +144,25 @@ Namespace Tasks.Models
                                         Select hit
                                         Order By hit.tag Ascending
             Return Me
+        End Function
+
+        ''' <summary>
+        ''' 按照物种编号取出数据构建一个新的bbh集合
+        ''' </summary>
+        ''' <param name="spTags"></param>
+        ''' <returns></returns>
+        Public Function Take(spTags As String()) As HitCollection
+            Dim LQuery As Hit() =
+                LinqAPI.Exec(Of Hit) <= From hitData As Hit
+                                        In Hits
+                                        Where Array.IndexOf(spTags, hitData.tag) > -1
+                                        Select hitData
+
+            Return New HitCollection With {
+                .Hits = LQuery,
+                .Description = Description,
+                .QueryName = QueryName
+            }
         End Function
     End Class
 End Namespace
