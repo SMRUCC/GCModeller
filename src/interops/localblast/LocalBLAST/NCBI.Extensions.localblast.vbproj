@@ -298,6 +298,7 @@
     <Compile Include="Tasks\LocalBLAST.vb" />
     <Compile Include="Tasks\BBHLogs.vb" />
     <Compile Include="Tasks\Models.vb" />
+    <Compile Include="Tasks\Models\Hit.vb" />
     <Compile Include="Tasks\Models\SpeciesBesthit.vb" />
     <Compile Include="Tasks\Models\KEGG_API.vb" />
     <Compile Include="Tasks\Models\Hits.vb" />
