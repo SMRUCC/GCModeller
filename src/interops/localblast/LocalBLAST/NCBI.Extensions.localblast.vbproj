@@ -335,7 +335,8 @@
     <Compile Include="Pipeline\COG\COG2014.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\MapsAPI.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\Paralog.vb" />
-    <Compile Include="Pipeline\COG\COG.vb" />
+    <Compile Include="Pipeline\COG\Reports\COG.vb" />
+    <Compile Include="Pipeline\COG\Reports\MyvaCOG.vb" />
     <Compile Include="Pipeline\COG\Whog\Category.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Program\Blast+\CLIBuilder.vb" />

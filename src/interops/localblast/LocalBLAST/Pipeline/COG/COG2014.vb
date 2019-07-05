@@ -84,7 +84,7 @@ Namespace Pipeline.COG
 
                     With out.Last
                         .COG = COG.JoinBy("; ")
-                        .Data = New Dictionary(Of String, String) From {
+                        .DataAsset = New Dictionary(Of String, String) From {
                             {"genome", gi2cogs(gi).Name}
                         }
                     End With
