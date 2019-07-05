@@ -324,11 +324,12 @@
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\AlignEntry.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\BashShell.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\Abstract.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\Interface.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BHR.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BiDirectionalBesthit.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Models\BiDirectionalBesthit.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BestHit.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Models\BestHit.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BlastnMapping.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\VennDataBuilder.vb" />
@@ -352,7 +353,6 @@
     <Compile Include="Pipeline\COG\Whog\TextParser.vb" />
     <Compile Include="Pipeline\COG\Whog\Whog.vb" />
     <Compile Include="Pipeline\COG\COGsUtils.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Workflows.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\InteropService\Operation.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Program\RpsBLAST.vb" />
