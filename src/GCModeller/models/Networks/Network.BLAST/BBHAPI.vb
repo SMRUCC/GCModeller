@@ -83,7 +83,8 @@ Public Module BBHAPI
         Return New BBH With {
             .Direction = BHTypes.SBH,
             .HitName = sbh.HitName,
-            .Identities = sbh.identities,
+            .forward = sbh.identities,
+            .reverse = sbh.identities,
             .Length = sbh.query_length,
             .Positive = sbh.Positive,
             .QueryName = sbh.QueryName
@@ -133,7 +134,8 @@ Public Module BBHAPI
             Dim bbhHit As New BBH With {
                 .HitName = hit.HitName,
                 .QueryName = hit.QueryName,
-                .Identities = (hit.identities + queryPaired.identities) / 2,
+                .forward = hit.identities,
+                .reverse = queryPaired.identities,
                 .Length = hit.query_length,
                 .Positive = (hit.Positive + queryPaired.Positive) / 2,
                 .Direction = BHTypes.BBH

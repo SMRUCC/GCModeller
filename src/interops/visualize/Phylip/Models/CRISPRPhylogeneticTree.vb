@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::882a4154d754ecffc0f6845f75760b7b, Phylip\Models\CRISPRPhylogeneticTree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CRISPRPhylogeneticTree
-    ' 
-    '     Function: ExeTest, ExportMotifFasta, GetRange, InvokeTreeDrawing, (+2 Overloads) TrimData
-    ' 
-    ' /********************************************************************************/
+' Module CRISPRPhylogeneticTree
+' 
+'     Function: ExeTest, ExportMotifFasta, GetRange, InvokeTreeDrawing, (+2 Overloads) TrimData
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -44,7 +44,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports SMRUCC.genomics.Analysis.CRISPR.CRT.Output
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -102,7 +102,7 @@ Module CRISPRPhylogeneticTree
     <ExportAPI("plasmid.crispr_trim_besthits")>
     Public Function TrimData(data As IEnumerable(Of GenomeScanResult),
                              cds_Info As IEnumerable(Of GeneDumpInfo),
-                             besthits As BestHit,
+                             besthits As SpeciesBesthit,
                              start As String, ends As String) As GenomeScanResult()
         Dim StartAligned = besthits.Hit(start)
         Dim EndsAligned = besthits.Hit(ends)
@@ -119,7 +119,7 @@ Module CRISPRPhylogeneticTree
     ''' <returns></returns>
     ''' <param name="subjectTag">目标基因组的标签信息</param>
     ''' <remarks></remarks>
-    Public Function GetRange(besthits As BestHit,
+    Public Function GetRange(besthits As SpeciesBesthit,
                                      subjectTag As String,
                                      start As HitCollection,
                                      ends As HitCollection,
@@ -131,16 +131,16 @@ Module CRISPRPhylogeneticTree
 
         Do While left Is Nothing
             p += 1
-            left = besthits.Hits(p).GetHitByTagInfo(subjectTag)
+            left = besthits.hits(p).GetHitByTagInfo(subjectTag)
         Loop
 
         p = besthits.IndexOf(ends.QueryName)
         Do While right Is Nothing
             p -= 1
-            right = besthits.Hits(p).GetHitByTagInfo(subjectTag)
+            right = besthits.hits(p).GetHitByTagInfo(subjectTag)
         Loop
 
-        Dim r = {(From item In cdsinfo Where String.Equals(item.LocusID, left.HitName) Select item.Location).First, (From item In cdsinfo Where String.Equals(item.LocusID, right.HitName) Select item.Location).First}
+        Dim r = {(From item In cdsinfo Where String.Equals(item.LocusID, left.hitName) Select item.Location).First, (From item In cdsinfo Where String.Equals(item.LocusID, right.hitName) Select item.Location).First}
         Dim c = {r.First.Left, r.First.Right, r.Last.Left, r.Last.Right}
         Return New SMRUCC.genomics.ComponentModel.Loci.Location(c.Min, c.Max)
     End Function
