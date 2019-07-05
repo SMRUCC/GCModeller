@@ -175,11 +175,13 @@ Partial Module CLI
                                                     Order By x.Location.Normalization.Right Descending)
         Dim hitsHash = (From x As BBHIndex
                         In bbh.LoadCsv(Of BBHIndex)
-                        Where x.Matched
+                        Where x.isMatched
                         Select x
                         Group x By x.QueryName.Split(":"c).Last Into Group) _
                              .ToDictionary(Function(x) x.Last,
-                                           Function(x) x.Group.Select(Function(xx) xx.HitName))
+                                           Function(x)
+                                               Return x.Group.Select(Function(xx) xx.HitName)
+                                           End Function)
         Dim tfHash As Dictionary(Of String, String()) =
             BBHIndex.BuildHitsTable(tfBBH.LoadCsv(Of BBHIndex), args.GetBoolean("/tfHit_hash"))
         Dim result As New List(Of RegPreciseOperon)

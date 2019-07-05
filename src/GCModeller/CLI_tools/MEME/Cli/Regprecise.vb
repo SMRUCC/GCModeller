@@ -528,7 +528,7 @@ Partial Module CLI
         Dim bbhsPaired = From pair As BBHIndex
                          In bbhs.AsParallel
                          Let regEntry As String = __getEntry(pair, direct)
-                         Where pair.Matched AndAlso regprecise.ContainsKey(regEntry)
+                         Where pair.isMatched AndAlso regprecise.ContainsKey(regEntry)
                          Select pair,
                              reg = regprecise(regEntry),
                              KEGGFamily = KEGGFamilies(regEntry)

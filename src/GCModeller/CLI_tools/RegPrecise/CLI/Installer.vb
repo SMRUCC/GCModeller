@@ -184,12 +184,14 @@ Partial Module CLI
         Dim bbhHash As Dictionary(Of String, BBHIndex()) =
             (From x As BBHIndex
              In bbh
-             Where x.Matched
+             Where x.isMatched
              Select x,
                  uid = x.QueryName.Split(":"c).Last  ' 移除KEGG的物种简写代码
              Group By uid Into Group) _
                      .ToDictionary(Function(x) x.uid,
-                                   Function(x) x.Group.Select(Function(o) o.x).ToArray)
+                                   Function(x)
+                                       Return x.Group.Select(Function(o) o.x).ToArray
+                                   End Function)
         Dim list As New List(Of BBHIndex)
 
         For Each genome As BacteriaRegulome In (From path As String In xmls Select path.LoadXml(Of BacteriaRegulome))
