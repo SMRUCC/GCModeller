@@ -331,10 +331,11 @@
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Models\BestHit.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BlastnMapping.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\NtMapping\BlastnMapping.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\VennDataBuilder.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\NtMapping\IMapping.vb" />
     <Compile Include="Pipeline\COG\COG2014.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\MapsAPI.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\NtMapping\MapsAPI.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\Paralog.vb" />
     <Compile Include="Pipeline\COG\Reports\COG.vb" />
     <Compile Include="Pipeline\COG\Reports\MyvaCOG.vb" />
