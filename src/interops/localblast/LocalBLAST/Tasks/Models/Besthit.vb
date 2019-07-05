@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
-Namespace Analysis
+Namespace Tasks.Models
 
     ''' <summary>
     ''' 元数据Xml文件

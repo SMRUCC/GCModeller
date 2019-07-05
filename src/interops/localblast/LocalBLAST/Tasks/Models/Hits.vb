@@ -53,7 +53,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 
-Namespace Analysis
+Namespace Tasks.Models
 
     ''' <summary>
     ''' A collection of hits for the target query protein.

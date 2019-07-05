@@ -444,6 +444,7 @@
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\rpstblastn\" />
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\tblastn\" />
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\tblastx\" />
+    <Folder Include="Pipeline\KO\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

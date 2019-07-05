@@ -59,7 +59,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
     SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry,
     SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry)
 
-Namespace Analysis
+Namespace Tasks
 
     <Package("NCBI.LocalBlast.BBH",
                       Publisher:="amethyst.asuka@gcmodeller.org",
@@ -413,7 +413,7 @@ RETURN_VALUE:
                     New HitCollection With {
                         .QueryName = query,
                         .Description = hits.First.desc,
-                        .Hits = hits.Select(Function(x) x.hhh).ToArray
+                        .hits = hits.Select(Function(x) x.hhh).ToArray
                     }
                 Select hitCol
 

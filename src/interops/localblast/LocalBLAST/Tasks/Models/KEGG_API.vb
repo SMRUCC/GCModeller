@@ -44,7 +44,7 @@ Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports Microsoft.VisualBasic.Language
 
-Namespace Analysis
+Namespace Tasks.Models
 
     ''' <summary>
     ''' KEGG SSDB API
@@ -79,7 +79,7 @@ Namespace Analysis
             Dim hits As New HitCollection With {
                 .Description = source.Definition,
                 .QueryName = source.KEGG_ID.Split(":"c).Last,
-                .Hits = LinqAPI.Exec(Of Hit) <= From x As SSDB.SShit
+                .hits = LinqAPI.Exec(Of Hit) <= From x As SSDB.SShit
                                                 In source.Orthologs
                                                 Where x.Coverage >= coverage AndAlso
                                                     Val(x.Identity) >= identities
@@ -95,7 +95,7 @@ Namespace Analysis
 
             Dim hits As New HitCollection With {
                 .QueryName = tag,
-                .Hits = LinqAPI.Exec(Of SSDB.Ortholog, Hit)(source) <= Function(x) KEGG_API.__export(x)
+                .hits = LinqAPI.Exec(Of SSDB.Ortholog, Hit)(source) <= Function(x) KEGG_API.__export(x)
             }
             Return hits
         End Function

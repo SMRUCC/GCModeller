@@ -1,7 +1,7 @@
 ﻿Namespace Tasks
 
     ''' <summary>
-    ''' NCBI localblast batch task helper
+    ''' NCBI localblast batch/parallel task helper
     ''' </summary>
     Module NamespaceDoc
     End Module
