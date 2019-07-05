@@ -49,7 +49,7 @@ Namespace Tasks
 
     Public Module LocalBLAST
 
-        Private Function __blast(File1 As String,
+        Private Function runBlast(File1 As String,
                                  File2 As String,
                                  Idx As Integer,
                                  logDIR As String,
@@ -88,8 +88,8 @@ Namespace Tasks
                 Call DIR.MkDIR
 
                 For i As Integer = 0 To list.Count - 1
-                    Dim Log1 As String = __blast(list(i).Item1, list(i).Item2, ++index, logDIR, localBlast)
-                    Dim Log2 As String = __blast(list(i).Item1, list(i).Item2, ++index, logDIR, localBlast)
+                    Dim Log1 As String = runBlast(list(i).Item1, list(i).Item2, ++index, logDIR, localBlast)
+                    Dim Log2 As String = runBlast(list(i).Item1, list(i).Item2, ++index, logDIR, localBlast)
 
                     logPairList += New QueryPair With {
                         .Query = Log1,

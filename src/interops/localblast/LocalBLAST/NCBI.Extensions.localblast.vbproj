@@ -300,7 +300,7 @@
     <Compile Include="Tasks\Models.vb" />
     <Compile Include="Tasks\Models\Hit.vb" />
     <Compile Include="Tasks\Models\SpeciesBesthit.vb" />
-    <Compile Include="Tasks\Models\KEGG_API.vb" />
+    <Compile Include="Web\KeggSSDB.vb" />
     <Compile Include="Tasks\Models\Hits.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnOutputReader.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnQuery.vb" />

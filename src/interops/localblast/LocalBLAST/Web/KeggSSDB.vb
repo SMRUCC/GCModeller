@@ -1,55 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::c4e86504343db82793cbe1be27bcb661, LocalBLAST\Analysis\Models\KEGG_API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module KEGG_API
-    ' 
-    '         Function: (+2 Overloads) __export, (+2 Overloads) Export, EXPORT
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module KEGG_API
+' 
+'         Function: (+2 Overloads) __export, (+2 Overloads) Export, EXPORT
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 
-Namespace Tasks.Models
+Namespace Web
 
     ''' <summary>
     ''' KEGG SSDB API
     ''' </summary>
-    Public Module KEGG_API
+    Public Module KeggSSDB
 
         Public Function EXPORT(source As IEnumerable(Of SSDB.OrthologREST),
                                Optional coverage As Double = 0.8,
@@ -59,7 +60,7 @@ Namespace Tasks.Models
                 .sp = source.First.KEGG_ID.Split(":"c).First,
                 .hits = LinqAPI.Exec(Of HitCollection) <= From query As SSDB.OrthologREST
                                                           In source.AsParallel
-                                                          Select KEGG_API.Export(query, coverage, identities)
+                                                          Select KeggSSDB.Export(query, coverage, identities)
             }
             Return result
         End Function
@@ -79,7 +80,7 @@ Namespace Tasks.Models
             Dim hits As New HitCollection With {
                 .Description = source.Definition,
                 .QueryName = source.KEGG_ID.Split(":"c).Last,
-                .hits = LinqAPI.Exec(Of Hit) <= From x As SSDB.SShit
+                .Hits = LinqAPI.Exec(Of Hit) <= From x As SSDB.SShit
                                                 In source.Orthologs
                                                 Where x.Coverage >= coverage AndAlso
                                                     Val(x.Identity) >= identities
@@ -95,7 +96,7 @@ Namespace Tasks.Models
 
             Dim hits As New HitCollection With {
                 .QueryName = tag,
-                .hits = LinqAPI.Exec(Of SSDB.Ortholog, Hit)(source) <= Function(x) KEGG_API.__export(x)
+                .Hits = LinqAPI.Exec(Of SSDB.Ortholog, Hit)(source) <= Function(x) KeggSSDB.__export(x)
             }
             Return hits
         End Function

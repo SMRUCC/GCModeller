@@ -83,15 +83,13 @@ Namespace Tasks.Models
         ''' <returns></returns>
         <XmlElement> Public Property Hits As Hit()
             Get
-                Return __hits
+                Return hitTable.Values.ToArray
             End Get
             Set(value As Hit())
-                __hits = value
-                If __hits.IsNullOrEmpty Then
-                    __hitsHash = New Dictionary(Of Hit)
-                    __hits = New Hit() {}
+                If value.IsNullOrEmpty Then
+                    hitTable = New Dictionary(Of Hit)
                 Else
-                    __hitsHash = New Dictionary(Of Hit)(
+                    hitTable = New Dictionary(Of Hit)(
                         (From x As Hit
                          In value
                          Select x
@@ -102,8 +100,7 @@ Namespace Tasks.Models
             End Set
         End Property
 
-        Dim __hits As Hit()
-        Dim __hitsHash As Dictionary(Of Hit)
+        Dim hitTable As Dictionary(Of Hit)
 
         Public Overrides Function ToString() As String
             Return String.Format("{0}:   {1}", QueryName, Description)
@@ -116,8 +113,8 @@ Namespace Tasks.Models
         ''' <returns></returns>
         Default Public ReadOnly Property Hit(hitName As String) As Hit
             Get
-                If __hitsHash.ContainsKey(hitName) Then
-                    Return __hitsHash(hitName)
+                If hitTable.ContainsKey(hitName) Then
+                    Return hitTable(hitName)
                 Else
                     Return Nothing
                 End If
