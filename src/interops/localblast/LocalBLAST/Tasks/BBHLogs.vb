@@ -283,7 +283,7 @@ RETURN_VALUE:
                                                    <Parameter("CDS.All.Dump", "Lazy loading task.")>
                                                    CDSAll As Task(Of String, Dictionary(Of String, GeneDumpInfo)),
                                                    <Parameter("DIR.EXPORT")> EXPORT As String,
-                                                   <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As BestHit()
+                                                   <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As SpeciesBesthit()
             Return ExportBidirectionalBesthit(Source, EXPORT, CDSAll.GetValue, TrimNull)
         End Function
 
@@ -301,7 +301,7 @@ RETURN_VALUE:
                                                    <Parameter("Dir.Export")> EXPORT As String,
                                                    <Parameter("CDS.All.Dump")>
                                                    Optional CDSInfo As Dictionary(Of String, GeneDumpInfo) = Nothing,
-                                                   <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As BestHit()
+                                                   <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As SpeciesBesthit()
 
             Dim Files = (From path As AlignEntry
                          In Source
@@ -349,7 +349,7 @@ RETURN_VALUE:
                            Select __export(Data.QueryName, hitData)).ToArray   '按照分组将数据导出
 
             '保存临时数据
-            For Each item As BestHit In EXPORTS
+            For Each item As SpeciesBesthit In EXPORTS
                 Dim path As String = EXPORT & "/CompiledBesthits/" & item.sp & ".xml"
                 Call item.GetXml.SaveTo(path)
                 path = EXPORT & "/CompiledCsvData/" & item.sp & ".csv"
@@ -389,11 +389,12 @@ RETURN_VALUE:
             Return Result
         End Function
 
-        Private Function __export(QuerySpeciesName As String, data As KeyValuePair(Of String, Dictionary(Of String, BiDirectionalBesthit))()) As BestHit
-            Dim Result As New BestHit With {
+        Private Function __export(QuerySpeciesName As String, data As KeyValuePair(Of String, Dictionary(Of String, BiDirectionalBesthit))()) As SpeciesBesthit
+            Dim Result As New SpeciesBesthit With {
                 .sp = QuerySpeciesName
             }
-            Dim QueryProteins As String() = data.First.Value.Keys.ToArray   '作为主键的蛋白质编号
+            ' 作为主键的蛋白质编号
+            Dim QueryProteins As String() = data.First.Value.Keys.ToArray
             Dim LQuery As HitCollection() =
                 LinqAPI.Exec(Of HitCollection) <=
                 From query As String
@@ -418,7 +419,7 @@ RETURN_VALUE:
                     }
                 Select hitCol
 
-            Return New BestHit With {
+            Return New SpeciesBesthit With {
                 .sp = QuerySpeciesName,
                 .hits = LQuery
             }
