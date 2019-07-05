@@ -51,7 +51,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abst
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 
-Namespace LocalBLAST.Application
+Namespace LocalBLAST.Application.NtMapping
 
     Public Module MapsAPI
 
@@ -108,7 +108,7 @@ Namespace LocalBLAST.Application
                       Let result = Query.__createObject(blastnHitMapping)
                       Select result
 
-            Call LQuery.__setUnique
+            Call LQuery.setUnique
 
             Return LQuery
         End Function
@@ -122,7 +122,7 @@ Namespace LocalBLAST.Application
         ''' </summary>
         ''' <param name="data"></param>
         ''' <returns></returns>
-        <Extension> Private Function __setUnique(ByRef data As BlastnMapping()) As Boolean
+        <Extension> Private Function setUnique(ByRef data As BlastnMapping()) As Boolean
             If data.Length = 1 Then
                 data(Scan0).Unique = True
                 Return True

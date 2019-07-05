@@ -1,57 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::c97e295c61395a398a920e38995ff189, LocalBLAST\Analysis\LocalBLAST.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module LocalBLAST
-    ' 
-    '         Function: __blast, BLAST
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module LocalBLAST
+' 
+'         Function: __blast, BLAST
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.InteropService
 
-Namespace Analysis
+Namespace Tasks
 
     Public Module LocalBLAST
 
-        Private Function __blast(File1 As String,
+        Private Function runBlast(File1 As String,
                                  File2 As String,
                                  Idx As Integer,
                                  logDIR As String,
@@ -90,8 +88,8 @@ Namespace Analysis
                 Call DIR.MkDIR
 
                 For i As Integer = 0 To list.Count - 1
-                    Dim Log1 As String = __blast(list(i).Item1, list(i).Item2, ++index, logDIR, localBlast)
-                    Dim Log2 As String = __blast(list(i).Item1, list(i).Item2, ++index, logDIR, localBlast)
+                    Dim Log1 As String = runBlast(list(i).Item1, list(i).Item2, ++index, logDIR, localBlast)
+                    Dim Log2 As String = runBlast(list(i).Item1, list(i).Item2, ++index, logDIR, localBlast)
 
                     logPairList += New QueryPair With {
                         .Query = Log1,

@@ -54,11 +54,11 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.BBHLogs
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.BBHLogs
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -363,7 +363,7 @@ Partial Module CLI
         Dim LQuery As BBH.BestHit() =
             LinqAPI.Exec(Of BestHit) <= From x As BBH.BestHit()
                                         In blastp
-                                        Select x.Where(Function(xx) xx.Matched)
+                                        Select x.Where(Function(xx) xx.isMatched)
         Return LQuery.SaveTo(out).CLICode
     End Function
 

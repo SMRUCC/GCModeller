@@ -48,7 +48,7 @@
 
 Imports System.Xml.Serialization
 
-Namespace Analysis
+Namespace Tasks
 
     Public Class LogsPair
 

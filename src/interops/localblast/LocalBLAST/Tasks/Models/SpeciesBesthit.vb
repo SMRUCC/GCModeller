@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::873b140c9855ccb5e58501cb6351d2c1, LocalBLAST\Analysis\Models\Besthit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BestHit
-    ' 
-    '         Properties: GetTopHits, hits, sp
-    ' 
-    '         Function: ExportCsv, GetConservedRegions, GetTotalIdentities, GetUnConservedRegions, IndexOf
-    '                   InternalSort, SelectSourceFromHits, Take, ToString, TrimEmpty
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BestHit
+' 
+'         Properties: GetTopHits, hits, sp
+' 
+'         Function: ExportCsv, GetConservedRegions, GetTotalIdentities, GetUnConservedRegions, IndexOf
+'                   InternalSort, SelectSourceFromHits, Take, ToString, TrimEmpty
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,16 +48,17 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
-Namespace Analysis
+Namespace Tasks.Models
 
     ''' <summary>
     ''' 元数据Xml文件
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class BestHit
+    Public Class SpeciesBesthit
 
         ''' <summary>
         ''' The species name of query.(进行当前匹配操作的物种名称，这个属性不是蛋白质的名称)
@@ -66,22 +67,21 @@ Namespace Analysis
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute> Public Property sp As String
+
         <XmlElement> Public Property hits As HitCollection()
             Get
-                Return __hits
+                Return hitTable.Values.ToArray
             End Get
             Set(value As HitCollection())
-                __hits = value
-                If __hits.IsNullOrEmpty Then
-                    __protHash = New Dictionary(Of HitCollection)
+                If value.IsNullOrEmpty Then
+                    hitTable = New Dictionary(Of HitCollection)
                 Else
-                    __protHash = value.ToDictionary
+                    hitTable = value.ToDictionary
                 End If
             End Set
         End Property
 
-        Dim __hits As HitCollection()
-        Dim __protHash As Dictionary(Of HitCollection)
+        Dim hitTable As Dictionary(Of HitCollection)
 
         Public Function IndexOf(QueryName As String) As Integer
             Dim LQuery = LinqAPI.DefaultFirst(Of HitCollection) <=
@@ -97,30 +97,37 @@ Namespace Analysis
             End If
         End Function
 
-        Public Function Take(ParamArray spTags$()) As BestHit
-            Return New BestHit With {
+        Public Function Take(ParamArray spTags$()) As SpeciesBesthit
+            Return New SpeciesBesthit With {
                 .sp = sp,
-                .hits =
-                LinqAPI.Exec(Of HitCollection) <= From x As HitCollection
-                                                  In hits.AsParallel
-                                                  Select x.Take(spTags)
+                .hits = LinqAPI.Exec(Of HitCollection) <= From x As HitCollection
+                                                          In hits.AsParallel
+                                                          Select x.Take(spTags)
             }
         End Function
 
-        Public Function GetTotalIdentities(sp As String) As Double
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="sp"></param>
+        ''' <param name="aggregate"><see cref="Enumerable.Average"/> as default</param>
+        ''' <returns></returns>
+        Public Function GetTotalIdentities(sp As String, Optional aggregate As Func(Of Double(), Double) = Nothing) As Double
             Dim LQuery As Double() = LinqAPI.Exec(Of Double) <=
  _
                 From hit As HitCollection
                 In hits
                 Select From sp_obj As Hit
-                       In hit.Hits
+                       In hit.hits
                        Where String.Equals(sp, sp_obj.tag, StringComparison.OrdinalIgnoreCase)
-                       Select sp_obj.Identities
+                       Select sp_obj.identities
+
+            Static average As New [Default](Of Func(Of Double(), Double))(AddressOf Enumerable.Average)
 
             If LQuery.IsNullOrEmpty Then
                 Return 0
             Else
-                Return LQuery.Average
+                Return (aggregate Or average)(LQuery)
             End If
         End Function
 
@@ -154,9 +161,9 @@ Namespace Analysis
                     Return ""
                 Else
                     Dim HitData As String = (From hitEntry As Hit
-                                             In LQuery.Hits
+                                             In LQuery.hits
                                              Where String.Equals(hitEntry.tag, HitSpecies)
-                                             Select hitEntry.HitName).FirstOrDefault
+                                             Select hitEntry.hitName).FirstOrDefault
                     Return HitData
                 End If
             End Get
@@ -169,8 +176,8 @@ Namespace Analysis
         ''' <returns></returns>
         Default Public ReadOnly Property Hit(queryName As String) As HitCollection
             Get
-                If __protHash.ContainsKey(queryName) Then
-                    Return __protHash(queryName)
+                If hitTable.ContainsKey(queryName) Then
+                    Return hitTable(queryName)
                 Else
                     Return Nothing
                 End If
@@ -189,10 +196,10 @@ Namespace Analysis
         ''' <remarks></remarks>
         Public ReadOnly Property GetTopHits As String()
             Get
-                Dim LQuery = From hitData As HitCollection In hits Select hitData.Hits
+                Dim LQuery = From hitData As HitCollection In hits Select hitData.hits
                 Dim groups = From hitData As Hit
                              In LQuery.IteratesALL
-                             Where Not String.IsNullOrEmpty(hitData.HitName)
+                             Where Not String.IsNullOrEmpty(hitData.hitName)
                              Select hitData
                              Group By hitData.tag Into Group
                 Dim source = From bacData
@@ -201,10 +208,8 @@ Namespace Analysis
                              Select bacData.tag,
                                  n = bacData.Group.Count
                              Order By n Descending
-                Dim Id As String() =
-                    LinqAPI.Exec(Of String) <= From Tag
-                                               In source
-                                               Select Tag.tag
+
+                Dim Id As String() = source.Select(Function(t) t.tag).ToArray
 
                 Return Id
             End Get
@@ -216,23 +221,23 @@ Namespace Analysis
         ''' <param name="p">0-1</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TrimEmpty(p As Double) As BestHit
+        Public Function TrimEmpty(p As Double) As SpeciesBesthit
             Dim LQuery As IEnumerable(Of Hit) =
-                Me.hits.Select(Function(hit) hit.Hits).IteratesALL
+                Me.hits.Select(Function(hit) hit.hits).IteratesALL
             Dim Grouped = (From hit As Hit
                            In LQuery
-                           Where Not String.IsNullOrEmpty(hit.HitName)
+                           Where Not String.IsNullOrEmpty(hit.hitName)
                            Select hit
                            Group By hit.tag Into Group).ToArray
             Dim Id As String() = (From hit In Grouped
                                   Where hit.Group.Count >= p * (Grouped.Count - 1)
                                   Select hit.tag).ToArray
-            Dim setValue = New SetValue(Of HitCollection) <= NameOf(HitCollection.Hits)
+            Dim setValue = New SetValue(Of HitCollection) <= NameOf(HitCollection.hits)
             Dim hits As HitCollection() =
                 LinqAPI.Exec(Of HitCollection) <= From hit As HitCollection
                                                   In Me.hits
                                                   Let __hits As Hit() = (From x As Hit
-                                                                         In hit.Hits
+                                                                         In hit.hits
                                                                          Where Array.IndexOf(Id, x.tag) > -1
                                                                          Select x).ToArray
                                                   Select setValue(hit, __hits)
@@ -247,14 +252,14 @@ Namespace Analysis
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function GetConservedRegions(Optional p_cutoff As Double = 0.7, Optional Spacer As Integer = 2) As IReadOnlyList(Of String())
-            Dim n As Integer = Me.hits.First.Hits.Length
+            Dim n As Integer = Me.hits.First.hits.Length
             Dim p_cut As Double = If(n <= 10, p_cutoff, p_cutoff / n)
             Dim LQuery = (From hit As HitCollection
                           In hits
                           Let p = (From nn As Hit
-                                   In hit.Hits
-                                   Where Not String.IsNullOrEmpty(nn.HitName)
-                                   Select 1).Sum / hit.Hits.Length
+                                   In hit.hits
+                                   Where Not String.IsNullOrEmpty(nn.hitName)
+                                   Select 1).Sum / hit.hits.Length
                           Select hit.QueryName,
                               IsConserved = p >= p_cut,
                               p).ToArray
@@ -262,7 +267,8 @@ Namespace Analysis
             Dim i As Integer = 0
             Dim tmps As List(Of String) = New List(Of String)
 
-            Dim __cut = Sub(QueryName As String)      '断裂了
+            Dim doCut = Sub(QueryName As String)
+                            ' 断裂了
                             Call tmps.Add(QueryName)
                             Call buf.Add(tmps.ToArray)
                             Call tmps.Clear()
@@ -275,9 +281,10 @@ Namespace Analysis
                 If Not x.IsConserved Then
 
                     If i = Spacer Then
-                        Call __cut(x.QueryName)
-                    ElseIf i = 0 Then '这里的情况是连续的空缺断裂
-                        Call __cut(x.QueryName)
+                        Call doCut(x.QueryName)
+                    ElseIf i = 0 Then
+                        ' 这里的情况是连续的空缺断裂
+                        Call doCut(x.QueryName)
                     Else
                         Call tmps.Add(x.QueryName)
                         i += 1
@@ -293,7 +300,7 @@ Namespace Analysis
                    In buf
                    Where locus.Count > 1 OrElse
                        (locus.Count = 1 AndAlso Array.IndexOf(unConserved, locus.First) = -1)
-                   Select locus).AsList '删除不保守的位点
+                   Select locus).AsList ' 删除不保守的位点
 
             Return buf
         End Function
@@ -306,15 +313,14 @@ Namespace Analysis
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function SelectSourceFromHits(source As String, copyTo As String) As String()
-            Dim gbEntry As Dictionary(Of NamedValue(Of String)) =
-                gbExportService.LoadGbkSource(source)
+            Dim gbEntry As Dictionary(Of NamedValue(Of String)) = gbExportService.LoadGbkSource(source)
             Dim LQuery As IEnumerable(Of Hit) =
                 hits _
-                .Select(Function(hit) hit.Hits) _
+                .Select(Function(hit) hit.hits) _
                 .IteratesALL
             Dim grouped = (From hit As Hit
                            In LQuery
-                           Where Not String.IsNullOrEmpty(hit.HitName)
+                           Where Not String.IsNullOrEmpty(hit.hitName)
                            Select hit
                            Group By hit.tag Into Group).ToArray
 
@@ -348,11 +354,11 @@ Namespace Analysis
             Dim source = From hit As HitCollection
                          In hits
                          Select From subHit As Hit
-                                In hit.Hits
+                                In hit.hits
                                 Select QueryName = hit.QueryName,
                                     Tag = subHit.tag,
                                     obj = subHit,
-                                    IsHit = Not String.IsNullOrEmpty(subHit.HitName)
+                                    IsHit = Not String.IsNullOrEmpty(subHit.hitName)
 
             Dim SourceLQuery = From query
                                In source.IteratesALL
@@ -361,11 +367,14 @@ Namespace Analysis
             Dim OrderByHits = (From x
                                In SourceLQuery
                                Let order = (From nnn In x.Group Where nnn.IsHit Select 1).Count
-                               Select dict = x.Group.ToDictionary(
-                                   Function(obj) obj.QueryName,
-                                   Function(obj) obj.obj),
-                                   SpeciesID = x.Tag, order
-                               Order By order Descending).ToArray '已经按照比对上的数目排序了
+                               Select dict = x.Group _
+                                   .ToDictionary(Function(obj) obj.QueryName,
+                                                 Function(obj)
+                                                     Return obj.obj
+                                                 End Function),
+                                   SpeciesID = x.Tag,
+                                   order
+                               Order By order Descending).ToArray ' 已经按照比对上的数目排序了
 
             If TrimNull Then
                 OrderByHits = From x
@@ -382,7 +391,7 @@ Namespace Analysis
                                                             Where x.dict.ContainsKey(hit.QueryName)
                                                             Select x.dict(hit.QueryName)
                 list += hit
-                hit.Hits = data
+                hit.hits = data
             Next
 
             Return list
@@ -402,7 +411,7 @@ Namespace Analysis
                 LinqAPI.MakeList(Of String) <=
                     From x As HitCollection
                     In hits
-                    Select x.Hits.Select(Function(o) o.tag)   ' 在这里得到所有物种的标签信息
+                    Select x.hits.Select(Function(o) o.tag)   ' 在这里得到所有物种的标签信息
 
             hits = InternalSort(TrimNull).ToArray
             hits = (From item In hits Select nnn = item Order By nnn.QueryName Ascending).ToArray  '对Query的蛋白质编号进行排序
@@ -420,17 +429,17 @@ Namespace Analysis
             Dim File As IO.File = New IO.File + Head
 
             For Each Hit As HitCollection In hits
-                Dim Row As New IO.RowObject From {Hit.Description, Hit.QueryName}
+                Dim Row As New IO.RowObject From {Hit.description, Hit.QueryName}
 
-                For Each prot As Hit In Hit.Hits
+                For Each prot As Hit In Hit.hits
                     Dim i As Integer = index.IndexOf(prot.tag)
                     i = i * 4   ' <space>,name,identities,positive 所占用的位置
                     i += 2   ' Hit.Description, Hit.QueryName 所占用的位置
 
                     Row(i) = ""
-                    Row(i + 1) = prot.HitName
-                    Row(i + 2) = prot.Identities
-                    Row(i + 3) = prot.Positive
+                    Row(i + 1) = prot.hitName
+                    Row(i + 2) = prot.identities
+                    Row(i + 3) = prot.positive
                 Next
 
                 File += Row

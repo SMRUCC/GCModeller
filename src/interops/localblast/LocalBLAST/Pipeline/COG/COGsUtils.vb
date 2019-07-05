@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::1aa92119eaea3e4fb4e7722c566de80b, LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\COGsUtils.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module COGsUtils
-    ' 
-    '         Function: (+2 Overloads) MyvaCOGCatalog
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module COGsUtils
+' 
+'         Function: (+2 Overloads) MyvaCOGCatalog
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG.Whog
 
-Namespace LocalBLAST.Application.RpsBLAST
+Namespace Pipeline.COG
 
     ''' <summary>
     ''' Cog分类操作
@@ -105,7 +105,7 @@ Namespace LocalBLAST.Application.RpsBLAST
 
             Dim MyvaCOG As MyvaCOG() =
                 source _
-                .Select(AddressOf RpsBLAST.MyvaCOG.CreateObject) _
+                .Select(AddressOf Pipeline.COG.MyvaCOG.CreateObject) _
                 .ToArray
 
             If Not descriptParser Is Nothing Then
@@ -117,7 +117,7 @@ Namespace LocalBLAST.Application.RpsBLAST
             End If
 
             MyvaCOG = whogXml _
-                .LoadXml(Of LocalBLAST.Application.RpsBLAST.Whog.Whog)() _
+                .LoadXml(Of WhogRepository)() _
                 .MatchCogCategory(MyvaCOG)
 
             Return MyvaCOG

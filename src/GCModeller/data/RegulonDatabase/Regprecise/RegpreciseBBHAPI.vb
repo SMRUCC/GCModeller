@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::1e121197f39bf669226087de5264e098, data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module RegpreciseBidirectionalBh_Methods
-    ' 
-    '         Function: __applyingProperty, __applyProperty, __gettfbs, Convert, FamilyStatics
-    '                   (+3 Overloads) Match, MatchAlignment, MPAlignment, MPCutoff, ReadData
-    '                   SelectPfamSource, WriteData
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module RegpreciseBidirectionalBh_Methods
+' 
+'         Function: __applyingProperty, __applyProperty, __gettfbs, Convert, FamilyStatics
+'                   (+3 Overloads) Match, MatchAlignment, MPAlignment, MPCutoff, ReadData
+'                   SelectPfamSource, WriteData
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -57,8 +57,7 @@ Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
 Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -168,13 +167,12 @@ Namespace Regprecise
                                 In RegpreciseTfbs
                                 Let site As String = Regex.Match(regFasta.Title, "gene=[^]]+").Value.Split(CChar("=")).Last
                                 Select New KeyValuePair(Of String, String)(site, regFasta.Headers.First.Split.First)).ToArray
-            Dim BesthitBLAST = New BidirectionalBesthit_BLAST(
-                LocalBLAST, If(String.IsNullOrEmpty(WorkDir), My.Computer.FileSystem.SpecialDirectories.Temp, WorkDir))
-            Dim bhArray = BesthitBLAST.Peformance(Query.FilePath,
-                                                  RegpreciseRegulators.FilePath,
-                                                  TextGrepScriptEngine.Compile(QueryGrep).PipelinePointer,
-                                                  TextGrepScriptEngine.Compile("tokens ' ' 0;tokens | last").PipelinePointer,
-                                                  "1e-3", ExportAll:=ExportAll)
+            ' Dim BesthitBLAST = New BidirectionalBesthit_BLAST(LocalBLAST, If(String.IsNullOrEmpty(WorkDir), My.Computer.FileSystem.SpecialDirectories.Temp, WorkDir))
+            'Dim bhArray = BesthitBLAST.Peformance(Query.FilePath,
+            '                                      RegpreciseRegulators.FilePath,
+            '                                      TextGrepScriptEngine.Compile(QueryGrep).PipelinePointer,
+            '                                      TextGrepScriptEngine.Compile("tokens ' ' 0;tokens | last").PipelinePointer,
+            '                                      "1e-3", ExportAll:=ExportAll)
             Dim ExtractedTfbsInfo = (From regulator As FastaSeq
                                      In RegpreciseRegulators
                                      Let tfbs As String() = regulator.__gettfbs(siteInfoList)
@@ -182,7 +180,7 @@ Namespace Regprecise
             Dim LQuery = LinqAPI.Exec(Of RegpreciseMPBBH) _
  _
                 () <= From bbhReg As LocalBLAST.Application.BBH.BiDirectionalBesthit
-                      In bhArray
+                      In {}' bhArray
                       Where Not String.IsNullOrEmpty(bbhReg.HitName)
                       Let ids = (From tfbs As KeyValuePair(Of String, String())
                                  In ExtractedTfbsInfo.AsParallel

@@ -265,7 +265,9 @@ Default is not, default checks right side and left side.")>
                       Select x
                       Group x By x.QueryName Into Group) _
                          .ToDictionary(Function(x) x.QueryName.Split(":"c).Last,
-                                       Function(x) x.Group.Where(Function(xx) xx.Matched).Select(Function(xx) xx.HitName.Split(":"c).Last).ToArray)
+                                       Function(x)
+                                           Return x.Group.Where(Function(xx) xx.isMatched).Select(Function(xx) xx.HitName.Split(":"c).Last).ToArray
+                                       End Function)
         Return LQuery
     End Function
 

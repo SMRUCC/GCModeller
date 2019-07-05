@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.COG.COGs
 Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
-Namespace LocalBLAST.Application.RpsBLAST
+Namespace Pipeline.COG
 
     Public Module COG2014
 
@@ -84,7 +84,7 @@ Namespace LocalBLAST.Application.RpsBLAST
 
                     With out.Last
                         .COG = COG.JoinBy("; ")
-                        .Data = New Dictionary(Of String, String) From {
+                        .DataAsset = New Dictionary(Of String, String) From {
                             {"genome", gi2cogs(gi).Name}
                         }
                     End With

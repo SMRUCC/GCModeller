@@ -295,12 +295,14 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analysis\LocalBLAST.vb" />
-    <Compile Include="Analysis\BBHLogs.vb" />
-    <Compile Include="Analysis\Models.vb" />
-    <Compile Include="Analysis\Models\Besthit.vb" />
-    <Compile Include="Analysis\Models\KEGG_API.vb" />
-    <Compile Include="Analysis\Models\Hits.vb" />
+    <Compile Include="Tasks\LocalBLAST.vb" />
+    <Compile Include="Tasks\BBHLogs.vb" />
+    <Compile Include="Tasks\Models.vb" />
+    <Compile Include="Tasks\Models\Hit.vb" />
+    <Compile Include="Tasks\Models\SpeciesBesthit.vb" />
+    <Compile Include="Tasks\ChunkHitParser.vb" />
+    <Compile Include="Web\KeggSSDB.vb" />
+    <Compile Include="Tasks\Models\Hits.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnOutputReader.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnQuery.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\BlastpOutputReader.vb" />
@@ -324,19 +326,22 @@
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\AlignEntry.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\BashShell.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\Abstract.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\Interface.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BHR.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BiDirectionalBesthit.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Models\BiDirectionalBesthit.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BestHit.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Models\BestHit.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BlastnMapping.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\NtMapping\BlastnMapping.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\VennDataBuilder.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\COG\COG2014.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\MapsAPI.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\NtMapping\IMapping.vb" />
+    <Compile Include="Pipeline\COG\COG2014.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\NtMapping\MapsAPI.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\Paralog.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\COG\COG.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\COG\Whog\Category.vb" />
+    <Compile Include="Pipeline\COG\Reports\COG.vb" />
+    <Compile Include="Pipeline\COG\Reports\MyvaCOG.vb" />
+    <Compile Include="Pipeline\COG\Whog\Category.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Program\Blast+\CLIBuilder.vb" />
     <Compile Include="NCBILocalBlast.vb" />
@@ -347,9 +352,10 @@
     <Compile Include="LocalBLAST\BlastOutput\Xml\BlastOutput.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Xml\BireHits.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\PartialBestBLAST.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\COG\Whog\Whog.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\COG\COGsUtils.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Workflows.vb" />
+    <Compile Include="Pipeline\COG\Whog\Assigner.vb" />
+    <Compile Include="Pipeline\COG\Whog\TextParser.vb" />
+    <Compile Include="Pipeline\COG\Whog\Whog.vb" />
+    <Compile Include="Pipeline\COG\COGsUtils.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\InteropService\Operation.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Program\RpsBLAST.vb" />
@@ -372,6 +378,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Pipeline\NamespaceDoc.vb" />
+    <Compile Include="Tasks\NamespaceDoc.vb" />
     <Compile Include="Web\Alignment\AlignmentTable.vb" />
     <Compile Include="Web\Alignment\HitTableParser.vb" />
     <Compile Include="Web\Alignment\Extensions.vb" />
@@ -438,6 +446,7 @@
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\rpstblastn\" />
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\tblastn\" />
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\tblastx\" />
+    <Folder Include="Pipeline\KO\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
