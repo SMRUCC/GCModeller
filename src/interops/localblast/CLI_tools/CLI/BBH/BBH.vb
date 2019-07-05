@@ -192,7 +192,8 @@ Partial Module CLI
                                 For Each x As BiDirectionalBesthit In g
                                     If Not x Is top Then
                                         x.HitName = ""
-                                        x.Identities = 0
+                                        x.forward = 0
+                                        x.reverse = 0
                                         x.Positive = 0
                                         x.Length = 0
                                     End If

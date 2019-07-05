@@ -125,7 +125,8 @@ Namespace LocalBLAST.Application.BBH
                                 result += New BiDirectionalBesthit With {
                                     .QueryName = qId,
                                     .HitName = hit.HitName,
-                                    .Identities = Math.Max(hit.identities, subject.identities),
+                                    .forward = hit.identities,
+                                    .reverse = subject.identities,
                                     .Length = hit.length_hit,
                                     .Positive = Math.Max(hit.Positive, subject.Positive),
                                     .Description = subject.description
@@ -179,21 +180,23 @@ Namespace LocalBLAST.Application.BBH
             Return score
         End Function
 
-        Private Function __generateBBH(hits As String(), Id As String, row As BestHit) As BiDirectionalBesthit
-            If Array.IndexOf(hits, Id) > -1 Then _
+        Private Function generateBBH(hits As String(), Id As String, row As BestHit) As BiDirectionalBesthit
+            If Array.IndexOf(hits, Id) > -1 Then
                 Return New BiDirectionalBesthit With {  ' 可以双向匹配
                     .QueryName = row.QueryName,
                     .HitName = row.HitName,
                     .Length = row.query_length,
-                    .Identities = row.identities,
+                    .forward = row.identities,
+                    .reverse = row.identities,
                     .Positive = row.Positive
                 }
-
-            Return New BiDirectionalBesthit With {
-                .QueryName = row.QueryName,
-                .HitName = "",
-                .Length = row.query_length
-            }
+            Else
+                Return New BiDirectionalBesthit With {
+                    .QueryName = row.QueryName,
+                    .HitName = "",
+                    .Length = row.query_length
+                }
+            End If
         End Function
 
         ''' <summary>
@@ -268,7 +271,8 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Function __topBesthit(Query As BestHit, SubjectVsQuery As BestHit()) As BiDirectionalBesthit
-            If SubjectVsQuery.IsNullOrEmpty Then '匹配不上，则返回空的hitname
+            If SubjectVsQuery.IsNullOrEmpty Then
+                ' 匹配不上，则返回空的hitname
                 Return New BiDirectionalBesthit With {
                     .QueryName = Query.QueryName,
                     .Length = Query.query_length
@@ -276,15 +280,18 @@ Namespace LocalBLAST.Application.BBH
             End If
 
             Dim Subject = SubjectVsQuery.First()
-            Dim HitsName As String = Subject.HitName  'Subject对象为反向比对结果，其Hitname属性自然为正向比对的Query对象属性
+            Dim HitsName As String = Subject.HitName
+            ' Subject对象为反向比对结果，其Hitname属性自然为正向比对的Query对象属性
             Dim BestHit = New BiDirectionalBesthit With {
                 .QueryName = Query.QueryName,
                 .Length = Query.query_length
             }
 
-            If String.Equals(Query.QueryName, HitsName) Then '可以双向匹配
+            If String.Equals(Query.QueryName, HitsName) Then
+                ' 可以双向匹配
                 BestHit.HitName = Query.HitName
-                BestHit.Identities = Math.Max(Query.identities, Subject.identities)
+                BestHit.forward = Query.identities
+                BestHit.reverse = Subject.identities
                 BestHit.Positive = Math.Max(Query.Positive, Subject.Positive)
             End If
 
@@ -410,7 +417,8 @@ Namespace LocalBLAST.Application.BBH
                         result += New BiDirectionalBesthit With {
                             .QueryName = qId,
                             .HitName = query.HitName,
-                            .Identities = Math.Max(query.identities, subject.identities),
+                            .forward = query.identities,
+                            .reverse = subject.identities,
                             .Length = query.length_hit,
                             .Positive = Math.Max(query.Positive, subject.Positive),
                             .Description = query.description
