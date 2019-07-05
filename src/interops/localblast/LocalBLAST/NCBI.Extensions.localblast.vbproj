@@ -332,11 +332,11 @@
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BlastnMapping.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\VennDataBuilder.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\COG\COG2014.vb" />
+    <Compile Include="Pipeline\COG\COG2014.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\MapsAPI.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\Paralog.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\COG\COG.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\COG\Whog\Category.vb" />
+    <Compile Include="Pipeline\COG\COG.vb" />
+    <Compile Include="Pipeline\COG\Whog\Category.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Program\Blast+\CLIBuilder.vb" />
     <Compile Include="NCBILocalBlast.vb" />
@@ -347,8 +347,8 @@
     <Compile Include="LocalBLAST\BlastOutput\Xml\BlastOutput.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Xml\BireHits.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\PartialBestBLAST.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\COG\Whog\Whog.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\COG\COGsUtils.vb" />
+    <Compile Include="Pipeline\COG\Whog\Whog.vb" />
+    <Compile Include="Pipeline\COG\COGsUtils.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Workflows.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\InteropService\Operation.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb" />
@@ -372,6 +372,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Pipeline\NamespaceDoc.vb" />
     <Compile Include="Web\Alignment\AlignmentTable.vb" />
     <Compile Include="Web\Alignment\HitTableParser.vb" />
     <Compile Include="Web\Alignment\Extensions.vb" />
