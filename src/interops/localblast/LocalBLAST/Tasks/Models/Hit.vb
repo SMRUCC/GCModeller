@@ -21,12 +21,12 @@ Namespace Tasks.Models
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property HitName As String Implements INamedValue.Key
-        <XmlAttribute> Public Property Identities As Double
-        <XmlAttribute> Public Property Positive As Double
+        <XmlAttribute> Public Property hitName As String Implements INamedValue.Key
+        <XmlAttribute> Public Property identities As Double
+        <XmlAttribute> Public Property positive As Double
 
         Public Overrides Function ToString() As String
-            Return $"[{tag}] {HitName},    Identities:= {Identities};   Positive:= {Positive};"
+            Return $"[{tag}] {hitName} {{identities:= {identities}, positive:= {positive}}}"
         End Function
     End Class
 End Namespace

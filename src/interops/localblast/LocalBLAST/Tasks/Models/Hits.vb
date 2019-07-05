@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::6d5dca0cf691adb25df67f5d9e224a10, LocalBLAST\Analysis\Models\Hits.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class HitCollection
-    ' 
-    '         Properties: Description, Hits, QueryName
-    ' 
-    '         Function: __orderBySp, GetHitByTagInfo, Take, ToString
-    ' 
-    '     Class Hit
-    ' 
-    '         Properties: HitName, Identities, Positive, tag
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class HitCollection
+' 
+'         Properties: Description, Hits, QueryName
+' 
+'         Function: __orderBySp, GetHitByTagInfo, Take, ToString
+' 
+'     Class Hit
+' 
+'         Properties: HitName, Identities, Positive, tag
+' 
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -75,13 +75,13 @@ Namespace Tasks.Models
         ''' Query protein functional annotation.
         ''' </summary>
         ''' <returns></returns>
-        Public Property Description As String
+        Public Property description As String
 
         ''' <summary>
         ''' Query hits protein.
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement> Public Property Hits As Hit()
+        <XmlElement> Public Property hits As Hit()
             Get
                 Return hitTable.Values.ToArray
             End Get
@@ -89,21 +89,28 @@ Namespace Tasks.Models
                 If value.IsNullOrEmpty Then
                     hitTable = New Dictionary(Of Hit)
                 Else
-                    hitTable = New Dictionary(Of Hit)(
-                        (From x As Hit
-                         In value
-                         Select x
-                         Group x By x.HitName Into Group) _
-                              .ToDictionary(Function(x) x.HitName,
-                                            Function(x) x.Group.First))
+                    hitTable = New Dictionary(Of Hit)(getDictionary(value))
                 End If
             End Set
         End Property
 
+        Private Shared Function getDictionary(hits As IEnumerable(Of Hit)) As Dictionary(Of String, Hit)
+            Return (From hit As Hit
+                    In hits
+                    Select hit
+                    Group hit By hit.hitName Into Group) _
+               .ToDictionary(Function(hit) hit.hitName,
+                             Function(xhit)
+                                 ' 20190705 因为在这里进行了分组和取重复的hit的第一条结果
+                                 ' 所以可能会在这里造成数据丢失
+                                 Return xhit.Group.First
+                             End Function)
+        End Function
+
         Dim hitTable As Dictionary(Of Hit)
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}:   {1}", QueryName, Description)
+            Return String.Format("{0}:   {1}", QueryName, description)
         End Function
 
         ''' <summary>
@@ -123,7 +130,7 @@ Namespace Tasks.Models
 
         Public Function GetHitByTagInfo(tag As String) As Hit
             Dim LQuery = From hit As Hit
-                         In Hits
+                         In hits
                          Where String.Equals(hit.tag, tag, StringComparison.OrdinalIgnoreCase)
                          Select hit
             Return LQuery.FirstOrDefault
@@ -134,12 +141,11 @@ Namespace Tasks.Models
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Protected Friend Function __orderBySp() As HitCollection
-            Me.Hits =
-                LinqAPI.Exec(Of Hit) <= From hit As Hit
-                                        In Me.Hits
-                                        Select hit
-                                        Order By hit.tag Ascending
+        Protected Friend Function orderBySp() As HitCollection
+            Me.hits = LinqAPI.Exec(Of Hit) <= From hit As Hit
+                                              In hitTable.Values
+                                              Select hit
+                                              Order By hit.tag Ascending
             Return Me
         End Function
 
@@ -151,13 +157,13 @@ Namespace Tasks.Models
         Public Function Take(spTags As String()) As HitCollection
             Dim LQuery As Hit() =
                 LinqAPI.Exec(Of Hit) <= From hitData As Hit
-                                        In Hits
+                                        In hits
                                         Where Array.IndexOf(spTags, hitData.tag) > -1
                                         Select hitData
 
             Return New HitCollection With {
-                .Hits = LQuery,
-                .Description = Description,
+                .hits = LQuery,
+                .description = description,
                 .QueryName = QueryName
             }
         End Function
