@@ -1,4 +1,4 @@
-﻿Namespace LocalBLAST.Application
+﻿Namespace LocalBLAST.Application.NtMapping
 
     Public Interface IMapping
 

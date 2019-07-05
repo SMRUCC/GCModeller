@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Map(Of String, String)
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
-Namespace LocalBLAST.Application
+Namespace LocalBLAST.Application.NtMapping
 
     ''' <summary>
     ''' Blastn Mapping for fastaq

@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::7342c9f51677e0924ae0c3d233e754eb, CLI_tools\CLI\Blastn.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __loads, __loadsMaps, BlastnMapsSummery, BlastnMapsTaxonomy, BlastnQuery
-    '               BlastnQueryAll, ChromosomesBlastnResult, ExportBlastn, ExportBlastnMaps, ExportBlastnMapsBatch
-    '               ExportBlastnMapsBatchWrite, ExportBlastnMapsSmall, MatchTaxid, SelectMaps, TopBlastnMapReads
-    '     Class __writeIO
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __creates
-    ' 
-    '         Sub: (+2 Overloads) Dispose, InvokeWrite
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __loads, __loadsMaps, BlastnMapsSummery, BlastnMapsTaxonomy, BlastnQuery
+'               BlastnQueryAll, ChromosomesBlastnResult, ExportBlastn, ExportBlastnMaps, ExportBlastnMapsBatch
+'               ExportBlastnMapsBatchWrite, ExportBlastnMapsSmall, MatchTaxid, SelectMaps, TopBlastnMapReads
+'     Class __writeIO
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __creates
+' 
+'         Sub: (+2 Overloads) Dispose, InvokeWrite
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -66,6 +66,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs.CLIArgumentsBuilder
@@ -214,7 +215,7 @@ Partial Module CLI
             Dim out As String
 
             If Not isThread Then
-                out = outDIR & "/" & basename(subject) & ".txt"
+                out = outDIR & "/" & BaseName(subject) & ".txt"
                 Call localblast.FormatDb(subject, localblast.MolTypeNucleotide).Start(True)
             Else
                 out = outDIR & "/" & query.BaseName & "-" & subject.BaseName & ".txt"
@@ -381,19 +382,19 @@ Partial Module CLI
         Dim chrs = (From x As BlastnMapping In mappings Select x Group x By x.Reference Into Group)
         Dim hash As Dictionary(Of String, FastaSeq()) = (From x As FastaSeq
                                                            In fasta
-                                                           Select x
-                                                           Group x By x.Title Into Group) _
+                                                         Select x
+                                                         Group x By x.Title Into Group) _
                                                                 .ToDictionary(Function(x) x.Title,
                                                                               Function(x) x.Group.ToArray)
         For Each chrom In chrs
             Dim path As String = out & "/" & chrom.Reference.NormalizePathString & ".fasta"
             Dim c = LinqAPI.Exec(Of FastaSeq) <= From read
-                                                   In (From x As BlastnMapping
-                                                       In chrom.Group
-                                                       Select x  ' 因为可能会有多个位置被比对上，所以在这里还需要再进行一次Group操作
-                                                       Group x By x.ReadQuery Into Count)
-                                                   Where hash.ContainsKey(read.ReadQuery)
-                                                   Select hash(read.ReadQuery)
+                                                 In (From x As BlastnMapping
+                                                     In chrom.Group
+                                                     Select x  ' 因为可能会有多个位置被比对上，所以在这里还需要再进行一次Group操作
+                                                     Group x By x.ReadQuery Into Count)
+                                                 Where hash.ContainsKey(read.ReadQuery)
+                                                 Select hash(read.ReadQuery)
             Call New FastaFile(c).Save(path)
         Next
 

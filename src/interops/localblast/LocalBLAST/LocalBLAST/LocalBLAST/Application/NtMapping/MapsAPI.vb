@@ -51,7 +51,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abst
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 
-Namespace LocalBLAST.Application
+Namespace LocalBLAST.Application.NtMapping
 
     Public Module MapsAPI
 
