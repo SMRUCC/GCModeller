@@ -56,9 +56,8 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.Interops.NCBI.Extensions
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 
 Public Module ModelAPI
 
@@ -68,15 +67,15 @@ Public Module ModelAPI
         ReadOnly __clProfiles As ColorMgr
         ReadOnly __refMaps As Dictionary(Of String, String())
 
-        Sub New(model As Analysis.BestHit, mgr As ColorMgr)
+        Sub New(model As SpeciesBesthit, mgr As ColorMgr)
             __reference = model.hits.Select(Function(x) x.QueryName).ToArray
             __clProfiles = mgr
 
             Dim LQuery = (From x As HitCollection
                           In model.hits
                           Select From hit As Hit
-                                 In x.Hits
-                                 Select hit.HitName,
+                                 In x.hits
+                                 Select hit.hitName,
                                      x.QueryName).IteratesALL
             __refMaps = (From x In LQuery
                          Select x
@@ -127,8 +126,7 @@ Public Module ModelAPI
     Public Function GetDrawsModel(path As String, Optional style As LineStyles = LineStyles.NotSpecific) As DrawingModel
         Dim model As DeviceModel = JsonContract.LoadJsonFile(Of DeviceModel)(path)
         Dim DIR As New Directory(path.ParentPath)
-        Dim bbhMeta As Analysis.BestHit =
-            DIR.GetFullPath(model.Meta).LoadXml(Of Analysis.BestHit)
+        Dim bbhMeta As SpeciesBesthit = DIR.GetFullPath(model.Meta).LoadXml(Of SpeciesBesthit)
         Dim PTT As Dictionary(Of String, PTT) =
             model.PTT.ToDictionary(Function(x) x.Key,
                                    Function(x) TabularFormat.PTT.Load(DIR.GetFullPath(x.Value)))

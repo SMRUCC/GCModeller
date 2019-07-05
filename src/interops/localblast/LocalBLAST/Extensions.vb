@@ -86,7 +86,7 @@ Public Module Extensions
 
         Dim notNull As BestHit = (From bh As BestHit
                                   In data
-                                  Where Not bh.Matched
+                                  Where Not bh.isMatched
                                   Select bh).FirstOrDefault
         Return notNull Is Nothing
     End Function

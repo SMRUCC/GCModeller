@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::978581deb975eb2fbf13e3573126be9c, CLI_tools\CLI\BBH\BBH.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __sbhHelper, BBHExport2, BBHExportFile, BBHTopBest, BlastpBBHQuery
-    '               ExportLocus, LocusSelects, MergeBBH, SBH_BBH_Batch, SBHThread
-    '               SBHTrim, SelectsMeta, VennBBH, vennBlastAll, VennCache
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __sbhHelper, BBHExport2, BBHExportFile, BBHTopBest, BlastpBBHQuery
+'               ExportLocus, LocusSelects, MergeBBH, SBH_BBH_Batch, SBHThread
+'               SBHTrim, SelectsMeta, VennBBH, vennBlastAll, VennCache
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,13 +54,13 @@ Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
-Imports SMRUCC.genomics.Interops.NCBI.Extensions
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.BBHLogs
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.BBHLogs
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports csvReflection = Microsoft.VisualBasic.Data.csv.Extensions
 
@@ -105,13 +105,13 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim bbh As String = args("/bbh")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & bbh.BaseName & ".meta.Xml")
-        Dim meta As Analysis.BestHit = [in].LoadXml(Of Analysis.BestHit)
+        Dim meta As SpeciesBesthit = [in].LoadXml(Of SpeciesBesthit)
         Dim bbhs As IEnumerable(Of BBHIndex) = bbh.LoadCsv(Of BBHIndex)
         Dim uids As IEnumerable(Of String) = (From x As BBHIndex In bbhs Select {x.HitName, x.QueryName}).IteratesALL.Distinct
 
         meta.hits = (From s As String
                      In uids
-                     Let h As Analysis.HitCollection = meta.Hit(s)
+                     Let h As HitCollection = meta.Hit(s)
                      Where Not h Is Nothing
                      Select h).ToArray
         Return meta.SaveAsXml(out).CLICode
@@ -192,7 +192,8 @@ Partial Module CLI
                                 For Each x As BiDirectionalBesthit In g
                                     If Not x Is top Then
                                         x.HitName = ""
-                                        x.Identities = 0
+                                        x.forward = 0
+                                        x.reverse = 0
                                         x.Positive = 0
                                         x.Length = 0
                                     End If
@@ -318,7 +319,7 @@ Partial Module CLI
                             In hits
                             Where x.evalue <= evalue AndAlso
                                 x.IsMatchedBesthit(identities, coverage) AndAlso
-                                Not x.SelfHit
+                                Not x.isSelfHit
                             Select x).ToArray
                     Call writeStream.Flush(hits)
                 End Sub)

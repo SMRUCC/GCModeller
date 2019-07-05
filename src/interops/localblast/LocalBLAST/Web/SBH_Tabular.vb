@@ -87,7 +87,7 @@ Namespace NCBIBlastResult
                                                                      In BBHParser.GetBBHTop(
                                                                          query.besthitData,
                                                                          subject.besthitData)
-                                                                     Where __bbh.Matched
+                                                                     Where __bbh.isMatched
                                                                      Select __bbh)
                        Select query.ID,
                            query.LogEntry,

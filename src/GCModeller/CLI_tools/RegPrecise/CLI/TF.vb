@@ -141,12 +141,14 @@ Partial Module CLI
         Dim bbh As IEnumerable(Of BBHIndex) = inBBH.LoadCsv(Of BBHIndex)
         Dim hitsHash = (From x As BBHIndex
                         In bbh
-                        Where x.Matched
+                        Where x.isMatched
                         Select uid = x.HitName.Split(":"c).Last,
                             x
                         Group By uid Into Group) _
                             .ToDictionary(Function(x) x.uid,
-                                          Function(x) x.Group.Select(Function(xx) xx.x))
+                                          Function(x)
+                                              Return x.Group.Select(Function(xx) xx.x)
+                                          End Function)
         Dim genomes As IEnumerable(Of BacteriaRegulome) = inDIR.LoadXml(Of TranscriptionFactors).genomes
         Dim all = (From x As BacteriaRegulome In genomes
                    Where Not x.regulome Is Nothing AndAlso
@@ -179,12 +181,14 @@ Partial Module CLI
 
         hitsHash = (From x As BBHIndex
                     In bbh
-                    Where x.Matched
+                    Where x.isMatched
                     Select uid = x.QueryName,
                         x
                     Group By uid Into Group) _
                             .ToDictionary(Function(x) x.uid,
-                                          Function(x) x.Group.Select(Function(o) o.x))
+                                          Function(x)
+                                              Return x.Group.Select(Function(o) o.x)
+                                          End Function)
 
         Dim key As String = args.GetValue("/pfamKey", "query.pfam-string")
         Dim LQuery = (From x In queryRegulators

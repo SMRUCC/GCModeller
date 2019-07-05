@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{F4AFD3F1-B7DF-4CAC-A094-F9FBB0742AFA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{F4AFD3F1-B7DF-4CAC-A094-F9FBB0742AFA}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bio.Assembly", "..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj", "{C699D311-9923-4C19-BF70-5048D0E2CF5D}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "47-dotnet_Microsoft.VisualBasic", "..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj", "{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "47_dotnet_ms-vb_data.framework", "..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj", "{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "assembler", "assembler\assembler.vbproj", "{42760A67-6501-400A-AAE8-D2478D2CDB8A}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -536,16 +538,95 @@ Global
 		{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}.Surveillance-of-infectious-diseases|x64.Build.0 = Surveillance-of-infectious-diseases|x64
 		{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}.Surveillance-of-infectious-diseases|x86.ActiveCfg = Surveillance-of-infectious-diseases|x86
 		{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}.Surveillance-of-infectious-diseases|x86.Build.0 = Surveillance-of-infectious-diseases|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep_UNIX_x64|Any CPU.ActiveCfg = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep_UNIX_x64|Any CPU.Build.0 = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep_UNIX_x64|x64.ActiveCfg = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep_UNIX_x64|x64.Build.0 = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep_UNIX_x64|x86.ActiveCfg = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep_UNIX_x64|x86.Build.0 = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|Any CPU.ActiveCfg = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|Any CPU.Build.0 = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|x64.ActiveCfg = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|x64.Build.0 = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|x86.ActiveCfg = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|x86.Build.0 = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack|Any CPU.ActiveCfg = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack|Any CPU.Build.0 = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack|x64.ActiveCfg = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack|x64.Build.0 = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack|x86.ActiveCfg = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack|x86.Build.0 = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack-Debug|x64.ActiveCfg = Debug|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack-Debug|x64.Build.0 = Debug|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack-Debug|x86.ActiveCfg = Debug|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biostack-Debug|x86.Build.0 = Debug|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|x64.ActiveCfg = Debug|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|x64.Build.0 = Debug|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|x86.ActiveCfg = Debug|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|x86.Build.0 = Debug|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|x64.ActiveCfg = Debug|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|x64.Build.0 = Debug|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|x86.ActiveCfg = Debug|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|x86.Build.0 = Debug|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|x86.ActiveCfg = GCModeller(Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|x86.Build.0 = GCModeller(Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(UNIX-Release_X64)|x64.Build.0 = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(UNIX-Release_X64)|x86.ActiveCfg = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(UNIX-Release_X64)|x86.Build.0 = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|Any CPU.ActiveCfg = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|Any CPU.Build.0 = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|x64.ActiveCfg = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|x64.Build.0 = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|x86.ActiveCfg = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|x86.Build.0 = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|Any CPU.ActiveCfg = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|Any CPU.Build.0 = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|x64.ActiveCfg = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|x64.Build.0 = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|x86.ActiveCfg = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|x86.Build.0 = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|x64.ActiveCfg = Release|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|x64.Build.0 = Release|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|x86.ActiveCfg = Release|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|x86.Build.0 = Release|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release2|Any CPU.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release2|Any CPU.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release2|x64.ActiveCfg = Release|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release2|x64.Build.0 = Release|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release2|x86.ActiveCfg = Release|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release2|x86.Build.0 = Release|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Surveillance-of-infectious-diseases|Any CPU.Build.0 = GCModeller(UNIX-Release_X64)|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Surveillance-of-infectious-diseases|x64.ActiveCfg = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Surveillance-of-infectious-diseases|x64.Build.0 = GCModeller(UNIX-Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Surveillance-of-infectious-diseases|x86.ActiveCfg = GCModeller(UNIX-Release_X64)|x86
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Surveillance-of-infectious-diseases|x86.Build.0 = GCModeller(UNIX-Release_X64)|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C699D311-9923-4C19-BF70-5048D0E2CF5D} = {E008AF84-8089-4C1E-B884-0108AA0A1B52}
+		{C699D311-9923-4C19-BF70-5048D0E2CF5D} = {F4AFD3F1-B7DF-4CAC-A094-F9FBB0742AFA}
 		{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7} = {E008AF84-8089-4C1E-B884-0108AA0A1B52}
 		{2E8A689A-3BEC-4504-9D02-80082C732653} = {E008AF84-8089-4C1E-B884-0108AA0A1B52}
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99} = {F4AFD3F1-B7DF-4CAC-A094-F9FBB0742AFA}
 		{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB} = {F4AFD3F1-B7DF-4CAC-A094-F9FBB0742AFA}
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A} = {E008AF84-8089-4C1E-B884-0108AA0A1B52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C6CDB3A0-748E-4D64-976D-6271C66C97AB}

@@ -1,68 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::7dcef05389fc75c5ceb14c3547ea39c4, venn\VennDataModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module VennDataModel
-    ' 
-    '         Function: __parserIndex, BeginLoadCdsDumpInfo, Copy, DeltaMove, ExportBidirectionalBesthit
-    '                   LoadCdsDumpInfo, NullHash, OutputConservedCluster, ReadBesthitXML, ReadXml
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module VennDataModel
+' 
+'         Function: __parserIndex, BeginLoadCdsDumpInfo, Copy, DeltaMove, ExportBidirectionalBesthit
+'                   LoadCdsDumpInfo, NullHash, OutputConservedCluster, ReadBesthitXML, ReadXml
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Tasks
-Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports PathEntry = System.Collections.Generic.KeyValuePair(Of String, String)
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 
 Namespace BlastAPI
 
@@ -95,8 +86,8 @@ Namespace BlastAPI
         Public Function ExportBidirectionalBesthit(Source As IEnumerable(Of AlignEntry),
                                                    <Parameter("Path.CDS.All.Dump")> CDSAll As String,
                                                    <Parameter("DIR.EXPORT")> EXPORT As String,
-                                                   <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As BestHit()
-            Return SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.ExportBidirectionalBesthit(Source, EXPORT, LoadCdsDumpInfo(CDSAll), TrimNull)
+                                                   <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As SpeciesBesthit()
+            Return SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.ExportBidirectionalBesthit(Source, EXPORT, LoadCdsDumpInfo(CDSAll), TrimNull)
         End Function
 
         <ExportAPI("Orf.Dump.Load.As.Hash")>
@@ -132,7 +123,7 @@ Namespace BlastAPI
         ''' <param name="mainIndex">
         ''' 进化比较的标尺
         ''' 假若为空字符串或者数字0以及first，都表示使用集合之中的第一个元素对象作为标尺
-        ''' 假若参数值为某一个菌株的名称<see cref="BestHit.sp"></see>，则会以该菌株的数据作为比对数据
+        ''' 假若参数值为某一个菌株的名称<see cref="SpeciesBestHit.sp"></see>，则会以该菌株的数据作为比对数据
         ''' 假若为last，则使用集合之中的最后一个
         ''' 对于其他的处于0-集合元素上限的数字，可以认识使用该集合之中的第i-1个元素对象
         ''' 还可以选择longest或者shortest参数值来作为最长或者最短的元素作为主标尺
@@ -143,14 +134,14 @@ Namespace BlastAPI
         ''' <remarks></remarks>
         <ExportAPI("Generate.Venn.LDM",
                    Info:="The trim_null parameter is TRUE, and the function will filtering all of the data which have more than one hits.")>
-        Public Function DeltaMove(data As IEnumerable(Of BestHit),
+        Public Function DeltaMove(data As IEnumerable(Of SpeciesBesthit),
                                   <Parameter("Index.Main",
                                              "The file name without the extension name of the target query fasta data.")> Optional mainIndex As String = "",
                                   <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As IO.File
 
-            Dim dataHash As Dictionary(Of String, BestHit) = data.ToDictionary(Function(item) item.sp)
+            Dim dataHash As Dictionary(Of String, SpeciesBesthit) = data.ToDictionary(Function(item) item.sp)
             Dim IndexKey As String = dataHash.Keys(__parserIndex(dataHash, mainIndex))
-            Dim indexQuery As BestHit = dataHash(IndexKey)
+            Dim indexQuery As SpeciesBesthit = dataHash(IndexKey)
 
             Call dataHash.Remove(IndexKey)
 
@@ -164,7 +155,7 @@ Namespace BlastAPI
             Dim sps As String() = indexQuery.hits.First.Hits.Select(Function(x) x.tag).ToArray
 
             For deltaIndex As Integer = 0 To dataHash.Count - 1
-                Dim subMain As BestHit = dataHash.Values(deltaIndex)
+                Dim subMain As SpeciesBesthit = dataHash.Values(deltaIndex)
 
                 If subMain.hits.IsNullOrEmpty Then
                     Call $"Profile data {subMain.sp} is null!".__DEBUG_ECHO
@@ -207,21 +198,21 @@ Namespace BlastAPI
         End Function
 
         <ExportAPI("Venn.Source.Copy")>
-        Public Function Copy(besthits As BestHit, source As String, copyTo As String) As String()
+        Public Function Copy(besthits As SpeciesBesthit, source As String, copyTo As String) As String()
             Return besthits.SelectSourceFromHits(source, copyTo)
         End Function
 
         <ExportAPI("Read.Xml.Besthit")>
-        Public Function ReadXml(path As String) As BestHit
-            Return path.LoadXml(Of BestHit)()
+        Public Function ReadXml(path As String) As SpeciesBesthit
+            Return path.LoadXml(Of SpeciesBesthit)()
         End Function
 
         <ExportAPI("Load.Xmls.Besthit")>
-        Public Function ReadBesthitXML(DIR As String) As BestHit()
-            Dim files As BestHit() =
-                LinqAPI.Exec(Of BestHit) <= From path As String
+        Public Function ReadBesthitXML(DIR As String) As SpeciesBesthit()
+            Dim files As SpeciesBesthit() =
+                LinqAPI.Exec(Of SpeciesBesthit) <= From path As String
                                             In (ls - l - wildcards("*.xml") <= DIR).AsParallel
-                                            Select path.LoadXml(Of BestHit)()
+                                                   Select path.LoadXml(Of SpeciesBesthit)()
             Return files
         End Function
 
@@ -232,7 +223,7 @@ Namespace BlastAPI
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Export.Conserved.GenomeRegion", Info:="Calculate of the conserved genome region based on the multiple genome bbh comparison result.")>
-        Public Function OutputConservedCluster(bh As BestHit) As String()()
+        Public Function OutputConservedCluster(bh As SpeciesBesthit) As String()()
             Dim regions As IReadOnlyCollection(Of String()) = bh.GetConservedRegions
             Dim i As Integer = 1
 
@@ -255,7 +246,7 @@ Namespace BlastAPI
         ''' <param name="index">
         ''' 进化比较的标尺
         ''' 假若为空字符串或者数字0以及first，都表示使用集合之中的第一个元素对象作为标尺
-        ''' 假若参数值为某一个菌株的名称<see cref="BestHit.sp"></see>，则会以该菌株的数据作为比对数据
+        ''' 假若参数值为某一个菌株的名称<see cref="SpeciesBestHit.sp"></see>，则会以该菌株的数据作为比对数据
         ''' 假若为last，则使用集合之中的最后一个
         ''' 对于其他的处于0-集合元素上限的数字，可以认识使用该集合之中的第i-1个元素对象
         ''' 还可以选择longest或者shortest参数值来作为最长或者最短的元素作为主标尺
@@ -263,7 +254,7 @@ Namespace BlastAPI
         ''' </param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function __parserIndex(data As Dictionary(Of String, BestHit), index As String) As Integer
+        Public Function __parserIndex(data As Dictionary(Of String, SpeciesBesthit), index As String) As Integer
             If String.Equals(index, "first", StringComparison.OrdinalIgnoreCase) OrElse String.Equals(index, "0") Then
                 Return 0
             ElseIf data.ContainsKey(index) Then

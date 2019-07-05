@@ -46,7 +46,6 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
@@ -89,7 +88,7 @@ Namespace BlastAPI
 
             Dim selecteds = (From genome
                          In LQuery.AsParallel
-                             Let screenedData = (From x In genome.Besthits Where x.Matched Select x).ToArray
+                             Let screenedData = (From x In genome.Besthits Where x.isMatched Select x).ToArray
                              Where Not screenedData.IsNullOrEmpty    ' 筛选出符合条件的基因组
                              Select Besthits = screenedData,
                              genome.ID,

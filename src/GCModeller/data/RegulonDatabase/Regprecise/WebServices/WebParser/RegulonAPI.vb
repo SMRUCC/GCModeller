@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::62ac4530929682cb492d9ec0a040ae42, data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module RegulonAPI
-    ' 
-    '         Function: __getOperons, BuildMapHash, Equals, (+5 Overloads) Reconstruct, TrimId
-    '                   uid
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module RegulonAPI
+' 
+'         Function: __getOperons, BuildMapHash, Equals, (+5 Overloads) Reconstruct, TrimId
+'                   uid
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -69,8 +69,8 @@ Namespace Regprecise
             If Not String.Equals(a.LocusId, b.LocusId, StringComparison.OrdinalIgnoreCase) Then
                 Return False
             End If
-            Dim aList As String() = a.Regulates.Select(Function(x) x.LocusId)
-            Dim bList As String() = b.Regulates.Select(Function(x) x.LocusId)
+            Dim aList As String() = a.Regulates.Select(Function(x) x.locusId)
+            Dim bList As String() = b.Regulates.Select(Function(x) x.locusId)
             Dim na, nb As Integer
 
             For Each sId As String In aList
@@ -134,7 +134,7 @@ Namespace Regprecise
         <ExportAPI("MapHash.Build"), Extension>
         Public Function BuildMapHash(mappings As IEnumerable(Of BiDirectionalBesthit)) As Dictionary(Of String, BiDirectionalBesthit())
             Dim mappingHash = (From x As BiDirectionalBesthit In mappings
-                               Where x.Matched
+                               Where x.isMatched
                                Select x
                                Group x By x.HitName.Split(":"c).Last Into Group) _
                                     .ToDictionary(Function(x) x.Last,
@@ -182,15 +182,15 @@ Namespace Regprecise
             Dim mappedGenes As RegulatedGene() = LinqAPI.Exec(Of RegulatedGene) <=
                 From gene As RegulatedGene
                 In regulon.Regulates
-                Where mappings.ContainsKey(gene.LocusId)
-                Let maps = mappings(gene.LocusId)
+                Where mappings.ContainsKey(gene.locusId)
+                Let maps = mappings(gene.locusId)
                 Select From x As BiDirectionalBesthit
                        In maps
                        Select New RegulatedGene With {
                            .description = x.Description,
-                           .LocusId = x.QueryName,
+                           .locusId = x.QueryName,
                            .vimssId = x.HitName,
-                           .Name = x.COG
+                           .name = x.COG
                        }
 
             If mappedGenes.IsNullOrEmpty Then  ' 没有mapping得到共同的被调控的基因，则不敢太确定是不是成立的
@@ -214,7 +214,7 @@ Namespace Regprecise
                                                   .family = regulon.family,
                                                   .pathway = regulon.pathway,
                                                   .regulationMode = regulon.regulationMode,
-                                                  .Regulog = regulon.Regulog,
+                                                  .regulog = regulon.regulog,
                                                   .type = regulon.type,
                                                   .operons = mappedOperons,
                                                   .Regulates = mappedGenes
@@ -231,7 +231,7 @@ Namespace Regprecise
         Private Function __getOperons(mappings As RegulatedGene(), DOOR As DOOR) As Operon()
             Dim mapHash = (From x As RegulatedGene In mappings
                            Select x
-                           Group x By x.LocusId Into Group) _
+                           Group x By x.locusId Into Group) _
                                 .ToDictionary(Function(x) x.LocusId,
                                               Function(x) x.Group.ToArray)
             Dim oprGenes As OperonGene()
@@ -241,12 +241,12 @@ Namespace Regprecise
                                                   In mappings
                                                    Select New OperonGene With {
                                                        .OperonID = "x",
-                                                       .Synonym = x.LocusId,
+                                                       .Synonym = x.locusId,
                                                        .Product = x.description,
                                                        .GI = x.vimssId
                                                    }
             Else
-                oprGenes = mappings.Select(Function(x) DOOR.GetGene(x.LocusId))
+                oprGenes = mappings.Select(Function(x) DOOR.GetGene(x.locusId))
             End If
             Dim opr = (From x As OperonGene In oprGenes
                        Select x
@@ -257,13 +257,13 @@ Namespace Regprecise
             ' 补齐基因的功能描述信息
             For Each gene As RegulatedGene In mappings
                 If String.IsNullOrEmpty(gene.description) Then
-                    If DOOR.HaveGene(gene.LocusId) Then
-                        gene.description = DOOR.GetGene(gene.LocusId).Product
+                    If DOOR.HaveGene(gene.locusId) Then
+                        gene.description = DOOR.GetGene(gene.locusId).Product
                     End If
                 End If
-                If String.IsNullOrEmpty(gene.Name) Then
-                    If DOOR.HaveGene(gene.LocusId) Then
-                        gene.Name = DOOR.GetGene(gene.LocusId).COG_number
+                If String.IsNullOrEmpty(gene.name) Then
+                    If DOOR.HaveGene(gene.locusId) Then
+                        gene.name = DOOR.GetGene(gene.locusId).COG_number
                     End If
                 End If
             Next

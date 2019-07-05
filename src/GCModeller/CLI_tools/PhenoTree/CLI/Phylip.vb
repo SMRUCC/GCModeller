@@ -42,7 +42,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.Interops.Visualize.Phylip.MatrixFile
 Imports SMRUCC.genomics.Interops.Visualize.Phylip.ShellScriptAPI
 
@@ -58,7 +58,7 @@ Partial Module CLI
     Public Function VennMatrix(args As CommandLine) As Integer
         Dim inDIR As String = args - "/besthits"
         Dim out As String = args.GetValue("/out", inDIR & $".{NameOf(VennMatrix)}.txt")
-        Dim source As BestHit() = LoadHitsVennData(inDIR)
+        Dim source As SpeciesBesthit() = LoadHitsVennData(inDIR)
         Dim limits As Integer = args.GetInt32("/limits")
         Dim query As String = args - "/query"
         Dim gendist As Gendist = source.ExportGendistMatrixFromBesthitMeta(query, Limits:=limits)

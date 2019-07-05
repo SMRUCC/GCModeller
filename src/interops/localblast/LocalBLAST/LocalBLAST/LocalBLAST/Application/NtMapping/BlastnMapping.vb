@@ -56,18 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Map(Of String, String)
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
-Namespace LocalBLAST.Application
-
-    Public Interface IMapping
-
-        Property Qname As String
-        Property Sname As String
-
-        Property Qstart As Integer
-        Property Qstop As Integer
-        Property Sstart As Integer
-        Property Sstop As Integer
-    End Interface
+Namespace LocalBLAST.Application.NtMapping
 
     ''' <summary>
     ''' Blastn Mapping for fastaq
