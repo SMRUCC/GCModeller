@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::16afe1e61e94e6712af192eeba9a086a, models\Networks\Network.BLAST\Metagenome\Protocol.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Protocol
-    ' 
-    '         Function: __buildNetwork, __subNetwork, (+2 Overloads) BuildMatrix, (+2 Overloads) BuildNetwork, Dump_x2taxid
-    '                   TaxonomyMaps
-    ' 
-    '         Sub: __styleNetwork
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Protocol
+' 
+'         Function: __buildNetwork, __subNetwork, (+2 Overloads) BuildMatrix, (+2 Overloads) BuildNetwork, Dump_x2taxid
+'                   TaxonomyMaps
+' 
+'         Sub: __styleNetwork
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,7 +52,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Metagenomics
 
@@ -133,7 +133,7 @@ Namespace Metagenome
                     ' inline value assign of the 18s rRNA taxid
                     If (taxid = taxidFromRef(hit.Reference)) > -1 Then
 
-                        .Extensions(Protocol.taxid) = (taxid.value)
+                        .Extensions(Protocol.taxid) = (taxid.Value)
 
                         Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(+taxid, True)
                         Dim tree$ = nodes.BuildBIOM
@@ -274,8 +274,8 @@ Namespace Metagenome
             Call theme$.__styleNetwork(nodes, edges)
 
             Return New FileStream.NetworkTables With {
-                .Nodes = nodes,
-                .Edges = edges
+                .nodes = nodes,
+                .edges = edges
             }
         End Function
 
@@ -292,7 +292,7 @@ Namespace Metagenome
         Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of OTUData), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.NetworkTables
             With New Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))
                 For Each SSU As OTUData In taxid
-                    Dim tax = (CInt(SSU.Data(Protocol.taxid)), SSU.Data(Protocol.taxonomyName), SSU.Taxonomy)
+                    Dim tax = (CInt(SSU.data(Protocol.taxid)), SSU.data(Protocol.taxonomyName), SSU.taxonomy)
                     Call .Add(SSU.OTU, tax)
                 Next
 
@@ -340,11 +340,11 @@ Namespace Metagenome
                     .JoinBy("-")
 
                 edges += New NetworkEdge With {
-                    .FromNode = ssu.ID,
-                    .ToNode = hit.Key,
+                    .fromNode = ssu.ID,
+                    .toNode = hit.Key,
                     .value = hit.Value,
                     .Properties = New Dictionary(Of String, String),
-                    .Interaction = interacts
+                    .interaction = interacts
                 }
             Next
 
@@ -375,7 +375,7 @@ Namespace Metagenome
             Dim color As (r#, g#, b#)
 
             For Each edge As NetworkEdge In edges
-                taxids = edge.Interaction.Split("-"c)
+                taxids = edge.interaction.Split("-"c)
                 colorPaired = taxids _
                     .Select(Function(t) colors(t)) _
                     .Select(AddressOf ColorTranslator.FromHtml) _
