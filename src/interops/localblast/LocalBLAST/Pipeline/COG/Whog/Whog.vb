@@ -59,7 +59,7 @@ Namespace Pipeline.COG.Whog
     ''' <remarks></remarks>
     ''' 
     <XmlType("NCBI.whog", [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
-    Public Class Whog : Inherits XmlDataModel
+    Public Class WhogRepository : Inherits XmlDataModel
 
         <XmlElement("categories", [Namespace]:=GCModeller)>
         Public Property Categories As Category()
@@ -94,8 +94,8 @@ Namespace Pipeline.COG.Whog
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Shared Widening Operator CType(path As String) As Whog
-            Return path.LoadXml(Of Whog)()
+        Public Overloads Shared Widening Operator CType(path As String) As WhogRepository
+            Return path.LoadXml(Of WhogRepository)()
         End Operator
 
         ''' <summary>
@@ -103,7 +103,7 @@ Namespace Pipeline.COG.Whog
         ''' </summary>
         ''' <param name="path"></param>
         ''' <returns></returns>
-        Public Shared Function [Imports](path As String) As Whog
+        Public Shared Function [Imports](path As String) As WhogRepository
             Dim tokens As IEnumerable(Of String()) = path _
                 .ReadAllLines _
                 .Split("^[_]+$", True, RegexICMul) _
@@ -117,7 +117,7 @@ Namespace Pipeline.COG.Whog
                 Select cat
                 Order By cat.COG_id
 
-            Return New Whog With {
+            Return New WhogRepository With {
                 .Categories = LQuery
             }
         End Function
