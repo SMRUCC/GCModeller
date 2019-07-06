@@ -160,7 +160,7 @@ Partial Module CLI
           Description:="Exclude the specific organism by ``/sp`` scientific name instead of only include it?")>
     <Argument("/out", True, CLITypes.File,
           Extensions:="*.fa, *.fasta, *.txt",
-          Description:="The saved file path for output protein sequence fasta file.")>
+          Description:="The saved file path for output protein sequence fasta file. The title format of this command output is ``uniprot_id fullName``")>
     <Group(CLIGrouping.UniProtTools)>
     Public Function proteinEXPORT(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
@@ -168,6 +168,13 @@ Partial Module CLI
         Dim exclude As Boolean = args("/exclude")
         Dim suffix$ = getSuffix(sp, exclude)
         Dim out As String = args("/out") Or ([in].TrimSuffix & $"{suffix}.fasta")
+
+        ' 20190707 这个函数的功能与ExportKOFromUniprot命令行函数基本一致
+        ' 只不过ExportKOFromUniprot函数所导出来的序列的标题会存在KO编号以及
+        ' 物种信息，并且该命令只导出具有KO编号的序列
+        ' 所以ExportKOFromUniprot导出来的序列会比较少
+        '
+        ' 而这个函数则不一样，其会导出所有的蛋白序列
 
         ' 1GB buffer size?
         Call App.SetBufferSize(128 * 1024 * 1024)
