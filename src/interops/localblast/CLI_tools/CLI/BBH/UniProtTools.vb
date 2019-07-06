@@ -214,4 +214,43 @@ Partial Module CLI
 
         Return 0
     End Function
+
+    ''' <summary>
+    ''' 阈值筛选应该是发生在sbh导出的时候，在这里将不会做任何阈值筛选操作
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/UniProt.KO.assign")>
+    <Usage("/UniProt.KO.assign /in <query_vs_uniprot.KO.besthit> [/bbh <uniprot_vs_query.KO.besthit> /out <out.KO.csv>]")>
+    <Description("Assign KO number to query from Uniprot reference sequence database alignment result.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(BestHit)},
+              Extensions:="*.csv",
+              Description:="The sbh result of the alignment: query vs uniprot.KO.")>
+    <Argument("/bbh", True, CLITypes.File,
+              AcceptTypes:={GetType(BestHit)},
+              Extensions:="*.csv",
+              Description:="If this argument is presents in the cli input, then it means we use the bbh method for assign the KO number to query. 
+              Both ``/in`` and ``/bbh`` is not top best selection output.")>
+    Public Function UniProtKOAssign(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim bbh$ = args <= "/bbh"
+        Dim out$
+
+        If bbh.FileExists Then
+            out = args("/out") Or $"{[in].TrimSuffix}.KO_bbh.csv"
+        Else
+            out = args("/out") Or $"{[in].TrimSuffix}.KO.csv"
+        End If
+
+        Dim queryVsUniprot As BestHit() = [in].LoadCsv(Of BestHit).ToArray
+        Dim uniprotVsquery As BestHit() = bbh.LoadCsv(Of BestHit).ToArray
+        Dim result
+
+        If uniprotVsquery.IsNullOrEmpty Then
+
+        Else
+
+        End If
+    End Function
 End Module
