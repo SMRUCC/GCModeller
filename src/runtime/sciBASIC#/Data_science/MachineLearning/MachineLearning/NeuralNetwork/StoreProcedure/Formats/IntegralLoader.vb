@@ -177,6 +177,8 @@ Namespace NeuralNetwork.StoreProcedure
                 })
             Dim neurons As neuronLoader = model.createNeuronBuckets(activations)
 
+            Call "Create neuron synapse links in parallel...".__DEBUG_ECHO
+
             ' The size of edge links between the neuron nodes in ANN network is huge
             ' parallel can make this process fast
             ' maybe
@@ -186,6 +188,8 @@ Namespace NeuralNetwork.StoreProcedure
                 .Select(Function(edge) edge.First) _
                 .Select(Function(edge) edge.addLink(neurons)) _
                 .ToArray
+
+            Call "Job done!".__INFO_ECHO
 
             Return New Network(activations) With {
                 .LearnRate = model.learnRate,
