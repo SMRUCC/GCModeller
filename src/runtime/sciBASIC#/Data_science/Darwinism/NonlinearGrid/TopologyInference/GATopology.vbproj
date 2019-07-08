@@ -70,6 +70,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GA\Genome.vb" />
     <Compile Include="Models\Correlation.vb" />
     <Compile Include="Models\System.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

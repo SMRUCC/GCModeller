@@ -1,9 +1,10 @@
 ﻿Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Serialization
 
 ''' <summary>
 ''' The Nonlinear Grid Dynamics System
 ''' </summary>
-Public Class GridSystem
+Public Class GridSystem : Implements ICloneable(Of GridSystem)
 
     Public Property A As Vector
     Public Property C As Correlation()
@@ -19,5 +20,14 @@ Public Class GridSystem
         Dim result = fx.Sum
 
         Return result
+    End Function
+
+    Public Function Clone() As GridSystem Implements ICloneable(Of GridSystem).Clone
+        Return New GridSystem With {
+            .A = New Vector(A.AsEnumerable),
+            .C = C _
+                .Select(Function(ci) ci.Clone) _
+                .ToArray
+        }
     End Function
 End Class
