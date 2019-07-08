@@ -62,11 +62,11 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 ''' </remarks>
 Public MustInherit Class AnnotationTool
 
-    Protected BBH_Handle As BidirectionalBesthit_BLAST
+    ' Protected BBH_Handle As BidirectionalBesthit_BLAST
     Protected FastaPaths As Dictionary(Of String, String)
 
     Sub New(BLASTHandle As LocalBLAST.InteropService.InteropService, DB As String)
-        BBH_Handle = New BidirectionalBesthit_BLAST(BLASTHandle, Settings.DataCache)
+        '  BBH_Handle = New BidirectionalBesthit_BLAST(BLASTHandle, Settings.DataCache)
         FastaPaths = (From path As String
                       In FileIO.FileSystem.GetFiles(DB, FileIO.SearchOption.SearchAllSubDirectories, "*.fasta", "*.fsa")
                       Select KEY = basename(path), path).ToArray.ToDictionary(Function(item) item.KEY, elementSelector:=Function(item) item.path)
@@ -98,29 +98,29 @@ Public MustInherit Class AnnotationTool
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Overridable Function InvokeAnnotation(Fasta As String, Export As String, Optional Parallel As Boolean = True, Optional evalue As String = "1e-5") As GenomeAnnotations
-        Dim Paralogs = BBH_Handle.Paralogs(Fasta, Nothing)
+        '  Dim Paralogs = BBH_Handle.Paralogs(Fasta, Nothing)
 
         If Parallel Then
-            Return InvokeAnnotation_p(Fasta, Export, Paralogs)
+            ' Return InvokeAnnotation_p(Fasta, Export, Paralogs)
         End If
 
         Dim Orthologs = New Dictionary(Of String, BiDirectionalBesthit())
 
         For Each sp In FastaPaths
-            Call Orthologs.Add(sp.Key, BBH_Handle.Peformance(Query:=Fasta, Subject:=sp.Value, HitsGrepMethod:=Nothing, QueryGrepMethod:=Nothing))
+            '  Call Orthologs.Add(sp.Key, BBH_Handle.Peformance(Query:=Fasta, Subject:=sp.Value, HitsGrepMethod:=Nothing, QueryGrepMethod:=Nothing))
             Console.WriteLine("[DONE]   " & sp.Value.ToFileURL)
         Next
 
-        Return GenomeAnnotations.CompileResult(Orthologs, Paralogs, Fasta, InternalGetAnnotationSourceMeta)
+        '  Return GenomeAnnotations.CompileResult(Orthologs, Paralogs, Fasta, InternalGetAnnotationSourceMeta)
     End Function
 
     Public Function InvokeAnnotation_p(Fasta As String, Export As String, Paralogs As BestHit(), Optional evalue As String = "1e-5") As GenomeAnnotations
         Dim Orthologs = New Dictionary(Of String, BiDirectionalBesthit())
         Dim LQuery = (From sp As KeyValuePair(Of String, String) In FastaPaths.AsParallel
                       Let InternalBBHOperation = Function() As BiDirectionalBesthit()
-                                                     Dim Reuslt = BBH_Handle.Peformance(Query:=Fasta, Subject:=sp.Value, HitsGrepMethod:=Nothing, QueryGrepMethod:=Nothing)
-                                                     Console.WriteLine("[DONE]   " & sp.Value.ToFileURL)
-                                                     Return Reuslt
+                                                     ' Dim Reuslt = BBH_Handle.Peformance(Query:=Fasta, Subject:=sp.Value, HitsGrepMethod:=Nothing, QueryGrepMethod:=Nothing)
+                                                     '  Console.WriteLine("[DONE]   " & sp.Value.ToFileURL)
+                                                     ' Return Reuslt
                                                  End Function Select Species = sp.Key, BBH = InternalBBHOperation()).ToArray
         Return GenomeAnnotations.CompileResult(Orthologs, Paralogs, Fasta, InternalGetAnnotationSourceMeta)
     End Function

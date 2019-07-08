@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 
 Namespace NCBIBlastResult
 
@@ -86,7 +86,7 @@ Namespace NCBIBlastResult
 
         <ExportAPI("Invoke.Drawing")>
         <Extension>
-        Public Function InvokeDrawing(bh As BestHit,
+        Public Function InvokeDrawing(bh As SpeciesBesthit,
                                       Optional range_start$ = "",
                                       Optional range_ends$ = "",
                                       Optional custom_orders$() = Nothing,
@@ -128,12 +128,12 @@ Namespace NCBIBlastResult
             Next
 
             Dim TagFont As Font = CSSFont.TryParse(tagFontCSS).GDIObject
-            Dim table = CreateAlphabetTagSerials(bh.hits.First.Hits.Select(Function(h) h.tag).ToArray)
+            Dim table = CreateAlphabetTagSerials(bh.hits.First.hits.Select(Function(h) h.tag).ToArray)
             Dim maxIdLength = (From hits As HitCollection
                                In list
                                Let mat = {
                                    New String() {hits.QueryName},
-                                   (From nnnnn In hits.Hits Select nnnnn.HitName).ToArray
+                                   (From nnnnn In hits.hits Select nnnnn.hitName).ToArray
                                }
                                Let id_cols As String() = mat.ToVector
                                Select id_cols).ToVector _
@@ -142,8 +142,8 @@ Namespace NCBIBlastResult
 
             Dim dotSize As New Size(maxIdLength.Width + 5, maxIdLength.Height + 10)
             Dim devSize As New Size(
-                (list.First.Hits.Count + 2) * dotSize.Width + 4 * Margin,
-                (list.Count + 8) * dotSize.Height + 2 * Margin + list.First.Hits.Length * (maxIdLength.Height + 3))
+                (list.First.hits.Count + 2) * dotSize.Width + 4 * Margin,
+                (list.Count + 8) * dotSize.Height + 2 * Margin + list.First.hits.Length * (maxIdLength.Height + 3))
 
             Using g As Graphics2D = devSize.CreateGDIDevice()
                 Dim X As Integer = Margin + maxIdLength.Width, Y As Integer = Margin * 1.3
@@ -165,13 +165,13 @@ Namespace NCBIBlastResult
 
                     Call g.DrawString(item.QueryName, TagFont, Brushes.Black, New Point(Margin, Y))
 
-                    For Each sp In item.Hits
+                    For Each sp In item.hits
                         X += dotSize.Width + 2
 
-                        If Not String.IsNullOrEmpty(sp.HitName) Then
-                            Dim cl As Color = Colors.GetColor(sp.Identities)
+                        If Not String.IsNullOrEmpty(sp.hitName) Then
+                            Dim cl As Color = Colors.GetColor(sp.identities)
                             Call g.FillRectangle(New SolidBrush(cl), New Rectangle(New Point(X, Y), dotSize))
-                            Call g.DrawString(sp.HitName, TagFont, If(cl = Color.Black, Brushes.White, Brushes.Black), New Point(X, Y))
+                            Call g.DrawString(sp.hitName, TagFont, If(cl = Color.Black, Brushes.White, Brushes.Black), New Point(X, Y))
                         End If
                     Next
                 Next

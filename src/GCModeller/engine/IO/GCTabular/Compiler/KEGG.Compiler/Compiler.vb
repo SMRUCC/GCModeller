@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::9d984be9c475693ef5af42b78b25ea86, IO\GCTabular\Compiler\KEGG.Compiler\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Compiler
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __pathway, CheckRequiredParameter, (+2 Overloads) Compile, CompilePathwayInformations, get_LogsData
-    '                   GetModelStream, Link, LoadReactionModel, MappingKEGGCompoundsRegprecise, NewSession
-    '                   (+2 Overloads) PreCompile, (+2 Overloads) SaveModel
-    ' 
-    '         Sub: CompileGenome, RemoveNotUsedCompounds, RemoveReactionDuplications
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Compiler
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __pathway, CheckRequiredParameter, (+2 Overloads) Compile, CompilePathwayInformations, get_LogsData
+'                   GetModelStream, Link, LoadReactionModel, MappingKEGGCompoundsRegprecise, NewSession
+'                   (+2 Overloads) PreCompile, (+2 Overloads) SaveModel
+' 
+'         Sub: CompileGenome, RemoveNotUsedCompounds, RemoveReactionDuplications
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,7 +60,7 @@ Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.Model.Network.STRING.Models
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.Model.SBML
@@ -345,11 +345,11 @@ Namespace KEGG.Compiler
                                       Where Not [mod].Reaction.IsNullOrEmpty
                                       Select ModuleId = [mod].EntryId,
                                           ReactionIdlist = (From item In [mod].Reaction Select item.Key).ToArray).ToArray
-            Dim PathwayInformation = (From pwy In KEGGPathways Where Not pwy.Modules.IsNullOrEmpty
+            Dim PathwayInformation = (From pwy In KEGGPathways Where Not pwy.modules.IsNullOrEmpty
                                       Select New With {
                                           .PathwayId = pwy.EntryId,
-                                          .ModuleList = (From item In pwy.Modules Select item.name).ToArray,
-                                          .Comments = pwy.Description}).ToArray
+                                          .ModuleList = (From item In pwy.modules Select item.name).ToArray,
+                                          .Comments = pwy.description}).ToArray
 
             Dim ModuleDictionary As Dictionary(Of String, String()) = New Dictionary(Of String, String()) 'ModuleId, ReactionIdlist
 

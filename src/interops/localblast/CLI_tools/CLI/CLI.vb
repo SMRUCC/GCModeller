@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::dd9ebb0b3c141713c6e215b63cd312cb, CLI_tools\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __exportBBH, __orderEntry, BashShell, ExportBBH, XmlToExcel
-    '               XmlToExcelBatch
-    '     Delegate Function
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __assignAddition, Copys, ExportProt, ParseAllbbhhits, ParsebbhBesthit
-    '                   SelfBlast
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __exportBBH, __orderEntry, BashShell, ExportBBH, XmlToExcel
+'               XmlToExcelBatch
+'     Delegate Function
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: __assignAddition, Copys, ExportProt, ParseAllbbhhits, ParsebbhBesthit
+'                   SelfBlast
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,11 +62,11 @@ Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Entry = System.Collections.Generic.KeyValuePair(Of
@@ -124,7 +124,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
     End Function
 
     ReadOnly best As New __bbhParser(AddressOf ParsebbhBesthit)
-    ReadOnly allhits As New [Default](Of  __bbhParser)(AddressOf ParseAllbbhhits)
+    ReadOnly allhits As New [Default](Of __bbhParser)(AddressOf ParseAllbbhhits)
 
     ''' <summary>
     '''
@@ -159,7 +159,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
 
         Dim Allbbh = (From hitPair As BiDirectionalBesthit
                       In ParsingTask.Select(Function(sp) sp.bbh).IteratesALL.AsParallel
-                      Where hitPair.Matched
+                      Where hitPair.isMatched
                       Select hitPair).ToArray  ' 最后将所有的结果进行合并然后保存
         Dim inDIR As String = FileIO.FileSystem.GetParentPath(entries.First.Key.FilePath)
 
@@ -185,7 +185,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
         Dim isAll As Boolean = args.GetBoolean("/all")
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim identities As Double = args.GetValue("/identities", 0.15)
-        Dim Entries = Analysis.BBHLogs.BuildBBHEntry(inDIR)  ' 得到bbh对
+        Dim Entries = BBHLogs.BuildBBHEntry(inDIR)  ' 得到bbh对
         Dim singleQuery As String = args("/single-query")
         Dim outDIR As String = args.GetValue("/out", inDIR & "/bbh/")
 

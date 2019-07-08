@@ -211,7 +211,7 @@ Namespace GCML_Documents.XmlElements.SignalTransductions
 
         Public Shared Function CastTo(e As Slots.Regulation.IRegulator, Model As BacterialModel) As Regulator
             Dim Regulator As Regulator = New Regulator With {.BaseType = e}
-            Regulator.Identifier = e.locusId
+            Regulator.Identifier = e.UniqueId
             Regulator.CommonName = e.CommonName
             Return Regulator
         End Function

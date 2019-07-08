@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::a2d5e37592eaae4a9442448cb7def27f, CLI_tools\CLI\Taxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: AccessionList, GiList, ReadsOTU_Taxonomy
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: AccessionList, GiList, ReadsOTU_Taxonomy
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,7 +47,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Metagenomics
 
 Partial Module CLI
@@ -114,14 +114,14 @@ Partial Module CLI
 
         For Each r As OTUData In data
             If fillEmpty Then
-                If Not String.IsNullOrEmpty(r.Data.TryGetValue("Taxonomy")) Then
+                If Not String.IsNullOrEmpty(r.data.TryGetValue("Taxonomy")) Then
                     ' 包含有这个值，则不进行关联，直接添加进入输出数据之中
                     output += r
                     Continue For
                 End If
             End If
 
-                Dim reads As BlastnMapping() = readsTable.TryGetValue(r.OTU)
+            Dim reads As BlastnMapping() = readsTable.TryGetValue(r.OTU)
 
             If reads.IsNullOrEmpty Then
                 ' 由于可能是从所有的数据data之中匹配部分maps的数据，所以肯定会出现找不到的对象，在这里记录下来就行了，不需要报错
@@ -133,10 +133,10 @@ Partial Module CLI
                 Dim copy As New OTUData(r)
                 Dim taxid% = CInt(o.Extensions("taxid"))
                 Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid, True)
-                copy.Data("taxid") = taxid
-                copy.Data("Taxonomy") = nodes.BuildBIOM
-                copy.Data("Reference") = o.Reference
-                copy.Data("gi") = Regex.Match(o.Reference, "gi\|\d+").Value
+                copy.data("taxid") = taxid
+                copy.data("Taxonomy") = nodes.BuildBIOM
+                copy.data("Reference") = o.Reference
+                copy.data("gi") = Regex.Match(o.Reference, "gi\|\d+").Value
 
                 output += copy
             Next

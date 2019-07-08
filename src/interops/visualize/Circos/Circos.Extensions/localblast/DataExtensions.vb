@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::9c28f0750548c236acca7df9cf9ef24a, Circos\Circos.Extensions\localblast\DataExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module DataExtensions
-    ' 
-    '     Function: createBands, FromBlastnMappings, Hits, Identities, IdentitiesTracks
-    '               MapsRaw
-    ' 
-    ' /********************************************************************************/
+' Module DataExtensions
+' 
+'     Function: createBands, FromBlastnMappings, Hits, Identities, IdentitiesTracks
+'               MapsRaw
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,7 +45,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -105,7 +105,7 @@ Public Module DataExtensions
     <Extension>
     Private Function createBands(reads As BlastnMapping(), labels As Dictionary(Of String, KaryotypeModel)) As IEnumerable(Of Band)
         Return From x As SeqValue(Of BlastnMapping)
-                   In reads.SeqIterator(offset:=1)
+               In reads.SeqIterator(offset:=1)
                Let chr As String = labels(x.value.Reference).chrName
                Let loci As NucleotideLocation = x.value.MappingLocation
                Select New Band With {
@@ -166,7 +166,7 @@ Public Module DataExtensions
                     CInt(chunk.Items.Select(Function(x) x.value.Value).Average)
 
                 tmp += New SeqValue(Of Value(Of Integer)) With {
-                    .i = chunk.Left,
+                    .i = chunk.left,
                     .value = New Value(Of Integer)(n)
                 }
             Next
@@ -231,7 +231,7 @@ Public Module DataExtensions
 
             For Each chunk In slides
                 tmp += New SeqValue(Of List(Of Double)) With {
-                    .i = chunk.Left,
+                    .i = chunk.left,
                     .value = LinqAPI.MakeList(Of Double) <= From x As SeqValue(Of List(Of Double))
                                                             In chunk.Items
                                                             Let bufs As IEnumerable(Of Double) = x.value
