@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9e42178e67e0c592c666c6a0c4158ff, WebCloud\SMRUCC.WebCloud.Mail\Subscription.vb"
+﻿#Region "Microsoft.VisualBasic::a7925f325963cb1f5faeed7f3fed2dac, WebCloud\SMRUCC.WebCloud.Mail\Subscription.vb"
 
     ' Author:
     ' 

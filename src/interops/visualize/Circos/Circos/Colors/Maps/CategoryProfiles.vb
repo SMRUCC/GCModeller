@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a94b240a00a489a79f88d89227dc2a8, Circos\Colors\Maps\CategoryProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::6b33d0acc31ccafd09a583fb275aaa48, Circos\Circos\Colors\Maps\CategoryProfiles.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module CategoryProfiles
     ' 
-    '         Function: GenerateColors, GetCogColorProfile
+    '         Function: GenerateColors
     ' 
     ' 
     ' /********************************************************************************/

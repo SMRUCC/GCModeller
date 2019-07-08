@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c64e9a788c25e6af286d93e44ccbfe2, WebCloud\SMRUCC.WebCloud.QRCode\QRCodeCreator.vb"
+﻿#Region "Microsoft.VisualBasic::11634cd54e4090cc34732648c06695d7, WebCloud\SMRUCC.WebCloud.QRCode\QRCodeCreator.vb"
 
     ' Author:
     ' 

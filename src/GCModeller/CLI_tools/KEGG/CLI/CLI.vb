@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -449,7 +450,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
 
     <ExportAPI("-function.association.analysis", Usage:="-function.association.analysis -i <matrix_csv>")>
     Public Function FunctionAnalysis(argvs As CommandLine) As Integer
-        Dim MAT = IO.File.FastLoad(argvs("-i"))
+        Dim MAT = FileLoader.FastLoad(argvs("-i"))
         Call PathwayAssociationAnalysis.Analysis(MAT, argvs("-i"))
         Return 0
     End Function

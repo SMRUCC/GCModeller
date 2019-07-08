@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52e266e47c87502363ab3d0a5a310314, CLI_tools\CLI\COGTools.vb"
+﻿#Region "Microsoft.VisualBasic::fb6582a1ef0beda3a1ab1c3921b25632, CLI_tools\CLI\COGTools.vb"
 
 ' Author:
 ' 
@@ -47,7 +47,6 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.DOOR
@@ -56,9 +55,10 @@ Imports SMRUCC.genomics.Assembly.NCBI.COG
 Imports SMRUCC.genomics.Assembly.NCBI.COG.COGs
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG.Whog
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -69,7 +69,7 @@ Partial Module CLI
     Public Function WhogXML(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".XML")
-        Return Whog.Whog.Imports([in]).Save(out).CLICode
+        Return WhogRepository.Imports([in]).Save(out).CLICode
     End Function
 
     <ExportAPI("/COG.myva",

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::292ef68183ab1731be7a79526bd208ef, visualize\Cytoscape\Cytoscape\Graph\Xgmml\NetworkMetadata.vb"
+﻿#Region "Microsoft.VisualBasic::b476b27534f941a4a1682a53cddc8e2e, Cytoscape\Cytoscape\Graph\Xgmml\NetworkMetadata.vb"
 
     ' Author:
     ' 

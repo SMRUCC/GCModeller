@@ -83,8 +83,8 @@ Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -635,9 +635,9 @@ Partial Module CLI
                         Dim regulation As RegulationFootprint = reg.First
 
                         Return New NetworkEdge With {
-                            .FromNode = regulation.regulator,
-                            .ToNode = regulation.regulated,
-                            .Interaction = "transcript_regulation",
+                            .fromNode = regulation.regulator,
+                            .toNode = regulation.regulated,
+                            .interaction = "transcript_regulation",
                             .value = 0,
                             .Properties = New Dictionary(Of String, String) From {
                                 {"supports", reg.Count}
@@ -647,8 +647,8 @@ Partial Module CLI
             .ToArray
 
         Return New NetworkTables With {
-            .Edges = edges,
-            .Nodes = nodes
+            .edges = edges,
+            .nodes = nodes
         }.AnalysisDegrees _
          .RemovesByDegree(degreeCutoff) _
          .Save(out) _

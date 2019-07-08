@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f30f460332b07a508605f52b56999a88, CLI\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::db823b1f66b8cbf94ddd4b9c9e4f8998, Circos\CLI\CLI\CLI.vb"
 
 ' Author:
 ' 
@@ -33,8 +33,8 @@
 
 ' Module CLI
 ' 
-'     Function: __propertyVector, __vectorCommon, AlignmentTableDump, ATContent, GCSkew
-'               MGA2Myva, NTVariation
+'     Function: AlignmentTableDump, ATContent, GCSkew, MGA2Myva, NTVariation
+'               propertyVector, vector
 '     Class tRNA
 ' 
 '         Properties: [end], AntiCodon, seqName, start, strand
@@ -56,19 +56,13 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
 Imports SMRUCC.genomics.SequenceModel.Patterns
-Imports SMRUCC.genomics.Visualize
-Imports SMRUCC.genomics.Visualize.Circos
-Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
-Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
-Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
 <Package("Circos.CLI",
                   Category:=APICategories.CLI_MAN,

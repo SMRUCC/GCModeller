@@ -75,7 +75,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         Implements Protein.IEnzyme, Regulation.IRegulator
         Implements Generic.IEnumerable(Of String) '本类型的对象会枚举所有的Component对象的UniqueID
 
-        <MetaCycField()> <XmlAttribute> Public Overrides Property Identifier As String Implements IEnzyme.locusId, Regulation.IRegulator.locusId
+        <MetaCycField()> <XmlAttribute> Public Overrides Property Identifier As String Implements IEnzyme.UniqueId, Regulation.IRegulator.UniqueId
         <MetaCycField()> <XmlAttribute> Public Overrides Property CommonName As String Implements IEnzyme.Name, Regulation.IRegulator.CommonName
         <MetaCycField(type:=MetaCycField.Types.TStr)> Public Overrides Property Types As List(Of String) Implements Regulation.IRegulator.Types
 
@@ -267,7 +267,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         Public Interface IEnzyme : Inherits IComplexes
 
             Property Name As String
-            Property locusId As String
+            Property UniqueId As String
             ''' <summary>
             ''' 本类型的对象最为其他的对象的组件而存在的时候，则本属性值指明了本对象所能够构成的对象的Unique-Id列表
             ''' </summary>

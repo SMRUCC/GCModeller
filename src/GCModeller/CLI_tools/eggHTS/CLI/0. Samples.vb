@@ -93,8 +93,10 @@ Partial Module CLI
         Dim output As New List(Of EntityObject)
         Dim bbhData As Dictionary(Of String, BBHIndex) = bbh _
             .LoadCsv(Of BBHIndex) _
-            .Where(Function(bh) bh.Matched) _
-            .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
+            .Where(Function(bh) bh.isMatched) _
+            .ToDictionary(Function(bh)
+                              Return bh.QueryName.Split("|"c).First
+                          End Function)
         Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniProtXML.LoadDictionary(uniprot)
         Dim describKey As String = args("/Description")
         Dim ORF$
@@ -175,7 +177,9 @@ Partial Module CLI
     Public Function AddReMapping(proteins As IEnumerable(Of EntityObject), bbh As IEnumerable(Of BBHIndex), mappingsID As Dictionary(Of String, String()), uniprot As String) As EntityObject()
         Dim output As New List(Of EntityObject)
         Dim bbhData As Dictionary(Of String, BBHIndex) = bbh _
-            .Where(Function(bh) bh.Matched) _
+            .Where(Function(bh)
+                       Return bh.isMatched
+                   End Function) _
             .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
         Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniProtXML.LoadDictionary(uniprot)
         Dim ORF$

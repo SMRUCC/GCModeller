@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::5aa706da23cc4a9e6b1b4f2969bb307f, Circos\TrackDatas\Adapter\Highlights\GeneMark.vb"
+﻿#Region "Microsoft.VisualBasic::f34b1fe0ea46e418defcbe7b5f998934, Circos\Circos\TrackDatas\Adapter\Highlights\GeneMark.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class GeneMark
-' 
-'         Properties: COGColors
-' 
-'         Constructor: (+4 Overloads) Sub New
-' 
-'         Function: LegendsDrawing
-' 
-'         Sub: motifSitesCommon
-' 
-' 
-' /********************************************************************************/
+    '     Class GeneMark
+    ' 
+    '         Properties: COGColors
+    ' 
+    '         Constructor: (+4 Overloads) Sub New
+    ' 
+    '         Function: LegendsDrawing
+    ' 
+    '         Sub: motifSitesCommon
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -109,7 +109,7 @@ Namespace TrackDatas.Highlights
         Sub New(sites As IEnumerable(Of IMotifSite), color As Dictionary(Of String, String), Optional chr$ = "chr1")
             Dim locis As IMotifSite() = sites.ToArray
             Dim types$() = locis _
-                .Select(Function(x) x.Type) _
+                .Select(Function(x) x.family) _
                 .Distinct _
                 .ToArray
 
@@ -123,14 +123,14 @@ Namespace TrackDatas.Highlights
             source = LinqAPI.MakeList(Of ValueTrackData) <=
                 From site As IMotifSite
                 In locis
-                Let COG = site.Type Or notype
+                Let COG = site.family Or notype
                 Let fill = If(
                     color.ContainsKey(COG),
                     color(COG),
                     CircosColor.DefaultCOGColor)
                 Select New ValueTrackData With {
-                    .start = site.Site.Left,
-                    .end = site.Site.Right,
+                    .start = site.site.Left,
+                    .end = site.site.Right,
                     .value = 1,
                     .chr = chr,
                     .formatting = New Formatting With {
@@ -148,7 +148,7 @@ Namespace TrackDatas.Highlights
         Sub New(sites As IEnumerable(Of IMotifSite), Optional colors$ = "Paired:c10", Optional chr$ = "chr1")
             Dim locis As IMotifSite() = sites.ToArray
             Dim types$() = locis _
-                .Select(Function(x) x.Type.Split("+"c).Distinct.JoinBy("_")) _
+                .Select(Function(x) x.family.Split("+"c).Distinct.JoinBy("_")) _
                 .Distinct _
                 .ToArray
             Dim colorlist As Color() = Designer.FromSchema(colors, types.Length)

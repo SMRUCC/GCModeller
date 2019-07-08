@@ -82,10 +82,12 @@ Namespace Assembly.KEGG.Medical
                 .Where(Function(dr) Not dr.Item1.StringEmpty) _
                 .GroupBy(Function(k) k.Item1) _
                 .ToDictionary(Function(k) k.Key,
-                              Function(v) v.Select(Function(g) g.Item2) _
+                              Function(v)
+                                  Return v.Select(Function(g) g.Item2) _
                                            .GroupBy(Function(d) d.Entry) _
                                            .Select(Function(dr) dr.First) _
-                                           .ToArray)
+                                           .ToArray
+                              End Function)
             Return compoundDrugs
         End Function
 

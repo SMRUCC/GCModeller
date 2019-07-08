@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e90fc87bc1326b228377bf1d1f2001d, LocalBLAST\Web\Hit.vb"
+﻿#Region "Microsoft.VisualBasic::4da34796f606707c7925fba567b0f21f, LocalBLAST\Web\Alignment\Hit.vb"
 
     ' Author:
     ' 
@@ -33,13 +33,13 @@
 
     '     Class HitRecord
     ' 
-    '         Properties: AlignmentLength, BitScore, Data, EValue, GapOpens
+    '         Properties: AlignmentLength, BitScore, data, EValue, GapOpens
     '                     GI, Identity, MisMatches, QueryAccVer, QueryEnd
     '                     QueryID, QueryStart, SubjectAccVer, SubjectEnd, SubjectIDs
     '                     SubjectStart
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Mapper, SplitByHeaders, TopBest, ToString
+    '         Function: SplitByHeaders, ToString
     ' 
     ' 
     ' /********************************************************************************/

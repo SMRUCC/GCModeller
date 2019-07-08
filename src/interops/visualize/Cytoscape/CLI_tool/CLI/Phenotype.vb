@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c51afb42ee5f46425aabbe6f4f365c0, visualize\Cytoscape\CLI_tool\CLI\Phenotype.vb"
+﻿#Region "Microsoft.VisualBasic::4ff4621b15a9286370e20b946f88d258, Cytoscape\CLI_tool\CLI\Phenotype.vb"
 
 ' Author:
 ' 
@@ -77,7 +77,7 @@ Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.Model.Network.Regulons.MotifCluster
 
 Partial Module CLI
@@ -106,7 +106,7 @@ Partial Module CLI
 
         Call __briefTrim(bTree)
 
-        For Each node As Node In bTree.Nodes
+        For Each node As Node In bTree.nodes
             If Not String.Equals(node.NodeType, "Entity", StringComparison.OrdinalIgnoreCase) Then
                 Continue For
             End If
@@ -438,7 +438,7 @@ Partial Module CLI
         Dim DEGs As Dictionary(Of String, String) = upFile.ReadAllLines.ToDictionary(Function(x) x, Function(null) "+")
         DEGs.AddRange(downFile.ReadAllLines.ToDictionary(Function(x) x, Function(null) "-"))
 
-        For Each node As Node In net.Nodes
+        For Each node As Node In net.nodes
             If Not String.Equals(node.NodeType, "Entity", StringComparison.OrdinalIgnoreCase) Then
                 Continue For
             End If
@@ -512,8 +512,8 @@ Partial Module CLI
     ''' <returns></returns>
     Private Function __getMods(keys As String(), mods As bGetObject.Module(), cats As Dictionary(Of String, BriteHEntry.Module), ByRef modSum As Dictionary(Of String, Integer)) As String()
         Dim LQuery = (From id As String In keys Select (From x In mods Where x.ContainsReaction(id) Select x)).IteratesALL
-        Dim mIds = (From x In LQuery Select x.briteID Group By BriteId Into Count).ToArray
-        Dim catQuery = (From x In mIds Select [mod] = cats(x.BriteId).SubCategory, x.Count Group By [mod] Into Group).ToArray
+        Dim mIds = (From x In LQuery Select x.briteID Group By briteID Into Count).ToArray
+        Dim catQuery = (From x In mIds Select [mod] = cats(x.briteID).SubCategory, x.Count Group By [mod] Into Group).ToArray
         Dim orders = (From x In catQuery
                       Where Not String.Equals(CCM, x.mod, StringComparison.Ordinal)
                       Select x.mod,
@@ -563,22 +563,22 @@ Partial Module CLI
                                .ToDictionary(Function(x) x.hit_name,
                                              Function(x) x.Group.Select(Function(xx) xx.Family).ToArray)
 
-        For Each edge As NetworkEdge In net.Edges
-            Dim depth As Integer = edge.FromNode.Split("."c).Length
+        For Each edge As NetworkEdge In net.edges
+            Dim depth As Integer = edge.fromNode.Split("."c).Length
             Call edge.Properties.Add(NameOf(depth), depth)
 
-            If InStr(edge.Interaction, "Leaf") = 0 Then
+            If InStr(edge.interaction, "Leaf") = 0 Then
                 Continue For
             End If
 
-            Dim mName As String = edge.ToNode.Split("."c).First
+            Dim mName As String = edge.toNode.Split("."c).First
 
             Call edge.Properties.Add(NameOf(mName), mName)
         Next
 
         Dim maxLen As Integer = modsHash.Select(Function(x) x.Value.Length).Max
 
-        For Each node In net.Nodes
+        For Each node In net.nodes
             If Not String.Equals(node.NodeType, "Entity", StringComparison.OrdinalIgnoreCase) Then
                 Continue For
             End If
@@ -641,15 +641,15 @@ Partial Module CLI
                         In FileIO.FileSystem.GetFiles(mods, FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel
                         Select file.LoadXml(Of bGetObject.Pathway)).ToDictionary
 
-        For Each edge As NetworkEdge In net.Edges
-            Dim depth As Integer = edge.FromNode.Split("."c).Length
+        For Each edge As NetworkEdge In net.edges
+            Dim depth As Integer = edge.fromNode.Split("."c).Length
             Call edge.Properties.Add(NameOf(depth), depth)
 
-            If InStr(edge.Interaction, "Leaf") = 0 Then
+            If InStr(edge.interaction, "Leaf") = 0 Then
                 Continue For
             End If
 
-            Dim mName As String = edge.ToNode.Split("."c).First
+            Dim mName As String = edge.toNode.Split("."c).First
 
             Call edge.Properties.Add(NameOf(mName), mName)
         Next
@@ -657,7 +657,7 @@ Partial Module CLI
         Dim brits = BriteHEntry.Pathway.LoadDictionary
         Dim trim As Boolean = args.GetBoolean("/trim")
 
-        For Each node As Node In net.Nodes
+        For Each node As Node In net.nodes
             If Not String.Equals(node.NodeType, "Entity", StringComparison.OrdinalIgnoreCase) Then
                 Continue For
             End If
@@ -700,15 +700,15 @@ Partial Module CLI
                         In FileIO.FileSystem.GetFiles(mods, FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel
                         Select file.LoadXml(Of bGetObject.Module)).ToDictionary
 
-        For Each edge As NetworkEdge In net.Edges
-            Dim depth As Integer = edge.FromNode.Split("."c).Length
+        For Each edge As NetworkEdge In net.edges
+            Dim depth As Integer = edge.fromNode.Split("."c).Length
             Call edge.Properties.Add(NameOf(depth), depth)
 
-            If InStr(edge.Interaction, "Leaf") = 0 Then
+            If InStr(edge.interaction, "Leaf") = 0 Then
                 Continue For
             End If
 
-            Dim mName As String = edge.ToNode.Split("."c).First
+            Dim mName As String = edge.toNode.Split("."c).First
 
             Call edge.Properties.Add(NameOf(mName), mName)
         Next
@@ -716,7 +716,7 @@ Partial Module CLI
         Dim brits = BriteHEntry.Module.GetDictionary
         Dim trim As Boolean = args.GetBoolean("/trim")
 
-        For Each node In net.Nodes
+        For Each node In net.nodes
             If Not String.Equals(node.NodeType, "Entity", StringComparison.OrdinalIgnoreCase) Then
                 Continue For
             End If
@@ -747,10 +747,10 @@ Partial Module CLI
     End Function
 
     Private Sub __briefTrim(ByRef net As NetworkTables)
-        For Each x In net.Nodes
+        For Each x In net.nodes
             x.Properties = Nothing
         Next
-        For Each x In net.Edges
+        For Each x In net.edges
             x.Properties = Nothing
         Next
     End Sub
@@ -771,20 +771,20 @@ Partial Module CLI
                                .ToDictionary(Function(x) x.QueryName,
                                              Function(x) x.Group.Select(Function(xx) xx.Family).Distinct.ToArray)
 
-        For Each edge As NetworkEdge In net.Edges
-            Dim depth As Integer = edge.FromNode.Split("."c).Length
+        For Each edge As NetworkEdge In net.edges
+            Dim depth As Integer = edge.fromNode.Split("."c).Length
             Call edge.Properties.Add(NameOf(depth), depth)
 
-            If InStr(edge.Interaction, "Leaf") = 0 Then
+            If InStr(edge.interaction, "Leaf") = 0 Then
                 Continue For
             End If
 
-            Dim mName As String = Regex.Replace(edge.ToNode, "\.\d+", "")
+            Dim mName As String = Regex.Replace(edge.toNode, "\.\d+", "")
 
             Call edge.Properties.Add(NameOf(mName), mName)
         Next
 
-        For Each node In net.Nodes
+        For Each node In net.nodes
             If Not String.Equals(node.NodeType, "Entity", StringComparison.OrdinalIgnoreCase) Then
                 Continue For
             End If
@@ -840,15 +840,15 @@ Partial Module CLI
             FamilyHash = New Dictionary(Of String, Regulator)
         End If
 
-        For Each edge As NetworkEdge In net.Edges
-            Dim depth As Integer = edge.FromNode.Split("."c).Length
+        For Each edge As NetworkEdge In net.edges
+            Dim depth As Integer = edge.fromNode.Split("."c).Length
             Call edge.Properties.Add(NameOf(depth), depth)
 
-            If InStr(edge.Interaction, "Leaf") = 0 Then
+            If InStr(edge.interaction, "Leaf") = 0 Then
                 Continue For
             End If
 
-            Dim bbh As String = Regex.Replace(edge.ToNode, "\.\d+", "")
+            Dim bbh As String = Regex.Replace(edge.toNode, "\.\d+", "")
             Dim hit As String() = bbh.Split("."c)
 
             If hit.Length = 1 Then
@@ -869,7 +869,7 @@ Partial Module CLI
             End If
         Next
 
-        For Each node In net.Nodes
+        For Each node In net.nodes
             If Not String.Equals(node.NodeType, "Entity", StringComparison.OrdinalIgnoreCase) Then
                 Continue For
             End If

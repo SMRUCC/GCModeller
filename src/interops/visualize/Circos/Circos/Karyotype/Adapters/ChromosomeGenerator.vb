@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d76533232e05e8bdc2830d182edfa1eb, Circos\Karyotype\Adapters\ChromosomeGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::19ab5f553d786e5f1b293936206e4524, Circos\Circos\Karyotype\Adapters\ChromosomeGenerator.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module ChromosomeGenerator
     ' 
-    '         Function: chromosomes, createBands, FromBlastnMappings, FromNts
+    '         Function: chromosomes, FromNts
     ' 
     ' 
     ' /********************************************************************************/

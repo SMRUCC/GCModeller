@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3543b8ab897daff386aaf885f603242, Bio.Assembly\ComponentModel\PathwayBrief.vb"
+﻿#Region "Microsoft.VisualBasic::889571c654009346d2a2dc828fcea484, Bio.Assembly\ComponentModel\Annotation\PathwayBrief.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class PathwayBrief
     ' 
-    '         Properties: BriteId, description, EntryId
+    '         Properties: briteID, description, EntryId
     ' 
     '         Function: ToString
     ' 

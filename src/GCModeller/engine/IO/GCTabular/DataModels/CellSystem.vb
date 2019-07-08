@@ -218,7 +218,7 @@ Namespace DataModel
                                                              .Enzymes = (From strId In item.AssociatedRegulationGenes Select strId.Identifier).ToArray,
                                                              .DynamicsRegulators = regulators}).AsList
 
-            Model.Metabolism.MetabolismEnzymes = Me._CellSystemModel.Enzymes.ToArray
+            '    Model.Metabolism.MetabolismEnzymes = Me._CellSystemModel.Enzymes.ToArray
 
             Call LoadSystemVariables(Model, Me._CellSystemModel)
 
@@ -304,12 +304,12 @@ Namespace DataModel
             Dim Metabolites = (From item In Model.Metabolism.Metabolites Select item.Identifier Distinct Order By Identifier Ascending).ToArray
             Model.Metabolism.Metabolites = (From Id As String In Metabolites Select Model.Metabolism.Metabolites.GetItem(Id)).AsList
 
-            Model.BacteriaGenome.ExpressionKinetics = (From item In _CellSystemModel.ExpressionKinetics
-                                                       Select New EnzymeCatalystKineticLaw With {
-                                                           .Enzyme = item.ProteinComplex,
-                                                           .Km = item.Km,
-                                                           .PH = item.pH,
-                                                           .Temperature = item.Temperature}).ToArray
+            'Model.BacteriaGenome.ExpressionKinetics = (From item In _CellSystemModel.ExpressionKinetics
+            '                                           Select New EnzymeCatalystKineticLaw With {
+            '                                               .Enzyme = item.ProteinComplex,
+            '                                               .Km = item.Km,
+            '                                               .PH = item.pH,
+            '                                               .Temperature = item.Temperature}).ToArray
             Model.BacteriaGenome.OperonCounts = Me._CellSystemModel.CellSystemModel.OperonCounts
             Model.SystemVariables = Me._CellSystemModel.SystemVariables.ToArray
             Model.Metabolism.ConstraintMetaboliteMaps = _CellSystemModel.ConstraintMetabolites.ToArray

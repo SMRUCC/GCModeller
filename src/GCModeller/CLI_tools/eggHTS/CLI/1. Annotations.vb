@@ -44,7 +44,6 @@
 
 Imports System.ComponentModel
 Imports System.Drawing
-Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
@@ -75,11 +74,10 @@ Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
@@ -545,6 +543,8 @@ Partial Module CLI
 
     ''' <summary>
     ''' 总蛋白注释绘制KEGG分布图
+    ''' 
+    ''' ##### 20190707 也可以使用这个函数从sbh或者bbh的结果表格之中导出KO的注释信息
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
@@ -656,8 +656,10 @@ Partial Module CLI
         Dim output As New List(Of UniprotAnnotations)
         Dim bbhData As Dictionary(Of String, BBHIndex) = bbh _
             .LoadCsv(Of BBHIndex) _
-            .Where(Function(bh) bh.Matched) _
-            .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
+            .Where(Function(bh) bh.isMatched) _
+            .ToDictionary(Function(bh)
+                              Return bh.QueryName.Split("|"c).First
+                          End Function)
         Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniProtXML.LoadDictionary(uniprot)
 
         For Each protein As UniprotAnnotations In annotationData

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa49fb64de6005d8fd437efac4eef592, WebCloud\JavaScript\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::1aaae4afa3c668dad377ab98029dde7a, WebCloud\JavaScript\test\Module1.vb"
 
     ' Author:
     ' 

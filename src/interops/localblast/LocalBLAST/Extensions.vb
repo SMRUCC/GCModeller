@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8db8047624daf5065354aece8ea2cc82, LocalBLAST\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ca9b1e8c3134667efd1deb6fbb7e17ab, LocalBLAST\Extensions.vb"
 
     ' Author:
     ' 
@@ -86,7 +86,7 @@ Public Module Extensions
 
         Dim notNull As BestHit = (From bh As BestHit
                                   In data
-                                  Where Not bh.Matched
+                                  Where Not bh.isMatched
                                   Select bh).FirstOrDefault
         Return notNull Is Nothing
     End Function

@@ -1,67 +1,66 @@
-﻿#Region "Microsoft.VisualBasic::2447a097843be07b9fa520c1299af2d7, visualize\Phylip\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::efc6cd7e4985ad6d2062e975b13c1f2c, Phylip\ShellScriptAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module ShellScriptAPI
-    ' 
-    '     Function: __exportMatrix, __labelTrimming, __linkLabel, __sort, (+3 Overloads) CreateDocumentFile
-    '               CreateGeneDist, CreateMotifDist, CreateNeighborMatrixFromVennMatrix, CreateNodeLabelAnnotation, ExportGendistMatrixFromBesthitMeta
-    '               LoadGendist, LoadHitsVennData, LoadNewickTree, LoadXmlMeta, NeighborMatrixFromMeta
-    '               NeighborMatrixFromVennMatrix, (+2 Overloads) SelfOverviewsGendist, SelfOverviewsMAT, SubMatrix, TreeLabelFastaReplace
-    ' 
-    ' /********************************************************************************/
+' Module ShellScriptAPI
+' 
+'     Function: __exportMatrix, __labelTrimming, __linkLabel, __sort, (+3 Overloads) CreateDocumentFile
+'               CreateGeneDist, CreateMotifDist, CreateNeighborMatrixFromVennMatrix, CreateNodeLabelAnnotation, ExportGendistMatrixFromBesthitMeta
+'               LoadGendist, LoadHitsVennData, LoadNewickTree, LoadXmlMeta, NeighborMatrixFromMeta
+'               NeighborMatrixFromVennMatrix, (+2 Overloads) SelfOverviewsGendist, SelfOverviewsMAT, SubMatrix, TreeLabelFastaReplace
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Parallel
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.Utility
-Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.Interops.Visualize.Phylip.MatrixFile
 Imports PathEntry = System.Collections.Generic.KeyValuePair(Of String, String)
 
@@ -180,7 +179,7 @@ Public Module ShellScriptAPI
     Public Function CreateNeighborMatrixFromVennMatrix(path As String, Optional fastLoad As Boolean = True) As MatrixFile.NeighborMatrix
         Call $"Start to load venn matrix data from file: {path.ToFileURL}".__DEBUG_ECHO
 
-        Dim Csv As IO.File = If(fastLoad, IO.File.FastLoad(path), IO.File.Load(path))
+        Dim Csv As IO.File = If(fastLoad, FileLoader.FastLoad(path), IO.File.Load(path))
 
         Call $"Venn matrix data load Job done!".__DEBUG_ECHO
 
@@ -201,7 +200,7 @@ Public Module ShellScriptAPI
     <ExportAPI("Load.Xml.Besthit.MetaSource")>
     Public Function LoadHitsVennData(<Parameter("DIR.Source",
                                                 "The directory which contains the compiled bbh besthit xml data file.")>
-                                     source As String) As <FunctionReturns("")> BestHit()
+                                     source As String) As <FunctionReturns("")> SpeciesBesthit()
         Dim resHash As Dictionary(Of String, String) = source.LoadSourceEntryList({"*.xml"})
         Dim proc As EventProc = resHash.LinqProc
         Dim LQuery = (From i As SeqValue(Of PathEntry) In resHash.SeqIterator
@@ -214,10 +213,10 @@ Public Module ShellScriptAPI
         Return LQuery
     End Function
 
-    Private Function LoadXmlMeta(Path As PathEntry) As BestHit
+    Private Function LoadXmlMeta(Path As PathEntry) As SpeciesBesthit
         Call $"Start to load data from {Path.Value.ToFileURL}....".__DEBUG_ECHO
         Dim Sw = Stopwatch.StartNew
-        Dim Meta = Path.Value.LoadXml(Of BestHit)
+        Dim Meta = Path.Value.LoadXml(Of SpeciesBesthit)
         Call $"Data load done!  /// {Sw.ElapsedMilliseconds} ms.".__DEBUG_ECHO
 
         Return Meta
@@ -235,7 +234,7 @@ Public Module ShellScriptAPI
     ''' <param name="besthit"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function __exportMatrix(besthit As BestHit) As IO.File
+    Private Function __exportMatrix(besthit As SpeciesBesthit) As IO.File
         Dim MAT As IO.File = New IO.File
         Dim hits = besthit.InternalSort(False).ToArray
 
@@ -246,11 +245,11 @@ Public Module ShellScriptAPI
 
         On Error Resume Next
 
-        Dim head As New IO.RowObject("QueryProtein" + hits.First.Hits.ToList(Function(x) x.tag))  '生成表头
+        Dim head As New IO.RowObject("QueryProtein" + hits.First.hits.ToList(Function(x) x.tag))  '生成表头
         MAT += head
 
         For Each hit As HitCollection In hits
-            Dim Row As New IO.RowObject(hit.QueryName + hit.Hits.ToList(Function(x) CStr(x.Identities)))
+            Dim Row As New IO.RowObject(hit.QueryName + hit.hits.ToList(Function(x) CStr(x.identities)))
             MAT += Row
         Next
 
@@ -266,7 +265,7 @@ Public Module ShellScriptAPI
     ''' <remarks></remarks>
     <ExportAPI("Gendist.Matrix.Generate")>
     <Extension>
-    Public Function ExportGendistMatrixFromBesthitMeta(<Parameter("BBH.Meta.Source")> MetaSource As IEnumerable(Of BestHit),
+    Public Function ExportGendistMatrixFromBesthitMeta(<Parameter("BBH.Meta.Source")> MetaSource As IEnumerable(Of SpeciesBesthit),
                                                        <Parameter("Index.Main")> Optional MainIndex As String = "",
                                                        <Parameter("Null.Trim")> Optional TrimNull As Boolean = False,
                                                        <Parameter("Limits", "Any value number for limits < 1 is no limits on the export genome number.")>
@@ -297,10 +296,10 @@ Public Module ShellScriptAPI
         End If
 
         Dim MAT As IO.File = __exportMatrix(MainData)
-        Dim species As String() = (From hitData As Hit In MainData.hits.First.Hits Select hitData.tag).ToArray
+        Dim species As String() = (From hitData As Hit In MainData.hits.First.hits Select hitData.tag).ToArray
 
         For deltaInd As Integer = 0 To DataDict.Count - 1
-            Dim subMain As BestHit = DataDict.Values(deltaInd)
+            Dim subMain As SpeciesBesthit = DataDict.Values(deltaInd)
 
             If subMain.hits.IsNullOrEmpty Then
                 Call $"Profile data {subMain.sp} is null!".__DEBUG_ECHO
@@ -315,8 +314,8 @@ Public Module ShellScriptAPI
                               In subMain.hits
                               Where Array.IndexOf(subMainMatched, hit.QueryName) = -1
                               Select hit.QueryName,
-                                  hit.Description,
-                                  speciesProfile = hit.Hits.ToDictionary(Function(prot) prot.tag))
+                                  hit.description,
+                                  speciesProfile = hit.hits.ToDictionary(Function(prot) prot.tag))
 
             For Each SubMainNotHitGene In notmatched  '竖直方向遍历第n列的基因号
                 Dim row As New IO.RowObject From {SubMainNotHitGene.QueryName}
@@ -325,7 +324,7 @@ Public Module ShellScriptAPI
 
                 For Each sid As String In species.Skip(deltaInd)
                     Dim matched = SubMainNotHitGene.speciesProfile(sid)
-                    Call row.Add(matched.Identities)
+                    Call row.Add(matched.identities)
                 Next
                 Call MAT.Add(row)
             Next
@@ -343,12 +342,12 @@ Public Module ShellScriptAPI
         Return MatrixFile.Gendist.CreateMotifDistrMAT(MAT)
     End Function
 
-    Private Function __sort(MAT As Dictionary(Of String, BestHit), MainData As BestHit) As BestHit()
+    Private Function __sort(MAT As Dictionary(Of String, SpeciesBesthit), MainData As SpeciesBesthit) As SpeciesBesthit()
         Dim ids As String() = MainData.GetTopHits
-        Dim buf As BestHit() = (From IDtag As String
-                                In ids
-                                Where MAT.ContainsKey(IDtag)
-                                Select MAT(IDtag)).ToArray
+        Dim buf As SpeciesBesthit() = (From IDtag As String
+                                       In ids
+                                       Where MAT.ContainsKey(IDtag)
+                                       Select MAT(IDtag)).ToArray
         Return buf
     End Function
 
@@ -405,20 +404,22 @@ Public Module ShellScriptAPI
 
     <ExportAPI("Neighbor.From.Meta")>
     Public Function NeighborMatrixFromMeta(DIR As String) As String
-        Dim metas As BestHit() =
-            LQuerySchedule.LQuery(ls - l - wildcards("*.xml") <= DIR, AddressOf LoadXml(Of BestHit), 200).ToArray
+        Dim metas As SpeciesBesthit() = LQuerySchedule.LQuery(ls - l - wildcards("*.xml") <= DIR, AddressOf LoadXml(Of SpeciesBesthit), 200).ToArray
 
         Dim Genomes As Dictionary(Of String, List(Of Double)) =
             metas.ToDictionary(Function(obj) obj.sp,
-                                  Function(obj) New List(Of Double))
+                               Function(obj)
+                                   Return New List(Of Double)
+                               End Function)
 
-        For Each File As BestHit In metas '不可以使用并行化，因为矩阵之中要求二者两两对应
+        ' 不可以使用并行化，因为矩阵之中要求二者两两对应
+        For Each File As SpeciesBesthit In metas
             For Each sp In Genomes
                 sp.Value.Add(File.GetTotalIdentities(sp.Key))
             Next
         Next
 
-        Dim MAT As StringBuilder = New StringBuilder("   " & Genomes.Count)
+        Dim MAT As New StringBuilder("   " & Genomes.Count)
         Dim idx As Integer
 
         For Each Line In Genomes

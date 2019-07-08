@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ca4a96ecab87a1ab74623455209949d, CLI\CLI\Tools.vb"
+﻿#Region "Microsoft.VisualBasic::2ca4a96ecab87a1ab74623455209949d, Circos\CLI\CLI\Tools.vb"
 
     ' Author:
     ' 
@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.Visualize.Circos
 
 Partial Module CLI
@@ -61,14 +61,16 @@ Partial Module CLI
         Dim inFile As String = args("/DOOR")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".COGs.Csv")
         Dim DOOR As DOOR = DOOR_API.Load(inFile)
-        Dim COGs As MyvaCOG() = DOOR.Genes.Select(
-            Function(x) New MyvaCOG With {
+        Dim COGs As MyvaCOG() = DOOR.Genes _
+            .Select(Function(x)
+                        Return New MyvaCOG With {
                 .COG = x.COG_number,
                 .Description = x.Product,
                 .Length = x.Length,
                 .Category = Regex.Split(x.COG_number, "\d+").Last,
                 .MyvaCOG = x.COG_number,
-                .QueryName = x.Synonym}).OrderBy(Function(x) x.QueryName).ToArray
+                .QueryName = x.Synonym}
+                    End Function).OrderBy(Function(x) x.QueryName).ToArray
         Return COGs.SaveTo(out).CLICode
     End Function
 

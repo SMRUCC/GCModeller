@@ -1,58 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::6c949bc0df253e13b81352922046fa71, analysis\Motifs\CRISPR\CRT\Output\TabularDumps.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module TabularDumps
-    ' 
-    '         Function: __isLocatedInConserved, BatchExportCsv, BatchTrimConserved, Export, (+2 Overloads) RemoveConserved
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module TabularDumps
+' 
+'         Function: __isLocatedInConserved, BatchExportCsv, BatchTrimConserved, Export, (+2 Overloads) RemoveConserved
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.Analysis.CRISPR.CRT.SearchingModel
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
-Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 
 Namespace Output
 
@@ -68,7 +65,7 @@ Namespace Output
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("conserved.removes")>
-        Public Function RemoveConserved(besthit As BestHit, CDSInfo As IEnumerable(Of GeneDumpInfo), data As GenomeScanResult) As GenomeScanResult
+        Public Function RemoveConserved(besthit As SpeciesBesthit, CDSInfo As IEnumerable(Of GeneDumpInfo), data As GenomeScanResult) As GenomeScanResult
             Dim ORF = (From pro As GeneDumpInfo
                        In CDSInfo
                        Select pro
@@ -79,7 +76,7 @@ Namespace Output
             Return RemoveConserved(besthit, ORF, data)
         End Function
 
-        Public Function RemoveConserved(besthit As BestHit, ORF As Dictionary(Of String, GeneDumpInfo), data As GenomeScanResult) As GenomeScanResult
+        Public Function RemoveConserved(besthit As SpeciesBesthit, ORF As Dictionary(Of String, GeneDumpInfo), data As GenomeScanResult) As GenomeScanResult
             Dim ConservedRegions = besthit.GetConservedRegions
             Dim LQuery = (From ls As String()
                           In ConservedRegions
@@ -136,7 +133,7 @@ Namespace Output
                                        CRISPR).ToDictionary(Function(x) x.path.Key)
             Dim BesthitsResults = (From path
                                    In besthit_source.LoadSourceEntryList("*.xml")
-                                   Let bh = path.Value.LoadXml(Of BestHit)()
+                                   Let bh = path.Value.LoadXml(Of SpeciesBesthit)()
                                    Select path,
                                        besthit = bh).ToDictionary(Function(x) x.path.Key)
             Dim ORF = (From g As GeneDumpInfo

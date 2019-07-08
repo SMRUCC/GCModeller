@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2797265aef7d101b66dde81c3db81234, LocalBLAST\Web\MetaAPI.vb"
+﻿#Region "Microsoft.VisualBasic::b4c4461b18c011c71ae9acac23ff4421, LocalBLAST\Web\MetaAPI.vb"
 
 ' Author:
 ' 
@@ -50,11 +50,12 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 
 Namespace NCBIBlastResult
 
     ''' <summary>
-    ''' <see cref="Analysis.BestHit"/> -> <see cref="AlignmentTable"/>
+    ''' <see cref="SpeciesBesthit"/> -> <see cref="AlignmentTable"/>
     ''' </summary>
     Public Module BBHMetaAPI
 
@@ -91,10 +92,10 @@ Namespace NCBIBlastResult
         ''' 由于在进行blast绘图的时候，程序是按照基因组来分组绘制的，而绘制的对象不需要显示详细的信息，所以在这里为True的话，会直接使用基因组tag来替换名称进而用于blast作图
         ''' </param>
         ''' <returns></returns>
-        Public Function DataParser(bbh As Analysis.BestHit,
+        Public Function DataParser(bbh As SpeciesBesthit,
                                    PTT As PTT,
                                    Optional visualGroup As Boolean = False,
-                                   Optional scoreMaps As Func(Of Analysis.Hit, Double) = Nothing) As AlignmentTable
+                                   Optional scoreMaps As Func(Of Hit, Double) = Nothing) As AlignmentTable
 
             If scoreMaps Is Nothing Then
                 scoreMaps = Function(x) x.Identities
@@ -102,13 +103,13 @@ Namespace NCBIBlastResult
 
             Return New AlignmentTable With {
                 .Database = bbh.sp,
-                .Program = GetType(Analysis.BestHit).FullName,
+                .Program = GetType(SpeciesBesthit).FullName,
                 .Query = bbh.sp,
                 .RID = Now.ToString,
-                .Hits = LinqAPI.Exec(Of HitRecord) <= From prot As Analysis.HitCollection
+                .Hits = LinqAPI.Exec(Of HitRecord) <= From prot As HitCollection
                                                       In bbh.hits
                                                       Let ORF As GeneBrief = PTT(prot.QueryName)
-                                                      Select From hit As Analysis.Hit
+                                                      Select From hit As Hit
                                                              In prot.Hits
                                                              Select New HitRecord With {
                                                                  .QueryID = prot.QueryName,
@@ -126,7 +127,7 @@ Namespace NCBIBlastResult
         End Function
 
         <Extension>
-        Public Function DensityScore(DIR As String, Optional scale As Double = 1) As Func(Of Analysis.Hit, Double)
+        Public Function DensityScore(DIR As String, Optional scale As Double = 1) As Func(Of Hit, Double)
             Dim datas As IEnumerable(Of Density) =
                 LinqAPI.Exec(Of Density) <= From path As String
                                             In ls - l - r - "*.csv" <= DIR

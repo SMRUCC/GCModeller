@@ -1,42 +1,42 @@
-﻿#Region "Microsoft.VisualBasic::c6d4653b6935ee24d83a6498bcba4dd1, CLI_tools\CLI\BBH\SBH.vb"
+﻿#Region "Microsoft.VisualBasic::5b2e6948e91b0d36015b7a776ea85d70, CLI_tools\CLI\BBH\SBH.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module CLI
-' 
-'     Function: __evalueRow, __HitsRow, _2_KOBASOutput, EvalueMatrix, ExportBBHLarge
-'               ExportOverviews, ExportParalog, ExportSBH, SBH_topHits
-' 
-' /********************************************************************************/
+    ' Module CLI
+    ' 
+    '     Function: __evalueRow, __HitsRow, _2_KOBASOutput, AlignUnion, EvalueMatrix
+    '               ExportBBHLarge, ExportOverviews, ExportParalog, ExportSBH, SBH_topHits
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -54,11 +54,11 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.BBHLogs
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.BBHLogs
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -181,7 +181,7 @@ Partial Module CLI
 
     <ExportAPI("/SBH.Export.Large")>
     <Description("Using this command for export the sbh result of your blastp raw data.")>
-    <Usage("/SBH.Export.Large /in <blastp_out.txt/directory> [/top.best /trim-kegg /out <sbh.csv> /s.pattern <default=-> /q.pattern <default=-> /identities 0.15 /coverage 0.5 /split]")>
+    <Usage("/SBH.Export.Large /in <blastp_out.txt/directory> [/top.best /trim-kegg /s.pattern <default=-> /q.pattern <default=-> /keeps_raw.queryName /identities 0.15 /coverage 0.5 /split /out <sbh.csv>]")>
     <Argument("/trim-KEGG", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
@@ -192,10 +192,10 @@ Partial Module CLI
               AcceptTypes:={GetType(String)},
               Description:="The blastp raw result input file path.")>
     <Group(CLIGrouping.BBHTools)>
-    Public Function ExportBBHLarge(args As CommandLine) As Integer
+    Public Function ExportSBHLargeSize(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String
-        Dim issPlit As Boolean = args("/split")
+        Dim isSplit As Boolean = args("/split")
 
         If inFile.DirectoryExists Then
             out = args("/out") Or $"{inFile.TrimDIR}.sbh.csv"
@@ -208,8 +208,13 @@ Partial Module CLI
         Dim sPattern = args.GetValue("/s.pattern", "-").BuildGrepScript
         Dim qPattern = args.GetValue("/q.pattern", "-").BuildGrepScript
         Dim topBest As Boolean = args("/top.best")
+        Dim keepsRawQueryName As Boolean = args("/keeps_raw.queryName")
 
-        If issPlit AndAlso inFile.DirectoryExists Then
+        If keepsRawQueryName Then
+            Call "All of the query name will keeps as its original raw value".__INFO_ECHO
+        End If
+
+        If isSplit AndAlso inFile.DirectoryExists Then
             Dim n%
 
             For Each file As String In inFile.EnumerateFiles("*.txt")
@@ -221,7 +226,8 @@ Partial Module CLI
                                             Query:=query,
                                             coverage:=coverage,
                                             identities:=idetities,
-                                            grepHitId:=sPattern
+                                            grepHitId:=sPattern,
+                                            keepsRawQueryName:=keepsRawQueryName
                                          )
 
                                          If topBest Then
@@ -270,7 +276,8 @@ Partial Module CLI
                                     Query:=query,
                                     coverage:=coverage,
                                     identities:=idetities,
-                                    grepHitId:=sPattern
+                                    grepHitId:=sPattern,
+                                    keepsRawQueryName:=keepsRawQueryName
                                  )
 
                                  If topBest Then
@@ -282,26 +289,25 @@ Partial Module CLI
                                  End If
                              End Function)
 
-                Dim parseOne =
-                    Sub([in] As String)
-                        Dim i As VBInteger = 0
+                Dim parseOne = Sub([in] As String)
+                                   Dim i As VBInteger = 0
 
-                        Call $"Parse {[in]}...".__INFO_ECHO
+                                   Call $"Parse {[in]}...".__INFO_ECHO
 
-                        For Each query As Query In BlastpOutputReader.RunParser(in$)
-                            query.QueryName = qPattern(query.QueryName)
+                                   For Each query As Query In BlastpOutputReader.RunParser(in$)
+                                       query.QueryName = qPattern(query.QueryName)
 
-                            Call handle(query)
+                                       Call handle(query)
 
-                            If ++i Mod 50 = 0 Then
-                                Console.Write(i)
-                                Console.Write(vbTab)
-                            End If
-                        Next
+                                       If ++i Mod 50 = 0 Then
+                                           Console.Write(i)
+                                           Console.Write(vbTab)
+                                       End If
+                                   Next
 
-                        Call Console.WriteLine()
-                        Call Console.WriteLine()
-                    End Sub
+                                   Call Console.WriteLine()
+                                   Call Console.WriteLine()
+                               End Sub
 
                 If inFile.DirectoryExists Then
                     Dim n%
@@ -363,7 +369,7 @@ Partial Module CLI
         Dim LQuery As BBH.BestHit() =
             LinqAPI.Exec(Of BestHit) <= From x As BBH.BestHit()
                                         In blastp
-                                        Select x.Where(Function(xx) xx.Matched)
+                                        Select x.Where(Function(xx) xx.isMatched)
         Return LQuery.SaveTo(out).CLICode
     End Function
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9209dadb2802267f2a24a994d0d3fab4, visualize\Cytoscape\CLI_tool\CLI\Metagenomics.vb"
+﻿#Region "Microsoft.VisualBasic::d1642c4bbcceb17cdb015de8221c252b, Cytoscape\CLI_tool\CLI\Metagenomics.vb"
 
 ' Author:
 ' 
@@ -46,7 +46,6 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.visualize
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.KMeans
@@ -58,6 +57,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Model.Network.BLAST.API

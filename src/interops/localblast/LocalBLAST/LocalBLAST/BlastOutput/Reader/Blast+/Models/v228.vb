@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29cdc95a05930940b25fcdd42352e8af, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\v228.vb"
+﻿#Region "Microsoft.VisualBasic::d666460b8eef4ec72b2f17f4e4f540a4, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\v228.vb"
 
 ' Author:
 ' 
@@ -159,13 +159,16 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <param name="coverage"></param>
         ''' <param name="identities"></param>
         ''' <returns></returns>
-        Public Shared Function SBHLines(Query As Query, coverage#, identities#, Optional grepHitId As TextGrepMethod = Nothing) As BestHit()
+        Public Shared Function SBHLines(Query As Query, coverage#, identities#,
+                                        Optional grepHitId As TextGrepMethod = Nothing,
+                                        Optional keepsRawQueryName As Boolean = False) As BestHit()
+
             Dim Besthits As SubjectHit() = Query.GetBesthits(coverage, identities)
 
             If Besthits.IsNullOrEmpty Then
                 Return New BestHit() {EmptyHit(Query)}
             Else
-                Return ExportBesthits(Query.QueryName, Query.QueryLength, Besthits, grepHitId)
+                Return ExportBesthits(Query.QueryName, Query.QueryLength, Besthits, grepHitId, keepsRawQueryName)
             End If
         End Function
 
@@ -234,10 +237,13 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return LQuery
         End Function
 
-        Shared ReadOnly tokenFirst As New [Default](Of  TextGrepMethod)(Function(hitName) hitName.Split.First)
+        Shared ReadOnly tokenFirst As New [Default](Of TextGrepMethod)(Function(hitName) hitName.Split.First)
 
-        Public Shared Function ExportBesthits(QueryName$, QueryLength%, Besthits As SubjectHit(), Optional grepHitId As TextGrepMethod = Nothing) As BestHit()
-            Dim locusID$ = QueryName.Split.First
+        Public Shared Function ExportBesthits(QueryName$, QueryLength%, Besthits As SubjectHit(),
+                                              Optional grepHitId As TextGrepMethod = Nothing,
+                                              Optional keepRawQueryName As Boolean = False) As BestHit()
+
+            Dim locusID$ = If(keepRawQueryName, QueryName, QueryName.Split.First)
             Dim getHitId As TextGrepMethod = grepHitId Or tokenFirst
             Dim sbh As BestHit() = LinqAPI.Exec(Of BestHit) _
  _

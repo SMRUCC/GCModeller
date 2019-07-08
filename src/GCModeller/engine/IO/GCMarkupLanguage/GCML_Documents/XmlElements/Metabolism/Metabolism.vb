@@ -1,53 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::8c2c67c5240a195408e34994f86c9ef5, IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Metabolism.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Metabolism
-    ' 
-    '         Properties: Compartments, ConstraintMetaboliteMaps, MetabolismEnzymes, MetabolismNetwork, Metabolites
-    '                     Pathways
-    ' 
-    '         Function: AppendNewMetabolite
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Metabolism
+' 
+'         Properties: Compartments, ConstraintMetaboliteMaps, MetabolismEnzymes, MetabolismNetwork, Metabolites
+'                     Pathways
+' 
+'         Function: AppendNewMetabolite
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 
 Namespace GCML_Documents.XmlElements.Metabolism
 
@@ -81,12 +78,12 @@ Namespace GCML_Documents.XmlElements.Metabolism
         ''' <remarks></remarks>
         Public Property Pathways As Pathway()
 
-        ''' <summary>
-        ''' The collection of the enzyme that required in the metabolism reaction.
-        ''' (代谢反应所需求的酶分子的集合)
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Property MetabolismEnzymes As EnzymeCatalystKineticLaw()
+        '''' <summary>
+        '''' The collection of the enzyme that required in the metabolism reaction.
+        '''' (代谢反应所需求的酶分子的集合)
+        '''' </summary>
+        '''' <remarks></remarks>
+        'Public Property MetabolismEnzymes As EnzymeCatalystKineticLaw()
 
         Public Function AppendNewMetabolite(UniqueId As String, CompoundType As Metabolite.MetaboliteTypes) As Metabolite
             Dim LQuery = (From item In Me.Metabolites.AsParallel

@@ -66,7 +66,7 @@ Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.XmlFormat
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.Model.Network.STRING.Models
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.Level2

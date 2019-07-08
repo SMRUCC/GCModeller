@@ -58,6 +58,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
@@ -95,7 +96,7 @@ Partial Module CLI
         Dim [in] As String = args - "/in"
         Dim PTTfile As String = args("/PTT")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".visualize.png")
-        Dim meta As Analysis.BestHit = [in].LoadXml(Of Analysis.BestHit)
+        Dim meta As SpeciesBesthit = [in].LoadXml(Of SpeciesBesthit)
         Dim limits As String() = (args <= "/limits").ReadAllLines
         Dim density As String = args("/density")
 
@@ -103,7 +104,7 @@ Partial Module CLI
             meta = meta.Take(limits)
         End If
 
-        Dim scores As Func(Of Analysis.Hit, Double) = BBHMetaAPI.DensityScore(density, scale:=20)
+        Dim scores As Func(Of Hit, Double) = BBHMetaAPI.DensityScore(density, scale:=20)
         Dim PTT As PTT = TabularFormat.PTT.Load(PTTfile)
         Dim table As AlignmentTable = BBHMetaAPI.DataParser(
             meta, PTT,

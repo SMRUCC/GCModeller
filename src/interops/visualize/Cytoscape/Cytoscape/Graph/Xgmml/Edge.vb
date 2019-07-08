@@ -1,45 +1,47 @@
-﻿#Region "Microsoft.VisualBasic::11f88f3ff0d00896e957995291056ccb, visualize\Cytoscape\Cytoscape\Graph\Xgmml\Edge.vb"
+﻿#Region "Microsoft.VisualBasic::a549ae26e59dde509d9a6eb4537af90b, Cytoscape\Cytoscape\Graph\Xgmml\Edge.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Edge
-' 
-'         Properties: __internalUID, Graphics, Id, Label, source
-'                     target
-' 
-'         Function: ContainsNode, ContainsOneOfNode, ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class Edge
+    ' 
+    '         Properties: __internalUID, Graphics, Id, Label, source
+    '                     target
+    ' 
+    '         Function: ContainsNode, ContainsOneOfNode, ToString
+    ' 
+    '         Sub: Assign
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

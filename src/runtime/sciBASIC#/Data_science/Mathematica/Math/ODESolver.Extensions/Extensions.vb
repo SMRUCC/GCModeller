@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c9be22a023e93a804faeef393320fb9, Data_science\Mathematica\Math\ODESolver.Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::62d2748098db5d8e1091ea9e03d318ef, Data_science\Mathematica\Math\ODESolver.Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -47,8 +47,8 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports sys = System.Math
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports sys = System.Math
 
 <HideModuleName> Public Module Extensions
 
@@ -201,4 +201,3 @@ Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
         Return df.correlationImpl(AddressOf Correlations.Spearman)
     End Function
 End Module
-

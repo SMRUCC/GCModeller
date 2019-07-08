@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics.ModelAPI
 
 Namespace NCBIBlastResult
@@ -70,7 +71,7 @@ Namespace NCBIBlastResult
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function IdentitiesBrush(scores As Func(Of Analysis.Hit, Double)) As ICOGsBrush
+        Public Function IdentitiesBrush(scores As Func(Of Hit, Double)) As ICOGsBrush
             Return AddressOf New __brushHelper With {
                 .scores = scores,
                 .colors = IdentitiesChromatic()
@@ -79,11 +80,11 @@ Namespace NCBIBlastResult
 
         Private Structure __brushHelper
 
-            Public scores As Func(Of Analysis.Hit, Double)
+            Public scores As Func(Of Hit, Double)
             Public colors As RangeList(Of Double, NamedValue(Of Color))
 
             Public Function GetBrush(gene As GeneBrief) As Brush
-                Dim hit As New Analysis.Hit With {.HitName = gene.Synonym}
+                Dim hit As New Hit With {.hitName = gene.Synonym}
                 Dim score As Double = scores(hit)
                 Dim color As Color = colors.GetColor(score)
                 Return New SolidBrush(color)

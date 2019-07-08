@@ -77,7 +77,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -386,7 +386,7 @@ Public Module ToolsAPI
     End Function
 
     <ExportAPI("partition_data.create")>
-    Public Function CreateChromesomePartitioningData(besthit As BestHit,
+    Public Function CreateChromesomePartitioningData(besthit As SpeciesBesthit,
                                                      partitions As IEnumerable(Of ChromosomePartitioningEntry),
                                                      allCDSInfo As IEnumerable(Of GeneDumpInfo),
                                                      faDIR As String) As PartitioningData()
@@ -415,7 +415,7 @@ Public Module ToolsAPI
         Dim CreatePartitionLQuery = (From item In pData.AsParallel
                                      Let Create = ToolsAPI.__group(item.besthits)
                                      Select item.PartitioningTag,
-                                         Data = (From hit In Create Select GenomeID = hit.Key, ORF = (From h In hit.Value Select CDSInfo(h.HitName)).ToArray).AsList) _
+                                         Data = (From hit In Create Select GenomeID = hit.Key, ORF = (From h In hit.Value Select CDSInfo(h.hitName)).ToArray).AsList) _
                                          .ToDictionary(Function(item) item.PartitioningTag,
                                                        Function(item) item.Data) '根据参数partition之中的参照数据进行创建基因组分区数据的创建
         Dim LQuery = (From item In CreatePartitionLQuery
@@ -579,10 +579,10 @@ Public Module ToolsAPI
     Private Function __group(besthits As HitCollection()) As KeyValuePair(Of String, Hit())()
         Dim gr = (From o In (From nn As HitCollection
                              In besthits
-                             Select (From nnnnnnnn In nn.Hits Select nnnnnnnn).ToArray).Unlist
+                             Select (From nnnnnnnn In nn.hits Select nnnnnnnn).ToArray).Unlist
                   Select o
                   Group o By o.tag Into Group).ToArray
-        Dim gd = (From iteddm In gr Select iteddm.tag, hits = (From fd In iteddm.Group.ToArray Where Not String.IsNullOrEmpty(fd.HitName) Select fd).ToArray).ToArray
+        Dim gd = (From iteddm In gr Select iteddm.tag, hits = (From fd In iteddm.Group.ToArray Where Not String.IsNullOrEmpty(fd.hitName) Select fd).ToArray).ToArray
         Dim LQuery = (From item In gd Select New KeyValuePair(Of String, Hit())(item.tag, item.hits)).ToArray
         Return LQuery
     End Function
@@ -840,7 +840,7 @@ Public Module ToolsAPI
                                                     Select item.Key).ToArray
                          Select New KeyValuePair(Of Integer, String())(site.Site, lstName)).ToArray
         '加载基因组双向BLAST同源片段染色数据
-        Dim LoadCRendering = render_source.LoadXml(Of BestHit)() ' (From path As String In FileIO.FileSystem.GetFiles(render_source, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
+        Dim LoadCRendering = render_source.LoadXml(Of SpeciesBesthit)() ' (From path As String In FileIO.FileSystem.GetFiles(render_source, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
         '                      Select id = basename(path),
         '                      data = path.LoadXml(Of SMRUCC.genomics.AnalysisTools.DataVisualization.VennDiagram.ShellScriptAPI.BestHit)()).ToArray
         '基因按照正向进行标识 ，当比对上去的时候，会进行delta染色，即基因号为相应的比对上的基因号，当没有比对上去的时候，基因号为空
@@ -885,7 +885,7 @@ Public Module ToolsAPI
     Private Function __colorRender(UID As String,
                                    delta As SiteSigma(),
                                    PTT As PTT,
-                                   render As BestHit,
+                                   render As SpeciesBesthit,
                                    querySites As KeyValuePair(Of Integer, String())()) As SegmentRenderData()
         Dim LQuery = (From site In delta Let querySite = querySites(site.Site)
                       Select New SegmentRenderData With {
