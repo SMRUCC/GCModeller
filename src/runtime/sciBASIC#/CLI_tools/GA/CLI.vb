@@ -5,9 +5,9 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Module CLI
 
     ''' <summary>
-    ''' 这个命令只适用于一般性的模型计算
+    ''' 这个命令只适用于一般性的非线性模型的计算
     ''' 
-    ''' f(X) = x1 ^ y1 + x2 ^ y2 + x3 ^y3 + ....
+    ''' f(X) = x1 ^ p(X) + x2 ^ p(X) + x3 ^ p(X) + ....
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
