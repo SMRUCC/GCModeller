@@ -48,6 +48,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -178,7 +179,7 @@ Public Module ShellScriptAPI
     Public Function CreateNeighborMatrixFromVennMatrix(path As String, Optional fastLoad As Boolean = True) As MatrixFile.NeighborMatrix
         Call $"Start to load venn matrix data from file: {path.ToFileURL}".__DEBUG_ECHO
 
-        Dim Csv As IO.File = If(fastLoad, IO.File.FastLoad(path), IO.File.Load(path))
+        Dim Csv As IO.File = If(fastLoad, FileLoader.FastLoad(path), IO.File.Load(path))
 
         Call $"Venn matrix data load Job done!".__DEBUG_ECHO
 

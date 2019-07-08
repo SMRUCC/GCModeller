@@ -332,7 +332,7 @@ Public Module PhenotypeRegulations
                                            Optional Level As Double = 0.7) As IO.File
         Dim Cache = (From path As String
                      In FileIO.FileSystem.GetFiles(dir, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").AsParallel
-                     Let Csv = IO.File.FastLoad(path, parallel:=False)
+                     Let Csv = FileLoader.FastLoad(path, parallel:=False)
                      Select Csv).ToArray '获取同一批次的蒙特卡洛计算实验之中所得到的所有的计算样本
         Dim RankMapping = (From obj In (From Csv In Cache.AsParallel Select (From row In Csv Let ID As String = row.First Where ID.First <> "#"c Let data As Double() = (From s As String In row.Skip(1) Select Val(s)).ToArray Select New SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.CHUNK_BUFFER_EntityQuantities With {.UniqueId = ID, .Samples = data}).ToArray).ToArray.Unlist Select obj Group By obj.UniqueId Into Group).ToArray
         Dim GetModalLevel = (From GeneObject In RankMapping.AsParallel Select __levelMapping(GeneObject.Group.ToArray, p:=Level)).ToArray
