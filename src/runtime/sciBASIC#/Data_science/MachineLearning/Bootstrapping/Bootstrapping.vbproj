@@ -367,6 +367,14 @@
       <Project>{1b42809b-603f-4cea-a0db-91276582b9ca}</Project>
       <Name>DataMining</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Mathematica\Math\ODESolver.Extensions\ODESolver.Extensions.vbproj">
+      <Project>{731d9af0-0ac1-451a-8d57-d997d0c03d1d}</Project>
+      <Name>ODESolver.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Mathematica\Math\ODE\ODEsSolver.vbproj">
+      <Project>{14e0b048-3a0d-4fd6-aa79-9b815d6f1b30}</Project>
+      <Name>ODEsSolver</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MachineLearning\MachineLearning.vbproj">
       <Project>{a43ec013-2b55-4d25-b9f1-96bd5fb1e577}</Project>
       <Name>MachineLearning</Name>
@@ -374,10 +382,6 @@
     <ProjectReference Include="..\..\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mathematica\Math\ODE\ODEsSolver.vbproj">
-      <Project>{14e0b048-3a0d-4fd6-aa79-9b815d6f1b30}</Project>
-      <Name>ODEsSolver</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
