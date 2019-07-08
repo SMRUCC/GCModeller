@@ -1,8 +1,7 @@
-﻿Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
-Imports TopologyInference
+﻿Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Imports Microsoft.VisualBasic.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
-Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 
 Public Class Genome : Implements Chromosome(Of Genome)
 
@@ -19,9 +18,16 @@ Public Class Genome : Implements Chromosome(Of Genome)
         width = chr.A.Dim
     End Sub
 
-    Public Function Crossover(another As Genome) As IEnumerable(Of Genome) Implements Chromosome(Of Genome).Crossover
+    Public Iterator Function Crossover(another As Genome) As IEnumerable(Of Genome) Implements Chromosome(Of Genome).Crossover
+        Dim clone As New Genome(Me.chromosome.Clone)
+        Dim chromosome = clone.chromosome
+        ' dim(A) is equals to dim(C) and is equals to dim(X)
+        Dim i As Integer = randf.NextInteger(upper:=width)
+
         If FlipCoin() Then
-            ' 
+            ' crossover A
+        Else
+            ' crossover C
         End If
     End Function
 
