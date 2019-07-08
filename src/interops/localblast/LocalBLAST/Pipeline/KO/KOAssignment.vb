@@ -47,8 +47,9 @@ Namespace Pipeline
             Dim KO1, KO2 As String
 
             For Each query In drr.populateHitGroup
-                ' [queryName => [KO => alignment]]
-                Dim forwards = drfBesthits.TryGetValue(query.Name)
+                ' [queryName => [taxonomy => alignment]]
+                Dim queryName = query.Name.Split.First
+                Dim forwards = drfBesthits.TryGetValue(queryName)
                 Dim forwardTaxonomy = forwards.Value
 
                 ' current query have no bbh result
@@ -147,10 +148,10 @@ Namespace Pipeline
                                 Return rtax.OrderByDescending(Function(a) a.Score).First
                             End Function) _
                     .ToDictionary(Function(best)
-                                      Return getKey(best).Split("|"c).First
+                                      Return getKey(best).Split("|"c).Last
                                   End Function)
 
-                ' [queryName => [KO => alignment]]
+                ' [queryName => [taxonomy => alignment]]
                 Yield New NamedValue(Of Dictionary(Of String, BestHit)) With {
                     .Name = query.Key,
                     .Value = taxonomyTopHit

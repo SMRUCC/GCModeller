@@ -118,14 +118,29 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
  _
                 () <= From hit As SubjectHit
                       In SubjectHits
-                      Let identity = If(hit.Score Is Nothing, DirectCast(hit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.Identities.Value).Average, hit.Score.Identities.Value)
-                      Let rawScore = If(hit.Score Is Nothing, DirectCast(hit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.RawScore).Average, hit.Score.RawScore)
-                      Where hit.LengthQuery / QueryLength >= coverage AndAlso
-                          identity >= identities
+                      Let identity = getIdentity(hit)
+                      Let rawScore = getRawScore(hit)
+                      Where hit.LengthQuery / QueryLength >= coverage AndAlso identity >= identities
                       Order By rawScore Descending
                       Select hit
 
             Return LQuery
+        End Function
+
+        Private Shared Function getRawScore(hit As SubjectHit) As Double
+            If hit.Score Is Nothing Then
+                Return DirectCast(hit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.RawScore).Average
+            Else
+                Return hit.Score.RawScore
+            End If
+        End Function
+
+        Private Shared Function getIdentity(hit As SubjectHit) As Double
+            If hit.Score Is Nothing Then
+                Return DirectCast(hit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.Identities.Value).Average
+            Else
+                Return hit.Score.Identities.Value
+            End If
         End Function
 
         ''' <summary>
