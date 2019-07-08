@@ -260,6 +260,7 @@ Partial Module CLI
                 .CLICode
         Else
             Return KOAssignment.KOassignmentBBH(queryVsUniprot, uniprotVsquery) _
+                .ToArray _
                 .SaveTo(out) _
                 .CLICode
         End If
