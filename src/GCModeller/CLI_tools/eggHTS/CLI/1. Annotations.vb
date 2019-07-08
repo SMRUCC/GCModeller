@@ -543,6 +543,8 @@ Partial Module CLI
 
     ''' <summary>
     ''' 总蛋白注释绘制KEGG分布图
+    ''' 
+    ''' ##### 20190707 也可以使用这个函数从sbh或者bbh的结果表格之中导出KO的注释信息
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
