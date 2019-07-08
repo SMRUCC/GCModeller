@@ -60,7 +60,7 @@ Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 
 <Package("Phenotype.Tree.CLI",
                   Category:=APICategories.CLI_MAN,
@@ -148,7 +148,7 @@ Public Module CLI
                 .Maps = color.ToHtmlColor
             }
 
-        For Each node As Node In net.Nodes
+        For Each node As Node In net.nodes
             For Each cluster In memberColors
                 If cluster.Key.IndexOf(node.ID) > -1 Then
                     node.Add("color", cluster.Maps)

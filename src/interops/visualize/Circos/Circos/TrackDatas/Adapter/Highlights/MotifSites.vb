@@ -57,7 +57,7 @@ Namespace TrackDatas.Highlights
         Sub New(sites As IEnumerable(Of IMotifSite), Optional chr$ = "chr1")
             Dim array As IMotifSite() = sites.ToArray
             Dim types$() = array _
-                .Select(Function(x) x.Type) _
+                .Select(Function(x) x.family) _
                 .Distinct _
                 .ToArray
 
@@ -67,14 +67,14 @@ Namespace TrackDatas.Highlights
  _
               From gene As IMotifSite
               In array
-              Let COG As String = If(String.IsNullOrEmpty(gene.Type), "-", gene.Type)
+              Let COG As String = If(String.IsNullOrEmpty(gene.family), "-", gene.family)
               Let fill As String = If(
                   COGColors.ContainsKey(COG),
                   COGColors(COG),
                   CircosColor.DefaultCOGColor)
               Select New ValueTrackData With {
-                  .start = CInt(gene.Site.Left),
-                  .end = CInt(gene.Site.Right),
+                  .start = CInt(gene.site.Left),
+                  .end = CInt(gene.site.Right),
                   .value = 1,
                   .chr = chr,
                   .formatting = New Formatting With {

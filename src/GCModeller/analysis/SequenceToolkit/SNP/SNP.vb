@@ -95,7 +95,7 @@ Public Class SNP
     <Column("Length (with gaps)")>
     Public Property TotalLength As Integer
     <Column("Polymorphism Type")>
-    Public Property PolymorphismType As String Implements IMotifSite.Type
+    Public Property PolymorphismType As String Implements IMotifSite.family
     <Column("Variant Nucleotide(s)")>
     Public Property VariantNucleotides As String
 

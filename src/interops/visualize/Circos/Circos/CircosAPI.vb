@@ -359,7 +359,7 @@ different with the ideogram configuration document was not included in the circo
     ''' Mapping details:
     ''' 
     ''' ```
-    ''' <see cref="IMotifSite.Type"/> -> <see cref="Color"/>
+    ''' <see cref="IMotifSite.family"/> -> <see cref="Color"/>
     ''' <see cref="IMotifSite.Name"/> -> display title label
     ''' ```
     ''' </summary>

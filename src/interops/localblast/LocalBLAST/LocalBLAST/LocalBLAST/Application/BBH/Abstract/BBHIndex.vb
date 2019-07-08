@@ -131,7 +131,7 @@ Namespace LocalBLAST.Application.BBH.Abstract
             If trim Then
                 LQuery = (From x As BBHIndex
                           In source
-                          Where x.Matched
+                          Where x.isMatched
                           Select New KeyValuePair(Of String, String)(x.QueryName.Split(":"c).Last, x.HitName.Split(":"c).Last))
             Else
                 LQuery = (From x As BBHIndex

@@ -45,18 +45,15 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.Interops.Visualize.Phylip
 Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeAlignment
 
 Partial Module CLI
@@ -67,7 +64,7 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim PTT As String = args("/PTT")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-Comparative/")
-        Dim meta As BestHit = [in].LoadXml(Of BestHit)
+        Dim meta As SpeciesBesthit = [in].LoadXml(Of SpeciesBesthit)
         Dim model As DrawingModel = MetaAPI.FromMetaData(meta, PTT)
     End Function
 

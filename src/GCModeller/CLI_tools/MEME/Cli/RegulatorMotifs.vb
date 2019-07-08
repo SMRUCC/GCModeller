@@ -106,12 +106,14 @@ Partial Module CLI
         Dim bbh = inBBH.LoadCsv(Of BBHIndex)
         Dim hitsHash = (From x As BBHIndex
                         In bbh
-                        Where x.Matched
+                        Where x.isMatched
                         Select uid = x.HitName.Split(":"c).Last,
                             x
                         Group By uid Into Group) _
                             .ToDictionary(Function(x) x.uid,
-                                          Function(x) x.Group.Select(Function(xx) xx.x))
+                                          Function(x)
+                                              Return x.Group.Select(Function(xx) xx.x)
+                                          End Function)
         Dim genomes As BacteriaRegulome() = (ls - l - wildcards("*.Xml") <= inDIR) _
             .Select(AddressOf SafeLoadXml(Of BacteriaRegulome))
         Dim all As String() = genomes.Select(Function(x) x.ListRegulators).Unlist.Distinct.ToArray
