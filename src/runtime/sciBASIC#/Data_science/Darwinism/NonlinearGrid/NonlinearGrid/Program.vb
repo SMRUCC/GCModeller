@@ -20,5 +20,7 @@ Module Program
                                        EnvironmentDriver(Of Genome).CreateReport(i, e, g).ToString.__DEBUG_ECHO
                                    End Sub)
         Call engine.Train()
+
+        Pause()
     End Sub
 End Module
