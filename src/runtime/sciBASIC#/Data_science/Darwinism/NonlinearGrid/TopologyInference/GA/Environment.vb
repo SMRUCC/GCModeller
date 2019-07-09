@@ -6,6 +6,12 @@ Public Class Environment : Implements Fitness(Of Genome)
 
     Dim matrix As (status As Vector, target As Double)()
 
+    Public ReadOnly Property Cacheable As Boolean Implements Fitness(Of Genome).Cacheable
+        Get
+            Return False
+        End Get
+    End Property
+
     Sub New(trainingSet As IEnumerable(Of Sample))
         matrix = trainingSet _
             .Select(Function(sample)
@@ -13,12 +19,6 @@ Public Class Environment : Implements Fitness(Of Genome)
                     End Function) _
             .ToArray
     End Sub
-
-    Public ReadOnly Property Cacheable As Boolean Implements Fitness(Of Genome).Cacheable
-        Get
-            Return False
-        End Get
-    End Property
 
     Public Function Calculate(chromosome As Genome) As Double Implements Fitness(Of Genome).Calculate
         Return matrix _
