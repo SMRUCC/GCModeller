@@ -1,7 +1,10 @@
-﻿Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class Genome : Implements Chromosome(Of Genome)
@@ -61,5 +64,19 @@ Public Class Genome : Implements Chromosome(Of Genome)
         End If
 
         Return clone
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Overrides Function ToString() As String
+        Return width _
+            .SeqIterator _
+            .Select(Function(i)
+                        Dim sign = chromosome.A(i)
+                        Dim c = chromosome.C(i).B.Sum
+
+                        Return sign * c
+                    End Function) _
+            .ToArray _
+            .GetJson
     End Function
 End Class
