@@ -14,7 +14,7 @@ Public Module Loader
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function EmptyGridSystem(width As Integer) As GridSystem
         Return New GridSystem With {
-            .A = Vector.Zero(width),
+            .A = Vector.Ones(width),
             .C = width.SeqIterator _
                 .Select(Function(null)
                             Return New Correlation With {
