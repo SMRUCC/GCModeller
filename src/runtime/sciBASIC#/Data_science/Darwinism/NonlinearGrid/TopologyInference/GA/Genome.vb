@@ -19,16 +19,23 @@ Public Class Genome : Implements Chromosome(Of Genome)
     End Sub
 
     Public Iterator Function Crossover(another As Genome) As IEnumerable(Of Genome) Implements Chromosome(Of Genome).Crossover
-        Dim clone As New Genome(Me.chromosome.Clone)
-        Dim chromosome = clone.chromosome
-        ' dim(A) is equals to dim(C) and is equals to dim(X)
-        Dim i As Integer = randf.NextInteger(upper:=width)
+        Dim a = Me.chromosome.Clone
+        Dim b = another.chromosome.Clone
 
         If FlipCoin() Then
             ' crossover A
+            randf.seeds.Crossover(a.A.Array, b.A.Array)
         Else
+            ' dim(A) is equals to dim(C) and is equals to dim(X)
+            Dim i As Integer = randf.NextInteger(upper:=width)
+            Dim j As Integer = randf.NextInteger(upper:=width)
+
             ' crossover C
+            randf.seeds.Crossover(a.C(i).B.Array, b.C(j).B.Array)
         End If
+
+        Yield New Genome(a)
+        Yield New Genome(b)
     End Function
 
     Public Function Mutate() As Genome Implements Chromosome(Of Genome).Mutate
