@@ -27,8 +27,9 @@ Public Module Loader
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function CreateSnapshot(genome As Genome) As GridMatrix
+    Public Function CreateSnapshot(genome As Genome, error#) As GridMatrix
         Return New GridMatrix With {
+            .[error] = [error],
             .direction = genome.chromosome.A.ToArray,
             .matrix = genome.chromosome _
                 .C _
