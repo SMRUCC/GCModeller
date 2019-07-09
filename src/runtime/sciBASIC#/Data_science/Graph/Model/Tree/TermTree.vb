@@ -1,8 +1,12 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Runtime.Serialization
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' A tree with string term as key
 ''' </summary>
+''' 
+<DataContract>
 Public Class TermTree(Of T) : Inherits Tree(Of T, String)
 
     Default Public Overloads Property Child(path As String) As T
@@ -62,5 +66,10 @@ Public Class TermTree(Of T) : Inherits Tree(Of T, String)
 
             Return DirectCast(Childs([next]), TermTree(Of T)).Add(path.Skip(1).ToArray, value)
         End If
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function GetJson(Optional indent As Boolean = False) As String
+        Return JsonContract.GetJson(Me, indent, knownTypes:={GetType(TermTree(Of T))})
     End Function
 End Class
