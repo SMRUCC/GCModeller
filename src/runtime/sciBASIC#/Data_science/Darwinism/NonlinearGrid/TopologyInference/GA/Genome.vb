@@ -9,13 +9,13 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class Genome : Implements Chromosome(Of Genome)
 
-    ReadOnly A As Double() = {-1, 0, 1}
-    ReadOnly chromosome As GridSystem
+    Friend ReadOnly chromosome As GridSystem
 
     ''' <summary>
     ''' Number of system variables.
     ''' </summary>
     ReadOnly width As Integer
+    ReadOnly A As Double() = {-1, 0, 1}
 
     Sub New(chr As GridSystem)
         chromosome = chr

@@ -1,5 +1,7 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Public Module Loader
 
@@ -8,6 +10,8 @@ Public Module Loader
     ''' </summary>
     ''' <param name="width"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function EmptyGridSystem(width As Integer) As GridSystem
         Return New GridSystem With {
             .A = Vector.Zero(width),
@@ -15,6 +19,23 @@ Public Module Loader
                 .Select(Function(null)
                             Return New Correlation With {
                                 .B = Vector.Zero(width)
+                            }
+                        End Function) _
+                .ToArray
+        }
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function CreateSnapshot(genome As Genome) As GridMatrix
+        Return New GridMatrix With {
+            .direction = genome.chromosome.A.ToArray,
+            .matrix = genome.chromosome _
+                .C _
+                .Select(Function(c, i)
+                            Return New NumericVector With {
+                                .name = i,
+                                .vector = c.B.ToArray
                             }
                         End Function) _
                 .ToArray

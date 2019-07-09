@@ -17,7 +17,8 @@ Module Program
         }
 
         Call engine.AttachReporter(Sub(i, e, g)
-                                       EnvironmentDriver(Of Genome).CreateReport(i, e, g).ToString.__DEBUG_ECHO
+                                       Call EnvironmentDriver(Of Genome).CreateReport(i, e, g).ToString.__DEBUG_ECHO
+                                       Call g.Best.CreateSnapshot.GetXml.SaveTo("./grid.Xml")
                                    End Sub)
         Call engine.Train()
 
