@@ -1,8 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.NonlinearGridTopology
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
-Imports TopologyInference
 
 Module Program
 
