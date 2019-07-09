@@ -1,4 +1,5 @@
-﻿''' <summary>
+﻿Imports System.Runtime.CompilerServices
+''' <summary>
 ''' A tree with string term as key
 ''' </summary>
 Public Class TermTree(Of T) : Inherits Tree(Of T, String)
@@ -28,6 +29,17 @@ Public Class TermTree(Of T) : Inherits Tree(Of T, String)
             .Parent = Me,
             .Childs = New Dictionary(Of String, Tree(Of T, String))
         }
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="path">Path tokens should seperated with delimiter ``/``.</param>
+    ''' <param name="value"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function Add(path As String, value As T) As TermTree(Of T)
+        Return Add(path.Split("/"c), value)
     End Function
 
     Public Function Add(path As String(), value As T) As TermTree(Of T)
