@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class Genome : Implements Chromosome(Of Genome)
@@ -17,6 +18,10 @@ Public Class Genome : Implements Chromosome(Of Genome)
         chromosome = chr
         width = chr.A.Dim
     End Sub
+
+    Public Function CalculateError(status As Vector, target As Double) As Double
+        Return Math.Abs(chromosome.Evaluate(status) - target)
+    End Function
 
     Public Iterator Function Crossover(another As Genome) As IEnumerable(Of Genome) Implements Chromosome(Of Genome).Crossover
         Dim a = Me.chromosome.Clone
