@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+
 ''' <summary>
 ''' A tree with string term as key
 ''' </summary>
@@ -12,6 +13,10 @@ Public Class TermTree(Of T) : Inherits Tree(Of T, String)
             Visit(path.Split("/"c)).Data = value
         End Set
     End Property
+
+    Sub New()
+        Call MyBase.New(qualDeli:="/")
+    End Sub
 
     Public Function Visit(path As String()) As TermTree(Of T)
         If path.Length = 1 Then
@@ -39,7 +44,7 @@ Public Class TermTree(Of T) : Inherits Tree(Of T, String)
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Add(path As String, value As T) As TermTree(Of T)
-        Return Add(path.Split("/"c), value)
+        Return Add(path.Trim("/"c).Split("/"c), value)
     End Function
 
     Public Function Add(path As String(), value As T) As TermTree(Of T)
