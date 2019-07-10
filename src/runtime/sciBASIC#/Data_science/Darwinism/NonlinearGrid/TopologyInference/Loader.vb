@@ -19,6 +19,8 @@ Public Module Loader
                 .Select(Function(null)
                             ' 全部使用负数初始化,可以让整个指数为负数
                             ' 从而避免一开始就出现无穷大的结果???
+                            '
+                            ' 但是如果样本之中的X向量中存在一个非常小的数,则会反而被无限放大??
                             Return New Correlation With {
                                 .B = Vector.rand(-0.05, 0, width)
                             }
