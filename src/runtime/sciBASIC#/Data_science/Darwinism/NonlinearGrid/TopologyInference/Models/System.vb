@@ -32,6 +32,9 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
             .A = New Vector(A.AsEnumerable),
             .C = C _
                 .Select(Function(ci) ci.Clone) _
+                .ToArray,
+            .P = P _
+                .Select(Function(pi) pi.Clone) _
                 .ToArray
         }
     End Function

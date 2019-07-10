@@ -25,6 +25,16 @@ Public Module Loader
                                 .B = Vector.rand(-0.05, 0, width)
                             }
                         End Function) _
+                .ToArray,
+            .P = width.SeqIterator _
+                .Select(Function(null)
+                            ' 累乘效应是十分大的,所以在一开始应该
+                            ' 是全部设置为零,这样子权重系数就全部都是1
+                            ' 没有对结果产生影响
+                            Return New PWeight With {
+                                .W = Vector.Zero(width)
+                            }
+                        End Function) _
                 .ToArray
         }
     End Function
@@ -35,12 +45,21 @@ Public Module Loader
         Return New GridMatrix With {
             .[error] = [error],
             .direction = genome.chromosome.A.ToArray,
-            .matrix = genome.chromosome _
+            .correlations = genome.chromosome _
                 .C _
                 .Select(Function(c, i)
                             Return New NumericVector With {
                                 .name = i,
                                 .vector = c.B.ToArray
+                            }
+                        End Function) _
+                .ToArray,
+            .weights = genome.chromosome _
+                .P _
+                .Select(Function(p, i)
+                            Return New NumericVector With {
+                                .name = i,
+                                .vector = p.W.ToArray
                             }
                         End Function) _
                 .ToArray
