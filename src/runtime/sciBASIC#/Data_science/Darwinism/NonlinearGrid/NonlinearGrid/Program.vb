@@ -47,25 +47,23 @@ Module Program
     End Function
 
     <ExportAPI("/training")>
-    <Usage("/training /in <trainingSet.Xml> [/model <model.XML> /out <output_model.Xml>]")>
+    <Usage("/training /in <trainingSet.Xml> [/model <model.XML> /popSize <default=5000> /out <output_model.Xml>]")>
     Public Function trainGA(args As CommandLine) As Integer
         Dim inFile As String = args <= "/in"
         Dim out$ = args("/out") Or $"{inFile.TrimSuffix}.minError.Xml"
         Dim model$ = args("/model")
+        Dim seed As GridSystem = Nothing
+        Dim popSize% = args("/popSize") Or 5000
 
         If Not inFile.FileExists Then
             Call "No input file was found!".PrintException
         Else
-            Call runGA(inFile, out, If(model.FileExists, model.LoadXml(Of GridMatrix).CreateSystem, Nothing))
+            seed = If(model.FileExists, model.LoadXml(Of GridMatrix).CreateSystem, Nothing)
         End If
 
-        Return 0
-    End Function
-
-    Private Sub runGA(inFile$, outFile$, seed As GridSystem)
         Dim trainingSet = inFile.LoadXml(Of DataSet)
         Dim chromesome As GridSystem = If(seed, Loader.EmptyGridSystem(trainingSet.width))
-        Dim population As Population(Of Genome) = New Genome(chromesome).InitialPopulation(5000)
+        Dim population As Population(Of Genome) = New Genome(chromesome).InitialPopulation(popSize)
         Dim fitness As Fitness(Of Genome) = New Environment(trainingSet.DataSamples.AsEnumerable)
         Dim ga As New GeneticAlgorithm(Of Genome)(population, fitness)
         Dim engine As New EnvironmentDriver(Of Genome)(ga) With {
@@ -81,5 +79,7 @@ Module Program
                                              .SaveTo(outFile)
                                    End Sub)
         Call engine.Train()
-    End Sub
+
+        Return 0
+    End Function
 End Module
