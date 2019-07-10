@@ -17,8 +17,10 @@ Public Module Loader
             .A = Vector.Ones(width),
             .C = width.SeqIterator _
                 .Select(Function(null)
+                            ' 全部使用负数初始化,可以让整个指数为负数
+                            ' 从而避免一开始就出现无穷大的结果???
                             Return New Correlation With {
-                                .B = Vector.rand(-0.01, 0.01, width)
+                                .B = Vector.rand(-0.05, 0, width)
                             }
                         End Function) _
                 .ToArray
