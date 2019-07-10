@@ -1,10 +1,13 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.NonlinearGridTopology
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Table = Microsoft.VisualBasic.Data.csv.IO.DataSet
 
 Module Program
 
@@ -17,9 +20,30 @@ Module Program
     Public Function Summary(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim data$ = args <= "/data"
-        Dim model = [in].LoadXml(Of GridMatrix)
+        Dim model = [in].LoadXml(Of GridMatrix).CreateSystem
         Dim dataset = data.LoadXml(Of DataSet)
+        Dim summaryResult = dataset.DataSamples _
+            .Select(Function(sample, i)
+                        Dim result = model.Evaluate(sample.status.vector)
 
+                        Return New Table With {
+                            .ID = sample.ID,
+                            .Properties = New Dictionary(Of String, Double) From {
+                                {"actual", sample.target(Scan0)},
+                                {"fit", result},
+                                {"errors", Math.Abs(sample.target(Scan0) - result)}
+                            }
+                        }
+                    End Function) _
+            .ToArray
+        Dim strings = summaryResult.ToCsvDoc _
+            .AsMatrix _
+            .Select(Function(r) r.ToArray) _
+            .ToArray
+
+        Call strings.PrintTable
+
+        Return 0
     End Function
 
     <ExportAPI("/training")>
