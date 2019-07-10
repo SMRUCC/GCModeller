@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.NonlinearGridTopology
@@ -6,15 +8,34 @@ Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 
 Module Program
 
-    Sub Main()
-        Dim inFile As String = App.Command
+    Public Function Main() As Integer
+        Return GetType(Program).RunCLI(App.CommandLine)
+    End Function
+
+    <ExportAPI("/summary")>
+    <Usage("/summary /in <model.Xml> /data <trainingSet.Xml>")>
+    Public Function Summary(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim data$ = args <= "/data"
+        Dim model = [in].LoadXml(Of GridMatrix)
+        Dim dataset = data.LoadXml(Of DataSet)
+
+    End Function
+
+    <ExportAPI("/training")>
+    <Usage("/training /in <trainingSet.Xml> [/out <output_model.Xml>]")>
+    Public Function trainGA(args As CommandLine) As Integer
+        Dim inFile As String = args <= "/in"
+        Dim out$ = args("/out") Or $"{inFile.TrimSuffix}.minError.Xml"
 
         If Not inFile.FileExists Then
             Call "No input file was found!".PrintException
         Else
-            Call runGA(inFile, $"{inFile.TrimSuffix}.minError.Xml")
+            Call runGA(inFile, out)
         End If
-    End Sub
+
+        Return 0
+    End Function
 
     Private Sub runGA(inFile$, outFile$)
         Dim trainingSet = inFile.LoadXml(Of DataSet)
