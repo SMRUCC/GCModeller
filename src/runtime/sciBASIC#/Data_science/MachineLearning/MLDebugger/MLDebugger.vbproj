@@ -128,6 +128,7 @@
     <Compile Include="ANN\ANNDebugger.vb" />
     <Compile Include="ANN\FrameExports.vb" />
     <Compile Include="Extensions.vb" />
+    <Compile Include="DataSetExtensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
