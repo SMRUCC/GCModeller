@@ -228,6 +228,10 @@ Namespace Text.Xml.Linq
         ''' <param name="path">文件路径</param>
         ''' <param name="typeName">目标节点名称,默认是使用类型<typeparamref name="T"/>的名称</param>
         ''' <param name="xmlns">``xmlns=...``,只需要给出等号后面的url即可</param>
+        ''' <param name="selector">
+        ''' 在加载数据集的时候,过滤掉一些不使用的数据,可以节省很多内存以及减少数据的加载时间.
+        ''' 因为后续的Xml反序列化操作在大数据集合下话费的时间会非常长
+        ''' </param>
         ''' <returns></returns>
         <Extension>
         Public Function LoadUltraLargeXMLDataSet(Of T As Class)(path$,
