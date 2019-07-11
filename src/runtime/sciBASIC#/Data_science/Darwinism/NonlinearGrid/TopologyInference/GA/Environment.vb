@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
@@ -29,6 +30,6 @@ Public Class Environment : Implements Fitness(Of Genome)
             .Select(Function(sample)
                         Return chromosome.CalculateError(sample.status, sample.target)
                     End Function) _
-            .Average
+            .AverageError
     End Function
 End Class
