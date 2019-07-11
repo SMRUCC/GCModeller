@@ -192,13 +192,17 @@ Module CLI
     End Function
 
     <ExportAPI("/tabular")>
-    <Usage("/tabular /in <dataset.XML> [/out <table.csv>]")>
+    <Usage("/tabular /in <dataset.XML> [/output.marked /out <table.csv>]")>
     <Description("CLI tool for convert xml dataset to csv table.")>
+    <Argument("/output.marked", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="All of the column name of the data output will be marked in format like ``[name]``, 
+              if this argument is presents in the commandline input.")>
     Public Function Tabular(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.tabular.csv"
         Dim data = [in].LoadXml(Of DataSet)
-        Dim table = data.ToTable
+        Dim table = data.ToTable(args("/output.marked"))
 
         Return table.SaveTo(out).CLICode
     End Function
