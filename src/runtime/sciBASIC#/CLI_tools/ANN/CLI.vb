@@ -191,6 +191,18 @@ Module CLI
         Return New Config().WriteProfile(args("/save") Or "./config.ini")
     End Function
 
+    <ExportAPI("/tabular")>
+    <Usage("/tabular /in <dataset.XML> [/out <table.csv>]")>
+    <Description("CLI tool for convert xml dataset to csv table.")>
+    Public Function Tabular(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.tabular.csv"
+        Dim data = [in].LoadXml(Of DataSet)
+        Dim table = data.ToTable
+
+        Return table.SaveTo(out).CLICode
+    End Function
+
     ''' <summary>
     ''' Print all of the available activation functions for write config file.
     ''' </summary>
