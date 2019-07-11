@@ -39,6 +39,12 @@ Public Module Loader
         }
     End Function
 
+    ''' <summary>
+    ''' Create dataset of the factors in the grid system, and then we are able to save the model to file
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="error#"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function CreateSnapshot(genome As Genome, error#) As GridMatrix

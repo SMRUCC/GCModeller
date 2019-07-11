@@ -2,17 +2,33 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.NonlinearGridTopology
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.Text
 Imports Table = Microsoft.VisualBasic.Data.csv.IO.DataSet
 
 Module Program
 
     Public Function Main() As Integer
         Return GetType(Program).RunCLI(App.CommandLine)
+    End Function
+
+    <ExportAPI("/dump.network")>
+    <Usage("/dump.network /in <model.Xml> [/threshold <default=1> /out <out.directory>]")>
+    Public Function DumpAsNetwork(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim threshold As Double = args("/threshold")
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.threshold={threshold}.network/"
+        Dim matrix As GridMatrix = [in].LoadXml(Of GridMatrix)
+        Dim graph As NetworkGraph = matrix.CreateGraph(cutoff:=threshold)
+        Dim network = graph.Tabular
+
+        Return network.Save(out, Encodings.ASCII).CLICode
     End Function
 
     <ExportAPI("/summary")>
