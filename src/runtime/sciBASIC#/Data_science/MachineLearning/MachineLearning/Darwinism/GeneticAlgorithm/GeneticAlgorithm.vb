@@ -187,19 +187,25 @@ Namespace Darwinism.GAF
         ''' <summary>
         ''' 并行化过程之中的单个迭代
         ''' </summary>
-        ''' <param name="i%"></param>
+        ''' <param name="i">种群之中的个体的序号,也就是即将发生的目标个体</param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 进化发生的契机是个体的突变,这体现在
+        '''
+        ''' 1. 个体的基因组的变异,可能产生错误率更低的新个体
+        ''' 2. 突变体和其他个体随机杂交,可能会产生错误率更低的新个体
+        '''
+        ''' 在这个函数中,需要完成的就是这两种突变的发生
+        ''' </remarks>
         Private Iterator Function evolIterate(i%) As IEnumerable(Of Chr)
             Dim chromosome As Chr = population(i)
-            Dim mutated As Chr = chromosome.Mutate()   ' 突变
+            Dim mutated As Chr = chromosome.Mutate()
             Dim rnd As Random = seeds()
-            Dim otherChromosome As Chr = population.Random(rnd)  ' 突变体和其他个体随机杂交
-            Dim crossovered As IEnumerable(Of Chr) = mutated.Crossover(otherChromosome) ' chromosome.Crossover(otherChromosome)
+            Dim otherChromosome As Chr = population.Random(rnd)
+            Dim crossovered As IEnumerable(Of Chr) = mutated.Crossover(otherChromosome)
 
-            ' --------- 新修改的
             otherChromosome = population.Random(rnd)
             crossovered = crossovered.Join(chromosome.Crossover(otherChromosome))
-            ' ---------
 
             Yield mutated
 
