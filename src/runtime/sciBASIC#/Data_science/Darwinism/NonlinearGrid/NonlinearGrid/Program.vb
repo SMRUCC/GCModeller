@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -79,11 +80,14 @@ Module Program
 
         Dim trainingSet = inFile.LoadXml(Of DataSet)
 
-        Call RunFitProcess(trainingSet.DataSamples.AsEnumerable, trainingSet.width, out, seed, popSize)
+        Call trainingSet.DataSamples _
+            .AsEnumerable _
+            .RunFitProcess(trainingSet.width, out, seed, popSize)
 
         Return 0
     End Function
 
+    <Extension>
     Public Sub RunFitProcess(trainingSet As IEnumerable(Of Sample), width%, outFile$, seed As GridSystem, popSize%)
         Dim chromesome As GridSystem = If(seed, Loader.EmptyGridSystem(width))
         Dim population As Population(Of Genome) = New Genome(chromesome).InitialPopulation(popSize)

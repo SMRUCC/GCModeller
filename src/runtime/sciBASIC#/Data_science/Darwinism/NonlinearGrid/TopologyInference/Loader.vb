@@ -22,7 +22,7 @@ Public Module Loader
                             '
                             ' 但是如果样本之中的X向量中存在一个非常小的数,则会反而被无限放大??
                             Return New Correlation With {
-                                .B = Vector.rand(0, 1 ^ -10, width)
+                                .B = Vector.rand(-1 ^ 10, 1 ^ -10, width)
                             }
                         End Function) _
                 .ToArray,
