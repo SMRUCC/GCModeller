@@ -77,14 +77,24 @@ Namespace NeuralNetwork.Activations
         Public Overrides Function [Function](x As Double) As Double
             If x < threshold Then
                 Return threshold
+            ElseIf Truncate > 0 Then
+                Return ValueTruncate(x, Truncate)
             Else
                 Return x
             End If
         End Function
 
+        Public Overrides Function CalculateDerivative(x As Double) As Double
+            If x < threshold Then
+                Return threshold
+            Else
+                Return 1
+            End If
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function Derivative(x As Double) As Double
-			If x < threshold Then
+        Protected Overrides Function Derivative(x As Double) As Double
+            If x < threshold Then
                 Return threshold
             Else
                 Return 1

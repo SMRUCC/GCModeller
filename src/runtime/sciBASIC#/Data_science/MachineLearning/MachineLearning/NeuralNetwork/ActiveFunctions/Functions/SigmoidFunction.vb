@@ -62,7 +62,7 @@ Namespace NeuralNetwork.Activations
         End Property
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function Derivative(x As Double) As Double
+        Protected Overrides Function Derivative(x As Double) As Double
             Return x * (1 - x)
         End Function
 

@@ -148,7 +148,7 @@ Namespace NeuralNetwork.Activations
         ''' 
         ''' <remarks>The method calculates function derivative at point <paramref name="x"/>.</remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function Derivative(x As Double) As Double
+        Protected Overrides Function Derivative(x As Double) As Double
             Return (_Alpha * (1 - x * x) / 2)
         End Function
 

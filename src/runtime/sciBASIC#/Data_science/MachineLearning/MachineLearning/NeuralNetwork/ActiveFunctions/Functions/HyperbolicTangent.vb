@@ -46,7 +46,7 @@ Namespace NeuralNetwork.Activations
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function Derivative(x As Double) As Double
+        Protected Overrides Function Derivative(x As Double) As Double
             Return 1 / (sys.Cosh(x) ^ 2)
         End Function
 

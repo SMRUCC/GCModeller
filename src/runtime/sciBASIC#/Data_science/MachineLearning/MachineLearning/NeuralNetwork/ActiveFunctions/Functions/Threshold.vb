@@ -105,6 +105,10 @@ Namespace NeuralNetwork.Activations
             Return If((x >= 0), 1, 0)
         End Function
 
+        Public Overrides Function CalculateDerivative(x As Double) As Double
+            Return 0
+        End Function
+
         ''' <summary>
         ''' Calculates function derivative (not supported).
         ''' </summary>
@@ -116,7 +120,7 @@ Namespace NeuralNetwork.Activations
         ''' <remarks><para><note>The method is not supported, because it is not possible to
         ''' calculate derivative of the function.</note></para></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function Derivative(x As Double) As Double
+        Protected Overrides Function Derivative(x As Double) As Double
             Return 0
         End Function
 

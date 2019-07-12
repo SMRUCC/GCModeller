@@ -64,12 +64,27 @@ Namespace NeuralNetwork.Activations
 
         Public MustOverride ReadOnly Property Store As ActiveFunction
 
+        ''' <summary>
+        ''' 因为激活函数在求导之后,结果值可能会出现无穷大
+        ''' 所以可以利用这个值来限制求导之后的结果最大值
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Truncate As Double = 100
+
         Default Public ReadOnly Property Evaluate(x As Double) As Double
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Me.Function(x)
             End Get
         End Property
+
+        Public Overridable Function CalculateDerivative(x As Double) As Double
+            If Truncate > 0 Then
+                Return ValueTruncate(Derivative(x), Truncate)
+            Else
+                Return Derivative(x)
+            End If
+        End Function
 
         ''' <summary>
         ''' Calculates function value.
@@ -89,7 +104,7 @@ Namespace NeuralNetwork.Activations
         ''' <remarks>
         ''' The method calculates function derivative at point <paramref name="x"/>.
         ''' </remarks>
-        Public MustOverride Function Derivative(x As Double) As Double
+        Protected MustOverride Function Derivative(x As Double) As Double
 
         ''' <summary>
         ''' 必须要重写这个函数来将函数对象序列化为表达式字符串文本
