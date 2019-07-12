@@ -155,7 +155,7 @@ Namespace NeuralNetwork
         ''' <remarks>
         ''' 赋值给<see cref="Value"/>,然后返回<see cref="Value"/>
         ''' </remarks>
-        Public Overridable Function CalculateValue(doDropOut As Boolean) As Double
+        Public Overridable Function CalculateValue(doDropOut As Boolean, truncate As Double) As Double
             ' 在这里的计算过程为:
             ' 使用突触链接的权重值乘上当该突触的上游输入节点的训练值 + 误差
             ' 使用遗传算法进行优化的时候,可以将bias设置零
@@ -168,6 +168,10 @@ Namespace NeuralNetwork
                     .Sum(Function(a) a.Value)
             Else
                 Value = InputSynapses.Sum(Function(a) a.Value)
+            End If
+
+            If truncate > 0 Then
+                Value = ValueTruncate(Value, truncate)
             End If
 
             Value = activation.Function(Value + Bias)

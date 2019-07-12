@@ -3,10 +3,10 @@
   <!--
      model:     Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure.NeuralNetwork
      assembly:  Microsoft.VisualBasic.MachineLearning, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-     md5:       ffb3b94268bdc4b62a69f439c913c9fe
+     md5:       f5161115c9791f379f59d4b2ec1c681b
      timestamp: Friday, July 12, 2019
   -->
   <learnRate>0.1</learnRate>
   <momentum>0.9</momentum>
-  <errors>0.038476388503677135</errors>
+  <errors>0.040766611388641877</errors>
 </NeuralNetwork>

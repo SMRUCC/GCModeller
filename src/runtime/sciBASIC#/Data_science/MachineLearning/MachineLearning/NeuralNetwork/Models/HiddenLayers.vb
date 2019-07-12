@@ -121,12 +121,12 @@ Namespace NeuralNetwork
         ''' 因为输入的样本信息在网络之中的传播是有方向性的
         ''' 所以这个函数的layer之间不可以出现并行关系
         ''' </remarks>
-        Public Sub ForwardPropagate(parallel As Boolean)
+        Public Sub ForwardPropagate(parallel As Boolean, truncate As Double)
             For Each layer As Layer In Layers
                 ' 2018-12-19
                 ' 虽然隐藏层数量比较少,但是每一个隐藏层之中,神经元节点数量可能会很多
                 ' 所以下面的这个函数的调用,内部实现应该是并行的?
-                Call layer.CalculateValue(parallel)
+                Call layer.CalculateValue(parallel, truncate)
             Next
         End Sub
 
