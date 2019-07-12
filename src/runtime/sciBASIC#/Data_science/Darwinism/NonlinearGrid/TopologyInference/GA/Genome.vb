@@ -23,7 +23,13 @@ Public Class Genome : Implements Chromosome(Of Genome)
     End Sub
 
     Public Function CalculateError(status As Vector, target As Double) As Double
-        Return Math.Abs(chromosome.Evaluate(status) - target)
+        Dim predicts = chromosome.Evaluate(status)
+
+        If predicts.IsNaNImaginary Then
+            Return Double.MaxValue
+        Else
+            Return Math.Abs(predicts - target)
+        End If
     End Function
 
     Public Iterator Function Crossover(another As Genome) As IEnumerable(Of Genome) Implements Chromosome(Of Genome).Crossover
@@ -39,8 +45,13 @@ Public Class Genome : Implements Chromosome(Of Genome)
                 Dim i As Integer = randf.NextInteger(upper:=width)
                 Dim j As Integer = randf.NextInteger(upper:=width)
 
+                ' If FlipCoin() Then
                 ' crossover C
                 randf.seeds.Crossover(a.C(i).B.Array, b.C(j).B.Array)
+                'Else
+                '    ' crossover P
+                '    randf.seeds.Crossover(a.P(i).W.Array, b.P(j).W.Array)
+                'End If
             End If
         End SyncLock
 
@@ -58,9 +69,13 @@ Public Class Genome : Implements Chromosome(Of Genome)
             ' mutate one bit in A vector
             ' A only have -1, 0, 1
             chromosome.A(i) = A(randf.NextInteger(upper:=3))
+            ' ElseIf FlipCoin(50) Then
+
         Else
             ' mutate one bit in C vector
             chromosome.C(i).B.Array.Mutate(randf.seeds)
+            ' mutate one bit in P vector
+            ' chromosome.P(i).W.Array.Mutate(randf.seeds)
         End If
 
         Return clone
@@ -73,8 +88,9 @@ Public Class Genome : Implements Chromosome(Of Genome)
             .Select(Function(i)
                         Dim sign = chromosome.A(i)
                         Dim c = chromosome.C(i).B.Sum
+                        ' Dim p = chromosome.P(i).W.Sum
 
-                        Return sign * c
+                        Return sign * (c) '+ p)
                     End Function) _
             .ToArray _
             .GetJson
