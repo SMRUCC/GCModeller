@@ -501,7 +501,8 @@
     <Compile Include="AppEngine\APPManager.vb" />
     <Compile Include="AppEngine\CookieParser.vb" />
     <Compile Include="AppEngine\ExternalCall.vb" />
-    <Compile Include="AppEngine\SessionManager.vb" />
+    <Compile Include="AppEngine\Sessions\Session.vb" />
+    <Compile Include="AppEngine\Sessions\SessionManager.vb" />
     <Compile Include="AppEngine\WebApp.vb" />
     <Compile Include="AppEngine\API\APIInvoker.vb" />
     <Compile Include="Core\WebSocket\Events.vb" />
