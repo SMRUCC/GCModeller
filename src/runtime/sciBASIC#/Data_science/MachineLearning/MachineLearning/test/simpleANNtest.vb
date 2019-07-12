@@ -84,6 +84,11 @@ Module simpleANNtest
         samples += New Sample With {.ID = ++id, .status = {0, 0, 0, 0, 0, 0}, .target = {1, 0, 0, 0.1, 0.61}}
 
 
+        Call New SampleList With {.items = samples}.CreateDataSet.GetXml.SaveTo("D:\GCModeller\src\runtime\sciBASIC#\Data_science\MachineLearning\MachineLearning\NeuralNetwork\Demo_data.Xml")
+
+
+        Pause()
+
         Dim trainer As New TrainingUtils(6, {100, 300, 30}, 5, momentum:=0.9)
 
         Helpers.MaxEpochs = 5000
