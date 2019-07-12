@@ -348,6 +348,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="NeuralNetwork\ActiveFunctions\BipolarSigmoid.vb" />
+    <Compile Include="NeuralNetwork\ActiveFunctions\HyperbolicTangent.vb" />
     <Compile Include="NeuralNetwork\ActiveFunctions\LayerActives.vb" />
     <Compile Include="NeuralNetwork\ActiveFunctions\IActivationFunction.vb" />
     <Compile Include="NeuralNetwork\ActiveFunctions\ReLU.vb" />
