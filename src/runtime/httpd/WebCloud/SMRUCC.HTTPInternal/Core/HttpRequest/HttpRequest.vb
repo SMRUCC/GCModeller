@@ -60,7 +60,7 @@ Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
 Imports SMRUCC.WebCloud.HTTPInternal.Core
 Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
-Namespace AppEngine.APIMethods.Arguments
+Namespace Core
 
     ''' <summary>
     ''' Data of the http request

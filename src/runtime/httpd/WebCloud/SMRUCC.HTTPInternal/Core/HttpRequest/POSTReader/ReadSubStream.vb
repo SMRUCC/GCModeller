@@ -48,7 +48,7 @@
 
 Imports System.IO
 
-Namespace AppEngine.POSTParser
+Namespace Core.Stream
 
     Public Class ReadSubStream : Inherits Stream
 
