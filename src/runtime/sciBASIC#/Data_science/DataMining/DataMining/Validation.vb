@@ -274,3 +274,9 @@ Public Structure Validation
         Next
     End Function
 End Structure
+
+Public Structure Validate
+    Dim actuals As Double()
+    Dim predicts As Double()
+    Dim labels As String()
+End Structure
