@@ -88,20 +88,18 @@ Namespace Darwinism.GAF.Helper
         Public Function AverageError(errors As IEnumerable(Of Double)) As Double
             Dim rawErrs = errors.ToArray
             Dim errVector As Double() = rawErrs _
-                .Where(Function(e) Not e.IsNaNImaginary) _
+                .Select(Function(e)
+                            If Not e.IsNaNImaginary AndAlso
+                                e <> Double.MaxValue AndAlso
+                                e <> Double.MinValue Then
+                                Return e
+                            Else
+                                Return Long.MaxValue
+                            End If
+                        End Function) _
                 .ToArray
 
-            If errVector.Length = 0 Then
-                Return Double.MaxValue
-            ElseIf rawErrs.Length <> errVector.Length Then
-                Return errVector.Average * (rawErrs.Length - errVector.Length) * 1000
-            Else
-                ' 假设大部分的数值都是Inf,只有一个结果是很小的数据的话
-                ' 会产生一个很小的误差结果值
-                ' 导致往错误的方向优化
-                ' 在上面的代码中通过乘以一个惩罚分数来避免这个bug的产生
-                Return errVector.Average
-            End If
+            Return errVector.Average
         End Function
     End Module
 End Namespace
