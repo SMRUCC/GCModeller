@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-16"?>
 <HiddenLayer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" size="4">
-  <activation name="BipolarSigmoid">
-    <Arguments name="alpha">2</Arguments>
-  </activation>
+  <activation name="HyperbolicTangent" />
   <layers size="100" id="1">
     <neuron>6B</neuron>
     <neuron>6C</neuron>
