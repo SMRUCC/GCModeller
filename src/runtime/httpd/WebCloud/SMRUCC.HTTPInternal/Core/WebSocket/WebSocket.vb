@@ -50,6 +50,9 @@ Imports System.Timers
 
 Namespace Core.WebSocket
 
+    ''' <summary>
+    ''' WebSocket server
+    ''' </summary>
     Public Class WsServer : Inherits TcpListener
 
         Public Event OnClientConnect As OnClientConnectDelegate

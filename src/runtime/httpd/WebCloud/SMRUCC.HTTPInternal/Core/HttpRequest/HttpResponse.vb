@@ -62,7 +62,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.WebCloud.HTTPInternal.Core
 
-Namespace AppEngine.APIMethods.Arguments
+Namespace Core
 
     Public Class HttpResponse : Implements IDisposable
 
