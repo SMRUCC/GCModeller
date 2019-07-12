@@ -8,5 +8,5 @@
   -->
   <learnRate>0.1</learnRate>
   <momentum>0.9</momentum>
-  <errors>0.122379493637524</errors>
+  <errors>0.1086609061289673</errors>
 </NeuralNetwork>

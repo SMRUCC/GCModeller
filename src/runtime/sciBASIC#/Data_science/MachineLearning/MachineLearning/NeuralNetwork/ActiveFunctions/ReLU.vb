@@ -84,7 +84,11 @@ Namespace NeuralNetwork.Activations
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function Derivative(x As Double) As Double
-            Return 1
+			If x < threshold Then
+                Return threshold
+            Else
+                Return 1
+            End If
         End Function
 
         Public Overrides Function ToString() As String
