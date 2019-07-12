@@ -120,21 +120,6 @@ Namespace NeuralNetwork.Activations
             Return 0
         End Function
 
-        ''' <summary>
-        ''' Calculates function derivative (not supported).
-        ''' </summary>
-        ''' 
-        ''' <param name="y">Input value.</param>
-        ''' 
-        ''' <returns>Always returns 0.</returns>
-        ''' 
-        ''' <remarks><para><note>The method is not supported, because it is not possible to
-        ''' calculate derivative of the function.</note></para></remarks>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function Derivative2(y As Double) As Double
-            Return 0
-        End Function
-
         Public Overrides Function ToString() As String
             Return $"{NameOf(Threshold)}()"
         End Function

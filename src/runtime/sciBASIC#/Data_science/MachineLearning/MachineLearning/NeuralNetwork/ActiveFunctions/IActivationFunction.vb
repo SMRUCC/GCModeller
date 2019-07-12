@@ -89,26 +89,6 @@ Namespace NeuralNetwork.Activations
         Public MustOverride Function Derivative(x As Double) As Double
 
         ''' <summary>
-        ''' Calculates function derivative.
-        ''' </summary>
-        ''' 
-        ''' <param name="y">Function output value - the value, which was obtained
-        ''' with the help of "Function" method.</param>
-        ''' 
-        ''' <returns>Function derivative, <i>f'(x)</i>.</returns>
-        ''' 
-        ''' <remarks><para>The method calculates the same derivative value as the
-        ''' <see cref="Derivative"/> method, but it takes not the input <b>x</b> value
-        ''' itself, but the function value, which was calculated previously with
-        ''' the help of "Function" method.</para>
-        ''' 
-        ''' <para><note>Some applications require as function value, as derivative value,
-        ''' so they can save the amount of calculations using this method to calculate derivative.</note></para>
-        ''' </remarks>
-        ''' 
-        Public MustOverride Function Derivative2(y As Double) As Double
-
-        ''' <summary>
         ''' 必须要重写这个函数来将函数对象序列化为表达式字符串文本
         ''' </summary>
         ''' <returns></returns>

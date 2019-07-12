@@ -71,11 +71,6 @@ Namespace NeuralNetwork.Activations
             Return If(x < -45.0, 0.0, If(x > 45.0, 1.0, 1.0 / (1.0 + Math.Exp(-x))))
         End Function
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function Derivative2(y As Double) As Double
-            Return Derivative(y)
-        End Function
-
         Public Overrides Function ToString() As String
             Return $"{NameOf(SigmoidFunction)}()"
         End Function

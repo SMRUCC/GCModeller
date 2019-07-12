@@ -58,7 +58,7 @@ Namespace NeuralNetwork
     ''' <summary>
     ''' 人工神经网络计算用的对象模型
     ''' 
-    ''' https://github.com/trentsartain/Neural-Network
+    ''' > https://github.com/trentsartain/Neural-Network
     ''' </summary>
     Public Class Network : Inherits Model
 

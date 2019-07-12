@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports sys = System.Math
 
 Namespace NeuralNetwork.Activations
@@ -43,12 +44,10 @@ Namespace NeuralNetwork.Activations
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function Derivative(x As Double) As Double
-            Return 1 / (sys.Cosh([Function](x)) ^ 2)
-        End Function
-
-        Public Overrides Function Derivative2(y As Double) As Double
-            Return 1 / (sys.Cosh(y) ^ 2)
+            Return 1 / (sys.Cosh(x) ^ 2)
         End Function
 
         Public Overrides Function ToString() As String
