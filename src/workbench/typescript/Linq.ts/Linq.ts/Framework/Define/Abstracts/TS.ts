@@ -44,12 +44,9 @@
         ): void;
 
         /**
-         * 将目标序列转换为一个表格HTML节点元素
+         * 将目标序列转换为一个HTML节点元素
         */
-        evalHTML<T extends {}>(
-            rows: T[] | IEnumerator<T>,
-            headers?: string[] | IEnumerator<string> | IEnumerator<MapTuple<string, string>> | MapTuple<string, string>[],
-            attrs?: Internal.TypeScriptArgument): HTMLTableElement;
+        evalHTML: HtmlDocumentDeserializer;
 
         <T>(array: T[]): IEnumerator<T>;
 
@@ -81,7 +78,7 @@
          * @param iframe ``#xxx``编号查询表达式
          * @param fun 目标函数，请注意，这个函数应该是尽量不引用依赖其他对象的
         */
-        inject(iframe: string, fun: (Delegate.Func | string)[] | string | Delegate.Func): void;
+        inject(iframe: string, fun: (Delegate.Func<any> | string)[] | string | Delegate.Func<any>): void;
 
         /**
          * 动态加载脚本
@@ -92,6 +89,8 @@
         eval(script: string, lzw_decompress?: boolean, callback?: () => void): void;
 
         /**
+         * 从当前的html页面之中选择一个指定的节点，然后将节点内的文本以json格式进行解析
+         * 
          * @param id HTML元素的id，可以同时兼容编号和带``#``的编号
         */
         loadJSON(id: string): any;
@@ -100,6 +99,14 @@
          * @param htmlText 主要是针对``<pre>``标签之中的VB.NET代码
         */
         text(id: string, htmlText?: boolean): string;
+
+        /**
+         * 这个函数主要是应用于``<input>``, ``<textarea>``以及``<select>``标签对象
+         * 的value属性值的读取操作
+         * 
+         * @param id 目标``<input>``标签对象的``id``编号
+        */
+        value(id: string): any;
 
         /**
          * isNullOrUndefined
@@ -130,6 +137,16 @@
          * @param url 目标数据源，这个参数也支持meta标签查询语法
         */
         get<T>(url: string, callback?: ((response: IMsg<T>) => void)): void;
+
+        /**
+         * GET a text file on your web server.
+        */
+        getText(url: string,
+            callback: (text: string) => void,
+            options?: {
+                nullForNotFound: boolean
+            }): void;
+
         /**
          * File upload helper
          * 
@@ -188,104 +205,5 @@
         */
         withExtensionName(path: string, ext: string): boolean;
         doubleRange(x: number[] | IEnumerator<number>): data.NumericRange;
-    }
-
-    export interface IURL {
-
-        /**
-         * 获取得到GET参数
-        */
-        (arg: string, caseSensitive?: boolean, Default?: string): string;
-
-        readonly path: string;
-        readonly fileName: string;
-
-        /**
-         * 获取当前的url之中的hash值，这个返回来的哈希标签是默认不带``#``符号前缀的
-         * 
-         * @returns 这个函数不会返回空值或者undefined，只会返回空字符串或者hash标签值
-        */
-        hash(trimprefix?: boolean): string
-    }
-
-    export interface GotoOptions {
-        currentFrame?: boolean;
-        lambda?: boolean;
-    }
-
-    export interface IquerySelector {
-        <T extends HTMLElement>(query: string, context?: Window): DOMEnumerator<T>;
-
-        /**
-         * query参数应该是节点id查询表达式
-        */
-        getSelectedOptions(query: string, context?: Window): DOMEnumerator<HTMLOptionElement>;
-        /**
-         * 获取得到select控件的选中的选项值，没做选择则返回null
-         * 
-         * @param query id查询表达式，这个函数只支持单选模式的结果，例如select控件以及radio控件
-         * @returns 返回被选中的项目的value属性值
-        */
-        getOption(query: string, context?: Window): string;
-    }
-
-    export interface IcsvHelperApi {
-
-        /**
-         * 将csv文档文本进行解析，然后反序列化为js对象的集合
-        */
-        toObjects<T>(data: string): IEnumerator<T>;
-        /**
-         * 将js的对象序列进行序列化，构建出csv格式的文本文档字符串数据
-        */
-        toText<T>(data: IEnumerator<T> | T[]): string;
-    }
-
-    /**
-     * 这个参数对象模型主要是针对创建HTML对象的
-    */
-    export interface TypeScriptArgument {
-        /**
-         * HTML节点对象的编号（通用属性）
-        */
-        id?: string;
-        /**
-         * HTML节点对象的CSS样式字符串（通用属性）
-        */
-        style?: string;
-        /**
-         * HTML节点对象的class类型（通用属性）
-        */
-        class?: string | string[];
-        type?: string;
-        href?: string;
-        /**
-         * 应用于``<a>``标签进行文件下载重命名文件所使用的
-        */
-        download?: string;
-        target?: string;
-        src?: string;
-        width?: string | number;
-        height?: string | number;
-        /**
-         * 进行查询操作的上下文环境，这个主要是针对iframe环境之中的操作的
-        */
-        context?: Window;
-        title?: string;
-        name?: string;
-        /**
-         * HTML的输入控件的预设值
-        */
-        value?: string | number | boolean;
-        for?: string;
-
-        /**
-         * 处理HTML节点对象的点击事件，这个属性值应该是一个无参数的函数来的
-        */
-        onclick?: Delegate.Sub | string;
-
-        "data-toggle"?: string;
-        "data-target"?: string;
-        "aria-hidden"?: boolean;
     }
 }

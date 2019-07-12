@@ -81,3 +81,10 @@ namespace Framework.Extensions {
         return to;
     }
 }
+
+namespace TypeScript {
+
+    export function gc() {
+        return garbageCollect.handler();
+    }
+}

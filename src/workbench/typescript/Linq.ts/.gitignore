@@ -12,6 +12,9 @@ db.lock
 *.ide-wal
 bin/
 
+packages/
+obj/
+
 # Runtime data
 pids
 *.pid
@@ -81,3 +84,6 @@ obj/
 
 
 Apps/
+*.sqlite-journal
+*.user
+*.pdb
