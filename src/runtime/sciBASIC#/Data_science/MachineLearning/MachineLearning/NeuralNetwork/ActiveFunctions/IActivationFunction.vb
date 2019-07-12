@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::56243c01bc66bfe7b1d456ab53f07120, Data_science\MachineLearning\MachineLearning\NeuralNetwork\ActiveFunctions\IActivationFunction.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class IActivationFunction
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class IActivationFunction
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,6 +47,7 @@
 ' andrew.kirillov@gmail.com
 '
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 
 Namespace NeuralNetwork.Activations
@@ -54,38 +55,40 @@ Namespace NeuralNetwork.Activations
     ''' <summary>
     ''' Activation function interface.
     ''' </summary>
-    ''' 
-    ''' <remarks>All activation functions, which are supposed to be used with
+    ''' <remarks>
+    ''' All activation functions, which are supposed to be used with
     ''' neurons, which calculate their output as a function of weighted sum of
     ''' their inputs, should implement this interfaces.
     ''' </remarks>
-    ''' 
     Public MustInherit Class IActivationFunction
 
         Public MustOverride ReadOnly Property Store As ActiveFunction
 
+        Default Public ReadOnly Property Evaluate(x As Double) As Double
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Me.Function(x)
+            End Get
+        End Property
+
         ''' <summary>
         ''' Calculates function value.
         ''' </summary>
-        '''
         ''' <param name="x">Function input value.</param>
-        ''' 
         ''' <returns>Function output value, <i>f(x)</i>.</returns>
-        '''
-        ''' <remarks>The method calculates function value at point <paramref name="x"/>.</remarks>
-        '''
+        ''' <remarks>
+        ''' The method calculates function value at point <paramref name="x"/>.
+        ''' </remarks>
         Public MustOverride Function [Function](x As Double) As Double
 
         ''' <summary>
         ''' Calculates function derivative.
         ''' </summary>
-        ''' 
         ''' <param name="x">Function input value.</param>
-        ''' 
         ''' <returns>Function derivative, <i>f'(x)</i>.</returns>
-        ''' 
-        ''' <remarks>The method calculates function derivative at point <paramref name="x"/>.</remarks>
-        '''
+        ''' <remarks>
+        ''' The method calculates function derivative at point <paramref name="x"/>.
+        ''' </remarks>
         Public MustOverride Function Derivative(x As Double) As Double
 
         ''' <summary>

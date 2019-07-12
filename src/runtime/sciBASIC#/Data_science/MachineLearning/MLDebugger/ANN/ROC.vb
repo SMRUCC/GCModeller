@@ -27,7 +27,7 @@ Public Module ROC
                               getValidate:=Function(x, threshold) x.actuals(i) >= threshold,
                               getPredict:=Function(x, threshold) x.predicts(i) >= threshold,
                               threshold:=thresholdSeq
-                          )
+                          ).ToArray
                           Dim AUCValue = Validation.AUC(validations)
 
                           Return AUCValue
