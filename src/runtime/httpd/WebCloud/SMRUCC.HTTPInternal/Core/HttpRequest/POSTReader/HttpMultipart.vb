@@ -51,7 +51,7 @@ Imports System.Text
 Imports System.IO
 Imports Microsoft.VisualBasic.Language
 
-Namespace Core.Stream
+Namespace Core.HttpStream
 
     ''' <summary>
     ''' Stream-based multipart handling.

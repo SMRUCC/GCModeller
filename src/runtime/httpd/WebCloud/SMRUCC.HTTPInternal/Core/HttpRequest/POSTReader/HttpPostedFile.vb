@@ -79,7 +79,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.Language
 
-Namespace Core.Stream
+Namespace Core.HttpStream
 
     Public Class HttpPostedFile
 
