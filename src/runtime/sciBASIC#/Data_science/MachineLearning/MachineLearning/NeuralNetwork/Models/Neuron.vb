@@ -193,7 +193,7 @@ Namespace NeuralNetwork
         ''' <returns></returns>
         Public Function CalculateGradient(target As Double, truncate As Double) As Double
             Dim err = CalculateError(target)
-            Dim dfdt = activation.Derivative(Value)
+            Dim dfdt = activation.CalculateDerivative(Value)
 
             ' 防止出现 0 * Inf = NaN
             If err = 0R OrElse dfdt = 0R Then
@@ -227,7 +227,7 @@ Namespace NeuralNetwork
                 Gradient = OutputSynapses.Sum(Function(a) a.Gradient)
             End If
 
-            Dim dfdt = activation.Derivative(Value)
+            Dim dfdt = activation.CalculateDerivative(Value)
 
             If Gradient = 0R OrElse dfdt = 0R Then
                 Gradient = 0
