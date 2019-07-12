@@ -494,6 +494,7 @@
   <ItemGroup>
     <Compile Include="AppEngine\APIName.vb" />
     <Compile Include="AppEngine\API\APIMethod.vb" />
+    <Compile Include="Core\FileSystem\InternalUpdates.vb" />
     <Compile Include="Core\HttpRequest\HttpRequest.vb" />
     <Compile Include="Core\HttpRequest\HttpResponse.vb" />
     <Compile Include="AppEngine\API\Methods.vb" />
@@ -505,12 +506,14 @@
     <Compile Include="AppEngine\Sessions\SessionManager.vb" />
     <Compile Include="AppEngine\WebApp.vb" />
     <Compile Include="AppEngine\API\APIInvoker.vb" />
+    <Compile Include="Core\FileSystem\FileNode.vb" />
+    <Compile Include="Core\FileSystem\VirtualFileSystem.vb" />
     <Compile Include="Core\WebSocket\Events.vb" />
     <Compile Include="Core\WebSocket\Operations.vb" />
     <Compile Include="Core\WebSocket\WsProcessor.vb" />
     <Compile Include="Core\WebSocket\WebSocket.vb" />
     <Compile Include="Extensions.vb" />
-    <Compile Include="Core\CachedFile.vb" />
+    <Compile Include="Core\FileSystem\CachedFile.vb" />
     <Compile Include="Core\Content.vb" />
     <Compile Include="Core\HttpFileSystem.vb" />
     <Compile Include="Core\HttpProcessor.vb" />
