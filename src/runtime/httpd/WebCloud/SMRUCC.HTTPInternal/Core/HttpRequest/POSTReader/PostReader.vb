@@ -54,7 +54,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace AppEngine.POSTParser
+Namespace Core.HttpStream
 
     ''' <summary>
     ''' POST参数的解析工具

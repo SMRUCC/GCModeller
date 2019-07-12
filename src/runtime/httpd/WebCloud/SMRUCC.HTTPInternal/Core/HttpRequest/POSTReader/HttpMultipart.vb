@@ -51,7 +51,7 @@ Imports System.Text
 Imports System.IO
 Imports Microsoft.VisualBasic.Language
 
-Namespace AppEngine.POSTParser
+Namespace Core.HttpStream
 
     ''' <summary>
     ''' Stream-based multipart handling.
@@ -294,11 +294,11 @@ Namespace AppEngine.POSTParser
             Dim elem As New Element()
             Dim header As New Value(Of String)
             While (header = ReadHeaders()) IsNot Nothing
-                If StrUtils.StartsWith(header.value, "Content-Disposition:", True) Then
-                    elem.Name = GetContentDispositionAttribute(header.value, "name")
-                    elem.Filename = StripPath(GetContentDispositionAttributeWithEncoding(header.value, "filename"))
-                ElseIf StrUtils.StartsWith(header.value, "Content-Type:", True) Then
-                    elem.ContentType = header.value.Substring("Content-Type:".Length).Trim()
+                If StrUtils.StartsWith(header.Value, "Content-Disposition:", True) Then
+                    elem.Name = GetContentDispositionAttribute(header.Value, "name")
+                    elem.Filename = StripPath(GetContentDispositionAttributeWithEncoding(header.Value, "filename"))
+                ElseIf StrUtils.StartsWith(header.Value, "Content-Type:", True) Then
+                    elem.ContentType = header.Value.Substring("Content-Type:".Length).Trim()
                 End If
             End While
 

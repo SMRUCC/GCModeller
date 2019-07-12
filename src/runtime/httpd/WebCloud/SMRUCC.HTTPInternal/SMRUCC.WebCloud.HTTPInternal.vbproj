@@ -494,8 +494,8 @@
   <ItemGroup>
     <Compile Include="AppEngine\APIName.vb" />
     <Compile Include="AppEngine\API\APIMethod.vb" />
-    <Compile Include="AppEngine\API\args\HttpRequest.vb" />
-    <Compile Include="AppEngine\API\args\HttpResponse.vb" />
+    <Compile Include="Core\HttpRequest\HttpRequest.vb" />
+    <Compile Include="Core\HttpRequest\HttpResponse.vb" />
     <Compile Include="AppEngine\API\Methods.vb" />
     <Compile Include="AppEngine\APPEngine.vb" />
     <Compile Include="AppEngine\APPManager.vb" />
@@ -537,10 +537,10 @@
     <Compile Include="Platform\Submodule.vb" />
     <Compile Include="Platform\Plugin\ExternalCall.vb" />
     <Compile Include="Platform\Plugin\PluginBase.vb" />
-    <Compile Include="AppEngine\POSTReader\HttpMultipart.vb" />
-    <Compile Include="AppEngine\POSTReader\HttpPostedFile.vb" />
-    <Compile Include="AppEngine\POSTReader\PostReader.vb" />
-    <Compile Include="AppEngine\POSTReader\ReadSubStream.vb" />
+    <Compile Include="Core\HttpRequest\POSTReader\HttpMultipart.vb" />
+    <Compile Include="Core\HttpRequest\POSTReader\HttpPostedFile.vb" />
+    <Compile Include="Core\HttpRequest\POSTReader\PostReader.vb" />
+    <Compile Include="Core\HttpRequest\POSTReader\ReadSubStream.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -569,6 +569,7 @@
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
