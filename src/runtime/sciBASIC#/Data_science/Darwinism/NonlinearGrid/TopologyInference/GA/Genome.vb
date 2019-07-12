@@ -1,34 +1,62 @@
-﻿Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class Genome : Implements Chromosome(Of Genome)
 
-    ReadOnly A As Double() = {-1, 0, 1}
-    ReadOnly chromosome As GridSystem
+    Friend ReadOnly chromosome As GridSystem
 
     ''' <summary>
     ''' Number of system variables.
     ''' </summary>
     ReadOnly width As Integer
+    ReadOnly A As Double() = {-1, 0, 1}
 
     Sub New(chr As GridSystem)
         chromosome = chr
         width = chr.A.Dim
     End Sub
 
-    Public Iterator Function Crossover(another As Genome) As IEnumerable(Of Genome) Implements Chromosome(Of Genome).Crossover
-        Dim clone As New Genome(Me.chromosome.Clone)
-        Dim chromosome = clone.chromosome
-        ' dim(A) is equals to dim(C) and is equals to dim(X)
-        Dim i As Integer = randf.NextInteger(upper:=width)
+    Public Function CalculateError(status As Vector, target As Double) As Double
+        Dim predicts = chromosome.Evaluate(status)
 
-        If FlipCoin() Then
-            ' crossover A
+        If predicts.IsNaNImaginary Then
+            Return Double.MaxValue
         Else
-            ' crossover C
+            Return Math.Abs(predicts - target)
         End If
+    End Function
+
+    Public Iterator Function Crossover(another As Genome) As IEnumerable(Of Genome) Implements Chromosome(Of Genome).Crossover
+        Dim a = Me.chromosome.Clone
+        Dim b = another.chromosome.Clone
+
+        SyncLock randf.seeds
+            If FlipCoin() Then
+                ' crossover A
+                randf.seeds.Crossover(a.A.Array, b.A.Array)
+            Else
+                ' dim(A) is equals to dim(C) and is equals to dim(X)
+                Dim i As Integer = randf.NextInteger(upper:=width)
+                Dim j As Integer = randf.NextInteger(upper:=width)
+
+                ' If FlipCoin() Then
+                ' crossover C
+                randf.seeds.Crossover(a.C(i).B.Array, b.C(j).B.Array)
+                'Else
+                '    ' crossover P
+                '    randf.seeds.Crossover(a.P(i).W.Array, b.P(j).W.Array)
+                'End If
+            End If
+        End SyncLock
+
+        Yield New Genome(a)
+        Yield New Genome(b)
     End Function
 
     Public Function Mutate() As Genome Implements Chromosome(Of Genome).Mutate
@@ -41,11 +69,30 @@ Public Class Genome : Implements Chromosome(Of Genome)
             ' mutate one bit in A vector
             ' A only have -1, 0, 1
             chromosome.A(i) = A(randf.NextInteger(upper:=3))
+            ' ElseIf FlipCoin(50) Then
+
         Else
             ' mutate one bit in C vector
             chromosome.C(i).B.Array.Mutate(randf.seeds)
+            ' mutate one bit in P vector
+            ' chromosome.P(i).W.Array.Mutate(randf.seeds)
         End If
 
         Return clone
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Overrides Function ToString() As String
+        Return width _
+            .SeqIterator _
+            .Select(Function(i)
+                        Dim sign = chromosome.A(i)
+                        Dim c = chromosome.C(i).B.Sum
+                        ' Dim p = chromosome.P(i).W.Sum
+
+                        Return sign * (c) '+ p)
+                    End Function) _
+            .ToArray _
+            .GetJson
     End Function
 End Class

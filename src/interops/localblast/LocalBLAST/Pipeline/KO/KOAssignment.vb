@@ -94,7 +94,7 @@ Namespace Pipeline
                 ' finally
                 ' we can returns the new bbh result of current query
                 Yield New BiDirectionalBesthit With {
-                    .QueryName = query.Name,
+                    .QueryName = query.Name.Split().First,
                     .HitName = topScoreAlignment.forward.HitName.Split("|"c).First,
                     .Description = topScoreAlignment.forward.HitName,
                     .COG = .HitName,

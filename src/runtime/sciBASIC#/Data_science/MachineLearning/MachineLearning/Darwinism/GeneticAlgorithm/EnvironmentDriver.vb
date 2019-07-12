@@ -60,6 +60,10 @@ Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 
 Namespace Darwinism.GAF
 
+    ''' <summary>
+    ''' 发生种群进化所需要的环境压力产生器
+    ''' </summary>
+    ''' <typeparam name="Chr"></typeparam>
     Public Class EnvironmentDriver(Of Chr As Chromosome(Of Chr)) : Inherits IterationReporter(Of GeneticAlgorithm(Of Chr))
 
         Dim core As GeneticAlgorithm(Of Chr)
@@ -72,6 +76,10 @@ Namespace Darwinism.GAF
         Public Property Iterations As Integer
         Public Property Threshold As Double
 
+        ''' <summary>
+        ''' 创建一个新的环境压力驱动程序,用来驱动模型的进化学习
+        ''' </summary>
+        ''' <param name="ga"></param>
         Sub New(ga As GeneticAlgorithm(Of Chr))
             Me.core = ga
         End Sub
@@ -90,7 +98,10 @@ Namespace Darwinism.GAF
                     If Not reporter Is Nothing Then
                         Call reporter(i, .ByRef, core)
                     End If
-                    If .CompareTo(Threshold) < 0 Then
+
+                    ' NaN的结果值与阈值相比较也是小于零的
+                    ' 在这里跳过NaN值的测试
+                    If Not .IsNaNImaginary AndAlso .CompareTo(Threshold) < 0 Then
                         Exit For
                     End If
                 End With
@@ -119,7 +130,7 @@ Namespace Darwinism.GAF
             Return New outPrint With {
                 .iter = iteration,
                 .fit = bestFit,
-                .chromosome = best.ToString
+                .chromosome = best.ToString.MD5
             }
         End Function
     End Class

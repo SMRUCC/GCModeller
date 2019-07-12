@@ -272,6 +272,10 @@ Namespace Core
             If InStr(res, "http://", CompareMethod.Text) > 0 OrElse InStr(res, "https://", CompareMethod.Text) > 0 Then
                 res = Nothing
                 Return {}
+            Else
+                ' 假若存在空格之类的,会因为被js转义而无法识别
+                ' 在这里需要反转义一下
+                res = res.UrlDecode
             End If
 
             Try
