@@ -165,9 +165,9 @@ Namespace NeuralNetwork
                     .Where(Function(edge)
                                Return Not edge.InputNeuron.isDroppedOut
                            End Function) _
-                    .Sum(Function(a) a.Weight * a.InputNeuron.Value)
+                    .Sum(Function(a) a.Value)
             Else
-                Value = InputSynapses.Sum(Function(a) a.Weight * a.InputNeuron.Value)
+                Value = InputSynapses.Sum(Function(a) a.Value)
             End If
 
             Value = activation.Function(Value + Bias)
@@ -192,7 +192,15 @@ Namespace NeuralNetwork
         ''' <param name="truncate">大于零的时候，如果计算出来的<see cref="Gradient"/>大于这个阈值，将会被剪裁</param>
         ''' <returns></returns>
         Public Function CalculateGradient(target As Double, truncate As Double) As Double
-            Gradient = CalculateError(target) * activation.Derivative(Value)
+            Dim err = CalculateError(target)
+            Dim dfdt = activation.Derivative(Value)
+
+            ' 防止出现 0 * Inf = NaN
+            If err = 0R OrElse dfdt = 0R Then
+                Gradient = 0
+            Else
+                Gradient = err * dfdt
+            End If
 
             If truncate > 0 Then
                 Gradient = Helpers.ValueTruncate(Gradient, truncate)
@@ -214,12 +222,18 @@ Namespace NeuralNetwork
                     .Where(Function(edge)
                                Return Not edge.OutputNeuron.isDroppedOut
                            End Function) _
-                    .Sum(Function(a) a.OutputNeuron.Gradient * a.Weight)
+                    .Sum(Function(a) a.Gradient)
             Else
-                Gradient = OutputSynapses.Sum(Function(a) a.OutputNeuron.Gradient * a.Weight)
+                Gradient = OutputSynapses.Sum(Function(a) a.Gradient)
             End If
 
-            Gradient = Gradient * activation.Derivative(Value)
+            Dim dfdt = activation.Derivative(Value)
+
+            If Gradient = 0R OrElse dfdt = 0R Then
+                Gradient = 0
+            Else
+                Gradient = Gradient * dfdt
+            End If
 
             If truncate > 0 Then
                 Gradient = Helpers.ValueTruncate(Gradient, truncate)
@@ -238,8 +252,18 @@ Namespace NeuralNetwork
             Dim oldDelta As Double = BiasDelta
             Dim edges As IEnumerable(Of Synapse)
 
-            BiasDelta = learnRate * Gradient
-            Bias += BiasDelta + momentum * oldDelta
+            ' 在这里learnRate和momentum应该都是常数的
+            If Gradient = 0R Then
+                BiasDelta = 0
+            Else
+                BiasDelta = learnRate * Gradient
+            End If
+
+            If oldDelta = 0R Then
+                Bias += BiasDelta
+            Else
+                Bias += BiasDelta + momentum * oldDelta
+            End If
 
             If doDropOut Then
                 edges = InputSynapses _
@@ -252,8 +276,18 @@ Namespace NeuralNetwork
 
             For Each synapse As Synapse In edges
                 oldDelta = synapse.WeightDelta
-                synapse.WeightDelta = learnRate * Gradient * synapse.InputNeuron.Value
-                synapse.Weight += synapse.WeightDelta + momentum * oldDelta
+
+                If learnRate = 0R OrElse Gradient = 0R OrElse synapse.InputNeuron.Value = 0R Then
+                    synapse.WeightDelta = 0
+                Else
+                    synapse.WeightDelta = learnRate * Gradient * synapse.InputNeuron.Value
+                End If
+
+                If oldDelta = 0R Then
+                    synapse.Weight += synapse.WeightDelta
+                Else
+                    synapse.Weight += synapse.WeightDelta + momentum * oldDelta
+                End If
             Next
 
             Return 0
