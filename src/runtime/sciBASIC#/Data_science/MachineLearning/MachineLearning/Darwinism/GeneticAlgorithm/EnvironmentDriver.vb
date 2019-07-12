@@ -130,7 +130,7 @@ Namespace Darwinism.GAF
             Return New outPrint With {
                 .iter = iteration,
                 .fit = bestFit,
-                .chromosome = best.ToString.MD5
+                .chromosome = best.ToString
             }
         End Function
     End Class
