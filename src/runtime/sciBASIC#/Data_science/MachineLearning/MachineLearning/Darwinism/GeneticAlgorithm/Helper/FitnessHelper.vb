@@ -88,7 +88,7 @@ Namespace Darwinism.GAF.Helper
         Public Function AverageError(errors As IEnumerable(Of Double)) As Double
             Dim rawErrs = errors.ToArray
             Dim errVector As Double() = rawErrs _
-                .Where(Function(e) Not e.IsNaNImaginary AndAlso e < Double.MaxValue) _
+                .Where(Function(e) Not e.IsNaNImaginary) _
                 .ToArray
 
             If errVector.Length = 0 Then
