@@ -16,7 +16,7 @@ Module activeTest
         Dim SigmoidFunction As New SigmoidFunction
         Dim Threshold As New Threshold
 
-        For x As Double = min To max Step 0.5
+        For x As Double = min To max Step 0.1
             Yield New DataSet With {
                 .ID = x.ToHexString,
                 .Properties = New Dictionary(Of String, Double) From {
