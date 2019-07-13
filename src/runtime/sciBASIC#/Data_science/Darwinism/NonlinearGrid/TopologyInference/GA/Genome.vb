@@ -48,12 +48,12 @@ Public Class Genome : Implements Chromosome(Of Genome)
         Dim b = another.chromosome.Clone
 
         SyncLock randf.seeds
-            If FlipCoin() Then
+            If FlipCoin(40) Then
                 ' crossover A
                 randf.seeds.Crossover(a.A.Array, b.A.Array)
             End If
 
-            If FlipCoin() Then
+            If FlipCoin(40) Then
                 ' dim(A) is equals to dim(C) and is equals to dim(X)
                 Dim i As Integer = randf.NextInteger(upper:=width)
                 Dim j As Integer = randf.NextInteger(upper:=width)
