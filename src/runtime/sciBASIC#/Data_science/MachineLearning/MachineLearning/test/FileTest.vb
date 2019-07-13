@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9020688975cbeba50d27cc294957b90c, Data_science\MachineLearning\MachineLearning\test\FileTest.vb"
+﻿#Region "Microsoft.VisualBasic::6bfb78124e6b9775d18c928aed9b2180, Data_science\MachineLearning\MachineLearning\test\FileTest.vb"
 
     ' Author:
     ' 
@@ -39,11 +39,12 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Module FileTest
     Sub Main()

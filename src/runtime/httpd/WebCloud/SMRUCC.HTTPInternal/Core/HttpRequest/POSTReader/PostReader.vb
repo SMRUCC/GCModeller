@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b92da9ace3f6b9015db26005d71f0d93, WebCloud\SMRUCC.HTTPInternal\AppEngine\POSTReader\PostReader.vb"
+﻿#Region "Microsoft.VisualBasic::ae883b54063cf84ffc537fe9861fd14c, WebCloud\SMRUCC.HTTPInternal\Core\HttpRequest\POSTReader\PostReader.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,48 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::158cd2cd924466c8c6349ca7a19f7134, Data_science\Darwinism\NonlinearGrid\TopologyInference\GA\Genome.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class Genome
+    ' 
+    '     Properties: MutationRate
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: CalculateError, Crossover, Mutate, ToString
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
@@ -21,11 +65,16 @@ Public Class Genome : Implements Chromosome(Of Genome)
     ''' Number of system variables.
     ''' </summary>
     ReadOnly width As Integer
-    ReadOnly A As Double() = {-1, 0, 1}
 
-    Sub New(chr As GridSystem)
-        chromosome = chr
-        width = chr.A.Dim
+    ''' <summary>
+    ''' 突变程度
+    ''' </summary>
+    Public Property MutationRate As Double Implements Chromosome(Of Genome).MutationRate
+
+    Sub New(chr As GridSystem, mutationRate As Double)
+        Me.chromosome = chr
+        Me.width = chr.A.Dim
+        Me.MutationRate = mutationRate
     End Sub
 
     Public Function CalculateError(status As Vector, target As Double) As Double
@@ -43,12 +92,12 @@ Public Class Genome : Implements Chromosome(Of Genome)
         Dim b = another.chromosome.Clone
 
         SyncLock randf.seeds
-            If FlipCoin() Then
+            If FlipCoin(40) Then
                 ' crossover A
                 randf.seeds.Crossover(a.A.Array, b.A.Array)
             End If
 
-            If FlipCoin() Then
+            If FlipCoin(40) Then
                 ' dim(A) is equals to dim(C) and is equals to dim(X)
                 Dim i As Integer = randf.NextInteger(upper:=width)
                 Dim j As Integer = randf.NextInteger(upper:=width)
@@ -64,20 +113,20 @@ Public Class Genome : Implements Chromosome(Of Genome)
             ' End If
         End SyncLock
 
-        Yield New Genome(a)
-        Yield New Genome(b)
+        Yield New Genome(a, MutationRate)
+        Yield New Genome(b, MutationRate)
     End Function
 
     Public Function Mutate() As Genome Implements Chromosome(Of Genome).Mutate
-        Dim clone As New Genome(Me.chromosome.Clone)
+        Dim clone As New Genome(Me.chromosome.Clone, MutationRate)
         Dim chromosome = clone.chromosome
         ' dim(A) is equals to dim(C) and is equals to dim(X)
-        Dim i As Integer = randf.NextInteger(upper:=width)
+        Dim i As Integer
 
         If FlipCoin() Then
             ' mutate one bit in A vector
             ' A only have -1, 0, 1
-            chromosome.A(i) = A(randf.NextInteger(upper:=3))
+            chromosome.A.Array.Mutate(randf.seeds, rate:=MutationRate)
             ' ElseIf FlipCoin(50) Then
         End If
 
@@ -85,26 +134,29 @@ Public Class Genome : Implements Chromosome(Of Genome)
             If chromosome.AC = 0 Then
                 chromosome.AC = 1
             ElseIf FlipCoin() Then
-                chromosome.AC += randf.randf(0, chromosome.AC * 0.1)
+                chromosome.AC += randf.randf(0, chromosome.AC * MutationRate)
             Else
-                chromosome.AC -= randf.randf(0, chromosome.AC * 0.1)
+                chromosome.AC -= randf.randf(0, chromosome.AC * MutationRate)
             End If
         End If
 
         If FlipCoin() Then
+            i = randf.NextInteger(upper:=width)
             ' mutate one bit in C vector
-            chromosome.C(i).B.Array.Mutate(randf.seeds)
+            chromosome.C(i).B.Array.Mutate(randf.seeds, rate:=MutationRate)
             ' mutate one bit in P vector
             ' chromosome.P(i).W.Array.Mutate(randf.seeds)
         End If
 
         If FlipCoin() Then
+            i = randf.NextInteger(upper:=width)
+
             If chromosome.C(i).BC = 0 Then
                 chromosome.C(i).BC = 1
             ElseIf FlipCoin() Then
-                chromosome.C(i).BC += randf.randf(0, chromosome.C(i).BC * 0.1)
+                chromosome.C(i).BC += randf.randf(0, chromosome.C(i).BC * MutationRate)
             Else
-                chromosome.C(i).BC -= randf.randf(0, chromosome.C(i).BC * 0.1)
+                chromosome.C(i).BC -= randf.randf(0, chromosome.C(i).BC * MutationRate)
             End If
         End If
 

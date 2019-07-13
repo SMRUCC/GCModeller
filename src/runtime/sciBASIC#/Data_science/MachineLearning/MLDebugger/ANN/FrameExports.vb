@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d846bdcc79f6a3ba1102317a3d1aa703, Data_science\MachineLearning\MLDebugger\FrameExports.vb"
+﻿#Region "Microsoft.VisualBasic::b424b363e40ad81926efb551f42c475a, Data_science\MachineLearning\MLDebugger\ANN\FrameExports.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,7 @@ Imports Microsoft.VisualBasic.Data.IO.netCDF
 Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Normalizer
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
 Imports Basic = Microsoft.VisualBasic.Language.Runtime
 Imports DataFrame = Microsoft.VisualBasic.Data.csv.IO.DataFrame
 Imports Excel = Microsoft.VisualBasic.Data.csv.IO.DataSet
@@ -125,4 +125,3 @@ Public Module FrameExports
         Next
     End Function
 End Module
-

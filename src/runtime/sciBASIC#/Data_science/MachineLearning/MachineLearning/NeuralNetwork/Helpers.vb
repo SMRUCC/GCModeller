@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81680815159cb7b9a98f3e92dff86304, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Helpers.vb"
+﻿#Region "Microsoft.VisualBasic::bf2b1fb33400785a6bf0c7dca7345fb3, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Helpers.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,7 @@
     ' 
     '         Properties: MaxEpochs, MinimumError
     ' 
-    '         Function: GetRandom, (+2 Overloads) PopulateAllSynapses, RandomWeightInitializer, ToDataMatrix, UnifyWeightInitializer
-    '                   ValueTruncate
+    '         Function: GetRandom, (+2 Overloads) PopulateAllSynapses, RandomWeightInitializer, UnifyWeightInitializer, ValueTruncate
     ' 
     '     Enum TrainingType
     ' 
@@ -57,7 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
-Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
 Imports Microsoft.VisualBasic.Math
 
 Namespace NeuralNetwork
@@ -127,25 +126,6 @@ Namespace NeuralNetwork
                     Next
                 Next
             Next
-        End Function
-
-        <Extension>
-        Public Function ToDataMatrix(Of T As {New, DynamicPropertyBase(Of Double), INamedValue})(samples As IEnumerable(Of Sample), names$(), outputNames$()) As IEnumerable(Of T)
-            Dim nameIndex = names.SeqIterator
-            Dim outsIndex = outputNames.SeqIterator
-
-            Return samples _
-                .Select(Function(sample)
-                            Dim row As New T
-
-                            row.Key = sample.ID
-                            row.Properties = New Dictionary(Of String, Double)
-
-                            Call nameIndex.DoEach(Sub(i) Call row.Add(i.value, sample.status(i)))
-                            Call outsIndex.DoEach(Sub(i) Call row.Add(i.value, sample.target(i)))
-
-                            Return row
-                        End Function)
         End Function
     End Module
 

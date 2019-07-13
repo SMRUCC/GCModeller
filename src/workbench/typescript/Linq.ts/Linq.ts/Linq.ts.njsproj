@@ -42,6 +42,9 @@
     <TypeScriptCompile Include="Collections\Abstract\Iterator.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Collections\Matrix.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="csv\HTML.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -79,10 +82,13 @@
     <TypeScriptCompile Include="Data\MetaReader.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="Data\StackTrace\StackFrame.ts">
+    <TypeScriptCompile Include="DOM\DOMQueryTypes.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="Data\StackTrace\StackTrace.ts">
+    <TypeScriptCompile Include="Framework\StackTrace\StackFrame.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Framework\StackTrace\StackTrace.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Data\StringHelpers\StringBuilder.ts">
@@ -97,6 +103,9 @@
     <TypeScriptCompile Include="Data\StringHelpers\PathHelper.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Data\StringHelpers\Levenshtein.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Data\StringHelpers\URL.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -106,6 +115,15 @@
     <TypeScriptCompile Include="DOM\Extensions\TypeScriptExtends.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="DOM\InputValueGetter.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="DOM\DocumentEvents.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Framework\Define\Abstracts\TypeScriptArgument.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Framework\Delegate.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -113,6 +131,9 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Framework\Log4TypeScript.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Framework\garbageCollect.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Helpers\Benchmark.ts">
@@ -172,7 +193,7 @@
     <TypeScriptCompile Include="DOM\Extensions\HTMLTsElement.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="Framework\Define\TS.ts">
+    <TypeScriptCompile Include="Framework\Define\Abstracts\TS.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Framework\Define\Internal.ts">
@@ -199,9 +220,10 @@
     <TypeScriptCompile Include="Framework\Bootstrap.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="Framework\Which.ts">
+    <TypeScriptCompile Include="Collections\Which.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="IProperty.ts" />
     <TypeScriptCompile Include="Type.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -220,14 +242,18 @@
     <TypeScriptCompile Include="TypeExtensions.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Activator.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Collections\Abstract\" />
     <Folder Include="Data\Encoder\" />
     <Folder Include="Data\StringHelpers\" />
-    <Folder Include="Data\StackTrace\" />
+    <Folder Include="Framework\StackTrace\" />
     <Folder Include="DOM\Extensions\" />
     <Folder Include="Framework\Define\Handlers\" />
+    <Folder Include="Framework\Define\Abstracts\" />
     <Folder Include="Helpers\Canvas\" />
     <Folder Include="Helpers\Http\" />
     <Folder Include="Framework\" />
@@ -243,7 +269,7 @@
     <Compile Include="Helpers\Http\Imports.ts">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Framework\Define\TagNameMaps.ts">
+    <Compile Include="Framework\Define\Abstracts\TagNameMaps.ts">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../Collections/Abstract/Enumerator.ts" />
 
-namespace TsLinq {
+namespace Internal {
 
     /**
      * 程序的堆栈追踪信息

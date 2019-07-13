@@ -46,12 +46,18 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="svg.ts" />
+    <Content Include="README.md">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="tsconfig.json" />
     <Content Include="package.json" />
     <TypeScriptCompile Include="SvgUtils.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="HTMLColors\Colors.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="SvgChart.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>

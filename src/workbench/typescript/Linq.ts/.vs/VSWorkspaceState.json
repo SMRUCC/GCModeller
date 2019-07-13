@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\TsBuild",
+    "\\TsBuild\\Wasm",
+    "\\TsBuild\\Wasm\\Compiler"
   ],
+  "SelectedNode": "\\TsBuild\\Wasm\\Compiler\\Wabt.vb",
   "PreviewInSolutionExplorer": false
 }

@@ -99,7 +99,7 @@ module Router {
             throw `Module "${module}" is not exists in your web app.`;
         }
 
-        if (Internal.outputEverything()) {
+        if (TypeScript.logging.outputEverything) {
             // 在console中显示table
             var summary: IAppInfo[] = [];
 
@@ -168,7 +168,7 @@ module Router {
         var size: number[] = DOM.clientSize();
 
         if (!app) {
-            if (Internal.outputWarning()) {
+            if (TypeScript.logging.outputWarning) {
                 console.warn(`[#${appId}] not found!`);
             }
         } else {

@@ -42,7 +42,7 @@
                 try {
                     rules = (<any>sheets[i]).cssRules;
                 } catch (e) {
-                    if (Internal.outputWarning()) {
+                    if (TypeScript.logging.outputWarning) {
                         console.warn("Stylesheet could not be loaded: " + sheets[i].href);
                     }
                     continue;
@@ -78,7 +78,7 @@
                 try {
                     selectorText = rule.selectorText;
                 } catch (err) {
-                    if (Internal.outputWarning()) {
+                    if (TypeScript.logging.outputWarning) {
                         console.warn(`The following CSS rule has an invalid selector: "${rule}"`, err);
                     }
                 }
@@ -88,7 +88,7 @@
                         match = el.querySelector(selectorText) || (<HTMLElement>el.parentNode).querySelector(selectorText);
                     }
                 } catch (err) {
-                    if (Internal.outputWarning()) {
+                    if (TypeScript.logging.outputWarning) {
                         console.warn(`Invalid CSS selector "${selectorText}"`, err);
                     }
                 }
@@ -185,7 +185,7 @@
                 }
 
                 function transferFailed(e) {
-                    if (Internal.outputWarning()) {
+                    if (TypeScript.logging.outputWarning) {
                         console.warn('Failed to load font from: ' + font.url);
                         console.warn(e)
                     }

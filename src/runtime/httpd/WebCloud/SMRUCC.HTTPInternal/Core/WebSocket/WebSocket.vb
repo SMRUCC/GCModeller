@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b6b1c4d384c8c174dad31d12f754a06, WebCloud\SMRUCC.HTTPInternal\Core\WebSocket\WebSocket.vb"
+﻿#Region "Microsoft.VisualBasic::44ba9d23c764231f9f40488c535adb0a, WebCloud\SMRUCC.HTTPInternal\Core\WebSocket\WebSocket.vb"
 
     ' Author:
     ' 

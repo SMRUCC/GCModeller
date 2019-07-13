@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c37f02fd21e8ffac53bab550eceae3a2, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\sys_updates.vb"
+﻿#Region "Microsoft.VisualBasic::c6c01ad005939ad04e6ab4309f2ccce1, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\sys_updates.vb"
 
     ' Author:
     ' 
@@ -212,4 +212,3 @@ End Class
 
 
 End Namespace
-

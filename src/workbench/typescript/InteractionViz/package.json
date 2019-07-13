@@ -7,7 +7,7 @@
     "name": ""
   },
   "devDependencies": {
-    "@types/node": "^8.0.14"
+    "@types/node": "^8.10.50"
   },
   "dependencies": {
     "@types/sigmajs": "^1.0.27"

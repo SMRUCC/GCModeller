@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::180f0bd106a4112dd3456419844b79a7, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Population.vb"
+﻿#Region "Microsoft.VisualBasic::3fb93b58e337be0490745193348e1106, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Population.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     ' 
     '     Class Population
     ' 
-    '         Properties: Parallel, Random, Size
+    '         Properties: parallel, Random, Size
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
