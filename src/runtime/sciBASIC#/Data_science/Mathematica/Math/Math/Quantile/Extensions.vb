@@ -238,18 +238,25 @@ Namespace Quantile
         '    Next
         'End Sub
 
+        ''' <summary>
+        ''' 默认是输出到标准输出上的
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="dev"></param>
         <Extension>
         Public Sub Summary(data As IEnumerable(Of Double), Optional dev As TextWriter = Nothing)
             Dim v#() = data.ToArray
             Dim q As QuantileEstimationGK = v.GKQuantile
 
             With dev Or App.StdOut
-                For Each quantile As Double In {0.25, 0.5, 0.75, 0.9, 0.95, 0.99, 1}
+                For Each quantile As Double In {0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99, 1}
                     Dim estimate# = q.Query(quantile)
                     Dim out$ = String.Format("Estimated {0:F2}% quantile as {1}", quantile * 100, estimate)
 
                     .WriteLine(out)
                 Next
+
+                Call .Flush()
             End With
         End Sub
     End Module
