@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4fdd7f2ffe255ddb4563bd967fc5df1a, Data\DataFrame\IO\csv\File.vb"
+﻿#Region "Microsoft.VisualBasic::64f4ca56f4151ab62aff41a49ff2a032, Data\DataFrame\IO\csv\File.vb"
 
     ' Author:
     ' 
@@ -49,10 +49,10 @@
     ' 
     '             Properties: IsReadOnly, RowNumbers
     ' 
-    '             Function: __LINQ_LOAD, AsMatrix, Contains, (+2 Overloads) Distinct, FastLoad
-    '                       GetEnumerator, GetEnumerator1, IndexOf, IsNullOrEmpty, Join
-    '                       (+2 Overloads) Load, loads, LoadTsv, Normalization, Parse
-    '                       ReadHeaderRow, Remove, RemoveSubRow, Save
+    '             Function: __LINQ_LOAD, AsMatrix, Contains, (+2 Overloads) Distinct, GetEnumerator
+    '                       GetEnumerator1, IndexOf, IsNullOrEmpty, Join, Load
+    '                       loads, LoadTsv, Normalization, Parse, ReadHeaderRow
+    '                       Remove, RemoveSubRow, Save
     ' 
     '             Sub: (+3 Overloads) Add, Clear, CopyTo, Insert, InsertAt
     '                  RemoveAt

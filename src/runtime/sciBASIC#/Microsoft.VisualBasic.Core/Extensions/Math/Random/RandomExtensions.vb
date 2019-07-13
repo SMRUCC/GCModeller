@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fdcb64ae24bd5da374378525524491e, Microsoft.VisualBasic.Core\Extensions\Math\Random\RandomExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::9c9a2293b2c702a4e4cdb112f0ff993c, Microsoft.VisualBasic.Core\Extensions\Math\Random\RandomExtensions.vb"
 
     ' Author:
     ' 
