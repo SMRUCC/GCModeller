@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.NonlinearGridTopology
-Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
 Imports Microsoft.VisualBasic.Text
 Imports Table = Microsoft.VisualBasic.Data.csv.IO.DataSet
 
@@ -64,9 +64,10 @@ Module Program
         Return 0
     End Function
 
-    <ExportAPI("/summary")>
-    <Usage("/summary /in <model.Xml> /data <trainingSet.Xml> [/order <asc/desc> /out <out.csv>]")>
-    Public Function Summary(args As CommandLine) As Integer
+    <ExportAPI("/validates")>
+    <Usage("/validates /in <model.Xml> /data <trainingSet.Xml> [/order <asc/desc> /out <out.csv>]")>
+    <Description("Do model validations.")>
+    Public Function ValidationSummary(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim data$ = args <= "/data"
         Dim model = [in].LoadXml(Of GridMatrix).CreateSystem
@@ -90,7 +91,9 @@ Module Program
             If args("/order").DefaultValue.TextEquals("asc") Then
                 summaryResult = summaryResult.OrderBy(Function(r) r!errors).ToArray
             Else
-                summaryResult = summaryResult.OrderByDescending(Function(r) r!errors).ToArray
+                summaryResult = summaryResult _
+                    .OrderByDescending(Function(r) r!errors) _
+                    .ToArray
             End If
         End If
 
