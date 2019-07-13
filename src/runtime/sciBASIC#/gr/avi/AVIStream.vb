@@ -104,7 +104,7 @@ Public Class AVIStream
     ''' <param name="idx">the stream index</param>
     ''' <param name="dataOffset">the offset of the stream data from the beginning of the file</param>
     ''' <returns></returns>
-    Public Function writeHeaderBuffer(stream As UInt8Array, idx%, dataOffset%) As Integer
+    Public Function writeHeaderBuffer(stream As UInt8Array, idx%, dataOffset As Long) As Integer
         Dim hexIdx = idx.ToHexString.TrimStart("0"c) & "db"
 
         If hexIdx = "db" Then hexIdx = "0" & hexIdx
@@ -156,10 +156,11 @@ Public Class AVIStream
         stream.writeLong(144, dataOffset)               ' data offset
         stream.writeInt(152, 0)                         ' reserved
 
-        Dim offset = 0
+        Dim offset As Long = 0
 
         For i As Integer = 0 To Me.frames.Count - 1            ' index entries
-            stream.writeInt(156 + i * 8, offset)               ' offset
+            ' 原先这里是writeInt，但是大文件溢出了
+            stream.writeLong(156 + i * 8, offset)              ' offset
             stream.writeInt(160 + i * 8, frames(i).length + 8) ' size
 
             offset += Me.frames(i).length + 8
@@ -173,8 +174,8 @@ Public Class AVIStream
     ''' </summary>
     ''' <param name="idx">the stream index</param>
     ''' <returns></returns>
-    Public Function writeDataBuffer(buf As UInt8Array, idx As Integer) As Integer
-        Dim len = 0
+    Public Function writeDataBuffer(buf As UInt8Array, idx As Integer) As Long
+        Dim len& = 0
         Dim hexIdx = idx.ToHexString.TrimStart("0"c) & "db"
 
         If hexIdx = "db" Then hexIdx = "0" & hexIdx
@@ -182,10 +183,10 @@ Public Class AVIStream
 
         For i As Integer = 0 To Me.frames.Count - 1
             buf.writeString(len, hexIdx)
-            buf.writeInt(len + 4, frames(i).Length)
+            buf.writeInt(len + 4, frames(i).length)
             buf.writeBytes(len + 8, frames(i))
 
-            len += frames(i).Length + 8
+            len += frames(i).length + 8
         Next
 
         Return len
