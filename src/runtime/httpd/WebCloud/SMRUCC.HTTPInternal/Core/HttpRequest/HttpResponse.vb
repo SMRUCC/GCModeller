@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::818558182f456beeee779376ed7c90e1, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\args\HttpResponse.vb"
+﻿#Region "Microsoft.VisualBasic::28c47be39aae8957b13f043a54d1eeac, WebCloud\SMRUCC.HTTPInternal\Core\HttpRequest\HttpResponse.vb"
 
     ' Author:
     ' 

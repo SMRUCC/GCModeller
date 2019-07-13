@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::147ec27320a5f81b57d54f234c2745bf, WebCloud\SMRUCC.HTTPInternal\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::8caaf1534422cb25ec80884807cad9e3, WebCloud\SMRUCC.HTTPInternal\test\Module1.vb"
 
     ' Author:
     ' 
@@ -57,4 +57,3 @@ Module Module1
     End Sub
 
 End Module
-

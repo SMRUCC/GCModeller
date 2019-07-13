@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e834763d843f80ce6d907c11f1e5d7de, WebCloud\SMRUCC.HTTPInternal\Core\CachedFile.vb"
+﻿#Region "Microsoft.VisualBasic::704f00130d8d80e1c23910a93b940900, WebCloud\SMRUCC.HTTPInternal\Core\FileSystem\CachedFile.vb"
 
     ' Author:
     ' 

@@ -1,52 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::52eff1c95cb746451f6fbd0b202ca4da, WebCloud\SMRUCC.HTTPInternal\Core\WebSocket\WsProcessor.vb"
+﻿#Region "Microsoft.VisualBasic::f349d324fc83ebf99fca579000392da5, WebCloud\SMRUCC.HTTPInternal\Core\WebSocket\WsProcessor.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class WsProcessor
-' 
-'         Properties: isConnected
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: handshakePayload
-' 
-'         Sub: CheckForDataAvailability, DecodeFrame, doChecks, handleBinary, handleText
-'              HandShake, Response
-' 
-' 
-' /********************************************************************************/
+    '     Class WsProcessor
+    ' 
+    '         Properties: isConnected
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: handshakePayload
+    ' 
+    '         Sub: CheckForDataAvailability, DecodeFrame, doChecks, HandShake, Response
+    '              SendBinary, SendText
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.IO
 Imports System.Net.Sockets

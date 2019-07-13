@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5b04cbe959bea492f8705c2f4e5e654, WebCloud\SMRUCC.HTTPInternal\AppEngine\SessionManager.vb"
+﻿#Region "Microsoft.VisualBasic::08a9f5669fa847a1dd832ad12b63a66a, WebCloud\SMRUCC.HTTPInternal\AppEngine\Sessions\SessionManager.vb"
 
     ' Author:
     ' 
@@ -36,20 +36,6 @@
     '         Function: GetSession, GetSessionPath, NewSession
     ' 
     '         Sub: Save
-    ' 
-    '     Class Session
-    ' 
-    '         Properties: ID, Table
-    ' 
-    '         Function: ToString
-    ' 
-    '         Sub: SetValue
-    ' 
-    '     Class Value
-    ' 
-    '         Properties: Table, Value
-    ' 
-    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::064154111f011c050a2bd8738a4cd3bc, WebCloud\SMRUCC.HTTPInternal\AppEngine\POSTReader\ReadSubStream.vb"
+﻿#Region "Microsoft.VisualBasic::da73ff4ab972b01ffb300a7c90ccab1e, WebCloud\SMRUCC.HTTPInternal\Core\HttpRequest\POSTReader\ReadSubStream.vb"
 
     ' Author:
     ' 
