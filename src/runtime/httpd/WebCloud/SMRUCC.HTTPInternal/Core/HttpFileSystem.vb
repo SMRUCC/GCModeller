@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c72513d558e16f5515bd302d848a9107, WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::a4434121f15aababebd0a8ac12b26cc9, WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     ' 
     '     Class HttpFileSystem
     ' 
-    '         Properties: RequestStream, wwwroot
+    '         Properties: InMemoryCacheMode, RequestStream, wwwroot
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -75,6 +75,7 @@ Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.WebCloud.HTTPInternal.Platform.Plugins
+Imports SMRUCC.WebCloud.HTTPInternal.Core.Cache
 Imports fs = Microsoft.VisualBasic.FileIO.FileSystem
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -100,11 +101,23 @@ Namespace Core
         ''' </summary>
         ReadOnly _virtualMappings As Dictionary(Of String, String)
         ReadOnly _nullAsExists As Boolean
-        ReadOnly _cache As Dictionary(Of String, CachedFile)
-        ReadOnly _cacheMode As Boolean
-        ReadOnly _cacheUpdate As UpdateThread
-        ReadOnly _defaultFavicon As Byte() = My.Resources.favicon.UnzipStream.ToArray
+        ReadOnly _cache As VirtualFileSystem
+        ReadOnly _defaultFavicon As Byte() = My.Resources.favicon.UnZipStream.ToArray
         ReadOnly MAX_POST_SIZE%
+        ''' <summary>
+        ''' Current http filesystem is running in cache mode?
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 在缓存模式下，因为减少了IO，所以可以提升服务器的性能，物理文件系统的文件变化
+        ''' 可能会延迟一段时间才会更新到内存缓存之中
+        ''' </remarks>
+        Public ReadOnly Property InMemoryCacheMode As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return _cache Is Nothing
+            End Get
+        End Property
 
         Public Function AddMappings(DIR As String, url As String) As Boolean
             url = url & "/index.html"
@@ -175,18 +188,6 @@ Namespace Core
 
             If cache Then
                 _cache = CachedFile.CacheAllFiles(wwwroot.FullName)
-                '    .ToDictionary(Function(x) x.Key.ToLower,
-                '                  Function(x) x.Value)
-                _cacheMode = True
-                _cacheUpdate = New UpdateThread(1000 * 60 * 30,
-                     Sub()
-                         For Each file In CachedFile.CacheAllFiles(wwwroot.FullName)
-                             _cache(file.Key) = file.Value
-                         Next
-                     End Sub)
-                _cacheUpdate.Start()
-
-                Call "Running in file system cache mode!".__DEBUG_ECHO
             End If
 
 #If DEBUG Then
@@ -199,8 +200,8 @@ Namespace Core
         Protected Overrides Sub Dispose(disposing As Boolean)
             Call MyBase.Dispose(disposing)
 
-            If _cacheMode Then
-                Call _cacheUpdate.Dispose()
+            If InMemoryCacheMode Then
+                Call _cache.Dispose()
             End If
         End Sub
 
@@ -290,8 +291,9 @@ Namespace Core
                 Throw New Exception(res, ex)
             End Try
 
-            If _cacheMode AndAlso _cache.ContainsKey(file) Then
-                Return _cache(file).bufs
+            ' 在缓存模式下，将不会再读取物理文件系统
+            If InMemoryCacheMode Then
+                Return _cache.GetFileBuffer(file)
             End If
 
             If file.FileExists Then

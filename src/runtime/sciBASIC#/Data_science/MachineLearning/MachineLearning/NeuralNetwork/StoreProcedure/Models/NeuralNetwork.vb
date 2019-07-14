@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9cc2a27262272a66c2f3cccf5c3e294, Data_science\MachineLearning\MachineLearning\NeuralNetwork\StoreProcedure\Models\NeuralNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::f258be222dc1352a8820ed3ba155c296, Data_science\MachineLearning\MachineLearning\NeuralNetwork\StoreProcedure\Models\NeuralNetwork.vb"
 
     ' Author:
     ' 
@@ -47,6 +47,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Normalizer
+Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
 
 Namespace NeuralNetwork.StoreProcedure
 

@@ -128,7 +128,7 @@ module Strings {
         var n: number = Math.pow(10, decimals);
 
         if (isNaN(floatX)) {
-            if (Internal.outputWarning()) {
+            if (TypeScript.logging.outputWarning) {
                 console.warn(`Invalid number value: '${x}'`);
             }
             return false;
@@ -273,13 +273,13 @@ module Strings {
         }
 
         if (typeof chars == "string") {
-            chars = From(Strings.ToCharArray(chars))
+            chars = From(<string[]>Strings.ToCharArray(chars))
                 .Select(c => c.charCodeAt(0))
                 .ToArray(false);
         }
 
         return function (chars: number[]) {
-            return From(Strings.ToCharArray(str))
+            return From(<string[]>Strings.ToCharArray(str))
                 .SkipWhile(c => chars.indexOf(c.charCodeAt(0)) > -1)
                 .Reverse()
                 .SkipWhile(c => chars.indexOf(c.charCodeAt(0)) > -1)
@@ -294,13 +294,13 @@ module Strings {
         }
 
         if (typeof chars == "string") {
-            chars = From(Strings.ToCharArray(chars))
+            chars = From(<string[]>Strings.ToCharArray(chars))
                 .Select(c => c.charCodeAt(0))
                 .ToArray(false);
         }
 
         return function (chars: number[]) {
-            return From(Strings.ToCharArray(str))
+            return From(<string[]>Strings.ToCharArray(str))
                 .SkipWhile(c => chars.indexOf(c.charCodeAt(0)) > -1)
                 .JoinBy("");
         }(<number[]>chars);
@@ -312,12 +312,12 @@ module Strings {
         }
 
         if (typeof chars == "string") {
-            chars = From(Strings.ToCharArray(chars))
+            chars = From(<string[]>Strings.ToCharArray(chars))
                 .Select(c => c.charCodeAt(0))
                 .ToArray(false);
         }
 
-        var strChars: string[] = Strings.ToCharArray(str);
+        var strChars: string[] = <string[]>Strings.ToCharArray(str);
         var lefts: number = 0;
 
         for (var i: number = strChars.length - 1; i > 0; i--) {
@@ -421,15 +421,23 @@ module Strings {
      * @description > https://jsperf.com/convert-string-to-char-code-array/9
      *    经过测试，使用数组push的效率最高
      *    
+     * @param charCode 返回来的数组是否应该是一组字符的ASCII值而非字符本身？默认是返回字符数组的。 
+     *    
      * @returns A character array, all of the string element in the array 
      *      is one character length.
     */
-    export function ToCharArray(str: string): string[] {
-        var cc: string[] = [];
+    export function ToCharArray(str: string, charCode: boolean = false): string[] | number[] {
+        var cc: string[] | number[] = [];
         var strLen: number = str.length;
 
-        for (var i = 0; i < strLen; ++i) {
-            cc.push(str.charAt(i));
+        if (charCode) {
+            for (var i = 0; i < strLen; ++i) {
+                (<number[]>cc).push(str.charCodeAt(i));
+            }
+        } else {
+            for (var i = 0; i < strLen; ++i) {
+                (<string[]>cc).push(str.charAt(i));
+            }
         }
 
         return cc;
@@ -480,13 +488,13 @@ module Strings {
     /**
      * @param charsPerLine 每一行文本之中的字符数量的最大值
     */
-    export function WrappingLines(text: string, charsPerLine: number = 200): string {
+    export function WrappingLines(text: string, charsPerLine: number = 200, lineTrim: boolean = false): string {
         var sb: string = "";
         var lines: string[] = Strings.lineTokens(text);
         var p: number;
 
         for (var i: number = 0; i < lines.length; i++) {
-            var line: string = Strings.Trim(lines[i]);
+            var line: string = lineTrim ? Strings.Trim(lines[i]) : lines[i];
 
             if (line.length < charsPerLine) {
                 sb = sb + line + "\n";

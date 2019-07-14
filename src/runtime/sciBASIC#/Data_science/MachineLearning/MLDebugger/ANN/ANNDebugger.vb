@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34ffd702ee29a0994c79627b0593a018, Data_science\MachineLearning\MLDebugger\ANNDebugger.vb"
+﻿#Region "Microsoft.VisualBasic::f44e4739fb2344dd15c2e520e078e304, Data_science\MachineLearning\MLDebugger\ANN\ANNDebugger.vb"
 
     ' Author:
     ' 
@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Accelerator.GAExtensions
+Imports StoreModel = Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure.NeuralNetwork
 
 Public Class ANNDebugger
 
@@ -109,7 +110,7 @@ Public Class ANNDebugger
 
         If [error] < minErr Then
             minErr = [error]
-            StoreProcedure.NeuralNetwork _
+            StoreModel _
                 .Snapshot(model) _
                 .GetXml _
                 .SaveTo(snapShotTemp)

@@ -1,5 +1,5 @@
 /// <reference path="./Abstract/Enumerator.ts" />
-/// <reference path="../Data/StackTrace/StackTrace.ts" />
+/// <reference path="../Framework/StackTrace/StackTrace.ts" />
 
 /**
  * 键值对映射哈希表
@@ -41,7 +41,7 @@ class Dictionary<V> extends IEnumerator<MapTuple<string, V>>  {
     */
     public Item(key: string | number = null): V {
         if (!key) {
-            key = TsLinq.StackTrace.GetCallerMember().memberName;
+            key = Internal.StackTrace.GetCallerMember().memberName;
         }
 
         if (typeof key == "string") {
@@ -74,9 +74,9 @@ class Dictionary<V> extends IEnumerator<MapTuple<string, V>>  {
         if (isNullOrUndefined(maps)) {
             this.maps = {};
         } else if (Array.isArray(maps)) {
-            this.maps = TypeInfo.CreateObject(maps);
+            this.maps = Activator.CreateObject(maps);
         } else if (TypeInfo.typeof(maps).class == "IEnumerator") {
-            this.maps = TypeInfo.CreateObject(<IEnumerator<MapTuple<string, V>>>maps);
+            this.maps = Activator.CreateObject(<IEnumerator<MapTuple<string, V>>>maps);
         } else {
             this.maps = maps;
         }
@@ -87,7 +87,7 @@ class Dictionary<V> extends IEnumerator<MapTuple<string, V>>  {
     }
 
     public static FromNamedValues<V>(values: NamedValue<V>[] | IEnumerator<NamedValue<V>>): Dictionary<V> {
-        return new Dictionary<V>(TypeInfo.CreateObject(values));
+        return new Dictionary<V>(Activator.CreateObject(values));
     }
 
     public static MapSequence<V>(maps: object | MapTuple<string, V>[] | IEnumerator<MapTuple<string, V>>): IEnumerator<MapTuple<string, V>> {

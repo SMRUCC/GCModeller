@@ -129,26 +129,26 @@ class DOMEnumerator<T extends HTMLElement> extends IEnumerator<T> {
         }
     }
 
-    public AddClass(className: string): DOMEnumerator<T> {
-        this.ForEach(x => {
-            if (!x.classList.contains(className)) {
-                x.classList.add(className);
+    public addClass(className: string): DOMEnumerator<T> {
+        this.ForEach(node => {
+            if (!node.classList.contains(className)) {
+                node.classList.add(className);
             }
         })
         return this;
     }
 
-    public AddEvent(eventName: string, handler: (sender: T, event: Event) => void) {
+    public addEvent(eventName: string, handler: (sender: T, event: Event) => void) {
         this.ForEach(element => {
             var event = function (Event: Event) {
                 handler(element, Event);
             }
-            DOM.addEvent(element, eventName, event);
+            DOM.Events.addEvent(element, eventName, event);
         })
     }
 
     public onChange(handler: (sender: T, event: Event) => void) {
-        this.AddEvent("onchange", handler);
+        this.addEvent("onchange", handler);
     }
 
     /**
@@ -163,7 +163,7 @@ class DOMEnumerator<T extends HTMLElement> extends IEnumerator<T> {
         });
     }
 
-    public RemoveClass(className: string): DOMEnumerator<T> {
+    public removeClass(className: string): DOMEnumerator<T> {
         this.ForEach(x => {
             if (x.classList.contains(className)) {
                 x.classList.remove(className);
@@ -191,7 +191,7 @@ class DOMEnumerator<T extends HTMLElement> extends IEnumerator<T> {
     /**
      * 将所选定的节点批量删除
     */
-    public Delete() {
+    public delete() {
         this.ForEach(x => x.parentNode.removeChild(x));
     }
 }

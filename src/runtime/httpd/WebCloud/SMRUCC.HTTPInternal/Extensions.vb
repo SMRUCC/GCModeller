@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbc3164f3255d29348df82d46d8a8f52, WebCloud\SMRUCC.HTTPInternal\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0816269a2f2f03b5a6e7fdbeb375f84d, WebCloud\SMRUCC.HTTPInternal\Extensions.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 Public Module Extensions
 

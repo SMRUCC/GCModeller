@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f59cb957dc870d0f168549b0840d99f8, WebCloud\SMRUCC.HTTPInternal\AppEngine\APPManager.vb"
+﻿#Region "Microsoft.VisualBasic::5c3e0eb8c9c4d344a3f20af597cf7b62, WebCloud\SMRUCC.HTTPInternal\AppEngine\APPManager.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.Core
 Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Namespace AppEngine

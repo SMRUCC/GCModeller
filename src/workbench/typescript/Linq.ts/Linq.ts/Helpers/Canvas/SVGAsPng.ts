@@ -48,7 +48,7 @@
             }
 
             if (isExternal(href)) {
-                if (Internal.outputWarning()) {
+                if (TypeScript.logging.outputWarning) {
                     console.warn("Cannot render embedded images linking to external hosts: " + href);
                 }
                 return;

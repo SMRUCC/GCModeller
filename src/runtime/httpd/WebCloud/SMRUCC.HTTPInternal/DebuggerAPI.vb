@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8918ede440be5027d42e322889d74ec0, WebCloud\SMRUCC.HTTPInternal\DebuggerAPI.vb"
+﻿#Region "Microsoft.VisualBasic::9c6cc16ebe4e277013368851200c821f, WebCloud\SMRUCC.HTTPInternal\DebuggerAPI.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.Core
 Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Public Module DebuggerAPI

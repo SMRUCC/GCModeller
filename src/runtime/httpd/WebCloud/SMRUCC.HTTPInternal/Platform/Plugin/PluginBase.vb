@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1355ffb468ca87892df3e169af88137b, WebCloud\SMRUCC.HTTPInternal\Platform\Plugin\PluginBase.vb"
+﻿#Region "Microsoft.VisualBasic::7ece9dfe6e285be153ba3241d020f4c4, WebCloud\SMRUCC.HTTPInternal\Platform\Plugin\PluginBase.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
 
 #End Region
 
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 Namespace Platform.Plugins
 
