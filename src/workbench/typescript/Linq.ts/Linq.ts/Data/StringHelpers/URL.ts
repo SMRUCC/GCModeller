@@ -113,6 +113,17 @@ namespace TypeScript {
         }
 
         /**
+         * Set url hash without url jump in document
+        */
+        public static SetHash(hash: string) {
+            if (history.pushState) {
+                history.pushState(null, null, hash);
+            } else {
+                location.hash = hash;
+            }
+        }
+
+        /**
          * 获取得到当前的url
         */
         public static WindowLocation(): URL {

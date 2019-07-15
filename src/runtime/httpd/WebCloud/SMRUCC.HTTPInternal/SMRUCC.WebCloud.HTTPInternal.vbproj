@@ -494,6 +494,7 @@
   <ItemGroup>
     <Compile Include="AppEngine\APIName.vb" />
     <Compile Include="AppEngine\API\APIMethod.vb" />
+    <Compile Include="Core\FileSystem\InternalUpdates.vb" />
     <Compile Include="Core\HttpRequest\HttpRequest.vb" />
     <Compile Include="Core\HttpRequest\HttpResponse.vb" />
     <Compile Include="AppEngine\API\Methods.vb" />
@@ -501,15 +502,18 @@
     <Compile Include="AppEngine\APPManager.vb" />
     <Compile Include="AppEngine\CookieParser.vb" />
     <Compile Include="AppEngine\ExternalCall.vb" />
-    <Compile Include="AppEngine\SessionManager.vb" />
+    <Compile Include="AppEngine\Sessions\Session.vb" />
+    <Compile Include="AppEngine\Sessions\SessionManager.vb" />
     <Compile Include="AppEngine\WebApp.vb" />
     <Compile Include="AppEngine\API\APIInvoker.vb" />
+    <Compile Include="Core\FileSystem\FileNode.vb" />
+    <Compile Include="Core\FileSystem\VirtualFileSystem.vb" />
     <Compile Include="Core\WebSocket\Events.vb" />
     <Compile Include="Core\WebSocket\Operations.vb" />
     <Compile Include="Core\WebSocket\WsProcessor.vb" />
     <Compile Include="Core\WebSocket\WebSocket.vb" />
     <Compile Include="Extensions.vb" />
-    <Compile Include="Core\CachedFile.vb" />
+    <Compile Include="Core\FileSystem\CachedFile.vb" />
     <Compile Include="Core\Content.vb" />
     <Compile Include="Core\HttpFileSystem.vb" />
     <Compile Include="Core\HttpProcessor.vb" />
@@ -563,7 +567,7 @@
     <None Include="Resources\favicon.zip" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\..\..\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>

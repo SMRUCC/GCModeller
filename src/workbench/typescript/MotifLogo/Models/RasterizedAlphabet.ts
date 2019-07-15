@@ -16,7 +16,7 @@
             var default_size: number = 60; // size of square to assume as the default width
             var safety_pad: number = 20; // pixels to pad around so we don't miss the edges
             // create a canvas to do our rasterizing on
-            var canvas: HTMLCanvasElement = $ts("<canvas>", {
+            var canvas: HTMLCanvasElement = <any>$ts("<canvas>", {
                 // assume the default font would fit in a canvas of 100 by 100
                 width: default_size + 2 * safety_pad,
                 height: default_size + 2 * safety_pad
@@ -98,7 +98,7 @@
                 target_height = size.height * scale;
 
                 // create an approprately sized canvas
-                raster = $ts("<canvas>", {
+                raster = <any>$ts("<canvas>", {
                     width: target_width, // if it goes over the edge too bad...
                     height: target_height + safety_pad * 2
                 });

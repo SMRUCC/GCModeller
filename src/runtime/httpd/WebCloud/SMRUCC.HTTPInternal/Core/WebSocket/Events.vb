@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e36c37b2f92319ffa571776fc006a3c, WebCloud\SMRUCC.HTTPInternal\Core\WebSocket\Events.vb"
+﻿#Region "Microsoft.VisualBasic::a4d62b7a5888bc8d783e3505fadf1427, WebCloud\SMRUCC.HTTPInternal\Core\WebSocket\Events.vb"
 
     ' Author:
     ' 
@@ -37,6 +37,16 @@
     '     Delegate Sub
     ' 
     ' 
+    '     Delegate Sub
+    ' 
+    ' 
+    '     Delegate Sub
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
     ' 
     ' 
     ' 
@@ -44,9 +54,27 @@
 
 #End Region
 
+Imports System.IO
+Imports System.Net.Sockets
+
 Namespace Core.WebSocket
 
     Public Delegate Sub OnClientConnectDelegate(sender As Object, ByRef client As WsProcessor)
-    Public Delegate Sub OnClientDisconnectDelegateHandler()
+    Public Delegate Sub OnClientDisconnectDelegateHandler(sender As Object)
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="data"></param>
+    ''' <param name="responseStream">请注意，使用完了不可以关闭这个流对象</param>
+    Public Delegate Sub OnClientTextMessage(sender As WsProcessor, data As String, responseStream As NetworkStream)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="data"></param>
+    ''' <param name="responseStream">请注意，使用完了不可以关闭这个流对象</param>
+    Public Delegate Sub OnClinetBinaryMessage(sender As WsProcessor, data As MemoryStream, responseStream As NetworkStream)
 
 End Namespace

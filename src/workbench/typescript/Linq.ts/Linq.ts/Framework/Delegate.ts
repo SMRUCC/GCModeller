@@ -40,30 +40,30 @@ namespace Delegate {
     /**
      * 不带参数的函数指针
     */
-    export interface Func {
+    export interface Func<V> {
         <V>(): V;
     }
 
     /**
      * 带有一个函数参数的函数指针
     */
-    export interface Func {
+    export interface Func<V> {
         <T, V>(arg: T): V;
     }
 
-    export interface Func {
+    export interface Func<V> {
         <T1, T2, V>(arg1: T1, arg2: T2): V;
     }
 
-    export interface Func {
+    export interface Func<V> {
         <T1, T2, T3, V>(arg1: T1, arg2: T2, arg3: T3): V;
     }
 
-    export interface Func {
+    export interface Func<V> {
         <T1, T2, T3, T4, V>(arg1: T1, arg2: T2, arg3: T3, arg4: T4): V;
     }
 
-    export interface Func {
+    export interface Func<V> {
         <T1, T2, T3, T4, T5, V>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5): V;
     }
 }

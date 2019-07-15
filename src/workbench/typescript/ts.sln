@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2048
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "MotifLogo", "MotifLogo\MotifLogo.njsproj", "{240CE448-D70A-4311-9535-ADD9FADDA65D}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{1D7A5E2E-578B-4A2C-B2DC-BF18A1A96D5D}"
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "InteractionViz", "InteractionViz\InteractionViz.njsproj", "{60F4613B-148B-4FA5-9C34-F94D76074AF7}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "bio", "bio\bio.njsproj", "{E313CC8C-5FEE-42C2-8DCC-E54D5388F381}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{60F4613B-148B-4FA5-9C34-F94D76074AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60F4613B-148B-4FA5-9C34-F94D76074AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60F4613B-148B-4FA5-9C34-F94D76074AF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E313CC8C-5FEE-42C2-8DCC-E54D5388F381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E313CC8C-5FEE-42C2-8DCC-E54D5388F381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E313CC8C-5FEE-42C2-8DCC-E54D5388F381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E313CC8C-5FEE-42C2-8DCC-E54D5388F381}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

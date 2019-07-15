@@ -5,6 +5,22 @@
 */
 module Enumerable {
 
+    export function Range(from: number, to: number, steps: number = 1): number[] {
+        return new data.NumericRange(from, to).PopulateNumbers(steps);
+    }
+
+    export function Min(...v: number[]): number {
+        let min: number = 99999999999;
+
+        for (let x of v) {
+            if (x < min) {
+                min = x;
+            }
+        }
+
+        return min;
+    }
+
     /**
      * 进行数据序列的投影操作
      * 
@@ -47,11 +63,17 @@ module Enumerable {
         var takes: T[] = [];
         var len: number = source.length;
 
-        for (var i = 0; i < n; i++) {
-            if (i > len) {
-                break;
-            } else {
-                takes.push(source[i]);
+        if (len <= n) {
+            takes = source;
+        } else {
+            takes = [];
+
+            for (var i = 0; i < n; i++) {
+                if (i >= len) {
+                    break;
+                } else {
+                    takes.push(source[i]);
+                }
             }
         }
 

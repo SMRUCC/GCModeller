@@ -4,39 +4,6 @@
 namespace DOM {
 
     /**
-     * Query meta tag content value by name
-     * 
-     * @param allowQueryParent 当当前的文档之中不存在目标meta标签的时候，
-     *    如果当前文档为iframe文档，则是否允许继续往父节点的文档做查询？
-     *    默认为False，即只在当前文档环境之中进行查询操作
-     * @param Default 查询失败的时候所返回来的默认值
-    */
-    export function metaValue(name: string, Default: string = null, allowQueryParent: boolean = false): string {
-        var selector: string = `meta[name~="${name}"]`;
-        var meta: Element = document.querySelector(selector);
-        var getContent = function () {
-            if (meta) {
-                var content: string = meta.getAttribute("content");
-                return content ? content : Default;
-            } else {
-                if (Internal.outputWarning()) {
-                    console.warn(`${selector} not found in current context!`);
-                }
-
-                return Default;
-            }
-        };
-
-        if (!meta && allowQueryParent) {
-            meta = parent.window
-                .document
-                .querySelector(selector);
-        }
-
-        return getContent();
-    }
-
-    /**
      * File download helper
      * 
      * @param name The file save name for download operation
@@ -70,7 +37,7 @@ namespace DOM {
                     })
                 };
             } catch (e) {
-                if (Internal.outputWarning()) {
+                if (TypeScript.logging.outputWarning) {
                     console.warn('This browser does not support object URLs. Falling back to string URL.');
                 }
 
@@ -99,44 +66,34 @@ namespace DOM {
     }
 
     /**
-     * return array containing references to selected option elements
-    */
-    export function getSelectedOptions(sel: HTMLSelectElement) {
-        var opts: HTMLOptionElement[] = []
-        var opt: HTMLOptionElement;
-
-        // loop through options in select list
-        for (var i = 0, len = sel.options.length; i < len; i++) {
-            opt = sel.options[i];
-
-            // check if selected
-            if (opt.selected) {
-                // add to array of option elements to return from this function
-                opts.push(opt);
-            }
-        }
-
-        return opts;
-    }
-
-    /**
      * 向指定id编号的div添加select标签的组件
+     * 
+     * @param containerID 这个编号不带有``#``前缀，这个容器可以是一个空白的div或者目标``<select>``标签对象的编号，
+     *                    如果目标容器是一个``<select>``标签的时候，则要求selectName和className都必须要是空值
+     * @param items 这个数组应该是一个``[title => value]``的键值对列表
     */
     export function AddSelectOptions(
         items: MapTuple<string, string>[],
-        div: string,
-        selectName: string,
-        className: string = "") {
+        containerID: string,
+        selectName: string = null,
+        className: string = null) {
 
         var options = From(items)
             .Select(item => `<option value="${item.value}">${item.key}</option>`)
             .JoinBy("\n");
-        var html: string = `
-            <select class="${className}" multiple name="${selectName}">
-                ${options}
-            </select>`;
+        var html: string;
 
-        (<HTMLElement>$ts(`#${div}`)).innerHTML = html;
+        if (isNullOrUndefined(selectName) && isNullOrUndefined(className)) {
+            // 是一个<select>标签
+            html = options;
+        } else {
+            html = `
+                <select class="${className}" multiple name="${selectName}">
+                    ${options}
+                </select>`;
+        }
+
+        (<HTMLElement>$ts(`#${containerID}`)).innerHTML = html;
     }
 
     /**
@@ -174,7 +131,7 @@ namespace DOM {
             rows.ForEach(r => tbody.appendChild(rowHTML(r)));
         }
 
-        fields.forEach(r => thead.appendChild($ts("<th>").display(r.value)));
+        fields.forEach(r => thead.appendChild($ts("<th>", { id: r.value }).display(r.value)));
 
         return <HTMLTableElement>$ts("<table>", attrs)
             .asExtends
@@ -227,65 +184,6 @@ namespace DOM {
             return (<IEnumerator<MapTuple<string, string>>>headers).ToArray();
         } else {
             throw `Invalid sequence type: ${type.class}`;
-        }
-    }
-
-    /**
-     * Execute a given function when the document is ready.
-     * It is called when the DOM is ready which can be prior to images and other external content is loaded.
-     * 
-     * 可以处理多个函数作为事件，也可以通过loadComplete函数参数来指定准备完毕的状态
-     * 默认的状态是interactive即只需要加载完DOM既可以开始立即执行函数
-     * 
-     * @param fn A function that without any parameters
-     * @param loadComplete + ``interactive``: The document has finished loading. We can now access the DOM elements.
-     *                     + ``complete``: The page is fully loaded.
-    */
-    export function ready(fn: () => void, loadComplete: string[] = ["interactive", "complete"]) {
-        if (typeof fn !== 'function') {
-            // Sanity check
-            return;
-        } else if (Internal.outputEverything()) {
-            console.log("Add Document.ready event handler.");
-            console.log(`document.readyState = ${document.readyState}`)
-        }
-
-        // 2018-12-25 "interactive", "complete" 这两种状态都可以算作是DOM已经准备好了
-        if (loadComplete.indexOf(document.readyState) > -1) {
-            // If document is already loaded, run method
-            return fn();
-        } else {
-            // Otherwise, wait until document is loaded
-            document.addEventListener('DOMContentLoaded', fn, false);
-        }
-    }
-
-    /**
-     * 向一个给定的HTML元素或者HTML元素的集合之中的对象添加给定的事件
-     * 
-     * @param el HTML节点元素或者节点元素的集合
-     * @param type 事件的名称字符串
-     * @param fn 对事件名称所指定的事件进行处理的工作函数，这个工作函数应该具备有一个事件对象作为函数参数
-    */
-    export function addEvent(el: any, type: string, fn: (event: Event) => void): void {
-        if (document.addEventListener) {
-            if (el && (el.nodeName) || el === window) {
-                (<HTMLElement>el).addEventListener(type, fn, false);
-            } else if (el && el.length) {
-                for (var i = 0; i < el.length; i++) {
-                    addEvent(el[i], type, fn);
-                }
-            }
-        } else {
-            if (el && el.nodeName || el === window) {
-                el.attachEvent('on' + type, () => {
-                    return fn.call(el, window.event);
-                });
-            } else if (el && el.length) {
-                for (var i = 0; i < el.length; i++) {
-                    addEvent(el[i], type, fn);
-                }
-            }
         }
     }
 }

@@ -46,7 +46,10 @@
     */
     export const placeholder: RegExp = new RegExp(/(%([%]|(\-)?(\+|\x20)?(0)?(\d+)?(\.(\d)?)?([bcdfosxX])))/g);
 
-    export function parseFormat(string: string, arguments: any[]) {
+    /**
+     * @param argumentList ERROR - "arguments" cannot be redeclared in strict mode
+    */
+    export function parseFormat(string: string, argumentList: any[]) {
         var stringPosStart = 0;
         var stringPosEnd = 0;
         var matchPosEnd = 0;
@@ -69,8 +72,8 @@
                 min: match[6] || 0,
                 precision: match[8],
                 code: match[9] || '%',
-                negative: parseInt(arguments[convCount]) < 0 ? true : false,
-                argument: String(arguments[convCount])
+                negative: parseInt(argumentList[convCount]) < 0 ? true : false,
+                argument: String(argumentList[convCount])
             };
 
             if (match[9]) {

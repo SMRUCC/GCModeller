@@ -129,4 +129,17 @@ module DataExtensions {
             return x => 0;
         }
     }
+
+    /**
+     * @param fill 进行向量填充的初始值，可能不适用于引用类型，推荐应用于初始的基元类型
+    */
+    export function Dim<T>(len: number, fill: T = null): T[] {
+        let vector: T[] = [];
+
+        for (var i: number = 0; i < len; i++) {
+            vector.push(fill);
+        }
+
+        return vector;
+    }
 }

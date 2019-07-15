@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52eff1c95cb746451f6fbd0b202ca4da, WebCloud\SMRUCC.HTTPInternal\Core\WebSocket\WsProcessor.vb"
+﻿#Region "Microsoft.VisualBasic::f349d324fc83ebf99fca579000392da5, WebCloud\SMRUCC.HTTPInternal\Core\WebSocket\WsProcessor.vb"
 
     ' Author:
     ' 
@@ -39,15 +39,15 @@
     ' 
     '         Function: handshakePayload
     ' 
-    '         Sub: CheckForDataAvailability, DecodeFrame, doChecks, handleBinary, handleText
-    '              HandShake, Response
+    '         Sub: CheckForDataAvailability, DecodeFrame, doChecks, HandShake, Response
+    '              SendBinary, SendText
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-
+Imports System.IO
 Imports System.Net.Sockets
 Imports System.Security.Cryptography
 Imports System.Text
@@ -64,6 +64,8 @@ Namespace Core.WebSocket
     Public Class WsProcessor
 
         Public Event onClientDisconnect As OnClientDisconnectDelegateHandler
+        Public Event onClientTextMessage As OnClientTextMessage
+        Public Event onClientBinaryMessage As OnClinetBinaryMessage
 
         ''' <summary>
         ''' ^GET
@@ -117,7 +119,7 @@ Namespace Core.WebSocket
                 End While
             End While
 
-            RaiseEvent onClientDisconnect()
+            RaiseEvent onClientDisconnect(Me)
         End Sub
 
         Private Function handshakePayload(data As String) As Byte()
@@ -215,27 +217,30 @@ Namespace Core.WebSocket
         Private Sub Response(code As Operations, decoded As Byte(), stream As NetworkStream)
             Select Case code
                 Case Is = Operations.TextRecieved
-                    Call handleText(Encoding.UTF8.GetString(decoded), stream)
+                    RaiseEvent onClientTextMessage(Me, Encoding.UTF8.GetString(decoded), stream)
 
                 Case Is = Operations.BinaryRecieved
-                    Call handleBinary(decoded, stream)
+                    RaiseEvent onClientBinaryMessage(Me, New MemoryStream(decoded), stream)
 
                 Case Is = Operations.Ping
                 Case Is = Operations.Pong
                 Case Else
                     ' Improper opCode.. disconnect the client 
                     Call tcpClient.Close()
-                    RaiseEvent onClientDisconnect()
+                    RaiseEvent onClientDisconnect(Me)
             End Select
         End Sub
 
-        Private Sub handleBinary(decoded As Byte(), stream As NetworkStream)
-            Dim response As Byte() = Encoding.UTF8.GetBytes("Binary Recieved")
-            stream.Write(response, 0, response.Length)
+        Public Sub SendBinary(data As Byte(), stream As NetworkStream)
+            Call stream.Write(data, 0, data.Length)
         End Sub
 
-        Private Sub handleText(data As String, stream As NetworkStream)
-            Dim Payload As Byte() = Encoding.UTF8.GetBytes("Text Recieved: " & data)
+        ''' <summary>
+        ''' Send text message to client
+        ''' </summary>
+        ''' <param name="text"></param>
+        Public Sub SendText(text As String, stream As NetworkStream)
+            Dim Payload As Byte() = Encoding.UTF8.GetBytes(text)
             Dim FRRROPCODE As Byte = Convert.ToByte("10000001", 2) 'FIN is set, and OPCODE is 1 or Text
             Dim header As Byte() = {FRRROPCODE, Convert.ToByte(Payload.Length)}
             Dim ResponseData As Byte()
@@ -263,7 +268,7 @@ Namespace Core.WebSocket
                     Call doChecks()
                 Catch ex As Exception
                     tcpClient.Close()
-                    RaiseEvent onClientDisconnect()
+                    RaiseEvent onClientDisconnect(Me)
                 End Try
             End If
         End Sub

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1cbb0ffad7e5ac6077dd2b099fefe9d9, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\task_errors.vb"
+﻿#Region "Microsoft.VisualBasic::0b3447d4ff2499dd46ec7fe8bc2a1ea5, WebCloud\SMRUCC.WebCloud.DataCenter\mysql\task_errors.vb"
 
     ' Author:
     ' 
@@ -247,4 +247,3 @@ End Class
 
 
 End Namespace
-

@@ -76,7 +76,7 @@ function From<T>(source: T[] | IEnumerator<T>): IEnumerator<T> {
  * 将一个给定的字符串转换为组成该字符串的所有字符的枚举器
 */
 function CharEnumerator(str: string): IEnumerator<string> {
-    return new IEnumerator<string>(Strings.ToCharArray(str));
+    return new IEnumerator<string>(<string[]>Strings.ToCharArray(str));
 }
 
 /**
