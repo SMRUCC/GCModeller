@@ -46,6 +46,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -81,11 +82,18 @@ Module Program
     End Function
 
     <ExportAPI("/factor.impacts")>
-    <Usage("/factor.impacts /in <model.Xml> [/order <asc/desc> /out <out.csv>]")>
+    <Usage("/factor.impacts /in <model.Xml> [/order <asc/desc> /correlation /out <out.csv>]")>
     Public Function ExportFactorImpact(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim model = [in].LoadXml(Of GridMatrix)
-        Dim impacts = model.NodeImportance.ToArray
+        Dim isCor As Boolean = args("/correlation")
+        Dim impacts As NamedValue(Of Double)()
+
+        If isCor Then
+            impacts = model.NodeCorrelation.ToArray
+        Else
+            impacts = model.NodeImpacts.ToArray
+        End If
 
         If args.ContainsParameter("/order") Then
             If args("/order").DefaultValue.TextEquals("asc") Then

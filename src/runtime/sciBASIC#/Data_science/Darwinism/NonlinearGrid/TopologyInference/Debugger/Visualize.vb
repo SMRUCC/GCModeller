@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Public Module Visualize
 
     <Extension>
-    Public Iterator Function NodeImportance(grid As GridMatrix) As IEnumerable(Of NamedValue(Of Double))
+    Public Iterator Function NodeImpacts(grid As GridMatrix) As IEnumerable(Of NamedValue(Of Double))
         For i As Integer = 0 To grid.correlations.Length - 1
             Dim factor As NumericVector = grid.correlations(i)
             Dim c As Double = grid.const.B(i)
@@ -61,6 +61,25 @@ Public Module Visualize
             Yield New NamedValue(Of Double) With {
                .Name = factor.name,
                .Value = impact
+            }
+        Next
+    End Function
+
+    <Extension>
+    Public Iterator Function NodeCorrelation(grid As GridMatrix) As IEnumerable(Of NamedValue(Of Double))
+        Dim impacts = grid.NodeImpacts.ToArray
+
+        For i As Integer = 0 To grid.correlations.Length - 1
+            If impacts(i).Value < 0 Then
+                Continue For
+            End If
+
+            Dim A As Double = grid.direction(i)
+
+            Yield New NamedValue(Of Double) With {
+                .Name = impacts(i).Name,
+                .Value = impacts(i).Value * A,
+                .Description = impacts(i).Value
             }
         Next
     End Function
@@ -89,7 +108,7 @@ Public Module Visualize
         Dim variableNames As New List(Of String)
         Dim edge As EdgeData
         Dim importance As Dictionary(Of String, Double) = grid _
-            .NodeImportance _
+            .NodeImpacts _
             .ToDictionary(Function(n) n.Name,
                           Function(n)
                               Return n.Value
