@@ -93,6 +93,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModuleBuilder\ModuleBuilder.vb" />
+    <Compile Include="ModuleBuilder\Symbols.vb" />
+    <Compile Include="Symbols.vb" />
+    <Compile Include="ModuleBuilder\ModuleParser.vb" />
     <Compile Include="tsconfig.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -132,7 +136,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\runtime\VB-lang\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\runtime\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>

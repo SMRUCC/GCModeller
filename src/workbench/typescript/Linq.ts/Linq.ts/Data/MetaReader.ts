@@ -1,4 +1,4 @@
-namespace TsLinq {
+namespace TypeScript.Data {
 
     /**
      * 这个对象可以自动的将调用者的函数名称作为键名进行对应的键值的读取操作
@@ -23,7 +23,7 @@ namespace TsLinq {
         */
         public GetValue(key: string = null): any {
             if (!key) {
-                key = StackTrace.GetCallerMember().memberName;
+                key = Internal.StackTrace.GetCallerMember().memberName;
             }
 
             if (key in this.meta) {

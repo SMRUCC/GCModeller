@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f60ec17feb6feccad9c7016e1f65824, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\APIInvoker.vb"
+﻿#Region "Microsoft.VisualBasic::7246f5999a2256048ff42d4c913afa19, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\APIInvoker.vb"
 
     ' Author:
     ' 
@@ -61,7 +61,7 @@ Imports System.Reflection
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 Namespace AppEngine.APIMethods
 

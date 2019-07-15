@@ -69,7 +69,7 @@ namespace HttpHelpers {
                         eval.apply(window, [script]);
                     } catch (ex) {
                         if (this.onErrorResumeNext) {
-                            if (Internal.outputWarning()) {
+                            if (TypeScript.logging.outputWarning) {
                                 console.warn(url);
                                 console.warn(ex);
                             }

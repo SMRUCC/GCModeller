@@ -205,6 +205,26 @@ class IEnumerator<T> extends LINQIterator<T> {
         return Enumerable.Where(this.sequence, predicate);
     }
 
+    public Which(predicate: (e: T) => boolean, first: boolean = true): number | IEnumerator<number> {
+        let index: number[]
+
+        if (!first) {
+            index = [];
+        }
+
+        for (var i = 0; i < this.sequence.length; i++) {
+            if (predicate(this.sequence[i])) {
+                if (first) {
+                    return i;
+                } else {
+                    index.push(i);
+                }
+            }
+        }
+
+        return new IEnumerator<number>(index);
+    }
+
     /**
      * Get the min value in current sequence.
      * (求取这个序列集合的最小元素，使用这个函数要求序列之中的元素都必须能够被转换为数值)
