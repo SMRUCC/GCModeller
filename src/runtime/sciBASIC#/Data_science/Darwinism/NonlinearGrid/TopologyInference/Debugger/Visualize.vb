@@ -101,7 +101,10 @@ Public Module Visualize
                     .label = factor.name,
                     .origID = factor.name,
                     .mass = importance(factor.name),
-                    .radius = importance(factor.name)
+                    .radius = importance(factor.name),
+                    .Properties = New Dictionary(Of String, String) From {
+                        {"impacts", importance(factor.name)}
+                    }
                 },
                 .Label = factor.name,
                 .ID = 0
@@ -120,7 +123,10 @@ Public Module Visualize
                     ' 以及低相关度的节点链接
                     edge = New EdgeData With {
                         .label = $"{factor.name} ^ {variableNames(i)}",
-                        .weight = factor(i)
+                        .weight = factor(i),
+                        .Properties = New Dictionary(Of String, String) From {
+                            {"correlation", factor(i)}
+                        }
                     }
                     g.CreateEdge(factor.name, variableNames(i), edge)
                 End If
