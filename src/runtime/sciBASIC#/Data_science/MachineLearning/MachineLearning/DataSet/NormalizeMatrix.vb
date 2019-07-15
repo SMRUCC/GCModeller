@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::239f80f363f39662d40b0267f5a2bd3b, Data_science\MachineLearning\MachineLearning\NeuralNetwork\StoreProcedure\Models\NormalizeMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::bb97af06418e5ed82978b2b8fa10a0bb, Data_science\MachineLearning\MachineLearning\DataSet\NormalizeMatrix.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Distributions
 
-Namespace NeuralNetwork.StoreProcedure
+Namespace StoreProcedure
 
     ''' <summary>
     ''' 进行所输入的样本数据的归一化的矩阵

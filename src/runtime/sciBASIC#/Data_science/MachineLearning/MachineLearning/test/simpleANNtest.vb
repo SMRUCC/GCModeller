@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::003778342138fdcf27cba4e29a3ae18b, Data_science\MachineLearning\MachineLearning\test\simpleANNtest.vb"
+﻿#Region "Microsoft.VisualBasic::0d5cc16ad5564e05de8dbf9761783f7e, Data_science\MachineLearning\MachineLearning\test\simpleANNtest.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
-Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module simpleANNtest
@@ -124,4 +124,3 @@ Module simpleANNtest
         Pause()
     End Sub
 End Module
-

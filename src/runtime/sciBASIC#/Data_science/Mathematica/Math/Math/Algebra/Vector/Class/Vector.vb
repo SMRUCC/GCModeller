@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::afbe7a5576ae77967dee4d2f2ee66435, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::d9f6a4c29522eb14d67c4e060c412af6, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\Vector.vb"
 
     ' Author:
     ' 
@@ -38,9 +38,9 @@
     ' 
     '         Constructor: (+8 Overloads) Sub New
     '         Function: Abs, CumSum, DotProduct, Ones, Order
-    '                   Product, rand, ScaleToRange, slice, SumMagnitudes
+    '                   Product, (+2 Overloads) rand, ScaleToRange, slice, SumMagnitudes
     '                   (+2 Overloads) ToString
-    '         Operators: (+4 Overloads) -, (+5 Overloads) *, (+3 Overloads) /, (+2 Overloads) ^, (+4 Overloads) +
+    '         Operators: (+4 Overloads) -, (+6 Overloads) *, (+3 Overloads) /, (+3 Overloads) ^, (+4 Overloads) +
     '                    <, (+3 Overloads) <=, (+2 Overloads) <>, (+2 Overloads) =, >
     '                    (+3 Overloads) >=, (+2 Overloads) Or, (+2 Overloads) Xor
     ' 
@@ -286,6 +286,26 @@ Namespace LinearAlgebra
             For j As Integer = 0 To N0 - 1
                 v3(j) = v1(j) - v2(j)
             Next
+            Return v3
+        End Operator
+
+        Public Overloads Shared Operator *(data As IEnumerable(Of Double), x As Vector) As Vector
+            Dim N0 As Integer = x.[Dim]
+            Dim v3 As New Vector(N0)
+            Dim i As Integer = Scan0
+
+            ' 0 * Inf = NaN
+            ' 零乘上任意数应该都是零的?
+            For Each a As Double In data
+                If (a = 0R OrElse x(i) = 0R) Then
+                    v3(i) = 0
+                Else
+                    v3(i) = a * x(i)
+                End If
+
+                i += 1
+            Next
+
             Return v3
         End Operator
 
