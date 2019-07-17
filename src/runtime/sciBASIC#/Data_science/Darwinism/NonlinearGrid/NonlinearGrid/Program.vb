@@ -151,6 +151,12 @@ Module Program
                         }
                     End Function) _
             .ToArray
+        Dim R2Test = dataset.DataSamples _
+            .Select(Function(sample, i)
+                        Return New TrainingSet(sample)
+                    End Function) _
+            .ToArray _
+            .DoCall(apply:=Function(d) model.R2(d))
 
         If args.ContainsParameter("/order") Then
             If args("/order").DefaultValue.TextEquals("asc") Then
@@ -178,6 +184,7 @@ Module Program
         Call VBDebugger.WaitOutput()
         Call Console.WriteLine()
         Call Console.WriteLine($"DataFitting Errors={summaryResult.GroupBy(Function(r) r.actual.ToString).Select(Function(g) g.Select(Function(r) r.errors).Average).Average}")
+        Call Console.WriteLine($"R2={R2Test}")
         Call Console.WriteLine()
         Call summaryResult.Select(Function(r) r.errors).Summary
 
