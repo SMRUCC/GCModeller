@@ -156,7 +156,7 @@ Module Program
                         Return New TrainingSet(sample)
                     End Function) _
             .ToArray _
-            .DoCall(apply:=Function(d) model.R2(d))
+            .DoCall(apply:=Function(d) model.R2(d, True))
 
         If args.ContainsParameter("/order") Then
             If args("/order").DefaultValue.TextEquals("asc") Then
