@@ -77,6 +77,11 @@ Public Class Genome : Implements Chromosome(Of Genome)
         Me.MutationRate = mutationRate
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function Evaluate(X As Vector) As Double
+        Return chromosome.Evaluate(X)
+    End Function
+
     Public Function CalculateError(status As Vector, target As Double) As Double
         Dim predicts = chromosome.Evaluate(status)
 

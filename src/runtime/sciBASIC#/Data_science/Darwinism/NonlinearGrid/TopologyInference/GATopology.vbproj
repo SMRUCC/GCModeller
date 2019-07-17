@@ -114,6 +114,7 @@
   <ItemGroup>
     <Compile Include="Debugger\Debugger.vb" />
     <Compile Include="Debugger\Visualize.vb" />
+    <Compile Include="GA\FitnessMethods.vb" />
     <Compile Include="GA\Environment.vb" />
     <Compile Include="GA\Genome.vb" />
     <Compile Include="Models\PWeight.vb" />
@@ -198,6 +199,10 @@
     <ProjectReference Include="..\..\..\MachineLearning\MLDebugger\MLDebugger.vbproj">
       <Project>{ccbf36ab-506d-48a2-9150-a3762d4120ec}</Project>
       <Name>MLDebugger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Mathematica\Math\DataFittings\DataFittings.vbproj">
+      <Project>{FC125B0D-1942-496F-B502-9C0EB80E35B6}</Project>
+      <Name>DataFittings</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>

@@ -205,7 +205,7 @@ Module Program
         Call "Initialize populations".__DEBUG_ECHO
         Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate).InitialPopulation(popSize)
         Call "Initialize environment".__DEBUG_ECHO
-        Dim fitness As Fitness(Of Genome) = New Environment(trainingSet.DataSamples.AsEnumerable)
+        Dim fitness As Fitness(Of Genome) = New Environment(trainingSet.DataSamples.AsEnumerable, FitnessMethods.R2)
         Call "Create algorithm engine".__DEBUG_ECHO
         Dim ga As New GeneticAlgorithm(Of Genome)(population, fitness, Strategies.EliteCrossbreed)
         Call "Load driver".__DEBUG_ECHO
