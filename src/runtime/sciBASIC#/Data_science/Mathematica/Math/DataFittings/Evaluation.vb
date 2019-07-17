@@ -1,6 +1,9 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
+''' <summary>
+''' Data fitting result evaluation.
+''' </summary>
 Public Class Evaluation
 
     Public Property SSR As Double

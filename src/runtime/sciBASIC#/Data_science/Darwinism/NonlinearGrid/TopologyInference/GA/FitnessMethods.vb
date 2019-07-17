@@ -62,6 +62,19 @@ Public Module FitnessMethodExtensions
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function R2(target As Genome, trainingSet As TrainingSet()) As Double
+        Return target.chromosome.R2(trainingSet)
+    End Function
+
+    ''' <summary>
+    ''' R2 is in range [0, 1], 1 is better, so we needs result ``1 - R2`` as fitness
+    ''' </summary>
+    ''' <param name="target"></param>
+    ''' <param name="trainingSet"></param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function R2(target As GridSystem, trainingSet As TrainingSet()) As Double
         Dim X As Vector() = trainingSet.Select(Function(d) d.X).ToArray
         Dim Y As Double() = trainingSet.Select(Function(d) d.Y).ToArray
         Dim yfit As Func(Of Vector, Double) =

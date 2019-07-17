@@ -77,6 +77,11 @@ Public Class Genome : Implements Chromosome(Of Genome)
         Me.MutationRate = mutationRate
     End Sub
 
+    ''' <summary>
+    ''' <see cref="GridSystem.Evaluate(Vector)"/>
+    ''' </summary>
+    ''' <param name="X"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Evaluate(X As Vector) As Double
         Return chromosome.Evaluate(X)
