@@ -17,7 +17,12 @@ Public Class Evaluation
     Public ReadOnly Property R_square As Double
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return 1 - (SSE / (SSR + SSE))
+            If (SSR + SSE).IsNaNImaginary Then
+                ' Fix bugs for x / Inf = 0
+                Return 0
+            Else
+                Return 1 - (SSE / (SSR + SSE))
+            End If
         End Get
     End Property
 
