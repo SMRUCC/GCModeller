@@ -42,7 +42,7 @@ Public Class Evaluation
         Dim mean_y As Double = Y.Sum / length
         Dim pCalc = X _
             .AsParallel _
-            .Select(Function(xi, i)
+            .Select(Function(xi As Vector, i As Integer)
                         Dim yi = fx(xi)
                         ' 计算回归平方和
                         Dim SSR = (yi - mean_y) ^ 2
