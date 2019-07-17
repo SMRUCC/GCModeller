@@ -44,6 +44,7 @@
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -74,21 +75,11 @@ Module Program
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or ([in].TrimSuffix & ".formula.R")
         Dim model As GridMatrix = [in].LoadXml(Of GridMatrix)
-        Dim formulaText$ = model.const.A & " + " &
-            model.correlations _
-                .Select(Function(c, i)
-                            Return $"{model.const.B(i)} + " & c.AsEnumerable.Select(Function(cj, j) $"({cj} * X[{j + 1}])").JoinBy(" + ")
-                        End Function) _
-                .Select(Function(power, i)
-                            Return $"({model.direction(i)} * (X[{i + 1}] ^ ({power})))"
-                        End Function) _
-                .JoinBy(" + " & vbCrLf)
 
-        Return $"
-grid <- function(X) {{
-    {formulaText};
-}}".SaveTo(out, Encoding.ASCII) _
-   .CLICode
+        Return model _
+            .ToString(lang:=Languages.R) _
+            .SaveTo(out, Encoding.ASCII) _
+            .CLICode
     End Function
 
     <ExportAPI("/dump.network")>
