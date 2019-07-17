@@ -67,7 +67,7 @@ Namespace Darwinism.Models
 
         Public ReadOnly Property Cacheable As Boolean Implements Fitness(Of Individual).Cacheable
             Get
-                Return True
+                Return caclFitness.Cacheable
             End Get
         End Property
 
