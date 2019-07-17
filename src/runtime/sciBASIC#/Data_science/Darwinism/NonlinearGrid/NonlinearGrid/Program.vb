@@ -184,7 +184,7 @@ Module Program
         Call VBDebugger.WaitOutput()
         Call Console.WriteLine()
         Call Console.WriteLine($"DataFitting Errors={summaryResult.GroupBy(Function(r) r.actual.ToString).Select(Function(g) g.Select(Function(r) r.errors).Average).Average}")
-        Call Console.WriteLine($"R2={R2Test}")
+        Call Console.WriteLine($"R2_error={R2Test}")
         Call Console.WriteLine()
         Call summaryResult.Select(Function(r) r.errors).Summary
 
