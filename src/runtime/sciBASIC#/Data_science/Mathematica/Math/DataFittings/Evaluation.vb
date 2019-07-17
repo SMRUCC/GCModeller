@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
@@ -37,11 +38,11 @@ Public Class Evaluation
     ''' <param name="Y">The actual Y value output for training</param>
     ''' <param name="fx">A function for generate Y fit prediction result from the given <paramref name="X"/> input.</param>
     ''' <returns></returns>
-    Public Shared Function Calculate(X As Vector(), Y As Double(), fx As Func(Of Vector, Double)) As Evaluation
+    Public Shared Function Calculate(X As Vector(), Y As Double(), fx As Func(Of Vector, Double), Optional parallel As Boolean = True) As Evaluation
         Dim length As Integer = Y.Length
         Dim mean_y As Double = Y.Sum / length
         Dim pCalc = X _
-            .AsParallel _
+            .Populate(parallel) _
             .Select(Function(xi As Vector, i As Integer)
                         Dim yi = fx(xi)
                         ' 计算回归平方和
