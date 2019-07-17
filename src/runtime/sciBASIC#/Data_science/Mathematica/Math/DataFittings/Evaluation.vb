@@ -40,18 +40,25 @@ Public Class Evaluation
     Public Shared Function Calculate(X As Vector(), Y As Double(), fx As Func(Of Vector, Double)) As Evaluation
         Dim length As Integer = Y.Length
         Dim mean_y As Double = Y.Sum / length
-        Dim yi#
+        Dim pCalc = X _
+            .AsParallel _
+            .Select(Function(xi, i)
+                        Dim yi = fx(xi)
+                        ' 计算回归平方和
+                        Dim SSR = (yi - mean_y) ^ 2
+                        ' 残差平方和
+                        Dim SSE = (yi - Y(i)) ^ 2
+
+                        Return (SSR:=SSR, SSE:=SSE)
+                    End Function) _
+            .ToArray
+
         Dim result As New Evaluation
 
-        For i As Integer = 0 To length - 1
-            yi = fx(X(i))
-
-            ' 计算回归平方和
-            result.SSR += ((yi - mean_y) * (yi - mean_y))
-            ' 残差平方和
-            result.SSE += ((yi - Y(i)) * (yi - Y(i)))
-        Next
-
+        ' 计算回归平方和
+        result.SSR = pCalc.Select(Function(t) t.SSR).Sum
+        ' 残差平方和
+        result.SSE = pCalc.Select(Function(t) t.SSE).Sum
         result.RMSE = Math.Sqrt(result.SSE / CDbl(length))
 
         Return result
