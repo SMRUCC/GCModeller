@@ -201,13 +201,16 @@
       <Name>MLDebugger</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Mathematica\Math\DataFittings\DataFittings.vbproj">
-      <Project>{FC125B0D-1942-496F-B502-9C0EB80E35B6}</Project>
+      <Project>{fc125b0d-1942-496f-b502-9c0eb80e35b6}</Project>
       <Name>DataFittings</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
