@@ -77,6 +77,12 @@ Public Module FitnessMethodExtensions
         Dim evaluate = Evaluation.Calculate(X, Y, yfit)
         Dim R2result As Double = evaluate.R_square
 
-        Return 1 - R2result
+        ' 在进行比较的时候
+        ' NaN值是会被判定为比其他的double值都要小的?
+        If R2result.IsNaNImaginary Then
+            Return 10 ^ 200
+        Else
+            Return 1 - R2result
+        End If
     End Function
 End Module
