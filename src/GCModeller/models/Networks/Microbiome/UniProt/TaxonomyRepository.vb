@@ -150,7 +150,7 @@ Public Class TaxonomyRepository
         Dim groupName$ = $"/{part}"
 
         If Not relative Then
-            groupName = $"{base.ParentPath}/{groupName}"
+            groupName = $"{base.ParentPath}/taxonomy_ref/{groupName}"
         End If
 
         Return groupName
