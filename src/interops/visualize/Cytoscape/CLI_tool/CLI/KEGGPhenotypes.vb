@@ -94,6 +94,15 @@ Partial Module CLI
                 .ToArray
         End If
 
+        kegg_compounds = kegg_compounds _
+            .Where(Function(cpd)
+                       ' KEGG代谢组学物质鉴定结果之中可能包含有
+                       ' NA,即无鉴定结果的数据
+                       ' 在这里需要做一下过滤
+                       Return cpd.Name.IsPattern("C\d+")
+                   End Function) _
+            .ToArray
+
         Dim graph = reactions.LoadCsv(Of ReactionTable).BuildModel(kegg_compounds, extended:=True)
 
         Call graph.VisualizeKEGG.SaveAs($"{out}/network.png")
