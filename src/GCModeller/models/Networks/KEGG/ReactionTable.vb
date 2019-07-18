@@ -48,6 +48,8 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 ''' <summary>
+''' A simplify data model of KEGG reaction object.
+''' 
 ''' 对一个代谢反应过程的描述
 ''' </summary>
 Public Class ReactionTable
@@ -84,7 +86,7 @@ Public Class ReactionTable
 
         For Each file As String In (ls - l - r - "*.XML" <= br08201)
             Try
-                Yield ReactionTable.__creates(file.LoadXml(Of Reaction))
+                Yield ReactionTable.creates(file.LoadXml(Of Reaction))
             Catch ex As Exception
                 Call file.PrintException
                 Call App.LogException(ex)
@@ -94,7 +96,7 @@ Public Class ReactionTable
         Next
     End Function
 
-    Private Shared Function __creates(xml As Reaction) As ReactionTable
+    Private Shared Function creates(xml As Reaction) As ReactionTable
         Dim eq As DefaultTypes.Equation = xml.ReactionModel
         Return New ReactionTable With {
             .definition = xml.Definition,

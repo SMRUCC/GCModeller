@@ -77,7 +77,11 @@ Public Class ReactionRepository : Inherits XmlDataModel
             Return table.Values.ToArray
         End Get
         Set(value As Reaction())
-            table = value.ToDictionary(Function(r) r.ID)
+            If value.IsNullOrEmpty Then
+                table = New Dictionary(Of String, Reaction)
+            Else
+                table = value.ToDictionary(Function(r) r.ID)
+            End If
         End Set
     End Property
 
@@ -142,6 +146,7 @@ Public Class ReactionRepository : Inherits XmlDataModel
                                     Return text.Replace("&#x8;", "")
                                 End Function
                 )
+
                 If Not list.ContainsKey(.ID) Then
                     list(.ID) = .ByRef
                     busy.Step()
