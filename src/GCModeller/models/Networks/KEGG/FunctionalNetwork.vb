@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::b6861eca489dff54dac09447daf1bad4, models\Networks\KEGG\FunctionalNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module FunctionalNetwork
-    ' 
-    '     Function: KOGroupTable, VisualizeKEGG
-    ' 
-    ' /********************************************************************************/
+' Module FunctionalNetwork
+' 
+'     Function: KOGroupTable, VisualizeKEGG
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
@@ -123,12 +124,14 @@ Public Module FunctionalNetwork
             Next
         End If
 
-        Dim graphNodes = graph.vertex.ToDictionary
-        Dim nodeGroups = model.Nodes _
+        Dim graphNodes As Dictionary(Of Graph.Node) = graph.vertex.ToDictionary
+        Dim nodeGroups = model.nodes _
             .Select(Function(n)
                         Return Strings _
                             .Split(n.NodeType, delimiter) _
-                            .Select(Function(path) (path, n))
+                            .Select(Function(path)
+                                        Return (path, n)
+                                    End Function)
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(x) x.Item1) _
@@ -148,7 +151,7 @@ Public Module FunctionalNetwork
         Dim colors As New LoopArray(Of Color)(Designer.GetColors(colorSchema))
 
         If nodeGroups.Count > colors.Length Then
-            Dim q = nodeGroups.Count * (1 - quantile)
+            Dim q As Double = nodeGroups.Count * (1 - quantile)
             Dim keys$() = nodeGroups _
                 .AsGroups _
                 .IGrouping _
@@ -157,7 +160,9 @@ Public Module FunctionalNetwork
                 .Keys
 
             nodeGroups = keys.ToDictionary(Function(key) key,
-                                           Function(key) nodeGroups(key))
+                                           Function(key)
+                                               Return nodeGroups(key)
+                                           End Function)
         End If
 
         Dim nodePoints As Dictionary(Of Graph.Node, PointF) = Nothing
