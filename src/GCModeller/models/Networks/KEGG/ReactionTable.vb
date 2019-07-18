@@ -43,6 +43,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
@@ -86,7 +87,7 @@ Public Class ReactionTable
 
         For Each file As String In (ls - l - r - "*.XML" <= br08201)
             Try
-                Yield ReactionTable.creates(file.LoadXml(Of Reaction))
+                Yield Reaction.LoadXml(handle:=file).DoCall(AddressOf creates)
             Catch ex As Exception
                 Call file.PrintException
                 Call App.LogException(ex)
@@ -98,6 +99,7 @@ Public Class ReactionTable
 
     Private Shared Function creates(xml As Reaction) As ReactionTable
         Dim eq As DefaultTypes.Equation = xml.ReactionModel
+
         Return New ReactionTable With {
             .definition = xml.Definition,
             .EC = xml.Enzyme,

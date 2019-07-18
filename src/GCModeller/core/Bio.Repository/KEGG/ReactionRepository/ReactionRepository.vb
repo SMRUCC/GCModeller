@@ -141,12 +141,7 @@ Public Class ReactionRepository : Inherits XmlDataModel
         Dim busy As New SwayBar
 
         For Each Xml As String In ls - l - r - "*.Xml" <= directory
-            With Xml.LoadXml(Of Reaction)(
-                    preprocess:=Function(text)
-                                    Return text.Replace("&#x8;", "")
-                                End Function
-                )
-
+            With Reaction.LoadXml(handle:=Xml)
                 If Not list.ContainsKey(.ID) Then
                     list(.ID) = .ByRef
                     busy.Step()

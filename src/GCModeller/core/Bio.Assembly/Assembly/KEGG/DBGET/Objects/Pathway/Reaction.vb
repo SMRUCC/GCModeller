@@ -240,5 +240,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             Return False
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function LoadXml(handle As String) As Reaction
+            Return handle.LoadXml(Of Reaction)(
+                preprocess:=Function(text)
+                                Return text.Replace("&#x8;", "")
+                            End Function
+            )
+        End Function
     End Class
 End Namespace
