@@ -43,6 +43,7 @@ Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -173,7 +174,10 @@ Partial Module CLI
         Dim taxonomy As Taxonomy()
 
         Call "Load UniProt reference genome model....".__INFO_ECHO
-        Call VBDebugger.BENCHMARK(Sub() UniProt = args("/uniprot").LoadXml(Of TaxonomyRepository))
+        Call VBDebugger.BENCHMARK(Sub()
+                                      UniProt = args("/uniprot").LoadJson(Of TaxonomyRepository)
+                                      DirectCast(UniProt, IFileReference).FilePath = args("/uniprot")
+                                  End Sub)
 
         If [in].ExtensionSuffix.ToLower Like biomSuffix Then
             taxonomy = SMRUCC.genomics.foundation.BIOM _
