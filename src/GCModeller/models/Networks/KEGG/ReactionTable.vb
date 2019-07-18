@@ -62,11 +62,18 @@ Public Class ReactionTable
     Public Property entry As String
     Public Property name As String
     Public Property definition As String
+
     ''' <summary>
     ''' 酶编号，可以通过这个编号和相对应的基因或者KO编号关联起来
     ''' </summary>
     ''' <returns></returns>
     Public Property EC As String()
+    ''' <summary>
+    ''' 和<see cref="EC"/>几乎是一个意思,只不过通过这个属性值可以更加的容易与相应的基因进行关联
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property KO As String()
+
     ''' <summary>
     ''' 底物列表
     ''' </summary>
@@ -110,7 +117,8 @@ Public Class ReactionTable
                 .ToArray,
             .substrates = eq.Reactants _
                 .Select(Function(x) x.ID) _
-                .ToArray
+                .ToArray,
+            .KO = xml.Orthology.Terms.Keys
         }
     End Function
 End Class

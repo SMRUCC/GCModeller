@@ -147,7 +147,12 @@ Public Module ReactionNetwork
         Dim edges As New Dictionary(Of String, NetworkEdge)
         ' 构建网络的基础数据
         ' 是依据KEGG代谢反应信息来定义的
-        Dim networkBase = br08901.ToDictionary(Function(r) r.entry)
+        Dim networkBase As Dictionary(Of String, ReactionTable) = br08901 _
+            .GroupBy(Function(r) r.entry) _
+            .ToDictionary(Function(r) r.Key,
+                          Function(g)
+                              Return g.First
+                          End Function)
 
         ' {KEGG_compound --> reaction ID()}
         Dim cpdGroups As Dictionary(Of String, String()) = networkBase.Values _
@@ -221,6 +226,12 @@ Public Module ReactionNetwork
                             Call edges.Add(.ByRef, edge)
                         End If
                     End With
+
+                    Dim reactions = commons.Value.Select(Function(id) networkBase(id)).ToArray
+
+                    For Each reaction As ReactionTable In reactions
+
+                    Next
 
                 Else
 
