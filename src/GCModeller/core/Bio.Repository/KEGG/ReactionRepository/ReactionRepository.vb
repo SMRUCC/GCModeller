@@ -136,6 +136,14 @@ Public Class ReactionRepository : Inherits XmlDataModel
         Return New Dictionary(Of String, Reaction)(table)
     End Function
 
+    Public Shared Function LoadAuto(handle As String) As ReactionRepository
+        If handle.ExtensionSuffix.TextEquals("xml") AndAlso handle.FileExists Then
+            Return handle.LoadXml(Of ReactionRepository)
+        Else
+            Return ScanModel(directory:=handle)
+        End If
+    End Function
+
     Public Shared Function ScanModel(directory As String) As ReactionRepository
         Dim list As New Dictionary(Of String, Reaction)
         Dim busy As New SwayBar
