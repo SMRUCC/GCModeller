@@ -49,6 +49,8 @@
 
 #End Region
 
+Imports System.ComponentModel
+Imports System.IO
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -66,6 +68,25 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
+
+    ''' <summary>
+    ''' 导出所有的跨膜转运相关的KO功能编号
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Transmembrane.KO.list")>
+    <Description("Export a KO functional id list which all of the gene in this list is involved with the transmembrane transfer activity.")>
+    <Usage("/Transmembrane.KO.list [/out <list.csv>]")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              Extensions:="*.csv",
+              Description:="If this argument is not presented in the commandline input, then result list will print on the console in tsv format.")>
+    Public Function TransmembraneKOlist(args As CommandLine) As Integer
+        Using out As StreamWriter = args.OpenStreamOutput("/out")
+
+        End Using
+
+        Return 0
+    End Function
 
     <ExportAPI("/Download.human.genes",
                Usage:="/Download.human.genes /in <geneID.list/DIR> [/batch /out <save.DIR>]")>
@@ -160,12 +181,12 @@ Partial Module CLI
 
         Dim orthology = SSDB.API.Query(KO)
 
-        If orthology.Pathway.IsNullOrEmpty Then
+        If orthology.pathway.IsNullOrEmpty Then
             Dim anno As KOAnno = __create(prot, KO, Nothing, orthology, brites)
             Return {anno}
         End If
 
-        Dim LQuery = (From pathway In orthology.Pathway Select __create(prot, KO, pathway, orthology, brites)).ToArray
+        Dim LQuery = (From pathway In orthology.pathway Select __create(prot, KO, pathway, orthology, brites)).ToArray
         Return LQuery
     End Function
 
@@ -192,15 +213,15 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Return New KOAnno With {
             .QueryId = prot,
             .KO = KO,
-            .COG = orthology.GetXRef("COG").Select(Function(x) x.Comment).JoinBy("; "),
+            .COG = orthology.GetXRef("COG").Select(Function(x) x.comment).JoinBy("; "),
             .Definition = orthology.Definition,
             .Name = orthology.Name,
-            .GO = orthology.GetXRef("GO").Select(Function(x) "GO:" & x.Comment).ToArray,
+            .GO = orthology.GetXRef("GO").Select(Function(x) "GO:" & x.comment).ToArray,
             .Category = pwyBrite.category,
             .Class = pwyBrite.class,
             .PathwayId = pathway.name,
             .PathwayName = pwyBrite.entry.text,
-            .Reactions = orthology.GetXRef("RN").Select(Function(x) x.Comment).ToArray
+            .Reactions = orthology.GetXRef("RN").Select(Function(x) x.comment).ToArray
         }
     End Function
 
