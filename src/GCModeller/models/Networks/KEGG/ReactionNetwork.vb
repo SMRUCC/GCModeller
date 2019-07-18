@@ -196,6 +196,26 @@ Public Module ReactionNetwork
             .ToDictionary
 
         Dim extendes As New List(Of Node)
+        Dim doAppendReactionEnzyme = Sub(reactionID As IEnumerable(Of String))
+                                         Dim reactions = reactionID _
+                                            .Select(Function(id) networkBase(id)) _
+                                            .Where(Function(r)
+                                                       Return Not r.KO.IsNullOrEmpty
+                                                   End Function) _
+                                            .ToArray
+
+                                         For Each reaction As ReactionTable In reactions
+                                             Dim enzymies = enzymeInfo.Takes(reaction.KO) _
+                                                 .IteratesALL _
+                                                 .Where(Function(s) Not s.StringEmpty) _
+                                                 .Distinct _
+                                                 .ToArray
+
+                                             For Each enzyme As String In enzymies
+                                                 Throw New NotImplementedException
+                                             Next
+                                         Next
+                                     End Sub
 
         ' 下面的这个for循环对所构建出来的节点列表进行边链接构建
         For Each a As Node In nodes.Values
@@ -227,25 +247,7 @@ Public Module ReactionNetwork
                         End If
                     End With
 
-                    Dim reactions = commons.Value _
-                        .Select(Function(id) networkBase(id)) _
-                        .Where(Function(r)
-                                   Return Not r.KO.IsNullOrEmpty
-                               End Function) _
-                        .ToArray
-
-                    For Each reaction As ReactionTable In reactions
-                        Dim enzymies = enzymeInfo.Takes(reaction.KO) _
-                            .IteratesALL _
-                            .Where(Function(s) Not s.StringEmpty) _
-                            .Distinct _
-                            .ToArray
-
-                        For Each enzyme As String In enzymies
-                            Pause()
-                        Next
-                    Next
-
+                    Call doAppendReactionEnzyme(commons.Value)
                 Else
 
                     ' 这两个节点之间可能存在一个空位，
@@ -255,7 +257,7 @@ Public Module ReactionNetwork
                         If Not cpdGroups.ContainsKey(a.ID) OrElse Not cpdGroups.ContainsKey(b.ID) Then
                             Continue For
                         Else
-                            extendes += cpdGroups.doNetworkExtension(a, b, gray, edges)
+                            extendes += cpdGroups.doNetworkExtension(a, b, gray, edges, doAppendReactionEnzyme)
                         End If
 
                     End If
@@ -278,7 +280,11 @@ Public Module ReactionNetwork
     End Function
 
     <Extension>
-    Private Iterator Function doNetworkExtension(cpdGroups As Dictionary(Of String, String()), a As Node, b As Node, gray$, edges As Dictionary(Of String, NetworkEdge)) As IEnumerable(Of Node)
+    Private Iterator Function doNetworkExtension(cpdGroups As Dictionary(Of String, String()),
+                                                 a As Node, b As Node,
+                                                 gray$,
+                                                 edges As Dictionary(Of String, NetworkEdge),
+                                                 doAppendReactionEnzyem As Action(Of IEnumerable(Of String))) As IEnumerable(Of Node)
         Dim indexA = cpdGroups(a.ID).Indexing
         Dim indexB = cpdGroups(b.ID).Indexing
 
@@ -317,6 +323,8 @@ Public Module ReactionNetwork
                             Call edges.Add(.ByRef, edge)
                         End If
                     End With
+
+                    Call doAppendReactionEnzyem(edge.interaction.Split("|"c))
                 Next
 
                 Exit For
