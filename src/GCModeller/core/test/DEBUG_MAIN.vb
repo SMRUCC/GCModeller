@@ -93,7 +93,7 @@ Module DEBUG_MAIN
 
         Pause()
 
-        Dim rxn = KEGG.DBGET.bGetObject.ReactionWebAPI.DownloadFrom("http://www.genome.jp/dbget-bin/www_bget?rn:R00235")
+        Dim rxn = KEGG.DBGET.bGetObject.ReactionWebAPI.Download("R00235")
 
 
         Pause()
