@@ -285,14 +285,14 @@ Public Module ReactionNetwork
                                      End Sub
 
         ' 下面的这个for循环对所构建出来的节点列表进行边链接构建
-        For Each a As Node In nodes.Values
+        For Each a As Node In nodes.Values.ToArray
             Dim reactionA = cpdGroups.TryGetValue(a.ID)
 
             If reactionA.IsNullOrEmpty Then
                 Continue For
             End If
 
-            For Each b As Node In nodes.Values.Where(Function(x) x.ID <> a.ID)
+            For Each b As Node In nodes.Values.ToArray.Where(Function(x) x.ID <> a.ID)
                 Dim rB = cpdGroups.TryGetValue(b.ID)
 
                 If rB.IsNullOrEmpty Then
