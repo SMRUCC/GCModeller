@@ -268,6 +268,10 @@
     <None Include="R\DESeq\summarizeOverlaps.pdf" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\interops\RNA-Seq\BOW\BOW.vbproj">
+      <Project>{2b903b81-95f4-455f-b892-d2ac36167453}</Project>
+      <Name>BOW</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
       <Project>{485965cd-da31-4517-86f6-94dfd28379c1}</Project>
       <Name>RDotNet.Extensions.Bioinformatics</Name>
@@ -279,10 +283,6 @@
     <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
       <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
       <Name>RDotNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\interops\RNA-Seq\BOW\BOW.vbproj">
-      <Project>{2b903b81-95f4-455f-b892-d2ac36167453}</Project>
-      <Name>BOW</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
