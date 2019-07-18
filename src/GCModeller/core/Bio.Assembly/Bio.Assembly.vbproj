@@ -471,7 +471,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetaboliteWebApi.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Enzyme.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\Enzyme.vb" />
     <Compile Include="Assembly\KEGG\DBGET\WebQuery\ReactionQuery.vb" />
     <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb" />
     <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\DbGetWebQuery.vb" />
@@ -501,8 +501,8 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Ortholog.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\SShit.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\SShit.vb" />
     <Compile Include="Assembly\KEGG\Web\QueryEntry.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Pathway.vb" />
@@ -514,7 +514,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Reference.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Orthology.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\Orthology.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\ReferenceMap\Reaction.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb" />
     <Compile Include="Assembly\KEGG\Web\Form\AllLinksWidget.vb" />
