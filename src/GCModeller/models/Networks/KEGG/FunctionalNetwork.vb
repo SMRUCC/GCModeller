@@ -72,7 +72,9 @@ Public Module FunctionalNetwork
         Return PathwayMapping _
             .DefaultKOTable _
             .ToDictionary(Function(KO) KO.Key,
-                          Function(KO) KO.Value.Parent.Description)
+                          Function(KO)
+                              Return KO.Value.parent.description
+                          End Function)
     End Function
 
     ''' <summary>
@@ -190,7 +192,8 @@ Public Module FunctionalNetwork
                 Dim polygon As PointF() = nodePoints.Selects(nodes)
 
                 Try
-                    polygon = ConvexHull.GrahamScan(polygon)  ' 计算出KEGG代谢途径簇的边界点
+                    ' 计算出KEGG代谢途径簇的边界点
+                    polygon = ConvexHull.GrahamScan(polygon)
                 Catch ex As Exception
                     Continue For
                 End Try
