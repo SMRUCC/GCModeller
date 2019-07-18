@@ -285,7 +285,7 @@ Public Module NetworkVisualizer
                     displayId:=displayId
                 )
 
-                If displayId Then
+                If displayId AndAlso labels > 0 Then
                     Call g.drawLabels(labels, frameSize, labelColorAsNodeColor)
                 End If
             End Sub

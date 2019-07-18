@@ -189,7 +189,7 @@ Public Module FunctionalNetwork
             For Each pathway In nodeGroups.SeqIterator
                 Dim nodes = (+pathway).Value
                 Dim name$ = (+pathway).Key
-                Dim polygon As PointF() = nodePoints.Selects(nodes)
+                Dim polygon As PointF() = nodePoints.Selects(nodes).ToArray
 
                 Try
                     ' 计算出KEGG代谢途径簇的边界点
