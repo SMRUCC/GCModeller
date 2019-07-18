@@ -138,11 +138,12 @@ Public Module ReactionNetwork
                                Optional delimiter$ = FunctionalNetwork.Delimiter,
                                Optional extended As Boolean = False) As NetworkTables
 
-        Dim blue = Color.CornflowerBlue.RGBExpression
+        Dim blue As String = Color.CornflowerBlue.RGBExpression
+        Dim gray As String = Color.LightGray.RGBExpression
         Dim edges As New Dictionary(Of String, NetworkEdge)
 
         ' {KEGG_compound --> reaction ID()}
-        Dim cpdGroups = br08901 _
+        Dim cpdGroups As Dictionary(Of String, String()) = br08901 _
             .Select(Function(x)
                         Return x.substrates _
                             .JoinIterates(x.products) _
@@ -222,50 +223,10 @@ Public Module ReactionNetwork
 
                         If Not cpdGroups.ContainsKey(a.ID) OrElse Not cpdGroups.ContainsKey(b.ID) Then
                             Continue For
+                        Else
+                            extendes += cpdGroups.doNetworkExtension(a, b, gray, edges)
                         End If
 
-                        Dim indexA = cpdGroups(a.ID).Indexing
-                        Dim indexB = cpdGroups(b.ID).Indexing
-
-                        For Each x In cpdGroups
-                            Dim list = x.Value
-
-                            If list.Any(Function(r) indexA(r) > -1) AndAlso list.Any(Function(r) indexB(r) > -1) Then
-                                ' 这是一个间接的拓展链接，将其加入到边列表之中
-                                ' X也添加进入拓展节点列表之中
-
-                                extendes += New Node With {
-                                    .ID = x.Key,
-                                    .NodeType = list.JoinBy(delimiter),
-                                    .Properties = New Dictionary(Of String, String) From {
-                                        {"name", x.Key},
-                                        {"color", blue}
-                                    }
-                                }
-
-                                Dim populate = Iterator Function()
-                                                   Yield (a.ID, indexA)
-                                                   Yield (b.ID, indexB)
-                                               End Function
-
-                                For Each n As (ID$, list As Index(Of String)) In populate()
-                                    Dim edge As New NetworkEdge With {
-                                        .FromNode = n.ID,
-                                        .ToNode = x.Key,
-                                        .Interaction = n.list.Objects.Intersect(list).JoinBy("|"),
-                                        .value = - .Interaction.Split("|"c).Length
-                                    }
-
-                                    With edge.GetNullDirectedGuid(True)
-                                        If Not edges.ContainsKey(.ByRef) Then
-                                            Call edges.Add(.ByRef, edge)
-                                        End If
-                                    End With
-                                Next
-
-                                Exit For
-                            End If
-                        Next
                     End If
                 End If
             Next
@@ -283,5 +244,52 @@ Public Module ReactionNetwork
         Next
 
         Return New NetworkTables(nodes.Values, edges.Values)
+    End Function
+
+    <Extension>
+    Private Iterator Function doNetworkExtension(cpdGroups As Dictionary(Of String, String()), a As Node, b As Node, gray$, edges As Dictionary(Of String, NetworkEdge)) As IEnumerable(Of Node)
+        Dim indexA = cpdGroups(a.ID).Indexing
+        Dim indexB = cpdGroups(b.ID).Indexing
+
+        For Each x In cpdGroups
+            Dim list = x.Value
+
+            If list.Any(Function(r) indexA(r) > -1) AndAlso list.Any(Function(r) indexB(r) > -1) Then
+
+                ' 这是一个间接的拓展链接，将其加入到边列表之中
+                ' X也添加进入拓展节点列表之中
+                Yield New Node With {
+                    .ID = x.Key,
+                    .NodeType = list.JoinBy(Delimiter),
+                    .Properties = New Dictionary(Of String, String) From {
+                        {"name", x.Key},
+                        {"color", gray},
+                        {"is_extended", True}
+                    }
+                }
+
+                Dim populate = Iterator Function()
+                                   Yield (a.ID, indexA)
+                                   Yield (b.ID, indexB)
+                               End Function
+
+                For Each n As (ID$, list As Index(Of String)) In populate()
+                    Dim edge As New NetworkEdge With {
+                        .fromNode = n.ID,
+                        .toNode = x.Key,
+                        .interaction = n.list.Objects.Intersect(list).JoinBy("|"),
+                        .value = - .interaction.Split("|"c).Length
+                    }
+
+                    With edge.GetNullDirectedGuid(True)
+                        If Not edges.ContainsKey(.ByRef) Then
+                            Call edges.Add(.ByRef, edge)
+                        End If
+                    End With
+                Next
+
+                Exit For
+            End If
+        Next
     End Function
 End Module
