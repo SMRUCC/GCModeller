@@ -866,6 +866,7 @@ Partial Module CLI
     <ExportAPI("/Uniprot.Mappings",
                Info:="Retrieve the uniprot annotation data by using ID mapping operations.",
                Usage:="/Uniprot.Mappings /in <id.list> [/type <P_REFSEQ_AC> /out <out.DIR>]")>
+    <Group(CLIGroups.Annotation_CLI)>
     Public Function UniprotMappings(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim type As ID_types = args.GetValue("/type", ID_types.P_REFSEQ_AC, AddressOf IDTypeParser)

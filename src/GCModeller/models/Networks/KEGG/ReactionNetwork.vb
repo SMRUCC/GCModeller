@@ -131,19 +131,26 @@ Public Module ReactionNetwork
     ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
     ''' <param name="delimiter$"></param>
     ''' <param name="extended">是否对结果进行进一步的拓展，以获取得到一个连通性更加多的大网络？默认不进行拓展</param>
+    ''' <param name="enzymeInfo">
+    ''' ``{KO => protein names}``
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Function BuildModel(br08901 As IEnumerable(Of ReactionTable),
                                compounds As IEnumerable(Of NamedValue(Of String)),
                                Optional delimiter$ = FunctionalNetwork.Delimiter,
-                               Optional extended As Boolean = False) As NetworkTables
+                               Optional extended As Boolean = False,
+                               Optional enzymeInfo As Dictionary(Of String, String()) = Nothing) As NetworkTables
 
         Dim blue As String = Color.CornflowerBlue.RGBExpression
         Dim gray As String = Color.LightGray.RGBExpression
         Dim edges As New Dictionary(Of String, NetworkEdge)
+        ' 构建网络的基础数据
+        ' 是依据KEGG代谢反应信息来定义的
+        Dim networkBase = br08901.ToDictionary(Function(r) r.entry)
 
         ' {KEGG_compound --> reaction ID()}
-        Dim cpdGroups As Dictionary(Of String, String()) = br08901 _
+        Dim cpdGroups As Dictionary(Of String, String()) = networkBase.Values _
             .Select(Function(x)
                         Return x.substrates _
                             .JoinIterates(x.products) _
@@ -203,10 +210,10 @@ Public Module ReactionNetwork
                 ' a 和 b 是直接相连的
                 If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
                     Dim edge As New NetworkEdge With {
-                        .FromNode = a.ID,
-                        .ToNode = b.ID,
+                        .fromNode = a.ID,
+                        .toNode = b.ID,
                         .value = commons.Value.Length,
-                        .Interaction = commons.Value.JoinBy("|")
+                        .interaction = commons.Value.JoinBy("|")
                     }
 
                     With edge.GetNullDirectedGuid(True)
