@@ -43,11 +43,14 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 ''' <summary>
+''' A simplify data model of KEGG reaction object.
+''' 
 ''' 对一个代谢反应过程的描述
 ''' </summary>
 Public Class ReactionTable
@@ -59,11 +62,18 @@ Public Class ReactionTable
     Public Property entry As String
     Public Property name As String
     Public Property definition As String
+
     ''' <summary>
     ''' 酶编号，可以通过这个编号和相对应的基因或者KO编号关联起来
     ''' </summary>
     ''' <returns></returns>
     Public Property EC As String()
+    ''' <summary>
+    ''' 和<see cref="EC"/>几乎是一个意思,只不过通过这个属性值可以更加的容易与相应的基因进行关联
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property KO As String()
+
     ''' <summary>
     ''' 底物列表
     ''' </summary>
@@ -84,7 +94,7 @@ Public Class ReactionTable
 
         For Each file As String In (ls - l - r - "*.XML" <= br08201)
             Try
-                Yield ReactionTable.__creates(file.LoadXml(Of Reaction))
+                Yield Reaction.LoadXml(handle:=file).DoCall(AddressOf creates)
             Catch ex As Exception
                 Call file.PrintException
                 Call App.LogException(ex)
@@ -94,8 +104,9 @@ Public Class ReactionTable
         Next
     End Function
 
-    Private Shared Function __creates(xml As Reaction) As ReactionTable
+    Private Shared Function creates(xml As Reaction) As ReactionTable
         Dim eq As DefaultTypes.Equation = xml.ReactionModel
+
         Return New ReactionTable With {
             .definition = xml.Definition,
             .EC = xml.Enzyme,
@@ -106,7 +117,8 @@ Public Class ReactionTable
                 .ToArray,
             .substrates = eq.Reactants _
                 .Select(Function(x) x.ID) _
-                .ToArray
+                .ToArray,
+            .KO = xml.Orthology?.Terms.SafeQuery.Keys
         }
     End Function
 End Class

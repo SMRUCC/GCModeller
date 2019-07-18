@@ -80,10 +80,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
         End Function
 
         Public Shared Function CreateObjects(result As SSDB.OrthologREST) As Ortholog()
-            Return result.Orthologs.Select(Function(x) __createObject(result, x)).ToArray
+            Return result.Orthologs.Select(Function(x) createObject(result, x)).ToArray
         End Function
 
-        Private Shared Function __createObject(result As SSDB.OrthologREST, hit As SShit) As Ortholog
+        Private Shared Function createObject(result As SSDB.OrthologREST, hit As SShit) As Ortholog
             Return New Ortholog With {
                 .bestAll = $"{hit.Best.Key} {hit.Best.Value}",
                 .bits = Val(hit.Bits),

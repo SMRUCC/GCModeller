@@ -43,6 +43,8 @@ Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
@@ -55,6 +57,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.foundation.BIOM.v10.components
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.Microbiome
 
@@ -157,31 +160,50 @@ Partial Module CLI
             .CLICode
     End Function
 
+    ReadOnly biomSuffix As Index(Of String) = {"json", "biom"}
+
     <ExportAPI("/microbiome.metabolic.network")>
-    <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab> /ref <reaction.repository.XML> /uniprot <repository.XML> [/out <network.directory>]")>
+    <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> [/out <network.directory>]")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
+    <Description("Construct a metabolic complementation network between the bacterial genomes from a given taxonomy list.")>
+    <Argument("/uniprot", False, CLITypes.File,
+              Extensions:="*.json",
+              Description:="A reference model which is generated from ``/Metagenome.UniProt.Ref`` command.")>
     Public Function MetabolicComplementationNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/metagenome"
         Dim UniProt As TaxonomyRepository = Nothing
-        Dim ref As ReactionRepository = args("/ref") _
-            .LoadXml(Of ReactionRepository) _
-            .Enzymetic
+        Dim ref As ReactionRepository = ReactionRepository.LoadAuto(args("/ref")).Enzymetic
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
         Dim list$()
+        Dim taxonomy As Taxonomy()
 
         Call "Load UniProt reference genome model....".__INFO_ECHO
-        Call VBDebugger.BENCHMARK(Sub() UniProt = args("/uniprot").LoadXml(Of TaxonomyRepository))
+        Call VBDebugger.BENCHMARK(Sub()
+                                      UniProt = args("/uniprot").LoadJson(Of TaxonomyRepository)
+                                      DirectCast(UniProt, IFileReference).FilePath = args("/uniprot")
+                                  End Sub)
 
-        If [in].ExtensionSuffix.TextEquals("csv") Then
-            list = EntityObject.LoadDataSet([in]).Keys
+        If [in].ExtensionSuffix.ToLower Like biomSuffix Then
+            taxonomy = SMRUCC.genomics.foundation.BIOM _
+                .ReadAuto([in]) _
+                .rows _
+                .Select(Function(r As row)
+                            Return r.metadata?.lineage
+                        End Function) _
+                .ToArray
         Else
-            list = [in].ReadAllLines
+            If [in].ExtensionSuffix.TextEquals("csv") Then
+                list = EntityObject.LoadDataSet([in]).Keys
+            Else
+                list = [in].ReadAllLines
+            End If
+
+            taxonomy = list _
+                .Distinct _
+                .Select(Function(tax) New Taxonomy(BIOMTaxonomy.TaxonomyParser(tax))) _
+                .ToArray
         End If
 
-        Dim taxonomy As Taxonomy() = list _
-            .Distinct _
-            .Select(Function(tax) New Taxonomy(BIOMTaxonomy.TaxonomyParser(tax))) _
-            .ToArray
         Dim network As NetworkGraph = UniProt _
             .PopulateModels(taxonomy, distinct:=True) _
             .Where(Function(g)

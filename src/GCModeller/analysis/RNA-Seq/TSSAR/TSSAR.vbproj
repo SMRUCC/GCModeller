@@ -250,8 +250,12 @@
     <None Include="Resources\TSSAR.pl" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\interops\RNA-Seq\BOW\BOW.vbproj">
+      <Project>{2b903b81-95f4-455f-b892-d2ac36167453}</Project>
+      <Name>BOW</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\interops\RNA-Seq\RNA-seq.Data\RNA-seq.Data.vbproj">
-      <Project>{9F515BEB-A2CA-4B96-B1D9-F4798736054D}</Project>
+      <Project>{9f515beb-a2ca-4b96-b1d9-f4798736054d}</Project>
       <Name>RNA-seq.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
@@ -265,10 +269,6 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\interops\RNA-Seq\BOW\BOW.vbproj">
-      <Project>{2b903b81-95f4-455f-b892-d2ac36167453}</Project>
-      <Name>BOW</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -74,7 +74,7 @@ Public Module ReactionNetwork
                                   .ToArray
                           End Function)
 
-        For Each node As Node In net.Nodes
+        For Each node As Node In net.nodes
             If compoundIndex.ContainsKey(node.ID) Then
                 node.NodeType = compoundIndex(node.ID).JoinBy(delimiter)
             Else
@@ -101,7 +101,7 @@ Public Module ReactionNetwork
                               Return rn.Select(Function(x) x.Item2).ToArray
                           End Function)
 
-        For Each node As Node In net.Nodes
+        For Each node As Node In net.nodes
             Dim [class] As New List(Of String)
             Dim rn$() = Strings.Split(node.NodeType, delimiter)
 
@@ -131,18 +131,31 @@ Public Module ReactionNetwork
     ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
     ''' <param name="delimiter$"></param>
     ''' <param name="extended">是否对结果进行进一步的拓展，以获取得到一个连通性更加多的大网络？默认不进行拓展</param>
+    ''' <param name="enzymeInfo">
+    ''' ``{KO => protein names}``
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Function BuildModel(br08901 As IEnumerable(Of ReactionTable),
                                compounds As IEnumerable(Of NamedValue(Of String)),
                                Optional delimiter$ = FunctionalNetwork.Delimiter,
-                               Optional extended As Boolean = False) As NetworkTables
+                               Optional extended As Boolean = False,
+                               Optional enzymeInfo As Dictionary(Of String, String()) = Nothing) As NetworkTables
 
-        Dim blue = Color.CornflowerBlue.RGBExpression
+        Dim blue As String = Color.CornflowerBlue.RGBExpression
+        Dim gray As String = Color.LightGray.RGBExpression
         Dim edges As New Dictionary(Of String, NetworkEdge)
+        ' 构建网络的基础数据
+        ' 是依据KEGG代谢反应信息来定义的
+        Dim networkBase As Dictionary(Of String, ReactionTable) = br08901 _
+            .GroupBy(Function(r) r.entry) _
+            .ToDictionary(Function(r) r.Key,
+                          Function(g)
+                              Return g.First
+                          End Function)
 
         ' {KEGG_compound --> reaction ID()}
-        Dim cpdGroups = br08901 _
+        Dim cpdGroups As Dictionary(Of String, String()) = networkBase.Values _
             .Select(Function(x)
                         Return x.substrates _
                             .JoinIterates(x.products) _
@@ -182,17 +195,104 @@ Public Module ReactionNetwork
                     End Function) _
             .ToDictionary
 
+        Dim addNewEdge = Sub(edge As NetworkEdge)
+                             With edge.GetNullDirectedGuid(True)
+                                 If Not edges.ContainsKey(.ByRef) Then
+                                     Call edges.Add(.ByRef, edge)
+                                 End If
+                             End With
+                         End Sub
         Dim extendes As New List(Of Node)
+        Dim doAppendReactionEnzyme = Sub(reactionID As IEnumerable(Of String))
+                                         Dim reactions As ReactionTable()
+
+                                         If enzymeInfo.IsNullOrEmpty Then
+                                             Return
+                                         Else
+                                             reactions = reactionID _
+                                                 .Select(Function(id) networkBase(id)) _
+                                                 .Where(Function(r)
+                                                            Return Not r.KO.IsNullOrEmpty
+                                                        End Function) _
+                                                 .ToArray
+                                         End If
+
+                                         For Each reaction As ReactionTable In reactions
+                                             Dim enzymies = enzymeInfo.Takes(reaction.KO) _
+                                                 .IteratesALL _
+                                                 .Where(Function(s) Not s.StringEmpty) _
+                                                 .Distinct _
+                                                 .ToArray
+
+                                             If Not nodes.ContainsKey(reaction.entry) Then
+                                                 nodes.Add(New Node With {
+                                                     .ID = reaction.entry,
+                                                     .NodeType = "reaction",
+                                                     .Properties = New Dictionary(Of String, String) From {
+                                                          {"name", reaction.name},
+                                                          {"color", "yellow"}
+                                                     }
+                                                 })
+                                             End If
+
+                                             For Each enzyme As String In enzymies
+                                                 If Not nodes.ContainsKey(enzyme) Then
+                                                     nodes.Add(New Node With {
+                                                         .ID = enzyme,
+                                                         .NodeType = "enzyme",
+                                                         .Properties = New Dictionary(Of String, String) From {
+                                                             {"name", enzyme},
+                                                             {"color", "red"}
+                                                         }
+                                                     })
+                                                 End If
+
+                                                 Dim edge As New NetworkEdge With {
+                                                    .fromNode = enzyme,
+                                                    .toNode = reaction.entry,
+                                                    .interaction = "catalyst",
+                                                    .value = 1
+                                                 }
+
+                                                 Call addNewEdge(edge)
+                                             Next
+
+                                             ' link between reaction with compounds
+                                             ' 不添加新的代谢物节点
+                                             ' 只添加边链接
+                                             For Each compound In reaction.products
+                                                 Dim edge As New NetworkEdge With {
+                                                    .fromNode = reaction.entry,
+                                                    .toNode = compound,
+                                                    .interaction = "reaction",
+                                                    .value = 1
+                                                 }
+
+                                                 Call addNewEdge(edge)
+                                             Next
+
+                                             For Each compound In reaction.substrates
+                                                 Dim edge As New NetworkEdge With {
+                                                    .toNode = reaction.entry,
+                                                    .fromNode = compound,
+                                                    .interaction = "reaction",
+                                                    .value = 1
+                                                 }
+
+                                                 Call addNewEdge(edge)
+                                             Next
+                                         Next
+                                     End Sub
 
         ' 下面的这个for循环对所构建出来的节点列表进行边链接构建
-        For Each a As Node In nodes.Values
+        For Each a As Node In nodes.Values.ToArray
             Dim reactionA = cpdGroups.TryGetValue(a.ID)
 
             If reactionA.IsNullOrEmpty Then
                 Continue For
             End If
 
-            For Each b As Node In nodes.Values.Where(Function(x) x.ID <> a.ID)
+            For Each b As Node In nodes.Values.ToArray.Where(Function(x) x.ID <> a.ID)
                 Dim rB = cpdGroups.TryGetValue(b.ID)
 
                 If rB.IsNullOrEmpty Then
@@ -202,18 +302,14 @@ Public Module ReactionNetwork
                 ' a 和 b 是直接相连的
                 If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
                     Dim edge As New NetworkEdge With {
-                        .FromNode = a.ID,
-                        .ToNode = b.ID,
+                        .fromNode = a.ID,
+                        .toNode = b.ID,
                         .value = commons.Value.Length,
-                        .Interaction = commons.Value.JoinBy("|")
+                        .interaction = commons.Value.JoinBy("|")
                     }
 
-                    With edge.GetNullDirectedGuid(True)
-                        If Not edges.ContainsKey(.ByRef) Then
-                            Call edges.Add(.ByRef, edge)
-                        End If
-                    End With
-
+                    Call addNewEdge(edge)
+                    Call doAppendReactionEnzyme(commons.Value)
                 Else
 
                     ' 这两个节点之间可能存在一个空位，
@@ -222,50 +318,10 @@ Public Module ReactionNetwork
 
                         If Not cpdGroups.ContainsKey(a.ID) OrElse Not cpdGroups.ContainsKey(b.ID) Then
                             Continue For
+                        Else
+                            extendes += cpdGroups.doNetworkExtension(a, b, gray, edges, doAppendReactionEnzyme)
                         End If
 
-                        Dim indexA = cpdGroups(a.ID).Indexing
-                        Dim indexB = cpdGroups(b.ID).Indexing
-
-                        For Each x In cpdGroups
-                            Dim list = x.Value
-
-                            If list.Any(Function(r) indexA(r) > -1) AndAlso list.Any(Function(r) indexB(r) > -1) Then
-                                ' 这是一个间接的拓展链接，将其加入到边列表之中
-                                ' X也添加进入拓展节点列表之中
-
-                                extendes += New Node With {
-                                    .ID = x.Key,
-                                    .NodeType = list.JoinBy(delimiter),
-                                    .Properties = New Dictionary(Of String, String) From {
-                                        {"name", x.Key},
-                                        {"color", blue}
-                                    }
-                                }
-
-                                Dim populate = Iterator Function()
-                                                   Yield (a.ID, indexA)
-                                                   Yield (b.ID, indexB)
-                                               End Function
-
-                                For Each n As (ID$, list As Index(Of String)) In populate()
-                                    Dim edge As New NetworkEdge With {
-                                        .FromNode = n.ID,
-                                        .ToNode = x.Key,
-                                        .Interaction = n.list.Objects.Intersect(list).JoinBy("|"),
-                                        .value = - .Interaction.Split("|"c).Length
-                                    }
-
-                                    With edge.GetNullDirectedGuid(True)
-                                        If Not edges.ContainsKey(.ByRef) Then
-                                            Call edges.Add(.ByRef, edge)
-                                        End If
-                                    End With
-                                Next
-
-                                Exit For
-                            End If
-                        Next
                     End If
                 End If
             Next
@@ -283,5 +339,58 @@ Public Module ReactionNetwork
         Next
 
         Return New NetworkTables(nodes.Values, edges.Values)
+    End Function
+
+    <Extension>
+    Private Iterator Function doNetworkExtension(cpdGroups As Dictionary(Of String, String()),
+                                                 a As Node, b As Node,
+                                                 gray$,
+                                                 edges As Dictionary(Of String, NetworkEdge),
+                                                 doAppendReactionEnzyem As Action(Of IEnumerable(Of String))) As IEnumerable(Of Node)
+        Dim indexA = cpdGroups(a.ID).Indexing
+        Dim indexB = cpdGroups(b.ID).Indexing
+
+        For Each x In cpdGroups
+            Dim list = x.Value
+
+            If list.Any(Function(r) indexA(r) > -1) AndAlso list.Any(Function(r) indexB(r) > -1) Then
+
+                ' 这是一个间接的拓展链接，将其加入到边列表之中
+                ' X也添加进入拓展节点列表之中
+                Yield New Node With {
+                    .ID = x.Key,
+                    .NodeType = list.JoinBy(Delimiter),
+                    .Properties = New Dictionary(Of String, String) From {
+                        {"name", x.Key},
+                        {"color", gray},
+                        {"is_extended", True}
+                    }
+                }
+
+                Dim populate = Iterator Function()
+                                   Yield (a.ID, indexA)
+                                   Yield (b.ID, indexB)
+                               End Function
+
+                For Each n As (ID$, list As Index(Of String)) In populate()
+                    Dim edge As New NetworkEdge With {
+                        .fromNode = n.ID,
+                        .toNode = x.Key,
+                        .interaction = n.list.Objects.Intersect(list).JoinBy("|"),
+                        .value = - .interaction.Split("|"c).Length
+                    }
+
+                    With edge.GetNullDirectedGuid(True)
+                        If Not edges.ContainsKey(.ByRef) Then
+                            Call edges.Add(.ByRef, edge)
+                        End If
+                    End With
+
+                    Call doAppendReactionEnzyem(edge.interaction.Split("|"c))
+                Next
+
+                Exit For
+            End If
+        Next
     End Function
 End Module

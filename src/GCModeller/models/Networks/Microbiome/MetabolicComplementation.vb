@@ -178,10 +178,7 @@ Public Module MetabolicComplementation
     <Extension>
     Private Sub FetchModels(graph As NetworkGraph, metagenome As IEnumerable(Of TaxonomyRef), reactions As ReactionRepository)
         For Each genome As TaxonomyRef In metagenome
-            Dim metabolicNetwork As NetworkGraph =
-                genome _
-                .BuildInternalNetwork(reactions)
-
+            Dim metabolicNetwork As NetworkGraph = genome.BuildInternalNetwork(reactions)
             ' 添加该基因组的节点
             Dim node As Node = graph.CreateNode(genome.organism.scientificName)
             Dim endPoints = metabolicNetwork.EndPoints
