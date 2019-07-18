@@ -118,7 +118,7 @@ Public Class ReactionTable
             .substrates = eq.Reactants _
                 .Select(Function(x) x.ID) _
                 .ToArray,
-            .KO = xml.Orthology.Terms.Keys
+            .KO = xml.Orthology?.Terms.SafeQuery.Keys
         }
     End Function
 End Class

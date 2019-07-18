@@ -227,10 +227,23 @@ Public Module ReactionNetwork
                         End If
                     End With
 
-                    Dim reactions = commons.Value.Select(Function(id) networkBase(id)).ToArray
+                    Dim reactions = commons.Value _
+                        .Select(Function(id) networkBase(id)) _
+                        .Where(Function(r)
+                                   Return Not r.KO.IsNullOrEmpty
+                               End Function) _
+                        .ToArray
 
                     For Each reaction As ReactionTable In reactions
+                        Dim enzymies = enzymeInfo.Takes(reaction.KO) _
+                            .IteratesALL _
+                            .Where(Function(s) Not s.StringEmpty) _
+                            .Distinct _
+                            .ToArray
 
+                        For Each enzyme As String In enzymies
+                            Pause()
+                        Next
                     Next
 
                 Else
