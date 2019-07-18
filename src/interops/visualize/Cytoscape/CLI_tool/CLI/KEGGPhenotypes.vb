@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
@@ -95,6 +96,10 @@ Partial Module CLI
 
         Dim graph = reactions.LoadCsv(Of ReactionTable).BuildModel(kegg_compounds, extended:=True)
 
+        Call graph.VisualizeKEGG.SaveAs($"{out}/network.png")
+        Call graph.Save(out)
+
+        Return 0
     End Function
 
     <Extension> Private Function __distinctCommon(source As IEnumerable(Of PredictedRegulationFootprint)) As PredictedRegulationFootprint()
