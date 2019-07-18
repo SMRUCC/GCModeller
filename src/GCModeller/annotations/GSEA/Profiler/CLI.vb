@@ -151,6 +151,10 @@ Public Module CLI
 
     <ExportAPI("/GSEA")>
     <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> [/hide.progress /out <out.csv>]")>
+    <Description("Do gene set enrichment analysis.")>
+    <Argument("/background", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.Xml",
+              Description:="A genome background data file which is created by ``/KO.clusters`` or ``/GO.clusters`` tools.")>
     Public Function EnrichmentTest(args As CommandLine) As Integer
         Dim backgroundXML$ = args("/background")
         Dim background = backgroundXML.LoadXml(Of Background)
