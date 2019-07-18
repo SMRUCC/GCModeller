@@ -75,13 +75,14 @@ Partial Module CLI
 
     <ExportAPI("/KO.list")>
     <Description("Export a KO functional id list which all of the gene in this list is involved with the given pathway kgml data.")>
-    <Usage("/KO.list /kgml <pathway.kgml> [/out <list.csv>]")>
+    <Usage("/KO.list /kgml <pathway.kgml> [/skip.empty /out <list.csv>]")>
     <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
               Extensions:="*.csv",
               Description:="If this argument is not presented in the commandline input, then result list will print on the console in tsv format.")>
     Public Function TransmembraneKOlist(args As CommandLine) As Integer
         Using out As StreamWriter = args.OpenStreamOutput("/out")
             Dim kgml As KGML.pathway = args("/kgml").LoadXml(Of KGML.pathway)
+            Dim skipEmpty As Boolean = args("/skip.empty")
             Dim KOlist As String() = kgml.KOlist
             Dim enzymes = EnzymeEntry.ParseEntries _
                 .GroupBy(Function(entry) entry.KO) _
@@ -94,7 +95,9 @@ Partial Module CLI
                             Dim enzyme = enzymes.TryGetValue(id)
 
                             If enzyme.IsNullOrEmpty Then
-                                Yield New EntityObject With {.ID = id}
+                                If Not skipEmpty Then
+                                    Yield New EntityObject With {.ID = id}
+                                End If
                             Else
                                 For Each entry As EnzymeEntry In enzyme
                                     Yield New EntityObject With {
@@ -102,7 +105,8 @@ Partial Module CLI
                                         .Properties = New Dictionary(Of String, String) From {
                                             {"geneNames", entry.geneNames.JoinBy("; ")},
                                             {"fullName", entry.fullName},
-                                            {"EC_number", entry.EC}
+                                            {"EC_number", entry.EC},
+                                            {"function", entry.ECName}
                                         }
                                     }
                                 Next

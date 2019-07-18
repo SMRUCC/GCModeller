@@ -23,12 +23,19 @@
             End Get
         End Property
 
+        Public Property ECName As String
+
         Sub New(base As EnzymaticReaction)
             Me.Category = base.Category
             Me.Class = base.Class
             Me.EC = base.EC
             Me.Entry = base.Entry
             Me.SubCategory = base.SubCategory
+
+            With EC.GetTagValue(" ", trim:=True)
+                EC = .Name
+                ECName = .Value
+            End With
         End Sub
 
         Public Shared Function ParseEntries() As EnzymeEntry()
