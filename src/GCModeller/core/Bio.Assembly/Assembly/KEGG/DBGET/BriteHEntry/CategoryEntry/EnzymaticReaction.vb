@@ -92,20 +92,20 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return Build(model)
         End Function
 
-        Private Shared Function Build(Model As BriteHText) As EnzymaticReaction()
+        Protected Shared Function Build(Model As BriteHText) As EnzymaticReaction()
             Dim out As New List(Of EnzymaticReaction)
 
-            For Each [class] As BriteHText In Model.CategoryItems
-                For Each category As BriteHText In [class].CategoryItems
-                    For Each subCategory As BriteHText In category.CategoryItems
+            For Each [class] As BriteHText In Model.categoryItems
+                For Each category As BriteHText In [class].categoryItems
+                    For Each subCategory As BriteHText In category.categoryItems
 
-                        If subCategory.CategoryItems.IsNullOrEmpty Then
+                        If subCategory.categoryItems.IsNullOrEmpty Then
                             Continue For
                         End If
 
-                        For Each EC As BriteHText In subCategory.CategoryItems
-                            If Not EC.CategoryItems.IsNullOrEmpty Then
-                                out += __rxns(EC, [class], category, subCategory)
+                        For Each EC As BriteHText In subCategory.categoryItems
+                            If Not EC.categoryItems.IsNullOrEmpty Then
+                                out += KEGGrxns(EC, [class], category, subCategory)
                             End If
                         Next
                     Next
@@ -115,16 +115,16 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return out.ToArray
         End Function
 
-        Private Shared Function __rxns(EC As BriteHText, [class] As BriteHText, category As BriteHText, subCat As BriteHText) As EnzymaticReaction()
+        Private Shared Function KEGGrxns(EC As BriteHText, [class] As BriteHText, category As BriteHText, subCat As BriteHText) As EnzymaticReaction()
             Dim LQuery = LinqAPI.Exec(Of EnzymaticReaction) <=
  _
                 From rxn As BriteHText
-                In EC.CategoryItems
+                In EC.categoryItems
                 Let erxn As EnzymaticReaction = New EnzymaticReaction With {
-                    .EC = EC.ClassLabel,
-                    .Category = category.ClassLabel,
-                    .Class = [class].ClassLabel,
-                    .SubCategory = subCat.ClassLabel,
+                    .EC = EC.classLabel,
+                    .Category = category.classLabel,
+                    .Class = [class].classLabel,
+                    .SubCategory = subCat.classLabel,
                     .Entry = New KeyValuePair With {
                         .Key = rxn.entryID,
                         .Value = rxn.description
@@ -164,7 +164,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Using progress As New ProgressBar("Download KEGG Reactions...", 1, CLS:=True)
                 Dim tick As New ProgressProvider(sources.Length)
                 Dim ETA$
-                Dim __tick = Sub()
+                Dim doTick = Sub()
                                  ETA$ = tick _
                                     .ETA(progress.ElapsedMilliseconds) _
                                     .FormatTime
@@ -175,7 +175,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Call downloaderInternal(
                         r, EXPORT, directoryOrganized,
                         failures,
-                        __tick,
+                        doTick,
                         cache
                     )
                 Next
