@@ -163,8 +163,12 @@ Partial Module CLI
     ReadOnly biomSuffix As Index(Of String) = {"json", "biom"}
 
     <ExportAPI("/microbiome.metabolic.network")>
-    <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.XML> [/out <network.directory>]")>
+    <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> [/out <network.directory>]")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
+    <Description("Construct a metabolic complementation network between the bacterial genomes from a given taxonomy list.")>
+    <Argument("/uniprot", False, CLITypes.File,
+              Extensions:="*.json",
+              Description:="A reference model which is generated from ``/Metagenome.UniProt.Ref`` command.")>
     Public Function MetabolicComplementationNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/metagenome"
         Dim UniProt As TaxonomyRepository = Nothing
