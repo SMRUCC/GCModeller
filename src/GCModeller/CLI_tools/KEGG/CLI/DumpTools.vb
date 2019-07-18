@@ -55,6 +55,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -65,24 +66,58 @@ Imports SMRUCC.genomics.Assembly.KEGG.Archives
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.KGML
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
-    ''' <summary>
-    ''' 导出所有的跨膜转运相关的KO功能编号
-    ''' </summary>
-    ''' <param name="args"></param>
-    ''' <returns></returns>
-    <ExportAPI("/Transmembrane.KO.list")>
-    <Description("Export a KO functional id list which all of the gene in this list is involved with the transmembrane transfer activity.")>
-    <Usage("/Transmembrane.KO.list [/out <list.csv>]")>
+    <ExportAPI("/KO.list")>
+    <Description("Export a KO functional id list which all of the gene in this list is involved with the given pathway kgml data.")>
+    <Usage("/KO.list /kgml <pathway.kgml> [/out <list.csv>]")>
     <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
               Extensions:="*.csv",
               Description:="If this argument is not presented in the commandline input, then result list will print on the console in tsv format.")>
     Public Function TransmembraneKOlist(args As CommandLine) As Integer
         Using out As StreamWriter = args.OpenStreamOutput("/out")
+            Dim kgml As KGML.pathway = args("/kgml").LoadXml(Of KGML.pathway)
+            Dim KOlist As String() = kgml.KOlist
+            Dim enzymes = EnzymeEntry.ParseEntries _
+                .GroupBy(Function(entry) entry.KO) _
+                .ToDictionary(Function(entry) entry.Key,
+                              Function(g)
+                                  Return g.ToArray
+                              End Function)
+            Dim list As EntityObject() = KOlist _
+                .Select(Iterator Function(id)
+                            Dim enzyme = enzymes.TryGetValue(id)
 
+                            If enzyme.IsNullOrEmpty Then
+                                Yield New EntityObject With {.ID = id}
+                            Else
+                                For Each entry As EnzymeEntry In enzyme
+                                    Yield New EntityObject With {
+                                        .ID = id,
+                                        .Properties = New Dictionary(Of String, String) From {
+                                            {"geneNames", entry.geneNames.JoinBy("; ")},
+                                            {"fullName", entry.fullName},
+                                            {"EC_number", entry.EC}
+                                        }
+                                    }
+                                Next
+                            End If
+                        End Function) _
+                .IteratesALL _
+                .ToArray
+
+            If args.ContainsParameter("/out") Then
+                ' csv
+                Call list.ToCsvDoc.Save(out)
+            Else
+                ' print
+                Call list.ToCsvDoc.Save(out, isTsv:=True)
+            End If
         End Using
 
         Return 0
