@@ -74,7 +74,7 @@ Public Module ReactionNetwork
                                   .ToArray
                           End Function)
 
-        For Each node As Node In net.Nodes
+        For Each node As Node In net.nodes
             If compoundIndex.ContainsKey(node.ID) Then
                 node.NodeType = compoundIndex(node.ID).JoinBy(delimiter)
             Else
@@ -101,7 +101,7 @@ Public Module ReactionNetwork
                               Return rn.Select(Function(x) x.Item2).ToArray
                           End Function)
 
-        For Each node As Node In net.Nodes
+        For Each node As Node In net.nodes
             Dim [class] As New List(Of String)
             Dim rn$() = Strings.Split(node.NodeType, delimiter)
 
@@ -195,14 +195,27 @@ Public Module ReactionNetwork
                     End Function) _
             .ToDictionary
 
+        Dim addNewEdge = Sub(edge As NetworkEdge)
+                             With edge.GetNullDirectedGuid(True)
+                                 If Not edges.ContainsKey(.ByRef) Then
+                                     Call edges.Add(.ByRef, edge)
+                                 End If
+                             End With
+                         End Sub
         Dim extendes As New List(Of Node)
         Dim doAppendReactionEnzyme = Sub(reactionID As IEnumerable(Of String))
-                                         Dim reactions = reactionID _
-                                            .Select(Function(id) networkBase(id)) _
-                                            .Where(Function(r)
-                                                       Return Not r.KO.IsNullOrEmpty
-                                                   End Function) _
-                                            .ToArray
+                                         Dim reactions As ReactionTable()
+
+                                         If enzymeInfo.IsNullOrEmpty Then
+                                             Return
+                                         Else
+                                             reactions = reactionID _
+                                                 .Select(Function(id) networkBase(id)) _
+                                                 .Where(Function(r)
+                                                            Return Not r.KO.IsNullOrEmpty
+                                                        End Function) _
+                                                 .ToArray
+                                         End If
 
                                          For Each reaction As ReactionTable In reactions
                                              Dim enzymies = enzymeInfo.Takes(reaction.KO) _
@@ -211,8 +224,62 @@ Public Module ReactionNetwork
                                                  .Distinct _
                                                  .ToArray
 
+                                             If Not nodes.ContainsKey(reaction.entry) Then
+                                                 nodes.Add(New Node With {
+                                                     .ID = reaction.entry,
+                                                     .NodeType = "reaction",
+                                                     .Properties = New Dictionary(Of String, String) From {
+                                                          {"name", reaction.name},
+                                                          {"color", "yellow"}
+                                                     }
+                                                 })
+                                             End If
+
                                              For Each enzyme As String In enzymies
-                                                 Throw New NotImplementedException
+                                                 If Not nodes.ContainsKey(enzyme) Then
+                                                     nodes.Add(New Node With {
+                                                         .ID = enzyme,
+                                                         .NodeType = "enzyme",
+                                                         .Properties = New Dictionary(Of String, String) From {
+                                                             {"name", enzyme},
+                                                             {"color", "red"}
+                                                         }
+                                                     })
+                                                 End If
+
+                                                 Dim edge As New NetworkEdge With {
+                                                    .fromNode = enzyme,
+                                                    .toNode = reaction.entry,
+                                                    .interaction = "catalyst",
+                                                    .value = 1
+                                                 }
+
+                                                 Call addNewEdge(edge)
+                                             Next
+
+                                             ' link between reaction with compounds
+                                             ' 不添加新的代谢物节点
+                                             ' 只添加边链接
+                                             For Each compound In reaction.products
+                                                 Dim edge As New NetworkEdge With {
+                                                    .fromNode = reaction.entry,
+                                                    .toNode = compound,
+                                                    .interaction = "reaction",
+                                                    .value = 1
+                                                 }
+
+                                                 Call addNewEdge(edge)
+                                             Next
+
+                                             For Each compound In reaction.substrates
+                                                 Dim edge As New NetworkEdge With {
+                                                    .toNode = reaction.entry,
+                                                    .fromNode = compound,
+                                                    .interaction = "reaction",
+                                                    .value = 1
+                                                 }
+
+                                                 Call addNewEdge(edge)
                                              Next
                                          Next
                                      End Sub
@@ -241,12 +308,7 @@ Public Module ReactionNetwork
                         .interaction = commons.Value.JoinBy("|")
                     }
 
-                    With edge.GetNullDirectedGuid(True)
-                        If Not edges.ContainsKey(.ByRef) Then
-                            Call edges.Add(.ByRef, edge)
-                        End If
-                    End With
-
+                    Call addNewEdge(edge)
                     Call doAppendReactionEnzyme(commons.Value)
                 Else
 
