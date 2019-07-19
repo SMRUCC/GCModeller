@@ -160,6 +160,55 @@ Partial Module CLI
             .CLICode
     End Function
 
+    <ExportAPI("/Membrane_transport.network")>
+    <Usage("/Membrane_transport.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> /Membrane_transport <Membrane_transport.csv> [/out <network.directory>]")>
+    Public Function Membrane_transportNetwork(args As CommandLine) As Integer
+        Dim in$ = args <= "/metagenome"
+        Dim ref As ReactionRepository = ReactionRepository.LoadAuto(args("/ref")).Enzymetic
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
+        Dim list$()
+        Dim taxonomy As Taxonomy()
+        Dim Membrane_transport = EntityObject.LoadDataSet(args <= "/Membrane_transport").ToArray
+        Dim enzymies As Enzyme() = Membrane_transport _
+            .Select(Function(e) New Enzyme(e.ID, e!fullName, e!EC_number)) _
+            .ToArray
+
+        If [in].ExtensionSuffix.ToLower Like biomSuffix Then
+            taxonomy = SMRUCC.genomics.foundation.BIOM _
+                .ReadAuto([in]) _
+                .rows _
+                .Select(Function(r As row)
+                            Return r.metadata?.lineage
+                        End Function) _
+                .ToArray
+        Else
+            If [in].ExtensionSuffix.TextEquals("csv") Then
+                list = EntityObject.LoadDataSet([in]).Keys
+            Else
+                list = [in].ReadAllLines
+            End If
+
+            taxonomy = list _
+                .Distinct _
+                .Select(Function(tax) New Taxonomy(BIOMTaxonomy.TaxonomyParser(tax))) _
+                .ToArray
+        End If
+
+        Dim network As NetworkGraph = TaxonomyRepository _
+            .LoadRepository(args("/uniprot")) _
+            .PopulateModels(taxonomy, distinct:=True) _
+            .Where(Function(g)
+                       ' 有些基因组的数据是空的？？
+                       Return Not g.genome.Terms.IsNullOrEmpty
+                   End Function) _
+            .BuildTransferNetwork(reactions:=ref, enzymes:=enzymies)
+
+        Return network _
+            .Tabular(properties:={"Color", "Family"}) _
+            .Save(out) _
+            .CLICode
+    End Function
+
     ReadOnly biomSuffix As Index(Of String) = {"json", "biom"}
 
     <ExportAPI("/microbiome.metabolic.network")>
@@ -175,7 +224,6 @@ Partial Module CLI
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
         Dim list$()
         Dim taxonomy As Taxonomy()
-        Dim Membrane_transport = EntityObject.LoadDataSet(args <= "/Membrane_transport").ToArray
 
         If [in].ExtensionSuffix.ToLower Like biomSuffix Then
             taxonomy = SMRUCC.genomics.foundation.BIOM _

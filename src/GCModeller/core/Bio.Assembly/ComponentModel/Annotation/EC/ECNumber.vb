@@ -1,58 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::e4dc09317a3bdcfea964bd62ae6d1212, Bio.Assembly\ComponentModel\Annotation\ECNumber.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ECNumber
-    ' 
-    ' 
-    '         Enum ClassTypes
-    ' 
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Properties: SerialNumber, SubCategory, SubType, Type
-    ' 
-    '     Function: ToString, ValidateValue, ValueParser
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ECNumber
+' 
+' 
+'         Enum ClassTypes
+' 
+' 
+' 
+' 
+'  
+' 
+'     Properties: SerialNumber, SubCategory, SubType, Type
+' 
+'     Function: ToString, ValidateValue, ValueParser
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.Annotation
 
@@ -84,6 +85,47 @@ Namespace ComponentModel.Annotation
         ''' </summary>
         ''' <remarks></remarks>
         <XmlAttribute> Public Property SerialNumber As Integer
+
+        Public Function Contains(ec As String) As Boolean
+            Static parserCache As New Dictionary(Of String, ECNumber)
+            Return parserCache _
+                .ComputeIfAbsent(
+                    key:=ec,
+                    lazyValue:=AddressOf ValueParser
+                ) _
+                .DoCall(AddressOf Contains)
+        End Function
+
+        ''' <summary>
+        ''' Contains or equals
+        ''' </summary>
+        ''' <param name="ec"></param>
+        ''' <returns></returns>
+        Public Function Contains(ec As ECNumber) As Boolean
+            If Type <> ec.Type Then
+                Return False
+            End If
+
+            If SubType = "-" Then
+                Return True
+            ElseIf SubType <> ec.SubType Then
+                Return False
+            End If
+
+            If SubCategory = "-" Then
+                Return True
+            ElseIf SubCategory <> ec.SubCategory Then
+                Return False
+            End If
+
+            If SerialNumber = "-" Then
+                Return True
+            ElseIf SerialNumber = ec.SerialNumber Then
+                Return False
+            End If
+
+            Return True
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Widening Operator CType(s As String) As ECNumber
