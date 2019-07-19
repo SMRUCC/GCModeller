@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -73,8 +74,17 @@ Public Module Membrane_transport
 
         ' genome -> compound -> genome
 
-        Dim addEdge = Sub(a As Node, b As Node)
-                          Dim edge As New Edge With {.U = a, .V = b, .isDirected = True}
+        Dim addEdge = Sub(a As Node, b As Node, ecNumber$)
+                          Dim edge As New Edge With {
+                              .U = a,
+                              .V = b,
+                              .isDirected = True,
+                              .data = New EdgeData With {
+                                  .Properties = New Dictionary(Of String, String) From {
+                                      {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, ecNumber}
+                                  }
+                              }
+                          }
 
                           If Not edgeTable.ContainsKey(edge.ID) Then
                               Call edgeTable.Add(edge)
@@ -91,7 +101,14 @@ Public Module Membrane_transport
 
             bacteria = New Node With {
                 .ID = genome.taxonID,
-                .Label = genome.TaxonomyString.ToString
+                .Label = genome.TaxonomyString.ToString,
+                .data = New NodeData With {
+                    .label = genome.TaxonomyString.ToString,
+                    .origID = genome.taxonID,
+                    .Properties = New Dictionary(Of String, String) From {
+                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "bacteria"}
+                    }
+                }
             }
 
             Call nodeTable.Add(bacteria.ID, bacteria)
@@ -107,7 +124,16 @@ Public Module Membrane_transport
                     With reaction.ReactionModel
                         For Each compound As String In .Reactants.Where(Function(r) Not r.ID Like ignores).Select(Function(r) r.ID)
                             If Not nodeTable.ContainsKey(compound) Then
-                                metabolite = New Node With {.Label = compound}
+                                metabolite = New Node With {
+                                    .Label = compound,
+                                    .data = New NodeData With {
+                                        .label = compound,
+                                        .origID = compound,
+                                        .Properties = New Dictionary(Of String, String) From {
+                                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"}
+                                        }
+                                    }
+                                }
 
                                 Call nodeTable.Add(metabolite)
                                 Call g.AddNode(metabolite)
@@ -115,12 +141,21 @@ Public Module Membrane_transport
 
                             metabolite = nodeTable(compound)
 
-                            Call addEdge(metabolite, bacteria)
+                            Call addEdge(metabolite, bacteria, enzyme.EC.ToString)
                         Next
 
                         For Each compound As String In .Products.Where(Function(r) Not r.ID Like ignores).Select(Function(r) r.ID)
                             If Not nodeTable.ContainsKey(compound) Then
-                                metabolite = New Node With {.Label = compound}
+                                metabolite = New Node With {
+                                    .Label = compound,
+                                    .data = New NodeData With {
+                                        .label = compound,
+                                        .origID = compound,
+                                        .Properties = New Dictionary(Of String, String) From {
+                                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"}
+                                        }
+                                    }
+                                }
 
                                 Call nodeTable.Add(metabolite)
                                 Call g.AddNode(metabolite)
@@ -128,7 +163,7 @@ Public Module Membrane_transport
 
                             metabolite = nodeTable(compound)
 
-                            Call addEdge(bacteria, metabolite)
+                            Call addEdge(bacteria, metabolite, enzyme.EC.ToString)
                         Next
                     End With
                 Next
