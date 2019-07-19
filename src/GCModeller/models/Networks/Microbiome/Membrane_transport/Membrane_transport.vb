@@ -78,6 +78,7 @@ Public Module Membrane_transport
 
                           If Not edgeTable.ContainsKey(edge.ID) Then
                               Call edgeTable.Add(edge)
+                              Call g.AddEdge(edge)
                           End If
                       End Sub
 
@@ -106,7 +107,7 @@ Public Module Membrane_transport
                     With reaction.ReactionModel
                         For Each compound As String In .Reactants.Where(Function(r) Not r.ID Like ignores).Select(Function(r) r.ID)
                             If Not nodeTable.ContainsKey(compound) Then
-                                metabolite = New Node With {.ID = compound}
+                                metabolite = New Node With {.Label = compound}
 
                                 Call nodeTable.Add(metabolite)
                                 Call g.AddNode(metabolite)
@@ -119,7 +120,7 @@ Public Module Membrane_transport
 
                         For Each compound As String In .Products.Where(Function(r) Not r.ID Like ignores).Select(Function(r) r.ID)
                             If Not nodeTable.ContainsKey(compound) Then
-                                metabolite = New Node With {.ID = compound}
+                                metabolite = New Node With {.Label = compound}
 
                                 Call nodeTable.Add(metabolite)
                                 Call g.AddNode(metabolite)
@@ -132,6 +133,8 @@ Public Module Membrane_transport
                     End With
                 Next
             Next
+
+            Call genome.ToString.__INFO_ECHO
         Next
 
         Return g
