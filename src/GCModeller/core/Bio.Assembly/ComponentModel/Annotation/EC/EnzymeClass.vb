@@ -35,5 +35,9 @@
         ''' </summary>
         ''' <remarks></remarks>
         Synthetase = 6
+        ''' <summary>
+        ''' http://www.enzyme-database.org
+        ''' </summary>
+        Translocases = 7
     End Enum
 End Namespace

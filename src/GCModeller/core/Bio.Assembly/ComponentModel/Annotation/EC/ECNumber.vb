@@ -102,6 +102,10 @@ Namespace ComponentModel.Annotation
         ''' <param name="ec"></param>
         ''' <returns></returns>
         Public Function Contains(ec As ECNumber) As Boolean
+            If ec Is Nothing Then
+                Return False
+            End If
+
             If Type <> ec.Type Then
                 Return False
             End If
@@ -157,12 +161,12 @@ Namespace ComponentModel.Annotation
             Dim tokens As String() = m.Value.Split("."c)
             Dim ecNum As New ECNumber With {
                 .Type = CInt(Val(tokens(0))),
-                .SubType = CInt(Val(tokens(1))),
-                .SubCategory = CInt(Val(tokens(2))),
-                .SerialNumber = CInt(Val(tokens(3)))
+                .SubType = CInt(Val(tokens.ElementAtOrDefault(1))),
+                .SubCategory = CInt(Val(tokens.ElementAtOrDefault(2))),
+                .SerialNumber = CInt(Val(tokens.ElementAtOrDefault(3)))
             }
 
-            If ecNum.Type > 6 OrElse ecNum.Type < 0 Then
+            If ecNum.Type > 7 OrElse ecNum.Type < 0 Then
                 ' 格式错误
                 Return Nothing
             Else
