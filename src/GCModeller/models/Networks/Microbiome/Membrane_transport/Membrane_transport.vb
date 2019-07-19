@@ -16,8 +16,20 @@ Public Class Enzyme
         Me.EC = ECNumber.ValueParser(EC)
     End Sub
 
-    Public Function Selects(repo As ReactionRepository) As Dictionary(Of String, Reaction)
-
+    ''' <summary>
+    ''' Select enzymes
+    ''' </summary>
+    ''' <param name="repo"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function Selects(repo As ReactionRepository) As IReadOnlyDictionary(Of String, Reaction)
+        Return repo _
+            .GetWhere(Function(r)
+                          Return r.Enzyme _
+                              .Any(Function(id)
+                                       Return Me.EC.Contains(id) OrElse ECNumber.ValueParser(id).Contains(EC)
+                                   End Function)
+                      End Function)
     End Function
 End Class
 
