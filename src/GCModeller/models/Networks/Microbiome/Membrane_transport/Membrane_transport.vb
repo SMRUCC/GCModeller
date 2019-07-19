@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data
@@ -35,8 +36,31 @@ End Class
 
 Public Module Membrane_transport
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="metagenome"></param>
+    ''' <param name="repo"></param>
+    ''' <param name="enzymes">
+    ''' ``{KO => enzyme}``
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
-    Public Function BuildTransferNetwork(metagenome As IEnumerable(Of TaxonomyRef), reactions As ReactionRepository, enzymes As Enzyme()) As NetworkGraph
+    Public Function BuildTransferNetwork(metagenome As IEnumerable(Of TaxonomyRef), repo As ReactionRepository, enzymes As Dictionary(Of String, Enzyme())) As NetworkGraph
+        Dim g As New NetworkGraph
 
+        ' 遍历所有的基因组
+        For Each genome As TaxonomyRef In metagenome
+            ' 得到相交的跨膜转运蛋白
+            Dim transporters = enzymes.Takes(genome.KOTerms).IteratesALL.ToArray
+
+            For Each enzyme As Enzyme In transporters
+                Dim reactions = enzyme.Selects(repo).Values.ToArray
+
+
+            Next
+        Next
+
+        Return g
     End Function
 End Module

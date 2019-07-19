@@ -169,10 +169,16 @@ Partial Module CLI
         Dim list$()
         Dim taxonomy As Taxonomy()
         Dim Membrane_transport = EntityObject.LoadDataSet(args <= "/Membrane_transport").ToArray
-        Dim enzymies As Enzyme() = Membrane_transport _
-            .Select(Function(e) New Enzyme(e.ID, e!fullName, e!EC_number)) _
+        Dim enzymies As Dictionary(Of String, Enzyme()) = Membrane_transport _
+            .Select(Function(e)
+                        Return New Enzyme(e.ID, e!fullName, e!EC_number)
+                    End Function) _
             .Where(Function(e) Not e.EC Is Nothing) _
-            .ToArray
+            .GroupBy(Function(e) e.KO) _
+            .ToDictionary(Function(e) e.Key,
+                          Function(g)
+                              Return g.ToArray
+                          End Function)
 
         If [in].ExtensionSuffix.ToLower Like biomSuffix Then
             taxonomy = SMRUCC.genomics.foundation.BIOM _
@@ -202,7 +208,7 @@ Partial Module CLI
                        ' 有些基因组的数据是空的？？
                        Return Not g.genome.Terms.IsNullOrEmpty
                    End Function) _
-            .BuildTransferNetwork(reactions:=ref, enzymes:=enzymies)
+            .BuildTransferNetwork(repo:=ref, enzymes:=enzymies)
 
         Return network _
             .Tabular(properties:={"Color", "Family"}) _
