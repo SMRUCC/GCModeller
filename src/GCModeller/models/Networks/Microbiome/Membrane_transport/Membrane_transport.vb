@@ -1,7 +1,10 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -67,6 +70,8 @@ Public Module Membrane_transport
             .Select(Function(enzg) enzg.First) _
             .Where(Function(enz) enz.Type = ClassTypes.Transferase OrElse enz.Type = ClassTypes.Translocases) _
             .ToArray
+        Dim taxonomyColors As LoopArray(Of Color) = Microsoft.VisualBasic.Imaging.ChartColors
+        Dim colorTable As New Dictionary(Of String, String)
 
         repo = repo.Subset(ecNumbers)
         ignores = ignores Or defaultIgnores
@@ -108,17 +113,24 @@ Public Module Membrane_transport
 
             If Not nodeTable.ContainsKey(familyLabel) Then
                 bacteria = New Node With {
-                    .Label = familyLabel,
+                    .Label = familyLabel.Split(";"c).Where(Function(s) Not s.StringEmpty).Last,
                     .data = New NodeData With {
                         .label = familyLabel,
                         .origID = genome.taxonID,
                         .Properties = New Dictionary(Of String, String) From {
-                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "bacteria"}
+                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "bacteria"},
+                            {"taxonomy", familyLabel},
+                            {"color", colorTable.ComputeIfAbsent(
+                                key:=genome.TaxonomyString.class,
+                                lazyValue:=Function(key)
+                                               Return taxonomyColors.Next.ToHtmlColor
+                                           End Function)
+                            }
                         }
                     }
                 }
 
-                Call nodeTable.Add(bacteria.Label, bacteria)
+                Call nodeTable.Add(familyLabel, bacteria)
                 Call g.AddNode(bacteria)
             End If
 
@@ -140,7 +152,8 @@ Public Module Membrane_transport
                                         .label = compound,
                                         .origID = compound,
                                         .Properties = New Dictionary(Of String, String) From {
-                                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"}
+                                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"},
+                                            {"color", Color.SkyBlue.ToHtmlColor}
                                         }
                                     }
                                 }
@@ -151,7 +164,7 @@ Public Module Membrane_transport
 
                             metabolite = nodeTable(compound)
 
-                            Call addEdge(metabolite, bacteria, enzyme.EC.ToString)
+                            Call addEdge(bacteria, metabolite, enzyme.EC.ToString)
                         Next
 
                         For Each compound As String In .Products.Where(Function(r) Not r.ID Like ignores).Select(Function(r) r.ID)
@@ -162,7 +175,8 @@ Public Module Membrane_transport
                                         .label = compound,
                                         .origID = compound,
                                         .Properties = New Dictionary(Of String, String) From {
-                                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"}
+                                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"},
+                                            {"color", Color.SkyBlue.ToHtmlColor}
                                         }
                                     }
                                 }
@@ -180,6 +194,35 @@ Public Module Membrane_transport
             Next
 
             Call genome.ToString.__INFO_ECHO
+        Next
+
+        ' 然后找出所有类型为metabolite的节点
+        ' 拿到对应的taxonomy
+        ' 删除metabolite相关的边链接,变更为细菌与细菌间的互做
+        For Each node As Node In g.vertex _
+            .Where(Function(n) n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "metabolite") _
+            .ToArray
+
+            ' bacteria总是U
+            Dim allConnectedGroups = g.graphEdges.Where(Function(e) e.V Is node).GroupBy(Function(e) e.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE)).ToArray
+            Dim bacterias As New List(Of Node)
+
+            For Each allConnected In allConnectedGroups
+                For Each connection In allConnected
+                    bacteria = connection.U
+
+                    bacterias.Add(bacteria)
+                    g.RemoveEdge(connection)
+                Next
+
+                For Each a In bacterias
+                    For Each b In bacterias.Where(Function(n) Not n Is a)
+                        Call addEdge(a, b, allConnected.Key)
+                    Next
+                Next
+            Next
+
+            g.RemoveNode(node)
         Next
 
         Return g

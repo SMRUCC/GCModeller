@@ -211,7 +211,7 @@ Partial Module CLI
             .BuildTransferNetwork(repo:=ref, enzymes:=enzymies)
 
         Return network _
-            .Tabular(properties:={}) _
+            .Tabular(properties:={"color", "taxonomy"}) _
             .Save(out) _
             .CLICode
     End Function
