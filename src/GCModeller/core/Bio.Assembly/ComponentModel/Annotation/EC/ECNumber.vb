@@ -167,7 +167,7 @@ Namespace ComponentModel.Annotation
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function ToString() As String
-            Return String.Format("EC-{0}.{1}.{2}.{3}", CInt(Type), SubType, SubCategory, SerialNumber)
+            Return String.Format("[EC: {0}.{1}.{2}.{3}]", CInt(Type), SubType, SubCategory, SerialNumber)
         End Function
 
         ''' <summary>
