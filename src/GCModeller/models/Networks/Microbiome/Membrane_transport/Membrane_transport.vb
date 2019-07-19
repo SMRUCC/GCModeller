@@ -65,6 +65,7 @@ Public Module Membrane_transport
             .Select(Function(enz) enz.EC) _
             .GroupBy(Function(enz) enz.ToString) _
             .Select(Function(enzg) enzg.First) _
+            .Where(Function(enz) enz.Type = ClassTypes.Transferase OrElse enz.Type = ClassTypes.Translocases) _
             .ToArray
 
         repo = repo.Subset(ecNumbers)
@@ -101,21 +102,27 @@ Public Module Membrane_transport
             Dim transporters = enzymes.Takes(genome.KOTerms) _
                 .IteratesALL _
                 .ToArray
+            Dim familyLabel$ = genome.TaxonomyString _
+                .Select(Metagenomics.TaxonomyRanks.Family) _
+                .JoinBy(";")
 
-            bacteria = New Node With {
-                .ID = genome.taxonID,
-                .Label = genome.TaxonomyString.ToString,
-                .data = New NodeData With {
-                    .label = genome.TaxonomyString.ToString,
-                    .origID = genome.taxonID,
-                    .Properties = New Dictionary(Of String, String) From {
-                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "bacteria"}
+            If Not nodeTable.ContainsKey(familyLabel) Then
+                bacteria = New Node With {
+                    .Label = familyLabel,
+                    .data = New NodeData With {
+                        .label = familyLabel,
+                        .origID = genome.taxonID,
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "bacteria"}
+                        }
                     }
                 }
-            }
 
-            Call nodeTable.Add(bacteria.ID, bacteria)
-            Call g.AddNode(bacteria)
+                Call nodeTable.Add(bacteria.Label, bacteria)
+                Call g.AddNode(bacteria)
+            End If
+
+            bacteria = nodeTable(familyLabel)
 
             For Each enzyme As Enzyme In transporters
                 reactions = enzyme.Selects(repo) _
@@ -138,7 +145,7 @@ Public Module Membrane_transport
                                     }
                                 }
 
-                                Call nodeTable.Add(metabolite)
+                                Call nodeTable.Add(compound, metabolite)
                                 Call g.AddNode(metabolite)
                             End If
 
@@ -160,7 +167,7 @@ Public Module Membrane_transport
                                     }
                                 }
 
-                                Call nodeTable.Add(metabolite)
+                                Call nodeTable.Add(compound, metabolite)
                                 Call g.AddNode(metabolite)
                             End If
 
