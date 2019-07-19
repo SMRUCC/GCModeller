@@ -54,24 +54,24 @@ K10820,ytfR,galactofuranose transport system ATP-binding protein [EC:7.5.2.9],7.
 K10551,alsA,D-allose transport system ATP-binding protein [EC:7.5.2.8],7.5.2.8,ABC-type D-allose transporter
 K09689,kpsT,capsular polysaccharide transport system ATP-binding protein [EC:7.6.2.12],7.6.2.12,ABC-type capsular-polysaccharide transporter
 K22923,vexC,Vi polysaccharide transport system ATP-binding protein [EC:7.6.2.12],7.6.2.12,ABC-type capsular-polysaccharide transporter
-K10111,malK; mtlK; thuK,multiple sugar transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K11085,msbA,"ATP-binding cassette, subfamily B, bacterial MsbA [EC:3.6.3.-]",,3.6.3.-
-K05685,macB,macrolide transport system ATP-binding/permease protein [EC:3.6.3.-],,3.6.3.-
-K09814,hrtA,hemin transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K09810,lolD,lipoprotein-releasing system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K06861,lptB,lipopolysaccharide export system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K11953,cmpD,bicarbonate transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K11952,cmpC,bicarbonate transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K15555,ssuB,sulfonate transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K15578,nrtC; nasD,nitrate/nitrite transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K14698,irtA,"ATP-binding cassette, subfamily B, bacterial IrtA [EC:3.6.3.-]",,3.6.3.-
-K14699,irtB,"ATP-binding cassette, subfamily B, bacterial IrtB [EC:3.6.3.-]",,3.6.3.-
-K16784,bioM,biotin transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K16786,ecfA1,energy-coupling factor transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K16787,ecfA2,energy-coupling factor transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K16907,,fluoroquinolone transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K17076,; lysY,putative lysine transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K12292,comA,"ATP-binding cassette, subfamily C, bacterial, competence factor transporting protein [EC:3.4.22.-]",,3.4.22.-
+K10111,malK; mtlK; thuK,multiple sugar transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K11085,msbA,"ATP-binding cassette, subfamily B, bacterial MsbA [EC:3.6.3.-]",3.6.3.-,[EC:3.6.3.-] n/a
+K05685,macB,macrolide transport system ATP-binding/permease protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K09814,hrtA,hemin transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K09810,lolD,lipoprotein-releasing system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K06861,lptB,lipopolysaccharide export system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K11953,cmpD,bicarbonate transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K11952,cmpC,bicarbonate transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K15555,ssuB,sulfonate transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K15578,nrtC; nasD,nitrate/nitrite transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K14698,irtA,"ATP-binding cassette, subfamily B, bacterial IrtA [EC:3.6.3.-]",3.6.3.-,[EC:3.6.3.-] n/a
+K14699,irtB,"ATP-binding cassette, subfamily B, bacterial IrtB [EC:3.6.3.-]",3.6.3.-,[EC:3.6.3.-] n/a
+K16784,bioM,biotin transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K16786,ecfA1,energy-coupling factor transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K16787,ecfA2,energy-coupling factor transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K16907,,fluoroquinolone transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K17076,; lysY,putative lysine transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K12292,comA,"ATP-binding cassette, subfamily C, bacterial, competence factor transporting protein [EC:3.4.22.-]",3.4.22.-,[EC:3.4.22.-] n/a
 K10548,,,,
 K10547,,,,
 K10546,,,,
@@ -559,19 +559,19 @@ K11198,PTS-Mng-EIIA; mngA; hrsA,"PTS system, 2-O-A-mannosyl-D-glycerate-specific
 K11199,PTS-Mng-EIIB; mngA; hrsA,"PTS system, 2-O-A-mannosyl-D-glycerate-specific IIB component [EC:2.7.1.195]",2.7.1.195,protein-Npi-phosphohistidine---2-O-alpha-mannosyl-D-glycerate phosphotransferase
 K08483,PTS-EI.PTSI; ptsI,"phosphotransferase system, enzyme I, PtsI [EC:2.7.3.9]",2.7.3.9,phosphoenolpyruvate---protein phosphotransferase
 K08484,PTS-EI.PTSP; ptsP,"phosphotransferase system, enzyme I, PtsP [EC:2.7.3.9]",2.7.3.9,phosphoenolpyruvate---protein phosphotransferase
-K02777,PTS-Glc-EIIA; crr,"PTS system, sugar-specific IIA component [EC:2.7.1.-]",,2.7.1.-
-K02749,PTS-Glv-EIIB; glvB; malP; aglA,"PTS system, alpha-glucoside-specific IIB component [EC:2.7.1.208 2.7.1.-]",,2.7.1.-
-K02755,PTS-Bgl-EIIA; bglF; bglP,"PTS system, beta-glucoside-specific IIA component [EC:2.7.1.-]",,2.7.1.-
-K02756,PTS-Bgl-EIIB; bglF; bglP,"PTS system, beta-glucoside-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K02752,PTS-Asc-EIIB; ascF,"PTS system, beta-glucoside (arbutin/salicin/cellobiose)-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K02763,PTS-Dgl-EIIA; gamP,"PTS system, D-glucosamine-specific IIA component [EC:2.7.1.-]",,2.7.1.-
-K02764,PTS-Dgl-EIIB; gamP,"PTS system, D-glucosamine-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K10984,PTS-Gam-EIIB; agaB,"PTS system, galactosamine-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K02744,PTS-Aga-EIIA; agaF,"PTS system, N-acetylgalactosamine-specific IIA component [EC:2.7.1.-]",,2.7.1.-
-K02745,PTS-Aga-EIIB; agaV,"PTS system, N-acetylgalactosamine-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K02806,PTS-Ntr-EIIA; ptsN,"PTS system, nitrogen regulatory IIA component [EC:2.7.1.-]",,2.7.1.-
-K19507,PTS-Gfr-EIIB; gfrB,"PTS system, fructoselysine/glucoselysine-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K19506,PTS-Gfr-EIIA; gfrA,"PTS system, fructoselysine/glucoselysine-specific IIA component [EC:2.7.1.-]",,2.7.1.-
+K02777,PTS-Glc-EIIA; crr,"PTS system, sugar-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02749,PTS-Glv-EIIB; glvB; malP; aglA,"PTS system, alpha-glucoside-specific IIB component [EC:2.7.1.208 2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02755,PTS-Bgl-EIIA; bglF; bglP,"PTS system, beta-glucoside-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02756,PTS-Bgl-EIIB; bglF; bglP,"PTS system, beta-glucoside-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02752,PTS-Asc-EIIB; ascF,"PTS system, beta-glucoside (arbutin/salicin/cellobiose)-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02763,PTS-Dgl-EIIA; gamP,"PTS system, D-glucosamine-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02764,PTS-Dgl-EIIB; gamP,"PTS system, D-glucosamine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K10984,PTS-Gam-EIIB; agaB,"PTS system, galactosamine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02744,PTS-Aga-EIIA; agaF,"PTS system, N-acetylgalactosamine-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02745,PTS-Aga-EIIB; agaV,"PTS system, N-acetylgalactosamine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02806,PTS-Ntr-EIIA; ptsN,"PTS system, nitrogen regulatory IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K19507,PTS-Gfr-EIIB; gfrB,"PTS system, fructoselysine/glucoselysine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K19506,PTS-Gfr-EIIA; gfrA,"PTS system, fructoselysine/glucoselysine-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
 K02779,,,,
 K02804,,,,
 K02810,,,,
@@ -620,7 +620,7 @@ K03196,virB11; lvhB11,type IV secretion system protein VirB11 [EC:7.4.2.8],7.4.2
 K03205,virD4; lvhD4,type IV secretion system protein VirD4 [EC:7.4.2.8],7.4.2.8,protein-secreting ATPase
 K02464,gspO,general secretion pathway protein O [EC:3.4.23.43 2.1.1.-],3.4.23.43,prepilin peptidase
 K11912,ppkA,serine/threonine-protein kinase PpkA [EC:2.7.11.1],2.7.11.1,non-specific serine/threonine protein kinase
-K02464,gspO,general secretion pathway protein O [EC:3.4.23.43 2.1.1.-],,2.1.1.-
+K02464,gspO,general secretion pathway protein O [EC:3.4.23.43 2.1.1.-],2.1.1.-,[EC:2.1.1.-] n/a
 K11004,,,,
 K11003,,,,
 K12340,,,,

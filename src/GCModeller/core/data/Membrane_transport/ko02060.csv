@@ -43,19 +43,19 @@ K11198,PTS-Mng-EIIA; mngA; hrsA,"PTS system, 2-O-A-mannosyl-D-glycerate-specific
 K11199,PTS-Mng-EIIB; mngA; hrsA,"PTS system, 2-O-A-mannosyl-D-glycerate-specific IIB component [EC:2.7.1.195]",2.7.1.195,protein-Npi-phosphohistidine---2-O-alpha-mannosyl-D-glycerate phosphotransferase
 K08483,PTS-EI.PTSI; ptsI,"phosphotransferase system, enzyme I, PtsI [EC:2.7.3.9]",2.7.3.9,phosphoenolpyruvate---protein phosphotransferase
 K08484,PTS-EI.PTSP; ptsP,"phosphotransferase system, enzyme I, PtsP [EC:2.7.3.9]",2.7.3.9,phosphoenolpyruvate---protein phosphotransferase
-K02777,PTS-Glc-EIIA; crr,"PTS system, sugar-specific IIA component [EC:2.7.1.-]",,2.7.1.-
-K02749,PTS-Glv-EIIB; glvB; malP; aglA,"PTS system, alpha-glucoside-specific IIB component [EC:2.7.1.208 2.7.1.-]",,2.7.1.-
-K02755,PTS-Bgl-EIIA; bglF; bglP,"PTS system, beta-glucoside-specific IIA component [EC:2.7.1.-]",,2.7.1.-
-K02756,PTS-Bgl-EIIB; bglF; bglP,"PTS system, beta-glucoside-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K02752,PTS-Asc-EIIB; ascF,"PTS system, beta-glucoside (arbutin/salicin/cellobiose)-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K02763,PTS-Dgl-EIIA; gamP,"PTS system, D-glucosamine-specific IIA component [EC:2.7.1.-]",,2.7.1.-
-K02764,PTS-Dgl-EIIB; gamP,"PTS system, D-glucosamine-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K10984,PTS-Gam-EIIB; agaB,"PTS system, galactosamine-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K02744,PTS-Aga-EIIA; agaF,"PTS system, N-acetylgalactosamine-specific IIA component [EC:2.7.1.-]",,2.7.1.-
-K02745,PTS-Aga-EIIB; agaV,"PTS system, N-acetylgalactosamine-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K02806,PTS-Ntr-EIIA; ptsN,"PTS system, nitrogen regulatory IIA component [EC:2.7.1.-]",,2.7.1.-
-K19507,PTS-Gfr-EIIB; gfrB,"PTS system, fructoselysine/glucoselysine-specific IIB component [EC:2.7.1.-]",,2.7.1.-
-K19506,PTS-Gfr-EIIA; gfrA,"PTS system, fructoselysine/glucoselysine-specific IIA component [EC:2.7.1.-]",,2.7.1.-
+K02777,PTS-Glc-EIIA; crr,"PTS system, sugar-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02749,PTS-Glv-EIIB; glvB; malP; aglA,"PTS system, alpha-glucoside-specific IIB component [EC:2.7.1.208 2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02755,PTS-Bgl-EIIA; bglF; bglP,"PTS system, beta-glucoside-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02756,PTS-Bgl-EIIB; bglF; bglP,"PTS system, beta-glucoside-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02752,PTS-Asc-EIIB; ascF,"PTS system, beta-glucoside (arbutin/salicin/cellobiose)-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02763,PTS-Dgl-EIIA; gamP,"PTS system, D-glucosamine-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02764,PTS-Dgl-EIIB; gamP,"PTS system, D-glucosamine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K10984,PTS-Gam-EIIB; agaB,"PTS system, galactosamine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02744,PTS-Aga-EIIA; agaF,"PTS system, N-acetylgalactosamine-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02745,PTS-Aga-EIIB; agaV,"PTS system, N-acetylgalactosamine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02806,PTS-Ntr-EIIA; ptsN,"PTS system, nitrogen regulatory IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K19507,PTS-Gfr-EIIB; gfrB,"PTS system, fructoselysine/glucoselysine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K19506,PTS-Gfr-EIIA; gfrA,"PTS system, fructoselysine/glucoselysine-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
 K02779,,,,
 K02804,,,,
 K02810,,,,
