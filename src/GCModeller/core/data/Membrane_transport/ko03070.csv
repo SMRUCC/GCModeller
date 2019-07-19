@@ -9,7 +9,7 @@ K03196,virB11; lvhB11,type IV secretion system protein VirB11 [EC:7.4.2.8],7.4.2
 K03205,virD4; lvhD4,type IV secretion system protein VirD4 [EC:7.4.2.8],7.4.2.8,protein-secreting ATPase
 K02464,gspO,general secretion pathway protein O [EC:3.4.23.43 2.1.1.-],3.4.23.43,prepilin peptidase
 K11912,ppkA,serine/threonine-protein kinase PpkA [EC:2.7.11.1],2.7.11.1,non-specific serine/threonine protein kinase
-K02464,gspO,general secretion pathway protein O [EC:3.4.23.43 2.1.1.-],,2.1.1.-
+K02464,gspO,general secretion pathway protein O [EC:3.4.23.43 2.1.1.-],2.1.1.-,[EC:2.1.1.-] n/a
 K11004,,,,
 K11003,,,,
 K12340,,,,

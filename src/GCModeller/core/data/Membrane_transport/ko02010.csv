@@ -54,24 +54,24 @@ K10820,ytfR,galactofuranose transport system ATP-binding protein [EC:7.5.2.9],7.
 K10551,alsA,D-allose transport system ATP-binding protein [EC:7.5.2.8],7.5.2.8,ABC-type D-allose transporter
 K09689,kpsT,capsular polysaccharide transport system ATP-binding protein [EC:7.6.2.12],7.6.2.12,ABC-type capsular-polysaccharide transporter
 K22923,vexC,Vi polysaccharide transport system ATP-binding protein [EC:7.6.2.12],7.6.2.12,ABC-type capsular-polysaccharide transporter
-K10111,malK; mtlK; thuK,multiple sugar transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K11085,msbA,"ATP-binding cassette, subfamily B, bacterial MsbA [EC:3.6.3.-]",,3.6.3.-
-K05685,macB,macrolide transport system ATP-binding/permease protein [EC:3.6.3.-],,3.6.3.-
-K09814,hrtA,hemin transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K09810,lolD,lipoprotein-releasing system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K06861,lptB,lipopolysaccharide export system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K11953,cmpD,bicarbonate transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K11952,cmpC,bicarbonate transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K15555,ssuB,sulfonate transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K15578,nrtC; nasD,nitrate/nitrite transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K14698,irtA,"ATP-binding cassette, subfamily B, bacterial IrtA [EC:3.6.3.-]",,3.6.3.-
-K14699,irtB,"ATP-binding cassette, subfamily B, bacterial IrtB [EC:3.6.3.-]",,3.6.3.-
-K16784,bioM,biotin transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K16786,ecfA1,energy-coupling factor transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K16787,ecfA2,energy-coupling factor transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K16907,,fluoroquinolone transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K17076,; lysY,putative lysine transport system ATP-binding protein [EC:3.6.3.-],,3.6.3.-
-K12292,comA,"ATP-binding cassette, subfamily C, bacterial, competence factor transporting protein [EC:3.4.22.-]",,3.4.22.-
+K10111,malK; mtlK; thuK,multiple sugar transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K11085,msbA,"ATP-binding cassette, subfamily B, bacterial MsbA [EC:3.6.3.-]",3.6.3.-,[EC:3.6.3.-] n/a
+K05685,macB,macrolide transport system ATP-binding/permease protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K09814,hrtA,hemin transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K09810,lolD,lipoprotein-releasing system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K06861,lptB,lipopolysaccharide export system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K11953,cmpD,bicarbonate transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K11952,cmpC,bicarbonate transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K15555,ssuB,sulfonate transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K15578,nrtC; nasD,nitrate/nitrite transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K14698,irtA,"ATP-binding cassette, subfamily B, bacterial IrtA [EC:3.6.3.-]",3.6.3.-,[EC:3.6.3.-] n/a
+K14699,irtB,"ATP-binding cassette, subfamily B, bacterial IrtB [EC:3.6.3.-]",3.6.3.-,[EC:3.6.3.-] n/a
+K16784,bioM,biotin transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K16786,ecfA1,energy-coupling factor transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K16787,ecfA2,energy-coupling factor transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K16907,,fluoroquinolone transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K17076,; lysY,putative lysine transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K12292,comA,"ATP-binding cassette, subfamily C, bacterial, competence factor transporting protein [EC:3.4.22.-]",3.4.22.-,[EC:3.4.22.-] n/a
 K10548,,,,
 K10547,,,,
 K10546,,,,
