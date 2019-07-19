@@ -248,6 +248,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Membrane_transport\Membrane_transport.vb" />
     <Compile Include="PathwayProfile.vb" />
     <Compile Include="UniProtBuilder\CacheGenerator.vb" />
     <Compile Include="UniProtExtensions.vb" />
@@ -351,8 +352,6 @@
       <Name>KEGG</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Membrane_transport\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
