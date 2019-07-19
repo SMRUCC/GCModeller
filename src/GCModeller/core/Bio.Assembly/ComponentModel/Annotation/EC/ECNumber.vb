@@ -63,47 +63,10 @@ Namespace ComponentModel.Annotation
     Public Class ECNumber
 
         ''' <summary>
-        ''' The enzyme types enumeration.
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Enum ClassTypes
-            ''' <summary>
-            ''' Oxido Reductase.(氧化还原酶)
-            ''' </summary>
-            ''' <remarks></remarks>
-            OxidoReductase = 1
-            ''' <summary>
-            ''' Transferase.(转移酶)
-            ''' </summary>
-            ''' <remarks></remarks>
-            Transferase = 2
-            ''' <summary>
-            ''' Hydrolase.(水解酶)
-            ''' </summary>
-            ''' <remarks></remarks>
-            Hydrolase = 3
-            ''' <summary>
-            ''' Lyase.(裂合酶)
-            ''' </summary>
-            ''' <remarks></remarks>
-            Lyase = 4
-            ''' <summary>
-            ''' Isomerase.(异构酶)
-            ''' </summary>
-            ''' <remarks></remarks>
-            Isomerase = 5
-            ''' <summary>
-            ''' Synthetase.(合成酶)
-            ''' </summary>
-            ''' <remarks></remarks>
-            Synthetase = 6
-        End Enum
-
-        ''' <summary>
         ''' EC编号里面的第一个数字代表酶的分类号
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Type As ECNumber.ClassTypes
+        <XmlAttribute> Public Property Type As ClassTypes
 
         ''' <summary>
         ''' 该大类之下的亚分类

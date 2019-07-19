@@ -163,7 +163,7 @@ Partial Module CLI
     ReadOnly biomSuffix As Index(Of String) = {"json", "biom"}
 
     <ExportAPI("/microbiome.metabolic.network")>
-    <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> [/out <network.directory>]")>
+    <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> /Membrane_transport <Membrane_transport.csv> [/out <network.directory>]")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     <Description("Construct a metabolic complementation network between the bacterial genomes from a given taxonomy list.")>
     <Argument("/uniprot", False, CLITypes.File,
@@ -171,17 +171,11 @@ Partial Module CLI
               Description:="A reference model which is generated from ``/Metagenome.UniProt.Ref`` command.")>
     Public Function MetabolicComplementationNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/metagenome"
-        Dim UniProt As TaxonomyRepository = Nothing
         Dim ref As ReactionRepository = ReactionRepository.LoadAuto(args("/ref")).Enzymetic
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
         Dim list$()
         Dim taxonomy As Taxonomy()
-
-        Call "Load UniProt reference genome model....".__INFO_ECHO
-        Call VBDebugger.BENCHMARK(Sub()
-                                      UniProt = args("/uniprot").LoadJson(Of TaxonomyRepository)
-                                      DirectCast(UniProt, IFileReference).FilePath = args("/uniprot")
-                                  End Sub)
+        Dim Membrane_transport = EntityObject.LoadDataSet(args <= "/Membrane_transport").ToArray
 
         If [in].ExtensionSuffix.ToLower Like biomSuffix Then
             taxonomy = SMRUCC.genomics.foundation.BIOM _
@@ -204,7 +198,8 @@ Partial Module CLI
                 .ToArray
         End If
 
-        Dim network As NetworkGraph = UniProt _
+        Dim network As NetworkGraph = TaxonomyRepository _
+            .LoadRepository(args("/uniprot")) _
             .PopulateModels(taxonomy, distinct:=True) _
             .Where(Function(g)
                        ' 有些基因组的数据是空的？？

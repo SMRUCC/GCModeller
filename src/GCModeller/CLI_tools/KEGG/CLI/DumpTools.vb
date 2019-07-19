@@ -113,6 +113,7 @@ Partial Module CLI
                             End If
                         End Function) _
                 .IteratesALL _
+                .OrderByDescending(Function(d) d!function) _
                 .ToArray
 
             If args.ContainsParameter("/out") Then

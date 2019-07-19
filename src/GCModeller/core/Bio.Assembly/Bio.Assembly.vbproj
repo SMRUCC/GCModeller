@@ -634,6 +634,7 @@
     <Compile Include="Assembly\ELIXIR\UniProt\XML\UniRef\entry.vb" />
     <Compile Include="ComponentModel\Annotation\CatalogProfiling.vb" />
     <Compile Include="ComponentModel\Annotation\COG.vb" />
+    <Compile Include="ComponentModel\Annotation\EC\EnzymeClass.vb" />
     <Compile Include="ComponentModel\Web\WebQueryModule.vb" />
     <Compile Include="ComponentModel\Web\WebQuery.vb" />
     <Compile Include="ComponentModel\IMolecule.vb" />
@@ -807,7 +808,7 @@
     <Compile Include="Assembly\NCBI\Database\CDD\BLAST\DomnArch.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\Qualifier.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\NucleicAcid.vb" />
-    <Compile Include="ComponentModel\Annotation\ECNumber.vb" />
+    <Compile Include="ComponentModel\Annotation\EC\ECNumber.vb" />
     <Compile Include="SequenceModel\FASTA\IO\FastaToken.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\AttributeValue.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\BindRxns.vb" />
