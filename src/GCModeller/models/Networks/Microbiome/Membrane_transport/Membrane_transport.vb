@@ -39,7 +39,10 @@ End Class
 
 Public Module Membrane_transport
 
-    ReadOnly defaultIgnores As New [Default](Of Index(Of String))({"C00001", "C00002", "C00008"})
+    ReadOnly defaultIgnores As New [Default](Of Index(Of String))(
+        {
+            "C00001", "C00002", "C00008", "C00003", "C00006", "C00010", "C00011"
+        })
 
     ''' <summary>
     ''' 
