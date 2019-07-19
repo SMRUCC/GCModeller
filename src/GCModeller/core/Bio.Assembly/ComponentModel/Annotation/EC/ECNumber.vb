@@ -106,19 +106,19 @@ Namespace ComponentModel.Annotation
                 Return False
             End If
 
-            If SubType = "-" Then
+            If SubType = 0 Then
                 Return True
             ElseIf SubType <> ec.SubType Then
                 Return False
             End If
 
-            If SubCategory = "-" Then
+            If SubCategory = 0 Then
                 Return True
             ElseIf SubCategory <> ec.SubCategory Then
                 Return False
             End If
 
-            If SerialNumber = "-" Then
+            If SerialNumber = 0 Then
                 Return True
             ElseIf SerialNumber = ec.SerialNumber Then
                 Return False
@@ -132,7 +132,16 @@ Namespace ComponentModel.Annotation
             Return ValueParser(s)
         End Operator
 
-        Shared ReadOnly r As New Regex("\d[.]\d+[.]\d+[.]\d+")
+        ''' <summary>
+        ''' ```
+        ''' 1.2.3.4
+        ''' 1.2.3.-
+        ''' 1.2.-.-
+        ''' ```
+        ''' </summary>
+        Public Const PatternECNumber$ = "\d(\.((\d+)|[-]))+"
+
+        Shared ReadOnly r As New Regex(PatternECNumber)
 
         ''' <summary>
         ''' 解析一个EC编号字符串，如果出现格式错误，则返回空值
@@ -169,15 +178,6 @@ Namespace ComponentModel.Annotation
         Public Overrides Function ToString() As String
             Return String.Format("[EC: {0}.{1}.{2}.{3}]", CInt(Type), SubType, SubCategory, SerialNumber)
         End Function
-
-        ''' <summary>
-        ''' ```
-        ''' 1.2.3.4
-        ''' 1.2.3.-
-        ''' 1.2.-.-
-        ''' ```
-        ''' </summary>
-        Public Const PatternECNumber$ = "\d+(\.((\d+)|[-]))+"
 
         ''' <summary>
         ''' 验证所输入的字符串的格式是否正确
