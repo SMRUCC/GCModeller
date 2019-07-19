@@ -171,6 +171,7 @@ Partial Module CLI
         Dim Membrane_transport = EntityObject.LoadDataSet(args <= "/Membrane_transport").ToArray
         Dim enzymies As Enzyme() = Membrane_transport _
             .Select(Function(e) New Enzyme(e.ID, e!fullName, e!EC_number)) _
+            .Where(Function(e) Not e.EC Is Nothing) _
             .ToArray
 
         If [in].ExtensionSuffix.ToLower Like biomSuffix Then
