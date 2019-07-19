@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Microbiome")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("Microsoft")>
-<Assembly: AssemblyProduct("Microbiome")>
-<Assembly: AssemblyCopyright("Copyright © Microsoft 2017")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTitle("Network Model for Visualize the Microbiome Interaction")>
+<Assembly: AssemblyDescription("Network Model for Visualize the Microbiome Interaction")>
+<Assembly: AssemblyCompany("SMRUCC")>
+<Assembly: AssemblyProduct("GCModeller")>
+<Assembly: AssemblyCopyright("Copyright © SMRUCC 2017")>
+<Assembly: AssemblyTrademark("Microbiome")>
 
 <Assembly: ComVisible(False)>
 
