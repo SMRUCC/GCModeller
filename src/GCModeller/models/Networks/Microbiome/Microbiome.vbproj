@@ -256,7 +256,7 @@
     <Compile Include="UniProt\TaxonomyIndexExtensions.vb" />
     <Compile Include="UniProt\TaxonomyRepository.vb" />
     <Compile Include="UniProt\TaxonomyRef.vb" />
-    <Compile Include="MetabolicComplementation.vb" />
+    <Compile Include="MetabolicComplementation\MetabolicComplementation.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -350,6 +350,9 @@
       <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
       <Name>KEGG</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Membrane_transport\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
