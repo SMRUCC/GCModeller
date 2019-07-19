@@ -132,19 +132,20 @@ Namespace ComponentModel.Annotation
             Return ValueParser(s)
         End Operator
 
+        Shared ReadOnly r As New Regex("\d[.]\d+[.]\d+[.]\d+")
+
         ''' <summary>
         ''' 解析一个EC编号字符串，如果出现格式错误，则返回空值
         ''' </summary>
         ''' <param name="expr"></param>
         ''' <returns></returns>
         Public Shared Function ValueParser(expr As String) As ECNumber
-            Dim r As New Regex("/d[.]/d+[.]/d+[.]/d+")
             Dim m As Match = r.Match(expr)
 
             ' 格式错误，没有找到相应的编号格式字符串
             If Not m.Success Then Return Nothing
 
-            Dim tokens As String() = m.Value.Split(CChar("."))
+            Dim tokens As String() = m.Value.Split("."c)
             Dim ecNum As New ECNumber With {
                 .Type = CInt(Val(tokens(0))),
                 .SubType = CInt(Val(tokens(1))),
