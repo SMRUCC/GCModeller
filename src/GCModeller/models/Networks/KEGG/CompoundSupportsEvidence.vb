@@ -23,9 +23,12 @@ Public Module CompoundSupportsEvidence
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Function EvidenceScore(repo As ReactionRepository, rxnId$, background As Index(Of String)) As Double
+    Public Function EvidenceScore(repo As ReactionRepository, rxnId$, background As Index(Of String), Optional depth% = 2) As Double
         If Not repo.Exists(rxnId) Then
             ' 在参考数据库之中没有找到对应的代谢反应过程注释信息
+            Return 0
+        ElseIf depth = 0 Then
+            ' 已经到达推断的深度了
             Return 0
         End If
 
@@ -66,8 +69,18 @@ Public Module CompoundSupportsEvidence
                     scores += 1
                 End If
             Else
-                ' 每一个reaction增加一个supports
+                Dim supports = 0
 
+                ' 每一个reaction增加一个supports
+                For Each reactionId As String In reactionIds
+                    supports += repo.EvidenceScore(reactionId, background, depth - 1)
+                Next
+
+                If supports = 0 Then
+                    ' 当前的这个代谢物没有可以能够产生的代谢过程
+                    ' 则当前的这个反应无法发生
+                    Return 0
+                End If
             End If
         Next
 
