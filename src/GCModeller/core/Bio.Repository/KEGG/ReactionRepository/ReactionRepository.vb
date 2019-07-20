@@ -59,6 +59,9 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 Public Class ReactionRepository : Inherits XmlDataModel
     Implements IRepositoryRead(Of String, Reaction)
 
+    ''' <summary>
+    ''' ``{rxnID => reaction}``
+    ''' </summary>
     Dim table As Dictionary(Of String, Reaction)
 
     <XmlNamespaceDeclarations()>
@@ -125,14 +128,26 @@ Public Class ReactionRepository : Inherits XmlDataModel
         }
     End Function
 
+    ''' <summary>
+    ''' Test if target reaction model is exists in current data repository or not. 
+    ''' </summary>
+    ''' <param name="rxnIdkey"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function Exists(key As String) As Boolean Implements IRepositoryRead(Of String, Reaction).Exists
-        Return table.ContainsKey(key)
+    Public Function Exists(rxnIdkey As String) As Boolean Implements IRepositoryRead(Of String, Reaction).Exists
+        Return table.ContainsKey(rxnIdkey)
     End Function
 
+    ''' <summary>
+    ''' Get a reaction model data by a given reaction id as index key.
+    ''' </summary>
+    ''' <param name="rxnIdkey"></param>
+    ''' <returns>
+    ''' If the key is not exists in current repository, then nothing will be returned.
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function GetByKey(key As String) As Reaction Implements IRepositoryRead(Of String, Reaction).GetByKey
-        Return table(key)
+    Public Function GetByKey(rxnIdkey As String) As Reaction Implements IRepositoryRead(Of String, Reaction).GetByKey
+        Return table.TryGetValue(rxnIdkey)
     End Function
 
     Public Function GetByKOMatch(KO As IEnumerable(Of String)) As IEnumerable(Of Reaction)
