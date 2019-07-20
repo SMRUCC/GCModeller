@@ -373,6 +373,45 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack-Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\test\bin\Biostack-Debug\</OutputPath>
+    <DefineConstants>PARALLEL=1</DefineConstants>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack-Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Biostack-Debug\</OutputPath>
+    <DefineConstants>PARALLEL=1</DefineConstants>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack-Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Biostack-Debug\</OutputPath>
+    <DefineConstants>PARALLEL=1</DefineConstants>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -450,6 +489,7 @@
     <Compile Include="Assembly\KEGG\Archives\Xml\MapAPI.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Enzyme.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compounds\TextModel.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Organism.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb" />
@@ -470,6 +510,8 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetaboliteWebApi.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\Enzyme.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\EnzymeWebQuery.vb" />
     <Compile Include="Assembly\KEGG\DBGET\WebQuery\ReactionQuery.vb" />
     <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb" />
     <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\DbGetWebQuery.vb" />
@@ -484,8 +526,10 @@
     <Compile Include="Assembly\KEGG\Medical\Extensions.vb" />
     <Compile Include="Assembly\KEGG\Web\FetchSequence.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\Area.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\KGML\Components.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\KGML\Extensions.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\MapIndex.vb" />
-    <Compile Include="Assembly\KEGG\Web\Map\KGML.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\KGML\KGML.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\LocalRender.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\Downloader.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\URLEncoder.vb" />
@@ -499,8 +543,8 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Ortholog.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\SShit.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\SShit.vb" />
     <Compile Include="Assembly\KEGG\Web\QueryEntry.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Pathway.vb" />
@@ -512,7 +556,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Reference.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Orthology.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\Orthology.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\ReferenceMap\Reaction.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb" />
     <Compile Include="Assembly\KEGG\Web\Form\AllLinksWidget.vb" />
@@ -590,6 +634,7 @@
     <Compile Include="Assembly\ELIXIR\UniProt\XML\UniRef\entry.vb" />
     <Compile Include="ComponentModel\Annotation\CatalogProfiling.vb" />
     <Compile Include="ComponentModel\Annotation\COG.vb" />
+    <Compile Include="ComponentModel\Annotation\EC\EnzymeClass.vb" />
     <Compile Include="ComponentModel\Web\WebQueryModule.vb" />
     <Compile Include="ComponentModel\Web\WebQuery.vb" />
     <Compile Include="ComponentModel\IMolecule.vb" />
@@ -763,7 +808,7 @@
     <Compile Include="Assembly\NCBI\Database\CDD\BLAST\DomnArch.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\Qualifier.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\NucleicAcid.vb" />
-    <Compile Include="ComponentModel\Annotation\ECNumber.vb" />
+    <Compile Include="ComponentModel\Annotation\EC\ECNumber.vb" />
     <Compile Include="SequenceModel\FASTA\IO\FastaToken.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\AttributeValue.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\BindRxns.vb" />

@@ -96,7 +96,7 @@ Namespace KEGG.Metabolism
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function FromRepository(repo As ReactionRepository) As ReactionLink
-            Return FromReactions(repo.MetabolicNetwork)
+            Return FromReactions(repo.metabolicNetwork)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

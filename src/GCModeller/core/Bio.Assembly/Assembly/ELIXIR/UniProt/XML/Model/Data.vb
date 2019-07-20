@@ -273,7 +273,13 @@ Namespace Assembly.Uniprot.XML
     End Class
 
     Public Class lineage
-        <XmlElement("taxon")> Public Property taxonlist As String()
+
+        <XmlElement("taxon")>
+        Public Property taxonlist As String()
+
+        Public Overrides Function ToString() As String
+            Return taxonlist.GetJson
+        End Function
     End Class
 
     ''' <summary>

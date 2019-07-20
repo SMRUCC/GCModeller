@@ -230,6 +230,7 @@
     <Compile Include="KEGGMap\PathwayNetwork.vb" />
     <Compile Include="KEGGMap\PathwayMapRender.vb" />
     <Compile Include="KOLinks.vb" />
+    <Compile Include="CompoundSupportsEvidence.vb" />
     <Compile Include="ReactionNetwork.vb" />
     <Compile Include="ReactionTable.vb" />
     <Compile Include="KEGGMap\PathwayMapNetwork.vb" />
@@ -305,6 +306,10 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\core\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
+      <Name>Bio.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

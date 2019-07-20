@@ -1,0 +1,687 @@
+ID,geneNames,fullName,EC_number,function
+K06726,rbsD,D-ribose pyranase [EC:5.4.99.62],5.4.99.62,D-ribose pyranase
+K05031,CFTR; ABCC7,cystic fibrosis transmembrane conductance regulator [EC:5.6.1.6],5.6.1.6,channel-conductance-controlling ATPase
+K05659,ABCB4,"ATP-binding cassette, subfamily B (MDR/TAP), member 4 [EC:7.6.2.2]",7.6.2.2,ABC-type xenobiotic transporter
+K05658,ABCB1; CD243,"ATP-binding cassette, subfamily B (MDR/TAP), member 1 [EC:7.6.2.2]",7.6.2.2,ABC-type xenobiotic transporter
+K18104,abcA; bmrA,"ATP-binding cassette, subfamily B, bacterial AbcA/BmrA [EC:7.6.2.2]",7.6.2.2,ABC-type xenobiotic transporter
+K06074,btuD,vitamin B12 transport system ATP-binding protein [EC:7.6.2.8],7.6.2.8,ABC-type vitamin B12 transporter
+K06857,tupC; vupC,tungstate transport system ATP-binding protein [EC:7.3.2.6],7.3.2.6,ABC-type tungstate transporter
+K15497,wtpC,molybdate/tungstate transport system ATP-binding protein [EC:7.3.2.5 7.3.2.6],7.3.2.6,ABC-type tungstate transporter
+K09693,tagH,teichoic acid transport system ATP-binding protein [EC:7.5.2.4],7.5.2.4,ABC-type teichoic-acid transporter
+K10831,tauB,taurine transport system ATP-binding protein [EC:7.6.2.7],7.6.2.7,ABC-type taurine transporter
+K02045,cysA,sulfate/thiosulfate transport system ATP-binding protein [EC:7.3.2.3],7.3.2.3,ABC-type sulfate transporter
+K05847,opuA,osmoprotectant transport system ATP-binding protein [EC:7.6.2.9],7.6.2.9,ABC-type quaternary amine transporter
+K02000,proV,glycine betaine/proline transport system ATP-binding protein [EC:7.6.2.9],7.6.2.9,ABC-type quaternary amine transporter
+K11072,potA,spermidine/putrescine transport system ATP-binding protein [EC:7.6.2.11],7.6.2.11,ABC-type polyamine transporter
+K10017,hisP,histidine transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K10041,peb1C; glnQ,aspartate/glutamate/glutamine transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K10038,glnQ,glutamine transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K10025,aotP,arginine/ornithine transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K10010,tcyC; yecC,L-cystine transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K10008,gluA,glutamate transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K09972,aapP; bztD,general L-amino acid transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K10021,occP; nocP,octopine/nopaline transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K10004,gltL; aatP,glutamate/aspartate transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K10000,artP,arginine transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K16960,tcyN,L-cystine transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K17063,bgtA,arginine/lysine/histidine/glutamine transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K23060,artR; artM,arginine/lysine/histidine transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K23064,lhpO,hydroxyproline transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K23058,,putative lysine/arginine/ornithine/histidine/octopine transport system ATP-binding protein [EC:7.4.2.1],7.4.2.1,ABC-type polar-amino-acid transporter
+K02041,phnC,phosphonate transport system ATP-binding protein [EC:7.3.2.2],7.3.2.2,ABC-type phosphonate transporter
+K02036,pstB,phosphate transport system ATP-binding protein [EC:7.3.2.1],7.3.2.1,ABC-type phosphate transporter
+K10824,nikE; cntF,nickel transport system ATP-binding protein [EC:7.2.2.11],7.2.2.11,ABC-type Ni2+ transporter
+K15587,nikD; cntD,nickel transport system ATP-binding protein [EC:7.2.2.11],7.2.2.11,ABC-type Ni2+ transporter
+K09697,natA,sodium transport system ATP-binding protein [EC:7.2.2.4],7.2.2.4,ABC-type Na+ transporter
+K02017,modC,molybdate transport system ATP-binding protein [EC:7.3.2.5],7.3.2.5,ABC-type molybdate transporter
+K15497,wtpC,molybdate/tungstate transport system ATP-binding protein [EC:7.3.2.5 7.3.2.6],7.3.2.5,ABC-type molybdate transporter
+K11603,mntA,manganese transport system ATP-binding protein [EC:7.2.2.5],7.2.2.5,ABC-type Mn2+ transporter
+K11710,troB; mntB; znuC,manganese/zinc/iron transport system ATP- binding protein [EC:7.2.2.5],7.2.2.5,ABC-type Mn2+ transporter
+K10830,psaB; scaC,manganese/zinc transport system ATP-binding protein [EC:7.2.2.5],7.2.2.5,ABC-type Mn2+ transporter
+K19973,mntA,manganese transport system ATP-binding protein [EC:7.2.2.5],7.2.2.5,ABC-type Mn2+ transporter
+K10539,araG,L-arabinose transport system ATP-binding protein [EC:7.5.2.12],7.5.2.12,ABC-type L-arabinose transporter
+K02193,ccmA,heme exporter protein A [EC:7.6.2.5],7.6.2.5,ABC-type heme transporter
+K05816,ugpC,sn-glycerol 3-phosphate transport system ATP-binding protein [EC:7.6.2.10],7.6.2.10,ABC-type glycerol 3-phosphate transporter
+K05665,ABCC1,"ATP-binding cassette, subfamily C (CFTR/MRP), member 1 [EC:7.6.2.3]",7.6.2.3,ABC-type glutathione-S-conjugate transporter
+K10829,fhuC,ferric hydroxamate transport system ATP-binding protein [EC:7.2.2.16],7.2.2.16,ABC-type ferric hydroxamate transporter
+K23188,fepC,ferric enterobactin transport system ATP-binding protein [EC:7.2.2.17],7.2.2.17,ABC-type ferric enterobactin transporter
+K23184,fecE,ferric citrate transport system ATP-binding protein [EC:7.2.2.18],7.2.2.18,ABC-type ferric citrate transporter
+K02010,afuC; fbpC,iron(III) transport system ATP-binding protein [EC:7.2.2.7],7.2.2.7,ABC-type Fe3+ transporter
+K10545,xylG,D-xylose transport system ATP-binding protein [EC:7.5.2.10],7.5.2.10,ABC-type D-xylose transporter
+K10441,rbsA,ribose transport system ATP-binding protein [EC:7.5.2.7],7.5.2.7,ABC-type D-ribose transporter
+K10542,mglA,methyl-galactoside transport system ATP-binding protein [EC:7.5.2.11],7.5.2.11,ABC-type D-galactose transporter
+K10820,ytfR,galactofuranose transport system ATP-binding protein [EC:7.5.2.9],7.5.2.9,ABC-type D-galactofuranose transporter
+K10551,alsA,D-allose transport system ATP-binding protein [EC:7.5.2.8],7.5.2.8,ABC-type D-allose transporter
+K09689,kpsT,capsular polysaccharide transport system ATP-binding protein [EC:7.6.2.12],7.6.2.12,ABC-type capsular-polysaccharide transporter
+K22923,vexC,Vi polysaccharide transport system ATP-binding protein [EC:7.6.2.12],7.6.2.12,ABC-type capsular-polysaccharide transporter
+K10111,malK; mtlK; thuK,multiple sugar transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K11085,msbA,"ATP-binding cassette, subfamily B, bacterial MsbA [EC:3.6.3.-]",3.6.3.-,[EC:3.6.3.-] n/a
+K05685,macB,macrolide transport system ATP-binding/permease protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K09814,hrtA,hemin transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K09810,lolD,lipoprotein-releasing system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K06861,lptB,lipopolysaccharide export system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K11953,cmpD,bicarbonate transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K11952,cmpC,bicarbonate transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K15555,ssuB,sulfonate transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K15578,nrtC; nasD,nitrate/nitrite transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K14698,irtA,"ATP-binding cassette, subfamily B, bacterial IrtA [EC:3.6.3.-]",3.6.3.-,[EC:3.6.3.-] n/a
+K14699,irtB,"ATP-binding cassette, subfamily B, bacterial IrtB [EC:3.6.3.-]",3.6.3.-,[EC:3.6.3.-] n/a
+K16784,bioM,biotin transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K16786,ecfA1,energy-coupling factor transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K16787,ecfA2,energy-coupling factor transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K16907,,fluoroquinolone transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K17076,; lysY,putative lysine transport system ATP-binding protein [EC:3.6.3.-],3.6.3.-,[EC:3.6.3.-] n/a
+K12292,comA,"ATP-binding cassette, subfamily C, bacterial, competence factor transporting protein [EC:3.4.22.-]",3.4.22.-,[EC:3.4.22.-] n/a
+K10548,,,,
+K10547,,,,
+K10546,,,,
+K10558,,,,
+K10557,,,,
+K10556,,,,
+K10555,,,,
+K10562,,,,
+K10561,,,,
+K10560,,,,
+K10559,,,,
+K10554,,,,
+K10553,,,,
+K10552,,,,
+K10550,,,,
+K10549,,,,
+K10544,,,,
+K10543,,,,
+K10541,,,,
+K10540,,,,
+K10538,,,,
+K10537,,,,
+K10112,,,,
+K10242,,,,
+K10241,,,,
+K10240,,,,
+K10202,,,,
+K10201,,,,
+K10200,,,,
+K10238,,,,
+K10237,,,,
+K10236,,,,
+K10199,,,,
+K10198,,,,
+K10197,,,,
+K10196,,,,
+K10195,,,,
+K10194,,,,
+K10193,,,,
+K10192,,,,
+K10235,,,,
+K10234,,,,
+K10233,,,,
+K10232,,,,
+K10229,,,,
+K10228,,,,
+K10227,,,,
+K10191,,,,
+K10190,,,,
+K10189,,,,
+K10188,,,,
+K10119,,,,
+K10118,,,,
+K10117,,,,
+K10013,,,,
+K10016,,,,
+K10015,,,,
+K10039,,,,
+K10040,,,,
+K10037,,,,
+K10036,,,,
+K10024,,,,
+K10023,,,,
+K10022,,,,
+K10009,,,,
+K02424,,,,
+K10007,,,,
+K10006,,,,
+K10005,,,,
+K09971,,,,
+K09970,,,,
+K09969,,,,
+K10020,,,,
+K10019,,,,
+K10018,,,,
+K10003,,,,
+K10002,,,,
+K10001,,,,
+K09999,,,,
+K09998,,,,
+K09997,,,,
+K09996,,,,
+K10014,,,,
+K05664,,,,
+K02471,,,,
+K06161,,,,
+K06160,,,,
+K06159,,,,
+K05684,,,,
+K05683,,,,
+K05682,,,,
+K05681,,,,
+K05680,,,,
+K05679,,,,
+K05678,,,,
+K05677,,,,
+K05676,,,,
+K05675,,,,
+K05674,,,,
+K05673,,,,
+K18889,,,,
+K18890,,,,
+K05672,,,,
+K05671,,,,
+K05033,,,,
+K05032,,,,
+K05670,,,,
+K05669,,,,
+K05668,,,,
+K05667,,,,
+K05666,,,,
+K05663,,,,
+K05662,,,,
+K05661,,,,
+K05660,,,,
+K05657,,,,
+K05656,,,,
+K05655,,,,
+K05654,,,,
+K05653,,,,
+K05652,,,,
+K05651,,,,
+K05650,,,,
+K05649,,,,
+K05648,,,,
+K05647,,,,
+K05646,,,,
+K05645,,,,
+K05644,,,,
+K05643,,,,
+K05642,,,,
+K11071,,,,
+K11070,,,,
+K11069,,,,
+K01996,,,,
+K01995,,,,
+K01998,,,,
+K01997,,,,
+K01999,,,,
+K10110,,,,
+K10109,,,,
+K10108,,,,
+K10440,,,,
+K05641,,,,
+K10439,,,,
+K11004,,,,
+K02008,,,,
+K02007,,,,
+K02006,,,,
+K10094,,,,
+K11607,,,,
+K11606,,,,
+K11605,,,,
+K11604,,,,
+K05776,,,,
+K02018,,,,
+K02020,,,,
+K02009,,,,
+K02011,,,,
+K02012,,,,
+K09817,,,,
+K09816,,,,
+K09815,,,,
+K05773,,,,
+K05772,,,,
+K10823,,,,
+K15583,,,,
+K15582,,,,
+K15581,,,,
+K15580,,,,
+K06073,,,,
+K06858,,,,
+K02071,,,,
+K02072,,,,
+K02073,,,,
+K15552,,,,
+K15551,,,,
+K15496,,,,
+K15495,,,,
+K02047,,,,
+K02046,,,,
+K02048,,,,
+K02042,,,,
+K02044,,,,
+K02038,,,,
+K02037,,,,
+K02040,,,,
+K05815,,,,
+K05814,,,,
+K05813,,,,
+K05846,,,,
+K05845,,,,
+K02001,,,,
+K02002,,,,
+K02062,,,,
+K02063,,,,
+K02064,,,,
+K09688,,,,
+K09813,,,,
+K09812,,,,
+K09811,,,,
+K09808,,,,
+K09696,,,,
+K09695,,,,
+K09694,,,,
+K09692,,,,
+K09691,,,,
+K09690,,,,
+K10107,,,,
+K02194,,,,
+K02195,,,,
+K11051,,,,
+K11050,,,,
+K11074,,,,
+K11076,,,,
+K11073,,,,
+K11075,,,,
+K11078,,,,
+K11080,,,,
+K11077,,,,
+K11079,,,,
+K11082,,,,
+K11084,,,,
+K11081,,,,
+K11083,,,,
+K11602,,,,
+K11601,,,,
+K11631,,,,
+K11632,,,,
+K11706,,,,
+K11705,,,,
+K11704,,,,
+K11709,,,,
+K11708,,,,
+K11707,,,,
+K11720,,,,
+K07091,,,,
+K11951,,,,
+K11950,,,,
+K11958,,,,
+K11957,,,,
+K11956,,,,
+K11955,,,,
+K11954,,,,
+K11963,,,,
+K11962,,,,
+K11961,,,,
+K11960,,,,
+K11959,,,,
+K12372,,,,
+K12371,,,,
+K12370,,,,
+K12369,,,,
+K12368,,,,
+K02196,,,,
+K13892,,,,
+K13891,,,,
+K13890,,,,
+K13889,,,,
+K13896,,,,
+K13895,,,,
+K13894,,,,
+K13893,,,,
+K08711,,,,
+K08712,,,,
+K13409,,,,
+K15554,,,,
+K15553,,,,
+K15558,,,,
+K15557,,,,
+K15556,,,,
+K15600,,,,
+K15599,,,,
+K15598,,,,
+K15586,,,,
+K15585,,,,
+K15584,,,,
+K15579,,,,
+K15577,,,,
+K15576,,,,
+K15628,,,,
+K15772,,,,
+K15771,,,,
+K15770,,,,
+K12536,,,,
+K12539,,,,
+K16299,,,,
+K12541,,,,
+K16012,,,,
+K16013,,,,
+K16014,,,,
+K16202,,,,
+K16201,,,,
+K16200,,,,
+K16199,,,,
+K12533,,,,
+K16915,,,,
+K16783,,,,
+K03523,,,,
+K16785,,,,
+K16906,,,,
+K16905,,,,
+K16920,,,,
+K16921,,,,
+K16919,,,,
+K16918,,,,
+K16917,,,,
+K16916,,,,
+K16959,,,,
+K16958,,,,
+K16957,,,,
+K16956,,,,
+K16963,,,,
+K16962,,,,
+K16961,,,,
+K17074,,,,
+K17062,,,,
+K17073,,,,
+K17204,,,,
+K17203,,,,
+K17202,,,,
+K17207,,,,
+K17206,,,,
+K17205,,,,
+K17210,,,,
+K17215,,,,
+K17209,,,,
+K17214,,,,
+K17208,,,,
+K17213,,,,
+K17240,,,,
+K17239,,,,
+K17238,,,,
+K17237,,,,
+K17243,,,,
+K17242,,,,
+K17241,,,,
+K17246,,,,
+K17245,,,,
+K17244,,,,
+K17236,,,,
+K17235,,,,
+K17234,,,,
+K17317,,,,
+K17316,,,,
+K17315,,,,
+K17314,,,,
+K17313,,,,
+K17312,,,,
+K17311,,,,
+K17331,,,,
+K17330,,,,
+K17329,,,,
+K17320,,,,
+K17319,,,,
+K17318,,,,
+K17324,,,,
+K17323,,,,
+K17322,,,,
+K17321,,,,
+K17325,,,,
+K17328,,,,
+K17327,,,,
+K17326,,,,
+K18216,,,,
+K18217,,,,
+K18230,,,,
+K18231,,,,
+K18232,,,,
+K18233,,,,
+K02065,,,,
+K02066,,,,
+K07323,,,,
+K02067,,,,
+K07122,,,,
+K19083,,,,
+K19084,,,,
+K19079,,,,
+K19080,,,,
+K19230,,,,
+K19229,,,,
+K19228,,,,
+K19227,,,,
+K19226,,,,
+K19309,,,,
+K19310,,,,
+K19349,,,,
+K19350,,,,
+K19340,,,,
+K19341,,,,
+K19972,,,,
+K19971,,,,
+K19976,,,,
+K19975,,,,
+K20344,,,,
+K20459,,,,
+K20460,,,,
+K20461,,,,
+K20490,,,,
+K20491,,,,
+K20492,,,,
+K20494,,,,
+K20386,,,,
+K18891,,,,
+K18892,,,,
+K18893,,,,
+K18887,,,,
+K18888,,,,
+K18894,,,,
+K18895,,,,
+K22922,,,,
+K22921,,,,
+K23059,,,,
+K17077,,,,
+K23061,,,,
+K23062,,,,
+K23063,,,,
+K23056,,,,
+K23057,,,,
+K23055,,,,
+K23125,,,,
+K23163,,,,
+K23227,,,,
+K23228,,,,
+K23185,,,,
+K23186,,,,
+K23181,,,,
+K23183,,,,
+K23187,,,,
+K23182,,,,
+K23510,,,,
+K23511,,,,
+K23513,,,,
+K23512,,,,
+K23508,,,,
+K23509,,,,
+K23545,,,,
+K23547,,,,
+K23546,,,,
+K07335,,,,
+K23536,,,,
+K23537,,,,
+K23535,,,,
+K02818,PTS-Tre-EIIB; treB,"PTS system, trehalose-specific IIB component [EC:2.7.1.201]",2.7.1.201,protein-Npi-phosphohistidine---trehalose phosphotransferase
+K02817,PTS-Tre-EIIA; treP,"PTS system, trehalose-specific IIA component [EC:2.7.1.201]",2.7.1.201,protein-Npi-phosphohistidine---trehalose phosphotransferase
+K02808,PTS-Scr-EIIA; scrA; ptsS,"PTS system, sucrose-specific IIA component [EC:2.7.1.211]",2.7.1.211,protein-Npi-phosphohistidine---sucrose phosphotransferase
+K02809,PTS-Scr-EIIB; scrA; sacP; sacX; ptsS,"PTS system, sucrose-specific IIB component [EC:2.7.1.211]",2.7.1.211,protein-Npi-phosphohistidine---sucrose phosphotransferase
+K11191,PTS-Mur-EIIB; murP,"PTS system, N-acetylmuramic acid-specific IIB component [EC:2.7.1.192]",2.7.1.192,protein-Npi-phosphohistidine---N-acetylmuramate phosphotransferase
+K02802,PTS-Nag-EIIA; nagE,"PTS system, N-acetylglucosamine-specific IIA component [EC:2.7.1.193]",2.7.1.193,protein-Npi-phosphohistidine---N-acetyl-D-glucosamine phosphotransferase
+K02803,PTS-Nag-EIIB; nagE,"PTS system, N-acetylglucosamine-specific IIB component [EC:2.7.1.193]",2.7.1.193,protein-Npi-phosphohistidine---N-acetyl-D-glucosamine phosphotransferase
+K02760,PTS-Cel-EIIB; celA; chbB,"PTS system, cellobiose-specific IIB component [EC:2.7.1.196 2.7.1.205]",2.7.1.196,"protein-Npi-phosphohistidine---N,N'-diacetylchitobiose phosphotransferase"
+K02759,PTS-Cel-EIIA; celC; chbA,"PTS system, cellobiose-specific IIA component [EC:2.7.1.196 2.7.1.205]",2.7.1.196,"protein-Npi-phosphohistidine---N,N'-diacetylchitobiose phosphotransferase"
+K02749,PTS-Glv-EIIB; glvB; malP; aglA,"PTS system, alpha-glucoside-specific IIB component [EC:2.7.1.208 2.7.1.-]",2.7.1.208,protein-Npi-phosphohistidine---maltose phosphotransferase
+K02790,PTS-MalGlc-EIIB; malX,"PTS system, maltose/glucose-specific IIB component [EC:2.7.1.199 2.7.1.208]",2.7.1.208,protein-Npi-phosphohistidine---maltose phosphotransferase
+K20107,PTS-Mal-EIIB; malT,"PTS system, maltose-specific IIB component [EC:2.7.1.208]",2.7.1.208,protein-Npi-phosphohistidine---maltose phosphotransferase
+K02813,PTS-Sor-EIIB; sorB,"PTS system, sorbose-specific IIB component [EC:2.7.1.206]",2.7.1.206,protein-Npi-phosphohistidine---L-sorbose phosphotransferase
+K02812,PTS-Sor-EIIA; sorF,"PTS system, sorbose-specific IIA component [EC:2.7.1.206]",2.7.1.206,protein-Npi-phosphohistidine---L-sorbose phosphotransferase
+K02821,PTS-Ula-EIIA; ulaC; sgaA,"PTS system, ascorbate-specific IIA component [EC:2.7.1.194]",2.7.1.194,protein-Npi-phosphohistidine---L-ascorbate phosphotransferase
+K02822,PTS-Ula-EIIB; ulaB; sgaB,"PTS system, ascorbate-specific IIB component [EC:2.7.1.194]",2.7.1.194,protein-Npi-phosphohistidine---L-ascorbate phosphotransferase
+K02787,PTS-Lac-EIIB; lacE,"PTS system, lactose-specific IIB component [EC:2.7.1.207]",2.7.1.207,protein-Npi-phosphohistidine---lactose phosphotransferase
+K02786,PTS-Lac-EIIA; lacF,"PTS system, lactose-specific IIA component [EC:2.7.1.207]",2.7.1.207,protein-Npi-phosphohistidine---lactose phosphotransferase
+K02774,PTS-Gat-EIIB; gatB; sgcB,"PTS system, galactitol-specific IIB component [EC:2.7.1.200]",2.7.1.200,protein-Npi-phosphohistidine---galactitol phosphotransferase
+K02773,PTS-Gat-EIIA; gatA; sgcA,"PTS system, galactitol-specific IIA component [EC:2.7.1.200]",2.7.1.200,protein-Npi-phosphohistidine---galactitol phosphotransferase
+K02782,PTS-Gut-EIIB; srlE,"PTS system, glucitol/sorbitol-specific IIB component [EC:2.7.1.198]",2.7.1.198,protein-Npi-phosphohistidine---D-sorbitol phosphotransferase
+K02781,PTS-Gut-EIIA; srlB,"PTS system, glucitol/sorbitol-specific IIA component [EC:2.7.1.198]",2.7.1.198,protein-Npi-phosphohistidine---D-sorbitol phosphotransferase
+K02793,PTS-Man-EIIA; manX,"PTS system, mannose-specific IIA component [EC:2.7.1.191]",2.7.1.191,protein-Npi-phosphohistidine---D-mannose phosphotransferase
+K02794,PTS-Man-EIIB; manX,"PTS system, mannose-specific IIB component [EC:2.7.1.191]",2.7.1.191,protein-Npi-phosphohistidine---D-mannose phosphotransferase
+K02798,PTS-Mtl-EIIA; mtlA; cmtB,"PTS system, mannitol-specific IIA component [EC:2.7.1.197]",2.7.1.197,protein-Npi-phosphohistidine---D-mannitol phosphotransferase
+K02799,PTS-Mtl-EIIB; mtlA; cmtA,"PTS system, mannitol-specific IIB component [EC:2.7.1.197]",2.7.1.197,protein-Npi-phosphohistidine---D-mannitol phosphotransferase
+K02778,PTS-Glc-EIIB; ptsG,"PTS system, glucose-specific IIB component [EC:2.7.1.199]",2.7.1.199,protein-Npi-phosphohistidine---D-glucose phosphotransferase
+K02790,PTS-MalGlc-EIIB; malX,"PTS system, maltose/glucose-specific IIB component [EC:2.7.1.199 2.7.1.208]",2.7.1.199,protein-Npi-phosphohistidine---D-glucose phosphotransferase
+K20116,PTS-Glc1-EIIA; ptsG; glcA; glcB,"PTS system, glucose-specific IIA component [EC:2.7.1.199]",2.7.1.199,protein-Npi-phosphohistidine---D-glucose phosphotransferase
+K20117,PTS-Glc1-EIIB; ptsG; glcA; glcB,"PTS system, glucose-specific IIB component [EC:2.7.1.199]",2.7.1.199,protein-Npi-phosphohistidine---D-glucose phosphotransferase
+K17465,PTS-Dga-EIIB; dgaB,"PTS system, D-glucosaminate-specific IIB component [EC:2.7.1.203]",2.7.1.203,protein-Npi-phosphohistidine---D-glucosaminate phosphotransferase
+K17464,PTS-Dga-EIIA; dgaA,"PTS system, D-glucosaminate-specific IIA component [EC:2.7.1.203]",2.7.1.203,protein-Npi-phosphohistidine---D-glucosaminate phosphotransferase
+K20113,PTS-Gal-EIIB,"PTS system, galactose-specific IIB component [EC:2.7.1.204]",2.7.1.204,protein-Npi-phosphohistidine---D-galactose phosphotransferase
+K20112,PTS-Gal-EIIA,"PTS system, galactose-specific IIA component [EC:2.7.1.204]",2.7.1.204,protein-Npi-phosphohistidine---D-galactose phosphotransferase
+K11195,PTS-Fru1-EIIB; levE,"PTS system, fructose-specific IIB component [EC:2.7.1.202]",2.7.1.202,protein-Npi-phosphohistidine---D-fructose phosphotransferase
+K11194,PTS-Fru1-EIIA; levD,"PTS system, fructose-specific IIA component [EC:2.7.1.202]",2.7.1.202,protein-Npi-phosphohistidine---D-fructose phosphotransferase
+K02769,PTS-Fru-EIIB; fruA,"PTS system, fructose-specific IIB component [EC:2.7.1.202]",2.7.1.202,protein-Npi-phosphohistidine---D-fructose phosphotransferase
+K02768,PTS-Fru-EIIA; fruB,"PTS system, fructose-specific IIA component [EC:2.7.1.202]",2.7.1.202,protein-Npi-phosphohistidine---D-fructose phosphotransferase
+K02760,PTS-Cel-EIIB; celA; chbB,"PTS system, cellobiose-specific IIB component [EC:2.7.1.196 2.7.1.205]",2.7.1.205,protein-Npi-phosphohistidine---cellobiose phosphotransferase
+K02759,PTS-Cel-EIIA; celC; chbA,"PTS system, cellobiose-specific IIA component [EC:2.7.1.196 2.7.1.205]",2.7.1.205,protein-Npi-phosphohistidine---cellobiose phosphotransferase
+K11198,PTS-Mng-EIIA; mngA; hrsA,"PTS system, 2-O-A-mannosyl-D-glycerate-specific IIA component [EC:2.7.1.195]",2.7.1.195,protein-Npi-phosphohistidine---2-O-alpha-mannosyl-D-glycerate phosphotransferase
+K11199,PTS-Mng-EIIB; mngA; hrsA,"PTS system, 2-O-A-mannosyl-D-glycerate-specific IIB component [EC:2.7.1.195]",2.7.1.195,protein-Npi-phosphohistidine---2-O-alpha-mannosyl-D-glycerate phosphotransferase
+K08483,PTS-EI.PTSI; ptsI,"phosphotransferase system, enzyme I, PtsI [EC:2.7.3.9]",2.7.3.9,phosphoenolpyruvate---protein phosphotransferase
+K08484,PTS-EI.PTSP; ptsP,"phosphotransferase system, enzyme I, PtsP [EC:2.7.3.9]",2.7.3.9,phosphoenolpyruvate---protein phosphotransferase
+K02777,PTS-Glc-EIIA; crr,"PTS system, sugar-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02749,PTS-Glv-EIIB; glvB; malP; aglA,"PTS system, alpha-glucoside-specific IIB component [EC:2.7.1.208 2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02755,PTS-Bgl-EIIA; bglF; bglP,"PTS system, beta-glucoside-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02756,PTS-Bgl-EIIB; bglF; bglP,"PTS system, beta-glucoside-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02752,PTS-Asc-EIIB; ascF,"PTS system, beta-glucoside (arbutin/salicin/cellobiose)-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02763,PTS-Dgl-EIIA; gamP,"PTS system, D-glucosamine-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02764,PTS-Dgl-EIIB; gamP,"PTS system, D-glucosamine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K10984,PTS-Gam-EIIB; agaB,"PTS system, galactosamine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02744,PTS-Aga-EIIA; agaF,"PTS system, N-acetylgalactosamine-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02745,PTS-Aga-EIIB; agaV,"PTS system, N-acetylgalactosamine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02806,PTS-Ntr-EIIA; ptsN,"PTS system, nitrogen regulatory IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K19507,PTS-Gfr-EIIB; gfrB,"PTS system, fructoselysine/glucoselysine-specific IIB component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K19506,PTS-Gfr-EIIA; gfrA,"PTS system, fructoselysine/glucoselysine-specific IIA component [EC:2.7.1.-]",2.7.1.-,[EC:2.7.1.-] n/a
+K02779,,,,
+K02804,,,,
+K02810,,,,
+K02750,,,,
+K02757,,,,
+K11192,,,,
+K02753,,,,
+K02791,,,,
+K02819,,,,
+K02765,,,,
+K02784,,,,
+K02775,,,,
+K03475,,,,
+K02783,,,,
+K02788,,,,
+K02761,,,,
+K10986,,,,
+K10985,,,,
+K02747,,,,
+K02746,,,,
+K02815,,,,
+K02814,,,,
+K02796,,,,
+K02795,,,,
+K02771,,,,
+K11196,,,,
+K02800,,,,
+K11200,,,,
+K02770,,,,
+K08485,,,,
+K11183,,,,
+K17467,,,,
+K17466,,,,
+K19509,,,,
+K19508,,,,
+K20108,,,,
+K20114,,,,
+K20118,,,,
+K03106,SRP54; ffh,signal recognition particle subunit SRP54 [EC:3.6.5.4],3.6.5.4,signal-recognition-particle GTPase
+K11915,stp1; pppA,serine/threonine protein phosphatase Stp1 [EC:3.1.3.16],3.1.3.16,protein-serine/threonine phosphatase
+K03224,yscN; sctN; hrcN; ssaN,ATP synthase in type III secretion protein N [EC:7.4.2.8],7.4.2.8,protein-secreting ATPase
+K02454,gspE,general secretion pathway protein E [EC:7.4.2.8],7.4.2.8,protein-secreting ATPase
+K03070,secA,preprotein translocase subunit SecA [EC:7.4.2.8],7.4.2.8,protein-secreting ATPase
+K03199,virB4; lvhB4,type IV secretion system protein VirB4 [EC:7.4.2.8],7.4.2.8,protein-secreting ATPase
+K03196,virB11; lvhB11,type IV secretion system protein VirB11 [EC:7.4.2.8],7.4.2.8,protein-secreting ATPase
+K03205,virD4; lvhD4,type IV secretion system protein VirD4 [EC:7.4.2.8],7.4.2.8,protein-secreting ATPase
+K02464,gspO,general secretion pathway protein O [EC:3.4.23.43 2.1.1.-],3.4.23.43,prepilin peptidase
+K11912,ppkA,serine/threonine-protein kinase PpkA [EC:2.7.11.1],2.7.11.1,non-specific serine/threonine protein kinase
+K02464,gspO,general secretion pathway protein O [EC:3.4.23.43 2.1.1.-],2.1.1.-,[EC:2.1.1.-] n/a
+K11004,,,,
+K11003,,,,
+K12340,,,,
+K11028,,,,
+K11017,,,,
+K11016,,,,
+K12341,,,,
+K12342,,,,
+K11904,,,,
+K11903,,,,
+K11906,,,,
+K11891,,,,
+K11892,,,,
+K11913,,,,
+K11907,,,,
+K03221,,,,
+K04059,,,,
+K04057,,,,
+K04056,,,,
+K03219,,,,
+K04058,,,,
+K03222,,,,
+K03226,,,,
+K03227,,,,
+K03228,,,,
+K03229,,,,
+K03230,,,,
+K03225,,,,
+K03223,,,,
+K02453,,,,
+K02465,,,,
+K02455,,,,
+K02456,,,,
+K02452,,,,
+K02457,,,,
+K02458,,,,
+K02459,,,,
+K02460,,,,
+K02461,,,,
+K02462,,,,
+K03110,,,,
+K03071,,,,
+K03072,,,,
+K03074,,,,
+K12257,,,,
+K03075,,,,
+K03076,,,,
+K03210,,,,
+K03217,,,,
+K03073,,,,
+K03116,,,,
+K03118,,,,
+K03425,,,,
+K03117,,,,
+K03197,,,,
+K03200,,,,
+K03198,,,,
+K03202,,,,
+K03204,,,,
+K03201,,,,
+K03203,,,,
+K03195,,,,
+K03194,,,,
+K13301,,,,

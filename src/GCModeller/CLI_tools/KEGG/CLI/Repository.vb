@@ -72,8 +72,14 @@ Partial Module CLI
             .CLICode
     End Function
 
+    ''' <summary>
+    ''' 将分散的小文件打包成一个大数据文件, 可以提升数据的加载效率
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Build.Reactions.Repository")>
     <Usage("/Build.Reactions.Repository /in <directory> [/out <repository.XML>]")>
+    <Description("Package all of the single reaction model file into one data file for make improvements on the data loading.")>
     <Group(CLIGroups.Repository_cli)>
     Public Function BuildReactionsRepository(args As CommandLine) As Integer
         Dim in$ = args <= "/in"

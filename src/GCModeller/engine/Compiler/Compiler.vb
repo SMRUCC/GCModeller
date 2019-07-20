@@ -125,7 +125,7 @@ Public Module Workflow
     <Extension>
     Friend Iterator Function createMetabolicProcess(KOfunction As Dictionary(Of String, String), reactions As ReactionRepository) As IEnumerable(Of Regulation)
         Dim KOreactions = reactions _
-            .MetabolicNetwork _
+            .metabolicNetwork _
             .Where(Function(r)
                        Return Not r.Orthology.Terms.IsNullOrEmpty
                    End Function) _
@@ -163,7 +163,7 @@ Public Module Workflow
 
     <Extension>
     Private Iterator Function BuildReactions(repo As ReactionRepository) As IEnumerable(Of Reaction)
-        For Each reaction In repo.MetabolicNetwork
+        For Each reaction In repo.metabolicNetwork
             Dim model As Equation = reaction.ReactionModel
             Dim enzymes$() = {}
 

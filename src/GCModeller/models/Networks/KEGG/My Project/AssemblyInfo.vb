@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("KEGG")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("Microsoft")>
-<Assembly: AssemblyProduct("KEGG")>
-<Assembly: AssemblyCopyright("Copyright © Microsoft 2017")>
+<Assembly: AssemblyTitle("Network Visualize model generator for the network of KEGG metabolic pathways")>
+<Assembly: AssemblyDescription("Network Visualize model generator for the network of KEGG metabolic pathways")>
+<Assembly: AssemblyCompany("SMRUCC")>
+<Assembly: AssemblyProduct("GCModeller")>
+<Assembly: AssemblyCopyright("Copyright © SMRUCC 2019")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

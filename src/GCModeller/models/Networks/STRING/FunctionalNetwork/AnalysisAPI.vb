@@ -62,18 +62,21 @@ Public Module AnalysisAPI
                                      Optional layouts As IEnumerable(Of Coordinates) = Nothing,
                                      Optional radius$ = "5,30") As (model As NetworkTables, image As Image)
 
+        Dim colorLevels = (up:=ColorBrewer.SequentialSchemes.RdPu9, down:=ColorBrewer.SequentialSchemes.YlGnBu9)
         Dim model = stringNetwork _
             .BuildModel(uniprot:=annotations,
-                        groupValues:=FunctionalNetwork.KOGroupTable)
+                        groupValues:=FunctionalNetwork.KOGroupTable
+            )
         Call model.ComputeNodeDegrees
-        Call model.RenderDEGsColorSchema(DEGs, (up:=ColorBrewer.SequentialSchemes.RdPu9, down:=ColorBrewer.SequentialSchemes.YlGnBu9),)
+        Call model.RenderDEGsColorSchema(DEGs, colorLevels,)
 
         With model.VisualizeKEGG(
             layouts.ToArray,
             size:="4000,3000",
             scale:=2.5,
             radius:=radius,
-            groupLowerBounds:=4)
+            groupLowerBounds:=4
+        )
 
             Return (model, .ByRef)
         End With
@@ -98,11 +101,15 @@ Public Module AnalysisAPI
         Return Function(list As Dictionary(Of String, Double))
                    Return list _
                        .Where(Function(id) uniprotSTRING.ContainsKey(id.Key)) _
-                       .Select(Function(id) uniprotSTRING(id.Key).Select(Function(id2) (id2:=id2, log2FC:=id.Value))) _
+                       .Select(Function(id)
+                                   Return uniprotSTRING(id.Key).Select(Function(id2) (id2:=id2, log2FC:=id.Value))
+                               End Function) _
                        .IteratesALL _
                        .GroupBy(Function(x) x.id2) _
                        .ToDictionary(Function(x) x.Key,
-                                     Function(x) Aggregate n In x Into Average(n.log2FC))
+                                     Function(x)
+                                         Return Aggregate n In x Into Average(n.log2FC)
+                                     End Function)
                End Function
     End Function
 End Module
