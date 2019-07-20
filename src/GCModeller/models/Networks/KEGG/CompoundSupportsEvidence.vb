@@ -15,7 +15,7 @@ Public Module CompoundSupportsEvidence
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="reactions">所有的代谢反应过程的标准参考数据的集合</param>
+    ''' <param name="repo">所有的代谢反应过程的标准参考数据的集合</param>
     ''' <param name="background">目标基因组的KO注释结果的编号集合</param>
     ''' <param name="rxnId">
     ''' 需要进行计算判断的目标代谢反应过程
@@ -23,13 +23,13 @@ Public Module CompoundSupportsEvidence
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Function EvidenceScore(reactions As ReactionRepository, rxnId$, background As Index(Of String)) As Double
-        If Not reactions.Exists(rxnId) Then
+    Public Function EvidenceScore(repo As ReactionRepository, rxnId$, background As Index(Of String)) As Double
+        If Not repo.Exists(rxnId) Then
             ' 在参考数据库之中没有找到对应的代谢反应过程注释信息
             Return 0
         End If
 
-        Dim model As Reaction = reactions.GetByKey(rxnId)
+        Dim model As Reaction = repo.GetByKey(rxnId)
         ' 获取所需要的酶的列表
         Dim enzymes = model.Orthology.EntityList
         ' 获取在当前的background之下所能够得到的酶的列表
@@ -49,7 +49,7 @@ Public Module CompoundSupportsEvidence
             .Distinct _
             .ToArray
         Dim scores# = 0
-        Dim reactionIndex = reactions.GetCompoundIndex
+        Dim reactionIndex = repo.GetCompoundIndex
 
         For Each metabolite As String In metabolites
             ' 因为肯定是会包含当前的目标代谢反应的,所以下面的表达式肯定存在值
@@ -60,9 +60,14 @@ Public Module CompoundSupportsEvidence
             If reactionIds.Length = 0 Then
                 ' 除了自己以外,没有其他的代谢反应涉及到这个代谢物了
                 ' 如果是右边,则可能存在
-                If objModel.Produce(metabolite) Then
-
+                If Not objModel.Produce(metabolite) Then
+                    Return 0
+                Else
+                    scores += 1
                 End If
+            Else
+                ' 每一个reaction增加一个supports
+
             End If
         Next
 
