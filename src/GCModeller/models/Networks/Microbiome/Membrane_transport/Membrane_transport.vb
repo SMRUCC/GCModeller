@@ -16,7 +16,7 @@ Public Module Membrane_transport
 
     ReadOnly defaultIgnores As New [Default](Of Index(Of String))(
         {
-            "C00001", "C00002", "C00008", "C00003", "C00006", "C00010", "C00011"
+            "C00001", "C00002", "C00008", "C00003", "C00006", "C00010", "C00011", "C00105", "C00055", "C00705", "C00458"
         })
 
     ''' <summary>
