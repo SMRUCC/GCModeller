@@ -73,13 +73,22 @@ Public Module CompoundSupportsEvidence
 
                 ' 每一个reaction增加一个supports
                 For Each reactionId As String In reactionIds
-                    supports += repo.EvidenceScore(reactionId, background, depth - 1)
+                    If depth = 1 Then
+                        supports += repo.GetByKey(reactionId) _
+                            .Orthology _
+                            .EntityList _
+                            .Count(Function(id) id Like background)
+                    Else
+                        supports += repo.EvidenceScore(reactionId, background, depth - 1)
+                    End If
                 Next
 
                 If supports = 0 Then
                     ' 当前的这个代谢物没有可以能够产生的代谢过程
                     ' 则当前的这个反应无法发生
                     Return 0
+                Else
+                    scores += supports
                 End If
             End If
         Next

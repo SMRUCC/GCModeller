@@ -42,7 +42,7 @@ Public Module Membrane_transport
             .Select(Function(enzg) enzg.First) _
             .Where(Function(enz) enz.Type = ClassTypes.Transferase OrElse enz.Type = ClassTypes.Translocases) _
             .ToArray
-        Dim taxonomyColors As LoopArray(Of Color) = Microsoft.VisualBasic.Imaging.ChartColors
+        Dim taxonomyColors As LoopArray(Of Color) = ChartColors
         Dim colorTable As New Dictionary(Of String, String)
 
         repo = repo.Subset(ecNumbers)
