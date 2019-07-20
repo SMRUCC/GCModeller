@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -63,6 +64,7 @@ Public Class ReactionRepository : Inherits XmlDataModel
     ''' ``{rxnID => reaction}``
     ''' </summary>
     Dim table As Dictionary(Of String, Reaction)
+    Dim compoundIndex As Dictionary(Of String, String())
 
     <XmlNamespaceDeclarations()>
     Public xmlns As New XmlSerializerNamespaces
@@ -75,7 +77,7 @@ Public Class ReactionRepository : Inherits XmlDataModel
     ''' 这个Repository之中的所有的代谢过程的数据都在这里了
     ''' </summary>
     ''' <returns></returns>
-    Public Property MetabolicNetwork As Reaction()
+    Public Property metabolicNetwork As Reaction()
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return table.Values.ToArray
@@ -88,6 +90,30 @@ Public Class ReactionRepository : Inherits XmlDataModel
             End If
         End Set
     End Property
+
+    Public Function GetCompoundIndex() As Dictionary(Of String, String())
+        If compoundIndex.IsNullOrEmpty Then
+            compoundIndex = table.Values _
+                .Select(Function(rxn)
+                            Return rxn.ReactionModel _
+                                .GetMetabolites _
+                                .Select(Function(cpd) cpd.ID) _
+                                .Select(Function(id)
+                                            Return (cpd:=id, rxn:=rxn.ID)
+                                        End Function)
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(t) t.cpd) _
+                .ToDictionary(Function(cpd) cpd.Key,
+                              Function(g)
+                                  Return g.Select(Function(t) t.rxn) _
+                                      .Distinct _
+                                      .ToArray
+                              End Function)
+        End If
+
+        Return compoundIndex
+    End Function
 
     Public Function Subset(ECNumbers As ECNumber()) As ReactionRepository
         Dim getReactions = Iterator Function() As IEnumerable(Of Reaction)
@@ -119,7 +145,7 @@ Public Class ReactionRepository : Inherits XmlDataModel
     ''' <returns></returns>
     Public Function Enzymetic() As ReactionRepository
         Return New ReactionRepository With {
-            .MetabolicNetwork = table _
+            .metabolicNetwork = table _
                 .Values _
                 .Where(Function(r)
                            Return Not r.Orthology.Terms.IsNullOrEmpty
