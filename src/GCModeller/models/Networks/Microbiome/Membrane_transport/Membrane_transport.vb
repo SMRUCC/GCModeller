@@ -10,6 +10,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Model.Network.KEGG
 
 Public Module Membrane_transport
 
@@ -54,7 +55,7 @@ Public Module Membrane_transport
 
         ' genome -> compound -> genome
 
-        Dim addEdge = Sub(a As Node, b As Node, ecNumber$)
+        Dim addEdge = Sub(a As Node, b As Node, ecNumber$, supports#)
                           Dim edge As New Edge With {
                               .U = a,
                               .V = b,
@@ -62,8 +63,10 @@ Public Module Membrane_transport
                               .data = New EdgeData With {
                                   .Properties = New Dictionary(Of String, String) From {
                                       {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, ecNumber}
-                                  }
-                              }
+                                  },
+                                  .weight = supports
+                              },
+                              .weight = supports
                           }
 
                           If Not edgeTable.ContainsKey(edge.ID) Then
@@ -114,6 +117,14 @@ Public Module Membrane_transport
 
                 ' A -> B
                 For Each reaction As Reaction In reactions
+                    Dim supports = repo.EvidenceScore(reaction.ID, genome.KOTerms, depth:=3)
+
+                    ' 这个代谢反应在当前的基因组中可能不存在
+                    ' 则忽略掉
+                    If supports = 0R Then
+                        Continue For
+                    End If
+
                     With reaction.ReactionModel
                         For Each compound As String In .Reactants.Where(Function(r) Not r.ID Like ignores).Select(Function(r) r.ID)
                             If Not nodeTable.ContainsKey(compound) Then
@@ -135,7 +146,7 @@ Public Module Membrane_transport
 
                             metabolite = nodeTable(compound)
 
-                            Call addEdge(bacteria, metabolite, enzyme.EC.ToString)
+                            Call addEdge(bacteria, metabolite, enzyme.EC.ToString, supports)
                         Next
 
                         For Each compound As String In .Products.Where(Function(r) Not r.ID Like ignores).Select(Function(r) r.ID)
@@ -158,7 +169,7 @@ Public Module Membrane_transport
 
                             metabolite = nodeTable(compound)
 
-                            Call addEdge(bacteria, metabolite, enzyme.EC.ToString)
+                            Call addEdge(bacteria, metabolite, enzyme.EC.ToString, supports)
                         Next
                     End With
                 Next
@@ -167,34 +178,34 @@ Public Module Membrane_transport
             Call genome.ToString.__INFO_ECHO
         Next
 
-        ' 然后找出所有类型为metabolite的节点
-        ' 拿到对应的taxonomy
-        ' 删除metabolite相关的边链接,变更为细菌与细菌间的互做
-        For Each node As Node In g.vertex _
-            .Where(Function(n) n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "metabolite") _
-            .ToArray
+        '' 然后找出所有类型为metabolite的节点
+        '' 拿到对应的taxonomy
+        '' 删除metabolite相关的边链接,变更为细菌与细菌间的互做
+        'For Each node As Node In g.vertex _
+        '    .Where(Function(n) n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "metabolite") _
+        '    .ToArray
 
-            ' bacteria总是U
-            Dim allConnectedGroups = g.graphEdges.Where(Function(e) e.V Is node).GroupBy(Function(e) e.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE)).ToArray
-            Dim bacterias As New List(Of Node)
+        '    ' bacteria总是U
+        '    Dim allConnectedGroups = g.graphEdges.Where(Function(e) e.V Is node).GroupBy(Function(e) e.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE)).ToArray
+        '    Dim bacterias As New List(Of Node)
 
-            For Each allConnected In allConnectedGroups
-                For Each connection In allConnected
-                    bacteria = connection.U
+        '    For Each allConnected In allConnectedGroups
+        '        For Each connection In allConnected
+        '            bacteria = connection.U
 
-                    bacterias.Add(bacteria)
-                    g.RemoveEdge(connection)
-                Next
+        '            bacterias.Add(bacteria)
+        '            g.RemoveEdge(connection)
+        '        Next
 
-                For Each a In bacterias
-                    For Each b In bacterias.Where(Function(n) Not n Is a)
-                        Call addEdge(a, b, allConnected.Key)
-                    Next
-                Next
-            Next
+        '        For Each a In bacterias
+        '            For Each b In bacterias.Where(Function(n) Not n Is a)
+        '                Call addEdge(a, b, allConnected.Key)
+        '            Next
+        '        Next
+        '    Next
 
-            g.RemoveNode(node)
-        Next
+        '    g.RemoveNode(node)
+        'Next
 
         Return g
     End Function
