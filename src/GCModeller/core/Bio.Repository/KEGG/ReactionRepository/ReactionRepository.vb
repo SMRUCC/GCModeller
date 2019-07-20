@@ -91,6 +91,10 @@ Public Class ReactionRepository : Inherits XmlDataModel
         End Set
     End Property
 
+    ''' <summary>
+    ''' ``{compound_id => arrayOf(reactionId)}``
+    ''' </summary>
+    ''' <returns></returns>
     Public Function GetCompoundIndex() As Dictionary(Of String, String())
         If compoundIndex.IsNullOrEmpty Then
             compoundIndex = table.Values _

@@ -2,6 +2,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Data
 
 ''' <summary>
@@ -41,15 +42,28 @@ Public Module CompoundSupportsEvidence
         End If
 
         ' 然后查找是否存在生成或者消耗代谢物的反应过程
-        Dim metabolites = model.ReactionModel _
+        Dim objModel As DefaultTypes.Equation = model.ReactionModel
+        Dim metabolites = objModel _
             .GetMetabolites _
             .Select(Function(cpd) cpd.ID) _
             .Distinct _
             .ToArray
         Dim scores# = 0
+        Dim reactionIndex = reactions.GetCompoundIndex
 
         For Each metabolite As String In metabolites
+            ' 因为肯定是会包含当前的目标代谢反应的,所以下面的表达式肯定存在值
+            Dim reactionIds = reactionIndex.TryGetValue(metabolite) _
+                .Where(Function(rnId) rnId <> rxnId) _
+                .ToArray
 
+            If reactionIds.Length = 0 Then
+                ' 除了自己以外,没有其他的代谢反应涉及到这个代谢物了
+                ' 如果是右边,则可能存在
+                If objModel.Produce(metabolite) Then
+
+                End If
+            End If
         Next
 
         Return scores
