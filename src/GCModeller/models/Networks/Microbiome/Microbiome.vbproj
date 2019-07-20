@@ -248,6 +248,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enzyme.vb" />
     <Compile Include="Membrane_transport\Membrane_transport.vb" />
     <Compile Include="PathwayProfile.vb" />
     <Compile Include="UniProtBuilder\CacheGenerator.vb" />
