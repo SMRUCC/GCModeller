@@ -123,6 +123,8 @@ Public Module Membrane_transport
                     ' 则忽略掉
                     If supports = 0R Then
                         Continue For
+                    Else
+                        Call $"  {reaction} [supports={supports}]".__DEBUG_ECHO
                     End If
 
                     With reaction.ReactionModel
