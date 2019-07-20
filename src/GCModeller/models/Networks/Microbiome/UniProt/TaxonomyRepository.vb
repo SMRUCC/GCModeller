@@ -45,6 +45,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Metagenomics
 
@@ -174,5 +176,14 @@ Public Class TaxonomyRepository
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetAll() As IReadOnlyDictionary(Of String, TaxonomyRef) Implements IRepositoryRead(Of String, TaxonomyRef).GetAll
         Return taxonomy.Keys.ToDictionary(Function(taxid) taxid, Function(taxid) GetByKey(taxid))
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function LoadRepository(indexJson As String) As TaxonomyRepository
+        Return indexJson _
+            .LoadJSON(Of TaxonomyRepository) _
+            .With(Sub(repo)
+                      repo.base = indexJson
+                  End Sub)
     End Function
 End Class

@@ -35,6 +35,11 @@
             With EC.GetTagValue(" ", trim:=True)
                 EC = .Name
                 ECName = .Value
+
+                If EC.StringEmpty Then
+                    EC = ECName
+                    ECName = $"[EC:{EC}] n/a"
+                End If
             End With
         End Sub
 

@@ -160,28 +160,25 @@ Partial Module CLI
             .CLICode
     End Function
 
-    ReadOnly biomSuffix As Index(Of String) = {"json", "biom"}
-
-    <ExportAPI("/microbiome.metabolic.network")>
-    <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> [/out <network.directory>]")>
-    <Group(CLIGroups.MicrobiomeNetwork_cli)>
-    <Description("Construct a metabolic complementation network between the bacterial genomes from a given taxonomy list.")>
-    <Argument("/uniprot", False, CLITypes.File,
-              Extensions:="*.json",
-              Description:="A reference model which is generated from ``/Metagenome.UniProt.Ref`` command.")>
-    Public Function MetabolicComplementationNetwork(args As CommandLine) As Integer
+    <ExportAPI("/Membrane_transport.network")>
+    <Usage("/Membrane_transport.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> /Membrane_transport <Membrane_transport.csv> [/out <network.directory>]")>
+    Public Function Membrane_transportNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/metagenome"
-        Dim UniProt As TaxonomyRepository = Nothing
         Dim ref As ReactionRepository = ReactionRepository.LoadAuto(args("/ref")).Enzymetic
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
         Dim list$()
         Dim taxonomy As Taxonomy()
-
-        Call "Load UniProt reference genome model....".__INFO_ECHO
-        Call VBDebugger.BENCHMARK(Sub()
-                                      UniProt = args("/uniprot").LoadJson(Of TaxonomyRepository)
-                                      DirectCast(UniProt, IFileReference).FilePath = args("/uniprot")
-                                  End Sub)
+        Dim Membrane_transport = EntityObject.LoadDataSet(args <= "/Membrane_transport").ToArray
+        Dim enzymies As Dictionary(Of String, Enzyme()) = Membrane_transport _
+            .Select(Function(e)
+                        Return New Enzyme(e.ID, e!fullName, e!EC_number)
+                    End Function) _
+            .Where(Function(e) Not e.EC Is Nothing) _
+            .GroupBy(Function(e) e.KO) _
+            .ToDictionary(Function(e) e.Key,
+                          Function(g)
+                              Return g.ToArray
+                          End Function)
 
         If [in].ExtensionSuffix.ToLower Like biomSuffix Then
             taxonomy = SMRUCC.genomics.foundation.BIOM _
@@ -204,7 +201,60 @@ Partial Module CLI
                 .ToArray
         End If
 
-        Dim network As NetworkGraph = UniProt _
+        Dim network As NetworkGraph = TaxonomyRepository _
+            .LoadRepository(args("/uniprot")) _
+            .PopulateModels(taxonomy, distinct:=True) _
+            .Where(Function(g)
+                       ' 有些基因组的数据是空的？？
+                       Return Not g.genome.Terms.IsNullOrEmpty
+                   End Function) _
+            .BuildTransferNetwork(repo:=ref, enzymes:=enzymies)
+
+        Return network _
+            .Tabular(properties:={"color", "taxonomy"}) _
+            .Save(out) _
+            .CLICode
+    End Function
+
+    ReadOnly biomSuffix As Index(Of String) = {"json", "biom"}
+
+    <ExportAPI("/microbiome.metabolic.network")>
+    <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> /Membrane_transport <Membrane_transport.csv> [/out <network.directory>]")>
+    <Group(CLIGroups.MicrobiomeNetwork_cli)>
+    <Description("Construct a metabolic complementation network between the bacterial genomes from a given taxonomy list.")>
+    <Argument("/uniprot", False, CLITypes.File,
+              Extensions:="*.json",
+              Description:="A reference model which is generated from ``/Metagenome.UniProt.Ref`` command.")>
+    Public Function MetabolicComplementationNetwork(args As CommandLine) As Integer
+        Dim in$ = args <= "/metagenome"
+        Dim ref As ReactionRepository = ReactionRepository.LoadAuto(args("/ref")).Enzymetic
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
+        Dim list$()
+        Dim taxonomy As Taxonomy()
+
+        If [in].ExtensionSuffix.ToLower Like biomSuffix Then
+            taxonomy = SMRUCC.genomics.foundation.BIOM _
+                .ReadAuto([in]) _
+                .rows _
+                .Select(Function(r As row)
+                            Return r.metadata?.lineage
+                        End Function) _
+                .ToArray
+        Else
+            If [in].ExtensionSuffix.TextEquals("csv") Then
+                list = EntityObject.LoadDataSet([in]).Keys
+            Else
+                list = [in].ReadAllLines
+            End If
+
+            taxonomy = list _
+                .Distinct _
+                .Select(Function(tax) New Taxonomy(BIOMTaxonomy.TaxonomyParser(tax))) _
+                .ToArray
+        End If
+
+        Dim network As NetworkGraph = TaxonomyRepository _
+            .LoadRepository(args("/uniprot")) _
             .PopulateModels(taxonomy, distinct:=True) _
             .Where(Function(g)
                        ' 有些基因组的数据是空的？？
