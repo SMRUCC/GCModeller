@@ -124,7 +124,7 @@ Public Module Membrane_transport
                     If supports = 0R Then
                         Continue For
                     Else
-                        Call $"  {reaction} [supports={supports}]".__DEBUG_ECHO
+                        Call $"  {reaction.ToString} [supports={supports}]".__DEBUG_ECHO
                     End If
 
                     With reaction.ReactionModel
