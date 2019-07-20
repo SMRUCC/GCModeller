@@ -44,6 +44,15 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Public Module UniProtExtensions
 
+    ''' <summary>
+    ''' Apply taxonomy filtering base on the given <paramref name="taxonomyList"/>
+    ''' </summary>
+    ''' <param name="repo"></param>
+    ''' <param name="taxonomyList"></param>
+    ''' <param name="distinct"></param>
+    ''' <returns>
+    ''' Skip duplicated taxonomy data base on the <see cref="TaxonomyRef.taxonID"/>
+    ''' </returns>
     <Extension>
     Public Iterator Function PopulateModels(repo As TaxonomyRepository,
                                             taxonomyList As IEnumerable(Of Metagenomics.Taxonomy),

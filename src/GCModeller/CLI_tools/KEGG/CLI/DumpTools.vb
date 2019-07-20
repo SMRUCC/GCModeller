@@ -49,10 +49,13 @@
 
 #End Region
 
+Imports System.ComponentModel
+Imports System.IO
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -63,9 +66,67 @@ Imports SMRUCC.genomics.Assembly.KEGG.Archives
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.KGML
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
+
+    <ExportAPI("/KO.list")>
+    <Description("Export a KO functional id list which all of the gene in this list is involved with the given pathway kgml data.")>
+    <Usage("/KO.list /kgml <pathway.kgml> [/skip.empty /out <list.csv>]")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              Extensions:="*.csv",
+              Description:="If this argument is not presented in the commandline input, then result list will print on the console in tsv format.")>
+    Public Function TransmembraneKOlist(args As CommandLine) As Integer
+        Using out As StreamWriter = args.OpenStreamOutput("/out")
+            Dim kgml As KGML.pathway = args("/kgml").LoadXml(Of KGML.pathway)
+            Dim skipEmpty As Boolean = args("/skip.empty")
+            Dim KOlist As String() = kgml.KOlist
+            Dim enzymes = EnzymeEntry.ParseEntries _
+                .GroupBy(Function(entry) entry.KO) _
+                .ToDictionary(Function(entry) entry.Key,
+                              Function(g)
+                                  Return g.ToArray
+                              End Function)
+            Dim list As EntityObject() = KOlist _
+                .Select(Iterator Function(id)
+                            Dim enzyme = enzymes.TryGetValue(id)
+
+                            If enzyme.IsNullOrEmpty Then
+                                If Not skipEmpty Then
+                                    Yield New EntityObject With {.ID = id}
+                                End If
+                            Else
+                                For Each entry As EnzymeEntry In enzyme
+                                    Yield New EntityObject With {
+                                        .ID = id,
+                                        .Properties = New Dictionary(Of String, String) From {
+                                            {"geneNames", entry.geneNames.JoinBy("; ")},
+                                            {"fullName", entry.fullName},
+                                            {"EC_number", entry.EC},
+                                            {"function", entry.ECName}
+                                        }
+                                    }
+                                Next
+                            End If
+                        End Function) _
+                .IteratesALL _
+                .OrderByDescending(Function(d) d!function) _
+                .ToArray
+
+            If args.ContainsParameter("/out") Then
+                ' csv
+                Call list.ToCsvDoc.Save(out)
+            Else
+                ' print
+                Call list.ToCsvDoc.Save(out, isTsv:=True)
+            End If
+        End Using
+
+        Return 0
+    End Function
 
     <ExportAPI("/Download.human.genes",
                Usage:="/Download.human.genes /in <geneID.list/DIR> [/batch /out <save.DIR>]")>
@@ -160,12 +221,12 @@ Partial Module CLI
 
         Dim orthology = SSDB.API.Query(KO)
 
-        If orthology.Pathway.IsNullOrEmpty Then
+        If orthology.pathway.IsNullOrEmpty Then
             Dim anno As KOAnno = __create(prot, KO, Nothing, orthology, brites)
             Return {anno}
         End If
 
-        Dim LQuery = (From pathway In orthology.Pathway Select __create(prot, KO, pathway, orthology, brites)).ToArray
+        Dim LQuery = (From pathway In orthology.pathway Select __create(prot, KO, pathway, orthology, brites)).ToArray
         Return LQuery
     End Function
 
@@ -192,15 +253,15 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Return New KOAnno With {
             .QueryId = prot,
             .KO = KO,
-            .COG = orthology.GetXRef("COG").Select(Function(x) x.Comment).JoinBy("; "),
+            .COG = orthology.GetXRef("COG").Select(Function(x) x.comment).JoinBy("; "),
             .Definition = orthology.Definition,
             .Name = orthology.Name,
-            .GO = orthology.GetXRef("GO").Select(Function(x) "GO:" & x.Comment).ToArray,
+            .GO = orthology.GetXRef("GO").Select(Function(x) "GO:" & x.comment).ToArray,
             .Category = pwyBrite.category,
             .Class = pwyBrite.class,
             .PathwayId = pathway.name,
             .PathwayName = pwyBrite.entry.text,
-            .Reactions = orthology.GetXRef("RN").Select(Function(x) x.Comment).ToArray
+            .Reactions = orthology.GetXRef("RN").Select(Function(x) x.comment).ToArray
         }
     End Function
 
