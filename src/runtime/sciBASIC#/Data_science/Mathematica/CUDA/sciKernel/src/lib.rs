@@ -1,3 +1,19 @@
+// #[link(name = "sciKernel", vers = "1.01", author = "xieguigang")];
+// #[crate_type = "dylib"];
+
+/// get number sign
+macro_rules! f64_sign {
+    ($x: expr) => {
+        if $x > 0.0 {
+            1
+        } else if $x < 0.0 {
+            -1
+        } else {
+            0
+        }
+    };
+}
+
 /// Pearson correlations
 #[no_mangle]
 pub extern fn pearson(x: &[f64], y: &[f64], size: i32) -> f64 {
@@ -34,3 +50,4 @@ pub extern fn pearson(x: &[f64], y: &[f64], size: i32) -> f64 {
 
     return pcc;
 }
+

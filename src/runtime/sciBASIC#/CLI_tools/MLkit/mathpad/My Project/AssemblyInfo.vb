@@ -2,34 +2,34 @@
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
-' General Information about an assembly is controlled through the following 
+' General Information about an assembly is controlled through the following
 ' set of attributes. Change these attribute values to modify the information
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Table")>
+<Assembly: AssemblyTitle("mathpad")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("Table")>
-<Assembly: AssemblyCopyright("Copyright ©  2016")>
+<Assembly: AssemblyProduct("mathpad")>
+<Assembly: AssemblyCopyright("Copyright ©  2019")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("ee8786e3-9981-4e87-8a20-28576a171a49")>
+<Assembly: Guid("5fcd7677-eb52-4124-8c59-3e6ad5a3f88f")>
 
 ' Version information for an assembly consists of the following four values:
 '
 '      Major Version
-'      Minor Version 
+'      Minor Version
 '      Build Number
 '      Revision
 '
-' You can specify all the values or you can default the Build and Revision Numbers 
+' You can specify all the values or you can default the Build and Revision Numbers
 ' by using the '*' as shown below:
-' <Assembly: AssemblyVersion("1.0.*")> 
+' <Assembly: AssemblyVersion("1.0.*")>
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
