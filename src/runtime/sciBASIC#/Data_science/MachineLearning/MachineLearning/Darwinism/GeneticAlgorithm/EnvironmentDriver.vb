@@ -160,6 +160,8 @@ Namespace Darwinism.GAF
                     End If
                 End With
             Next
+
+            Call "Exit GA training loop due to the reason of reach iteration Upbound...".__DEBUG_ECHO
         End Sub
 
         ''' <summary>
