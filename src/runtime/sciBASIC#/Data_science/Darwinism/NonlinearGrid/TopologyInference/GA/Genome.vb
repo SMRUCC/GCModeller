@@ -195,6 +195,18 @@ Public Class Genome : Implements Chromosome(Of Genome)
         Next
 
         If FlipCoin() Then
+            chromosome.K = valueMutate(chromosome.K)
+        End If
+
+        For j As Integer = 0 To chromosome.C.Length - 1
+            If FlipCoin() Then
+                ' mutate one bit in C vector
+                chromosome.C(j).B.Array.Mutate(randf.seeds, rate:=MutationRate)
+                chromosome.C(j).B.Truncate(limits:=truncate)
+            End If
+        Next
+
+        If FlipCoin() Then
             i = randf.NextInteger(upper:=width)
 
             If chromosome.C(i).BC = 0 Then
