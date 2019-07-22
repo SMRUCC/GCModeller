@@ -161,7 +161,6 @@ Namespace Darwinism.GAF.Helper
                                                                              Optional addBase As Boolean = True) As Population(Of T)
             Dim chr As T
             Dim population As New Population(Of T)(parallel) With {
-                .parallel = True,
                 .initialSize = populationSize
             }
 
