@@ -47,6 +47,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
@@ -63,6 +64,8 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Text
 
+<CLI>
+<Description("")>
 Module Program
 
     Public Function Main() As Integer
@@ -210,7 +213,7 @@ Module Program
     End Function
 
     <ExportAPI("/training")>
-    <Usage("/training /in <trainingSet.Xml> [/model <model.XML> /popSize <default=5000> /rate <default=0.1> /out <output_model.Xml>]")>
+    <Usage("/training /in <trainingSet.Xml> [/model <model.XML> /popSize <default=5000> /rate <default=0.1> /truncate <default=1000> /out <output_model.Xml>]")>
     <Description("Training a grid system use GA method.")>
     Public Function trainGA(args As CommandLine) As Integer
         Dim inFile As String = args <= "/in"
@@ -227,29 +230,43 @@ Module Program
 
         Dim trainingSet = inFile.LoadXml(Of DataSet)
         Dim rate As Double = args("/rate") Or 0.1
+        Dim truncate As Double = args("/truncate") Or 1000.0
 
         Call $"Mutation rate = {rate}".__DEBUG_ECHO
         Call $"Population size = {popSize}".__DEBUG_ECHO
         Call trainingSet _
-            .RunFitProcess(out, seed, popSize, factorNames:=trainingSet.NormalizeMatrix.names, mutationRate:=rate)
+            .RunFitProcess(
+                out, seed, popSize,
+                factorNames:=trainingSet.NormalizeMatrix.names,
+                mutationRate:=rate,
+                truncate:=truncate
+        )
 
         Return 0
     End Function
 
     <Extension>
-    Public Sub RunFitProcess(trainingSet As DataSet, outFile$, seed As GridSystem, popSize%, factorNames$(), mutationRate As Double)
+    Public Sub RunFitProcess(trainingSet As DataSet, outFile$, seed As GridSystem, popSize%, factorNames$(), mutationRate As Double, truncate As Double)
         Dim cor As Vector = trainingSet.DataSamples.AsEnumerable.Correlation
         Dim max As Vector = trainingSet.NormalizeMatrix.matrix.Select(Function(r) 1 / (r.max * 1000)).AsVector
         Call "Create a base chromosome".__DEBUG_ECHO
         Dim chromesome As GridSystem = If(seed, Loader.EmptyGridSystem(trainingSet.width, cor, max))
         Call "Initialize populations".__DEBUG_ECHO
-        Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate).InitialPopulation(popSize, parallel:=True)
+        Call $"value truncate at ABS limits {truncate}".__DEBUG_ECHO
+        Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate, truncate).InitialPopulation(popSize, parallel:=True)
         Call "Initialize environment".__DEBUG_ECHO
-        Dim fitness As Fitness(Of Genome) = New Environment(trainingSet.DataSamples.AsEnumerable, FitnessMethods.R2)
+        Dim fitness As Fitness(Of Genome) = New Environment(trainingSet.DataSamples.AsEnumerable, FitnessMethods.LabelGroupAverage)
         Call "Create algorithm engine".__DEBUG_ECHO
         Dim ga As New GeneticAlgorithm(Of Genome)(population, fitness, Strategies.Naive)
         Call "Load driver".__DEBUG_ECHO
-        Dim engine As New EnvironmentDriver(Of Genome)(ga) With {
+
+        Dim takeBestSnapshot = Sub(best As Genome, error#)
+                                   Call best _
+                                       .CreateSnapshot(factorNames, [error]) _
+                                       .GetXml _
+                                       .SaveTo(outFile.TrimSuffix & $"_localOptimal/{[error]}.Xml")
+                               End Sub
+        Dim engine As New EnvironmentDriver(Of Genome)(ga, takeBestSnapshot) With {
             .Iterations = 1000000,
             .Threshold = 0.005
         }
