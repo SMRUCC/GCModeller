@@ -192,7 +192,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}] {1}:  {2}", Enzyme, ID, Definition)
+            Return String.Format("[{0}] {1}:  {2}", Enzyme.JoinBy("|"), ID, Definition)
         End Function
 
         ''' <summary>
