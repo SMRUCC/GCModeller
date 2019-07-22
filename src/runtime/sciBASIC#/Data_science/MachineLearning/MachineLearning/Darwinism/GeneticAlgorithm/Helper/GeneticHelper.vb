@@ -162,6 +162,12 @@ Namespace Darwinism.GAF.Helper
                 .initialSize = populationSize
             }
 
+            ' 20190722
+            ' 如果这个base是来自于已经训练好的模型,那么会需要将其添加进入
+            ' 现在的这个种群之中
+            ' 否则程序会需要额外的几个循环来进行训练至best
+            Call population.Add(base)
+
             For i As Integer = 0 To populationSize - 1
                 ' each member of initial population
                 ' is mutated clone of base chromosome
