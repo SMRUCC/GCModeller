@@ -155,7 +155,7 @@ Public Class Genome : Implements Chromosome(Of Genome)
         End If
 
         If Math.Abs(x) > truncate Then
-            x = Math.Sign(x) * randf.seeds.Next * truncate
+            x = Math.Sign(x) * randf.seeds.NextDouble * truncate
         End If
 
         Return x
@@ -208,7 +208,7 @@ Public Class Genome : Implements Chromosome(Of Genome)
             End If
 
             If Math.Abs(chromosome.C(i).BC) > truncate Then
-                chromosome.C(i).BC = Math.Sign(chromosome.C(i).BC) * randf.seeds.Next * truncate
+                chromosome.C(i).BC = Math.Sign(chromosome.C(i).BC) * randf.seeds.NextDouble * truncate
             End If
         End If
 
