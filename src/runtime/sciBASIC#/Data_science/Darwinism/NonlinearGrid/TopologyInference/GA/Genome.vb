@@ -124,21 +124,21 @@ Public Class Genome : Implements Chromosome(Of Genome)
                 randf.seeds.Crossover(a.C(i).B.Array, b.C(j).B.Array)
             End If
 
-            If FlipCoin(CrossOverRate) Then
-                Dim tmp#
+            'If FlipCoin(CrossOverRate) Then
+            '    Dim tmp#
 
-                tmp = a.Vol
-                a.Vol = b.Vol
-                b.Vol = tmp
-            End If
+            '    tmp = a.Vol
+            '    a.Vol = b.Vol
+            '    b.Vol = tmp
+            'End If
 
-            If FlipCoin(CrossOverRate) Then
-                Dim tmp#
+            'If FlipCoin(CrossOverRate) Then
+            '    Dim tmp#
 
-                tmp = a.K
-                a.K = b.K
-                b.K = tmp
-            End If
+            '    tmp = a.K
+            '    a.K = b.K
+            '    b.K = tmp
+            'End If
         End SyncLock
 
         Yield New Genome(a, MutationRate, truncate)
@@ -178,13 +178,13 @@ Public Class Genome : Implements Chromosome(Of Genome)
             chromosome.AC = valueMutate(chromosome.AC)
         End If
 
-        If FlipCoin() Then
-            chromosome.Vol = valueMutate(chromosome.Vol)
-        End If
+        'If FlipCoin() Then
+        '    chromosome.Vol = valueMutate(chromosome.Vol)
+        'End If
 
-        If FlipCoin() Then
-            chromosome.K = valueMutate(chromosome.K)
-        End If
+        'If FlipCoin() Then
+        '    chromosome.K = valueMutate(chromosome.K)
+        'End If
 
         For j As Integer = 0 To chromosome.C.Length - 1
             If FlipCoin() Then
@@ -224,11 +224,13 @@ Public Class Genome : Implements Chromosome(Of Genome)
                         Dim c = chromosome.C(i).B.Sum + chromosome.C(i).BC
                         Dim S = chromosome.AC + sign * c
 
-                        If chromosome.Vol = 0R OrElse S = 0R Then
-                            Return 0
-                        Else
-                            Return chromosome.Vol * S / (chromosome.K + S)
-                        End If
+                        'If chromosome.Vol = 0R OrElse S = 0R Then
+                        '    Return 0
+                        'Else
+                        '    Return chromosome.Vol * S / (chromosome.K + S)
+                        'End If
+
+                        Return S
                     End Function) _
             .ToArray _
             .GetJson _
