@@ -131,6 +131,6 @@ Namespace Net.Abstract
         ''' (这个函数指针用于处理来自于客户端的请求)
         ''' </summary>
         ''' <remarks></remarks>
-        Property Responsehandler As DataRequestHandler
+        Property ResponseHandler As DataRequestHandler
     End Interface
 End Namespace
