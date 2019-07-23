@@ -207,9 +207,13 @@ Namespace Darwinism.GAF
                 Call parallelCacheFitness(GA, comparator)
             End If
 
-            chromosomes = (From c As Chr
-                           In chromosomes.Populate(parallel)
-                           Order By comparator.Fitness(c, parallel:=False) Ascending).AsList
+            ' 在这里使用populate函数的话,无法执行并行
+            ' 必须要直接调用AsParallel拓展才可以
+            ' 为什么会存在这个BUG?
+            chromosomes = chromosomes _
+                .AsParallel _
+                .OrderBy(Function(c) comparator.Fitness(c, parallel:=False)) _
+                .AsList
         End Sub
 
         Private Sub parallelCacheFitness(GA As GeneticAlgorithm(Of Chr), comparator As FitnessPool(Of Chr))
