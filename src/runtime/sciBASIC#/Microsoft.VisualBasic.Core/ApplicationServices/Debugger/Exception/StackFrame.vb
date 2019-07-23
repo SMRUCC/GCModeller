@@ -23,8 +23,8 @@
         End Function
 
         Public Shared Function Parser(line As String) As StackFrame
-            With line.Replace("位置", "at").Replace("行号", "line")
-                Dim t = .StringSplit(" at ")
+            With line.Replace("位置", "in").Replace("行号", "line")
+                Dim t = .StringSplit(" in ")
                 Dim method = t(0)
                 Dim location = t.ElementAtOrDefault(1)
                 Dim file$, lineNumber$

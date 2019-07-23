@@ -70,7 +70,7 @@ Namespace ApplicationServices.Debugging.Diagnostics
         ''' </summary>
         ''' <returns></returns>
         Public Function Exception() As Exception
-            Return New Exception(Message.JoinBy(ASCII.LF)) With {
+            Return New Exception(Message.Select(Function(msg, i) $"{i}. {msg}").JoinBy(ASCII.LF)) With {
                 .Source = StackTrace.JoinBy(ASCII.LF)
             }
         End Function
@@ -79,9 +79,21 @@ Namespace ApplicationServices.Debugging.Diagnostics
             Return TypeFullName
         End Function
 
+        Private Shared Iterator Function getMessages(ex As Exception) As IEnumerable(Of String)
+            Do While True
+                Yield ex.Message
+
+                If Not ex.InnerException Is Nothing Then
+                    ex = ex.InnerException
+                Else
+                    Exit Do
+                End If
+            Loop
+        End Function
+
         Public Shared Function CreateFromObject(ex As Exception) As ExceptionData
             Return New ExceptionData With {
-                .Message = ex.Message.LineTokens,
+                .Message = getMessages(ex).ToArray,
                 .TypeFullName = ex.GetType.FullName,
                 .StackTrace = ParseStackTrace(ex.StackTrace)
             }
