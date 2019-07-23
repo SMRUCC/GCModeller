@@ -128,13 +128,24 @@ Public Class Genome : Implements Chromosome(Of Genome)
                 randf.seeds.Crossover(a.C(i).B.Array, b.C(j).B.Array)
             End If
 
-            'If FlipCoin(CrossOverRate) Then
-            '    Dim tmp#
+            If FlipCoin(CrossOverRate) Then
+                Dim tmp#
+                ' dim(A) is equals to dim(C) and is equals to dim(X)
+                Dim i As Integer = randf.NextInteger(upper:=width)
+                Dim j As Integer = randf.NextInteger(upper:=width)
 
-            '    tmp = a.Vol
-            '    a.Vol = b.Vol
-            '    b.Vol = tmp
-            'End If
+                tmp = a.C(i).BC
+                a.C(i).BC = b.C(j).BC
+                b.C(j).BC = tmp
+            End If
+
+            If FlipCoin(CrossOverRate) Then
+                Dim tmp#
+
+                tmp = a.AC
+                a.AC = b.AC
+                b.AC = tmp
+            End If
 
             'If FlipCoin(CrossOverRate) Then
             '    Dim tmp#
