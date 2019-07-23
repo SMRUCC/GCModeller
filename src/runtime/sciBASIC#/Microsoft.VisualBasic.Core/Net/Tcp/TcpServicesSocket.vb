@@ -236,7 +236,6 @@ Namespace Net.Tcp
         Public Sub AcceptCallback(ar As IAsyncResult)
             ' Get the socket that handles the client request.
             Dim listener As Socket = DirectCast(ar.AsyncState, Socket)
-
             ' End the operation.
             Dim handler As Socket
 
@@ -260,8 +259,7 @@ Namespace Net.Tcp
             End Try
 
             _threadEndAccept = True
-
-        End Sub 'AcceptCallback
+        End Sub
 
         Private Sub ForceCloseHandle(RemoteEndPoint As EndPoint)
             Call $"Connection was force closed by {RemoteEndPoint.ToString}, services thread abort!".__DEBUG_ECHO
@@ -288,10 +286,10 @@ Namespace Net.Tcp
             If bytesRead > 0 Then
 
                 ' There  might be more data, so store the data received so far.
-                state.ChunkBuffer.AddRange(state.readBuffer.Takes(bytesRead))
+                state.received.AddRange(state.readBuffer.Takes(bytesRead))
                 ' Check for end-of-file tag. If it is not there, read
                 ' more data.
-                state.readBuffer = state.ChunkBuffer.ToArray
+                state.readBuffer = state.received.ToArray
 
                 ' 得到的是原始的请求数据
                 Dim requestData As New RequestStream(state.readBuffer)
@@ -308,7 +306,7 @@ Namespace Net.Tcp
                     End Try
                 End If
             End If
-        End Sub 'ReadCallback
+        End Sub
 
         ''' <summary>
         ''' All the data has been read from the client. Display it on the console.
@@ -328,6 +326,7 @@ Namespace Net.Tcp
                 Else
                     requestData = Me.ResponseHandler()(requestData, remoteEP)
                 End If
+
                 Call Send(handler, requestData)
             Catch ex As Exception
                 Call _exceptionHandle(ex)
@@ -353,7 +352,7 @@ Namespace Net.Tcp
             byteData = New RequestStream(0, 0, byteData).Serialize
             ' Begin sending the data to the remote device.
             Call handler.BeginSend(byteData, 0, byteData.Length, 0, New AsyncCallback(AddressOf SendCallback), handler)
-        End Sub 'Send
+        End Sub
 
         Private Sub Send(handler As Socket, data As RequestStream)
             ' Convert the string data to byte data using ASCII encoding.

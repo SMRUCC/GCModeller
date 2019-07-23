@@ -373,13 +373,13 @@ Namespace Net.Tcp
 
             If bytesRead > 0 Then
                 ' There might be more data, so store the data received so far.
-                state.ChunkBuffer.AddRange(state.readBuffer.Takes(bytesRead))
+                state.received.AddRange(state.readBuffer.Takes(bytesRead))
                 ' Get the rest of the data.
                 client.BeginReceive(state.readBuffer, 0, StateObject.BufferSize, 0, New AsyncCallback(AddressOf ReceiveCallback), state)
             Else
                 ' All the data has arrived; put it in response.
-                If state.ChunkBuffer.Count > 1 Then
-                    response = state.ChunkBuffer.ToArray
+                If state.received.Count > 1 Then
+                    response = state.received.ToArray
                 Else
 EX_EXIT:            response = Nothing
                 End If
