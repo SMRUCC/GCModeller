@@ -77,6 +77,8 @@ Namespace Net.Abstract
 
 #Region "Delegate Abstract Interface"
 
+    Public Delegate Function SendMessageInvoke(Message As String) As String
+
     Public Delegate Sub ForceCloseHandle(socket As StateObject)
 
     ''' <summary>
