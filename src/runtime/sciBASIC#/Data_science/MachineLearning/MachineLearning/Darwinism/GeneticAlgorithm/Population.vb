@@ -175,23 +175,16 @@ Namespace Darwinism.GAF
                 If parallel Like GetType(Boolean) Then
                     Dim flag As Boolean = parallel
 
-                    ' use the internal parallel computing api
                     Pcompute = Function(ga, source)
                                    Return GA_PLinq(ga, source, parallelFlag:=flag)
                                End Function
-
-                    Me.parallel = flag
                 Else
-                    Me.parallel = True
-
-                    ' use external parallel computing api
                     Pcompute = parallel
                 End If
             Else
                 Pcompute = Function(ga, source)
                                Return GA_PLinq(ga, source, parallelFlag:=True)
                            End Function
-                parallel = True
             End If
         End Sub
 
@@ -207,12 +200,9 @@ Namespace Darwinism.GAF
                 Call parallelCacheFitness(GA, comparator)
             End If
 
-            ' 在这里使用populate函数的话,无法执行并行
-            ' 必须要直接调用AsParallel拓展才可以
-            ' 为什么会存在这个BUG?
-            Dim query = From c As Chr In chromosomes.AsParallel.WithDegreeOfParallelism(App.CPUCoreNumbers) Order By comparator.Fitness(c, parallel:=False)
-
-            chromosomes = query.AsList
+            chromosomes = (From c As Chr
+                           In chromosomes.AsParallel
+                           Order By comparator.Fitness(c, parallel:=False) Ascending).AsList
         End Sub
 
         Private Sub parallelCacheFitness(GA As GeneticAlgorithm(Of Chr), comparator As FitnessPool(Of Chr))
