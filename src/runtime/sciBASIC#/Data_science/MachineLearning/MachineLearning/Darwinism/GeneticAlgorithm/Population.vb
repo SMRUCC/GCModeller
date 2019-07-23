@@ -72,6 +72,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
+Imports Microsoft.VisualBasic.Parallel.Linq
 
 Namespace Darwinism.GAF
 
@@ -194,15 +195,23 @@ Namespace Darwinism.GAF
         ''' <param name="GA"></param>
         ''' <param name="comparator"></param>
         Friend Sub SortPopulationByFitness(GA As GeneticAlgorithm(Of Chr), comparator As FitnessPool(Of Chr))
-            ' Call Arrays.Shuffle(chromosomes)
-
             If parallel AndAlso comparator.Cacheable Then
                 Call parallelCacheFitness(GA, comparator)
             End If
 
-            chromosomes = (From c As Chr
-                           In chromosomes.AsParallel
-                           Order By comparator.Fitness(c, parallel:=False) Ascending).AsList
+            'chromosomes = LQuerySchedule _
+            '    .LQuery(inputs:=chromosomes,
+            '            task:=Function(chr)
+            '                      Return (Fitness:=comparator.Fitness(chr, parallel:=False), chr:=chr)
+            '                  End Function,
+            '            partitionSize:=chromosomes.Count / App.CPUCoreNumbers
+            '    ) _
+            '    .OrderBy(Function(c) c.Fitness) _
+            '    .Select(Function(c) c.chr) _
+            '    .AsList
+            chromosomes = chromosomes _
+                .OrderBy(Function(c) comparator.Fitness(c, parallel:=True)) _
+                .AsList
         End Sub
 
         Private Sub parallelCacheFitness(GA As GeneticAlgorithm(Of Chr), comparator As FitnessPool(Of Chr))
