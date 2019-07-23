@@ -88,7 +88,7 @@ Namespace Darwinism.GAF
         ''' 是否使用并行模式在排序之前来计算出fitness
         ''' </summary>
         ''' <returns></returns>
-        Public Property parallel As Boolean = False
+        Public Property parallel As Boolean = True
         ''' <summary>
         ''' 种群的大小
         ''' </summary>
