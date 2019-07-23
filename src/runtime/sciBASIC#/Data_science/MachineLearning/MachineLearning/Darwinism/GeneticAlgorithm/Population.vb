@@ -210,10 +210,9 @@ Namespace Darwinism.GAF
             ' 在这里使用populate函数的话,无法执行并行
             ' 必须要直接调用AsParallel拓展才可以
             ' 为什么会存在这个BUG?
-            chromosomes = chromosomes _
-                .AsParallel _
-                .OrderBy(Function(c) comparator.Fitness(c, parallel:=False)) _
-                .AsList
+            Dim query = From c As Chr In chromosomes.AsParallel Order By comparator.Fitness(c, parallel:=False)
+
+            chromosomes = query.AsList
         End Sub
 
         Private Sub parallelCacheFitness(GA As GeneticAlgorithm(Of Chr), comparator As FitnessPool(Of Chr))
