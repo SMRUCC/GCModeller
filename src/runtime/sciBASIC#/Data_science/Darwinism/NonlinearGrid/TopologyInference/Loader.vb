@@ -113,7 +113,7 @@ Public Module Loader
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function CreateSnapshot(genome As Genome, Optional names$() = Nothing, Optional error# = Double.NaN) As GridMatrix
+    Public Function CreateSnapshot(genome As Genome, Optional names$() = Nothing, Optional error# = -1) As GridMatrix
         Return New GridMatrix With {
             .[error] = [error],
             .direction = genome.chromosome.A.ToArray,

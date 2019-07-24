@@ -1,55 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::f7090379a93984ecee32ecbba064de75, CommandLine\Stream.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Enum FileTypes
-    ' 
-    '         DiskFile, MemoryFile, PipelineFile
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Module StreamExtensions
-    ' 
-    '         Function: FileType, OpenForRead, OpenForWrite
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Enum FileTypes
+' 
+'         DiskFile, MemoryFile, PipelineFile
+' 
+'  
+' 
+' 
+' 
+'     Module StreamExtensions
+' 
+'         Function: FileType, OpenForRead, OpenForWrite
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.IO.MemoryMappedFiles
+Imports System.Security.AccessControl
 
 Namespace CommandLine
 
@@ -88,21 +89,46 @@ Namespace CommandLine
             ElseIf reference.TextEquals("std_out://") Then
                 Throw New InvalidProgramException()
             ElseIf reference.ToLower.StartsWith("memory://") Then
+                Dim view As Stream
+
                 reference = reference.GetTagValue(":/").Value
-                Return MemoryMappedFile.OpenExisting(reference).CreateViewStream
+                view = MemoryMappedFile.OpenExisting(reference).CreateViewStream
+                view.Seek(Scan0, SeekOrigin.Begin)
+
+                Return view
             Else
                 Return New FileStream(reference, FileMode.Open, access:=FileAccess.Read, share:=FileShare.ReadWrite)
             End If
         End Function
 
-        Public Function OpenForWrite(reference As String, Optional size& = 1024 * 1024 * 1024) As Stream
+        ''' <summary>
+        ''' 请注意,这个函数在创建内存映射文件的时候,默认是0.5GB大小的
+        ''' </summary>
+        ''' <param name="reference"></param>
+        ''' <param name="size"></param>
+        ''' <returns></returns>
+        Public Function OpenForWrite(reference As String, Optional size& = 512 * 1024 * 1024) As Stream
             If reference.TextEquals("std_in://") Then
                 Throw New InvalidProgramException
             ElseIf reference.TextEquals("std_out://") Then
                 Return Console.OpenStandardOutput
             ElseIf reference.ToLower.StartsWith("memory://") Then
+                Dim view As Stream
+                Dim security As New MemoryMappedFileSecurity()
+
+                security.AddAccessRule(New AccessRule(Of MemoryMappedFileRights)("everyone", MemoryMappedFileRights.FullControl, AccessControlType.Allow))
                 reference = reference.GetTagValue(":/").Value
-                Return MemoryMappedFile.CreateOrOpen(reference, size).CreateViewStream
+                view = MemoryMappedFile.CreateOrOpen(
+                    reference, size,
+                    access:=MemoryMappedFileAccess.ReadWrite,
+                    options:=MemoryMappedFileOptions.DelayAllocatePages,
+                    memoryMappedFileSecurity:=security,
+                    inheritability:=HandleInheritability.Inheritable
+                ).CreateViewStream
+
+                Call view.Seek(Scan0, SeekOrigin.Begin)
+
+                Return view
             Else
                 Return New FileStream(reference, FileMode.OpenOrCreate, access:=FileAccess.Write, share:=FileShare.Read)
             End If
