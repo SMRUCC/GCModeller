@@ -200,6 +200,10 @@ Public Module ReactionNetwork
                              If (Not nodes.ContainsKey(edge.fromNode)) OrElse (Not nodes.ContainsKey(edge.toNode)) Then
                                  Throw New InvalidExpressionException(edge.ToString)
                              End If
+                             If edge.fromNode = "C00001" OrElse edge.toNode = "C00001" Then
+                                 ' 跳过水
+                                 Return
+                             End If
 
                              With edge.GetNullDirectedGuid(True)
                                  If Not edges.ContainsKey(.ByRef) Then
@@ -273,6 +277,10 @@ Public Module ReactionNetwork
                                                     .value = 1
                                                  }
 
+                                                 If Not nodes.ContainsKey(compound) Then
+                                                     nodes.Add(New Node With {.ID = compound, .NodeType = "KEGG Compound", .Properties = New Dictionary(Of String, String) From {{"name", compound}, {"color", gray}, {"is_extended", True}}})
+                                                 End If
+
                                                  Call addNewEdge(edge)
                                              Next
 
@@ -283,6 +291,10 @@ Public Module ReactionNetwork
                                                     .interaction = "reaction",
                                                     .value = 1
                                                  }
+
+                                                 If Not nodes.ContainsKey(compound) Then
+                                                     nodes.Add(New Node With {.ID = compound, .NodeType = "KEGG Compound", .Properties = New Dictionary(Of String, String) From {{"name", compound}, {"color", gray}, {"is_extended", True}}})
+                                                 End If
 
                                                  Call addNewEdge(edge)
                                              Next
