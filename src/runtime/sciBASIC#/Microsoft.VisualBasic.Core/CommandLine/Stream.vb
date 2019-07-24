@@ -115,8 +115,14 @@ Namespace CommandLine
             ElseIf reference.ToLower.StartsWith("memory://") Then
                 Dim view As Stream
                 Dim security As New MemoryMappedFileSecurity()
+                Dim userName$ = "everyone"
 
-                security.AddAccessRule(New AccessRule(Of MemoryMappedFileRights)("everyone", MemoryMappedFileRights.FullControl, AccessControlType.Allow))
+                If Not App.IsMicrosoftPlatform Then
+                    ' 20190724 linux平台上很有可能不存在"everyone"这个账户角色
+                    userName = Environment.UserName
+                End If
+
+                security.AddAccessRule(New AccessRule(Of MemoryMappedFileRights)(userName, MemoryMappedFileRights.FullControl, AccessControlType.Allow))
                 reference = reference.GetTagValue(":/").Value
                 view = MemoryMappedFile.CreateOrOpen(
                     reference, size,
