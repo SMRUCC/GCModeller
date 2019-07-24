@@ -42,6 +42,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Development
@@ -224,6 +225,14 @@ Module Program
         Dim model$ = args("/model")
         Dim seed As GridSystem = Nothing
         Dim popSize% = args("/popSize") Or 5000
+        Dim Pcompute As ParallelComputeFitness(Of Genome) = Nothing
+
+        If args.ContainsParameter("/parallel") Then
+            Dim parallelPlugin = (args <= "/parallel").GetTagValue("::", trim:=True)
+            Dim plugin As MethodInfo = ApplicationServices.Plugin.GetPluginMethod(parallelPlugin.Name, parallelPlugin.Value)
+
+            Pcompute = plugin.CreateDelegate(GetType(ParallelComputeFitness(Of Genome)))
+        End If
 
         If Not inFile.FileExists Then
             Call "No input file was found!".PrintException
@@ -248,7 +257,8 @@ Module Program
                 factorNames:=trainingSet.NormalizeMatrix.names,
                 mutationRate:=rate,
                 truncate:=truncate,
-                allPositive:=allPositive
+                allPositive:=allPositive,
+                Pcompute:=Pcompute
         )
 
         Return 0
@@ -258,7 +268,8 @@ Module Program
     Public Sub RunFitProcess(trainingSet As DataSet, outFile$, seed As GridSystem, popSize%, factorNames$(),
                              mutationRate As Double,
                              truncate As Double,
-                             allPositive As Boolean)
+                             allPositive As Boolean,
+                             Pcompute As ParallelComputeFitness(Of Genome))
 
         Dim cor As Vector = trainingSet.DataSamples.AsEnumerable.Correlation
         Dim max As Vector = trainingSet.NormalizeMatrix.matrix.Select(Function(r) 1 / (r.max * 1000)).AsVector
@@ -266,7 +277,15 @@ Module Program
         Dim chromesome As GridSystem = If(seed, Loader.EmptyGridSystem(trainingSet.width, cor, max))
         Call "Initialize populations".__DEBUG_ECHO
         Call $"value truncate at ABS limits {truncate}".__DEBUG_ECHO
-        Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate, truncate, allPositive).InitialPopulation(popSize, parallel:=True)
+        Dim parallel As [Variant](Of ParallelComputeFitness(Of Genome), Boolean)
+
+        If Pcompute Is Nothing Then
+            parallel = True
+        Else
+            parallel = Pcompute
+        End If
+
+        Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate, truncate, allPositive).InitialPopulation(popSize, parallel)
         Call "Initialize environment".__DEBUG_ECHO
         Dim fitness As Fitness(Of Genome) = New Environment(trainingSet.DataSamples.AsEnumerable, FitnessMethods.LabelGroupAverage)
         Call "Create algorithm engine".__DEBUG_ECHO
