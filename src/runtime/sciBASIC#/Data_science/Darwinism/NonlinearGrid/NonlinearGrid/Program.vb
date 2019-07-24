@@ -229,8 +229,13 @@ Module Program
 
         If args.ContainsParameter("/parallel") Then
             Dim parallelPlugin = (args <= "/parallel").GetTagValue("::", trim:=True)
-            Dim plugin As MethodInfo = ApplicationServices.Plugin.GetPluginMethod(parallelPlugin.Name, parallelPlugin.Value)
+            Dim plugin As MethodInfo
+            Dim fullName$ = (App.HOME & "/" & parallelPlugin.Name).GetFullPath
 
+            Call $"Load parallel computing plugin:  {parallelPlugin}".__INFO_ECHO
+            Call $"fullName={fullName}".__INFO_ECHO
+
+            plugin = ApplicationServices.Plugin.GetPluginMethod(fullName, parallelPlugin.Value)
             Pcompute = plugin.CreateDelegate(GetType(ParallelComputeFitness(Of Genome)))
         End If
 
