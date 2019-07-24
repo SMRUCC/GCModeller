@@ -213,7 +213,7 @@ Module Program
     End Function
 
     <ExportAPI("/training")>
-    <Usage("/training /in <trainingSet.Xml> [/model <model.XML> /popSize <default=5000> /rate <default=0.1> /range.positive /truncate <default=1000> /out <output_model.Xml>]")>
+    <Usage("/training /in <trainingSet.Xml> [/model <model.XML> /popSize <default=5000> /rate <default=0.1> /range.positive /truncate <default=1000> /parallel <processor_plugin> /out <output_model.Xml>]")>
     <Description("Training a grid system use GA method.")>
     <Argument("/range.positive", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
