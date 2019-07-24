@@ -65,7 +65,7 @@ Namespace CommandLine
     ''' + standard output: std_out://
     ''' + memory mapping file: memory://file/uri
     ''' </summary>
-    Public Module StreamExtensions
+    <HideModuleName> Public Module StreamExtensions
 
         Public Function FileType(reference As String) As FileTypes
             If reference.TextEquals("std_in://") OrElse reference.TextEquals("std_out://") Then
@@ -77,6 +77,11 @@ Namespace CommandLine
             End If
         End Function
 
+        ''' <summary>
+        ''' 一个用于通用化的打开数据流读取对象的函数
+        ''' </summary>
+        ''' <param name="reference"></param>
+        ''' <returns></returns>
         Public Function OpenForRead(reference As String) As Stream
             If reference.TextEquals("std_in://") Then
                 Return Console.OpenStandardInput
