@@ -174,6 +174,7 @@ Public Module ReactionNetwork
 
         ' 从输入的数据之中构建出网络的节点列表
         Dim nodes As Dictionary(Of Node) = compounds _
+            .Where(Function(cpd) Not cpd.Name = "C00001") _
             .Select(Function(cpd As NamedValue(Of String))
                         Dim type$
 
@@ -196,6 +197,10 @@ Public Module ReactionNetwork
             .ToDictionary
 
         Dim addNewEdge = Sub(edge As NetworkEdge)
+                             If (Not nodes.ContainsKey(edge.fromNode)) OrElse (Not nodes.ContainsKey(edge.toNode)) Then
+                                 Throw New InvalidExpressionException(edge.ToString)
+                             End If
+
                              With edge.GetNullDirectedGuid(True)
                                  If Not edges.ContainsKey(.ByRef) Then
                                      Call edges.Add(.ByRef, edge)
@@ -285,14 +290,19 @@ Public Module ReactionNetwork
                                      End Sub
 
         ' 下面的这个for循环对所构建出来的节点列表进行边链接构建
-        For Each a As Node In nodes.Values.ToArray
+        For Each a As Node In nodes.Values.Where(Function(n) n.ID <> "C00001").ToArray
             Dim reactionA = cpdGroups.TryGetValue(a.ID)
 
             If reactionA.IsNullOrEmpty Then
                 Continue For
             End If
 
-            For Each b As Node In nodes.Values.ToArray.Where(Function(x) x.ID <> a.ID)
+            For Each b As Node In nodes.Values _
+                .Where(Function(x)
+                           Return x.ID <> a.ID AndAlso x.ID <> "C00001"
+                       End Function) _
+                .ToArray
+
                 Dim rB = cpdGroups.TryGetValue(b.ID)
 
                 If rB.IsNullOrEmpty Then
@@ -350,7 +360,11 @@ Public Module ReactionNetwork
         Dim indexA = cpdGroups(a.ID).Indexing
         Dim indexB = cpdGroups(b.ID).Indexing
 
-        For Each x In cpdGroups
+        For Each x In cpdGroups.Where(Function(compound)
+                                          ' C00001 是水,很多代谢过程都存在的
+                                          ' 在这里就没有必要添加进来了
+                                          Return Not compound.Key = "C00001"
+                                      End Function)
             Dim list = x.Value
 
             If list.Any(Function(r) indexA(r) > -1) AndAlso list.Any(Function(r) indexB(r) > -1) Then
