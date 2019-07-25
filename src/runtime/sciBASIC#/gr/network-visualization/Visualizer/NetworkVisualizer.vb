@@ -281,19 +281,15 @@ Public Module NetworkVisualizer
         ' otherwise all of the nodes in target network graph will be draw onto the canvas.
         Dim connectedNodes = net.connectedNodes.AsDefault
         Dim drawPoints = net.vertex.ToArray Or connectedNodes.When(hideDisconnectedNode)
+        Dim labels As New List(Of labelModel)
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
-
-                Dim labels As New List(Of labelModel)
-
                 Call "Render network edges...".__INFO_ECHO
-
                 ' 首先在这里绘制出网络的框架：将所有的边绘制出来
                 Call g.drawEdges(net, minLinkWidthValue, edgeDashTypes, scalePos, throwEx)
 
                 Call "Render network nodes...".__INFO_ECHO
-
                 defaultColor = If(defaultColor.IsEmpty, Color.Black, defaultColor)
 
                 ' 然后将网络之中的节点绘制出来，同时记录下节点的位置作为label text的锚点
@@ -530,7 +526,7 @@ Public Module NetworkVisualizer
         Dim rect As Rectangle
 
         Call d3js _
-            .labeler _
+            .labeler(maxMove:=100, maxAngle:=1, w_len:=1, w_inter:=2, w_lab2:=50, w_lab_anc:=50, w_orient:=2) _
             .Anchors(labels.Select(Function(x) x.anchor)) _
             .Labels(labels.Select(Function(x) x.label)) _
             .Size(frameSize) _

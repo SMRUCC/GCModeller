@@ -88,13 +88,12 @@ Public Module FunctionalNetwork
                                   Optional layouts As ILayoutCoordinate() = Nothing,
                                   Optional size$ = "8000,5000",
                                   Optional colorSchema$ = "Set1:c9",
-                                  Optional radius$ = "5,20",
+                                  Optional radius$ = "10,50",
                                   Optional KEGGNameFont$ = CSSFont.Win7LargerNormal,
                                   Optional margin% = 100,
                                   Optional groupLowerBounds% = 3,
                                   Optional quantile# = 0.5,
                                   Optional delimiter$ = FunctionalNetwork.Delimiter,
-                                  Optional fontSizeFactor# = 2.5,
                                   Optional polygonStroke$ = Stroke.AxisGridStroke) As Image
 
         Dim graph As NetworkGraph = model _
@@ -185,8 +184,8 @@ Public Module FunctionalNetwork
             .DrawImage(canvasSize:=size,
                        nodePoints:=nodePoints,
                        edgeDashTypes:=dash,
-                       fontSizeFactor:=fontSizeFactor,
-                       minLinkWidth:=5
+                       minLinkWidth:=5,
+                       nodeRadius:=DirectMapRadius
             ) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)

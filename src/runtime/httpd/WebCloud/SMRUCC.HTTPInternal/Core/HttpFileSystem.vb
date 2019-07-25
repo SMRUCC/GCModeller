@@ -115,7 +115,7 @@ Namespace Core
         Public ReadOnly Property InMemoryCacheMode As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return _cache Is Nothing
+                Return Not _cache Is Nothing
             End Get
         End Property
 
