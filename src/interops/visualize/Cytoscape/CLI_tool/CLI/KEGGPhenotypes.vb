@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
@@ -130,7 +131,7 @@ Partial Module CLI
                 compounds:=kegg_compounds,
                 extended:=True,
                 enzymeInfo:=enzyme
-            )
+            ).AnalysisDegrees
 
         Call graph.VisualizeKEGG.SaveAs($"{out}/network.png")
         Call graph.Save(out)

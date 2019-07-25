@@ -327,7 +327,7 @@ Public Module NetworkVisualizer
         Return g.GraphicsPlots(frameSize, margin, background, plotInternal)
     End Function
 
-    Public Function DirectMapRadius() As Func(Of Node, Single)
+    Public Function DirectMapRadius(Optional scale# = 1) As Func(Of Node, Single)
         Return Function(n)
                    Dim r As Single = n.data.radius
 
@@ -337,7 +337,7 @@ Public Module NetworkVisualizer
                        r = If(r = 0, 9, r)
                    End If
 
-                   Return r
+                   Return r * scale
                End Function
     End Function
 

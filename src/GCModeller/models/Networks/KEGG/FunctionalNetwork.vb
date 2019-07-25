@@ -88,7 +88,7 @@ Public Module FunctionalNetwork
                                   Optional layouts As ILayoutCoordinate() = Nothing,
                                   Optional size$ = "8000,5000",
                                   Optional colorSchema$ = "Set1:c9",
-                                  Optional radius$ = "10,50",
+                                  Optional radius$ = "50,400",
                                   Optional KEGGNameFont$ = CSSFont.Win7LargerNormal,
                                   Optional margin% = 100,
                                   Optional groupLowerBounds% = 3,
@@ -185,7 +185,8 @@ Public Module FunctionalNetwork
                        nodePoints:=nodePoints,
                        edgeDashTypes:=dash,
                        minLinkWidth:=5,
-                       nodeRadius:=DirectMapRadius
+                       nodeRadius:=DirectMapRadius(),
+                       fontSize:=DirectMapRadius(0.8)
             ) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)
