@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::b2f66d928edd12e27d9d86207ee541ff, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module NetworkVisualizer
-    ' 
-    '     Properties: BackgroundColor, DefaultEdgeColor
-    ' 
-    '     Function: AutoScaler, CentralOffsets, DrawImage, drawVertexNodes, GetBounds
-    '               GetDisplayText, scales
-    ' 
-    '     Sub: drawEdges, drawhullPolygon, drawLabels
-    ' 
-    ' /********************************************************************************/
+' Module NetworkVisualizer
+' 
+'     Properties: BackgroundColor, DefaultEdgeColor
+' 
+'     Function: AutoScaler, CentralOffsets, DrawImage, drawVertexNodes, GetBounds
+'               GetDisplayText, scales
+' 
+'     Sub: drawEdges, drawhullPolygon, drawLabels
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -65,6 +65,7 @@ Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports sys = System.Math
 
 ''' <summary>
 ''' Image drawing of a network model
@@ -164,6 +165,7 @@ Public Module NetworkVisualizer
     ''' <param name="nodePoints">如果还需要获取得到节点的绘图位置的话，则可以使用这个可选参数来获取返回</param>
     ''' <param name="fontSizeFactor">这个参数值越小，字体会越大</param>
     ''' <param name="hullPolygonGroups">需要显示分组的多边形的分组的名称的列表，也可以是一个表达式max或者min，分别表示最大或者最小的分组</param>
+    ''' <param name="nodeRadiusMapper">By default all of the node have the same radius size</param>
     ''' <returns></returns>
     <ExportAPI("Draw.Image")>
     <Extension>
@@ -176,8 +178,7 @@ Public Module NetworkVisualizer
                               Optional labelColorAsNodeColor As Boolean = False,
                               Optional nodeStroke$ = WhiteStroke,
                               Optional minLinkWidth! = 2,
-                              Optional radiusScale# = 1.25,
-                              Optional minRadius# = 5,
+                              Optional nodeRadius As [Variant](Of Func(Of Node, Single), Single) = Nothing,
                               Optional minFontSize! = 10,
                               Optional labelFontBase$ = CSSFont.Win7Normal,
                               Optional ByRef nodePoints As Dictionary(Of Node, PointF) = Nothing,
@@ -253,7 +254,17 @@ Public Module NetworkVisualizer
         ' 在这里不可以使用 <=，否则会导致等于最小值的时候出现无限循环的bug
         Dim minLinkWidthValue = minLinkWidth.AsDefault(Function(width) CInt(width) < minLinkWidth)
         Dim minFontSizeValue = minFontSize.AsDefault(Function(size) Val(size) < minFontSize)
-        Dim minRadiusValue = minRadius.AsDefault(Function(r) Val(r) < minRadius)
+        Dim nodeRadiusMapper As Func(Of Node, Single)
+
+        If nodeRadius Is Nothing Then
+            Dim min = sys.Min(frameSize.Width, frameSize.Height) / 12
+            nodeRadiusMapper = Function() min
+        ElseIf nodeRadius Like GetType(Single) Then
+            Dim radius As Single = nodeRadius
+            nodeRadiusMapper = Function() radius
+        Else
+            nodeRadiusMapper = nodeRadius
+        End If
 
         ' if required hide disconnected nodes, then only the connected node in the network 
         ' Graph will be draw
@@ -286,8 +297,7 @@ Public Module NetworkVisualizer
                 ' 在这里进行节点的绘制
                 labels += g.drawVertexNodes(
                     drawPoints:=drawPoints,
-                    radiusScale:=radiusScale,
-                    minRadiusValue:=minRadiusValue,
+                    radiusValue:=nodeRadius,
                     minFontSizeValue:=minFontSizeValue,
                     defaultColor:=defaultColor,
                     stroke:=stroke,
@@ -312,10 +322,23 @@ Public Module NetworkVisualizer
         Return g.GraphicsPlots(frameSize, margin, background, plotInternal)
     End Function
 
+    Public Function DirectMapRadius() As Func(Of Node, Single)
+        Return Function(n)
+                   Dim r As Single = n.data.radius
+
+                   ' 当网络之中没有任何边的时候，r的值会是NAN
+                   If r = 0# OrElse r.IsNaNImaginary Then
+                       r = If(n.data.neighborhoods < 30, n.data.neighborhoods * 9, n.data.neighborhoods * 7)
+                       r = If(r = 0, 9, r)
+                   End If
+
+                   Return r
+               End Function
+    End Function
+
     <Extension>
     Private Iterator Function drawVertexNodes(g As IGraphics, drawPoints As Node(),
-                                              radiusScale#,
-                                              minRadiusValue As [Default](Of Double),
+                                              radiusValue As Func(Of Node, Single),
                                               minFontSizeValue As [Default](Of Single),
                                               defaultColor As Color,
                                               stroke As Pen,
@@ -331,15 +354,7 @@ Public Module NetworkVisualizer
         Call "Rendering nodes...".__DEBUG_ECHO
 
         For Each n As Node In drawPoints
-            Dim r# = n.data.radius
-
-            ' 当网络之中没有任何边的时候，r的值会是NAN
-            If r = 0# OrElse r.IsNaNImaginary Then
-                r = If(n.data.neighborhoods < 30, n.data.neighborhoods * 9, n.data.neighborhoods * 7)
-                r = If(r = 0, 9, r)
-            End If
-
-            r = (r * radiusScale) Or minRadiusValue
+            Dim r# = radiusValue(n)
 
             With DirectCast(New SolidBrush(defaultColor), Brush).AsDefault(n.NodeBrushAssert)
                 br = n.data.color Or .ByRef

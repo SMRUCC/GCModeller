@@ -185,7 +185,9 @@ Public Module FunctionalNetwork
             .DrawImage(canvasSize:=size,
                        nodePoints:=nodePoints,
                        edgeDashTypes:=dash,
-                       fontSizeFactor:=fontSizeFactor) _
+                       fontSizeFactor:=fontSizeFactor,
+                       minLinkWidth:=5
+            ) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)
 
