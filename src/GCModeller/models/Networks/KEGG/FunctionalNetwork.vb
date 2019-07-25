@@ -88,7 +88,6 @@ Public Module FunctionalNetwork
                                   Optional layouts As ILayoutCoordinate() = Nothing,
                                   Optional size$ = "8000,5000",
                                   Optional colorSchema$ = "Set1:c9",
-                                  Optional scale# = 4.5,
                                   Optional radius$ = "5,20",
                                   Optional KEGGNameFont$ = CSSFont.Win7LargerNormal,
                                   Optional margin% = 100,
@@ -184,7 +183,6 @@ Public Module FunctionalNetwork
 
         Using g As Graphics2D = graph _
             .DrawImage(canvasSize:=size,
-                       scale:=scale,
                        nodePoints:=nodePoints,
                        edgeDashTypes:=dash,
                        fontSizeFactor:=fontSizeFactor) _
