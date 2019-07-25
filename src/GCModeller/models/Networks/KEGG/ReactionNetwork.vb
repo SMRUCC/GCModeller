@@ -377,7 +377,11 @@ Public Module ReactionNetwork
         Next
     End Sub
 
-    Public ReadOnly commonIgnores As Index(Of String) = {}
+    Public ReadOnly commonIgnores As Index(Of String) = My.Resources _
+        .CommonIgnores _
+        .LineTokens _
+        .Distinct _
+        .ToArray
 
     <Extension>
     Private Iterator Function doNetworkExtension(cpdGroups As Dictionary(Of String, String()),
