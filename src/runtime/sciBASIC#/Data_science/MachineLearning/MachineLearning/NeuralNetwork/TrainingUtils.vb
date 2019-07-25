@@ -313,12 +313,20 @@ Namespace NeuralNetwork
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Friend Shared Function CalculateError(neuronNetwork As Network, targets As Double()) As Double
-            Return neuronNetwork.OutputLayer _
+            Dim err# = neuronNetwork.OutputLayer _
                 .Neurons _
                 .Select(Function(n, i)
                             Return Math.Abs(n.CalculateError(targets(i)))
                         End Function) _
                 .Sum()
+
+            Const maxErr# = 10 ^ 255
+
+            If err.IsNaNImaginary Then
+                Return maxErr
+            Else
+                Return err
+            End If
         End Function
 #End Region
 
