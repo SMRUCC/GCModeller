@@ -105,7 +105,7 @@ Public Module FunctionalNetwork
 
         If layouts.IsNullOrEmpty Then
             Dim defaultFile$ = App.InputFile.ParentPath & "/" & GraphLayout.Parameters.DefaultFileName
-            Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load(defaultFile)
+            Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load(defaultFile, New ForceDirectedArgs With {.Damping = 0.2, .Iterations = 2000, .Repulsion = 1000, .Stiffness = 80})
 
             ' 生成layout信息               
             Call graph.doRandomLayout
