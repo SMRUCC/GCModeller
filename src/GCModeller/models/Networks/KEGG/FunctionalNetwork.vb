@@ -86,15 +86,14 @@ Public Module FunctionalNetwork
     <Extension>
     Public Function VisualizeKEGG(model As NetworkTables,
                                   Optional layouts As ILayoutCoordinate() = Nothing,
-                                  Optional size$ = "8000,5000",
+                                  Optional size$ = "10000,7000",
                                   Optional colorSchema$ = "Set1:c9",
-                                  Optional radius$ = "5,20",
+                                  Optional radius$ = "50,350",
                                   Optional KEGGNameFont$ = CSSFont.Win7LargerNormal,
                                   Optional margin% = 100,
                                   Optional groupLowerBounds% = 3,
                                   Optional quantile# = 0.5,
                                   Optional delimiter$ = FunctionalNetwork.Delimiter,
-                                  Optional fontSizeFactor# = 2.5,
                                   Optional polygonStroke$ = Stroke.AxisGridStroke) As Image
 
         Dim graph As NetworkGraph = model _
@@ -106,7 +105,7 @@ Public Module FunctionalNetwork
 
         If layouts.IsNullOrEmpty Then
             Dim defaultFile$ = App.InputFile.ParentPath & "/" & GraphLayout.Parameters.DefaultFileName
-            Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load(defaultFile)
+            Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load(defaultFile, New ForceDirectedArgs With {.Damping = 0.2, .Iterations = 2000, .Repulsion = 1000, .Stiffness = 80})
 
             ' 生成layout信息               
             Call graph.doRandomLayout
@@ -185,7 +184,10 @@ Public Module FunctionalNetwork
             .DrawImage(canvasSize:=size,
                        nodePoints:=nodePoints,
                        edgeDashTypes:=dash,
-                       fontSizeFactor:=fontSizeFactor) _
+                       minLinkWidth:=5,
+                       nodeRadius:=DirectMapRadius(),
+                       fontSize:=DirectMapRadius(0.5)
+            ) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)
 
