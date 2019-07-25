@@ -73,7 +73,6 @@ Public Module AnalysisAPI
         With model.VisualizeKEGG(
             layouts.ToArray,
             size:="4000,3000",
-            scale:=2.5,
             radius:=radius,
             groupLowerBounds:=4
         )

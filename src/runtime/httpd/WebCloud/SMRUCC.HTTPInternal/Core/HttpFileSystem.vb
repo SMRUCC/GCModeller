@@ -72,10 +72,9 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
-Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.WebCloud.HTTPInternal.Platform.Plugins
 Imports SMRUCC.WebCloud.HTTPInternal.Core.Cache
+Imports SMRUCC.WebCloud.HTTPInternal.Platform.Plugins
 Imports fs = Microsoft.VisualBasic.FileIO.FileSystem
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -104,6 +103,7 @@ Namespace Core
         ReadOnly _cache As VirtualFileSystem
         ReadOnly _defaultFavicon As Byte() = My.Resources.favicon.UnZipStream.ToArray
         ReadOnly MAX_POST_SIZE%
+
         ''' <summary>
         ''' Current http filesystem is running in cache mode?
         ''' </summary>
@@ -115,7 +115,7 @@ Namespace Core
         Public ReadOnly Property InMemoryCacheMode As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return _cache Is Nothing
+                Return Not _cache Is Nothing
             End Get
         End Property
 
