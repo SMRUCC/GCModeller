@@ -132,21 +132,21 @@ Public Module NetworkVisualizer
     End Function
 
     <Extension>
-    Public Function AutoScaler(graph As NetworkGraph, frameSize As Size) As SizeF
+    Public Function AutoScaler(graph As NetworkGraph, frameSize As Size, padding As Padding) As SizeF
         With graph.GetBounds
             Return New SizeF(
-                frameSize.Width / .Width,
-                frameSize.Height / .Height
+                frameSize.Width / (.Width + padding.Horizontal),
+                frameSize.Height / (.Height + padding.Vertical)
             )
         End With
     End Function
 
     <Extension>
-    Public Function AutoScaler(shape As IEnumerable(Of PointF), frameSize As Size) As SizeF
+    Public Function AutoScaler(shape As IEnumerable(Of PointF), frameSize As Size, padding As Padding) As SizeF
         With shape.GetBounds
             Return New SizeF(
-                frameSize.Width / .Width,
-                frameSize.Height / .Height
+                frameSize.Width / (.Width + padding.Horizontal),
+                frameSize.Height / (.Height + padding.Vertical)
             )
         End With
     End Function
@@ -163,9 +163,11 @@ Public Module NetworkVisualizer
     ''' <param name="background">背景色或者背景图片的文件路径</param>
     ''' <param name="defaultColor"></param>
     ''' <param name="nodePoints">如果还需要获取得到节点的绘图位置的话，则可以使用这个可选参数来获取返回</param>
-    ''' <param name="fontSizeFactor">这个参数值越小，字体会越大</param>
     ''' <param name="hullPolygonGroups">需要显示分组的多边形的分组的名称的列表，也可以是一个表达式max或者min，分别表示最大或者最小的分组</param>
     ''' <param name="nodeRadius">By default all of the node have the same radius size</param>
+    ''' <param name="labelFontBase">
+    ''' 这个参数会提供字体的一些基础样式,字体的大小会从节点的属性中计算出来
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("Draw.Image")>
     <Extension>
@@ -179,10 +181,9 @@ Public Module NetworkVisualizer
                               Optional nodeStroke$ = WhiteStroke,
                               Optional minLinkWidth! = 2,
                               Optional nodeRadius As [Variant](Of Func(Of Node, Single), Single) = Nothing,
-                              Optional minFontSize! = 10,
+                              Optional fontSize As [Variant](Of Func(Of Node, Single), Single) = Nothing,
                               Optional labelFontBase$ = CSSFont.Win7Normal,
                               Optional ByRef nodePoints As Dictionary(Of Node, PointF) = Nothing,
-                              Optional fontSizeFactor# = 1.5,
                               Optional edgeDashTypes As Dictionary(Of String, DashStyle) = Nothing,
                               Optional getNodeLabel As Func(Of Node, String) = Nothing,
                               Optional hideDisconnectedNode As Boolean = False,
@@ -191,6 +192,13 @@ Public Module NetworkVisualizer
 
         ' 所绘制的图像输出的尺寸大小
         Dim frameSize As Size = canvasSize.SizeParser
+        Dim margin As Padding = CSS.Padding.TryParse(
+            padding, New Padding With {
+                .Bottom = 100,
+                .Left = 100,
+                .Right = 100,
+                .Top = 100
+            })
 
         ' 1. 先将网络图形对象置于输出的图像的中心位置
         ' 2. 进行矢量图放大
@@ -214,7 +222,7 @@ Public Module NetworkVisualizer
                                              Return point.Value.OffSet2D(offset)
                                          End Function)
         ' 进行矢量放大
-        Dim scale As SizeF = scalePos.Values.AutoScaler(frameSize)
+        Dim scale As SizeF = scalePos.Values.AutoScaler(frameSize, margin)
         Dim scalePoints = scalePos.Values.Enlarge((CDbl(scale.Width), CDbl(scale.Height)))
 
         With scalePos.Keys.AsList
@@ -227,13 +235,6 @@ Public Module NetworkVisualizer
 
         Call "Initialize gdi objects...".__INFO_ECHO
 
-        Dim margin As Padding = CSS.Padding.TryParse(
-            padding, New Padding With {
-                .Bottom = 100,
-                .Left = 100,
-                .Right = 100,
-                .Top = 100
-            })
         Dim stroke As Pen = CSS.Stroke.TryParse(nodeStroke).GDIObject
         Dim baseFont As Font = CSSFont.TryParse(
             labelFontBase, New CSSFont With {
@@ -253,11 +254,20 @@ Public Module NetworkVisualizer
 
         ' 在这里不可以使用 <=，否则会导致等于最小值的时候出现无限循环的bug
         Dim minLinkWidthValue = minLinkWidth.AsDefault(Function(width) CInt(width) < minLinkWidth)
-        Dim minFontSizeValue = minFontSize.AsDefault(Function(size) Val(size) < minFontSize)
+        Dim fontSizeMapper As Func(Of Node, Single)
         Dim nodeRadiusMapper As Func(Of Node, Single)
 
+        If fontSize Is Nothing Then
+            fontSizeMapper = Function() 16.0!
+        ElseIf fontSize Like GetType(Single) Then
+            Dim fsize As Single = fontSize
+            fontSizeMapper = Function() fsize
+        Else
+            fontSizeMapper = fontSize
+        End If
+
         If nodeRadius Is Nothing Then
-            Dim min = sys.Min(frameSize.Width, frameSize.Height) / 12
+            Dim min = sys.Min(frameSize.Width, frameSize.Height) / 25
             nodeRadiusMapper = Function() min
         ElseIf nodeRadius Like GetType(Single) Then
             Dim radius As Single = nodeRadius
@@ -298,12 +308,11 @@ Public Module NetworkVisualizer
                 labels += g.drawVertexNodes(
                     drawPoints:=drawPoints,
                     radiusValue:=nodeRadiusMapper,
-                    minFontSizeValue:=minFontSizeValue,
+                    fontSizeValue:=fontSizeMapper,
                     defaultColor:=defaultColor,
                     stroke:=stroke,
                     baseFont:=baseFont,
                     scalePos:=scalePos,
-                    fontSizeFactor:=fontSizeFactor,
                     throwEx:=throwEx,
                     displayId:=displayId
                 )
@@ -339,12 +348,11 @@ Public Module NetworkVisualizer
     <Extension>
     Private Iterator Function drawVertexNodes(g As IGraphics, drawPoints As Node(),
                                               radiusValue As Func(Of Node, Single),
-                                              minFontSizeValue As [Default](Of Single),
+                                              fontSizeValue As Func(Of Node, Single),
                                               defaultColor As Color,
                                               stroke As Pen,
                                               baseFont As Font,
                                               scalePos As Dictionary(Of Node, PointF),
-                                              fontSizeFactor#,
                                               throwEx As Boolean,
                                               displayId As Boolean) As IEnumerable(Of labelModel)
         Dim pt As Point
@@ -391,8 +399,15 @@ Public Module NetworkVisualizer
             ' 如果当前的节点没有超出有效的视图范围,并且参数设置为显示id编号
             ' 则生成一个label绘制的数据模型
             If (Not invalidRegion) AndAlso displayId Then
-                Dim fontSize! = (baseFont.Size + r) / fontSizeFactor
-                Dim font As New Font(baseFont.Name, fontSize Or minFontSizeValue, FontStyle.Bold)
+                Dim fontSize! = fontSizeValue(n)
+                Dim font As New Font(
+                    baseFont.Name,
+                    fontSize,
+                    baseFont.Style,
+                    baseFont.Unit,
+                    baseFont.GdiCharSet,
+                    baseFont.GdiVerticalFont
+                )
                 Dim label As New Label With {
                     .text = n.GetDisplayText
                 }
