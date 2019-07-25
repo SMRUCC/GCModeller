@@ -204,9 +204,7 @@ Partial Module CLI
         Call network.doForceLayout
         Call network.ComputeNodeDegrees
         Call network _
-            .DrawImage(canvasSize:=size,
-                       scale:=network.AutoScaler(size.SizeParser).Expression,
-                       labelColorAsNodeColor:=True) _
+            .DrawImage(canvasSize:=size, labelColorAsNodeColor:=True) _
             .Save(out & "/network.png")
 
         Return network.Tabular.Save(out & "/").CLICode
