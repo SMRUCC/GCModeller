@@ -77,7 +77,7 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
         ' 20190722 当X中存在负数的时候,假设对应的C相关因子为小数负数,则会出现NaN计算结果值
         Dim F As Vector = Math.E ^ C
         Dim fx As Vector = A * X * F
-        Dim S = AC + fx.Sum
+        Dim S = Math.Log10(AC + fx.Sum)
 
         'If Vol = 0R OrElse S = 0R Then
         '    Return 0
@@ -85,7 +85,7 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
         '    Return (Vol * S) / (K + S)
         'End If
 
-        Return Math.Log10(Math.E ^ S) - 1
+        Return Math.E ^ S
     End Function
 
     Public Function Clone() As GridSystem Implements ICloneable(Of GridSystem).Clone
