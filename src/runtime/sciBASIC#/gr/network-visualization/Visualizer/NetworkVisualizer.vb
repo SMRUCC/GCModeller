@@ -165,7 +165,7 @@ Public Module NetworkVisualizer
     ''' <param name="nodePoints">如果还需要获取得到节点的绘图位置的话，则可以使用这个可选参数来获取返回</param>
     ''' <param name="fontSizeFactor">这个参数值越小，字体会越大</param>
     ''' <param name="hullPolygonGroups">需要显示分组的多边形的分组的名称的列表，也可以是一个表达式max或者min，分别表示最大或者最小的分组</param>
-    ''' <param name="nodeRadiusMapper">By default all of the node have the same radius size</param>
+    ''' <param name="nodeRadius">By default all of the node have the same radius size</param>
     ''' <returns></returns>
     <ExportAPI("Draw.Image")>
     <Extension>
@@ -297,7 +297,7 @@ Public Module NetworkVisualizer
                 ' 在这里进行节点的绘制
                 labels += g.drawVertexNodes(
                     drawPoints:=drawPoints,
-                    radiusValue:=nodeRadius,
+                    radiusValue:=nodeRadiusMapper,
                     minFontSizeValue:=minFontSizeValue,
                     defaultColor:=defaultColor,
                     stroke:=stroke,
