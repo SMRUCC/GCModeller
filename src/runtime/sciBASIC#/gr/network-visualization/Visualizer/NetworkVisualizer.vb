@@ -135,7 +135,18 @@ Public Module NetworkVisualizer
         With graph.GetBounds
             Return New SizeF(
                 frameSize.Width / .Width,
-                frameSize.Height / .Height)
+                frameSize.Height / .Height
+            )
+        End With
+    End Function
+
+    <Extension>
+    Public Function AutoScaler(shape As IEnumerable(Of PointF), frameSize As Size) As SizeF
+        With shape.GetBounds
+            Return New SizeF(
+                frameSize.Width / .Width,
+                frameSize.Height / .Height
+            )
         End With
     End Function
 
@@ -164,7 +175,6 @@ Public Module NetworkVisualizer
                               Optional displayId As Boolean = True,
                               Optional labelColorAsNodeColor As Boolean = False,
                               Optional nodeStroke$ = WhiteStroke,
-                              Optional scale# = 1.2,
                               Optional minLinkWidth! = 2,
                               Optional radiusScale# = 1.25,
                               Optional minRadius# = 5,
@@ -197,12 +207,14 @@ Public Module NetworkVisualizer
             .ToPoint
 
         ' 进行位置偏移
+        ' 将网络图形移动到画布的中央区域
         scalePos = scalePos.ToDictionary(Function(node) node.Key,
                                          Function(point)
                                              Return point.Value.OffSet2D(offset)
                                          End Function)
         ' 进行矢量放大
-        Dim scalePoints = scalePos.Values.Enlarge(scale)
+        Dim scale As SizeF = scalePos.Values.AutoScaler(frameSize)
+        Dim scalePoints = scalePos.Values.Enlarge((CDbl(scale.Width), CDbl(scale.Height)))
 
         With scalePos.Keys.AsList
             For i As Integer = 0 To .Count - 1
@@ -257,7 +269,7 @@ Public Module NetworkVisualizer
                 Call "Render network edges...".__INFO_ECHO
 
                 ' 首先在这里绘制出网络的框架：将所有的边绘制出来
-                Call g.drawEdges(net, scale, minLinkWidthValue, edgeDashTypes, scalePos, throwEx)
+                Call g.drawEdges(net, minLinkWidthValue, edgeDashTypes, scalePos, throwEx)
 
                 Call "Render network nodes...".__INFO_ECHO
 
@@ -427,7 +439,7 @@ Public Module NetworkVisualizer
     End Sub
 
     <Extension>
-    Private Sub drawEdges(g As IGraphics, net As NetworkGraph, scale#,
+    Private Sub drawEdges(g As IGraphics, net As NetworkGraph,
                           minLinkWidthValue As [Default](Of Single),
                           edgeDashTypes As Dictionary(Of String, DashStyle),
                           scalePos As Dictionary(Of Node, PointF),
@@ -446,7 +458,7 @@ Public Module NetworkVisualizer
                 cl = Color.Blue
             End If
 
-            Dim w! = CSng(5 * edge.data.weight * scale) Or minLinkWidthValue
+            Dim w! = CSng(5 * edge.data.weight * 2) Or minLinkWidthValue
             Dim lineColor As New Pen(cl, w)
 
             With edge.data!interaction_type
