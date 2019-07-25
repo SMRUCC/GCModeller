@@ -86,7 +86,7 @@ Public Module FunctionalNetwork
     <Extension>
     Public Function VisualizeKEGG(model As NetworkTables,
                                   Optional layouts As ILayoutCoordinate() = Nothing,
-                                  Optional size$ = "6000,5000",
+                                  Optional size$ = "8000,5000",
                                   Optional colorSchema$ = "Set1:c9",
                                   Optional scale# = 4.5,
                                   Optional radius$ = "5,20",

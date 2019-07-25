@@ -197,6 +197,7 @@ Public Module NetworkVisualizer
             .ToPoint
 
         ' 进行位置偏移
+        ' 将网络图形移动到画布的中央区域
         scalePos = scalePos.ToDictionary(Function(node) node.Key,
                                          Function(point)
                                              Return point.Value.OffSet2D(offset)
