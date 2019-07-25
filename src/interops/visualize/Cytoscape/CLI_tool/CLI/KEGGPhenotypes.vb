@@ -64,7 +64,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
 Partial Module CLI
 
     <ExportAPI("/kegg.compound.network")>
-    <Usage("/kegg.compound.network /in <compound.csv> /reactions <reaction_table.csv> [/enzyme <annotation.csv> /out <network.directory>]")>
+    <Usage("/kegg.compound.network /in <compound.csv> /reactions <reaction_table.csv> [/enzyme <annotation.csv> /size <default=10000,7000> /out <network.directory>]")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(NamedValue(Of String))},
               Extensions:="*.csv",
@@ -83,6 +83,7 @@ Partial Module CLI
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.kegg_compound.network/"
         Dim maps = EntityObject.LoadDataSet([in]).ToArray
         Dim kegg_compounds As NamedValue(Of String)()
+        Dim size$ = args("/size") Or "10000,7000"
         Dim allNames = maps.PropertyNames
         Dim enzyme = EntityObject.LoadDataSet(args <= "/enzyme") _
             .Where(Function(d)
@@ -133,7 +134,7 @@ Partial Module CLI
                 enzymeInfo:=enzyme
             ).AnalysisDegrees
 
-        Call graph.VisualizeKEGG.SaveAs($"{out}/network.png")
+        Call graph.VisualizeKEGG(size:=size).SaveAs($"{out}/network.png")
         Call graph.Save(out)
 
         Return 0

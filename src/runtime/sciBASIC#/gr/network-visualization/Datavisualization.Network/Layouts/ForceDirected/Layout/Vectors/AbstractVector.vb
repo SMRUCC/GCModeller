@@ -97,10 +97,10 @@ Namespace Layouts
 
         Public Property Point2D As Point
             Get
-                If x.IsNaNImaginary Then
+                If x.IsNaNImaginary OrElse x > Integer.MaxValue Then
                     x = Integer.MaxValue
                 End If
-                If y.IsNaNImaginary Then
+                If y.IsNaNImaginary OrElse y > Integer.MaxValue Then
                     y = Integer.MaxValue
                 End If
                 Return New Point(x, y)
