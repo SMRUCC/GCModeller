@@ -211,12 +211,7 @@ Namespace Terminal.ProgressBar
         ''' </summary>
         ''' <param name="title$">The task title</param>
         Sub New(title$)
-#If UNIX Then
-            Call Me.New(title, Y:=Console.CursorTop, CLS:=True)
-#Else
             Call Me.New(title, Y:=Console.CursorTop, CLS:=False)
-#End If
-
         End Sub
 
         Private Sub consoleWindowResize(size As Size, old As Size)

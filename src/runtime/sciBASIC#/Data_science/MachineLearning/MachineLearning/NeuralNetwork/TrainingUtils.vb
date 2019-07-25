@@ -229,8 +229,11 @@ Namespace NeuralNetwork
                     errors = trainingImpl(dataSets, parallel, Selective)
                     ETA = $"ETA: {tick.ETA(progress.ElapsedMilliseconds).FormatTime}"
                     msg = $"Iterations: [{i}/{numEpochs}], errors={errors}{vbTab}learn_rate={network.LearnRate} {ETA}"
-                    progress.SetProgress(tick.StepProgress, msg)
-
+#If UNIX Then
+                    Call msg.__INFO_ECHO
+#Else
+                    Call progress.SetProgress(tick.StepProgress, msg)
+#End If
                     If errors < 0.0001 Then
                         Selective = False
                     End If
