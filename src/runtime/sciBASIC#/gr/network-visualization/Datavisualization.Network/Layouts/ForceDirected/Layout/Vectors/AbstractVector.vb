@@ -189,7 +189,7 @@ Namespace Layouts
 
         Public Shared Operator =(a As AbstractVector, b As AbstractVector) As Boolean
             ' If both are null, or both are same instance, return true.
-            If System.[Object].ReferenceEquals(a, b) Then
+            If Object.ReferenceEquals(a, b) Then
                 Return True
             End If
 
