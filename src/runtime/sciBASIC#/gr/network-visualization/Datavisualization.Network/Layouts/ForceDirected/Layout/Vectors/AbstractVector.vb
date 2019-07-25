@@ -95,14 +95,21 @@ Namespace Layouts
         Public Property y As Single Implements IVector.y
         Public Property z As Single Implements IVector.z
 
+        Const MaxGdiDimensionPixels = 20000
+
         Public Property Point2D As Point
             Get
-                If x.IsNaNImaginary OrElse x > Integer.MaxValue Then
-                    x = Integer.MaxValue
+                If x.IsNaNImaginary OrElse x > MaxGdiDimensionPixels Then
+                    x = MaxGdiDimensionPixels
+                ElseIf x < -MaxGdiDimensionPixels Then
+                    x = -MaxGdiDimensionPixels
                 End If
-                If y.IsNaNImaginary OrElse y > Integer.MaxValue Then
-                    y = Integer.MaxValue
+                If y.IsNaNImaginary OrElse y > MaxGdiDimensionPixels Then
+                    y = MaxGdiDimensionPixels
+                ElseIf y < -MaxGdiDimensionPixels Then
+                    y = -MaxGdiDimensionPixels
                 End If
+
                 Return New Point(x, y)
             End Get
             Set(value As Point)
