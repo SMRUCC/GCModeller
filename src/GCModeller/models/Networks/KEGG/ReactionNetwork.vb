@@ -174,7 +174,7 @@ Public Module ReactionNetwork
 
         ' 从输入的数据之中构建出网络的节点列表
         Dim nodes As Dictionary(Of Node) = compounds _
-            .Where(Function(cpd) Not cpd.Name = "C00001") _
+            .Where(Function(cpd) Not cpd.Name Like commonIgnores) _
             .Select(Function(cpd As NamedValue(Of String))
                         Dim type$
 
@@ -200,7 +200,7 @@ Public Module ReactionNetwork
                              If (Not nodes.ContainsKey(edge.fromNode)) OrElse (Not nodes.ContainsKey(edge.toNode)) Then
                                  Throw New InvalidExpressionException(edge.ToString)
                              End If
-                             If edge.fromNode = "C00001" OrElse edge.toNode = "C00001" Then
+                             If edge.fromNode Like commonIgnores OrElse edge.toNode Like commonIgnores Then
                                  ' 跳过水
                                  Return
                              End If
@@ -215,7 +215,7 @@ Public Module ReactionNetwork
         Dim reactionIDlist As New List(Of String)
 
         ' 下面的这个for循环对所构建出来的节点列表进行边链接构建
-        For Each a As Node In nodes.Values.Where(Function(n) n.ID <> "C00001").ToArray
+        For Each a As Node In nodes.Values.Where(Function(n) Not n.ID Like commonIgnores).ToArray
             Dim reactionA = cpdGroups.TryGetValue(a.ID)
 
             If reactionA.IsNullOrEmpty Then
@@ -224,7 +224,7 @@ Public Module ReactionNetwork
 
             For Each b As Node In nodes.Values _
                 .Where(Function(x)
-                           Return x.ID <> a.ID AndAlso x.ID <> "C00001"
+                           Return x.ID <> a.ID AndAlso Not x.ID Like commonIgnores
                        End Function) _
                 .ToArray
 
@@ -377,6 +377,8 @@ Public Module ReactionNetwork
         Next
     End Sub
 
+    Public ReadOnly commonIgnores As Index(Of String) = {}
+
     <Extension>
     Private Iterator Function doNetworkExtension(cpdGroups As Dictionary(Of String, String()),
                                                  a As Node, b As Node,
@@ -389,7 +391,7 @@ Public Module ReactionNetwork
         For Each x In cpdGroups.Where(Function(compound)
                                           ' C00001 是水,很多代谢过程都存在的
                                           ' 在这里就没有必要添加进来了
-                                          Return Not compound.Key = "C00001"
+                                          Return Not compound.Key Like commonIgnores
                                       End Function)
             Dim list = x.Value
 
