@@ -278,10 +278,10 @@ Public Module ReactionNetwork
                                                  }
 
                                                  If Not nodes.ContainsKey(compound) Then
-                                                     nodes.Add(New Node With {.ID = compound, .NodeType = "KEGG Compound", .Properties = New Dictionary(Of String, String) From {{"name", compound}, {"color", gray}, {"is_extended", True}}})
+                                                     ' nodes.Add(New Node With {.ID = compound, .NodeType = "KEGG Compound", .Properties = New Dictionary(Of String, String) From {{"name", compound}, {"color", gray}, {"is_extended", True}}})
+                                                 Else
+                                                     Call addNewEdge(edge)
                                                  End If
-
-                                                 Call addNewEdge(edge)
                                              Next
 
                                              For Each compound In reaction.substrates
@@ -293,10 +293,10 @@ Public Module ReactionNetwork
                                                  }
 
                                                  If Not nodes.ContainsKey(compound) Then
-                                                     nodes.Add(New Node With {.ID = compound, .NodeType = "KEGG Compound", .Properties = New Dictionary(Of String, String) From {{"name", compound}, {"color", gray}, {"is_extended", True}}})
+                                                     ' nodes.Add(New Node With {.ID = compound, .NodeType = "KEGG Compound", .Properties = New Dictionary(Of String, String) From {{"name", compound}, {"color", gray}, {"is_extended", True}}})
+                                                 Else
+                                                     Call addNewEdge(edge)
                                                  End If
-
-                                                 Call addNewEdge(edge)
                                              Next
                                          Next
                                      End Sub
