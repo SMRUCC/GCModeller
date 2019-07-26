@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.DataMining.ComponentModel.Normalizer
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
@@ -290,9 +291,10 @@ Module Program
             parallel = Pcompute
         End If
 
+        Dim samples As Sample() = trainingSet.PopulateNormalizedSamples(Methods.NormalScaler).ToArray
         Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate, truncate, allPositive).InitialPopulation(popSize, parallel)
         Call "Initialize environment".__DEBUG_ECHO
-        Dim fitness As Fitness(Of Genome) = New Environment(trainingSet.DataSamples.AsEnumerable, FitnessMethods.LabelGroupAverage)
+        Dim fitness As Fitness(Of Genome) = New Environment(samples, FitnessMethods.LabelGroupAverage)
         Call "Create algorithm engine".__DEBUG_ECHO
         Dim ga As New GeneticAlgorithm(Of Genome)(population, fitness, Strategies.Naive)
         Call "Load driver".__DEBUG_ECHO
