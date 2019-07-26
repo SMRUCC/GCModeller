@@ -174,6 +174,7 @@ Public Module CLI
                 showProgress:=Not args.IsTrue("/hide.progress")
             ) _
             .FDRCorrection _
+            .OrderBy(Function(term) term.pvalue) _
             .ToArray
 
         Return result.SaveTo(out).CLICode
