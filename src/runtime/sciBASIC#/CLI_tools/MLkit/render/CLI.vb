@@ -25,9 +25,9 @@ Module CLI
             .doForceLayout(fdArgv, showProgress:=True) _
             .DrawImage(
                 canvasSize:=size,
-                nodeRadius:=DirectMapRadius(15),
-                fontSize:=DirectMapRadius(10),
-                minLinkWidth:=30,
+                nodeRadius:=DirectMapRadius(20),
+                fontSize:=DirectMapRadius(8),
+                minLinkWidth:=20,
                 edgeDashTypes:=model.nodes _
                     .ToDictionary(Function(n) n.ID,
                                   Function(n)

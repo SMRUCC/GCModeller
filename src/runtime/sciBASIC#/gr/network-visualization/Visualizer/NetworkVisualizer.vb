@@ -495,6 +495,8 @@ Public Module NetworkVisualizer
             With edge.data!interaction_type
                 If Not .IsNothing AndAlso edgeDashTypes.ContainsKey(.ByRef) Then
                     lineColor.DashStyle = edgeDashTypes(.ByRef)
+                ElseIf edgeDashTypes.ContainsKey(edge.ID) Then
+                    lineColor.DashStyle = edgeDashTypes(edge.ID)
                 End If
             End With
 
@@ -529,6 +531,7 @@ Public Module NetworkVisualizer
                            labelColorAsNodeColor As Boolean)
         Dim br As Brush
         Dim rect As Rectangle
+        Dim lx, ly As Single
 
         Call d3js _
             .labeler(maxMove:=100, maxAngle:=1, w_len:=1, w_inter:=2, w_lab2:=50, w_lab_anc:=50, w_orient:=2) _
@@ -546,13 +549,23 @@ Public Module NetworkVisualizer
                     br = New SolidBrush(DirectCast(br, SolidBrush).Color.Darken(0.005))
                 End If
 
+                lx = .label.X
+                ly = .label.Y
+
                 With g.MeasureString(.label.text, .style)
-                    rect = New Rectangle(
-                        label.label.X,
-                        label.label.Y,
-                        .Width,
-                        .Height
-                    )
+                    If lx < 0 Then
+                        lx = 1
+                    ElseIf lx + .Width > frameSize.Width Then
+                        lx -= (lx + .Width - frameSize.Width) + 5
+                    End If
+
+                    If ly < 0 Then
+                        ly = 1
+                    ElseIf ly + .Height > frameSize.Height Then
+                        ly -= (ly + .Height - frameSize.Height) + 5
+                    End If
+
+                    rect = New Rectangle(lx, ly, .Width, .Height)
                 End With
 
                 Dim path As GraphicsPath = Imaging.GetStringPath(
@@ -563,7 +576,7 @@ Public Module NetworkVisualizer
                     StringFormat.GenericTypographic
                 )
 
-                Call g.DrawString(.label.text, .style, br, .label.X, .label.Y)
+                Call g.DrawString(.label.text, .style, br, lx, ly)
 
                 ' 绘制轮廓（描边）
                 ' Call g.FillPath(br, path)
