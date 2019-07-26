@@ -169,6 +169,11 @@ Public Module NetworkVisualizer
     ''' 这个参数会提供字体的一些基础样式,字体的大小会从节点的属性中计算出来
     ''' </param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 一些内置的样式支持:
+    ''' 
+    ''' + 节点的颜色或者纹理: <see cref="NodeData.color"/>
+    ''' </remarks>
     <ExportAPI("Draw.Image")>
     <Extension>
     Public Function DrawImage(net As NetworkGraph,
@@ -252,6 +257,8 @@ Public Module NetworkVisualizer
             getNodeLabel = Function(node) node.GetDisplayText
         End If
 
+        defaultColor = If(defaultColor.IsEmpty, Color.Black, defaultColor)
+
         ' 在这里不可以使用 <=，否则会导致等于最小值的时候出现无限循环的bug
         Dim minLinkWidthValue = minLinkWidth.AsDefault(Function(width) CInt(width) < minLinkWidth)
         Dim fontSizeMapper As Func(Of Node, Single)
@@ -290,8 +297,6 @@ Public Module NetworkVisualizer
                 Call g.drawEdges(net, minLinkWidthValue, edgeDashTypes, scalePos, throwEx)
 
                 Call "Render network nodes...".__INFO_ECHO
-                defaultColor = If(defaultColor.IsEmpty, Color.Black, defaultColor)
-
                 ' 然后将网络之中的节点绘制出来，同时记录下节点的位置作为label text的锚点
                 ' 最后通过退火算法计算出合适的节点标签文本的位置之后，再使用一个循环绘制出
                 ' 所有的节点的标签文本
