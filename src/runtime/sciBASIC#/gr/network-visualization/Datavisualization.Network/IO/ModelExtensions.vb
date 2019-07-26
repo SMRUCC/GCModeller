@@ -235,7 +235,7 @@ Namespace FileStream
                                 End If
                             End Function
 
-            If Not net.nodes.All(Function(node) node.NodeType.Contains(names.REFLECTION_ID_MAPPING_DEGREE)) Then
+            If Not net.nodes.All(Function(node) node.Properties.ContainsKey(names.REFLECTION_ID_MAPPING_DEGREE)) Then
                 Call $"Not all of the nodes contains degree value, nodes' radius will use default value: {defaultRadius}".Warning
             End If
 
