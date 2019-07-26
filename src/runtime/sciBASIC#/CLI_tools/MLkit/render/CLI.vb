@@ -1,5 +1,7 @@
-﻿Imports System.Drawing.Drawing2D
+﻿Imports System.ComponentModel
+Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
@@ -12,9 +14,10 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Styling
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 
-Module CLI
+<CLI> Module CLI
 
     <ExportAPI("/network")>
+    <Description("Rendering network data model as png/svg image.")>
     <Usage("/network /model <network_tables.directory> [/size <default=5000,3000> /node.size <fieldName=30,300> /fd <arguments.ini> /out <image.png/svg>]")>
     Public Function VisualizeNetwork(args As CommandLine) As Integer
         Dim in$ = args("/model")
