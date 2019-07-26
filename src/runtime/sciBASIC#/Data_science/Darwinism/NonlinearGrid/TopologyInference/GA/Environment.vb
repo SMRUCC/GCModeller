@@ -127,7 +127,8 @@ Public Class Environment : Implements Fitness(Of Genome)
         If validates.IsNullOrEmpty Then
             Return a
         Else
-            Return (a + fitness(chromosome, validates, parallel)) / 2
+            ' 20190726 如果数据非常容易出现过拟合,可以尝试同时使用验证集进行约束
+            Return Math.Max(a, fitness(chromosome, validates, parallel))
         End If
     End Function
 End Class
