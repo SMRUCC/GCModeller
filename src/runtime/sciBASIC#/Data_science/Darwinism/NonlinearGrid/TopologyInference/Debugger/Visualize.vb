@@ -175,7 +175,8 @@ Public Module Visualize
                         .label = $"{factor.name} ^ {variableNames(i)}",
                         .weight = factor(i),
                         .Properties = New Dictionary(Of String, String) From {
-                            {"correlation", factor(i)}
+                            {"correlation", factor(i)},
+                            {"dash", If(factor(i) > 0, "solid", "dash")}
                         }
                     }
                     g.CreateEdge(factor.name, variableNames(i), edge)
