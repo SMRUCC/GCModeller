@@ -96,7 +96,7 @@ Module Program
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.threshold={threshold}.network/"
         Dim matrix As GridMatrix = [in].LoadXml(Of GridMatrix)
         Dim graph As NetworkGraph = matrix.CreateGraph(cutoff:=threshold)
-        Dim network = graph.Tabular({"impacts", "correlation"})
+        Dim network = graph.Tabular({"impacts", "correlation", "color", "dash"})
 
         Return network.Save(out, Encodings.ASCII).CLICode
     End Function
