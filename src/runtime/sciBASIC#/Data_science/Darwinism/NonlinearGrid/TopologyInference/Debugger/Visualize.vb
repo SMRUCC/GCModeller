@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
@@ -145,9 +146,10 @@ Public Module Visualize
         Dim impacts As Vector = importance.Values.AsVector
         Dim posValues As DoubleRange = impacts(impacts > 0)
         Dim negValues As DoubleRange = impacts(impacts < 0)
-        Dim JetColors As Color() = Imaging.ColorSequence(, name:="Jet")
-        Dim posColor As Color() = JetColors.Skip(JetColors.Length \ 2).ToArray
-        Dim negColor As Color() = JetColors.Take(JetColors.Length \ 2).ToArray
+        ' get color sequence and then removes white colors
+        Dim JetColors As Color() = Imaging.ColorSequence(, name:="Jet").Where(Function(c) c.R < 250 AndAlso c.G < 250 AndAlso c.B < 250).ToArray
+        Dim posColor As Color() = Imaging.ColorSequence(, name:=ColorMap.PatternHot).Where(Function(c) c.R < 250 AndAlso c.G < 250 AndAlso c.B < 250).ToArray
+        Dim negColor As Color() = Imaging.ColorSequence(, name:=ColorMap.PatternWinter).Where(Function(c) c.R < 250 AndAlso c.G < 250 AndAlso c.B < 250).ToArray
         Dim getColor = Function(impact As Double) As Color
                            Dim index As Integer
                            Dim colors As Color()
@@ -173,7 +175,8 @@ Public Module Visualize
                     .radius = importance(factor.name),
                     .Properties = New Dictionary(Of String, String) From {
                         {"impacts", importance(factor.name)},
-                        {"color", getColor(importance(factor.name)).ToHtmlColor}
+                        {"color", getColor(importance(factor.name)).ToHtmlColor},
+                        {"size", Math.Abs(importance(factor.name))}
                     }
                 },
                 .Label = factor.name,
@@ -183,6 +186,12 @@ Public Module Visualize
             variableNames += factor.name
             g.AddNode(node)
         Next
+
+        Dim correlations As DoubleRange = grid _
+            .correlations _
+            .Select(Function(c) c.vector) _
+            .IteratesALL _
+            .ToArray
 
         For Each factor As NumericVector In grid.correlations
             For i As Integer = 0 To factor.Length - 1
@@ -196,7 +205,9 @@ Public Module Visualize
                         .weight = factor(i),
                         .Properties = New Dictionary(Of String, String) From {
                             {"correlation", factor(i)},
-                            {"dash", If(factor(i) > 0, "solid", "dash")}
+                            {"dash", If(factor(i) > 0, "solid", "dash")},
+                            {"width", Math.Abs(factor(i))},
+                            {"color", JetColors(correlations.ScaleMapping(factor(i), {0, JetColors.Length - 1})).ToHtmlColor}
                         }
                     }
                     g.CreateEdge(factor.name, variableNames(i), edge)
