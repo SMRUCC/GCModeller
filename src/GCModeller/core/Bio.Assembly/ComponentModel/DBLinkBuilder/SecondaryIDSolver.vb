@@ -72,7 +72,7 @@ Namespace ComponentModel.DBLinkBuilder
     Public Class Synonym : Implements Enumeration(Of String)
 
         <XmlAttribute> Public Property accessionID As String
-        <XmlAttribute> Public Property [alias] As String()
+        <XmlElement> Public Property [alias] As String()
 
         Public Overrides Function ToString() As String
             Return accessionID

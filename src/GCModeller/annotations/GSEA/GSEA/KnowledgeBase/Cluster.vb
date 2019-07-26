@@ -108,13 +108,18 @@ End Class
 <XmlType("gene")>
 Public Class BackgroundGene : Inherits Synonym
 
+    <XmlAttribute>
+    Public Property locus_tag As String
+
     ''' <summary>
     ''' The gene name
     ''' </summary>
     ''' <returns></returns>
     <XmlAttribute>
     Public Property name As String
-    <XmlText>
+
+    <XmlElement>
+    Public Property term_id As String()
     Public Property description As String
 
     Public Overrides Function ToString() As String
