@@ -70,6 +70,19 @@ Namespace Imaging
     Public Module ColorMapsExtensions
 
         ''' <summary>
+        ''' Is this given color value is near black or white
+        ''' </summary>
+        ''' <param name="c"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function IsBlackOrWhite(c As Color) As Boolean
+            Dim isblack As Boolean = c.R <= 5 AndAlso c.G <= 5 AndAlso c.B <= 5
+            Dim isWhite As Boolean = c.R >= 250 AndAlso c.G >= 250 AndAlso c.B >= 250
+
+            Return isblack Or isWhite
+        End Function
+
+        ''' <summary>
         ''' <paramref name="mapName"/>大小写不敏感
         ''' </summary>
         ''' <param name="mapName"></param>
