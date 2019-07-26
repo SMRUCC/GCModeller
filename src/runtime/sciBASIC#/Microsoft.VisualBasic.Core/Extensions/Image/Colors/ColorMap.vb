@@ -75,9 +75,10 @@ Namespace Imaging
         ''' <param name="c"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function IsBlackOrWhite(c As Color) As Boolean
-            Dim isblack As Boolean = c.R <= 5 AndAlso c.G <= 5 AndAlso c.B <= 5
-            Dim isWhite As Boolean = c.R >= 250 AndAlso c.G >= 250 AndAlso c.B >= 250
+        Public Function IsBlackOrWhite(c As Color, Optional offset As Integer = 5) As Boolean
+            Dim upperBound As Integer = 255 - offset
+            Dim isblack As Boolean = c.R <= offset AndAlso c.G <= offset AndAlso c.B <= offset
+            Dim isWhite As Boolean = c.R >= upperBound AndAlso c.G >= upperBound AndAlso c.B >= upperBound
 
             Return isblack Or isWhite
         End Function

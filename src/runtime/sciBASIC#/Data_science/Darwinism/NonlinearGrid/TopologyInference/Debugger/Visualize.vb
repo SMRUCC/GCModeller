@@ -147,9 +147,9 @@ Public Module Visualize
         Dim posValues As DoubleRange = impacts(impacts > 0)
         Dim negValues As DoubleRange = impacts(impacts < 0)
         ' get color sequence and then removes white colors
-        Dim JetColors As Color() = Imaging.ColorSequence(, name:="Jet").Where(Function(c) Not c.IsBlackOrWhite).ToArray
-        Dim posColor As Color() = Imaging.ColorSequence(, name:=ColorMap.PatternHot).Where(Function(c) Not c.IsBlackOrWhite).ToArray
-        Dim negColor As Color() = Imaging.ColorSequence(, name:=ColorMap.PatternWinter).Where(Function(c) Not c.IsBlackOrWhite).ToArray
+        Dim JetColors As Color() = Imaging.ColorSequence(, name:="Jet").Where(Function(c) Not c.IsBlackOrWhite(offset:=20)).ToArray
+        Dim posColor As Color() = Imaging.ColorSequence(, name:=ColorMap.PatternHot).Where(Function(c) Not c.IsBlackOrWhite(offset:=20)).ToArray
+        Dim negColor As Color() = Imaging.ColorSequence(, name:=ColorMap.PatternWinter).Where(Function(c) Not c.IsBlackOrWhite(offset:=20)).ToArray
         Dim getColor = Function(impact As Double) As Color
                            Dim index As Integer
                            Dim colors As Color()
