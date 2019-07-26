@@ -114,7 +114,7 @@ Public Module Loader
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function CreateSnapshot(genome As Genome, Optional names$() = Nothing, Optional error# = -1) As GridMatrix
+    Public Function CreateSnapshot(genome As Genome, dist As NormalizeMatrix, Optional names$() = Nothing, Optional error# = -1) As GridMatrix
         Return New GridMatrix With {
             .[error] = [error],
             .direction = genome.chromosome.A.ToArray,
@@ -143,7 +143,8 @@ Public Module Loader
                         .ToArray
                 },
                 .Amplify = genome.chromosome.Amplify
-            }            ' .Km = genome.chromosome.K,   ' .Vol = genome.chromosome.Vol
+            },
+            .samples = dist
         }
     End Function
 

@@ -162,10 +162,12 @@ Module Program
         Dim in$ = args <= "/in"
         Dim data$ = args <= "/data"
         Dim model = [in].LoadXml(Of GridMatrix).CreateSystem
+        Dim rawSample As NormalizeMatrix = [in].LoadXml(Of GridMatrix).samples
         Dim dataset = data.LoadXml(Of DataSet)
         Dim summaryResult = dataset.DataSamples _
             .Select(Function(sample, i)
-                        Dim result = model.Evaluate(sample.status.vector)
+                        Dim input As Vector = rawSample.NormalizeInput(sample, Methods.NormalScaler)
+                        Dim result = model.Evaluate(input)
 
                         Return New FittingValidation With {
                             .sampleID = sample.ID,
@@ -291,17 +293,20 @@ Module Program
             parallel = Pcompute
         End If
 
-        Dim samples As Sample() = trainingSet.PopulateNormalizedSamples(Methods.NormalScaler).ToArray
         Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate, truncate, allPositive).InitialPopulation(popSize, parallel)
         Call "Initialize environment".__DEBUG_ECHO
-        Dim fitness As Fitness(Of Genome) = New Environment(samples, FitnessMethods.LabelGroupAverage)
+        Dim fitness As Fitness(Of Genome) = New Environment(trainingSet, FitnessMethods.LabelGroupAverage)
         Call "Create algorithm engine".__DEBUG_ECHO
         Dim ga As New GeneticAlgorithm(Of Genome)(population, fitness, Strategies.Naive)
         Call "Load driver".__DEBUG_ECHO
 
         Dim takeBestSnapshot = Sub(best As Genome, error#)
                                    Call best _
-                                       .CreateSnapshot(factorNames, [error]) _
+                                       .CreateSnapshot(
+                                            dist:=trainingSet.NormalizeMatrix,
+                                            names:=factorNames,
+                                            [error]:=[error]
+                                       ) _
                                        .GetXml _
                                        .SaveTo(outFile.TrimSuffix & $"_localOptimal/{[error]}.Xml")
                                End Sub
@@ -313,7 +318,7 @@ Module Program
         Call engine.AttachReporter(Sub(i, e, g)
                                        Call EnvironmentDriver(Of Genome).CreateReport(i, e, g).ToString.__DEBUG_ECHO
                                        Call g.Best _
-                                             .CreateSnapshot(factorNames, e) _
+                                             .CreateSnapshot(trainingSet.NormalizeMatrix, factorNames, e) _
                                              .GetXml _
                                              .SaveTo(outFile)
                                    End Sub)

@@ -44,6 +44,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.DataMining.ComponentModel.Normalizer
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -71,14 +72,16 @@ Public Class Environment : Implements Fitness(Of Genome)
     Dim matrix As TrainingSet()
     Dim fitness As EvaluateFitness
 
+    Public ReadOnly Property sampleDist As NormalizeMatrix
+
     Public ReadOnly Property Cacheable As Boolean Implements Fitness(Of Genome).Cacheable
         Get
             Return False
         End Get
     End Property
 
-    Sub New(trainingSet As IEnumerable(Of Sample), method As FitnessMethods)
-        matrix = trainingSet _
+    Sub New(trainingSet As DataSet, method As FitnessMethods)
+        matrix = trainingSet.PopulateNormalizedSamples(Methods.NormalScaler) _
             .Select(Function(sample)
                         Return New TrainingSet With {
                             .X = sample.status.vector.AsVector,
@@ -87,6 +90,7 @@ Public Class Environment : Implements Fitness(Of Genome)
                         }
                     End Function) _
             .ToArray
+        sampleDist = trainingSet.NormalizeMatrix
         fitness = method.GetMethod
     End Sub
 
