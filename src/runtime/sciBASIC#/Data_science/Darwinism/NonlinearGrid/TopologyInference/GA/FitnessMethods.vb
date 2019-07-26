@@ -50,8 +50,8 @@ Public Module FitnessMethodExtensions
                         Dim err = target.CalculateError(sample.X, sample.Y)
 
                         ' 降低零结果的误差权重
-                        If sample.X <> 0R Then
-                            err *= sample.Y
+                        If sample.X = 0R Then
+                            err *= 2
                         End If
 
                         Return (errors:=err, id:=sample.targetID)

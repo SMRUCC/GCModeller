@@ -71,6 +71,7 @@ Public Class Environment : Implements Fitness(Of Genome)
 
     Dim matrix As TrainingSet()
     Dim fitness As EvaluateFitness
+    Dim validates As TrainingSet()
 
     Public ReadOnly Property sampleDist As NormalizeMatrix
 
@@ -80,7 +81,7 @@ Public Class Environment : Implements Fitness(Of Genome)
         End Get
     End Property
 
-    Sub New(trainingSet As DataSet, method As FitnessMethods)
+    Sub New(trainingSet As DataSet, method As FitnessMethods, Optional validateSet As DataSet = Nothing)
         matrix = trainingSet.PopulateNormalizedSamples(Methods.NormalScaler) _
             .Select(Function(sample)
                         Return New TrainingSet With {
@@ -92,6 +93,21 @@ Public Class Environment : Implements Fitness(Of Genome)
             .ToArray
         sampleDist = trainingSet.NormalizeMatrix
         fitness = method.GetMethod
+
+        If Not validateSet Is Nothing Then
+            ' validateset should normalize use trainingset samples
+            validates = validateSet.DataSamples _
+                .Select(Function(sample, i)
+                            Return New TrainingSet With {
+                                .targetID = sample.target(Scan0),
+                                .X = sampleDist.NormalizeInput(sample),
+                                .Y = sample.target(Scan0)
+                            }
+                        End Function) _
+                .ToArray
+
+            Call $"Grid model is also constraint with {validates.Length} validate set!".__INFO_ECHO
+        End If
     End Sub
 
     Public Iterator Function GetTrainingSet() As IEnumerable(Of NamedValue(Of Double()))
@@ -106,6 +122,12 @@ Public Class Environment : Implements Fitness(Of Genome)
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Calculate(chromosome As Genome, parallel As Boolean) As Double Implements Fitness(Of Genome).Calculate
-        Return fitness(chromosome, matrix, parallel)
+        Dim a As Double = fitness(chromosome, matrix, parallel)
+
+        If validates.IsNullOrEmpty Then
+            Return a
+        Else
+            Return (a + fitness(chromosome, validates, parallel)) / 2
+        End If
     End Function
 End Class

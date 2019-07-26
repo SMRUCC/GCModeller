@@ -217,7 +217,7 @@ Module Program
     End Function
 
     <ExportAPI("/training")>
-    <Usage("/training /in <trainingSet.Xml> [/model <model.XML> /popSize <default=5000> /rate <default=0.1> /range.positive /truncate <default=1000> /parallel <processor_plugin> /out <output_model.Xml>]")>
+    <Usage("/training /in <trainingSet.Xml> [/model <model.XML> /popSize <default=5000> /rate <default=0.1> /validateSet <validateSet.Xml> /range.positive /truncate <default=1000> /parallel <processor_plugin> /out <output_model.Xml>]")>
     <Description("Training a grid system use GA method.")>
     <Argument("/range.positive", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
@@ -253,6 +253,7 @@ Module Program
         End If
 
         Dim trainingSet = inFile.LoadXml(Of DataSet)
+        Dim validateSet = args("/validateSet").LoadXml(Of DataSet)(throwEx:=False)
         Dim rate As Double = args("/rate") Or 0.1
         Dim truncate As Double = args("/truncate") Or 1000.0
         Dim allPositive As Boolean = args("/range.positive")
@@ -261,6 +262,7 @@ Module Program
         Call $"Population size = {popSize}".__DEBUG_ECHO
         Call trainingSet _
             .RunFitProcess(
+                validateSet,
                 out, seed, popSize,
                 factorNames:=trainingSet.NormalizeMatrix.names,
                 mutationRate:=rate,
@@ -273,7 +275,7 @@ Module Program
     End Function
 
     <Extension>
-    Public Sub RunFitProcess(trainingSet As DataSet, outFile$, seed As GridSystem, popSize%, factorNames$(),
+    Public Sub RunFitProcess(trainingSet As DataSet, validateSet As DataSet, outFile$, seed As GridSystem, popSize%, factorNames$(),
                              mutationRate As Double,
                              truncate As Double,
                              allPositive As Boolean,
@@ -295,7 +297,7 @@ Module Program
 
         Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate, truncate, allPositive).InitialPopulation(popSize, parallel)
         Call "Initialize environment".__DEBUG_ECHO
-        Dim fitness As Fitness(Of Genome) = New Environment(trainingSet, FitnessMethods.LabelGroupAverage)
+        Dim fitness As Fitness(Of Genome) = New Environment(trainingSet, FitnessMethods.LabelGroupAverage, validateSet)
         Call "Create algorithm engine".__DEBUG_ECHO
         Dim ga As New GeneticAlgorithm(Of Genome)(population, fitness, Strategies.Naive)
         Call "Load driver".__DEBUG_ECHO
