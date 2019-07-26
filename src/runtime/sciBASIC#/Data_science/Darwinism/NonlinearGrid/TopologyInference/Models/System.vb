@@ -61,8 +61,7 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
     Public Property A As Vector
     Public Property C As Correlation()
     Public Property Amplify As Double
-
-    Dim sigmoid As New Sigmoid()
+    Public Property delay As Double
 
     ''' <summary>
     ''' Evaluate the system dynamics
@@ -80,7 +79,7 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
         Dim fx As Vector = A * X * F
         Dim S = AC + fx.Sum
 
-        Return sigmoid(S) * Amplify
+        Return Sigmoid.doCall(S, alpha:=delay) * Amplify
     End Function
 
     Public Function Clone() As GridSystem Implements ICloneable(Of GridSystem).Clone
@@ -90,7 +89,8 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
             .C = C _
                 .Select(Function(ci) ci.Clone) _
                 .ToArray,
-            .Amplify = Amplify
+            .Amplify = Amplify,
+            .delay = delay
         }
     End Function
 

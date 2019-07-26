@@ -102,7 +102,8 @@ Public Module Loader
                             }
                         End Function) _
                 .ToArray,
-            .Amplify = 1 ' 在最开始增幅应该是一,意味着没有改变
+            .Amplify = 1, ' 在最开始增幅应该是一,意味着没有改变
+            .delay = 1
         }
     End Function
 
@@ -142,7 +143,8 @@ Public Module Loader
                         .Select(Function(ci) ci.BC) _
                         .ToArray
                 },
-                .Amplify = genome.chromosome.Amplify
+                .Amplify = genome.chromosome.Amplify,
+                .Delay = genome.chromosome.delay
             },
             .samples = dist
         }
