@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Data.visualize.Network.Styling
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 
@@ -25,8 +26,8 @@ Module CLI
             .doForceLayout(fdArgv, showProgress:=True) _
             .DrawImage(
                 canvasSize:=size,
-                nodeRadius:=DirectMapRadius(20),
-                fontSize:=DirectMapRadius(8),
+                nodeRadius:=NodeStyles.NodeDegreeSize(graph.vertex, "30,300"),
+                fontSize:=NodeStyles.NodeDegreeSize(graph.vertex, "16,120"),
                 minLinkWidth:=20,
                 edgeDashTypes:=model.nodes _
                     .ToDictionary(Function(n) n.ID,
