@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Public Module Visualize
@@ -111,9 +112,6 @@ Public Module Visualize
         Next
     End Function
 
-    ReadOnly redColor$ = Color.Red.ToHtmlColor
-    ReadOnly blueColor$ = Color.SkyBlue.ToHtmlColor
-
     ''' <summary>
     ''' Create network graph model from the grid system status.
     ''' </summary>
@@ -144,6 +142,28 @@ Public Module Visualize
                               Return n.Value
                           End Function)
 
+        Dim impacts As Vector = importance.Values.AsVector
+        Dim posValues As DoubleRange = impacts(impacts > 0)
+        Dim negValues As DoubleRange = impacts(impacts < 0)
+        Dim JetColors As Color() = Imaging.ColorSequence(, name:="Jet")
+        Dim posColor As Color() = JetColors.Skip(JetColors.Length \ 2).ToArray
+        Dim negColor As Color() = JetColors.Take(JetColors.Length \ 2).ToArray
+        Dim getColor = Function(impact As Double) As Color
+                           Dim index As Integer
+                           Dim colors As Color()
+
+                           If impact > 0 Then
+                               index = posValues.ScaleMapping(impact, {0, posColor.Length - 1})
+                               colors = posColor
+                           Else
+                               index = negValues.ScaleMapping(impact, {0, negColor.Length - 1})
+                               index = (negColor.Length - 1) - index
+                               colors = negColor
+                           End If
+
+                           Return colors(index)
+                       End Function
+
         For Each factor As NumericVector In grid.correlations
             node = New Node With {
                 .data = New NodeData With {
@@ -153,7 +173,7 @@ Public Module Visualize
                     .radius = importance(factor.name),
                     .Properties = New Dictionary(Of String, String) From {
                         {"impacts", importance(factor.name)},
-                        {"color", If(importance(factor.name) > 0, redColor, blueColor)}
+                        {"color", getColor(importance(factor.name)).ToHtmlColor}
                     }
                 },
                 .Label = factor.name,
