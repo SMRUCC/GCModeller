@@ -20,7 +20,7 @@ Module CLI
         Dim graph As NetworkGraph = model.CreateGraph
         Dim image As GraphicsData = graph _
             .doRandomLayout _
-            .doForceLayout(fdArgv) _
+            .doForceLayout(fdArgv, showProgress:=True) _
             .DrawImage(canvasSize:=size)
 
         Return image.Save(out).CLICode
