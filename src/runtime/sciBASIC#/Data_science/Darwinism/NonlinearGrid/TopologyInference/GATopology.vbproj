@@ -202,6 +202,7 @@
     </Compile>
     <Compile Include="Storage\FittingValidation.vb" />
     <Compile Include="Storage\GridMatrix.vb" />
+    <Compile Include="Storage\ScriptWriter.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
