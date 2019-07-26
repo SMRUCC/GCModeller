@@ -101,7 +101,8 @@ Public Module Loader
                                 .BC = 0.005
                             }
                         End Function) _
-                .ToArray
+                .ToArray,
+            .Amplify = 1 ' 在最开始增幅应该是一,意味着没有改变
         }
     End Function
 
@@ -140,7 +141,8 @@ Public Module Loader
                         .C _
                         .Select(Function(ci) ci.BC) _
                         .ToArray
-                }
+                },
+                .Amplify = genome.chromosome.Amplify
             }            ' .Km = genome.chromosome.K,   ' .Vol = genome.chromosome.Vol
         }
     End Function

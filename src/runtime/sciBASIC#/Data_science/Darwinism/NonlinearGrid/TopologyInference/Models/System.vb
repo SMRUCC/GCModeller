@@ -41,6 +41,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization
 
@@ -59,9 +60,9 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
     Public Property AC As Double
     Public Property A As Vector
     Public Property C As Correlation()
+    Public Property Amplify As Double
 
-    ' Public Property Vol As Double
-    ' Public Property K As Double
+    Dim sigmoid As New Sigmoid()
 
     ''' <summary>
     ''' Evaluate the system dynamics
@@ -79,13 +80,7 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
         Dim fx As Vector = A * X * F
         Dim S = AC + fx.Sum
 
-        'If Vol = 0R OrElse S = 0R Then
-        '    Return 0
-        'Else
-        '    Return (Vol * S) / (K + S)
-        'End If
-
-        Return Math.E ^ S
+        Return sigmoid(S) * Amplify
     End Function
 
     Public Function Clone() As GridSystem Implements ICloneable(Of GridSystem).Clone
@@ -94,7 +89,8 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
             .AC = AC,
             .C = C _
                 .Select(Function(ci) ci.Clone) _
-                .ToArray            ' .K = K,      .Vol = Vol
+                .ToArray,
+            .Amplify = Amplify
         }
     End Function
 

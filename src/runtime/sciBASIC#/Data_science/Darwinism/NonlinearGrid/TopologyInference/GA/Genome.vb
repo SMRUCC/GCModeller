@@ -147,13 +147,13 @@ Public Class Genome : Implements Chromosome(Of Genome)
                 b.AC = tmp
             End If
 
-            'If FlipCoin(CrossOverRate) Then
-            '    Dim tmp#
+            If FlipCoin(CrossOverRate) Then
+                Dim tmp#
 
-            '    tmp = a.K
-            '    a.K = b.K
-            '    b.K = tmp
-            'End If
+                tmp = a.Amplify
+                a.Amplify = b.Amplify
+                b.Amplify = tmp
+            End If
         End SyncLock
 
         Yield New Genome(a, MutationRate, truncate, rangePositive)
@@ -193,9 +193,9 @@ Public Class Genome : Implements Chromosome(Of Genome)
             chromosome.AC = valueMutate(chromosome.AC)
         End If
 
-        'If FlipCoin() Then
-        '    chromosome.Vol = valueMutate(chromosome.Vol)
-        'End If
+        If FlipCoin() Then
+            chromosome.Amplify = valueMutate(chromosome.Amplify)
+        End If
 
         'If FlipCoin() Then
         '    chromosome.K = valueMutate(chromosome.K)
@@ -254,7 +254,7 @@ Public Class Genome : Implements Chromosome(Of Genome)
             .Select(Function(i)
                         Dim sign = chromosome.A(i)
                         Dim c = chromosome.C(i).B.Sum + chromosome.C(i).BC
-                        Dim S = $"{chromosome.AC} + {sign} * {c}"
+                        Dim S = $"({chromosome.AC} + {sign} * {c}) * {chromosome.Amplify}"
 
                         Return S
                     End Function) _

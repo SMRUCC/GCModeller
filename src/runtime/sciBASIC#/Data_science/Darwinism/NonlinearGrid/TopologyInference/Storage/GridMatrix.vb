@@ -77,7 +77,8 @@ Public Class GridMatrix : Inherits XmlDataModel
                             }
                         End Function) _
                 .ToArray,
-            .AC = If([const] Is Nothing, 0, [const].A)',            '.K = Km,        ' .Vol = Vol
+            .AC = If([const] Is Nothing, 0, [const].A),
+            .Amplify = [const].Amplify
         }
     End Function
 
@@ -151,4 +152,5 @@ End Class
 Public Class Constants
     Public Property A As Double
     Public Property B As NumericVector
+    Public Property Amplify As Double
 End Class
