@@ -44,7 +44,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
-Imports F = Microsoft.VisualBasic.Math.Statistics.FisherTest
+Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.FishersExactTest
 
 ''' <summary>
 ''' 基于Fisher Extract test算法的富集分析
@@ -122,7 +122,7 @@ Public Module Enrichment
         Dim b% = cluster.members.Length
         Dim c% = inputSize - a
         Dim d% = genes - b
-        Dim pvalue# = F.FisherPvalue(a, b, c, d)
+        Dim pvalue# = F.FishersExact(a, b, c, d).two_tail_pvalue
         Dim score# = a / b
 
         If (pvalue.IsNaNImaginary OrElse enriched.Length = 0) AndAlso Not outputAll Then
