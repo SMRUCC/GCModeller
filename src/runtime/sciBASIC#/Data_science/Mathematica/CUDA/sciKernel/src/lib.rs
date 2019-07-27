@@ -1,21 +1,11 @@
-include!("statistics.rs");
+include!("math_macro.rs");
+include!("statistics/statistics.rs");
+include!("statistics/fishers_exact/fishers.rs");
 include!("trigonometric.rs");
+include!("randf.rs");
 
 /// #[link(name = "sciKernel", vers = "1.01", author = "xieguigang")];
 /// #[crate_type = "dylib"];
-
-/// get number sign
-macro_rules! f64_sign {
-    ($x: expr) => {
-        if $x > 0.0 {
-            1
-        } else if $x < 0.0 {
-            -1
-        } else {
-            0
-        }
-    };
-}
 
 /// Pearson correlations
 #[no_mangle]

@@ -63,6 +63,7 @@ Public Module Enrichment
     Public Iterator Function Enrichment(genome As Background,
                                         list As IEnumerable(Of String),
                                         Optional outputAll As Boolean = False,
+                                        Optional isLocustag As Boolean = False,
                                         Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
 
         Dim doProgress As Action(Of String)
@@ -91,7 +92,7 @@ Public Module Enrichment
 
         With list.ToArray
             For Each cluster As Cluster In genome.clusters
-                Dim enriched$() = cluster.Intersect(.ByRef).ToArray
+                Dim enriched$() = cluster.Intersect(.ByRef, isLocustag).ToArray
 
                 Call doProgress(cluster.ID)
 
