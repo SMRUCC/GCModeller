@@ -171,7 +171,15 @@ Public Module [Imports]
                     .accessionID = protein.accessions(Scan0),
                     .[alias] = protein.accessions,
                     .name = protein.name,
-                    .description = protein.protein.fullName
+                    .description = protein.protein.fullName,
+                    .locus_tag = Function() As String
+                                     If protein.xrefs.ContainsKey("KEGG") Then
+                                         Return protein.xrefs("KEGG").First.id
+                                     Else
+                                         Return Nothing
+                                     End If
+                                 End Function(),
+                    .term_id = terms
                 }
             Next
         Next

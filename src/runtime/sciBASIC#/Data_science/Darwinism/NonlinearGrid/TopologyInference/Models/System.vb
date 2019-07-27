@@ -79,7 +79,8 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
         Dim fx As Vector = A * X * F
         Dim S = AC + fx.Sum
 
-        Return Sigmoid.doCall(S, alpha:=delay) * Amplify
+        ' Return Sigmoid.doCall(S, alpha:=delay) * Amplify
+        Return S
     End Function
 
     Public Function Clone() As GridSystem Implements ICloneable(Of GridSystem).Clone

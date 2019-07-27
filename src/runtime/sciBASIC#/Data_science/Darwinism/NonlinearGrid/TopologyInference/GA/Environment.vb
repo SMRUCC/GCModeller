@@ -128,7 +128,7 @@ Public Class Environment : Implements Fitness(Of Genome)
             Return a
         Else
             ' 20190726 如果数据非常容易出现过拟合,可以尝试同时使用验证集进行约束
-            Return Math.Max(a, fitness(chromosome, validates, parallel))
+            Return (a + fitness(chromosome, validates, parallel)) / 2
         End If
     End Function
 End Class

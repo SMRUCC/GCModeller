@@ -88,13 +88,20 @@ Public Class Cluster : Implements INamedValue
     Dim index As Index(Of String)
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function Intersect(list As IEnumerable(Of String)) As IEnumerable(Of String)
+    Public Function Intersect(list As IEnumerable(Of String), Optional isLocustag As Boolean = False) As IEnumerable(Of String)
         If index Is Nothing Then
-            index = members _
-                .Select(Function(name) name.AsEnumerable) _
-                .IteratesALL _
-                .Distinct _
-                .ToArray
+            If Not isLocustag Then
+                index = members _
+                    .Select(Function(name) name.AsEnumerable) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToArray
+            Else
+                index = members _
+                    .Select(Function(name) name.locus_tag.Split(":"c).Last) _
+                    .Distinct _
+                    .ToArray
+            End If
         End If
 
         Return index.Intersect(collection:=list)
@@ -108,13 +115,18 @@ End Class
 <XmlType("gene")>
 Public Class BackgroundGene : Inherits Synonym
 
+    <XmlAttribute>
+    Public Property locus_tag As String
+
     ''' <summary>
     ''' The gene name
     ''' </summary>
     ''' <returns></returns>
     <XmlAttribute>
     Public Property name As String
-    <XmlText>
+
+    <XmlElement>
+    Public Property term_id As String()
     Public Property description As String
 
     Public Overrides Function ToString() As String
