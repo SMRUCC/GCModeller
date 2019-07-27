@@ -100,7 +100,7 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
                     .ToArray
             Else
                 index = members _
-                    .Select(Function(name) name.locus_tag.Split(":"c).Last) _
+                    .Select(Function(name) name.locus_tag.name.Split(":"c).Last) _
                     .Distinct _
                     .ToArray
             End If
@@ -125,9 +125,6 @@ End Class
 <XmlType("gene")>
 Public Class BackgroundGene : Inherits Synonym
 
-    <XmlAttribute>
-    Public Property locus_tag As String
-
     ''' <summary>
     ''' The gene name
     ''' </summary>
@@ -137,10 +134,10 @@ Public Class BackgroundGene : Inherits Synonym
 
     <XmlElement>
     Public Property term_id As String()
-    Public Property description As String
+    Public Property locus_tag As NamedValue
 
     Public Overrides Function ToString() As String
-        Return $"{MyBase.ToString}  [{description}]"
+        Return $"{MyBase.ToString}  [{locus_tag.text}]"
     End Function
 
 End Class
