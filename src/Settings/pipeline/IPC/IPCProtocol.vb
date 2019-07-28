@@ -1,0 +1,3 @@
+﻿Module IPCProtocol
+
+End Module
