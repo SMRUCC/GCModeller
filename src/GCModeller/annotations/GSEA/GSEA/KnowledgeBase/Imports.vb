@@ -54,7 +54,6 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
-Imports Synonym = SMRUCC.genomics.ComponentModel.DBLinkBuilder.Synonym
 
 ''' <summary>
 ''' 进行富集计算分析所需要的基因组背景模型的导入模块
