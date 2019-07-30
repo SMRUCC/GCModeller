@@ -48,6 +48,9 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 
     Const defaultPort8833 As Integer = 8833
 
+    Const ServicesController$ = "Pipeline Services Controller"
+    Const ResourceController$ = "Pipeline Resource Controller"
+
     Public Function Main() As Integer
         Return GetType(Program).RunCLI(App.CommandLine)
     End Function
@@ -60,6 +63,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
     <ExportAPI("/start")>
     <Description("Start the IPC pipeline host services")>
     <Usage("/start [/port <default=8833>]")>
+    <Group(Program.ServicesController)>
     Public Function Start(args As CommandLine) As Integer
         Dim port% = args("/port") Or defaultPort8833
         Dim services As New IPCHost(port)
@@ -69,6 +73,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
     <ExportAPI("/stop")>
     <Description("Send a stop signal to the IPC host to shutdown the running services instance.")>
     <Usage("/stop [/port <default=8833>]")>
+    <Group(Program.ServicesController)>
     Public Function [Stop](args As CommandLine) As Integer
         Dim port% = args("/port") Or defaultPort8833
     End Function
@@ -76,6 +81,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
     <ExportAPI("/dispose")>
     <Usage("/dispose /resource <resource_name>")>
     <Description("Delete an exists memory mapping file resource.")>
+    <Group(Program.ResourceController)>
     Public Function Dispose(args As CommandLine) As Integer
 
     End Function
@@ -83,6 +89,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
     <ExportAPI("/register")>
     <Usage("/register /resource <resource_name> /size <size_in_bytes> /type <meta_base64>")>
     <Description("Allocate a new memory mapping file resource for save the temp data for cli pipeline scripting")>
+    <Group(Program.ResourceController)>
     Public Function Register(args As CommandLine) As Integer
         Dim name$ = args <= "/resource"
         Dim size& = args <= "/size"
