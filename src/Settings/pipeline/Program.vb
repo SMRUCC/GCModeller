@@ -65,9 +65,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
     <Usage("/start [/port <default=8833>]")>
     <Group(Program.ServicesController)>
     Public Function Start(args As CommandLine) As Integer
-        Dim port% = args("/port") Or defaultPort8833
-        Dim services As New IPCHost(port)
-
+        Return New IPCHost(port:=args("/port") Or defaultPort8833).Run
     End Function
 
     <ExportAPI("/stop")>
