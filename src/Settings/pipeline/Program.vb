@@ -46,8 +46,31 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 <CLI> Module Program
 
+    Const defaultPort8833 As Integer = 8833
+
     Public Function Main() As Integer
         Return GetType(Program).RunCLI(App.CommandLine)
+    End Function
+
+    ''' <summary>
+    ''' Start the IPC pipeline host services
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/start")>
+    <Description("Start the IPC pipeline host services")>
+    <Usage("/start [/port <default=8833>]")>
+    Public Function Start(args As CommandLine) As Integer
+        Dim port% = args("/port") Or defaultPort8833
+        Dim services As New IPCHost(port)
+
+    End Function
+
+    <ExportAPI("/stop")>
+    <Description("Send a stop signal to the IPC host to shutdown the running services instance.")>
+    <Usage("/stop [/port <default=8833>]")>
+    Public Function [Stop](args As CommandLine) As Integer
+        Dim port% = args("/port") Or defaultPort8833
     End Function
 
     <ExportAPI("/dispose")>

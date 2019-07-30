@@ -48,6 +48,10 @@ Public Class IPCHost
     ReadOnly host As TcpServicesSocket
     ReadOnly resources As Dictionary(Of String, Resource)
 
+    Sub New(port As Integer)
+
+    End Sub
+
     Public Sub Register(name$, size&, type As TypeInfo)
         Call CliPipeline.OpenForWrite($"memory:/{name}", size)
     End Sub
