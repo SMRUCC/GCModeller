@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::ebfa022563deab9de813e238f25b4f23, Microsoft.VisualBasic.Core\Extensions\Reflection\Reflection.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module EmitReflection
-    ' 
-    '     Function: [Get], __getValue, API, AsLambda, Category
-    '               Collection2GenericIEnumerable, CreateObject, (+6 Overloads) Description, Enums, ExampleInfo
-    '               FullName, GetAllEnumFlags, (+3 Overloads) GetAssemblyDetails, (+2 Overloads) GetAttribute, GetDelegateInvokeEntryPoint
-    '               GetDouble, GetFullName, GetInt, (+2 Overloads) GetReadWriteProperties, GetTypeElement
-    '               GetTypesHelper, (+2 Overloads) GetValue, (+2 Overloads) GetVersion, IsInheritsFrom, IsModule
-    '               IsNonParametric, IsNumericType, ModuleVersion, NamespaceEntry, ResourcesSatellite
-    '               Source, Usage
-    ' 
-    '     Sub: RunApp
-    ' 
-    ' /********************************************************************************/
+' Module EmitReflection
+' 
+'     Function: [Get], __getValue, API, AsLambda, Category
+'               Collection2GenericIEnumerable, CreateObject, (+6 Overloads) Description, Enums, ExampleInfo
+'               FullName, GetAllEnumFlags, (+3 Overloads) GetAssemblyDetails, (+2 Overloads) GetAttribute, GetDelegateInvokeEntryPoint
+'               GetDouble, GetFullName, GetInt, (+2 Overloads) GetReadWriteProperties, GetTypeElement
+'               GetTypesHelper, (+2 Overloads) GetValue, (+2 Overloads) GetVersion, IsInheritsFrom, IsModule
+'               IsNonParametric, IsNumericType, ModuleVersion, NamespaceEntry, ResourcesSatellite
+'               Source, Usage
+' 
+'     Sub: RunApp
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,6 +53,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
@@ -149,25 +150,11 @@ Public Module EmitReflection
     ''' by a ``StreamReader()``.
     ''' </remarks>
     Public Sub RunApp(app As String, Optional CLI As String = "", Optional cs As Boolean = False)
-        Dim bufs As Byte() = app.GetMapPath.ReadBinary ' Works on both local file or network file. 
+        ' Works on both local file or network file. 
+        Dim bufs As Byte() = app.GetMapPath.ReadBinary
 
         Try
-            Dim assm As Assembly = Assembly.Load(bufs) ' or assm = Reflection.Assembly.Load(New WebClient().DownloadData("https://...."))
-            Dim method As MethodInfo = assm.EntryPoint
-
-            If (Not method Is Nothing) Then
-                Dim o As Object = assm.CreateInstance(method.Name)
-
-                If String.IsNullOrEmpty(CLI) Then
-                    Dim null As Object() = If(cs, {Nothing}, Nothing)
-                    Call method.Invoke(o, null)
-                Else
-                    ' if your app receives parameters
-                    Call method.Invoke(o, New Object() {CommandLine.GetTokens(CLI)})
-                End If
-            Else
-                Throw New NullReferenceException($"'{app}' No App Entry Point was found!")
-            End If
+            Call bufs.runAppInternal(CLI, isCsApp:=cs)
         Catch ex As Exception
             ex = New Exception("CLI:=" & CLI, ex)
             ex = New Exception("app:=" & app, ex)
@@ -176,6 +163,27 @@ Public Module EmitReflection
 #End If
             Throw ex
         End Try
+    End Sub
+
+    <Extension>
+    Private Sub runAppInternal(app As Byte(), cli$, isCsApp As Boolean)
+        ' or assm = Reflection.Assembly.Load(New WebClient().DownloadData("https://...."))
+        Dim assm As Assembly = Assembly.Load(app)
+        Dim method As MethodInfo = assm.EntryPoint
+        Dim null As Object() = If(isCsApp, {Nothing}, Nothing)
+
+        If (Not method Is Nothing) Then
+            Dim o As Object = assm.CreateInstance(method.Name)
+
+            If String.IsNullOrEmpty(cli) Then
+                Call method.Invoke(o, null)
+            Else
+                ' if your app receives parameters
+                Call method.Invoke(o, New Object() {CommandLine.GetTokens(cli)})
+            End If
+        Else
+            Throw New NullReferenceException($"'{app}' No App Entry Point was found!")
+        End If
     End Sub
 
 #Region "IsNumericType"
@@ -223,6 +231,8 @@ Public Module EmitReflection
         Dim mBase As MethodInfo = (From m As MethodInfo In methods
                                    Where String.Equals([nameOf], m.Name)
                                    Select m).FirstOrDefault
+        Dim APIExport As ExportAPIAttribute
+
         If mBase Is Nothing Then
 NULL:       If Not strict Then
                 Return [nameOf]
@@ -230,7 +240,8 @@ NULL:       If Not strict Then
                 Return ""
             End If
         Else
-            Dim APIExport As ExportAPIAttribute = mBase.GetCustomAttribute(Of ExportAPIAttribute)
+            APIExport = mBase.GetCustomAttribute(Of ExportAPIAttribute)
+
             If APIExport Is Nothing Then
                 GoTo NULL
             Else
@@ -359,15 +370,16 @@ NULL:       If Not strict Then
     ''' <summary>
     ''' 目标类型是不是VisualBasic之中的``Module``模块类型？
     ''' </summary>
-    ''' <param name="typeDef"></param>
+    ''' <param name="type"></param>
     ''' <returns></returns>
     <ExportAPI("Is.Module")>
-    <Extension> Public Function IsModule(typeDef As Type) As Boolean
-        If typeDef.Name.IndexOf("$") > -1 OrElse typeDef.Name.IndexOf("`") > -1 Then
-            Return False ' 匿名类型
+    <Extension> Public Function IsModule(type As Type) As Boolean
+        If type.Name.IndexOf("$") > -1 OrElse type.Name.IndexOf("`") > -1 Then
+            ' 匿名类型
+            Return False
         End If
 
-        Return typeDef.IsClass
+        Return type.IsClass
     End Function
 
     ''' <summary>
@@ -376,29 +388,28 @@ NULL:       If Not strict Then
     ''' <typeparam name="T"></typeparam>
     ''' <typeparam name="TProperty"></typeparam>
     ''' <param name="collection"></param>
-    ''' <param name="Name">使用System.NameOf()操作符来获取</param>
+    ''' <param name="name">使用System.NameOf()操作符来获取</param>
     ''' <returns></returns>
-    <Extension> Public Function [Get](Of T, TProperty)(collection As ICollection(Of T), Name As String, Optional TrimNull As Boolean = True) As TProperty()
-        Dim Type As Type = GetType(T)
-        Dim Properties = (From p In Type.GetProperties(BindingFlags.Public Or BindingFlags.Instance)
-                          Where String.Equals(p.Name, Name)
-                          Select p).ToArray
-        If Properties.IsNullOrEmpty Then
+    <Extension> Public Function [Get](Of T, TProperty)(collection As ICollection(Of T), name As String, Optional trimNull As Boolean = True) As TProperty()
+        Dim properties = DataFramework.Schema(Of T)(PropertyAccess.Readable, nonIndex:=True)
+
+        If properties.IsNullOrEmpty OrElse Not properties.ContainsKey(name) Then
             Return New TProperty() {}
         End If
 
-        Dim [Property] As PropertyInfo = Properties.First
+        Dim [property] As PropertyInfo = properties(name)
         Dim resultBuffer As TProperty()
+        Dim LQuery = From obj As T In collection.AsParallel
+                     Let value As Object = [property].GetValue(obj, Nothing)
+                     Let cast = If(value Is Nothing, Nothing, DirectCast(value, TProperty))
+                     Select cast
 
-        If TrimNull Then
-            resultBuffer = (From obj As T In collection.AsParallel
-                            Let value As Object = [Property].GetValue(obj, Nothing)
-                            Where Not value Is Nothing
-                            Select DirectCast(value, TProperty)).ToArray
+        If trimNull Then
+            resultBuffer = LQuery _
+                .Where(Function(item) Not item Is Nothing) _
+                .ToArray
         Else
-            resultBuffer = (From obj As T In collection.AsParallel
-                            Let value As Object = [Property].GetValue(obj, Nothing)
-                            Select If(value Is Nothing, Nothing, DirectCast(value, TProperty))).ToArray
+            resultBuffer = LQuery.ToArray
         End If
 
         Return resultBuffer
@@ -466,8 +477,7 @@ NULL:       If Not strict Then
     ''' <typeparam name="T"></typeparam>
     ''' <returns></returns>
     Public Function Description(Of T)() As String
-        Dim typeRef As Type = GetType(T)
-        Return typeRef.Description
+        Return GetType(T).Description
     End Function
 
     ''' <summary>
@@ -476,13 +486,13 @@ NULL:       If Not strict Then
     ''' <returns></returns>
     '''
     <ExportAPI("Get.Description")>
-    <Extension> Public Function Description(typeRef As Type) As String
-        Dim CustomAttrs As Object() = typeRef.GetCustomAttributes(GetType(DescriptionAttribute), inherit:=False)
+    <Extension> Public Function Description(type As Type) As String
+        Dim customAttrs As Object() = type.GetCustomAttributes(GetType(DescriptionAttribute), inherit:=False)
 
-        If Not CustomAttrs.IsNullOrEmpty Then
-            Return CType(CustomAttrs(Scan0), DescriptionAttribute).Description
+        If Not customAttrs.IsNullOrEmpty Then
+            Return CType(customAttrs(Scan0), DescriptionAttribute).Description
         Else
-            Return typeRef.Name
+            Return type.Name
         End If
     End Function
 
@@ -527,9 +537,7 @@ NULL:       If Not strict Then
     ''' <param name="default$"></param>
     ''' <returns></returns>
     <Extension> Public Function Description(m As MemberInfo, Optional default$ = Nothing) As String
-        Dim customAttrs() = m.GetCustomAttributes(
-            GetType(DescriptionAttribute),
-            inherit:=False)
+        Dim customAttrs() = m.GetCustomAttributes(GetType(DescriptionAttribute), inherit:=False)
 
         If Not customAttrs.IsNullOrEmpty Then
             Return DirectCast(customAttrs(Scan0), DescriptionAttribute).Description
