@@ -285,6 +285,7 @@ Public Module ReactionNetwork
                                        addNewEdge As Action(Of NetworkEdge))
 
         Dim reactions As ReactionTable()
+        Dim usedEnzymies As New List(Of String)
 
         If enzymeInfo.IsNullOrEmpty Then
             Return
@@ -292,7 +293,7 @@ Public Module ReactionNetwork
             reactions = reactionID _
                 .Select(Function(id) networkBase(id)) _
                 .Where(Function(r)
-                           Return Not r.KO.IsNullOrEmpty
+                           Return Not r.KO.IsNullOrEmpty OrElse Not r.EC.IsNullOrEmpty
                        End Function) _
                 .ToArray
         End If
@@ -305,9 +306,12 @@ Public Module ReactionNetwork
 
             Dim enzymies = enzymeInfo.Takes(reaction.KO) _
                 .IteratesALL _
+                .JoinIterates(enzymeInfo.Takes(reaction.EC)) _
                 .Where(Function(s) Not s.StringEmpty) _
                 .Distinct _
                 .ToArray
+
+            usedEnzymies += enzymies
 
             If Not nodes.ContainsKey(reaction.entry) Then
                 nodes.Add(New Node With {

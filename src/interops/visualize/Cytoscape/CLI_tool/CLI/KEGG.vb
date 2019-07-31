@@ -343,6 +343,7 @@ Partial Module CLI
 
     <ExportAPI("/Write.Reaction.Table")>
     <Usage("/Write.Reaction.Table /in <br08201.DIR> [/out <out.csv>]")>
+    <Group(CLIGrouping.KEGGTools)>
     Public Function WriteReactionTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimDIR & ".table.csv")
@@ -352,6 +353,7 @@ Partial Module CLI
 
     <ExportAPI("/KO.link")>
     <Usage("/KO.link /in <ko00001.DIR> [/out <out.XML>]")>
+    <Group(CLIGrouping.KEGGTools)>
     Public Function BuildKOLinks(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimDIR & ".links.XML")
