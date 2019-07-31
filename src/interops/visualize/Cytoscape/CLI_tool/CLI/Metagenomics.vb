@@ -40,6 +40,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
@@ -157,7 +158,6 @@ Partial Module CLI
     <ExportAPI("/Matrix.NET",
                Info:="Converts a generic distance matrix or kmeans clustering result to network model.",
                Usage:="/Matrix.NET /in <kmeans-out.csv> [/out <net.DIR> /generic /colors <clusters> /cutoff 0 /cutoff.paired]")>
-    <Group(CLIGrouping.Metagenomics)>
     <Argument("/in", AcceptTypes:={GetType(EntityClusterModel), GetType(DataSet)})>
     <Argument("/generic", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
@@ -193,9 +193,9 @@ Partial Module CLI
         Return net.Save(out, Encodings.ASCII).CLICode
     End Function
 
-    <ExportAPI("/BLAST.Metagenome.SSU.Network",
-               Info:="> Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28",
-               Usage:="/BLAST.Metagenome.SSU.Network /net <blastn.self.txt/blastnmapping.csv> /tax <ssu-nt.blastnMaps.csv> /taxonomy <ncbi_taxonomy:names,nodes> [/x2taxid <x2taxid.dmp/DIR> /tax-build-in /skip-exists /gi2taxid /parallel /theme-color <default='Paired:c12'> /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
+    <ExportAPI("/BLAST.Metagenome.SSU.Network")>
+    <Description("> Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28")>
+    <Usage("/BLAST.Metagenome.SSU.Network /net <blastn.self.txt/blastn.mapping.csv> /tax <ssu-nt.blastnMaps.csv> /taxonomy <ncbi_taxonomy:names,nodes> [/x2taxid <x2taxid.dmp/DIR> /tax-build-in /skip-exists /gi2taxid /parallel /theme-color <default='Paired:c12'> /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
     <Group(CLIGrouping.Metagenomics)>
     <Argument("/net", Description:="The blastn mapping that you can creates from the self pairwise blastn alignment of your SSU sequence. Using for create the network graph based on the similarity result between the aligned sequnece.")>
     <Argument("/tax", Description:="The blastn mapping that you can creates from the blastn alignment of your SSU sequence against the NCBI nt database.")>

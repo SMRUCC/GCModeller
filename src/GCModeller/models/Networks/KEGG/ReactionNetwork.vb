@@ -140,7 +140,8 @@ Public Module ReactionNetwork
                                compounds As IEnumerable(Of NamedValue(Of String)),
                                Optional delimiter$ = FunctionalNetwork.Delimiter,
                                Optional extended As Boolean = False,
-                               Optional enzymeInfo As Dictionary(Of String, String()) = Nothing) As NetworkTables
+                               Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
+                               Optional enzymeRelated As Boolean = True) As NetworkTables
 
         Dim blue As String = Color.CornflowerBlue.RGBExpression
         Dim gray As String = Color.LightGray.RGBExpression
@@ -214,6 +215,10 @@ Public Module ReactionNetwork
         Dim extendes As New List(Of Node)
         Dim reactionIDlist As New List(Of String)
 
+        If extended Then
+            Call "KEGG compound network will appends with extended compound reactions".__DEBUG_ECHO
+        End If
+
         ' 下面的这个for循环对所构建出来的节点列表进行边链接构建
         For Each a As Node In nodes.Values.Where(Function(n) Not n.ID Like commonIgnores).ToArray
             Dim reactionA = cpdGroups.TryGetValue(a.ID)
@@ -273,18 +278,46 @@ Public Module ReactionNetwork
             End If
         Next
 
-        Call doAppendReactionEnzyme(reactionIDlist.Distinct, enzymeInfo, networkBase, nodes, addNewEdge)
+        If Not enzymeRelated Then
+            ' 使用所有的代谢反应来构建酶催化网络
+            reactionIDlist = networkBase.Keys.AsList
+        End If
+
+        Call reactionIDlist _
+            .Distinct _
+            .doAppendReactionEnzyme(enzymeInfo, networkBase, nodes, addNewEdge, enzymeRelated)
 
         Return New NetworkTables(nodes.Values, edges.Values)
     End Function
 
+    <Extension>
+    Private Function populateEnzymies(reaction As ReactionTable, enzymeInfo As Dictionary(Of String, String())) As String()
+        Dim list As New List(Of String)
+
+        If Not reaction.KO.IsNullOrEmpty Then
+            list += enzymeInfo.Takes(reaction.KO) _
+                .IteratesALL _
+                .Where(Function(s) Not s.StringEmpty)
+        End If
+        If Not reaction.EC.IsNullOrEmpty Then
+            list += enzymeInfo.Takes(reaction.EC) _
+                .IteratesALL _
+                .Where(Function(s) Not s.StringEmpty)
+        End If
+
+        Return list.Distinct.ToArray
+    End Function
+
+    <Extension>
     Private Sub doAppendReactionEnzyme(reactionID As IEnumerable(Of String),
                                        enzymeInfo As Dictionary(Of String, String()),
                                        networkBase As Dictionary(Of String, ReactionTable),
                                        nodes As Dictionary(Of Node),
-                                       addNewEdge As Action(Of NetworkEdge))
+                                       addNewEdge As Action(Of NetworkEdge),
+                                       enzymeRelated As Boolean)
 
         Dim reactions As ReactionTable()
+        Dim usedEnzymies As New List(Of String)
 
         If enzymeInfo.IsNullOrEmpty Then
             Return
@@ -292,22 +325,28 @@ Public Module ReactionNetwork
             reactions = reactionID _
                 .Select(Function(id) networkBase(id)) _
                 .Where(Function(r)
-                           Return Not r.KO.IsNullOrEmpty
+                           Return Not r.KO.IsNullOrEmpty OrElse Not r.EC.IsNullOrEmpty
                        End Function) _
                 .ToArray
         End If
 
         For Each reaction As ReactionTable In reactions _
             .Where(Function(rn)
-                       Return rn.substrates.Any(AddressOf nodes.ContainsKey) AndAlso
-                              rn.products.Any(AddressOf nodes.ContainsKey)
+                       If enzymeRelated Then
+                           Return rn.substrates.Any(AddressOf nodes.ContainsKey) OrElse
+                                  rn.products.Any(AddressOf nodes.ContainsKey)
+                       Else
+                           Return True
+                       End If
                    End Function)
 
-            Dim enzymies = enzymeInfo.Takes(reaction.KO) _
-                .IteratesALL _
-                .Where(Function(s) Not s.StringEmpty) _
-                .Distinct _
-                .ToArray
+            Dim enzymies = reaction.populateEnzymies(enzymeInfo)
+
+            If enzymies.IsNullOrEmpty Then
+                Continue For
+            Else
+                usedEnzymies += enzymies
+            End If
 
             If Not nodes.ContainsKey(reaction.entry) Then
                 nodes.Add(New Node With {
@@ -375,6 +414,19 @@ Public Module ReactionNetwork
                 End If
             Next
         Next
+
+        'For Each unusedEnzyme In enzymeInfo.Values.IteratesALL.Distinct.Indexing - usedEnzymies
+        '    If Not nodes.ContainsKey(unusedEnzyme.value) Then
+        '        nodes.Add(New Node With {
+        '            .ID = unusedEnzyme.value,
+        '            .NodeType = "enzyme",
+        '            .Properties = New Dictionary(Of String, String) From {
+        '                {"name", unusedEnzyme.value},
+        '                {"color", "red"}
+        '            }
+        '        })
+        '    End If
+        'Next
     End Sub
 
     Public ReadOnly commonIgnores As Index(Of String) = My.Resources _

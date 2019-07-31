@@ -1,4 +1,6 @@
 ﻿Public Enum IPCProtocols
-    Allocate
+    Allocate = 1
     Release
+
+    Shutdown = 10000
 End Enum
