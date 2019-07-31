@@ -283,7 +283,9 @@ Public Module ReactionNetwork
             reactionIDlist = networkBase.Keys.AsList
         End If
 
-        Call doAppendReactionEnzyme(reactionIDlist.Distinct, enzymeInfo, networkBase, nodes, addNewEdge)
+        Call reactionIDlist _
+            .Distinct _
+            .doAppendReactionEnzyme(enzymeInfo, networkBase, nodes, addNewEdge, enzymeRelated)
 
         Return New NetworkTables(nodes.Values, edges.Values)
     End Function
@@ -306,11 +308,13 @@ Public Module ReactionNetwork
         Return list.Distinct.ToArray
     End Function
 
+    <Extension>
     Private Sub doAppendReactionEnzyme(reactionID As IEnumerable(Of String),
                                        enzymeInfo As Dictionary(Of String, String()),
                                        networkBase As Dictionary(Of String, ReactionTable),
                                        nodes As Dictionary(Of Node),
-                                       addNewEdge As Action(Of NetworkEdge))
+                                       addNewEdge As Action(Of NetworkEdge),
+                                       enzymeRelated As Boolean)
 
         Dim reactions As ReactionTable()
         Dim usedEnzymies As New List(Of String)
@@ -328,8 +332,12 @@ Public Module ReactionNetwork
 
         For Each reaction As ReactionTable In reactions _
             .Where(Function(rn)
-                       Return rn.substrates.Any(AddressOf nodes.ContainsKey) AndAlso
-                              rn.products.Any(AddressOf nodes.ContainsKey)
+                       If enzymeRelated Then
+                           Return rn.substrates.Any(AddressOf nodes.ContainsKey) OrElse
+                                  rn.products.Any(AddressOf nodes.ContainsKey)
+                       Else
+                           Return True
+                       End If
                    End Function)
 
             Dim enzymies = reaction.populateEnzymies(enzymeInfo)
