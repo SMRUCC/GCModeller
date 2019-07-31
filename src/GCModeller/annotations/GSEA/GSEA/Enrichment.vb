@@ -44,7 +44,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
-Imports F = Microsoft.VisualBasic.Math.Statistics.FisherTest
+Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.FishersExactTest
 
 ''' <summary>
 ''' 基于Fisher Extract test算法的富集分析
@@ -71,6 +71,7 @@ Public Module Enrichment
         Dim tick As New ProgressProvider(genome.clusters.Length)
         Dim ETA$
         Dim termResult As New Value(Of EnrichmentResult)
+        Dim genes As Integer
 
         If showProgress Then
             progress = New ProgressBar("Do enrichment...")
@@ -84,11 +85,15 @@ Public Module Enrichment
                          End Sub
         End If
 
-        Dim genes As Integer = genome.clusters _
-            .Select(Function(c) c.members) _
-            .IteratesALL _
-            .Distinct _
-            .Count
+        If genome.size <= 0 Then
+            genes = genome.clusters _
+                .Select(Function(c) c.members) _
+                .IteratesALL _
+                .Distinct _
+                .Count
+        Else
+            genes = genome.size
+        End If
 
         With list.ToArray
             For Each cluster As Cluster In genome.clusters
@@ -122,7 +127,7 @@ Public Module Enrichment
         Dim b% = cluster.members.Length
         Dim c% = inputSize - a
         Dim d% = genes - b
-        Dim pvalue# = F.FisherPvalue(a, b, c, d)
+        Dim pvalue# = F.FishersExact(a, b, c, d).two_tail_pvalue
         Dim score# = a / b
 
         If (pvalue.IsNaNImaginary OrElse enriched.Length = 0) AndAlso Not outputAll Then

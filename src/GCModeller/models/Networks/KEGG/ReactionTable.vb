@@ -42,6 +42,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
@@ -106,19 +107,21 @@ Public Class ReactionTable
 
     Private Shared Function creates(xml As Reaction) As ReactionTable
         Dim eq As DefaultTypes.Equation = xml.ReactionModel
+        Dim rxnName$ = xml.CommonNames.FirstOrDefault Or xml.Definition.AsDefault
+        Dim KOlist$() = xml.Orthology?.Terms.SafeQuery.Keys
 
         Return New ReactionTable With {
             .definition = xml.Definition,
             .EC = xml.Enzyme,
             .entry = xml.ID,
-            .name = xml.CommonNames.JoinBy("; "),
+            .name = rxnName,
             .products = eq.Products _
                 .Select(Function(x) x.ID) _
                 .ToArray,
             .substrates = eq.Reactants _
                 .Select(Function(x) x.ID) _
                 .ToArray,
-            .KO = xml.Orthology?.Terms.SafeQuery.Keys
+            .KO = KOlist
         }
     End Function
 End Class

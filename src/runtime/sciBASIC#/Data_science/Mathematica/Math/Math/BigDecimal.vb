@@ -1,4 +1,58 @@
-﻿Imports System.Numerics
+﻿#Region "Microsoft.VisualBasic::dcc4acf962c3fa6229e66545e598e462, Data_science\Mathematica\Math\Math\BigDecimal.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Structure BigDecimal
+    ' 
+    '     Properties: IntegralLength, IsEven, IsOne, IsPowerOfTwo, IsZero
+    '                 MantissaLength, Sign
+    ' 
+    '     Constructor: (+15 Overloads) Sub New
+    ' 
+    '     Function: CompareTo, Div, Phi, Pi, Pow
+    '               Pow10, (+2 Overloads) PowN10, PythagorasConst, Sqrt, Tau
+    '               ToByteArray, (+2 Overloads) ToString
+    ' 
+    '     Sub: Parse
+    ' 
+    '     Operators: -, *, /, ^, +
+    '                <, <=, <>, =, >
+    '                >=, (+2 Overloads) Mod
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Numerics
 
 ''' <summary>
 ''' 
@@ -76,6 +130,12 @@ Public Structure BigDecimal
         End Get
     End Property
 #End Region
+
+    Private Shared ReadOnly defaultPrecision As Integer = 1000
+
+    Shared Sub New()
+        defaultPrecision = App.GetVariable("big_decimal.precision").ParseInteger
+    End Sub
 
 #Region "Unsigned Integer Constructors"
     'Construct a BigDecimal number from Byte
@@ -384,9 +444,14 @@ Public Structure BigDecimal
         Return PowN10(BigInteger.Multiply(Num1.value, Num2.value).ToString, O)
     End Operator
 
-    'Does division on two BigDecimal numbers
+    ''' <summary>
+    ''' Does division on two BigDecimal numbers
+    ''' </summary>
+    ''' <param name="Num1"></param>
+    ''' <param name="Num2"></param>
+    ''' <returns></returns>
     Public Shared Operator /(ByVal Num1 As BigDecimal, ByVal Num2 As BigDecimal) As BigDecimal
-        Return Div(Num1, Num2, Precision:=50000)
+        Return Div(Num1, Num2, Precision:=defaultPrecision)
     End Operator
 
     'Does division on two BigDecimal numbers with specified precision (no rounding)
