@@ -140,7 +140,8 @@ Public Module ReactionNetwork
                                compounds As IEnumerable(Of NamedValue(Of String)),
                                Optional delimiter$ = FunctionalNetwork.Delimiter,
                                Optional extended As Boolean = False,
-                               Optional enzymeInfo As Dictionary(Of String, String()) = Nothing) As NetworkTables
+                               Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
+                               Optional enzymeRelated As Boolean = True) As NetworkTables
 
         Dim blue As String = Color.CornflowerBlue.RGBExpression
         Dim gray As String = Color.LightGray.RGBExpression
@@ -276,6 +277,11 @@ Public Module ReactionNetwork
                 nodes += x
             End If
         Next
+
+        If Not enzymeRelated Then
+            ' 使用所有的代谢反应来构建酶催化网络
+            reactionIDlist = networkBase.Keys.AsList
+        End If
 
         Call doAppendReactionEnzyme(reactionIDlist.Distinct, enzymeInfo, networkBase, nodes, addNewEdge)
 

@@ -103,7 +103,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/kegg.compound.network")>
-    <Usage("/kegg.compound.network /in <compound.csv> /reactions <reaction_table.csv> [/enzyme <annotation.csv> /extended /size <default=10000,7000> /out <network.directory>]")>
+    <Usage("/kegg.compound.network /in <compound.csv> /reactions <reaction_table.csv> [/enzyme <annotation.csv> /extended /enzymeRelated /size <default=10000,7000> /out <network.directory>]")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(NamedValue(Of String))},
               Extensions:="*.csv",
@@ -158,7 +158,8 @@ Partial Module CLI
             .BuildModel(
                 compounds:=kegg_compounds,
                 extended:=args("/extended"),
-                enzymeInfo:=enzyme
+                enzymeInfo:=enzyme,
+                enzymeRelated:=args("/enzymeRelated")
             ).AnalysisDegrees
 
         Call graph.VisualizeKEGG(size:=size).SaveAs($"{out}/network.png")
