@@ -214,6 +214,10 @@ Public Module ReactionNetwork
         Dim extendes As New List(Of Node)
         Dim reactionIDlist As New List(Of String)
 
+        If extended Then
+            Call "KEGG compound network will appends with extended compound reactions".__DEBUG_ECHO
+        End If
+
         ' 下面的这个for循环对所构建出来的节点列表进行边链接构建
         For Each a As Node In nodes.Values.Where(Function(n) Not n.ID Like commonIgnores).ToArray
             Dim reactionA = cpdGroups.TryGetValue(a.ID)
@@ -397,18 +401,18 @@ Public Module ReactionNetwork
             Next
         Next
 
-        For Each unusedEnzyme In enzymeInfo.Values.IteratesALL.Distinct.Indexing - usedEnzymies
-            If Not nodes.ContainsKey(unusedEnzyme.value) Then
-                nodes.Add(New Node With {
-                    .ID = unusedEnzyme.value,
-                    .NodeType = "enzyme",
-                    .Properties = New Dictionary(Of String, String) From {
-                        {"name", unusedEnzyme.value},
-                        {"color", "red"}
-                    }
-                })
-            End If
-        Next
+        'For Each unusedEnzyme In enzymeInfo.Values.IteratesALL.Distinct.Indexing - usedEnzymies
+        '    If Not nodes.ContainsKey(unusedEnzyme.value) Then
+        '        nodes.Add(New Node With {
+        '            .ID = unusedEnzyme.value,
+        '            .NodeType = "enzyme",
+        '            .Properties = New Dictionary(Of String, String) From {
+        '                {"name", unusedEnzyme.value},
+        '                {"color", "red"}
+        '            }
+        '        })
+        '    End If
+        'Next
     End Sub
 
     Public ReadOnly commonIgnores As Index(Of String) = My.Resources _
