@@ -69,6 +69,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPC\ProtocolRouter.vb" />
     <Compile Include="IPC\IPCProtocol.vb" />
     <Compile Include="IPC\Protocols.vb" />
     <Compile Include="IPC\Resource.vb" />
