@@ -79,6 +79,11 @@ Public Module Visualize
         End With
     End Function
 
+    ''' <summary>
+    ''' 只计算指数部分
+    ''' </summary>
+    ''' <param name="grid"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function NodeImpacts(grid As GridMatrix) As IEnumerable(Of NamedValue(Of Double))
         For i As Integer = 0 To grid.correlations.Length - 1
@@ -97,6 +102,11 @@ Public Module Visualize
         Next
     End Function
 
+    ''' <summary>
+    ''' 相关性则是计算 a * E ^ P 整个表达式
+    ''' </summary>
+    ''' <param name="grid"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function NodeCorrelation(grid As GridMatrix) As IEnumerable(Of NamedValue(Of Double))
         Dim impacts = grid.NodeImpacts.ToArray
