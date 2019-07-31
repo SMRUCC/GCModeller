@@ -1,41 +1,41 @@
-﻿#Region "Microsoft.VisualBasic::0100ec0939f4ea78a3103bbbc075974d, Data_science\Darwinism\NonlinearGrid\TopologyInference\Debugger\Visualize.vb"
+﻿#Region "Microsoft.VisualBasic::d08a87ebc22bc46412d23db125271d88, Data_science\Darwinism\NonlinearGrid\TopologyInference\Debugger\Visualize.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Visualize
-' 
-'     Function: CreateGraph, NodeImportance
-' 
-' /********************************************************************************/
+    ' Module Visualize
+    ' 
+    '     Function: CreateGraph, NodeCorrelation, NodeImpacts, ROC
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -131,7 +131,7 @@ Public Module Visualize
     ''' 所以c因子可以看作为Xj与Xi之间的相关度, 只不过这个相关度是位于整个[负无穷, 正无穷]之间的
     ''' </remarks>
     <Extension>
-    Public Function CreateGraph(grid As GridMatrix, Optional cutoff# = 1) As NetworkGraph
+    Public Function CreateGraph(grid As GridMatrix, Optional cutoff# = 1, Optional nameTitles As Dictionary(Of String, String) = Nothing) As NetworkGraph
         Dim g As New NetworkGraph
         Dim node As Node
         Dim variableNames As New List(Of String)
@@ -166,6 +166,10 @@ Public Module Visualize
                            Return colors(index)
                        End Function
 
+        If nameTitles Is Nothing Then
+            nameTitles = New Dictionary(Of String, String)
+        End If
+
         For Each factor As NumericVector In grid.correlations
             node = New Node With {
                 .data = New NodeData With {
@@ -176,7 +180,8 @@ Public Module Visualize
                     .Properties = New Dictionary(Of String, String) From {
                         {"impacts", importance(factor.name)},
                         {"color", getColor(importance(factor.name)).ToHtmlColor},
-                        {"size", Math.Abs(importance(factor.name))}
+                        {"size", Math.Abs(importance(factor.name))},
+                        {"title", nameTitles.TryGetValue(factor.name, [default]:=factor.name)}
                     }
                 },
                 .Label = factor.name,

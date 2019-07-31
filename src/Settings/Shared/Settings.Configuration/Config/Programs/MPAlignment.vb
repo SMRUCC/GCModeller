@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6b3692733c247a08e1403f056ab670b, Shared\Settings.Configuration\Config\Programs\MPAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::b3cc17826edd1cf77378986957e73b8e, Shared\Settings.Configuration\Config\Programs\MPAlignment.vb"
 
     ' Author:
     ' 
