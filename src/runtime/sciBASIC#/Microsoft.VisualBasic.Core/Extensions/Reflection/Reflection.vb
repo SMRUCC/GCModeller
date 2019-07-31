@@ -579,19 +579,21 @@ NULL:       If Not strict Then
     End Function
 
     ''' <summary>
-    ''' Enumerate all of the enum values in the specific <see cref="System.Enum"/> type data.(只允许枚举类型，其他的都返回空集合)
+    ''' Enumerate all of the enum values in the specific <see cref="System.Enum"/> type data.
+    ''' (只允许枚举类型，其他的都返回空集合)
     ''' </summary>
     ''' <typeparam name="T">泛型类型约束只允许枚举类型，其他的都返回空集合</typeparam>
     ''' <returns></returns>
     Public Function Enums(Of T As Structure)() As T()
-        Dim EnumType As Type = GetType(T)
-        If Not EnumType.IsInheritsFrom(GetType(System.Enum)) Then
+        Dim enumType As Type = GetType(T)
+
+        If Not enumType.IsInheritsFrom(GetType(System.Enum)) Then
             Return Nothing
         End If
 
         Dim EnumValues As Object() =
             Scripting _
-            .CastArray(Of System.Enum)(EnumType.GetEnumValues) _
+            .CastArray(Of System.Enum)(enumType.GetEnumValues) _
             .Select(Of Object)(Function(ar)
                                    Return DirectCast(ar, Object)
                                End Function) _
@@ -599,6 +601,7 @@ NULL:       If Not strict Then
         Dim values As T() = EnumValues _
             .Select(Of T)(Function([enum]) DirectCast([enum], T)) _
             .ToArray
+
         Return values
     End Function
 
@@ -661,19 +664,21 @@ NULL:       If Not strict Then
     <ExportAPI("GetValue")>
     <Extension> Public Function GetValue(Type As Type, obj As Object, Name As String) As Object
         Try
-            Return __getValue(Type, obj, Name)
+            Return getValueInternal(Type, obj, Name)
         Catch ex As Exception
             Return App.LogException(ex, $"{GetType(Extensions).FullName}::{NameOf(GetValue)}")
         End Try
     End Function
 
-    Private Function __getValue(Type As Type, obj As Object, Name As String) As Object
-        Dim [property] = Type.GetProperty(Name, BindingFlags.Public Or BindingFlags.Instance)
+    Private Function getValueInternal(type As Type, obj As Object, Name As String) As Object
+        Dim [property] = type.GetProperty(Name, BindingFlags.Public Or BindingFlags.Instance)
+
         If [property] Is Nothing Then
             Return Nothing
+        Else
+            Dim value = [property].GetValue(obj, Nothing)
+            Return value
         End If
-        Dim value = [property].GetValue(obj, Nothing)
-        Return value
     End Function
 
     ''' <summary>
@@ -696,36 +701,34 @@ NULL:       If Not strict Then
     ''' <summary>
     ''' Try convert the type specific collection data type into a generic enumerable collection data type.(尝试将目标集合类型转换为通用的枚举集合类型)
     ''' </summary>
-    ''' <param name="Type">The type specific collection data type.(特定类型的集合对象类型，当然也可以是泛型类型)</param>
+    ''' <param name="type">The type specific collection data type.(特定类型的集合对象类型，当然也可以是泛型类型)</param>
     ''' <returns>If the target data type is not a collection data type then the original data type will be returns and the function displays a warning message.</returns>
     ''' <remarks></remarks>
     '''
     <ExportAPI("Collection2GenericIEnumerable", Info:="Try convert the type specific collection data type into a generic enumerable collection data type.")>
-    <Extension> Public Function Collection2GenericIEnumerable(
-                                                        Type As Type,
-                                                        Optional DebuggerMessage As Boolean = True) As Type
+    <Extension> Public Function Collection2GenericIEnumerable(type As Type, Optional showDebugMsg As Boolean = True) As Type
 
-        If Array.IndexOf(Type.GetInterfaces, GetType(IEnumerable)) = -1 Then
-EXIT_:      If DebuggerMessage Then Call $"[WARN] Target type ""{Type.FullName}"" is not a collection type!".__DEBUG_ECHO
-            Return Type
+        If Array.IndexOf(type.GetInterfaces, GetType(IEnumerable)) = -1 Then
+EXIT_:      If showDebugMsg Then Call $"[WARN] Target type ""{type.FullName}"" is not a collection type!".__DEBUG_ECHO
+            Return type
         End If
 
-        Dim GenericType As Type = GetType(Generic.IEnumerable(Of )) 'Type.GetType("System.Collections.Generic.IEnumerable")
-        Dim ElementType As Type = Type.GetElementType
+        Dim genericType As Type = GetType(Generic.IEnumerable(Of )) 'Type.GetType("System.Collections.Generic.IEnumerable")
+        Dim elementType As Type = type.GetElementType
 
-        If ElementType Is Nothing Then
-            Dim Generics = Type.GenericTypeArguments
+        If elementType Is Nothing Then
+            Dim generics = type.GenericTypeArguments
 
-            If Generics.IsNullOrEmpty Then
+            If generics.IsNullOrEmpty Then
                 GoTo EXIT_
             Else
-                ElementType = Generics(Scan0)
+                elementType = generics(Scan0)
             End If
         End If
 
-        GenericType = GenericType.MakeGenericType({ElementType})
+        genericType = genericType.MakeGenericType({elementType})
 
-        Return GenericType
+        Return genericType
     End Function
 #End If
 
@@ -834,10 +837,10 @@ EXIT_:      If DebuggerMessage Then Call $"[WARN] Target type ""{Type.FullName}"
     ''' <returns></returns>
     ''' <remarks></remarks>
     <Extension> Public Function GetAttribute(Of T As Attribute)([Property] As PropertyInfo) As T
-        Dim Attributes As Object() = [Property].GetCustomAttributes(GetType(T), True)
+        Dim attrs As Object() = [Property].GetCustomAttributes(GetType(T), True)
 
-        If Not Attributes Is Nothing AndAlso Attributes.Length = 1 Then
-            Dim CustomAttr As T = CType(Attributes(0), T)
+        If Not attrs Is Nothing AndAlso attrs.Length = 1 Then
+            Dim CustomAttr As T = CType(attrs(0), T)
 
             If Not CustomAttr Is Nothing Then
                 Return CustomAttr
@@ -854,16 +857,27 @@ EXIT_:      If DebuggerMessage Then Call $"[WARN] Target type ""{Type.FullName}"
     ''' <typeparam name="T"></typeparam>
     ''' <param name="args">构造函数里面的参数信息</param>
     ''' <returns></returns>
-    Public Function CreateObject(Of T)(args As Object(),
-                                       Optional throwEx As Boolean = True,
-                                       <CallerMemberName> Optional caller As String = "") As T
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function CreateObject(Of T)(args As Object(), Optional throwEx As Boolean = True, <CallerMemberName> Optional caller As String = "") As T
+        Return GetType(T).CreateObject(args, throwEx, caller)
+    End Function
+
+    <Extension>
+    Public Function CreateObject(type As Type, args As Object(), Optional throwEx As Boolean = True, <CallerMemberName> Optional caller$ = Nothing) As Object
         Try
-            Dim obj As Object =
-                Activator.CreateInstance(GetType(T), args)
-            Return DirectCast(obj, T)
+            Dim obj As Object = Activator.CreateInstance(type, args)
+
+            If obj Is Nothing Then
+                Return Nothing
+            Else
+                Return obj
+            End If
         Catch ex As Exception
             Dim params As String() = args _
-                .Select(Function(x) x.GetType.FullName & " ==> " & GetObjectJson(x, x.GetType)) _
+                .Select(Function(a)
+                            Return a.GetType.FullName & " => " & GetObjectJson(a.GetType, a)
+                        End Function) _
                 .ToArray
             ex = New Exception(String.Join(vbCrLf, params), ex)
             ex = New Exception("@" & caller, ex)
