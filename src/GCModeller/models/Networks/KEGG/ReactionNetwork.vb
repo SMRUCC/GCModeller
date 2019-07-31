@@ -278,6 +278,24 @@ Public Module ReactionNetwork
         Return New NetworkTables(nodes.Values, edges.Values)
     End Function
 
+    <Extension>
+    Private Function populateEnzymies(reaction As ReactionTable, enzymeInfo As Dictionary(Of String, String())) As String()
+        Dim list As New List(Of String)
+
+        If Not reaction.KO.IsNullOrEmpty Then
+            list += enzymeInfo.Takes(reaction.KO) _
+                .IteratesALL _
+                .Where(Function(s) Not s.StringEmpty)
+        End If
+        If Not reaction.EC.IsNullOrEmpty Then
+            list += enzymeInfo.Takes(reaction.EC) _
+                .IteratesALL _
+                .Where(Function(s) Not s.StringEmpty)
+        End If
+
+        Return list.Distinct.ToArray
+    End Function
+
     Private Sub doAppendReactionEnzyme(reactionID As IEnumerable(Of String),
                                        enzymeInfo As Dictionary(Of String, String()),
                                        networkBase As Dictionary(Of String, ReactionTable),
@@ -304,14 +322,13 @@ Public Module ReactionNetwork
                               rn.products.Any(AddressOf nodes.ContainsKey)
                    End Function)
 
-            Dim enzymies = enzymeInfo.Takes(reaction.KO) _
-                .IteratesALL _
-                .JoinIterates(enzymeInfo.Takes(reaction.EC)) _
-                .Where(Function(s) Not s.StringEmpty) _
-                .Distinct _
-                .ToArray
+            Dim enzymies = reaction.populateEnzymies(enzymeInfo)
 
-            usedEnzymies += enzymies
+            If enzymies.IsNullOrEmpty Then
+                Continue For
+            Else
+                usedEnzymies += enzymies
+            End If
 
             If Not nodes.ContainsKey(reaction.entry) Then
                 nodes.Add(New Node With {
@@ -378,6 +395,19 @@ Public Module ReactionNetwork
                     Call addNewEdge(edge)
                 End If
             Next
+        Next
+
+        For Each unusedEnzyme In enzymeInfo.Values.IteratesALL.Distinct.Indexing - usedEnzymies
+            If Not nodes.ContainsKey(unusedEnzyme.value) Then
+                nodes.Add(New Node With {
+                    .ID = unusedEnzyme.value,
+                    .NodeType = "enzyme",
+                    .Properties = New Dictionary(Of String, String) From {
+                        {"name", unusedEnzyme.value},
+                        {"color", "red"}
+                    }
+                })
+            End If
         Next
     End Sub
 
