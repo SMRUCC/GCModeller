@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::9e723b954afad634b8f2d11464dffe1e, GSEA\GSEA\Imports.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module [Imports]
-    ' 
-    ' 
-    '     Delegate Function
-    ' 
-    '         Function: getTermInternal, GOClusters, ImportsUniProt, KEGGClusters, KEGGMapRelation
-    '                   UniProtGetGOTerms, UniProtGetKOTerms
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module [Imports]
+' 
+' 
+'     Delegate Function
+' 
+'         Function: getTermInternal, GOClusters, ImportsUniProt, KEGGClusters, KEGGMapRelation
+'                   UniProtGetGOTerms, UniProtGetKOTerms
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,11 +49,11 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
-Imports Synonym = SMRUCC.genomics.ComponentModel.DBLinkBuilder.Synonym
 
 ''' <summary>
 ''' 进行富集计算分析所需要的基因组背景模型的导入模块
@@ -69,23 +69,23 @@ Public Module [Imports]
 
     <Extension>
     Public Function KEGGMapRelation(maps As IEnumerable(Of Map)) As Dictionary(Of String, String())
-         Return maps.Select(Function(m)
-                                Return m.Areas.Select(Function(a) a.IDVector) _
-                                    .IteratesALL _
-                                    .Where(Function(id) id.IsPattern("K\d+")) _
-                                    .Distinct _
-                                    .Select(Function(id)
-                                                Return (mapID:=m.ID, KO:=id)
-                                            End Function)
-                            End Function) _
-                    .IteratesALL _
-                    .GroupBy(Function(ko) ko.KO) _
-                    .ToDictionary(Function(g) g.Key,
-                                    Function(g)
-                                        Return g.Select(Function(t) t.mapID) _
-                                                .Distinct _
-                                                .ToArray
-                                    End Function)
+        Return maps.Select(Function(m)
+                               Return m.Areas.Select(Function(a) a.IDVector) _
+                                   .IteratesALL _
+                                   .Where(Function(id) id.IsPattern("K\d+")) _
+                                   .Distinct _
+                                   .Select(Function(id)
+                                               Return (mapID:=m.ID, KO:=id)
+                                           End Function)
+                           End Function) _
+                   .IteratesALL _
+                   .GroupBy(Function(ko) ko.KO) _
+                   .ToDictionary(Function(g) g.Key,
+                                   Function(g)
+                                       Return g.Select(Function(t) t.mapID) _
+                                               .Distinct _
+                                               .ToArray
+                                   End Function)
     End Function
 
     <Extension>
@@ -148,10 +148,14 @@ Public Module [Imports]
 
         Dim clusters As New Dictionary(Of String, List(Of BackgroundGene))
         Dim clusterNotes As New Dictionary(Of String, NamedValue(Of String))
+        Dim genomeSize%
+        Dim taxonomy As String = Nothing
 
         For Each protein As entry In db
             Dim terms = getTerm(protein)
             Dim clusterNames As NamedValue(Of String)()
+
+            genomeSize += 1
 
             If terms.IsNullOrEmpty Then
                 clusterNames = {}
@@ -159,6 +163,10 @@ Public Module [Imports]
                 clusterNames = terms.Select(Function(geneID) define(geneID)) _
                                     .IteratesALL _
                                     .ToArray
+            End If
+
+            If taxonomy.StringEmpty Then
+                taxonomy = protein.organism.lineage.taxonlist.JoinBy("; ")
             End If
 
             For Each clusterID As NamedValue(Of String) In clusterNames
@@ -171,7 +179,19 @@ Public Module [Imports]
                     .accessionID = protein.accessions(Scan0),
                     .[alias] = protein.accessions,
                     .name = protein.name,
-                    .description = protein.protein.fullName
+                    .locus_tag = Function() As NamedValue
+                                     Dim tag$ = .accessionID
+
+                                     If protein.xrefs.ContainsKey("KEGG") Then
+                                         tag = protein.xrefs("KEGG").First.id
+                                     End If
+
+                                     Return New NamedValue With {
+                                         .name = tag,
+                                         .text = protein.protein.fullName
+                                     }
+                                 End Function(),
+                    .term_id = terms
                 }
             Next
         Next
@@ -198,7 +218,9 @@ Public Module [Imports]
                                 .names = note.Value
                             }
                         End Function) _
-                .ToArray
+                .ToArray,
+            .size = genomeSize,
+            .comments = taxonomy
         }
     End Function
 
@@ -209,8 +231,8 @@ Public Module [Imports]
 
     Private Function getTermInternal(type As String) As Func(Of entry, String())
         Return Function(protein)
-                   If protein.Xrefs.ContainsKey(type) Then
-                       Return protein.Xrefs(type) _
+                   If protein.xrefs.ContainsKey(type) Then
+                       Return protein.xrefs(type) _
                            .Select(Function(ref) ref.id) _
                            .ToArray
                    Else

@@ -150,7 +150,7 @@ Public Module CLI
     End Function
 
     <ExportAPI("/GSEA")>
-    <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> [/hide.progress /out <out.csv>]")>
+    <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> [/hide.progress /locus_tag /out <out.csv>]")>
     <Description("Do gene set enrichment analysis.")>
     <Argument("/background", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.Xml",
@@ -166,12 +166,15 @@ Public Module CLI
                     End Function) _
             .ToArray
         Dim out$ = args("/out") Or $"{list.TrimSuffix}_{backgroundXML.BaseName}_enrichment.csv"
+        Dim isLocusTag As Boolean = args("/locus_tag")
         Dim result As EnrichmentResult() = background _
             .Enrichment(
                 list:=geneSet,
+                isLocustag:=isLocusTag,
                 showProgress:=Not args.IsTrue("/hide.progress")
             ) _
             .FDRCorrection _
+            .OrderBy(Function(term) term.pvalue) _
             .ToArray
 
         Return result.SaveTo(out).CLICode

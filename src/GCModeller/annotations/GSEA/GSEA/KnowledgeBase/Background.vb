@@ -13,6 +13,11 @@ Public Class Background : Inherits XmlDataModel
     Public Property name As String Implements IKeyedEntity(Of String).Key
     Public Property comments As String
     Public Property build As Date = Now
+    ''' <summary>
+    ''' The number of genes in this background genome.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property size As Integer
 
     <XmlElement>
     Public Property clusters As Cluster()
