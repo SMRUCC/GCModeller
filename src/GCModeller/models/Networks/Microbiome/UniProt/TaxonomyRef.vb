@@ -47,9 +47,11 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Metagenomics
+Imports SMRUCC.genomics.Model.Network.Microbiome
 
 ''' <summary>
 ''' Combine the UniProt taxonomy information with the KEGG orthology reference.
@@ -74,6 +76,7 @@ Public Class TaxonomyRef : Inherits XmlDataModel
     Public Property numberOfGenes As Integer
     Public Property organism As organism
     Public Property genome As OrthologyTerms
+    Public Property subcellular_components As SubCellularLocation
 
     Dim ts As Taxonomy
 
@@ -111,13 +114,22 @@ Public Class TaxonomyRef : Inherits XmlDataModel
     End Sub
 
     Public Overrides Function ToString() As String
-        Return $"[{TaxonID}] {organism.scientificName}"
+        Return $"[{taxonID}] {organism.scientificName}"
     End Function
 End Class
 
-Public Class SubCellularLocation
+Public Class SubCellularLocation : Inherits ListOf(Of Location)
 
+    <XmlElement>
+    Public Property locations As Location()
 
+    Protected Overrides Function getSize() As Integer
+        Return locations.Length
+    End Function
+
+    Protected Overrides Function getCollection() As IEnumerable(Of Location)
+        Return locations
+    End Function
 End Class
 
 Public Class Location
@@ -129,6 +141,14 @@ Public Class Location
     ''' 
     <XmlAttribute>
     Public Property name As String
-    Public Property enzymes As String()
+    ''' <summary>
+    ''' The protein id list
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property enzymes As NamedValue()
+
+    Public Overrides Function ToString() As String
+        Return name
+    End Function
 
 End Class

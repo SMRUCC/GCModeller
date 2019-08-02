@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports KO = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.KOCatalog
@@ -90,6 +91,21 @@ Public Module UniProtBuild
 
     Const blankPattern$ = "\+{10,}\n"
 
+    <Extension>
+    Private Function createLocation(location As String, proteins As (loc$, info As NamedValue(Of String()))()) As Location
+        Return New Location With {
+            .name = location,
+            .enzymes = proteins _
+                .Select(Function(id)
+                            Return New NamedValue With {
+                                .name = id.info.Name,
+                                .text = id.info.Description
+                            }
+                        End Function) _
+                .ToArray
+        }
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -100,20 +116,27 @@ Public Module UniProtBuild
     Public Function ScanModels(cache As CacheGenerator, export$) As TaxonomyRepository
         Dim ko00000 = ko00000Provider()
         Dim organismKO As New Dictionary(Of String, List(Of String))
+        Dim proteinInfo As New Dictionary(Of String, List(Of NamedValue(Of String())))
         Dim counts As New Dictionary(Of String, Counter)
         Dim repository As New TaxonomyRepository With {
             .taxonomy = New Dictionary(Of String, Metagenomics.Taxonomy)
         }
+        Dim locations As String()
 
         DirectCast(repository, IFileReference).FilePath = $"{export}/main.json"
 
+        ' taxonID, KO, acc, subcellular_locations
         For Each line As String In cache.KO_list.IterateAllLines
             With line.Split(ASCII.TAB)
                 If Not organismKO.ContainsKey(.First) Then
                     Call organismKO.Add(.First, New List(Of String))
+                    Call proteinInfo.Add(.First, New List(Of NamedValue(Of String())))
                 End If
 
-                Call organismKO(.First).Add(.Last)
+                locations = .ByRef(3).StringSplit("\s*;\s*")
+
+                Call organismKO(.First).Add(.ByRef(1))
+                Call proteinInfo(.First).Add(New NamedValue(Of String())(.ByRef(1), locations, .ByRef(2)))
             End With
         Next
 
@@ -138,11 +161,14 @@ Public Module UniProtBuild
             Dim organism As organism = xml.LoadFromXml(Of organism)
             Dim taxon$ = organism.dbReference.id
             Dim KO As IEnumerable(Of String)
+            Dim proteins As IEnumerable(Of NamedValue(Of String()))
 
             If organismKO.ContainsKey(taxon) Then
                 KO = organismKO(taxon)
+                proteins = proteinInfo(taxon)
             Else
                 KO = {}
+                proteins = {}
             End If
 
             ' 因为要了解覆盖度，所以这里需要计数一下KO的数目
@@ -167,6 +193,14 @@ Public Module UniProtBuild
                             End If
                         End Function) _
                 .ToArray
+            Dim cellularLocations = proteins.Where(Function(p) Not p.Value.IsNullOrEmpty) _
+                .Select(Function(p) p.Value.Select(Function(loc) (loc, p))) _
+                .IteratesALL _
+                .GroupBy(Function(t) t.Item1) _
+                .Select(Function(location)
+                            Return location.Key.createLocation(location.ToArray)
+                        End Function) _
+                .ToArray
 
             Dim refModel As New TaxonomyRef With {
                 .organism = organism,
@@ -175,7 +209,10 @@ Public Module UniProtBuild
                     .Terms = terms
                 },
                 .coverage = annotated / counts(taxon),
-                .numberOfGenes = counts(taxon)
+                .numberOfGenes = counts(taxon),
+                .subcellular_components = New SubCellularLocation With {
+                    .locations = cellularLocations
+                }
             }
             Dim refFile$ = repository.StorageReference(refModel.TaxonomyString, relative:=False) & $"/{taxon}.Xml"
 
