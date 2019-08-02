@@ -299,6 +299,8 @@ Partial Module CLI
             Dim files = [in].Split("|"c)
 
             out = args("/out") Or (files(Scan0).TrimSuffix & ".taxonomy_ref.json")
+            ' 输入时由多个uniprot的XML数据库的Xml文件所构成的
+            ' 这个通常用于组合uniprot_sprot以及uniprot_trembl这两个数据库文件的内容
             ref = UniProtXML _
                 .EnumerateEntries(files) _
                 .ScanUniProt(out.ParentPath & "/taxonomy_ref", all:=all, cache:=cache)
