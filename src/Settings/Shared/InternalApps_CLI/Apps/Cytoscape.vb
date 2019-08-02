@@ -1,46 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::fb873b6f97c40581e65fce3be734d133, Shared\InternalApps_CLI\Apps\Cytoscape.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    ' Class Cytoscape
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: FromEnvironment
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
@@ -78,8 +35,10 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Build.Tree.NET.KEGG_Pathways:       
 '  /Build.Tree.NET.Merged_Regulons:     
 '  /Build.Tree.NET.TF:                  
-'  /KO.link:                            
+'  /kegg.compound.network:              
 '  /linkage.knowledge.network:          
+'  /Matrix.NET:                         Converts a generic distance matrix or kmeans clustering result
+'                                       to network model.
 '  /Motif.Cluster:                      
 '  /Motif.Cluster.Fast:                 
 '  /Motif.Cluster.Fast.Sites:           
@@ -88,7 +47,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /replace:                            
 '  /Tree.Cluster:                       This method is not recommended.
 '  /Tree.Cluster.rFBA:                  
-'  /Write.Reaction.Table:               
 '  -Draw:                               Drawing a network image visualization based on the generate
 '                                       network layout from the officials cytoscape software.
 ' 
@@ -117,7 +75,9 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 '    /KEGG.Mods.NET:                      
 '    /KEGG.pathwayMap.Network:            
+'    /KO.link:                            
 '    /reaction.NET:                       
+'    /Write.Reaction.Table:               
 '    --mod.regulations:                   
 ' 
 ' 
@@ -136,8 +96,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '                                         assessed by network analysis, DOI: 10.1038/ismej.2015.28
 '    /BLAST.Network:                      
 '    /BLAST.Network.MetaBuild:            
-'    /Matrix.NET:                         Converts a generic distance matrix or kmeans clustering result
-'                                         to network model.
 ' 
 ' 
 ' 6. TF/Regulon network tools
@@ -300,7 +258,7 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /BLAST.Metagenome.SSU.Network /net &lt;blastn.self.txt/blastnmapping.csv> /tax &lt;ssu-nt.blastnMaps.csv> /taxonomy &lt;ncbi_taxonomy:names,nodes> [/x2taxid &lt;x2taxid.dmp/DIR> /tax-build-in /skip-exists /gi2taxid /parallel /theme-color &lt;default='Paired:c12'> /identities &lt;default:0.3> /coverage &lt;default:0.3> /out &lt;out-net.DIR>]
+''' /BLAST.Metagenome.SSU.Network /net &lt;blastn.self.txt/blastn.mapping.csv> /tax &lt;ssu-nt.blastnMaps.csv> /taxonomy &lt;ncbi_taxonomy:names,nodes> [/x2taxid &lt;x2taxid.dmp/DIR> /tax-build-in /skip-exists /gi2taxid /parallel /theme-color &lt;default='Paired:c12'> /identities &lt;default:0.3> /coverage &lt;default:0.3> /out &lt;out-net.DIR>]
 ''' ```
 ''' > Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28
 ''' </summary>
@@ -565,6 +523,39 @@ Public Function BuildTreeNetTF([in] As String, maps As String, map As String, mo
     End If
     If brief Then
         Call CLI.Append("/brief ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /kegg.compound.network /in &lt;compound.csv> /reactions &lt;reaction_table.csv> [/enzyme &lt;annotation.csv> /extended /enzymeRelated /size &lt;default=10000,7000> /out &lt;network.directory>]
+''' ```
+''' </summary>
+'''
+Public Function CompoundNetwork([in] As String, reactions As String, Optional enzyme As String = "", Optional size As String = "10000,7000", Optional out As String = "", Optional extended As Boolean = False, Optional enzymerelated As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/kegg.compound.network")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/reactions " & """" & reactions & """ ")
+    If Not enzyme.StringEmpty Then
+            Call CLI.Append("/enzyme " & """" & enzyme & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If extended Then
+        Call CLI.Append("/extended ")
+    End If
+    If enzymerelated Then
+        Call CLI.Append("/enzymerelated ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -1187,4 +1178,3 @@ Public Function TCS([in] As String, regulations As String, out As String, Option
 End Function
 End Class
 End Namespace
-

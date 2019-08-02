@@ -74,7 +74,7 @@
     <OutputPath>bin\GCModeller%28Release_X64%29\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
-    <OutputPath>bin\x64\GCModeller%28Release_X64%29\</OutputPath>
+    <OutputPath>..\..\..\GCModeller\bin\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

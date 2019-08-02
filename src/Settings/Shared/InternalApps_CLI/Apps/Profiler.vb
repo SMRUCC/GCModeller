@@ -1,46 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::bc907dcf01c020b7d6d36f104a901c81, Shared\InternalApps_CLI\Apps\Profiler.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    ' Class Profiler
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: FromEnvironment
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
@@ -69,7 +26,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' All of the command that available in this program has been list below:
 ' 
 '  /GO.clusters:     
-'  /GSEA:            
+'  /GSEA:            Do gene set enrichment analysis.
 '  /id.converts:     
 '  /KO.clusters:     Create KEGG pathway map background for a given genome data.
 ' 
@@ -123,11 +80,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /GSEA /background &lt;clusters.XML> /geneSet &lt;geneSet.txt> [/hide.progress /out &lt;out.csv>]
+''' /GSEA /background &lt;clusters.XML> /geneSet &lt;geneSet.txt> [/hide.progress /locus_tag /out &lt;out.csv>]
 ''' ```
+''' Do gene set enrichment analysis.
 ''' </summary>
 '''
-Public Function EnrichmentTest(background As String, geneSet As String, Optional out As String = "", Optional hide_progress As Boolean = False) As Integer
+Public Function EnrichmentTest(background As String, geneSet As String, Optional out As String = "", Optional hide_progress As Boolean = False, Optional locus_tag As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GSEA")
     Call CLI.Append(" ")
     Call CLI.Append("/background " & """" & background & """ ")
@@ -137,6 +95,9 @@ Public Function EnrichmentTest(background As String, geneSet As String, Optional
     End If
     If hide_progress Then
         Call CLI.Append("/hide.progress ")
+    End If
+    If locus_tag Then
+        Call CLI.Append("/locus_tag ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -189,4 +150,3 @@ Public Function CreateKOCluster(uniprot As String, maps As String, Optional out 
 End Function
 End Class
 End Namespace
-
