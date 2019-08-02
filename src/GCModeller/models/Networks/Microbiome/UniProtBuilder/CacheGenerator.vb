@@ -104,7 +104,7 @@ Public Class CacheGenerator
                         .Select(Function(KOid)
                                     ' taxonID KOid acc都是固定的
                                     ' subcellular location可能有些蛋白的注释是空的
-                                    Return taxonID & vbTab & KOid & vbTab & protein.accessions(Scan0) & subCellularLocations.JoinBy("; ")
+                                    Return taxonID & vbTab & KOid & vbTab & protein.accessions(Scan0) & vbTab & subCellularLocations.JoinBy("; ")
                                 End Function) _
                         .JoinBy(KO.NewLine)
                 )

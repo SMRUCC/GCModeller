@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.ProteinModel
 
 Namespace Assembly.Uniprot.XML
 
-    Public Module Extensions
+    <HideModuleName> Public Module Extensions
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
