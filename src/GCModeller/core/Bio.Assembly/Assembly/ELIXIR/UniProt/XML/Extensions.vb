@@ -131,7 +131,8 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <param name="protein"></param>
         ''' <returns></returns>
-        <Extension> Public Function SubCellularLocations(protein As entry) As String()
+        <Extension>
+        Public Function SubCellularLocations(protein As entry) As String()
             Dim cellularComments = protein _
                 .CommentList _
                 .TryGetValue("subcellular location", [default]:={})
