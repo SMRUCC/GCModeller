@@ -114,3 +114,21 @@ Public Class TaxonomyRef : Inherits XmlDataModel
         Return $"[{TaxonID}] {organism.scientificName}"
     End Function
 End Class
+
+Public Class SubCellularLocation
+
+
+End Class
+
+Public Class Location
+
+    ''' <summary>
+    ''' The location name
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    <XmlAttribute>
+    Public Property name As String
+    Public Property enzymes As String()
+
+End Class

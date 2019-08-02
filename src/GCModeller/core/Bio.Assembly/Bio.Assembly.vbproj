@@ -497,6 +497,7 @@
     <Compile Include="Assembly\KEGG\DBGET\KEGGObjects.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\PathwayWebQuery.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Relationship.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\OrthologyTerms.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\KEGGgenomeFetchs.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Drug.vb" />
