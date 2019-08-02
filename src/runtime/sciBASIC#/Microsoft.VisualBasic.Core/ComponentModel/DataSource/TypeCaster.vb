@@ -8,7 +8,7 @@ Namespace ComponentModel.DataSourceModel.Caster
     <HideModuleName> Public Module Extensions
 
         ReadOnly typeCaster As New Dictionary(Of Type, ITypeCaster) From {
-            New StringCaster, New IntegerCaster, New DoubleCaster
+            New StringCaster, New IntegerCaster, New DoubleCaster, New DateCaster
         }
 
         <Extension>
@@ -119,6 +119,25 @@ Namespace ComponentModel.DataSourceModel.Caster
 
         Public Overrides Function ParseObject(str As String) As Object
             Return Double.Parse(str)
+        End Function
+    End Class
+
+    Public Class DateCaster : Inherits TypeCaster(Of Date)
+
+        Public Overrides Function GetBytes(value As Object) As Byte()
+            Return BitConverter.GetBytes(DirectCast(value, Date).ToBinary)
+        End Function
+
+        Public Overrides Function GetString(value As Object) As String
+            Return DirectCast(value, Date).ToString
+        End Function
+
+        Public Overrides Function ToObject(bytes() As Byte) As Object
+            Return Date.FromBinary(BitConverter.ToInt64(bytes, Scan0))
+        End Function
+
+        Public Overrides Function ParseObject(str As String) As Object
+            Return Date.Parse(str)
         End Function
     End Class
 End Namespace

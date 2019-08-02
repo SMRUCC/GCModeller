@@ -77,17 +77,12 @@ Namespace Serialization.BinaryDumping
 
                 If DataFramework.IsPrimitive(type) Then
                     ' 基础类型,直接写入数据
-                    Select Case type
-                        Case GetType(Date)
-                            buffer += BitConverter.GetBytes(DirectCast(value, Date).ToBinary)
-                        Case GetType(String)
-                            buffer += utf8.GetBytes(DirectCast(value, String))
-                        Case GetType(Integer)
-                            buffer += BitConverter.GetBytes(DirectCast(value, Integer))
-                        Case GetType(Long)
-                        Case GetType(Double)
+                    buffer += Caster.GetBytes(type)(value)
+                ElseIf type.IsArray Then
 
-                    End Select
+                Else
+                    ' is a complex object 
+                    buffer += serializeInternal(value, type, visited + value)
                 End If
             Next
 
