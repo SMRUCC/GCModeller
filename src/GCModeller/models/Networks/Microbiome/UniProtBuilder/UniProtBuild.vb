@@ -77,14 +77,14 @@ Public Module UniProtBuild
     End Function
 
     <Extension>
-    Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), export$, Optional ByRef cache As CacheGenerator = Nothing) As TaxonomyRepository
+    Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), export$, Optional all As Boolean = True, Optional ByRef cache As CacheGenerator = Nothing) As TaxonomyRepository
         ' 因为在这里是处理一个非常大的UniProt注释数据库，所以需要首先做一次扫描
         ' 将需要提取的信息先放到缓存之中
         Dim tmp$ = App.GetAppSysTempFile(".cache", App.PID, "metaprofiler_")
         Dim model As TaxonomyRepository
 
         cache = New CacheGenerator(tmp).ScanInternal(UniProtXml)
-        model = ScanModels(cache, export)
+        model = ScanModels(cache, all, export)
 
         Return model
     End Function
@@ -95,7 +95,7 @@ Public Module UniProtBuild
     Private Function createLocation(location As String, proteins As (loc$, info As NamedValue(Of String()))()) As Location
         Return New Location With {
             .name = location,
-            .enzymes = proteins _
+            .proteins = proteins _
                 .Select(Function(id)
                             Return New NamedValue With {
                                 .name = id.info.Name,
@@ -113,7 +113,7 @@ Public Module UniProtBuild
     ''' <param name="export">因为UniProt数据库可能达到1TB的数量级,所以在这里必须要使用这个参数来导出数据文件,否则内存会溢出</param>
     ''' <returns></returns>
     <Extension>
-    Public Function ScanModels(cache As CacheGenerator, export$) As TaxonomyRepository
+    Public Function ScanModels(cache As CacheGenerator, all As Boolean, export$) As TaxonomyRepository
         Dim ko00000 = ko00000Provider()
         Dim organismKO As New Dictionary(Of String, List(Of String))
         Dim proteinInfo As New Dictionary(Of String, List(Of NamedValue(Of String())))
@@ -216,10 +216,12 @@ Public Module UniProtBuild
             }
             Dim refFile$ = repository.StorageReference(refModel.TaxonomyString, relative:=False) & $"/{taxon}.Xml"
 
-            Call repository.taxonomy.Add(taxon, refModel.TaxonomyString)
-            Call refModel _
-                .GetXml _
-                .SaveTo(refFile)
+            If all OrElse refModel.coverage > 0 Then
+                Call repository.taxonomy.Add(taxon, refModel.TaxonomyString)
+                Call refModel _
+                    .GetXml _
+                    .SaveTo(refFile)
+            End If
         Next
 
         Return repository

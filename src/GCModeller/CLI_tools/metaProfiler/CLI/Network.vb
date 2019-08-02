@@ -301,7 +301,7 @@ Partial Module CLI
             out = args("/out") Or (files(Scan0).TrimSuffix & ".taxonomy_ref.json")
             ref = UniProtXML _
                 .EnumerateEntries(files) _
-                .ScanUniProt(out.ParentPath & "/taxonomy_ref", cache)
+                .ScanUniProt(out.ParentPath & "/taxonomy_ref", all:=all, cache:=cache)
 
             If args.IsTrue("/cache") Then
                 Call cache.CopyTo(destination:=out.TrimSuffix)
@@ -310,7 +310,8 @@ Partial Module CLI
             out = args("/out") Or ([in].TrimDIR & ".taxonomy_ref.json")
             ref = UniProtBuild.ScanModels(
                 cache:=New CacheGenerator([in]),
-                export:=out.ParentPath & "/taxonomy_ref"
+                export:=out.ParentPath & "/taxonomy_ref",
+                all:=all
             )
         End If
 

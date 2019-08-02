@@ -145,7 +145,9 @@ Public Class Location
     ''' The protein id list
     ''' </summary>
     ''' <returns></returns>
-    Public Property enzymes As NamedValue()
+    ''' 
+    <XmlElement("protein")>
+    Public Property proteins As NamedValue()
 
     Public Overrides Function ToString() As String
         Return name
