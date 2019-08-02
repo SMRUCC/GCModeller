@@ -1,46 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::3b219bb3cb27079e2bff4ba8c93d428e, Shared\InternalApps_CLI\Apps\KEGG_tools.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    ' Class KEGG_tools
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: FromEnvironment
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
@@ -92,6 +49,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '                                           data as mysql dumps.
 '  /Imports.SSDB:                           
 '  /ko.index.sub.match:                     
+'  /KO.list:                                Export a KO functional id list which all of the gene in
+'                                           this list is involved with the given pathway kgml data.
 '  /Organism.Table:                         
 '  /Pathway.geneIDs:                        
 '  /Query.KO:                               
@@ -131,7 +90,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 '    /Build.Compounds.Repository:             
 '    /Build.Ko.repository:                    
-'    /Build.Reactions.Repository:             
+'    /Build.Reactions.Repository:             Package all of the single reaction model file into one data
+'                                             file for make improvements on the data loading.
 '    /Maps.Repository.Build:                  Union the individual kegg reference pathway map file into
 '                                             one integral database file, usually used for fast loading.
 '    /Pathway.Modules.Build:                  
@@ -249,6 +209,7 @@ End Function
 ''' ```
 ''' /Build.Reactions.Repository /in &lt;directory> [/out &lt;repository.XML>]
 ''' ```
+''' Package all of the single reaction model file into one data file for make improvements on the data loading.
 ''' </summary>
 '''
 Public Function BuildReactionsRepository([in] As String, Optional out As String = "") As Integer
@@ -795,6 +756,30 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /KO.list /kgml &lt;pathway.kgml> [/skip.empty /out &lt;list.csv>]
+''' ```
+''' Export a KO functional id list which all of the gene in this list is involved with the given pathway kgml data.
+''' </summary>
+'''
+Public Function TransmembraneKOlist(kgml As String, Optional out As String = "", Optional skip_empty As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/KO.list")
+    Call CLI.Append(" ")
+    Call CLI.Append("/kgml " & """" & kgml & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If skip_empty Then
+        Call CLI.Append("/skip.empty ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Maps.Repository.Build /imports &lt;directory> [/out &lt;repository.XML>]
 ''' ```
 ''' Union the individual kegg reference pathway map file into one integral database file, usually used for fast loading.
@@ -1166,4 +1151,3 @@ Public Function CreateTABLE(i As String, o As String) As Integer
 End Function
 End Class
 End Namespace
-

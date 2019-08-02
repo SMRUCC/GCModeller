@@ -67,7 +67,7 @@ Namespace ComponentModel.Annotation
         ''' EC编号里面的第一个数字代表酶的分类号
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Type As ClassTypes
+        <XmlAttribute> Public Property Type As EnzymeClasses
 
         ''' <summary>
         ''' 该大类之下的亚分类

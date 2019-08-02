@@ -4,7 +4,7 @@
     ''' The enzyme types enumeration.
     ''' </summary>
     ''' <remarks></remarks>
-    Public Enum ClassTypes
+    Public Enum EnzymeClasses
         ''' <summary>
         ''' Oxido Reductase.(氧化还原酶)
         ''' </summary>

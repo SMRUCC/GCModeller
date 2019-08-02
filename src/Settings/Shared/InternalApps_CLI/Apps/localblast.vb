@@ -1,46 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::277478d7965958802a4492ed2db1ef70, Shared\InternalApps_CLI\Apps\localblast.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    ' Class localblast
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: FromEnvironment
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
@@ -83,6 +40,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Paralog:                          
 '  /SBH.tophits:                      Filtering the sbh result with top SBH Score
 '  /to.kobas:                         
+'  /UniProt.KO.assign:                Assign KO number to query from Uniprot reference sequence database
+'                                     alignment result.
 '  /Whog.XML:                         Converts the whog text file into a XML data file.
 '  --bbh.export:                      Batch export bbh result data from a directory.
 '  --blast.self:                      Query fasta query against itself for paralogs.
@@ -204,7 +163,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /protein.EXPORT:                   Export the protein sequence and save as fasta format from the
 '                                       uniprot database dump XML.
 '    /UniProt.bbh.mappings:             
-'    /UniProt.KO.faa:                   
+'    /UniProt.KO.faa:                   Export all of the protein sequence from the Uniprot database which
+'                                       have KO number been assigned.
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -1519,18 +1479,15 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /SBH.Export.Large /in &lt;blastp_out.txt/directory> [/top.best /trim-kegg /out &lt;sbh.csv> /s.pattern &lt;default=-> /q.pattern &lt;default=-> /identities 0.15 /coverage 0.5 /split]
+''' /SBH.Export.Large /in &lt;blastp_out.txt/directory> [/top.best /trim-kegg /s.pattern &lt;default=-> /q.pattern &lt;default=-> /keeps_raw.queryName /identities 0.15 /coverage 0.5 /split /out &lt;sbh.csv>]
 ''' ```
 ''' Using this command for export the sbh result of your blastp raw data.
 ''' </summary>
 '''
-Public Function ExportBBHLarge([in] As String, Optional out As String = "", Optional s_pattern As String = "-", Optional q_pattern As String = "-", Optional identities As String = "", Optional coverage As String = "", Optional top_best As Boolean = False, Optional trim_kegg As Boolean = False, Optional split As Boolean = False) As Integer
+Public Function ExportSBHLargeSize([in] As String, Optional s_pattern As String = "-", Optional q_pattern As String = "-", Optional identities As String = "", Optional coverage As String = "", Optional out As String = "", Optional top_best As Boolean = False, Optional trim_kegg As Boolean = False, Optional keeps_raw_queryname As Boolean = False, Optional split As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SBH.Export.Large")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
     If Not s_pattern.StringEmpty Then
             Call CLI.Append("/s.pattern " & """" & s_pattern & """ ")
     End If
@@ -1543,11 +1500,17 @@ Public Function ExportBBHLarge([in] As String, Optional out As String = "", Opti
     If Not coverage.StringEmpty Then
             Call CLI.Append("/coverage " & """" & coverage & """ ")
     End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
     If top_best Then
         Call CLI.Append("/top.best ")
     End If
     If trim_kegg Then
         Call CLI.Append("/trim-kegg ")
+    End If
+    If keeps_raw_queryname Then
+        Call CLI.Append("/keeps_raw.queryname ")
     End If
     If split Then
         Call CLI.Append("/split ")
@@ -1757,14 +1720,42 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /UniProt.KO.faa /in &lt;uniprot.xml> [/out &lt;proteins.faa>]
+''' /UniProt.KO.assign /in &lt;query_vs_uniprot.KO.besthit> [/bbh &lt;uniprot_vs_query.KO.besthit> /out &lt;out.KO.csv>]
 ''' ```
+''' Assign KO number to query from Uniprot reference sequence database alignment result.
 ''' </summary>
 '''
-Public Function ExportKOFromUniprot([in] As String, Optional out As String = "") As Integer
+Public Function UniProtKOAssign([in] As String, Optional bbh As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/UniProt.KO.assign")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not bbh.StringEmpty Then
+            Call CLI.Append("/bbh " & """" & bbh & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /UniProt.KO.faa /in &lt;uniprot.xml> [/lineBreak &lt;default=120> /out &lt;proteins.faa>]
+''' ```
+''' Export all of the protein sequence from the Uniprot database which have KO number been assigned.
+''' </summary>
+'''
+Public Function ExportKOFromUniprot([in] As String, Optional linebreak As String = "120", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/UniProt.KO.faa")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not linebreak.StringEmpty Then
+            Call CLI.Append("/linebreak " & """" & linebreak & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -2096,4 +2087,3 @@ Public Function XmlToExcelBatch([in] As String, Optional out As String = "", Opt
 End Function
 End Class
 End Namespace
-

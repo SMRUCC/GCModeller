@@ -161,6 +161,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Membrane_transport.network")>
+    <Description("Construct a relationship network based on the Membrane transportor in bacteria genome")>
     <Usage("/Membrane_transport.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> /Membrane_transport <Membrane_transport.csv> [/out <network.directory>]")>
     Public Function Membrane_transportNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/metagenome"
@@ -274,7 +275,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Metagenome.UniProt.Ref")>
-    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /out <out.json>]")>
+    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /all /out <out.json>]")>
     <Description("Create background model for apply pathway enrichment analysis of the Metagenome data.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
@@ -283,19 +284,26 @@ Partial Module CLI
     <Argument("/cache", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Debug used only.")>
+    <Argument("/all", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this argument is presented, then all of the genome data will be saved, 
+              includes all of the genome data that have ZERO coverage.")>
     Public Function BuildUniProtReference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$
         Dim ref As TaxonomyRepository
+        Dim all As Boolean = args("/all")
 
         If [in].Contains("|") OrElse [in].FileExists Then
             Dim cache As CacheGenerator = Nothing
             Dim files = [in].Split("|"c)
 
             out = args("/out") Or (files(Scan0).TrimSuffix & ".taxonomy_ref.json")
+            ' 输入时由多个uniprot的XML数据库的Xml文件所构成的
+            ' 这个通常用于组合uniprot_sprot以及uniprot_trembl这两个数据库文件的内容
             ref = UniProtXML _
                 .EnumerateEntries(files) _
-                .ScanUniProt(out.ParentPath & "/taxonomy_ref", cache)
+                .ScanUniProt(out.ParentPath & "/taxonomy_ref", all:=all, cache:=cache)
 
             If args.IsTrue("/cache") Then
                 Call cache.CopyTo(destination:=out.TrimSuffix)
@@ -304,7 +312,8 @@ Partial Module CLI
             out = args("/out") Or ([in].TrimDIR & ".taxonomy_ref.json")
             ref = UniProtBuild.ScanModels(
                 cache:=New CacheGenerator([in]),
-                export:=out.ParentPath & "/taxonomy_ref"
+                export:=out.ParentPath & "/taxonomy_ref",
+                all:=all
             )
         End If
 
