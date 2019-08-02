@@ -174,7 +174,8 @@ Public Module UniProtBuild
                 .genome = New OrthologyTerms With {
                     .Terms = terms
                 },
-                .coverage = annotated / counts(taxon)
+                .coverage = annotated / counts(taxon),
+                .numberOfGenes = counts(taxon)
             }
             Dim refFile$ = repository.StorageReference(refModel.TaxonomyString, relative:=False) & $"/{taxon}.Xml"
 

@@ -275,7 +275,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Metagenome.UniProt.Ref")>
-    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /out <out.json>]")>
+    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /all /out <out.json>]")>
     <Description("Create background model for apply pathway enrichment analysis of the Metagenome data.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
@@ -284,10 +284,15 @@ Partial Module CLI
     <Argument("/cache", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Debug used only.")>
+    <Argument("/all", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this argument is presented, then all of the genome data will be saved, 
+              includes all of the genome data that have ZERO coverage.")>
     Public Function BuildUniProtReference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$
         Dim ref As TaxonomyRepository
+        Dim all As Boolean = args("/all")
 
         If [in].Contains("|") OrElse [in].FileExists Then
             Dim cache As CacheGenerator = Nothing

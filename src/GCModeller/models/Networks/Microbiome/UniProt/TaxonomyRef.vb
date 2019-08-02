@@ -71,6 +71,7 @@ Public Class TaxonomyRef : Inherits XmlDataModel
     ''' <returns></returns>
     <XmlElement>
     Public Property coverage As Double
+    Public Property numberOfGenes As Integer
     Public Property organism As organism
     Public Property genome As OrthologyTerms
 
