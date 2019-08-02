@@ -141,9 +141,13 @@ Namespace Assembly.Uniprot.XML
                 .Select(Function(c)
                             Return c _
                                 .subcellularLocations _
-                                .Select(Function(x)
-                                            Return x.locations _
-                                                .Select(Function(l) l.value)
+                                .SafeQuery _
+                                .Select(Function(loc)
+                                            Return loc.locations _
+                                                .SafeQuery _
+                                                .Select(Function(l)
+                                                            Return l.value
+                                                        End Function)
                                         End Function)
                         End Function) _
                 .IteratesALL _
