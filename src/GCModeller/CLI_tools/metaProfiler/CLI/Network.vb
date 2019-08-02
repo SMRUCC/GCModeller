@@ -161,6 +161,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Membrane_transport.network")>
+    <Description("Construct a relationship network based on the Membrane transportor in bacteria genome")>
     <Usage("/Membrane_transport.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> /Membrane_transport <Membrane_transport.csv> [/out <network.directory>]")>
     Public Function Membrane_transportNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/metagenome"
