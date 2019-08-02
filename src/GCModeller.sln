@@ -22228,8 +22228,8 @@ Global
 		{4CC53061-A48C-475E-A5ED-47A776528965}.docs|x86.Build.0 = Debug|Any CPU
 		{4CC53061-A48C-475E-A5ED-47A776528965}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{4CC53061-A48C-475E-A5ED-47A776528965}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{4CC53061-A48C-475E-A5ED-47A776528965}.GCModeller(Release_X64)|x64.ActiveCfg = Release|Any CPU
-		{4CC53061-A48C-475E-A5ED-47A776528965}.GCModeller(Release_X64)|x64.Build.0 = Release|Any CPU
+		{4CC53061-A48C-475E-A5ED-47A776528965}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
+		{4CC53061-A48C-475E-A5ED-47A776528965}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
 		{4CC53061-A48C-475E-A5ED-47A776528965}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{4CC53061-A48C-475E-A5ED-47A776528965}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
 		{4CC53061-A48C-475E-A5ED-47A776528965}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
