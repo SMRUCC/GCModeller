@@ -74,8 +74,8 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         Dim field As T
         Dim name As String
 
-        Private ReadOnly handleSetValue As Action(Of Object, Object)
-        Private ReadOnly handleGetValue As Func(Of Object, Object)
+        Friend ReadOnly handleSetValue As Action(Of Object, Object)
+        Friend ReadOnly handleGetValue As Func(Of Object, Object)
 
 #Region "Property List"
 
