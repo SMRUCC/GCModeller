@@ -55,6 +55,7 @@ Namespace Serialization.BinaryDumping
             Return Serialization(obj, GetType(T)).ToArray
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Serialization(obj As Object, type As Type) As List(Of Byte)
             ' 为了解决对象之间的循环引用的问题
             Return serializeInternal(obj, type, New Index(Of Object))
@@ -65,7 +66,11 @@ Namespace Serialization.BinaryDumping
             Dim buffer As New List(Of Byte)
 
             For Each prop As KeyValuePair(Of String, PropertyInfo) In readProps
+                type = prop.Value.PropertyType
 
+                If DataFramework.IsPrimitive(type) Then
+                    ' 基础类型,直接写入数据
+                End If
             Next
 
             Return buffer
