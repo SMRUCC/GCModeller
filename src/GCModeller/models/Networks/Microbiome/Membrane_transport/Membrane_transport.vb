@@ -40,7 +40,7 @@ Public Module Membrane_transport
             .Select(Function(enz) enz.EC) _
             .GroupBy(Function(enz) enz.ToString) _
             .Select(Function(enzg) enzg.First) _
-            .Where(Function(enz) enz.Type = ClassTypes.Transferase OrElse enz.Type = ClassTypes.Translocases) _
+            .Where(Function(enz) enz.Type = EnzymeClasses.Transferase OrElse enz.Type = EnzymeClasses.Translocases) _
             .ToArray
         Dim taxonomyColors As LoopArray(Of Color) = ChartColors
         Dim colorTable As New Dictionary(Of String, String)
