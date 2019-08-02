@@ -42,12 +42,17 @@
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 
 Namespace Serialization.BinaryDumping
 
     Public Module BinaryWriter
+
+        ReadOnly utf8 As Encoding = Encodings.UTF8WithoutBOM.CodePage
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
@@ -64,12 +69,25 @@ Namespace Serialization.BinaryDumping
         Private Function serializeInternal(obj As Object, type As Type, ByRef visited As Index(Of Object)) As List(Of Byte)
             Dim readProps As Dictionary(Of String, PropertyInfo) = DataFramework.Schema(type, PropertyAccess.Readable,, nonIndex:=True)
             Dim buffer As New List(Of Byte)
+            Dim value As Object
 
             For Each prop As KeyValuePair(Of String, PropertyInfo) In readProps
                 type = prop.Value.PropertyType
+                value = prop.Value.GetValue(obj, Nothing)
 
                 If DataFramework.IsPrimitive(type) Then
                     ' 基础类型,直接写入数据
+                    Select Case type
+                        Case GetType(Date)
+                            buffer += BitConverter.GetBytes(DirectCast(value, Date).ToBinary)
+                        Case GetType(String)
+                            buffer += utf8.GetBytes(DirectCast(value, String))
+                        Case GetType(Integer)
+                            buffer += BitConverter.GetBytes(DirectCast(value, Integer))
+                        Case GetType(Long)
+                        Case GetType(Double)
+
+                    End Select
                 End If
             Next
 
