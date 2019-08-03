@@ -143,15 +143,15 @@ Public Module Membrane_transport
 
             ' A -> B
             For Each reaction As Reaction In reactions
-                'Dim supports = repo.EvidenceScore(reaction.ID, genome.KOTerms, depth:=3)
+                Dim supports = repo.EvidenceScore(reaction.ID, genome.KOTerms, depth:=1)
 
-                '' 这个代谢反应在当前的基因组中可能不存在
-                '' 则忽略掉
-                'If supports = 0R Then
-                '    Continue For
-                'Else
-                '    Call $"  {reaction.ToString} [supports={supports}]".__DEBUG_ECHO
-                'End If
+                ' 这个代谢反应在当前的基因组中可能不存在
+                ' 则忽略掉
+                If supports = 0R Then
+                    Continue For
+                Else
+                    Call $"  {reaction.ToString} [supports={supports}]".__DEBUG_ECHO
+                End If
 
                 With reaction.ReactionModel
                     For Each compound As String In .Reactants.Where(Function(r) r.ID Like biologicalCompounds).Select(Function(r) r.ID)
@@ -174,7 +174,7 @@ Public Module Membrane_transport
 
                         metabolite = nodeTable(compound)
 
-                        Call addEdge(bacteria, metabolite, reaction.Definition, 1)
+                        Call addEdge(bacteria, metabolite, reaction.Definition, supports)
                     Next
 
                     For Each compound As String In .Products.Where(Function(r) r.ID Like biologicalCompounds).Select(Function(r) r.ID)
@@ -197,7 +197,7 @@ Public Module Membrane_transport
 
                         metabolite = nodeTable(compound)
 
-                        Call addEdge(bacteria, metabolite, reaction.Definition, 1)
+                        Call addEdge(bacteria, metabolite, reaction.Definition, supports)
                     Next
                 End With
             Next
