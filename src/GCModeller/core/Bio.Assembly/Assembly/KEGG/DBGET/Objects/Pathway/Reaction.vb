@@ -107,6 +107,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Pathway As NamedValue()
         <XmlArray("module")>
         Public Property [Module] As NamedValue()
+
+        ''' <summary>
+        ''' KO list
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("orthology")>
         Public Property Orthology As OrthologyTerms
 

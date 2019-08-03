@@ -42,7 +42,7 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports SMRUCC.genomics.Analysis.CRISPR.CRT.Output
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -101,7 +101,7 @@ Module CRISPRPhylogeneticTree
     '''
     <ExportAPI("plasmid.crispr_trim_besthits")>
     Public Function TrimData(data As IEnumerable(Of GenomeScanResult),
-                             cds_Info As IEnumerable(Of GeneDumpInfo),
+                             cds_Info As IEnumerable(Of GeneTable),
                              besthits As SpeciesBesthit,
                              start As String, ends As String) As GenomeScanResult()
         Dim StartAligned = besthits.Hit(start)
@@ -123,8 +123,7 @@ Module CRISPRPhylogeneticTree
                                      subjectTag As String,
                                      start As HitCollection,
                                      ends As HitCollection,
-                                     cdsinfo As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports.GeneDumpInfo)) _
-                                 As SMRUCC.genomics.ComponentModel.Loci.Location
+                                     cdsinfo As IEnumerable(Of GeneTable)) As Location
         Dim left = start.GetHitByTagInfo(subjectTag)
         Dim right = ends.GetHitByTagInfo(subjectTag)
         Dim p As Integer = besthits.IndexOf(start.QueryName)

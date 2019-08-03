@@ -160,26 +160,31 @@ Partial Module CLI
             .CLICode
     End Function
 
+    ''' <summary>
+    ''' 这个只是生成了数据模型,并没有作图
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Membrane_transport.network")>
     <Description("Construct a relationship network based on the Membrane transportor in bacteria genome")>
-    <Usage("/Membrane_transport.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> /Membrane_transport <Membrane_transport.csv> [/out <network.directory>]")>
+    <Usage("/Membrane_transport.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> [/out <network.directory>]")>
     Public Function Membrane_transportNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/metagenome"
         Dim ref As ReactionRepository = ReactionRepository.LoadAuto(args("/ref")).Enzymetic
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
         Dim list$()
         Dim taxonomy As Taxonomy()
-        Dim Membrane_transport = EntityObject.LoadDataSet(args <= "/Membrane_transport").ToArray
-        Dim enzymies As Dictionary(Of String, Enzyme()) = Membrane_transport _
-            .Select(Function(e)
-                        Return New Enzyme(e.ID, e!fullName, e!EC_number)
-                    End Function) _
-            .Where(Function(e) Not e.EC Is Nothing) _
-            .GroupBy(Function(e) e.KO) _
-            .ToDictionary(Function(e) e.Key,
-                          Function(g)
-                              Return g.ToArray
-                          End Function)
+        ' Dim Membrane_transport = EntityObject.LoadDataSet(args <= "/Membrane_transport").ToArray
+        'Dim enzymies As Dictionary(Of String, Enzyme()) = Membrane_transport _
+        '    .Select(Function(e)
+        '                Return New Enzyme(e.ID, e!fullName, e!EC_number)
+        '            End Function) _
+        '    .Where(Function(e) Not e.EC Is Nothing) _
+        '    .GroupBy(Function(e) e.KO) _
+        '    .ToDictionary(Function(e) e.Key,
+        '                  Function(g)
+        '                      Return g.ToArray
+        '                  End Function)
 
         If [in].ExtensionSuffix.ToLower Like biomSuffix Then
             taxonomy = SMRUCC.genomics.foundation.BIOM _
@@ -209,10 +214,10 @@ Partial Module CLI
                        ' 有些基因组的数据是空的？？
                        Return Not g.genome.Terms.IsNullOrEmpty
                    End Function) _
-            .BuildTransferNetwork(repo:=ref, enzymes:=enzymies)
+            .BuildTransferNetwork(repo:=ref)
 
         Return network _
-            .Tabular(properties:={"color", "taxonomy"}) _
+            .Tabular(properties:={"color", "taxonomy", "reaction", "title"}) _
             .Save(out) _
             .CLICode
     End Function

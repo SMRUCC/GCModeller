@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::2d65fa4112acaaac5ec0bceb89d739a7, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module gbExportService
-    ' 
-    '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
-    '                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, ExportGeneFeatures, ExportGeneNtFasta
-    '                   ExportPTTAsDump, GbffToPTT, InvokeExport, LoadGbkSource, TryParseGBKID
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module gbExportService
+' 
+'         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
+'                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, ExportGeneFeatures, ExportGeneNtFasta
+'                   ExportPTTAsDump, GbffToPTT, InvokeExport, LoadGbkSource, TryParseGBKID
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -66,6 +67,63 @@ Namespace Assembly.NCBI.GenBank
     ''' </summary>
     ''' <remarks></remarks>
     Public Module gbExportService
+
+        ''' <summary>
+        ''' Convert a feature site data in the NCBI GenBank file to the dump information table.
+        ''' </summary>
+        ''' <param name="obj">CDS标记的特性字段</param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        ''' 
+        <Extension>
+        Public Function DumpEXPORT(obj As CDS) As GeneTable
+            Dim gene As New GeneTable
+
+            Call obj.TryGetValue("product", gene.CommonName)
+            Call obj.TryGetValue("locus_tag", gene.LocusID)
+            Call obj.TryGetValue("protein_id", gene.ProteinId)
+            Call obj.TryGetValue("gene", gene.GeneName)
+            Call obj.TryGetValue("translation", gene.Translation)
+            Call obj.TryGetValue("function", gene.Function)
+            Call obj.TryGetValue("transl_table", gene.Transl_Table)
+
+            If String.IsNullOrEmpty(gene.LocusID) Then
+                gene.LocusID = gene.ProteinId
+            End If
+            If String.IsNullOrEmpty(gene.LocusID) Then
+                gene.LocusID = (From ref As String
+                                In obj.QueryDuplicated("db_xref")
+                                Let Tokens As String() = ref.Split(CChar(":"))
+                                Where String.Equals(Tokens.First, "PSEUDO")
+                                Select Tokens.Last).FirstOrDefault
+            End If
+
+            gene.GI = obj.db_xref_GI
+            gene.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt
+            gene.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
+            gene.InterPro = obj.db_xref_InterPro
+            gene.GO = obj.db_xref_GO
+            gene.Species = obj.gb.Definition.Value
+            gene.EC_Number = obj.Query(FeatureQualifiers.EC_number)
+            gene.SpeciesAccessionID = obj.gb.Locus.AccessionID
+
+            'If gene.Function.StringEmpty Then
+
+            'End If
+
+            Try
+                gene.Left = obj.Location.ContiguousRegion.Left
+                gene.Right = obj.Location.ContiguousRegion.Right
+                gene.Strand = If(obj.Location.Complement, "-", "+")
+            Catch ex As Exception
+                Dim msg As String = $"{obj.gb.Accession.AccessionId} location data is null!"
+                ex = New Exception(msg)
+                Call VBDebugger.Warning(msg)
+                Call App.LogException(ex)
+            End Try
+
+            Return gene
+        End Function
 
         ''' <summary>
         ''' 尝试去除重复的记录
@@ -268,11 +326,11 @@ Namespace Assembly.NCBI.GenBank
             Return GB
         End Function
 
-        <Extension> Public Function InvokeExport(gbk As GBFF.File, ByRef GeneList As GeneDumpInfo()) As KeyValuePair(Of gbEntryBrief, String)
+        <Extension> Public Function InvokeExport(gbk As GBFF.File, ByRef GeneList As GeneTable()) As KeyValuePair(Of gbEntryBrief, String)
             Dim LQuery = (From FeatureData As Feature
                           In gbk.Features._innerList.AsParallel
                           Where String.Equals(FeatureData.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                          Select GeneDumpInfo.DumpEXPORT(New CDS(FeatureData))).ToArray
+                          Select New CDS(FeatureData).DumpEXPORT).ToArray
             GeneList = LQuery
             Return New KeyValuePair(Of gbEntryBrief, String)(gbEntryBrief.ConvertObject(Of gbEntryBrief)(gbk), gbk.Origin.SequenceData)
         End Function
@@ -287,13 +345,13 @@ Namespace Assembly.NCBI.GenBank
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function BatchExport(list As IEnumerable(Of GBFF.File),
-                                    ByRef GeneList As GeneDumpInfo(),
+                                    ByRef GeneList As GeneTable(),
                                     ByRef GBK As gbEntryBrief(),
                                     FastaExport As String,
                                     Optional FastaWithAnnotation As Boolean = False) As Integer
 
             Dim ExportList As New Dictionary(Of gbEntryBrief, String)
-            Dim GeneChunkList As New List(Of GeneDumpInfo)
+            Dim GeneChunkList As New List(Of GeneTable)
             Dim FastaFile As New FASTA.FastaFile
             Dim PlasmidList As New FASTA.FastaFile
             Dim GeneSequenceList As New FASTA.FastaFile
@@ -304,10 +362,10 @@ Namespace Assembly.NCBI.GenBank
 
             Dim ExportLQuery = (From GBKFF As GBFF.File
                                 In list.AsParallel
-                                Let GenesTempChunk As GeneDumpInfo() = (From FeatureData As Feature
+                                Let GenesTempChunk As GeneTable() = (From FeatureData As Feature
                                                                         In GBKFF.Features._innerList.AsParallel
-                                                                        Where String.Equals(FeatureData.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                                                                        Select GeneDumpInfo.DumpEXPORT(New CDS(FeatureData))).ToArray
+                                                                     Where String.Equals(FeatureData.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
+                                                                     Select New CDS(FeatureData).DumpEXPORT).ToArray
                                 Let Entry = gbEntryBrief.ConvertObject(Of gbEntryBrief)(GBKFF)
                                 Let FastaDump As FASTA.FastaFile =
                                     If(FastaWithAnnotation, __exportWithAnnotation(GenesTempChunk), __exportNoAnnotation(GenesTempChunk))
@@ -364,24 +422,24 @@ Namespace Assembly.NCBI.GenBank
         ''' </summary>
         ''' <param name="gbk"></param>
         ''' <returns></returns>
-        <Extension> Public Function ExportGeneFeatures(gbk As GBFF.File) As GeneDumpInfo()
-            Dim dumps As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
+        <Extension> Public Function ExportGeneFeatures(gbk As GBFF.File) As GeneTable()
+            Dim dumps As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
  _
                 From feature As Feature
                 In gbk.Features._innerList.AsParallel
                 Where String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                Select gene = GeneDumpInfo.DumpEXPORT(New CDS(feature))
+                Select gene = New CDS(feature).DumpEXPORT
                 Order By gene.LocusID Ascending
 
             Return dumps
         End Function
 
-        <Extension> Public Function ExportPTTAsDump(PTT As NCBI.GenBank.TabularFormat.PTT) As GeneDumpInfo()
-            Dim LQuery As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
+        <Extension> Public Function ExportPTTAsDump(PTT As NCBI.GenBank.TabularFormat.PTT) As GeneTable()
+            Dim LQuery As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
  _
                 From gene As GeneBrief
                 In PTT.GeneObjects.AsParallel
-                Select New GeneDumpInfo With {
+                Select New GeneTable With {
                     .CDS = "",
                     .COG = gene.COG,
                     .CommonName = gene.Gene,
@@ -420,12 +478,12 @@ Namespace Assembly.NCBI.GenBank
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function BatchExportPlasmid(list As IEnumerable(Of NCBI.GenBank.GBFF.File),
-                                           ByRef GeneList As GeneDumpInfo(),
+                                           ByRef GeneList As GeneTable(),
                                            ByRef GBK As Plasmid(),
                                            FastaExport As String,
                                            Optional FastaWithAnnotation As Boolean = False) As Integer
             Dim ExportList As New Dictionary(Of Plasmid, String)
-            Dim buf As New List(Of GeneDumpInfo)
+            Dim buf As New List(Of GeneTable)
             Dim FastaFile As New FASTA.FastaFile
             Dim PlasmidList As New FASTA.FastaFile
             Dim GeneSequenceList As New FASTA.FastaFile
@@ -441,7 +499,7 @@ Namespace Assembly.NCBI.GenBank
             Call $"There is ""{Source.Length}"" plasmid source will be export...".__DEBUG_ECHO
 
             For Each gb As GBFF.File In Source
-                Dim cds As GeneDumpInfo() = gb.ExportGeneFeatures
+                Dim cds As GeneTable() = gb.ExportGeneFeatures
                 Dim Entry = NCBI.GenBank.CsvExports.Plasmid.Build(gb)
 
                 Call ExportList.Add(Entry, gb.Origin.SequenceData)
@@ -497,9 +555,9 @@ Namespace Assembly.NCBI.GenBank
             Return ExportList.Count
         End Function
 
-        Private Function __exportNoAnnotation(data As GeneDumpInfo()) As FASTA.FastaFile
+        Private Function __exportNoAnnotation(data As GeneTable()) As FASTA.FastaFile
             Dim LQuery As IEnumerable(Of FASTA.FastaSeq) =
-                From gene As GeneDumpInfo
+                From gene As GeneTable
                 In data.AsParallel
                 Let fa As FASTA.FastaSeq =
                     New FASTA.FastaSeq With {
@@ -510,8 +568,8 @@ Namespace Assembly.NCBI.GenBank
             Return New FASTA.FastaFile(LQuery)
         End Function
 
-        Private Function __exportWithAnnotation(data As GeneDumpInfo()) As FASTA.FastaFile
-            Dim LQuery = From gene As GeneDumpInfo
+        Private Function __exportWithAnnotation(data As GeneTable()) As FASTA.FastaFile
+            Dim LQuery = From gene As GeneTable
                          In data.AsParallel
                          Let attrs As String() = {gene.LocusID, gene.GeneName, gene.GI, gene.CommonName, gene.Function, gene.Species}
                          Select New FASTA.FastaSeq With {
@@ -544,7 +602,7 @@ Namespace Assembly.NCBI.GenBank
             Dim loc As NucleotideLocation = Nothing
             Dim attrs As String() = Nothing
             Dim Sequence As String
-            Dim products As Dictionary(Of GeneDumpInfo) = gb.ExportGeneFeatures.ToDictionary
+            Dim products As Dictionary(Of GeneTable) = gb.ExportGeneFeatures.ToDictionary
 
             Try
                 For Each gene As Feature In (From x As Feature
