@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
@@ -331,9 +332,9 @@ Namespace NCBIBlastResult
             Dim SortHits As GeneTable() =
                 LinqAPI.Exec(Of GeneTable) <= From id As String
                                                  In hits
-                                                 Where ORF.ContainsKey(id)
-                                                 Select _orf = ORF(id)
-                                                 Order By _orf.Left Ascending
+                                              Where ORF.ContainsKey(id)
+                                              Select _orf = ORF(id)
+                                              Order By _orf.Left Ascending
             Dim OrderedHits As String() = SortHits.Select(Function(hit) hit.LocusID)
 
             If OrderedHits.IsNullOrEmpty Then Return New HitRecord() {}
