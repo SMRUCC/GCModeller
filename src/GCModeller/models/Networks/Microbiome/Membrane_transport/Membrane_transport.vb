@@ -30,7 +30,7 @@ Public Module Membrane_transport
     ''' Class label of <see cref="biologicalCompounds"/>
     ''' </summary>
     ReadOnly compoundClass As Dictionary(Of String, String)
-
+    ReadOnly compoundName As Dictionary(Of String, String)
     ReadOnly commonIgnores As Index(Of String) = {"C00002", "C00003", "C00006", "C00010", "C00016", "C00019", ""}
 
     Sub New()
@@ -46,6 +46,12 @@ Public Module Membrane_transport
             .ToDictionary(Function(c) c.Key,
                           Function(g)
                               Return g.Select(Function(c) c.class).Distinct.JoinBy("/")
+                          End Function)
+        compoundName = classInfo _
+            .GroupBy(Function(c) c.entry.Key) _
+            .ToDictionary(Function(c) c.Key,
+                          Function(g)
+                              Return g.First.entry.Value
                           End Function)
         biologicalCompounds = classInfo _
             .Select(Function(cpd) cpd.entry.Key) _
@@ -121,6 +127,7 @@ Public Module Membrane_transport
                               Call g.AddEdge(edge)
                           End If
                       End Sub
+        Dim familyName$
 
         ' 遍历所有的基因组
         For Each genome As TaxonomyRef In metagenome
@@ -129,8 +136,9 @@ Public Module Membrane_transport
                 .JoinBy(";")
 
             If Not nodeTable.ContainsKey(familyLabel) Then
+                familyName = familyLabel.Split(";"c).Where(Function(s) Not s.StringEmpty).Last
                 bacteria = New Node With {
-                    .Label = familyLabel.Split(";"c).Where(Function(s) Not s.StringEmpty).Last,
+                    .Label = familyName,
                     .data = New NodeData With {
                         .label = familyLabel,
                         .origID = genome.taxonID,
@@ -142,7 +150,8 @@ Public Module Membrane_transport
                                 lazyValue:=Function(key)
                                                Return taxonomyColors.Next.ToHtmlColor
                                            End Function)
-                            }
+                            },
+                            {"title", familyName}
                         }
                     }
                 }
@@ -186,7 +195,8 @@ Public Module Membrane_transport
                                     .Properties = New Dictionary(Of String, String) From {
                                         {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"},
                                         {"color", Color.SkyBlue.ToHtmlColor},
-                                        {"taxonomy", compoundClass(compound)}
+                                        {"taxonomy", compoundClass(compound)},
+                                        {"title", compoundName(compound)}
                                     }
                                 }
                             }
@@ -215,7 +225,8 @@ Public Module Membrane_transport
                                     .Properties = New Dictionary(Of String, String) From {
                                         {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"},
                                         {"color", Color.SkyBlue.ToHtmlColor},
-                                        {"taxonomy", compoundClass(compound)}
+                                        {"taxonomy", compoundClass(compound)},
+                                        {"title", compoundName(compound)}
                                     }
                                 }
                             }
