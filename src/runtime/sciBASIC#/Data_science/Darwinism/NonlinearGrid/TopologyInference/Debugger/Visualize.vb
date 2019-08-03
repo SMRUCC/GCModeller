@@ -91,10 +91,6 @@ Public Module Visualize
             Dim c As Double = grid.const.B(i)
             Dim impact As Double = c + factor.vector.Sum
 
-            If grid.direction(i) = 0R Then
-                impact = 0
-            End If
-
             Yield New NamedValue(Of Double) With {
                .Name = factor.name,
                .Value = impact
