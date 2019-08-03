@@ -209,7 +209,7 @@ Partial Module CLI
                        ' 有些基因组的数据是空的？？
                        Return Not g.genome.Terms.IsNullOrEmpty
                    End Function) _
-            .BuildTransferNetwork(repo:=ref, enzymes:=enzymies)
+            .BuildTransferNetwork(repo:=ref)
 
         Return network _
             .Tabular(properties:={"color", "taxonomy"}) _

@@ -29,33 +29,41 @@ Public Module Membrane_transport
         "Cell surface"          ' 细胞表面
     }
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function MembraneComponents(genome As TaxonomyRef) As String()
+        Return genome.subcellular_components.locations _
+            .Where(Function(l)
+                       Return l.name Like membraneTransportComponents
+                   End Function) _
+            .Select(Function(l) l.proteins.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="metagenome"></param>
     ''' <param name="repo"></param>
-    ''' <param name="enzymes">
-    ''' ``{KO => enzyme}``
-    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Function BuildTransferNetwork(metagenome As IEnumerable(Of TaxonomyRef),
                                          repo As ReactionRepository,
-                                         enzymes As Dictionary(Of String, Enzyme()),
                                          Optional ignores As Index(Of String) = Nothing) As NetworkGraph
         Dim g As New NetworkGraph
         Dim reactions As Reaction()
-        Dim ecNumbers As ECNumber() = enzymes.Values _
-            .IteratesALL _
-            .Select(Function(enz) enz.EC) _
-            .GroupBy(Function(enz) enz.ToString) _
-            .Select(Function(enzg) enzg.First) _
-            .Where(Function(enz) enz.Type = EnzymeClasses.Transferase OrElse enz.Type = EnzymeClasses.Translocases) _
-            .ToArray
+        'Dim ecNumbers As ECNumber() = enzymes.Values _
+        '    .IteratesALL _
+        '    .Select(Function(enz) enz.EC) _
+        '    .GroupBy(Function(enz) enz.ToString) _
+        '    .Select(Function(enzg) enzg.First) _
+        '    .Where(Function(enz) enz.Type = EnzymeClasses.Transferase OrElse enz.Type = EnzymeClasses.Translocases) _
+        '    .ToArray
         Dim taxonomyColors As LoopArray(Of Color) = ChartColors
         Dim colorTable As New Dictionary(Of String, String)
 
-        repo = repo.Subset(ecNumbers)
         ignores = ignores Or defaultIgnores
 
         Dim nodeTable As New Dictionary(Of String, Node)
