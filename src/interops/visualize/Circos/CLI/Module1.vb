@@ -44,21 +44,20 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.BioAssemblyExtensions
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
 Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
-Imports gbff = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File
-Imports SMRUCC.genomics.BioAssemblyExtensions
-Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Public Class Anno
     Public Property Name As String
@@ -71,6 +70,7 @@ Public Class Anno
 
     <Column("db_xref (predicted ID)")>
     Public Property db_xref As String
+    Public Property gene As String
     Public Property translation As String
 
 End Class
@@ -79,7 +79,7 @@ Module Module1
 
 
     Private Function convert(anno As Anno) As GeneTable
-        Dim locus_tag$ = anno.db_xref
+        Dim locus_tag$ = anno.db_xref Or anno.gene.AsDefault
         Dim info As New GeneTable With {
             .LocusID = locus_tag,
             .Length = anno.Length,
@@ -105,15 +105,16 @@ Module Module1
 
     Sub Main()
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
-        Dim predictsTable = "P:\essentialgenes\20190803\chr1\1_test_imbalance_0802Chr1_20190723.csv"
-        Dim annotationtable = "P:\essentialgenes\20190803\chr1\1_Chr1 Annotations_20190723.csv"
+        Dim predictsTable = "P:\essentialgenes\20190803\chr1\2_test_imbalance_0802Chr1.csv"
+        Dim annotationtable = "P:\essentialgenes\20190803\chr1\2_Chr1 Annotations.csv"
 
         ' g.Properties.Values.First > 0.9) _
         Dim degPredicts = DataSet.LoadDataSet(predictsTable) _
             .Where(Function(g) True) _
-            .ToDictionary(Function(g) g.ID,
+            .GroupBy(Function(d) d.ID) _
+            .ToDictionary(Function(g) g.Key,
                           Function(g)
-                              Return Val(g!prediction)
+                              Return g.Select(Function(d) Val(d!prediction)).Average
                           End Function)
 
         Dim geneTable = annotationtable.LoadCsv(Of Anno) _
@@ -132,6 +133,9 @@ Module Module1
                     End Function) _
             .Select(Function(anno)
                         Return anno.Values.First()(Scan0).With(Sub(g)
+                                                                   ' 在这里主要是进行标签显示的控制
+                                                                   g.GeneName = g.Function
+
                                                                    If g.COG Like otherFeatures Then
                                                                        g.LocusID = ""
                                                                        g.GeneName = Nothing
@@ -149,7 +153,7 @@ Module Module1
                     End Function) _
             .Where(Function(g) degPredicts.ContainsKey(g.LocusID)) _
             .Select(Function(g)
-                        If degPredicts(g.LocusID) > 0.98 Then
+                        If degPredicts(g.LocusID) > 0.5 Then
                             g.Location = New NucleotideLocation(g.Left, g.Right, Strands.Forward)
                             g.COG = "up"
                         Else
@@ -186,15 +190,18 @@ Module Module1
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(AddressOf convert) _
             .Where(Function(g) g.Species <> "source") _
+            .GroupBy(Function(g) g.LocusID) _
+            .Select(Function(g) g.First) _
             .ToArray
 
         Dim ptt = geneTable.GbffToPTT(size)
 
         degPredicts = EntityObject.LoadDataSet(predictsTable) _
             .Where(Function(g) Val(g!prediction) > 0) _
-            .ToDictionary(Function(g) g.ID,
+            .GroupBy(Function(d) d.ID) _
+            .ToDictionary(Function(g) g.Key,
                           Function(g)
-                              Return Val(g!prediction)
+                              Return g.Select(Function(d) Val(d!prediction)).Average
                           End Function)
 
         Dim keys = degPredicts.Keys.ToArray
@@ -230,7 +237,7 @@ Module Module1
         Call doc.ForceAutoLayout()
         Call Circos.CircosAPI.SetIdeogramRadius(Circos.GetIdeogram(doc), 0.25)
 
-        Call Circos.CircosAPI.WriteData(doc, "P:\essentialgenes\20190803\chr1\1_Chr1 Annotations_20190723\", debug:=False)
+        Call Circos.CircosAPI.WriteData(doc, "P:\essentialgenes\20190803\chr1\2_Chr1 Annotations", debug:=False)
 
 
         Pause()
