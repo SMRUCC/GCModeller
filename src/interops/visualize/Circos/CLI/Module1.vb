@@ -179,7 +179,7 @@ Module Module1
 
         ' 绘制 essential 预测得分曲线
         ' 需要使用这个表对象来获取坐标信息
-        Dim ptt = gb.GbffToPTT(ORF:=False)
+        Dim ptt = geneTable.GbffToPTT(size)
 
         degPredicts = EntityObject.LoadDataSet(predictsTable) _
             .Where(Function(g) Val(g!prediction) > 0) _
