@@ -115,8 +115,7 @@ Public Module Extensions
             .SequenceData = site,
             .Start = hit.pos,
             .Strand = strand,
-            .Ends = right,
-            .Complement = New String(NucleicAcid.Complement(site).Reverse.ToArray)
+            .Ends = right
         }
         Return mastSite
     End Function
