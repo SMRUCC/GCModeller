@@ -16,7 +16,7 @@ Namespace SequenceModel.NucleotideModels
             Else
                 ' reverse
                 reads = contig _
-                    .ReadComplement(Scan0, contig.Length) _
+                    .ReadComplement(1, contig.Length) _
                     .SequenceData _
                     .ToArray
             End If

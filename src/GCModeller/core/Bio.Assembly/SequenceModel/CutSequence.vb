@@ -102,7 +102,7 @@ Namespace SequenceModel
         ''' 将目标序列之中的给定区域的序列剪下，并返回该片段的互补序列
         ''' </summary>
         ''' <param name="seq"></param>
-        ''' <param name="left%"></param>
+        ''' <param name="left">请注意，这个参数是以1为起始的</param>
         ''' <param name="length%"></param>
         ''' <param name="tag$"></param>
         ''' <returns></returns>

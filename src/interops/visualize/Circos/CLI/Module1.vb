@@ -221,7 +221,7 @@ Module Module1
         Call doc.ForceAutoLayout()
         Call Circos.CircosAPI.SetIdeogramRadius(Circos.GetIdeogram(doc), 0.25)
 
-        Call Circos.CircosAPI.WriteData(doc, "P:\deg\A16R\circos", debug:=False)
+        Call Circos.CircosAPI.WriteData(doc, "P:\essentialgenes\20190803\chr1\1_Chr1 Annotations_20190723\", debug:=False)
 
 
         Pause()
