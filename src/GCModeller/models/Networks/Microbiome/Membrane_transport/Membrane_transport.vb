@@ -132,7 +132,7 @@ Public Module Membrane_transport
         ' 遍历所有的基因组
         For Each genome As TaxonomyRef In metagenome
             Dim familyLabel$ = genome.TaxonomyString _
-                .Select(Metagenomics.TaxonomyRanks.Family) _
+                .Select(Metagenomics.TaxonomyRanks.Genus) _
                 .JoinBy(";")
 
             If Not nodeTable.ContainsKey(familyLabel) Then
