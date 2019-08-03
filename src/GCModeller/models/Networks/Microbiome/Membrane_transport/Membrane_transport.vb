@@ -37,14 +37,19 @@ Public Module Membrane_transport
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function MembraneComponents(genome As TaxonomyRef) As String()
-        Return genome.subcellular_components.locations _
-            .Where(Function(l)
-                       Return l.name Like membraneTransportComponents
-                   End Function) _
-            .Select(Function(l) l.proteins.Keys) _
-            .IteratesALL _
-            .Distinct _
-            .ToArray
+        If genome.subcellular_components Is Nothing Then
+            Return {}
+        Else
+            Return genome.subcellular_components.locations _
+                .SafeQuery _
+                .Where(Function(l)
+                           Return l.name Like membraneTransportComponents
+                       End Function) _
+                .Select(Function(l) l.proteins.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End If
     End Function
 
     ''' <summary>
@@ -129,6 +134,10 @@ Public Module Membrane_transport
 
             bacteria = nodeTable(familyLabel)
             reactions = repo.GetByKOMatch(genome.MembraneComponents).ToArray
+
+            If reactions.IsNullOrEmpty Then
+                Call $"{genome.TaxonomyString.ToString} have no membrane located reactions...".Warning
+            End If
 
             ' A -> B
             For Each reaction As Reaction In reactions
