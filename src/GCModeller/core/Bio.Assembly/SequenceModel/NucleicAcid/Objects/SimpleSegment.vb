@@ -75,11 +75,16 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <returns></returns>
         Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
+
         ''' <summary>
         ''' The complements sequence of data <see cref="SequenceData"/>
         ''' </summary>
         ''' <returns></returns>
-        Public Property Complement As String
+        Public ReadOnly Property Complement As String
+            Get
+                Return NucleicAcid.Complement(SequenceData).Reverse.CharString
+            End Get
+        End Property
 
         ''' <summary>
         ''' 获取得到当前的序列片段的长度，这个序列片段的长度值应该是和<see cref="NucleotideLocation.Length"/>值相等的
