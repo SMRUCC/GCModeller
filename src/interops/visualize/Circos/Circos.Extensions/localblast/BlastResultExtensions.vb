@@ -57,7 +57,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype.GeneObjects
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
-Public Module Module1
+Public Module BlastResultExtensions
 
     ''' <summary>
     ''' The blast result alignment will be mapping on the circos plot circle individual as the 
