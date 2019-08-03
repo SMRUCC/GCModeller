@@ -82,6 +82,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Karyotype.GeneObjects
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 Imports ColorPatterns = Microsoft.VisualBasic.Imaging.ColorMap
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 ''' <summary>
 ''' Shoal shell interaction with circos perl program to draw a circle diagram of a bacteria genome.

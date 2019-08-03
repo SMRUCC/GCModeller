@@ -58,6 +58,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports gbff = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File
 Imports SMRUCC.genomics.BioAssemblyExtensions
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Public Class Anno
     Public Property Name As String

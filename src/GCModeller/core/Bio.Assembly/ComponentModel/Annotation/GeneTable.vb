@@ -1,53 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::153755c159ae468adb2cd5600d29d34d, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GeneDumpInfo.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GeneDumpInfo
-    ' 
-    '         Properties: [Function], CDS, COG, CommonName, EC_Number
-    '                     GC_Content, GeneName, GI, GO, InterPro
-    '                     Left, Length, Location, LocusID, ProteinId
-    '                     Right, Species, SpeciesAccessionID, Strand, Transl_Table
-    '                     Translation, UniprotSwissProt, UniprotTrEMBL
-    ' 
-    '         Function: DumpEXPORT, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GeneDumpInfo
+' 
+'         Properties: [Function], CDS, COG, CommonName, EC_Number
+'                     GC_Content, GeneName, GI, GO, InterPro
+'                     Left, Length, Location, LocusID, ProteinId
+'                     Right, Species, SpeciesAccessionID, Strand, Transl_Table
+'                     Translation, UniprotSwissProt, UniprotTrEMBL
+' 
+'         Function: DumpEXPORT, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace ComponentModel.Annotation
@@ -117,61 +116,6 @@ Namespace ComponentModel.Annotation
 
         Public Overrides Function ToString() As String
             Return LocusID & ": " & CommonName
-        End Function
-
-        ''' <summary>
-        ''' Convert a feature site data in the NCBI GenBank file to the dump information table.
-        ''' </summary>
-        ''' <param name="obj">CDS标记的特性字段</param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Shared Function DumpEXPORT(obj As CDS) As GeneTable
-            Dim gene As GeneTable = New GeneTable
-
-            Call obj.TryGetValue("product", gene.CommonName)
-            Call obj.TryGetValue("locus_tag", gene.LocusID)
-            Call obj.TryGetValue("protein_id", gene.ProteinId)
-            Call obj.TryGetValue("gene", gene.GeneName)
-            Call obj.TryGetValue("translation", gene.Translation)
-            Call obj.TryGetValue("function", gene.Function)
-            Call obj.TryGetValue("transl_table", gene.Transl_Table)
-
-            If String.IsNullOrEmpty(gene.LocusID) Then
-                gene.LocusID = gene.ProteinId
-            End If
-            If String.IsNullOrEmpty(gene.LocusID) Then
-                gene.LocusID = (From ref As String
-                                In obj.QueryDuplicated("db_xref")
-                                Let Tokens As String() = ref.Split(CChar(":"))
-                                Where String.Equals(Tokens.First, "PSEUDO")
-                                Select Tokens.Last).FirstOrDefault
-            End If
-
-            gene.GI = obj.db_xref_GI
-            gene.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt
-            gene.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
-            gene.InterPro = obj.db_xref_InterPro
-            gene.GO = obj.db_xref_GO
-            gene.Species = obj.gb.Definition.Value
-            gene.EC_Number = obj.Query(FeatureQualifiers.EC_number)
-            gene.SpeciesAccessionID = obj.gb.Locus.AccessionID
-
-            'If gene.Function.StringEmpty Then
-
-            'End If
-
-            Try
-                gene.Left = obj.Location.ContiguousRegion.Left
-                gene.Right = obj.Location.ContiguousRegion.Right
-                gene.Strand = If(obj.Location.Complement, "-", "+")
-            Catch ex As Exception
-                Dim msg As String = $"{obj.gb.Accession.AccessionId} location data is null!"
-                ex = New Exception(msg)
-                Call VBDebugger.Warning(msg)
-                Call App.LogException(ex)
-            End Try
-
-            Return gene
         End Function
     End Class
 End Namespace

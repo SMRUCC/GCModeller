@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::2d65fa4112acaaac5ec0bceb89d739a7, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module gbExportService
-    ' 
-    '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
-    '                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, ExportGeneFeatures, ExportGeneNtFasta
-    '                   ExportPTTAsDump, GbffToPTT, InvokeExport, LoadGbkSource, TryParseGBKID
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module gbExportService
+' 
+'         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
+'                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, ExportGeneFeatures, ExportGeneNtFasta
+'                   ExportPTTAsDump, GbffToPTT, InvokeExport, LoadGbkSource, TryParseGBKID
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -66,6 +67,63 @@ Namespace Assembly.NCBI.GenBank
     ''' </summary>
     ''' <remarks></remarks>
     Public Module gbExportService
+
+        ''' <summary>
+        ''' Convert a feature site data in the NCBI GenBank file to the dump information table.
+        ''' </summary>
+        ''' <param name="obj">CDS标记的特性字段</param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        ''' 
+        <Extension>
+        Public Function DumpEXPORT(obj As CDS) As GeneTable
+            Dim gene As New GeneTable
+
+            Call obj.TryGetValue("product", gene.CommonName)
+            Call obj.TryGetValue("locus_tag", gene.LocusID)
+            Call obj.TryGetValue("protein_id", gene.ProteinId)
+            Call obj.TryGetValue("gene", gene.GeneName)
+            Call obj.TryGetValue("translation", gene.Translation)
+            Call obj.TryGetValue("function", gene.Function)
+            Call obj.TryGetValue("transl_table", gene.Transl_Table)
+
+            If String.IsNullOrEmpty(gene.LocusID) Then
+                gene.LocusID = gene.ProteinId
+            End If
+            If String.IsNullOrEmpty(gene.LocusID) Then
+                gene.LocusID = (From ref As String
+                                In obj.QueryDuplicated("db_xref")
+                                Let Tokens As String() = ref.Split(CChar(":"))
+                                Where String.Equals(Tokens.First, "PSEUDO")
+                                Select Tokens.Last).FirstOrDefault
+            End If
+
+            gene.GI = obj.db_xref_GI
+            gene.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt
+            gene.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
+            gene.InterPro = obj.db_xref_InterPro
+            gene.GO = obj.db_xref_GO
+            gene.Species = obj.gb.Definition.Value
+            gene.EC_Number = obj.Query(FeatureQualifiers.EC_number)
+            gene.SpeciesAccessionID = obj.gb.Locus.AccessionID
+
+            'If gene.Function.StringEmpty Then
+
+            'End If
+
+            Try
+                gene.Left = obj.Location.ContiguousRegion.Left
+                gene.Right = obj.Location.ContiguousRegion.Right
+                gene.Strand = If(obj.Location.Complement, "-", "+")
+            Catch ex As Exception
+                Dim msg As String = $"{obj.gb.Accession.AccessionId} location data is null!"
+                ex = New Exception(msg)
+                Call VBDebugger.Warning(msg)
+                Call App.LogException(ex)
+            End Try
+
+            Return gene
+        End Function
 
         ''' <summary>
         ''' 尝试去除重复的记录
@@ -272,7 +330,7 @@ Namespace Assembly.NCBI.GenBank
             Dim LQuery = (From FeatureData As Feature
                           In gbk.Features._innerList.AsParallel
                           Where String.Equals(FeatureData.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                          Select GeneTable.DumpEXPORT(New CDS(FeatureData))).ToArray
+                          Select New CDS(FeatureData).DumpEXPORT).ToArray
             GeneList = LQuery
             Return New KeyValuePair(Of gbEntryBrief, String)(gbEntryBrief.ConvertObject(Of gbEntryBrief)(gbk), gbk.Origin.SequenceData)
         End Function
@@ -306,8 +364,8 @@ Namespace Assembly.NCBI.GenBank
                                 In list.AsParallel
                                 Let GenesTempChunk As GeneTable() = (From FeatureData As Feature
                                                                         In GBKFF.Features._innerList.AsParallel
-                                                                        Where String.Equals(FeatureData.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                                                                        Select GeneTable.DumpEXPORT(New CDS(FeatureData))).ToArray
+                                                                     Where String.Equals(FeatureData.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
+                                                                     Select New CDS(FeatureData).DumpEXPORT).ToArray
                                 Let Entry = gbEntryBrief.ConvertObject(Of gbEntryBrief)(GBKFF)
                                 Let FastaDump As FASTA.FastaFile =
                                     If(FastaWithAnnotation, __exportWithAnnotation(GenesTempChunk), __exportNoAnnotation(GenesTempChunk))
@@ -370,7 +428,7 @@ Namespace Assembly.NCBI.GenBank
                 From feature As Feature
                 In gbk.Features._innerList.AsParallel
                 Where String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                Select gene = GeneTable.DumpEXPORT(New CDS(feature))
+                Select gene = New CDS(feature).DumpEXPORT
                 Order By gene.LocusID Ascending
 
             Return dumps
