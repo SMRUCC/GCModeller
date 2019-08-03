@@ -138,7 +138,7 @@ Namespace SequenceModel
                 Return site
             Else
                 ' 反向的链，则还需要反向互补
-                site.Complement = site.SequenceData
+                ' site.Complement = site.SequenceData
                 site.SequenceData = NucleicAcid.Complement(site.SequenceData) _
                                                .Reverse _
                                                .CharString
@@ -204,7 +204,7 @@ Namespace SequenceModel
                 ' 反向的链，则还需要反向互补
                 With out
 
-                    .Complement = .SequenceData
+                    ' .Complement = .SequenceData
                     .SequenceData = NucleicAcid _
                         .Complement(.SequenceData) _
                         .Reverse _

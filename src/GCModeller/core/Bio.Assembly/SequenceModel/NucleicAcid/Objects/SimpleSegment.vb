@@ -107,7 +107,7 @@ Namespace SequenceModel.NucleotideModels
             Start = loci.Start
             Ends = loci.Ends
             SequenceData = loci.SequenceData
-            Complement = loci.Complement
+            ' Complement = loci.Complement
         End Sub
 
         Sub New(loci As SimpleSegment, sId As String)
