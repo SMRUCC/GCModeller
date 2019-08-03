@@ -98,6 +98,14 @@ Namespace SequenceModel
             }
         End Function
 
+        ''' <summary>
+        ''' 将目标序列之中的给定区域的序列剪下，并返回该片段的互补序列
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <param name="left%"></param>
+        ''' <param name="length%"></param>
+        ''' <param name="tag$"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function ReadComplement(seq As IPolymerSequenceModel, left%, length%, Optional tag$ = Nothing) As SimpleSegment
             Dim cut$ = Mid(seq.SequenceData, left, length)

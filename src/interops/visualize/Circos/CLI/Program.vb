@@ -160,7 +160,7 @@ Module Program
         Return groups.Values.First.First
     End Function
 
-    ReadOnly otherFeatures As Index(Of String) = {"repeat_region", "mobile_element"}
+    Friend ReadOnly otherFeatures As Index(Of String) = {"repeat_region", "mobile_element"}
 
     Sub testPlot2()
         Dim gb = gbff.Load("P:\deg\A16R\Bacillus anthracis str. A16R chromosome, complete genome_NZ_CP001974.2.gb")
