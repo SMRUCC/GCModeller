@@ -8,26 +8,33 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG
 
 Public Module Membrane_transport
 
-    ReadOnly defaultIgnores As New [Default](Of Index(Of String))(
-        {
-            "C00001", "C00002", "C00008", "C00003", "C00006", "C00010", "C00011", "C00105", "C00055", "C00705", "C00458"
-        })
-
     ReadOnly membraneTransportComponents As Index(Of String) = {
-        "Cell inner membrane",  ' 细胞内膜
-        "Cell membrane",        ' 细胞膜
-        "Periplasm",            ' 周质空间
+        "Cell membrane",        ' 细胞膜        
         "Secreted",             ' 细胞分泌
         "Cell outer membrane",  ' 细胞外膜
         "Membrane",             ' 膜
-        "Cell surface"          ' 细胞表面
+        "Cell surface",         ' 细胞表面
+        "Cell inner membrane",  ' 细胞内膜
+        "Periplasm"             ' 周质空间
     }
+
+    ReadOnly biologicalCompounds As Index(Of String)
+
+    Sub New()
+        ' 会忽略掉下面的大类的物质
+        ' Nucleic acids
+        biologicalCompounds = CompoundBrite.GetCompoundsWithBiologicalRoles _
+            .Where(Function(cpd) cpd.class <> "Nucleic acids") _
+            .Select(Function(cpd) cpd.entry.Key) _
+            .ToArray
+    End Sub
 
     ''' <summary>
     ''' 获取所有亚细胞定位在膜结构上的蛋白的KO编号
@@ -59,9 +66,7 @@ Public Module Membrane_transport
     ''' <param name="repo"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function BuildTransferNetwork(metagenome As IEnumerable(Of TaxonomyRef),
-                                         repo As ReactionRepository,
-                                         Optional ignores As Index(Of String) = Nothing) As NetworkGraph
+    Public Function BuildTransferNetwork(metagenome As IEnumerable(Of TaxonomyRef), repo As ReactionRepository) As NetworkGraph
         Dim g As New NetworkGraph
         Dim reactions As Reaction()
         'Dim ecNumbers As ECNumber() = enzymes.Values _
@@ -73,9 +78,6 @@ Public Module Membrane_transport
         '    .ToArray
         Dim taxonomyColors As LoopArray(Of Color) = ChartColors
         Dim colorTable As New Dictionary(Of String, String)
-
-        ignores = ignores Or defaultIgnores
-
         Dim nodeTable As New Dictionary(Of String, Node)
         Dim edgeTable As New Dictionary(Of String, Edge)
         Dim bacteria As Node
@@ -152,7 +154,7 @@ Public Module Membrane_transport
                 'End If
 
                 With reaction.ReactionModel
-                    For Each compound As String In .Reactants.Where(Function(r) Not r.ID Like ignores).Select(Function(r) r.ID)
+                    For Each compound As String In .Reactants.Where(Function(r) r.ID Like biologicalCompounds).Select(Function(r) r.ID)
                         If Not nodeTable.ContainsKey(compound) Then
                             metabolite = New Node With {
                                 .Label = compound,
@@ -175,7 +177,7 @@ Public Module Membrane_transport
                         Call addEdge(bacteria, metabolite, reaction.Definition, 1)
                     Next
 
-                    For Each compound As String In .Products.Where(Function(r) Not r.ID Like ignores).Select(Function(r) r.ID)
+                    For Each compound As String In .Products.Where(Function(r) r.ID Like biologicalCompounds).Select(Function(r) r.ID)
                         If Not nodeTable.ContainsKey(compound) Then
                             metabolite = New Node With {
                                 .Label = compound,

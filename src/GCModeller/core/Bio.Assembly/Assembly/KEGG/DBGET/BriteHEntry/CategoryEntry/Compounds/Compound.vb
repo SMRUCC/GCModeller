@@ -97,6 +97,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <returns></returns>
         Public Property order As String
+        ''' <summary>
+        ''' ``{compoundID => name}``
+        ''' </summary>
+        ''' <returns></returns>
         Public Property entry As KeyValuePair
 
         ''' <summary>
@@ -168,6 +172,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .ToArray
 
             Return id
+        End Function
+
+        Public Shared Function GetCompoundsWithBiologicalRoles() As CompoundBrite()
+            Static satellite As New ResourcesSatellite(GetType(LICENSE))
+
+            Dim htext = BriteHTextParser.Load(satellite.GetString(cpd_br08001))
+            Dim compounds = Build(htext).ToArray
+
+            Return compounds
         End Function
 
         ''' <summary>
