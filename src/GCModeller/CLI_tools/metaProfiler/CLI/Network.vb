@@ -160,6 +160,11 @@ Partial Module CLI
             .CLICode
     End Function
 
+    ''' <summary>
+    ''' 这个只是生成了数据模型,并没有作图
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Membrane_transport.network")>
     <Description("Construct a relationship network based on the Membrane transportor in bacteria genome")>
     <Usage("/Membrane_transport.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> /Membrane_transport <Membrane_transport.csv> [/out <network.directory>]")>
