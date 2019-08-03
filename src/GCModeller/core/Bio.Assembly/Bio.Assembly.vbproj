@@ -591,7 +591,7 @@
     <Compile Include="Assembly\NCBI\Database\COG\COGs\COGTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GBFFFeatureDumps.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GenbankExportInfo.vb" />
-    <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GeneDumpInfo.vb" />
+    <Compile Include="ComponentModel\Annotation\GeneTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbEntry.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbExportService.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\Abstract.vb" />

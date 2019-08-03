@@ -57,6 +57,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
 Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports gbff = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File
+Imports SMRUCC.genomics.BioAssemblyExtensions
 
 Public Class Anno
     Public Property Name As String
@@ -104,8 +105,6 @@ Module Module1
     Sub Main()
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
         Dim predictsTable = "P:\essentialgenes\20190803\chr1\1_test_imbalance_0802Chr1_20190723.csv"
-        Dim nt = gb.Origin.ToFasta
-        Dim size = nt.Length
 
         ' g.Properties.Values.First > 0.9) _
         Dim degPredicts = DataSet.LoadDataSet(predictsTable) _
@@ -115,9 +114,11 @@ Module Module1
                               Return Val(g!prediction)
                           End Function)
 
-        Dim annotations = "P:\essentialgenes\20190803\chr1\1_Chr1 Annotations_20190723.csv".LoadCsv(Of Anno) _
+        Dim geneTable = "P:\essentialgenes\20190803\chr1\1_Chr1 Annotations_20190723.csv".LoadCsv(Of Anno) _
             .Select(AddressOf convert) _
             .Where(Function(g) g.Species <> "source") _
+            .ToArray
+        Dim annotations = geneTable _
             .GroupBy(Function(gene) gene.LocusID) _
             .Select(Function(g)
                         Return g _
@@ -158,7 +159,10 @@ Module Module1
                     End Function) _
             .ToArray
 
-        Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=5120)
+        Dim nt = Assembly.AssembleOriginal(geneTable.Select(Function(g) g.AsSegment))
+        Dim size = nt.Length
+
+        Call Circos.CircosAPI.SetBasicProperty(doc, nt, loophole:=5120)
 
         Dim darkblue As Color = Color.DarkBlue
         Dim darkred As Color = Color.OrangeRed
