@@ -83,6 +83,10 @@ Public Class Resource
         End Using
     End Function
 
+    Public Sub Write()
+
+    End Sub
+
     Public Function GetObject() As Object
 
     End Function

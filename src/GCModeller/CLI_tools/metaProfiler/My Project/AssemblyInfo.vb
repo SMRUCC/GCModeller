@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Metagenome/Microbiome assembly analysis CLI tool")>
 <Assembly: AssemblyCompany("GPL3")>
 <Assembly: AssemblyProduct("GCModeller")>
-<Assembly: AssemblyCopyright("Copyright © SMRUCC 2017")>
+<Assembly: AssemblyCopyright("Copyright © SMRUCC 2019")>
 <Assembly: AssemblyTrademark("metaProfiler")>
 
 <Assembly: ComVisible(False)>

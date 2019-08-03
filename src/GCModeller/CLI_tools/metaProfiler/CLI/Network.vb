@@ -160,25 +160,31 @@ Partial Module CLI
             .CLICode
     End Function
 
+    ''' <summary>
+    ''' 这个只是生成了数据模型,并没有作图
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Membrane_transport.network")>
-    <Usage("/Membrane_transport.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> /Membrane_transport <Membrane_transport.csv> [/out <network.directory>]")>
+    <Description("Construct a relationship network based on the Membrane transportor in bacteria genome")>
+    <Usage("/Membrane_transport.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> [/out <network.directory>]")>
     Public Function Membrane_transportNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/metagenome"
         Dim ref As ReactionRepository = ReactionRepository.LoadAuto(args("/ref")).Enzymetic
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
         Dim list$()
         Dim taxonomy As Taxonomy()
-        Dim Membrane_transport = EntityObject.LoadDataSet(args <= "/Membrane_transport").ToArray
-        Dim enzymies As Dictionary(Of String, Enzyme()) = Membrane_transport _
-            .Select(Function(e)
-                        Return New Enzyme(e.ID, e!fullName, e!EC_number)
-                    End Function) _
-            .Where(Function(e) Not e.EC Is Nothing) _
-            .GroupBy(Function(e) e.KO) _
-            .ToDictionary(Function(e) e.Key,
-                          Function(g)
-                              Return g.ToArray
-                          End Function)
+        ' Dim Membrane_transport = EntityObject.LoadDataSet(args <= "/Membrane_transport").ToArray
+        'Dim enzymies As Dictionary(Of String, Enzyme()) = Membrane_transport _
+        '    .Select(Function(e)
+        '                Return New Enzyme(e.ID, e!fullName, e!EC_number)
+        '            End Function) _
+        '    .Where(Function(e) Not e.EC Is Nothing) _
+        '    .GroupBy(Function(e) e.KO) _
+        '    .ToDictionary(Function(e) e.Key,
+        '                  Function(g)
+        '                      Return g.ToArray
+        '                  End Function)
 
         If [in].ExtensionSuffix.ToLower Like biomSuffix Then
             taxonomy = SMRUCC.genomics.foundation.BIOM _
@@ -208,10 +214,10 @@ Partial Module CLI
                        ' 有些基因组的数据是空的？？
                        Return Not g.genome.Terms.IsNullOrEmpty
                    End Function) _
-            .BuildTransferNetwork(repo:=ref, enzymes:=enzymies)
+            .BuildTransferNetwork(repo:=ref)
 
         Return network _
-            .Tabular(properties:={"color", "taxonomy"}) _
+            .Tabular(properties:={"color", "taxonomy", "reaction", "title"}) _
             .Save(out) _
             .CLICode
     End Function
@@ -274,7 +280,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Metagenome.UniProt.Ref")>
-    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /out <out.json>]")>
+    <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /all /out <out.json>]")>
     <Description("Create background model for apply pathway enrichment analysis of the Metagenome data.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
@@ -283,19 +289,26 @@ Partial Module CLI
     <Argument("/cache", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Debug used only.")>
+    <Argument("/all", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this argument is presented, then all of the genome data will be saved, 
+              includes all of the genome data that have ZERO coverage.")>
     Public Function BuildUniProtReference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$
         Dim ref As TaxonomyRepository
+        Dim all As Boolean = args("/all")
 
         If [in].Contains("|") OrElse [in].FileExists Then
             Dim cache As CacheGenerator = Nothing
             Dim files = [in].Split("|"c)
 
             out = args("/out") Or (files(Scan0).TrimSuffix & ".taxonomy_ref.json")
+            ' 输入时由多个uniprot的XML数据库的Xml文件所构成的
+            ' 这个通常用于组合uniprot_sprot以及uniprot_trembl这两个数据库文件的内容
             ref = UniProtXML _
                 .EnumerateEntries(files) _
-                .ScanUniProt(out.ParentPath & "/taxonomy_ref", cache)
+                .ScanUniProt(out.ParentPath & "/taxonomy_ref", all:=all, cache:=cache)
 
             If args.IsTrue("/cache") Then
                 Call cache.CopyTo(destination:=out.TrimSuffix)
@@ -304,7 +317,8 @@ Partial Module CLI
             out = args("/out") Or ([in].TrimDIR & ".taxonomy_ref.json")
             ref = UniProtBuild.ScanModels(
                 cache:=New CacheGenerator([in]),
-                export:=out.ParentPath & "/taxonomy_ref"
+                export:=out.ParentPath & "/taxonomy_ref",
+                all:=all
             )
         End If
 

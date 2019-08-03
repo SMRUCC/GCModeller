@@ -8,46 +8,98 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG
 
 Public Module Membrane_transport
 
-    ReadOnly defaultIgnores As New [Default](Of Index(Of String))(
-        {
-            "C00001", "C00002", "C00008", "C00003", "C00006", "C00010", "C00011", "C00105", "C00055", "C00705", "C00458"
-        })
+    ReadOnly membraneTransportComponents As Index(Of String) = {
+        "Cell membrane",        ' 细胞膜        
+        "Secreted",             ' 细胞分泌
+        "Cell outer membrane",  ' 细胞外膜
+        "Membrane",             ' 膜
+        "Cell surface",         ' 细胞表面
+        "Cell inner membrane",  ' 细胞内膜
+        "Periplasm"             ' 周质空间
+    }
+
+    ReadOnly biologicalCompounds As Index(Of String)
+    ''' <summary>
+    ''' Class label of <see cref="biologicalCompounds"/>
+    ''' </summary>
+    ReadOnly compoundClass As Dictionary(Of String, String)
+    ReadOnly compoundName As Dictionary(Of String, String)
+    ReadOnly commonIgnores As Index(Of String) = {"C00002", "C00003", "C00006", "C00010", "C00016", "C00019", ""}
+
+    Sub New()
+        ' 会忽略掉下面的大类的物质
+        ' Nucleic acids
+        Dim classInfo = CompoundBrite.GetCompoundsWithBiologicalRoles _
+            .Where(Function(cpd) cpd.class <> "Nucleic acids") _
+            .JoinIterates(CompoundBrite.GetLipids) _
+            .ToArray
+
+        compoundClass = classInfo _
+            .GroupBy(Function(c) c.entry.Key) _
+            .ToDictionary(Function(c) c.Key,
+                          Function(g)
+                              Return g.Select(Function(c) c.class).Distinct.JoinBy("/")
+                          End Function)
+        compoundName = classInfo _
+            .GroupBy(Function(c) c.entry.Key) _
+            .ToDictionary(Function(c) c.Key,
+                          Function(g)
+                              Return g.First.entry.Value
+                          End Function)
+        biologicalCompounds = classInfo _
+            .Select(Function(cpd) cpd.entry.Key) _
+            .ToArray
+    End Sub
+
+    ''' <summary>
+    ''' 获取所有亚细胞定位在膜结构上的蛋白的KO编号
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function MembraneComponents(genome As TaxonomyRef) As String()
+        If genome.subcellular_components Is Nothing Then
+            Return {}
+        Else
+            Return genome.subcellular_components.locations _
+                .SafeQuery _
+                .Where(Function(l)
+                           Return l.name Like membraneTransportComponents
+                       End Function) _
+                .Select(Function(l) l.proteins.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End If
+    End Function
 
     ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="metagenome"></param>
     ''' <param name="repo"></param>
-    ''' <param name="enzymes">
-    ''' ``{KO => enzyme}``
-    ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function BuildTransferNetwork(metagenome As IEnumerable(Of TaxonomyRef),
-                                         repo As ReactionRepository,
-                                         enzymes As Dictionary(Of String, Enzyme()),
-                                         Optional ignores As Index(Of String) = Nothing) As NetworkGraph
+    Public Function BuildTransferNetwork(metagenome As IEnumerable(Of TaxonomyRef), repo As ReactionRepository) As NetworkGraph
         Dim g As New NetworkGraph
         Dim reactions As Reaction()
-        Dim ecNumbers As ECNumber() = enzymes.Values _
-            .IteratesALL _
-            .Select(Function(enz) enz.EC) _
-            .GroupBy(Function(enz) enz.ToString) _
-            .Select(Function(enzg) enzg.First) _
-            .Where(Function(enz) enz.Type = ClassTypes.Transferase OrElse enz.Type = ClassTypes.Translocases) _
-            .ToArray
+        'Dim ecNumbers As ECNumber() = enzymes.Values _
+        '    .IteratesALL _
+        '    .Select(Function(enz) enz.EC) _
+        '    .GroupBy(Function(enz) enz.ToString) _
+        '    .Select(Function(enzg) enzg.First) _
+        '    .Where(Function(enz) enz.Type = EnzymeClasses.Transferase OrElse enz.Type = EnzymeClasses.Translocases) _
+        '    .ToArray
         Dim taxonomyColors As LoopArray(Of Color) = ChartColors
         Dim colorTable As New Dictionary(Of String, String)
-
-        repo = repo.Subset(ecNumbers)
-        ignores = ignores Or defaultIgnores
-
         Dim nodeTable As New Dictionary(Of String, Node)
         Dim edgeTable As New Dictionary(Of String, Edge)
         Dim bacteria As Node
@@ -55,14 +107,15 @@ Public Module Membrane_transport
 
         ' genome -> compound -> genome
 
-        Dim addEdge = Sub(a As Node, b As Node, ecNumber$, supports#)
+        Dim addEdge = Sub(a As Node, b As Node, ecNumber$, supports#, direction$)
                           Dim edge As New Edge With {
                               .U = a,
                               .V = b,
                               .isDirected = True,
                               .data = New EdgeData With {
                                   .Properties = New Dictionary(Of String, String) From {
-                                      {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, ecNumber}
+                                      {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, direction},
+                                      {"reaction", ecNumber}
                                   },
                                   .weight = supports
                               },
@@ -74,20 +127,18 @@ Public Module Membrane_transport
                               Call g.AddEdge(edge)
                           End If
                       End Sub
+        Dim familyName$
 
         ' 遍历所有的基因组
         For Each genome As TaxonomyRef In metagenome
-            ' 得到相交的跨膜转运蛋白
-            Dim transporters = enzymes.Takes(genome.KOTerms) _
-                .IteratesALL _
-                .ToArray
             Dim familyLabel$ = genome.TaxonomyString _
-                .Select(Metagenomics.TaxonomyRanks.Family) _
+                .Select(Metagenomics.TaxonomyRanks.Genus) _
                 .JoinBy(";")
 
             If Not nodeTable.ContainsKey(familyLabel) Then
+                familyName = familyLabel.Split(";"c).Where(Function(s) Not s.StringEmpty).Last
                 bacteria = New Node With {
-                    .Label = familyLabel.Split(";"c).Where(Function(s) Not s.StringEmpty).Last,
+                    .Label = familyName,
                     .data = New NodeData With {
                         .label = familyLabel,
                         .origID = genome.taxonID,
@@ -99,7 +150,8 @@ Public Module Membrane_transport
                                 lazyValue:=Function(key)
                                                Return taxonomyColors.Next.ToHtmlColor
                                            End Function)
-                            }
+                            },
+                            {"title", familyName}
                         }
                     }
                 }
@@ -109,72 +161,85 @@ Public Module Membrane_transport
             End If
 
             bacteria = nodeTable(familyLabel)
+            reactions = repo.GetByKOMatch(genome.MembraneComponents).ToArray
 
-            For Each enzyme As Enzyme In transporters
-                reactions = enzyme.Selects(repo) _
-                    .Values _
-                    .ToArray
+            If reactions.IsNullOrEmpty Then
+                Call $"{genome.TaxonomyString.ToString} have no membrane located reactions...".Warning
+            End If
 
-                ' A -> B
-                For Each reaction As Reaction In reactions
-                    Dim supports = repo.EvidenceScore(reaction.ID, genome.KOTerms, depth:=3)
+            ' A -> B
+            For Each reaction As Reaction In reactions
+                Dim supports = repo.EvidenceScore(reaction.ID, genome.KOTerms, depth:=1)
 
-                    ' 这个代谢反应在当前的基因组中可能不存在
-                    ' 则忽略掉
-                    If supports = 0R Then
-                        Continue For
-                    Else
-                        Call $"  {reaction.ToString} [supports={supports}]".__DEBUG_ECHO
-                    End If
+                ' 这个代谢反应在当前的基因组中可能不存在
+                ' 则忽略掉
+                If supports = 0R Then
+                    Continue For
+                Else
+                    Call $"  {reaction.ToString} [supports={supports}]".__DEBUG_ECHO
+                End If
 
-                    With reaction.ReactionModel
-                        For Each compound As String In .Reactants.Where(Function(r) Not r.ID Like ignores).Select(Function(r) r.ID)
-                            If Not nodeTable.ContainsKey(compound) Then
-                                metabolite = New Node With {
-                                    .Label = compound,
-                                    .data = New NodeData With {
-                                        .label = compound,
-                                        .origID = compound,
-                                        .Properties = New Dictionary(Of String, String) From {
-                                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"},
-                                            {"color", Color.SkyBlue.ToHtmlColor}
-                                        }
+                With reaction.ReactionModel
+                    For Each compound As String In .Reactants _
+                                                   .Where(Function(r)
+                                                              Return r.ID Like biologicalCompounds AndAlso Not r.ID Like commonIgnores
+                                                          End Function) _
+                                                   .Select(Function(r) r.ID)
+
+                        If Not nodeTable.ContainsKey(compound) Then
+                            metabolite = New Node With {
+                                .Label = compound,
+                                .data = New NodeData With {
+                                    .label = compound,
+                                    .origID = compound,
+                                    .Properties = New Dictionary(Of String, String) From {
+                                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"},
+                                        {"color", Color.SkyBlue.ToHtmlColor},
+                                        {"taxonomy", compoundClass(compound)},
+                                        {"title", compoundName(compound)}
                                     }
                                 }
+                            }
 
-                                Call nodeTable.Add(compound, metabolite)
-                                Call g.AddNode(metabolite)
-                            End If
+                            Call nodeTable.Add(compound, metabolite)
+                            Call g.AddNode(metabolite)
+                        End If
 
-                            metabolite = nodeTable(compound)
+                        metabolite = nodeTable(compound)
 
-                            Call addEdge(bacteria, metabolite, enzyme.EC.ToString, supports)
-                        Next
+                        Call addEdge(metabolite, bacteria, reaction.Definition, supports, "uptake")
+                    Next
 
-                        For Each compound As String In .Products.Where(Function(r) Not r.ID Like ignores).Select(Function(r) r.ID)
-                            If Not nodeTable.ContainsKey(compound) Then
-                                metabolite = New Node With {
-                                    .Label = compound,
-                                    .data = New NodeData With {
-                                        .label = compound,
-                                        .origID = compound,
-                                        .Properties = New Dictionary(Of String, String) From {
-                                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"},
-                                            {"color", Color.SkyBlue.ToHtmlColor}
-                                        }
+                    For Each compound As String In .Products _
+                                                   .Where(Function(r)
+                                                              Return r.ID Like biologicalCompounds AndAlso Not r.ID Like commonIgnores
+                                                          End Function) _
+                                                   .Select(Function(r) r.ID)
+
+                        If Not nodeTable.ContainsKey(compound) Then
+                            metabolite = New Node With {
+                                .Label = compound,
+                                .data = New NodeData With {
+                                    .label = compound,
+                                    .origID = compound,
+                                    .Properties = New Dictionary(Of String, String) From {
+                                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"},
+                                        {"color", Color.SkyBlue.ToHtmlColor},
+                                        {"taxonomy", compoundClass(compound)},
+                                        {"title", compoundName(compound)}
                                     }
                                 }
+                            }
 
-                                Call nodeTable.Add(compound, metabolite)
-                                Call g.AddNode(metabolite)
-                            End If
+                            Call nodeTable.Add(compound, metabolite)
+                            Call g.AddNode(metabolite)
+                        End If
 
-                            metabolite = nodeTable(compound)
+                        metabolite = nodeTable(compound)
 
-                            Call addEdge(bacteria, metabolite, enzyme.EC.ToString, supports)
-                        Next
-                    End With
-                Next
+                        Call addEdge(bacteria, metabolite, reaction.Definition, supports, "excrete")
+                    Next
+                End With
             Next
 
             Call genome.ToString.__INFO_ECHO

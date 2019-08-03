@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.ProteinModel
 
 Namespace Assembly.Uniprot.XML
 
-    Public Module Extensions
+    <HideModuleName> Public Module Extensions
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
@@ -131,7 +131,8 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <param name="protein"></param>
         ''' <returns></returns>
-        <Extension> Public Function SubCellularLocations(protein As entry) As String()
+        <Extension>
+        Public Function SubCellularLocations(protein As entry) As String()
             Dim cellularComments = protein _
                 .CommentList _
                 .TryGetValue("subcellular location", [default]:={})
@@ -140,9 +141,13 @@ Namespace Assembly.Uniprot.XML
                 .Select(Function(c)
                             Return c _
                                 .subcellularLocations _
-                                .Select(Function(x)
-                                            Return x.locations _
-                                                .Select(Function(l) l.value)
+                                .SafeQuery _
+                                .Select(Function(loc)
+                                            Return loc.locations _
+                                                .SafeQuery _
+                                                .Select(Function(l)
+                                                            Return l.value
+                                                        End Function)
                                         End Function)
                         End Function) _
                 .IteratesALL _

@@ -1,46 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::221128bf699f955173f5036701435bfe, Shared\InternalApps_CLI\Apps\Excel.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    ' Class Excel
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: FromEnvironment
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
@@ -68,11 +25,14 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /Association:     
+'  /association:     
 '  /fill.zero:       
+'  /name.values:     
 '  /Print:           Print the csv/xlsx file content onto the console screen or text file in table layout.
 '  /removes:         Removes row or column data by given regular expression pattern.
-'  /Subtract:        
+'  /subtract:        Performing ``a - b`` subtract by row unique id.
+'  /takes:           Takes specific rows by a given row id list.
+'  /transpose:       
 ' 
 ' 
 ' API list that with functional grouping
@@ -80,11 +40,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 1. Comma-Separated Values CLI Helpers
 ' 
 ' 
-'    /Cbind:           Join of two table by a unique ID.
+'    /cbind:           Join of two table by a unique ID.
 '    /rbind:           Row bind(merge tables directly) of the csv tables
 '    /rbind.group:     
 '    /union:           
-'    /Unique:          Helper tools for make the ID column value uniques.
+'    /unique:          Helper tools for make the ID column value uniques.
 ' 
 ' 
 ' 2. Microsoft Xlsx File CLI Tools
@@ -123,12 +83,12 @@ Public Class Excel : Inherits InteropService
 
 ''' <summary>
 ''' ```
-''' /Association /a &lt;a.csv> /b &lt;dataset.csv> [/column.A &lt;scan0> /out &lt;out.csv>]
+''' /association /a &lt;a.csv> /b &lt;dataset.csv> [/column.A &lt;scan0> /out &lt;out.csv>]
 ''' ```
 ''' </summary>
 '''
 Public Function Association(a As String, b As String, Optional column_a As String = "", Optional out As String = "") As Integer
-    Dim CLI As New StringBuilder("/Association")
+    Dim CLI As New StringBuilder("/association")
     Call CLI.Append(" ")
     Call CLI.Append("/a " & """" & a & """ ")
     Call CLI.Append("/b " & """" & b & """ ")
@@ -246,6 +206,31 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /name.values /in &lt;table.csv> /name &lt;fieldName> /value &lt;fieldName> [/describ &lt;descriptionInfo.fieldName, default=Description> /out &lt;values.csv>]
+''' ```
+''' </summary>
+'''
+Public Function NameValues([in] As String, name As String, value As String, Optional describ As String = "Description", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/name.values")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/name " & """" & name & """ ")
+    Call CLI.Append("/value " & """" & value & """ ")
+    If Not describ.StringEmpty Then
+            Call CLI.Append("/describ " & """" & describ & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Print /in &lt;table.csv/xlsx> [/sheet &lt;sheetName> /out &lt;device/txt>]
 ''' ```
 ''' Print the csv/xlsx file content onto the console screen or text file in table layout.
@@ -295,15 +280,18 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /rbind /in &lt;*.csv.DIR> [/out &lt;EXPORT.csv>]
+''' /rbind /in &lt;*.csv.DIR> [/order_by &lt;column_name> /out &lt;EXPORT.csv>]
 ''' ```
 ''' Row bind(merge tables directly) of the csv tables
 ''' </summary>
 '''
-Public Function rbind([in] As String, Optional out As String = "") As Integer
+Public Function rbind([in] As String, Optional order_by As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/rbind")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not order_by.StringEmpty Then
+            Call CLI.Append("/order_by " & """" & order_by & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -361,15 +349,61 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Subtract /a &lt;data.csv> /b &lt;data.csv> [/out &lt;subtract.csv>]
+''' /subtract /a &lt;data.csv> /b &lt;data.csv> [/out &lt;subtract.csv>]
 ''' ```
+''' Performing ``a - b`` subtract by row unique id.
 ''' </summary>
 '''
 Public Function Subtract(a As String, b As String, Optional out As String = "") As Integer
-    Dim CLI As New StringBuilder("/Subtract")
+    Dim CLI As New StringBuilder("/subtract")
     Call CLI.Append(" ")
     Call CLI.Append("/a " & """" & a & """ ")
     Call CLI.Append("/b " & """" & b & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /takes /in &lt;data.csv> /id &lt;id.list> [/reverse /out &lt;takes.csv>]
+''' ```
+''' Takes specific rows by a given row id list.
+''' </summary>
+'''
+Public Function Takes([in] As String, id As String, Optional out As String = "", Optional reverse As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/takes")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/id " & """" & id & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If reverse Then
+        Call CLI.Append("/reverse ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /transpose /in &lt;data.csv> [/out &lt;data.transpose.csv>]
+''' ```
+''' </summary>
+'''
+Public Function Transpose([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/transpose")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -386,7 +420,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Union([in] As String, Optional tag_field As String = "", Optional out As String = "") As Integer
+Public Function [Union]([in] As String, Optional tag_field As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/union")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -405,13 +439,13 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Unique /in &lt;dataset.csv> [/out &lt;out.csv>]
+''' /unique /in &lt;dataset.csv> [/out &lt;out.csv>]
 ''' ```
 ''' Helper tools for make the ID column value uniques.
 ''' </summary>
 '''
 Public Function Unique([in] As String, Optional out As String = "") As Integer
-    Dim CLI As New StringBuilder("/Unique")
+    Dim CLI As New StringBuilder("/unique")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
@@ -425,4 +459,3 @@ Public Function Unique([in] As String, Optional out As String = "") As Integer
 End Function
 End Class
 End Namespace
-
