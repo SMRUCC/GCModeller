@@ -48,10 +48,9 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
-Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 
-Namespace Assembly.NCBI.GenBank.CsvExports
+Namespace ComponentModel.Annotation
 
     ''' <summary>
     ''' The gene dump information from the NCBI genbank.
