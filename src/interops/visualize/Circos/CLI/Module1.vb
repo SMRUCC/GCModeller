@@ -106,6 +106,7 @@ Module Module1
     Sub Main()
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
         Dim predictsTable = "P:\essentialgenes\20190803\chr1\1_test_imbalance_0802Chr1_20190723.csv"
+        Dim annotationtable = "P:\essentialgenes\20190803\chr1\1_Chr1 Annotations_20190723.csv"
 
         ' g.Properties.Values.First > 0.9) _
         Dim degPredicts = DataSet.LoadDataSet(predictsTable) _
@@ -115,7 +116,7 @@ Module Module1
                               Return Val(g!prediction)
                           End Function)
 
-        Dim geneTable = "P:\essentialgenes\20190803\chr1\1_Chr1 Annotations_20190723.csv".LoadCsv(Of Anno) _
+        Dim geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(AddressOf convert) _
             .Where(Function(g) g.Species <> "source") _
             .ToArray
@@ -179,6 +180,14 @@ Module Module1
 
         ' 绘制 essential 预测得分曲线
         ' 需要使用这个表对象来获取坐标信息
+
+        ' 因为在前面代码中已经修改过信息
+        ' 所以在这里需要重新读取一次
+        geneTable = annotationtable.LoadCsv(Of Anno) _
+            .Select(AddressOf convert) _
+            .Where(Function(g) g.Species <> "source") _
+            .ToArray
+
         Dim ptt = geneTable.GbffToPTT(size)
 
         degPredicts = EntityObject.LoadDataSet(predictsTable) _
