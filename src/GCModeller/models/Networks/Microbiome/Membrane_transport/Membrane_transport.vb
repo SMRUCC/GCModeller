@@ -207,7 +207,7 @@ Public Module Membrane_transport
 
                         metabolite = nodeTable(compound)
 
-                        Call addEdge(bacteria, metabolite, reaction.Definition, supports, "uptake")
+                        Call addEdge(metabolite, bacteria, reaction.Definition, supports, "uptake")
                     Next
 
                     For Each compound As String In .Products _
