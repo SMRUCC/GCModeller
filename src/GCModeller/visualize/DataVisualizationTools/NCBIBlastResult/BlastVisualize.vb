@@ -275,7 +275,7 @@ Namespace NCBIBlastResult
         <ExportAPI("aligned_table.from_blastoutput")>
         Public Function CreateTableFromBlastOutput(<Parameter("source.dir", "The directory contains the blast output result text file.")> source As String,
                                                    <Parameter("query.id")> QueryID As String,
-                                                   <Parameter("list.cds.info")> CdsInfo As IEnumerable(Of GeneDumpInfo)) As AlignmentTable
+                                                   <Parameter("list.cds.info")> CdsInfo As IEnumerable(Of GeneTable)) As AlignmentTable
             Dim ResourceEntries = (From Entry
                                    In source.LoadSourceEntryList({"*.txt"})
                                    Where InStr(Entry.Key, QueryID, CompareMethod.Text) = 1
@@ -287,7 +287,7 @@ Namespace NCBIBlastResult
                                    Let Output As v228 = TryParse(Entry.Path)
                                    Select Entry.ID,
                                        Output).ToArray
-            Dim ORF As Dictionary(Of String, GeneDumpInfo) =
+            Dim ORF As Dictionary(Of String, GeneTable) =
                 CdsInfo.ToDictionary(Function(g) g.LocusID)
             Dim ChunkBuffer As HitRecord() = LinqAPI.Exec(Of HitRecord) <=
  _
@@ -315,7 +315,7 @@ Namespace NCBIBlastResult
         ''' <param name="Blastoutput"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function __createHits(ORF As Dictionary(Of String, GeneDumpInfo), Blastoutput As v228) As HitRecord()
+        Private Function __createHits(ORF As Dictionary(Of String, GeneTable), Blastoutput As v228) As HitRecord()
             Dim Trim = (From query As Query
                         In Blastoutput.Queries
                         Where Not query.SubjectHits.IsNullOrEmpty
@@ -328,8 +328,8 @@ Namespace NCBIBlastResult
                                            Select From hit As SubjectHit
                                                   In x.SubjectHits
                                                   Select hit.Name
-            Dim SortHits As GeneDumpInfo() =
-                LinqAPI.Exec(Of GeneDumpInfo) <= From id As String
+            Dim SortHits As GeneTable() =
+                LinqAPI.Exec(Of GeneTable) <= From id As String
                                                  In hits
                                                  Where ORF.ContainsKey(id)
                                                  Select _orf = ORF(id)
@@ -338,12 +338,12 @@ Namespace NCBIBlastResult
 
             If OrderedHits.IsNullOrEmpty Then Return New HitRecord() {}
 
-            Dim trimedQuery As New List(Of KeyValuePair(Of GeneDumpInfo, Double)())
+            Dim trimedQuery As New List(Of KeyValuePair(Of GeneTable, Double)())
 
             Dim p_Direction As Integer '方向
             Dim i As Integer
 
-            Dim TempChunk As New List(Of KeyValuePair(Of GeneDumpInfo, Double))
+            Dim TempChunk As New List(Of KeyValuePair(Of GeneTable, Double))
 
             ' 只获取hit的连续片段
             Do While i < Trim.Length
@@ -385,7 +385,7 @@ Namespace NCBIBlastResult
                         Continue For
                     Else '连续的
                         __single = False
-                        TempChunk += New KeyValuePair(Of GeneDumpInfo, Double)(Query.Query, hit.Score.RawScore)
+                        TempChunk += New KeyValuePair(Of GeneTable, Double)(Query.Query, hit.Score.RawScore)
                     End If
 
                     Do While j < Trim.Count  '按照p方向前进，直到断裂为止
@@ -403,7 +403,7 @@ Namespace NCBIBlastResult
 
                         For Each h In Query.SubjectHits '查找匹配
                             If String.Equals(h.Name, currentHit) Then '匹配成功
-                                TempChunk += New KeyValuePair(Of GeneDumpInfo, Double)(Query.Query, h.Score.RawScore)
+                                TempChunk += New KeyValuePair(Of GeneTable, Double)(Query.Query, h.Score.RawScore)
                                 Match = True
                                 Exit For
                             End If
@@ -427,7 +427,7 @@ CONTINUTE:
                     Dim score# = Query.SubjectHits.First.Score.RawScore
 
                     trimedQuery += {
-                        New KeyValuePair(Of GeneDumpInfo, Double)(Query.Query, score)
+                        New KeyValuePair(Of GeneTable, Double)(Query.Query, score)
                     }
                 End If
 
@@ -435,7 +435,7 @@ CONTINUTE:
             Loop
 
             Return LinqAPI.Exec(Of HitRecord) <=
-                From trimedData As KeyValuePair(Of GeneDumpInfo, Double)()
+                From trimedData As KeyValuePair(Of GeneTable, Double)()
                 In trimedQuery
                 Let loci As IEnumerable(Of Integer) =
                     (LinqAPI.MakeList(Of Integer) <= From GeneObject

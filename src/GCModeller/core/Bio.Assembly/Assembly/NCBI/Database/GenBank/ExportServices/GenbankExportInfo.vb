@@ -61,7 +61,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
 #Region "Csv data storage region."
 
         Dim _entryInfo As Microsoft.VisualBasic.ComponentModel.LazyLoader(Of T(), String)
-        Dim _ORFInfo As Microsoft.VisualBasic.ComponentModel.LazyLoader(Of GeneDumpInfo(), String)
+        Dim _ORFInfo As Microsoft.VisualBasic.ComponentModel.LazyLoader(Of GeneTable(), String)
 
         Public Property EntryInfo As T()
             Get
@@ -72,11 +72,11 @@ Namespace Assembly.NCBI.GenBank.CsvExports
             End Set
         End Property
 
-        Public Property ORFInfo As GeneDumpInfo()
+        Public Property ORFInfo As GeneTable()
             Get
                 Return _ORFInfo.Value
             End Get
-            Set(value As GeneDumpInfo())
+            Set(value As GeneTable())
                 _ORFInfo.Value = value
             End Set
         End Property
@@ -104,7 +104,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
 #End Region
 
         Public Delegate Function GenbankEntryInfoLoadMethod(Path As String) As T()
-        Public Delegate Function ORFInfoLoadMethod(Path As String) As GeneDumpInfo()
+        Public Delegate Function ORFInfoLoadMethod(Path As String) As GeneTable()
 
         ''' <summary>
         ''' Repository root for this export source.
@@ -120,7 +120,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
         Sub New(Root As String, GenbankEntryInfoLoad As GenbankEntryInfoLoadMethod, ORFInfoLoad As ORFInfoLoadMethod)
             _root = Root
             _entryInfo = New Microsoft.VisualBasic.ComponentModel.LazyLoader(Of T(), String)(Root & "/genbank.info.csv", Function(path) GenbankEntryInfoLoad(path))
-            _ORFInfo = New Microsoft.VisualBasic.ComponentModel.LazyLoader(Of GeneDumpInfo(), String)(Root & "/genbank.orf.csv", Function(path) ORFInfoLoad(path))
+            _ORFInfo = New Microsoft.VisualBasic.ComponentModel.LazyLoader(Of GeneTable(), String)(Root & "/genbank.orf.csv", Function(path) ORFInfoLoad(path))
         End Sub
 
         Public ReadOnly Property ORFSource As Dictionary(Of String, String)

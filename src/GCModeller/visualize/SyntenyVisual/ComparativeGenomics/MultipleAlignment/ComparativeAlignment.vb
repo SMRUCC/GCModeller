@@ -292,7 +292,7 @@ Namespace ComparativeAlignment
                                                 PTT As String,
                                                 Subject_Fasta As String,
                                                 Query_nt As FASTA.FastaSeq,
-                                                Query_anno As IEnumerable(Of GeneDumpInfo)) As DrawingModel
+                                                Query_anno As IEnumerable(Of GeneTable)) As DrawingModel
 
             Dim bbhFiles = (From item In (From path In Source.LoadSourceEntryList({"*.csv"}).AsParallel
                                           Select ID = path.Key, pathValue = path.Value,

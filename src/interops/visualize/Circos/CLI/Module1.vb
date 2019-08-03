@@ -77,9 +77,9 @@ End Class
 Module Module1
 
 
-    Private Function convert(anno As Anno) As GeneDumpInfo
+    Private Function convert(anno As Anno) As GeneTable
         Dim locus_tag$ = anno.db_xref
-        Dim info As New GeneDumpInfo With {
+        Dim info As New GeneTable With {
             .LocusID = locus_tag,
             .Length = anno.Length,
             .Left = anno.Minimum,

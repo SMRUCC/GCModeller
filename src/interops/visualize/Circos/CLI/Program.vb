@@ -98,9 +98,9 @@ Module Program
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 
-    Private Function convert(anno As EntityObject) As GeneDumpInfo
+    Private Function convert(anno As EntityObject) As GeneTable
         Dim locus_tag$ = anno!locus_tag
-        Dim info As New GeneDumpInfo With {
+        Dim info As New GeneTable With {
             .LocusID = locus_tag,
             .Length = anno!Length.Match("\d+"),
             .Left = anno!Minimum.Match("\d+"),
@@ -125,7 +125,7 @@ Module Program
     End Function
 
     <Extension>
-    Private Function pickAnno(groups As Dictionary(Of String, GeneDumpInfo())) As GeneDumpInfo
+    Private Function pickAnno(groups As Dictionary(Of String, GeneTable())) As GeneTable
         If groups.ContainsKey("CDS") Then
             Return groups("CDS").First
         End If

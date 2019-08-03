@@ -281,7 +281,7 @@ RETURN_VALUE:
         <ExportAPI("Export.Besthits", Info:="Batch export the bbh result")>
         Public Function ExportBidirectionalBesthit(Source As IEnumerable(Of AlignEntry),
                                                    <Parameter("CDS.All.Dump", "Lazy loading task.")>
-                                                   CDSAll As Task(Of String, Dictionary(Of String, GeneDumpInfo)),
+                                                   CDSAll As Task(Of String, Dictionary(Of String, GeneTable)),
                                                    <Parameter("DIR.EXPORT")> EXPORT As String,
                                                    <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As SpeciesBesthit()
             Return ExportBidirectionalBesthit(Source, EXPORT, CDSAll.GetValue, TrimNull)
@@ -300,7 +300,7 @@ RETURN_VALUE:
         Public Function ExportBidirectionalBesthit(Source As IEnumerable(Of AlignEntry),
                                                    <Parameter("Dir.Export")> EXPORT As String,
                                                    <Parameter("CDS.All.Dump")>
-                                                   Optional CDSInfo As Dictionary(Of String, GeneDumpInfo) = Nothing,
+                                                   Optional CDSInfo As Dictionary(Of String, GeneTable) = Nothing,
                                                    <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As SpeciesBesthit()
 
             Dim Files = (From path As AlignEntry

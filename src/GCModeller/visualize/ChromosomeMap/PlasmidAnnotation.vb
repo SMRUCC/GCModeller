@@ -165,14 +165,14 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("export.as_ncbi_annotation")>
-    Public Shared Function ExportAnnotations(data As IEnumerable(Of PlasmidAnnotation)) As GeneDumpInfo()
-        Return LinqAPI.Exec(Of GeneDumpInfo) _
+    Public Shared Function ExportAnnotations(data As IEnumerable(Of PlasmidAnnotation)) As GeneTable()
+        Return LinqAPI.Exec(Of GeneTable) _
  _
             () <= From item As PlasmidAnnotation
                   In data
                   Where Not String.IsNullOrEmpty(item.Protein)
                   Let gc As Double = GC_Content(New NucleicAcid(item.GeneNA).ToArray)
-                  Select New GeneDumpInfo With {
+                  Select New GeneTable With {
                       .CDS = item.GeneNA,
                       .GC_Content = gc,
                       .COG = item.COG_NO,

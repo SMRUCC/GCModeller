@@ -65,8 +65,8 @@ Namespace Output
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("conserved.removes")>
-        Public Function RemoveConserved(besthit As SpeciesBesthit, CDSInfo As IEnumerable(Of GeneDumpInfo), data As GenomeScanResult) As GenomeScanResult
-            Dim ORF = (From pro As GeneDumpInfo
+        Public Function RemoveConserved(besthit As SpeciesBesthit, CDSInfo As IEnumerable(Of GeneTable), data As GenomeScanResult) As GenomeScanResult
+            Dim ORF = (From pro As GeneTable
                        In CDSInfo
                        Select pro
                        Group By pro.LocusID Into Group) _
@@ -76,7 +76,7 @@ Namespace Output
             Return RemoveConserved(besthit, ORF, data)
         End Function
 
-        Public Function RemoveConserved(besthit As SpeciesBesthit, ORF As Dictionary(Of String, GeneDumpInfo), data As GenomeScanResult) As GenomeScanResult
+        Public Function RemoveConserved(besthit As SpeciesBesthit, ORF As Dictionary(Of String, GeneTable), data As GenomeScanResult) As GenomeScanResult
             Dim ConservedRegions = besthit.GetConservedRegions
             Dim LQuery = (From ls As String()
                           In ConservedRegions
@@ -125,7 +125,7 @@ Namespace Output
         ''' <remarks></remarks>
         <ExportAPI("batch.trim_conserved",
                    Info:="Please make sure the filename is the same between the scan_source folder and besthit_source folder!! or the result file will not be proceeded.")>
-        Public Function BatchTrimConserved(scan$, besthit_source$, CDS_info As IEnumerable(Of GeneDumpInfo), EXPORT$) As GenomeScanResult()
+        Public Function BatchTrimConserved(scan$, besthit_source$, CDS_info As IEnumerable(Of GeneTable), EXPORT$) As GenomeScanResult()
             Dim ScanningResults = (From path
                                    In scan.LoadSourceEntryList("*.xml")
                                    Let CRISPR = path.Value.LoadXml(Of GenomeScanResult)()
@@ -136,7 +136,7 @@ Namespace Output
                                    Let bh = path.Value.LoadXml(Of SpeciesBesthit)()
                                    Select path,
                                        besthit = bh).ToDictionary(Function(x) x.path.Key)
-            Dim ORF = (From g As GeneDumpInfo
+            Dim ORF = (From g As GeneTable
                        In CDS_info
                        Select g
                        Group By g.LocusID Into Group) _

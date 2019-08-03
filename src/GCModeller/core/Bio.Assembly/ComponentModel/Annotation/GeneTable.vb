@@ -58,7 +58,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
     ''' (从GBK文件之中所导出来的一个基因对象的简要信息，尝试使用这个对象以csv表格的格式存储一个基因的所有的注释信息)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GeneDumpInfo
+    Public Class GeneTable
         Implements INamedValue
         Implements IGeneBrief
 
@@ -126,8 +126,8 @@ Namespace Assembly.NCBI.GenBank.CsvExports
         ''' <param name="obj">CDS标记的特性字段</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function DumpEXPORT(obj As CDS) As GeneDumpInfo
-            Dim gene As GeneDumpInfo = New GeneDumpInfo
+        Public Shared Function DumpEXPORT(obj As CDS) As GeneTable
+            Dim gene As GeneTable = New GeneTable
 
             Call obj.TryGetValue("product", gene.CommonName)
             Call obj.TryGetValue("locus_tag", gene.LocusID)

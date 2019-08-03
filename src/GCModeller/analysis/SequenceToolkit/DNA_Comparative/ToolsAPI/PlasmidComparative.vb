@@ -59,9 +59,9 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Public Module PlasmidComparative
 
     <ExportAPI("Plasmid.Partitioning")>
-    Public Function PlasmidPartitioning(Besthits As SpeciesBesthit, CdsInfo As IEnumerable(Of GeneDumpInfo), Fasta As FastaSeq) As PartitioningData()
+    Public Function PlasmidPartitioning(Besthits As SpeciesBesthit, CdsInfo As IEnumerable(Of GeneTable), Fasta As FastaSeq) As PartitioningData()
         Dim ConservedRegions = Besthits.GetConservedRegions
-        Dim ORF = (From gene As GeneDumpInfo
+        Dim ORF = (From gene As GeneTable
                    In CdsInfo
                    Select gene
                    Group By gene.LocusID Into Group) _
@@ -76,7 +76,7 @@ Public Module PlasmidComparative
                                                  In Regions
                                                  Let pos As Integer() = (From id As String
                                                                          In ls
-                                                                         Let nn As GeneDumpInfo = ORF(id)
+                                                                         Let nn As GeneTable = ORF(id)
                                                                          Select {nn.Left, nn.Right}).ToVector
                                                  Let left As Integer = pos.Min
                                                  Let right As Integer = pos.Max

@@ -64,7 +64,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Public Module BioAssemblyExtensions
 
     <Extension>
-    Public Function AsSegment(gene As GeneDumpInfo) As SimpleSegment
+    Public Function AsSegment(gene As GeneTable) As SimpleSegment
         Return New SimpleSegment With {
             .Ends = gene.Location.Right,
             .Start = gene.Location.Left,

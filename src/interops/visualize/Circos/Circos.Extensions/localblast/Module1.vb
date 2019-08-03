@@ -163,14 +163,14 @@ Public Module Module1
                  Optional splitOverlaps As Boolean = False,
                  Optional dumpAll As Boolean = False) As Configurations.Circos
 
-        Dim dump As GeneDumpInfo() = FeatureDumps(gbk, dumpAll:=dumpAll)
+        Dim dump As GeneTable() = FeatureDumps(gbk, dumpAll:=dumpAll)
         Dim hash = (From x As MyvaCOG
                     In COGs
                     Select x
                     Group x By x.QueryName Into Group) _
                         .ToDictionary(Function(x) x.QueryName,
                                       Function(x) x.Group.First)
-        For Each x As GeneDumpInfo In dump
+        For Each x As GeneTable In dump
             If hash.ContainsKey(x.LocusID) Then
                 x.COG = hash(x.LocusID).COG
             End If

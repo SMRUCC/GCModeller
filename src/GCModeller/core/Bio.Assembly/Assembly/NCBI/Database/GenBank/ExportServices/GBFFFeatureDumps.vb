@@ -64,7 +64,7 @@ Namespace Assembly.NCBI.GenBank
         <Extension>
         Public Function FeatureDumps(gb As GBFF.File,
                                      Optional features As String() = Nothing,
-                                     Optional dumpAll As Boolean = False) As GeneDumpInfo()
+                                     Optional dumpAll As Boolean = False) As GeneTable()
             If dumpAll Then
                 Dim fs As Feature() =
                     LinqAPI.Exec(Of Feature) <= From x As Feature
@@ -76,7 +76,7 @@ Namespace Assembly.NCBI.GenBank
 
             If features Is Nothing Then features = {"5'UTR", "CDS", "regulatory", "misc_feature", "3'UTR"}
 
-            Dim result As New List(Of GeneDumpInfo)
+            Dim result As New List(Of GeneTable)
 
             For Each feature As String In features
                 Dim fs As Feature() = gb.Features.ListFeatures(feature)
@@ -88,8 +88,8 @@ Namespace Assembly.NCBI.GenBank
 
 #Region "Dump Methods"
 
-        Dim _dumpMethods As Dictionary(Of String, Func(Of Feature(), GeneDumpInfo())) =
-            New Dictionary(Of String, Func(Of Feature(), GeneDumpInfo())) From {
+        Dim _dumpMethods As Dictionary(Of String, Func(Of Feature(), GeneTable())) =
+            New Dictionary(Of String, Func(Of Feature(), GeneTable())) From {
                 {"5'UTR", AddressOf __dump5UTRs},
                 {"3'UTR", AddressOf __dump3UTRs},
                 {"CDS", AddressOf __dumpCDS},
@@ -97,10 +97,10 @@ Namespace Assembly.NCBI.GenBank
                 {"misc_feature", AddressOf __dumpMiscFeature}
         }
 
-        Private Function __dumpMiscFeature(features As Feature()) As GeneDumpInfo()
-            Dim dump As GeneDumpInfo() =
-                LinqAPI.Exec(Of Feature, GeneDumpInfo)(features) <=
-                    Function(feature As Feature) New GeneDumpInfo With {
+        Private Function __dumpMiscFeature(features As Feature()) As GeneTable()
+            Dim dump As GeneTable() =
+                LinqAPI.Exec(Of Feature, GeneTable)(features) <=
+                    Function(feature As Feature) New GeneTable With {
                         .COG = "misc_feature",
                         .Function = feature("note"),
                         .CommonName = feature("note"),
@@ -114,9 +114,9 @@ Namespace Assembly.NCBI.GenBank
             Return dump
         End Function
 
-        Private Function __dumpRegulatory(features As Feature()) As GeneDumpInfo()
-            Dim dump As GeneDumpInfo() = features.Select(
-                Function(feature) New GeneDumpInfo With {
+        Private Function __dumpRegulatory(features As Feature()) As GeneTable()
+            Dim dump As GeneTable() = features.Select(
+                Function(feature) New GeneTable With {
                     .COG = "regulatory",
                     .Function = feature("regulatory_class"),
                     .CommonName = feature("note"),
@@ -131,9 +131,9 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         <Extension>
-        Private Function __dumpCDS(features As Feature()) As GeneDumpInfo()
-            Dim dump As GeneDumpInfo() = features.Select(
-                Function(feature) New GeneDumpInfo With {
+        Private Function __dumpCDS(features As Feature()) As GeneTable()
+            Dim dump As GeneTable() = features.Select(
+                Function(feature) New GeneTable With {
                     .COG = "CDS",
                     .Function = feature("function"),
                     .CommonName = feature("note"),
@@ -147,9 +147,9 @@ Namespace Assembly.NCBI.GenBank
             Return dump
         End Function
 
-        <Extension> Private Function __dump5UTRs(features As Feature()) As GeneDumpInfo()
-            Dim dump As GeneDumpInfo() = features.Select(
-                Function(feature) New GeneDumpInfo With {
+        <Extension> Private Function __dump5UTRs(features As Feature()) As GeneTable()
+            Dim dump As GeneTable() = features.Select(
+                Function(feature) New GeneTable With {
                     .COG = "5'UTR",
                     .Function = feature("function"),
                     .CommonName = feature("note"),
@@ -161,9 +161,9 @@ Namespace Assembly.NCBI.GenBank
             Return dump
         End Function
 
-        <Extension> Private Function __dump3UTRs(features As Feature()) As GeneDumpInfo()
-            Dim dump As GeneDumpInfo() = features.Select(
-                Function(feature) New GeneDumpInfo With {
+        <Extension> Private Function __dump3UTRs(features As Feature()) As GeneTable()
+            Dim dump As GeneTable() = features.Select(
+                Function(feature) New GeneTable With {
                     .COG = "3'UTR",
                     .Function = feature("function"),
                     .CommonName = feature("note"),

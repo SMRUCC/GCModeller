@@ -268,11 +268,11 @@ Namespace Assembly.NCBI.GenBank
             Return GB
         End Function
 
-        <Extension> Public Function InvokeExport(gbk As GBFF.File, ByRef GeneList As GeneDumpInfo()) As KeyValuePair(Of gbEntryBrief, String)
+        <Extension> Public Function InvokeExport(gbk As GBFF.File, ByRef GeneList As GeneTable()) As KeyValuePair(Of gbEntryBrief, String)
             Dim LQuery = (From FeatureData As Feature
                           In gbk.Features._innerList.AsParallel
                           Where String.Equals(FeatureData.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                          Select GeneDumpInfo.DumpEXPORT(New CDS(FeatureData))).ToArray
+                          Select GeneTable.DumpEXPORT(New CDS(FeatureData))).ToArray
             GeneList = LQuery
             Return New KeyValuePair(Of gbEntryBrief, String)(gbEntryBrief.ConvertObject(Of gbEntryBrief)(gbk), gbk.Origin.SequenceData)
         End Function
@@ -287,13 +287,13 @@ Namespace Assembly.NCBI.GenBank
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function BatchExport(list As IEnumerable(Of GBFF.File),
-                                    ByRef GeneList As GeneDumpInfo(),
+                                    ByRef GeneList As GeneTable(),
                                     ByRef GBK As gbEntryBrief(),
                                     FastaExport As String,
                                     Optional FastaWithAnnotation As Boolean = False) As Integer
 
             Dim ExportList As New Dictionary(Of gbEntryBrief, String)
-            Dim GeneChunkList As New List(Of GeneDumpInfo)
+            Dim GeneChunkList As New List(Of GeneTable)
             Dim FastaFile As New FASTA.FastaFile
             Dim PlasmidList As New FASTA.FastaFile
             Dim GeneSequenceList As New FASTA.FastaFile
@@ -304,10 +304,10 @@ Namespace Assembly.NCBI.GenBank
 
             Dim ExportLQuery = (From GBKFF As GBFF.File
                                 In list.AsParallel
-                                Let GenesTempChunk As GeneDumpInfo() = (From FeatureData As Feature
+                                Let GenesTempChunk As GeneTable() = (From FeatureData As Feature
                                                                         In GBKFF.Features._innerList.AsParallel
                                                                         Where String.Equals(FeatureData.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                                                                        Select GeneDumpInfo.DumpEXPORT(New CDS(FeatureData))).ToArray
+                                                                        Select GeneTable.DumpEXPORT(New CDS(FeatureData))).ToArray
                                 Let Entry = gbEntryBrief.ConvertObject(Of gbEntryBrief)(GBKFF)
                                 Let FastaDump As FASTA.FastaFile =
                                     If(FastaWithAnnotation, __exportWithAnnotation(GenesTempChunk), __exportNoAnnotation(GenesTempChunk))
@@ -364,24 +364,24 @@ Namespace Assembly.NCBI.GenBank
         ''' </summary>
         ''' <param name="gbk"></param>
         ''' <returns></returns>
-        <Extension> Public Function ExportGeneFeatures(gbk As GBFF.File) As GeneDumpInfo()
-            Dim dumps As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
+        <Extension> Public Function ExportGeneFeatures(gbk As GBFF.File) As GeneTable()
+            Dim dumps As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
  _
                 From feature As Feature
                 In gbk.Features._innerList.AsParallel
                 Where String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                Select gene = GeneDumpInfo.DumpEXPORT(New CDS(feature))
+                Select gene = GeneTable.DumpEXPORT(New CDS(feature))
                 Order By gene.LocusID Ascending
 
             Return dumps
         End Function
 
-        <Extension> Public Function ExportPTTAsDump(PTT As NCBI.GenBank.TabularFormat.PTT) As GeneDumpInfo()
-            Dim LQuery As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
+        <Extension> Public Function ExportPTTAsDump(PTT As NCBI.GenBank.TabularFormat.PTT) As GeneTable()
+            Dim LQuery As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
  _
                 From gene As GeneBrief
                 In PTT.GeneObjects.AsParallel
-                Select New GeneDumpInfo With {
+                Select New GeneTable With {
                     .CDS = "",
                     .COG = gene.COG,
                     .CommonName = gene.Gene,
@@ -420,12 +420,12 @@ Namespace Assembly.NCBI.GenBank
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function BatchExportPlasmid(list As IEnumerable(Of NCBI.GenBank.GBFF.File),
-                                           ByRef GeneList As GeneDumpInfo(),
+                                           ByRef GeneList As GeneTable(),
                                            ByRef GBK As Plasmid(),
                                            FastaExport As String,
                                            Optional FastaWithAnnotation As Boolean = False) As Integer
             Dim ExportList As New Dictionary(Of Plasmid, String)
-            Dim buf As New List(Of GeneDumpInfo)
+            Dim buf As New List(Of GeneTable)
             Dim FastaFile As New FASTA.FastaFile
             Dim PlasmidList As New FASTA.FastaFile
             Dim GeneSequenceList As New FASTA.FastaFile
@@ -441,7 +441,7 @@ Namespace Assembly.NCBI.GenBank
             Call $"There is ""{Source.Length}"" plasmid source will be export...".__DEBUG_ECHO
 
             For Each gb As GBFF.File In Source
-                Dim cds As GeneDumpInfo() = gb.ExportGeneFeatures
+                Dim cds As GeneTable() = gb.ExportGeneFeatures
                 Dim Entry = NCBI.GenBank.CsvExports.Plasmid.Build(gb)
 
                 Call ExportList.Add(Entry, gb.Origin.SequenceData)
@@ -497,9 +497,9 @@ Namespace Assembly.NCBI.GenBank
             Return ExportList.Count
         End Function
 
-        Private Function __exportNoAnnotation(data As GeneDumpInfo()) As FASTA.FastaFile
+        Private Function __exportNoAnnotation(data As GeneTable()) As FASTA.FastaFile
             Dim LQuery As IEnumerable(Of FASTA.FastaSeq) =
-                From gene As GeneDumpInfo
+                From gene As GeneTable
                 In data.AsParallel
                 Let fa As FASTA.FastaSeq =
                     New FASTA.FastaSeq With {
@@ -510,8 +510,8 @@ Namespace Assembly.NCBI.GenBank
             Return New FASTA.FastaFile(LQuery)
         End Function
 
-        Private Function __exportWithAnnotation(data As GeneDumpInfo()) As FASTA.FastaFile
-            Dim LQuery = From gene As GeneDumpInfo
+        Private Function __exportWithAnnotation(data As GeneTable()) As FASTA.FastaFile
+            Dim LQuery = From gene As GeneTable
                          In data.AsParallel
                          Let attrs As String() = {gene.LocusID, gene.GeneName, gene.GI, gene.CommonName, gene.Function, gene.Species}
                          Select New FASTA.FastaSeq With {
@@ -544,7 +544,7 @@ Namespace Assembly.NCBI.GenBank
             Dim loc As NucleotideLocation = Nothing
             Dim attrs As String() = Nothing
             Dim Sequence As String
-            Dim products As Dictionary(Of GeneDumpInfo) = gb.ExportGeneFeatures.ToDictionary
+            Dim products As Dictionary(Of GeneTable) = gb.ExportGeneFeatures.ToDictionary
 
             Try
                 For Each gene As Feature In (From x As Feature

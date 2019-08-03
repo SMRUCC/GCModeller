@@ -117,7 +117,7 @@ Namespace Analysis
         Public Function Match(<Parameter("MEME.Xml", "The xml file path of the meme program output.")> MEMEXml As String,
                               <Parameter("MAST.html", "The HTML file path of the mast output.")> MASTHtml As String,
                               <Parameter("Os.Fasta.Path", "The fasta file path of the bacteria whole genome nucleotide sequence data.")> Genome As String,
-                              <Parameter("CDS.Info")> CDSInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
+                              <Parameter("CDS.Info")> CDSInfo As IEnumerable(Of GeneTable)) As VirtualFootprints()
 
             Dim MEME = MEMEXml.LoadXml(Of XmlOutput.MEME.MEME)().ToMEMEHtml
             Dim GenomeFasta As FASTA.FastaSeq = FASTA.FastaSeq.Load(Genome)
@@ -299,7 +299,7 @@ Namespace Analysis
         Private Function __match(meme As MEME.HTML.MEMEHtml,
                                  masthtml As String,
                                  genome As SequenceModel.FASTA.FastaSeq,
-                                 cdsInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
+                                 cdsInfo As IEnumerable(Of GeneTable)) As VirtualFootprints()
             Try
                 Return ____match(meme, masthtml, genome, cdsInfo)
             Catch ex As Exception
@@ -314,14 +314,14 @@ Namespace Analysis
         Private Function ____match(meme As MEME.HTML.MEMEHtml,
                                    masthtml As String,
                                    genome As SequenceModel.FASTA.FastaSeq,
-                                   cdsInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
+                                   cdsInfo As IEnumerable(Of GeneTable)) As VirtualFootprints()
 
             Dim MAST = DocumentFormat.MAST.HTML.LoadDocument_v410(masthtml, False)
             Dim result = DocumentFormat.MAST.HTML.MatchMEMEAndMast(meme, MAST)
             Dim Footprints As VirtualFootprints() = (
                 From motif As MEMEOutput
                 In result
-                Select __createMotifSiteInfo(Of GeneDumpInfo)(
+                Select __createMotifSiteInfo(Of GeneTable)(
                     motif, genome, GeneBriefInformation:=cdsInfo)).ToArray.ToVector
 
             Return Footprints

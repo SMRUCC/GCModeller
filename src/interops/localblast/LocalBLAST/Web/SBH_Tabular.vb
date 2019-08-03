@@ -66,7 +66,7 @@ Namespace NCBIBlastResult
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Alignment.Table.From.bbh.Orthologous")>
-        Public Function CreateFromBBHOrthologous(QueryID As String, sbhDIR As String, <Parameter("Query.Info")> queryInfo As IEnumerable(Of GeneDumpInfo)) As AlignmentTable
+        Public Function CreateFromBBHOrthologous(QueryID As String, sbhDIR As String, <Parameter("Query.Info")> queryInfo As IEnumerable(Of GeneTable)) As AlignmentTable
             Dim Entries = (From path As KeyValuePair(Of String, String)
                            In sbhDIR.LoadSourceEntryList({"*.csv"})
                            Let Log As AlignEntry = LogNameParser(path.Value)
@@ -93,13 +93,13 @@ Namespace NCBIBlastResult
                            query.LogEntry,
                            bbhData).ToArray
 
-            Dim queryDict As Dictionary(Of GeneDumpInfo) = queryInfo.ToDictionary
+            Dim queryDict As Dictionary(Of GeneTable) = queryInfo.ToDictionary
             Dim hits As HitRecord() =
                 LinqAPI.Exec(Of HitRecord) <= From genome
                                               In BBH
                                               Select From gene As BiDirectionalBesthit
                                                      In genome.bbhData
-                                                     Let QueryGene As GeneDumpInfo = queryDict(gene.QueryName)
+                                                     Let QueryGene As GeneTable = queryDict(gene.QueryName)
                                                      Select New HitRecord With {
                                                          .Identity = gene.Identities,
                                                          .QueryStart = QueryGene.Left,
