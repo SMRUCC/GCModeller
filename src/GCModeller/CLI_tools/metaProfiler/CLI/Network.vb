@@ -217,7 +217,7 @@ Partial Module CLI
             .BuildTransferNetwork(repo:=ref)
 
         Return network _
-            .Tabular(properties:={"color", "taxonomy"}) _
+            .Tabular(properties:={"color", "taxonomy", "reaction"}) _
             .Save(out) _
             .CLICode
     End Function

@@ -174,10 +174,18 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return id
         End Function
 
+        Public Shared Function GetLipids() As CompoundBrite()
+            Return GetInformation(cpd_br08002)
+        End Function
+
         Public Shared Function GetCompoundsWithBiologicalRoles() As CompoundBrite()
+            Return GetInformation(cpd_br08001)
+        End Function
+
+        Private Shared Function GetInformation(resourceName As String) As CompoundBrite()
             Static satellite As New ResourcesSatellite(GetType(LICENSE))
 
-            Dim htext = BriteHTextParser.Load(satellite.GetString(cpd_br08001))
+            Dim htext = BriteHTextParser.Load(satellite.GetString(resourceName))
             Dim compounds = Build(htext).ToArray
 
             Return compounds

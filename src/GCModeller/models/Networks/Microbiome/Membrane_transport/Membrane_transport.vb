@@ -26,12 +26,28 @@ Public Module Membrane_transport
     }
 
     ReadOnly biologicalCompounds As Index(Of String)
+    ''' <summary>
+    ''' Class label of <see cref="biologicalCompounds"/>
+    ''' </summary>
+    ReadOnly compoundClass As Dictionary(Of String, String)
+
+    ReadOnly commonIgnores As Index(Of String) = {"C00002", "C00003", "C00006", "C00010", "C00016", "C00019", ""}
 
     Sub New()
         ' 会忽略掉下面的大类的物质
         ' Nucleic acids
-        biologicalCompounds = CompoundBrite.GetCompoundsWithBiologicalRoles _
+        Dim classInfo = CompoundBrite.GetCompoundsWithBiologicalRoles _
             .Where(Function(cpd) cpd.class <> "Nucleic acids") _
+            .JoinIterates(CompoundBrite.GetLipids) _
+            .ToArray
+
+        compoundClass = classInfo _
+            .GroupBy(Function(c) c.entry.Key) _
+            .ToDictionary(Function(c) c.Key,
+                          Function(g)
+                              Return g.Select(Function(c) c.class).Distinct.JoinBy("/")
+                          End Function)
+        biologicalCompounds = classInfo _
             .Select(Function(cpd) cpd.entry.Key) _
             .ToArray
     End Sub
@@ -85,14 +101,15 @@ Public Module Membrane_transport
 
         ' genome -> compound -> genome
 
-        Dim addEdge = Sub(a As Node, b As Node, ecNumber$, supports#)
+        Dim addEdge = Sub(a As Node, b As Node, ecNumber$, supports#, direction$)
                           Dim edge As New Edge With {
                               .U = a,
                               .V = b,
                               .isDirected = True,
                               .data = New EdgeData With {
                                   .Properties = New Dictionary(Of String, String) From {
-                                      {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, ecNumber}
+                                      {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, direction},
+                                      {"reaction", ecNumber}
                                   },
                                   .weight = supports
                               },
@@ -154,7 +171,12 @@ Public Module Membrane_transport
                 End If
 
                 With reaction.ReactionModel
-                    For Each compound As String In .Reactants.Where(Function(r) r.ID Like biologicalCompounds).Select(Function(r) r.ID)
+                    For Each compound As String In .Reactants _
+                                                   .Where(Function(r)
+                                                              Return r.ID Like biologicalCompounds AndAlso Not r.ID Like commonIgnores
+                                                          End Function) _
+                                                   .Select(Function(r) r.ID)
+
                         If Not nodeTable.ContainsKey(compound) Then
                             metabolite = New Node With {
                                 .Label = compound,
@@ -163,7 +185,8 @@ Public Module Membrane_transport
                                     .origID = compound,
                                     .Properties = New Dictionary(Of String, String) From {
                                         {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"},
-                                        {"color", Color.SkyBlue.ToHtmlColor}
+                                        {"color", Color.SkyBlue.ToHtmlColor},
+                                        {"taxonomy", compoundClass(compound)}
                                     }
                                 }
                             }
@@ -174,10 +197,15 @@ Public Module Membrane_transport
 
                         metabolite = nodeTable(compound)
 
-                        Call addEdge(bacteria, metabolite, reaction.Definition, supports)
+                        Call addEdge(bacteria, metabolite, reaction.Definition, supports, "uptake")
                     Next
 
-                    For Each compound As String In .Products.Where(Function(r) r.ID Like biologicalCompounds).Select(Function(r) r.ID)
+                    For Each compound As String In .Products _
+                                                   .Where(Function(r)
+                                                              Return r.ID Like biologicalCompounds AndAlso Not r.ID Like commonIgnores
+                                                          End Function) _
+                                                   .Select(Function(r) r.ID)
+
                         If Not nodeTable.ContainsKey(compound) Then
                             metabolite = New Node With {
                                 .Label = compound,
@@ -186,7 +214,8 @@ Public Module Membrane_transport
                                     .origID = compound,
                                     .Properties = New Dictionary(Of String, String) From {
                                         {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"},
-                                        {"color", Color.SkyBlue.ToHtmlColor}
+                                        {"color", Color.SkyBlue.ToHtmlColor},
+                                        {"taxonomy", compoundClass(compound)}
                                     }
                                 }
                             }
@@ -197,7 +226,7 @@ Public Module Membrane_transport
 
                         metabolite = nodeTable(compound)
 
-                        Call addEdge(bacteria, metabolite, reaction.Definition, supports)
+                        Call addEdge(bacteria, metabolite, reaction.Definition, supports, "excrete")
                     Next
                 End With
             Next
