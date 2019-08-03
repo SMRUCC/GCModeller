@@ -19,6 +19,16 @@ Public Module Membrane_transport
             "C00001", "C00002", "C00008", "C00003", "C00006", "C00010", "C00011", "C00105", "C00055", "C00705", "C00458"
         })
 
+    ReadOnly membraneTransportComponents As Index(Of String) = {
+        "Cell inner membrane",  ' 细胞内膜
+        "Cell membrane",        ' 细胞膜
+        "Periplasm",            ' 周质空间
+        "Secreted",             ' 细胞分泌
+        "Cell outer membrane",  ' 细胞外膜
+        "Membrane",             ' 膜
+        "Cell surface"          ' 细胞表面
+    }
+
     ''' <summary>
     ''' 
     ''' </summary>
