@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::f3882727e5d460216d5a6555457401ac, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module GBFFFeatureDumps
-    ' 
-    '         Function: __dump3UTRs, __dump5UTRs, __dumpCDS, __dumpMiscFeature, __dumpRegulatory
-    '                   FeatureDumps
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module GBFFFeatureDumps
+' 
+'         Function: __dump3UTRs, __dump5UTRs, __dumpCDS, __dumpMiscFeature, __dumpRegulatory
+'                   FeatureDumps
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,8 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Assembly.NCBI.GenBank
@@ -174,5 +176,17 @@ Namespace Assembly.NCBI.GenBank
             Return dump
         End Function
 #End Region
+
+        <Extension>
+        Public Function GbffToPTT(contextInfo As IEnumerable(Of GeneTable), size%, Optional title$ = "Unknown") As PTT
+            Dim genes = contextInfo.Select(Function(context) New GeneBrief).ToArray
+            Dim description As New PTT With {
+                .GeneObjects = genes,
+                .Size = size,
+                .Title = title
+            }
+
+            Return description
+        End Function
     End Module
 End Namespace
