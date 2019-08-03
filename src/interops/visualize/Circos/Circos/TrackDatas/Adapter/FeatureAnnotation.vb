@@ -51,8 +51,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Visualize.Circos.Colors
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
@@ -76,15 +76,15 @@ Namespace TrackDatas
                 .Distinct _
                 .ToArray
             Dim Colors = CircosColor.ColorProfiles(COGVector)
-            Dim setValue = New SetValue(Of GeneDumpInfo) <= NameOf(GeneDumpInfo.LocusID)
-            Dim genes As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
+            Dim setValue = New SetValue(Of GeneTable) <= NameOf(GeneTable.LocusID)
+            Dim genes As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
  _
-            From gene As GeneDumpInfo
+            From gene As GeneTable
             In anno.ExportPTTAsDump
             Select setValue(gene, gene.Function)
 
             Dim highlightLabel As New HighlightLabel(
-            (From gene As GeneDumpInfo
+            (From gene As GeneTable
              In genes
              Where Not String.IsNullOrEmpty(gene.LocusID)
              Select gene).ToArray)
@@ -119,7 +119,7 @@ Namespace TrackDatas
         <ExportAPI("Plots.add.Gene_Circle")>
         <Extension>
         Public Function GenerateGeneCircle(doc As Configurations.Circos,
-                                           anno As IEnumerable(Of GeneDumpInfo),
+                                           anno As IEnumerable(Of GeneTable),
                                            <Parameter("Gene.Name.Only")> Optional onlyGeneName As Boolean = True,
                                            <Parameter("ID.Regex", "Regular expression for parsing the number value in the gene's locus_tag")>
                                            Optional IDregex As String = "",
@@ -133,7 +133,7 @@ Namespace TrackDatas
 
             Dim COGVector$() = LinqAPI.Exec(Of String) <=
  _
-                From gene As GeneDumpInfo
+                From gene As GeneTable
                 In anno
                 Select gene.COG
                 Distinct
@@ -200,15 +200,15 @@ Namespace TrackDatas
         ''' <param name="colors"></param>
         ''' <param name="strands"></param>
         ''' <returns></returns>
-        Private Function __geneHighlights(anno As IEnumerable(Of GeneDumpInfo),
+        Private Function __geneHighlights(anno As IEnumerable(Of GeneTable),
                                       colors As Dictionary(Of String, String),
                                       strands As Strands) As HighLight
-            Dim genes As GeneDumpInfo()
+            Dim genes As GeneTable()
 
             If strands <> Strands.Unknown Then
-                genes = LinqAPI.Exec(Of GeneDumpInfo) <=
+                genes = LinqAPI.Exec(Of GeneTable) <=
  _
-                From gene As GeneDumpInfo
+                From gene As GeneTable
                 In anno
                 Where gene.Location.Strand = strands
                 Select gene
@@ -232,7 +232,7 @@ Namespace TrackDatas
         ''' <returns></returns>
         ''' 
         <Extension>
-        Private Function geneHighlights(anno As IEnumerable(Of GeneDumpInfo),
+        Private Function geneHighlights(anno As IEnumerable(Of GeneTable),
                                       colors As Dictionary(Of String, String),
                                       strands As Strands,
                                       splitOverlaps As Boolean) As HighLight()
@@ -242,11 +242,11 @@ Namespace TrackDatas
             }
             End If
 
-            Dim list As List(Of GeneDumpInfo)
+            Dim list As List(Of GeneTable)
 
             If strands <> Strands.Unknown Then
-                list = LinqAPI.MakeList(Of GeneDumpInfo) <=
-                From gene As GeneDumpInfo
+                list = LinqAPI.MakeList(Of GeneTable) <=
+                From gene As GeneTable
                 In anno
                 Where gene.Location.Strand = strands
                 Select gene
@@ -257,9 +257,9 @@ Namespace TrackDatas
             Dim circles As New List(Of HighLight)
 
             Do While Not list.IsNullOrEmpty
-                Dim genes As New List(Of GeneDumpInfo)
+                Dim genes As New List(Of GeneTable)
 
-                For Each gene As GeneDumpInfo In list.ToArray
+                For Each gene As GeneTable In list.ToArray
                     Dim lquery = (From gg In list
                                   Let r = gene.Location.GetRelationship(gg.Location)
                                   Where Not gg.Equals(gene) AndAlso (
@@ -302,7 +302,7 @@ Namespace TrackDatas
         ''' <param name="snuggleRefine"></param>
         Private Sub addDisplayName(onlyGeneName As Boolean,
                                    IDRegex As String,
-                                   ByRef anno As IEnumerable(Of GeneDumpInfo),
+                                   ByRef anno As IEnumerable(Of GeneTable),
                                    ByRef doc As Configurations.Circos,
                                    snuggleRefine As Boolean)
 
@@ -318,7 +318,7 @@ Namespace TrackDatas
                     getID = Function(ID As String) ID.Split("_"c).Last
                 End If
 
-                anno = LinqAPI.Exec(Of GeneDumpInfo) <= From gene As GeneDumpInfo
+                anno = LinqAPI.Exec(Of GeneTable) <= From gene As GeneTable
                                                         In anno
                                                         Let uid As String = If(
                                                             String.IsNullOrEmpty(gene.GeneName),
@@ -326,16 +326,16 @@ Namespace TrackDatas
                                                             gene.GeneName)
                                                         Select gene.With(Sub(g) g.LocusID = uid)
             Else  ' 仅仅显示基因名称
-                anno = LinqAPI.Exec(Of GeneDumpInfo) <=
-                    From gene As GeneDumpInfo
+                anno = LinqAPI.Exec(Of GeneTable) <=
+                    From gene As GeneTable
                     In anno
                     Select gene.With(Sub(g) g.LocusID = gene.GeneName)
             End If
 
             ' 然后在这里过滤掉目标名称是空值的位点不进行标签的显示
-            Dim LabelGenes As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
+            Dim LabelGenes As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
  _
-                From gene As GeneDumpInfo
+                From gene As GeneTable
                 In anno
                 Where Not String.IsNullOrEmpty(gene.LocusID)
                 Select gene

@@ -1,46 +1,3 @@
-﻿#Region "Microsoft.VisualBasic::fd4d5778640dd8cdfa2da2b4a0241579, Shared\InternalApps_CLI\Apps\metaProfiler.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    ' Class metaProfiler
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: FromEnvironment
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
@@ -75,6 +32,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /hmp.otu_table:                          Export otu table from hmp biom files.
 '  /LefSe.Matrix:                           Processing the relative aboundance matrix to the input format
 '                                           file as it describ: http://huttenhower.sph.harvard.edu/galaxy/root?tool_id=lefse_upload
+'  /Membrane_transport.network:             
 '  /OTU.cluster:                            
 '  /Relative_abundance.barplot:             
 '  /Relative_abundance.stacked.barplot:     
@@ -109,7 +67,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 '    /Metagenome.UniProt.Ref:                 Create background model for apply pathway enrichment analysis
 '                                             of the Metagenome data.
-'    /microbiome.metabolic.network:           
+'    /microbiome.metabolic.network:           Construct a metabolic complementation network between the
+'                                             bacterial genomes from a given taxonomy list.
 '    /microbiome.pathway.profile:             Generates the pathway network profile for the microbiome
 '                                             OTU result based on the KEGG and UniProt reference.
 '    /microbiome.pathway.run.profile:         Build pathway interaction network based on the microbiome
@@ -425,6 +384,29 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /Membrane_transport.network /metagenome &lt;list.txt/OTU.tab/biom> /ref &lt;reaction.repository.XML> /uniprot &lt;repository.json> /Membrane_transport &lt;Membrane_transport.csv> [/out &lt;network.directory>]
+''' ```
+''' </summary>
+'''
+Public Function Membrane_transportNetwork(metagenome As String, ref As String, uniprot As String, Membrane_transport As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Membrane_transport.network")
+    Call CLI.Append(" ")
+    Call CLI.Append("/metagenome " & """" & metagenome & """ ")
+    Call CLI.Append("/ref " & """" & ref & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    Call CLI.Append("/Membrane_transport " & """" & Membrane_transport & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /Metagenome.UniProt.Ref /in &lt;uniprot.ultralarge.xml/cache.directory> [/cache /out &lt;out.json>]
 ''' ```
 ''' Create background model for apply pathway enrichment analysis of the Metagenome data.
@@ -449,16 +431,18 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /microbiome.metabolic.network /metagenome &lt;list.txt/OTU.tab> /ref &lt;reaction.repository.XML> /uniprot &lt;repository.XML> [/out &lt;network.directory>]
+''' /microbiome.metabolic.network /metagenome &lt;list.txt/OTU.tab/biom> /ref &lt;reaction.repository.XML> /uniprot &lt;repository.json> /Membrane_transport &lt;Membrane_transport.csv> [/out &lt;network.directory>]
 ''' ```
+''' Construct a metabolic complementation network between the bacterial genomes from a given taxonomy list.
 ''' </summary>
 '''
-Public Function MetabolicComplementationNetwork(metagenome As String, ref As String, uniprot As String, Optional out As String = "") As Integer
+Public Function MetabolicComplementationNetwork(metagenome As String, ref As String, uniprot As String, Membrane_transport As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/microbiome.metabolic.network")
     Call CLI.Append(" ")
     Call CLI.Append("/metagenome " & """" & metagenome & """ ")
     Call CLI.Append("/ref " & """" & ref & """ ")
     Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    Call CLI.Append("/Membrane_transport " & """" & Membrane_transport & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -748,4 +732,3 @@ Public Function UPGMATree([in] As String, Optional out As String = "") As Intege
 End Function
 End Class
 End Namespace
-

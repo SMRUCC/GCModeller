@@ -48,8 +48,8 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.Visualize.Circos.Colors
@@ -57,7 +57,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype.GeneObjects
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
-Public Module Module1
+Public Module BlastResultExtensions
 
     ''' <summary>
     ''' The blast result alignment will be mapping on the circos plot circle individual as the 
@@ -163,14 +163,14 @@ Public Module Module1
                  Optional splitOverlaps As Boolean = False,
                  Optional dumpAll As Boolean = False) As Configurations.Circos
 
-        Dim dump As GeneDumpInfo() = FeatureDumps(gbk, dumpAll:=dumpAll)
+        Dim dump As GeneTable() = FeatureDumps(gbk, dumpAll:=dumpAll)
         Dim hash = (From x As MyvaCOG
                     In COGs
                     Select x
                     Group x By x.QueryName Into Group) _
                         .ToDictionary(Function(x) x.QueryName,
                                       Function(x) x.Group.First)
-        For Each x As GeneDumpInfo In dump
+        For Each x As GeneTable In dump
             If hash.ContainsKey(x.LocusID) Then
                 x.COG = hash(x.LocusID).COG
             End If

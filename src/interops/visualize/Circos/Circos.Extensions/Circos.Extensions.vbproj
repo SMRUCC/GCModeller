@@ -193,7 +193,7 @@
     <Compile Include="data\DeltaDiff.vb" />
     <Compile Include="ExtensionsAPI.vb" />
     <Compile Include="localblast\BlastMaps.vb" />
-    <Compile Include="localblast\Module1.vb" />
+    <Compile Include="localblast\BlastResultExtensions.vb" />
     <Compile Include="localblast\DataExtensions.vb" />
     <Compile Include="localblast\Legends.vb" />
     <Compile Include="localblast\PPTMarksHelper.vb" />

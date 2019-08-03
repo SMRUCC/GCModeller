@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder
@@ -91,9 +91,9 @@ Namespace BlastAPI
         End Function
 
         <ExportAPI("Orf.Dump.Load.As.Hash")>
-        Public Function LoadCdsDumpInfo(Path As String) As Dictionary(Of String, GeneDumpInfo)
-            Dim dumpInfo As IEnumerable(Of GeneDumpInfo) = Path.LoadCsv(Of GeneDumpInfo)(False)
-            Dim GroupData = (From ORF As GeneDumpInfo
+        Public Function LoadCdsDumpInfo(Path As String) As Dictionary(Of String, GeneTable)
+            Dim dumpInfo As IEnumerable(Of GeneTable) = Path.LoadCsv(Of GeneTable)(False)
+            Dim GroupData = (From ORF As GeneTable
                              In dumpInfo.AsParallel
                              Select ORF
                              Group By ORF.LocusID Into Group)
@@ -103,8 +103,8 @@ Namespace BlastAPI
         End Function
 
         <ExportAPI("Orf.Dump.Begin.Load.As.Hash")>
-        Public Function BeginLoadCdsDumpInfo(Path As String) As Task(Of String, Dictionary(Of String, GeneDumpInfo))
-            Return New Task(Of String, Dictionary(Of String, GeneDumpInfo))(Path, AddressOf LoadCdsDumpInfo).Start
+        Public Function BeginLoadCdsDumpInfo(Path As String) As Task(Of String, Dictionary(Of String, GeneTable))
+            Return New Task(Of String, Dictionary(Of String, GeneTable))(Path, AddressOf LoadCdsDumpInfo).Start
         End Function
 
         ''' <summary>
@@ -112,8 +112,8 @@ Namespace BlastAPI
         ''' </summary>
         ''' <returns></returns>
         <ExportAPI("Orf.Hash.Null", Info:="If you don't want the export bbh data contains the protein description information or just don't know how the create the information, using this function to leave it blank.")>
-        Public Function NullHash() As Dictionary(Of String, GeneDumpInfo)
-            Return New Dictionary(Of String, GeneDumpInfo)
+        Public Function NullHash() As Dictionary(Of String, GeneTable)
+            Return New Dictionary(Of String, GeneTable)
         End Function
 
         ''' <summary>

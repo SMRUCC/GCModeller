@@ -530,9 +530,9 @@ Partial Module Utilities
 
         If region.MappingLocation.Strand = Strands.Reverse Then
             If Complement Then
-                region.Complement = NucleotideModels.NucleicAcid.Complement(seq)
+                ' region.Complement = NucleotideModels.NucleicAcid.Complement(seq)
                 If Reversed Then
-                    region.Complement = New String(region.Complement.Reverse.ToArray)
+                    '  region.Complement = New String(region.Complement.Reverse.ToArray)
                 End If
             End If
 

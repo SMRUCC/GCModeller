@@ -388,7 +388,7 @@ Public Module ToolsAPI
     <ExportAPI("partition_data.create")>
     Public Function CreateChromesomePartitioningData(besthit As SpeciesBesthit,
                                                      partitions As IEnumerable(Of ChromosomePartitioningEntry),
-                                                     allCDSInfo As IEnumerable(Of GeneDumpInfo),
+                                                     allCDSInfo As IEnumerable(Of GeneTable),
                                                      faDIR As String) As PartitioningData()
 
         Dim resource = faDIR.LoadSourceEntryList({}) '加载Fasta资源数据
@@ -408,7 +408,7 @@ Public Module ToolsAPI
                          besthits = (From item As HitCollection In besthit.hits
                                      Where Array.IndexOf(queryEntries, item.QueryName) > -1
                                      Select item).ToArray).ToArray
-        Dim CDSInfo = (From g As GeneDumpInfo
+        Dim CDSInfo = (From g As GeneTable
                        In allCDSInfo
                        Where Not String.IsNullOrEmpty(g.LocusID)
                        Select g).ToDictionary(Function(obj) obj.LocusID)
@@ -642,7 +642,7 @@ Public Module ToolsAPI
     <ExportAPI("diff.create_report", Info:="The source parameter is the source directory of the Delta query export dirtectory.")>
     Public Function GenerateDeltaDiffReport(source As String,
                                             partitions As IEnumerable(Of ChromosomePartitioningEntry),
-                                            CDSInfo As IEnumerable(Of GeneDumpInfo)) As IO.File
+                                            CDSInfo As IEnumerable(Of GeneTable)) As IO.File
 
         Dim p = (From item In partitions Select item Group By item.PartitioningTag Into Group).ToArray  '分组，选择蛋白质
         Dim DeltaQuery = (From path As NamedValue(Of String)

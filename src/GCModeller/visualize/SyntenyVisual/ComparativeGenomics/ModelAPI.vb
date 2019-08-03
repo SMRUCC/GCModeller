@@ -104,13 +104,13 @@ Namespace ComparativeGenomics
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function CreateObject(anno As GeneDumpInfo(),
+        Public Function CreateObject(anno As GeneTable(),
                                      nt As FastaSeq,
                                      Optional ByRef COGsColor As Dictionary(Of String, Brush) = Nothing) As GenomeModel
 
             Dim colours As New Dictionary(Of String, Brush)(__COGsColor(anno, COGsColor))
             Dim LQuery As GeneObject() =
-                LinqAPI.Exec(Of GeneObject) <= From gene As GeneDumpInfo
+                LinqAPI.Exec(Of GeneObject) <= From gene As GeneTable
                                                In anno
                                                Let COG As String = Regex.Match(gene.COG, "COG\d+", RegexOptions.IgnoreCase).Value
                                                Select New GeneObject With {
