@@ -179,7 +179,9 @@ Namespace Assembly.NCBI.GenBank
 
         <Extension>
         Public Function GbffToPTT(contextInfo As IEnumerable(Of GeneTable), size%, Optional title$ = "Unknown") As PTT
-            Dim genes = contextInfo.Select(Function(context) New GeneBrief).ToArray
+            Dim genes As GeneBrief() = contextInfo _
+                .Select(Function(context) GeneBrief.CreateObject(g:=context)) _
+                .ToArray
             Dim description As New PTT With {
                 .GeneObjects = genes,
                 .Size = size,
