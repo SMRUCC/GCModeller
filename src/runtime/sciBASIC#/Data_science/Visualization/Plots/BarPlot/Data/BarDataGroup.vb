@@ -51,7 +51,6 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Imaging
@@ -63,37 +62,6 @@ Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace BarPlot
-
-    ''' <summary>
-    ''' Named value of double vector.
-    ''' </summary>
-    Public Class BarDataSample : Implements INamedValue
-
-        ''' <summary>
-        ''' 分组名称
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property Tag As String Implements INamedValue.Key
-        ''' <summary>
-        ''' 当前分组下的每一个序列的数据值
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property data As Double()
-
-        ''' <summary>
-        ''' The sum of <see cref="data"/>
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property StackedSum As Double
-            Get
-                Return data.Sum
-            End Get
-        End Property
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
 
     Public Class BarDataGroup : Inherits ProfileGroup
 
@@ -179,7 +147,7 @@ Namespace BarPlot
             For Each g In Me.Samples
                 groups += New BarDataSample With {
                     .Tag = g.Tag,
-                    .data = newOrders _
+                    .Data = newOrders _
                         .Select(Function(i) g.data(i)) _
                         .ToArray
                 }
