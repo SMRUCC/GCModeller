@@ -43,7 +43,6 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -154,7 +153,7 @@ Namespace BarPlot
                     End If
                 End Sub
 
-            Return GraphicsPlots(size, margin, bg, plotInternal)
+            Return g.GraphicsPlots(size, margin, bg, plotInternal)
         End Function
     End Module
 End Namespace
