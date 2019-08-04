@@ -61,7 +61,7 @@ Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace BarPlot
+Namespace BarPlot.Data
 
     Public Class BarDataGroup : Inherits ProfileGroup
 
@@ -147,7 +147,7 @@ Namespace BarPlot
             For Each g In Me.Samples
                 groups += New BarDataSample With {
                     .Tag = g.Tag,
-                    .Data = newOrders _
+                    .data = newOrders _
                         .Select(Function(i) g.data(i)) _
                         .ToArray
                 }

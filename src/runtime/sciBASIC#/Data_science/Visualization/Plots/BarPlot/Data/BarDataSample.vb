@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace BarPlot
+Namespace BarPlot.Data
 
     ''' <summary>
     ''' Named value of double vector.
