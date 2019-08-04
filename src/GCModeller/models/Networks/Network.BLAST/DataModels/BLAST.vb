@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de91b5d1e038edb7c00b2129781ce67b, models\Networks\Network.BLAST\DataModels\BLAST.vb"
+﻿#Region "Microsoft.VisualBasic::2066056ce0c57be1055ea1b38f3a9d3b, Networks\Network.BLAST\DataModels\BLAST.vb"
 
     ' Author:
     ' 

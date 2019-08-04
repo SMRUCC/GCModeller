@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b567f8088cf6f9e970891b0ccd1f64b2, models\SBML\SBML\Level3\XmlFile.vb"
+﻿#Region "Microsoft.VisualBasic::6fb9ca497b2e4e05239512f6cd2ed1d8, SBML\SBML\Level3\XmlFile.vb"
 
     ' Author:
     ' 
