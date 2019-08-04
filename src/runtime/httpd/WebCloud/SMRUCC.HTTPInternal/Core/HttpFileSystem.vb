@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4434121f15aababebd0a8ac12b26cc9, WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::3f315926e791c39b1207a6abdd4690e8, WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
 
     ' Author:
     ' 
