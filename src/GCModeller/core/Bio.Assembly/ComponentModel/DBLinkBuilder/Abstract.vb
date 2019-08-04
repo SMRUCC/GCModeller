@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91aa3478c406aa0d7abb1f253379ba0b, Bio.Assembly\ComponentModel\DBLinkBuilder\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::e8485093a572db4157f2af76bd478dd6, Bio.Assembly\ComponentModel\DBLinkBuilder\Abstract.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '     Interface IDBLink
     ' 
-    '         Properties: DbName, ID
+    '         Properties: DbName, EntryId
     ' 
     '         Function: GetFormatValue
     ' 

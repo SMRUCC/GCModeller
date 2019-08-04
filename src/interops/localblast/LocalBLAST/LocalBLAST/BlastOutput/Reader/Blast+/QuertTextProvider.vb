@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::246ae30ed643efdb00395d53279313ae, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\QuertTextProvider.vb"
+﻿#Region "Microsoft.VisualBasic::246ae30ed643efdb00395d53279313ae, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\QuertTextProvider.vb"
 
     ' Author:
     ' 

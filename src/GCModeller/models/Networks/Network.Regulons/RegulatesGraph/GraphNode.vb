@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0edb6c387a7fd335110faf99bf892ec, models\Networks\Network.Regulons\RegulatesGraph\GraphNode.vb"
+﻿#Region "Microsoft.VisualBasic::40b7d19cff1070a3c48ac1f7aa06baf0, Networks\Network.Regulons\RegulatesGraph\GraphNode.vb"
 
     ' Author:
     ' 

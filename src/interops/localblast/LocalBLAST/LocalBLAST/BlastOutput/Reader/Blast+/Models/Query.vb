@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0418688e79011c613055797308afdce, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\Query.vb"
+﻿#Region "Microsoft.VisualBasic::2ebf95f70d8eb4999848264b55b4e943, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\Query.vb"
 
     ' Author:
     ' 
@@ -37,8 +37,8 @@
     '                     SubjectHits
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: BlastnOutputParser, GetBestHit, GetBesthits, GetQueryLength, GetQueryName
-    '                   ToString, TryParse
+    '         Function: BlastnOutputParser, GetBestHit, GetBesthits, getIdentity, GetQueryLength
+    '                   GetQueryName, getRawScore, ToString, TryParse
     ' 
     ' 
     ' /********************************************************************************/

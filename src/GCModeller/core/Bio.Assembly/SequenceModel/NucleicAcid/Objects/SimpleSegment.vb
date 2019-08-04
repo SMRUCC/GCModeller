@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87844192d122b7f1a0abc71cddc54b44, Bio.Assembly\SequenceModel\NucleicAcid\Objects\SimpleSegment.vb"
+﻿#Region "Microsoft.VisualBasic::dedfeab9fbbe004c9f9556b27157f531, Bio.Assembly\SequenceModel\NucleicAcid\Objects\SimpleSegment.vb"
 
     ' Author:
     ' 

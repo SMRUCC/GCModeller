@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d7ee0cfca8061650fb9e34ff340772f, Circos\Circos\Colors\CircosColor.vb"
+﻿#Region "Microsoft.VisualBasic::1d7ee0cfca8061650fb9e34ff340772f, visualize\Circos\Circos\Colors\CircosColor.vb"
 
     ' Author:
     ' 

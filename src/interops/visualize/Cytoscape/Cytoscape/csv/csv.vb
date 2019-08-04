@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77b50d5bdc0bfa32131e162a80fed41c, Cytoscape\Cytoscape\csv\csv.vb"
+﻿#Region "Microsoft.VisualBasic::77b50d5bdc0bfa32131e162a80fed41c, visualize\Cytoscape\Cytoscape\csv\csv.vb"
 
     ' Author:
     ' 

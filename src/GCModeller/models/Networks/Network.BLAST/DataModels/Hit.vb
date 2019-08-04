@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::154b5643ced8aada005595016d1fe134, models\Networks\Network.BLAST\DataModels\Hit.vb"
+﻿#Region "Microsoft.VisualBasic::c9155d371ee91933d0445b3c4a43d05a, Networks\Network.BLAST\DataModels\Hit.vb"
 
     ' Author:
     ' 
