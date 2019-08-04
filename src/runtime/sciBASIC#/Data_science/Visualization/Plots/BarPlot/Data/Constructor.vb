@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
@@ -13,11 +14,11 @@ Namespace BarPlot.Data
         ''' </summary>
         ''' <param name="data"></param>
         ''' <param name="base!"></param>
-        ''' <param name="color$"></param>
+        ''' <param name="serialColor$"></param>
         ''' <returns></returns>
-        Public Function FromDistributes(data As IEnumerable(Of Double), Optional base! = 10.0F, Optional color$ = "darkblue") As BarDataGroup
+        Public Function FromDistributes(data As IEnumerable(Of Double), Optional base! = 10.0F, Optional serialColor$ = "darkblue") As BarDataGroup
             Dim source = data.Distributes(base!)
-            Dim bg As Color = color.ToColor(onFailure:=Drawing.Color.DarkBlue)
+            Dim bg As Color = serialColor.ToColor(onFailure:=Color.DarkBlue)
             Dim values As New List(Of Double)
             Dim serials = LinqAPI.Exec(Of NamedValue(Of Color)) _
  _
@@ -39,6 +40,37 @@ Namespace BarPlot.Data
                     New BarDataSample With {
                         .Tag = "Distribution",
                         .data = values
+                    }
+                }
+            }
+        End Function
+
+        <Extension>
+        Public Function SimpleSerials(data As IEnumerable(Of NamedValue(Of Double)), Optional posColor$ = "red", Optional ngColor$ = "darkblue") As BarDataGroup
+            Dim dataVector As NamedValue(Of Double)() = data.ToArray
+            Dim colors As NamedValue(Of Color)() = dataVector _
+                .Select(Function(d)
+                            Dim color As Color
+
+                            If d.Value > 0 Then
+                                color = posColor.ToColor(Color.Red)
+                            Else
+                                color = ngColor.ToColor(Color.DarkBlue)
+                            End If
+
+                            Return New NamedValue(Of Color) With {
+                                .Name = d.Name,
+                                .Value = color
+                            }
+                        End Function) _
+                .ToArray
+
+            Return New BarDataGroup With {
+                .Serials = colors,
+                .Samples = {
+                    New BarDataSample With {
+                        .data = dataVector.Values,
+                        .Tag = "N/A"
                     }
                 }
             }
