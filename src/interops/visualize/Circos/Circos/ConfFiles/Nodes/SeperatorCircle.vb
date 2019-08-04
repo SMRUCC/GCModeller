@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32a97cb02dfe0239bac5b238d4f98537, Circos\Circos\ConfFiles\Nodes\SeperatorCircle.vb"
+﻿#Region "Microsoft.VisualBasic::32a97cb02dfe0239bac5b238d4f98537, visualize\Circos\Circos\ConfFiles\Nodes\SeperatorCircle.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b6163404bf39f8112f3e84c0623743f, LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\Whog\Whog.vb"
+﻿#Region "Microsoft.VisualBasic::eae865044e4565b57819cfd5b859a6f6, localblast\LocalBLAST\Pipeline\COG\Whog\Whog.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,12 @@
 
     ' Summaries:
 
-    '     Class Whog
+    '     Class WhogRepository
     ' 
     '         Properties: Categories
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: [Imports], __assignInvoke, FindByCogId, MatchCogCategory, Save
+    '         Function: [Imports], FindByCogId, MatchCogCategory, Save
     ' 
     ' 
     ' /********************************************************************************/

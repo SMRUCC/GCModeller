@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c446a356118007193ffb80396ea4a4ad, Circos\Circos\TrackDatas\Adapter\NtProps\GCSkew.vb"
+﻿#Region "Microsoft.VisualBasic::c446a356118007193ffb80396ea4a4ad, visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GCSkew.vb"
 
     ' Author:
     ' 

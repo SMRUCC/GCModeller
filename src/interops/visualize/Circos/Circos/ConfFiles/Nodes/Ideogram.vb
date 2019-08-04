@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe7d564760629d50249090862757418c, Circos\Circos\ConfFiles\Nodes\Ideogram.vb"
+﻿#Region "Microsoft.VisualBasic::fe7d564760629d50249090862757418c, visualize\Circos\Circos\ConfFiles\Nodes\Ideogram.vb"
 
     ' Author:
     ' 

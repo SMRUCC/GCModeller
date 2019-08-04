@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8712854c2c4c5bfa3cb3dca80cdac4e, meme_suite\MEME.DocParser\MEME\Text\TextParser.vb"
+﻿#Region "Microsoft.VisualBasic::8f76243b0aa120c3a81341a71fb40e7c, meme_suite\MEME.DocParser\MEME\Text\TextParser.vb"
 
     ' Author:
     ' 

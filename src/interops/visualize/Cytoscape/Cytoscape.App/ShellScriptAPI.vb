@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6618e210ce3793a22fc1571d39d1554f, Cytoscape\Cytoscape.App\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::6618e210ce3793a22fc1571d39d1554f, visualize\Cytoscape\Cytoscape.App\ShellScriptAPI.vb"
 
     ' Author:
     ' 

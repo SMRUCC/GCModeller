@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b576bd6ac6f19eacc5a6abbbad181e5, LocalBLAST\LocalBLAST\LocalBLAST\Application\MapsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5734a332565e52c0e766e56c686ec9f3, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\MapsAPI.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module MapsAPI
     ' 
-    '         Function: __createObject, __setUnique, CreateObject, (+2 Overloads) Export, GetCoverage
+    '         Function: __createObject, CreateObject, (+2 Overloads) Export, GetCoverage, setUnique
     '                   TrimAssembly, UniqueAlignment, Where
     ' 
     ' 

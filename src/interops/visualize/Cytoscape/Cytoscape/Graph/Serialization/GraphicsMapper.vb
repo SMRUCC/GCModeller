@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92e03ed1b5025d4f1693d0bd0df17c2f, Cytoscape\Cytoscape\Graph\Serialization\GraphicsMapper.vb"
+﻿#Region "Microsoft.VisualBasic::92e03ed1b5025d4f1693d0bd0df17c2f, visualize\Cytoscape\Cytoscape\Graph\Serialization\GraphicsMapper.vb"
 
     ' Author:
     ' 

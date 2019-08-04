@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d0c1bb829ebe748bce7816d1aa115db, Cytoscape\Cytoscape\csv\LinkageNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::5d0c1bb829ebe748bce7816d1aa115db, visualize\Cytoscape\Cytoscape\csv\LinkageNetwork.vb"
 
     ' Author:
     ' 
