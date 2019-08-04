@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec2a36183a21941ce42e7d769e1c3912, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb"
+﻿#Region "Microsoft.VisualBasic::c00cec48284a07470ff76c01df8208c4, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,9 @@
 
     '     Module ProtMotifsQuery
     ' 
-    '         Function: __parsingDomain, Fetch, (+2 Overloads) Query
+    '         Function: Fetch, parsingDomain, (+2 Overloads) Query
     ' 
-    '         Sub: __fillBasicInfo, __fillMotifs
+    '         Sub: fillBasicInfo, fillMotifs
     ' 
     ' 
     ' /********************************************************************************/

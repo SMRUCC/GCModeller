@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9381de759e7c15915a6d75f1e20dcb80, Bio.Assembly\Assembly\KEGG\Web\Map\KGML.vb"
+﻿#Region "Microsoft.VisualBasic::af369249722a6d669c5157e5e80f51ea, Bio.Assembly\Assembly\KEGG\Web\Map\KGML\KGML.vb"
 
     ' Author:
     ' 
@@ -37,43 +37,6 @@
     '                     org, reactions, relations, title
     ' 
     '         Function: ResourceURL, ToString
-    ' 
-    '     Class Link
-    ' 
-    '         Properties: entry1, entry2, type
-    ' 
-    '     Class relation
-    ' 
-    '         Properties: subtype
-    ' 
-    '     Class subtype
-    ' 
-    '         Properties: name, value
-    ' 
-    '     Class compound
-    ' 
-    '         Properties: id, name
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class reaction
-    ' 
-    '         Properties: products, substrates
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class entry
-    ' 
-    '         Properties: graphics, id, link, name, type
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class graphics
-    ' 
-    '         Properties: bgcolor, fgcolor, height, name, type
-    '                     width, x, y
-    ' 
-    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

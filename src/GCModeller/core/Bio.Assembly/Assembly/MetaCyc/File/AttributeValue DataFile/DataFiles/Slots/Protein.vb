@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbb992b26507d9a9a4938cc9bcafd707, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::3bde26ddf0811169171957646e40e96f, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Protein.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@
     '         Function: [New], GetEnumerator, GetEnumerator1
     '         Interface IEnzyme
     ' 
-    '             Properties: Catalyze, ComponentOf, locusId, Name
+    '             Properties: Catalyze, ComponentOf, Name, UniqueId
     ' 
     ' 
     ' 

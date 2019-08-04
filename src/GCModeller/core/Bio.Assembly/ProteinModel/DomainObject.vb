@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01bc0ab5d51fc300e50bc932c1759086, Bio.Assembly\ProteinModel\DomainObject.vb"
+﻿#Region "Microsoft.VisualBasic::744c3ca2a911bb5df37b304d570c99b8, Bio.Assembly\ProteinModel\DomainObject.vb"
 
     ' Author:
     ' 

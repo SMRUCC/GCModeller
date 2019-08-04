@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1dd07dd59d8b0f444c96f3be82a35aa, Bio.Assembly\ComponentModel\Locus\LociSites\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::86b393ae750097db2536bd0fc86c5524, Bio.Assembly\ComponentModel\Locus\LociSites\MotifSite.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Interface IMotifSite
     ' 
-    '         Properties: Name, Site, Type
+    '         Properties: family, name, site
     ' 
     '     Interface IMotifScoredSite
     ' 
