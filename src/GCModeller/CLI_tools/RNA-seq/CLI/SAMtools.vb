@@ -192,8 +192,7 @@ Partial Module CLI
                 .ID = readMaps.RNAME,
                 .Start = readMaps.POS,
                 .Strand = readMaps.Strand.GetBriefCode,
-                .SequenceData = readMaps.QUAL,
-                .Complement = tagRegex.Match(readMaps.QNAME).Value.Trim("_"c),
+                .SequenceData = readMaps.QUAL,    ' .Complement = tagRegex.Match(readMaps.QNAME).Value.Trim("_"c),
                 .Ends = readMaps.FLAG
             }
 
@@ -248,14 +247,13 @@ Partial Module CLI
     ''' <param name="showDebug"></param>
     ''' <returns></returns>
     <Extension>
-    Private Iterator Function __export(reader As SAMStream, genome As GenomeContextProvider(Of GeneBrief), showDebug As Boolean) As IEnumerable(Of SimpleSegment)
+    Private Iterator Function exportInternal(reader As SAMStream, genome As GenomeContextProvider(Of GeneBrief), showDebug As Boolean) As IEnumerable(Of SimpleSegment)
         For Each readMaps As AlignmentReads In reader.IteratesAllReads
             Dim reads As New SimpleSegment With {
                 .ID = readMaps.RNAME,
                 .Start = readMaps.POS,
                 .Strand = readMaps.Strand.GetBriefCode,
-                .SequenceData = readMaps.QUAL,
-                .Complement = readMaps.QNAME,
+                .SequenceData = readMaps.QUAL,                ' .Complement = readMaps.QNAME,
                 .Ends = readMaps.FLAG
             }
 
@@ -389,7 +387,7 @@ Partial Module CLI
 
                 For Each array As SimpleSegment() In TaskPartitions.
                     SplitIterator(
-                    reader.__export(genome, showDebug),
+                    reader.exportInternal(genome, showDebug),
                     1000)
 
                     For Each x As SimpleSegment In array
@@ -413,7 +411,7 @@ Partial Module CLI
                     }).ToArray
             End Using
         Else
-            Dim result As New List(Of SimpleSegment)(reader.__export(genome, showDebug))
+            Dim result As New List(Of SimpleSegment)(reader.exportInternal(genome, showDebug))
             ' 小型样本的统计
             stat = LinqAPI.Exec(Of NamedValue(Of Integer)) <=
                 (From x As SimpleSegment

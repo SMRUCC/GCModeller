@@ -1,57 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::414b41438114af766671831d503abe10, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GenbankExportInfo.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GenbankExportInfo
-    ' 
-    '         Properties: EntryInfo, Gene, Genome, ORF, ORFInfo
-    '         Delegate Function
-    ' 
-    ' 
-    '         Delegate Function
-    ' 
-    '             Properties: GeneSource, GenomeSource, ORFSource
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: ToString
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GenbankExportInfo
+' 
+'         Properties: EntryInfo, Gene, Genome, ORF, ORFInfo
+'         Delegate Function
+' 
+' 
+'         Delegate Function
+' 
+'             Properties: GeneSource, GenomeSource, ORFSource
+' 
+'             Constructor: (+1 Overloads) Sub New
+'             Function: ToString
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Assembly.NCBI.GenBank.CsvExports
@@ -61,7 +62,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
 #Region "Csv data storage region."
 
         Dim _entryInfo As Microsoft.VisualBasic.ComponentModel.LazyLoader(Of T(), String)
-        Dim _ORFInfo As Microsoft.VisualBasic.ComponentModel.LazyLoader(Of GeneDumpInfo(), String)
+        Dim _ORFInfo As Microsoft.VisualBasic.ComponentModel.LazyLoader(Of GeneTable(), String)
 
         Public Property EntryInfo As T()
             Get
@@ -72,11 +73,11 @@ Namespace Assembly.NCBI.GenBank.CsvExports
             End Set
         End Property
 
-        Public Property ORFInfo As GeneDumpInfo()
+        Public Property ORFInfo As GeneTable()
             Get
                 Return _ORFInfo.Value
             End Get
-            Set(value As GeneDumpInfo())
+            Set(value As GeneTable())
                 _ORFInfo.Value = value
             End Set
         End Property
@@ -104,7 +105,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
 #End Region
 
         Public Delegate Function GenbankEntryInfoLoadMethod(Path As String) As T()
-        Public Delegate Function ORFInfoLoadMethod(Path As String) As GeneDumpInfo()
+        Public Delegate Function ORFInfoLoadMethod(Path As String) As GeneTable()
 
         ''' <summary>
         ''' Repository root for this export source.
@@ -120,7 +121,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
         Sub New(Root As String, GenbankEntryInfoLoad As GenbankEntryInfoLoadMethod, ORFInfoLoad As ORFInfoLoadMethod)
             _root = Root
             _entryInfo = New Microsoft.VisualBasic.ComponentModel.LazyLoader(Of T(), String)(Root & "/genbank.info.csv", Function(path) GenbankEntryInfoLoad(path))
-            _ORFInfo = New Microsoft.VisualBasic.ComponentModel.LazyLoader(Of GeneDumpInfo(), String)(Root & "/genbank.orf.csv", Function(path) ORFInfoLoad(path))
+            _ORFInfo = New Microsoft.VisualBasic.ComponentModel.LazyLoader(Of GeneTable(), String)(Root & "/genbank.orf.csv", Function(path) ORFInfoLoad(path))
         End Sub
 
         Public ReadOnly Property ORFSource As Dictionary(Of String, String)

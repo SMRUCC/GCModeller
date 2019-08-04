@@ -55,8 +55,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.SequenceModel
@@ -292,7 +292,7 @@ Namespace ComparativeAlignment
                                                 PTT As String,
                                                 Subject_Fasta As String,
                                                 Query_nt As FASTA.FastaSeq,
-                                                Query_anno As IEnumerable(Of GeneDumpInfo)) As DrawingModel
+                                                Query_anno As IEnumerable(Of GeneTable)) As DrawingModel
 
             Dim bbhFiles = (From item In (From path In Source.LoadSourceEntryList({"*.csv"}).AsParallel
                                           Select ID = path.Key, pathValue = path.Value,

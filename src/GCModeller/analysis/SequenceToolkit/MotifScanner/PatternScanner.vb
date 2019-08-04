@@ -58,8 +58,8 @@ Public Class PatternScanner : Inherits IScanner
     End Sub
 
     Public Overrides Function Scan(pattern As String) As SimpleSegment()
-        Return (Scan(__nt, pattern, AddressOf Equals).AsList +
-            Scan(__nt, Complement(pattern), AddressOf Equals)) _
+        Return (Scan(nt, pattern, AddressOf Equals).AsList +
+            Scan(nt, Complement(pattern), AddressOf Equals)) _
             .OrderBy(Function(x) x.Start) _
             .ToArray
     End Function

@@ -52,11 +52,9 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
-Imports SMRUCC.genomics.InteractionModel
 Imports SMRUCC.genomics.InteractionModel.Regulon
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.Visualize.Circos.Documents
 Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights

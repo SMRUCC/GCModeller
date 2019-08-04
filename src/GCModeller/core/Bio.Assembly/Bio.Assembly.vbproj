@@ -592,7 +592,7 @@
     <Compile Include="Assembly\NCBI\Database\COG\COGs\COGTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GBFFFeatureDumps.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GenbankExportInfo.vb" />
-    <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GeneDumpInfo.vb" />
+    <Compile Include="ComponentModel\Annotation\GeneTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbEntry.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbExportService.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\Abstract.vb" />
@@ -743,6 +743,7 @@
     <Compile Include="SequenceModel\FASTA\IO\StreamIterator.vb" />
     <Compile Include="SequenceModel\FASTA\HeaderFormats.vb" />
     <Compile Include="SequenceModel\ISequenceModel.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Assembly.vb" />
     <Compile Include="SequenceModel\TypeExtensions.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\Conversion.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\DegenerateBases.vb" />
