@@ -320,12 +320,13 @@ Namespace TrackDatas
 
                 anno = LinqAPI.Exec(Of GeneTable) <= From gene As GeneTable
                                                         In anno
-                                                        Let uid As String = If(
-                                                            String.IsNullOrEmpty(gene.GeneName),
-                                                            getID(gene.LocusID),
-                                                            gene.GeneName)
-                                                        Select gene.With(Sub(g) g.LocusID = uid)
-            Else  ' 仅仅显示基因名称
+                                                     Let uid As String = If(
+                                                         String.IsNullOrEmpty(gene.GeneName),
+                                                         getID(gene.LocusID),
+                                                         gene.GeneName)
+                                                     Select gene.With(Sub(g) g.LocusID = uid)
+            Else
+                ' 仅仅显示基因名称
                 anno = LinqAPI.Exec(Of GeneTable) <=
                     From gene As GeneTable
                     In anno
