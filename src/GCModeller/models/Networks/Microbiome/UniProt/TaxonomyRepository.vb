@@ -135,7 +135,7 @@ Public Class TaxonomyRepository
         Dim taxonomy As Taxonomy = Me.taxonomy(taxid)
         Dim path As String = $"{StorageReference(taxonomy, relative:=False)}/{taxid}.Xml"
 
-        Return path.LoadXml(Of TaxonomyRef)
+        Return path.LoadXml(Of TaxonomyRef)(throwEx:=False)
     End Function
 
     ''' <summary>

@@ -100,7 +100,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property remarks As String()
         Public Property enzyme As String()
 
-        Public Property category As CompoundBrite()
+        Public Property category As BriteTerm()
 
         Protected Friend _DBLinks As DBLinks
 

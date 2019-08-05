@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::88c2197c388e2494a8b54331eebd3791, Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module DownloaderProcess
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: Download, ExecuteDownloads
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module DownloaderProcess
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: Download, ExecuteDownloads
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -78,10 +78,10 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
         ''' <param name="structInfo"></param>
         ''' 
         <Extension>
-        Public Sub ExecuteDownloads(entries As CompoundBrite(), key$, EXPORT$, directoryOrganized As Boolean, structInfo As Boolean)
+        Public Sub ExecuteDownloads(entries As BriteTerm(), key$, EXPORT$, directoryOrganized As Boolean, structInfo As Boolean)
             ' 2017-3-12
             ' 有些entry的编号是空值？？？
-            Dim keys As CompoundBrite() = entries _
+            Dim keys As BriteTerm() = entries _
                 .Where(Function(ID)
                            Return (Not ID Is Nothing) AndAlso
                                 (Not ID.entry Is Nothing) AndAlso
@@ -93,12 +93,12 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                 Dim tick As New ProgressProvider(keys.Length)
                 Dim query As New DbGetWebQuery($"{EXPORT}/.cache")
 
-                For Each entry As CompoundBrite In keys
+                For Each entry As BriteTerm In keys
                     Dim entryId As String = entry.entry.Key
                     Dim saveDIR As String = entry.BuildPath(EXPORT, directoryOrganized, [class]:=key)
                     Dim xmlFile$ = $"{saveDIR}/{entryId}.xml"
                     Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
-                    Dim category As New NamedValue(Of CompoundBrite)(key, entry)
+                    Dim category As New NamedValue(Of BriteTerm)(key, entry)
 
                     Call query.Download(entryId, xmlFile, structInfo, category)
                     Call progress.SetProgress(tick.StepProgress, details:=ETA)
@@ -107,7 +107,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
         End Sub
 
         <Extension>
-        Friend Sub Download(query As DbGetWebQuery, entryID$, xmlFile$, structInfo As Boolean, category As NamedValue(Of CompoundBrite))
+        Friend Sub Download(query As DbGetWebQuery, entryID$, xmlFile$, structInfo As Boolean, category As NamedValue(Of BriteTerm))
             If entryID.StartsWith("G") Then
 
                 Call query.Query(Of Glycan)(entryID, ".html") _

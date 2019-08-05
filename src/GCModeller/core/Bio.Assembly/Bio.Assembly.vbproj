@@ -489,11 +489,13 @@
     <Compile Include="Assembly\KEGG\Archives\Xml\MapAPI.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\TreeParser.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Enzyme.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compounds\TextModel.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ProteinFamily.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Organism.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHTextParser.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHTextParser.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTerm.vb" />
     <Compile Include="Assembly\KEGG\DBGET\KEGGObjects.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\PathwayWebQuery.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Relationship.vb" />
@@ -536,7 +538,7 @@
     <Compile Include="Assembly\KEGG\Web\Map\URLEncoder.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\Map.vb" />
     <Compile Include="Assembly\KEGG\Web\PathwayMapping.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\htext.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModsBrite.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\GenericParser.vb" />
@@ -547,7 +549,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\SShit.vb" />
     <Compile Include="Assembly\KEGG\Web\QueryEntry.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHText.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Pathway.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb" />
@@ -687,7 +689,7 @@
     <Compile Include="ComponentModel\Annotation\PathwayBrief.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\XmlModel.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Pathway.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compounds\Compound.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compound.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\CompoundModelFactory.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PathwayBrief\AssignGene.vb" />
