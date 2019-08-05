@@ -206,7 +206,7 @@ Public Module Membrane_transport
             If Not nodeTable.ContainsKey(familyLabel) Then
                 familyName = familyLabel.Split(";"c).Where(Function(s) Not s.StringEmpty).Last
                 bacteria = New Node With {
-                    .Label = familyName,
+                    .label = familyName,
                     .data = New NodeData With {
                         .label = familyLabel,
                         .origID = genome.taxonID,
@@ -258,7 +258,7 @@ Public Module Membrane_transport
 
                         If Not nodeTable.ContainsKey(compound) Then
                             metabolite = New Node With {
-                                .Label = compound,
+                                .label = compound,
                                 .data = New NodeData With {
                                     .label = compound,
                                     .origID = compound,
@@ -288,7 +288,7 @@ Public Module Membrane_transport
 
                         If Not nodeTable.ContainsKey(compound) Then
                             metabolite = New Node With {
-                                .Label = compound,
+                                .label = compound,
                                 .data = New NodeData With {
                                     .label = compound,
                                     .origID = compound,
