@@ -78,9 +78,9 @@ Public Module Membrane_transport
     Sub New()
         ' 会忽略掉下面的大类的物质
         ' Nucleic acids
-        Dim classInfo = CompoundBrite.GetCompoundsWithBiologicalRoles _
+        Dim classInfo = CompoundBrite.CompoundsWithBiologicalRoles _
             .Where(Function(cpd) cpd.class <> "Nucleic acids") _
-            .JoinIterates(CompoundBrite.GetLipids) _
+            .JoinIterates(CompoundBrite.Lipids) _
             .ToArray
 
         compoundClass = classInfo _
