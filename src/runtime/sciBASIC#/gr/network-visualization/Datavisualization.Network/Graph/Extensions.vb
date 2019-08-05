@@ -92,7 +92,7 @@ Namespace Graph
                 Dim connected As String = edge.GetConnectedNode(node)
 
                 If Not String.IsNullOrEmpty(connected) Then
-                    Yield CInt(connected)
+                    Yield net.GetNode(connected).ID
                 End If
             Next
         End Function

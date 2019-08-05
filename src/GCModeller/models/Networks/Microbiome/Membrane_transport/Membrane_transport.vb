@@ -84,6 +84,7 @@ Public Module Membrane_transport
             .JoinIterates(CompoundBrite.Carcinogens) _
             .JoinIterates(CompoundBrite.EndocrineDisruptingCompounds) _
             .JoinIterates(CompoundBrite.NaturalToxins) _
+            .Where(Function(m) Not m.entry.Key.StringEmpty) _
             .ToArray
 
         compoundClass = classInfo _
@@ -197,7 +198,7 @@ Public Module Membrane_transport
         Dim familyName$
 
         ' 遍历所有的基因组
-        For Each genome As TaxonomyRef In metagenome
+        For Each genome As TaxonomyRef In metagenome.Where(Function(tax) Not tax Is Nothing)
             Dim familyLabel$ = genome.TaxonomyString _
                 .Select(Metagenomics.TaxonomyRanks.Genus) _
                 .JoinBy(";")
