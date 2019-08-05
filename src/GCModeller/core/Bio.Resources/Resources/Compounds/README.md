@@ -1,0 +1,1 @@
+https://www.kegg.jp/kegg/brite.html#compound

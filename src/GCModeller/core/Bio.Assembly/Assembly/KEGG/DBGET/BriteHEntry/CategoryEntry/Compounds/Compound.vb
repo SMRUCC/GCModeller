@@ -103,17 +103,6 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Property entry As KeyValuePair
 
-        ''' <summary>
-        ''' KEGG BRITE contains a classification of lipids
-        ''' 
-        ''' > http://www.kegg.jp/kegg-bin/get_htext?br08002.keg
-        ''' </summary>
-        ''' <returns></returns>
-        Public Shared Function Lipids() As CompoundBrite()
-            Dim satellite As New ResourcesSatellite(GetType(LICENSE))
-            Return CompoundTextModel.Build(BriteHTextParser.Load(satellite.GetString(cpd_br08002))).ToArray
-        End Function
-
         Public Overrides Function ToString() As String
             Return entry.ToString
         End Function
@@ -174,12 +163,42 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return id
         End Function
 
-        Public Shared Function GetLipids() As CompoundBrite()
+        ''' <summary>
+        ''' KEGG BRITE contains a classification of lipids
+        ''' 
+        ''' > http://www.kegg.jp/kegg-bin/get_htext?br08002.keg
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared Function Lipids() As CompoundBrite()
             Return GetInformation(cpd_br08002)
         End Function
 
-        Public Shared Function GetCompoundsWithBiologicalRoles() As CompoundBrite()
+        Public Shared Function CompoundsWithBiologicalRoles() As CompoundBrite()
             Return GetInformation(cpd_br08001)
+        End Function
+
+        Public Shared Function PhytochemicalCompounds() As CompoundBrite()
+            Return GetInformation(cpd_br08003)
+        End Function
+
+        Public Shared Function BioactivePeptides() As CompoundBrite()
+            Return GetInformation(cpd_br08005)
+        End Function
+
+        Public Shared Function EndocrineDisruptingCompounds() As CompoundBrite()
+            Return GetInformation(cpd_br08006)
+        End Function
+
+        Public Shared Function Pesticides() As CompoundBrite()
+            Return GetInformation(cpd_br08007)
+        End Function
+
+        Public Shared Function Carcinogens() As CompoundBrite()
+            Return GetInformation(cpd_br08008)
+        End Function
+
+        Public Shared Function NaturalToxins() As CompoundBrite()
+            Return GetInformation(cpd_br08009)
         End Function
 
         Private Shared Function GetInformation(resourceName As String) As CompoundBrite()
@@ -212,14 +231,14 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Shared Sub DownloadFromResource(EXPORT$, Optional directoryOrganized As Boolean = True, Optional structInfo As Boolean = False)
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
             Dim resource = {
-                New NamedValue(Of CompoundBrite())("Compounds with biological roles", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08001))).ToArray),
-                New NamedValue(Of CompoundBrite())("Lipids", CompoundBrite.Lipids),
-                New NamedValue(Of CompoundBrite())("Phytochemical compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08003))).ToArray),
-                New NamedValue(Of CompoundBrite())("Bioactive peptides", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08005))).ToArray),
-                New NamedValue(Of CompoundBrite())("Endocrine disrupting compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08006))).ToArray),
-                New NamedValue(Of CompoundBrite())("Pesticides", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08007))).ToArray),
-                New NamedValue(Of CompoundBrite())("Carcinogens", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08008))).ToArray),
-                New NamedValue(Of CompoundBrite())("Natural toxins", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08009))).ToArray),
+                New NamedValue(Of CompoundBrite())("Compounds with biological roles", CompoundsWithBiologicalRoles),
+                New NamedValue(Of CompoundBrite())("Lipids", Lipids),
+                New NamedValue(Of CompoundBrite())("Phytochemical compounds", PhytochemicalCompounds),
+                New NamedValue(Of CompoundBrite())("Bioactive peptides", BioactivePeptides),
+                New NamedValue(Of CompoundBrite())("Endocrine disrupting compounds", EndocrineDisruptingCompounds),
+                New NamedValue(Of CompoundBrite())("Pesticides", Pesticides),
+                New NamedValue(Of CompoundBrite())("Carcinogens", Carcinogens),
+                New NamedValue(Of CompoundBrite())("Natural toxins", NaturalToxins),
                 New NamedValue(Of CompoundBrite())("Target-based classification of compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08010))).ToArray)
             }
 
