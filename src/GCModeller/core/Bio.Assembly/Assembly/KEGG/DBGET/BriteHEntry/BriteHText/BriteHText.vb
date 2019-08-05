@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::26a856576c47be28a867a33c36480940, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BriteHText
-    ' 
-    '         Properties: [class], categoryItems, CategoryLevel, classLabel, degree
-    '                     description, entryID, level, parent
-    ' 
-    '         Function: BuildPath, EnumerateEntries, GetEntries, GetHPath, GetRoot
-    '                   Load, Load_ko00001, Load_ko00002, NormalizePath, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BriteHText
+' 
+'         Properties: [class], categoryItems, CategoryLevel, classLabel, degree
+'                     description, entryID, level, parent
+' 
+'         Function: BuildPath, EnumerateEntries, GetEntries, GetHPath, GetRoot
+'                   Load, Load_ko00001, Load_ko00002, NormalizePath, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -83,6 +83,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         <XmlElement>
         Public Property categoryItems As BriteHText()
 #End Region
+
+        Public ReadOnly Property CategoryLevel As Char
+            Get
+                If level < 0 Then
+                    Return "/"
+                End If
+                Return BriteHTextParser.classLevels(level)
+            End Get
+        End Property
 
         Dim entry As String
 
@@ -175,15 +184,16 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 获取得到当前的分类之下的所有的<see cref="entryID"/>列表
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetEntries() As String()
+        Public Iterator Function GetEntries() As IEnumerable(Of String)
             If Me.categoryItems.IsNullOrEmpty Then
-                Return {
-                    entryID
-                }
+                Yield entryID
             Else
-                Return Me.categoryItems _
+                For Each id As String In Me.categoryItems _
                     .Select(Function(htext) htext.GetEntries) _
-                    .ToVector
+                    .IteratesALL
+
+                    Yield id
+                Next
             End If
         End Function
 
@@ -204,15 +214,6 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             End If
         End Function
 
-        Public ReadOnly Property CategoryLevel As Char
-            Get
-                If level < 0 Then
-                    Return "/"
-                End If
-                Return BriteHTextParser.classLevels(level)
-            End Get
-        End Property
-
         Public Overrides Function ToString() As String
             Return String.Format("[{0}]  {1}", CategoryLevel, classLabel)
         End Function
@@ -221,7 +222,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             If String.IsNullOrEmpty(strValue) Then
                 Return ""
             End If
-            Return Regex.Replace(strValue, "(\\|/|:|\*|\?|""|<|>|\|)", "_")
+
+            Return r.Replace(strValue, "(\\|/|:|\*|\?|""|<|>|\|)", "_")
         End Function
 
         ''' <summary>
@@ -256,11 +258,11 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Function BuildPath(EXPORT$, Optional ext$ = ".xml") As String
             Dim levels As New List(Of String)
-            Dim o As BriteHText = Me.parent
+            Dim b As BriteHText = Me.parent
 
-            Do While Not o.parent Is Nothing
-                levels += o.classLabel
-                o = o.parent
+            Do While Not b.parent Is Nothing
+                levels += b.classLabel
+                b = b.parent
             Loop
 
             Call levels.Reverse()
