@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::a95ba5f9205a46e8b75d08a2ee52d9d9, Networks\Microbiome\Membrane_transport\Membrane_transport.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Membrane_transport
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: BuildTransferNetwork, MembraneComponents
-    ' 
-    ' /********************************************************************************/
+' Module Membrane_transport
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: BuildTransferNetwork, MembraneComponents
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,12 +46,13 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG
 
@@ -73,14 +74,19 @@ Public Module Membrane_transport
     ''' </summary>
     ReadOnly compoundClass As Dictionary(Of String, String)
     ReadOnly compoundName As Dictionary(Of String, String)
-    ReadOnly commonIgnores As Index(Of String) = {"C00002", "C00003", "C00006", "C00010", "C00016", "C00019", ""}
+    ReadOnly commonIgnores As Index(Of String) = {"C00002", "C00003", "C00006", "C00010", "C00016", "C00019"}
+    ReadOnly transporters As Index(Of String)
 
     Sub New()
         ' 会忽略掉下面的大类的物质
         ' Nucleic acids
-        Dim classInfo = CompoundBrite.GetCompoundsWithBiologicalRoles _
+        Dim classInfo = CompoundBrite.CompoundsWithBiologicalRoles _
             .Where(Function(cpd) cpd.class <> "Nucleic acids") _
-            .JoinIterates(CompoundBrite.GetLipids) _
+            .JoinIterates(CompoundBrite.Lipids) _
+            .JoinIterates(CompoundBrite.Carcinogens) _
+            .JoinIterates(CompoundBrite.EndocrineDisruptingCompounds) _
+            .JoinIterates(CompoundBrite.NaturalToxins) _
+            .Where(Function(m) Not m.entry.Key.StringEmpty) _
             .ToArray
 
         compoundClass = classInfo _
@@ -97,6 +103,15 @@ Public Module Membrane_transport
                           End Function)
         biologicalCompounds = classInfo _
             .Select(Function(cpd) cpd.entry.Key) _
+            .ToArray
+
+        transporters = ProteinFamily.SignalingAndCellularProcesses.BacterialToxins _
+            .JoinIterates(ProteinFamily.SignalingAndCellularProcesses.Exosome) _
+            .JoinIterates(ProteinFamily.SignalingAndCellularProcesses.ProkaryoticDefenseSystem) _
+            .JoinIterates(ProteinFamily.SignalingAndCellularProcesses.SecretionSystem) _
+            .JoinIterates(ProteinFamily.SignalingAndCellularProcesses.Transporters) _
+            .Select(Function(term) term.entry.Key) _
+            .Distinct _
             .ToArray
     End Sub
 
@@ -119,6 +134,19 @@ Public Module Membrane_transport
                 .Select(Function(l) l.proteins.Keys) _
                 .IteratesALL _
                 .Distinct _
+                .ToArray
+        End If
+    End Function
+
+    <Extension>
+    Public Function TransportProcessComponents(taxon As TaxonomyRef) As String()
+        Dim genome = taxon.genome
+
+        If genome Is Nothing OrElse genome.size = 0 Then
+            Return {}
+        Else
+            Return transporters _
+                .Intersect(collection:=genome.EntityList) _
                 .ToArray
         End If
     End Function
@@ -172,7 +200,7 @@ Public Module Membrane_transport
         Dim familyName$
 
         ' 遍历所有的基因组
-        For Each genome As TaxonomyRef In metagenome
+        For Each genome As TaxonomyRef In metagenome.Where(Function(tax) Not tax Is Nothing)
             Dim familyLabel$ = genome.TaxonomyString _
                 .Select(Metagenomics.TaxonomyRanks.Genus) _
                 .JoinBy(";")
@@ -180,7 +208,7 @@ Public Module Membrane_transport
             If Not nodeTable.ContainsKey(familyLabel) Then
                 familyName = familyLabel.Split(";"c).Where(Function(s) Not s.StringEmpty).Last
                 bacteria = New Node With {
-                    .Label = familyName,
+                    .label = familyName,
                     .data = New NodeData With {
                         .label = familyLabel,
                         .origID = genome.taxonID,
@@ -203,7 +231,9 @@ Public Module Membrane_transport
             End If
 
             bacteria = nodeTable(familyLabel)
-            reactions = repo.GetByKOMatch(genome.MembraneComponents).ToArray
+            reactions = repo _
+                .GetByKOMatch(genome.MembraneComponents.AsList + genome.TransportProcessComponents) _
+                .ToArray
 
             If reactions.IsNullOrEmpty Then
                 Call $"{genome.TaxonomyString.ToString} have no membrane located reactions...".Warning
@@ -230,7 +260,7 @@ Public Module Membrane_transport
 
                         If Not nodeTable.ContainsKey(compound) Then
                             metabolite = New Node With {
-                                .Label = compound,
+                                .label = compound,
                                 .data = New NodeData With {
                                     .label = compound,
                                     .origID = compound,
@@ -260,7 +290,7 @@ Public Module Membrane_transport
 
                         If Not nodeTable.ContainsKey(compound) Then
                             metabolite = New Node With {
-                                .Label = compound,
+                                .label = compound,
                                 .data = New NodeData With {
                                     .label = compound,
                                     .origID = compound,
@@ -287,36 +317,55 @@ Public Module Membrane_transport
             Call genome.ToString.__INFO_ECHO
         Next
 
-        '' 然后找出所有类型为metabolite的节点
-        '' 拿到对应的taxonomy
-        '' 删除metabolite相关的边链接,变更为细菌与细菌间的互做
-        'For Each node As Node In g.vertex _
-        '    .Where(Function(n) n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "metabolite") _
-        '    .ToArray
+        ' 计算每一种代谢物节点的degree数量
+        ' 将top10删除
+        ' 因为这些边链接非常高的代谢物可能是细胞内的通用代谢物,而非分泌到外部的代谢物
+        Call "Do graph node connectivity analysis...".__INFO_ECHO
+        Call g.ApplyAnalysis
 
-        '    ' bacteria总是U
-        '    Dim allConnectedGroups = g.graphEdges.Where(Function(e) e.V Is node).GroupBy(Function(e) e.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE)).ToArray
-        '    Dim bacterias As New List(Of Node)
+        Dim metabolites = g.vertex _
+            .Where(Function(n) n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "metabolite") _
+            .OrderByDescending(Function(n) n.data.neighborhoods) _
+            .ToArray
+        Dim degrees As Double() = metabolites _
+            .Select(Function(v) CDbl(v.data.neighborhoods)) _
+            .ToArray
+        Dim quartile As DataQuartile = degrees.Quartile
+        Dim threshold = quartile.Q3
 
-        '    For Each allConnected In allConnectedGroups
-        '        For Each connection In allConnected
-        '            bacteria = connection.U
+        Call $"There is {metabolites.Length} metabolites in graph".__DEBUG_ECHO
+        Call $"Node degree distribution: {quartile.ToString}".__DEBUG_ECHO
 
-        '            bacterias.Add(bacteria)
-        '            g.RemoveEdge(connection)
-        '        Next
+        metabolites = metabolites.Where(Function(m) m.data.neighborhoods > threshold).ToArray
 
-        '        For Each a In bacterias
-        '            For Each b In bacterias.Where(Function(n) Not n Is a)
-        '                Call addEdge(a, b, allConnected.Key)
-        '            Next
-        '        Next
-        '    Next
+        Dim edgeIndexByNodeLabel As Dictionary(Of String, Edge()) = g.graphEdges _
+            .Select(Function(e) {(DirectCast(e, IInteraction).source, e), (DirectCast(e, IInteraction).target, e)}) _
+            .IteratesALL _
+            .GroupBy(Function(t) t.Item1) _
+            .ToDictionary(Function(gr) gr.Key,
+                          Function(gr)
+                              Return gr.Select(Function(t) t.Item2).ToArray
+                          End Function)
+        Dim deleteEdges As New List(Of Edge)
 
-        '    g.RemoveNode(node)
-        'Next
+        For Each node As Node In metabolites
+            deleteEdges += edgeIndexByNodeLabel(node.label)
 
-        Return g
+            Call $"Delete high connected metabolite: [{node}] {node.data!title}".__DEBUG_ECHO
+        Next
+
+        ' 重新生成graph对象
+        Dim leftEdges As Edge()
+        Dim leftNodes As Node()
+
+        With deleteEdges.Select(Function(e) e.ID).Distinct.Indexing
+            leftEdges = g.graphEdges.Where(Function(e) .IndexOf(e.ID) = -1).ToArray
+        End With
+        With metabolites.Select(Function(n) n.label).Distinct.Indexing
+            leftNodes = g.vertex.Where(Function(n) .IndexOf(n.label) = -1).ToArray
+        End With
+
+        Return New NetworkGraph(leftNodes, leftEdges)
     End Function
 End Module
 

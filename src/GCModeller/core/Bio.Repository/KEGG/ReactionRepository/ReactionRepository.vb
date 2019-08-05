@@ -234,7 +234,8 @@ Public Class ReactionRepository : Inherits XmlDataModel
             Call GetKoIndex()
         End If
 
-        Return KO.Where(Function(id) KOindex.ContainsKey(id)) _
+        Return KO.Distinct _
+            .Where(Function(id) KOindex.ContainsKey(id)) _
             .Select(Function(id)
                         Return table.Takes(KOindex(id))
                     End Function) _

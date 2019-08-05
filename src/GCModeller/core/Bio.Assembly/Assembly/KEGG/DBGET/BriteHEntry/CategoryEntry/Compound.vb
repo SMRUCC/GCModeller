@@ -1,50 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::fece6bb3b9c3790c58fb482d0674d22a, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compounds\Compound.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class CompoundBrite
-    ' 
-    '         Properties: [class], category, entry, order, subcategory
-    ' 
-    '         Function: BuildPath, DownloadCompounds, GetAllPubchemMapCompound, GetCompoundsWithBiologicalRoles, GetInformation
-    '                   GetLipids, Lipids, LoadFile, ToString
-    ' 
-    '         Sub: DownloadFromResource
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class CompoundBrite
+' 
+'         Properties: [class], category, entry, order, subcategory
+' 
+'         Function: BuildPath, DownloadCompounds, GetAllPubchemMapCompound, GetCompoundsWithBiologicalRoles, GetInformation
+'                   GetLipids, Lipids, LoadFile, ToString
+' 
+'         Sub: DownloadFromResource
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -53,7 +54,6 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.WebQuery.Compounds
 
@@ -75,48 +75,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     '''  br08009  Natural toxins
     '''  br08010  Target-based classification of compounds
     ''' </remarks>
-    Public Class CompoundBrite
-
-        ''' <summary>
-        ''' A
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property [class] As String
-        ''' <summary>
-        ''' B
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property category As String
-        ''' <summary>
-        ''' C
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property subcategory As String
-        ''' <summary>
-        ''' D
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property order As String
-        ''' <summary>
-        ''' ``{compoundID => name}``
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property entry As KeyValuePair
-
-        ''' <summary>
-        ''' KEGG BRITE contains a classification of lipids
-        ''' 
-        ''' > http://www.kegg.jp/kegg-bin/get_htext?br08002.keg
-        ''' </summary>
-        ''' <returns></returns>
-        Public Shared Function Lipids() As CompoundBrite()
-            Dim satellite As New ResourcesSatellite(GetType(LICENSE))
-            Return CompoundTextModel.Build(BriteHTextParser.Load(satellite.GetString(cpd_br08002))).ToArray
-        End Function
-
-        Public Overrides Function ToString() As String
-            Return entry.ToString
-        End Function
+    Public Module CompoundBrite
 
 #Region "Internal resource ID"
 
@@ -159,7 +118,9 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
 #End Region
 
-        Public Shared Function GetAllPubchemMapCompound() As String()
+        Const CompoundIDPattern$ = "[DCG]\d+"
+
+        Public Function GetAllPubchemMapCompound() As String()
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
             Dim data = satellite.GetString("SID_Map_KEGG")
             Dim id As String() = data.LineTokens _
@@ -174,21 +135,56 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return id
         End Function
 
-        Public Shared Function GetLipids() As CompoundBrite()
-            Return GetInformation(cpd_br08002)
+        ''' <summary>
+        ''' KEGG BRITE contains a classification of lipids
+        ''' 
+        ''' > http://www.kegg.jp/kegg-bin/get_htext?br08002.keg
+        ''' </summary>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Lipids() As BriteTerm()
+            Return BriteTerm.GetInformation(cpd_br08002, CompoundIDPattern)
         End Function
 
-        Public Shared Function GetCompoundsWithBiologicalRoles() As CompoundBrite()
-            Return GetInformation(cpd_br08001)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function CompoundsWithBiologicalRoles() As BriteTerm()
+            Return BriteTerm.GetInformation(cpd_br08001, CompoundIDPattern)
         End Function
 
-        Private Shared Function GetInformation(resourceName As String) As CompoundBrite()
-            Static satellite As New ResourcesSatellite(GetType(LICENSE))
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function PhytochemicalCompounds() As BriteTerm()
+            Return BriteTerm.GetInformation(cpd_br08003, CompoundIDPattern)
+        End Function
 
-            Dim htext = BriteHTextParser.Load(satellite.GetString(resourceName))
-            Dim compounds = Build(htext).ToArray
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function BioactivePeptides() As BriteTerm()
+            Return BriteTerm.GetInformation(cpd_br08005, CompoundIDPattern)
+        End Function
 
-            Return compounds
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function EndocrineDisruptingCompounds() As BriteTerm()
+            Return BriteTerm.GetInformation(cpd_br08006, CompoundIDPattern)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Pesticides() As BriteTerm()
+            Return BriteTerm.GetInformation(cpd_br08007, CompoundIDPattern)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Carcinogens() As BriteTerm()
+            Return BriteTerm.GetInformation(cpd_br08008, CompoundIDPattern)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function NaturalToxins() As BriteTerm()
+            Return BriteTerm.GetInformation(cpd_br08009, CompoundIDPattern)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TargetbasedClassificationOfCompounds() As BriteTerm()
+            Return BriteTerm.GetInformation(cpd_br08010, CompoundIDPattern)
         End Function
 
         ''' <summary>
@@ -209,21 +205,21 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <param name="directoryOrganized"></param>
         ''' <param name="structInfo">是否同时也下载分子结构信息？</param>
         ''' <remarks></remarks>
-        Public Shared Sub DownloadFromResource(EXPORT$, Optional directoryOrganized As Boolean = True, Optional structInfo As Boolean = False)
+        Public Sub DownloadFromResource(EXPORT$, Optional directoryOrganized As Boolean = True, Optional structInfo As Boolean = False)
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
             Dim resource = {
-                New NamedValue(Of CompoundBrite())("Compounds with biological roles", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08001))).ToArray),
-                New NamedValue(Of CompoundBrite())("Lipids", CompoundBrite.Lipids),
-                New NamedValue(Of CompoundBrite())("Phytochemical compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08003))).ToArray),
-                New NamedValue(Of CompoundBrite())("Bioactive peptides", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08005))).ToArray),
-                New NamedValue(Of CompoundBrite())("Endocrine disrupting compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08006))).ToArray),
-                New NamedValue(Of CompoundBrite())("Pesticides", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08007))).ToArray),
-                New NamedValue(Of CompoundBrite())("Carcinogens", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08008))).ToArray),
-                New NamedValue(Of CompoundBrite())("Natural toxins", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08009))).ToArray),
-                New NamedValue(Of CompoundBrite())("Target-based classification of compounds", Build(BriteHTextParser.Load(satellite.GetString(cpd_br08010))).ToArray)
+                New NamedValue(Of BriteTerm())("Compounds with biological roles", CompoundsWithBiologicalRoles),
+                New NamedValue(Of BriteTerm())("Lipids", Lipids),
+                New NamedValue(Of BriteTerm())("Phytochemical compounds", PhytochemicalCompounds),
+                New NamedValue(Of BriteTerm())("Bioactive peptides", BioactivePeptides),
+                New NamedValue(Of BriteTerm())("Endocrine disrupting compounds", EndocrineDisruptingCompounds),
+                New NamedValue(Of BriteTerm())("Pesticides", Pesticides),
+                New NamedValue(Of BriteTerm())("Carcinogens", Carcinogens),
+                New NamedValue(Of BriteTerm())("Natural toxins", NaturalToxins),
+                New NamedValue(Of BriteTerm())("Target-based classification of compounds", TargetbasedClassificationOfCompounds)
             }
 
-            For Each entry As NamedValue(Of CompoundBrite()) In resource
+            For Each entry As NamedValue(Of BriteTerm()) In resource
                 With entry
                     Call .Value.ExecuteDownloads(.Name, EXPORT, directoryOrganized, structInfo)
                 End With
@@ -253,27 +249,6 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             End Using
         End Sub
 
-        Public Function BuildPath(EXPORT$, directoryOrganized As Boolean, Optional class$ = "") As String
-            With Me
-                If directoryOrganized Then
-                    Dim t As New List(Of String) From {
-                        EXPORT,
-                        BriteHText.NormalizePath(.class),
-                        BriteHText.NormalizePath(.category),
-                        BriteHText.NormalizePath(.subcategory)
-                    }
-
-                    If Not [class].StringEmpty Then
-                        Call t.Insert(index:=1, item:=[class])
-                    End If
-
-                    Return String.Join("/", t)
-                Else
-                    Return EXPORT
-                End If
-            End With
-        End Function
-
         ''' <summary>
         ''' 函数返回失败的编号列表
         ''' </summary>
@@ -281,11 +256,11 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <param name="BriefFile"></param>
         ''' <param name="directoryOrganized"></param>
         ''' <returns></returns>
-        Public Shared Function DownloadCompounds(EXPORT$, briefFile$, Optional directoryOrganized As Boolean = True) As String()
-            Dim BriefEntries As CompoundBrite() = LoadFile(briefFile)
+        Public Function DownloadCompounds(EXPORT$, briefFile$, Optional directoryOrganized As Boolean = True) As String()
+            Dim BriefEntries As BriteTerm() = LoadFile(briefFile)
             Dim failures As New List(Of String)
 
-            For Each entry As CompoundBrite In BriefEntries
+            For Each entry As BriteTerm In BriefEntries
                 Dim EntryId As String = entry.entry.Key
                 Dim saveDIR As String = entry.BuildPath(EXPORT, directoryOrganized)
                 Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryId)
@@ -302,8 +277,9 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return failures
         End Function
 
-        Public Shared Function LoadFile(path As String) As CompoundBrite()
-            Return Build(BriteHTextParser.Load(path.SolveStream)).ToArray
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function LoadFile(path As String) As BriteTerm()
+            Return BriteTerm.GetInformation(path, CompoundIDPattern)
         End Function
-    End Class
+    End Module
 End Namespace

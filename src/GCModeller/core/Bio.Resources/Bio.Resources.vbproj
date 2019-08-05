@@ -338,6 +338,36 @@
   <ItemGroup>
     <None Include="Resources\ko01000.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Protein families\signaling and cellular processes\ko02000.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Protein families\signaling and cellular processes\ko02022.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Protein families\signaling and cellular processes\ko02035.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Protein families\signaling and cellular processes\ko02042.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Protein families\signaling and cellular processes\ko02044.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Protein families\signaling and cellular processes\ko02048.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Protein families\signaling and cellular processes\ko03200.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Protein families\signaling and cellular processes\ko04040.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Protein families\signaling and cellular processes\ko04147.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Protein families\signaling and cellular processes\ko04812.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
