@@ -6,26 +6,31 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
     Module TreeParser
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function Deflate(htext As BriteHText) As IEnumerable(Of BriteTerm)
-            Return htext.deflateInternal.IteratesALL
+        Public Function Deflate(htext As BriteHText, entryIDPattern$) As IEnumerable(Of BriteTerm)
+            Return htext.deflateInternal(entryIDPattern).IteratesALL
         End Function
 
         <Extension>
-        Private Function deflateInternal(model As BriteHText) As IEnumerable(Of IEnumerable(Of CompoundBrite))
+        Private Function deflateInternal(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of CompoundBrite))
             Select Case model.degree
-                Case "C"c : Return model.deflate_C
-                Case "D"c : Return model.deflate_D
-                Case "E"c : Return model.deflate_E
+                Case "C"c : Return model.deflate_C(entryIDPattern)
+                Case "D"c : Return model.deflate_D(entryIDPattern)
+                Case "E"c : Return model.deflate_E(entryIDPattern)
                 Case Else
                     Throw New NotImplementedException(model.degree)
             End Select
         End Function
 
         <Extension>
-        Private Iterator Function deflate_C(model As BriteHText) As IEnumerable(Of IEnumerable(Of CompoundBrite))
+        Private Iterator Function deflate_C(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of CompoundBrite))
             For Each [class] As BriteHText In model.categoryItems
                 If [class].categoryItems.IsNullOrEmpty Then
+                    If [class].classLabel.StartsWith(entryIDPattern, RegexICSng) Then
+
+                    End If
+
                     Continue For
                 End If
 
@@ -49,7 +54,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         <Extension>
-        Private Iterator Function deflate_D(model As BriteHText) As IEnumerable(Of IEnumerable(Of CompoundBrite))
+        Private Iterator Function deflate_D(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of CompoundBrite))
             For Each [class] As BriteHText In model.categoryItems
 
                 If [class].categoryItems.IsNullOrEmpty Then
@@ -82,7 +87,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         <Extension>
-        Private Iterator Function deflate_E(model As BriteHText) As IEnumerable(Of IEnumerable(Of CompoundBrite))
+        Private Iterator Function deflate_E(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of CompoundBrite))
             For Each [class] As BriteHText In model.categoryItems
                 If [class].categoryItems.IsNullOrEmpty Then
                     Continue For
