@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.Text.Xml.Models
+﻿Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -35,6 +37,35 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         Public Overrides Function ToString() As String
             Return entry.ToString
+        End Function
+
+        Friend Shared Function GetInformation(resourceName$, entryIDPattern$) As BriteTerm()
+            Static satellite As New ResourcesSatellite(GetType(LICENSE))
+
+            Dim resource$ = Nothing
+
+            If resourceName.IsPattern(Patterns.Identifer, RegexICSng) Then
+                resource = satellite.GetString(resourceName)
+            ElseIf resourceName.IsURLPattern Then
+                With resourceName.Split("?"c).Last.Match("[0-9a-zA-Z_]+\.keg")
+                    If Not .StringEmpty Then
+                        resource = satellite.GetString(.Replace(".keg", ""))
+                    End If
+                End With
+
+                If resource.StringEmpty Then
+                    resource = resourceName.GET
+                End If
+            ElseIf resourceName.FileExists Then
+                resource = resourceName.ReadAllText
+            Else
+                Throw New NotImplementedException(resourceName)
+            End If
+
+            Dim htext = BriteHTextParser.Load(resource)
+            Dim terms = TreeParser.Deflate(htext, entryIDPattern).ToArray
+
+            Return terms
         End Function
     End Class
 End Namespace
