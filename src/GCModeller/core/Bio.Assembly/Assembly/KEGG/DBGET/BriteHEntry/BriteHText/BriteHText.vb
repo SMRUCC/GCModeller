@@ -209,7 +209,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 If level < 0 Then
                     Return "/"
                 End If
-                Return BriteHTextParser.ClassLevels(level)
+                Return BriteHTextParser.classLevels(level)
             End Get
         End Property
 
