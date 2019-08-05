@@ -20,5 +20,9 @@
         Public Shared Function Exosome() As BriteTerm()
             Return BriteTerm.GetInformation("https://www.kegg.jp/kegg-bin/get_htext?ko04147.keg", "K\d+")
         End Function
+
+        Public Shared Function ProkaryoticDefenseSystem() As BriteTerm()
+            Return BriteTerm.GetInformation("https://www.kegg.jp/kegg-bin/get_htext?ko02048.keg", "K\d+")
+        End Function
     End Class
 End Namespace

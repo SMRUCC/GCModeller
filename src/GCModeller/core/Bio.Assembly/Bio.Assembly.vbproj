@@ -491,7 +491,6 @@
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\TreeParser.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Enzyme.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compounds\TextModel.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ProteinFamily.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Organism.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb" />
@@ -690,7 +689,7 @@
     <Compile Include="ComponentModel\Annotation\PathwayBrief.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\XmlModel.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Pathway.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compounds\Compound.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compound.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\CompoundModelFactory.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PathwayBrief\AssignGene.vb" />

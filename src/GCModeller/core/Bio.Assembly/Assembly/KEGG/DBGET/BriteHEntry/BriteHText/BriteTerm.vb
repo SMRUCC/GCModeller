@@ -67,5 +67,26 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
             Return terms
         End Function
+
+        Public Function BuildPath(EXPORT$, directoryOrganized As Boolean, Optional class$ = "") As String
+            With Me
+                If directoryOrganized Then
+                    Dim t As New List(Of String) From {
+                        EXPORT,
+                        BriteHText.NormalizePath(.class),
+                        BriteHText.NormalizePath(.category),
+                        BriteHText.NormalizePath(.subcategory)
+                    }
+
+                    If Not [class].StringEmpty Then
+                        Call t.Insert(index:=1, item:=[class])
+                    End If
+
+                    Return String.Join("/", t)
+                Else
+                    Return EXPORT
+                End If
+            End With
+        End Function
     End Class
 End Namespace
