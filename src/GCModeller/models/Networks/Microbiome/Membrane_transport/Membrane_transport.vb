@@ -46,7 +46,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -336,12 +338,34 @@ Public Module Membrane_transport
 
         metabolites = metabolites.Where(Function(m) m.data.neighborhoods > threshold).ToArray
 
+        Dim edgeIndexByNodeLabel As Dictionary(Of String, Edge()) = g.graphEdges _
+            .Select(Function(e) {(DirectCast(e, IInteraction).source, e), (DirectCast(e, IInteraction).target, e)}) _
+            .IteratesALL _
+            .GroupBy(Function(t) t.Item1) _
+            .ToDictionary(Function(gr) gr.Key,
+                          Function(gr)
+                              Return gr.Select(Function(t) t.Item2).ToArray
+                          End Function)
+        Dim deleteEdges As New List(Of Edge)
+
         For Each node As Node In metabolites
-            Call g.RemoveNode(node)
+            deleteEdges += edgeIndexByNodeLabel(node.label)
+
             Call $"Delete high connected metabolite: [{node}] {node.data!title}".__DEBUG_ECHO
         Next
 
-        Return g
+        ' 重新生成graph对象
+        Dim leftEdges As Edge()
+        Dim leftNodes As Node()
+
+        With deleteEdges.Select(Function(e) e.ID).Distinct.Indexing
+            leftEdges = g.graphEdges.Where(Function(e) .IndexOf(e.ID) = -1).ToArray
+        End With
+        With metabolites.Select(Function(n) n.label).Distinct.Indexing
+            leftNodes = g.vertex.Where(Function(n) .IndexOf(n.label) = -1).ToArray
+        End With
+
+        Return New NetworkGraph(leftNodes, leftEdges)
     End Function
 End Module
 
