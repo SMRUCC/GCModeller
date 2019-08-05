@@ -6,6 +6,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
     Module TreeParser
 
+        Const NA$ = "N/A"
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Deflate(htext As BriteHText, entryIDPattern$) As IEnumerable(Of BriteTerm)
@@ -28,7 +30,9 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             For Each [class] As BriteHText In model.categoryItems
                 If [class].categoryItems.IsNullOrEmpty Then
                     If [class].classLabel.StartsWith(entryIDPattern, RegexICSng) Then
-
+                        Yield {
+                            New BriteTerm With {.[class] = NA, .category = NA, .order = NA, .subcategory = NA, .entry = [class].classLabel.GetTagValue(" ", trim:=True)}
+                        }
                     End If
 
                     Continue For
