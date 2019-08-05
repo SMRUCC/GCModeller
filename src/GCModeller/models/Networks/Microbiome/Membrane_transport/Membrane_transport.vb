@@ -318,6 +318,7 @@ Public Module Membrane_transport
         ' 计算每一种代谢物节点的degree数量
         ' 将top10删除
         ' 因为这些边链接非常高的代谢物可能是细胞内的通用代谢物,而非分泌到外部的代谢物
+        Call "Do graph node connectivity analysis...".__INFO_ECHO
         Call g.ApplyAnalysis
 
         Dim metabolites = g.vertex _
@@ -330,11 +331,14 @@ Public Module Membrane_transport
         Dim quartile As DataQuartile = degrees.Quartile
         Dim threshold = quartile.Q3
 
+        Call $"There is {metabolites.Length} metabolites in graph".__DEBUG_ECHO
         Call $"Node degree distribution: {quartile.ToString}".__DEBUG_ECHO
 
-        For Each metabolite In metabolites.Where(Function(m) m.data.neighborhoods > threshold)
-            Call g.RemoveNode(metabolite)
-            Call $"Delete high connected metabolite: {metabolite}".__DEBUG_ECHO
+        metabolites = metabolites.Where(Function(m) m.data.neighborhoods > threshold).ToArray
+
+        For Each node As Node In metabolites
+            Call g.RemoveNode(node)
+            Call $"Delete high connected metabolite: [{node}] {node.data!title}".__DEBUG_ECHO
         Next
 
         Return g
