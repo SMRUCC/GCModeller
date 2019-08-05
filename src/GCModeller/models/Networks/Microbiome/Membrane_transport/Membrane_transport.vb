@@ -334,6 +334,7 @@ Public Module Membrane_transport
 
         For Each metabolite In metabolites.Where(Function(m) m.data.neighborhoods > threshold)
             Call g.RemoveNode(metabolite)
+            Call $"Delete high connected metabolite: {metabolite}".__DEBUG_ECHO
         Next
 
         Return g
