@@ -53,10 +53,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="data$">文本内容或者文件的路径</param>
+        ''' <param name="text$">文本内容或者文件的路径</param>
         ''' <returns></returns>
-        Public Function Load(data$) As BriteHText
-            Dim raw = data.Replace("<b>", "") _
+        Public Function Load(text As String) As BriteHText
+            Dim raw = text.Replace("<b>", "") _
                           .Replace("</b>", "") _
                           .LineTokens
             Dim lines As String() = LinqAPI.Exec(Of String) <=
@@ -66,7 +66,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 Where s.isValid
                 Select s
 
-            Return Load(lines, data(1))
+            Return Load(lines, text(1))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
