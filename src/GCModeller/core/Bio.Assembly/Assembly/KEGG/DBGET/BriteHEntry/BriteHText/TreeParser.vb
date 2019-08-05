@@ -15,7 +15,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         <Extension>
-        Private Function deflateInternal(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of CompoundBrite))
+        Private Function deflateInternal(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of BriteTerm))
             Select Case model.degree
                 Case "C"c : Return model.deflate_C(entryIDPattern)
                 Case "D"c : Return model.deflate_D(entryIDPattern)
@@ -26,26 +26,44 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         <Extension>
-        Private Iterator Function deflate_C(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of CompoundBrite))
+        Private Function incompleteTerm(possibleTerm As BriteHText, entryIDPattern$,
+                                        Optional [class] As BriteHText = Nothing,
+                                        Optional category As BriteHText = Nothing,
+                                        Optional subCategory As BriteHText = Nothing,
+                                        Optional order As BriteHText = Nothing) As BriteTerm()
+
+            If Not possibleTerm.classLabel.StartsWith(entryIDPattern, RegexICSng) Then
+                Return {}
+            End If
+
+            Dim termEntry = possibleTerm.classLabel.GetTagValue(" ", trim:=True)
+            Dim term As New BriteTerm With {.entry = termEntry}
+
+            term.class = If([class]?.classLabel, NA)
+            term.category = If(category?.classLabel, NA)
+            term.subcategory = If(subCategory?.classLabel, NA)
+            term.order = If(order?.classLabel, NA)
+
+            Return {term}
+        End Function
+
+        <Extension>
+        Private Iterator Function deflate_C(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of BriteTerm))
             For Each [class] As BriteHText In model.categoryItems
                 If [class].categoryItems.IsNullOrEmpty Then
-                    If [class].classLabel.StartsWith(entryIDPattern, RegexICSng) Then
-                        Yield {
-                            New BriteTerm With {.[class] = NA, .category = NA, .order = NA, .subcategory = NA, .entry = [class].classLabel.GetTagValue(" ", trim:=True)}
-                        }
-                    End If
-
+                    Yield [class].incompleteTerm(entryIDPattern)
                     Continue For
                 End If
 
                 For Each category As BriteHText In [class].categoryItems
                     If category.categoryItems.IsNullOrEmpty Then
+                        Yield category.incompleteTerm(entryIDPattern, [class])
                         Continue For
                     End If
 
                     Yield From htext As BriteHText
                           In category.categoryItems
-                          Select New CompoundBrite With {
+                          Select New BriteTerm With {
                               .class = [class].classLabel,
                               .category = category.classLabel,
                               .entry = New KeyValuePair With {
@@ -58,25 +76,27 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         <Extension>
-        Private Iterator Function deflate_D(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of CompoundBrite))
+        Private Iterator Function deflate_D(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of BriteTerm))
             For Each [class] As BriteHText In model.categoryItems
-
                 If [class].categoryItems.IsNullOrEmpty Then
+                    Yield [class].incompleteTerm(entryIDPattern)
                     Continue For
                 End If
 
                 For Each category As BriteHText In [class].categoryItems
                     If category.categoryItems.IsNullOrEmpty Then
+                        Yield category.incompleteTerm(entryIDPattern, [class])
                         Continue For
                     End If
                     For Each subCategory As BriteHText In category.categoryItems
                         If subCategory.categoryItems.IsNullOrEmpty Then
+                            Yield subCategory.incompleteTerm(entryIDPattern, [class], category)
                             Continue For
                         End If
 
                         Yield From br As BriteHText
                               In subCategory.categoryItems
-                              Select New CompoundBrite With {
+                              Select New BriteTerm With {
                                    .class = [class].classLabel,
                                    .category = category.classLabel,
                                    .subcategory = subCategory.classLabel,
@@ -91,27 +111,31 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         <Extension>
-        Private Iterator Function deflate_E(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of CompoundBrite))
+        Private Iterator Function deflate_E(model As BriteHText, entryIDPattern$) As IEnumerable(Of IEnumerable(Of BriteTerm))
             For Each [class] As BriteHText In model.categoryItems
                 If [class].categoryItems.IsNullOrEmpty Then
+                    Yield [class].incompleteTerm(entryIDPattern)
                     Continue For
                 End If
                 For Each category As BriteHText In [class].categoryItems
                     If category.categoryItems.IsNullOrEmpty Then
+                        Yield category.incompleteTerm(entryIDPattern, [class])
                         Continue For
                     End If
                     For Each subCategory As BriteHText In category.categoryItems
                         If subCategory.categoryItems.IsNullOrEmpty Then
+                            Yield subCategory.incompleteTerm(entryIDPattern, [class], category)
                             Continue For
                         End If
                         For Each order As BriteHText In subCategory.categoryItems
                             If order.categoryItems.IsNullOrEmpty Then
+                                Yield order.incompleteTerm(entryIDPattern, [class], category, subCategory)
                                 Continue For
                             End If
 
                             Yield From br As BriteHText
                                   In order.categoryItems
-                                  Select New CompoundBrite With {
+                                  Select New BriteTerm With {
                                       .class = [class].classLabel,
                                       .category = category.classLabel,
                                       .subcategory = subCategory.classLabel,
@@ -121,7 +145,6 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                           .Value = br.description
                                       }
                                   }
-
                         Next
                     Next
                 Next
