@@ -354,6 +354,7 @@ Namespace Graph
         ''' <param name="iNode"></param>
         Public Sub DetachNode(iNode As Node)
             Call graphEdges _
+                .ToArray _
                 .DoEach(Sub(e As Edge)
                             If e.U.label = iNode.label OrElse e.V.label = iNode.label Then
                                 Call RemoveEdge(e)

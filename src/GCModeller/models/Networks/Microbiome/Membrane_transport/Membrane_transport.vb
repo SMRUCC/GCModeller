@@ -327,8 +327,10 @@ Public Module Membrane_transport
         Dim degrees As Double() = metabolites _
             .Select(Function(v) CDbl(v.data.neighborhoods)) _
             .ToArray
-        Dim quartile = degrees.Quartile
+        Dim quartile As DataQuartile = degrees.Quartile
         Dim threshold = quartile.Q3
+
+        Call $"Node degree distribution: {quartile.ToString}".__DEBUG_ECHO
 
         For Each metabolite In metabolites.Where(Function(m) m.data.neighborhoods > threshold)
             Call g.RemoveNode(metabolite)
