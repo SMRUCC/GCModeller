@@ -178,4 +178,34 @@
   <data name="ko01000" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ko01000.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
+  <data name="ko02000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Protein families\signaling and cellular processes\ko02000.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko02022" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Protein families\signaling and cellular processes\ko02022.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko02035" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Protein families\signaling and cellular processes\ko02035.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko02042" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Protein families\signaling and cellular processes\ko02042.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko02044" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Protein families\signaling and cellular processes\ko02044.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko02048" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Protein families\signaling and cellular processes\ko02048.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko03200" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Protein families\signaling and cellular processes\ko03200.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko04040" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Protein families\signaling and cellular processes\ko04040.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko04147" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Protein families\signaling and cellular processes\ko04147.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko04812" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Protein families\signaling and cellular processes\ko04812.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>
