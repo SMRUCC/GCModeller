@@ -50,6 +50,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -92,12 +93,12 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public ReadOnly Property entryID As String
             Get
                 If String.IsNullOrEmpty(entry) Then
-                    Dim Tokens As String = classLabel.Split.First
+                    Dim tokens As String = classLabel.Split.First
 
-                    If Regex.Match(Tokens, "[a-z]\d{5}", RegexOptions.IgnoreCase).Success Then
-                        entry = Tokens
-                    ElseIf Tokens.IsPattern("\d+") Then
-                        entry = Tokens
+                    If r.Match(tokens, "[a-z]\d{5}", RegexOptions.IgnoreCase).Success Then
+                        entry = tokens
+                    ElseIf tokens.IsPattern("\d+") Then
+                        entry = tokens
                     End If
                 End If
 
@@ -146,10 +147,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <summary>
         ''' 查找不到会返回空值
         ''' </summary>
-        ''' <param name="Key"><see cref="entryID"/> or <see cref="entryID"/> in <see cref="CategoryItems"/></param>
+        ''' <param name="key"><see cref="entryID"/> or <see cref="entryID"/> in <see cref="CategoryItems"/></param>
         ''' <returns></returns>
-        Public Function GetHPath(Key As String) As BriteHText()
-            If String.Equals(Key, entryID, StringComparison.OrdinalIgnoreCase) Then
+        Public Function GetHPath(key As String) As BriteHText()
+            If String.Equals(key, entryID, StringComparison.OrdinalIgnoreCase) Then
                 Return {Me}
             End If
 
@@ -159,7 +160,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
             Dim LQuery As BriteHText() = (From value As BriteHText
                                           In Me.categoryItems
-                                          Let path As BriteHText() = value.GetHPath(Key)
+                                          Let path As BriteHText() = value.GetHPath(key)
                                           Where Not path.IsNullOrEmpty
                                           Select path).FirstOrDefault
             If LQuery.IsNullOrEmpty Then
