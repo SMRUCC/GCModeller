@@ -72,7 +72,8 @@ Public Module Membrane_transport
     ''' </summary>
     ReadOnly compoundClass As Dictionary(Of String, String)
     ReadOnly compoundName As Dictionary(Of String, String)
-    ReadOnly commonIgnores As Index(Of String) = {"C00002", "C00003", "C00006", "C00010", "C00016", "C00019", ""}
+    ReadOnly commonIgnores As Index(Of String) = {"C00002", "C00003", "C00006", "C00010", "C00016", "C00019"}
+    ReadOnly transporters As Index(Of String)
 
     Sub New()
         ' 会忽略掉下面的大类的物质
@@ -100,6 +101,15 @@ Public Module Membrane_transport
         biologicalCompounds = classInfo _
             .Select(Function(cpd) cpd.entry.Key) _
             .ToArray
+
+        transporters = ProteinFamily.SignalingAndCellularProcesses.BacterialToxins _
+            .JoinIterates(ProteinFamily.SignalingAndCellularProcesses.Exosome) _
+            .JoinIterates(ProteinFamily.SignalingAndCellularProcesses.ProkaryoticDefenseSystem) _
+            .JoinIterates(ProteinFamily.SignalingAndCellularProcesses.SecretionSystem) _
+            .JoinIterates(ProteinFamily.SignalingAndCellularProcesses.Transporters) _
+            .Select(Function(term) term.entry.Key) _
+            .Distinct _
+            .ToArray
     End Sub
 
     ''' <summary>
@@ -121,6 +131,19 @@ Public Module Membrane_transport
                 .Select(Function(l) l.proteins.Keys) _
                 .IteratesALL _
                 .Distinct _
+                .ToArray
+        End If
+    End Function
+
+    <Extension>
+    Public Function TransportProcessComponents(taxon As TaxonomyRef) As String()
+        Dim genome = taxon.genome
+
+        If genome Is Nothing OrElse genome.size = 0 Then
+            Return {}
+        Else
+            Return transporters _
+                .Intersect(collection:=genome.EntityList) _
                 .ToArray
         End If
     End Function
@@ -205,7 +228,9 @@ Public Module Membrane_transport
             End If
 
             bacteria = nodeTable(familyLabel)
-            reactions = repo.GetByKOMatch(genome.MembraneComponents).ToArray
+            reactions = repo _
+                .GetByKOMatch(genome.MembraneComponents.AsList + genome.TransportProcessComponents) _
+                .ToArray
 
             If reactions.IsNullOrEmpty Then
                 Call $"{genome.TaxonomyString.ToString} have no membrane located reactions...".Warning
