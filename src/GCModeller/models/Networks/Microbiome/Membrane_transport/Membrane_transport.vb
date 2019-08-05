@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::a95ba5f9205a46e8b75d08a2ee52d9d9, Networks\Microbiome\Membrane_transport\Membrane_transport.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Membrane_transport
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: BuildTransferNetwork, MembraneComponents
-    ' 
-    ' /********************************************************************************/
+' Module Membrane_transport
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: BuildTransferNetwork, MembraneComponents
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,11 +47,10 @@ Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG
 
@@ -81,6 +80,9 @@ Public Module Membrane_transport
         Dim classInfo = CompoundBrite.CompoundsWithBiologicalRoles _
             .Where(Function(cpd) cpd.class <> "Nucleic acids") _
             .JoinIterates(CompoundBrite.Lipids) _
+            .JoinIterates(CompoundBrite.Carcinogens) _
+            .JoinIterates(CompoundBrite.EndocrineDisruptingCompounds) _
+            .JoinIterates(CompoundBrite.NaturalToxins) _
             .ToArray
 
         compoundClass = classInfo _
@@ -287,34 +289,24 @@ Public Module Membrane_transport
             Call genome.ToString.__INFO_ECHO
         Next
 
-        '' 然后找出所有类型为metabolite的节点
-        '' 拿到对应的taxonomy
-        '' 删除metabolite相关的边链接,变更为细菌与细菌间的互做
-        'For Each node As Node In g.vertex _
-        '    .Where(Function(n) n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "metabolite") _
-        '    .ToArray
+        ' 计算每一种代谢物节点的degree数量
+        ' 将top10删除
+        ' 因为这些边链接非常高的代谢物可能是细胞内的通用代谢物,而非分泌到外部的代谢物
+        Call g.ApplyAnalysis
 
-        '    ' bacteria总是U
-        '    Dim allConnectedGroups = g.graphEdges.Where(Function(e) e.V Is node).GroupBy(Function(e) e.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE)).ToArray
-        '    Dim bacterias As New List(Of Node)
+        Dim metabolites = g.vertex _
+            .Where(Function(n) n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "metabolite") _
+            .OrderByDescending(Function(n) n.data.neighborhoods) _
+            .ToArray
+        Dim degrees As Double() = metabolites _
+            .Select(Function(v) CDbl(v.data.neighborhoods)) _
+            .ToArray
+        Dim quartile = degrees.Quartile
+        Dim threshold = quartile.Q3
 
-        '    For Each allConnected In allConnectedGroups
-        '        For Each connection In allConnected
-        '            bacteria = connection.U
-
-        '            bacterias.Add(bacteria)
-        '            g.RemoveEdge(connection)
-        '        Next
-
-        '        For Each a In bacterias
-        '            For Each b In bacterias.Where(Function(n) Not n Is a)
-        '                Call addEdge(a, b, allConnected.Key)
-        '            Next
-        '        Next
-        '    Next
-
-        '    g.RemoveNode(node)
-        'Next
+        For Each metabolite In metabolites.Where(Function(m) m.data.neighborhoods > threshold)
+            Call g.RemoveNode(metabolite)
+        Next
 
         Return g
     End Function

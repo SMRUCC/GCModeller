@@ -339,14 +339,19 @@ Namespace Graph
             Return retEdgeList
         End Function
 
-        Public Sub RemoveNode(iNode As Node)
-            If _nodeSet.ContainsKey(iNode.Label) Then
-                _nodeSet.Remove(iNode.Label)
+        Public Sub RemoveNode(node As Node)
+            If _nodeSet.ContainsKey(node.Label) Then
+                _nodeSet.Remove(node.Label)
             End If
-            vertices.Remove(iNode)
-            DetachNode(iNode)
+
+            Call vertices.Remove(node)
+            Call Me.DetachNode(node)
         End Sub
 
+        ''' <summary>
+        ''' 将目标节点相关联的边从图中删除
+        ''' </summary>
+        ''' <param name="iNode"></param>
         Public Sub DetachNode(iNode As Node)
             Call graphEdges _
                 .DoEach(Sub(e As Edge)
@@ -362,17 +367,20 @@ Namespace Graph
         ''' </summary>
         ''' <param name="edge"></param>
         Public Sub RemoveEdge(edge As Edge)
+            Dim tEdges As List(Of Edge)
+
             Call edges.Remove(edge.ID)
 
             For Each x As KeyValuePair(Of String, Dictionary(Of String, List(Of Edge))) In _adjacencySet
                 For Each y As KeyValuePair(Of String, List(Of Edge)) In x.Value
-                    Dim tEdges As List(Of Edge) = y.Value
-                    tEdges.Remove(edge)
-                    If tEdges = 0 Then
+                    tEdges = y.Value
+
+                    If (tEdges - edge) = 0 Then
                         _adjacencySet(x.Key).Remove(y.Key)
                         Exit For
                     End If
                 Next
+
                 If x.Value.Count = 0 Then
                     _adjacencySet.Remove(x.Key)
                     Exit For
