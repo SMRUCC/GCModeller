@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c58cca723a8b4d1f071c950e6d5cd2d7, Cytoscape\Cytoscape.App\AssignGene.vb"
+﻿#Region "Microsoft.VisualBasic::c58cca723a8b4d1f071c950e6d5cd2d7, visualize\Cytoscape\Cytoscape.App\AssignGene.vb"
 
     ' Author:
     ' 

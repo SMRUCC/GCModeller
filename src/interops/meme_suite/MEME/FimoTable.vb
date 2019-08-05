@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f69e7271c85eff5bffc02ea42c5a7434, meme_suite\MEME\FimoTable.vb"
+﻿#Region "Microsoft.VisualBasic::567a129e0ed9a231994ccea847b3bcfc, meme_suite\MEME\FimoTable.vb"
 
     ' Author:
     ' 

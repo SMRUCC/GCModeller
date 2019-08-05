@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a6580275d78b4b02647e3e0e124c953, Cytoscape\Cytoscape.App\NetworkModel\PINetwork.vb"
+﻿#Region "Microsoft.VisualBasic::2a6580275d78b4b02647e3e0e124c953, visualize\Cytoscape\Cytoscape.App\NetworkModel\PINetwork.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4e5a615604aaaedb1b2964e454fb323, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compounds\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::fece6bb3b9c3790c58fb482d0674d22a, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compounds\Compound.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '         Properties: [class], category, entry, order, subcategory
     ' 
-    '         Function: BuildPath, DownloadCompounds, GetAllPubchemMapCompound, Lipids, LoadFile
-    '                   ToString
+    '         Function: BuildPath, DownloadCompounds, GetAllPubchemMapCompound, GetCompoundsWithBiologicalRoles, GetInformation
+    '                   GetLipids, Lipids, LoadFile, ToString
     ' 
     '         Sub: DownloadFromResource
     ' 

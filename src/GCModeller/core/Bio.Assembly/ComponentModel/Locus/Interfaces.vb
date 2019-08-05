@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f68f7e731210dc87e6c6c8579237469, Bio.Assembly\ComponentModel\Locus\Interfaces.vb"
+﻿#Region "Microsoft.VisualBasic::ee0e51168c5f88f4da4c0335fe2bd4ec, Bio.Assembly\ComponentModel\Locus\Interfaces.vb"
 
     ' Author:
     ' 
@@ -45,11 +45,11 @@
     ' 
     '     Interface ILocationComponent
     ' 
-    '         Properties: Right
+    '         Properties: right
     ' 
     '     Interface ILoci
     ' 
-    '         Properties: Left
+    '         Properties: left
     ' 
     ' 
     ' /********************************************************************************/

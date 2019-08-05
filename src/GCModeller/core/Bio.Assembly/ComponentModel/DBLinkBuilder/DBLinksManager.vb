@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a4d405e7d8e176223af7ba5c0dee7ac, Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinksManager.vb"
+﻿#Region "Microsoft.VisualBasic::8b9df1a94c26199ded5c1fdf4c0d30b4, Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinksManager.vb"
 
     ' Author:
     ' 

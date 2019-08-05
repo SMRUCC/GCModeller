@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60312cb6c09658199c83661e626322bc, models\Networks\Microbiome\UniProt\TaxonomyIndex.vb"
+﻿#Region "Microsoft.VisualBasic::017e4b934f287a9cdc544a7b9c8cfa88, Networks\Microbiome\UniProt\TaxonomyIndexExtensions.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,6 @@
     ' Module TaxonomyIndexExtensions
     ' 
     '     Function: IteratesModels, Summary
-    ' 
-    ' Class TaxonomyIndex
-    ' 
-    '     Properties: ref
-    ' 
-    '     Function: Summary
-    ' 
-    ' Class Summary
-    ' 
-    '     Properties: lineageGroup, Maps, ncbi_taxon_id, scientificName
-    ' 
-    '     Function: ToString
     ' 
     ' /********************************************************************************/
 

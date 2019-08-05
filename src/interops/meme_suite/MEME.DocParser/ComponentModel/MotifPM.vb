@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a98c3df25b44bde34aca4f0be32e27c, meme_suite\MEME.DocParser\ComponentModel\MotifPM.vb"
+﻿#Region "Microsoft.VisualBasic::d7b0966d74d138133717fa251fa9116d, meme_suite\MEME.DocParser\ComponentModel\MotifPM.vb"
 
     ' Author:
     ' 
@@ -47,6 +47,8 @@
     ' 
     '             Function: __createObject, CreateFromNtBase, CreateObject, EnumerateKeys, EnumerateValues
     '                       ToString
+    ' 
+    '             Sub: Assign
     ' 
     ' 
     ' 

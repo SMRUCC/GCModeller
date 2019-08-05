@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b74d723883b9c584dc81f90876bd8409, Cytoscape\CLI_tool\CLI\SimpleRegulations.vb"
+﻿#Region "Microsoft.VisualBasic::b74d723883b9c584dc81f90876bd8409, visualize\Cytoscape\CLI_tool\CLI\SimpleRegulations.vb"
 
     ' Author:
     ' 

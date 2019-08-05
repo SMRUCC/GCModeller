@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3caaf0d11c52f13f579a940ff900698b, RNA-Seq\BOW\BOW\BWA.vb"
+﻿#Region "Microsoft.VisualBasic::86379a52557ef273609aff6c5287d650, RNA-Seq\BOW\BOW\BWA.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f557146b93e4644f68d48cdb39029a90, Cytoscape\Cytoscape\API\GraphExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::f557146b93e4644f68d48cdb39029a90, visualize\Cytoscape\Cytoscape\API\GraphExtensions.vb"
 
     ' Author:
     ' 

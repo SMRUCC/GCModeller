@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90924c0daa50946900b7d3e78be807ce, LocalBLAST\Service References.obsolete\EntrezUtilitiesWebService\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::90924c0daa50946900b7d3e78be807ce, localblast\LocalBLAST\Service References.obsolete\EntrezUtilitiesWebService\Reference.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c73f075eff3e479172c47b164810825, Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\GeneInteractions.vb"
+﻿#Region "Microsoft.VisualBasic::8c73f075eff3e479172c47b164810825, visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\GeneInteractions.vb"
 
     ' Author:
     ' 

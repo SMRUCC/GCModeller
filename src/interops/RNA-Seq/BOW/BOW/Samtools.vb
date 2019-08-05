@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::717fae892161aec3043ec86608297773, RNA-Seq\BOW\BOW\Samtools.vb"
+﻿#Region "Microsoft.VisualBasic::ec71b3d2ac1883d93294e5c276f23daa, RNA-Seq\BOW\BOW\Samtools.vb"
 
     ' Author:
     ' 

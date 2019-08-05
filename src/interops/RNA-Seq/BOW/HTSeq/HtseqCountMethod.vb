@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad60477cf28f33a2c003770c922495af, RNA-Seq\BOW\HTSeq\HtseqCountMethod.vb"
+﻿#Region "Microsoft.VisualBasic::6e4fd3cbcfdce0e3a331e3ec7ea33005, RNA-Seq\BOW\HTSeq\HtseqCountMethod.vb"
 
     ' Author:
     ' 

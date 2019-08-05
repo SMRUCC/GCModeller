@@ -1,63 +1,63 @@
-﻿#Region "Microsoft.VisualBasic::9097367d838c14f5c2ade8b91830a98c, meme_suite\MEME\Workflows\PromoterParser\IntergenicSigma70.vb"
+﻿#Region "Microsoft.VisualBasic::af364ef8413a04dd120933e4134cebcb, meme_suite\MEME\Workflows\PromoterParser\IntergenicSigma70.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module IntergenicSigma70
-' 
-'         Function: DIPAssociation, SaveView, (+2 Overloads) Sigma70Parser
-'         Class MEME_DIP
-' 
-'             Properties: DIP, EValue, MotifGuid, PValue, RightEndDownStream
-'                         Sequence, Signature, Site, Start
-' 
-'         Delegate Function
-' 
-'             Function: LoadTranscripts, (+2 Overloads) MEMEPredictedTSSsAssociations, OverlapCommon, TrimNotStrictOverlap, TrimStrictOverlap
-'                       VirtualFootprintDIP, WriteTranscripts
-'         Class VF_DIP
-' 
-'             Properties: DIP_ENTRY, Distance, Ends, Length, LocationDescriptions
-'                         MotifFamily, MotifId, MotifLocation, ORF, ORFDirection
-'                         RNAGene, Sequence, Signature, Starts, Strand
-' 
-'         Class Transcript
-' 
-'             Properties: MEMEPredictedTSSs, Minus10Start, Minus10Stop
-' 
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Module IntergenicSigma70
+    ' 
+    '         Function: DIPAssociation, SaveView, (+2 Overloads) Sigma70Parser
+    '         Class MEME_DIP
+    ' 
+    '             Properties: DIP, EValue, MotifGuid, PValue, RightEndDownStream
+    '                         Sequence, Signature, Site, Start
+    ' 
+    '         Delegate Function
+    ' 
+    '             Function: LoadTranscripts, (+2 Overloads) MEMEPredictedTSSsAssociations, OverlapCommon, TrimNotStrictOverlap, TrimStrictOverlap
+    '                       VirtualFootprintDIP, WriteTranscripts
+    '         Class VF_DIP
+    ' 
+    '             Properties: DIP_ENTRY, Distance, Ends, Length, LocationDescriptions
+    '                         MotifFamily, MotifId, MotifLocation, ORF, ORFDirection
+    '                         RNAGene, Sequence, Signature, Starts, Strand
+    ' 
+    '         Class Transcript
+    ' 
+    '             Properties: MEMEPredictedTSSs, Minus10Start, Minus10Stop
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

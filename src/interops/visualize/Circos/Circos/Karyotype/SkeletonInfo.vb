@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::584371b5cd4a5a12df90084462e6f039, Circos\Circos\Karyotype\SkeletonInfo.vb"
+﻿#Region "Microsoft.VisualBasic::584371b5cd4a5a12df90084462e6f039, visualize\Circos\Circos\Karyotype\SkeletonInfo.vb"
 
     ' Author:
     ' 
