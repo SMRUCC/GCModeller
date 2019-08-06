@@ -88,7 +88,16 @@ Namespace ApplicationServices.Debugging
 #End If
                 ' is class
                 ' do recursive visit of this object
-                Call visitor.DoVisitObjectFields(value, type, AddressOf VisitObject)
+                ' required additional process on array
+                If type.IsArray Then
+                    Call visitor.DoVisitArray(value, AddressOf VisitObject)
+                Else
+                    Call visitor.DoVisitObjectFields(
+                        obj:=value,
+                        type:=type,
+                        visit:=AddressOf VisitObject
+                    )
+                End If
             End If
         End Sub
 

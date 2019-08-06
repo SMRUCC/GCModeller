@@ -1,6 +1,7 @@
 ﻿Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 
 Namespace Serialization.BinaryDumping
 
@@ -28,24 +29,50 @@ Namespace Serialization.BinaryDumping
         ''' </summary>
         Dim visitedReferences As New Index(Of Object)
 
+        Public Const AllFields As BindingFlags = BindingFlags.Public Or BindingFlags.NonPublic Or BindingFlags.Instance
+
         Sub New()
         End Sub
 
         Public Sub DoVisitObject(obj As Object, type As Type, visit As DoVisitObject)
             If VisitOnlyFields Then
-                Call doVisitFields(obj, type.GetFields(BindingFlags.Instance), visit)
+                Call doVisitFields(obj, GetAllFields(type).ToArray, visit)
             Else
                 Call doVisitProperties(obj, type.GetProperties(PublicProperty), visit)
             End If
         End Sub
 
         Public Sub DoVisitObjectFields(obj As Object, type As Type, visit As DoVisitObject)
-            Call doVisitFields(obj, type.GetFields(BindingFlags.Instance), visit)
+            Call doVisitFields(obj, GetAllFields(type).ToArray, visit)
+        End Sub
+
+        Public Sub DoVisitArray(array As Array, visit As DoVisitObject)
+            ' get array element type
+            Dim arrayType As Type = array.GetType.GetElementType
+
+            ' visit each element
+            For i As Integer = 0 To array.Length - 1
+                Call DoVisitObject(array.GetValue(i), arrayType, visit)
+            Next
         End Sub
 
         Private Sub doVisitProperties(obj As Object, properties As PropertyInfo(), visit As DoVisitObject)
 
         End Sub
+
+        Public Shared Iterator Function GetAllFields(type As Type) As IEnumerable(Of FieldInfo)
+            For Each field As FieldInfo In type.GetFields(AllFields)
+                Yield field
+            Next
+
+            Dim base As Value(Of Type) = type
+
+            Do While Not (base = base.Value.BaseType) Is Nothing
+                For Each field As FieldInfo In base.Value.GetFields(AllFields)
+                    Yield field
+                Next
+            Loop
+        End Function
 
         Private Sub doVisitFields(obj As Object, fields As FieldInfo(), visit As DoVisitObject)
             Dim value As Object
