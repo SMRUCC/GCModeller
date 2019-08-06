@@ -37,10 +37,117 @@
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 
 Namespace ApplicationServices.Debugging
 
-    Public Module HeapSizeOf
+    Public Class HeapSizeOf
 
-    End Module
+        Public ReadOnly Property sizeOf As Long
+            Get
+                Return byteSize
+            End Get
+        End Property
+
+        Dim byteSize& = 0
+        Dim visitor As New ObjectVisitor() With {.VisitOnlyFields = True}
+
+        Public Sub VisitObject(value As Object, type As Type, memberInfo As MemberInfo, isVisited As Boolean, isValueType As Boolean)
+            If value Is Nothing Then
+                ' sizeof + 0 bytes
+                ' exit recursive visit
+                Return
+            ElseIf isVisited Then
+                ' add sizeof current reference
+                ' 4 on 32-bit, 8 on 64-bit
+#If X86 Then
+                size += 4
+#Else
+                byteSize += 8
+#End If
+                ' exit recursive visit
+            ElseIf type Is GetType(String) Then
+                byteSize += StringByteSize(value)
+                ' exit recursive visit
+            ElseIf DataFramework.IsPrimitive(type) Then
+                ' add byte size and then exit recursive visit
+                byteSize += sizeOfPrimitive(type)
+            ElseIf isValueType Then
+                ' is structure
+                ' do recursive visit of this object
+                Call visitor.DoVisitObjectFields(value, type, AddressOf VisitObject)
+            Else
+                ' add current reference
+#If X86 Then
+                size += 4
+#Else
+                byteSize += 8
+#End If
+                ' is class
+                ' do recursive visit of this object
+                Call visitor.DoVisitObjectFields(value, type, AddressOf VisitObject)
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' Find out the size of a .net object
+        ''' </summary>
+        ''' <param name="obj"></param>
+        ''' <returns></returns>
+        Public Shared Function MeasureSize(obj As Object) As Long
+            If obj Is Nothing Then
+                Return 0
+            Else
+                Dim type As Type = obj.GetType
+
+                If (Not type Is GetType(String)) AndAlso DataFramework.IsPrimitive(type) Then
+                    Return sizeOfPrimitive(type)
+                ElseIf type Is GetType(String) Then
+                    ' returns the actual byte size of current string
+                    ' string in VisualBasic.NET is in unicode encoding
+                    Return StringByteSize(obj)
+                Else
+                    With New HeapSizeOf
+                        Call .visitor.DoVisitObjectFields(
+                            obj:=obj,
+                            type:=obj.GetType,
+                            visit:=AddressOf .VisitObject
+                        )
+
+                        Return .sizeOf
+                    End With
+                End If
+            End If
+        End Function
+
+        ''' <summary>
+        ''' Returns the actual byte size of current string
+        ''' string in VisualBasic.NET is in unicode encoding
+        ''' </summary>
+        ''' <param name="str"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function StringByteSize(str As String) As Integer
+            Return Encoding.Unicode.GetByteCount(str)
+        End Function
+
+        Public Shared Function sizeOfPrimitive(type As Type) As Integer
+            Select Case type
+                Case GetType(Single), GetType(Integer), GetType(UInt32)
+                    Return 4
+                Case GetType(Double), GetType(Long), GetType(UInt64)
+                    Return 8
+                Case GetType(Char), GetType(Short), GetType(UInt16)
+                    Return 2
+                Case GetType(Byte), GetType(SByte), GetType(Boolean)
+                    Return 1
+                Case Else
+                    Throw New NotImplementedException(type.FullName)
+            End Select
+        End Function
+    End Class
 End Namespace
