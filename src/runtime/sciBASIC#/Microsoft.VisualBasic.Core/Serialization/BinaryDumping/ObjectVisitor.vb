@@ -32,13 +32,15 @@ Namespace Serialization.BinaryDumping
         End Sub
 
         Public Sub DoVisitObject(obj As Object, type As Type, visit As DoVisitObject)
-            visitedReferences += obj
-
             If VisitOnlyFields Then
                 Call doVisitFields(obj, type.GetFields, visit)
             Else
                 Call doVisitProperties(obj, type.GetProperties(PublicProperty), visit)
             End If
+        End Sub
+
+        Public Sub DoVisitObjectFields(obj As Object, type As Type, visit As DoVisitObject)
+            Call doVisitFields(obj, type.GetFields, visit)
         End Sub
 
         Private Sub doVisitProperties(obj As Object, properties As PropertyInfo(), visit As DoVisitObject)
@@ -51,11 +53,11 @@ Namespace Serialization.BinaryDumping
             Dim isVisited As Boolean = False
             Dim isValueType As Boolean = False
 
-            For Each field As FieldInfo In obj
+            For Each field As FieldInfo In fields
                 value = field.GetValue(obj)
 
-                ' 因为在字段的定义中会存在继承或者接口实现的这些抽象的类型实现关系, 所以在这里优先从
-                ' value值之中获取真实的类型信息
+                ' 因为在字段的定义中会存在继承或者接口实现的这些抽象的类型实现关系, 
+                ' 所以在这里优先从 value 值之中获取真实的类型信息
                 '
                 ' 如果是空值,则获取字段的类型信息
                 If value Is Nothing Then
@@ -80,6 +82,11 @@ Namespace Serialization.BinaryDumping
                 End If
 
                 Call visit(value, type, field, isVisited, isValueType)
+
+                If Not DataFramework.IsPrimitive(type) Then
+                    ' do recursive visit of this field value
+                    Call DoVisitObjectFields(value, type, visit)
+                End If
             Next
         End Sub
     End Class
