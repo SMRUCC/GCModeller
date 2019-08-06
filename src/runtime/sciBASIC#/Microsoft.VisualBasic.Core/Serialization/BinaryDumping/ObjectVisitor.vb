@@ -33,14 +33,14 @@ Namespace Serialization.BinaryDumping
 
         Public Sub DoVisitObject(obj As Object, type As Type, visit As DoVisitObject)
             If VisitOnlyFields Then
-                Call doVisitFields(obj, type.GetFields, visit)
+                Call doVisitFields(obj, type.GetFields(BindingFlags.Instance), visit)
             Else
                 Call doVisitProperties(obj, type.GetProperties(PublicProperty), visit)
             End If
         End Sub
 
         Public Sub DoVisitObjectFields(obj As Object, type As Type, visit As DoVisitObject)
-            Call doVisitFields(obj, type.GetFields, visit)
+            Call doVisitFields(obj, type.GetFields(BindingFlags.Instance), visit)
         End Sub
 
         Private Sub doVisitProperties(obj As Object, properties As PropertyInfo(), visit As DoVisitObject)
