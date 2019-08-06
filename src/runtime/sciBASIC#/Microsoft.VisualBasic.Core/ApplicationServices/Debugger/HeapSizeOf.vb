@@ -44,6 +44,9 @@ Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 
 Namespace ApplicationServices.Debugging
 
+    ''' <summary>
+    ''' How to get object size in memory
+    ''' </summary>
     Public Class HeapSizeOf
 
         Public ReadOnly Property sizeOf As Long
@@ -74,7 +77,7 @@ Namespace ApplicationServices.Debugging
                 ' exit recursive visit
             ElseIf DataFramework.IsPrimitive(type) Then
                 ' add byte size and then exit recursive visit
-                byteSize += sizeOfPrimitive(type)
+                byteSize += SizeOfPrimitive(type)
             ElseIf isValueType Then
                 ' is structure
                 ' do recursive visit of this object
@@ -113,7 +116,7 @@ Namespace ApplicationServices.Debugging
                 Dim type As Type = obj.GetType
 
                 If (Not type Is GetType(String)) AndAlso DataFramework.IsPrimitive(type) Then
-                    Return sizeOfPrimitive(type)
+                    Return SizeOfPrimitive(type)
                 ElseIf type Is GetType(String) Then
                     ' returns the actual byte size of current string
                     ' string in VisualBasic.NET is in unicode encoding
@@ -144,7 +147,7 @@ Namespace ApplicationServices.Debugging
             Return Encoding.Unicode.GetByteCount(str)
         End Function
 
-        Public Shared Function sizeOfPrimitive(type As Type) As Integer
+        Public Shared Function SizeOfPrimitive(type As Type) As Integer
             Select Case type
                 Case GetType(Single), GetType(Integer), GetType(UInt32)
                     Return 4
