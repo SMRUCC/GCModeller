@@ -1,0 +1,11 @@
+﻿Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS.Parser
+
+Module cssFileTest
+
+    Sub Main()
+        Dim css = CssParser.GetTagWithCSS("D:\GCModeller\src\runtime\sciBASIC#\gr\network-visualization\Visualizer\Styling\Expression\example.css")
+
+
+        Pause()
+    End Sub
+End Module
