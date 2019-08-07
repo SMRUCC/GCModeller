@@ -49,12 +49,15 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Namespace Darwinism.GAF.Helper
 
+    ''' <summary>
+    ''' 在这个模块之中,涉及到<see cref="SparseVector"/>的所有函数都是应用于处理非常大的系统而构建的
+    ''' </summary>
     Public Module GeneticHelper
 
         ' 2018-4-29
         '
-        ' 关于random对象的食用说明：尽量不要创建新的random对象
-        ' 从下面的测试可以看得出来，当使用就的random对象的时候，可以生成一系列的伪随机数
+        ' 关于random对象的使用说明：尽量不要创建新的random对象
+        ' 从下面的测试可以看得出来，当使用旧的random对象的时候，可以生成一系列的伪随机数
         ' 但是如果进行random对象的创建的话，则几乎不会再生成新的随机数
         '
         ' With New Random
@@ -111,7 +114,23 @@ Namespace Darwinism.GAF.Helper
 
         <Extension>
         Public Sub Mutate(ByRef v As SparseVector, random As Random, Optional index% = -1000, Optional rate# = 0.1)
+            Dim delta# = (v.Max - v.Min) * rate
+            Dim mutationValue#
 
+            ' 20190709 如果v向量全部都是零或者相等数值的话
+            ' 将无法产生突变
+            ' 在这里测试下，添加一个小数来完成突变
+            If delta = 0R Then
+                delta = 0.0000001
+            End If
+
+            mutationValue = (random.NextDouble * delta) * If(random.NextDouble >= 0.5, 1, -1)
+
+            If index < 0 Then
+                v(random.Next(v.Length)) += mutationValue
+            Else
+                v(index) += mutationValue
+            End If
         End Sub
 #End Region
 
@@ -146,6 +165,30 @@ Namespace Darwinism.GAF.Helper
             ' 在这里减掉1是为了防止两个变量被全部替换掉
             Dim index As Integer = random.Next(v1.Length - 1)
             Dim tmp As T
+
+            ' one point crossover
+            For i As Integer = index To v1.Length - 1
+                tmp = v1(i)
+                v1(i) = v2(i)
+                v2(i) = tmp
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' Returns list of siblings 
+        ''' Siblings are actually new chromosomes, 
+        ''' created using any of crossover strategy
+        ''' 
+        ''' (两个向量的长度必须要一致, 输入的两个数组参数会被同时修改值)
+        ''' </summary>
+        ''' <param name="random"></param>
+        ''' <param name="v1#"></param>
+        ''' <param name="v2#"></param>
+        <Extension>
+        Public Sub Crossover(random As Random, ByRef v1 As SparseVector, ByRef v2 As SparseVector)
+            ' 在这里减掉1是为了防止两个变量被全部替换掉
+            Dim index As Integer = random.Next(v1.Length - 1)
+            Dim tmp As Double
 
             ' one point crossover
             For i As Integer = index To v1.Length - 1
