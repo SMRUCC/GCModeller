@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa4d8b83160fac7a148f850e5ff0ad73, Circos\Circos.Extensions\localblast\Legends.vb"
+﻿#Region "Microsoft.VisualBasic::548a7926b3bf1e45fa62f19de010a1cf, visualize\Circos\Circos.Extensions\localblast\Legends.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ then you can using this method to adding the legends on your circos plots image 
         Return LQuery
     End Function
 End Module
-

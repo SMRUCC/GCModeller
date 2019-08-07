@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e681c0a5f12d2246963c59c4aff78358, Bio.Assembly\SequenceModel\CutSequence.vb"
+﻿#Region "Microsoft.VisualBasic::32babc3fd50fef39e5d59f82c6d656ef, Bio.Assembly\SequenceModel\CutSequence.vb"
 
     ' Author:
     ' 
@@ -98,6 +98,14 @@ Namespace SequenceModel
             }
         End Function
 
+        ''' <summary>
+        ''' 将目标序列之中的给定区域的序列剪下，并返回该片段的互补序列
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <param name="left">请注意，这个参数是以1为起始的</param>
+        ''' <param name="length%"></param>
+        ''' <param name="tag$"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function ReadComplement(seq As IPolymerSequenceModel, left%, length%, Optional tag$ = Nothing) As SimpleSegment
             Dim cut$ = Mid(seq.SequenceData, left, length)
@@ -130,7 +138,7 @@ Namespace SequenceModel
                 Return site
             Else
                 ' 反向的链，则还需要反向互补
-                site.Complement = site.SequenceData
+                ' site.Complement = site.SequenceData
                 site.SequenceData = NucleicAcid.Complement(site.SequenceData) _
                                                .Reverse _
                                                .CharString
@@ -196,7 +204,7 @@ Namespace SequenceModel
                 ' 反向的链，则还需要反向互补
                 With out
 
-                    .Complement = .SequenceData
+                    ' .Complement = .SequenceData
                     .SequenceData = NucleicAcid _
                         .Complement(.SequenceData) _
                         .Reverse _

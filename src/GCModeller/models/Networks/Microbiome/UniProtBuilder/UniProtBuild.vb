@@ -1,43 +1,41 @@
-﻿#Region "Microsoft.VisualBasic::751b3b037e673d01a8e601306771bc87, models\Networks\Microbiome\UniProtBuild.vb"
+﻿#Region "Microsoft.VisualBasic::1da07c9f67724b3759175d04dbcbdd7a, Networks\Microbiome\UniProtBuilder\UniProtBuild.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module UniProtBuild
-' 
-'     Function: ko00000Provider, ScanInternal, (+2 Overloads) ScanModels, ScanUniProt, skipUntil
-' 
-'     Sub: CopyTo
-' 
-' /********************************************************************************/
+    ' Module UniProtBuild
+    ' 
+    '     Function: createLocation, ko00000Provider, ScanModels, ScanUniProt, skipUntil
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -48,6 +46,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports KO = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.KOCatalog
@@ -76,19 +75,34 @@ Public Module UniProtBuild
     End Function
 
     <Extension>
-    Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), export$, Optional ByRef cache As CacheGenerator = Nothing) As TaxonomyRepository
+    Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), export$, Optional all As Boolean = True, Optional ByRef cache As CacheGenerator = Nothing) As TaxonomyRepository
         ' 因为在这里是处理一个非常大的UniProt注释数据库，所以需要首先做一次扫描
         ' 将需要提取的信息先放到缓存之中
         Dim tmp$ = App.GetAppSysTempFile(".cache", App.PID, "metaprofiler_")
         Dim model As TaxonomyRepository
 
         cache = New CacheGenerator(tmp).ScanInternal(UniProtXml)
-        model = ScanModels(cache, export)
+        model = ScanModels(cache, all, export)
 
         Return model
     End Function
 
     Const blankPattern$ = "\+{10,}\n"
+
+    <Extension>
+    Private Function createLocation(location As String, proteins As (loc$, info As NamedValue(Of String()))()) As Location
+        Return New Location With {
+            .name = location,
+            .proteins = proteins _
+                .Select(Function(id)
+                            Return New NamedValue With {
+                                .name = id.info.Name,
+                                .text = id.info.Description
+                            }
+                        End Function) _
+                .ToArray
+        }
+    End Function
 
     ''' <summary>
     ''' 
@@ -97,23 +111,30 @@ Public Module UniProtBuild
     ''' <param name="export">因为UniProt数据库可能达到1TB的数量级,所以在这里必须要使用这个参数来导出数据文件,否则内存会溢出</param>
     ''' <returns></returns>
     <Extension>
-    Public Function ScanModels(cache As CacheGenerator, export$) As TaxonomyRepository
+    Public Function ScanModels(cache As CacheGenerator, all As Boolean, export$) As TaxonomyRepository
         Dim ko00000 = ko00000Provider()
         Dim organismKO As New Dictionary(Of String, List(Of String))
+        Dim proteinInfo As New Dictionary(Of String, List(Of NamedValue(Of String())))
         Dim counts As New Dictionary(Of String, Counter)
         Dim repository As New TaxonomyRepository With {
             .taxonomy = New Dictionary(Of String, Metagenomics.Taxonomy)
         }
+        Dim locations As String()
 
         DirectCast(repository, IFileReference).FilePath = $"{export}/main.json"
 
+        ' taxonID, KO, acc, subcellular_locations
         For Each line As String In cache.KO_list.IterateAllLines
             With line.Split(ASCII.TAB)
                 If Not organismKO.ContainsKey(.First) Then
                     Call organismKO.Add(.First, New List(Of String))
+                    Call proteinInfo.Add(.First, New List(Of NamedValue(Of String())))
                 End If
 
-                Call organismKO(.First).Add(.Last)
+                locations = .ByRef(3).StringSplit("\s*;\s*")
+
+                Call organismKO(.First).Add(.ByRef(1))
+                Call proteinInfo(.First).Add(New NamedValue(Of String())(.ByRef(1), locations, .ByRef(2)))
             End With
         Next
 
@@ -138,11 +159,14 @@ Public Module UniProtBuild
             Dim organism As organism = xml.LoadFromXml(Of organism)
             Dim taxon$ = organism.dbReference.id
             Dim KO As IEnumerable(Of String)
+            Dim proteins As IEnumerable(Of NamedValue(Of String()))
 
             If organismKO.ContainsKey(taxon) Then
                 KO = organismKO(taxon)
+                proteins = proteinInfo(taxon)
             Else
                 KO = {}
+                proteins = {}
             End If
 
             ' 因为要了解覆盖度，所以这里需要计数一下KO的数目
@@ -167,6 +191,14 @@ Public Module UniProtBuild
                             End If
                         End Function) _
                 .ToArray
+            Dim cellularLocations = proteins.Where(Function(p) Not p.Value.IsNullOrEmpty) _
+                .Select(Function(p) p.Value.Select(Function(loc) (loc, p))) _
+                .IteratesALL _
+                .GroupBy(Function(t) t.Item1) _
+                .Select(Function(location)
+                            Return location.Key.createLocation(location.ToArray)
+                        End Function) _
+                .ToArray
 
             Dim refModel As New TaxonomyRef With {
                 .organism = organism,
@@ -174,14 +206,20 @@ Public Module UniProtBuild
                 .genome = New OrthologyTerms With {
                     .Terms = terms
                 },
-                .coverage = annotated / counts(taxon)
+                .coverage = annotated / counts(taxon),
+                .numberOfGenes = counts(taxon),
+                .subcellular_components = New SubCellularLocation With {
+                    .locations = cellularLocations
+                }
             }
             Dim refFile$ = repository.StorageReference(refModel.TaxonomyString, relative:=False) & $"/{taxon}.Xml"
 
-            Call repository.taxonomy.Add(taxon, refModel.TaxonomyString)
-            Call refModel _
-                .GetXml _
-                .SaveTo(refFile)
+            If all OrElse refModel.coverage > 0 Then
+                Call repository.taxonomy.Add(taxon, refModel.TaxonomyString)
+                Call refModel _
+                    .GetXml _
+                    .SaveTo(refFile)
+            End If
         Next
 
         Return repository

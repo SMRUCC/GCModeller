@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d6ba4544a16ce6ae51d500296143b7f, LocalBLAST\Web\Alignment\HitTableParser.vb"
+﻿#Region "Microsoft.VisualBasic::3d6ba4544a16ce6ae51d500296143b7f, localblast\LocalBLAST\Web\Alignment\HitTableParser.vb"
 
     ' Author:
     ' 

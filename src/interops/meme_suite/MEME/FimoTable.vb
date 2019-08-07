@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f69e7271c85eff5bffc02ea42c5a7434, meme_suite\MEME\FimoTable.vb"
+﻿#Region "Microsoft.VisualBasic::567a129e0ed9a231994ccea847b3bcfc, meme_suite\MEME\FimoTable.vb"
 
     ' Author:
     ' 
@@ -64,7 +64,7 @@ Public Class FimoTable
     ''' 
     ''' </summary>
     ''' <param name="Table"></param>
-    ''' <param name="anno"><see cref="SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports.GeneDumpInfo"></see>Csv文件的文件路径</param>
+    ''' <param name="anno"><see cref="SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports.GeneTable"></see>Csv文件的文件路径</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Shared Function MatchInterGeneLoci(Table As String, anno As String) As FimoTable()

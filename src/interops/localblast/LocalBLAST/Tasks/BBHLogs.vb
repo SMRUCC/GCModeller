@@ -1,43 +1,43 @@
-﻿#Region "Microsoft.VisualBasic::480d437cdddf65e117b7adf177885c4b, LocalBLAST\Analysis\BBHLogs.vb"
+﻿#Region "Microsoft.VisualBasic::f54c172473cd1bf9e2d0b977a7a09e9d, localblast\LocalBLAST\Tasks\BBHLogs.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module BBHLogs
-' 
-'         Function: (+3 Overloads) __export, __getDirectionary, __operation, (+2 Overloads) BuildBBHEntry, (+2 Overloads) ExportBidirectionalBesthit
-'                   (+2 Overloads) ExportLogData, ExportLogDataUltraLargeSize, LoadEntries, LoadSBHEntry
-' 
-' 
-' /********************************************************************************/
+    '     Module BBHLogs
+    ' 
+    '         Function: (+3 Overloads) __export, __getDirectionary, __operation, (+2 Overloads) BuildBBHEntry, (+2 Overloads) ExportBidirectionalBesthit
+    '                   (+2 Overloads) ExportLogData, ExportLogDataUltraLargeSize, LoadEntries, LoadSBHEntry
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
@@ -281,7 +281,7 @@ RETURN_VALUE:
         <ExportAPI("Export.Besthits", Info:="Batch export the bbh result")>
         Public Function ExportBidirectionalBesthit(Source As IEnumerable(Of AlignEntry),
                                                    <Parameter("CDS.All.Dump", "Lazy loading task.")>
-                                                   CDSAll As Task(Of String, Dictionary(Of String, GeneDumpInfo)),
+                                                   CDSAll As Task(Of String, Dictionary(Of String, GeneTable)),
                                                    <Parameter("DIR.EXPORT")> EXPORT As String,
                                                    <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As SpeciesBesthit()
             Return ExportBidirectionalBesthit(Source, EXPORT, CDSAll.GetValue, TrimNull)
@@ -300,7 +300,7 @@ RETURN_VALUE:
         Public Function ExportBidirectionalBesthit(Source As IEnumerable(Of AlignEntry),
                                                    <Parameter("Dir.Export")> EXPORT As String,
                                                    <Parameter("CDS.All.Dump")>
-                                                   Optional CDSInfo As Dictionary(Of String, GeneDumpInfo) = Nothing,
+                                                   Optional CDSInfo As Dictionary(Of String, GeneTable) = Nothing,
                                                    <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As SpeciesBesthit()
 
             Dim Files = (From path As AlignEntry

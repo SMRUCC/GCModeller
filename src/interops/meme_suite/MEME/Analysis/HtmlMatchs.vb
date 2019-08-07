@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e424d6b4ed8adee42329df972a162e9d, meme_suite\MEME\Analysis\HtmlMatchs.vb"
+﻿#Region "Microsoft.VisualBasic::05831c189be4f86597db23d497c9d0e5, meme_suite\MEME\Analysis\HtmlMatchs.vb"
 
     ' Author:
     ' 
@@ -53,18 +53,18 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
-Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
@@ -74,9 +74,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel
-
 Imports Strands = SMRUCC.genomics.ComponentModel.Loci.Strands
-Imports SMRUCC.genomics.Assembly.DOOR
 
 Namespace Analysis
 
@@ -117,7 +115,7 @@ Namespace Analysis
         Public Function Match(<Parameter("MEME.Xml", "The xml file path of the meme program output.")> MEMEXml As String,
                               <Parameter("MAST.html", "The HTML file path of the mast output.")> MASTHtml As String,
                               <Parameter("Os.Fasta.Path", "The fasta file path of the bacteria whole genome nucleotide sequence data.")> Genome As String,
-                              <Parameter("CDS.Info")> CDSInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
+                              <Parameter("CDS.Info")> CDSInfo As IEnumerable(Of GeneTable)) As VirtualFootprints()
 
             Dim MEME = MEMEXml.LoadXml(Of XmlOutput.MEME.MEME)().ToMEMEHtml
             Dim GenomeFasta As FASTA.FastaSeq = FASTA.FastaSeq.Load(Genome)
@@ -299,7 +297,7 @@ Namespace Analysis
         Private Function __match(meme As MEME.HTML.MEMEHtml,
                                  masthtml As String,
                                  genome As SequenceModel.FASTA.FastaSeq,
-                                 cdsInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
+                                 cdsInfo As IEnumerable(Of GeneTable)) As VirtualFootprints()
             Try
                 Return ____match(meme, masthtml, genome, cdsInfo)
             Catch ex As Exception
@@ -314,14 +312,14 @@ Namespace Analysis
         Private Function ____match(meme As MEME.HTML.MEMEHtml,
                                    masthtml As String,
                                    genome As SequenceModel.FASTA.FastaSeq,
-                                   cdsInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
+                                   cdsInfo As IEnumerable(Of GeneTable)) As VirtualFootprints()
 
             Dim MAST = DocumentFormat.MAST.HTML.LoadDocument_v410(masthtml, False)
             Dim result = DocumentFormat.MAST.HTML.MatchMEMEAndMast(meme, MAST)
             Dim Footprints As VirtualFootprints() = (
                 From motif As MEMEOutput
                 In result
-                Select __createMotifSiteInfo(Of GeneDumpInfo)(
+                Select __createMotifSiteInfo(Of GeneTable)(
                     motif, genome, GeneBriefInformation:=cdsInfo)).ToArray.ToVector
 
             Return Footprints

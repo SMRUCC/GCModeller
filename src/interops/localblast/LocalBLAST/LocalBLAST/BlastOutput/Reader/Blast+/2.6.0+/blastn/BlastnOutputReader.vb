@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b7b456a4b3688b0179df5eaa6ed22ab, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnOutputReader.vb"
+﻿#Region "Microsoft.VisualBasic::0b7b456a4b3688b0179df5eaa6ed22ab, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnOutputReader.vb"
 
     ' Author:
     ' 

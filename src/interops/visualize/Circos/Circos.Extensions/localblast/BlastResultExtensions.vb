@@ -1,41 +1,41 @@
-﻿#Region "Microsoft.VisualBasic::2639ac59254d12daf1f3f456cfbe32dc, Circos\Circos.Extensions\localblast\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::d0ef98de2f31abac0cdb73a0a25a331f, visualize\Circos\Circos.Extensions\localblast\BlastResultExtensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Module1
-' 
-'     Function: __createGenomeCircle, AddGeneInfoTrack, GenerateBlastnAlignment, GetGenomeCircle
-' 
-' /********************************************************************************/
+    ' Module BlastResultExtensions
+    ' 
+    '     Function: __createGenomeCircle, AddGeneInfoTrack, GenerateBlastnAlignment, GetGenomeCircle
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -48,8 +48,8 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.Visualize.Circos.Colors
@@ -57,7 +57,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype.GeneObjects
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
-Public Module Module1
+Public Module BlastResultExtensions
 
     ''' <summary>
     ''' The blast result alignment will be mapping on the circos plot circle individual as the 
@@ -163,14 +163,14 @@ Public Module Module1
                  Optional splitOverlaps As Boolean = False,
                  Optional dumpAll As Boolean = False) As Configurations.Circos
 
-        Dim dump As GeneDumpInfo() = FeatureDumps(gbk, dumpAll:=dumpAll)
+        Dim dump As GeneTable() = FeatureDumps(gbk, dumpAll:=dumpAll)
         Dim hash = (From x As MyvaCOG
                     In COGs
                     Select x
                     Group x By x.QueryName Into Group) _
                         .ToDictionary(Function(x) x.QueryName,
                                       Function(x) x.Group.First)
-        For Each x As GeneDumpInfo In dump
+        For Each x As GeneTable In dump
             If hash.ContainsKey(x.LocusID) Then
                 x.COG = hash(x.LocusID).COG
             End If
@@ -179,4 +179,3 @@ Public Module Module1
         Return GenerateGeneCircle(circos, dump, splitOverlaps:=splitOverlaps)
     End Function
 End Module
-

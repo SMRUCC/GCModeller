@@ -1,4 +1,52 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::52f1e5c21ab38a5b908716ff841468c1, Networks\Microbiome\UniProtBuilder\CacheGenerator.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class CacheGenerator
+    ' 
+    '     Properties: counts, KO_list, taxonomy
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: ScanInternal
+    ' 
+    '     Sub: CopyTo, doScan
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -63,7 +111,8 @@ Public Class CacheGenerator
         ' taxonomy_id KO
         '
         ' 
-        Dim taxonomyIndex As New Dictionary(Of String, String)
+        Dim indexedTaxonomy As New Index(Of String)
+        Dim i As VBInteger = 0
 
         For Each protein As entry In UniProtXml _
             .Where(Function(org)
@@ -83,10 +132,10 @@ Public Class CacheGenerator
             Call counts.WriteLine(taxonID)
 
             ' 如果已经存在index了，则不会写入taxo文件之中
-            If Not taxonomyIndex.ContainsKey(taxonID) Then
+            If Not taxonID Like indexedTaxonomy Then
                 Call taxon.WriteLine(taxonomy.GetXml)
                 Call taxon.WriteLine(blank)
-                Call taxonomyIndex.Add(taxonID, "null")
+                Call indexedTaxonomy.Add(taxonID)
             End If
 
             Dim KOlist$() = protein.xrefs _
@@ -94,16 +143,25 @@ Public Class CacheGenerator
                 .SafeQuery _
                 .Select(Function(KEGG) KEGG.id) _
                 .ToArray
+            Dim subCellularLocations = protein.SubCellularLocations
 
             If KOlist.Length > 0 Then
                 Call KO.WriteLine(
                     value:=KOlist _
-                        .Select(Function(id)
-                                    Return taxonID & vbTab & id
+                        .Select(Function(KOid)
+                                    ' taxonID KOid acc都是固定的
+                                    ' subcellular location可能有些蛋白的注释是空的
+                                    Return taxonID & vbTab & KOid & vbTab & protein.accessions(Scan0) & vbTab & subCellularLocations.JoinBy("; ")
                                 End Function) _
                         .JoinBy(KO.NewLine)
                 )
             End If
+
+            If ++i Mod 300 = 0 Then
+                Call Console.Write(i)
+                Call Console.Write(vbTab)
+            End If
         Next
     End Sub
 End Class
+

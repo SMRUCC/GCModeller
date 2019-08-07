@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b22802af7464d2223f530b617bef6167, LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::1727334b9d3a9e6af75b1f5308e0ed3f, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,9 @@
 
     ' Summaries:
 
-    '     Interface IBlastHit
-    ' 
-    '         Properties: Address, locusId
-    ' 
-    '     Interface IQueryHits
-    ' 
-    '         Properties: identities
-    ' 
     '     Class I_BlastQueryHit
     ' 
-    '         Properties: BBH_ID, HitName, Matched, QueryName, SelfHit
+    '         Properties: BBH_ID, HitName, isMatched, isSelfHit, QueryName
     ' 
     '         Function: ToString
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9cd67402be94966a39ac47eaa094277, Bio.Assembly\ProteinModel\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::8a9ef7b5ecdcc291230e4a3f36fbfc3d, Bio.Assembly\ProteinModel\Abstract.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Interface IMotifDomain
     ' 
-    '         Properties: ID, Location
+    '         Properties: Id, location
     ' 
     ' 
     ' /********************************************************************************/

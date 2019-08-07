@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::049dec21da6a919e086a0b6e1456ca33, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Ortholog.vb"
+﻿#Region "Microsoft.VisualBasic::d22c30067a2f356b41c9d543cdbd666f, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     '                     KO, len, LocusId, margin, overlap
     '                     query_length, sp, SW
     ' 
-    '         Function: __createObject, CreateObjects, ToString
+    '         Function: createObject, CreateObjects, ToString
     ' 
     ' 
     ' /********************************************************************************/

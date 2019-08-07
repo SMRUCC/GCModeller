@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0ee169e1dafe7c511742d5aadb08f2e, Bio.Assembly\BioAssemblyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::eceb027a3d7143c820b05d8393b4a43f, Bio.Assembly\BioAssemblyExtensions.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,9 @@
 
     ' Module BioAssemblyExtensions
     ' 
-    '     Function: [DirectCast], CreatePTTObject, GetBriefCode, GetBriefStrandCode, GetCOGCategory
-    '               GetStrands, Group, IsNullOrEmpty, IsPure, IsReversed
-    '               IsUnknown
+    '     Function: [DirectCast], AsSegment, CreatePTTObject, GetBriefCode, GetBriefStrandCode
+    '               GetCOGCategory, GetStrands, Group, IsNullOrEmpty, IsPure
+    '               IsReversed, IsUnknown
     ' 
     ' /********************************************************************************/
 
@@ -45,11 +45,13 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -61,17 +63,28 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 <Package("Bio.Extensions", Publisher:="xie.guigang@gcmodeller.org")>
 Public Module BioAssemblyExtensions
 
+    <Extension>
+    Public Function AsSegment(gene As GeneTable) As SimpleSegment
+        Return New SimpleSegment With {
+            .Ends = gene.Location.Right,
+            .Start = gene.Location.Left,
+            .ID = gene.LocusID,
+            .SequenceData = gene.CDS,
+            .Strand = gene.Location.Strand.Description
+        }
+    End Function
+
     <Extension> Public Function IsNullOrEmpty(compound As bGetObject.Compound) As Boolean
         If compound Is Nothing Then
             Return True
         End If
 
         With compound
-            Return .Entry.StringEmpty AndAlso
-                .CommonNames.IsEmptyStringVector AndAlso
-                .Formula.StringEmpty AndAlso
-                .MolWeight = 0R AndAlso
-                .ExactMass = 0R
+            Return .entry.StringEmpty AndAlso
+                .commonNames.IsEmptyStringVector AndAlso
+                .formula.StringEmpty AndAlso
+                .molWeight = 0R AndAlso
+                .exactMass = 0R
         End With
     End Function
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bf909bb068763d3cbe0e2f57749122b, Bio.Assembly\SequenceModel\NucleicAcid\Objects\SegmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::a93cca2ec581fb2349f514d5b63fa76e, Bio.Assembly\SequenceModel\NucleicAcid\Objects\SegmentObject.vb"
 
     ' Author:
     ' 
@@ -43,9 +43,7 @@
 
 #End Region
 
-Imports System.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 
 Namespace SequenceModel.NucleotideModels
 

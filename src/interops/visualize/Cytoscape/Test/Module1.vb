@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c5b98537351ecdfa0f199cad6c08ad5, Cytoscape\Test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::0c5b98537351ecdfa0f199cad6c08ad5, visualize\Cytoscape\Test\Module1.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec7aae84aac2f2cb33baffe026e9b856, Cytoscape\Cytoscape.App\NetworkModel\MetaCyc\MetaCycPathways.vb"
+﻿#Region "Microsoft.VisualBasic::ec7aae84aac2f2cb33baffe026e9b856, visualize\Cytoscape\Cytoscape.App\NetworkModel\MetaCyc\MetaCycPathways.vb"
 
     ' Author:
     ' 

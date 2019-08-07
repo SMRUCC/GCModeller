@@ -1,44 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::36c177ae9bca4bf2fd550df54a82daf4, models\Networks\Microbiome\UniProt\TaxonomyRef.vb"
+﻿#Region "Microsoft.VisualBasic::f1ed72aa159f616affd9e7fbfc1f9fff, Networks\Microbiome\UniProt\TaxonomyRef.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Class TaxonomyRef
-' 
-'     Properties: Coverage, genome, KOTerms, organism, TaxonID
-'                 TaxonomyString
-' 
-'     Function: ToString
-' 
-' /********************************************************************************/
+    ' Class TaxonomyRef
+    ' 
+    '     Properties: coverage, genome, KOTerms, numberOfGenes, organism
+    '                 subcellular_components, taxonID, TaxonomyString
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: ToString
+    ' 
+    ' Class SubCellularLocation
+    ' 
+    '     Properties: locations
+    ' 
+    '     Function: getCollection, getSize
+    ' 
+    ' Class Location
+    ' 
+    '     Properties: name, proteins
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -47,9 +60,11 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Metagenomics
+Imports SMRUCC.genomics.Model.Network.Microbiome
 
 ''' <summary>
 ''' Combine the UniProt taxonomy information with the KEGG orthology reference.
@@ -71,8 +86,10 @@ Public Class TaxonomyRef : Inherits XmlDataModel
     ''' <returns></returns>
     <XmlElement>
     Public Property coverage As Double
+    Public Property numberOfGenes As Integer
     Public Property organism As organism
     Public Property genome As OrthologyTerms
+    Public Property subcellular_components As SubCellularLocation
 
     Dim ts As Taxonomy
 
@@ -110,6 +127,43 @@ Public Class TaxonomyRef : Inherits XmlDataModel
     End Sub
 
     Public Overrides Function ToString() As String
-        Return $"[{TaxonID}] {organism.scientificName}"
+        Return $"[{taxonID}] {organism.scientificName}"
     End Function
+End Class
+
+Public Class SubCellularLocation : Inherits ListOf(Of Location)
+
+    <XmlElement>
+    Public Property locations As Location()
+
+    Protected Overrides Function getSize() As Integer
+        Return locations.Length
+    End Function
+
+    Protected Overrides Function getCollection() As IEnumerable(Of Location)
+        Return locations
+    End Function
+End Class
+
+Public Class Location
+
+    ''' <summary>
+    ''' The location name
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    <XmlAttribute>
+    Public Property name As String
+    ''' <summary>
+    ''' The protein id list
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    <XmlElement("protein")>
+    Public Property proteins As NamedValue()
+
+    Public Overrides Function ToString() As String
+        Return name
+    End Function
+
 End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67f8945361b5b0e339954684595323d1, Circos\Circos\CircosAPI.vb"
+﻿#Region "Microsoft.VisualBasic::39c43b50c26d3c8956e9ca2015824fde, visualize\Circos\Circos\CircosAPI.vb"
 
     ' Author:
     ' 
@@ -82,6 +82,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Karyotype.GeneObjects
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 Imports ColorPatterns = Microsoft.VisualBasic.Imaging.ColorMap
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 ''' <summary>
 ''' Shoal shell interaction with circos perl program to draw a circle diagram of a bacteria genome.
@@ -463,7 +464,7 @@ different with the ideogram configuration document was not included in the circo
                                          GBK As GenBank.GBFF.File,
                                          Optional splitOverlaps As Boolean = False,
                                          Optional dumpAll As Boolean = False) As Configurations.Circos
-        Dim dump As GeneDumpInfo() = FeatureDumps(GBK, dumpAll:=dumpAll)
+        Dim dump As GeneTable() = FeatureDumps(GBK, dumpAll:=dumpAll)
         Return GenerateGeneCircle(
             doc, dump,
             splitOverlaps:=splitOverlaps)
@@ -471,9 +472,9 @@ different with the ideogram configuration document was not included in the circo
 
     <ExportAPI("Plots.add.Sites")>
     Public Function AddSites(circos As Configurations.Circos, sites As IEnumerable(Of Contig)) As Configurations.Circos
-        Dim genes As GeneDumpInfo() = LinqAPI.Exec(Of Contig, GeneDumpInfo) _
+        Dim genes As GeneTable() = LinqAPI.Exec(Of Contig, GeneTable) _
  _
-            (sites) <= Function(site As Contig) New GeneDumpInfo With {
+            (sites) <= Function(site As Contig) New GeneTable With {
                 .Location = site.MappingLocation,
                 .LocusID = "",
                 .CommonName = "",
@@ -492,7 +493,7 @@ different with the ideogram configuration document was not included in the circo
     End Function
 
     <ExportAPI("Variation.As.Dump")>
-    Public Function VariationAsDump(var As IEnumerable(Of Double)) As GeneDumpInfo()
+    Public Function VariationAsDump(var As IEnumerable(Of Double)) As GeneTable()
         Dim regions As New List(Of (value#, start%, end%))
         Dim pre As Double() = var.ToArray
 
@@ -530,7 +531,7 @@ SET_END:    Dim ends = i
         Next
 
         Dim genesPretend = regions.Select(
-            Function(r) New GeneDumpInfo With {
+            Function(r) New GeneTable With {
                 .Location = New NucleotideLocation(r.start, r.end),
                 .GC_Content = r.value
             }).ToArray
@@ -569,7 +570,7 @@ SET_END:    Dim ends = i
     <ExportAPI("Plots.add.Gene_Circle")>
     <Extension>
     Public Function GenerateGeneCircle(doc As Configurations.Circos,
-                                           anno As IEnumerable(Of GeneDumpInfo),
+                                           anno As IEnumerable(Of GeneTable),
                                            <Parameter("Gene.Name.Only")> Optional onlyGeneName As Boolean = True,
                                            <Parameter("ID.Regex", "Regular expression for parsing the number value in the gene's locus_tag")>
                                            Optional IDRegex As String = "",
@@ -675,7 +676,7 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     <ExportAPI("Plots.Genome_Circle.From.GenbankDump",
                Info:="Creates the circos outside gene circle from the export csv data of the genbank database file.")>
-    Public Function CreateGenomeCircle(anno As IEnumerable(Of GeneDumpInfo), genome As FastaSeq, Optional defaultColor As String = "blue") As PTTMarks
+    Public Function CreateGenomeCircle(anno As IEnumerable(Of GeneTable), genome As FastaSeq, Optional defaultColor As String = "blue") As PTTMarks
         Dim track As New PTTMarks(anno.ToArray, genome, defaultColor)
         Return track
     End Function
@@ -1005,7 +1006,7 @@ SET_END:    Dim ends = i
     Public Const null As String = ""
 
     <ExportAPI("PTT2Dump")>
-    Public Function PTT2Dump(PTT As PTT) As GeneDumpInfo()
+    Public Function PTT2Dump(PTT As PTT) As GeneTable()
         Return GenBank.ExportPTTAsDump(PTT)
     End Function
 End Module

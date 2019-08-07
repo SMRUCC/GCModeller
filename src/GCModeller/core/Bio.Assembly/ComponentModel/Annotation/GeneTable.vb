@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::153755c159ae468adb2cd5600d29d34d, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GeneDumpInfo.vb"
+﻿#Region "Microsoft.VisualBasic::ab16ad9d12c1b1aabb60ff690e08eba0, Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Class GeneDumpInfo
+    '     Class GeneTable
     ' 
     '         Properties: [Function], CDS, COG, CommonName, EC_Number
     '                     GC_Content, GeneName, GI, GO, InterPro
@@ -39,7 +39,7 @@
     '                     Right, Species, SpeciesAccessionID, Strand, Transl_Table
     '                     Translation, UniprotSwissProt, UniprotTrEMBL
     ' 
-    '         Function: DumpEXPORT, ToString
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -47,18 +47,17 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
-Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.ComponentModel.Loci
 
-Namespace Assembly.NCBI.GenBank.CsvExports
+Namespace ComponentModel.Annotation
 
     ''' <summary>
     ''' The gene dump information from the NCBI genbank.
-    ''' (从GBK文件之中所导出来的一个基因对象的简要信息)
+    ''' (从GBK文件之中所导出来的一个基因对象的简要信息，尝试使用这个对象以csv表格的格式存储一个基因的所有的注释信息)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GeneDumpInfo
+    Public Class GeneTable
         Implements INamedValue
         Implements IGeneBrief
 
@@ -118,61 +117,6 @@ Namespace Assembly.NCBI.GenBank.CsvExports
 
         Public Overrides Function ToString() As String
             Return LocusID & ": " & CommonName
-        End Function
-
-        ''' <summary>
-        ''' Convert a feature site data in the NCBI GenBank file to the dump information table.
-        ''' </summary>
-        ''' <param name="obj">CDS标记的特性字段</param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Shared Function DumpEXPORT(obj As CDS) As GeneDumpInfo
-            Dim gene As GeneDumpInfo = New GeneDumpInfo
-
-            Call obj.TryGetValue("product", gene.CommonName)
-            Call obj.TryGetValue("locus_tag", gene.LocusID)
-            Call obj.TryGetValue("protein_id", gene.ProteinId)
-            Call obj.TryGetValue("gene", gene.GeneName)
-            Call obj.TryGetValue("translation", gene.Translation)
-            Call obj.TryGetValue("function", gene.Function)
-            Call obj.TryGetValue("transl_table", gene.Transl_Table)
-
-            If String.IsNullOrEmpty(gene.LocusID) Then
-                gene.LocusID = gene.ProteinId
-            End If
-            If String.IsNullOrEmpty(gene.LocusID) Then
-                gene.LocusID = (From ref As String
-                                In obj.QueryDuplicated("db_xref")
-                                Let Tokens As String() = ref.Split(CChar(":"))
-                                Where String.Equals(Tokens.First, "PSEUDO")
-                                Select Tokens.Last).FirstOrDefault
-            End If
-
-            gene.GI = obj.db_xref_GI
-            gene.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt
-            gene.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
-            gene.InterPro = obj.db_xref_InterPro
-            gene.GO = obj.db_xref_GO
-            gene.Species = obj.gb.Definition.Value
-            gene.EC_Number = obj.Query(FeatureQualifiers.EC_number)
-            gene.SpeciesAccessionID = obj.gb.Locus.AccessionID
-
-            'If gene.Function.StringEmpty Then
-
-            'End If
-
-            Try
-                gene.Left = obj.Location.ContiguousRegion.Left
-                gene.Right = obj.Location.ContiguousRegion.Right
-                gene.Strand = If(obj.Location.Complement, "-", "+")
-            Catch ex As Exception
-                Dim msg As String = $"{obj.gb.Accession.AccessionId} location data is null!"
-                ex = New Exception(msg)
-                Call VBDebugger.Warning(msg)
-                Call App.LogException(ex)
-            End Try
-
-            Return gene
         End Function
     End Class
 End Namespace

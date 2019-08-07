@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b2e6948e91b0d36015b7a776ea85d70, CLI_tools\CLI\BBH\SBH.vb"
+﻿#Region "Microsoft.VisualBasic::79feda6eda6d8313665d5e29a12ca67c, localblast\CLI_tools\CLI\BBH\SBH.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     ' Module CLI
     ' 
     '     Function: __evalueRow, __HitsRow, _2_KOBASOutput, AlignUnion, EvalueMatrix
-    '               ExportBBHLarge, ExportOverviews, ExportParalog, ExportSBH, SBH_topHits
+    '               ExportOverviews, ExportParalog, ExportSBH, ExportSBHLargeSize, SBH_topHits
     ' 
     ' /********************************************************************************/
 

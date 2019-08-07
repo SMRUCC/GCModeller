@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecdcac5f18b033209f8464ccb4596c87, Circos\Circos\Colors\Maps\COG\MvyaColorProfile.vb"
+﻿#Region "Microsoft.VisualBasic::ecdcac5f18b033209f8464ccb4596c87, visualize\Circos\Circos\Colors\Maps\COG\MvyaColorProfile.vb"
 
     ' Author:
     ' 

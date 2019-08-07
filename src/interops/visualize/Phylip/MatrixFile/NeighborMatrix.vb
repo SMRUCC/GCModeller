@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::195f9a0f797225b767152aa2bad232e6, Phylip\MatrixFile\NeighborMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::195f9a0f797225b767152aa2bad232e6, visualize\Phylip\MatrixFile\NeighborMatrix.vb"
 
     ' Author:
     ' 

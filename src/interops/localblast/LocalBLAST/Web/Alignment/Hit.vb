@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4da34796f606707c7925fba567b0f21f, LocalBLAST\Web\Alignment\Hit.vb"
+﻿#Region "Microsoft.VisualBasic::4da34796f606707c7925fba567b0f21f, localblast\LocalBLAST\Web\Alignment\Hit.vb"
 
     ' Author:
     ' 

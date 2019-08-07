@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21ad7fe9193fec008799716790443b35, Circos\Circos\Karyotype\Adapters\PPTMarks.vb"
+﻿#Region "Microsoft.VisualBasic::fd2433ce1a1ba17552852d78271564a6, visualize\Circos\Circos\Karyotype\Adapters\PPTMarks.vb"
 
     ' Author:
     ' 
@@ -82,9 +82,9 @@ Namespace Karyotype.GeneObjects
             Call singleKaryotypeChromosome()
         End Sub
 
-        Sub New(genes As GeneDumpInfo(), nt As FastaSeq, Optional defaultColor As String = "blue")
+        Sub New(genes As GeneTable(), nt As FastaSeq, Optional defaultColor As String = "blue")
             Dim MyvaCog = LinqAPI.Exec(Of ICOGCatalog) <=
-                From gene As GeneDumpInfo
+                From gene As GeneTable
                 In genes
                 Select New COGTable With {
                     .COGId = gene.COG,

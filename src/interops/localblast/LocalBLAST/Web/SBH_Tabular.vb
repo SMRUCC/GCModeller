@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::adeee9efed893fe097de1d92e8fa8872, LocalBLAST\Web\SBH_Tabular.vb"
+﻿#Region "Microsoft.VisualBasic::7662780d223b1c8a43c8c9e54aa02c7d, localblast\LocalBLAST\Web\SBH_Tabular.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
@@ -66,7 +66,7 @@ Namespace NCBIBlastResult
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Alignment.Table.From.bbh.Orthologous")>
-        Public Function CreateFromBBHOrthologous(QueryID As String, sbhDIR As String, <Parameter("Query.Info")> queryInfo As IEnumerable(Of GeneDumpInfo)) As AlignmentTable
+        Public Function CreateFromBBHOrthologous(QueryID As String, sbhDIR As String, <Parameter("Query.Info")> queryInfo As IEnumerable(Of GeneTable)) As AlignmentTable
             Dim Entries = (From path As KeyValuePair(Of String, String)
                            In sbhDIR.LoadSourceEntryList({"*.csv"})
                            Let Log As AlignEntry = LogNameParser(path.Value)
@@ -93,13 +93,13 @@ Namespace NCBIBlastResult
                            query.LogEntry,
                            bbhData).ToArray
 
-            Dim queryDict As Dictionary(Of GeneDumpInfo) = queryInfo.ToDictionary
+            Dim queryDict As Dictionary(Of GeneTable) = queryInfo.ToDictionary
             Dim hits As HitRecord() =
                 LinqAPI.Exec(Of HitRecord) <= From genome
                                               In BBH
                                               Select From gene As BiDirectionalBesthit
                                                      In genome.bbhData
-                                                     Let QueryGene As GeneDumpInfo = queryDict(gene.QueryName)
+                                                     Let QueryGene As GeneTable = queryDict(gene.QueryName)
                                                      Select New HitRecord With {
                                                          .Identity = gene.Identities,
                                                          .QueryStart = QueryGene.Left,

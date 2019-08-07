@@ -1,68 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::618ffa1c65ca6b6aeae3232aed4fd37f, v1.0\components.vb"
+﻿#Region "Microsoft.VisualBasic::4f6fec9cbef12a8ce9b9223be8b5926c, BIOM\BIOM\v1.0\components.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class IntegerMatrix
-' 
-'         Function: LoadFile
-' 
-'     Class FloatMatrix
-' 
-'         Function: LoadFile
-' 
-'     Class StringMatrix
-' 
-'         Function: LoadFile
-' 
-'         Class row
-' 
-'             Properties: id, metadata
-' 
-'         Class meta
-' 
-'             Properties: KEGG_Pathways, taxonomy
-' 
-'         Class column
-' 
-'             Properties: id, metadata
-' 
-'         Class columnMeta
-' 
-'             Properties: BarcodeSequence, BODY_SITE, Description, LinkerPrimerSequence
-' 
-'             Function: ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class row
+    ' 
+    '         Properties: hasMetaInfo, id, metadata
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class meta
+    ' 
+    '         Properties: KEGG_Pathways, lineage, taxonomy
+    ' 
+    '     Class column
+    ' 
+    '         Properties: id, metadata
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class columnMeta
+    ' 
+    '         Properties: BarcodeSequence, BODY_SITE, Description, LinkerPrimerSequence
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

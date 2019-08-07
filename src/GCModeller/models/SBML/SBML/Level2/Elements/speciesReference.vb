@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03bf4edfc5d6c124b7893312d5e1d017, models\SBML\SBML\Level2\Elements\speciesReference.vb"
+﻿#Region "Microsoft.VisualBasic::e612faeb2a43d787f8219ebb6087098c, SBML\SBML\Level2\Elements\speciesReference.vb"
 
     ' Author:
     ' 

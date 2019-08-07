@@ -489,14 +489,17 @@
     <Compile Include="Assembly\KEGG\Archives\Xml\MapAPI.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\TreeParser.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Enzyme.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compounds\TextModel.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ProteinFamily.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Organism.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHTextParser.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHTextParser.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTerm.vb" />
     <Compile Include="Assembly\KEGG\DBGET\KEGGObjects.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\PathwayWebQuery.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Relationship.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\OrthologyTerms.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\KEGGgenomeFetchs.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Drug.vb" />
@@ -535,7 +538,7 @@
     <Compile Include="Assembly\KEGG\Web\Map\URLEncoder.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\Map.vb" />
     <Compile Include="Assembly\KEGG\Web\PathwayMapping.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\htext.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModsBrite.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\GenericParser.vb" />
@@ -546,7 +549,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\SShit.vb" />
     <Compile Include="Assembly\KEGG\Web\QueryEntry.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHText.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Pathway.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb" />
@@ -591,7 +594,7 @@
     <Compile Include="Assembly\NCBI\Database\COG\COGs\COGTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GBFFFeatureDumps.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GenbankExportInfo.vb" />
-    <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GeneDumpInfo.vb" />
+    <Compile Include="ComponentModel\Annotation\GeneTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbEntry.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbExportService.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\Abstract.vb" />
@@ -686,7 +689,7 @@
     <Compile Include="ComponentModel\Annotation\PathwayBrief.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\XmlModel.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Pathway.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compounds\Compound.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compound.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\CompoundModelFactory.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PathwayBrief\AssignGene.vb" />
@@ -742,6 +745,7 @@
     <Compile Include="SequenceModel\FASTA\IO\StreamIterator.vb" />
     <Compile Include="SequenceModel\FASTA\HeaderFormats.vb" />
     <Compile Include="SequenceModel\ISequenceModel.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Assembly.vb" />
     <Compile Include="SequenceModel\TypeExtensions.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\Conversion.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\DegenerateBases.vb" />

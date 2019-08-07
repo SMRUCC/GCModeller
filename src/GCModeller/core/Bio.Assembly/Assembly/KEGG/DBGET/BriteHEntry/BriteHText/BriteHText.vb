@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::26a856576c47be28a867a33c36480940, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BriteHText
-    ' 
-    '         Properties: [class], categoryItems, CategoryLevel, classLabel, degree
-    '                     description, entryID, level, parent
-    ' 
-    '         Function: BuildPath, EnumerateEntries, GetEntries, GetHPath, GetRoot
-    '                   Load, Load_ko00001, Load_ko00002, NormalizePath, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BriteHText
+' 
+'         Properties: [class], categoryItems, CategoryLevel, classLabel, degree
+'                     description, entryID, level, parent
+' 
+'         Function: BuildPath, EnumerateEntries, GetEntries, GetHPath, GetRoot
+'                   Load, Load_ko00001, Load_ko00002, NormalizePath, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,6 +50,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -83,6 +84,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Property categoryItems As BriteHText()
 #End Region
 
+        Public ReadOnly Property CategoryLevel As Char
+            Get
+                If level < 0 Then
+                    Return "/"
+                End If
+                Return BriteHTextParser.classLevels(level)
+            End Get
+        End Property
+
         Dim entry As String
 
         ''' <summary>
@@ -92,12 +102,12 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public ReadOnly Property entryID As String
             Get
                 If String.IsNullOrEmpty(entry) Then
-                    Dim Tokens As String = classLabel.Split.First
+                    Dim tokens As String = classLabel.Split.First
 
-                    If Regex.Match(Tokens, "[a-z]\d{5}", RegexOptions.IgnoreCase).Success Then
-                        entry = Tokens
-                    ElseIf Tokens.IsPattern("\d+") Then
-                        entry = Tokens
+                    If r.Match(tokens, "[a-z]\d{5}", RegexOptions.IgnoreCase).Success Then
+                        entry = tokens
+                    ElseIf tokens.IsPattern("\d+") Then
+                        entry = tokens
                     End If
                 End If
 
@@ -146,10 +156,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <summary>
         ''' 查找不到会返回空值
         ''' </summary>
-        ''' <param name="Key"><see cref="entryID"/> or <see cref="entryID"/> in <see cref="CategoryItems"/></param>
+        ''' <param name="key"><see cref="entryID"/> or <see cref="entryID"/> in <see cref="CategoryItems"/></param>
         ''' <returns></returns>
-        Public Function GetHPath(Key As String) As BriteHText()
-            If String.Equals(Key, entryID, StringComparison.OrdinalIgnoreCase) Then
+        Public Function GetHPath(key As String) As BriteHText()
+            If String.Equals(key, entryID, StringComparison.OrdinalIgnoreCase) Then
                 Return {Me}
             End If
 
@@ -159,7 +169,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
             Dim LQuery As BriteHText() = (From value As BriteHText
                                           In Me.categoryItems
-                                          Let path As BriteHText() = value.GetHPath(Key)
+                                          Let path As BriteHText() = value.GetHPath(key)
                                           Where Not path.IsNullOrEmpty
                                           Select path).FirstOrDefault
             If LQuery.IsNullOrEmpty Then
@@ -174,15 +184,16 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 获取得到当前的分类之下的所有的<see cref="entryID"/>列表
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetEntries() As String()
+        Public Iterator Function GetEntries() As IEnumerable(Of String)
             If Me.categoryItems.IsNullOrEmpty Then
-                Return {
-                    entryID
-                }
+                Yield entryID
             Else
-                Return Me.categoryItems _
+                For Each id As String In Me.categoryItems _
                     .Select(Function(htext) htext.GetEntries) _
-                    .ToVector
+                    .IteratesALL
+
+                    Yield id
+                Next
             End If
         End Function
 
@@ -203,15 +214,6 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             End If
         End Function
 
-        Public ReadOnly Property CategoryLevel As Char
-            Get
-                If level < 0 Then
-                    Return "/"
-                End If
-                Return BriteHTextParser.ClassLevels(level)
-            End Get
-        End Property
-
         Public Overrides Function ToString() As String
             Return String.Format("[{0}]  {1}", CategoryLevel, classLabel)
         End Function
@@ -220,7 +222,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             If String.IsNullOrEmpty(strValue) Then
                 Return ""
             End If
-            Return Regex.Replace(strValue, "(\\|/|:|\*|\?|""|<|>|\|)", "_")
+
+            Return r.Replace(strValue, "(\\|/|:|\*|\?|""|<|>|\|)", "_")
         End Function
 
         ''' <summary>
@@ -236,7 +239,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Load_ko00002() As BriteHText
-            Return BriteHTextParser.Load(data:=My.Resources.ko00002_keg)
+            Return BriteHTextParser.Load(text:=My.Resources.ko00002_keg)
         End Function
 
         ''' <summary>
@@ -244,7 +247,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function Load_ko00001() As BriteHText
-            Return BriteHTextParser.Load(data:=My.Resources.ko00001)
+            Return BriteHTextParser.Load(text:=My.Resources.ko00001)
         End Function
 
         ''' <summary>
@@ -255,11 +258,11 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Function BuildPath(EXPORT$, Optional ext$ = ".xml") As String
             Dim levels As New List(Of String)
-            Dim o As BriteHText = Me.parent
+            Dim b As BriteHText = Me.parent
 
-            Do While Not o.parent Is Nothing
-                levels += o.classLabel
-                o = o.parent
+            Do While Not b.parent Is Nothing
+                levels += b.classLabel
+                b = b.parent
             Loop
 
             Call levels.Reverse()

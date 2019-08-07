@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::669b88b199c779fb4892f4e8a20788fe, Circos\CLI\Program.vb"
+﻿#Region "Microsoft.VisualBasic::1bd8cd6929ce984053f0419664f37757, visualize\Circos\CLI\Program.vb"
 
     ' Author:
     ' 
@@ -43,9 +43,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
@@ -53,7 +51,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
@@ -98,9 +96,9 @@ Module Program
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 
-    Private Function convert(anno As EntityObject) As GeneDumpInfo
+    Private Function convert(anno As EntityObject) As GeneTable
         Dim locus_tag$ = anno!locus_tag
-        Dim info As New GeneDumpInfo With {
+        Dim info As New GeneTable With {
             .LocusID = locus_tag,
             .Length = anno!Length.Match("\d+"),
             .Left = anno!Minimum.Match("\d+"),
@@ -125,7 +123,7 @@ Module Program
     End Function
 
     <Extension>
-    Private Function pickAnno(groups As Dictionary(Of String, GeneDumpInfo())) As GeneDumpInfo
+    Private Function pickAnno(groups As Dictionary(Of String, GeneTable())) As GeneTable
         If groups.ContainsKey("CDS") Then
             Return groups("CDS").First
         End If
@@ -160,7 +158,7 @@ Module Program
         Return groups.Values.First.First
     End Function
 
-    ReadOnly otherFeatures As Index(Of String) = {"repeat_region", "mobile_element"}
+    Friend ReadOnly otherFeatures As Index(Of String) = {"repeat_region", "mobile_element"}
 
     Sub testPlot2()
         Dim gb = gbff.Load("P:\deg\A16R\Bacillus anthracis str. A16R chromosome, complete genome_NZ_CP001974.2.gb")

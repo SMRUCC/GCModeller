@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6429954dd232e7eb70e062bc57b3b95c, Cytoscape\CLI_tool\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::6429954dd232e7eb70e062bc57b3b95c, visualize\Cytoscape\CLI_tool\CLI\CLI.vb"
 
     ' Author:
     ' 
