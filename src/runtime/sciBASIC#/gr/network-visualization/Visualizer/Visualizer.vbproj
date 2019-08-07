@@ -261,6 +261,7 @@
     <Compile Include="LayoutLabel.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="Canvas.vb" />
+    <Compile Include="Styling\CSS\NamespaceDoc.vb" />
     <Compile Include="Styling\CSS\StyleParser.vb" />
     <Compile Include="Styling\CSS\StyleCreator.vb" />
     <Compile Include="Styling\Expression\BrushExpression.vb" />
