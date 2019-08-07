@@ -134,6 +134,10 @@ Namespace LinearAlgebra
             Me.buffer = buffer
         End Sub
 
+        Public Overloads Shared Function Equals(a#, b#) As Boolean
+            Return Math.Abs(a - b) <= Precision
+        End Function
+
         Public Overrides Iterator Function GetEnumerator() As IEnumerator(Of Double)
             Dim j As VBInteger = -1
 
