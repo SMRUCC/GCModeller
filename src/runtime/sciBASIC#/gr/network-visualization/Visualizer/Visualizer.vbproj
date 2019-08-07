@@ -285,6 +285,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="NetworkVisualizer.vb" />
+    <Compile Include="Styling\MapperProcessor.vb" />
     <Compile Include="Styling\NodeStyles.vb" />
     <Compile Include="Styling\CSS\StyleMapper.vb" />
     <Compile Include="Styling\StyleMappings.vb" />

@@ -41,6 +41,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Styling
 Imports Microsoft.VisualBasic.Data.visualize.Network.Styling.CSS
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -53,6 +54,13 @@ Public Module CanvasDrawer
                               Optional padding$ = g.DefaultPadding,
                               Optional background$ = "white") As GraphicsData
 
+        Dim styled As NetworkGraph = net.WritePropertyValue(styling)
+        Dim rendered As GraphicsData = NetworkVisualizer.DrawImage(
+            net:=styled,
+            canvasSize:=canvasSize
+        )
+
+        Return rendered
     End Function
 
 End Module
