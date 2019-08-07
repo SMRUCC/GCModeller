@@ -3,7 +3,7 @@
 Module cssFileTest
 
     Sub Main()
-        Dim css = CssParser.GetTagWithCSS("D:\GCModeller\src\runtime\sciBASIC#\gr\network-visualization\Visualizer\Styling\Expression\example.css")
+        Dim css = CssParser.GetTagWithCSS("D:\GCModeller\src\runtime\sciBASIC#\gr\network-visualization\DATA\style.css")
 
 
         Pause()
