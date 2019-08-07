@@ -1,4 +1,9 @@
-﻿Imports Microsoft.VisualBasic.Language
+﻿Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Vectorization
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Linq.Which
+Imports Microsoft.VisualBasic.My.FrameworkInternal
 
 Namespace LinearAlgebra
 
@@ -7,12 +12,21 @@ Namespace LinearAlgebra
     ''' </summary>
     ''' <remarks>
     ''' 在这个向量中存在大量的零，主要适用于节省计算内存
+    ''' 因为有<see cref="index"/>索引的存在，所以假若零数值比较少的话，
+    ''' 使用这个稀疏向量来存储数据反而会导致内存被过度占用
     ''' </remarks>
+    ''' 
+    <FrameworkConfig(SparseVector.PrecisionEnvironmentConfigName)>
     Public Class SparseVector : Inherits Vector
 
         ''' <summary>
         ''' 非零值的索引号
         ''' </summary>
+        ''' <remarks>
+        ''' 为了保持访问性能，<see cref="buffer"/>数组并不会频繁的更改其长度
+        ''' 所以在设置某个元素为零的时候，是通过将这个索引对应的元素设置为-1进行标记删除的
+        ''' -1表示空缺下来的元素
+        ''' </remarks>
         ReadOnly index As List(Of Integer)
         ReadOnly dimension%
 
@@ -28,11 +42,86 @@ Namespace LinearAlgebra
             End Get
         End Property
 
+#Region "Index properties"
+        Default Public Overrides Property Item(booleans As IEnumerable(Of Boolean)) As Vector(Of Double)
+            Get
+                Return New Vector(Of Double)(IsTrue(booleans).Select(Function(index) Me(index)))
+            End Get
+            Set(value As Vector(Of Double))
+                For Each index As SeqValue(Of Integer) In IsTrue(booleans).SeqIterator
+                    Me(index.value) = value(index)
+                Next
+            End Set
+        End Property
+
+        Default Public Overrides Property Item(index As Integer) As Double
+            Get
+                Dim i As Integer = Me.index.IndexOf(index)
+
+                If i = -1 Then
+                    Return 0
+                Else
+                    Return buffer(i)
+                End If
+            End Get
+            Set
+                Dim i As Integer = Me.index.IndexOf(index)
+
+                If Value = 0.0 Then
+                    If i = -1 Then
+                        ' 将原来的零值设置为零值，则无变化
+                        ' do nothing
+                    Else
+                        ' 将非零值设置为零
+                        Me.index.Remove(index)
+                        Me.buffer(i) = 0
+                    End If
+                End If
+            End Set
+        End Property
+
+        Default Public Overloads Property Item(range As IEnumerable(Of Integer)) As Vector
+            Get
+                Return New SparseVector(range.Select(Function(index) Me(index)))
+            End Get
+            Set
+                For Each index As SeqValue(Of Integer) In range.SeqIterator
+                    Me(index.value) = Value(index)
+                Next
+            End Set
+        End Property
+
+        Default Public Overloads Property Item(range As IntRange) As SparseVector
+            Get
+                Return Me(range.ToArray)
+            End Get
+            Set
+                Me(range.ToArray) = Value
+            End Set
+        End Property
+#End Region
+
         ''' <summary>
-        ''' 当元素的绝对值小于这个值之后就会被当作为零
+        ''' All of the element its ABS value less than this precision threshold will be treated as ZERO value
+        ''' So the larger of this threshold value, the lower precision precision of all of the math algorithm
+        ''' that related to this <see cref="SparseVector"/>.
+        ''' 
+        ''' (当元素的绝对值小于这个值之后就会被当作为零，可以根据情况来设置这个公用属性来控制稀疏向量的计算精度)
         ''' </summary>
         ''' <returns></returns>
         Public Shared Property Precision As Double = 0.00001
+
+        Public Const PrecisionEnvironmentConfigName$ = "sparse_vector.zero_precision"
+
+        Shared Sub New()
+            Dim precision$ = App.GetVariable(PrecisionEnvironmentConfigName)
+
+            If Not precision.StringEmpty Then
+                SparseVector.Precision = precision.ParseDouble
+
+                Call $"The precision controls config of the sparse vector was set to {precision}".__INFO_ECHO
+            End If
+        End Sub
 
         ''' <summary>
         ''' 
@@ -71,12 +160,16 @@ Namespace LinearAlgebra
             Me.buffer = buffer
         End Sub
 
+        Public Overloads Shared Function Equals(a#, b#) As Boolean
+            Return Math.Abs(a - b) <= Precision
+        End Function
+
         Public Overrides Iterator Function GetEnumerator() As IEnumerator(Of Double)
             Dim j As VBInteger = -1
 
             For i As Integer = 0 To dimension - 1
-                If (j = index.IndexOf(i)) > 0 Then
-                    Yield buffer(index(j))
+                If (j = index.IndexOf(i)) > -1 Then
+                    Yield buffer(j)
                 Else
                     Yield 0.0
                 End If
@@ -85,6 +178,10 @@ Namespace LinearAlgebra
 
         Public Overloads Shared Operator *(v As SparseVector, multipl As Double) As SparseVector
             Return New SparseVector(From x As Double In v Select x * multipl)
+        End Operator
+
+        Public Overloads Shared Operator /(v As SparseVector, div As Double) As SparseVector
+            Return New SparseVector(From x As Double In v Select x / div)
         End Operator
 
         Public Overloads Shared Operator -(v As SparseVector, minus As Double) As SparseVector
@@ -96,16 +193,15 @@ Namespace LinearAlgebra
         End Operator
 
         Public Overloads Shared Operator ^(v As SparseVector, p As Double) As SparseVector
-            ' 0 ^ p = 0
-            Return New SparseVector(v.buffer.Select(Function(x) x ^ p), v.index, v.dimension)
+            Return New SparseVector(From x As Double In v Select x ^ p)
         End Operator
 
         Public Overloads Shared Operator ^(x As SparseVector, y As Vector) As SparseVector
             If x.Dim <> y.Dim Then
                 Throw New InvalidConstraintException()
+            Else
+                Return New SparseVector(From i As Integer In x.Sequence Select x(i) ^ y(i))
             End If
-
-
         End Operator
     End Class
 End Namespace
