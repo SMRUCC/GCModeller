@@ -261,10 +261,12 @@
     <Compile Include="LayoutLabel.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="Canvas.vb" />
+    <Compile Include="Styling\CSS\StyleParser.vb" />
+    <Compile Include="Styling\CSS\StyleCreator.vb" />
     <Compile Include="Styling\Expression\BrushExpression.vb" />
     <Compile Include="Styling\Expression\Syntax.vb" />
     <Compile Include="Styling\Expression\SizeExpression.vb" />
-    <Compile Include="Styling\StyleJSON.vb" />
+    <Compile Include="Styling\CSS\StyleObject.vb" />
     <Compile Include="Styling\EdgeStyles.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -283,7 +285,7 @@
     </Compile>
     <Compile Include="NetworkVisualizer.vb" />
     <Compile Include="Styling\NodeStyles.vb" />
-    <Compile Include="Styling\StyleMapper.vb" />
+    <Compile Include="Styling\CSS\StyleMapper.vb" />
     <Compile Include="Styling\StyleMappings.vb" />
   </ItemGroup>
   <ItemGroup>
