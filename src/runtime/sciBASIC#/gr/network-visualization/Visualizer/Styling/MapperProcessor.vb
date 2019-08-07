@@ -22,9 +22,8 @@ Namespace Styling
         ''' <param name="graph"></param>
         ''' <returns></returns>
         Private Function copy(graph As NetworkGraph) As NetworkGraph
-            Dim nodes As Node() = graph.vertex.Select(Function(n As Node)
-                                                          Return n.Clone
-                                                      End Function).ToArray
+            Dim nodes As Node() = graph.vertex.Select(Function(n) n.Clone).ToArray
+            Dim edges As Edge() = graph.graphEdges.Select(Function(e) e.Clone).ToArray
         End Function
     End Module
 End Namespace
