@@ -2,7 +2,7 @@ node {
 	size: map(Degree, [10, 50]);
 	fill: #skyblue;
 	label: "Common Name";
-	stroke-color: map("Super Pathway", true=red, false=green);
+	stroke: map("Super Pathway", true=red, false=green);
 }
 
 edge {
