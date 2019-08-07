@@ -53,9 +53,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports Microsoft.VisualBasic.Scripting.Expressions
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS.Parser
 
 Namespace Styling.CSS
 
@@ -72,31 +71,9 @@ Namespace Styling.CSS
         ''' </summary>
         Dim labelStyles As StyleCreator()
 
-        Public Shared Function FromJSON(json$) As StyleMapper
-            Dim styleJSON As StyleJSON = json.LoadJSON(Of StyleJSON)
-            Return FromJSON(styleJSON)
-        End Function
-
-        Public Shared Function FromJSON(json As StyleJSON) As StyleMapper
-            Return New StyleMapper With {
-                .nodeStyles = StyleMapper.__createSelector(json.nodes)
-            }
-        End Function
-
-        Private Shared Function __createSelector(styles As Dictionary(Of String, NodeStyle)) As StyleCreator()
-            Return styles _
-                .Select(Function(x) __createSelector(x.Key, x.Value)) _
-                .ToArray
-        End Function
-
-        Private Shared Function __createSelector(selector$, style As NodeStyle) As StyleCreator
-            Dim mapper As New StyleCreator With {
-                .selector = selector,
-                .fill = BrushExpression.Evaluate(style.fill),
-                .stroke = Stroke.TryParse(style.stroke),
-                .size = SizeExpression.Evaluate(style.size)
-            }
-            Return mapper
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function FromCSS(css As CSSFile) As StyleMapper
+            Return css.ParseCSSStyles
         End Function
     End Structure
 End Namespace
