@@ -67,14 +67,38 @@ Namespace LinearAlgebra
             Set
                 Dim i As Integer = Me.index.IndexOf(index)
 
-                If Value = 0.0 Then
+                If Value = 0.0 OrElse Math.Abs(Value) < Precision Then
                     If i = -1 Then
                         ' 将原来的零值设置为零值，则无变化
                         ' do nothing
                     Else
                         ' 将非零值设置为零
-                        Me.index.Remove(index)
-                        Me.buffer(i) = 0
+                        Me.index(i) = -1
+                        Me.buffer(i) = Double.NaN
+                    End If
+                Else
+                    ' value不为零的时候,可能会拓展buffer和index
+                    If i = -1 Then
+                        ' 在原来的列表中不存在
+                        ' 则先填充-1的位置
+                        ' 没有-1的位置的时候才进行buffer的拓展
+                        For i = 0 To Me.index.Count - 1
+                            If Me.index(i) = -1 Then
+                                Me.buffer(i) = Value
+                                Me.index(i) = index
+
+                                Return
+                            End If
+                        Next
+
+                        ' 需要拓展buffer
+                        ReDim Preserve Me.buffer(buffer.Length * 2)
+
+                        Me.index.Add(index)
+                        Me.buffer(Me.index.Count - 1) = Value
+                    Else
+                        ' 直接替换值
+                        Me.buffer(i) = Value
                     End If
                 End If
             End Set
@@ -159,6 +183,10 @@ Namespace LinearAlgebra
             Me.dimension = dimension
             Me.buffer = buffer
         End Sub
+
+        Public Overloads Function Min() As Double
+
+        End Function
 
         Public Overloads Shared Function Equals(a#, b#) As Boolean
             Return Math.Abs(a - b) <= Precision
