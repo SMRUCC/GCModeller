@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8de1ea5e9ea82151de4d444959c18cb9, Data_science\Mathematica\Math\Math\HashMaps\Unchecked.vb"
+﻿#Region "Microsoft.VisualBasic::c0944519eafd5c749816f818f0245e01, gr\network-visualization\Visualizer\labelModel.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    ' Module Unchecked
+    ' Class labelModel
     ' 
     ' 
     ' 
@@ -39,6 +39,12 @@
 
 #End Region
 
-Module Unchecked
+Imports System.Drawing
+Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 
-End Module
+Friend Class LayoutLabel
+    Public label As Label
+    Public anchor As Anchor
+    Public style As Font
+    Public color As Brush
+End Class
