@@ -54,6 +54,12 @@ Namespace KdTree
 
         Dim root As Node
 
+        Public ReadOnly Property balanceFactor() As Double
+            Get
+                Return height(root) / (Math.Log(count(root)) / Math.Log(2))
+            End Get
+        End Property
+
         Sub New(points As Object(), metric As Object, dimensions As Integer())
             Me.points = points
             Me.metric = metric
@@ -251,8 +257,105 @@ Namespace KdTree
         End Function
 
         Public Function nearest(point As Object, maxNodes As Integer, maxDistance As Double)
-            Dim i, result, bestNodes
+            Dim i%
+            Dim result As New List(Of Object)
+            Dim bestNodes As New BinaryHeap(Function(e) -e(1))
 
+            If maxDistance Then
+                For i = 0 To maxNodes - 1
+                    bestNodes.push({Nothing, maxDistance})
+                Next
+            End If
+
+            nearestSearch(point, root, bestNodes, maxNodes)
+
+            For i = 0 To maxNodes - 1
+                If Not bestNodes.content(i) Is Nothing Then
+                    result.Add({bestNodes.content(i)(0).obj, bestNodes.content(i)(1)})
+                End If
+            Next
+
+            Return result
+        End Function
+
+        Private Function nearestSearch(point As Object, node As Node, bestNodes As BinaryHeap, maxNodes%)
+            Dim bestChild
+            Dim dimension = dimensions(node.dimension),
+          ownDistance = metric(point, node.obj),
+          linearPoint = New Object,
+          linearDistance,
+          otherChild,
+          i
+
+            For i = 0 To dimensions.Length - 1
+                If i = node.dimension Then
+                    linearPoint(dimensions(i)) = point(dimensions(i))
+                Else
+                    linearPoint(dimensions(i)) = node.obj(dimensions(i))
+                End If
+            Next
+
+            linearDistance = metric(linearPoint, node.obj)
+
+            If node.right Is Nothing AndAlso node.left Is Nothing Then
+                If bestNodes.size < maxNodes OrElse ownDistance < bestNodes.peek()(1) Then
+                    saveNode(bestNodes, node, ownDistance, maxNodes)
+                End If
+                Return Nothing
+            End If
+
+            If node.right Is Nothing Then
+                bestChild = node.left
+            ElseIf node.left Is Nothing Then
+                bestChild = node.right
+            Else
+                If point(dimension) < node.obj(dimension) Then
+                    bestChild = node.left
+                Else
+                    bestChild = node.right
+                End If
+            End If
+
+            nearestSearch(point, bestChild, bestNodes, maxNodes)
+
+            If bestNodes.size() < maxNodes OrElse ownDistance < bestNodes.peek()(1) Then
+                saveNode(bestNodes, node, ownDistance, maxNodes)
+            End If
+
+            If bestNodes.size < maxNodes OrElse Math.Abs(linearDistance) < bestNodes.peek()(1) Then
+                If bestChild Is node.left Then
+                    otherChild = node.right
+                Else
+                    otherChild = node.left
+                End If
+
+                If Not otherChild Is Nothing Then
+                    nearestSearch(point, otherChild, bestNodes, maxNodes)
+                End If
+            End If
+        End Function
+
+        Private Sub saveNode(bestNodes As BinaryHeap, node As Node, distance#, maxNodes%)
+            bestNodes.push({node, distance})
+            If (bestNodes.size > maxNodes) Then
+                bestNodes.pop()
+            End If
+        End Sub
+
+        Private Function height(node As Node) As Integer
+            If node Is Nothing Then
+                Return 0
+            Else
+                Return Math.Max(height(node.left), height(node.right)) + 1
+            End If
+        End Function
+
+        Private Function count(node As Node) As Integer
+            If node Is Nothing Then
+                Return 0
+            Else
+                Return count(node.left) + count(node.right) + 1
+            End If
         End Function
     End Class
 
