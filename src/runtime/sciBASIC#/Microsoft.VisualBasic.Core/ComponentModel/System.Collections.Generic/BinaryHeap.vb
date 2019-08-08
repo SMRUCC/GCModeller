@@ -2,10 +2,10 @@
 
 Namespace ComponentModel.Collection
 
-    Public Class BinaryHeap
+    Public Class BinaryHeap(Of T As Class)
 
-        Public content As New List(Of Object)
-        Public scoreFunction As Func(Of Object, Double)
+        Public content As New List(Of T)
+        Public scoreFunction As Func(Of T, Double)
 
         Public ReadOnly Property size As Integer
             Get
@@ -13,16 +13,16 @@ Namespace ComponentModel.Collection
             End Get
         End Property
 
-        Sub New(scoreFunction As Func(Of Object, Double))
+        Sub New(scoreFunction As Func(Of T, Double))
             Me.scoreFunction = scoreFunction
         End Sub
 
-        Public Sub push(element)
+        Public Sub push(element As T)
             content.Add(element)
             bubbleUp(content.Count - 1)
         End Sub
 
-        Public Function pop()
+        Public Function pop() As T
             Dim result = content(Scan0)
             Dim [end] = content.Pop
 
@@ -34,11 +34,11 @@ Namespace ComponentModel.Collection
             Return result
         End Function
 
-        Public Function peek() As Object
+        Public Function peek() As T
             Return content(Scan0)
         End Function
 
-        Public Sub remove(node)
+        Public Sub remove(node As T)
             Dim len = content.Count
 
             For i As Integer = 0 To len - 1
@@ -66,7 +66,7 @@ Namespace ComponentModel.Collection
             Dim element = content(n)
 
             Do While n > 0
-                Dim parentN = Math.Floor((n + 1) / 2) - 1,
+                Dim parentN% = Math.Floor((n + 1) / 2) - 1,
             parent = content(parentN)
 
                 If scoreFunction(element) < scoreFunction(parent) Then
@@ -87,7 +87,7 @@ Namespace ComponentModel.Collection
 
             Do While True
                 Dim child2N = (n + 1) * 2, child1N = child2N - 1
-                Dim swap = Nothing
+                Dim swap As Integer?
 
                 If (child1N < length) Then
                     ' Look it up And compute its score.
