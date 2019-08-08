@@ -43,6 +43,7 @@
 
 Imports Microsoft.VisualBasic.Language.Python
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace KdTree
 
@@ -259,26 +260,26 @@ Namespace KdTree
         Public Function nearest(point As Object, maxNodes As Integer, maxDistance As Double)
             Dim i%
             Dim result As New List(Of Object)
-            Dim bestNodes As New BinaryHeap(Function(e) -e(1))
+            Dim bestNodes As New BinaryHeap(Of Tuple(Of Node, Double))(Function(e) -e.Item2)
 
             If maxDistance Then
                 For i = 0 To maxNodes - 1
-                    bestNodes.push({Nothing, maxDistance})
+                    bestNodes.push(New Tuple(Of Node, Double)(Nothing, maxDistance))
                 Next
             End If
 
             nearestSearch(point, root, bestNodes, maxNodes)
 
             For i = 0 To maxNodes - 1
-                If Not bestNodes.content(i) Is Nothing Then
-                    result.Add({bestNodes.content(i)(0).obj, bestNodes.content(i)(1)})
+                If Not bestNodes(i) Is Nothing Then
+                    result.Add(New Tuple(Of Node, Double)(bestNodes(i).Item1.obj, bestNodes(i).Item2))
                 End If
             Next
 
             Return result
         End Function
 
-        Private Function nearestSearch(point As Object, node As Node, bestNodes As BinaryHeap, maxNodes%)
+        Private Sub nearestSearch(point As Object, node As Node, bestNodes As BinaryHeap(Of Tuple(Of Node, Double)), maxNodes%)
             Dim bestChild
             Dim dimension = dimensions(node.dimension),
           ownDistance = metric(point, node.obj),
@@ -298,10 +299,10 @@ Namespace KdTree
             linearDistance = metric(linearPoint, node.obj)
 
             If node.right Is Nothing AndAlso node.left Is Nothing Then
-                If bestNodes.size < maxNodes OrElse ownDistance < bestNodes.peek()(1) Then
+                If bestNodes.size < maxNodes OrElse ownDistance < bestNodes.peek().Item2 Then
                     saveNode(bestNodes, node, ownDistance, maxNodes)
                 End If
-                Return Nothing
+                Return
             End If
 
             If node.right Is Nothing Then
@@ -318,11 +319,11 @@ Namespace KdTree
 
             nearestSearch(point, bestChild, bestNodes, maxNodes)
 
-            If bestNodes.size() < maxNodes OrElse ownDistance < bestNodes.peek()(1) Then
+            If bestNodes.size() < maxNodes OrElse ownDistance < bestNodes.peek.Item2 Then
                 saveNode(bestNodes, node, ownDistance, maxNodes)
             End If
 
-            If bestNodes.size < maxNodes OrElse Math.Abs(linearDistance) < bestNodes.peek()(1) Then
+            If bestNodes.size < maxNodes OrElse Math.Abs(linearDistance) < bestNodes.peek.Item2 Then
                 If bestChild Is node.left Then
                     otherChild = node.right
                 Else
@@ -333,10 +334,10 @@ Namespace KdTree
                     nearestSearch(point, otherChild, bestNodes, maxNodes)
                 End If
             End If
-        End Function
+        End Sub
 
-        Private Sub saveNode(bestNodes As BinaryHeap, node As Node, distance#, maxNodes%)
-            bestNodes.push({node, distance})
+        Private Sub saveNode(bestNodes As BinaryHeap(Of Tuple(Of Node, Double)), node As Node, distance#, maxNodes%)
+            bestNodes.push(New Tuple(Of Node, Double)(node, distance))
             If (bestNodes.size > maxNodes) Then
                 bestNodes.pop()
             End If

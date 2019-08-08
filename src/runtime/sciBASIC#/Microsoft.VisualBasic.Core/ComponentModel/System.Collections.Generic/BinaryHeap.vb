@@ -19,6 +19,12 @@ Namespace ComponentModel.Collection
             End Get
         End Property
 
+        Default Public ReadOnly Property Item(i As Integer) As T
+            Get
+                Return content(i)
+            End Get
+        End Property
+
         Sub New(scoreFunction As Func(Of T, Double))
             Me.scoreFunction = scoreFunction
         End Sub
