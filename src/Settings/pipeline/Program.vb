@@ -90,7 +90,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
     <Group(Program.ResourceController)>
     Public Function Register(args As CommandLine) As Integer
         Dim name$ = args <= "/resource"
-        Dim size& = args <= "/size"
+        Dim size& = args("/size")
         Dim type$ = args <= "/type"
 
 
