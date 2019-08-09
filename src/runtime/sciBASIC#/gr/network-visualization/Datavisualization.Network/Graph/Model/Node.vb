@@ -115,10 +115,20 @@ Namespace Graph
         End Sub
 
         Public Property data As NodeData Implements IGraphValueContainer(Of NodeData).data
+        Public Property adjacencies As AdjacencySet
         Public Property pinned As Boolean
 
         Public Overrides Function GetHashCode() As Integer
             Return label.GetHashCode()
+        End Function
+
+        ''' <summary>
+        ''' Indicates if the node is adjacent to the node specified by id
+        ''' </summary>
+        ''' <param name="node"></param>
+        ''' <returns></returns>
+        Public Function adjacentTo(node As Node) As Boolean
+            Return node.label Like adjacencies
         End Function
 
         Public Overrides Function ToString() As String
@@ -175,6 +185,7 @@ Namespace Graph
                 .label = label,
                 .degree = degree,
                 .pinned = pinned,
+                .adjacencies = adjacencies.Clone,
                 .data = New NodeData With {
                     .color = data.color,
                     .label = data.label,
