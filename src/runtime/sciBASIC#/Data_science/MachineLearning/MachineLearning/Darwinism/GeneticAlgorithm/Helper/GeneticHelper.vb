@@ -234,7 +234,6 @@ Namespace Darwinism.GAF.Helper
                                                                              Optional parallel As [Variant](Of ParallelComputeFitness(Of T), Boolean) = Nothing,
                                                                              Optional addBase As Boolean = True) As Population(Of T)
             Dim time As Double = App.ElapsedMilliseconds
-            Dim chr As T
             Dim population As New Population(Of T)(parallel) With {
                 .initialSize = populationSize
             }
@@ -249,11 +248,14 @@ Namespace Darwinism.GAF.Helper
 
             Call "Start to create the initial population...".__DEBUG_ECHO
 
-            For i As Integer = 0 To populationSize - 1
-                ' each member of initial population
-                ' is mutated clone of base chromosome
-                chr = base.Mutate()
-                population.Add(chr)
+            ' Each member of initial population
+            ' is mutated clone of base chromosome
+            Dim mutations As IEnumerable(Of T) = From i As Integer
+                                                 In populationSize.SeqRandom.AsParallel
+                                                 Select base.Mutate
+            ' 使用并行化, 在处理大型的数据集的时候可以在这里比较明显的提升计算性能
+            For Each chr As T In mutations
+                Call population.Add(chr)
             Next
 
             Call $"Takes {DateTimeHelper.ReadableElapsedTime(App.ElapsedMilliseconds - time)} for intialize population.".__DEBUG_ECHO
