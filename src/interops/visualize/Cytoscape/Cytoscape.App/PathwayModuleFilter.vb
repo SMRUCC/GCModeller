@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::558a636b54c5a9e8c0fabe07f7cf805a, Cytoscape\Cytoscape.App\PathwayModuleFilter.vb"
+﻿#Region "Microsoft.VisualBasic::558a636b54c5a9e8c0fabe07f7cf805a, visualize\Cytoscape\Cytoscape.App\PathwayModuleFilter.vb"
 
     ' Author:
     ' 

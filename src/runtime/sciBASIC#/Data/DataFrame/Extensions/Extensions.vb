@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e718daea6d5774f043586d1b874deb07, Data\DataFrame\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ec02303acfd6b78c776af94da7d3591a, Data\DataFrame\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -82,7 +82,7 @@ Imports File_csv = Microsoft.VisualBasic.Data.csv.IO.File
 Public Module Extensions
 
     Sub New()
-        Call __initStreamIO_pointer()
+        Call initStreamIOHandlers()
     End Sub
 
     <Extension>

@@ -1,4 +1,49 @@
-﻿Namespace Assembly.KEGG.DBGET.BriteHEntry
+﻿#Region "Microsoft.VisualBasic::1e83d1cbe367ad8feb17cc260dcec7ec, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Enzyme.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class EnzymeEntry
+    ' 
+    '         Properties: ECName, fullName, geneNames, KO
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetResource, ParseEntries
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Namespace Assembly.KEGG.DBGET.BriteHEntry
 
     ''' <summary>
     ''' 在这里的entry是KO编号，而非Reaction编号

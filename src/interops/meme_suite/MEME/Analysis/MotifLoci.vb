@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::110fe3a5652e56f8c41afb2430b17241, meme_suite\MEME\Analysis\MotifLoci.vb"
+﻿#Region "Microsoft.VisualBasic::89ea76b8be5e990b1a3f25fb679ba25b, meme_suite\MEME\Analysis\MotifLoci.vb"
 
     ' Author:
     ' 

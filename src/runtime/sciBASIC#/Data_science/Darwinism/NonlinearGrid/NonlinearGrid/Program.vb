@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f53ea4cb803ce18a2357508aef6f9545, Data_science\Darwinism\NonlinearGrid\NonlinearGrid\Program.vb"
+﻿#Region "Microsoft.VisualBasic::e2b1b3791b0b6f91e49bbb0ec04d8d8d, Data_science\Darwinism\NonlinearGrid\NonlinearGrid\Program.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     ' Module Program
     ' 
-    '     Function: DumpAsNetwork, ExportFactorImpact, Formula, Main, trainGA
-    '               ValidationROC, ValidationSummary
+    '     Function: DumpAsNetwork, ExportFactorImpact, Formula, loadNameMaps, Main
+    '               trainGA, ValidationROC, ValidationSummary
     ' 
     '     Sub: RunFitProcess
     ' 
@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.ReplacementStrategy
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.NonlinearGridTopology
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.NonlinearGridTopology.BigData
 Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile
@@ -250,18 +251,22 @@ Module Program
     End Function
 
     <ExportAPI("/training")>
-    <Usage("/training /in <trainingSet.Xml> [/model <model.XML> /popSize <default=5000> /rate <default=0.1> /validateSet <validateSet.Xml> /range.positive /truncate <default=1000> /parallel <processor_plugin> /out <output_model.Xml>]")>
+    <Usage("/training /in <trainingSet.Xml> [/model <model.XML> /popSize <default=5000> /rate <default=0.1> /validateSet <validateSet.Xml> /range.positive /truncate <default=1000> /parallel <processor_plugin> /bigdata /out <output_model.Xml>]")>
     <Description("Training a grid system use GA method.")>
     <Argument("/range.positive", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="All of the output value is in positive value range, values should greater than or equals to ZERO.")>
+    <Argument("/bigdata", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="Grid system running in big data mode?")>
     Public Function trainGA(args As CommandLine) As Integer
         Dim inFile As String = args <= "/in"
         Dim out$ = args("/out") Or $"{inFile.TrimSuffix}.minError.Xml"
         Dim model$ = args("/model")
-        Dim seed As GridSystem = Nothing
+        Dim seed As GridMatrix = Nothing
         Dim popSize% = args("/popSize") Or 5000
         Dim Pcompute As ParallelComputeFitness(Of Genome) = Nothing
+        Dim bigDataMode As Boolean = args("/bigdata")
 
         If args.ContainsParameter("/parallel") Then
             Dim parallelPlugin = (args <= "/parallel").GetTagValue("::", trim:=True)
@@ -278,7 +283,7 @@ Module Program
         If Not inFile.FileExists Then
             Call "No input file was found!".PrintException
         Else
-            seed = If(model.FileExists, model.LoadXml(Of GridMatrix).CreateSystem, Nothing)
+            seed = If(model.FileExists, model.LoadXml(Of GridMatrix), Nothing)
 
             If Not seed Is Nothing Then
                 Call $"Load trained model from {model}".__INFO_ECHO
@@ -301,64 +306,128 @@ Module Program
                 mutationRate:=rate,
                 truncate:=truncate,
                 allPositive:=allPositive,
-                Pcompute:=Pcompute
+                Pcompute:=Pcompute,
+                bigdataMode:=bigDataMode
         )
 
         Return 0
     End Function
 
     <Extension>
-    Public Sub RunFitProcess(trainingSet As DataSet, validateSet As DataSet, outFile$, seed As GridSystem, popSize%, factorNames$(),
+    Public Sub RunFitProcess(trainingSet As DataSet, validateSet As DataSet, outFile$, seed As GridMatrix, popSize%, factorNames$(),
                              mutationRate As Double,
                              truncate As Double,
                              allPositive As Boolean,
+                             bigdataMode As Boolean,
                              Pcompute As ParallelComputeFitness(Of Genome))
 
         Dim cor As Vector = trainingSet.DataSamples.AsEnumerable.Correlation
-        Dim max As Vector = trainingSet.NormalizeMatrix.matrix.Select(Function(r) 1 / (r.max * 1000)).AsVector
+
         Call "Create a base chromosome".__DEBUG_ECHO
-        Dim chromesome As GridSystem = If(seed, Loader.EmptyGridSystem(trainingSet.width, cor, max))
-        Call "Initialize populations".__DEBUG_ECHO
-        Call $"value truncate at ABS limits {truncate}".__DEBUG_ECHO
-        Dim parallel As [Variant](Of ParallelComputeFitness(Of Genome), Boolean)
 
-        If Pcompute Is Nothing Then
-            parallel = True
+        If bigdataMode Then
+            Dim chromesome As SparseGridSystem
+
+            If seed Is Nothing Then
+                chromesome = Loader.EmptyGridSystem(trainingSet.width, cor, bigData:=True)
+            Else
+                chromesome = seed.CreateBigSystem
+            End If
+
+            Call "Grid dynamics system running in big data mode!".__INFO_ECHO
+            Call "Initialize populations".__DEBUG_ECHO
+            Call $"value truncate at ABS limits {truncate}".__DEBUG_ECHO
+            Dim parallel As [Variant](Of ParallelComputeFitness(Of SparseGenome), Boolean)
+
+            If Pcompute Is Nothing Then
+                parallel = True
+            Else
+                parallel = True
+            End If
+
+            Dim population As Population(Of SparseGenome) = New SparseGenome(chromesome, mutationRate, truncate, allPositive).InitialPopulation(popSize, parallel)
+            Call "Initialize environment".__DEBUG_ECHO
+            Dim fitness As Fitness(Of SparseGenome) = New Environment(Of SparseGridSystem, SparseGenome)(trainingSet, FitnessMethods.LabelGroupAverage, validateSet)
+            Call "Create algorithm engine".__DEBUG_ECHO
+            Dim ga As New GeneticAlgorithm(Of SparseGenome)(population, fitness, Strategies.Naive)
+            Call "Load driver".__DEBUG_ECHO
+
+            Dim takeBestSnapshot = Sub(best As SparseGenome, error#)
+                                       Call best.chromosome _
+                                           .CreateSnapshot(
+                                                dist:=trainingSet.NormalizeMatrix,
+                                                names:=factorNames,
+                                                [error]:=[error]
+                                           ) _
+                                           .GetXml _
+                                           .SaveTo(outFile.TrimSuffix & $"_localOptimal/{[error]}.Xml")
+                                   End Sub
+            Dim engine As New EnvironmentDriver(Of SparseGenome)(ga, takeBestSnapshot) With {
+                .Iterations = 1000000,
+                .Threshold = 0.005
+            }
+
+            Call engine.AttachReporter(Sub(i, e, g)
+                                           Call EnvironmentDriver(Of SparseGenome).CreateReport(i, e, g).ToString.__DEBUG_ECHO
+                                           Call g.Best.chromosome _
+                                                 .CreateSnapshot(trainingSet.NormalizeMatrix, factorNames, e) _
+                                                 .GetXml _
+                                                 .SaveTo(outFile)
+                                       End Sub)
+
+            Call "Run GA!".__DEBUG_ECHO
+            Call engine.Train()
         Else
-            parallel = Pcompute
+            Dim chromesome As GridSystem
+
+            If seed Is Nothing Then
+                chromesome = Loader.EmptyGridSystem(trainingSet.width, cor).TryCast(Of GridSystem)
+            Else
+                chromesome = seed.CreateSystem
+            End If
+
+            Call "Initialize populations".__DEBUG_ECHO
+            Call $"value truncate at ABS limits {truncate}".__DEBUG_ECHO
+            Dim parallel As [Variant](Of ParallelComputeFitness(Of Genome), Boolean)
+
+            If Pcompute Is Nothing Then
+                parallel = True
+            Else
+                parallel = Pcompute
+            End If
+
+            Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate, truncate, allPositive).InitialPopulation(popSize, parallel)
+            Call "Initialize environment".__DEBUG_ECHO
+            Dim fitness As Fitness(Of Genome) = New Environment(Of GridSystem, Genome)(trainingSet, FitnessMethods.LabelGroupAverage, validateSet)
+            Call "Create algorithm engine".__DEBUG_ECHO
+            Dim ga As New GeneticAlgorithm(Of Genome)(population, fitness, Strategies.Naive)
+            Call "Load driver".__DEBUG_ECHO
+
+            Dim takeBestSnapshot = Sub(best As Genome, error#)
+                                       Call best.chromosome _
+                                           .CreateSnapshot(
+                                                dist:=trainingSet.NormalizeMatrix,
+                                                names:=factorNames,
+                                                [error]:=[error]
+                                           ) _
+                                           .GetXml _
+                                           .SaveTo(outFile.TrimSuffix & $"_localOptimal/{[error]}.Xml")
+                                   End Sub
+            Dim engine As New EnvironmentDriver(Of Genome)(ga, takeBestSnapshot) With {
+                .Iterations = 1000000,
+                .Threshold = 0.005
+            }
+
+            Call engine.AttachReporter(Sub(i, e, g)
+                                           Call EnvironmentDriver(Of Genome).CreateReport(i, e, g).ToString.__DEBUG_ECHO
+                                           Call g.Best.chromosome _
+                                                 .CreateSnapshot(trainingSet.NormalizeMatrix, factorNames, e) _
+                                                 .GetXml _
+                                                 .SaveTo(outFile)
+                                       End Sub)
+
+            Call "Run GA!".__DEBUG_ECHO
+            Call engine.Train()
         End If
-
-        Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate, truncate, allPositive).InitialPopulation(popSize, parallel)
-        Call "Initialize environment".__DEBUG_ECHO
-        Dim fitness As Fitness(Of Genome) = New Environment(trainingSet, FitnessMethods.LabelGroupAverage, validateSet)
-        Call "Create algorithm engine".__DEBUG_ECHO
-        Dim ga As New GeneticAlgorithm(Of Genome)(population, fitness, Strategies.Naive)
-        Call "Load driver".__DEBUG_ECHO
-
-        Dim takeBestSnapshot = Sub(best As Genome, error#)
-                                   Call best _
-                                       .CreateSnapshot(
-                                            dist:=trainingSet.NormalizeMatrix,
-                                            names:=factorNames,
-                                            [error]:=[error]
-                                       ) _
-                                       .GetXml _
-                                       .SaveTo(outFile.TrimSuffix & $"_localOptimal/{[error]}.Xml")
-                               End Sub
-        Dim engine As New EnvironmentDriver(Of Genome)(ga, takeBestSnapshot) With {
-            .Iterations = 1000000,
-            .Threshold = 0.005
-        }
-
-        Call engine.AttachReporter(Sub(i, e, g)
-                                       Call EnvironmentDriver(Of Genome).CreateReport(i, e, g).ToString.__DEBUG_ECHO
-                                       Call g.Best _
-                                             .CreateSnapshot(trainingSet.NormalizeMatrix, factorNames, e) _
-                                             .GetXml _
-                                             .SaveTo(outFile)
-                                   End Sub)
-
-        Call "Run GA!".__DEBUG_ECHO
-        Call engine.Train()
     End Sub
 End Module

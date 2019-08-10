@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db50ed336482acfe493e2f2a552d39d6, Data_science\Mathematica\Math\Math\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::13f930113e18afbddf25233050ce2d69, Data_science\Mathematica\Math\Math\test\Program.vb"
 
     ' Author:
     ' 
@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.HashMaps
+Imports Microsoft.VisualBasic.Math.Numerics
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.SecurityString
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -68,7 +69,7 @@ Module Program
     Sub uncheckedTest()
         Const ConstantMax% = Integer.MaxValue
 
-        Dim int1 As New UncheckedInteger(2147483647)
+        Dim int1 As UncheckedInteger = 2147483647
         Dim int2% = 10
 
         Dim i% = int1 + int2

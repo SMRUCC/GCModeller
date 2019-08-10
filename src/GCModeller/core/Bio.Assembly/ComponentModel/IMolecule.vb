@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7167a56df3175e6812e1d38edf4409c6, Bio.Assembly\ComponentModel\IMolecule.vb"
+﻿#Region "Microsoft.VisualBasic::8c0536d853ddd0d4d0adf9855da63af3, Bio.Assembly\ComponentModel\IMolecule.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Interface IMolecule
     ' 
-    '         Properties: Formula, ID, Mass, Name
+    '         Properties: EntryId, Formula, Mass, Name
     ' 
     ' 
     ' /********************************************************************************/

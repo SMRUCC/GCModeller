@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::841ecbe5fc67aee052137fca4b7044f3, Cytoscape\Cytoscape\Graph\Visualization\GraphDrawing.vb"
+﻿#Region "Microsoft.VisualBasic::841ecbe5fc67aee052137fca4b7044f3, visualize\Cytoscape\Cytoscape\Graph\Visualization\GraphDrawing.vb"
 
     ' Author:
     ' 

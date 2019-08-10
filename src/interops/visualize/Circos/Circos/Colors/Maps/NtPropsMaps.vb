@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bbd3909f7587f7061c66cb723b2cff2f, Circos\Circos\Colors\Maps\NtPropsMaps.vb"
+﻿#Region "Microsoft.VisualBasic::bbd3909f7587f7061c66cb723b2cff2f, visualize\Circos\Circos\Colors\Maps\NtPropsMaps.vb"
 
     ' Author:
     ' 

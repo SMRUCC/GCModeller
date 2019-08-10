@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87730d3c06bd3ed6ef8ff5d9ccf694f3, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::952dc7850344adbd5671e4be247c4f17, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Regulation.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     '                     PhysiologicallyRelevant, RegulatedEntity, Regulator, Table
     '         Interface IRegulator
     ' 
-    '             Properties: CommonName, ComponentOf, locusId, Regulates, Types
+    '             Properties: CommonName, ComponentOf, Regulates, Types, UniqueId
     ' 
     ' 
     ' 

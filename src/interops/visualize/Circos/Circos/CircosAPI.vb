@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67f8945361b5b0e339954684595323d1, Circos\Circos\CircosAPI.vb"
+﻿#Region "Microsoft.VisualBasic::39c43b50c26d3c8956e9ca2015824fde, visualize\Circos\Circos\CircosAPI.vb"
 
     ' Author:
     ' 

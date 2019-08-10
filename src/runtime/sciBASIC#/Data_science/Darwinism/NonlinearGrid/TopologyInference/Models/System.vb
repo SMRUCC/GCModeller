@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1488bbd4ef31b2b83f06d96e3cc6850f, Data_science\Darwinism\NonlinearGrid\TopologyInference\Models\System.vb"
+﻿#Region "Microsoft.VisualBasic::0a8c8c57dd209b4d8a562f3804f7fc32, Data_science\Darwinism\NonlinearGrid\TopologyInference\Models\System.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,43 @@
 
     ' Summaries:
 
+    ' Interface IGrid
+    ' 
+    '     Properties: A, AC, C
+    ' 
+    ' Interface ICorrelation
+    ' 
+    '     Properties: B, BC
+    ' 
     ' Class GridSystem
     ' 
-    '     Properties: A, AC, Amplify, C, delay
+    '     Properties: A, AC, C, Width
     ' 
-    '     Function: Clone, Evaluate, ToString
+    '     Function: Clone, Evaluate, (+2 Overloads) ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Serialization.JSON
+
+Public Interface IGrid(Of V, IC As ICorrelation(Of V))
+
+    Property AC As Double
+    Property A As V
+    Property C As IC()
+
+End Interface
+
+Public Interface ICorrelation(Of V)
+    Property B As V
+    Property BC As Double
+End Interface
 
 ''' <summary>
 ''' The Nonlinear Grid Dynamics System
@@ -51,17 +75,21 @@ Imports Microsoft.VisualBasic.Serialization
 ''' <remarks>
 ''' 理论上可以拟合任意一个系统
 ''' </remarks>
-Public Class GridSystem : Implements ICloneable(Of GridSystem)
+Public Class GridSystem : Implements IDynamicsComponent(Of GridSystem), IGrid(Of Vector, Correlation)
 
     ''' <summary>
     ''' 线性方程的常数项
     ''' </summary>
     ''' <returns></returns>
-    Public Property AC As Double
-    Public Property A As Vector
-    Public Property C As Correlation()
-    Public Property Amplify As Double
-    Public Property delay As Double
+    Public Property AC As Double Implements IGrid(Of Vector, Correlation).AC
+    Public Property A As Vector Implements IGrid(Of Vector, Correlation).A
+    Public Property C As Correlation() Implements IGrid(Of Vector, Correlation).C
+
+    Public ReadOnly Property Width As Integer Implements IDynamicsComponent(Of GridSystem).Width
+        Get
+            Return A.Dim
+        End Get
+    End Property
 
     ''' <summary>
     ''' Evaluate the system dynamics
@@ -72,14 +100,13 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
     ''' </summary>
     ''' <param name="X"></param>
     ''' <returns></returns>
-    Public Function Evaluate(X As Vector) As Double
+    Public Function Evaluate(X As Vector) As Double Implements IDynamicsComponent(Of GridSystem).Evaluate
         Dim C As Vector = Me.C.Select(Function(ci) ci.Evaluate(X)).AsVector
         ' 20190722 当X中存在负数的时候,假设对应的C相关因子为小数负数,则会出现NaN计算结果值
         Dim F As Vector = Math.E ^ C
         Dim fx As Vector = A * X * F
         Dim S = AC + fx.Sum
 
-        ' Return Sigmoid.doCall(S, alpha:=delay) * Amplify
         Return S
     End Function
 
@@ -89,13 +116,28 @@ Public Class GridSystem : Implements ICloneable(Of GridSystem)
             .AC = AC,
             .C = C _
                 .Select(Function(ci) ci.Clone) _
-                .ToArray,
-            .Amplify = Amplify,
-            .delay = delay
+                .ToArray
         }
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
-        Return ""
+        Return ToString(Me)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Overloads Shared Function ToString(chromosome As GridSystem) As String
+        Return chromosome.A.Length _
+            .SeqIterator _
+            .Select(Function(i)
+                        Dim sign = chromosome.A(i)
+                        Dim c = chromosome.C(i).B.Sum + chromosome.C(i).BC
+                        Dim S = $"({chromosome.AC} + {sign} * {c})"
+
+                        Return S
+                    End Function) _
+            .ToArray _
+            .GetJson _
+            .MD5
     End Function
 End Class

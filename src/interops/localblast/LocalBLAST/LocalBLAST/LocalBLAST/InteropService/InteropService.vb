@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c382becae4a2469cd7bd5c3535ca9a1c, LocalBLAST\LocalBLAST\LocalBLAST\InteropService\InteropService.vb"
+﻿#Region "Microsoft.VisualBasic::c382becae4a2469cd7bd5c3535ca9a1c, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\InteropService.vb"
 
     ' Author:
     ' 

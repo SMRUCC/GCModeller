@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5947990f5fc07b4602bffc11ac58a0a1, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\GeneticAlgorithm.vb"
+﻿#Region "Microsoft.VisualBasic::72b4ded27def6f76237cb4afeac96e15, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\GeneticAlgorithm.vb"
 
     ' Author:
     ' 
@@ -137,9 +137,6 @@ Namespace Darwinism.GAF
             Me.population = population
             Me.seeds = seeds Or randfSeeds
             Me.chromosomesComparator = New FitnessPool(Of Chr)(fitnessFunc, capacity:=cacheSize, toString:=toString)
-
-            Call "Do first sort of the population with their fitness values.".__DEBUG_ECHO
-            Me.population.SortPopulationByFitness(chromosomesComparator)
             Me.popStrategy = replacementStrategy.GetStrategy(Of Chr)
 
             If population.parallel Then

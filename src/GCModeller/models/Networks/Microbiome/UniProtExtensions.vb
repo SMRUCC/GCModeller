@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27232113435b6c5d0db6dbdb74b529e0, models\Networks\Microbiome\UniProtExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::e75abc00adf56d52b52e5f24e49ada44, Networks\Microbiome\UniProtExtensions.vb"
 
     ' Author:
     ' 
@@ -60,10 +60,15 @@ Public Module UniProtExtensions
         Dim hitsID As New Index(Of String)
 
         For Each taxonomy As Metagenomics.Taxonomy In taxonomyList
-            For Each hit As TaxonomyRef In repo.Selects(range:=taxonomy)
+            For Each hit As TaxonomyRef In repo _
+                .Selects(range:=taxonomy) _
+                .Where(Function(genome)
+                           Return Not genome Is Nothing
+                       End Function)
+
                 If distinct Then
-                    If Not hit.TaxonID Like hitsID Then
-                        Call hitsID.Add(hit.TaxonID)
+                    If Not hit.taxonID Like hitsID Then
+                        Call hitsID.Add(hit.taxonID)
                         Yield hit
                     End If
                 Else
