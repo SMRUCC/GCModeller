@@ -53,6 +53,13 @@ Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 ''' </summary>
 Public Module GSEA
 
+    ''' <summary>
+    ''' Converts the GCModeller enrichment analysis output as the KOBAS enrichment analysis result output table.
+    ''' </summary>
+    ''' <param name="terms"></param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Converts(terms As IEnumerable(Of EnrichmentResult)) As IEnumerable(Of EnrichmentTerm)
         Return terms.Select(AddressOf Convert)
