@@ -1,44 +1,44 @@
-﻿#Region "Microsoft.VisualBasic::45d782ae175d587a152a19d88a206ff7, Microsoft.VisualBasic.Core\ApplicationServices\Debugger\DebuggerArgs.vb"
+﻿#Region "Microsoft.VisualBasic::7fcd2b47d1a839220c30c326d2bb5bc1, Microsoft.VisualBasic.Core\ApplicationServices\Debugger\DebuggerArgs.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module DebuggerArgs
-' 
-'         Properties: AutoPaused, ErrLogs
-' 
-'         Sub: __logShell, InitDebuggerEnvir, SaveErrorLog
-' 
-' 
-' /********************************************************************************/
+    '     Module DebuggerArgs
+    ' 
+    '         Properties: AutoPaused, ErrLogs
+    ' 
+    '         Sub: __logShell, InitDebuggerEnvir, SaveErrorLog
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -230,50 +230,6 @@ Namespace ApplicationServices.Debugging
             End If
 
             Call config.ConfigFrameworkRuntime(args)
-        End Sub
-
-        <Extension>
-        Private Sub ConfigFrameworkRuntime(configuration As Config, args As CLI)
-            Dim envir As Dictionary(Of String, String) = args.EnvironmentVariables
-            Dim disableLoadOptions As Boolean = args.GetBoolean("--load_options.disable")
-            Dim name$
-
-            ' load config from config file.
-            For Each config In configuration.environment.SafeQuery
-                Call App.JoinVariable(config.Key, config.Value)
-            Next
-
-            ' --load_options.disable 开关将会禁止所有的环境项目的设置
-            ' 但是环境变量任然会进行加载设置
-            If Not disableLoadOptions AndAlso Not envir.IsNullOrEmpty Then
-                If envir.ContainsKey("Proxy") Then
-                    WebServiceUtils.Proxy = envir("Proxy")
-                    Call $"[Config] webUtils_proxy={WebServiceUtils.Proxy}".__INFO_ECHO
-                End If
-                If envir.ContainsKey("setwd") Then
-                    App.CurrentDirectory = envir("setwd")
-                    Call $"[Config] current_work_directory={App.CurrentDirectory}".__INFO_ECHO
-                End If
-                If envir.ContainsKey("buffer_size") Then
-                    Call App.SetBufferSize(envir!buffer_size)
-                End If
-            End If
-
-            ' config value from commandline will overrides the config value that loaded 
-            ' from the config json file.
-
-            ' /@var=name "value"
-            For Each var As NamedValue(Of String) In args.ParameterList
-                With var
-                    If InStr(.Name, "/@var=", CompareMethod.Text) = 1 Then
-                        name = .Name _
-                               .GetTagValue("=") _
-                               .Value
-
-                        Call App.JoinVariable(name, .Value)
-                    End If
-                End With
-            Next
         End Sub
     End Module
 End Namespace

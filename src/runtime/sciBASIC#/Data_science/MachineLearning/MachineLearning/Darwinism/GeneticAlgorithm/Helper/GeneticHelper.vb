@@ -1,44 +1,44 @@
-﻿#Region "Microsoft.VisualBasic::fca33644d93c1a1e705b73df53ecc68f, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Helper\GeneticHelper.vb"
+﻿#Region "Microsoft.VisualBasic::dd49afa862c1395d07d09a402ba5ab91, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Helper\GeneticHelper.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module GeneticHelper
-' 
-'         Function: InitialPopulation
-' 
-'         Sub: ByteMutate, Crossover, Mutate
-' 
-' 
-' /********************************************************************************/
+    '     Module GeneticHelper
+    ' 
+    '         Function: InitialPopulation
+    ' 
+    '         Sub: ByteMutate, (+2 Overloads) Crossover, (+3 Overloads) Mutate
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.ValueTypes
 
 Namespace Darwinism.GAF.Helper
 
@@ -132,6 +133,27 @@ Namespace Darwinism.GAF.Helper
                 v(index) += mutationValue
             End If
         End Sub
+
+        <Extension>
+        Public Sub Mutate(ByRef v As HalfVector, random As Random, Optional index% = -1000, Optional rate# = 0.1)
+            Dim delta# = (v.Max - v.Min) * rate
+            Dim mutationValue!
+
+            ' 20190709 如果v向量全部都是零或者相等数值的话
+            ' 将无法产生突变
+            ' 在这里测试下，添加一个小数来完成突变
+            If delta = 0R Then
+                delta = 0.0000001
+            End If
+
+            mutationValue = (random.NextDouble * delta) * If(random.NextDouble >= 0.5, 1, -1)
+
+            If index < 0 Then
+                v(random.Next(v.Length)) += mutationValue
+            Else
+                v(index) += mutationValue
+            End If
+        End Sub
 #End Region
 
         ''' <summary>
@@ -185,16 +207,18 @@ Namespace Darwinism.GAF.Helper
         ''' <param name="v1#"></param>
         ''' <param name="v2#"></param>
         <Extension>
-        Public Sub Crossover(random As Random, ByRef v1 As SparseVector, ByRef v2 As SparseVector)
+        Public Sub Crossover(random As Random, ByRef v1 As HalfVector, ByRef v2 As HalfVector)
             ' 在这里减掉1是为了防止两个变量被全部替换掉
             Dim index As Integer = random.Next(v1.Length - 1)
             Dim tmp As Double
+            Dim a1 = v1.Array
+            Dim a2 = v2.Array
 
             ' one point crossover
             For i As Integer = index To v1.Length - 1
-                tmp = v1(i)
-                v1(i) = v2(i)
-                v2(i) = tmp
+                tmp = a1(i)
+                a1(i) = a2(i)
+                a2(i) = tmp
             Next
         End Sub
 
@@ -209,7 +233,7 @@ Namespace Darwinism.GAF.Helper
                                                                              populationSize%,
                                                                              Optional parallel As [Variant](Of ParallelComputeFitness(Of T), Boolean) = Nothing,
                                                                              Optional addBase As Boolean = True) As Population(Of T)
-            Dim chr As T
+            Dim time As Double = App.ElapsedMilliseconds
             Dim population As New Population(Of T)(parallel) With {
                 .initialSize = populationSize
             }
@@ -222,12 +246,19 @@ Namespace Darwinism.GAF.Helper
                 Call population.Add(base)
             End If
 
-            For i As Integer = 0 To populationSize - 1
-                ' each member of initial population
-                ' is mutated clone of base chromosome
-                chr = base.Mutate()
-                population.Add(chr)
+            Call "Start to create the initial population...".__DEBUG_ECHO
+
+            ' Each member of initial population
+            ' is mutated clone of base chromosome
+            Dim mutations As IEnumerable(Of T) = From i As Integer
+                                                 In populationSize.SeqRandom.AsParallel
+                                                 Select base.Mutate
+            ' 使用并行化, 在处理大型的数据集的时候可以在这里比较明显的提升计算性能
+            For Each chr As T In mutations
+                Call population.Add(chr)
             Next
+
+            Call $"Takes {DateTimeHelper.ReadableElapsedTime(App.ElapsedMilliseconds - time)} for intialize population.".__DEBUG_ECHO
 
             Return population
         End Function
