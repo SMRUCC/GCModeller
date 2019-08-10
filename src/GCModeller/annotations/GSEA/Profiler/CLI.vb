@@ -51,9 +51,11 @@ Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 <CLI>
 Public Module CLI
@@ -81,6 +83,29 @@ Public Module CLI
         )
 
         Return model.GetXml.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/KO.clusters.By_bbh")>
+    <Usage("/KO.clusters.By_bbh /in <KO.bbh.csv> /maps <kegg_maps.XML/directory> [/size <backgroundSize, default=-1> /genome <genomeName/taxonomy> /out <clusters.XML>]")>
+    Public Function CreateKOClusterFromBBH(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim maps$ = args <= "/maps"
+        Dim size% = args("/size") Or -1
+        Dim genomeName$ = args("/genome") Or "Unknown"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{genomeName.NormalizePathString(True)},size={size}.KOclusters.Xml"
+        Dim kegg As IEnumerable(Of Map) = getMapsAuto(maps)
+        Dim define = GSEA.KEGGClusters(kegg)
+        Dim model As Background = BBHLibrary.CreateBackground(
+            annotations:=[in].LoadCsv(Of BiDirectionalBesthit),
+            define:=define,
+            backgroundSize:=size,
+            outputAll:=True,
+            genomeName:=genomeName
+        )
+
+        Return model.GetXml _
+            .SaveTo(out) _
+            .CLICode
     End Function
 
     Private Function getMapsAuto(repository As String) As IEnumerable(Of Map)
