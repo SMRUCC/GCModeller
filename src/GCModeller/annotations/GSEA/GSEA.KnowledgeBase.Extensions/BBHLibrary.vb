@@ -29,7 +29,8 @@ Public Module BBHLibrary
         Dim counts%
 
         For Each gene As BiDirectionalBesthit In annotations
-            Dim clusterList = define(gene.QueryName)
+            ' map KO term to cluster id list
+            Dim clusterList = define(gene.HitName)
 
             counts += 1
 
