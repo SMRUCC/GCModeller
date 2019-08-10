@@ -72,7 +72,7 @@ Public Module GSEA
             .ID = term.term,
             .ORF = term.geneIDs,
             .Pvalue = term.pvalue,
-            .Term = term.term,
+            .Term = term.name.Replace("Reference pathway", "").Trim(" "c, "-"c),
             .CorrectedPvalue = term.FDR
         }
     End Function
