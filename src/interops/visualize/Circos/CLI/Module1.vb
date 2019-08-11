@@ -118,7 +118,7 @@ Module Module1
     Sub plot2()
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
         ' Dim predictsTable = "P:\essentialgenes\20190803\chr1\2_test_imbalance_0802Chr1.csv"
-        Dim annotationtable = "P:\essentialgenes\20190803\3\new\A16R_NZ_CP001974 Annotations.csv"
+        Dim annotationtable = "P:\essentialgenes\20190803\A16R\A16R_NZ_CP001974 Annotations.csv"
 
         ' g.Properties.Values.First > 0.9) _
         'Dim degPredicts = DataSet.LoadDataSet(predictsTable) _
@@ -236,10 +236,10 @@ Module Module1
         '                                                                         End Select
         '                                                                     End Function)
 
-        Dim bits = DataSet.LoadDataSet("P:\essentialgenes\20190803\3\new\E_EN_VF_0.csv").ToArray
+        Dim bits = DataSet.LoadDataSet("P:\essentialgenes\20190803\A16R\E_EN_VF_20190803.csv").ToArray
         Dim colors As LoopArray(Of Color) = {Color.Blue, Color.Red, Color.Purple}
 
-        For Each tag As String In {"E", "NE", "VF"}
+        For Each tag As String In {"E_NE", "VF"}
 
             geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
@@ -294,7 +294,7 @@ Module Module1
         Call doc.ForceAutoLayout()
         Call Circos.CircosAPI.SetIdeogramRadius(Circos.GetIdeogram(doc), 0.25)
 
-        Call Circos.CircosAPI.WriteData(doc, "P:\essentialgenes\20190803\3\new\E_EN_VF_0_circos", debug:=False)
+        Call Circos.CircosAPI.WriteData(doc, "P:\essentialgenes\20190803\A16R\E_EN_VF_20190803_circos", debug:=False)
 
 
         Pause()
