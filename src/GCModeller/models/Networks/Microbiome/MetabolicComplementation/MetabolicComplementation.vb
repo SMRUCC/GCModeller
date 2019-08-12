@@ -101,7 +101,7 @@ Public Module MetabolicComplementation
             ' 对代谢物之间创建代谢反应连接边
             For Each r In reactants
                 For Each p In products
-                    With graph.GetEdges(r, p)
+                    With graph.GetEdges(r, p).SafeQuery.ToArray
                         If .IsNullOrEmpty Then
                             Call graph.CreateEdge(r, p)
                         End If

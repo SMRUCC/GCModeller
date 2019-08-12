@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::2c0ea0121653b1a5c78837c94f4a02f5, visualize\Circos\CLI\Module1.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Anno
-    ' 
-    '     Properties: db_xref, Direction, gene, Length, locus_tag
-    '                 Maximum, Minimum, Name, Sequence, translation
-    '                 Type
-    ' 
-    ' Module Module1
-    ' 
-    '     Function: convert
-    ' 
-    '     Sub: Main, plot2
-    ' 
-    ' /********************************************************************************/
+' Class Anno
+' 
+'     Properties: db_xref, Direction, gene, Length, locus_tag
+'                 Maximum, Minimum, Name, Sequence, translation
+'                 Type
+' 
+' Module Module1
+' 
+'     Function: convert
+' 
+'     Sub: Main, plot2
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Quantile
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.BioAssemblyExtensions
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -91,7 +92,13 @@ Module Module1
 
 
     Private Function convert(anno As Anno, useLocusTag As Boolean) As GeneTable
+
         Dim locus_tag$ = (anno.db_xref Or anno.gene.AsDefault) Or anno.locus_tag.When(useLocusTag)
+
+        If locus_tag = "A16R_RS29080" Then
+            Console.WriteLine(anno.GetJson)
+        End If
+
         Dim info As New GeneTable With {
             .LocusID = locus_tag,
             .Length = anno.Length,
@@ -117,8 +124,8 @@ Module Module1
 
     Sub plot2()
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
-        Dim predictsTable = "P:\essentialgenes\20190803\chr1\2_test_imbalance_0802Chr1.csv"
-        Dim annotationtable = "P:\essentialgenes\20190803\3\A16R_NZ_CP001974 Annotations.csv"
+        ' Dim predictsTable = "P:\essentialgenes\20190803\chr1\2_test_imbalance_0802Chr1.csv"
+        Dim annotationtable = "P:\essentialgenes\20190803\A16R\A16R_NZ_CP001974 Annotations.csv"
 
         ' g.Properties.Values.First > 0.9) _
         'Dim degPredicts = DataSet.LoadDataSet(predictsTable) _
@@ -131,7 +138,7 @@ Module Module1
 
         Dim geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source") _
+            .Where(Function(g) g.Species <> "source").GroupBy(Function(g) g.LocusID).Select(Function(g) g.First).OrderBy(Function(g) g.Location.Left) _
             .ToArray
         'Dim annotations = geneTable _
         '    .GroupBy(Function(gene) gene.LocusID) _
@@ -181,23 +188,43 @@ Module Module1
         '                Return g
         '            End Function) _
         '    .ToArray
+        ' A16R_RS29080
 
         Dim nt = Assembly.AssembleOriginal(geneTable.Select(Function(g) g.AsSegment))
         Dim size = nt.Length
 
         Call Circos.CircosAPI.SetBasicProperty(doc, nt, loophole:=5120)
 
+        geneTable = annotationtable.LoadCsv(Of Anno) _
+            .Select(Function(g) convert(g, True)) _
+            .Where(Function(g) g.Species <> "source").GroupBy(Function(g) g.LocusID).Select(Function(g) g.First) _
+            .ToArray
+
+
+        Dim test = geneTable.GroupBy(Function(g) g.Location.Strand).ToArray
+
         Dim darkblue As Color = Color.DarkBlue
         Dim darkred As Color = Color.OrangeRed
 
-        'doc = Circos.CircosAPI.GenerateGeneCircle(
-        '    doc, annotations, True,
-        '    splitOverlaps:=False,
-        '    snuggleRefine:=False,
-        '    colorProfiles:=New Dictionary(Of String, String) From {
-        '        {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
-        '        {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
-        '    })
+        For Each gene In geneTable
+            If gene.Location.Strand = Strands.Forward Then
+                gene.COG = "up"
+            Else
+                gene.COG = "down"
+            End If
+
+            gene.GeneName = Nothing
+        Next
+
+        doc = Circos.CircosAPI.GenerateGeneCircle(
+            doc, geneTable, True,
+            splitOverlaps:=False,
+            snuggleRefine:=False,
+            DisplayName:=False,
+            colorProfiles:=New Dictionary(Of String, String) From {
+                {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
+                {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
+            })
 
         ' 绘制 essential 预测得分曲线
         ' 需要使用这个表对象来获取坐标信息
@@ -236,35 +263,43 @@ Module Module1
         '                                                                         End Select
         '                                                                     End Function)
 
-        Dim bits = DataSet.LoadDataSet("P:\essentialgenes\20190803\3\E_EN_VF_0.csv").ToArray
+        Dim bits = DataSet.LoadDataSet("P:\essentialgenes\20190803\A16R\E_EN_VF_20190803.csv").ToArray
         Dim colors As LoopArray(Of Color) = {Color.Blue, Color.Red, Color.Purple}
 
-        For Each tag As String In {"E", "NE", "VF"}
+        For Each tag As String In {"E_NE", "VF"}
 
-            geneTable = annotationtable.LoadCsv(Of Anno) _
-            .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source" AndAlso Not g.LocusID.StringEmpty) _
-            .GroupBy(Function(g) g.LocusID) _
-            .Select(Function(g) g.First) _
-            .ToArray
+            'geneTable = annotationtable.LoadCsv(Of Anno) _
+            '.Select(Function(g) convert(g, True)) _
+            '.Where(Function(g) g.Species <> "source" AndAlso Not g.LocusID.StringEmpty) _
+            '.GroupBy(Function(g) g.LocusID) _
+            '.Select(Function(g) g.First) _
+            '.ToArray
 
-            Dim data = bits.Where(Function(gr) gr(tag) = 1.0).Keys.Indexing
-            Dim annotations = geneTable.Where(Function(g) g.LocusID Like data).ToArray
-            Dim c As Color = colors.Next
+            '    Dim data = bits.Where(Function(gr) gr(tag) = 1.0).Keys.Indexing
+            'Dim annotations = geneTable.Where(Function(g) g.LocusID Like data).ToArray
+            'Dim c As Color = colors.Next
 
-            For Each g In annotations
-                g.COG = "up"
-                g.Location = New NucleotideLocation(g.Location.Left, g.Location.Right, False)
-            Next
+            'For Each g In annotations
+            '    g.COG = "up"
+            '    g.Location = New NucleotideLocation(g.Location.Left, g.Location.Right, False)
+            'Next
 
-            doc = Circos.CircosAPI.GenerateGeneCircle(
-                doc, annotations, True,
-                splitOverlaps:=False,
-                snuggleRefine:=False,
-                colorProfiles:=New Dictionary(Of String, String) From {
-                    {"up", $"({c.R},{c.G},{c.B})"},
-                    {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
-                })
+            'doc = Circos.CircosAPI.GenerateGeneCircle(
+            '    doc, annotations, True,
+            '    splitOverlaps:=False,
+            '    snuggleRefine:=False,
+            '    colorProfiles:=New Dictionary(Of String, String) From {
+            '        {"up", $"({c.R},{c.G},{c.B})"},
+            '        {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
+            '    })
+
+            Dim data = bits.GroupBy(Function(g) g.ID).ToDictionary(Function(g) g.Key, Function(g) g.Average(Function(l) l(tag)))
+            Dim predictsTracks2 = NtProps.GCSkew.FromValueContents(ptt.GeneObjects, data, 10000, 10000)
+
+            Dim plot22 As New Plots.Histogram(New NtProps.GCSkew(predictsTracks2))
+
+            Call Circos.AddPlotTrack(doc, plot22)
+
         Next
 
         geneTable = annotationtable.LoadCsv(Of Anno) _
@@ -294,7 +329,7 @@ Module Module1
         Call doc.ForceAutoLayout()
         Call Circos.CircosAPI.SetIdeogramRadius(Circos.GetIdeogram(doc), 0.25)
 
-        Call Circos.CircosAPI.WriteData(doc, "P:\essentialgenes\20190803\3\circos", debug:=False)
+        Call Circos.CircosAPI.WriteData(doc, "P:\essentialgenes\20190803\A16R\E_EN_VF_20190803_circos", debug:=False)
 
 
         Pause()
