@@ -84,7 +84,7 @@ Namespace NeuralNetwork.Accelerator
         <Extension>
         Public Sub RunGAAccelerator(network As Network, trainingSet As Sample(), Optional populationSize% = 1000, Optional iterations% = 10000)
             Dim synapses = network.GetSynapseGroups
-            Dim population As Population(Of WeightVector) = New WeightVector(synapses).InitialPopulation(populationSize)
+            Dim population As Population(Of WeightVector) = New WeightVector(synapses).InitialPopulation(New Population(Of WeightVector) With {.initialSize = populationSize})
             Dim fitness As Fitness(Of WeightVector) = New Fitness(network, synapses, trainingSet)
             Dim ga As New GeneticAlgorithm(Of WeightVector)(population, fitness)
             Dim engine As New EnvironmentDriver(Of WeightVector)(ga, Sub(null, nullErr)

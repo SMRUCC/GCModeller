@@ -88,13 +88,13 @@ Namespace Darwinism.GAF
 
         Const DEFAULT_NUMBER_OF_CHROMOSOMES As Integer = 32
 
-        Dim chromosomes As New List(Of Chr)(DEFAULT_NUMBER_OF_CHROMOSOMES)
+        Protected chromosomes As New List(Of Chr)(DEFAULT_NUMBER_OF_CHROMOSOMES)
 
         ''' <summary>
         ''' 主要是通过这个比较耗时的计算部分实现并行化来
         ''' 加速整个计算过程
         ''' </summary>
-        Friend ReadOnly Pcompute As ParallelComputeFitness(Of Chr)
+        Protected Friend ReadOnly Pcompute As ParallelComputeFitness(Of Chr)
 
         ''' <summary>
         ''' 是否使用并行模式在排序之前来计算出fitness
