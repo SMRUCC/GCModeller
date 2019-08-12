@@ -160,7 +160,7 @@ Namespace Darwinism.GAF
             Dim parentPopulationSize As Integer = population.Size
             Dim newPopulation As New Population(Of Chr)(population.Pcompute) With {
                 .parallel = population.parallel,
-                .initialSize = population.initialSize
+                .capacitySize = population.capacitySize
             }
 
             Do While (i < parentPopulationSize) AndAlso (i < ParentChromosomesSurviveCount)

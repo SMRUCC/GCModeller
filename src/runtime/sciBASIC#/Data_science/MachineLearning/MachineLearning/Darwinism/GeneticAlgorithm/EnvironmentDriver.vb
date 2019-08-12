@@ -135,7 +135,7 @@ Namespace Darwinism.GAF
                             ' so add base is set to false
                             Dim newPop As Population(Of Chr) = core.Best.InitialPopulation(
                                 population:=New Population(Of Chr)(True) With {
-                                    .initialSize = core.population.initialSize
+                                    .capacitySize = core.population.capacitySize
                                 },
                                 addBase:=False
                             )

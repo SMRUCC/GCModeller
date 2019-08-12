@@ -85,7 +85,11 @@ Namespace Darwinism.GAF
 
     Public MustInherit Class IPopulation(Of Chr As {Class, Chromosome(Of Chr)})
 
-        Public Overridable Property initialSize As Integer
+        ''' <summary>
+        ''' 种群的容量上限大小
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overridable Property capacitySize As Integer
 
         ''' <summary>
         ''' Add chromosome
@@ -112,16 +116,11 @@ Namespace Darwinism.GAF
         ''' </summary>
         ''' <returns></returns>
         Public Property parallel As Boolean = True
-        ''' <summary>
-        ''' 种群的大小
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property initialSize As Integer
 
         ''' <summary>
         ''' The number of chromosome elements in current population.
         ''' (请注意,这个属性的值是随着<see cref="Add"/>方法的调用而变化的,
-        ''' 如果只需要获取得到种群的固定大小,可以使用<see cref="initialSize"/>
+        ''' 如果只需要获取得到种群的固定大小,可以使用<see cref="capacitySize"/>
         ''' 属性)
         ''' </summary>
         ''' <returns></returns>
@@ -245,7 +244,7 @@ Namespace Darwinism.GAF
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"A population with capacity {initialSize}, current size {Size}. //{GetType(Chr).FullName}"
+            Return $"A population with capacity {capacitySize}, current size {Size}. //{GetType(Chr).FullName}"
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Chr) Implements IEnumerable(Of Chr).GetEnumerator

@@ -231,7 +231,7 @@ Namespace Darwinism.GAF.Helper
         <Extension>
         Public Function InitialPopulation(Of T As {Class, Chromosome(Of T)})(base As T, population As IPopulation(Of T), Optional addBase As Boolean = True) As Population(Of T)
             Dim time As Double = App.ElapsedMilliseconds
-            Dim populationSize% = population.initialSize
+            Dim populationSize% = population.capacitySize
 
             If addBase Then
                 ' 20190722
