@@ -122,11 +122,115 @@ Module Module1
         Return info
     End Function
 
+    Sub plot3()
+        Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
+        Dim gb = GBFF.File.Load("P:\essentialgenes\20190803\4\pPCP1_NC_003132\Yersinia pestis CO92 plasmid pPCP1_NC_003132.1.gb")
+        Dim nt = gb.Origin.ToFasta
+        Dim size = nt.Length
+        Dim ptt = gb.GbffToPTT(ORF:=False)
+
+        Call Circos.CircosAPI.SetBasicProperty(doc, nt, loophole:=512)
+
+        Dim bits = DataSet.LoadDataSet("P:\essentialgenes\20190803\4\pPCP1_NC_003132\CO92预测\NC_003132_2.csv").ToArray
+        Dim colors As LoopArray(Of String) = {ColorMap.PatternAutumn, ColorMap.PatternWinter}
+
+        Dim annotations = ptt.ExportPTTAsDump
+
+        Dim darkblue As Color = Color.DarkBlue
+        Dim darkred As Color = Color.OrangeRed
+
+        For Each gene In annotations
+            If gene.Location.Strand = Strands.Forward Then
+                gene.COG = "up"
+            Else
+                gene.COG = "down"
+            End If
+        Next
+
+        doc = Circos.CircosAPI.GenerateGeneCircle(
+            doc, annotations, True,
+            splitOverlaps:=False,
+            snuggleRefine:=False,
+            colorProfiles:=New Dictionary(Of String, String) From {
+                {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
+                {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
+            })
+
+
+        For Each tag As String In {"E", "VF"}
+
+            'geneTable = annotationtable.LoadCsv(Of Anno) _
+            '.Select(Function(g) convert(g, True)) _
+            '.Where(Function(g) g.Species <> "source" AndAlso Not g.LocusID.StringEmpty) _
+            '.GroupBy(Function(g) g.LocusID) _
+            '.Select(Function(g) g.First) _
+            '.ToArray
+
+            '    Dim data = bits.Where(Function(gr) gr(tag) = 1.0).Keys.Indexing
+            'Dim annotations = geneTable.Where(Function(g) g.LocusID Like data).ToArray
+            'Dim c As Color = colors.Next
+
+            'For Each g In annotations
+            '    g.COG = "up"
+            '    g.Location = New NucleotideLocation(g.Location.Left, g.Location.Right, False)
+            'Next
+
+            'doc = Circos.CircosAPI.GenerateGeneCircle(
+            '    doc, annotations, True,
+            '    splitOverlaps:=False,
+            '    snuggleRefine:=False,
+            '    colorProfiles:=New Dictionary(Of String, String) From {
+            '        {"up", $"({c.R},{c.G},{c.B})"},
+            '        {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
+            '    })
+
+            Dim data = bits.GroupBy(Function(g) g.ID).Where(Function(g) Not ptt(g.Key) Is Nothing).ToDictionary(Function(g) g.Key, Function(g) g.Average(Function(l) l(tag)))
+            ' Dim predictsTracks2 = NtProps.GCSkew.FromValueContents(ptt.GeneObjects, data, 1000, 5)
+
+            ' Dim plot22 As New Plots.Histogram(New NtProps.GCSkew(predictsTracks2))
+
+            'Call Circos.AddPlotTrack(doc, plot22)
+            Dim predicts = data.Select(Function(g) New ValueTrackData With {.chr = "chr1", .start = ptt(g.Key).Location.Start, .[end] = ptt(g.Key).Location.Ends, .value = g.Value}).ToArray
+
+            Call Circos.CircosAPI.AddGradientMappings(doc, predicts, colors.Next)
+        Next
+
+
+        Dim skewSteps = 100
+        Dim GCSkew = nt.GCSkew(500, skewSteps, True).Select(Function(v, i) New ValueTrackData With {.chr = "chr1", .start = i * skewSteps, .value = v, .[end] = skewSteps * (i + 1)}).ToArray
+
+        Call Circos.CircosAPI.AddGradientMappings(doc, GCSkew, ColorMap.PatternJet)
+
+        Call Circos.CircosAPI.SetIdeogramWidth(Circos.GetIdeogram(doc), 0)
+        Call Circos.CircosAPI.ShowTicksLabel(doc, True)
+        Call doc.ForceAutoLayout()
+        Call Circos.CircosAPI.SetIdeogramRadius(Circos.GetIdeogram(doc), 0.25)
+
+        Call Circos.CircosAPI.WriteData(doc, "P:\essentialgenes\20190803\4\pPCP1_NC_003132\Yersinia pestis CO92 plasmid pPCP1_NC_003132.1_circos", debug:=False)
+
+
+        Pause()
+    End Sub
+
     Sub plot2()
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
         ' Dim predictsTable = "P:\essentialgenes\20190803\chr1\2_test_imbalance_0802Chr1.csv"
         Dim annotationtable = "P:\essentialgenes\20190803\A16R\A16R_NZ_CP001974 Annotations.csv"
+        ' 绘制 essential 预测得分曲线
+        ' 需要使用这个表对象来获取坐标信息
 
+        ' 因为在前面代码中已经修改过信息
+        ' 所以在这里需要重新读取一次
+        Dim geneTable = annotationtable.LoadCsv(Of Anno) _
+            .Select(Function(g) convert(g, True)) _
+            .Where(Function(g) g.Species <> "source" AndAlso Not g.LocusID.StringEmpty) _
+            .GroupBy(Function(g) g.LocusID) _
+            .Select(Function(g) g.First) _
+            .ToArray
+        Dim nt = Assembly.AssembleOriginal(geneTable.Select(Function(g) g.AsSegment))
+        Dim size = nt.Length
+
+        Dim ptt = geneTable.GbffToPTT(size)
         ' g.Properties.Values.First > 0.9) _
         'Dim degPredicts = DataSet.LoadDataSet(predictsTable) _
         '    .Where(Function(g) True) _
@@ -136,7 +240,7 @@ Module Module1
         '                      Return g.Select(Function(d) Val(d!prediction)).Average
         '                  End Function)
 
-        Dim geneTable = annotationtable.LoadCsv(Of Anno) _
+        geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
             .Where(Function(g) g.Species <> "source").GroupBy(Function(g) g.LocusID).Select(Function(g) g.First).OrderBy(Function(g) g.Location.Left) _
             .ToArray
@@ -190,8 +294,7 @@ Module Module1
         '    .ToArray
         ' A16R_RS29080
 
-        Dim nt = Assembly.AssembleOriginal(geneTable.Select(Function(g) g.AsSegment))
-        Dim size = nt.Length
+
 
         Call Circos.CircosAPI.SetBasicProperty(doc, nt, loophole:=5120)
 
@@ -216,21 +319,15 @@ Module Module1
             gene.GeneName = Nothing
         Next
 
-        doc = Circos.CircosAPI.GenerateGeneCircle(
-            doc, geneTable, True,
-            splitOverlaps:=False,
-            snuggleRefine:=False,
-            DisplayName:=False,
-            colorProfiles:=New Dictionary(Of String, String) From {
-                {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
-                {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
-            })
-
-        ' 绘制 essential 预测得分曲线
-        ' 需要使用这个表对象来获取坐标信息
-
-        ' 因为在前面代码中已经修改过信息
-        ' 所以在这里需要重新读取一次
+        'doc = Circos.CircosAPI.GenerateGeneCircle(
+        '    doc, geneTable, True,
+        '    splitOverlaps:=False,
+        '    snuggleRefine:=False,
+        '    DisplayName:=False,
+        '    colorProfiles:=New Dictionary(Of String, String) From {
+        '        {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
+        '        {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
+        '    })
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
             .Where(Function(g) g.Species <> "source" AndAlso Not g.LocusID.StringEmpty) _
@@ -238,7 +335,14 @@ Module Module1
             .Select(Function(g) g.First) _
             .ToArray
 
-        Dim ptt = geneTable.GbffToPTT(size)
+        Dim gcSkew = geneTable.Where(Function(g) Not g.CDS.StringEmpty).ToDictionary(Function(g) g.LocusID, Function(g) New FastaSeq With {.SequenceData = g.CDS}.GCSkew(100, 50, False).Average)
+
+        Dim predictsTracks = NtProps.GCSkew.FromValueContents(ptt.GeneObjects, gcSkew, 10000, 10000)
+
+        Dim plot2 As New Plots.Histogram(New NtProps.GCSkew(predictsTracks))
+
+        Call Circos.AddPlotTrack(doc, plot2)
+
 
         'degPredicts = EntityObject.LoadDataSet(predictsTable) _
         '    .Where(Function(g) Val(g!prediction) > 0) _
@@ -302,20 +406,7 @@ Module Module1
 
         Next
 
-        geneTable = annotationtable.LoadCsv(Of Anno) _
-            .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source" AndAlso Not g.LocusID.StringEmpty) _
-            .GroupBy(Function(g) g.LocusID) _
-            .Select(Function(g) g.First) _
-            .ToArray
 
-        Dim gcSkew = geneTable.Where(Function(g) Not g.CDS.StringEmpty).ToDictionary(Function(g) g.LocusID, Function(g) New FastaSeq With {.SequenceData = g.CDS}.GCSkew(100, 50, False).Average)
-
-        Dim predictsTracks = NtProps.GCSkew.FromValueContents(ptt.GeneObjects, gcSkew, 10000, 10000)
-
-        Dim plot2 As New Plots.Histogram(New NtProps.GCSkew(predictsTracks))
-
-        Call Circos.AddPlotTrack(doc, plot2)
 
         '  Dim skewSteps = 2000
         '  Dim GCSkew = nt.GCSkew(5000, skewSteps, True).Select(Function(v, i) New ValueTrackData With {.chr = "chr1", .start = i * skewSteps, .value = v, .[end] = skewSteps * (i + 1)}).ToArray
@@ -337,7 +428,7 @@ Module Module1
 
     Sub Main()
 
-
+        Call plot3()
         Call Module1.plot2()
 
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
