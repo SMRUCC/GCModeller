@@ -83,7 +83,18 @@ Namespace Darwinism.GAF
     ''' <returns></returns>
     Public Delegate Function ParallelComputeFitness(Of chr As {Class, Chromosome(Of chr)})(comparator As FitnessPool(Of chr), source As IEnumerable(Of chr)) As IEnumerable(Of NamedValue(Of Double))
 
-    Public Class Population(Of Chr As {Class, Chromosome(Of Chr)})
+    Public MustInherit Class IPopulation(Of Chr As {Class, Chromosome(Of Chr)})
+
+        Public Overridable Property initialSize As Integer
+
+        ''' <summary>
+        ''' Add chromosome
+        ''' </summary>
+        ''' <param name="chromosome"></param>
+        Public MustOverride Sub Add(chromosome As Chr)
+    End Class
+
+    Public Class Population(Of Chr As {Class, Chromosome(Of Chr)}) : Inherits IPopulation(Of Chr)
         Implements IEnumerable(Of Chr)
 
         Const DEFAULT_NUMBER_OF_CHROMOSOMES As Integer = 32
@@ -204,7 +215,7 @@ Namespace Darwinism.GAF
         ''' Add chromosome
         ''' </summary>
         ''' <param name="chromosome"></param>
-        Public Sub Add(chromosome As Chr)
+        Public Overrides Sub Add(chromosome As Chr)
             Call chromosomes.Add(chromosome)
         End Sub
 

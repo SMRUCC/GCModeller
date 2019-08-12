@@ -229,7 +229,7 @@ Namespace Darwinism.GAF.Helper
         ''' (如果<paramref name="population"/>对象的构造函数所传递的fitness计算函数是False，则整个GA的计算过程为串行计算过程)
         ''' </summary>
         <Extension>
-        Public Function InitialPopulation(Of T As {Class, Chromosome(Of T)})(base As T, population As Population(Of T), Optional addBase As Boolean = True) As Population(Of T)
+        Public Function InitialPopulation(Of T As {Class, Chromosome(Of T)})(base As T, population As IPopulation(Of T), Optional addBase As Boolean = True) As Population(Of T)
             Dim time As Double = App.ElapsedMilliseconds
             Dim populationSize% = population.initialSize
 
