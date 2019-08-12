@@ -208,19 +208,24 @@ Public Module [Imports]
                            End If
                        End Function) _
                 .Select(Function(c)
-                            Dim geneIDs As BackgroundGene() = c.Value.ToArray
+                            Dim geneIDs As IEnumerable(Of BackgroundGene) = c.Value
                             Dim note = clusterNotes(c.Key)
 
-                            Return New Cluster With {
-                                .ID = c.Key,
-                                .members = geneIDs,
-                                .description = note.Description,
-                                .names = note.Value
-                            }
+                            Return geneIDs.CreateCluster(c.Key, note)
                         End Function) _
                 .ToArray,
             .size = genomeSize,
             .comments = taxonomy
+        }
+    End Function
+
+    <Extension>
+    Public Function CreateCluster(members As IEnumerable(Of BackgroundGene), clusterID$, note As NamedValue(Of String)) As Cluster
+        Return New Cluster With {
+            .ID = clusterID,
+            .members = members.ToArray,
+            .description = note.Description,
+            .names = note.Value
         }
     End Function
 
