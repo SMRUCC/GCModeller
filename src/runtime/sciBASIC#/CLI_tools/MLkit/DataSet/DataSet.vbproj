@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8A173A96-520C-4A70-9DA4-AD8FC46A949A}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>DataSet.Program</StartupObject>
-    <RootNamespace>DataSet</RootNamespace>
+    <StartupObject>DataSetKit.Program</StartupObject>
+    <RootNamespace>DataSetKit</RootNamespace>
     <AssemblyName>DataSet</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
