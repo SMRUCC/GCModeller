@@ -63,6 +63,6 @@ Module Program
             Next
         Next
 
-        Return result.SaveTo(out).CLICode
+        Return result.Values.SaveTo(out).CLICode
     End Function
 End Module
