@@ -69,69 +69,10 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 
 Namespace Darwinism.GAF
-
-    ''' <summary>
-    ''' 遗传算法的主要限速步骤是在fitness的计算之上
-    ''' </summary>
-    ''' <typeparam name="chr"></typeparam>
-    ''' <param name="source"></param>
-    ''' <returns></returns>
-    Public Delegate Function ParallelComputeFitness(Of chr As {Class, Chromosome(Of chr)})(comparator As FitnessPool(Of chr), source As IEnumerable(Of chr)) As IEnumerable(Of NamedValue(Of Double))
-
-    Public MustInherit Class PopulationCollection(Of Chr As {Class, Chromosome(Of Chr)})
-        Public MustOverride ReadOnly Property Count As Integer
-
-        Default Public MustOverride ReadOnly Property Item(index As Integer) As Chr
-
-        Public MustOverride Sub Add(chr As Chr)
-        Public MustOverride Sub Trim(capacitySize As Integer)
-        ''' <summary>
-        ''' 按照fitness进行升序排序,fitness越小,排在越前面
-        ''' </summary>
-        ''' <param name="fitness"></param>
-        Public MustOverride Sub OrderBy(fitness As Func(Of Chr, Double))
-    End Class
-
-    Public Class PopulationList(Of Chr As {Class, Chromosome(Of Chr)}) : Inherits PopulationCollection(Of Chr)
-
-        Const DEFAULT_NUMBER_OF_CHROMOSOMES% = 32
-
-        Dim innerList As New List(Of Chr)(capacity:=DEFAULT_NUMBER_OF_CHROMOSOMES)
-
-        Public Overrides ReadOnly Property Count As Integer
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return innerList.Count
-            End Get
-        End Property
-
-        Default Public Overrides ReadOnly Property Item(index As Integer) As Chr
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return innerList(index)
-            End Get
-        End Property
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Sub Add(chr As Chr)
-            Call innerList.Add(chr)
-        End Sub
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Sub Trim(capacitySize As Integer)
-            innerList = innerList.SubList(0, capacitySize)
-        End Sub
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Sub OrderBy(fitness As Func(Of Chr, Double))
-            innerList = innerList.OrderBy(fitness).AsList
-        End Sub
-    End Class
 
     Public MustInherit Class IPopulation(Of Chr As {Class, Chromosome(Of Chr)})
 
@@ -153,8 +94,6 @@ Namespace Darwinism.GAF
 
     Public Class Population(Of Chr As {Class, Chromosome(Of Chr)}) : Inherits IPopulation(Of Chr)
         Implements IEnumerable(Of Chr)
-
-        Protected chromosomes As PopulationCollection(Of Chr)
 
         ''' <summary>
         ''' 主要是通过这个比较耗时的计算部分实现并行化来
@@ -212,7 +151,7 @@ Namespace Darwinism.GAF
         ''' 如果<paramref name="parallel"/>参数不是空的，则会启用这个参数的并行计算
         ''' </summary>
         ''' <param name="parallel"></param>
-        Public Sub New(Optional parallel As [Variant](Of ParallelComputeFitness(Of Chr), Boolean) = Nothing)
+        Public Sub New(creator As PopulationCollectionCreator(Of Chr), Optional parallel As [Variant](Of ParallelComputeFitness(Of Chr), Boolean) = Nothing)
             If Not parallel Is Nothing Then
                 If parallel Like GetType(Boolean) Then
                     Dim flag As Boolean = parallel
