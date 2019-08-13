@@ -10,6 +10,9 @@ Namespace Darwinism.GAF
 
         Default Public MustOverride ReadOnly Property Item(index As Integer) As Chr
 
+        Protected Sub New()
+        End Sub
+
         Public MustOverride Sub Add(chr As Chr)
         Public MustOverride Sub Trim(capacitySize As Integer)
         ''' <summary>
@@ -17,6 +20,7 @@ Namespace Darwinism.GAF
         ''' </summary>
         ''' <param name="fitness"></param>
         Public MustOverride Sub OrderBy(fitness As Func(Of Chr, Double))
+
     End Class
 
     Public Class PopulationList(Of Chr As {Class, Chromosome(Of Chr)}) : Inherits PopulationCollection(Of Chr)

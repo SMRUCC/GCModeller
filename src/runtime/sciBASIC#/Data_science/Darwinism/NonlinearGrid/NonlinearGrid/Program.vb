@@ -342,7 +342,7 @@ Module Program
                 parallel = True
             End If
 
-            Dim population As Population(Of SparseGenome) = New SparseGenome(chromesome, mutationRate, truncate).InitialPopulation(New Population(Of SparseGenome)(parallel) With {.capacitySize = popSize})
+            Dim population As Population(Of SparseGenome) = New SparseGenome(chromesome, mutationRate, truncate).InitialPopulation(New Population(Of SparseGenome)(New PopulationList(Of SparseGenome), parallel) With {.capacitySize = popSize})
             Call "Initialize environment".__DEBUG_ECHO
             Dim fitness As Fitness(Of SparseGenome) = New Environment(Of SparseGridSystem, SparseGenome)(trainingSet, FitnessMethods.LabelGroupAverage, validateSet)
             Call "Create algorithm engine".__DEBUG_ECHO
@@ -393,7 +393,7 @@ Module Program
                 parallel = Pcompute
             End If
 
-            Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate, truncate).InitialPopulation(New Population(Of Genome)(parallel) With {.capacitySize = popSize})
+            Dim population As Population(Of Genome) = New Genome(chromesome, mutationRate, truncate).InitialPopulation(New Population(Of Genome)(New PopulationList(Of Genome), parallel) With {.capacitySize = popSize})
             Call "Initialize environment".__DEBUG_ECHO
             Dim fitness As Fitness(Of Genome) = New Environment(Of GridSystem, Genome)(trainingSet, FitnessMethods.LabelGroupAverage, validateSet)
             Call "Create algorithm engine".__DEBUG_ECHO

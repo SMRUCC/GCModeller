@@ -151,7 +151,7 @@ Namespace Darwinism.GAF
         ''' 如果<paramref name="parallel"/>参数不是空的，则会启用这个参数的并行计算
         ''' </summary>
         ''' <param name="parallel"></param>
-        Public Sub New(creator As PopulationCollectionCreator(Of Chr), Optional parallel As [Variant](Of ParallelComputeFitness(Of Chr), Boolean) = Nothing)
+        Public Sub New(collection As PopulationCollection(Of Chr), Optional parallel As [Variant](Of ParallelComputeFitness(Of Chr), Boolean) = Nothing)
             If Not parallel Is Nothing Then
                 If parallel Like GetType(Boolean) Then
                     Dim flag As Boolean = parallel
@@ -171,10 +171,13 @@ Namespace Darwinism.GAF
                            End Function
                 Call "Parallel computing use internal GA_PLinq api by default, as the parallel parameter is not specific...".__DEBUG_ECHO
             End If
+
+            Me.chromosomes = collection
         End Sub
 
-        Friend Sub New(parallel As ParallelComputeFitness(Of Chr))
-            Pcompute = parallel
+        Friend Sub New(collection As PopulationCollection(Of Chr), Pcompute As ParallelComputeFitness(Of Chr))
+            Me.Pcompute = Pcompute
+            Me.chromosomes = collection
         End Sub
 
         ''' <summary>
