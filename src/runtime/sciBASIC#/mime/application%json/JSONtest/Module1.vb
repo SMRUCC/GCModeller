@@ -57,7 +57,7 @@ End Class
 Module Module1
 
     Sub Main()
-        Dim aaa = ParseJsonStr("[{a:[1,2,3,4,5,6,7,[{xxoo:[""233333""]}]], b: ""xxxxxooooo""}]")
+        Dim aaa = ParseJson("[{a:[1,2,3,4,5,6,7,[{xxoo:[""233333""]}]], b: ""xxxxxooooo""}]")
 
         Dim t As New TestDynamicsObject With {
             .Tarray = {1, 2, 3, 4, 5, 6, 7, 8},

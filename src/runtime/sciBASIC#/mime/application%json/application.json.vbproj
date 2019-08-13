@@ -260,6 +260,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BSON\BSON.vb" />
+    <Compile Include="BSON\BSONValue.vb" />
+    <Compile Include="BSON\BSONObject.vb" />
+    <Compile Include="BSON\BSONArray.vb" />
+    <Compile Include="BSON\ValueType.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="Parser\JsonValue.vb" />
     <Compile Include="Parser\JsonObject.vb" />
