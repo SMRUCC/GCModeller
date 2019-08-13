@@ -119,13 +119,15 @@ Namespace Hypothesis
                 testVal = welch2t(left.Mean, right.Mean, va.Variance, vb.Variance, left.SampleSize, right.SampleSize)
             End If
 
+            Dim pvalue# = t.Pvalue(testVal, v, alternative)
+
             Return New TwoSampleResult With {
                 .alpha = alpha,
                 .DegreeFreedom = v,
                 .Mean = left.Mean - right.Mean,
                 .StdErr = stdErr,
                 .TestValue = testVal,
-                .Pvalue = Pvalue(.TestValue, v, alternative),
+                .Pvalue = pvalue,
                 .Alternative = alternative,
                 .MeanX = left.Mean,
                 .MeanY = right.Mean

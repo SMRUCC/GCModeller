@@ -212,7 +212,7 @@ Public Module SpecialFunctions
             t *= Math.Pow(x, a)
             t /= a
             t *= w
-            t *= gamma(a + b) / (gamma(a) * gamma(b))
+            t *= safeDiv(gamma(a + b), gamma(a) * gamma(b))
             If flag Then
                 If t <= MACHEP Then
                     t = 1.0 - MACHEP
@@ -408,6 +408,22 @@ Public Module SpecialFunctions
         Return ans
     End Function
 
+    Private Function safeDiv(x#, y#) As Double
+        If y.IsNaNImaginary Then
+            If Not x.IsNaNImaginary Then
+                Return 0
+            Else
+                Return Math.Sign(x) / Math.Sign(y)
+            End If
+        Else
+            If x.IsNaNImaginary Then
+                Return x
+            Else
+                Return x / y
+            End If
+        End If
+    End Function
+
     ''' <summary>
     ''' Power series for incomplete beta integral.
     ''' Use when b*x is small and x not too close to 1.  
@@ -442,21 +458,7 @@ Public Module SpecialFunctions
         If (a + b) < MAXGAM AndAlso Math.Abs(u) < MAXLOG Then
             n = gamma(a + b)
             v = gamma(a) * gamma(b)
-
-            If v.IsNaNImaginary Then
-                If Not n.IsNaNImaginary Then
-                    t = 0
-                Else
-                    t = Math.Sign(n) / Math.Sign(v)
-                End If
-            Else
-                If n.IsNaNImaginary Then
-                    t = n
-                Else
-                    t = n / v
-                End If
-            End If
-
+            t = safeDiv(n, v)
             s = s * t * Math.Pow(x, a)
         Else
             t = gammaln(a + b) - gammaln(a) - gammaln(b) + u + Math.Log(s)
