@@ -1,4 +1,6 @@
 ﻿
+Imports System.Text
+
 Public Class BSONValue
 
 

@@ -6,7 +6,7 @@ Public Class BSONArray
     Private mList As New List(Of BSONValue)()
 
     Public Sub New()
-        MyBase.New(BSONValue.valueType.Array)
+        MyBase.New(ValueType.Array)
     End Sub
 
     '

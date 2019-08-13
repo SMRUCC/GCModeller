@@ -5,7 +5,7 @@ Public Class BSONObject
     Private mMap As New Dictionary(Of String, BSONValue)()
 
     Public Sub New()
-        MyBase.New(BSONValue.valueType.[Object])
+        MyBase.New(ValueType.[Object])
     End Sub
 
     '
