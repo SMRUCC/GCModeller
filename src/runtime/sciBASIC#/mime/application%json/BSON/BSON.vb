@@ -2,19 +2,20 @@ Imports System.Collections
 Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.MIME.application.json.Parser
 
 Public Class BSON
     Private mMemoryStream As MemoryStream
     Private mBinaryReader As BinaryReader
     Private mBinaryWriter As BinaryWriter
 
-    Public Shared Function Load(buf As Byte()) As BSONObject
+    Public Shared Function Load(buf As Byte()) As JsonObject
         Dim bson As New BSON(buf)
 
         Return bson.decodeDocument()
     End Function
 
-    Public Shared Function Dump(obj As BSONObject) As Byte()
+    Public Shared Function Dump(obj As JsonObject) As Byte()
 
         Dim bson As New BSON()
         Dim ms As New MemoryStream()
@@ -98,10 +99,10 @@ Public Class BSON
         Throw New Exception(String.Format("Don't know elementType={0}", elementType))
     End Function
 
-    Private Function decodeDocument() As BSONObject
+    Private Function decodeDocument() As JsonObject
         Dim length As Integer = mBinaryReader.ReadInt32() - 4
 
-        Dim obj As New BSONObject()
+        Dim obj As New JsonObject()
 
         Dim i As Integer = CInt(mBinaryReader.BaseStream.Position)
         While mBinaryReader.BaseStream.Position < i + length - 1
@@ -116,11 +117,11 @@ Public Class BSON
         Return obj
     End Function
 
-    Private Function decodeArray() As BSONArray
-        Dim obj As BSONObject = decodeDocument()
+    Private Function decodeArray() As JsonArray
+        Dim obj As JsonObject = decodeDocument()
 
         Dim i As Integer = 0
-        Dim array As New BSONArray()
+        Dim array As New JsonArray()
         While obj.ContainsKey(Convert.ToString(i))
             array.Add(obj(Convert.ToString(i)))
 
@@ -167,12 +168,12 @@ Public Class BSON
             Case ValueType.[Object]
                 ms.WriteByte(&H3)
                 encodeCString(ms, name)
-                encodeDocument(ms, TryCast(v, BSONObject))
+                encodeDocument(ms, TryCast(v, JsonObject))
                 Return
             Case ValueType.Array
                 ms.WriteByte(&H4)
                 encodeCString(ms, name)
-                encodeArray(ms, TryCast(v, BSONArray))
+                encodeArray(ms, TryCast(v, JsonArray))
                 Return
             Case ValueType.Binary
                 ms.WriteByte(&H5)
@@ -208,7 +209,7 @@ Public Class BSON
 
     End Sub
 
-    Private Sub encodeDocument(ms As MemoryStream, obj As BSONObject)
+    Private Sub encodeDocument(ms As MemoryStream, obj As JsonObject)
 
         Dim dms As New MemoryStream()
         For Each str As String In obj.Keys
@@ -221,9 +222,9 @@ Public Class BSON
         bw.Write(CByte(0))
     End Sub
 
-    Private Sub encodeArray(ms As MemoryStream, lst As BSONArray)
+    Private Sub encodeArray(ms As MemoryStream, lst As JsonArray)
 
-        Dim obj = New BSONObject()
+        Dim obj = New JsonObject()
         For i As Integer = 0 To lst.Count - 1
             obj.Add(Convert.ToString(i), lst(i))
         Next
