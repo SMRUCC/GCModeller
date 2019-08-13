@@ -1,11 +1,13 @@
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.application.json.Parser
 
 Public Class BSON
+
     Private mMemoryStream As MemoryStream
     Private mBinaryReader As BinaryReader
-    Private mBinaryWriter As BinaryWriter
 
     Public Shared Function Load(buf As Byte()) As JsonObject
         Dim bson As New BSON(buf)
@@ -13,27 +15,21 @@ Public Class BSON
         Return bson.decodeDocument()
     End Function
 
-    Public Shared Function Dump(obj As JsonObject) As Byte()
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Sub WriteBuffer(obj As JsonObject, buffer As Stream)
+        Call New BSON().encodeDocument(buffer, obj)
+    End Sub
 
-        Dim bson As New BSON()
-        Dim ms As New MemoryStream()
-
-        bson.encodeDocument(ms, obj)
-
-        Dim buf As Byte() = New Byte(ms.Position - 1) {}
-        ms.Seek(0, SeekOrigin.Begin)
-        ms.Read(buf, 0, buf.Length)
-
-        Return buf
+    Public Shared Function GetBuffer(obj As JsonObject) As MemoryStream
+        Dim ms As New MemoryStream
+        WriteBuffer(obj, buffer:=ms)
+        Return ms
     End Function
 
     Private Sub New(Optional buf As Byte() = Nothing)
         If buf IsNot Nothing Then
             mMemoryStream = New MemoryStream(buf)
             mBinaryReader = New BinaryReader(mMemoryStream)
-        Else
-            mMemoryStream = New MemoryStream()
-            mBinaryWriter = New BinaryWriter(mMemoryStream)
         End If
     End Sub
 
@@ -93,18 +89,16 @@ Public Class BSON
             Return New JsonValue(New BSONValue(mBinaryReader.ReadInt64()))
         End If
 
-
         Throw New Exception(String.Format("Don't know elementType={0}", elementType))
     End Function
 
     Private Function decodeDocument() As JsonObject
         Dim length As Integer = mBinaryReader.ReadInt32() - 4
-
         Dim obj As New JsonObject()
-
         Dim i As Integer = CInt(mBinaryReader.BaseStream.Position)
+
         While mBinaryReader.BaseStream.Position < i + length - 1
-            Dim name As String
+            Dim name As String = Nothing
             Dim value As JsonElement = decodeElement(name)
 
             obj.Add(name, value)
@@ -117,13 +111,12 @@ Public Class BSON
 
     Private Function decodeArray() As JsonArray
         Dim obj As JsonObject = decodeDocument()
-
-        Dim i As Integer = 0
+        Dim i As VBInteger = 0
         Dim array As New JsonArray()
-        While obj.ContainsKey(Convert.ToString(i))
-            array.Add(obj(Convert.ToString(i)))
+        Dim key As Value(Of String) = ""
 
-            i += 1
+        While obj.ContainsKey(key = Convert.ToString(++i))
+            Call array.Add(obj(key))
         End While
 
         Return array
@@ -137,8 +130,8 @@ Public Class BSON
     End Function
 
     Private Function decodeCString() As String
-
         Dim ms = New MemoryStream()
+
         While True
             Dim buf As Byte = CByte(mBinaryReader.ReadByte())
             If buf = 0 Then
@@ -162,7 +155,7 @@ Public Class BSON
                 encodeCString(ms, name)
                 encodeArray(ms, TryCast(v, JsonArray))
             Case GetType(JsonValue)
-                Dim value As BSONValue = DirectCast(v, JsonValue).value
+                Dim value As BSONValue = DirectCast(v, JsonValue).BSONValue
 
                 Select Case value.valueType
                     Case ValueType.[Double]
@@ -204,7 +197,7 @@ Public Class BSON
         End Select
     End Sub
 
-    Private Sub encodeDocument(ms As MemoryStream, obj As JsonObject)
+    Private Sub encodeDocument(ms As Stream, obj As JsonObject)
 
         Dim dms As New MemoryStream()
         For Each str As String In obj.Keys
