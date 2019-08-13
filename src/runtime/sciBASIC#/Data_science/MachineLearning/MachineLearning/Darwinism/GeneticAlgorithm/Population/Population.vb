@@ -212,9 +212,15 @@ Namespace Darwinism.GAF
         ''' </summary>
         ''' <param name="source"></param>
         ''' <returns></returns>
-        Private Shared Function GA_PLinq(comparator As FitnessPool(Of Chr), source As IEnumerable(Of Chr), parallelFlag As Boolean) As IEnumerable(Of NamedValue(Of Double))
+        Private Shared Function GA_PLinq(comparator As FitnessPool(Of Chr), source As PopulationCollection(Of Chr), parallelFlag As Boolean) As IEnumerable(Of NamedValue(Of Double))
+            Dim population = Iterator Function() As IEnumerable(Of Chr)
+                                 For i As Integer = 0 To source.Count - 1
+                                     Yield source(i)
+                                 Next
+                             End Function
+
             Return From c As Chr
-                   In source.Populate(parallel:=parallelFlag)
+                   In population().Populate(parallel:=parallelFlag)
                    Let fit As Double = comparator.Fitness(c, parallel:=Not parallelFlag)
                    Let key As String = comparator.indivToString(c)
                    Select New NamedValue(Of Double) With {
