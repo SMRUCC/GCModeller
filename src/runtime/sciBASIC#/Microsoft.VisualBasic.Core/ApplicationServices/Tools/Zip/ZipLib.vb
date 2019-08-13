@@ -263,7 +263,7 @@ Namespace ApplicationServices.Zip
 
         <Extension>
         Public Sub DeleteItems(zip As ZipArchive, itemNames As Index(Of String))
-            For Each file As ZipArchiveEntry In zip.Entries
+            For Each file As ZipArchiveEntry In zip.Entries.ToArray
                 If file.Name Like itemNames Then
                     Call file.Delete()
                 End If
