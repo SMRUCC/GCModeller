@@ -196,9 +196,10 @@ Namespace ApplicationServices.Zip
 
             'Identifies the mode we will be using - the default is Create
             Dim mode As ZipArchiveMode = ZipArchiveMode.Create
-
             'Determines if the zip file even exists
             Dim archiveExists As Boolean = IO.File.Exists(archiveFullName)
+
+            Call archiveFullName.ParentPath.MkDIR
 
             'Figures out what to do based upon our specified overwrite method
             Select Case action
