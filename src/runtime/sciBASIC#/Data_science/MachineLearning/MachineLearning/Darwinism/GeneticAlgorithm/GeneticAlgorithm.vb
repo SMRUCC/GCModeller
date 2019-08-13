@@ -137,12 +137,11 @@ Namespace Darwinism.GAF
                        Optional replacementStrategy As Strategies = Strategies.Naive,
                        Optional seeds As IRandomSeeds = Nothing,
                        Optional cacheSize% = 10000,
-                       Optional toString As Func(Of Chr, String) = Nothing,
                        Optional createPopulation As PopulationCollectionCreator(Of Chr) = Nothing)
 
             Me.population = population
             Me.seeds = seeds Or randfSeeds
-            Me.chromosomesComparator = New FitnessPool(Of Chr)(fitnessFunc, capacity:=cacheSize, toString:=toString)
+            Me.chromosomesComparator = New FitnessPool(Of Chr)(fitnessFunc, capacity:=cacheSize, toString:=Function(c) c.UniqueHashKey)
             Me.popStrategy = replacementStrategy.GetStrategy(Of Chr)
             Me.populationCreator = createPopulation Or createList
 
