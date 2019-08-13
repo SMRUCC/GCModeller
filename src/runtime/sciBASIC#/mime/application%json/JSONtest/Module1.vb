@@ -44,8 +44,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.MIME.JSON.Extensions
-Imports Microsoft.VisualBasic.MIME.JSON.ExtendedDictionary
+Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Class TestDynamicsObject : Inherits Dictionary(Of String, NamedValue(Of Integer()))
@@ -74,8 +73,8 @@ Module Module1
 
         Call t.GetJson(True).SaveTo("./test_out.json")
         Call json.SaveTo("./test_out2.json")
-        Call t2.Tarray.GetJson.__DEBUG_ECHO
-        Call t2.Tarray2.GetJson.__DEBUG_ECHO
+        Call t2.Tarray.GetJson(maskReadonly:=True).__DEBUG_ECHO
+        Call t2.Tarray2.GetJson(maskReadonly:=True).__DEBUG_ECHO
 
         Pause()
     End Sub
