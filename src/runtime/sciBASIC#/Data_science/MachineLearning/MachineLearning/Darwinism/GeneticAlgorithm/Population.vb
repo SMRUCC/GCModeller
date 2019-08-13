@@ -83,7 +83,59 @@ Namespace Darwinism.GAF
     ''' <returns></returns>
     Public Delegate Function ParallelComputeFitness(Of chr As {Class, Chromosome(Of chr)})(comparator As FitnessPool(Of chr), source As IEnumerable(Of chr)) As IEnumerable(Of NamedValue(Of Double))
 
+    Public MustInherit Class PopulationCollection(Of Chr As {Class, Chromosome(Of Chr)})
+        Public MustOverride ReadOnly Property Count As Integer
+
+        Default Public MustOverride ReadOnly Property Item(index As Integer) As Chr
+
+        Public MustOverride Sub Add(chr As Chr)
+        Public MustOverride Sub Trim(capacitySize As Integer)
+        ''' <summary>
+        ''' 按照fitness进行升序排序,fitness越小,排在越前面
+        ''' </summary>
+        ''' <param name="fitness"></param>
+        Public MustOverride Sub OrderBy(fitness As Func(Of Chr, Double))
+    End Class
+
+    Public Class PopulationList(Of Chr As {Class, Chromosome(Of Chr)}) : Inherits PopulationCollection(Of Chr)
+
+        Const DEFAULT_NUMBER_OF_CHROMOSOMES% = 32
+
+        Dim innerList As New List(Of Chr)(capacity:=DEFAULT_NUMBER_OF_CHROMOSOMES)
+
+        Public Overrides ReadOnly Property Count As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return innerList.Count
+            End Get
+        End Property
+
+        Default Public Overrides ReadOnly Property Item(index As Integer) As Chr
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return innerList(index)
+            End Get
+        End Property
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Sub Add(chr As Chr)
+            Call innerList.Add(chr)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Sub Trim(capacitySize As Integer)
+            innerList = innerList.SubList(0, capacitySize)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Sub OrderBy(fitness As Func(Of Chr, Double))
+            innerList = innerList.OrderBy(fitness).AsList
+        End Sub
+    End Class
+
     Public MustInherit Class IPopulation(Of Chr As {Class, Chromosome(Of Chr)})
+
+        Protected chromosomes As PopulationCollection(Of Chr)
 
         ''' <summary>
         ''' 种群的容量上限大小
@@ -96,14 +148,13 @@ Namespace Darwinism.GAF
         ''' </summary>
         ''' <param name="chromosome"></param>
         Public MustOverride Sub Add(chromosome As Chr)
+
     End Class
 
     Public Class Population(Of Chr As {Class, Chromosome(Of Chr)}) : Inherits IPopulation(Of Chr)
         Implements IEnumerable(Of Chr)
 
-        Const DEFAULT_NUMBER_OF_CHROMOSOMES As Integer = 32
-
-        Protected chromosomes As New List(Of Chr)(DEFAULT_NUMBER_OF_CHROMOSOMES)
+        Protected chromosomes As PopulationCollection(Of Chr)
 
         ''' <summary>
         ''' 主要是通过这个比较耗时的计算部分实现并行化来
@@ -203,11 +254,9 @@ Namespace Darwinism.GAF
                                       .Value
                               End Function)
 
-            chromosomes = chromosomes _
-                .OrderBy(Function(c)
-                             Return fitness(comparator.indivToString(c))
-                         End Function) _
-                .AsList
+            chromosomes.OrderBy(Function(c)
+                                    Return fitness(comparator.indivToString(c))
+                                End Function)
         End Sub
 
         ''' <summary>
@@ -240,7 +289,7 @@ Namespace Darwinism.GAF
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Trim(len As Integer)
-            chromosomes = chromosomes.SubList(0, len)
+            Call chromosomes.Trim(capacitySize:=len)
         End Sub
 
         Public Overrides Function ToString() As String
@@ -248,8 +297,8 @@ Namespace Darwinism.GAF
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Chr) Implements IEnumerable(Of Chr).GetEnumerator
-            For Each chr As Chr In chromosomes
-                Yield chr
+            For i As Integer = 0 To chromosomes.Count - 1
+                Yield chromosomes(i)
             Next
         End Function
 
