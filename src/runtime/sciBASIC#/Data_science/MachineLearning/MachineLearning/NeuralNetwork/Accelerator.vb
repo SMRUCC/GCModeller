@@ -118,6 +118,11 @@ Namespace NeuralNetwork.Accelerator
         Shared ReadOnly random As New Random
         ReadOnly keyCache As New Md5HashProvider
         Public Property MutationRate As Double Implements Chromosome(Of WeightVector).MutationRate
+        Public ReadOnly Property UniqueHashKey As String Implements Chromosome(Of WeightVector).UniqueHashKey
+            Get
+                Return ToString()
+            End Get
+        End Property
 
         Sub New(Optional synapses As NamedCollection(Of Synapse)() = Nothing)
             If Not synapses Is Nothing Then

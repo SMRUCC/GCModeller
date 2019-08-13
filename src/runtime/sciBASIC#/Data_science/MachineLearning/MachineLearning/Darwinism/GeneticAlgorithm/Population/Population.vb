@@ -196,9 +196,7 @@ Namespace Darwinism.GAF
                                       .Value
                               End Function)
 
-            chromosomes.OrderBy(Function(c)
-                                    Return fitness(comparator.indivToString(c))
-                                End Function)
+            chromosomes.OrderBy(Function(key) fitness(key))
         End Sub
 
         ''' <summary>

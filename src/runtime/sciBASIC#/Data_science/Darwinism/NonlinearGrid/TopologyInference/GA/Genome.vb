@@ -69,6 +69,12 @@ Public Class Genome : Inherits GridGenome(Of GridSystem)
         End Get
     End Property
 
+    Public ReadOnly Property UniqueHashKey As String Implements Chromosome(Of Genome).UniqueHashKey
+        Get
+            Return chromosome.ToString
+        End Get
+    End Property
+
     Sub New(chr As GridSystem, mutationRate As Double, truncate As Double)
         Call MyBase.New(chr, mutationRate, truncate)
 

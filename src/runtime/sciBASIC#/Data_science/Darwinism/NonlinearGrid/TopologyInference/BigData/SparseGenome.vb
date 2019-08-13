@@ -66,6 +66,12 @@ Namespace BigData
             End Get
         End Property
 
+        Public ReadOnly Property UniqueHashKey As String Implements Chromosome(Of SparseGenome).UniqueHashKey
+            Get
+                Return chromosome.ToString
+            End Get
+        End Property
+
         Public Sub New(chr As SparseGridSystem, mutationRate As Double, truncate As Double)
             Call MyBase.New(chr, mutationRate, truncate)
 

@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
+Imports Microsoft.VisualBasic.Serialization
 
 Namespace Darwinism.GAF
 
@@ -19,7 +20,7 @@ Namespace Darwinism.GAF
         ''' 按照fitness进行升序排序,fitness越小,排在越前面
         ''' </summary>
         ''' <param name="fitness"></param>
-        Public MustOverride Sub OrderBy(fitness As Func(Of Chr, Double))
+        Public MustOverride Sub OrderBy(fitness As Func(Of String, Double))
 
     End Class
 
@@ -53,9 +54,17 @@ Namespace Darwinism.GAF
             innerList = innerList.SubList(0, capacitySize)
         End Sub
 
+        ''' <summary>
+        ''' Order by [unique_hashKey => fitness]
+        ''' </summary>
+        ''' <param name="fitness"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Sub OrderBy(fitness As Func(Of Chr, Double))
-            innerList = innerList.OrderBy(fitness).AsList
+        Public Overrides Sub OrderBy(fitness As Func(Of String, Double))
+            innerList = innerList _
+                .OrderBy(Function(c)
+                             Return fitness(c.UniqueHashKey)
+                         End Function) _
+                .AsList
         End Sub
     End Class
 End Namespace
