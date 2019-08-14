@@ -180,7 +180,14 @@ Namespace LocalBLAST.Application.BBH
                         .Level = Levels.NA
                     }
                 Else
-                    Dim topBHR = q.BHR(refHits.ToDictionary(Function(hit) hit.Name, Function(hit) hit.Value))
+                    Dim topBHR = refHits _
+                        .ToDictionary(Function(hit) hit.Name,
+                                      Function(hit)
+                                          Return hit.Value
+                                      End Function) _
+                        .DoCall(Function(scores)
+                                    Return q.BHR(scores)
+                                End Function)
 
                     If topBHR.Maps >= threshold Then
                         ' is a BBH
