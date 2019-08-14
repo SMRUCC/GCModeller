@@ -1,46 +1,69 @@
 ﻿#Region "Microsoft.VisualBasic::4bbae16b799edd251e51408c1012d0ca, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BHR.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BHR
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BHR
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+
 Namespace LocalBLAST.Application.BBH
+
+    ''' <summary>
+    ''' The blast result alignment identify levels
+    ''' </summary>
+    Public Enum Levels
+        ''' <summary>
+        ''' A vs B 以及 B vs A 都是得分最高的(BHR = 1)
+        ''' </summary>
+        BBH
+        ''' <summary>
+        ''' A vs B 以及 B vs A 都不是得分最高的,但是BHR得分是最高的 (BHR >= threshold)
+        ''' </summary>
+        PartialBBH
+        ''' <summary>
+        ''' 只有一个方向的比对结果是最高的
+        ''' </summary>
+        SBH
+    End Enum
 
     ''' <summary>
     ''' **BHR(Bi-directional hit rate)** 
@@ -48,10 +71,10 @@ Namespace LocalBLAST.Application.BBH
     ''' http://www.genome.jp/tools/kaas/help.html
     ''' 
     ''' 把要注释的genome作为``query``，和KEGG数据库中的``reference``进行blast比对，输出的结果（E>10）称为 homolog。
-    ''' 同时把 reference作为query，把genome作为refernce，进行blast比对。按照下面的条件对每个 homolog 进行过滤：
+    ''' 同时把reference作为query，把genome作为refernce，进行blast比对。按照下面的条件对每个 homolog 进行过滤：
     ''' 
     ''' + Blast bits score > 60
-    ''' + bi-directional hit rate (BHR)>0.95。
+    ''' + bi-directional hit rate (BHR) > 0.95。
     ''' 
     ''' Blast Bits Score 是在``Blast raw score``换算过来的。
     ''' 
@@ -70,9 +93,9 @@ Namespace LocalBLAST.Application.BBH
     ''' to the score from the reverse hit (B against A). We select those genes whose BHR is greater than 0.95 in BBH method, 
     ''' and Rf is greater than 0.95 in SBH method.
     ''' 
-    ''' KEGG 在做注释的时候， 并不是把所有的基因都作为 refernce，而是按照是否来自同一个基因组分成一个一个的小的 
-    ''' reference，分别进行 blast，假设有两个基因组 A 和B，含有的基因分别为 a1,a2,a3…an；b1,b2,b3…bn 先用A
-    ''' 作为 query，B作为refer，进行blast比对，A中的基因a1对B中的基因进行遍历，和基因b1有最高的 bit score。
+    ''' KEGG 在做注释的时候，并不是把所有的基因都作为refernce，而是按照是否来自同一个基因组分成一个一个的小的 
+    ''' reference，分别进行blast，假设有两个基因组A和B，含有的基因分别为``a1, a2, a3...an``, ``b1, b2, b3...bn``先用A
+    ''' 作为query，B作为refer，进行blast比对，A中的基因a1对B中的基因进行遍历，和基因b1有最高的bit score。
     ''' 现在用B作为refer,A作为query,进行blast比对，B中的基因b1对A中的基因进行遍历，如果bits score最高的是a1，
     ''' 则a1和a2就是一个BBH，但也有可能不是a1，只能成为 Single-directional hit rate。
     ''' 
@@ -91,7 +114,114 @@ Namespace LocalBLAST.Application.BBH
     ''' </remarks>
     Public Module BHR
 
+        ''' <summary>
+        ''' Calculate R score for hit
+        ''' 
+        ''' ```
+        ''' R = bits / max(bits)
+        ''' ```
+        ''' </summary>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
+        Public Function HitRate(query As Query) As IEnumerable(Of NamedValue(Of Double))
+            Dim bits = query.SubjectHits _
+                .Select(Function(hit)
+                            Return New NamedValue(Of Double) With {
+                                .Name = hit.Name,
+                                .Value = hit.Score.Score
+                            }
+                        End Function) _
+                .ToArray
+            Dim maxBits As Double = bits.Max(Function(hit) hit.Value)
 
+            Return bits _
+                .Select(Function(hit)
+                            Return New NamedValue(Of Double) With {
+                                .Name = hit.Name,
+                                .Value = hit.Value / maxBits
+                            }
+                        End Function)
+        End Function
 
+        ''' <summary>
+        ''' Calculate BBH through BHR score
+        ''' </summary>
+        ''' <param name="query"></param>
+        ''' <param name="refer"></param>
+        ''' <param name="threshold">
+        ''' The BHR score threshold. (当这个参数为1的时候,算法会变为传统的BBH构建方法)
+        ''' </param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' BHR的意义在于, 
+        ''' + 假若BBH结果中,A在B中的bit得分并不是最高的那个的话,则按照传统的严格的BBH方法,A将不是B的BBH.(此时将会丢掉一个可能的BBH结果)
+        ''' + 但是现在在引入BHR之后,即使A在B中的bit得分不是最高的,但是BHR是最高的,则可以认为A和B此时是BBH(保留下来了一个非常可能存在的BBH结果)
+        ''' </remarks>
+        Public Iterator Function BHRResult(query As v228, refer As v228, Optional threshold# = 0.95) As IEnumerable(Of BiDirectionalBesthit)
+            Dim Rf = query.getHitRates
+            Dim Rr = refer.getHitRates _
+                .ReverseAssembly _
+                .ToDictionary(Function(hit) hit.name)
+
+            For Each q As NamedCollection(Of NamedValue(Of Double)) In Rf
+                Dim refHits = Rr.TryGetValue(q.name)
+
+                If refHits = 0 Then
+                    Yield New BiDirectionalBesthit With {
+                        .QueryName = q.name,
+                        .Length = q.description,
+                        .HitName = HITS_NOT_FOUND
+                    }
+                Else
+                    With refHits.ToDictionary(Function(hit) hit.Name)
+
+                    End With
+                End If
+            Next
+        End Function
+
+        ''' <summary>
+        ''' Reverse assembling of the svq result.
+        ''' </summary>
+        ''' <param name="Rr"></param>
+        ''' <returns></returns>
+        <Extension>
+        Private Iterator Function ReverseAssembly(Rr As IEnumerable(Of NamedCollection(Of NamedValue(Of Double)))) As IEnumerable(Of NamedCollection(Of NamedValue(Of Double)))
+            Dim queryGroups = Rr _
+                .Select(Function(rq)
+                            Return rq.Select(Function(hit) (refer:=rq.name, q:=hit))
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(hit) hit.q.Name) _
+                .ToArray
+
+            For Each query In queryGroups
+                Yield New NamedCollection(Of NamedValue(Of Double)) With {
+                    .name = query.Key,
+                    .value = query _
+                        .Select(Function(hit)
+                                    Return New NamedValue(Of Double) With {
+                                        .Name = hit.refer,
+                                        .Value = hit.q.Value
+                                    }
+                                End Function) _
+                        .ToArray
+                }
+            Next
+        End Function
+
+        <Extension>
+        Private Function getHitRates(align As v228) As NamedCollection(Of NamedValue(Of Double))()
+            Return align.Queries _
+                .Select(Function(q)
+                            Return New NamedCollection(Of NamedValue(Of Double)) With {
+                                .name = q.QueryName,
+                                .description = q.QueryLength,
+                                .value = q.HitRate
+                            }
+                        End Function) _
+                .ToArray
+        End Function
     End Module
 End Namespace
