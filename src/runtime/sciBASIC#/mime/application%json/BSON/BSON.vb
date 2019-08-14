@@ -12,7 +12,9 @@ Namespace BSON
         ''' <param name="buf"></param>
         ''' <returns></returns>
         Public Function Load(buf As Byte()) As JsonObject
-            Return New Decoder(buf).decodeDocument()
+            Using decoder As New Decoder(buf)
+                Return decoder.decodeDocument()
+            End Using
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
