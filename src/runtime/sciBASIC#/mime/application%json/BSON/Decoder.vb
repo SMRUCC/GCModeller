@@ -53,6 +53,10 @@ Namespace BSON
             Return Encoding.UTF8.GetString(buf)
         End Function
 
+        ''' <summary>
+        ''' Decode a ZERO terminated C-string.
+        ''' </summary>
+        ''' <returns></returns>
         Private Function decodeCString() As String
             Dim ms = New MemoryStream()
 
