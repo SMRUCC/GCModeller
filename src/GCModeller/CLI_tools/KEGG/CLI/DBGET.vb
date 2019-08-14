@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Metagenomics
 Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.MapDownloader
 Imports org = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
@@ -78,7 +79,12 @@ Partial Module CLI
         Dim compounds$ = args <= "/compounds"
 
         If compounds.DirectoryExists Then
-
+            Return CompoundRepository.ScanModels(directory:=compounds) _
+                .Compounds _
+                .Select(Function(c) c.Entity) _
+                .DownloadRelatedReactions(EXPORT:=save, cache:=$"{save}/.reactions/") _
+                .SaveTo($"{save}/failures.txt") _
+                .CLICode
         Else
             Return EnzymaticReaction _
                 .DownloadReactions(save, cache:=$"{save}/.br08201/") _
