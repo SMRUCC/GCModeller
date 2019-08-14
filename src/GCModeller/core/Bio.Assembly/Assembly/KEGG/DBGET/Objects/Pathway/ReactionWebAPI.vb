@@ -122,11 +122,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Using progress As New ProgressBar("Download compounds related KEGG reactions...", 1, CLS:=True)
                 Dim tick As New ProgressProvider(compoundArray.Length)
                 Dim ETA$
-                Dim doTick = Sub()
+                Dim doTick = Sub(cpdName As String)
                                  ETA$ = tick _
                                     .ETA(progress.ElapsedMilliseconds) _
                                     .FormatTime
-                                 Call progress.SetProgress(tick.StepProgress, "ETA=" & ETA)
+                                 Call progress.SetProgress(tick.StepProgress, $"{cpdName}, ETA=" & ETA)
                              End Sub
 
                 For Each compound As Compound In compoundArray
@@ -140,6 +140,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                             End If
                         End With
                     Next
+
+                    Call doTick(compound.commonNames.FirstOrDefault)
                 Next
             End Using
 
