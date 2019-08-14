@@ -186,7 +186,7 @@ Namespace LocalBLAST.Application.BBH
                                           Return hit.Value
                                       End Function) _
                         .DoCall(Function(scores)
-                                    Return q.BHR(scores)
+                                    Return q.getTopBHR(scores)
                                 End Function)
 
                     If topBHR.Maps >= threshold Then
@@ -229,8 +229,19 @@ Namespace LocalBLAST.Application.BBH
         ''' <param name="r"></param>
         ''' <returns></returns>
         <Extension>
-        Private Function BHR(q As NamedCollection(Of NamedValue(Of Double)), r As Dictionary(Of String, Double)) As Map(Of (q$, r$), Double)
+        Private Function getTopBHR(q As NamedCollection(Of NamedValue(Of Double)), r As Dictionary(Of String, Double)) As Map(Of (q$, r$), Double)
+            Return q.Where(Function(hit) r.ContainsKey(hit.Name)) _
+                .Select(Function(hit)
+                            Dim bhr_score = hit.Value * r(hit.Name)
+                            Dim align = (q.name, hit.Name)
 
+                            Return New Map(Of (String, String), Double) With {
+                                .Key = align,
+                                .Maps = bhr_score
+                            }
+                        End Function) _
+                .OrderByDescending(Function(bhr) bhr.Maps) _
+                .FirstOrDefault
         End Function
 
         ''' <summary>
