@@ -284,6 +284,10 @@ Partial Module CLI
         Dim background = TaxonomyRepository.LoadRepository(uniprot) _
             .GetAll _
             .Values _
+            .Where(Function(tax)
+                       ' 有些基因组的数据是空的？？
+                       Return Not tax.genome.Terms.IsNullOrEmpty
+                   End Function) _
             .DoCall(Function(list)
                         Return MetabolicEndPointProfiles.CreateProfiles(list, ref)
                     End Function)

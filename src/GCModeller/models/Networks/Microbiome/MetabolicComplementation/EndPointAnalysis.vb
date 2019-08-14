@@ -70,16 +70,23 @@ Public Module EndPointAnalysis
 
     <Extension>
     Public Function DoMetabolicEndPointsAnalysis(taxon As TaxonomyRef, reactions As ReactionRepository) As MetabolicEndPoints
-        Dim metabolicGraph As NetworkGraph = taxon.genome _
+        Dim endPoints As (input As Node(), output As Node())
+        Dim metabolicGraph As NetworkGraph
+
+        Call $"[{taxon.TaxonomyString.ToString(True)}] Assembling metabolic network.".__DEBUG_ECHO
+        metabolicGraph = taxon.genome _
             .Terms _
             .Select(Function(t) t.name) _
             .ToArray _
             .BuildInternalNetwork(reactions)
-        Dim endPoints = metabolicGraph.EndPoints
 
+        Call "Do endpoint analysis".__DEBUG_ECHO
+        endPoints = metabolicGraph.EndPoints
+
+        Call $"[{taxon.TaxonomyString.ToString(True)}] {endPoints.input.Length} inputs / {endPoints.output.Length} outputs".__INFO_ECHO
         Return New MetabolicEndPoints With {
-            .secrete = endPoints.output.Keys,
-            .uptakes = endPoints.input.Keys,
+            .secrete = EndPoints.output.Keys,
+            .uptakes = EndPoints.input.Keys,
             .taxonomy = taxon.TaxonomyString.ToString
         }
     End Function
