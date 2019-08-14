@@ -262,6 +262,8 @@
   <ItemGroup>
     <Compile Include="BSON\BSON.vb" />
     <Compile Include="BSON\BSONValue.vb" />
+    <Compile Include="BSON\Decoder.vb" />
+    <Compile Include="BSON\Encoder.vb" />
     <Compile Include="BSON\ValueType.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="Parser\JsonValue.vb" />
