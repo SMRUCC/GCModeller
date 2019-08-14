@@ -1,6 +1,6 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.MIME.application.json.Parser
+Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 
 Namespace BSON
 

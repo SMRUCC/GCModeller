@@ -58,6 +58,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 
 ''' <summary>
 ''' https://github.com/qhgz2013/VBUtil/blob/master/VBUtil/JsonParser.vb
