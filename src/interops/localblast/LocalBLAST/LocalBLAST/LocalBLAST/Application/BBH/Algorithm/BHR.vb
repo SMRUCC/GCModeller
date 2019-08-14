@@ -41,6 +41,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
@@ -51,6 +52,10 @@ Namespace LocalBLAST.Application.BBH
     ''' The blast result alignment identify levels
     ''' </summary>
     Public Enum Levels
+        ''' <summary>
+        ''' A和B之间没有同源性
+        ''' </summary>
+        NA
         ''' <summary>
         ''' A vs B 以及 B vs A 都是得分最高的(BHR = 1)
         ''' </summary>
@@ -171,14 +176,54 @@ Namespace LocalBLAST.Application.BBH
                     Yield New BiDirectionalBesthit With {
                         .QueryName = q.name,
                         .Length = q.description,
-                        .HitName = HITS_NOT_FOUND
+                        .HitName = HITS_NOT_FOUND,
+                        .Level = Levels.NA
                     }
                 Else
-                    With refHits.ToDictionary(Function(hit) hit.Name)
+                    Dim topBHR = q.BHR(refHits.ToDictionary(Function(hit) hit.Name, Function(hit) hit.Value))
 
-                    End With
+                    If topBHR.Maps >= threshold Then
+                        ' is a BBH
+                        Yield New BiDirectionalBesthit With {
+                            .Level = If(topBHR.Maps = 1.0, Levels.BBH, Levels.PartialBBH),
+                            .QueryName = q.name,
+                            .Length = q.description,
+                            .HitName = topBHR.Key.r
+                        }
+                    Else
+                        Dim maxR = q.OrderByDescending(Function(hit) hit.Value).First
+
+                        If maxR.Value >= threshold Then
+                            ' is an acceptable sbh hit
+                            Yield New BiDirectionalBesthit With {
+                                .Level = Levels.SBH,
+                                .QueryName = q.name,
+                                .Length = q.description,
+                                .HitName = maxR.Name
+                            }
+                        Else
+                            ' no hit
+                            Yield New BiDirectionalBesthit With {
+                                .QueryName = q.name,
+                                .Length = q.description,
+                                .HitName = HITS_NOT_FOUND,
+                                .Level = Levels.NA
+                            }
+                        End If
+                    End If
                 End If
             Next
+        End Function
+
+        ''' <summary>
+        ''' 在这里计算出最高的BHR比对结果
+        ''' </summary>
+        ''' <param name="q"></param>
+        ''' <param name="r"></param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function BHR(q As NamedCollection(Of NamedValue(Of Double)), r As Dictionary(Of String, Double)) As Map(Of (q$, r$), Double)
+
         End Function
 
         ''' <summary>
