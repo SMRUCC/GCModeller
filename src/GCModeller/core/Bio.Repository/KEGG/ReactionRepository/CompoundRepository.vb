@@ -115,7 +115,7 @@ Public Class CompoundRepository : Inherits XmlDataModel
                 compound = xml.LoadXml(Of Compound)()
             End If
 
-            If compound.entry.StringEmpty Then
+            If compound Is Nothing OrElse compound.entry.StringEmpty Then
                 Continue For
             End If
 
