@@ -130,7 +130,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                              End Sub
 
                 For Each compound As Compound In compoundArray
-                    For Each reactionID As String In compound.reactionId
+                    For Each reactionID As String In compound.reactionId.SafeQuery
                         With Download(reactionID, cache:=cache)
                             If .IsNothing Then
                                 failures += reactionID
