@@ -10,10 +10,11 @@ Imports SMRUCC.genomics.Model.Network.Microbiome
 ''' </summary>
 Public Class MetabolicEndPoints
 
+    <XmlAttribute>
     Public Property taxonomy As String
 
-    Public Property uptakes As String()
-    Public Property secrete As String()
+    <XmlElement> Public Property uptakes As String()
+    <XmlElement> Public Property secrete As String()
 
     Public Overrides Function ToString() As String
         Return taxonomy

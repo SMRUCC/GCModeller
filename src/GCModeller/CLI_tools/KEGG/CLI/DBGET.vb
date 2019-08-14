@@ -68,16 +68,23 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/save <DIR> /@set sleep=2000]")>
+    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/compounds <compounds.directory> /save <DIR> /@set sleep=2000]")>
     <Description("Downloads the KEGG enzyme reaction reference model data.")>
     <Group(CLIGroups.DBGET_tools)>
+    <Argument("/compounds", True, CLITypes.File,
+              Description:="If this argument is present in the commandline, then it means only this collection of compounds related reactions will be download.")>
     Public Function DownloadKEGGReaction(args As CommandLine) As Integer
         Dim save$ = args("/save") Or "./br08201/"
+        Dim compounds$ = args <= "/compounds"
 
-        Return EnzymaticReaction _
-            .DownloadReactions(save, cache:=$"{save}/.br08201/") _
-            .SaveTo(save & "/failures.txt") _
-            .CLICode
+        If compounds.DirectoryExists Then
+
+        Else
+            Return EnzymaticReaction _
+                .DownloadReactions(save, cache:=$"{save}/.br08201/") _
+                .SaveTo(save & "/failures.txt") _
+                .CLICode
+        End If
     End Function
 
     ''' <summary>
