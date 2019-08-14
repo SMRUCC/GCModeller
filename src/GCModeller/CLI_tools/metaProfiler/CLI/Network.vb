@@ -274,6 +274,25 @@ Partial Module CLI
             .CLICode
     End Function
 
+    <ExportAPI("/Metabolic.EndPoint.Profiles.background")>
+    <Usage("/Metabolic.EndPoint.Profiles.Background /ref <reaction.repository.XML> /uniprot <repository.json> [/out <background.XML>]")>
+    <Description("Create Metabolic EndPoint Profiles Background Model")>
+    Public Function MetabolicEndPointProfilesBackground(args As CommandLine) As Integer
+        Dim ref As ReactionRepository = ReactionRepository.LoadAuto(args("/ref"))
+        Dim uniprot$ = args <= "/uniprot"
+        Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}.endpoints.Xml"
+        Dim background = TaxonomyRepository.LoadRepository(uniprot) _
+            .GetAll _
+            .Values _
+            .DoCall(Function(list)
+                        Return MetabolicEndPointProfiles.CreateProfiles(list, ref)
+                    End Function)
+
+        Return background.GetXml _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
     ''' <summary>
     ''' 创建微生物组代谢途径富集计算所需要的背景参考库
     ''' </summary>
