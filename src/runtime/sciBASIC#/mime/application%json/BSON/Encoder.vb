@@ -60,8 +60,8 @@ Namespace BSON
         End Sub
 
         Public Sub encodeDocument(ms As Stream, obj As JsonObject)
-
             Dim dms As New MemoryStream()
+
             For Each str As String In obj.Keys
                 encodeElement(dms, str, obj(str))
             Next
