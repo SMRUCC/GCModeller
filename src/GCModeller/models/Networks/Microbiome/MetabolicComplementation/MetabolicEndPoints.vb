@@ -2,6 +2,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.Microbiome
 
@@ -39,12 +40,12 @@ Public Class MetabolicEndPointProfiles : Inherits ListOf(Of MetabolicEndPoints)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function CreateProfiles(taxonomy As IEnumerable(Of TaxonomyRef), reactions As ReactionRepository) As MetabolicEndPointProfiles
+    Public Shared Function CreateProfiles(taxonomy As IEnumerable(Of TaxonomyRef), reactions As ReactionRepository, Optional nonEnzymetic As reaction() = Nothing) As MetabolicEndPointProfiles
         Return New MetabolicEndPointProfiles With {
             .taxonomy = taxonomy _
                 .SafeQuery _
                 .Select(Function(tax)
-                            Return tax.DoMetabolicEndPointsAnalysis(reactions)
+                            Return tax.DoMetabolicEndPointsAnalysis(reactions, nonEnzymetic)
                         End Function) _
                 .Where(Function(tax)
                            Return Not (tax.uptakes.IsNullOrEmpty AndAlso tax.secrete.IsNullOrEmpty)

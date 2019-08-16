@@ -202,6 +202,13 @@ Public Class ReactionRepository : Inherits XmlDataModel
         }
     End Function
 
+    Public Function NonEnzymetic() As IEnumerable(Of Reaction)
+        Return table.Values _
+            .Where(Function(r)
+                       Return r.Orthology.Terms.IsNullOrEmpty
+                   End Function)
+    End Function
+
     ''' <summary>
     ''' Test if target reaction model is exists in current data repository or not. 
     ''' </summary>
