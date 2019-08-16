@@ -49,6 +49,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace KOBAS
 
+    ''' <summary>
+    ''' The KOBAS enrichment analysis output
+    ''' </summary>
     Public Class EnrichmentTerm
         Implements IGoTerm
         Implements IGoTermEnrichment

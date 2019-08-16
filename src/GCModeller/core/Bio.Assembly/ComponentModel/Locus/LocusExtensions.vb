@@ -140,9 +140,9 @@ Namespace ComponentModel.Loci
             End If
 
             Select Case str.ToLower
-                Case "+", "forward", "plus", "#forward", "direct", "#+"
+                Case "+", "forward", "plus", "#forward", "direct", "#+", "1", "f"
                     Return Strands.Forward
-                Case "-", "reverse", "minus", "complement", "#reverse", "#-"
+                Case "-", "reverse", "minus", "complement", "#reverse", "#-", "-1", "r"
                     Return Strands.Reverse
                 Case Else
                     Return Strands.Unknown

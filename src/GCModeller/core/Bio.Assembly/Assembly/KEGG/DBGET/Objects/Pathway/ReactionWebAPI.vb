@@ -43,6 +43,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.WebQuery
 
@@ -102,6 +103,49 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Next
 
             Return failures.ToArray
+        End Function
+
+        ''' <summary>
+        ''' Download all of the reaction that related to the given set of compounds.
+        ''' 
+        ''' 函数返回下载失败的列表
+        ''' </summary>
+        ''' <param name="EXPORT"></param>
+        ''' <returns>返回下载失败的代谢反应过程的编号列表</returns>
+        ''' <remarks></remarks>
+        ''' 
+        <Extension>
+        Public Function DownloadRelatedReactions(compounds As IEnumerable(Of Compound), EXPORT$, Optional cache$ = "./.reactions/") As String()
+            Dim failures As New List(Of String)
+            Dim compoundArray = compounds.ToArray
+
+            Using progress As New ProgressBar("Download compounds related KEGG reactions...", 1, CLS:=True)
+                Dim tick As New ProgressProvider(compoundArray.Length)
+                Dim ETA$
+                Dim doTick = Sub(cpdName As String)
+                                 ETA$ = tick _
+                                    .ETA(progress.ElapsedMilliseconds) _
+                                    .FormatTime
+                                 Call progress.SetProgress(tick.StepProgress, $"{cpdName}, ETA=" & ETA)
+                             End Sub
+
+                For Each compound As Compound In compoundArray
+                    For Each reactionID As String In compound.reactionId.SafeQuery
+                        With Download(reactionID, cache:=cache)
+                            If .IsNothing Then
+                                failures += reactionID
+                            Else
+                                Call .GetXml _
+                                     .SaveTo($"{EXPORT}/{reactionID.Last}/{reactionID}.Xml")
+                            End If
+                        End With
+                    Next
+
+                    Call doTick(compound.commonNames.FirstOrDefault)
+                Next
+            End Using
+
+            Return failures
         End Function
     End Module
 End Namespace

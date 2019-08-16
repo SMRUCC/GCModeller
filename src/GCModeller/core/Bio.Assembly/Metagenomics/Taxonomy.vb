@@ -292,6 +292,10 @@ Namespace Metagenomics
             Return IsEmpty(t)
         End Operator
 
+        ''' <summary>
+        ''' 返回BIOM格式的Taxonomy字符串
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             Dim tax As New List(Of String)
             Dim i As VBInteger = Scan0
@@ -307,6 +311,11 @@ Namespace Metagenomics
             Return tax.JoinBy(";")
         End Function
 
+        ''' <summary>
+        ''' 如果<paramref name="BIOMstyle"/>参数为真,则返回符合BIOM文件要求的Taxonomy字符串格式
+        ''' </summary>
+        ''' <param name="BIOMstyle"></param>
+        ''' <returns></returns>
         Public Overloads Function ToString(BIOMstyle As Boolean) As String
             If BIOMstyle Then
                 Return Me.Select(TaxonomyRanks.Species) _

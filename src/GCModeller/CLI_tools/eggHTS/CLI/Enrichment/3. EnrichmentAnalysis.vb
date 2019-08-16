@@ -105,7 +105,7 @@ Partial Module CLI
                           End Function)
 
         For Each protein As entry In in$.LoadXmlDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot")
-            Dim go_ref = protein.Xrefs.TryGetValue("GO")
+            Dim go_ref = protein.xrefs.TryGetValue("GO")
             Dim ID$()
 
             If maps.IsNullOrEmpty Then
@@ -127,7 +127,7 @@ Partial Module CLI
                 go += (ID, go_ref.Select(Function(x) x.id).ToArray)
             End If
 
-            Dim KO_ref = protein.Xrefs.TryGetValue("KO")
+            Dim KO_ref = protein.xrefs.TryGetValue("KO")
 
             If Not KO_ref.IsNullOrEmpty Then
                 KEGG += (ID, KO_ref.Select(Function(x) x.id).ToArray)
@@ -194,11 +194,11 @@ Partial Module CLI
             ' 假设这里的编号都是uniprot编号，还需要转换为KEGG基因编号
             Dim uniprot = UniProtXML.LoadDictionary(args <= "/uniprot")
             Dim mapID = uniprot _
-                .Where(Function(gene) gene.Value.Xrefs.ContainsKey("KEGG")) _
+                .Where(Function(gene) gene.Value.xrefs.ContainsKey("KEGG")) _
                 .ToDictionary(Function(gene) gene.Key,
                               Function(gene)
                                   Return gene.Value _
-                                      .Xrefs("KEGG") _
+                                      .xrefs("KEGG") _
                                       .Select(Function(x) x.id) _
                                       .ToArray
                               End Function)
@@ -214,22 +214,22 @@ Partial Module CLI
             Dim translateKO As New Dictionary(Of String, String)
             Dim KO = uniprot.Values _
                 .Where(Function(gene)
-                           Return gene.Xrefs.ContainsKey("KO")
+                           Return gene.xrefs.ContainsKey("KO")
                        End Function) _
                 .ToArray
 
             ' 如果是使用默认的repository的话，还需要通过uniprot注释转换为KO编号
             ' 因为默认的repository是参考的pathway图，基因都是使用KO来表示的
             For Each gene As entry In KO
-                Dim KO_id As String = gene.Xrefs("KO").First.id
+                Dim KO_id As String = gene.xrefs("KO").First.id
 
                 gene.accessions _
                     .DoEach(Sub(id)
                                 translateKO(id) = KO_id
                             End Sub)
 
-                If gene.Xrefs.ContainsKey("KEGG") Then
-                    gene.Xrefs("KEGG") _
+                If gene.xrefs.ContainsKey("KEGG") Then
+                    gene.xrefs("KEGG") _
                         .DoEach(Sub(id)
                                     translateKO(id.id) = KO_id
                                 End Sub)
@@ -269,6 +269,12 @@ Partial Module CLI
 
     <ExportAPI("/Converts")>
     <Usage("/Converts /in <GSEA.terms.csv> [/out <result.terms.csv>]")>
+    <Description("Converts the GCModeller enrichment analysis output as the KOBAS enrichment analysis result output table.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(EnrichmentResult)},
+              Extensions:="*.csv",
+              Description:="The GCModeller enrichment analysis output table.")>
+    <Group(CLIGroups.Enrichment_CLI)>
     Public Function Converts(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}_converts.csv"

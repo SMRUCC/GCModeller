@@ -110,6 +110,11 @@ Namespace LinearAlgebra
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator +(v As HalfVector, add As Integer) As HalfVector
+            Return New HalfVector(From x As Half In v Select x + CSng(add))
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator -(v As HalfVector, add As Double) As HalfVector
             Return New HalfVector(From x As Half In v Select x - CSng(add))
         End Operator
@@ -122,6 +127,11 @@ Namespace LinearAlgebra
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator *(v As HalfVector, add As Double) As HalfVector
             Return New HalfVector(From x As Half In v Select x * CSng(add))
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator *(multiply As Double, v As HalfVector) As HalfVector
+            Return v * multiply
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -139,8 +149,9 @@ Namespace LinearAlgebra
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Operator /(v As HalfVector, add As Double) As HalfVector
-            Return New HalfVector(From x As Half In v Select x / CSng(add))
+        Public Shared Operator /(v As HalfVector, div As Double) As HalfVector
+            Dim divVal! = div
+            Return New HalfVector(From x As Half In v Select x / divVal)
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -149,8 +160,14 @@ Namespace LinearAlgebra
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Operator ^(v As HalfVector, add As Double) As HalfVector
-            Return New HalfVector(From x As Half In v Select x ^ CSng(add))
+        Public Shared Operator ^(v As HalfVector, pow As Double) As HalfVector
+            Return New HalfVector(From x As Half In v Select x ^ pow)
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator ^(base#, v As HalfVector) As HalfVector
+            Dim baseVal! = base
+            Return New HalfVector(From x As Half In v Select baseVal ^ CSng(x))
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
