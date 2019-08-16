@@ -646,7 +646,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             Dim list As New List(Of FastaSeq)
 
             For Each x In Me._innerList
-                Call list.Add(x.Copy)
+                Call list.Add(x.Clone)
             Next
 
             Return New FastaFile(list)
