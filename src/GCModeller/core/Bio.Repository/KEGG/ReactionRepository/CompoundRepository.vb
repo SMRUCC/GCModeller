@@ -115,6 +115,10 @@ Public Class CompoundRepository : Inherits XmlDataModel
                 compound = xml.LoadXml(Of Compound)()
             End If
 
+            If compound Is Nothing OrElse compound.entry.StringEmpty Then
+                Continue For
+            End If
+
             If Not table.ContainsKey(compound.Entry) Then
                 Dim index As New CompoundIndex With {
                     .Entity = compound,

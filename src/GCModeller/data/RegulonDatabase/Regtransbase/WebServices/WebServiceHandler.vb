@@ -144,7 +144,7 @@ Namespace Regtransbase.WebServices
                             Try
                                 Dim Fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(KEGG_speciesId, accessionId:=RegulatorId)
                                 If TempObject Is Nothing Then
-                                    If Not Fsa Is Nothing Then TempObject = Fsa.Copy
+                                    If Not Fsa Is Nothing Then TempObject = Fsa.Clone
                                     TempObject_LocusTagList.AddRange(LocusId.Value)
                                 Else
                                     If Fsa Is Nothing Then '没有查询到数据记录，则使用前一个数据

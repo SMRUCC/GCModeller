@@ -130,8 +130,7 @@ Partial Module CLI
 
         For Each x As FastaSeq In seq
             If clone Then
-                Yield New KeyValuePair(Of FastaSeq, FastaFile)(
-                    x.Copy, TryCast(seq.Clone, FastaFile))
+                Yield New KeyValuePair(Of FastaSeq, FastaFile)(x.Clone, TryCast(seq.Clone, FastaFile))
             Else
                 Yield New KeyValuePair(Of FastaSeq, FastaFile)(
                     x, New FastaFile(seq))

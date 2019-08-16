@@ -83,6 +83,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property Length As String
+        Public Property Level As Levels = Levels.NA
 
         <Ignored>
         Public ReadOnly Property Identities As Double Implements IQueryHits.identities
