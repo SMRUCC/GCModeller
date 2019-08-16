@@ -132,14 +132,14 @@ Public Module Loader
                             Dim powerFactor As Vector
 
                             If power Is Nothing Then
-                                powerFactor = Vector.rand(-1, 1, width)
+                                powerFactor = Vector.rand(-0.0001, 0.0001, width)
                             Else
                                 powerFactor = New Vector(power)
                             End If
 
                             Return New Correlation With {
                                 .B = powerFactor,
-                                .BC = 0.005
+                                .BC = 0.0001
                             }
                         End Function) _
                 .ToArray
