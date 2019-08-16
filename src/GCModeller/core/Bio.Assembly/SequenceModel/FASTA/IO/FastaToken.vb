@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -79,6 +80,7 @@ Namespace SequenceModel.FASTA
         Implements ISaveHandle
         Implements I_FastaProvider
         Implements ICloneable
+        Implements ICloneable(Of FastaSeq)
 
         Friend Const SampleView = ">LexA
 AAGCGAACAAATGTTCTATA"
@@ -246,11 +248,11 @@ AAGCGAACAAATGTTCTATA"
         ''' <summary>
         ''' You can using this function to convert the title from current format into another format.(使用这个方法将Fasta序列对象的标题从当前的格式转换为另外一种格式)
         ''' </summary>
-        ''' <param name="MethodPointer"></param>
+        ''' <param name="grep"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GrepTitle(MethodPointer As TextGrepMethod) As FastaSeq
-            Dim strValue As String = MethodPointer(Me.ToString)
+        Public Function GrepTitle(grep As TextGrepMethod) As FastaSeq
+            Dim strValue As String = grep(Me.ToString)
             Dim attributes As String() = New String() {strValue}
 
             Return New FastaSeq With {
@@ -445,18 +447,6 @@ AAGCGAACAAATGTTCTATA"
         End Function
 
         ''' <summary>
-        ''' Copy data to a new FASTA object.(将本对象的数据拷贝至一个新的FASTA序列对象中)
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Overloads Function Copy() As FastaSeq
-            Return New FastaSeq With {
-                .Headers = Me.Headers.ToArray,
-                .SequenceData = New String(SequenceData)
-            } ' 在這裏完完全全的按值複製
-        End Function
-
-        ''' <summary>
         ''' Copy the value in current fasta object into another fasta object.(将当前的序列数据复制到目标序列数据对象之中)
         ''' </summary>
         ''' <typeparam name="TFasta">Fasta sequence object type.(目标序列数据类型)</typeparam>
@@ -610,8 +600,21 @@ AAGCGAACAAATGTTCTATA"
             Return SaveTo(Path, encoding.CodePage)
         End Function
 
-        Public Function Clone() As Object Implements ICloneable.Clone
-            Return Copy()
+        Private Function objClone() As Object Implements ICloneable.Clone
+            Return Clone()
+        End Function
+
+        ''' <summary>
+        ''' Copy data to a new FASTA object.(将本对象的数据拷贝至一个新的FASTA序列对象中)
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Overloads Function Clone() As FastaSeq Implements ICloneable(Of FastaSeq).Clone
+            ' 在這裏完完全全的按值複製
+            Return New FastaSeq With {
+                .Headers = Me.Headers.ToArray,
+                .SequenceData = New String(SequenceData)
+            }
         End Function
     End Class
 End Namespace
