@@ -110,7 +110,7 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     End Function
 
     Public Overrides Function ToString() As String
-        Return ID
+        Return $"Dim {ID} = '{names}'"
     End Function
 
     Protected Overrides Function getSize() As Integer
