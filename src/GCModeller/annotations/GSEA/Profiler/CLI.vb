@@ -43,6 +43,7 @@ Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -186,6 +187,7 @@ Public Module CLI
     Public Function EnrichmentTest(args As CommandLine) As Integer
         Dim backgroundXML$ = args("/background")
         Dim background = backgroundXML.LoadXml(Of Background)
+        Dim debugIdlist As Index(Of String) = (args("/cluster_id") Or "").Split(","c)
         Dim list$ = args("/geneset")
         Dim geneSet$() = list _
             .IterateAllLines _
@@ -195,6 +197,15 @@ Public Module CLI
             .ToArray
         Dim out$ = args("/out") Or $"{list.TrimSuffix}_{backgroundXML.BaseName}_enrichment.csv"
         Dim isLocusTag As Boolean = args("/locus_tag")
+
+        ' for debug test
+        If Not debugIdlist = 0 Then
+            background = background _
+                .SubsetOf(Function(cluster)
+                              Return cluster.ID Like debugIdlist
+                          End Function)
+        End If
+
         Dim result As EnrichmentResult() = background _
             .Enrichment(
                 list:=geneSet,

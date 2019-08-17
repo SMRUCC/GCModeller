@@ -63,7 +63,7 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     Implements INamedValue
 
     ''' <summary>
-    ''' 代谢途径的编号或者其他的标识符
+    ''' The cluster id.(代谢途径的编号或者其他的标识符)
     ''' </summary>
     ''' <returns></returns>
     <XmlAttribute>
