@@ -80,12 +80,12 @@ Namespace Assembly.KEGG.DBGET.WebQuery
         ''' <param name="resource">URL或者页面文本</param>
         ''' <returns></returns>
         Public Shared Function DownloadFrom(resource As String, Optional schema As Type = Nothing) As Reaction
-            Dim WebForm As New WebForm(resource)
+            Dim webForm As New WebForm(resource)
 
-            If WebForm.Count = 0 Then
+            If webForm.Count = 0 Then
                 Return Nothing
             Else
-                Return webFormParser(Of Reaction)(WebForm)
+                Return webFormParser(Of Reaction)(webForm)
             End If
         End Function
 
