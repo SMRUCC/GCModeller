@@ -52,7 +52,6 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports sys = System.Math
 
 Namespace ComponentModel.Evaluation
 
@@ -217,32 +216,7 @@ Namespace ComponentModel.Evaluation
         Shared ReadOnly normalRange As [Default](Of Sequence) = New Sequence(0, 1, 10000)
 
         Public Shared Function AUC(validates As IEnumerable(Of Validation)) As Double
-            Dim data As Validation() = validates _
-                .OrderByDescending(Function(d) d.Threshold) _
-                .ToArray
-            Dim accumulate = Iterator Function() As IEnumerable(Of Double)
-                                 Dim x2, x1 As Double
-                                 Dim fx2, fx1 As Double
-                                 Dim h As Double
 
-                                 ' x = 1 - Specificity
-                                 ' y = Sensibility
-                                 '
-                                 ' 梯形面积计算： 矩形面积+直角三角形面积
-
-                                 For i As Integer = 1 To data.Length - 1
-                                     x2 = 100 - data(i).Specificity
-                                     x1 = 100 - data(i - 1).Specificity
-                                     fx2 = data(i).Sensibility
-                                     fx1 = data(i).Sensibility
-                                     h = x2 - x1
-
-                                     ' 矩形面积 + 直角三角形面积
-                                     Yield h * sys.Min(fx2, fx1) + (h * sys.Abs(fx2 - fx1)) / 2
-                                 Next
-                             End Function
-
-            Return accumulate().Sum / 100
         End Function
 
         ''' <summary>

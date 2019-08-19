@@ -1,33 +1,45 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace ComponentModel.Evaluation
 
+    ''' <summary>
+    ''' 一个包含有多维度验证结果输出的样本验证结果
+    ''' </summary>
     Public Structure Validate
 
-        Dim actuals As Double()
-        Dim predicts As Double()
+        <XmlAttribute> Public Property actuals As Double()
+        <XmlAttribute> Public Property predicts As Double()
 
         Public ReadOnly Property err As Double
             Get
                 Dim predicts = Me.predicts
 
                 Return actuals _
-                .Select(Function(x, i) Math.Abs(x - predicts(i))) _
-                .Average
+                    .Select(Function(x, i) Math.Abs(x - predicts(i))) _
+                    .Average
             End Get
         End Property
 
+        ''' <summary>
+        ''' 验证的结果的维度的数量, <see cref="actuals"/>和<see cref="predicts"/>这两个向量应该都是等长的
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property width As Integer
             Get
-                Return actuals.Length
+                If actuals.Length <> predicts.Length Then
+                    Throw New DataMisalignedException
+                Else
+                    Return actuals.Length
+                End If
             End Get
         End Property
 
         Public Shared Iterator Function ROC(data As IEnumerable(Of Validate),
-                                        Optional threshold As Sequence = Nothing,
-                                        Optional outputLabels$() = Nothing) As IEnumerable(Of NamedCollection(Of Validation))
+                                            Optional threshold As Sequence = Nothing,
+                                            Optional outputLabels$() = Nothing) As IEnumerable(Of NamedCollection(Of Validation))
 
             Dim dataArray = data.ToArray
             Dim width = dataArray(Scan0).width
