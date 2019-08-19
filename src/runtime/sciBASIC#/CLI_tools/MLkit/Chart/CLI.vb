@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Data
@@ -54,6 +55,7 @@ Imports Microsoft.VisualBasic.DataMining.ComponentModel.Evaluation
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 <CLI> Module CLI
 
@@ -157,7 +159,14 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
                         }
                     End Function) _
             .ToArray
-        Dim validation As NamedCollection(Of Validation) = Validate.ROC(data).First
+        Dim actuals = data _
+            .Select(Function(p) p.actuals(Scan0)) _
+            .ToArray
+        Dim points As New Sequence With {
+            .n = 100,
+            .range = New DoubleRange(actuals)
+        }
+        Dim validation As NamedCollection(Of Validation) = Validate.ROC(data, threshold:=points).First
         Dim serials As SerialData = validation.CreateSerial _
             .With(Sub(sr)
                       sr.title = Validate.AUC(data).First.Value
