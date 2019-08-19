@@ -103,6 +103,18 @@ Public Module ROCPlot
             .CreateSerial
     End Function
 
+    ''' <summary>
+    ''' 这个函数所绘制出来的ROC曲线的AUC的值应该是在调用这个函数之前就完成计算,保存于 <see cref="SerialData.title"/> 之中了的
+    ''' </summary>
+    ''' <param name="roc"></param>
+    ''' <param name="size$"></param>
+    ''' <param name="margin$"></param>
+    ''' <param name="bg$"></param>
+    ''' <param name="lineWidth!"></param>
+    ''' <param name="fillAUC"></param>
+    ''' <param name="AUCfillColor$"></param>
+    ''' <param name="showReference"></param>
+    ''' <returns></returns>
     Public Function Plot(roc As SerialData,
                          Optional size$ = "2300,2100",
                          Optional margin$ = g.DefaultUltraLargePadding,
