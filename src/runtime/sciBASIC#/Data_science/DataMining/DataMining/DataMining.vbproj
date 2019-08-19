@@ -519,6 +519,7 @@
     <Compile Include="AprioriRules\Helper\Encoding.vb" />
     <Compile Include="ComponentModel\Class.vb" />
     <Compile Include="ComponentModel\Discretizer\NormalRangeDiscretizer.vb" />
+    <Compile Include="ComponentModel\Evaluation\NamespaceDoc.vb" />
     <Compile Include="ComponentModel\IntegerEntity.vb" />
     <Compile Include="ComponentModel\Extensions.vb" />
     <Compile Include="Clustering\DBSCAN\DatasetItemBase.vb" />
@@ -562,7 +563,7 @@
     <Compile Include="AprioriRules\ExportAPI.vb" />
     <Compile Include="MarginalLikelihoodAnalysis.vb" />
     <Compile Include="Abundance.vb" />
-    <Compile Include="Validation.vb" />
+    <Compile Include="ComponentModel\Evaluation\Validation.vb" />
     <Compile Include="Statistics.vb" />
     <Compile Include="ValueMapping.vb" />
     <Compile Include="Kernel\BayesianBeliefNetwork\BeliefNetwork.vb" />
