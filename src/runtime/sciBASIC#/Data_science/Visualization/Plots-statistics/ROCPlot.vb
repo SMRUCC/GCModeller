@@ -123,6 +123,7 @@ Public Module ROCPlot
 
         roc.width = lineWidth
         roc.color = AUCfillColor.TranslateColor
+        roc.pts = roc.pts.OrderBy(Function(p) p.pt.Y).ToArray
 
         Dim input As SerialData()
 
