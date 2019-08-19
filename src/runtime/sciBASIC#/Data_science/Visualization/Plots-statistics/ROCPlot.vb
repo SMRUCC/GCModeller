@@ -56,7 +56,11 @@ Public Module ROCPlot
     <Extension>
     Public Function CreateSerial(test As IEnumerable(Of Validation)) As SerialData
         Dim points As New List(Of PointData)
-        Dim testData As Validation() = test.ToArray
+        Dim testData As Validation() = test _
+            .Where(Function(p)
+                       Return Not p.Specificity.IsNaNImaginary AndAlso Not p.Sensibility.IsNaNImaginary
+                   End Function) _
+            .ToArray
         Dim AUC As Double = Validation.AUC(testData)
 
         points += New PointData(0, 0)

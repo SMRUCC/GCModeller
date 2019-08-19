@@ -72,7 +72,7 @@ Namespace ComponentModel.Evaluation
                 ' 然后按照score进行ranking的计算
                 Dim ranks = orderScoreDesc _
                     .Select(Function(test) test.predicts(i)) _
-                    .Ranking(, desc:=True) _
+                    .Ranking(, desc:=False) _
                     .AsVector
                 ' 然后把所有的正类样本的rank相加
                 Dim positiveRankSum = Which _

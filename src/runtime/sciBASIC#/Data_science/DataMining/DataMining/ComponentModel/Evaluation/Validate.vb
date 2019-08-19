@@ -61,7 +61,7 @@ Namespace ComponentModel.Evaluation
                         getValidate:=Function(x, cutoff) x.actuals(i) >= cutoff,
                         getPredict:=Function(x, cutoff) x.predicts(i) >= cutoff,
                         threshold:=threshold Or Validation.normalRange
-                    )
+                    ).ToArray
                 }
             Next
 #Enable Warning
