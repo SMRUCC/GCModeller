@@ -519,6 +519,7 @@
     <Compile Include="AprioriRules\Helper\Encoding.vb" />
     <Compile Include="ComponentModel\Class.vb" />
     <Compile Include="ComponentModel\Discretizer\NormalRangeDiscretizer.vb" />
+    <Compile Include="ComponentModel\Evaluation\Validate.vb" />
     <Compile Include="ComponentModel\Evaluation\NamespaceDoc.vb" />
     <Compile Include="ComponentModel\IntegerEntity.vb" />
     <Compile Include="ComponentModel\Extensions.vb" />
