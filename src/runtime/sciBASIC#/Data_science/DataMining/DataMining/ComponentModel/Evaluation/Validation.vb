@@ -47,6 +47,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -215,8 +216,9 @@ Namespace ComponentModel.Evaluation
 
         Shared ReadOnly normalRange As [Default](Of Sequence) = New Sequence(0, 1, 10000)
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function AUC(validates As IEnumerable(Of Validation)) As Double
-
+            Return validates.AUC
         End Function
 
         ''' <summary>

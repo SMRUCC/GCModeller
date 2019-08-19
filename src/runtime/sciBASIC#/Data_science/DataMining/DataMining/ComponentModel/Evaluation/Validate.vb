@@ -1,4 +1,5 @@
-﻿Imports System.Xml.Serialization
+﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -64,6 +65,11 @@ Namespace ComponentModel.Evaluation
                 }
             Next
 #Enable Warning
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function AUC(data As IEnumerable(Of Validate), Optional outputLabels$() = Nothing) As IEnumerable(Of NamedValue(Of Double))
+            Return data.AUC(names:=outputLabels)
         End Function
     End Structure
 End Namespace
