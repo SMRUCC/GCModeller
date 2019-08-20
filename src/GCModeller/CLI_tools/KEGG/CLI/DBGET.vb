@@ -85,10 +85,14 @@ Partial Module CLI
                 .DownloadRelatedReactions(EXPORT:=save, cache:=$"{save}/.reactions/") _
                 .SaveTo($"{save}/failures.txt") _
                 .CLICode
-
             If args.IsTrue("/try_all") Then
                 Call DownloadAllReactions(EXPORT:=save, cache:=$"{save}/.reactions/")
             End If
+        ElseIf args.IsTrue("/try_all") Then
+            ' 假若不添加compound参数,则系统会自动使用br08201文件做下载依据
+            ' 因为br08201的文件夹目录与all或者compound做下载依据的结构不一样,导致重复下载
+            ' 所以在这里添加一个重复的判断来避开调用br08201做下载依据
+            Call DownloadAllReactions(EXPORT:=save, cache:=$"{save}/.reactions/")
         Else
             Return EnzymaticReaction _
                 .DownloadReactions(save, cache:=$"{save}/.br08201/") _
