@@ -212,9 +212,10 @@ Public Module EnrichPlot
             size:=New Size(region.Size.Width * 0.85, region.Size.Height),
             legend:=False,
             xlabel:="richFactor=(n/background)",
-            ylabel:="-log<sub>10</sub>(p.value)",
+            ylabel:="-log10(p.value)",
             bubbleBorder:=bubbleBorder,
-            strokeColorAsMainColor:=True
+            strokeColorAsMainColor:=True,
+            axisLabelFontCSS:=CSSFont.Win10NormalLarge
         )
 
         Call g.DrawImageUnscaled(plot, New Point)

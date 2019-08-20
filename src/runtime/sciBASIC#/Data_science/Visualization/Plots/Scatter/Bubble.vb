@@ -137,7 +137,8 @@ Public Module Bubble
                     showGrid:=True,
                     xlabel:=xlabel,
                     ylabel:=ylabel,
-                    labelFont:=axisLabelFontCSS
+                    labelFont:=axisLabelFontCSS,
+                    htmlLabel:=False
                 )
 
                 Dim bubblePen As Pen = Nothing
@@ -199,22 +200,29 @@ Public Module Bubble
                             }
                             anchors += New Anchor With {
                                 .r = r,
-                                .x = rect.Right,
-                                .y = rect.Top
+                                .x = rect.Right - r,
+                                .y = rect.Top + r
                             }
                         End If
                     Next
                 Next
 
-                Call d3js.labeler(20, 1) _
+                Call d3js.labeler(30, 1) _
                     .Width(plotrect.Width) _
                     .Height(plotrect.Height) _
                     .Anchors(anchors) _
                     .Labels(labels) _
-                    .Start(showProgress:=False, nsweeps:=1000)
+                    .Start(showProgress:=False, nsweeps:=2000)
 
-                For Each label As SeqValue(Of Label) In labels.SeqIterator
-                    Call g.DrawString(label.value.text, tagLabelFont, Brushes.Black, label.value)
+                Dim anchor As Anchor
+                Dim label As Label
+
+                For Each index As SeqValue(Of Label) In labels.SeqIterator
+                    label = index
+                    anchor = anchors(index)
+
+                    ' Call g.DrawLine(Pens.Gray, anchor, label.GetTextAnchor(anchor))
+                    Call g.DrawString(label.text, tagLabelFont, Brushes.Black, label)
                 Next
 
                 If legend Then
