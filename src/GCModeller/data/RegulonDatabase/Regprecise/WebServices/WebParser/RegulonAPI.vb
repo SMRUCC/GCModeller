@@ -187,10 +187,10 @@ Namespace Regprecise
                 Select From x As BiDirectionalBesthit
                        In maps
                        Select New RegulatedGene With {
-                           .description = x.Description,
+                           .description = x.description,
                            .locusId = x.QueryName,
                            .vimssId = x.HitName,
-                           .name = x.COG
+                           .name = x.term
                        }
 
             If mappedGenes.IsNullOrEmpty Then  ' 没有mapping得到共同的被调控的基因，则不敢太确定是不是成立的
@@ -232,7 +232,7 @@ Namespace Regprecise
             Dim mapHash = (From x As RegulatedGene In mappings
                            Select x
                            Group x By x.locusId Into Group) _
-                                .ToDictionary(Function(x) x.LocusId,
+                                .ToDictionary(Function(x) x.locusId,
                                               Function(x) x.Group.ToArray)
             Dim oprGenes As OperonGene()
             If DOOR.Genes.IsNullOrEmpty Then
