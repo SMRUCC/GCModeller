@@ -40,6 +40,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -64,6 +65,22 @@ Public Module Greedy
     ''' </remarks>
     <Extension>
     Public Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq)) As FastaSeq
+        Dim avltree As New AVLTree(Of FastaSeq, FastaSeq)(AddressOf align, Function(fa) fa.Title)
+
+        For Each read As FastaSeq In reads
+            Call avltree.Add(read, read, valueReplace:=False)
+        Next
+
+
+    End Function
+
+    ''' <summary>
+    ''' do pairwise alignment of two reads
+    ''' </summary>
+    ''' <param name="a"></param>
+    ''' <param name="b"></param>
+    ''' <returns></returns>
+    Private Function align(a As FastaSeq, b As FastaSeq) As Integer
 
     End Function
 End Module
