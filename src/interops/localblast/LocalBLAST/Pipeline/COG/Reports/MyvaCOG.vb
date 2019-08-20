@@ -60,7 +60,7 @@ Namespace Pipeline.COG
     Public Class MyvaCOG : Implements INamedValue, IFeatureDigest, IQueryHits, ICOGCatalog
 
         <Column("query_name")>
-        Public Property QueryName As String Implements INamedValue.Key, IBlastHit.locusId
+        Public Property QueryName As String Implements INamedValue.Key, IBlastHit.queryName
         Public Property Length As Integer
         <Column("cog_myva")> Public Property MyvaCOG As String
 
@@ -71,7 +71,7 @@ Namespace Pipeline.COG
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Column("COG_category")> Public Property Category As String Implements ICOGCatalog.Catalog
-        <Column("COG")> Public Property COG As String Implements IFeatureDigest.Feature, IBlastHit.Address, ICOGCatalog.COG
+        <Column("COG")> Public Property COG As String Implements IFeatureDigest.Feature, IBlastHit.hitName, ICOGCatalog.COG
         <Column("description")> Public Property Description As String
 
         Public Property Evalue As Double

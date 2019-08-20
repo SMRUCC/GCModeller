@@ -63,8 +63,8 @@ Namespace Analysis.Similarity.TOMQuery
     ''' </summary>
     Public Class MotifHit : Implements IQueryHits
 
-        Public Property Query As String Implements IBlastHit.locusId
-        Public Property Subject As String Implements IBlastHit.Address
+        Public Property Query As String Implements IBlastHit.queryName
+        Public Property Subject As String Implements IBlastHit.hitName
         ''' <summary>
         ''' 高分区的数目
         ''' </summary>

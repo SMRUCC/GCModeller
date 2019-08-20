@@ -44,7 +44,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
-Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.WebQuery
 
 Namespace Assembly.KEGG.DBGET.bGetObject
@@ -69,18 +68,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                .Query(Of Reaction)(ID)
         End Function
 
-        <Extension>
-        Friend Function ValueList(keys As IEnumerable(Of KeyValuePair)) As NamedValue()
-            Return keys _
-                .Select(Function(k)
-                            Return New NamedValue With {
-                                .name = k.Key,
-                                .text = k.Value
-                            }
-                        End Function) _
-                .ToArray
-        End Function
-
         ''' <summary>
         ''' 
         ''' </summary>
@@ -90,19 +77,73 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <remarks></remarks>
         Public Function FetchTo(list As String(), EXPORT$) As String()
             Dim failures As New List(Of String)
+            Dim r As Reaction
 
             For Each ID As String In list
-                Dim r As Reaction = Download(ID)
+                r = Download(ID, cache:=$"{EXPORT}/.reactions/")
 
                 If r Is Nothing Then
                     failures += ID
                 Else
-                    Dim path$ = String.Format("{0}/{1}.xml", EXPORT, ID)
-                    Call r.GetXml.SaveTo(path)
+                    Call r.GetXml.SaveTo($"{EXPORT}/{ID}.xml")
                 End If
             Next
 
             Return failures.ToArray
+        End Function
+
+        ''' <summary>
+        ''' 当前的KEGG数据库之中的代谢反应数量
+        ''' 
+        ''' > https://www.kegg.jp/kegg/docs/statistics.html
+        ''' </summary>
+        Const MaxReactionCount As Integer = 11271
+
+        ''' <summary>
+        ''' Download all of the reaction that related to the given set of compounds.
+        ''' 
+        ''' 函数返回下载失败的列表
+        ''' </summary>
+        ''' <param name="EXPORT"></param>
+        ''' <remarks></remarks>
+        ''' 
+        <Extension>
+        Public Sub DownloadAllReactions(EXPORT$, Optional cache$ = "./.reactions/")
+            Using progress As New ProgressBar("Download all KEGG reactions...", 1, CLS:=True)
+                Dim tick As New ProgressProvider(MaxReactionCount)
+                Dim ETA$
+                Dim doTick = Sub(cpdName As String)
+                                 ETA$ = tick _
+                                    .ETA(progress.ElapsedMilliseconds) _
+                                    .FormatTime
+                                 Call progress.SetProgress(tick.StepProgress, $"{cpdName}, ETA=" & ETA)
+                             End Sub
+                Dim count As Integer = 0
+
+                For i As Integer = 0 To 99999
+                    Dim reactionID As String = idFromInt32(i)
+
+                    With Download(reactionID, cache:=cache)
+                        If .IsNothing Then
+
+                        Else
+                            Call .GetXml _
+                                 .SaveTo($"{EXPORT}/{reactionID.Last}/{reactionID}.Xml")
+                            Call doTick(.CommonNames.FirstOrDefault)
+
+                            count += 1
+                        End If
+                    End With
+
+                    If count >= MaxReactionCount Then
+                        Exit For
+                    End If
+                Next
+            End Using
+        End Sub
+
+        Private Function idFromInt32(index As Integer) As String
+            Return $"R{index.FormatZero("00000")}"
         End Function
 
         ''' <summary>

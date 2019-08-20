@@ -122,7 +122,7 @@ Namespace SequenceModel.FASTA
             Call Me.New(fa.Select(Function(x) New FastaSeq(x)))
         End Sub
 
-        Sub New(fa As IEnumerable(Of FASTA.I_FastaProvider))
+        Sub New(fa As IEnumerable(Of FASTA.IFastaProvider))
             Call Me.New(fa.Select(Function(x) New FastaSeq(x)))
         End Sub
 

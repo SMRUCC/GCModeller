@@ -73,8 +73,8 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         Public Function Download(speciesId As String, Optional EXPORT As String = Nothing) As [Module]()
             Dim pageContent As String = Strings.Split(String.Format(URL_KEGG_MODULES_ENTRY_PAGE, speciesId).GET, SEPERATOR).Last
             Dim Entries As String() = Regex.Matches(pageContent, "<a href="".+?"">.+?</a>.+?$", RegexOptions.Multiline + RegexOptions.IgnoreCase).ToArray
-            Dim Genes As KeyValuePairObject(Of KeyValuePair(Of String, String), KeyValuePair())() =
-                New KeyValuePairObject(Of KeyValuePair(Of String, String), KeyValuePair())(Entries.Length - 2) {}
+            Dim Genes As KeyValuePairObject(Of KeyValuePair(Of String, String), NamedValue())() =
+                New KeyValuePairObject(Of KeyValuePair(Of String, String), NamedValue())(Entries.Length - 2) {}
             Dim Downloader As New System.Net.WebClient()
 
             Entries = Entries.Take(Entries.Length - 1).ToArray
@@ -107,7 +107,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
 
                 End Try
 
-                Genes(i) = New KeyValuePairObject(Of KeyValuePair(Of String, String), KeyValuePair()) With {
+                Genes(i) = New KeyValuePairObject(Of KeyValuePair(Of String, String), NamedValue()) With {
                     .Key = New KeyValuePair(Of String, String)(Entry, Description),
                     .Value = Url.LinkDbEntries.ToArray
                 }
@@ -116,14 +116,14 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             Return __createBriefModuleData(Genes)
         End Function
 
-        Private Function __createBriefModuleData(Items As KeyValuePairObject(Of KeyValuePair(Of String, String), KeyValuePair())()) As [Module]()
+        Private Function __createBriefModuleData(Items As KeyValuePairObject(Of KeyValuePair(Of String, String), NamedValue())()) As [Module]()
             Dim LQuery = LinqAPI.Exec(Of [Module]) <=
                 From x
                 In Items
                 Select New [Module] With {
                     .EntryId = x.Key.Key,
-                    .Description = x.Key.Value,
-                    .PathwayGenes = x.Value
+                    .description = x.Key.Value,
+                    .pathwayGenes = x.Value
                 }
 
             Return LQuery

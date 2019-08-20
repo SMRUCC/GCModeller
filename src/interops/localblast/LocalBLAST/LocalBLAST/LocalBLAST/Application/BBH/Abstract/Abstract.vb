@@ -68,7 +68,7 @@ Namespace LocalBLAST.Application.BBH.Abstract
         ''' <remarks></remarks>
         <Column("query_name")> Public Overridable Property QueryName As String _
             Implements IKeyValuePairObject(Of String, String).Key,
-                       IBlastHit.locusId,
+                       IBlastHit.queryName,
                        IMap.Key
         ''' <summary>
         ''' The subject hit.
@@ -78,7 +78,7 @@ Namespace LocalBLAST.Application.BBH.Abstract
         ''' <remarks></remarks>
         <Column("hit_name")> Public Overridable Property HitName As String _
             Implements IKeyValuePairObject(Of String, String).Value,
-                       IBlastHit.Address,
+                       IBlastHit.hitName,
                        IMap.Maps
 
         ''' <summary>

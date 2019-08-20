@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::5da8d67adb2c0c89f916d07b6398c26a, ExperimentDesigner\Templates\AnalysisDesigner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class AnalysisDesigner
-    ' 
-    '     Properties: Controls, Note, Treatment
-    ' 
-    '     Function: CreateTitle, Swap, (+2 Overloads) ToString
-    ' 
-    ' /********************************************************************************/
+' Class AnalysisDesigner
+' 
+'     Properties: Controls, Note, Treatment
+' 
+'     Function: CreateTitle, Swap, (+2 Overloads) ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -69,23 +69,23 @@ Public Class AnalysisDesigner
     ''' </summary>
     ''' <returns></returns>
     <XmlAttribute("control")>
-    Public Property Controls As String
+    Public Property controls As String
     ''' <summary>
     ''' 处理组
     ''' </summary>
     ''' <returns></returns>
     <XmlAttribute("treatment")>
-    Public Property Treatment As String
+    Public Property treatment As String
     ''' <summary>
     ''' 用户备注信息，这个属性不会被使用
     ''' </summary>
     ''' <returns></returns>
     <XmlText>
-    Public Property Note As String
+    Public Property note As String
 
-    Public ReadOnly Property Title As String
+    Public ReadOnly Property title As String
         Get
-            Return $"{Controls} vs {Treatment}"
+            Return $"{controls} vs {treatment}"
         End Get
     End Property
 
@@ -96,17 +96,17 @@ Public Class AnalysisDesigner
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
-        Return $"{Treatment}/{Controls}"
+        Return $"{treatment}/{controls}"
     End Function
 
     Public Overloads Function ToString(translation As Dictionary(Of String, String)) As String
-        Return $"{translation(Treatment)}/{translation(Controls)}"
+        Return $"{translation(treatment)}/{translation(controls)}"
     End Function
 
     Public Function Swap() As AnalysisDesigner
         Return New AnalysisDesigner With {
-            .Controls = Treatment,
-            .Treatment = Controls
+            .controls = treatment,
+            .treatment = controls
         }
     End Function
 

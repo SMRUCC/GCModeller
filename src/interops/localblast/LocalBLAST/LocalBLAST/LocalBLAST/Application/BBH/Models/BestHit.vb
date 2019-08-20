@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::ef0ba5c3a9418e52fbbbf014182e84f4, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BestHit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BestHit
-    ' 
-    '         Properties: coverage, description, evalue, hit_length, identities
-    '                     length_hit, length_hsp, length_query, Positive, query_length
-    '                     SBHScore, Score
-    ' 
-    '         Function: FindByQueryName, IsMatchedBesthit, IsNullOrEmpty, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BestHit
+' 
+'         Properties: coverage, description, evalue, hit_length, identities
+'                     length_hit, length_hsp, length_query, Positive, query_length
+'                     SBHScore, Score
+' 
+'         Function: FindByQueryName, IsMatchedBesthit, IsNullOrEmpty, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,7 +53,8 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Namespace LocalBLAST.Application.BBH
 
     ''' <summary>
-    ''' 单向的最佳比对结果
+    ''' A single direction best hit.
+    ''' (单向的最佳比对结果)
     ''' </summary>
     ''' <remarks></remarks>
     Public Class BestHit : Inherits I_BlastQueryHit
@@ -61,10 +62,10 @@ Namespace LocalBLAST.Application.BBH
 
         <Column("query_length")> Public Property query_length As Integer
         <Column("hit_length")> Public Property hit_length As Integer
-        <Column("score")> Public Property Score As Double
+        <Column("score")> Public Property score As Double
         <Column("e-value")> Public Property evalue As Double
         <Column("identities")> Public Property identities As Double Implements IQueryHits.identities
-        <Column("positive")> Public Property Positive As Double
+        <Column("positive")> Public Property positive As Double
         <Column("length_hit")> Public Property length_hit As Integer
         <Column("length_query")> Public Property length_query As Integer
         <Column("length_hsp")> Public Property length_hsp As Integer
@@ -113,12 +114,12 @@ Namespace LocalBLAST.Application.BBH
             Return LQuery
         End Function
 
-        Public Shared Function IsNullOrEmpty(Of T As BestHit)(data As IEnumerable(Of T), Optional TrimSelfAligned As Boolean = False) As Boolean
+        Public Shared Function IsNullOrEmpty(Of T As BestHit)(data As IEnumerable(Of T), Optional trimSelfAligned As Boolean = False) As Boolean
             If data.IsNullOrEmpty Then
                 Return True
             End If
 
-            If Not TrimSelfAligned Then
+            If Not trimSelfAligned Then
                 Dim LQuery = (From hit As T In data.AsParallel
                               Where Not String.Equals(hit.HitName, IBlastOutput.HITS_NOT_FOUND)
                               Select hit).FirstOrDefault

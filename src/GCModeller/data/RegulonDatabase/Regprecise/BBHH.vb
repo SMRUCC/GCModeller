@@ -63,12 +63,12 @@ Namespace Regprecise
         ''' 在Regprecise数据库之中的进行注释的源
         ''' </summary>
         ''' <returns></returns>
-        Public Property query_name As String Implements IBlastHit.locusId
+        Public Property query_name As String Implements IBlastHit.queryName
         ''' <summary>
         ''' 在所需要进行注释的基因组之中的蛋白质基因号
         ''' </summary>
         ''' <returns></returns>
-        Public Property hit_name As String Implements IBlastHit.Address
+        Public Property hit_name As String Implements IBlastHit.hitName
         Public Property vimssId As Integer
         Public Property Family As String
         Public Property definition As String
