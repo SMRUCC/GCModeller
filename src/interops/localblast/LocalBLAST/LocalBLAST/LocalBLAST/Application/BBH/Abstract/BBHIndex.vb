@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::adb454c1317bbb05d94346961a8a07db, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BBHIndex
-    ' 
-    '         Properties: identities, Positive, Properties
-    ' 
-    '         Function: BuildHitsTable, GetIdentities, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BBHIndex
+' 
+'         Properties: identities, Positive, Properties
+' 
+'         Function: BuildHitsTable, GetIdentities, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -126,37 +127,38 @@ Namespace LocalBLAST.Application.BBH.Abstract
                                               Optional indexByHits As Boolean = False,
                                               Optional trim As Boolean = True) As Dictionary(Of String, String())
 
-            Dim LQuery As IEnumerable(Of KeyValuePair(Of String, String))
+            Dim LQuery As IEnumerable(Of NamedValue(Of String))
 
             If trim Then
-                LQuery = (From x As BBHIndex
-                          In source
-                          Where x.isMatched
-                          Select New KeyValuePair(Of String, String)(x.QueryName.Split(":"c).Last, x.HitName.Split(":"c).Last))
-            Else
-                LQuery = (From x As BBHIndex
-                          In source
-                          Select New KeyValuePair(Of String, String)(x.QueryName.Split(":"c).Last, x.HitName.Split(":"c).Last))
+                source = From hit As BBHIndex In source Where hit.isMatched
             End If
+
+            LQuery = From x As BBHIndex
+                     In source
+                     Let name As String = x.QueryName.Split(":"c).Last
+                     Let value As String = x.HitName.Split(":"c).Last
+                     Select New NamedValue(Of String)(name, value)
 
             If indexByHits Then
                 Return (From x In LQuery
                         Select x
                         Group x By x.Value Into Group) _
                              .ToDictionary(Function(x) x.Value,
-                                           Function(x) (From o In x.Group Select o.Key Distinct).ToArray)
+                                           Function(x)
+                                               Return x.Group.Keys.Distinct.ToArray
+                                           End Function)
             Else
                 Return (From x In LQuery
                         Select x
-                        Group x By x.Key Into Group) _
-                             .ToDictionary(Function(x) x.Key,
+                        Group x By x.Name Into Group) _
+                             .ToDictionary(Function(x) x.Name,
                                            Function(x) (From o In x.Group Select o.Value Distinct).ToArray)
             End If
         End Function
 
         Public Shared Function GetIdentities(map As BBHIndex) As Double
-            If map.Properties.ContainsKey(NameOf(BiDirectionalBesthit.Identities)) Then
-                Return Val(map.Properties(NameOf(BiDirectionalBesthit.Identities)))
+            If map.Properties.ContainsKey(NameOf(BiDirectionalBesthit.identities)) Then
+                Return Val(map.Properties(NameOf(BiDirectionalBesthit.identities)))
             Else
                 Return map.identities
             End If
