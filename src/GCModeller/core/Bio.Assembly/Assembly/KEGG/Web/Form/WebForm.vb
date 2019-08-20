@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
@@ -85,12 +86,12 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <param name="resource"></param>
         Sub New(resource As String)
             Dim html As String = getHtml(resource)
-            Dim tokens As String() = Regex.Split(html, "<th class="".+?"" align="".+?""").Skip(1).ToArray
+            Dim tokens As String() = r.Split(html, "<th class="".+?"" align="".+?""").Skip(1).ToArray
             Dim tmp As String() = LinqAPI.Exec(Of String) <=
  _
                 From strValue As String
                 In tokens
-                Let value As String = Regex.Match(strValue, "<nobr>.+?</nobr>.+", RegexOptions.Singleline).Value.Trim
+                Let value As String = r.Match(strValue, "<nobr>.+?</nobr>.+", RegexOptions.Singleline).Value.Trim
                 Where Not String.IsNullOrEmpty(value)
                 Select value
 
@@ -101,7 +102,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
  _
                 From strValue As String
                 In tmp
-                Let Key As String = Regex.Match(strValue, "<nobr>.+?</nobr>").Value
+                Let Key As String = r.Match(strValue, "<nobr>.+?</nobr>").Value
                 Let Value As String = RegexReplace(strValue.Replace(Key, ""), WebForm.HtmlFormatControl)
                 Select New NamedValue(Of String()) With {
                     .Name = Key.GetValue,
@@ -176,7 +177,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             Dim bufs As String() = LinqAPI.Exec(Of String) <=
  _
                 From m As Match
-                In Regex.Matches(html, splitRegx)
+                In r.Matches(html, splitRegx)
                 Select m.Value
                 Distinct
 
@@ -185,7 +186,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 Dim p2 As Integer = InStr(html, bufs(i + 1))
                 Dim strTemp As String = Mid(html, p1, p2 - p1)
 
-                Dim entry As String = Regex.Match(strTemp, splitRegx).Value
+                Dim entry As String = r.Match(strTemp, splitRegx).Value
                 Dim cps_Describ As String = strTemp.Replace(entry, "").Trim
 
                 entry = entry.GetValue
@@ -200,7 +201,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             Dim p As Integer = InStr(html, bufs.Last)
             html = Mid(html, p)
             Dim last As New NamedValue With {
-                .name = Regex.Match(html, splitRegx).Value,
+                .name = r.Match(html, splitRegx).Value,
                 .text = WebForm.RemoveHrefLink(html.Replace(.name, "").Trim)
             }
 
@@ -225,7 +226,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <remarks></remarks>
         Private Shared Function RegexReplace(strData As String, ExprCollection As String()) As String
             For Each strItem As String In ExprCollection
-                strData = Regex.Replace(strData, strItem, "")
+                strData = r.Replace(strData, strItem, "")
             Next
             Return strData
         End Function
