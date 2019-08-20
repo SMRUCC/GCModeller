@@ -69,18 +69,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                .Query(Of Reaction)(ID)
         End Function
 
-        <Extension>
-        Friend Function ValueList(keys As IEnumerable(Of KeyValuePair)) As NamedValue()
-            Return keys _
-                .Select(Function(k)
-                            Return New NamedValue With {
-                                .name = k.Key,
-                                .text = k.Value
-                            }
-                        End Function) _
-                .ToArray
-        End Function
-
         ''' <summary>
         ''' 
         ''' </summary>
@@ -90,15 +78,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <remarks></remarks>
         Public Function FetchTo(list As String(), EXPORT$) As String()
             Dim failures As New List(Of String)
+            Dim r As Reaction
 
             For Each ID As String In list
-                Dim r As Reaction = Download(ID)
+                r = Download(ID, cache:=$"{EXPORT}/.reactions/")
 
                 If r Is Nothing Then
                     failures += ID
                 Else
-                    Dim path$ = String.Format("{0}/{1}.xml", EXPORT, ID)
-                    Call r.GetXml.SaveTo(path)
+                    Call r.GetXml.SaveTo($"{EXPORT}/{ID}.xml")
                 End If
             Next
 

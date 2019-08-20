@@ -114,12 +114,12 @@ Namespace Assembly.KEGG.DBGET.WebQuery
                 .StripHTMLTags _
                 .StripBlank _
                 .Replace("&lt;=", "<=")
-            rn.Pathway = WebForm.parseList(WebForm.GetValue("Pathway").FirstOrDefault, "<a href="".+?"">.+?</a>").ValueList
-            rn.Module = WebForm.parseList(WebForm.GetValue("Module").FirstOrDefault, "<a href="".+?"">.+?</a>").ValueList
+            rn.Pathway = WebForm.parseList(WebForm.GetValue("Pathway").FirstOrDefault, "<a href="".+?"">.+?</a>")
+            rn.Module = WebForm.parseList(WebForm.GetValue("Module").FirstOrDefault, "<a href="".+?"">.+?</a>")
             rn.CommonNames = getCommonNames(WebForm.GetValue("Name").FirstOrDefault)
             rn.Equation = parsingEquation(WebForm.GetValue("Equation").FirstOrDefault)
             rn.Orthology = orthologyParser(WebForm.GetValue("Orthology").FirstOrDefault)
-            rn.Class = WebForm.parseList(WebForm.GetValue("Reaction class").FirstOrDefault, "<a href="".+?"">.+?</a>").ValueList
+            rn.Class = WebForm.parseList(WebForm.GetValue("Reaction class").FirstOrDefault, "<a href="".+?"">.+?</a>")
 
             Dim ecTemp As String = WebForm _
                 .GetValue("Enzyme") _
