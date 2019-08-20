@@ -218,7 +218,7 @@ Partial Module CLI
         Else
             Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
             ' The term/label display number
-            Dim displays% = args.GetValue("/displays", 10)
+            Dim displays% = args("/displays") Or 10
 
             If bubbleStyle Then
                 ' 获取半径的计算公式     
