@@ -69,7 +69,7 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/compounds <compounds.directory> /save <DIR> /@set sleep=2000]")>
+    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/try_all /compounds <compounds.directory> /save <DIR> /@set sleep=2000]")>
     <Description("Downloads the KEGG enzyme reaction reference model data.")>
     <Group(CLIGroups.DBGET_tools)>
     <Argument("/compounds", True, CLITypes.File,
@@ -79,18 +79,24 @@ Partial Module CLI
         Dim compounds$ = args <= "/compounds"
 
         If compounds.DirectoryExists Then
-            Return CompoundRepository.ScanModels(directory:=compounds) _
+            Call CompoundRepository.ScanModels(directory:=compounds) _
                 .Compounds _
                 .Select(Function(c) c.Entity) _
                 .DownloadRelatedReactions(EXPORT:=save, cache:=$"{save}/.reactions/") _
                 .SaveTo($"{save}/failures.txt") _
                 .CLICode
+
+            If args.IsTrue("/try_all") Then
+                Call DownloadAllReactions(EXPORT:=save, cache:=$"{save}/.reactions/")
+            End If
         Else
             Return EnzymaticReaction _
                 .DownloadReactions(save, cache:=$"{save}/.br08201/") _
                 .SaveTo(save & "/failures.txt") _
                 .CLICode
         End If
+
+        Return 0
     End Function
 
     ''' <summary>

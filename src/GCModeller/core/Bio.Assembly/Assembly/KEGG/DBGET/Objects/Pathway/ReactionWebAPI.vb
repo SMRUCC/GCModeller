@@ -106,6 +106,60 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         ''' <summary>
+        ''' 当前的KEGG数据库之中的代谢反应数量
+        ''' 
+        ''' > https://www.kegg.jp/kegg/docs/statistics.html
+        ''' </summary>
+        Const MaxReactionCount As Integer = 11271
+
+        ''' <summary>
+        ''' Download all of the reaction that related to the given set of compounds.
+        ''' 
+        ''' 函数返回下载失败的列表
+        ''' </summary>
+        ''' <param name="EXPORT"></param>
+        ''' <remarks></remarks>
+        ''' 
+        <Extension>
+        Public Sub DownloadAllReactions(EXPORT$, Optional cache$ = "./.reactions/")
+            Using progress As New ProgressBar("Download all KEGG reactions...", 1, CLS:=True)
+                Dim tick As New ProgressProvider(MaxReactionCount)
+                Dim ETA$
+                Dim doTick = Sub(cpdName As String)
+                                 ETA$ = tick _
+                                    .ETA(progress.ElapsedMilliseconds) _
+                                    .FormatTime
+                                 Call progress.SetProgress(tick.StepProgress, $"{cpdName}, ETA=" & ETA)
+                             End Sub
+                Dim count As Integer = 0
+
+                For i As Integer = 0 To 99999
+                    Dim reactionID As String = idFromInt32(i)
+
+                    With Download(reactionID, cache:=cache)
+                        If .IsNothing Then
+
+                        Else
+                            Call .GetXml _
+                                 .SaveTo($"{EXPORT}/{reactionID.Last}/{reactionID}.Xml")
+                            Call doTick(.CommonNames.FirstOrDefault)
+
+                            count += 1
+                        End If
+                    End With
+
+                    If count >= MaxReactionCount Then
+                        Exit For
+                    End If
+                Next
+            End Using
+        End Sub
+
+        Private Function idFromInt32(index As Integer) As String
+            Return $"R{index.FormatZero("00000")}"
+        End Function
+
+        ''' <summary>
         ''' Download all of the reaction that related to the given set of compounds.
         ''' 
         ''' 函数返回下载失败的列表
