@@ -60,7 +60,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Namespace Programs
 
     Public Class MotifMatch : Inherits TOMText
-        Implements I_FastaProvider
+        Implements IFastaProvider
 
         ''' <summary>
         ''' This motif match him self???
@@ -113,12 +113,12 @@ Namespace Programs
         <XmlAttribute> Public Property Right As Long
 
 #Region "Implements SequenceModel.FASTA.I_FastaProvider"
-        <Ignored> Public ReadOnly Property Title As String Implements I_FastaProvider.Title
+        <Ignored> Public ReadOnly Property Title As String Implements IFastaProvider.Title
             Get
                 Return $"{uid}::{LocusId}"
             End Get
         End Property
-        <Ignored> Public ReadOnly Property Headers As String() Implements I_FastaProvider.Headers
+        <Ignored> Public ReadOnly Property Headers As String() Implements IFastaProvider.Headers
             Get
                 Return {Title}
             End Get

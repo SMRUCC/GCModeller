@@ -78,7 +78,7 @@ Namespace SequenceModel.FASTA
         Implements IPolymerSequenceModel
         Implements IAbstractFastaToken
         Implements ISaveHandle
-        Implements I_FastaProvider
+        Implements IFastaProvider
         Implements ICloneable
         Implements ICloneable(Of FastaSeq)
 
@@ -112,7 +112,7 @@ AAGCGAACAAATGTTCTATA"
         ''' usually different between each biological database.(这个FASTA文件的属性头，标题的格式通常在不同的数据库之间是具有很大差异的)
         ''' </summary>
         ''' <remarks></remarks>
-        Public Overridable Property Headers As String() Implements IAbstractFastaToken.Headers, I_FastaProvider.Headers
+        Public Overridable Property Headers As String() Implements IAbstractFastaToken.Headers, IFastaProvider.Headers
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return innerList.ToArray
@@ -156,7 +156,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title, I_FastaProvider.Title
+        Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title, IFastaProvider.Title
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Me.ToString
@@ -222,7 +222,7 @@ AAGCGAACAAATGTTCTATA"
             Me.Headers = attrs.ToArray
         End Sub
 
-        Sub New(seq As I_FastaProvider)
+        Sub New(seq As IFastaProvider)
             Me.SequenceData = seq.SequenceData
             Me.Headers = seq.Headers
         End Sub

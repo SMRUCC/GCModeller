@@ -231,7 +231,7 @@ Namespace Regtransbase.StructureObjects
     ''' ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
     ''' </remarks>
     <TableName("regulators")> Public Class Regulator : Inherits RegulatoryElement
-        Implements I_FastaObject
+        Implements ISequenceProvider
 
         <FastaAttributeItem(0)> <DatabaseField("regulator_guid")> Public Overrides Property Guid As Integer
         ''' <summary>
@@ -318,7 +318,7 @@ Namespace Regtransbase.StructureObjects
             Return Me
         End Function
 
-        Public Function GetSequenceData() As String Implements I_FastaObject.GetSequenceData
+        Public Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
             Return _SequenceData
         End Function
     End Class
