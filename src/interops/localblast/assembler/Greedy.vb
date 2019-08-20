@@ -40,6 +40,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Greedy
@@ -59,7 +60,7 @@ Public Module Greedy
     ''' <param name="reads"></param>
     ''' <returns></returns>
     ''' <remarks>
-    ''' 使用二叉树+SmithWaterman算法进行基因组的从头装配
+    ''' 使用二叉树+SmithWaterman算法利用<see cref="SCS"/>进行基因组的从头装配
     ''' </remarks>
     <Extension>
     Public Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq)) As FastaSeq
