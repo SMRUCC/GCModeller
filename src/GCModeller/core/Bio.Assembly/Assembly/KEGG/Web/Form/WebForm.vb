@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::002dfd6eae848e51063ef84e4a8de1dc, Bio.Assembly\Assembly\KEGG\Web\Form\WebForm.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class WebForm
-    ' 
-    '         Properties: AllLinksWidget, Count, Keys, References, Values
-    '                     WebPageTitle
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: ContainsKey, GetEnumerator, GetEnumerator1, getHtml, GetRaw
-    '                   GetValue, parseList, RegexReplace, RemoveHrefLink, ToString
-    '                   TryGetValue
-    ' 
-    '         Sub: (+2 Overloads) Dispose, ParseRefList
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class WebForm
+' 
+'         Properties: AllLinksWidget, Count, Keys, References, Values
+'                     WebPageTitle
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: ContainsKey, GetEnumerator, GetEnumerator1, getHtml, GetRaw
+'                   GetValue, parseList, RegexReplace, RemoveHrefLink, ToString
+'                   TryGetValue
+' 
+'         Sub: (+2 Overloads) Dispose, ParseRefList
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
@@ -85,12 +86,12 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <param name="resource"></param>
         Sub New(resource As String)
             Dim html As String = getHtml(resource)
-            Dim tokens As String() = Regex.Split(html, "<th class="".+?"" align="".+?""").Skip(1).ToArray
+            Dim tokens As String() = r.Split(html, "<th class="".+?"" align="".+?""").Skip(1).ToArray
             Dim tmp As String() = LinqAPI.Exec(Of String) <=
  _
                 From strValue As String
                 In tokens
-                Let value As String = Regex.Match(strValue, "<nobr>.+?</nobr>.+", RegexOptions.Singleline).Value.Trim
+                Let value As String = r.Match(strValue, "<nobr>.+?</nobr>.+", RegexOptions.Singleline).Value.Trim
                 Where Not String.IsNullOrEmpty(value)
                 Select value
 
@@ -101,7 +102,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
  _
                 From strValue As String
                 In tmp
-                Let Key As String = Regex.Match(strValue, "<nobr>.+?</nobr>").Value
+                Let Key As String = r.Match(strValue, "<nobr>.+?</nobr>").Value
                 Let Value As String = RegexReplace(strValue.Replace(Key, ""), WebForm.HtmlFormatControl)
                 Select New NamedValue(Of String()) With {
                     .Name = Key.GetValue,
@@ -163,16 +164,20 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             "<table .+?>"
         }
 
-        Protected Friend Shared Function parseList(html As String, SplitRegx As String) As KeyValuePair()
+        Protected Friend Shared Function parseList(html$, splitRegx$) As NamedValue()
             If String.IsNullOrEmpty(html) Then
-                Return New KeyValuePair() {}
+                Return {}
+            Else
+                Return parseListInternal(html, splitRegx)
             End If
+        End Function
 
-            Dim componentList As New List(Of KeyValuePair)
+        Private Shared Function parseListInternal(html$, splitRegx$) As NamedValue()
+            Dim componentList As New List(Of NamedValue)
             Dim bufs As String() = LinqAPI.Exec(Of String) <=
  _
                 From m As Match
-                In Regex.Matches(html, SplitRegx)
+                In r.Matches(html, splitRegx)
                 Select m.Value
                 Distinct
 
@@ -181,30 +186,32 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 Dim p2 As Integer = InStr(html, bufs(i + 1))
                 Dim strTemp As String = Mid(html, p1, p2 - p1)
 
-                Dim entry As String = Regex.Match(strTemp, SplitRegx).Value
+                Dim entry As String = r.Match(strTemp, splitRegx).Value
                 Dim cps_Describ As String = strTemp.Replace(entry, "").Trim
 
                 entry = entry.GetValue
                 cps_Describ = WebForm.RemoveHrefLink(cps_Describ)
 
-                componentList += New KeyValuePair With {
-                    .Key = entry,
-                    .Value = cps_Describ
+                componentList += New NamedValue With {
+                    .name = entry,
+                    .text = cps_Describ
                 }
             Next
 
             Dim p As Integer = InStr(html, bufs.Last)
             html = Mid(html, p)
-            Dim last As New KeyValuePair
-            last.Key = Regex.Match(html, SplitRegx).Value
-            last.Value = WebForm.RemoveHrefLink(html.Replace(last.Key, "").Trim)
-            last.Key = last.Key.GetValue
+            Dim last As New NamedValue With {
+                .name = r.Match(html, splitRegx).Value,
+                .text = WebForm.RemoveHrefLink(html.Replace(.name, "").Trim)
+            }
+
+            last.name = last.name.GetValue
 
             Call componentList.Add(last)
 
-            For Each x As KeyValuePair In componentList
-                x.Key = x.Key.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
-                x.Value = x.Value.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
+            For Each x As NamedValue In componentList
+                x.name = x.name.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
+                x.text = x.text.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
             Next
 
             Return componentList.ToArray
@@ -219,7 +226,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <remarks></remarks>
         Private Shared Function RegexReplace(strData As String, ExprCollection As String()) As String
             For Each strItem As String In ExprCollection
-                strData = Regex.Replace(strData, strItem, "")
+                strData = r.Replace(strData, strItem, "")
             Next
             Return strData
         End Function

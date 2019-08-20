@@ -61,8 +61,8 @@ Namespace Pipeline.COG
         Implements INamedValue, IFeatureDigest, IQueryHits
 
         <Column("#Query")>
-        Public Property QueryName As String Implements IBlastHit.locusId, INamedValue.Key
-        Public Property Hit As String Implements IBlastHit.Address, IFeatureDigest.Feature
+        Public Property QueryName As String Implements IBlastHit.queryName, INamedValue.Key
+        Public Property Hit As String Implements IBlastHit.hitName, IFeatureDigest.Feature
         <Column("E-value")>
         Public Property Evalue As Double
         Public Property Score As Double

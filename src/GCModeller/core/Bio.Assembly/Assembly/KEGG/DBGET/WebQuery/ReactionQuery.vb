@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::a60fc7ec187c24af244a6eee0316363d, Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\ReactionQuery.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ReactionQuery
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: DownloadFrom, getCommonNames, innerOrthParser, orthologyParser, parsingEquation
-    '                   rxnUrl, trimComments, webFormParser
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ReactionQuery
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: DownloadFrom, getCommonNames, innerOrthParser, orthologyParser, parsingEquation
+'                   rxnUrl, trimComments, webFormParser
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.WebQuery
 
@@ -114,17 +115,17 @@ Namespace Assembly.KEGG.DBGET.WebQuery
                 .StripHTMLTags _
                 .StripBlank _
                 .Replace("&lt;=", "<=")
-            rn.Pathway = WebForm.parseList(WebForm.GetValue("Pathway").FirstOrDefault, "<a href="".+?"">.+?</a>").ValueList
-            rn.Module = WebForm.parseList(WebForm.GetValue("Module").FirstOrDefault, "<a href="".+?"">.+?</a>").ValueList
+            rn.Pathway = WebForm.parseList(WebForm.GetValue("Pathway").FirstOrDefault, "<a href="".+?"">.+?</a>")
+            rn.Module = WebForm.parseList(WebForm.GetValue("Module").FirstOrDefault, "<a href="".+?"">.+?</a>")
             rn.CommonNames = getCommonNames(WebForm.GetValue("Name").FirstOrDefault)
             rn.Equation = parsingEquation(WebForm.GetValue("Equation").FirstOrDefault)
             rn.Orthology = orthologyParser(WebForm.GetValue("Orthology").FirstOrDefault)
-            rn.Class = WebForm.parseList(WebForm.GetValue("Reaction class").FirstOrDefault, "<a href="".+?"">.+?</a>").ValueList
+            rn.Class = WebForm.parseList(WebForm.GetValue("Reaction class").FirstOrDefault, "<a href="".+?"">.+?</a>")
 
             Dim ecTemp As String = WebForm _
                 .GetValue("Enzyme") _
                 .FirstOrDefault
-            rn.Enzyme = Regex.Matches(ecTemp, "\d+(\.\d+)+") _
+            rn.Enzyme = r.Matches(ecTemp, "\d+(\.\d+)+") _
                 .ToArray _
                 .Distinct _
                 .ToArray
@@ -133,7 +134,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery
         End Function
 
         Private Shared Function orthologyParser(s As String) As OrthologyTerms
-            Dim ms As String() = Regex.Matches(s, "K\d+<.+?\[EC.+?\]", RegexOptions.IgnoreCase).ToArray
+            Dim ms As String() = r.Matches(s, "K\d+<.+?\[EC.+?\]", RegexOptions.IgnoreCase).ToArray
             Dim result = ms _
                 .Select(AddressOf innerOrthParser) _
                 .ToArray
@@ -149,10 +150,10 @@ Namespace Assembly.KEGG.DBGET.WebQuery
         ''' <param name="s"></param>
         ''' <returns></returns>
         Private Shared Function innerOrthParser(s As String) As [Property]
-            Dim t As String() = Regex.Split(s, "<[/]?a>", RegexOptions.IgnoreCase)
+            Dim t As String() = r.Split(s, "<[/]?a>", RegexOptions.IgnoreCase)
             Dim KO As String = t.ElementAtOrDefault(Scan0)
             Dim def As String = t.ElementAtOrDefault(1).Split("["c).First.Trim
-            Dim EC As String = Regex.Match(s, "\d+(\.\d+)+").Value
+            Dim EC As String = r.Match(s, "\d+(\.\d+)+").Value
 
             Return New [Property] With {
                 .name = KO,
@@ -166,7 +167,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery
                 Return ""
             End If
 
-            Dim links As KeyValuePair(Of String, String)() = Regex _
+            Dim links As KeyValuePair(Of String, String)() = r _
                 .Matches(html, "<a href="".+?"">.+?</a>") _
                 .ToArray(Function(m) New KeyValuePair(Of String, String)(m, m.GetValue))
             Dim sb As New StringBuilder(html)
@@ -181,10 +182,11 @@ Namespace Assembly.KEGG.DBGET.WebQuery
 
         Private Shared Function parsingEquation(strData As String) As String
             Dim sb As New StringBuilder(strData)
+            Dim link As KeyValuePair(Of String, String)
 
             For Each m As Match In Regex.Matches(strData, "<a href="".+?"">.+?</a>")
-                Dim link As New KeyValuePair(Of String, String)(m.Value, m.Value.GetValue)
-                Call sb.Replace(link.Key, link.Value)
+                link = New KeyValuePair(Of String, String)(m.Value, m.Value.GetValue)
+                sb.Replace(link.Key, link.Value)
             Next
 
             Dim s$ = sb.ToString

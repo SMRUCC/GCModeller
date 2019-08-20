@@ -58,21 +58,29 @@ Namespace Tree
                               End Function)
         End Function
 
+        ''' <summary>
+        ''' 根据``is_a``关系来获取分类关系
+        ''' </summary>
+        ''' <param name="node"></param>
+        ''' <returns></returns>
         <Extension>
         Public Iterator Function TermLineages(node As GenericTree) As IEnumerable(Of NamedCollection(Of GenericTree))
             If node.is_a.IsNullOrEmpty Then
+                ' 这个是根节点, 因为``is_a``父节点是空的
                 Yield New NamedCollection(Of GenericTree) With {
-                    .Name = node.name,
-                    .Value = {node}
+                    .name = node.name,
+                    .value = {node},
+                    .description = node.ID
                 }
             Else
                 For Each parent As GenericTree In node.is_a
                     For Each chain As List(Of GenericTree) In GetTermsLineage(parent, {node, parent})
                         Yield New NamedCollection(Of GenericTree) With {
-                            .Name = parent.name,
-                            .Value = chain _
+                            .name = parent.name,
+                            .value = chain _
                                 .With(Sub(c) Call c.Reverse()) _
-                                .ToArray
+                                .ToArray,
+                            .description = parent.ID
                         }
                     Next
                 Next

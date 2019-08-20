@@ -412,7 +412,7 @@ Namespace Regtransbase.WebServices
     <XmlType("motifsite")> Public Class MotifFasta
         Implements IReadOnlyId
         Implements IPolymerSequenceModel
-        Implements I_FastaProvider
+        Implements IFastaProvider
 
         <XmlAttribute> Public Property locus_tag As String
         <XmlAttribute> Public Property name As String
@@ -433,14 +433,14 @@ Namespace Regtransbase.WebServices
         End Property
 
         <XmlIgnore>
-        Public ReadOnly Property Title As String Implements I_FastaProvider.Title
+        Public ReadOnly Property Title As String Implements IFastaProvider.Title
             Get
                 Return $"{UniqueId} {bacteria}"
             End Get
         End Property
 
         <XmlIgnore>
-        Protected ReadOnly Property Headers As String() Implements I_FastaProvider.Headers
+        Protected ReadOnly Property Headers As String()
             Get
                 Return {UniqueId, bacteria}
             End Get
@@ -479,6 +479,10 @@ Namespace Regtransbase.WebServices
             FastaObject.locus_tag = LocusTag.Replace(">", "").Trim
 
             Return FastaObject
+        End Function
+
+        Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
+            Return SequenceData
         End Function
     End Class
 End Namespace

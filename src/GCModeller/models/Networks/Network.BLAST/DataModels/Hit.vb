@@ -59,13 +59,13 @@ Namespace LDM
         ''' </summary>
         ''' <returns></returns>
         Public Property weight As Double Implements INetworkEdge.value
-        Public Property query As String Implements IInteraction.source, IBlastHit.locusId
+        Public Property query As String Implements IInteraction.source, IBlastHit.queryName
         ''' <summary>
         ''' 基因组或者蛋白质家族的配对字符串，在进行字符串连接之前先按照字母顺序排序
         ''' </summary>
         ''' <returns></returns>
         Public Property genomePairId As String Implements INetworkEdge.Interaction
-        Public Property subject As String Implements IInteraction.target, IBlastHit.Address
+        Public Property subject As String Implements IInteraction.target, IBlastHit.hitName
 
         Public Overrides Function ToString() As String
             Return $"{query} => {subject}"

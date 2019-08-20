@@ -111,11 +111,10 @@ Namespace Assembly.KEGG.Archives.Csv
             If XmlModel.Reaction.IsNullOrEmpty Then
                 ReactionIdlist = New String() {}
             Else
-                ReactionIdlist =
-                    LinqAPI.Exec(Of String) <= From rxn As KeyValuePair
-                                               In XmlModel.Reaction
-                                               Select rxn.Key
-                                               Order By Key Ascending
+                ReactionIdlist = LinqAPI.Exec(Of String) <= From rxn As NamedValue
+                                                            In XmlModel.reaction
+                                                            Select rxn.name
+                                                            Order By name Ascending
             End If
 
             Return New [Module] With {

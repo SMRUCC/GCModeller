@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::dce53663e61a1c6f4f2a7e5e5cbd9ac2, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\GenericParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GenericParser
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: argumentPrefix, (+2 Overloads) LinkDbEntries, ParsePage, queryArguments
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GenericParser
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: argumentPrefix, (+2 Overloads) LinkDbEntries, ParsePage, queryArguments
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -71,7 +71,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                    )
         End Sub
 
-        Public Shared Function LinkDbEntries(url$, Optional cache$ = "./.kegg/linkdb/", Optional offline As Boolean = False) As KeyValuePair()
+        Public Shared Function LinkDbEntries(url$, Optional cache$ = "./.kegg/linkdb/", Optional offline As Boolean = False) As NamedValue()
             Static handlers As New Dictionary(Of String, GenericParser)
 
             Dim query As GenericParser = handlers.ComputeIfAbsent(
@@ -80,7 +80,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                                Return New GenericParser(cache,, offline)
                            End Function)
 
-            Return query.Query(Of KeyValuePair())(url, ".html")
+            Return query.Query(Of NamedValue())(url, ".html")
         End Function
 
         Private Shared Function queryArguments(url As String) As String
@@ -98,7 +98,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             Return LinkDbEntries(Strings.Split(html, Modules.SEPERATOR).Last).ToArray
         End Function
 
-        Private Shared Iterator Function LinkDbEntries(html As String) As IEnumerable(Of KeyValuePair)
+        Private Shared Iterator Function LinkDbEntries(html As String) As IEnumerable(Of NamedValue)
             Dim links$() = Regex _
                 .Matches(html, regexpLine, RegexICMul) _
                 .ToArray
@@ -106,9 +106,9 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             For Each line As String In links.Take(links.Length - 1)
                 Dim entry As String = Regex.Match(line, ">.+?</a>").Value.GetValue
                 Dim description As String = Strings.Split(line, "</a>").Last.Trim
-                Dim out As New KeyValuePair With {
-                    .Key = entry,
-                    .Value = description
+                Dim out As New NamedValue With {
+                    .name = entry,
+                    .text = description
                 }
 
                 Yield out

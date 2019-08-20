@@ -63,7 +63,7 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     Implements INamedValue
 
     ''' <summary>
-    ''' 代谢途径的编号或者其他的标识符
+    ''' The cluster id.(代谢途径的编号或者其他的标识符)
     ''' </summary>
     ''' <returns></returns>
     <XmlAttribute>
@@ -110,7 +110,7 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     End Function
 
     Public Overrides Function ToString() As String
-        Return ID
+        Return $"Dim {ID} = '{names}'"
     End Function
 
     Protected Overrides Function getSize() As Integer

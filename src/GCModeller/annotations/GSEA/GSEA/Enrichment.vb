@@ -113,20 +113,25 @@ Public Module Enrichment
     End Function
 
     ''' <summary>
-    ''' 计算富集结果
+    ''' 计算基因集合的功能富集结果
     ''' </summary>
-    ''' <param name="cluster"></param>
-    ''' <param name="enriched$"></param>
-    ''' <param name="inputSize%"></param>
-    ''' <param name="genes%"></param>
+    ''' <param name="cluster">根据我们的先验知识所创建的一个基因集合，一般为KEGG代谢途径或者GO词条</param>
+    ''' <param name="enriched">在当前的基因集合中与我们所给定的基因列表所产生交集的基因id的列表，即我们的差异基因列表中属于当前的代谢途径的基因的列表</param>
+    ''' <param name="inputSize">输入的原始的通过实验所获取得到的基因列表的大小，即我们的差异基因的id的数量</param>
+    ''' <param name="genes">背景基因组中的总的基因数量</param>
     ''' <param name="outputAll"></param>
     ''' <returns></returns>
     <Extension>
     Private Function calcResult(cluster As Cluster, enriched$(), inputSize%, genes%, outputAll As Boolean) As EnrichmentResult
+        ' 我们的差异基因列表中，属于目标代谢途径的基因的数量
         Dim a% = enriched.Length
+        ' 在目标基因组中，属于当前的代谢途径中的基因的数量
         Dim b% = cluster.members.Length
+        ' 在我们的差异基因列表中，不属于当前的代谢途径的基因的数量
         Dim c% = inputSize - a
+        ' 在目标基因组中，不属于当前的代谢途径中的基因的数量
         Dim d% = genes - b
+        ' 最后将得到的个数变量，进行F双尾检验
         Dim pvalue# = F.FishersExact(a, b, c, d).two_tail_pvalue
         Dim score# = a / b
 
@@ -146,6 +151,11 @@ Public Module Enrichment
         }
     End Function
 
+    ''' <summary>
+    ''' 进行计算结果的假阳性FDR控制计算
+    ''' </summary>
+    ''' <param name="enrichments">根据我们所提供的基因列表，对每一个代谢途径的富集计算结果的集合</param>
+    ''' <returns></returns>
     <Extension>
     Public Function FDRCorrection(enrichments As IEnumerable(Of EnrichmentResult)) As EnrichmentResult()
         With enrichments.Shadows

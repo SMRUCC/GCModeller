@@ -342,9 +342,9 @@ Namespace KEGG.Compiler
 
         Private Function CompilePathwayInformations() As List(Of FileStream.Pathway)
             Dim ModulesInformation = (From [mod] In KEGGModules
-                                      Where Not [mod].Reaction.IsNullOrEmpty
+                                      Where Not [mod].reaction.IsNullOrEmpty
                                       Select ModuleId = [mod].EntryId,
-                                          ReactionIdlist = (From item In [mod].Reaction Select item.Key).ToArray).ToArray
+                                          ReactionIdlist = (From item In [mod].reaction Select item.name).ToArray).ToArray
             Dim PathwayInformation = (From pwy In KEGGPathways Where Not pwy.modules.IsNullOrEmpty
                                       Select New With {
                                           .PathwayId = pwy.EntryId,
