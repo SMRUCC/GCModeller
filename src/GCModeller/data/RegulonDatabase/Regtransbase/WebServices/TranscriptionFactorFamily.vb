@@ -440,7 +440,7 @@ Namespace Regtransbase.WebServices
         End Property
 
         <XmlIgnore>
-        Protected ReadOnly Property Headers As String() Implements IFastaProvider.Headers
+        Protected ReadOnly Property Headers As String()
             Get
                 Return {UniqueId, bacteria}
             End Get
@@ -479,6 +479,10 @@ Namespace Regtransbase.WebServices
             FastaObject.locus_tag = LocusTag.Replace(">", "").Trim
 
             Return FastaObject
+        End Function
+
+        Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
+            Return SequenceData
         End Function
     End Class
 End Namespace
