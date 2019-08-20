@@ -1,57 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::5070bef6893c820b2e3af0d7a31a8c80, Networks\Network.BLAST\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module API
-    ' 
-    ' 
-    '     Delegate Function
-    ' 
-    '         Properties: BuildMethods
-    ' 
-    '         Function: __buildFromBlastHits, __isEmpty, (+2 Overloads) BuildFromBBH, BuildFromBestHits, BuildFromBlastHits
-    '                   BuildFromBlastOUT, MetaBuildFromBBH, SaveBLASTNetwork
-    ' 
-    '         Sub: __buildFromBlastHits
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module API
+' 
+' 
+'     Delegate Function
+' 
+'         Properties: BuildMethods
+' 
+'         Function: __buildFromBlastHits, __isEmpty, (+2 Overloads) BuildFromBBH, BuildFromBestHits, BuildFromBlastHits
+'                   BuildFromBlastOUT, MetaBuildFromBBH, SaveBLASTNetwork
+' 
+'         Sub: __buildFromBlastHits
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
@@ -157,43 +158,40 @@ Public Module API
                                         ByRef outHits As LDM.Hit(),
                                         locusDict As Dictionary(Of String, String))
 
-        Dim hitEdges As LDM.Hit() = hits.Where(Function(x) Not __isEmpty(x)).Select(
+        Dim hitEdges As LDM.Hit() = hits.Where(Function(x) Not x.isEmpty).Select(
             Function(x) New LDM.Hit With {
-                .genomePairId = $"{locusDict.TryGetValue(x.locusId)}_vs__{locusDict.TryGetValue(x.Address)}",
-                .query = x.locusId,
-                .subject = x.Address,
+                .genomePairId = $"{locusDict.TryGetValue(x.queryName)}_vs__{locusDict.TryGetValue(x.hitName)}",
+                .query = x.queryName,
+                .subject = x.hitName,
                 .weight = x.identities
         })
 
         If Not hitEdges.IsNullOrEmpty Then
-            Dim proteins As LDM.Protein() = hits.Where(Function(x) Not __isEmpty(x)).Select(
-                Function(x) New BLAST.LDM.Protein With {
-                    .Genome = locusDict.TryGetValue(x.locusId),
-                    .LocusId = x.locusId
-                }) ' 生成蛋白质的节点模型
-            Call proteins.Add(hits.Where(Function(x) Not __isEmpty(x)).Select(
-                       Function(x) New LDM.Protein With {
-                            .Genome = locusDict.TryGetValue(x.Address),
-                            .LocusId = x.Address
-                       }))
+            ' 生成蛋白质的节点模型
+            Dim proteins As List(Of LDM.Protein) = hits _
+                .Where(Function(x) Not x.isEmpty) _
+                .Select(Function(x)
+                            Return New BLAST.LDM.Protein With {
+                    .Genome = locusDict.TryGetValue(x.queryName),
+                    .LocusId = x.queryName
+                }
+                        End Function) _
+                .AsList
 
-            outProt = proteins
+            outProt = proteins + hits _
+                .Where(Function(x) Not x.isEmpty) _
+                .Select(Function(x)
+                            Return New LDM.Protein With {
+                            .Genome = locusDict.TryGetValue(x.hitName),
+                            .LocusId = x.hitName
+                       }
+                        End Function)
             outHits = hitEdges
         Else
             outProt = New LDM.Protein() {}
             outHits = New LDM.Hit() {}
         End If
     End Sub
-
-    Private Function __isEmpty(x As IQueryHits) As Boolean
-        If String.IsNullOrEmpty(x.locusId) Then Return True
-        If String.IsNullOrEmpty(x.Address) OrElse
-            String.Equals(x.Address, IBlastOutput.HITS_NOT_FOUND) Then
-            Return True
-        End If
-
-        Return False
-    End Function
 
     <ExportAPI("MetaBuild.From.BBH", Info:="Network builder for the metagenomics BLAST result.")>
     Public Function MetaBuildFromBBH(<Parameter("in.DIR", "A directory which contains the bbh BLAST result datas between the fully paired genome combos.")>
