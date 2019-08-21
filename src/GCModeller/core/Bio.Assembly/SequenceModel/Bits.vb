@@ -24,17 +24,17 @@ Namespace SequenceModel
             Return $"{seqType.Description} {title}"
         End Function
 
-        Public Shared Function FromNucleotide(nucl As FastaSeq) As Bits
+        Public Shared Function FromNucleotide(nucl As IAbstractFastaToken) As Bits
             Return New Bits(
-                title:=nucl.Title,
+                title:=nucl.title,
                 type:=SeqTypes.DNA,
                 bytes:=NucleicAcid.Enums(nucl.SequenceData).ToArray
             )
         End Function
 
-        Public Shared Function FromPolypeptide(prot As FastaSeq) As Bits
+        Public Shared Function FromPolypeptide(prot As IAbstractFastaToken) As Bits
             Return New Bits(
-                title:=prot.Title,
+                title:=prot.title,
                 type:=SeqTypes.Protein,
                 bytes:=Polypeptide.ConstructVector(prot.SequenceData).ToArray
             )
