@@ -109,7 +109,7 @@ Namespace ComponentModel.Algorithm.DynamicProgramming
         ''' 当这个函数遇到完全没有重叠的序列片段的时候，是会直接将这个不重叠的片段接到SCS的最末尾的
         ''' </remarks>
         <Extension>
-        Public Function ShortestCommonSuperString(seqs As List(Of String)) As String
+        Public Function ShortestCommonSuperString(seqs As Generic.List(Of String)) As String
             Dim l As Integer = seqs.Count
 
             Do While l > 1

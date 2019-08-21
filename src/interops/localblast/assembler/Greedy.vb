@@ -67,13 +67,37 @@ Public Module Greedy
     ''' </remarks>
     <Extension>
     Public Iterator Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq)) As IEnumerable(Of FastaSeq)
+        Dim readsList As FastaSeq() = reads.ToArray
         Dim avltree As New AVLClusterTree(Of Bits)(AddressOf align, Function(fa) fa.GetSequenceData)
+        Dim clusters As ClusterKey(Of Bits)()
 
-        For Each read As FastaSeq In reads
-            Call avltree.Add(Bits.FromNucleotide(read))
+        Do While True
+            Call avltree.Clear()
+
+            For Each read As FastaSeq In readsList
+                Call avltree.Add(Bits.FromNucleotide(read))
+            Next
+
+            ' 然后合并每一个cluster中的reads为contig
+            clusters = avltree.ToArray
+            readsList = clusters.Select(AddressOf unionFasta).ToArray
+        Loop
+    End Function
+
+    Private Function unionFasta(cluster As ClusterKey(Of Bits)) As FastaSeq
+        Dim nucl As New List(Of String)
+
+        For i As Integer = 0 To cluster.NumberOfKey - 1
+            nucl.Add(cluster.Item(i).ToString)
         Next
 
+        Dim scsUnion = nucl.ShortestCommonSuperString
+        Dim unionFa As New FastaSeq With {
+            .Headers = {cluster.Item(Scan0).title},
+            .SequenceData = scsUnion
+        }
 
+        Return unionFa
     End Function
 
     ''' <summary>
