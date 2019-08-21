@@ -2,6 +2,8 @@
 Imports Microsoft.VisualBasic.Data.IO.netCDF
 Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
@@ -13,6 +15,50 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Public Module GridMatrixCDF
 
     ReadOnly doubleFullName$ = GetType(Double).FullName
+
+    Const cor_factor$ = "cor.factor"
+
+    ''' <summary>
+    ''' 从CDF文件之中加载计算模型
+    ''' </summary>
+    ''' <param name="cdf"></param>
+    ''' <returns></returns>
+    Public Function LoadFromCDF(cdf As String) As GridSystem
+        Using reader As New netCDFReader(cdf)
+            Dim size As Integer = reader("size")
+            Dim factor = reader.getFactor(cor_factor)
+            Dim system As New GridSystem With {
+                .A = factor.factors,
+                .AC = factor.const
+            }
+            Dim names$() = CStr(reader("variables")).LoadJSON(Of String())
+            Dim cor = names _
+                .Select(Function(name) As Correlation
+                            factor = reader.getFactor(name)
+
+                            Return New Correlation With {
+                                .B = factor.factors,
+                                .BC = factor.const
+                            }
+                        End Function) _
+                .ToArray
+
+            Return system _
+                .With(Sub()
+                          system.C = cor
+                      End Sub)
+        End Using
+    End Function
+
+    <Extension>
+    Private Function getFactor(cdf As netCDFReader, var As String) As ([const] As Double, factors As Vector)
+        Dim vector As CDFData = cdf.getDataVariable(var)
+        Dim factor_const# = cdf.getDataVariableEntry(var) _
+            .FindAttribute("const") _
+            .value
+
+        Return (factor_const, vector.numerics)
+    End Function
 
     <Extension>
     Public Sub WriteCDF(genome As GridSystem, cdf$, Optional names$() = Nothing)
@@ -28,7 +74,8 @@ Public Module GridMatrixCDF
 
         Using cdfWriter = New CDFWriter(cdf).Dimensions(
             Dimension.Double,
-            Dimension.Integer
+            Dimension.Integer,
+            Dimension.Text(4096)
         )
 
             Call cdfWriter.GlobalAttributes(
