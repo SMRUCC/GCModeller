@@ -32,16 +32,26 @@ Public Module GridMatrixCDF
                 .AC = factor.const
             }
             Dim names$() = CStr(reader("variables")).LoadJSON(Of String())
-            Dim cor = names _
+            Dim cor As Correlation() = names _
                 .Select(Function(name) As Correlation
-                            factor = reader.getFactor(name)
+                            If Not reader.dataVariableExists(name) Then
+                                Return Nothing
+                            Else
+                                factor = reader.getFactor(name)
+                            End If
 
                             Return New Correlation With {
                                 .B = factor.factors,
                                 .BC = factor.const
                             }
                         End Function) _
+                .Where(Function(c) Not c Is Nothing) _
                 .ToArray
+
+            ' 进行数据校验
+            If cor.Length <> size OrElse size <> system.Width Then
+                Throw New InvalidProgramException
+            End If
 
             Return system _
                 .With(Sub()
@@ -55,7 +65,7 @@ Public Module GridMatrixCDF
         Dim vector As CDFData = cdf.getDataVariable(var)
         Dim factor_const# = cdf.getDataVariableEntry(var) _
             .FindAttribute("const") _
-            .value
+           ?.value
 
         Return (factor_const, vector.numerics)
     End Function
