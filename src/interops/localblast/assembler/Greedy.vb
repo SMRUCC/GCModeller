@@ -42,7 +42,9 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Greedy
@@ -65,15 +67,82 @@ Public Module Greedy
     ''' 使用二叉树+SmithWaterman算法利用<see cref="SCS"/>进行基因组的从头装配
     ''' </remarks>
     <Extension>
-    Public Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq)) As FastaSeq
-        Dim avltree As New AVLTree(Of FastaSeq, FastaSeq)(AddressOf align, Function(fa) fa.Title)
+    Public Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq), Optional identity# = 0.7, Optional similar# = 0.3) As IEnumerable(Of FastaSeq)
+        Dim readsList As FastaSeq() = reads.ToArray
+        Dim avltree As New AVLClusterTree(Of Bits)(AddressOf New BitsPairwiseAligner(identity, similar).align, Function(fa) fa.GetSequenceData)
+        Dim clusters As ClusterKey(Of Bits)()
+        Dim n As Integer = readsList.Length
+        Dim start&
+        Dim cycles As VBInteger = 1
 
-        For Each read As FastaSeq In reads
-            Call avltree.Add(read, read, valueReplace:=False)
+        Do While True
+            start = App.ElapsedMilliseconds
+            avltree.Clear()
+
+            For Each read As Bits In readsList.Select(AddressOf Bits.FromNucleotide)
+                Call avltree.Add(read)
+            Next
+
+            ' 然后合并每一个cluster中的reads为contig
+            clusters = avltree.ToArray
+            readsList = clusters _
+                .AsParallel _
+                .Select(AddressOf unionFasta) _
+                .ToArray
+
+            If readsList.Length <> n Then
+                n = readsList.Length
+            Else
+                Exit Do
+            End If
+
+            Dim contigSize = readsList.Select(Function(fa) fa.Length).ToArray
+
+            Call $" #cycle_{++cycles}  [{App.ElapsedMilliseconds - start}ms] {readsList.Length} reads left, average contig size={contigSize.Average} bytes in range [{contigSize.Min}, {contigSize.Max}].".__DEBUG_ECHO
+        Loop
+
+        Return readsList
+    End Function
+
+    Private Function unionFasta(cluster As ClusterKey(Of Bits)) As FastaSeq
+        Dim nucl As New List(Of String)
+
+        For i As Integer = 0 To cluster.NumberOfKey - 1
+            nucl.Add(cluster.Item(i).GetSequenceData)
         Next
 
+        Dim scsUnion$
 
+        If nucl.Count = 1 Then
+            scsUnion = nucl(Scan0)
+        Else
+            scsUnion = nucl.ShortestCommonSuperString
+        End If
+
+        Dim unionFa As New FastaSeq With {
+            .Headers = {cluster.Item(Scan0).title},
+            .SequenceData = scsUnion
+        }
+
+        Return unionFa
     End Function
+End Module
+
+Public Class BitsPairwiseAligner
+
+    ReadOnly identity, similar As Double
+
+    ''' <summary>
+    ''' 因为来源不同的序列片段的起始端或者末端都可能存在相同的区域, 
+    ''' 所以得分阈值设置得过低可能会将不同来源的片段组装在一块, 
+    ''' 产生错误的装配结果
+    ''' </summary>
+    ''' <param name="identityMinW"></param>
+    ''' <param name="similarMinW"></param>
+    Sub New(Optional identityMinW As Double = 0.85, Optional similarMinW As Double = 0.3)
+        Me.similar = similarMinW
+        Me.identity = identityMinW
+    End Sub
 
     ''' <summary>
     ''' do pairwise alignment of two reads
@@ -81,25 +150,19 @@ Public Module Greedy
     ''' <param name="a"></param>
     ''' <param name="b"></param>
     ''' <returns></returns>
-    Private Function align(a As FastaSeq, b As FastaSeq) As Integer
-        Dim blastn As New SmithWaterman(a, b)
-        Dim result As Output = blastn.GetOutput(cutoff:=0.9, minW:=Math.Min(a.Length, b.Length) * 0.8)
+    Public Function align(a As Bits, b As Bits) As Integer
+        ' 在这里不可以使用smith-waterman比对来进行比较,
+        ' 假若测序数据是16sRNA, 因为16sRNA高度保守, 
+        ' 使用Smith-waterman算法比较会出现reads几乎全部集中在root节点的问题
+        Dim overlapSize = a.OverlapSize(b)
+        Dim minLen = Math.Min(a.length, b.length)
 
-        If result.HSP.IsNullOrEmpty Then
-            result = blastn.GetOutput(cutoff:=0.6, minW:=Math.Min(a.Length, b.Length) * 0.8)
-
-            If result.HSP.IsNullOrEmpty Then
-                ' 两条reads完全不一样
-                ' 插入二叉树的左边
-                Return -1
-            Else
-                ' 两条reads存在一些相似的区域
-                ' 插入二叉树的右边
-                Return 1
-            End If
-        Else
-            ' 几乎完全一致的序列
+        If overlapSize >= minLen * identity Then
             Return 0
+        ElseIf overlapSize >= minLen * similar Then
+            Return 1
+        Else
+            Return -1
         End If
     End Function
-End Module
+End Class

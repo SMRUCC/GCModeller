@@ -44,6 +44,7 @@ Imports System.Runtime.CompilerServices
 
 Namespace SequenceModel
 
+    <HideModuleName>
     Public Module TypeExtensions
 
 #Region "Constants"
