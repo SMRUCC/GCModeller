@@ -90,7 +90,7 @@ Namespace FQ
             Return lines.JoinBy(ASCII.LF)
         End Function
 
-        <Extension> Public Function WriteFastQ(data As IEnumerable(Of FastQ), save$, encoding As Encodings) As Boolean
+        <Extension> Public Function WriteFastQ(data As IEnumerable(Of FastQ), save$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
             Using file As IO.StreamWriter = save.OpenWriter(encoding)
                 For Each fq As FastQ In data
                     Call file.WriteLine(fq.AsReadsNode)

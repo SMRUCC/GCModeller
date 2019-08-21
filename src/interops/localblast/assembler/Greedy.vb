@@ -40,7 +40,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Greedy
@@ -64,6 +66,40 @@ Public Module Greedy
     ''' </remarks>
     <Extension>
     Public Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq)) As FastaSeq
+        Dim avltree As New AVLTree(Of FastaSeq, FastaSeq)(AddressOf align, Function(fa) fa.Title)
 
+        For Each read As FastaSeq In reads
+            Call avltree.Add(read, read, valueReplace:=False)
+        Next
+
+
+    End Function
+
+    ''' <summary>
+    ''' do pairwise alignment of two reads
+    ''' </summary>
+    ''' <param name="a"></param>
+    ''' <param name="b"></param>
+    ''' <returns></returns>
+    Private Function align(a As FastaSeq, b As FastaSeq) As Integer
+        Dim blastn As New SmithWaterman(a, b)
+        Dim result As Output = blastn.GetOutput(cutoff:=0.9, minW:=Math.Min(a.Length, b.Length) * 0.8)
+
+        If result.HSP.IsNullOrEmpty Then
+            result = blastn.GetOutput(cutoff:=0.6, minW:=Math.Min(a.Length, b.Length) * 0.8)
+
+            If result.HSP.IsNullOrEmpty Then
+                ' 两条reads完全不一样
+                ' 插入二叉树的左边
+                Return -1
+            Else
+                ' 两条reads存在一些相似的区域
+                ' 插入二叉树的右边
+                Return 1
+            End If
+        Else
+            ' 几乎完全一致的序列
+            Return 0
+        End If
     End Function
 End Module
