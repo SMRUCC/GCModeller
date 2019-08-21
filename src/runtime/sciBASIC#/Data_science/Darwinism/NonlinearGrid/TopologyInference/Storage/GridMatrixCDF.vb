@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Data.IO.netCDF
 Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
+Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
 ''' 对于一个很大的矩阵而言, 因为XML文件是字符串格式, 序列化和反序列化都需要大量进行字符串的解析或者生成等操作, 
@@ -9,12 +10,23 @@ Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
 ''' </summary>
 Public Module GridMatrixCDF
 
+    ReadOnly doubleFullName$ = GetType(Double).FullName
+
     Public Function WriteCDF(genome As GridSystem, cdf$)
+        Dim attr As [Variant](Of attribute, attribute())
+
         Using cdfWriter = New CDFWriter(cdf).Dimensions(
             Dimension.Double,
             Dimension.Integer
         )
-            Call cdfWriter.AddVariable("A", New CDFData With {.numerics = genome.A}, GetType(Double).FullName, {New attribute With {.name = "const", .type = CDFDataTypes.DOUBLE, .value = genome.AC}})
+
+            attr = New attribute With {
+                .name = "const",
+                .type = CDFDataTypes.DOUBLE,
+                .value = genome.AC
+            }
+
+            Call cdfWriter.AddVariable("A", New CDFData With {.numerics = genome.A}, doubleFullName, attr)
         End Using
     End Function
 End Module
