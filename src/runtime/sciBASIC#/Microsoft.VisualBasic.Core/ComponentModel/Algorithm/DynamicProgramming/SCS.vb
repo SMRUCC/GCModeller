@@ -141,7 +141,7 @@ Namespace ComponentModel.Algorithm.DynamicProgramming
                             Dim maxPrefixMatch = MaxPrefixLength(str, b)
 
                             If maxPrefixMatch > currMax Then
-                                finalStr = str + b.Substring(maxPrefixMatch)
+                                finalStr = str & b.Substring(maxPrefixMatch)
                                 currMax = maxPrefixMatch
                                 p = j
                                 q = k
@@ -150,7 +150,7 @@ Namespace ComponentModel.Algorithm.DynamicProgramming
                             Dim maxSuffixMatch = MaxPrefixLength(b, str)
 
                             If maxSuffixMatch > currMax Then
-                                finalStr = b + str.Substring(maxSuffixMatch)
+                                finalStr = b & str.Substring(maxSuffixMatch)
                                 currMax = maxSuffixMatch
                                 p = j
                                 q = k
