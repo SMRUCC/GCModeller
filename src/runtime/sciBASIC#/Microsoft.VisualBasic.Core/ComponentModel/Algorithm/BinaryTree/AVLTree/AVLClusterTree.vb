@@ -88,7 +88,7 @@ Namespace ComponentModel.Algorithm.BinaryTree
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Add(key As K)
-            Call avltree.Add(New ClusterKey(Of K)(key, views), key)
+            Call avltree.Add(New ClusterKey(Of K)(key, views), key, Sub(node, null) node.Key.Add(key))
         End Sub
 
         Public Sub Clear()
