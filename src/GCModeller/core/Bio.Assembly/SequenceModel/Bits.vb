@@ -13,6 +13,11 @@ Namespace SequenceModel
 
         Public ReadOnly Property seqType As SeqTypes
         Public ReadOnly Property title As String Implements IFastaProvider.title
+        Public ReadOnly Property length As Integer
+            Get
+                Return bytes.Length
+            End Get
+        End Property
 
         Private Sub New(title$, type As SeqTypes, bytes As Byte())
             Me.bytes = bytes
@@ -84,7 +89,7 @@ Namespace SequenceModel
             )
         End Function
 
-        Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
+        Public Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
             Select Case seqType
                 Case SeqTypes.DNA
                     Return NucleicAcid.ToString(bytes)

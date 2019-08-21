@@ -43,6 +43,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Greedy
@@ -66,10 +67,10 @@ Public Module Greedy
     ''' </remarks>
     <Extension>
     Public Iterator Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq)) As IEnumerable(Of FastaSeq)
-        Dim avltree As New AVLClusterTree(Of FastaSeq)(AddressOf align, Function(fa) fa.SequenceData)
+        Dim avltree As New AVLClusterTree(Of Bits)(AddressOf align, Function(fa) fa.GetSequenceData)
 
         For Each read As FastaSeq In reads
-            Call avltree.Add(read)
+            Call avltree.Add(Bits.FromNucleotide(read))
         Next
 
 
@@ -81,14 +82,23 @@ Public Module Greedy
     ''' <param name="a"></param>
     ''' <param name="b"></param>
     ''' <returns></returns>
-    Private Function align(a As FastaSeq, b As FastaSeq) As Integer
-        If a.SequenceData = b.SequenceData Then
+    Private Function align(a As Bits, b As Bits) As Integer
+        If a.GetSequenceData = b.GetSequenceData Then
             Return 0
         End If
 
         ' 在这里不可以使用smith-waterman比对来进行比较,
         ' 假若测序数据是16sRNA, 因为16sRNA高度保守, 
         ' 使用Smith-waterman算法比较会出现reads几乎全部集中在root节点的问题
+        Dim overlapSize = a.OverlapSize(b)
+        Dim minLen = Math.Min(a.length, b.length)
 
+        If overlapSize >= minLen * 0.85 Then
+            Return 0
+        ElseIf overlapSize >= minLen * 0.65 Then
+            Return 1
+        Else
+            Return -1
+        End If
     End Function
 End Module
