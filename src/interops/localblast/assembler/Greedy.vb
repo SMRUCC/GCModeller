@@ -66,22 +66,36 @@ Public Module Greedy
     ''' 使用二叉树+SmithWaterman算法利用<see cref="SCS"/>进行基因组的从头装配
     ''' </remarks>
     <Extension>
-    Public Iterator Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq)) As IEnumerable(Of FastaSeq)
+    Public Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq)) As IEnumerable(Of FastaSeq)
         Dim readsList As FastaSeq() = reads.ToArray
         Dim avltree As New AVLClusterTree(Of Bits)(AddressOf align, Function(fa) fa.GetSequenceData)
         Dim clusters As ClusterKey(Of Bits)()
+        Dim n As Integer = readsList.Length
 
         Do While True
             Call avltree.Clear()
 
-            For Each read As FastaSeq In readsList
-                Call avltree.Add(Bits.FromNucleotide(read))
+            For Each read As Bits In readsList.AsParallel.Select(AddressOf Bits.FromNucleotide)
+                Call avltree.Add(read)
             Next
 
             ' 然后合并每一个cluster中的reads为contig
             clusters = avltree.ToArray
-            readsList = clusters.Select(AddressOf unionFasta).ToArray
+            readsList = clusters _
+                .AsParallel _
+                .Select(AddressOf unionFasta) _
+                .ToArray
+
+            If readsList.Length <> n Then
+                n = readsList.Length
+            Else
+                Exit Do
+            End If
+
+            Call Console.Write("-")
         Loop
+
+        Return readsList
     End Function
 
     Private Function unionFasta(cluster As ClusterKey(Of Bits)) As FastaSeq

@@ -7,6 +7,8 @@ Module Module1
         Dim fa = "D:\biodeep\1_combined_R1.fasta"
         Dim contigs = Greedy.DeNovoAssembly(FastaFile.LoadNucleotideData(fa)).ToArray
 
+        Call New FastaFile(contigs).Save("D:\biodeep\1_combined_R1_contigs.fasta")
+
         Pause()
     End Sub
 
