@@ -65,11 +65,11 @@ Public Module Greedy
     ''' 使用二叉树+SmithWaterman算法利用<see cref="SCS"/>进行基因组的从头装配
     ''' </remarks>
     <Extension>
-    Public Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq)) As FastaSeq
-        Dim avltree As New AVLTree(Of FastaSeq, FastaSeq)(AddressOf align, Function(fa) fa.Title)
+    Public Iterator Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq)) As IEnumerable(Of FastaSeq)
+        Dim avltree As New AVLClusterTree(Of FastaSeq)(AddressOf align, Function(fa) fa.SequenceData)
 
         For Each read As FastaSeq In reads
-            Call avltree.Add(read, read, valueReplace:=False)
+            Call avltree.Add(read)
         Next
 
 
@@ -83,10 +83,13 @@ Public Module Greedy
     ''' <returns></returns>
     Private Function align(a As FastaSeq, b As FastaSeq) As Integer
         Dim blastn As New SmithWaterman(a, b)
-        Dim result As Output = blastn.GetOutput(cutoff:=0.9, minW:=Math.Min(a.Length, b.Length) * 0.8)
+        Dim result As Output
+        Dim minLen% = Math.Min(a.Length, b.Length)
+
+        result = blastn.GetOutput(cutoff:=0.9, minW:=minLen * 0.8)
 
         If result.HSP.IsNullOrEmpty Then
-            result = blastn.GetOutput(cutoff:=0.6, minW:=Math.Min(a.Length, b.Length) * 0.8)
+            result = blastn.GetOutput(cutoff:=0.6, minW:=minLen * 0.8)
 
             If result.HSP.IsNullOrEmpty Then
                 ' 两条reads完全不一样
