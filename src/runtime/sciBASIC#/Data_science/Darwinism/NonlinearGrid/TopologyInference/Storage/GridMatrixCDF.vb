@@ -12,13 +12,27 @@ Public Module GridMatrixCDF
 
     ReadOnly doubleFullName$ = GetType(Double).FullName
 
-    Public Function WriteCDF(genome As GridSystem, cdf$)
+    Public Sub WriteCDF(genome As GridSystem, cdf$, Optional names$() = Nothing)
         Dim attr As [Variant](Of attribute, attribute())
+        Dim cor As Correlation
+
+        If names.IsNullOrEmpty Then
+            names = genome.A _
+                .Sequence _
+                .Select(Function(i) $"X{i + 1}") _
+                .ToArray
+        End If
 
         Using cdfWriter = New CDFWriter(cdf).Dimensions(
             Dimension.Double,
             Dimension.Integer
         )
+
+            Call cdfWriter.GlobalAttributes(
+                New attribute With {.name = "dataset", .type = CDFDataTypes.CHAR, .value = GetType(GridSystem).FullName},
+                New attribute With {.name = "size", .type = CDFDataTypes.INT, .value = names.Length},
+                New attribute With {.name = "create-time", .type = CDFDataTypes.CHAR, .value = Now.ToString}
+            )
 
             attr = New attribute With {
                 .name = "const",
@@ -26,7 +40,18 @@ Public Module GridMatrixCDF
                 .value = genome.AC
             }
 
-            Call cdfWriter.AddVariable("A", New CDFData With {.numerics = genome.A}, doubleFullName, attr)
+            Call cdfWriter.AddVariable("cor.factor", genome.A, doubleFullName, attr)
+
+            For i As Integer = 0 To names.Length - 1
+                cor = genome.C(i)
+                attr = New attribute With {
+                    .name = "const",
+                    .type = CDFDataTypes.DOUBLE,
+                    .value = cor.BC
+                }
+
+                Call cdfWriter.AddVariable(names(i), cor.B, doubleFullName, attr)
+            Next
         End Using
-    End Function
+    End Sub
 End Module

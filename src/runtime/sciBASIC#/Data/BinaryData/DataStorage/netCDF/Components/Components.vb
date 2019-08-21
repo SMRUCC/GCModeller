@@ -102,6 +102,12 @@ Namespace netCDF.Components
                 Return New Dimension With {.name = GetType(Integer).FullName, .size = 4}
             End Get
         End Property
+
+        Public Shared ReadOnly Property Text(fixedChars As Integer) As Dimension
+            Get
+                Return New Dimension With {.name = GetType(String).FullName, .size = fixedChars}
+            End Get
+        End Property
     End Structure
 
     Public Class DimensionList
