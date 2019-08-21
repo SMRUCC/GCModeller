@@ -88,10 +88,17 @@ Public Module Greedy
         Dim nucl As New List(Of String)
 
         For i As Integer = 0 To cluster.NumberOfKey - 1
-            nucl.Add(cluster.Item(i).ToString)
+            nucl.Add(cluster.Item(i).GetSequenceData)
         Next
 
-        Dim scsUnion = nucl.ShortestCommonSuperString
+        Dim scsUnion$
+
+        If nucl.Count = 1 Then
+            scsUnion = nucl(Scan0)
+        Else
+            scsUnion = nucl.ShortestCommonSuperString
+        End If
+
         Dim unionFa As New FastaSeq With {
             .Headers = {cluster.Item(Scan0).title},
             .SequenceData = scsUnion
