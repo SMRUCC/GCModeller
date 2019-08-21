@@ -42,6 +42,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -66,14 +67,17 @@ Public Module Greedy
     ''' 使用二叉树+SmithWaterman算法利用<see cref="SCS"/>进行基因组的从头装配
     ''' </remarks>
     <Extension>
-    Public Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq)) As IEnumerable(Of FastaSeq)
+    Public Function DeNovoAssembly(reads As IEnumerable(Of FastaSeq), Optional identity# = 0.7, Optional similar# = 0.3) As IEnumerable(Of FastaSeq)
         Dim readsList As FastaSeq() = reads.ToArray
-        Dim avltree As New AVLClusterTree(Of Bits)(AddressOf align, Function(fa) fa.GetSequenceData)
+        Dim avltree As New AVLClusterTree(Of Bits)(AddressOf New BitsPairwiseAligner(identity, similar).align, Function(fa) fa.GetSequenceData)
         Dim clusters As ClusterKey(Of Bits)()
         Dim n As Integer = readsList.Length
+        Dim start&
+        Dim cycles As VBInteger = 1
 
         Do While True
-            Call avltree.Clear()
+            start = App.ElapsedMilliseconds
+            avltree.Clear()
 
             For Each read As Bits In readsList.Select(AddressOf Bits.FromNucleotide)
                 Call avltree.Add(read)
@@ -92,7 +96,9 @@ Public Module Greedy
                 Exit Do
             End If
 
-            Call Console.Write("-")
+            Dim contigSize = readsList.Select(Function(fa) fa.Length).ToArray
+
+            Call $" #cycle_{++cycles}  [{App.ElapsedMilliseconds - start}ms] {readsList.Length} reads left, average contig size={contigSize.Average} bytes in range [{contigSize.Min}, {contigSize.Max}].".__DEBUG_ECHO
         Loop
 
         Return readsList
@@ -120,6 +126,23 @@ Public Module Greedy
 
         Return unionFa
     End Function
+End Module
+
+Public Class BitsPairwiseAligner
+
+    ReadOnly identity, similar As Double
+
+    ''' <summary>
+    ''' 因为来源不同的序列片段的起始端或者末端都可能存在相同的区域, 
+    ''' 所以得分阈值设置得过低可能会将不同来源的片段组装在一块, 
+    ''' 产生错误的装配结果
+    ''' </summary>
+    ''' <param name="identityMinW"></param>
+    ''' <param name="similarMinW"></param>
+    Sub New(Optional identityMinW As Double = 0.85, Optional similarMinW As Double = 0.3)
+        Me.similar = similarMinW
+        Me.identity = identityMinW
+    End Sub
 
     ''' <summary>
     ''' do pairwise alignment of two reads
@@ -127,23 +150,19 @@ Public Module Greedy
     ''' <param name="a"></param>
     ''' <param name="b"></param>
     ''' <returns></returns>
-    Private Function align(a As Bits, b As Bits) As Integer
-        If a.GetSequenceData = b.GetSequenceData Then
-            Return 0
-        End If
-
+    Public Function align(a As Bits, b As Bits) As Integer
         ' 在这里不可以使用smith-waterman比对来进行比较,
         ' 假若测序数据是16sRNA, 因为16sRNA高度保守, 
         ' 使用Smith-waterman算法比较会出现reads几乎全部集中在root节点的问题
         Dim overlapSize = a.OverlapSize(b)
         Dim minLen = Math.Min(a.length, b.length)
 
-        If overlapSize >= minLen * 0.85 Then
+        If overlapSize >= minLen * identity Then
             Return 0
-        ElseIf overlapSize >= minLen * 0.65 Then
+        ElseIf overlapSize >= minLen * similar Then
             Return 1
         Else
             Return -1
         End If
     End Function
-End Module
+End Class
