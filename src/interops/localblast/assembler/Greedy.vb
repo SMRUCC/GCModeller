@@ -75,7 +75,7 @@ Public Module Greedy
         Do While True
             Call avltree.Clear()
 
-            For Each read As Bits In readsList.AsParallel.Select(AddressOf Bits.FromNucleotide)
+            For Each read As Bits In readsList.Select(AddressOf Bits.FromNucleotide)
                 Call avltree.Add(read)
             Next
 
