@@ -43,7 +43,6 @@ Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -53,6 +52,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -233,7 +233,7 @@ Partial Module CLI
               Description:="A reference model which is generated from ``/Metagenome.UniProt.Ref`` command.")>
     Public Function MetabolicComplementationNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/metagenome"
-        Dim ref As ReactionRepository = ReactionRepository.LoadAuto(args("/ref")).Enzymetic
+        Dim ref As ReactionRepository = ReactionRepository.LoadAuto(args("/ref")) '.Enzymetic
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.network/"
         Dim list$()
         Dim taxonomy As Taxonomy()
@@ -271,6 +271,30 @@ Partial Module CLI
         Return network _
             .Tabular(properties:={"Color", "Family"}) _
             .Save(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/Metabolic.EndPoint.Profiles.background")>
+    <Usage("/Metabolic.EndPoint.Profiles.Background /ref <reaction.repository.XML> /uniprot <repository.json> [/out <background.XML>]")>
+    <Description("Create Metabolic EndPoint Profiles Background Model")>
+    Public Function MetabolicEndPointProfilesBackground(args As CommandLine) As Integer
+        Dim ref As ReactionRepository = ReactionRepository.LoadAuto(args("/ref"))
+        Dim nonEnzymetic As bGetObject.Reaction() = ref.NonEnzymetic.ToArray
+        Dim uniprot$ = args <= "/uniprot"
+        Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}.endpoints.Xml"
+        Dim background = TaxonomyRepository.LoadRepository(uniprot) _
+            .GetAll _
+            .Values _
+            .Where(Function(tax)
+                       ' 有些基因组的数据是空的？？
+                       Return Not tax.genome.Terms.IsNullOrEmpty
+                   End Function) _
+            .DoCall(Function(list)
+                        Return MetabolicEndPointProfiles.CreateProfiles(list, ref, nonEnzymetic)
+                    End Function)
+
+        Return background.GetXml _
+            .SaveTo(out) _
             .CLICode
     End Function
 

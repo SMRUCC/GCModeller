@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Metagenomics
 Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.MapDownloader
 Imports org = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
@@ -68,16 +69,38 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/save <DIR> /@set sleep=2000]")>
+    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/try_all /compounds <compounds.directory> /save <DIR> /@set sleep=2000]")>
     <Description("Downloads the KEGG enzyme reaction reference model data.")>
     <Group(CLIGroups.DBGET_tools)>
+    <Argument("/compounds", True, CLITypes.File,
+              Description:="If this argument is present in the commandline, then it means only this collection of compounds related reactions will be download.")>
     Public Function DownloadKEGGReaction(args As CommandLine) As Integer
         Dim save$ = args("/save") Or "./br08201/"
+        Dim compounds$ = args <= "/compounds"
 
-        Return EnzymaticReaction _
-            .DownloadReactions(save, cache:=$"{save}/.br08201/") _
-            .SaveTo(save & "/failures.txt") _
-            .CLICode
+        If compounds.DirectoryExists Then
+            Call CompoundRepository.ScanModels(directory:=compounds) _
+                .Compounds _
+                .Select(Function(c) c.Entity) _
+                .DownloadRelatedReactions(EXPORT:=save, cache:=$"{save}/.reactions/") _
+                .SaveTo($"{save}/failures.txt") _
+                .CLICode
+            If args.IsTrue("/try_all") Then
+                Call DownloadAllReactions(EXPORT:=save, cache:=$"{save}/.reactions/")
+            End If
+        ElseIf args.IsTrue("/try_all") Then
+            ' 假若不添加compound参数,则系统会自动使用br08201文件做下载依据
+            ' 因为br08201的文件夹目录与all或者compound做下载依据的结构不一样,导致重复下载
+            ' 所以在这里添加一个重复的判断来避开调用br08201做下载依据
+            Call DownloadAllReactions(EXPORT:=save, cache:=$"{save}/.reactions/")
+        Else
+            Return EnzymaticReaction _
+                .DownloadReactions(save, cache:=$"{save}/.br08201/") _
+                .SaveTo(save & "/failures.txt") _
+                .CLICode
+        End If
+
+        Return 0
     End Function
 
     ''' <summary>

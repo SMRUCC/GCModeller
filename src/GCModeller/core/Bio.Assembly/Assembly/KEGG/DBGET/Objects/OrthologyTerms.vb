@@ -60,7 +60,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public ReadOnly Property EntityList As String()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Terms.Keys
+                Return Terms.SafeQuery.Keys
             End Get
         End Property
 

@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::924967a900a230c80ff8332ca0bd9fea, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BiDirectionalBesthit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BiDirectionalBesthit
-    ' 
-    '         Properties: COG, Description, forward, Identities, Length
-    '                     NullValue, Positive, reverse
-    ' 
-    '         Function: ShadowCopy, ToString
-    '         Delegate Function
-    ' 
-    '             Function: MatchDescription
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BiDirectionalBesthit
+' 
+'         Properties: COG, Description, forward, Identities, Length
+'                     NullValue, Positive, reverse
+' 
+'         Function: ShadowCopy, ToString
+'         Delegate Function
+' 
+'             Function: MatchDescription
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,35 +63,36 @@ Namespace LocalBLAST.Application.BBH
         Implements IKeyValuePair, IQueryHits
 
         ''' <summary>
-        ''' Annotiation for protein <see cref="BiDirectionalBesthit.QueryName"></see>
+        ''' Functional annotiation for protein <see cref="BiDirectionalBesthit.QueryName"></see>
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Description As String
+        Public Property description As String
         ''' <summary>
-        ''' COG annotiation for protein <see cref="BiDirectionalBesthit.QueryName"></see>
+        ''' Category term annotiation for protein <see cref="BiDirectionalBesthit.QueryName"></see>, like COG/KO, etc
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property COG As String
+        Public Property term As String
         ''' <summary>
         ''' Protein length annotiation for protein <see cref="BiDirectionalBesthit.QueryName"></see>.(本蛋白质实体对象的序列长度)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Length As String
+        Public Property length As String
+        Public Property level As Levels = Levels.NA
 
         <Ignored>
-        Public ReadOnly Property Identities As Double Implements IQueryHits.identities
+        Public ReadOnly Property identities As Double Implements IQueryHits.identities
             Get
                 Return (forward + reverse) / 2
             End Get
         End Property
 
-        Public Property Positive As Double
+        Public Property positive As Double
 
         ''' <summary>
         ''' 
@@ -115,15 +116,14 @@ Namespace LocalBLAST.Application.BBH
             Return String.Format("{0} <==> {1}", QueryName, HitName)
         End Function
 
-        Public Function ShadowCopy(Of T As BiDirectionalBesthit)() As T
-            Dim data As T = Activator.CreateInstance(Of T)()
-            data.QueryName = QueryName
-            data.HitName = HitName
-            data.COG = COG
-            data.Description = Description
-            data.Length = Length
-
-            Return data
+        Public Function ShadowCopy(Of T As {New, BiDirectionalBesthit})() As T
+            Return New T With {
+                .QueryName = QueryName,
+                .HitName = HitName,
+                .term = term,
+                .description = description,
+                .length = length
+            }
         End Function
 
         ''' <summary>
@@ -134,7 +134,7 @@ Namespace LocalBLAST.Application.BBH
         Public Delegate Function GetDescriptionHandle(locusId As String) As String
 
         Public Shared Function MatchDescription(data As BiDirectionalBesthit(), sourceDescription As GetDescriptionHandle) As BiDirectionalBesthit()
-            Dim setValue = New SetValue(Of BiDirectionalBesthit) <= NameOf(BiDirectionalBesthit.Description)
+            Dim setValue = New SetValue(Of BiDirectionalBesthit) <= NameOf(BiDirectionalBesthit.description)
             Dim LQuery As BiDirectionalBesthit() =
                 LinqAPI.Exec(Of BiDirectionalBesthit) <= From bbh As BiDirectionalBesthit
                                                          In data.AsParallel

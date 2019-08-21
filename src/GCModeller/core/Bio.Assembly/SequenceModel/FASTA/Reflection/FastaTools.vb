@@ -259,7 +259,7 @@ REDO:           seq = Mid(seq, i)
             Return FastaSeq.Load(path)
         End Function
 
-        Public Function Export(Of T As I_FastaObject)(source As IEnumerable(Of T)) As FastaFile
+        Public Function Export(Of T As ISequenceProvider)(source As IEnumerable(Of T)) As FastaFile
             Dim SchemaCache As SchemaCache = New SchemaCache(GetType(T))
             Dim LQuery = (From objItem As T
                           In source
@@ -269,7 +269,7 @@ REDO:           seq = Mid(seq, i)
             Return LQuery
         End Function
 
-        Public Function Export(Of TFsaObject As I_FastaObject)(fa As TFsaObject) As FastaSeq
+        Public Function Export(Of TFsaObject As ISequenceProvider)(fa As TFsaObject) As FastaSeq
             If String.IsNullOrEmpty(fa.GetSequenceData) Then
                 Return Nothing
             End If
@@ -279,7 +279,7 @@ REDO:           seq = Mid(seq, i)
             Return fsa
         End Function
 
-        Private Function Export(objItem As I_FastaObject, SchemaCache As SchemaCache) As FastaSeq
+        Private Function Export(objItem As ISequenceProvider, SchemaCache As SchemaCache) As FastaSeq
             If String.IsNullOrEmpty(SchemaCache.TitleFormat) Then
                 Dim stringItems = (From pairItem As KeyValuePair(Of FastaAttributeItem, System.Reflection.PropertyInfo)
                                    In SchemaCache.attributes

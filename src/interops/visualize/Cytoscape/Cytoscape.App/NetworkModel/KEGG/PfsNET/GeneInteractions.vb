@@ -327,7 +327,7 @@ Namespace NetworkModel.PfsNET
                 Return Nothing
             End If
 
-            Dim ReactionList = (From item In [mod].Reaction Select item.Key).ToArray
+            Dim ReactionList = (From item In [mod].reaction Select item.name).ToArray
             Dim GeneIdList = [mod].GetPathwayGenes
 
             Dim Nodes = (From id As String

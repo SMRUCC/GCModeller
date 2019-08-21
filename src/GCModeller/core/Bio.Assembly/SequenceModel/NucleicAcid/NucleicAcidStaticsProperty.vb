@@ -161,6 +161,7 @@ Namespace SequenceModel.NucleotideModels
         ''' 
         <ExportAPI("GC%", Info:="Calculate the GC content of the target sequence data.")>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
         Public Function GCContent(Sequence As IPolymerSequenceModel) As Double
             Return GCContent(Sequence.SequenceData)
         End Function
