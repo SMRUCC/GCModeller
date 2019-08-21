@@ -175,7 +175,8 @@ Namespace netCDF.Components
         ''' <returns></returns>
         <XmlAttribute> Public Property type As CDFDataTypes
         ''' <summary>
-        ''' A number or string with the value of the attribute
+        ''' A number or string with the value of the attribute.
+        ''' (如果是bytes数组, 则应该编码为base64字符串之后赋值到这个属性, 并且类型应该设置为<see cref="CDFDataTypes.CHAR"/>, 因为在属性这里不接受数组类型)
         ''' </summary>
         ''' <returns></returns>
         <XmlText>

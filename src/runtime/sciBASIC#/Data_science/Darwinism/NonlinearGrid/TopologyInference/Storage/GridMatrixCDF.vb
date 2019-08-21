@@ -1,6 +1,8 @@
-﻿Imports Microsoft.VisualBasic.Data.IO.netCDF
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.IO.netCDF
 Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' 对于一个很大的矩阵而言, 因为XML文件是字符串格式, 序列化和反序列化都需要大量进行字符串的解析或者生成等操作, 
@@ -12,6 +14,7 @@ Public Module GridMatrixCDF
 
     ReadOnly doubleFullName$ = GetType(Double).FullName
 
+    <Extension>
     Public Sub WriteCDF(genome As GridSystem, cdf$, Optional names$() = Nothing)
         Dim attr As [Variant](Of attribute, attribute())
         Dim cor As Correlation
@@ -31,7 +34,9 @@ Public Module GridMatrixCDF
             Call cdfWriter.GlobalAttributes(
                 New attribute With {.name = "dataset", .type = CDFDataTypes.CHAR, .value = GetType(GridSystem).FullName},
                 New attribute With {.name = "size", .type = CDFDataTypes.INT, .value = names.Length},
-                New attribute With {.name = "create-time", .type = CDFDataTypes.CHAR, .value = Now.ToString}
+                New attribute With {.name = "create-time", .type = CDFDataTypes.CHAR, .value = Now.ToString},
+                New attribute With {.name = "variables", .type = CDFDataTypes.CHAR, .value = names.GetJson},
+                New attribute With {.name = "github", .type = CDFDataTypes.CHAR, .value = LICENSE.githubURL}
             )
 
             attr = New attribute With {
