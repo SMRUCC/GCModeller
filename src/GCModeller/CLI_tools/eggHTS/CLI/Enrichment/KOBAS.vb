@@ -217,10 +217,12 @@ Partial Module CLI
             enrichments.ToArray.SaveTo([in].TrimSuffix & ".csv")
         Else
             Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
-            Dim displays% = args.GetValue("/displays", 10)  ' The term/label display number
+            ' The term/label display number
+            Dim displays% = args("/displays") Or 10
 
             If bubbleStyle Then
-                Dim R$ = args.GetValue("/r", "log(x,1.5)")  ' 获取半径的计算公式              
+                ' 获取半径的计算公式     
+                Dim R$ = args("/r") Or "log(x,1.5)"
 
                 plot = enrichments.BubblePlot(GO_terms:=terms,
                                               pvalue:=pvalue,

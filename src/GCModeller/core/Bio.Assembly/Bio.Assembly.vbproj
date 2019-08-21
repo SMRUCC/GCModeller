@@ -738,6 +738,7 @@
     <Compile Include="ProteinModel\Extensions.vb" />
     <Compile Include="Query\MatchContext.vb" />
     <Compile Include="SequenceModel\Abstract.vb" />
+    <Compile Include="SequenceModel\Bits.vb" />
     <Compile Include="SequenceModel\CutSequence.vb" />
     <Compile Include="SequenceModel\FASTA\Abstract.vb" />
     <Compile Include="SequenceModel\FASTA\Extensions.vb" />
