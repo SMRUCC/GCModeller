@@ -54,7 +54,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Language
 
 Namespace SequenceModel
 

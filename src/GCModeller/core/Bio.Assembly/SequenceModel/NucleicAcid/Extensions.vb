@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Namespace SequenceModel.NucleotideModels
 
     <Package("NucleotideModel.Statics")>
+    <HideModuleName>
     Public Module Extensions
 
         <ExportAPI("Distance.Hamming")>
