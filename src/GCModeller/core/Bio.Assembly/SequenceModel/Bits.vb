@@ -34,10 +34,18 @@ Namespace SequenceModel
         ''' 主要是一个用于序列装配的帮助函数
         ''' </remarks>
         Public Function OverlapSize(another As Bits) As Integer
-            Return Math.Max(
-                overlapSize(bytes, another.bytes),
-                overlapSize(another.bytes, bytes)
-            )
+            Dim minW As Integer = Math.Min(another.length, Me.length) * 0.5
+            Dim size1, size2 As Integer
+
+            size1 = overlapSize(bytes, another.bytes)
+
+            If size1 >= minW Then
+                Return size1
+            End If
+
+            size2 = overlapSize(another.bytes, bytes)
+
+            Return Math.Max(size1, size2)
         End Function
 
         Private Shared Function overlapSize(a As Byte(), b As Byte()) As Integer
