@@ -34,20 +34,27 @@ Namespace SequenceModel
         ''' 主要是一个用于序列装配的帮助函数
         ''' </remarks>
         Public Function OverlapSize(another As Bits) As Integer
-            Dim first As Byte = another.bytes(Scan0)
+            Return Math.Max(
+                overlapSize(bytes, another.bytes),
+                overlapSize(another.bytes, bytes)
+            )
+        End Function
+
+        Private Shared Function overlapSize(a As Byte(), b As Byte()) As Integer
+            Dim first As Byte = b(Scan0)
             Dim break As Boolean = False
 
-            For i As Integer = 0 To bytes.Length - 1
-                If bytes(i) = first Then
+            For i As Integer = 0 To a.Length - 1
+                If a(i) = first Then
                     ' 从这里开始往后面进行一一比较
-                    For j As Integer = 0 To another.bytes.Length - 1
-                        If i + j = bytes.Length Then
+                    For j As Integer = 0 To b.Length - 1
+                        If i + j = a.Length Then
                             ' 当前的序列已经到头了
                             ' 说明已经找到了一个重叠区域
                             ' 这个重叠区域的长度为j
                             Return j
                         End If
-                        If another.bytes(j) <> bytes(i + j) Then
+                        If b(j) <> a(i + j) Then
                             ' 中间有一个位点不一致
                             ' 这个不是一个有效的重叠区域
                             break = True
@@ -60,7 +67,7 @@ Namespace SequenceModel
                         ' 并且没有不一致的位点
                         ' 说明存在一个有效的重叠区域
                         ' 区域的长度为another序列的长度
-                        Return another.bytes.Length
+                        Return b.Length
                     End If
                 End If
             Next

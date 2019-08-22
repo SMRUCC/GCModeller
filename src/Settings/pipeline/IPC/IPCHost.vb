@@ -59,12 +59,31 @@ Public Class IPCHost : Implements IDisposable
         Return host.Run
     End Function
 
+    ''' <summary>
+    ''' 主要是利用这个函数在内存中打开一个内存映射文件
+    ''' 写数据操作是由上游程序来完成的
+    ''' </summary>
+    ''' <param name="name"></param>
+    ''' <param name="size"></param>
+    ''' <param name="type"></param>
     Public Sub Register(name$, size&, type As TypeInfo)
-        Call CliPipeline.OpenForWrite($"memory:/{name}", size)
+        Dim resource As New Resource With {
+            .contentType = type,
+            .fullName = name,
+            .size = 0
+        }
+
+        Using buffer = CliPipeline.OpenForWrite($"memory:/{name}", size)
+        End Using
+
+        resource.Write()
+        resources(name) = resource
     End Sub
 
     Public Sub Delete(name As String)
-
+        If resources.ContainsKey(name) Then
+            Call resources.Remove(name)
+        End If
     End Sub
 
 #Region "IDisposable Support"
