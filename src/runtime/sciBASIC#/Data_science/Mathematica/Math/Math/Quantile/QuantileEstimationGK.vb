@@ -121,6 +121,13 @@ Namespace Quantile
             Call Insert(CDbl(v))
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="v"></param>
+        ''' <remarks>
+        ''' 对这个函数的调用无法被并行化
+        ''' </remarks>
         Public Sub Insert(v#)
             Dim idx As Integer = 0
 
@@ -140,9 +147,7 @@ Namespace Quantile
             Call sample.Insert(idx, New X(v, 1, delta))
 
             If sample.Count > compact_size Then
-                ' printList()
-                compress()
-                ' printList()
+                Call compress()
             End If
 
             Me.count += 1
