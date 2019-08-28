@@ -306,7 +306,7 @@ Namespace CommandLine.InteropService.SharedORM
                 envir = normAsVisualBasicName(envir)
 
                 Call CLI.AppendLine($"    If Not {envir}.{NameOf(StringEmpty)} Then")
-                Call CLI.AppendLine($"     Call CLI.Append($""/@set """"""""{Microsoft.VisualBasic.App.FlagInternalPipeline}=TRUE;'{{envir}}'"""""""" "")")
+                Call CLI.AppendLine($"     Call CLI.Append($""/@set """"""""{Microsoft.VisualBasic.App.FlagInternalPipeline}=TRUE;'{{{envir}}}'"""""""" "")")
                 Call CLI.AppendLine("Else")
                 ' 没有需要组装的,直接添加调用
                 Call CLI.AppendLine($"     Call CLI.Append(""/@set {Microsoft.VisualBasic.App.FlagInternalPipeline}=TRUE "")")

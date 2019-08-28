@@ -557,9 +557,10 @@ Public Function ClusterOTU(left As String, right As String, silva As String, Opt
             Call CLI.Append("/processors " & """" & processors & """ ")
     End If
     If Not _set.StringEmpty Then
-            Call CLI.Append("/@set " & """" & _set & """ ")
-    End If
+     Call CLI.Append($"/@set """"--internal_pipeline=TRUE;'{_set}'"""" ")
+Else
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
+    End If
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
