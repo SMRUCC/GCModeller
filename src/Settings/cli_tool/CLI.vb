@@ -55,11 +55,11 @@ Imports MySql = Oracle.LinuxCompatibility.MySQL.MySqli
 ''' GCModeller config tool
 ''' </summary>
 <Package("GCModeller.Configuration.CLI",
-                  Category:=APICategories.CLI_MAN,
-                  Url:="http://gcmodeller.org",
-                  Description:="GCModeller configuration console.",
-                  Publisher:="xie.guigang@gcmodeller.org",
-                  Revision:=215)>
+        Category:=APICategories.CLI_MAN,
+        Url:="http://gcmodeller.org",
+        Description:="GCModeller configuration console.",
+        Publisher:="xie.guigang@gcmodeller.org",
+        Revision:=215)>
 <ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
 <CLI> Public Module CLI
 
@@ -163,7 +163,7 @@ Imports MySql = Oracle.LinuxCompatibility.MySQL.MySqli
               Description:="The generated VisualBasic source file output directory location.")>
     <Group(CLI.Dev_CLI)>
     Public Function CLIDevelopment(args As CommandLine) As Integer
-        Dim out$ = args.GetValue("/out", "./Apps/")
+        Dim out$ = args("/out") Or "./Apps/"
         Dim CLI As New Value(Of Type)
 
         For Each file$ In ls - l - "*.exe" <= App.HOME
