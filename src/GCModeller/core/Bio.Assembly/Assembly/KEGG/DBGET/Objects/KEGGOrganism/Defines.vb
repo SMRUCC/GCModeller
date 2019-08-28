@@ -136,9 +136,24 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         End Function
     End Class
 
+    ''' <summary>
+    ''' 原核生物
+    ''' </summary>
+    ''' <remarks>
+    ''' 原核生物相较于真核生物的数据，在KEGG的列表中多了一个pubmed编号数据
+    ''' </remarks>
     Public Class Prokaryote : Inherits Organism
 
+        ''' <summary>
+        ''' 首次测序发表的年份
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property Year As String
+        ''' <summary>
+        ''' 首次测序发表的论文的在NCBI的pubmed数据库中的文献编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property pubmed As String
 
         Public Sub New()
         End Sub
@@ -176,6 +191,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                 Next
 
                 Tcode = Species.href.Match("T\d+")
+                pubmed = Year.href.Match("pubmed[/]\d+")
+
+                If Not pubmed.StringEmpty Then
+                    pubmed = pubmed.Split("/"c).Last
+                End If
             End If
         End Sub
 
