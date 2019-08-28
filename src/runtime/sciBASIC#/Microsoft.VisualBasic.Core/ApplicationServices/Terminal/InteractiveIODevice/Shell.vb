@@ -49,22 +49,31 @@ Namespace Terminal
 
     Public Class Shell
 
-        ReadOnly __ps1 As PS1
-        ReadOnly __shell As Action(Of String)
+        ReadOnly ps1 As PS1
+        ReadOnly shell As Action(Of String)
 
+        ''' <summary>
+        ''' Command text for exit the shell loop 
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Quite As String = ":q"
         Public Property History As String = ":h"
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="ps1">The commandline prompt prefix headers.</param>
+        ''' <param name="exec">How to execute the command line input.</param>
         Sub New(ps1 As PS1, exec As Action(Of String))
-            __ps1 = ps1
-            __shell = exec
+            Me.ps1 = ps1
+            Me.shell = exec
         End Sub
 
         Public Sub Run()
             Dim cli As String
 
             Do While True
-                Call Console.Write(__ps1.ToString)
+                Call Console.Write(ps1.ToString)
 
                 cli = Console.ReadLine
 
@@ -72,7 +81,7 @@ Namespace Terminal
                     Exit Do
                 End If
 
-                Call __shell(cli)
+                Call shell(cli)
             Loop
         End Sub
     End Class
