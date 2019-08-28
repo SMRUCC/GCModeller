@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8370d1520fdc1748a0b481d42b96f9d2, mime\application%json\BSON\BSON.vb"
+﻿#Region "Microsoft.VisualBasic::89a4abadb587be8bb4baab97dda93d46, mime\application%json\BSON\BSON.vb"
 
     ' Author:
     ' 
@@ -73,5 +73,3 @@ Namespace BSON
         End Function
     End Module
 End Namespace
-
-

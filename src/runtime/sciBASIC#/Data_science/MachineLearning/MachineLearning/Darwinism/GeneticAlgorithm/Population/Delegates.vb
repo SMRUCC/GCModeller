@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fd1c5d5cadb481b048d2da0f2bd8567, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Population\Delegates.vb"
+﻿#Region "Microsoft.VisualBasic::b20c07212994dac592af052b8a324152, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Population\Delegates.vb"
 
     ' Author:
     ' 
@@ -59,4 +59,3 @@ Namespace Darwinism.GAF
     Public Delegate Function PopulationCollectionCreator(Of Chr As {Class, Chromosome(Of Chr)})() As PopulationCollection(Of Chr)
 
 End Namespace
-

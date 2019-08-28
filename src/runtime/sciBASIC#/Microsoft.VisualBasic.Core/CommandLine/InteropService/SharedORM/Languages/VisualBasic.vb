@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::474a765d34b58776955e4769c25f2a6b, Microsoft.VisualBasic.Core\CommandLine\InteropService\SharedORM\Languages\VisualBasic.vb"
+﻿#Region "Microsoft.VisualBasic::a0e120cd0724c822a82a40107e2e0093, Microsoft.VisualBasic.Core\CommandLine\InteropService\SharedORM\Languages\VisualBasic.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: addXmlComments, createCliCalls, GetSourceCode, normalizedAsVisualBasicIdentifier, optionalDefaultValue
+    '         Function: addXmlComments, createCliCalls, GetSourceCode, normAsVisualBasicName, optionalDefaultValue
     '                   vbParameters
     ' 
     '         Sub: cliCallsInternal

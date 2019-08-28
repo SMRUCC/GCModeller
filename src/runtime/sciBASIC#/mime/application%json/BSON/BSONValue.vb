@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6495a60ce2dabf07d5c9849a5ef55a7f, mime\application%json\BSON\BSONValue.vb"
+﻿#Region "Microsoft.VisualBasic::ef8be4e797f5d30bf98a4d1714c005e3, mime\application%json\BSON\BSONValue.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Text
 Imports Microsoft.VisualBasic.Net.Http
@@ -322,4 +321,3 @@ Namespace BSON
         End Operator
     End Class
 End Namespace
-
