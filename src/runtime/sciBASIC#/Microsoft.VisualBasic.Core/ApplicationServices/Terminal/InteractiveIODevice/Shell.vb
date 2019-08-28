@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::a596d68f21ddfe88f4f2dacfb45376f7, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\InteractiveIODevice\Shell.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Shell
-    ' 
-    '         Properties: History, Quite
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: Run
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Shell
+' 
+'         Properties: History, Quite
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: Run
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 
 Namespace Terminal
@@ -52,8 +53,8 @@ Namespace Terminal
     ''' </summary>
     Public Class Shell
 
-        ReadOnly ps1 As PS1
-        ReadOnly shell As Action(Of String)
+        Public ReadOnly Property ps1 As PS1
+        Public ReadOnly Property shell As Action(Of String)
 
         ''' <summary>
         ''' Command text for exit the shell loop 
@@ -72,19 +73,24 @@ Namespace Terminal
             Me.shell = exec
         End Sub
 
+        ''' <summary>
+        ''' 执行一个配置好的命令行模型, 代码会被一直阻塞在这里
+        ''' </summary>
         Public Sub Run()
-            Dim cli As String
+            Dim cli As Value(Of String) = ""
 
             Do While True
                 Call Console.Write(ps1.ToString)
 
-                cli = Console.ReadLine
-
-                If String.Equals(cli, Quite) Then
-                    Exit Do
+                If (cli = Console.ReadLine).Trim.StringEmpty Then
+                    Continue Do
                 End If
 
-                Call shell(cli)
+                If cli.Value.TextEquals(Quite) Then
+                    Exit Do
+                Else
+                    Call _shell(cli)
+                End If
             Loop
         End Sub
     End Class
