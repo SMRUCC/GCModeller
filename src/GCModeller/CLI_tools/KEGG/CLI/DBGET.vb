@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::b2d1ab7bbb9603a657a165e02e61c50b, CLI_tools\KEGG\CLI\DBGET.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: DownloadCompounds, DownloadKEGGReaction, DownloadPathwayMaps, DownloadPathwayMapsBatchTask, DownloadReferenceMapDatabase
-    '               DownloadReferenceModule, DownloadsAllPathways, DownloadsBacteriasRefMaps, DumpKEGGMaps
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: DownloadCompounds, DownloadKEGGReaction, DownloadPathwayMaps, DownloadPathwayMapsBatchTask, DownloadReferenceMapDatabase
+'               DownloadReferenceModule, DownloadsAllPathways, DownloadsBacteriasRefMaps, DumpKEGGMaps
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,7 +58,8 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Metagenomics
 Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.MapDownloader
-Imports org = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
+Imports OrganismHText = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
+Imports Organism = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism.Organism
 
 Partial Module CLI
 
@@ -209,14 +210,41 @@ Partial Module CLI
     <ExportAPI("/Download.Pathway.Maps.Batch")>
     <Usage("/Download.Pathway.Maps.Batch /sp <kegg.sp_code.list> [/KGML /out <EXPORT_DIR>]")>
     <Group(CLIGroups.DBGET_tools)>
+    <Argument("/sp", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(String), GetType(Organism)},
+              Extensions:="*.txt, *.csv",
+              Description:="A list of kegg species code. If this parameter is a text file, 
+              then each line should be start with the kegg organism code in three or four letters, 
+              else if this parameter is a csv table file, then it must in format of kegg organism data model.")>
     Public Function DownloadPathwayMapsBatchTask(args As CommandLine) As Integer
-        Dim sp$ = args("/sp")
+        Dim sp$ = args <= "/sp"
         Dim out$ = args("/out") Or $"{sp.TrimSuffix}/"
         Dim isKGML As Boolean = args.IsTrue("/KGML")
+        Dim codes$()
+        Dim directory$
 
-        For Each id As String In sp.IterateAllLines.Select(Function(l) l.StringSplit("\s+").First)
-            Dim directory$ = $"{out}/{id}/"
-            Call Apps.KEGG_tools.DownloadPathwayMaps(sp:=id, out:=directory, kgml:=isKGML, _set:="progress_bar=disabled")
+        If sp.ExtensionSuffix.TextEquals("csv") Then
+            codes = sp.LoadCsv(Of Organism) _
+                .Select(Function(o) o.KEGGId) _
+                .Distinct _
+                .ToArray
+        Else
+            codes = sp.IterateAllLines _
+                .Select(Function(l)
+                            Return l.StringSplit("\s+").First
+                        End Function) _
+                .ToArray
+        End If
+
+        For Each id As String In codes
+            directory = $"{out}/{id}/"
+
+            Call Apps.KEGG_tools.DownloadPathwayMaps(
+                sp:=id,
+                out:=directory,
+                kgml:=isKGML,
+                _set:="progress_bar=disabled"
+            )
         Next
 
         Return 0
@@ -235,7 +263,7 @@ Partial Module CLI
             htext = htext.StreamParser([in])
         Else
             out = args("/out") Or (App.CurrentDirectory & $"/bacteria.All/")
-            htext = org.GetResource
+            htext = OrganismHText.GetResource
         End If
 
         Dim codes = htext.GetBacteriaList

@@ -69,8 +69,9 @@ Partial Module CLI
         Return model.SaveAsXml(out).CLICode
     End Function
 
-    <ExportAPI("/Pathway.geneIDs",
-               Usage:="/Pathway.geneIDs /in <pathway.XML> [/out <out.list.txt>]")>
+    <ExportAPI("/Pathway.geneIDs")>
+    <Description("Get a list of gene ids from the given kegg pathway model xml file.")>
+    <Usage("/Pathway.geneIDs /in <pathway.XML> [/out <out.list.txt>]")>
     Public Function PathwayGeneList(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".geneIDs.txt")
