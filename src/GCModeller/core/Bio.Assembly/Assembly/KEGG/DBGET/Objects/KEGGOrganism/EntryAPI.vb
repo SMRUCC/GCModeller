@@ -127,6 +127,18 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
             End If
         End Function
 
+        Private Function parseStat(html As String) As Dictionary(Of String, Integer)
+            Dim eukaryotes% = html.Match("Eukaryotes[:]\s*\d+").Split.Last.ParseInteger
+            Dim bacteria% = html.Match("Bacteria[:]\s*\d+").Split.Last.ParseInteger
+            Dim archaea% = html.Match("Archaea[:]\s*\d+").Split.Last.ParseInteger
+
+            Return New Dictionary(Of String, Integer) From {
+                {NameOf(eukaryotes), eukaryotes},
+                {NameOf(bacteria), bacteria},
+                {NameOf(archaea), archaea}
+            }
+        End Function
+
         ''' <summary>
         ''' Load KEGG organism list from the internal resource.
         ''' </summary>
@@ -135,6 +147,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         Public Function GetOrganismListFromResource() As KEGGOrganism
             Dim res As New ResourcesSatellite(GetType(EntryAPI).Assembly)
             Dim html As String = res.GetString("KEGG_Organism_Complete_Genomes")
+
             Return htmlParserInternal(html)
         End Function
 
@@ -144,20 +157,17 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
         Private Function htmlParserInternal(html As String) As KEGGOrganism
             Dim rows As String() = r.Matches(html, CELL, RegexICSng).ToArray.Skip(1).ToArray
-            Dim eulst As Organism() = New Organism(rows.Length - 1) {}
-            Dim i As Integer
-            Dim prlst As Prokaryote() = New Prokaryote(rows.Length - i) {}
+            Dim stats As Dictionary(Of String, Integer) = parseStat(html)
+            Dim eulst As Organism() = New Organism(stats!eukaryotes - 1) {}
+            Dim prlst As Prokaryote() = New Prokaryote(rows.Length - eulst.Length - 1) {}
 
-            For i = 0 To rows.Length - 1
+            For i As Integer = 0 To eulst.Length - 1
                 eulst(i) = Organism.parseObjectText(rows(i))
-
-                If eulst(i) Is Nothing Then
-                    Exit For
-                End If
             Next
 
             Dim j As Integer
-            For i = i + 1 To rows.Length - 1
+
+            For i As Integer = eulst.Length To rows.Length - 1
                 prlst(j) = New Prokaryote(rows(i))
                 j += 1
             Next
