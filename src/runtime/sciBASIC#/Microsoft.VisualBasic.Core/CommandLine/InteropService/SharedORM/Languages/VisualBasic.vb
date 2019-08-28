@@ -91,7 +91,7 @@ Namespace CommandLine.InteropService.SharedORM
             Call vb.AppendLine()
             Call vb.AppendLine("Namespace " & [namespace])
             Call vb.AppendLine()
-            Call vb.AppendLine(__xmlComments(XmlEntity.EscapingXmlEntity(info)))
+            Call vb.AppendLine(addXmlComments(XmlEntity.EscapingXmlEntity(info)))
             Call vb.AppendLine($"Public Class {appName} : Inherits {GetType(InteropService).Name}")
             Call vb.AppendLine()
             Call vb.AppendLine($"    Public Const App$ = ""{exe}.exe""")
@@ -106,7 +106,7 @@ Namespace CommandLine.InteropService.SharedORM
             Call vb.AppendLine("     End Function")
 
             For Each API In Me.EnumeratesAPI
-                Call __calls(vb, API.CLI, incompatible:=Not InCompatibleAttribute.CLRProcessCompatible(API.API))
+                Call cliCallsInternal(vb, API.CLI, incompatible:=Not InCompatibleAttribute.CLRProcessCompatible(API.API))
             Next
 
             Call vb.AppendLine("End Class")
@@ -115,7 +115,7 @@ Namespace CommandLine.InteropService.SharedORM
             Return vb.ToString
         End Function
 
-        Private Shared Function __xmlComments(description$) As String
+        Private Shared Function addXmlComments(description$) As String
             If description.StringEmpty Then
                 description = "'''"
             Else
@@ -133,14 +133,13 @@ Namespace CommandLine.InteropService.SharedORM
         End Function
 
         ''' <summary>
-        ''' 
+        ''' 生成一个命令行API的调用代码
         ''' </summary>
         ''' <param name="vb"></param>
         ''' <param name="API"></param>
         ''' <remarks>
         ''' </remarks>
-        Private Sub __calls(vb As StringBuilder, API As NamedValue(Of CommandLine), incompatible As Boolean)
-
+        Private Sub cliCallsInternal(vb As StringBuilder, API As NamedValue(Of CommandLine), incompatible As Boolean)
 #Region "Code template"
 
             ' Public Function CommandName(args$,....Optional args$....) As Integer
@@ -154,7 +153,7 @@ Namespace CommandLine.InteropService.SharedORM
             ' 直接使用函数原型的名字了，会比较容易辨别一些
             Dim func$ = API.Name
             ' Xml comment 已经是经过转义了的，所以不需要再做xml entity的转义了
-            Dim xmlComments$ = __xmlComments(API.Description)
+            Dim xmlComments$ = addXmlComments(API.Description)
             Dim params$()
 
             Try
@@ -164,7 +163,7 @@ Namespace CommandLine.InteropService.SharedORM
                     ' 不是以数字开头的，则尝试解决关键词的问题
                     func = KeywordProcessor.AutoEscapeVBKeyword(func)
                 End If
-                params = __vbParameters(API.Value)
+                params = vbParameters(API.Value)
             Catch ex As Exception
                 ex = New Exception("Check for your CLI Usage definition: " & API.Value.ToString, ex)
                 Throw ex
@@ -196,7 +195,7 @@ Namespace CommandLine.InteropService.SharedORM
         ''' </summary>
         ''' <param name="API"></param>
         ''' <returns></returns>
-        Private Shared Function __vbParameters(API As CommandLine) As String()
+        Private Shared Function vbParameters(API As CommandLine) As String()
             Dim out As New List(Of String)
             Dim param$
 
@@ -209,7 +208,7 @@ Namespace CommandLine.InteropService.SharedORM
 
                     If Not arg.Description.StringEmpty Then
                         ' 可选参数
-                        param = $"Optional {param} = ""{__defaultValue(arg.Value)}"""
+                        param = $"Optional {param} = ""{optionalDefaultValue(arg.Value)}"""
                     End If
 
                     out += param
@@ -228,7 +227,7 @@ Namespace CommandLine.InteropService.SharedORM
         ''' </summary>
         ''' <param name="value$"></param>
         ''' <returns></returns>
-        Private Shared Function __defaultValue(value$) As String
+        Private Shared Function optionalDefaultValue(value$) As String
             If value.First = """"c AndAlso value.Last = """"c Then
                 ' 如果是直接使用双引号包裹而不是使用<>尖括号进行包裹，则认为双引号所包裹的值都是默认值
                 value = value.GetStackValue(ASCII.Quot, ASCII.Quot)
