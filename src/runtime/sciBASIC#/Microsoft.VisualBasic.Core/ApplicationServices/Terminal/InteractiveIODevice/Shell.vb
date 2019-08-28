@@ -47,6 +47,9 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 
 Namespace Terminal
 
+    ''' <summary>
+    ''' Shell model for console.
+    ''' </summary>
     Public Class Shell
 
         ReadOnly ps1 As PS1

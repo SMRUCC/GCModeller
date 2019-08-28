@@ -108,8 +108,8 @@ Namespace Terminal.STDIO__
             Dim Tokens = Regex.Split(CommandLine, Global.Microsoft.VisualBasic.CommandLine.SPLIT_REGX_EXPRESSION)
             Dim EXE As String = Tokens.First
             Dim Arguments As String = Mid$(CommandLine, Len(EXE) + 1)
-            Dim Process As System.Diagnostics.Process = New Process
-            Dim pInfo As System.Diagnostics.ProcessStartInfo = New ProcessStartInfo(EXE, Arguments)
+            Dim Process As New Process
+            Dim pInfo As New ProcessStartInfo(EXE, Arguments)
 
             Process.StartInfo = pInfo
             Process.StartInfo.WindowStyle = WindowStyle
