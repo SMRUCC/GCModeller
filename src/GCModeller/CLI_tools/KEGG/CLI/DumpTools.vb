@@ -308,17 +308,35 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Return outFa.ToUpper.Save(out).CLICode
     End Function
 
+    ''' <summary>
+    ''' 导出KEGG物种信息表格
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 这个工具一般没有太多用途，主要是用于测试html文档解析器是否正确工作
+    ''' </remarks>
     <ExportAPI("/Dump.sp", Usage:="/Dump.sp [/res sp.html /out <out.csv>]")>
+    <Description("/Dumping KEGG organism table in csv file format.")>
+    <Argument("/res", True, CLITypes.File,
+              AcceptTypes:={GetType(String)},
+              Extensions:="*.txt, *.html",
+              Description:="By default is fetch table resource from web url: 'http://www.kegg.jp/kegg/catalog/org_list.html'.")>
     Public Function DumpOrganisms(args As CommandLine) As Integer
-        Dim res As String = args.GetValue("/res", "http://www.kegg.jp/kegg/catalog/org_list.html")
+        Dim res As String = args("/res") Or "http://www.kegg.jp/kegg/catalog/org_list.html"
         Dim result As KEGGOrganism = EntryAPI.FromResource(res)
         Dim table As List(Of Prokaryote) = result.Prokaryote.AsList + result.Eukaryotes.Select(Function(x) New Prokaryote(x))
-        Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/KEGG_Organism.csv")
+        Dim out As String = args("/out") Or (App.CurrentDirectory & "/KEGG_Organism.csv")
+
         Return table.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("/show.organism")>
     <Usage("/show.organism /code <kegg_sp> [/out <out.json>]")>
+    <Description("Save the summary information about the specific given kegg organism.")>
+    <Argument("/code", False, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The kegg organism brief code.")>
     Public Function ShowOrganism(args As CommandLine) As Integer
         Dim code$ = args <= "/code"
         Dim out$ = args("/out") Or $"./{code}.json"
