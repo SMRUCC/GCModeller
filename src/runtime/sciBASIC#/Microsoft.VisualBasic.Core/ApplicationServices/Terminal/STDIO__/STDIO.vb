@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ecd7b473e0dc43dfa7dec39c98e5467, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\STDIO__\STDIO.vb"
+﻿#Region "Microsoft.VisualBasic::746397a3e498941b6c5ecaa188fa1fb3, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\STDIO__\STDIO.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module STDIO
     ' 
-    '         Function: __testEquals, MsgBox, scanf, ZeroFill
+    '         Function: charTestEquals, MsgBox, scanf, ZeroFill
     ' 
     '         Sub: cat, fprintf, print, printf
     '         Delegate Function

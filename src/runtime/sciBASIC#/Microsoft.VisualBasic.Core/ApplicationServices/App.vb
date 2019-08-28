@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55ada024e60aa0a327e8b150bbf2f188, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::0ef8bf344a7af30b53867732f3d6f4e5, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
 
     ' Author:
     ' 
@@ -40,8 +40,8 @@
     '                 LogErrDIR, NanoTime, NextTempName, OutFile, PID
     '                 Platform, PreviousDirectory, Process, ProductName, ProductProgramData
     '                 ProductSharedDIR, ProductSharedTemp, References, Running, RunningInGitBash
-    '                 RunTimeDirectory, StartTime, StartupDirectory, StdErr, StdOut
-    '                 SysTemp, UnixTimeStamp, UserHOME, Version
+    '                 RunTimeDirectory, StartTime, StartupDirectory, StdErr, StdInput
+    '                 StdOut, SysTemp, UnixTimeStamp, UserHOME, Version
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
@@ -52,9 +52,9 @@
     '               (+3 Overloads) LogException, NullDevice, (+10 Overloads) RunCLI, RunCLIInternal, SelfFolk
     '               SelfFolks, Shell, tempCode, TemporaryEnvironment, TraceBugs
     ' 
-    '     Sub: __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory, Free
-    '          JoinVariable, (+2 Overloads) JoinVariables, Pause, (+2 Overloads) println, RunAsAdmin
-    '          SetBufferSize, StartGC, StopGC
+    '     Sub: [Stop], __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory
+    '          Free, JoinVariable, (+2 Overloads) JoinVariables, Pause, (+2 Overloads) println
+    '          RunAsAdmin, SetBufferSize, StartGC, StopGC
     ' 
     ' /********************************************************************************/
 

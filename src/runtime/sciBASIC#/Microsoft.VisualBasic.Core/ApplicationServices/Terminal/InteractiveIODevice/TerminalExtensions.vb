@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10a854194c79e6e0a93f21577272dedb, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\InteractiveIODevice\TerminalExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::1dc754b47a61180b1bdf10c4c1438493, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\InteractiveIODevice\TerminalExtensions.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     ' 
     '             Properties: ConsoleHandleInvalid, CurrentSize
     ' 
-    '             Sub: __detects
+    '             Sub: doEvents
     ' 
     ' 
     ' 
