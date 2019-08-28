@@ -173,7 +173,9 @@ Namespace CommandLine.InteropService.SharedORM
 
             Call vb.AppendLine($"Public Function {func}({params.JoinBy(", ")}) As Integer")
             Call vb.AppendLine($"    Dim CLI As New StringBuilder(""{API.Value.Name}"")")
-            Call vb.AppendLine("    Call CLI.Append("" "")") ' 插入命令名称和参数值之间的一个必须的空格
+
+            ' 插入命令名称和参数值之间的一个必须的空格
+            Call vb.AppendLine("    Call CLI.Append("" "")")
             Call vb.AppendLine(createCliCalls(+API))
             Call vb.AppendLine()
 
@@ -204,7 +206,7 @@ Namespace CommandLine.InteropService.SharedORM
                 out += $"term As String"
             Else
                 For Each arg As NamedValue(Of String) In API.ParameterList
-                    param = $"{VisualBasic.normalizedAsVisualBasicIdentifier(arg.Name)} As String"
+                    param = $"{VisualBasic.normAsVisualBasicName(arg.Name)} As String"
 
                     If Not arg.Description.StringEmpty Then
                         ' 可选参数
@@ -216,7 +218,7 @@ Namespace CommandLine.InteropService.SharedORM
             End If
 
             For Each bool In API.BoolFlags
-                out += $"Optional {VisualBasic.normalizedAsVisualBasicIdentifier(bool)} As Boolean = False"
+                out += $"Optional {VisualBasic.normAsVisualBasicName(bool)} As Boolean = False"
             Next
 
             Return out
@@ -238,7 +240,8 @@ Namespace CommandLine.InteropService.SharedORM
                 If InStr(value, "default=") > 0 Then
                     value = Strings.Split(value, "default=").Last.Trim(""""c)
                 Else
-                    value = "" ' 没有表达式前缀，则使用默认的空字符串
+                    ' 没有表达式前缀，则使用默认的空字符串
+                    value = ""
                 End If
             Else
                 ' 其他情况都认为是使用空值为默认值
@@ -253,19 +256,26 @@ Namespace CommandLine.InteropService.SharedORM
         ''' <summary>
         ''' 创建命令行调用字符串
         ''' </summary>
-        ''' <param name="Api"></param>
+        ''' <param name="api"></param>
         ''' <returns></returns>
-        Private Shared Function createCliCalls(Api As CommandLine) As String
+        Private Shared Function createCliCalls(api As CommandLine) As String
             Dim CLI As New StringBuilder
             Dim vbcode$
+            ' 可能在参数中存在/@set环境参数的设置的调用
+            Dim envir As String = Nothing
 
-            If Api.arguments = 1 AndAlso Api.arguments(Scan0).Name.StringEmpty Then
+            If api.arguments = 1 AndAlso api.arguments(Scan0).Name.StringEmpty Then
                 ' /command <term>
                 vbcode = "    Call CLI.Append($""{term}"")"
                 CLI.AppendLine(vbcode)
             Else
-                For Each param As NamedValue(Of String) In Api.ParameterList
-                    Dim var$ = normalizedAsVisualBasicIdentifier(param.Name)
+                For Each param As NamedValue(Of String) In api.ParameterList
+                    Dim var$ = normAsVisualBasicName(param.Name)
+
+                    If param.Name.TextEquals("/@set") Then
+                        envir = param.Name
+                        Continue For
+                    End If
 
                     ' 注意：在这句代码的最后有一个空格，是间隔参数所必需的，不可以删除
                     vbcode = $"    Call CLI.Append(""{param.Name} "" & """""""" & {var} & """""" "")"
@@ -282,15 +292,29 @@ Namespace CommandLine.InteropService.SharedORM
                 Next
             End If
 
-            For Each b In Api.BoolFlags
-                Dim var$ = normalizedAsVisualBasicIdentifier(b)
+            For Each b In api.BoolFlags
+                Dim var$ = normAsVisualBasicName(b)
 
                 Call CLI.AppendLine($"    If {var} Then")
-                Call CLI.AppendLine($"        Call CLI.Append(""{b} "")") ' 逻辑参数后面有一个空格，是正确的生成CLI所必需的
+                ' 逻辑参数后面有一个空格，是正确的生成CLI所必需的
+                Call CLI.AppendLine($"        Call CLI.Append(""{b} "")")
                 Call CLI.AppendLine("    End If")
             Next
 
-            Call CLI.AppendLine($"     Call CLI.Append(""/@set {Microsoft.VisualBasic.App.FlagInternalPipeline}=TRUE "")")
+            ' 在最后将/@set环境参数组装起来
+            If Not envir.StringEmpty Then
+                envir = normAsVisualBasicName(envir)
+
+                Call CLI.AppendLine($"    If Not {envir}.{NameOf(StringEmpty)} Then")
+                Call CLI.AppendLine($"     Call CLI.Append($""/@set """"""""{Microsoft.VisualBasic.App.FlagInternalPipeline}=TRUE;'{{envir}}'"""""""" "")")
+                Call CLI.AppendLine("Else")
+                ' 没有需要组装的,直接添加调用
+                Call CLI.AppendLine($"     Call CLI.Append(""/@set {Microsoft.VisualBasic.App.FlagInternalPipeline}=TRUE "")")
+                Call CLI.AppendLine("    End If")
+            Else
+                ' 没有需要组装的,直接添加调用
+                Call CLI.AppendLine($"     Call CLI.Append(""/@set {Microsoft.VisualBasic.App.FlagInternalPipeline}=TRUE "")")
+            End If
 
             Return CLI.ToString
         End Function
@@ -302,7 +326,7 @@ Namespace CommandLine.InteropService.SharedORM
         ''' </summary>
         ''' <param name="arg$"></param>
         ''' <returns></returns>
-        Private Shared Function normalizedAsVisualBasicIdentifier(arg$) As String
+        Private Shared Function normAsVisualBasicName(arg$) As String
             ' 在命令行的参数名称前面一般都会有/-之类的控制符前缀，在这里去掉
             Dim name$ = arg.Trim("/"c, "\"c, "-"c)
             Dim s As Char() = name.ToArray
