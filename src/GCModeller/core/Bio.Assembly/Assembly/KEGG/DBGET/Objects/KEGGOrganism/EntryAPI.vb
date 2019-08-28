@@ -1,51 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::e0d8a2953bb41e4991cf4aefc94f653f, Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module EntryAPI
-    ' 
-    '         Properties: Resources
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __fillClass, __loadList, FromResource, GetKEGGSpeciesCode, GetOrganismList
-    '                   GetOrganismListFromResource, GetValue
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module EntryAPI
+' 
+'         Properties: Resources
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: __fillClass, __loadList, FromResource, GetKEGGSpeciesCode, GetOrganismList
+'                   GetOrganismListFromResource, GetValue
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
@@ -163,74 +162,82 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                 j += 1
             Next
 
-            Dim LQuery As Organism() = LinqAPI.Exec(Of Organism) <=
- _
-                From Handle As Integer
-                In eulst.Sequence
-                Let obj As Organism = eulst(Handle)
-                Where Not obj Is Nothing
-                Select obj.Trim
-
-            Dim lstProk As Prokaryote() = LinqAPI.Exec(Of Prokaryote) <=
- _
-                From handle As Integer
-                In prlst.Sequence
-                Let obj As Prokaryote = prlst(handle)
-                Where Not obj Is Nothing
-                Select DirectCast(obj.Trim, Prokaryote)
-
             Return New KEGGOrganism With {
-                .Eukaryotes = LQuery,
-                .Prokaryote = lstProk
-            }.__fillClass
+                .Eukaryotes = eulst.trimOrganism.fillTaxonomyClass,
+                .Prokaryote = prlst.trimOrganism.fillTaxonomyClass
+            }
+        End Function
+
+        <Extension>
+        Private Function trimOrganism(orgs As IEnumerable(Of Prokaryote)) As IEnumerable(Of Prokaryote)
+            Return From org As Prokaryote
+                   In orgs
+                   Where Not org Is Nothing
+                   Select DirectCast(org.Trim, Prokaryote)
+        End Function
+
+        <Extension>
+        Private Function trimOrganism(orgs As IEnumerable(Of Organism)) As IEnumerable(Of Organism)
+            Return From org As Organism
+                   In orgs
+                   Where Not org Is Nothing
+                   Select org.Trim
         End Function
 
         ''' <summary>
         ''' 从上往下填充物种分类信息
         ''' </summary>
-        ''' <param name="org"></param>
+        ''' <param name="eukaryotes"></param>
         ''' <returns></returns>
         <Extension>
-        Private Function __fillClass(org As KEGGOrganism) As KEGGOrganism
-            Dim Phylum As String = ""
-            Dim [Class] As String = ""
+        Private Function fillTaxonomyClass(eukaryotes As IEnumerable(Of Organism)) As Organism()
+            Dim phylum As String = ""
+            Dim [class] As String = ""
+            Dim fillList As New List(Of Organism)
 
-            For idx As Integer = 0 To org.Eukaryotes.Length - 1
-                Dim Organism = org.Eukaryotes(idx)
-                If Not String.IsNullOrEmpty(Organism.Class) Then
-                    [Class] = Organism.Class
+            For Each organism As Organism In eukaryotes
+                If Not String.IsNullOrEmpty(organism.Class) Then
+                    [class] = organism.Class
                 Else
-                    Organism.Class = [Class]
+                    organism.Class = [class]
                 End If
-                If Not String.IsNullOrEmpty(Organism.Phylum) Then
-                    Phylum = Organism.Phylum
+
+                If Not String.IsNullOrEmpty(organism.Phylum) Then
+                    phylum = organism.Phylum
                 Else
-                    Organism.Phylum = Phylum
+                    organism.Phylum = phylum
                 End If
             Next
 
-            Dim Kingdom As String = ""
-            Phylum = "" : [Class] = ""
-            For idx As Integer = 0 To org.Prokaryote.Length - 1
-                Dim Organism = org.Prokaryote(idx)
-                If Not String.IsNullOrEmpty(Organism.Class) Then
-                    [Class] = Organism.Class
+            Return fillList.ToArray
+        End Function
+
+        <Extension>
+        Private Function fillTaxonomyClass(prokaryote As IEnumerable(Of Prokaryote)) As Prokaryote()
+            Dim kingdom As String = ""
+            Dim phylum$ = ""
+            Dim [class] = ""
+            Dim fillList As New List(Of Prokaryote)
+
+            For Each organism As Prokaryote In prokaryote
+                If Not String.IsNullOrEmpty(organism.Class) Then
+                    [class] = organism.Class
                 Else
-                    Organism.Class = [Class]
+                    organism.Class = [class]
                 End If
-                If Not String.IsNullOrEmpty(Organism.Phylum) Then
-                    Phylum = Organism.Phylum
+                If Not String.IsNullOrEmpty(organism.Phylum) Then
+                    phylum = organism.Phylum
                 Else
-                    Organism.Phylum = Phylum
+                    organism.Phylum = phylum
                 End If
-                If Not String.IsNullOrEmpty(Organism.Kingdom) Then
-                    Kingdom = Organism.Kingdom
+                If Not String.IsNullOrEmpty(organism.Kingdom) Then
+                    kingdom = organism.Kingdom
                 Else
-                    Organism.Kingdom = Kingdom
+                    organism.Kingdom = kingdom
                 End If
             Next
 
-            Return org
+            Return fillList
         End Function
 
         ''' <summary>
