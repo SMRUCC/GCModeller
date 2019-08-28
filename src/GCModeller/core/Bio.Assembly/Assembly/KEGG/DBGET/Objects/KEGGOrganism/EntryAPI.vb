@@ -167,7 +167,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
             Dim j As Integer
 
-            For i As Integer = eulst.Length To rows.Length - 1
+            For i As Integer = eulst.Length + 1 To rows.Length - 1
                 prlst(j) = New Prokaryote(rows(i))
                 j += 1
             Next
