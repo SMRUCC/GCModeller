@@ -1,58 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::e0e6cf0a46c593d0680417d561cc0388, Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\Defines.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Organism
-    ' 
-    '         Properties: [Class], KEGGId, Kingdom, Phylum, RefSeq
-    '                     Species
-    ' 
-    '         Function: __createObject, GetValue, ToString, Trim
-    ' 
-    '     Class Prokaryote
-    ' 
-    '         Properties: Year
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: GetValue, Trim
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Organism
+' 
+'         Properties: [Class], KEGGId, Kingdom, Phylum, RefSeq
+'                     Species
+' 
+'         Function: __createObject, GetValue, ToString, Trim
+' 
+'     Class Prokaryote
+' 
+'         Properties: Year
+' 
+'         Constructor: (+3 Overloads) Sub New
+'         Function: GetValue, Trim
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
@@ -96,23 +97,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         }
 
         Friend Overridable Function Trim() As Organism
-            Phylum = GetValue(Phylum)
-            [Class] = GetValue([Class])
-            Species = GetValue(Species)
-            KEGGId = GetValue(KEGGId)
+            Phylum = Phylum.GetValue()
+            [Class] = [Class].GetValue
+            Species = Species.GetValue
+            KEGGId = KEGGId.GetValue
+            Kingdom = Kingdom.GetValue
             RefSeq = Regex.Match(RefSeq, """.+""").Value
             RefSeq = Mid(RefSeq, 2, Len(RefSeq) - 2)
 
             Return Me
-        End Function
-
-        Protected Friend Shared Function GetValue(str As String) As String
-            If String.IsNullOrEmpty(str) Then
-                Return ""
-            End If
-            str = Regex.Match(str, ">.+?<", RegexOptions.Singleline).Value
-            str = Mid(str, 2, Len(str) - 2)
-            Return str
         End Function
 
         Friend Shared Function parseObjectText(text As String) As Organism
@@ -197,11 +190,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
             If String.IsNullOrEmpty(str) Then
                 Return ""
             End If
+
             Dim m = Regex.Match(str, "<a href="".+?"">.+?</a>")
+
             If m.Success Then
-                str = Organism.GetValue(m.Value)
+                str = m.Value.GetValue
             Else
-                str = Organism.GetValue(str)
+                str = str.GetValue
             End If
 
             Return str

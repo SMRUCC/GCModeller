@@ -193,6 +193,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         Private Function fillTaxonomyClass(eukaryotes As IEnumerable(Of Organism)) As Organism()
             Dim phylum As String = ""
             Dim [class] As String = ""
+            Dim kingdom As String = ""
             Dim fillList As New List(Of Organism)
 
             For Each organism As Organism In eukaryotes
@@ -207,6 +208,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                 Else
                     organism.Phylum = phylum
                 End If
+                If Not String.IsNullOrEmpty(organism.Kingdom) Then
+                    kingdom = organism.Kingdom
+                Else
+                    organism.Kingdom = kingdom
+                End If
+
+                fillList += organism
             Next
 
             Return fillList.ToArray
@@ -235,6 +243,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                 Else
                     organism.Kingdom = kingdom
                 End If
+
+                fillList += organism
             Next
 
             Return fillList
