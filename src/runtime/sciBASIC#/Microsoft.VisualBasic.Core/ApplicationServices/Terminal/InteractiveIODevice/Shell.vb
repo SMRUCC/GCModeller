@@ -43,6 +43,7 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 
@@ -55,6 +56,7 @@ Namespace Terminal
 
         Public ReadOnly Property ps1 As PS1
         Public ReadOnly Property shell As Action(Of String)
+        Public ReadOnly Property dev As TextReader
 
         ''' <summary>
         ''' Command text for exit the shell loop 
@@ -68,9 +70,10 @@ Namespace Terminal
         ''' </summary>
         ''' <param name="ps1">The commandline prompt prefix headers.</param>
         ''' <param name="exec">How to execute the command line input.</param>
-        Sub New(ps1 As PS1, exec As Action(Of String))
+        Sub New(ps1 As PS1, exec As Action(Of String), Optional dev As TextReader = Nothing)
             Me.ps1 = ps1
             Me.shell = exec
+            Me.dev = dev Or App.StdInput
         End Sub
 
         ''' <summary>
