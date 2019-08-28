@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70192c458ccd93699dbff8afa74c1893, Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::630bd9c2f96cfb35ac29ce5083d3172d, Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
 
     ' Author:
     ' 

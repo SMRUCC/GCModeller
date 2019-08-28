@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f8895344068643f509bb33689c9fa4b, test\KEGGenzymeTest.vb"
+﻿#Region "Microsoft.VisualBasic::361cba810d2d79fb2b2cc406e0111c35, test\KEGGenzymeTest.vb"
 
     ' Author:
     ' 
@@ -61,4 +61,3 @@ Module KEGGenzymeTest
         Pause()
     End Sub
 End Module
-

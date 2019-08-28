@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6df0d96f589d14de463f64e18c33f640, Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleBetaSheet.vb"
+﻿#Region "Microsoft.VisualBasic::04f4202e5547786938e22d6cc561dbb7, Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleBetaSheet.vb"
 
     ' Author:
     ' 

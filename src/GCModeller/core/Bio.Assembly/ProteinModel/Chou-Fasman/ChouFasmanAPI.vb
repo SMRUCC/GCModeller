@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::285b958d6768f2963c8f605a9e5c9f5f, Bio.Assembly\ProteinModel\Chou-Fasman\ChouFasmanAPI.vb"
+﻿#Region "Microsoft.VisualBasic::f988711a32d722dd0e849e0abc691369, Bio.Assembly\ProteinModel\Chou-Fasman\ChouFasmanAPI.vb"
 
     ' Author:
     ' 

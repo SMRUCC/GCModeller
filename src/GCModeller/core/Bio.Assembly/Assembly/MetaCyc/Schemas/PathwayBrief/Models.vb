@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a59ce67069d213941f385b471f408a9, Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\Models.vb"
+﻿#Region "Microsoft.VisualBasic::9ebf82726f6882e7b9b3a34573f4c9dd, Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\Models.vb"
 
     ' Author:
     ' 

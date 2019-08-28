@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d6ceb3270229e8a11b9bad601a4487c, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::9eac2adf8ae0bc61d3abc75341920d26, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,9 @@
 
     '     Module ReactionWebAPI
     ' 
-    '         Function: Download, FetchTo, ValueList
+    '         Function: Download, DownloadRelatedReactions, FetchTo, idFromInt32
+    ' 
+    '         Sub: DownloadAllReactions
     ' 
     ' 
     ' /********************************************************************************/

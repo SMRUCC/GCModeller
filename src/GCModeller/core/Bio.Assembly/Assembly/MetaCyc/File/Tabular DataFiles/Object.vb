@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0c5a8e44043f5273d5ee6cf6ea21b12, Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Object.vb"
+﻿#Region "Microsoft.VisualBasic::ffdb340015293834bb9c65aa2bfbc465, Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Object.vb"
 
     ' Author:
     ' 
