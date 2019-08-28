@@ -1030,6 +1030,13 @@ Public Module App
 
 #Region "CLI interpreter"
 
+    ''' <summary>
+    ''' 当前的应用程序是否退出运行了? 当调用<see cref="App.Exit(Integer)"/>方法的时候, 除了会终止程序的运行
+    ''' 还会讲这个属性设置为False
+    ''' 
+    ''' 在应用程序框架中, 有一些组件的线程会需要依赖于这个属性值来自动停止运行
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property Running As Boolean = True
 
     ''' <summary>
