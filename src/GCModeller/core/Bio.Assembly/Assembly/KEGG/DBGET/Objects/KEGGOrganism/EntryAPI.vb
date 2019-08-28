@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Levenshtein
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
@@ -74,7 +75,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         Sub New()
             Try
                 Dim mgr As New ResourcesSatellite(GetType(EntryAPI).Assembly)
-                Resources = __loadList(mgr.GetString("KEGG_Organism_Complete_Genomes"))
+                Resources = htmlParserInternal(mgr.GetString("KEGG_Organism_Complete_Genomes"))
                 OrgCodes = Resources _
                     .ToArray _
                     .ToDictionary(Function(x) x.KEGGId)
@@ -134,30 +135,31 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         <ExportAPI("list.Load", Info:="Load KEGG organism list from the internal resource.")>
         Public Function GetOrganismListFromResource() As KEGGOrganism
             Dim res As New ResourcesSatellite(GetType(EntryAPI).Assembly)
-            Dim html As String = res.GetString("KEGG_Organisms__Complete_Genomes")
-            Return __loadList(html)
+            Dim html As String = res.GetString("KEGG_Organism_Complete_Genomes")
+            Return htmlParserInternal(html)
         End Function
 
         Public Const WEB_URL As String = "http://www.genome.jp/kegg/catalog/org_list.html"
         Public Const DELIMITER As String = "</td>"
         Public Const CELL As String = "<tr .+?</tr>"
 
-        Private Function __loadList(html As String) As KEGGOrganism
-            Dim Tokens As String() = Regex.Matches(html, CELL, RegexICSng).ToArray.Skip(1).ToArray
-            Dim eulst As Organism() = New Organism(Tokens.Length - 1) {}
+        Private Function htmlParserInternal(html As String) As KEGGOrganism
+            Dim rows As String() = r.Matches(html, CELL, RegexICSng).ToArray.Skip(1).ToArray
+            Dim eulst As Organism() = New Organism(rows.Length - 1) {}
             Dim i As Integer
-            Dim prlst As Prokaryote() = New Prokaryote(Tokens.Length - i) {}
+            Dim prlst As Prokaryote() = New Prokaryote(rows.Length - i) {}
 
-            For i = 0 To Tokens.Length - 1
-                eulst(i) = Organism.__createObject(Tokens(i))
+            For i = 0 To rows.Length - 1
+                eulst(i) = Organism.parseObjectText(rows(i))
+
                 If eulst(i) Is Nothing Then
                     Exit For
                 End If
             Next
 
             Dim j As Integer
-            For i = i + 1 To Tokens.Length - 1
-                prlst(j) = New Prokaryote(Tokens(i))
+            For i = i + 1 To rows.Length - 1
+                prlst(j) = New Prokaryote(rows(i))
                 j += 1
             Next
 
@@ -232,23 +234,16 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         End Function
 
         ''' <summary>
-        ''' Gets the latest KEGG organism list from query the KEGG database.
-        ''' </summary>
-        ''' <returns></returns>
-        <ExportAPI("list.Get", Info:="Gets the latest KEGG organism list from query the KEGG database.")>
-        Public Function GetOrganismList() As KEGGOrganism
-            Dim html As String = WEB_URL.GET
-            Return __loadList(html)
-        End Function
-
-        ''' <summary>
         ''' Data from the external resources.
         ''' </summary>
-        ''' <param name="url"></param>
+        ''' <param name="url">
+        ''' By default is fetch from kegg web server for gets the latest KEGG organism list from query the KEGG database.
+        ''' </param>
         ''' <returns></returns>
-        Public Function FromResource(url As String) As KEGGOrganism
-            Dim page As String = url.GET
-            Return __loadList(page)
+        ''' 
+        <ExportAPI("list.Get", Info:="Gets the latest KEGG organism list from query the KEGG database.")>
+        Public Function FromResource(Optional url$ = WEB_URL) As KEGGOrganism
+            Return htmlParserInternal(html:=url.GET)
         End Function
     End Module
 End Namespace

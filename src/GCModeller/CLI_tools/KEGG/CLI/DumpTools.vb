@@ -316,7 +316,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     ''' <remarks>
     ''' 这个工具一般没有太多用途，主要是用于测试html文档解析器是否正确工作
     ''' </remarks>
-    <ExportAPI("/Dump.sp", Usage:="/Dump.sp [/res sp.html /out <out.csv>]")>
+    <ExportAPI("/Dump.sp", Usage:="/Dump.sp [/res <sp.html, default=weburl.html> /out <out.csv>]")>
     <Description("/Dumping KEGG organism table in csv file format.")>
     <Argument("/res", True, CLITypes.File,
               AcceptTypes:={GetType(String)},

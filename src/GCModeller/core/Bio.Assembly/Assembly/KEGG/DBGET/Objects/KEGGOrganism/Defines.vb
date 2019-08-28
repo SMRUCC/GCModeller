@@ -115,7 +115,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
             Return str
         End Function
 
-        Friend Shared Function __createObject(text As String) As Organism
+        Friend Shared Function parseObjectText(text As String) As Organism
             Dim Tokens As String() = Regex.Matches(text, "<a href=.+?</a>", RegexICSng).ToArray
             If Tokens.IsNullOrEmpty Then Return Nothing
             Dim Organism As Organism = New Organism
