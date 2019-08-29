@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dfaa0ac0307e86a7cb297a84a3c14407, Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
+﻿#Region "Microsoft.VisualBasic::090bba80e6421f312bb4f3b3a0301583, Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
 
     ' Author:
     ' 
@@ -223,8 +223,8 @@ Namespace Assembly.KEGG.WebServices
 
         ''' <summary>SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.QueryEntry
         ''' KEGG species id, the general species string in NCBI database can be mapping through the organism list which can 
-        ''' be get from method <see cref="KEGG.DBGET.bGetObject.Organism.GetOrganismList"></see>.(KEGG
-        ''' 数据库中的物种ID编号的简写形式，NCBI数据库中的标准的物种编号可以通过方法<see cref="KEGG.DBGET.bGetObject.Organism.GetOrganismList"></see>
+        ''' be get from method <see cref="KEGG.DBGET.bGetObject.Organism.FromResource(String)"></see>.(KEGG
+        ''' 数据库中的物种ID编号的简写形式，NCBI数据库中的标准的物种编号可以通过方法<see cref="KEGG.DBGET.bGetObject.Organism.FromResource(String)"></see>
         ''' 来进行映射)
         ''' </summary>
         ''' <value></value>

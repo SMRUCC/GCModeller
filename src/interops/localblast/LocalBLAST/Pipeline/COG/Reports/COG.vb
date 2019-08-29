@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6717323bab196cb84c3c256e8b501cb7, localblast\LocalBLAST\Pipeline\COG\Reports\COG.vb"
+﻿#Region "Microsoft.VisualBasic::fbe0b2ac474e00591d540dd015c8641f, LocalBLAST\Pipeline\COG\Reports\COG.vb"
 
     ' Author:
     ' 
@@ -61,8 +61,8 @@ Namespace Pipeline.COG
         Implements INamedValue, IFeatureDigest, IQueryHits
 
         <Column("#Query")>
-        Public Property QueryName As String Implements IBlastHit.locusId, INamedValue.Key
-        Public Property Hit As String Implements IBlastHit.Address, IFeatureDigest.Feature
+        Public Property QueryName As String Implements IBlastHit.queryName, INamedValue.Key
+        Public Property Hit As String Implements IBlastHit.hitName, IFeatureDigest.Feature
         <Column("E-value")>
         Public Property Evalue As Double
         Public Property Score As Double

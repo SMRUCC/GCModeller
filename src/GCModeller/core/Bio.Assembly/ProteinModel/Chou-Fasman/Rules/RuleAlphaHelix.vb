@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de0eef33dc914b8b641aa970e58d1794, Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleAlphaHelix.vb"
+﻿#Region "Microsoft.VisualBasic::2ba7b4d4bee7a2d5afedf9075649e4ff, Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleAlphaHelix.vb"
 
     ' Author:
     ' 

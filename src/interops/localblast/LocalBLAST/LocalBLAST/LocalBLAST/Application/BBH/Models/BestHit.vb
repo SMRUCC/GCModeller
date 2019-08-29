@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef0ba5c3a9418e52fbbbf014182e84f4, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BestHit.vb"
+﻿#Region "Microsoft.VisualBasic::8a77938acb0338e737d3e0f51866d27d, LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BestHit.vb"
 
     ' Author:
     ' 
@@ -34,8 +34,8 @@
     '     Class BestHit
     ' 
     '         Properties: coverage, description, evalue, hit_length, identities
-    '                     length_hit, length_hsp, length_query, Positive, query_length
-    '                     SBHScore, Score
+    '                     length_hit, length_hsp, length_query, positive, query_length
+    '                     SBHScore, score
     ' 
     '         Function: FindByQueryName, IsMatchedBesthit, IsNullOrEmpty, ToString
     ' 
@@ -53,7 +53,8 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Namespace LocalBLAST.Application.BBH
 
     ''' <summary>
-    ''' 单向的最佳比对结果
+    ''' A single direction best hit.
+    ''' (单向的最佳比对结果)
     ''' </summary>
     ''' <remarks></remarks>
     Public Class BestHit : Inherits I_BlastQueryHit
@@ -61,10 +62,10 @@ Namespace LocalBLAST.Application.BBH
 
         <Column("query_length")> Public Property query_length As Integer
         <Column("hit_length")> Public Property hit_length As Integer
-        <Column("score")> Public Property Score As Double
+        <Column("score")> Public Property score As Double
         <Column("e-value")> Public Property evalue As Double
         <Column("identities")> Public Property identities As Double Implements IQueryHits.identities
-        <Column("positive")> Public Property Positive As Double
+        <Column("positive")> Public Property positive As Double
         <Column("length_hit")> Public Property length_hit As Integer
         <Column("length_query")> Public Property length_query As Integer
         <Column("length_hsp")> Public Property length_hsp As Integer
@@ -113,12 +114,12 @@ Namespace LocalBLAST.Application.BBH
             Return LQuery
         End Function
 
-        Public Shared Function IsNullOrEmpty(Of T As BestHit)(data As IEnumerable(Of T), Optional TrimSelfAligned As Boolean = False) As Boolean
+        Public Shared Function IsNullOrEmpty(Of T As BestHit)(data As IEnumerable(Of T), Optional trimSelfAligned As Boolean = False) As Boolean
             If data.IsNullOrEmpty Then
                 Return True
             End If
 
-            If Not TrimSelfAligned Then
+            If Not trimSelfAligned Then
                 Dim LQuery = (From hit As T In data.AsParallel
                               Where Not String.Equals(hit.HitName, IBlastOutput.HITS_NOT_FOUND)
                               Select hit).FirstOrDefault

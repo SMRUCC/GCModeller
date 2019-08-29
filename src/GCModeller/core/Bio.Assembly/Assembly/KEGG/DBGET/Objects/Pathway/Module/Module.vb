@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ff2cf2aef26b5a5d5cbf5123d83b471, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb"
+﻿#Region "Microsoft.VisualBasic::76b52f32439816bc4a440f724fb280e3, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     '     Class [Module]
     ' 
-    '         Properties: briteID, Compound, Name, Pathway, PathwayGenes
-    '                     Reaction
+    '         Properties: briteID, compound, name, pathway, pathwayGenes
+    '                     reaction
     ' 
     '         Function: ContainsReaction, GetKEGGReactionIdlist, GetPathwayGenes
     ' 
@@ -140,22 +140,22 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     <XmlRoot("KEGG.MODULE", Namespace:="http://www.genome.jp/dbget-bin/get_linkdb?-t+module+genome")>
     Public Class [Module] : Inherits PathwayBrief
 
-        Public Property Name As String
-        Public Property Pathway As KeyValuePair()
-        Public Property Compound As KeyValuePair()
-        Public Property Reaction As KeyValuePair()
+        Public Property name As String
+        Public Property pathway As NamedValue()
+        Public Property compound As NamedValue()
+        Public Property reaction As NamedValue()
             Get
                 Return reactions
             End Get
-            Set(value As KeyValuePair())
-                reactions = value
-                rnTable = KeyValuePair.ToDictionary(value)
+            Set
+                reactions = Value
+                rnTable = KeyValuePair.ToDictionary(Value)
             End Set
         End Property
 
-        Public Property PathwayGenes As KeyValuePair()
+        Public Property pathwayGenes As NamedValue()
 
-        Dim reactions As KeyValuePair()
+        Dim reactions As NamedValue()
         Dim rnTable As Dictionary(Of String, String)
 
         Public Function ContainsReaction(Id As String) As Boolean
@@ -194,13 +194,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim buf As New List(Of String)
 
             For Each [mod] As [Module] In mods
-                If [mod].Reaction.IsNullOrEmpty Then
+                If [mod].reaction.IsNullOrEmpty Then
                     Continue For
                 End If
 
-                buf += From rxn As KeyValuePair
-                       In [mod].Reaction
-                       Select rxn.Key
+                buf += From rxn As NamedValue
+                       In [mod].reaction
+                       Select rxn.name
             Next
 
             Return (From strId As String In buf Select strId Distinct).ToArray
@@ -215,7 +215,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Return New String() {}
             End If
 
-            Return PathwayGenes.Select(Function(x) x.Key).ToArray
+            Return PathwayGenes.Select(Function(x) x.name).ToArray
         End Function
     End Class
 End Namespace

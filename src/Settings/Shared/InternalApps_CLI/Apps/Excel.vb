@@ -231,15 +231,18 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Print /in &lt;table.csv/xlsx> [/sheet &lt;sheetName> /out &lt;device/txt>]
+''' /Print /in &lt;table.csv/xlsx> [/fields &lt;fieldNames> /sheet &lt;sheetName> /out &lt;device/txt>]
 ''' ```
 ''' Print the csv/xlsx file content onto the console screen or text file in table layout.
 ''' </summary>
 '''
-Public Function Print([in] As String, Optional sheet As String = "", Optional out As String = "") As Integer
+Public Function Print([in] As String, Optional fields As String = "", Optional sheet As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Print")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not fields.StringEmpty Then
+            Call CLI.Append("/fields " & """" & fields & """ ")
+    End If
     If Not sheet.StringEmpty Then
             Call CLI.Append("/sheet " & """" & sheet & """ ")
     End If

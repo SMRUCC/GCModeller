@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55a90b718c29c523b43d43daad7677c8, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb"
+﻿#Region "Microsoft.VisualBasic::31b7790257141adc65c454e3b7a1628a, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb"
 
     ' Author:
     ' 
@@ -77,11 +77,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Const COMPOUND_SPLIT As String = "\<a href\=""/dbget-bin/www_bget\?((cpd)|(gl)):.+?""\>.+?\</a\>.+?"
 
         <Extension>
-        Friend Function parseOrthologyTerms(data As IEnumerable(Of KeyValuePair)) As OrthologyTerms
+        Friend Function parseOrthologyTerms(data As IEnumerable(Of NamedValue)) As OrthologyTerms
             Dim terms As XmlProperty() = data.SafeQuery _
                 .Select(Function(t)
-                            Dim valueTuple = t.Value.GetTagValue(";")
-                            Return New XmlProperty(t.Key, valueTuple.Name, Strings.Trim(valueTuple.Value))
+                            Dim valueTuple = t.text.GetTagValue(";")
+                            Dim note$ = Strings.Trim(valueTuple.Value)
+
+                            Return New XmlProperty(t.name, valueTuple.Name, note)
                         End Function) _
                 .ToArray
 
@@ -111,8 +113,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .pathwayMap = __parseHTML_ModuleList(WebForm.GetValue("Pathway map").FirstOrDefault, LIST_TYPES.Pathway).FirstOrDefault,
                 .description = WebForm.__description,
                 .modules = __parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module),
-                .genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .organism.Key)).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
-                .compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT).Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray,
+                .genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .organism.Key)).ToArray,
+                .compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT).ToArray,
                 .references = WebForm.References,
                 .otherDBs = WebForm("Other DBs").FirstOrDefault.__otherDBs,
                 .drugs = WebForm("Drug").FirstOrDefault.__pathwayDrugs

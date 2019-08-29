@@ -1,62 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::390caa7da6bf3414e89395de59d6e4ef, CLI_tools\kb\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: BingAcademicQuery, GetKBAbstractInformation, Summary, TranslateField, WordTranslation
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: BingAcademicQuery, GetKBAbstractInformation, Summary, TranslateField, WordTranslation
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.KnowledgeBase.Web.Bing
+Imports Microsoft.VisualBasic.Data.KnowledgeBase.Web.Bing.Academic
+Imports Microsoft.VisualBasic.Data.KnowledgeBase.Web.Bing.Translation
 Imports Microsoft.VisualBasic.Data.NLP
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Webservices.Bing
-Imports Microsoft.VisualBasic.Webservices.Bing.Academic
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base
-Imports BingTranslation = Microsoft.VisualBasic.Webservices.Bing.Translation
+Imports BingTranslation = Microsoft.VisualBasic.Data.KnowledgeBase.Web.Bing.Translation
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
-Module CLI
+<CLI> Module CLI
 
     <ExportAPI("/kb.build.query")>
     <Usage("/kb.build.query /term <term> [/pages <default=20> /out <out.directory>]")>

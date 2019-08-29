@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50f5e5d8b3cb734862ac6781d2e1dcf6, localblast\LocalBLAST\Web\KeggSSDB.vb"
+﻿#Region "Microsoft.VisualBasic::50f5e5d8b3cb734862ac6781d2e1dcf6, LocalBLAST\Web\KeggSSDB.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05cdc9a9a85b407cf0e3d25ad0fd37ff, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
+﻿#Region "Microsoft.VisualBasic::f15be08f11128c7d1a833d6e9d16d9bf, LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module BBHParser
     ' 
-    '         Function: __bhHash, __export, __topBesthit, BBHScore, BBHTop
+    '         Function: __export, __topBesthit, BBHScore, BBHTop, bhTopTable
     '                   EnzymeClassification, generateBBH, get_DiReBh, GetBBHTop, GetDirreBhAll
     '                   (+2 Overloads) GetDirreBhAll2, hashSet, MapsNames, QueryNames, SBHScore
     '                   StripTopBest, TopHit
@@ -127,9 +127,9 @@ Namespace LocalBLAST.Application.BBH
                                     .HitName = hit.HitName,
                                     .forward = hit.identities,
                                     .reverse = subject.identities,
-                                    .Length = hit.length_hit,
-                                    .Positive = Math.Max(hit.Positive, subject.Positive),
-                                    .Description = subject.description
+                                    .length = hit.length_hit,
+                                    .positive = Math.Max(hit.positive, subject.positive),
+                                    .description = subject.description
                                 }
                             End If
                         End If
@@ -185,16 +185,16 @@ Namespace LocalBLAST.Application.BBH
                 Return New BiDirectionalBesthit With {  ' 可以双向匹配
                     .QueryName = row.QueryName,
                     .HitName = row.HitName,
-                    .Length = row.query_length,
+                    .length = row.query_length,
                     .forward = row.identities,
                     .reverse = row.identities,
-                    .Positive = row.Positive
+                    .positive = row.positive
                 }
             Else
                 Return New BiDirectionalBesthit With {
                     .QueryName = row.QueryName,
                     .HitName = "",
-                    .Length = row.query_length
+                    .length = row.query_length
                 }
             End If
         End Function
@@ -275,7 +275,7 @@ Namespace LocalBLAST.Application.BBH
                 ' 匹配不上，则返回空的hitname
                 Return New BiDirectionalBesthit With {
                     .QueryName = Query.QueryName,
-                    .Length = Query.query_length
+                    .length = Query.query_length
                 }
             End If
 
@@ -284,7 +284,7 @@ Namespace LocalBLAST.Application.BBH
             ' Subject对象为反向比对结果，其Hitname属性自然为正向比对的Query对象属性
             Dim BestHit = New BiDirectionalBesthit With {
                 .QueryName = Query.QueryName,
-                .Length = Query.query_length
+                .length = Query.query_length
             }
 
             If String.Equals(Query.QueryName, HitsName) Then
@@ -292,7 +292,7 @@ Namespace LocalBLAST.Application.BBH
                 BestHit.HitName = Query.HitName
                 BestHit.forward = Query.identities
                 BestHit.reverse = Subject.identities
-                BestHit.Positive = Math.Max(Query.Positive, Subject.Positive)
+                BestHit.positive = Math.Max(Query.positive, Subject.positive)
             End If
 
             Return BestHit
@@ -306,10 +306,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <param name="coverage"></param>
         ''' <returns></returns>
         <Extension>
-        Private Function __bhHash(source As IEnumerable(Of BestHit),
-                                  identities As Double,
-                                  coverage As Double) As Dictionary(Of String, BestHit)
-
+        Private Function bhTopTable(source As IEnumerable(Of BestHit), identities As Double, coverage As Double) As Dictionary(Of String, BestHit)
             Return (From x As BestHit
                     In source
                     Where x.IsMatchedBesthit(identities, coverage)
@@ -321,7 +318,7 @@ Namespace LocalBLAST.Application.BBH
 
         <Extension>
         Public Function BBHScore(bbh As BiDirectionalBesthit) As Double
-            Return bbh.Length * bbh.Identities
+            Return bbh.length * bbh.identities
         End Function
 
         <Extension>
@@ -375,8 +372,8 @@ Namespace LocalBLAST.Application.BBH
         ''' </remarks>
         <ExportAPI("BBH")>
         Public Function GetBBHTop(qvs As BestHit(), svq As BestHit(), Optional identities# = -1, Optional coverage# = -1) As BiDirectionalBesthit()
-            Dim qHash As Dictionary(Of String, BestHit) = qvs.__bhHash(identities, coverage)
-            Dim shash As Dictionary(Of String, BestHit) = svq.__bhHash(identities, coverage)
+            Dim qHash As Dictionary(Of String, BestHit) = qvs.bhTopTable(identities, coverage)
+            Dim shash As Dictionary(Of String, BestHit) = svq.bhTopTable(identities, coverage)
             Dim result As New List(Of BiDirectionalBesthit)
 
             VBDebugger.Mute = True
@@ -419,9 +416,9 @@ Namespace LocalBLAST.Application.BBH
                             .HitName = query.HitName,
                             .forward = query.identities,
                             .reverse = subject.identities,
-                            .Length = query.length_hit,
-                            .Positive = Math.Max(query.Positive, subject.Positive),
-                            .Description = query.description
+                            .length = query.length_hit,
+                            .positive = Math.Max(query.positive, subject.positive),
+                            .description = query.description
                         }
                     End If
                 End If

@@ -22,6 +22,16 @@ Public Class Background : Inherits XmlDataModel
     <XmlElement>
     Public Property clusters As Cluster()
 
+    Public Function SubsetOf(predicate As Func(Of Cluster, Boolean)) As Background
+        Return New Background With {
+            .build = build,
+            .clusters = clusters.Where(predicate).ToArray,
+            .comments = comments,
+            .name = name,
+            .size = size
+        }
+    End Function
+
     Public Overrides Function ToString() As String
         Return name
     End Function

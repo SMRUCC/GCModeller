@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a58c7183919f9c261664e3573f7dfa6, Bio.Assembly\Assembly\NCBI\Database\CDD\CDD.vb"
+﻿#Region "Microsoft.VisualBasic::7d2aa88e105d3ea03aacfb24030bce8f, Bio.Assembly\Assembly\NCBI\Database\CDD\CDD.vb"
 
     ' Author:
     ' 

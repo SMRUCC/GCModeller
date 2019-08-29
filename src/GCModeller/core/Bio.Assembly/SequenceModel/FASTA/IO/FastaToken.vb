@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc06787359f7f8949b023a5a63911e2d, Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
+﻿#Region "Microsoft.VisualBasic::d47a8eb381bf6efced623b78334bc8c0, Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
 
     ' Author:
     ' 
@@ -37,10 +37,11 @@
     ' 
     '         Constructor: (+7 Overloads) Sub New
     ' 
-    '         Function: Clone, Complement, (+2 Overloads) Copy, Equals, GenerateDocument
-    '                   GenerateDocumentText, GrepTitle, Load, LoadNucleotideData, ParseFromStream
-    '                   Reverse, Save, SaveAsOneLine, (+2 Overloads) SaveTo, SequenceLineBreak
-    '                   ToLower, ToString, ToUpper, TryParse
+    '         Function: Clone, Complement, Copy, Equals, GenerateDocument
+    '                   GenerateDocumentText, GetSequenceData, GrepTitle, Load, LoadNucleotideData
+    '                   objClone, ParseFromStream, Reverse, Save, SaveAsOneLine
+    '                   (+2 Overloads) SaveTo, SequenceLineBreak, ToLower, ToString, ToUpper
+    '                   TryParse
     ' 
     '         Sub: AddAttribute, CopyTo, InsertAttribute, RemoveAttribute, SequenceLineBreak
     '              SetAttribute
@@ -55,6 +56,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -78,7 +80,7 @@ Namespace SequenceModel.FASTA
         Implements IPolymerSequenceModel
         Implements IAbstractFastaToken
         Implements ISaveHandle
-        Implements I_FastaProvider
+        Implements IFastaProvider
         Implements ICloneable
         Implements ICloneable(Of FastaSeq)
 
@@ -112,7 +114,7 @@ AAGCGAACAAATGTTCTATA"
         ''' usually different between each biological database.(这个FASTA文件的属性头，标题的格式通常在不同的数据库之间是具有很大差异的)
         ''' </summary>
         ''' <remarks></remarks>
-        Public Overridable Property Headers As String() Implements IAbstractFastaToken.Headers, I_FastaProvider.Headers
+        Public Overridable Property Headers As String() Implements IAbstractFastaToken.headers
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return innerList.ToArray
@@ -156,7 +158,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title, I_FastaProvider.Title
+        Public ReadOnly Property Title As String Implements IAbstractFastaToken.title, IFastaProvider.title
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Me.ToString
@@ -214,7 +216,7 @@ AAGCGAACAAATGTTCTATA"
 
         Sub New(seq As IAbstractFastaToken)
             Me.SequenceData = seq.SequenceData
-            Me.Headers = seq.Headers
+            Me.Headers = seq.headers
         End Sub
 
         Sub New(attrs As IEnumerable(Of String), seq As String)
@@ -222,9 +224,9 @@ AAGCGAACAAATGTTCTATA"
             Me.Headers = attrs.ToArray
         End Sub
 
-        Sub New(seq As I_FastaProvider)
-            Me.SequenceData = seq.SequenceData
-            Me.Headers = seq.Headers
+        Sub New(seq As IFastaProvider, Optional attributeParser As Func(Of String, String()) = Nothing)
+            Me.SequenceData = seq.GetSequenceData
+            Me.Headers = (attributeParser Or defaultTitleAttributes)(seq.title)
         End Sub
 
         Sub New(attrs$(), seq As IPolymerSequenceModel)
@@ -244,6 +246,8 @@ AAGCGAACAAATGTTCTATA"
         Public Overrides Function ToString() As String
             Return String.Join(DefaultHeaderDelimiter, Me.Headers)
         End Function
+
+        Public Shared ReadOnly defaultTitleAttributes As New [Default](Of Func(Of String, String()))(Function(title) title.Split("|"c))
 
         ''' <summary>
         ''' You can using this function to convert the title from current format into another format.(使用这个方法将Fasta序列对象的标题从当前的格式转换为另外一种格式)
@@ -549,7 +553,7 @@ AAGCGAACAAATGTTCTATA"
 
         <ExportAPI("ToDoc")>
         Public Shared Function GenerateDocumentText(FastaObject As IAbstractFastaToken) As String
-            Return String.Format(">{0}{1}{2}", FastaObject.Title, vbCrLf, FastaObject.SequenceData).Replace(vbCr, "")
+            Return String.Format(">{0}{1}{2}", FastaObject.title, vbCrLf, FastaObject.SequenceData).Replace(vbCr, "")
         End Function
 
         ''' <summary>
@@ -615,6 +619,10 @@ AAGCGAACAAATGTTCTATA"
                 .Headers = Me.Headers.ToArray,
                 .SequenceData = New String(SequenceData)
             }
+        End Function
+
+        Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
+            Return SequenceData
         End Function
     End Class
 End Namespace

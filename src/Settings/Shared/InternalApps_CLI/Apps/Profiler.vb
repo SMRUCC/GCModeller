@@ -25,10 +25,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /GO.clusters:     
-'  /GSEA:            Do gene set enrichment analysis.
-'  /id.converts:     
-'  /KO.clusters:     Create KEGG pathway map background for a given genome data.
+'  /GO.clusters:            
+'  /GSEA:                   Do gene set enrichment analysis.
+'  /id.converts:            
+'  /KO.clusters:            Create KEGG pathway map background for a given genome data.
+'  /KO.clusters.By_bbh:     
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -80,16 +81,19 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /GSEA /background &lt;clusters.XML> /geneSet &lt;geneSet.txt> [/hide.progress /locus_tag /out &lt;out.csv>]
+''' /GSEA /background &lt;clusters.XML> /geneSet &lt;geneSet.txt> [/hide.progress /locus_tag /cluster_id &lt;null, debug_used> /out &lt;out.csv>]
 ''' ```
 ''' Do gene set enrichment analysis.
 ''' </summary>
 '''
-Public Function EnrichmentTest(background As String, geneSet As String, Optional out As String = "", Optional hide_progress As Boolean = False, Optional locus_tag As Boolean = False) As Integer
+Public Function EnrichmentTest(background As String, geneSet As String, Optional cluster_id As String = "", Optional out As String = "", Optional hide_progress As Boolean = False, Optional locus_tag As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GSEA")
     Call CLI.Append(" ")
     Call CLI.Append("/background " & """" & background & """ ")
     Call CLI.Append("/geneSet " & """" & geneSet & """ ")
+    If Not cluster_id.StringEmpty Then
+            Call CLI.Append("/cluster_id " & """" & cluster_id & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -139,6 +143,33 @@ Public Function CreateKOCluster(uniprot As String, maps As String, Optional out 
     Call CLI.Append(" ")
     Call CLI.Append("/uniprot " & """" & uniprot & """ ")
     Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /KO.clusters.By_bbh /in &lt;KO.bbh.csv> /maps &lt;kegg_maps.XML/directory> [/size &lt;backgroundSize, default=-1> /genome &lt;genomeName/taxonomy> /out &lt;clusters.XML>]
+''' ```
+''' </summary>
+'''
+Public Function CreateKOClusterFromBBH([in] As String, maps As String, Optional size As String = "-1", Optional genome As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/KO.clusters.By_bbh")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not genome.StringEmpty Then
+            Call CLI.Append("/genome " & """" & genome & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If

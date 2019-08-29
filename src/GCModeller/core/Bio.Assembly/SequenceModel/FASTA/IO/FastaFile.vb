@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b9200f7e184364a008ac42fb0888507, Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
+﻿#Region "Microsoft.VisualBasic::bb384ffe8e8a3d1193fb15f8101e2c5b, Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
 
     ' Author:
     ' 
@@ -122,7 +122,7 @@ Namespace SequenceModel.FASTA
             Call Me.New(fa.Select(Function(x) New FastaSeq(x)))
         End Sub
 
-        Sub New(fa As IEnumerable(Of FASTA.I_FastaProvider))
+        Sub New(fa As IEnumerable(Of FASTA.IFastaProvider))
             Call Me.New(fa.Select(Function(x) New FastaSeq(x)))
         End Sub
 

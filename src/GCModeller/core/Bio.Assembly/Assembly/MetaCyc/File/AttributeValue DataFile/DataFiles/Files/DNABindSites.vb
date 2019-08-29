@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a669552d65741e18b4000a5ad7ab034, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\DNABindSites.vb"
+﻿#Region "Microsoft.VisualBasic::a451c934c061743a2c6980b53b69d612, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\DNABindSites.vb"
 
     ' Author:
     ' 

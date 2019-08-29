@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34d12a813568c53e01a1ef67a9d0939a, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
+﻿#Region "Microsoft.VisualBasic::7a6b31d6e579c4c1137c687fc2c60f44, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
 
     ' Author:
     ' 
@@ -131,9 +131,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Else
                     entries += entry
                     url = $"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}"
-                    data.genes = url.LinkDbEntries(cache:=$"{cache}/linkdb/", offline:=offline) _
-                        .Select(Function(t) New NamedValue(t.Key, t.Value)) _
-                        .ToArray
+                    data.genes = url.LinkDbEntries(cache:=$"{cache}/linkdb/", offline:=offline).ToArray
 
                     Call data.SaveAsXml(xml)
                 End If

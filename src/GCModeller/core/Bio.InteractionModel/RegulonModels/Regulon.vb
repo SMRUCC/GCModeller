@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8504f738b6fb6a4c65ff07e246b77e1, Bio.InteractionModel\RegulonModels\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::3b5f08f0e44c94c575cff00146c82133, Bio.InteractionModel\RegulonModels\Regulon.vb"
 
     ' Author:
     ' 

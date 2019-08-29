@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d15269d1dc4ec2af7b8717f79000308f, localblast\LocalBLAST\Pipeline\KO\KOAssignment.vb"
+﻿#Region "Microsoft.VisualBasic::716455c9f1d1912033d632d1659f2592, LocalBLAST\Pipeline\KO\KOAssignment.vb"
 
     ' Author:
     ' 
@@ -138,12 +138,12 @@ Namespace Pipeline
                 Yield New BiDirectionalBesthit With {
                     .QueryName = query.Name.Split().First,
                     .HitName = topScoreAlignment.forward.HitName.Split("|"c).First,
-                    .Description = topScoreAlignment.forward.HitName,
-                    .COG = .HitName,
+                    .description = topScoreAlignment.forward.HitName,
+                    .term = .HitName,
                     .forward = topScoreAlignment.forward.identities,
                     .reverse = topScoreAlignment.reverse.identities,
-                    .Length = topScoreAlignment.forward.query_length,
-                    .Positive = (topScoreAlignment.forward.Positive + topScoreAlignment.reverse.Positive) / 2
+                    .length = topScoreAlignment.forward.query_length,
+                    .positive = (topScoreAlignment.forward.Positive + topScoreAlignment.reverse.Positive) / 2
                 }
             Next
         End Function

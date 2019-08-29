@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8654ef4b901bc5245788dd2ae9294a5, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::d7b0ca27ef0b614670d74db93e9be357, LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Interface.vb"
 
     ' Author:
     ' 
@@ -33,25 +33,54 @@
 
     '     Interface IBlastHit
     ' 
-    '         Properties: Address, locusId
+    '         Properties: hitName, queryName
     ' 
     '     Interface IQueryHits
     ' 
     '         Properties: identities
+    ' 
+    '     Module Extensions
+    ' 
+    '         Function: isEmpty
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+
 Namespace LocalBLAST.Application.BBH.Abstract
 
     Public Interface IBlastHit
-        Property locusId As String
-        Property Address As String
+        Property queryName As String
+        Property hitName As String
     End Interface
 
     Public Interface IQueryHits : Inherits IBlastHit
         ReadOnly Property identities As Double
     End Interface
+
+    <HideModuleName> Public Module Extensions
+
+        ''' <summary>
+        ''' 目标比对结果是否是空的?
+        ''' 
+        ''' 1. 对象是空值
+        ''' 2. 空的<see cref="IQueryHits.queryName"/>
+        ''' 3. 空的<see cref="IQueryHits.hitName"/>或者其等于<see cref="IBlastOutput.HITS_NOT_FOUND"/>
+        ''' </summary>
+        ''' <param name="hit"></param>
+        ''' <returns></returns>
+        <Extension> Public Function isEmpty(hit As IQueryHits) As Boolean
+            If hit Is Nothing Then Return True
+            If String.IsNullOrEmpty(hit.queryName) Then Return True
+            If String.IsNullOrEmpty(hit.hitName) OrElse String.Equals(hit.hitName, IBlastOutput.HITS_NOT_FOUND) Then
+                Return True
+            End If
+
+            Return False
+        End Function
+    End Module
 End Namespace

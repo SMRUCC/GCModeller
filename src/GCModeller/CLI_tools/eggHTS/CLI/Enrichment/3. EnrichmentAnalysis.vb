@@ -264,6 +264,7 @@ Partial Module CLI
         Dim terms = [in].LoadCsv(Of EnrichmentTerm)
         Dim r As New Regex(filter, RegexICSng)
         Dim result = terms.Where(Function(t) r.Match(t.Term).Success).ToArray
+
         Return result.SaveTo(out).CLICode
     End Function
 

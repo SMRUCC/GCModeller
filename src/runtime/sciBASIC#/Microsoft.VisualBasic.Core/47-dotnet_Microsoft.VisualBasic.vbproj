@@ -979,6 +979,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationServices\Debugger\Exception\StackFrame.vb" />
+    <Compile Include="ComponentModel\Algorithm\BinaryTree\AVLTree\AVLClusterTree.vb" />
     <Compile Include="ComponentModel\System.Collections.Generic\BinaryHeap.vb" />
     <Compile Include="My\Framework\FrameworkConfig.vb" />
     <Compile Include="My\Framework\DoConfiguration.vb" />
@@ -1008,7 +1009,7 @@
     <Compile Include="CommandLine\Interpreters\View\CommandHelp.vb" />
     <Compile Include="CommandLine\Reflection\RunDll.vb" />
     <Compile Include="ComponentModel\Algorithm\BinaryTree\BinaryTree.vb" />
-    <Compile Include="ComponentModel\Algorithm\BinaryTree\AVLTree.vb" />
+    <Compile Include="ComponentModel\Algorithm\BinaryTree\AVLTree\AVLTree.vb" />
     <Compile Include="ComponentModel\Algorithm\BinaryTree\RBTree\Iterator.vb" />
     <Compile Include="ComponentModel\Algorithm\BinaryTree\RBTree\RBNode.vb" />
     <Compile Include="ComponentModel\Algorithm\BinaryTree\RBTree\RBTree.vb" />
@@ -1016,7 +1017,7 @@
     <Compile Include="ComponentModel\Algorithm\BinaryTree\NaiveBinaryTree.vb" />
     <Compile Include="ComponentModel\Algorithm\BinaryTree\Enumerable.vb" />
     <Compile Include="ComponentModel\Algorithm\BinaryTree\TreeNode.vb" />
-    <Compile Include="ComponentModel\Algorithm\BinaryTree\AVLSupports.vb" />
+    <Compile Include="ComponentModel\Algorithm\BinaryTree\AVLTree\AVLSupports.vb" />
     <Compile Include="ComponentModel\Algorithm\DynamicProgramming\LCS.vb" />
     <Compile Include="ComponentModel\Algorithm\DynamicProgramming\LongestCommonSubsequence.vb" />
     <Compile Include="ComponentModel\Algorithm\Levenshtein\DamerauLevenshteinDistance.vb" />
@@ -1083,12 +1084,12 @@
     <Compile Include="CommandLine\InteropService\Abstract.vb" />
     <Compile Include="CommandLine\InteropService\CLIAbstractor.vb" />
     <Compile Include="CommandLine\InteropService\SharedORM\API.vb" />
-    <Compile Include="CommandLine\InteropService\SharedORM\Perl.vb" />
+    <Compile Include="CommandLine\InteropService\SharedORM\Languages\Perl.vb" />
     <Compile Include="CommandLine\InteropService\SharedORM\CLI.vb" />
     <Compile Include="CommandLine\InteropService\SharedORM\CodeGenerator.vb" />
-    <Compile Include="CommandLine\InteropService\SharedORM\R.vb" />
-    <Compile Include="CommandLine\InteropService\SharedORM\PHP.vb" />
-    <Compile Include="CommandLine\InteropService\SharedORM\VisualBasic.vb" />
+    <Compile Include="CommandLine\InteropService\SharedORM\Languages\R.vb" />
+    <Compile Include="CommandLine\InteropService\SharedORM\Languages\PHP.vb" />
+    <Compile Include="CommandLine\InteropService\SharedORM\Languages\VisualBasic.vb" />
     <Compile Include="CommandLine\Parsers\CLIParser.vb" />
     <Compile Include="CommandLine\Parsers\DictionaryParser.vb" />
     <Compile Include="CommandLine\CLIMapper.vb" />

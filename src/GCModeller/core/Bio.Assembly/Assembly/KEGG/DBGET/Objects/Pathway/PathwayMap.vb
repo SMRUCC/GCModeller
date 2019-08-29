@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a240f86618df0da0964e9d6694edefa, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::54475061cb4eada381b0f21a44d745fc, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -209,10 +209,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             With pathwayMap
                 .KEGGOrthology = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map" & entry.EntryId).LinkDbEntries.parseOrthologyTerms
-                .KEGGCompound = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map" & entry.EntryId).LinkDbEntries.Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray
-                .KEGGGlycan = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map" & entry.EntryId).LinkDbEntries.Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray
-                .KEGGEnzyme = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map" & entry.EntryId).LinkDbEntries.Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray
-                .KEGGReaction = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map" & entry.EntryId).LinkDbEntries.Select(Function(t) New NamedValue(t.Key, t.Value)).ToArray
+                .KEGGCompound = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map" & entry.EntryId).LinkDbEntries.ToArray
+                .KEGGGlycan = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map" & entry.EntryId).LinkDbEntries.ToArray
+                .KEGGEnzyme = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map" & entry.EntryId).LinkDbEntries.ToArray
+                .KEGGReaction = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map" & entry.EntryId).LinkDbEntries.ToArray
             End With
 #End Region
             Return pathwayMap

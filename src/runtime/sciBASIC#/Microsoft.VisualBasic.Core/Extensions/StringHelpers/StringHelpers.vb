@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42c260defee96d57ffa4cc4a3720c325, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::cc6ee9d1b10af059b8ab40f09ad8839c, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -878,14 +878,17 @@ Public Module StringHelpers
     ''' <remarks></remarks>
     <ExportAPI("Tokens.Count", Info:="Count the string value numbers.")>
     <Extension> Public Function TokenCount(tokens As IEnumerable(Of String), Optional ignoreCase As Boolean = False) As Dictionary(Of String, Integer)
-        If Not ignoreCase Then ' 大小写敏感
+        If Not ignoreCase Then
+            ' 大小写敏感
             With From s As String
                  In tokens
                  Select s
                  Group s By s Into Count
 
                 Return .ToDictionary(Function(x) x.s,
-                                     Function(x) x.Count)
+                                     Function(x)
+                                         Return x.Count
+                                     End Function)
             End With
         Else
             Return tokens.TokenCountIgnoreCase

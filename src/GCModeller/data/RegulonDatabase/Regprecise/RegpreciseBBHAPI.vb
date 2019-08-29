@@ -253,14 +253,14 @@ Namespace Regprecise
             Dim RegpreciseRegulator = GetRegpreciseRegulator(RegulatorId)
 
             If Cog IsNot Nothing Then
-                MatchedItem.COG = Cog.Category
-                MatchedItem.Description = Cog.Description
-                MatchedItem.Length = If(Cog.Length > 0, CStr(Cog.Length), "")
+                MatchedItem.term = Cog.Category
+                MatchedItem.description = Cog.Description
+                MatchedItem.length = If(Cog.Length > 0, CStr(Cog.Length), "")
             End If
 
             If Pfam IsNot Nothing Then
-                MatchedItem.Description = Pfam.Description
-                MatchedItem.Length = Pfam.Length
+                MatchedItem.description = Pfam.Description
+                MatchedItem.length = Pfam.Length
                 MatchedItem.PfamString = Pfam.get__PfamString
             End If
 
@@ -309,8 +309,8 @@ Namespace Regprecise
                                                     Select New RegpreciseMPBBH With {
                                                         .QueryName = item.QueryName,
                                                         .HitName = item.HitName,
-                                                        .Length = item.Length,
-                                                        .Description = item.Description
+                                                        .length = item.length,
+                                                        .description = item.description
                                                     }
             Return LQuery
         End Function

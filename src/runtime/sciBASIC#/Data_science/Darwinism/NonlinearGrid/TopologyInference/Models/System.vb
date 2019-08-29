@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a8c8c57dd209b4d8a562f3804f7fc32, Data_science\Darwinism\NonlinearGrid\TopologyInference\Models\System.vb"
+﻿#Region "Microsoft.VisualBasic::33d48dcfab8f9d55ba3c1e225abad17a, Data_science\Darwinism\NonlinearGrid\TopologyInference\Models\System.vb"
 
     ' Author:
     ' 
@@ -85,6 +85,10 @@ Public Class GridSystem : Implements IDynamicsComponent(Of GridSystem), IGrid(Of
     Public Property A As Vector Implements IGrid(Of Vector, Correlation).A
     Public Property C As Correlation() Implements IGrid(Of Vector, Correlation).C
 
+    ''' <summary>
+    ''' Get dimension value from vector <see cref="A"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property Width As Integer Implements IDynamicsComponent(Of GridSystem).Width
         Get
             Return A.Dim

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dce53663e61a1c6f4f2a7e5e5cbd9ac2, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\GenericParser.vb"
+﻿#Region "Microsoft.VisualBasic::aa75850e81fb65465aacdd72af85bee8, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\GenericParser.vb"
 
     ' Author:
     ' 
@@ -71,7 +71,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                    )
         End Sub
 
-        Public Shared Function LinkDbEntries(url$, Optional cache$ = "./.kegg/linkdb/", Optional offline As Boolean = False) As KeyValuePair()
+        Public Shared Function LinkDbEntries(url$, Optional cache$ = "./.kegg/linkdb/", Optional offline As Boolean = False) As NamedValue()
             Static handlers As New Dictionary(Of String, GenericParser)
 
             Dim query As GenericParser = handlers.ComputeIfAbsent(
@@ -80,7 +80,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                                Return New GenericParser(cache,, offline)
                            End Function)
 
-            Return query.Query(Of KeyValuePair())(url, ".html")
+            Return query.Query(Of NamedValue())(url, ".html")
         End Function
 
         Private Shared Function queryArguments(url As String) As String
@@ -98,7 +98,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             Return LinkDbEntries(Strings.Split(html, Modules.SEPERATOR).Last).ToArray
         End Function
 
-        Private Shared Iterator Function LinkDbEntries(html As String) As IEnumerable(Of KeyValuePair)
+        Private Shared Iterator Function LinkDbEntries(html As String) As IEnumerable(Of NamedValue)
             Dim links$() = Regex _
                 .Matches(html, regexpLine, RegexICMul) _
                 .ToArray
@@ -106,9 +106,9 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             For Each line As String In links.Take(links.Length - 1)
                 Dim entry As String = Regex.Match(line, ">.+?</a>").Value.GetValue
                 Dim description As String = Strings.Split(line, "</a>").Last.Trim
-                Dim out As New KeyValuePair With {
-                    .Key = entry,
-                    .Value = description
+                Dim out As New NamedValue With {
+                    .name = entry,
+                    .text = description
                 }
 
                 Yield out

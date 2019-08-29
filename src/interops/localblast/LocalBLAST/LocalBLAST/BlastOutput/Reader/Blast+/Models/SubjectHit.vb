@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82c4489b8743c7df3ef6c081543d37ef, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\SubjectHit.vb"
+﻿#Region "Microsoft.VisualBasic::e3ec773ce0ece452b12f8fc15dd64d02, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\SubjectHit.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c02957c7f0f7e971fe7a898811cda599, Bio.Assembly\SequenceModel\NucleicAcid\Translation\Codon.vb"
+﻿#Region "Microsoft.VisualBasic::6d70f7a860164a69099ee35615f43849, Bio.Assembly\SequenceModel\NucleicAcid\Translation\Codon.vb"
 
     ' Author:
     ' 

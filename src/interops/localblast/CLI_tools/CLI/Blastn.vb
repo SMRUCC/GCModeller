@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfbaef97a747755329ca853bef7d4a4b, localblast\CLI_tools\CLI\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::bfbaef97a747755329ca853bef7d4a4b, CLI_tools\CLI\Blastn.vb"
 
     ' Author:
     ' 

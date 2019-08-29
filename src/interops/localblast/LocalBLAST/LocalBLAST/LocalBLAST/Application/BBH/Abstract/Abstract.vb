@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1727334b9d3a9e6af75b1f5308e0ed3f, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::ff6500c0029f2e4a3ce14e8e8624f090, LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
 
     ' Author:
     ' 
@@ -68,7 +68,7 @@ Namespace LocalBLAST.Application.BBH.Abstract
         ''' <remarks></remarks>
         <Column("query_name")> Public Overridable Property QueryName As String _
             Implements IKeyValuePairObject(Of String, String).Key,
-                       IBlastHit.locusId,
+                       IBlastHit.queryName,
                        IMap.Key
         ''' <summary>
         ''' The subject hit.
@@ -78,7 +78,7 @@ Namespace LocalBLAST.Application.BBH.Abstract
         ''' <remarks></remarks>
         <Column("hit_name")> Public Overridable Property HitName As String _
             Implements IKeyValuePairObject(Of String, String).Value,
-                       IBlastHit.Address,
+                       IBlastHit.hitName,
                        IMap.Maps
 
         ''' <summary>

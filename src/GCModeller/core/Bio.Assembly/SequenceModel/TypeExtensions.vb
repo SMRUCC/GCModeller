@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48626d2e4ae47a91883c47f9c2ea487f, Bio.Assembly\SequenceModel\TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::8d2f17d78e347dffd281f283f1924da0, Bio.Assembly\SequenceModel\TypeExtensions.vb"
 
     ' Author:
     ' 
@@ -44,6 +44,7 @@ Imports System.Runtime.CompilerServices
 
 Namespace SequenceModel
 
+    <HideModuleName>
     Public Module TypeExtensions
 
 #Region "Constants"

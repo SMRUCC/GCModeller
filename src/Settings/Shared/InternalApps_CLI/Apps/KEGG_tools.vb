@@ -38,7 +38,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Download.Module.Maps:                   Download the KEGG reference modules map data.
 '  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
 '                                           web server.
-'  /Dump.sp:                                
+'  /Dump.sp:                                /Dumping KEGG organism table in csv file format.
 '  /Enrichment.Map.Render:                  Rendering kegg pathway map for enrichment analysis result
 '                                           in local.
 '  /Fasta.By.Sp:                            Picks the fasta sequence from the input sequence database
@@ -52,9 +52,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /KO.list:                                Export a KO functional id list which all of the gene in
 '                                           this list is involved with the given pathway kgml data.
 '  /Organism.Table:                         
-'  /Pathway.geneIDs:                        
+'  /Pathway.geneIDs:                        Get a list of gene ids from the given kegg pathway model
+'                                           xml file.
 '  /Query.KO:                               
-'  /show.organism:                          
+'  /show.organism:                          Save the summary information about the specific given kegg
+'                                           organism.
 '  /Views.mod_stat:                         
 '  -Build.KO:                               Download data from KEGG database to local server.
 '  --Dump.Db:                               
@@ -465,13 +467,14 @@ Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", O
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
-    If Not _set.StringEmpty Then
-            Call CLI.Append("/@set " & """" & _set & """ ")
-    End If
     If kgml Then
         Call CLI.Append("/kgml ")
     End If
+    If Not _set.StringEmpty Then
+     Call CLI.Append($"/@set """"--internal_pipeline=TRUE;'{_set}'"""" ")
+Else
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
+    End If
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -528,21 +531,28 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Download.Reaction [/save &lt;DIR> /@set sleep=2000]
+''' /Download.Reaction [/try_all /compounds &lt;compounds.directory> /save &lt;DIR> /@set sleep=2000]
 ''' ```
 ''' Downloads the KEGG enzyme reaction reference model data.
 ''' </summary>
 '''
-Public Function DownloadKEGGReaction(Optional save As String = "", Optional _set As String = "") As Integer
+Public Function DownloadKEGGReaction(Optional compounds As String = "", Optional save As String = "", Optional _set As String = "", Optional try_all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Reaction")
     Call CLI.Append(" ")
+    If Not compounds.StringEmpty Then
+            Call CLI.Append("/compounds " & """" & compounds & """ ")
+    End If
     If Not save.StringEmpty Then
             Call CLI.Append("/save " & """" & save & """ ")
     End If
-    If Not _set.StringEmpty Then
-            Call CLI.Append("/@set " & """" & _set & """ ")
+    If try_all Then
+        Call CLI.Append("/try_all ")
     End If
+    If Not _set.StringEmpty Then
+     Call CLI.Append($"/@set """"--internal_pipeline=TRUE;'{_set}'"""" ")
+Else
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
+    End If
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -574,11 +584,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Dump.sp [/res sp.html /out &lt;out.csv>]
+''' /Dump.sp [/res &lt;sp.html, default=weburl.html> /out &lt;out.csv>]
 ''' ```
+''' /Dumping KEGG organism table in csv file format.
 ''' </summary>
 '''
-Public Function DumpOrganisms(Optional res As String = "", Optional out As String = "") As Integer
+Public Function DumpOrganisms(Optional res As String = "weburl.html", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Dump.sp")
     Call CLI.Append(" ")
     If Not res.StringEmpty Then
@@ -828,6 +839,7 @@ End Function
 ''' ```
 ''' /Pathway.geneIDs /in &lt;pathway.XML> [/out &lt;out.list.txt>]
 ''' ```
+''' Get a list of gene ids from the given kegg pathway model xml file.
 ''' </summary>
 '''
 Public Function PathwayGeneList([in] As String, Optional out As String = "") As Integer
@@ -917,6 +929,7 @@ End Function
 ''' ```
 ''' /show.organism /code &lt;kegg_sp> [/out &lt;out.json>]
 ''' ```
+''' Save the summary information about the specific given kegg organism.
 ''' </summary>
 '''
 Public Function ShowOrganism(code As String, Optional out As String = "") As Integer

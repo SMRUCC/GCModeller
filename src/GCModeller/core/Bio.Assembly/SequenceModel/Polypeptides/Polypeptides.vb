@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e8a635778300f5e98cc7dff7af63c8d, Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
+﻿#Region "Microsoft.VisualBasic::65b9c2fa7b5beac859805752718d97e8, Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: Abbreviate, MEGASchema, ToChar, ToEnums
     ' 
-    '         Function: ConstructVector, GetCompositionVector, GetCount
+    '         Function: ConstructVector, GetCompositionVector, GetCount, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -66,6 +66,16 @@ Namespace SequenceModel.Polypeptides
                     Yield AminoAcid.NULL
                 End If
             Next
+        End Function
+
+        ''' <summary>
+        ''' Convert <see cref="AminoAcid"/> enum values to character string
+        ''' </summary>
+        ''' <param name="aa"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function ToString(aa As IEnumerable(Of AminoAcid)) As String
+            Return New String(aa.Select(Function(a) ToChar(a)).ToArray)
         End Function
 
         ''' <summary>

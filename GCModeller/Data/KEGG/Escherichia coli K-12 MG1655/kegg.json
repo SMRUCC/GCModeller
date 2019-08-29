@@ -1,0 +1,30 @@
+{
+  "Aliases": "ECOLI, 511145",
+  "Comment": "Colonizes the lower gut of animals, and, as a facultative anaerobe. Maintained as a laboratory strain with minimal genetic manipulation, having only been cured of the temperate bacteriophage lambda and F plasmid by ultraviolet light and acridine orange, respectively.",
+  "Created": "1997",
+  "DataSource": [{
+      "name": "RefSeq",
+      "text": "ftp:\/\/ftp.ncbi.nlm.nih.gov\/genomes\/all\/GCF\/000\/005\/845\/GCF_000005845.2_ASM584v2"
+    },{
+      "name": "GCF_000005845.2",
+      "text": "https:\/\/www.ncbi.nlm.nih.gov\/assembly\/GCF_000005845.2"
+    },{
+      "name": "57779",
+      "text": "https:\/\/www.ncbi.nlm.nih.gov\/bioproject\/57779"
+    }],
+  "Definition": "Escherichia coli K-12 MG1655",
+  "FullName": "Escherichia coli K-12 MG1655",
+  "Keywords": null,
+  "Lineage": "Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacterales; Enterobacteriaceae; Escherichia",
+  "Reference": [{
+      "Authors": ["Blattner FR et al."],
+      "DOI": "DOI: 10.1126\/science.277.5331.1453",
+      "Journal": "Science 277:1453-62 (1997)",
+      "Reference": "PMID: 9278503",
+      "Title": "The complete genome sequence of Escherichia coli K-12."
+    }],
+  "Sequence": "https:\/\/www.genome.jp\/dbget-bin\/www_bget?refseq+NC_000913",
+  "TID": "T00007",
+  "Taxonomy": "TAX: 511145",
+  "code": "eco"
+}

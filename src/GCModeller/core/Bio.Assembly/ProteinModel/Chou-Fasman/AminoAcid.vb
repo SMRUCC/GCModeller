@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2ebb5f46eb2118b96f51b16eb9b21b4, Bio.Assembly\ProteinModel\Chou-Fasman\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::9e504899a885eb633249aad2448ee196, Bio.Assembly\ProteinModel\Chou-Fasman\AminoAcid.vb"
 
     ' Author:
     ' 
