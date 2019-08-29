@@ -226,6 +226,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NLP\NLPExtensions.vb" />
+    <Compile Include="PubMed\eutils\eSearchResult.vb" />
+    <Compile Include="PubMed\QueryForm.vb" />
     <Compile Include="PubMed\Components\PubDate.vb" />
     <Compile Include="PubMed\MedlineCitation\Components.vb" />
     <Compile Include="PubMed\MedlineCitation\Article.vb" />

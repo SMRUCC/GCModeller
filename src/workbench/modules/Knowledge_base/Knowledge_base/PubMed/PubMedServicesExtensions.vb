@@ -39,8 +39,12 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+
 Namespace PubMed
 
+    <HideModuleName>
     Public Module PubMedServicesExtensions
 
         ''' <summary>
@@ -50,13 +54,30 @@ Namespace PubMed
         '''
         ''' + ``tool`` should be the name Of the application, As a String value With no internal spaces, And
         ''' + ``email`` should be the e-mail address Of the maintainer Of the tool, And should be a valid e-mail address.
+        ''' 
         ''' </summary>
         ReadOnly tool_info As New Dictionary(Of String, String) From {
             {"tool", "GCModeller-workbench-pubmed-repository"},
             {"email", "xie.guigang@gcmodeller.org"}
         }
 
-        ' https://www.ncbi.nlm.nih.gov/portal/utils/file_backend.cgi?Db=pubmed&HistoryId=NCID_1_58281527_130.14.18.97_5555_1567045772_2177445283_0MetA0_S_HStore&QueryKey=10&Sort=&Filter=all&CompleteResultCount=90807&Mode=file&View=xml&p$l=Email&portalSnapshot=%2Fprojects%2Fentrez%2Fpubmed%2FPubMedGroup@1.146&BaseUrl=&PortName=live&RootTag=PubmedArticleSet&DocType=PubmedArticleSet%20PUBLIC%20%22-%2F%2FNLM%2F%2FDTD%20PubMedArticle,%201st%20January%202019%2F%2FEN%22%20%22https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_190101.dtd%22&FileName=&ContentType=xml
+        ' https://www.ncbi.nlm.nih.gov/portal/utils/file_backend.cgi?
+        '    Db=pubmed&
+        '    HistoryId=NCID_1_58281527_130.14.18.97_5555_1567045772_2177445283_0MetA0_S_HStore&
+        '    QueryKey=10&
+        '    Sort=&
+        '    Filter=all&
+        '    CompleteResultCount=90807&
+        '    Mode=file&
+        '    View=xml&
+        '    p$l=Email&
+        '    portalSnapshot=%2Fprojects%2Fentrez%2Fpubmed%2FPubMedGroup@1.146&
+        '    BaseUrl=&
+        '    PortName=live&
+        '    RootTag=PubmedArticleSet&
+        '    DocType=PubmedArticleSet%20PUBLIC%20%22-%2F%2FNLM%2F%2FDTD%20PubMedArticle,%201St%20January%202019%2F%2FEN%22%20%22https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_190101.dtd%22&
+        '    FileName=&
+        '    ContentType=xml
 
         ''' <summary>
         ''' Example
@@ -77,6 +98,26 @@ Namespace PubMed
             Dim info As PubmedArticle = xml.CreateObjectFromXmlFragment(Of PubmedArticle)
 
             Return info
+        End Function
+
+        Const eSearch$ = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+
+        Public Iterator Function QueryPubmed(term$, Optional pageSize% = 2000) As IEnumerable(Of String)
+            ' https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=microRNA&retmax=1000&retstart=1001
+            Dim query As eSearchResult = $"{eSearch}?db=pubmed&term={term.UrlEncode}&retmax={pageSize}".GET.LoadFromXml(Of eSearchResult)
+            Dim start As VBInteger = 0
+
+            For Each id As String In query.IdList.AsEnumerable
+                Yield id
+            Next
+
+            Do While start < query.Count
+                query = $"{eSearch}?db=pubmed&term={term.UrlEncode}&retmax={pageSize}&retstart={start = start + pageSize}".GET.LoadFromXml(Of eSearchResult)
+
+                For Each id As String In query.IdList.AsEnumerable
+                    Yield id
+                Next
+            Loop
         End Function
     End Module
 End Namespace
