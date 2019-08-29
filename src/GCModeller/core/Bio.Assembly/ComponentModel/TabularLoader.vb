@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e08a84a663d07ea401d38f0b9aa22630, Bio.Assembly\ComponentModel\TabularLoader.vb"
+﻿#Region "Microsoft.VisualBasic::0f86987a1a0d6055124f28feea91c9f6, Bio.Assembly\ComponentModel\TabularLoader.vb"
 
     ' Author:
     ' 

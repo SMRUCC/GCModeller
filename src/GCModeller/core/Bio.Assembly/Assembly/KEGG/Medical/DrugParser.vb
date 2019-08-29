@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::132dc6a11e69d68e346ab80cae33c643, Bio.Assembly\Assembly\KEGG\Medical\DrugParser.vb"
+﻿#Region "Microsoft.VisualBasic::964a357d5b6d09c0406cabaa273ae331, Bio.Assembly\Assembly\KEGG\Medical\DrugParser.vb"
 
     ' Author:
     ' 

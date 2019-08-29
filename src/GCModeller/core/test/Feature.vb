@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ae592c7bcd0addecbc9f02e7474d180, test\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::97c5c17ee9a0634ef225fcd86a687189, test\Feature.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90e87f3200f7b40d19010f94bfcc775e, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::e046ec5ced68c9a94114da92e1f536a1, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Fasta.vb"
 
     ' Author:
     ' 

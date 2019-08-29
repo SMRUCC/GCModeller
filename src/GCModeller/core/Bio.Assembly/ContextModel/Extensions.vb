@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10b65371bb779bce3635f912960fac76, Bio.Assembly\ContextModel\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d7f166530dd93a89458d5450d0519b25, Bio.Assembly\ContextModel\Extensions.vb"
 
     ' Author:
     ' 

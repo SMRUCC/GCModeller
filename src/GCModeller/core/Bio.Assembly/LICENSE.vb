@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1897cd9067295f10749eee92055ea7b8, Bio.Assembly\LICENSE.vb"
+﻿#Region "Microsoft.VisualBasic::eb610071ed8eef7105c610cc8ee4060b, Bio.Assembly\LICENSE.vb"
 
     ' Author:
     ' 

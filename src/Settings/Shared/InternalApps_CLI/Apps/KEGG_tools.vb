@@ -467,13 +467,14 @@ Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", O
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
-    If Not _set.StringEmpty Then
-            Call CLI.Append("/@set " & """" & _set & """ ")
-    End If
     If kgml Then
         Call CLI.Append("/kgml ")
     End If
+    If Not _set.StringEmpty Then
+     Call CLI.Append($"/@set """"--internal_pipeline=TRUE;'{_set}'"""" ")
+Else
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
+    End If
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -544,13 +545,14 @@ Public Function DownloadKEGGReaction(Optional compounds As String = "", Optional
     If Not save.StringEmpty Then
             Call CLI.Append("/save " & """" & save & """ ")
     End If
-    If Not _set.StringEmpty Then
-            Call CLI.Append("/@set " & """" & _set & """ ")
-    End If
     If try_all Then
         Call CLI.Append("/try_all ")
     End If
+    If Not _set.StringEmpty Then
+     Call CLI.Append($"/@set """"--internal_pipeline=TRUE;'{_set}'"""" ")
+Else
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
+    End If
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

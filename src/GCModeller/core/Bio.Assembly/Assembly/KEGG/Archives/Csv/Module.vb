@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2a89766f16a6d6c757d06f7468bf0c5, Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
+﻿#Region "Microsoft.VisualBasic::380455ef0af438e8f03a2733fbb2b279, Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
 
     ' Author:
     ' 

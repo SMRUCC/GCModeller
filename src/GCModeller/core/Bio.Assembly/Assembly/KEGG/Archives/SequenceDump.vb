@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a69c39d7c47124a1a0291256f891d6d0, Bio.Assembly\Assembly\KEGG\Archives\SequenceDump.vb"
+﻿#Region "Microsoft.VisualBasic::2fb7eed06d82ec33ed0126551996563b, Bio.Assembly\Assembly\KEGG\Archives\SequenceDump.vb"
 
     ' Author:
     ' 
