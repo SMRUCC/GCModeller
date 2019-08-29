@@ -21,9 +21,11 @@ Public Class IdList : Implements Enumeration(Of String)
     End Function
 
     Public Iterator Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
-        For Each id As String In Me.Id
-            Yield id
-        Next
+        If Not Id Is Nothing Then
+            For Each id As String In Me.Id
+                Yield id
+            Next
+        End If
     End Function
 
     Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of String).GetEnumerator

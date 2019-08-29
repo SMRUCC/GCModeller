@@ -10,7 +10,7 @@ Partial Module CLI
     Public Function BuildPubMedDatabase(args As CommandLine) As Integer
         Dim term$ = args <= "/term"
         Dim out$ = args("/out") Or $"./pubmed_{term.NormalizePathString}"
-        Dim idlist = PubMed.QueryPubmed(term).Distinct.ToArray
+        Dim idlist = PubMed.QueryPubmed(term, pageSize:=50000).Distinct.ToArray
 
         Call idlist.GetJson.SaveTo($"{out}/id.json")
 
