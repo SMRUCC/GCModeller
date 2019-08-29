@@ -46,15 +46,16 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.KnowledgeBase.Web.Bing
+Imports Microsoft.VisualBasic.Data.KnowledgeBase.Web.Bing.Academic
+Imports Microsoft.VisualBasic.Data.KnowledgeBase.Web.Bing.Translation
 Imports Microsoft.VisualBasic.Data.NLP
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Webservices.Bing
-Imports Microsoft.VisualBasic.Webservices.Bing.Academic
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base
-Imports BingTranslation = Microsoft.VisualBasic.Webservices.Bing.Translation
+Imports BingTranslation = Microsoft.VisualBasic.Data.KnowledgeBase.Web.Bing.Translation
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
 <CLI> Module CLI
