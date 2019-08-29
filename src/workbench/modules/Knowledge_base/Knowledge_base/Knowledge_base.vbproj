@@ -286,9 +286,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Microsoft.VisualBasic.Webservices.Bing.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\WebKnowledgeBase.vbproj">
       <Project>{4cc91a21-9bda-45c3-a412-711711bccdd8}</Project>
-      <Name>Microsoft.VisualBasic.Webservices.Bing</Name>
+      <Name>WebKnowledgeBase</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
