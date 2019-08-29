@@ -183,6 +183,7 @@
   <ItemGroup>
     <Compile Include="CLI.vb" />
     <Compile Include="DataSet.vb" />
+    <Compile Include="PubMed.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
