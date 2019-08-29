@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b844c5c78eac78a9e6b30b39a02c49f3, localblast\CLI_tools\CLI\BBH\UniProtTools.vb"
+﻿#Region "Microsoft.VisualBasic::b17c3c602f3a15969b916f46cf8a188b, CLI_tools\CLI\BBH\UniProtTools.vb"
 
     ' Author:
     ' 

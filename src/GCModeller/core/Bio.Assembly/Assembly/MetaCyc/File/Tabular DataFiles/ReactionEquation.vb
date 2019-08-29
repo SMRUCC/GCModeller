@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb286767706ac54ba04765d27a268204, Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\ReactionEquation.vb"
+﻿#Region "Microsoft.VisualBasic::1ef23e59290a19a089f28ac1d079c6ee, Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\ReactionEquation.vb"
 
     ' Author:
     ' 

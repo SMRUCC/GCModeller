@@ -24,21 +24,24 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /box.plot:                               
-'  /do.enterotype.cluster:                  
-'  /Export.Megan.BIOM:                      Export v1.0 biom json file for data visualize in Megan program.
-'  /gast.stat.names:                        
-'  /heatmap.plot:                           
-'  /hmp.otu_table:                          Export otu table from hmp biom files.
-'  /LefSe.Matrix:                           Processing the relative aboundance matrix to the input format
-'                                           file as it describ: http://huttenhower.sph.harvard.edu/galaxy/root?tool_id=lefse_upload
-'  /Membrane_transport.network:             
-'  /OTU.cluster:                            
-'  /Relative_abundance.barplot:             
-'  /Relative_abundance.stacked.barplot:     
-'  /significant.difference:                 
-'  /SILVA.bacteria:                         
-'  /UPGMA.Tree:                             
+'  /box.plot:                                   
+'  /do.enterotype.cluster:                      
+'  /Export.Megan.BIOM:                          Export v1.0 biom json file for data visualize in Megan
+'                                               program.
+'  /gast.stat.names:                            
+'  /heatmap.plot:                               
+'  /hmp.otu_table:                              Export otu table from hmp biom files.
+'  /LefSe.Matrix:                               Processing the relative aboundance matrix to the input
+'                                               format file as it describ: http://huttenhower.sph.harvard.edu/galaxy/root?tool_id=lefse_upload
+'  /Membrane_transport.network:                 Construct a relationship network based on the Membrane
+'                                               transportor in bacteria genome
+'  /Metabolic.EndPoint.Profiles.background:     Create Metabolic EndPoint Profiles Background Model
+'  /OTU.cluster:                                
+'  /Relative_abundance.barplot:                 
+'  /Relative_abundance.stacked.barplot:         
+'  /significant.difference:                     
+'  /SILVA.bacteria:                             
+'  /UPGMA.Tree:                                 
 ' 
 ' 
 ' API list that with functional grouping
@@ -46,47 +49,47 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 1. 02. Alpha diversity analysis tools
 ' 
 ' 
-'    /Rank_Abundance:                         https://en.wikipedia.org/wiki/Rank_abundance_curve
+'    /Rank_Abundance:                             https://en.wikipedia.org/wiki/Rank_abundance_curve
 ' 
 ' 
 ' 2. 03. Human Microbiome Project cli tool
 ' 
 ' 
-'    /handle.hmp.manifest:                    Download files from HMP website through http/fasp.
-'    /hmp.manifest.files:                     
+'    /handle.hmp.manifest:                        Download files from HMP website through http/fasp.
+'    /hmp.manifest.files:                         
 ' 
 ' 
 ' 3. Microbiome antibiotic resistance composition analysis tools
 ' 
 ' 
-'    /ARO.fasta.header.table:                 
+'    /ARO.fasta.header.table:                     
 ' 
 ' 
 ' 4. Microbiome network cli tools
 ' 
 ' 
-'    /Metagenome.UniProt.Ref:                 Create background model for apply pathway enrichment analysis
-'                                             of the Metagenome data.
-'    /microbiome.metabolic.network:           Construct a metabolic complementation network between the
-'                                             bacterial genomes from a given taxonomy list.
-'    /microbiome.pathway.profile:             Generates the pathway network profile for the microbiome
-'                                             OTU result based on the KEGG and UniProt reference.
-'    /microbiome.pathway.run.profile:         Build pathway interaction network based on the microbiome
-'                                             profile result.
-'    /UniProt.screen.model:                   
+'    /Metagenome.UniProt.Ref:                     Create background model for apply pathway enrichment
+'                                                 analysis of the Metagenome data.
+'    /microbiome.metabolic.network:               Construct a metabolic complementation network between
+'                                                 the bacterial genomes from a given taxonomy list.
+'    /microbiome.pathway.profile:                 Generates the pathway network profile for the microbiome
+'                                                 OTU result based on the KEGG and UniProt reference.
+'    /microbiome.pathway.run.profile:             Build pathway interaction network based on the microbiome
+'                                                 profile result.
+'    /UniProt.screen.model:                       
 ' 
 ' 
 ' 5. SILVA database cli tools
 ' 
 ' 
-'    /SILVA.headers:                          
+'    /SILVA.headers:                              
 ' 
 ' 
 ' 6. Taxonomy assign cli tools
 ' 
 ' 
-'    /gast.Taxonomy.greengenes:               OTU taxonomy assign by apply gast method on the result of
-'                                             OTU rep sequence alignment against the greengenes.
+'    /gast.Taxonomy.greengenes:                   OTU taxonomy assign by apply gast method on the result
+'                                                 of OTU rep sequence alignment against the greengenes.
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -384,17 +387,17 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Membrane_transport.network /metagenome &lt;list.txt/OTU.tab/biom> /ref &lt;reaction.repository.XML> /uniprot &lt;repository.json> /Membrane_transport &lt;Membrane_transport.csv> [/out &lt;network.directory>]
+''' /Membrane_transport.network /metagenome &lt;list.txt/OTU.tab/biom> /ref &lt;reaction.repository.XML> /uniprot &lt;repository.json> [/out &lt;network.directory>]
 ''' ```
+''' Construct a relationship network based on the Membrane transportor in bacteria genome
 ''' </summary>
 '''
-Public Function Membrane_transportNetwork(metagenome As String, ref As String, uniprot As String, Membrane_transport As String, Optional out As String = "") As Integer
+Public Function Membrane_transportNetwork(metagenome As String, ref As String, uniprot As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Membrane_transport.network")
     Call CLI.Append(" ")
     Call CLI.Append("/metagenome " & """" & metagenome & """ ")
     Call CLI.Append("/ref " & """" & ref & """ ")
     Call CLI.Append("/uniprot " & """" & uniprot & """ ")
-    Call CLI.Append("/Membrane_transport " & """" & Membrane_transport & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -407,12 +410,34 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Metagenome.UniProt.Ref /in &lt;uniprot.ultralarge.xml/cache.directory> [/cache /out &lt;out.json>]
+''' /Metabolic.EndPoint.Profiles.Background /ref &lt;reaction.repository.XML> /uniprot &lt;repository.json> [/out &lt;background.XML>]
+''' ```
+''' Create Metabolic EndPoint Profiles Background Model
+''' </summary>
+'''
+Public Function MetabolicEndPointProfilesBackground(ref As String, uniprot As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Metabolic.EndPoint.Profiles.Background")
+    Call CLI.Append(" ")
+    Call CLI.Append("/ref " & """" & ref & """ ")
+    Call CLI.Append("/uniprot " & """" & uniprot & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Metagenome.UniProt.Ref /in &lt;uniprot.ultralarge.xml/cache.directory> [/cache /all /out &lt;out.json>]
 ''' ```
 ''' Create background model for apply pathway enrichment analysis of the Metagenome data.
 ''' </summary>
 '''
-Public Function BuildUniProtReference([in] As String, Optional out As String = "", Optional cache As Boolean = False) As Integer
+Public Function BuildUniProtReference([in] As String, Optional out As String = "", Optional cache As Boolean = False, Optional all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Metagenome.UniProt.Ref")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -421,6 +446,9 @@ Public Function BuildUniProtReference([in] As String, Optional out As String = "
     End If
     If cache Then
         Call CLI.Append("/cache ")
+    End If
+    If all Then
+        Call CLI.Append("/all ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -529,9 +557,10 @@ Public Function ClusterOTU(left As String, right As String, silva As String, Opt
             Call CLI.Append("/processors " & """" & processors & """ ")
     End If
     If Not _set.StringEmpty Then
-            Call CLI.Append("/@set " & """" & _set & """ ")
-    End If
+     Call CLI.Append($"/@set """"--internal_pipeline=TRUE;'{_set}'"""" ")
+Else
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
+    End If
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

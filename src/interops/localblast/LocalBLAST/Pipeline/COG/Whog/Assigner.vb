@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47f9054671c2998f90fb58df3377d1b3, localblast\LocalBLAST\Pipeline\COG\Whog\Assigner.vb"
+﻿#Region "Microsoft.VisualBasic::47f9054671c2998f90fb58df3377d1b3, LocalBLAST\Pipeline\COG\Whog\Assigner.vb"
 
     ' Author:
     ' 

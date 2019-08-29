@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e709287bcbddb4723f6f2055a42695b, Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\ReactionDirections.vb"
+﻿#Region "Microsoft.VisualBasic::1845887d81c3234c9c753a8a7689d940, Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\ReactionDirections.vb"
 
     ' Author:
     ' 

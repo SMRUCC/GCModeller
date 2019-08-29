@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5869ddfc734fbafe8b649e2a629391f4, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\RNT.vb"
+﻿#Region "Microsoft.VisualBasic::e2d968b4944e92e237821adeda93baf7, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\RNT.vb"
 
     ' Author:
     ' 

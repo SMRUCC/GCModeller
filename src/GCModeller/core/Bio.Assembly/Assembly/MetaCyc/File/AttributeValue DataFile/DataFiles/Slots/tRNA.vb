@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91e33284fc394d3b2a434e0f75f4c6dc, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\tRNA.vb"
+﻿#Region "Microsoft.VisualBasic::f7234dc5a6e6e51392a2fe1356f52506, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\tRNA.vb"
 
     ' Author:
     ' 

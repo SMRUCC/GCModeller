@@ -29,7 +29,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 '  /COG.profiling.plot:                    Plots the COGs category statics profiling of the target genome
 '                                          from the COG annotation file.
-'  /Converts:                              
 '  /DEPs.takes.values:                     
 '  /DEPs.union:                            
 '  /Exocarta.Hits:                         
@@ -125,6 +124,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 5. 3. Enrichment analysis tools
 ' 
 ' 
+'    /Converts:                              Converts the GCModeller enrichment analysis output as the
+'                                            KOBAS enrichment analysis result output table.
 '    /Enrichment.Term.Filter:                Filter the specific term result from the analysis output
 '                                            by using pattern keyword
 '    /Enrichments.ORF.info:                  Retrive KEGG/GO info for the genes in the enrichment result.
@@ -293,6 +294,7 @@ End Function
 ''' ```
 ''' /Converts /in &lt;GSEA.terms.csv> [/out &lt;result.terms.csv>]
 ''' ```
+''' Converts the GCModeller enrichment analysis output as the KOBAS enrichment analysis result output table.
 ''' </summary>
 '''
 Public Function Converts([in] As String, Optional out As String = "") As Integer

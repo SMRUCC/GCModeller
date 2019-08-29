@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af0d7b7142101e813fa62836849f097e, localblast\CLI_tools\CLI\COGTools.vb"
+﻿#Region "Microsoft.VisualBasic::af0d7b7142101e813fa62836849f097e, CLI_tools\CLI\COGTools.vb"
 
     ' Author:
     ' 

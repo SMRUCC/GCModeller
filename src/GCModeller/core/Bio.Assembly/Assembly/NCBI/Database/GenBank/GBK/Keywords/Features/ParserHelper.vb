@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bac0d85edaf8bbbcd49a8b70971924e, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\ParserHelper.vb"
+﻿#Region "Microsoft.VisualBasic::9be7577ce77c348ebcad7c7048d0f5fd, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\ParserHelper.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c958c08f4548e14cc5667b508d0a7ae, Bio.Assembly\ContextModel\Promoter\PrefixLength.vb"
+﻿#Region "Microsoft.VisualBasic::7d97d12dfcb428fb0f6a6f614d119970, Bio.Assembly\ContextModel\Promoter\PrefixLength.vb"
 
     ' Author:
     ' 
