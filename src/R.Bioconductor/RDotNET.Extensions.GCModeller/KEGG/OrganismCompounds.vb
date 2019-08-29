@@ -42,6 +42,6 @@ Public Class OrganismCompounds
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function WriteRda(dataset As OrganismCompounds, rdafile$) As Boolean
-        Return rda.save(dataset, rdafile)
+        Return rda.save(dataset, rdafile, name:="KEGG")
     End Function
 End Class

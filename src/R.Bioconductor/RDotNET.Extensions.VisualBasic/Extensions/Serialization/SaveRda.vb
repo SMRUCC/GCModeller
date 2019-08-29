@@ -64,9 +64,9 @@ Namespace Serialization
         ''' Save Any .NET object as a *.rda data file. And then you can load the saved <paramref name="obj"/> 
         ''' by using ``data()`` or ``load()`` function in R language.
         ''' </summary>
-        ''' <param name="obj"></param>
-        ''' <param name="file$"></param>
-        ''' <param name="name$"></param>
+        ''' <param name="obj">Any .NET object.</param>
+        ''' <param name="file">The rda file path.</param>
+        ''' <param name="name">The dataset name, a R variable name. By default is named as ``.save``, an hidden object in R environment.</param>
         ''' <returns></returns>
         Public Function save(obj As Object, file$, Optional name$ = ".save") As Boolean
             Dim var$ = SaveRda.Push(obj)
