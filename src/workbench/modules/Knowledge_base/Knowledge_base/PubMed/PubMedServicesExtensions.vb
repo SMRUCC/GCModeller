@@ -39,8 +39,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports i32 = Microsoft.VisualBasic.Language.VBInteger
 
 Namespace PubMed
 
@@ -104,15 +104,19 @@ Namespace PubMed
 
         Public Iterator Function QueryPubmed(term$, Optional pageSize% = 2000) As IEnumerable(Of String)
             ' https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=microRNA&retmax=1000&retstart=1001
-            Dim query As eSearchResult = $"{eSearch}?db=pubmed&term={term.UrlEncode}&retmax={pageSize}".GET.LoadFromXml(Of eSearchResult)
-            Dim start As VBInteger = 0
+            Dim query As eSearchResult = ($"{eSearch}?db=pubmed&term={term.UrlEncode}&retmax={pageSize}") _
+                .GET(headers:=tool_info) _
+                .LoadFromXml(Of eSearchResult)
+            Dim start As i32 = 0
 
             For Each id As String In query.IdList.AsEnumerable
                 Yield id
             Next
 
             Do While start < query.Count
-                query = $"{eSearch}?db=pubmed&term={term.UrlEncode}&retmax={pageSize}&retstart={start = start + pageSize}".GET.LoadFromXml(Of eSearchResult)
+                query = ($"{eSearch}?db=pubmed&term={term.UrlEncode}&retmax={pageSize}&retstart={start = start + pageSize}") _
+                    .GET(headers:=tool_info) _
+                    .LoadFromXml(Of eSearchResult)
 
                 For Each id As String In query.IdList.AsEnumerable
                     Yield id
