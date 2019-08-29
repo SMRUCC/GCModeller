@@ -53,6 +53,9 @@ Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
+    ''' <summary>
+    ''' http://www.kegg.jp/kegg-bin/show_organism?org={code}
+    ''' </summary>
     Public Class OrganismInfo
 
         ''' <summary>
