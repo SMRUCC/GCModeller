@@ -120,7 +120,9 @@ Namespace PubMed
         Public Property Journal As Journal
         Public Property ArticleTitle As String
         Public Property Pagination As Pagination
-        Public Property ELocationID As ELocationID
+
+        <XmlElement("ELocationID")>
+        Public Property ELocationID As ELocationID()
         Public Property Abstract As Abstract
         Public Property AuthorList As AuthorList
         Public Property Language As String
@@ -133,7 +135,9 @@ Namespace PubMed
     End Class
 
     Public Class PublicationTypeList
-        <XmlElement("PublicationType")> Public Property PublicationType As RegisterObject()
+
+        <XmlElement("PublicationType")>
+        Public Property PublicationType As RegisterObject()
     End Class
 
     Public Class AuthorList : Implements Enumeration(Of Author)
@@ -142,6 +146,10 @@ Namespace PubMed
         Public Property CompleteYN As String
         <XmlElement(NameOf(Author))>
         Public Property Authors As Author()
+
+        Public Overrides Function ToString() As String
+            Return Authors.Select(Function(a) a.ToString).GetJson
+        End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Author) Implements Enumeration(Of Author).GenericEnumerator
             If Not Authors Is Nothing Then
@@ -181,11 +189,30 @@ Namespace PubMed
         End Function
     End Class
 
-    Public Class Abstract
-        Public Property AbstractText As String
+    Public Class AbstractText
+
+        <XmlAttribute> Public Property Label As String
+        <XmlAttribute> Public Property NlmCategory As String
+
+        <XmlText>
+        Public Property Text As String
 
         Public Overrides Function ToString() As String
-            Return AbstractText
+            Return Text
+        End Function
+    End Class
+
+    Public Class Abstract
+
+        <XmlElement("AbstractText")>
+        Public Property AbstractText As AbstractText()
+        Public Property CopyrightInformation As String
+
+        Public Overrides Function ToString() As String
+            Return AbstractText _
+                .SafeQuery _
+                .Select(Function(a) a.Text) _
+                .JoinBy(vbCrLf)
         End Function
     End Class
 
@@ -210,6 +237,10 @@ Namespace PubMed
         Public Property JournalIssue As JournalIssue
         Public Property Title As String
         Public Property ISOAbbreviation As String
+
+        Public Overrides Function ToString() As String
+            Return Title
+        End Function
     End Class
 
     Public Class ISSN
@@ -217,6 +248,10 @@ Namespace PubMed
         Public Property IssnType As String
         <XmlText>
         Public Property ID As String
+
+        Public Overrides Function ToString() As String
+            Return $"[{IssnType}] {ID}"
+        End Function
     End Class
 
     Public Class JournalIssue
