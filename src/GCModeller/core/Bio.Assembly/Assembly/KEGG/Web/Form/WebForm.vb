@@ -198,20 +198,22 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 }
             Next
 
-            Dim p As Integer = InStr(html, bufs.Last)
-            html = Mid(html, p)
-            Dim last As New NamedValue With {
-                .name = r.Match(html, splitRegx).Value,
-                .text = WebForm.RemoveHrefLink(html.Replace(.name, "").Trim)
-            }
+            If bufs.Length > 0 Then
+                Dim p As Integer = InStr(html, bufs.Last)
+                html = Mid(html, p)
+                Dim last As New NamedValue With {
+                    .name = r.Match(html, splitRegx).Value,
+                    .text = WebForm.RemoveHrefLink(html.Replace(.name, "").Trim)
+                }
 
-            last.name = last.name.GetValue
+                last.name = last.name.GetValue
 
-            Call componentList.Add(last)
+                Call componentList.Add(last)
+            End If
 
-            For Each x As NamedValue In componentList
-                x.name = x.name.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
-                x.text = x.text.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
+            For Each cpd As NamedValue In componentList
+                cpd.name = cpd.name.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
+                cpd.text = cpd.text.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
             Next
 
             Return componentList.ToArray
