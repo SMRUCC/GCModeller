@@ -511,6 +511,7 @@
     <Compile Include="AppEngine\API\APIInvoker.vb" />
     <Compile Include="Core\FileSystem\FileNode.vb" />
     <Compile Include="Core\FileSystem\VirtualFileSystem.vb" />
+    <Compile Include="Core\WebSocket\WebsocketActivator.vb" />
     <Compile Include="Core\WebSocket\Events.vb" />
     <Compile Include="Core\WebSocket\Operations.vb" />
     <Compile Include="Core\WebSocket\WsProcessor.vb" />
