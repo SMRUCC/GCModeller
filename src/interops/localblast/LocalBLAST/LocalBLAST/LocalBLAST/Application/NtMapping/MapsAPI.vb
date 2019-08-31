@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5734a332565e52c0e766e56c686ec9f3, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\MapsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5734a332565e52c0e766e56c686ec9f3, LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\MapsAPI.vb"
 
     ' Author:
     ' 

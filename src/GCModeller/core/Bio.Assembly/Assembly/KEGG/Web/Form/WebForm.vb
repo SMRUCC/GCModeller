@@ -1,51 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::002dfd6eae848e51063ef84e4a8de1dc, Bio.Assembly\Assembly\KEGG\Web\Form\WebForm.vb"
+﻿#Region "Microsoft.VisualBasic::2d3577421c485531d284c57a4f0c28a0, Bio.Assembly\Assembly\KEGG\Web\Form\WebForm.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class WebForm
-' 
-'         Properties: AllLinksWidget, Count, Keys, References, Values
-'                     WebPageTitle
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: ContainsKey, GetEnumerator, GetEnumerator1, getHtml, GetRaw
-'                   GetValue, parseList, RegexReplace, RemoveHrefLink, ToString
-'                   TryGetValue
-' 
-'         Sub: (+2 Overloads) Dispose, ParseRefList
-' 
-' 
-' /********************************************************************************/
+    '     Class WebForm
+    ' 
+    '         Properties: AllLinksWidget, Count, Keys, References, Values
+    '                     WebPageTitle
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ContainsKey, GetEnumerator, GetEnumerator1, getHtml, GetRaw
+    '                   GetValue, parseList, parseListInternal, RegexReplace, RemoveHrefLink
+    '                   ToString, TryGetValue
+    ' 
+    '         Sub: (+2 Overloads) Dispose, ParseRefList
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -198,20 +198,22 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 }
             Next
 
-            Dim p As Integer = InStr(html, bufs.Last)
-            html = Mid(html, p)
-            Dim last As New NamedValue With {
-                .name = r.Match(html, splitRegx).Value,
-                .text = WebForm.RemoveHrefLink(html.Replace(.name, "").Trim)
-            }
+            If bufs.Length > 0 Then
+                Dim p As Integer = InStr(html, bufs.Last)
+                html = Mid(html, p)
+                Dim last As New NamedValue With {
+                    .name = r.Match(html, splitRegx).Value,
+                    .text = WebForm.RemoveHrefLink(html.Replace(.name, "").Trim)
+                }
 
-            last.name = last.name.GetValue
+                last.name = last.name.GetValue
 
-            Call componentList.Add(last)
+                Call componentList.Add(last)
+            End If
 
-            For Each x As NamedValue In componentList
-                x.name = x.name.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
-                x.text = x.text.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
+            For Each cpd As NamedValue In componentList
+                cpd.name = cpd.name.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
+                cpd.text = cpd.text.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
             Next
 
             Return componentList.ToArray

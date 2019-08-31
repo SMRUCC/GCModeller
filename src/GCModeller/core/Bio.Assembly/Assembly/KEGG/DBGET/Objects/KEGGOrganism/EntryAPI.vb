@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0d8a2953bb41e4991cf4aefc94f653f, Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5f72b6a1d8b6800bc943240535248cb2, Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb"
 
     ' Author:
     ' 
@@ -36,8 +36,8 @@
     '         Properties: Resources
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: __fillClass, __loadList, FromResource, GetKEGGSpeciesCode, GetOrganismList
-    '                   GetOrganismListFromResource, GetValue
+    '         Function: (+2 Overloads) fillTaxonomyClass, FromResource, GetKEGGSpeciesCode, GetOrganismListFromResource, GetValue
+    '                   htmlParserInternal, parseStat, (+2 Overloads) trimOrganism
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,12 +45,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Levenshtein
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
@@ -74,7 +74,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         Sub New()
             Try
                 Dim mgr As New ResourcesSatellite(GetType(EntryAPI).Assembly)
-                Resources = __loadList(mgr.GetString("KEGG_Organism_Complete_Genomes"))
+                Resources = htmlParserInternal(mgr.GetString("KEGG_Organism_Complete_Genomes"))
                 OrgCodes = Resources _
                     .ToArray _
                     .ToDictionary(Function(x) x.KEGGId)
@@ -127,6 +127,18 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
             End If
         End Function
 
+        Private Function parseStat(html As String) As Dictionary(Of String, Integer)
+            Dim eukaryotes% = html.Match("Eukaryotes[:]\s*\d+").Split.Last.ParseInteger
+            Dim bacteria% = html.Match("Bacteria[:]\s*\d+").Split.Last.ParseInteger
+            Dim archaea% = html.Match("Archaea[:]\s*\d+").Split.Last.ParseInteger
+
+            Return New Dictionary(Of String, Integer) From {
+                {NameOf(eukaryotes), eukaryotes},
+                {NameOf(bacteria), bacteria},
+                {NameOf(archaea), archaea}
+            }
+        End Function
+
         ''' <summary>
         ''' Load KEGG organism list from the internal resource.
         ''' </summary>
@@ -134,121 +146,131 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         <ExportAPI("list.Load", Info:="Load KEGG organism list from the internal resource.")>
         Public Function GetOrganismListFromResource() As KEGGOrganism
             Dim res As New ResourcesSatellite(GetType(EntryAPI).Assembly)
-            Dim html As String = res.GetString("KEGG_Organisms__Complete_Genomes")
-            Return __loadList(html)
+            Dim html As String = res.GetString("KEGG_Organism_Complete_Genomes")
+
+            Return htmlParserInternal(html)
         End Function
 
         Public Const WEB_URL As String = "http://www.genome.jp/kegg/catalog/org_list.html"
         Public Const DELIMITER As String = "</td>"
         Public Const CELL As String = "<tr .+?</tr>"
 
-        Private Function __loadList(html As String) As KEGGOrganism
-            Dim Tokens As String() = Regex.Matches(html, CELL, RegexICSng).ToArray.Skip(1).ToArray
-            Dim eulst As Organism() = New Organism(Tokens.Length - 1) {}
-            Dim i As Integer
-            Dim prlst As Prokaryote() = New Prokaryote(Tokens.Length - i) {}
+        Private Function htmlParserInternal(html As String) As KEGGOrganism
+            Dim rows As String() = r.Matches(html, CELL, RegexICSng).ToArray.Skip(1).ToArray
+            Dim stats As Dictionary(Of String, Integer) = parseStat(html)
+            Dim eulst As Organism() = New Organism(stats!eukaryotes - 1) {}
+            Dim prlst As Prokaryote() = New Prokaryote(rows.Length - eulst.Length - 1) {}
 
-            For i = 0 To Tokens.Length - 1
-                eulst(i) = Organism.__createObject(Tokens(i))
-                If eulst(i) Is Nothing Then
-                    Exit For
-                End If
+            For i As Integer = 0 To eulst.Length - 1
+                eulst(i) = Organism.parseObjectText(rows(i))
             Next
 
             Dim j As Integer
-            For i = i + 1 To Tokens.Length - 1
-                prlst(j) = New Prokaryote(Tokens(i))
+
+            For i As Integer = eulst.Length + 1 To rows.Length - 1
+                prlst(j) = New Prokaryote(rows(i))
                 j += 1
             Next
 
-            Dim LQuery As Organism() = LinqAPI.Exec(Of Organism) <=
- _
-                From Handle As Integer
-                In eulst.Sequence
-                Let obj As Organism = eulst(Handle)
-                Where Not obj Is Nothing
-                Select obj.Trim
-
-            Dim lstProk As Prokaryote() = LinqAPI.Exec(Of Prokaryote) <=
- _
-                From handle As Integer
-                In prlst.Sequence
-                Let obj As Prokaryote = prlst(handle)
-                Where Not obj Is Nothing
-                Select DirectCast(obj.Trim, Prokaryote)
-
             Return New KEGGOrganism With {
-                .Eukaryotes = LQuery,
-                .Prokaryote = lstProk
-            }.__fillClass
+                .Eukaryotes = eulst.trimOrganism.fillTaxonomyClass,
+                .Prokaryote = prlst.trimOrganism.fillTaxonomyClass
+            }
+        End Function
+
+        <Extension>
+        Private Function trimOrganism(orgs As IEnumerable(Of Prokaryote)) As IEnumerable(Of Prokaryote)
+            Return From org As Prokaryote
+                   In orgs
+                   Where Not org Is Nothing
+                   Select DirectCast(org.Trim, Prokaryote)
+        End Function
+
+        <Extension>
+        Private Function trimOrganism(orgs As IEnumerable(Of Organism)) As IEnumerable(Of Organism)
+            Return From org As Organism
+                   In orgs
+                   Where Not org Is Nothing
+                   Select org.Trim
         End Function
 
         ''' <summary>
         ''' 从上往下填充物种分类信息
         ''' </summary>
-        ''' <param name="org"></param>
+        ''' <param name="eukaryotes"></param>
         ''' <returns></returns>
         <Extension>
-        Private Function __fillClass(org As KEGGOrganism) As KEGGOrganism
-            Dim Phylum As String = ""
-            Dim [Class] As String = ""
+        Private Function fillTaxonomyClass(eukaryotes As IEnumerable(Of Organism)) As Organism()
+            Dim phylum As String = ""
+            Dim [class] As String = ""
+            Dim kingdom As String = ""
+            Dim fillList As New List(Of Organism)
 
-            For idx As Integer = 0 To org.Eukaryotes.Length - 1
-                Dim Organism = org.Eukaryotes(idx)
-                If Not String.IsNullOrEmpty(Organism.Class) Then
-                    [Class] = Organism.Class
+            For Each organism As Organism In eukaryotes
+                If Not String.IsNullOrEmpty(organism.Class) Then
+                    [class] = organism.Class
                 Else
-                    Organism.Class = [Class]
+                    organism.Class = [class]
                 End If
-                If Not String.IsNullOrEmpty(Organism.Phylum) Then
-                    Phylum = Organism.Phylum
+
+                If Not String.IsNullOrEmpty(organism.Phylum) Then
+                    phylum = organism.Phylum
                 Else
-                    Organism.Phylum = Phylum
+                    organism.Phylum = phylum
                 End If
+                If Not String.IsNullOrEmpty(organism.Kingdom) Then
+                    kingdom = organism.Kingdom
+                Else
+                    organism.Kingdom = kingdom
+                End If
+
+                fillList += organism
             Next
 
-            Dim Kingdom As String = ""
-            Phylum = "" : [Class] = ""
-            For idx As Integer = 0 To org.Prokaryote.Length - 1
-                Dim Organism = org.Prokaryote(idx)
-                If Not String.IsNullOrEmpty(Organism.Class) Then
-                    [Class] = Organism.Class
-                Else
-                    Organism.Class = [Class]
-                End If
-                If Not String.IsNullOrEmpty(Organism.Phylum) Then
-                    Phylum = Organism.Phylum
-                Else
-                    Organism.Phylum = Phylum
-                End If
-                If Not String.IsNullOrEmpty(Organism.Kingdom) Then
-                    Kingdom = Organism.Kingdom
-                Else
-                    Organism.Kingdom = Kingdom
-                End If
-            Next
-
-            Return org
+            Return fillList.ToArray
         End Function
 
-        ''' <summary>
-        ''' Gets the latest KEGG organism list from query the KEGG database.
-        ''' </summary>
-        ''' <returns></returns>
-        <ExportAPI("list.Get", Info:="Gets the latest KEGG organism list from query the KEGG database.")>
-        Public Function GetOrganismList() As KEGGOrganism
-            Dim html As String = WEB_URL.GET
-            Return __loadList(html)
+        <Extension>
+        Private Function fillTaxonomyClass(prokaryote As IEnumerable(Of Prokaryote)) As Prokaryote()
+            Dim kingdom As String = ""
+            Dim phylum$ = ""
+            Dim [class] = ""
+            Dim fillList As New List(Of Prokaryote)
+
+            For Each organism As Prokaryote In prokaryote
+                If Not String.IsNullOrEmpty(organism.Class) Then
+                    [class] = organism.Class
+                Else
+                    organism.Class = [class]
+                End If
+                If Not String.IsNullOrEmpty(organism.Phylum) Then
+                    phylum = organism.Phylum
+                Else
+                    organism.Phylum = phylum
+                End If
+                If Not String.IsNullOrEmpty(organism.Kingdom) Then
+                    kingdom = organism.Kingdom
+                Else
+                    organism.Kingdom = kingdom
+                End If
+
+                fillList += organism
+            Next
+
+            Return fillList
         End Function
 
         ''' <summary>
         ''' Data from the external resources.
         ''' </summary>
-        ''' <param name="url"></param>
+        ''' <param name="url">
+        ''' By default is fetch from kegg web server for gets the latest KEGG organism list from query the KEGG database.
+        ''' </param>
         ''' <returns></returns>
-        Public Function FromResource(url As String) As KEGGOrganism
-            Dim page As String = url.GET
-            Return __loadList(page)
+        ''' 
+        <ExportAPI("list.Get", Info:="Gets the latest KEGG organism list from query the KEGG database.")>
+        Public Function FromResource(Optional url$ = WEB_URL) As KEGGOrganism
+            Return htmlParserInternal(html:=url.GET)
         End Function
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0e6cf0a46c593d0680417d561cc0388, Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\Defines.vb"
+﻿#Region "Microsoft.VisualBasic::ed319fb550c8fd98251113136343f7dc, Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\Defines.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
     '     Class Organism
     ' 
     '         Properties: [Class], KEGGId, Kingdom, Phylum, RefSeq
-    '                     Species
+    '                     Species, Tcode
     ' 
-    '         Function: __createObject, GetValue, ToString, Trim
+    '         Function: parseObjectText, ToString, Trim
     ' 
     '     Class Prokaryote
     ' 
-    '         Properties: Year
+    '         Properties: pubmed, Year
     ' 
     '         Constructor: (+3 Overloads) Sub New
     '         Function: GetValue, Trim
@@ -50,9 +50,10 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
@@ -66,6 +67,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' </summary>
         ''' <returns></returns>
         Public Property Species As String
+        ''' <summary>
+        ''' T code for KEGG www_bfind
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Tcode As String
 
         ''' <summary>
         ''' KEGG里面的物种的简称代码
@@ -84,48 +90,45 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         Public Const ClassType As String = "<td rowspan=\d+  align=[a+z]+><a href='.+'>.+</a></td>"
         Public Const CELL_ITEM As String = "<td align=[a-z]+><a href='.+'>[a-z0-9]+</a>"
 
-        Protected Friend Shared __setValues As Action(Of Organism, String)() =
-            New Action(Of Organism, String)() {
- _
-                Sub(org, value) org.Kingdom = value,
-                Sub(org, value) org.Phylum = value,
-                Sub(org, value) org.Class = value,
-                Sub(org, value) org.KEGGId = value,
-                Sub(org, value) org.Species = value,
-                Sub(org, value) org.RefSeq = value
+        Private Shared ReadOnly doSetValueOf As Action(Of Organism, String)() = {
+            Sub(org, value) org.Kingdom = value,
+            Sub(org, value) org.Phylum = value,
+            Sub(org, value) org.Class = value,
+            Sub(org, value) org.KEGGId = value,
+            Sub(org, value) org.Species = value,
+            Sub(org, value) org.RefSeq = value
         }
 
         Friend Overridable Function Trim() As Organism
-            Phylum = GetValue(Phylum)
-            [Class] = GetValue([Class])
-            Species = GetValue(Species)
-            KEGGId = GetValue(KEGGId)
-            RefSeq = Regex.Match(RefSeq, """.+""").Value
+            Phylum = Phylum.GetValue()
+            [Class] = [Class].GetValue
+            Species = Species.GetValue
+            KEGGId = KEGGId.GetValue
+            Kingdom = Kingdom.GetValue
+            RefSeq = r.Match(RefSeq, """.+""").Value
             RefSeq = Mid(RefSeq, 2, Len(RefSeq) - 2)
 
             Return Me
         End Function
 
-        Protected Friend Shared Function GetValue(str As String) As String
-            If String.IsNullOrEmpty(str) Then
-                Return ""
+        Friend Shared Function parseObjectText(text As String) As Organism
+            Dim columns As String() = text.GetColumnsHTML
+
+            If columns.IsNullOrEmpty Then
+                Return Nothing
             End If
-            str = Regex.Match(str, ">.+?<", RegexOptions.Singleline).Value
-            str = Mid(str, 2, Len(str) - 2)
-            Return str
-        End Function
 
-        Friend Shared Function __createObject(text As String) As Organism
-            Dim Tokens As String() = Regex.Matches(text, "<a href=.+?</a>", RegexICSng).ToArray
-            If Tokens.IsNullOrEmpty Then Return Nothing
-            Dim Organism As Organism = New Organism
-            Dim p As Integer = Organism.__setValues.Length - 1
+            Dim org As New Organism
+            Dim p As Integer = Organism.doSetValueOf.Length - 1
 
-            For i As Integer = Tokens.Length - 1 To 0 Step -1
-                Call Organism.__setValues(p)(Organism, Tokens(i))
+            For i As Integer = columns.Length - 1 To 0 Step -1
+                Call Organism.doSetValueOf(p)(org, columns(i))
                 p -= 1
             Next
-            Return Organism
+
+            org.Tcode = org.Species.href.Match("T\d+")
+
+            Return org
         End Function
 
         Public Overrides Function ToString() As String
@@ -133,9 +136,24 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         End Function
     End Class
 
+    ''' <summary>
+    ''' 原核生物
+    ''' </summary>
+    ''' <remarks>
+    ''' 原核生物相较于真核生物的数据，在KEGG的列表中多了一个pubmed编号数据
+    ''' </remarks>
     Public Class Prokaryote : Inherits Organism
 
+        ''' <summary>
+        ''' 首次测序发表的年份
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property Year As String
+        ''' <summary>
+        ''' 首次测序发表的论文的在NCBI的pubmed数据库中的文献编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property pubmed As String
 
         Public Sub New()
         End Sub
@@ -147,30 +165,37 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
             MyBase.Phylum = org.Phylum
             MyBase.RefSeq = org.RefSeq
             MyBase.Species = org.Species
+            MyBase.Tcode = org.Tcode
         End Sub
 
-        Protected Friend Shared Shadows SetValues As Action(Of Prokaryote, String)() =
-            New Action(Of Prokaryote, String)() {
- _
-                Sub(org, value) org.Kingdom = value,
-                Sub(org, value) org.Phylum = value,
-                Sub(org, value) org.Class = value,
-                Sub(org, value) org.KEGGId = value,
-                Sub(org, value) org.Species = value,
-                Sub(org, value) org.Year = value,
-                Sub(org, value) org.RefSeq = value
+        Private Shared ReadOnly SetValues As Action(Of Prokaryote, String)() = {
+            Sub(org, value) org.Kingdom = value,
+            Sub(org, value) org.Phylum = value,
+            Sub(org, value) org.Class = value,
+            Sub(org, value) org.KEGGId = value,
+            Sub(org, value) org.Species = value,
+            Sub(org, value) org.Year = value,
+            Sub(org, value) org.RefSeq = value
         }
 
         Protected Friend Sub New(text As String)
-            Dim Tokens As String() = Regex.Matches(text, "<td.+?</td>", RegexICSng).ToArray
-            If Tokens.IsNullOrEmpty Then
+            Dim columns As String() = text.GetColumnsHTML
+
+            If columns.IsNullOrEmpty Then
             Else
                 Dim p As Integer = Prokaryote.SetValues.Length - 1
 
-                For i As Integer = Tokens.Length - 1 To 0 Step -1
-                    Call Prokaryote.SetValues(p)(Me, Tokens(i))
+                For i As Integer = columns.Length - 1 To 0 Step -1
+                    Call Prokaryote.SetValues(p)(Me, columns(i))
                     p -= 1
                 Next
+
+                Tcode = Species.href.Match("T\d+")
+                pubmed = Year.href.Match("pubmed[/]\d+")
+
+                If Not pubmed.StringEmpty Then
+                    pubmed = pubmed.Split("/"c).Last
+                End If
             End If
         End Sub
 
@@ -182,7 +207,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
             Year = GetValue(Year)
 
             If Not String.IsNullOrEmpty(RefSeq) Then
-                RefSeq = Regex.Match(RefSeq, "<a href="".+?"">").Value
+                RefSeq = r.Match(RefSeq, "<a href="".+?"">").Value
             End If
             If Not String.IsNullOrEmpty(RefSeq) Then
                 RefSeq = Mid(RefSeq, 10, Len(RefSeq) - 11)
@@ -197,11 +222,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
             If String.IsNullOrEmpty(str) Then
                 Return ""
             End If
-            Dim m = Regex.Match(str, "<a href="".+?"">.+?</a>")
+
+            Dim m = r.Match(str, "<a href="".+?"">.+?</a>")
+
             If m.Success Then
-                str = Organism.GetValue(m.Value)
+                str = m.Value.GetValue
             Else
-                str = Organism.GetValue(str)
+                str = str.GetValue
             End If
 
             Return str

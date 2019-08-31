@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3e65fcee514a034657b8c548dfaae5c, Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayLink.vb"
+﻿#Region "Microsoft.VisualBasic::ada1b262198bc8d2b05d3abd039b19ed, Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayLink.vb"
 
     ' Author:
     ' 
