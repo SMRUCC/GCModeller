@@ -95,20 +95,23 @@ Public Class var : Implements IDisposable
         End Set
     End Property
 
-    Dim _expr As String
+    Dim expr As String
 
     Public Property Expression As String
         Get
-            Return _expr
+            Return expr
         End Get
         Set(value As String)
-            _expr = value
-            Call __setValue()
+            expr = value
+
+            Call setValInternal()
         End Set
     End Property
 
-    Private Sub __setValue()
-        Call $"{name} <- {_expr}".__call
+    Private Sub setValInternal()
+        SyncLock R
+            Call R.Evaluate($"{name} <- {expr}")
+        End SyncLock
     End Sub
 
     Sub New()
@@ -117,14 +120,16 @@ Public Class var : Implements IDisposable
 
     Sub New(expr As String)
         Call Me.New
-        Me._expr = expr
-        Call __setValue()
+        Me.expr = expr
+
+        Call setValInternal()
     End Sub
 
     Sub New(name As String, expr As String)
         Me.name = name
-        Me._expr = expr
-        Call __setValue()
+        Me.expr = expr
+
+        Call setValInternal()
     End Sub
 
     ''' <summary>
@@ -140,7 +145,7 @@ Public Class var : Implements IDisposable
     Public Shared Function Rvariable(var$) As var
         Return New var With {
             ._name = var,
-            ._expr = var
+            .expr = var
         }
     End Function
 
