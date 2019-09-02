@@ -1,57 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::5c3e0eb8c9c4d344a3f20af597cf7b62, WebCloud\SMRUCC.HTTPInternal\AppEngine\APPManager.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class APPManager
-    ' 
-    '         Properties: baseUrl, DefaultAPI
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __defaultFailure, GetApp, GetEnumerator, Help, IEnumerable_GetEnumerator
-    '                   Invoke, InvokePOST, PrintHelp, Register, ServerStatus
-    '                   Test404
-    ' 
-    '         Sub: Join, ResetAPIDefault
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class APPManager
+' 
+'         Properties: baseUrl, DefaultAPI
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __defaultFailure, GetApp, GetEnumerator, Help, IEnumerable_GetEnumerator
+'                   Invoke, InvokePOST, PrintHelp, Register, ServerStatus
+'                   Test404
+' 
+'         Sub: Join, ResetAPIDefault
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
 Imports SMRUCC.WebCloud.HTTPInternal.Core
 Imports SMRUCC.WebCloud.HTTPInternal.Platform
@@ -102,10 +104,10 @@ Namespace AppEngine
         ''' <param name="url$"></param>
         ''' <param name="method"></param>
         ''' <param name="API"></param>
-        ''' <param name="APP">假若是模块Module，则使用这个默认的空值，假若是Class中的实例方法，则还需要把那个Class对象传递进来</param>
+        ''' <param name="app">假若是模块Module，则使用这个默认的空值，假若是Class中的实例方法，则还需要把那个Class对象传递进来</param>
         ''' <param name="help$"></param>
-        Public Sub Join(url$, method As APIMethod, API As MethodInfo, Optional APP As Object = Nothing, Optional help$ = "No help info...")
-            dynamics(url.ToLower) = (APP, New APIInvoker With {
+        Public Sub Join(url$, method As APIMethod, API As MethodInfo, Optional app As Object = Nothing, Optional help$ = "No help info...")
+            dynamics(url.ToLower) = (app, New APIInvoker With {
                 .EntryPoint = API,
                 .Help = help,
                 .Method = method,
@@ -122,12 +124,11 @@ Namespace AppEngine
             Dim appType As Type = GetType(App)
             Dim LQuery As App = LinqAPI.DefaultFirst(Of App) <=
  _
-                From x As APPEngine
+                From engine As APPEngine
                 In RunningAPP.Values
-                Where appType.Equals(x.Application.GetType)
-                Let AppInstant As App =
-                    DirectCast(x.Application, App)
-                Select AppInstant
+                Where appType.Equals(engine.Application.GetType)
+                Let appInstant As App = DirectCast(engine.Application, App)
+                Select appInstant
 
             Return LQuery
         End Function
@@ -143,6 +144,8 @@ Namespace AppEngine
         ''' </summary>
         ''' <param name="response">HTML输出页面或者json数据</param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function InvokePOST(request As HttpPOSTRequest, response As HttpResponse) As Boolean
             Return APPEngine.InvokePOST(request, RunningAPP, response, dynamics)
         End Function
@@ -158,12 +161,15 @@ Namespace AppEngine
         ''' </summary>
         ''' <param name="api"></param>
         ''' <returns></returns>
-        Private Shared Function __defaultFailure(api As String, request As HttpRequest, response As HttpResponse) As Boolean
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function falseAsDefaultFailure(api As String, request As HttpRequest, response As HttpResponse) As Boolean
             Return False
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub ResetAPIDefault()
-            DefaultAPI = AddressOf __defaultFailure
+            DefaultAPI = AddressOf falseAsDefaultFailure
         End Sub
 
         ''' <summary>
@@ -171,6 +177,8 @@ Namespace AppEngine
         ''' </summary>
         ''' <param name="response">HTML输出页面或者json数据</param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Invoke(request As HttpRequest, response As HttpResponse) As Boolean
             Return APPEngine.Invoke(request, RunningAPP, response, dynamics, DefaultAPI)
         End Function
@@ -180,16 +188,37 @@ Namespace AppEngine
  _
                 From app As KeyValuePair(Of String, APPEngine)
                 In Me.RunningAPP
-                Let nsDescrib As String = If(
-                    String.IsNullOrEmpty(app.Value.Namespace.Description),
-                    "",
-                    $"                <p>{app.Value.Namespace.Description}</p><br /><br />")
-                Let head = $"<br /><div><h3>Application/Namespace                --- <strong>{baseUrl}/{app.Value.Namespace.Namespace}/</strong> ---</h3>" & nsDescrib
-                Select head & vbCrLf & app.Value.GetHelp & vbCrLf & "</div>"
+                Let head = helpInfo(app.Key, app.Value)
+                Select "<div>" & vbCrLf &
+                           head & vbCrLf &
+                           app.Value.GetHelp & vbCrLf &
+                       "</div>"
 
             Dim HelpPage As String = String.Join($"<br /><br />", LQuery)
 
             Return HelpPage
+        End Function
+
+        Private Function helpInfo(appKey$, app As APPEngine) As String
+            Dim describ As String
+
+            If String.IsNullOrEmpty(app.Namespace.Description) Then
+                describ = ""
+            Else
+                describ = <div>
+                              <p><%= app.Namespace.Description %></p>
+                              <br/>
+                              <br/>
+                          </div>
+            End If
+
+            Dim head As String = sprintf(
+                <div>
+                    <h3>Application/Namespace          --- <strong><%= baseUrl %>/<%= app.Namespace.Namespace %>/</strong> ---</h3>
+                    %s
+                </div>, describ)
+
+            Return head
         End Function
 
         <ExportAPI("/dashboard/help_doc.html",
@@ -228,11 +257,12 @@ Namespace AppEngine
                 Return False
             End If
 
-            Dim hash As String = registerApp.Namespace.Namespace.ToLower
-            If Me.RunningAPP.ContainsKey(hash) Then
+            Dim key As String = registerApp.Namespace.Namespace.ToLower
+
+            If Me.RunningAPP.ContainsKey(key) Then
                 Return False
             Else
-                Call RunningAPP.Add(hash, registerApp)
+                Call RunningAPP.Add(key, registerApp)
             End If
 
             Return True

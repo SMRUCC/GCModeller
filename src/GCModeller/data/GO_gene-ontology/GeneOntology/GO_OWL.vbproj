@@ -235,6 +235,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAG\Axioms.vb" />
     <Compile Include="PseAA.vb" />
     <Compile Include="GoBriefTable.vb" />
     <Compile Include="GoStat.vb" />

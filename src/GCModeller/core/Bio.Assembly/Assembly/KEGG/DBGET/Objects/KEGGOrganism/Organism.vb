@@ -185,8 +185,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                 DOI = ""
             Else
                 DOI = r.Match(J, "DOI[:].+", RegexICSng).Value
-                J = J.Replace(DOI, "").StripHTMLTags.Trim
-                DOI = DOI.StripHTMLTags
+
+                If Not DOI.StringEmpty Then
+                    J = J.Replace(DOI, "").StripHTMLTags.Trim
+                    DOI = DOI.StripHTMLTags
+                End If
             End If
 
             Dim authors = rows.TryGetValue("Authors")?.Split(";"c)
