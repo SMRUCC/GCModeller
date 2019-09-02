@@ -88,7 +88,9 @@ Namespace AppEngine
             methods = MyClass _
                 .GetType _
                 .GetMethods(BindingFlags.Public Or BindingFlags.Instance) _
-                .Where(Function(m) Not m.GetCustomAttribute(GetType(APIMethod)) Is Nothing) _
+                .Where(Function(m)
+                           Return Not m.GetCustomAttribute(GetType(APIMethod)) Is Nothing
+                       End Function) _
                 .ToDictionary(Function(m) m.Name)
         End Sub
 
@@ -126,7 +128,7 @@ Namespace AppEngine
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AddDynamics(url$, method As APIMethod, API As MethodInfo, Optional help$ = "")
-            Call PlatformEngine.AppManager.Join(url, method, API, APP:=Me, help:=help)
+            Call PlatformEngine.AppManager.Join(url, method, API, app:=Me, help:=help)
         End Sub
 
         ''' <summary>

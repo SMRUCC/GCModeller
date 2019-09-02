@@ -1,61 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::0816269a2f2f03b5a6e7fdbeb375f84d, WebCloud\SMRUCC.HTTPInternal\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Extensions
-    ' 
-    '     Function: FaviconZip
-    ' 
-    '     Sub: FailureMsg, SuccessMsg, TransferBinary
-    ' 
-    ' Structure JsonResponse
-    ' 
-    '     Properties: code, message
-    ' 
-    '     Function: ToString
-    ' 
-    ' /********************************************************************************/
+' Module Extensions
+' 
+'     Function: FaviconZip
+' 
+'     Sub: FailureMsg, SuccessMsg, TransferBinary
+' 
+' Structure JsonResponse
+' 
+'     Properties: code, message
+' 
+'     Function: ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine
 Imports SMRUCC.WebCloud.HTTPInternal.Core
 
-Public Module Extensions
+<HideModuleName> Public Module Extensions
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function FaviconZip() As Byte()
@@ -99,15 +98,3 @@ Public Module Extensions
         Call rep.WriteJSON(New JsonResponse With {.code = code, .message = message})
     End Sub
 End Module
-
-Public Structure JsonResponse
-
-    <XmlAttribute>
-    Public Property code As Integer
-    <XmlText>
-    Public Property message As String
-
-    Public Overrides Function ToString() As String
-        Return Me.GetJson
-    End Function
-End Structure
