@@ -728,6 +728,36 @@ Namespace API
             End SyncLock
         End Sub
 
+        Public Function save(vars As IEnumerable(Of var),
+                             file$,
+                             Optional ascii As Boolean = False,
+                             Optional version$ = "NULL",
+                             Optional envir$ = "parent.frame()",
+                             Optional compress As Boolean = True,
+                             Optional compression_level% = 6,
+                             Optional eval_promises As Boolean = True,
+                             Optional precheck As Boolean = True) As Boolean
+            Try
+                Call base.save(objects:=vars,
+                               file:=file,
+                               ascii:=ascii,
+                               compress:=compress,
+                               compression_level:=compression_level,
+                               envir:=envir,
+                               eval_promises:=eval_promises,
+                               precheck:=precheck,
+                               version:=version
+                )
+            Catch ex As Exception
+                Call App.LogException(ex)
+                Call ex.PrintException
+
+                Return False
+            End Try
+
+            Return True
+        End Function
+
         ''' <summary>
         ''' vector produces a vector of the given length and mode.
         ''' </summary>
