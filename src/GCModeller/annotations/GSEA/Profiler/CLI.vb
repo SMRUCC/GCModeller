@@ -204,6 +204,7 @@ Public Module CLI
         Dim format$ = args("/format") Or "GCModeller"
 
         ' 在这里还需要将列表约束在背景模型的范围内
+        ' 这一步操作在LC-MS的代谢物富集分析中尤其重要
         geneSet = background.clusters _
             .Select(Function(c) c.Intersect(geneSet, isLocusTag)) _
             .IteratesALL _
