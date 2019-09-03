@@ -212,7 +212,7 @@ Public Module CLI
             .ToArray
 
         ' for debug test
-        If Not debugIdlist = 0 Then
+        If debugIdlist Then
             background = background _
                 .SubsetOf(Function(cluster)
                               Return cluster.ID Like debugIdlist
