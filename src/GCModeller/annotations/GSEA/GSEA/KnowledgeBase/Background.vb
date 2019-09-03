@@ -12,7 +12,7 @@ Public Class Background : Inherits XmlDataModel
 
     Public Property name As String Implements IKeyedEntity(Of String).Key
     ''' <summary>
-    ''' A brief unique id code.
+    ''' A brief unique id code. Such as kegg organism code or ncbi taxonomy id.
     ''' </summary>
     ''' <returns></returns>
     Public Property id As String
