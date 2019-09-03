@@ -63,6 +63,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property TID As String
+        ''' <summary>
+        ''' 物种在KEGG数据库之中的简要缩写代码
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property code As String
         <XmlAttribute> Public Property Taxonomy As String
 

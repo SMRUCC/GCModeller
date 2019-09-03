@@ -48,7 +48,6 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -131,13 +130,14 @@ Namespace OBO
             Using writer As StreamWriter = path.OpenWriter(encoding)
                 Dim write As Action(Of String) = AddressOf writer.WriteLine
 
-                Call New RowObject({"goID", "namespace", "name"}) _
-                    .AsLine _
+                Call {"goID", "namespace", "name"} _
+                    .JoinBy(",") _
                     .DoCall(write)
 
                 For Each term As Term In Terms
-                    Call New RowObject({term.id, term.namespace, term.name}) _
-                        .AsLine _
+                    Call {term.id, term.namespace, term.name} _
+                        .Select(Function(str) $"""{str}""") _
+                        .JoinBy(",") _
                         .DoCall(write)
                 Next
             End Using

@@ -71,7 +71,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/try_all /compounds <compounds.directory> /save <DIR> /@set sleep=2000]")>
-    <Description("Downloads the KEGG enzyme reaction reference model data.")>
+    <Description("Downloads the KEGG enzyme reaction reference model data. Usually use these reference reaction data applied for metabolism network analysis.")>
     <Group(CLIGroups.DBGET_tools)>
     <Argument("/compounds", True, CLITypes.File,
               Description:="If this argument is present in the commandline, then it means only this collection of compounds related reactions will be download.")>
@@ -110,7 +110,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Download.Compounds")>
-    <Description("Downloads the KEGG compounds data from KEGG web server using dbget API")>
+    <Description("Downloads the KEGG compounds data from KEGG web server using dbget API. Apply this downloaded KEGG compounds data used for metabolism annotation in LC-MS data analysis.")>
     <Usage("/Download.Compounds [/chebi <accessions.tsv> /flat /updates /save <DIR>]")>
     <Argument("/chebi", True, CLITypes.File,
               AcceptTypes:={GetType(Accession)},
@@ -282,14 +282,6 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Download.Module.Maps",
-               Info:="Download the KEGG reference modules map data.",
-               Usage:="/Download.Module.Maps [/out <EXPORT_DIR, default=""./"">]")>
-    Public Function DownloadReferenceModule(args As CommandLine) As Integer
-        Dim out$ = args.GetValue("/out", "./")
-
-    End Function
-
     ''' <summary>
     ''' 这里下载的是标准的参考图数据
     ''' 
@@ -297,9 +289,9 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Pathways.Downloads.All",
-               Info:="Download all of the KEGG reference pathway map data.",
-               Usage:="/Pathways.Downloads.All [/out <outDIR>]")>
+    <ExportAPI("/Pathways.Downloads.All")>
+    <Description("Download all of the blank KEGG reference pathway map data. Apply for render KEGG pathway enrichment result or other biological system modelling work.")>
+    <Usage("/Pathways.Downloads.All [/out <outDIR>]")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadsAllPathways(args As CommandLine) As Integer
         Dim EXPORT = args("/out") Or (App.HOME & "/br08901/")
@@ -318,7 +310,7 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/dump.kegg.maps")>
+    <ExportAPI("/kegg.maps.hsa")>
     <Description("Dumping the KEGG maps database for human species.")>
     <Usage("/dump.kegg.maps [/htext <htext.txt> /out <save_dir>]")>
     <Argument("/htext", False, CLITypes.File,
@@ -327,7 +319,7 @@ Partial Module CLI
     <Argument("/out", True, CLITypes.File,
               Description:="A directory path that contains the download KEGG reference pathway map model data, this output can be using as the KEGG pathway map rendering repository source.")>
     <Group(CLIGroups.DBGET_tools)>
-    Public Function DumpKEGGMaps(args As CommandLine) As Integer
+    Public Function HumanKEGGMaps(args As CommandLine) As Integer
         Dim htext$ = args <= "/htext"
 
         With (args <= "/out") Or $"./br08901_pathwayMaps/".AsDefault

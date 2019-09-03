@@ -67,7 +67,7 @@ Public Module GSEA
 
     Private Function Convert(term As EnrichmentResult) As EnrichmentTerm
         Return New EnrichmentTerm With {
-            .Backgrounds = term.enriched.Split("/"c).Last,
+            .Backgrounds = term.cluster,
             .number = term.enriched.Split("/"c).First,
             .ID = term.term,
             .ORF = term.geneIDs,
