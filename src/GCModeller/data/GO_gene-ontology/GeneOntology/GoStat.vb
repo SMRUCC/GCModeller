@@ -46,7 +46,6 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
@@ -63,7 +62,9 @@ Public Module GoStat
     Public ReadOnly Property OntologyNamespaces As Dictionary(Of Ontologies, String) =
         Enums(Of Ontologies) _
         .ToDictionary(Function(o) o,
-                      Function([namespace]) [namespace].Description)
+                      Function([namespace])
+                          Return [namespace].Description
+                      End Function)
 
     ''' <summary>
     ''' Get specific level go Term and sum the result
@@ -142,7 +143,9 @@ Public Module GoStat
         Dim out As Dictionary(Of String, Dictionary(Of NamedValue(Of VBInteger))) =
             Enums(Of Ontologies) _
             .ToDictionary(Function(o) o.Description,
-                          Function(null) New Dictionary(Of NamedValue(Of VBInteger)))
+                          Function(null)
+                              Return New Dictionary(Of NamedValue(Of VBInteger))
+                          End Function)
 
         For Each g As gene In genes
             Dim goCounts = getGO(g) _
@@ -185,11 +188,16 @@ Public Module GoStat
         Dim del$ = "," Or vbTab.AsDefault(Function() tsv)
 
         Using write As StreamWriter = path.OpenWriter(encoding)
-            Call write.WriteLine(New RowObject({"namespace", "id", "name", "counts"}).AsLine(del))
+            Call {"namespace", "id", "name", "counts"} _
+                .JoinBy(del) _
+                .DoCall(AddressOf write.WriteLine)
 
             For Each k In data
-                For Each x As NamedValue(Of Integer) In k.Value
-                    Call write.WriteLine(New RowObject({k.Key, x.Name, x.Description, x.Value}).AsLine(del))
+                For Each term As NamedValue(Of Integer) In k.Value
+                    Call {k.Key, term.Name, term.Description, term.Value} _
+                        .Select(Function(str) $"""{str}""") _
+                        .JoinBy(del) _
+                        .DoCall(AddressOf write.WriteLine)
                 Next
             Next
         End Using
@@ -200,11 +208,11 @@ Public Module GoStat
     Private Function __t(value As IEnumerable(Of NamedValue(Of VBInteger))) As NamedValue(Of Integer)()
         Dim array As New List(Of NamedValue(Of Integer))
 
-        For Each x In value.Where(Function(c) c.Value.Value > 1).ToArray
+        For Each term In value.Where(Function(c) c.Value.Value > 1).ToArray
             array += New NamedValue(Of Integer) With {
-                .Name = x.Name,
-                .Value = x.Value,
-                .Description = x.Description
+                .Name = term.Name,
+                .Value = term.Value,
+                .Description = term.Description
             }
         Next
 
@@ -227,7 +235,9 @@ Public Module GoStat
             Dim cutoff# = q.Query(quantile)
             Dim cuts As NamedValue(Of Double)() = k.Value _
                 .Where(Function(o) o.Value >= cutoff) _
-                .Select(Function(o) New NamedValue(Of Double)(o.Name, o.Value)) _
+                .Select(Function(o)
+                            Return New NamedValue(Of Double)(o.Name, o.Value)
+                        End Function) _
                 .ToArray
 
             Call out.Add(k.Key, cuts)
