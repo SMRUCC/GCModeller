@@ -1014,21 +1014,22 @@ Public Module StringHelpers
     ''' 这个函数适合将一个很大的数组进行分割
     ''' </summary>
     ''' <param name="source"></param>
-    ''' <param name="assertionDelimiter">分隔符断言，判断当前的对象是不是分隔符</param>
+    ''' <param name="delimiterPredicate">分隔符断言，判断当前的对象是不是分隔符</param>
     ''' <param name="includes"></param>
     ''' <returns></returns>
     <Extension>
     Public Iterator Function Split(source As IEnumerable(Of String),
-                                   assertionDelimiter As Assert(Of String),
+                                   delimiterPredicate As Assert(Of String),
                                    Optional includes As Boolean = True) As IEnumerable(Of String())
 
         Dim list As New List(Of String)
-        Dim first As Boolean = True  ' first line
+        ' first line
+        Dim isFirst As Boolean = True
 
         For Each line As String In source
-            If True = assertionDelimiter(line) Then
-                If first Then
-                    first = False
+            If True = delimiterPredicate(line) Then
+                If isFirst Then
+                    isFirst = False
                 Else
                     Yield list.ToArray
 
@@ -1042,7 +1043,7 @@ Public Module StringHelpers
                 Call list.Add(line)
             End If
 
-            first = False
+            isFirst = False
         Next
 
         If list.Count > 0 Then
@@ -1062,19 +1063,12 @@ Public Module StringHelpers
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("Located", Info:="String compares using String.Equals")>
-    <Extension> Public Function Located(collection As IEnumerable(Of String),
-                                        text As String,
+    <Extension> Public Function Located(collection As IEnumerable(Of String), text$,
                                         Optional caseSensitive As Boolean = True,
                                         Optional fuzzy As Boolean = False) As Integer
 
-        Dim method As StringComparison =
-            If(caseSensitive,
-            StringComparison.Ordinal,
-            StringComparison.OrdinalIgnoreCase)
-        Dim method2 As CompareMethod =
-            If(caseSensitive,
-            CompareMethod.Binary,
-            CompareMethod.Text)
+        Dim method As StringComparison = StringComparison.OrdinalIgnoreCase Or StringComparison.Ordinal.When(caseSensitive)
+        Dim method2 As CompareMethod = CompareMethod.Text Or CompareMethod.Binary.When(caseSensitive)
 
         For Each str As SeqValue(Of String) In collection.SeqIterator
             If String.Equals(str.value, text, method) Then
@@ -1266,6 +1260,7 @@ Public Module StringHelpers
         ' 可能会导致匹配到第一个字符串而无法正确的匹配上最后一个token，所以在这里使用
         ' InstrRev来避免这个问题
         Dim val% = InStrRev(s, token)
+
         Return lastIndex = val
     End Function
 End Module
