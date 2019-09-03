@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::a9a4e743a2d821731f6bcf240951d866, WebCloud\SMRUCC.HTTPInternal\Core\HttpServer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class HttpServer
-    ' 
-    '         Properties: BufferSize, IsRunning, localhost, LocalPort
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: getProcessor, Run
-    ' 
-    '         Sub: __accept, (+2 Overloads) Dispose, OpenAPI_HOME, RunTask, Shutdown
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class HttpServer
+' 
+'         Properties: BufferSize, IsRunning, localhost, LocalPort
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: getProcessor, Run
+' 
+'         Sub: __accept, (+2 Overloads) Dispose, OpenAPI_HOME, RunTask, Shutdown
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.IO
 Imports System.Net
 Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Parallel
@@ -64,6 +64,7 @@ Namespace Core
     ''' </summary>
     Public MustInherit Class HttpServer
         Implements IDisposable
+        Implements ITaskDriver
 
         Protected Is_active As Boolean = True
 
@@ -124,7 +125,7 @@ Namespace Core
         ''' (请注意，在服务器开启之后，当前的线程会被阻塞在这里)
         ''' </summary>
         ''' <returns></returns>
-        Public Overridable Function Run() As Integer
+        Public Overridable Function Run() As Integer Implements ITaskDriver.Run
             Try
                 Call _httpListener.Start(10240)
             Catch ex As Exception
