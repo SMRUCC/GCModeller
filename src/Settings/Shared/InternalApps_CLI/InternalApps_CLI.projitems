@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Apps\FBA.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\GCC.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\httpd.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\kb.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\KEGG_tools.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\localblast.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\MapPlot.vb" />
