@@ -84,7 +84,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>Profiler.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -249,6 +249,10 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25RDF+xml\application.RDF_xml.vbproj">
       <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
       <Name>application.RDF_xml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\analysis\Microarray\Microarray.vbproj">
+      <Project>{64384e97-d1c6-410c-bff7-43392d994050}</Project>
+      <Name>Microarray</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>

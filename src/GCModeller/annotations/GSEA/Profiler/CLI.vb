@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
+Imports SMRUCC.genomics.Analysis.Microarray.GSEA
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -176,7 +177,7 @@ Public Module CLI
     End Function
 
     <ExportAPI("/GSEA")>
-    <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> [/hide.progress /locus_tag /cluster_id <null, debug_used> /out <out.csv>]")>
+    <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> [/hide.progress /locus_tag /cluster_id <null, debug_used> /format <default=GCModeller> /out <out.csv>]")>
     <Description("Do gene set enrichment analysis.")>
     <Argument("/background", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.Xml",
@@ -184,6 +185,9 @@ Public Module CLI
     <Argument("/cluster_id", True, CLITypes.String,
               AcceptTypes:={GetType(String())},
               Description:="A list of specific cluster id that used for program debug use only.")>
+    <Argument("/format", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="apply this argument to specify the output table format, by default is in GCModeller table format, or you can assign the ``KOBAS`` format value at this parameter.")>
     Public Function EnrichmentTest(args As CommandLine) As Integer
         Dim backgroundXML$ = args("/background")
         Dim background = backgroundXML.LoadXml(Of Background)
@@ -197,9 +201,18 @@ Public Module CLI
             .ToArray
         Dim out$ = args("/out") Or $"{list.TrimSuffix}_{backgroundXML.BaseName}_enrichment.csv"
         Dim isLocusTag As Boolean = args("/locus_tag")
+        Dim format$ = args("/format") Or "GCModeller"
+
+        ' 在这里还需要将列表约束在背景模型的范围内
+        ' 这一步操作在LC-MS的代谢物富集分析中尤其重要
+        geneSet = background.clusters _
+            .Select(Function(c) c.Intersect(geneSet, isLocusTag)) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
 
         ' for debug test
-        If Not debugIdlist = 0 Then
+        If debugIdlist Then
             background = background _
                 .SubsetOf(Function(cluster)
                               Return cluster.ID Like debugIdlist
@@ -216,7 +229,12 @@ Public Module CLI
             .OrderBy(Function(term) term.pvalue) _
             .ToArray
 
-        Return result.SaveTo(out).CLICode
+        If format.TextEquals("KOBAS") Then
+            ' convert to KOBAS table
+            Return result.Converts.SaveTo(out).CLICode
+        Else
+            Return result.SaveTo(out).CLICode
+        End If
     End Function
 End Module
 
