@@ -123,7 +123,7 @@ Namespace Assembly.Uniprot
 
         Private Shared Function __createObject(line As String) As IdMapping
             Dim Tokens As String() = Strings.Split(line, vbTab)
-            Dim p As VBInteger = 0
+            Dim p As i32 = 0
             Dim Maps As New IdMapping
 
             With Maps

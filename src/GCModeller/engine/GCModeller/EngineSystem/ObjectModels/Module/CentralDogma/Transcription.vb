@@ -123,7 +123,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
             ConstraintModel.p_Dynamics_K_1 = K1
 
             Dim ConstraintMapping = MetabolismSystem.ConstraintMetabolite
-            Dim p As VBInteger = 0
+            Dim p As i32 = 0
 
             ConstraintModel.Reactants = {
                 New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ATP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(++p) + 2, 2)},

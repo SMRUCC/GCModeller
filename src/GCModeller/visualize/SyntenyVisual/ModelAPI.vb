@@ -154,7 +154,7 @@ Public Module ModelAPI
         Dim h2 As Integer = h1 + height
         Dim links As New List(Of Line)
         Dim genomes As New List(Of GenomeBrief)
-        Dim i As VBInteger = Scan0
+        Dim i As i32 = Scan0
         Dim last As PTT = Nothing
         Dim titles As Dictionary(Of Title) = model.GetTitles(DIR).ToDictionary
         Dim lastsp As String = Nothing

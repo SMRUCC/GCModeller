@@ -105,7 +105,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
             Dim ConstraintModel As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
               .Name = MyBase.Identifier, .Identifier = MyBase.Identifier, .Reversible = False, .UPPER_BOUND = New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 50}}
             Dim ConstraintMapping = MetabolismSystem.ConstraintMetabolite
-            Dim p As VBInteger = 0
+            Dim p As i32 = 0
 
             Me.CompositionDelayEffect = Global.System.Math.Log(Me.CompositionVector.Sum + Global.System.Math.E)
 

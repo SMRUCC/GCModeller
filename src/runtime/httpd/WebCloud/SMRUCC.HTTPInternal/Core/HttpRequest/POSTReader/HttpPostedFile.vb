@@ -143,7 +143,7 @@ Namespace Core.HttpStream
 
             Try
                 Using fs As FileStream = File.Create(filename)
-                    Dim n As VBInteger = Scan0
+                    Dim n As i32 = Scan0
 
                     inputStream.Position = 0
 

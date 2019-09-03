@@ -112,7 +112,7 @@ Public Class CacheGenerator
         '
         ' 
         Dim indexedTaxonomy As New Index(Of String)
-        Dim i As VBInteger = 0
+        Dim i As i32 = 0
 
         For Each protein As entry In UniProtXml _
             .Where(Function(org)

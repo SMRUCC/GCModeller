@@ -210,7 +210,7 @@ Namespace Core.WebSocket
                 bytes(frameCount + 3)
             }
 
-            Dim j As VBInteger = Scan0
+            Dim j As i32 = Scan0
 
             For i As Integer = (frameCount + 4) To (bytes.Length - 2) Step 1
                 decoded(j) = Convert.ToByte((bytes(i) Xor masks(++j Mod 4)))

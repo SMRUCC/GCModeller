@@ -59,7 +59,7 @@ Namespace NCBIBlastResult
     Public Module OrthologyProfiles
 
         Public Function DefaultColors() As RangeList(Of Double, NamedValue(Of Color))
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
             Dim colors As Color() = Designer.GetColors("RdBu:c8").AsList + Color.LightGray
 
             Return {
