@@ -203,6 +203,13 @@ Public Module CLI
         Dim isLocusTag As Boolean = args("/locus_tag")
         Dim format$ = args("/format") Or "GCModeller"
 
+        ' 在这里还需要将列表约束在背景模型的范围内
+        geneSet = background.clusters _
+            .Select(Function(c) c.Intersect(geneSet, isLocusTag)) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
         ' for debug test
         If Not debugIdlist = 0 Then
             background = background _
