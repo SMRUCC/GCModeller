@@ -392,7 +392,7 @@ Public Module PhenotypeRegulations
         Dim Ranking As Integer() = GenerateMapping(Vector, Level)
         Dim ChunkBuffer As Integer() = New Integer(DataChunk.First.Samples.Length - 1) {}
         Dim ChunkList As New List(Of DataSerials(Of Integer))
-        Dim p As VBInteger = 0
+        Dim p As i32 = 0
 
         For i As Integer = 0 To Ranking.Count - 1 Step ChunkBuffer.Length
             Call Array.ConstrainedCopy(Ranking, i, ChunkBuffer, 0, ChunkBuffer.Length)

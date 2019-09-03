@@ -165,7 +165,7 @@ Public Module SeedCluster
             .ID = i,
             .Properties = New Dictionary(Of String, Double)
         }
-        Dim j As VBInteger = 1
+        Dim j As i32 = 1
         Dim query As New FastaSeq With {
             .SequenceData = q.Query
         }

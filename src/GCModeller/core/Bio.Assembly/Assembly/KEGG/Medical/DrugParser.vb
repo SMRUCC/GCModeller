@@ -201,7 +201,7 @@ Namespace Assembly.KEGG.Medical
                           End If
                       End Sub
 
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
             Dim line As New Value(Of String)
 
             Do While i < lines.Length

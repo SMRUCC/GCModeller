@@ -150,7 +150,7 @@ Namespace gast
         End Sub
 
         Sub New(data As String())
-            Dim assigned As VBInteger = 0
+            Dim assigned As i32 = 0
 
             If data.Length < 8 Then
                 ReDim Preserve data(8)

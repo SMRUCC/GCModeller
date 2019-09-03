@@ -251,7 +251,7 @@ Namespace PfamString
         Private Function CreateObject(strData As String) As SmpFile
             Dim Tokens As String() = Strings.Split(strData, "|")
             Dim SmpFile As CDD.SmpFile = New SmpFile With {.Id = Tokens.First}
-            Dim p As VBInteger = 1
+            Dim p As i32 = 1
 
             SmpFile.Name = Tokens.GetItem(++p)
             SmpFile.CommonName = Tokens.GetItem(++p)

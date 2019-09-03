@@ -86,7 +86,7 @@ Namespace VCF
         ''' <returns></returns>
         Public Function LineParser(line$, seqTitles$()) As SNPVcf
             Dim t$() = line.Split(ASCII.TAB)
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
 
             Return New SNPVcf With {
                 .CHROM = t(++i),

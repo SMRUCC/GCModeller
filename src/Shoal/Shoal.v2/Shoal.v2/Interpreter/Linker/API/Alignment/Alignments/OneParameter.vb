@@ -43,7 +43,7 @@ Namespace Interpreter.Linker.APIHandler.Alignment
         End Function
 
         Private Function __equals(Name As String) As ParamAlignments
-            Dim equalsValue As VBInteger = Scan0
+            Dim equalsValue As i32 = Scan0
             Dim valueInput As Object = InputParam(Name)
 
             If __boolsEquals(FuncDef, valueInput) Then Return New ParamAlignments With {.Score = 100, .args = {True}}

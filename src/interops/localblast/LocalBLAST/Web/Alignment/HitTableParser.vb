@@ -166,7 +166,7 @@ Namespace NCBIBlastResult.WebBlast
         ''' <returns></returns>
         Private Function Mapper(s As String, fields As Index(Of String)) As HitRecord
             Dim tokens As String() = s.Split(ASCII.TAB)
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
             Dim queryID As String = Nothing
             Dim subjectID As String = Nothing
 

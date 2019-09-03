@@ -251,7 +251,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
             .SaveTo(out & "/data.json")
         ' Call motifs.GetXml.SaveTo(out & "/data.xml")
 
-        Dim i As VBInteger = 0
+        Dim i As i32 = 0
 
         For Each motif As Motif In motifs
             Call motif _

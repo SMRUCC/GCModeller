@@ -2,7 +2,8 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
-Imports RDotNET.Extensions.GCModeller
+Imports RDotNet.Extensions.GCModeller
+Imports SMRUCC.genomics.Data
 
 Partial Module CLI
 
@@ -16,6 +17,18 @@ Partial Module CLI
 
         Return dataset _
             .DoCall(Function(d) OrganismCompounds.WriteRda(d, rdafile:=out)) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/KEGG.maps.background")>
+    <Usage("/KEGG.maps.background /in <reference_maps.directory> [/out <gsea_background.rda>]")>
+    Public Function KEGGMapsBackground(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in]}/gsea_background.rda"
+
+        Return PathwayRepository.ScanModels([in]) _
+            .AsEnumerable _
+            .SaveBackgroundRda(rdafile:=out) _
             .CLICode
     End Function
 End Module

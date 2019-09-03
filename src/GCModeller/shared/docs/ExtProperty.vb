@@ -85,7 +85,7 @@ Namespace DocumentFormat
 
         <Extension> Public Function AssignTSSsId(source As Generic.IEnumerable(Of Transcript), Optional prefix As String = "TSS_") As Transcript()
             Dim array As Transcript() = source.ToArray
-            Dim i As VBInteger = 1
+            Dim i As i32 = 1
 
             For Each transcript As Transcript In array
                 If transcript._5UTR <> 0 Then
