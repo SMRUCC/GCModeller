@@ -15,7 +15,7 @@ Public Module KEGGCompounds
     ''' <param name="maps"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CreateBackground(org As OrganismInfo, maps As IEnumerable(Of Pathway), Optional outputAll As Boolean = True) As Background
+    Public Function CreateBackground(org As OrganismInfo, maps As IEnumerable(Of Pathway)) As Background
         ' The total number of metabolites in background genome. 
         Dim backgroundSize% = 0
         Dim clusters As New List(Of Cluster)

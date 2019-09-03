@@ -6,6 +6,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
 
 Partial Module CLI
 
@@ -17,6 +18,11 @@ Partial Module CLI
         Dim out$ = args("/out") Or $"{[in]}/metabolites.Xml"
         Dim info As OrganismInfo = $"{[in]}/kegg.json".LoadJSON(Of OrganismInfo)
         Dim maps As IEnumerable(Of Pathway) = (ls - l - r - "*.Xml" <= [in]).Select(AddressOf LoadXml(Of Pathway))
-        Dim background As Background =
+        Dim background As Background = KEGGCompounds.CreateBackground(info, maps)
+
+        Return background _
+            .GetXml _
+            .SaveTo(out) _
+            .CLICode
     End Function
 End Module
