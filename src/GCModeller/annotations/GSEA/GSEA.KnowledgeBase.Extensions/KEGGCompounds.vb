@@ -51,7 +51,8 @@ Public Module KEGGCompounds
             .clusters = clusters,
             .comments = "Background model apply for GSEA of LC-MS metabolism analysis, created by GCModeller.",
             .name = org.FullName,
-            .size = backgroundSize
+            .size = backgroundSize,
+            .id = org.code
         }
     End Function
 End Module
