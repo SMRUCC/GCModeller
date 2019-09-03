@@ -684,7 +684,7 @@ Namespace API
         ''' effect Is the same As saving With compression. Also, a saved file can be uncompressed And re-compressed 
         ''' under a different compression scheme (And see resaveRdaFiles For a way To Do so from within R).
         ''' </remarks>
-        Public Sub save(objects As IEnumerable(Of String),
+        Public Sub save(objects As [Variant](Of IEnumerable(Of String), IEnumerable(Of var)),
                         file$,
                         Optional ascii As Boolean = False,
                         Optional version$ = "NULL",
@@ -707,9 +707,19 @@ Namespace API
                 Call file.ParentPath.MkDIR
             End If
 
+            Dim objNames$()
+
+            If objects Like GetType(IEnumerable(Of String)) Then
+                objNames = objects.TryCast(Of IEnumerable(Of String)).ToArray
+            Else
+                objNames = objects.TryCast(Of IEnumerable(Of var)) _
+                    .Select(Function(v) v.name) _
+                    .ToArray
+            End If
+
             SyncLock R
                 With R
-                    .call = $"save({objects.JoinBy(", ")}, 
+                    .call = $"save({objNames.JoinBy(", ")}, 
      file = {Rstring(file.UnixPath)},
      ascii = {ascii.λ}, version = {version}, envir = {envir},
      compress = {compress.λ}, compression_level = {compression_level},
