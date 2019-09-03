@@ -23,7 +23,7 @@ Public Module KEGGCompounds
         For Each map As Pathway In maps
             clusters += New Cluster With {
                 .description = map.description,
-                .ID = map.briteID,
+                .ID = map.EntryId,
                 .names = map.name,
                 .members = map.compound _
                     .Select(Function(c)
