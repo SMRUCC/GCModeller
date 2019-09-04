@@ -17,6 +17,10 @@ Namespace Net.Http
 
         Public Sub Run()
             Call task.StartTask()
+
+            If Not task.isDownloading Then
+                Call task.Dispose()
+            End If
         End Sub
 
         Private Sub DownloadProcess(wget As wgetTask, percentage As Double) Handles task.DownloadProcess
