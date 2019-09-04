@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::d123268ab48cb110ebd63048c445139e, Microsoft.VisualBasic.Core\Net\wGetTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class wGetTools
-    ' 
-    '         Properties: CurrentSize, Downloading, DownloadSpeed, TotalSize
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: ToString
-    ' 
-    '         Sub: __downloadTask, (+2 Overloads) Dispose, StartTask
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class wGetTools
+' 
+'         Properties: CurrentSize, Downloading, DownloadSpeed, TotalSize
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: ToString
+' 
+'         Sub: __downloadTask, (+2 Overloads) Dispose, StartTask
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -77,7 +77,11 @@ Namespace Net.Http
         ''' <returns></returns>
         Public ReadOnly Property downloadSpeed As Double
             Get
-                Return _speedSamples.Average
+                If _speedSamples.Count = 0 Then
+                    Return 0
+                Else
+                    Return _speedSamples.Average
+                End If
             End Get
         End Property
 
@@ -120,11 +124,6 @@ Namespace Net.Http
             Dim req As WebRequest = WebRequest.Create(url)
             ' Ask for the response
             Dim resp As WebResponse = req.GetResponse
-            ' Make a buffer
-            Dim buffer(8192) As Byte
-            Dim downloadedsize As Long = 0
-            Dim downloadedTime As Long = 0
-            Dim dlSpeed As Long = 0
 
             _totalSize = req.ContentLength
             _speedSamples = New List(Of Double)
@@ -133,7 +132,27 @@ Namespace Net.Http
             RaiseEvent ReportRequest(req)
             RaiseEvent DownloadProcess(Me, 100 * currentSize / totalSize)
 
-            Do While _currentSize < _totalSize
+            If totalSize = -1 Then
+                Call taskWithNoContentLength(resp)
+            Else
+                Call taskWithContentLength(resp)
+            End If
+
+            resp.Close()
+        End Sub
+
+        Private Sub taskWithNoContentLength(resp As WebResponse)
+            Throw New NotImplementedException
+        End Sub
+
+        Private Sub taskWithContentLength(resp As WebResponse)
+            ' Make a buffer
+            Dim buffer(8192) As Byte
+            Dim downloadedsize As Long = 0
+            Dim downloadedTime As Long = 0
+            Dim dlSpeed As Long = 0
+
+            Do While currentSize < totalSize
                 ' Read the buffer from the response the WebRequest gave you
                 Dim read As Integer = resp.GetResponseStream.Read(buffer, 0, 8192)
 
@@ -159,8 +178,6 @@ Namespace Net.Http
                     RaiseEvent DownloadProcess(Me, 100 * currentSize / totalSize)
                 End If
             Loop
-
-            resp.Close()
         End Sub
 
         Public Overrides Function ToString() As String
