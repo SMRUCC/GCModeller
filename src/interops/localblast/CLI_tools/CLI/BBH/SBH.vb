@@ -241,7 +241,7 @@ Partial Module CLI
 
                     Dim parseOne =
                         Sub([in] As String)
-                            Dim i As VBInteger = 0
+                            Dim i As i32 = 0
 
                             Call $"Parse {[in]}...".__INFO_ECHO
 
@@ -290,7 +290,7 @@ Partial Module CLI
                              End Function)
 
                 Dim parseOne = Sub([in] As String)
-                                   Dim i As VBInteger = 0
+                                   Dim i As i32 = 0
 
                                    Call $"Parse {[in]}...".__INFO_ECHO
 

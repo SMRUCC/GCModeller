@@ -104,7 +104,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
 
             Dim all As ListEntry() = AllEntries(sp, cache, offline:=offline).ToArray
             Dim url$
-            Dim i As VBInteger = 1
+            Dim i As i32 = 1
             Dim hitCache As Boolean = False
 
             Static handlers As New Dictionary(Of String, PathwayMapDownloader)

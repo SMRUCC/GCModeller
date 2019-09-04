@@ -362,7 +362,7 @@ Namespace Core
 
                 Dim buf As Byte() = New Byte(BUF_SIZE - 1) {}
                 Dim to_read As Integer = content_len
-                Dim numread As VBInteger = 0
+                Dim numread As i32 = 0
 
                 While to_read > 0
                     ' Console.WriteLine("starting Read, to_read={0}", to_read)

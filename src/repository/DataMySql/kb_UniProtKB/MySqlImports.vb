@@ -205,20 +205,20 @@ Namespace kb_UniProtKB
         <Extension>
         Public Iterator Function PopulateData(uniprot As IEnumerable(Of entry)) As IEnumerable(Of MySQLTable)
             Dim hashCodes As New Dictionary(Of String, Long)
-            Dim altNameId As VBInteger = 1
+            Dim altNameId As i32 = 1
             Dim peoples As New Dictionary(Of String, Long)
             Dim citations As New Dictionary(Of String, Long)
-            Dim proteinReferences As VBInteger = 1
+            Dim proteinReferences As i32 = 1
             Dim scopes As New Dictionary(Of String, Long)
             Dim keywords As New Dictionary(Of String, Long)
             Dim featureTypes As New Dictionary(Of String, Long)
-            Dim featureSites As VBInteger = 1
-            Dim featureRegions As VBInteger = 1
+            Dim featureSites As i32 = 1
+            Dim featureRegions As i32 = 1
             Dim organism As New Dictionary(Of String, Long)
             Dim tissues As New Dictionary(Of String, Long)
             Dim topologies As New Dictionary(Of String, Long)
             Dim locations As New Dictionary(Of String, Long)
-            Dim subCellularLocations As VBInteger = 1
+            Dim subCellularLocations As i32 = 1
             Dim peopleJobs As New Index(Of String)
             Dim uniqueTissueLocations As New Index(Of String)
             Dim uniqueKey$

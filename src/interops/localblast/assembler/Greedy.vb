@@ -78,7 +78,7 @@ Public Module Greedy
         Dim clusters As ClusterKey(Of Bits)()
         Dim n As Integer = readsList.Length
         Dim start&
-        Dim cycles As VBInteger = 1
+        Dim cycles As i32 = 1
 
         Do While True
             start = App.ElapsedMilliseconds

@@ -40,7 +40,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Linq
-Imports i32 = Microsoft.VisualBasic.Language.VBInteger
+Imports i32 = Microsoft.VisualBasic.Language.i32
 
 Namespace PubMed
 

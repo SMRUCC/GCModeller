@@ -105,7 +105,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
         Public Shared Function SummaryTable(directory As String) As EntitySummary()
             Dim summary As New Dictionary(Of String, EntitySummary)
             Dim entity As ChEBIEntity
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
 
             For Each file As String In ls - l - r - "*.Xml" <= directory
                 entity = file.LoadXml(Of ChEBIEntity)

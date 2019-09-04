@@ -178,7 +178,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
                                       In Strings.Split(tokens(Scan0), "..")
                                       Let n = CType(Val(str), Long)
                                       Select n).ToArray
-            Dim p As VBInteger = 2
+            Dim p As i32 = 2
             Dim strand As Strands = tokens(1)(0).GetStrands
             Dim loci = New NucleotideLocation(location(0), location(1), strand).Normalization
             Dim gene As New GeneBrief With {

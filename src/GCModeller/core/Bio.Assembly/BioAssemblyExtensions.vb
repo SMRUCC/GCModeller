@@ -228,7 +228,7 @@ Public Module BioAssemblyExtensions
                                          Optional offsets As Integer = 5) As Dictionary(Of Integer, Contig())
 
         Dim Groups As New Dictionary(Of Integer, List(Of Contig))
-        Dim idx As VBInteger = 1
+        Dim idx As i32 = 1
 
         For Each loci As Contig In contigs
             Dim equalContig As Func(Of IEnumerable(Of Contig), Contig) =

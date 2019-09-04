@@ -40,7 +40,7 @@ Namespace Regprecise
         ''' <returns></returns>
         Friend Shared Function basicParser(str As String, regulator As Regulator) As Regulator
             Dim list$() = r.Matches(str, "<td.+?</td>").ToArray
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
 
             If regulator Is Nothing Then
                 regulator = New Regulator
@@ -63,7 +63,7 @@ Namespace Regprecise
         Protected Overrides Function doParseObject(html As String, schema As Type) As Object
             Dim infoTable$ = html.Match("<table class=""proptbl"">.+?</table>", RegexOptions.Singleline)
             Dim properties$() = r.Matches(infoTable, "<tr>.+?</tr>", RegexICSng).ToArray
-            Dim i As VBInteger = 1
+            Dim i As i32 = 1
             Dim regulator As New Regulator
 
             With r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value

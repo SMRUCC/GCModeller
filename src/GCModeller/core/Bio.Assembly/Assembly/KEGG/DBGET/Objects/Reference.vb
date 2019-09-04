@@ -117,7 +117,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Select(Function(s) Regex.Match(s, DIVInternal).Value) _
                 .ToArray
 
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
             Dim PMID As String = tokens.ElementAtOrDefault(++i).GetValue
             Dim Authors As String = tokens.ElementAtOrDefault(++i).GetValue
             Dim Title As String = tokens.ElementAtOrDefault(++i).GetValue

@@ -152,7 +152,7 @@ Public Module ProteinGroups
         If uniprotXML.FileLength > 1024 * 1024 * 1024L Then
             ' ultra large size mode
             Dim idlist As Index(Of String) = ID.Indexing
-            Dim seq As VBInteger = 0
+            Dim seq As i32 = 0
 
             For Each protein As Uniprot.XML.entry In uniprotProteomics.EnumerateEntries(uniprotXML)
                 If protein.accessions.Any(Function(acc) acc Like idlist) Then

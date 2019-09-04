@@ -68,7 +68,7 @@ Public Class ReadsCount : Inherits RawStream
     End Sub
 
     Sub New(raw As Byte())
-        Dim temp As Byte(), p As VBInteger = 0
+        Dim temp As Byte(), p As i32 = 0
 
         ' NT
         temp = New Byte(INT32 - 1) {}
@@ -108,7 +108,7 @@ Public Class ReadsCount : Inherits RawStream
     Public Overrides Function Serialize() As Byte()
         Dim buffer As Byte() = New Byte(__BUFFER_LENGTH - 1) {}
         Dim temp As Byte()
-        Dim p As VBInteger = 0
+        Dim p As i32 = 0
 
         temp = BitConverter.GetBytes(AscW(NT)) : Call Array.ConstrainedCopy(temp, Scan0, buffer, p + (temp.Length), temp.Length)
         temp = BitConverter.GetBytes(ReadsPlus) : Call Array.ConstrainedCopy(temp, Scan0, buffer, p + (temp.Length), temp.Length)

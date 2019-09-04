@@ -28,7 +28,7 @@ Namespace IO
         ''' 当前所读取的行指针
         ''' </summary>
         ''' <remarks></remarks>
-        Protected p As VBInteger = 0, idx As Integer = 0
+        Protected p As i32 = 0, idx As Integer = 0
         Protected _size As Integer
 
         Protected Friend _reader As Reader

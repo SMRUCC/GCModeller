@@ -65,7 +65,7 @@ Public Module OTU
     Public Function BuildOTUClusters(contigs As IEnumerable(Of FastaSeq), output As StreamWriter, Optional similarity# = 97%) As NamedValue(Of String())()
         Dim ref As FastaSeq = contigs.First
         Dim OTUs As New List(Of (ref As FastaSeq, fullEquals#, cluster As NamedValue(Of List(Of String))))
-        Dim n As VBInteger = 1
+        Dim n As i32 = 1
 
         OTUs += (ref,
             fullEquals:=RunNeedlemanWunsch.RunAlign(

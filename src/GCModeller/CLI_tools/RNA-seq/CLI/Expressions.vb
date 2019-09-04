@@ -79,7 +79,7 @@ Partial Module CLI
         Dim inFile As String = args("/log2")
         Dim data As String = args("/data")
         Dim locus_map As String = args.GetValue("/locus_map", "locus")
-        Dim out As VBInteger = args.OpenHandle("/out", inFile.TrimSuffix & $".selects-{data.BaseName}.out.csv")
+        Dim out As i32 = args.OpenHandle("/out", inFile.TrimSuffix & $".selects-{data.BaseName}.out.csv")
         Dim log2 = IO.DataSet.LoadDataSet(inFile, "LocusId")
         Dim factor As Double = args.GetValue("/factor", 1.0R)
         Dim dataSets = (From x As IO.EntityObject

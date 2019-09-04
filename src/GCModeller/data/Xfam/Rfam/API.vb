@@ -256,7 +256,7 @@ Public Module API
 
         Dim groups = data.Group(offset)
         Dim LQuery = (From gr In groups Select gr Order By gr.Value.First.Left Ascending).ToArray
-        Dim idx As VBInteger = 1
+        Dim idx As i32 = 1
 
         Call $"Assigning locusId....".__DEBUG_ECHO
 

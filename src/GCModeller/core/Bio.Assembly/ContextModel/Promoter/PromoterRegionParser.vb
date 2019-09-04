@@ -80,7 +80,7 @@ Namespace ContextModel.Promoter
         Sub New(nt As FastaSeq, PTT As PTT)
             Dim genome As IPolymerSequenceModel = nt
             Dim regions(PrefixLengths.GetLength - 1) As IntegerTagged(Of Dictionary(Of String, FastaSeq))
-            Dim i As VBInteger = 0
+            Dim i As i32 = 0
 
             genome.SequenceData = genome.SequenceData.ToUpper
 
