@@ -56,6 +56,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Public Const Xmlns$ = "http://GCModeller.org/core/KEGG/Model/OrthologyTerm.xsd"
 
+        ''' <summary>
+        ''' A collection of term id in array <see cref="Terms"/>
+        ''' </summary>
+        ''' <returns></returns>
         <XmlIgnore>
         Public ReadOnly Property EntityList As String()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>

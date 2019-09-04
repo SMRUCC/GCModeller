@@ -379,7 +379,7 @@ Namespace SAM
         Sub New(str As String)
             Dim arr$() = str.Split(ASCII.TAB)
             Dim n = arr.Length
-            Dim i As VBInteger = 0
+            Dim i As i32 = 0
 
             QNAME = arr(++i)
             FLAG = CInt(Val(arr(++i)))

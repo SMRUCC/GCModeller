@@ -113,7 +113,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim header$() = lines(Scan0).Split(ASCII.TAB)
             Dim title As String = lines(1)
             Dim defs As New List(Of String)
-            Dim i As VBInteger = 2
+            Dim i As i32 = 2
 
             Do While lines(i) <> "!"
                 Call defs.Add(lines(++i))

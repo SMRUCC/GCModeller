@@ -68,7 +68,7 @@ Namespace Interpreter.LDM
         Public Overloads Shared Function CreateObject(Expressions As List(Of LDM.Expressions.PrimaryExpression)) As SyntaxModel
             Dim GotoTags As Dictionary(Of String, Integer) =  ' GotoTag的下一行就是目标起始点
                 New Dictionary(Of String, Integer)
-            Dim p As VBInteger = -1
+            Dim p As i32 = -1
 
             Do While ++p < Expressions.Count - 1
 

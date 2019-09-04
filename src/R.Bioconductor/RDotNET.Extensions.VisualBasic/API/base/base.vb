@@ -684,7 +684,7 @@ Namespace API
         ''' effect Is the same As saving With compression. Also, a saved file can be uncompressed And re-compressed 
         ''' under a different compression scheme (And see resaveRdaFiles For a way To Do so from within R).
         ''' </remarks>
-        Public Sub save(objects As IEnumerable(Of String),
+        Public Sub save(objects As [Variant](Of IEnumerable(Of String), IEnumerable(Of var)),
                         file$,
                         Optional ascii As Boolean = False,
                         Optional version$ = "NULL",
@@ -707,9 +707,19 @@ Namespace API
                 Call file.ParentPath.MkDIR
             End If
 
+            Dim objNames$()
+
+            If objects Like GetType(IEnumerable(Of String)) Then
+                objNames = objects.TryCast(Of IEnumerable(Of String)).ToArray
+            Else
+                objNames = objects.TryCast(Of IEnumerable(Of var)) _
+                    .Select(Function(v) v.name) _
+                    .ToArray
+            End If
+
             SyncLock R
                 With R
-                    .call = $"save({objects.JoinBy(", ")}, 
+                    .call = $"save({objNames.JoinBy(", ")}, 
      file = {Rstring(file.UnixPath)},
      ascii = {ascii.λ}, version = {version}, envir = {envir},
      compress = {compress.λ}, compression_level = {compression_level},
@@ -717,6 +727,36 @@ Namespace API
                 End With
             End SyncLock
         End Sub
+
+        Public Function save(vars As IEnumerable(Of var),
+                             file$,
+                             Optional ascii As Boolean = False,
+                             Optional version$ = "NULL",
+                             Optional envir$ = "parent.frame()",
+                             Optional compress As Boolean = True,
+                             Optional compression_level% = 6,
+                             Optional eval_promises As Boolean = True,
+                             Optional precheck As Boolean = True) As Boolean
+            Try
+                Call base.save(objects:=vars,
+                               file:=file,
+                               ascii:=ascii,
+                               compress:=compress,
+                               compression_level:=compression_level,
+                               envir:=envir,
+                               eval_promises:=eval_promises,
+                               precheck:=precheck,
+                               version:=version
+                )
+            Catch ex As Exception
+                Call App.LogException(ex)
+                Call ex.PrintException
+
+                Return False
+            End Try
+
+            Return True
+        End Function
 
         ''' <summary>
         ''' vector produces a vector of the given length and mode.

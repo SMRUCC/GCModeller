@@ -11,6 +11,11 @@ Public Class Background : Inherits XmlDataModel
     Implements INamedValue
 
     Public Property name As String Implements IKeyedEntity(Of String).Key
+    ''' <summary>
+    ''' A brief unique id code. Such as kegg organism code or ncbi taxonomy id.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property id As String
     Public Property comments As String
     Public Property build As Date = Now
     ''' <summary>

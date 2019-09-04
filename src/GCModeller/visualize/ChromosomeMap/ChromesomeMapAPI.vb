@@ -255,7 +255,7 @@ Public Module ChromesomeMapAPI
                               Optional format$ = "png") As Integer
 
         Dim imageFormat As ImageFormats = format.ParseImageFormat  ' 空值是默认返回png的
-        Dim i As VBInteger = 0
+        Dim i As i32 = 0
 
         Call EXPORT.MkDIR
 

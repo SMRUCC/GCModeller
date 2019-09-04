@@ -28,6 +28,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /GET:                Tools for http get request the content of a specific url.
 '  /POST:               
 '  /run.dll:            
+'  /socket:             Start a new websocket server.
 '  /Stress.Testing:     Using Ctrl + C to stop the stress testing.
 ' 
 ' 
@@ -151,6 +152,30 @@ Public Function RunDll(api As String, Optional ____ As Boolean = False) As Integ
     Call CLI.Append("/api " & """" & api & """ ")
     If ____ Then
         Call CLI.Append(".... ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /socket /app &lt;appName> [/hostName &lt;default=127.0.0.1> /port &lt;default=81>]
+''' ```
+''' Start a new websocket server.
+''' </summary>
+'''
+Public Function RunSocket(app As String, Optional hostname As String = "127.0.0.1", Optional port As String = "81") As Integer
+    Dim CLI As New StringBuilder("/socket")
+    Call CLI.Append(" ")
+    Call CLI.Append("/app " & """" & app & """ ")
+    If Not hostname.StringEmpty Then
+            Call CLI.Append("/hostname " & """" & hostname & """ ")
+    End If
+    If Not port.StringEmpty Then
+            Call CLI.Append("/port " & """" & port & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 

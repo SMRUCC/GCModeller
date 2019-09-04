@@ -170,7 +170,7 @@ Namespace Regtransbase.WebServices
         Protected Friend Shared Function Parse(strText As String) As TranscriptionFactorFamily
             Dim Items = (From m As Match In Regex.Matches(strText, COLUMN_ITEM, RegexOptions.Singleline + RegexOptions.IgnoreCase) Select m.Value).ToArray
             Dim TFF As TranscriptionFactorFamily = New TranscriptionFactorFamily With {.Regulogs = New Regulogs}
-            Dim p As VBInteger = Scan0
+            Dim p As i32 = Scan0
             Dim Head As String = Items(++p)
             TFF.Regulogs.Counts = Regex.Match(Items(++p), "[^>]+</").Value
             TFF.TFRegulons = Regex.Match(Items(++p), "[^>]+</").Value
@@ -229,7 +229,7 @@ Namespace Regtransbase.WebServices
 
             Protected Friend Shared Function Parse(strText As String) As Item
                 Dim Columns = (From m As Match In Regex.Matches(strText, Regulogs.Item.COLUMNS, RegexOptions.Singleline + RegexOptions.IgnoreCase) Select m.Value).ToArray.Skip(1).ToArray
-                Dim p As VBInteger = Scan0
+                Dim p As i32 = Scan0
                 Dim item As Item = New Item
 
                 item.Phylum = Regex.Match(Columns(++p), ">[^>]+?</").Value
@@ -375,7 +375,7 @@ Namespace Regtransbase.WebServices
             pageContent = Mid(pageContent, InStr(pageContent, "<caption class=""tbl_caption"">Properties</caption>", CompareMethod.Text) + 50)
             pageContent = Regex.Matches(pageContent, "<tbody>.+?</tbody>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(0).Value
             Dim Tokens = (From m As Match In Regex.Matches(pageContent, "<tr>.+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) Select m.Value).ToArray.Skip(1).ToArray
-            Dim p As VBInteger = Scan0
+            Dim p As i32 = Scan0
             Regulator.Family = Regex.Matches(Tokens(++p), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value
             Regulator.RegulationMode = Regex.Matches(Tokens(++p), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value
             Regulator.BiologicalProcess = Regex.Matches(Tokens(++p), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value

@@ -64,7 +64,7 @@ Public Module DATA
         Dim xrefList As New List(Of kb_go.xref)
         Dim synonymNames As New List(Of kb_go.term_synonym)
         Dim altIDs As New List(Of kb_go.alt_id)
-        Dim synonymID As VBInteger = 0
+        Dim synonymID As i32 = 0
 
         With namespaces
             !cellular_component = New kb_go.term_namespace With {.id = Ontologies.CellularComponent, .namespace = "cellular_component"}

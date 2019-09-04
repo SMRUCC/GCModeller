@@ -35,7 +35,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Download.Fasta:                         Download fasta sequence from KEGG database web api.
 '  /Download.human.genes:                   
 '  /Download.Mapped.Sequence:               
-'  /Download.Module.Maps:                   Download the KEGG reference modules map data.
 '  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
 '                                           web server.
 '  /Dump.sp:                                /Dumping KEGG organism table in csv file format.
@@ -76,14 +75,19 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' 
 '    /Download.Compounds:                     Downloads the KEGG compounds data from KEGG web server using
-'                                             dbget API
+'                                             dbget API. Apply this downloaded KEGG compounds data used
+'                                             for metabolism annotation in LC-MS data analysis.
 '    /Download.Pathway.Maps:                  Fetch all of the pathway map information for a specific
 '                                             kegg organism by using a specifc kegg sp code.
 '    /Download.Pathway.Maps.Bacteria.All:     
 '    /Download.Pathway.Maps.Batch:            
 '    /Download.Reaction:                      Downloads the KEGG enzyme reaction reference model data.
-'    /dump.kegg.maps:                         Dumping the KEGG maps database for human species.
-'    /Pathways.Downloads.All:                 Download all of the KEGG reference pathway map data.
+'                                             Usually use these reference reaction data applied for metabolism
+'                                             network analysis.
+'    /kegg.maps.hsa:                          Dumping the KEGG maps database for human species.
+'    /Pathways.Downloads.All:                 Download all of the blank KEGG reference pathway map data.
+'                                             Apply for render KEGG pathway enrichment result or other
+'                                             biological system modelling work.
 '    -ref.map.download:                       
 ' 
 ' 
@@ -313,7 +317,7 @@ End Function
 ''' ```
 ''' /Download.Compounds [/chebi &lt;accessions.tsv> /flat /updates /save &lt;DIR>]
 ''' ```
-''' Downloads the KEGG compounds data from KEGG web server using dbget API
+''' Downloads the KEGG compounds data from KEGG web server using dbget API. Apply this downloaded KEGG compounds data used for metabolism annotation in LC-MS data analysis.
 ''' </summary>
 '''
 Public Function DownloadCompounds(Optional chebi As String = "", Optional save As String = "", Optional flat As Boolean = False, Optional updates As Boolean = False) As Integer
@@ -400,26 +404,6 @@ Public Function DownloadMappedSequence(map As String, Optional out As String = "
     End If
     If nucl Then
         Call CLI.Append("/nucl ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' /Download.Module.Maps [/out &lt;EXPORT_DIR, default="./">]
-''' ```
-''' Download the KEGG reference modules map data.
-''' </summary>
-'''
-Public Function DownloadReferenceModule(Optional out As String = "./") As Integer
-    Dim CLI As New StringBuilder("/Download.Module.Maps")
-    Call CLI.Append(" ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -533,7 +517,7 @@ End Function
 ''' ```
 ''' /Download.Reaction [/try_all /compounds &lt;compounds.directory> /save &lt;DIR> /@set sleep=2000]
 ''' ```
-''' Downloads the KEGG enzyme reaction reference model data.
+''' Downloads the KEGG enzyme reaction reference model data. Usually use these reference reaction data applied for metabolism network analysis.
 ''' </summary>
 '''
 Public Function DownloadKEGGReaction(Optional compounds As String = "", Optional save As String = "", Optional _set As String = "", Optional try_all As Boolean = False) As Integer
@@ -553,29 +537,6 @@ Public Function DownloadKEGGReaction(Optional compounds As String = "", Optional
 Else
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
     End If
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' /dump.kegg.maps [/htext &lt;htext.txt> /out &lt;save_dir>]
-''' ```
-''' Dumping the KEGG maps database for human species.
-''' </summary>
-'''
-Public Function DumpKEGGMaps(Optional htext As String = "", Optional out As String = "") As Integer
-    Dim CLI As New StringBuilder("/dump.kegg.maps")
-    Call CLI.Append(" ")
-    If Not htext.StringEmpty Then
-            Call CLI.Append("/htext " & """" & htext & """ ")
-    End If
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -744,6 +705,29 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /dump.kegg.maps [/htext &lt;htext.txt> /out &lt;save_dir>]
+''' ```
+''' Dumping the KEGG maps database for human species.
+''' </summary>
+'''
+Public Function HumanKEGGMaps(Optional htext As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/dump.kegg.maps")
+    Call CLI.Append(" ")
+    If Not htext.StringEmpty Then
+            Call CLI.Append("/htext " & """" & htext & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /ko.index.sub.match /index &lt;index.csv> /maps &lt;maps.csv> /key &lt;key> /map &lt;mapTo> [/out &lt;out.csv>]
 ''' ```
 ''' </summary>
@@ -883,7 +867,7 @@ End Function
 ''' ```
 ''' /Pathways.Downloads.All [/out &lt;outDIR>]
 ''' ```
-''' Download all of the KEGG reference pathway map data.
+''' Download all of the blank KEGG reference pathway map data. Apply for render KEGG pathway enrichment result or other biological system modelling work.
 ''' </summary>
 '''
 Public Function DownloadsAllPathways(Optional out As String = "") As Integer

@@ -65,7 +65,7 @@ Public Module ConsoleReport
         Dim RepeatsMaxLength As Integer = (From c In dat Select c.RepeatLength).Max
         Dim SpacersMaxLength As Integer = (From c In dat Select c.AverageSpacerLength).Max
         Dim sBuilder As New StringBuilder(2048)
-        Dim i As VBInteger = 0
+        Dim i As i32 = 0
 
         positionMaxLength = If(positionMaxLength > 9, positionMaxLength, 9)
 

@@ -83,7 +83,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         Public Function CreateObject(data$, version%) As Feature
             Dim t As String() = data.Split(ASCII.TAB)
             Dim feature As New Feature
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
 
             ' Fields are: <seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]
 

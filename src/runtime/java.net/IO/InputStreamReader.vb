@@ -10,7 +10,7 @@ Namespace IO
 
         Dim IORedirect As IORedirect
         Dim chunkBuffer As New List(Of String)
-        Dim idx As Integer, _p As VBInteger
+        Dim idx As Integer, _p As i32
         Dim _currentLine As Char()
         Dim _avaliable As Boolean
         Dim _exitCode As Integer

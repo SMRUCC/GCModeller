@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BBHLibrary.vb" />
+    <Compile Include="KEGGCompounds.vb" />
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
