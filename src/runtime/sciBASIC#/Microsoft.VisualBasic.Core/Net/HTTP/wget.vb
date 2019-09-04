@@ -20,6 +20,10 @@ Namespace Net.Http
 
             If Not task.isDownloading Then
                 Call task.Dispose()
+
+                Call Console.WriteLine()
+                Call Console.WriteLine($"{Now.ToString} ({task.downloadSpeed} KB/s) - '{task.saveFile.FileName}' saved [{task.saveFile.FileLength}]")
+                Call Console.WriteLine()
             End If
         End Sub
 
