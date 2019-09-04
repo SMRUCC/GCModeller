@@ -54,96 +54,113 @@ Namespace Net.Http
     ''' <summary>
     ''' 提供一些比较详细的数据信息和事件处理
     ''' </summary>
-    Public Class wGetTools : Implements IDisposable
+    Public Class wget : Implements IDisposable
 
-        ReadOnly downloadUrl As String
+        ReadOnly url As String
         ReadOnly fs As FileStream
-        ReadOnly savePath As String
+        ReadOnly saveFile As String
+
+        Dim _speedSamples As List(Of Double)
 
         ''' <summary>
         ''' Size that has been downloaded
         ''' </summary>
-        Public ReadOnly Property CurrentSize As Long = 0
+        Public ReadOnly Property currentSize As Long = 0
         ''' <summary>
         ''' Total size of the file that has to be downloaded
         ''' </summary>
-        Public ReadOnly Property TotalSize As Long
+        Public ReadOnly Property totalSize As Long
 
         ''' <summary>
         ''' KB/sec
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property DownloadSpeed As Double
+        Public ReadOnly Property downloadSpeed As Double
             Get
                 Return _speedSamples.Average
             End Get
         End Property
 
-        Public Event DownloadProcess(wget As wGetTools, percentage As Double)
+        Public Event DownloadProcess(wget As wget, percentage#)
 
         ''' <summary>
         ''' Client status
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Downloading As Boolean
+        Public ReadOnly Property isDownloading As Boolean
 
-        Sub New(downloadUrl As String, SaveFile As String)
-            Me.fs = New FileStream(SaveFile, FileMode.CreateNew) 'Create a new FileStream that writes to the desired download path
-            Me.downloadUrl = downloadUrl
-            Me.savePath = SaveFile
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="downloadUrl"></param>
+        ''' <param name="saveFile">
+        ''' Module will create a new <see cref="FileStream"/> that writes to this desired download path
+        ''' </param>
+        Sub New(downloadUrl As String, saveFile As String)
+            Me.fs = saveFile.Open(doClear:=True)
+            Me.url = downloadUrl
+            Me.saveFile = saveFile
         End Sub
-
-        Dim _speedSamples As List(Of Double)
 
         Public Sub StartTask()
-            If Downloading Then Return
+            If isDownloading Then Return
 
-            _Downloading = True
-            Call __downloadTask()
-            _Downloading = False
+            Call switchStat()
+            Call doTaskInternal()
+            Call switchStat()
         End Sub
 
-        Private Sub __downloadTask()
-            Dim req As WebRequest = WebRequest.Create(downloadUrl) 'Make a request for the url of the file to be downloaded
-            Dim resp As WebResponse = req.GetResponse 'Ask for the response
+        Private Sub switchStat()
+            _isDownloading = Not isDownloading
+        End Sub
 
-            Dim buffer(8192) As Byte 'Make a buffer
+        Private Sub doTaskInternal()
+            ' Make a request for the url of the file to be downloaded
+            Dim req As WebRequest = WebRequest.Create(url)
+            ' Ask for the response
+            Dim resp As WebResponse = req.GetResponse
+            ' Make a buffer
+            Dim buffer(8192) As Byte
             Dim downloadedsize As Long = 0
             Dim downloadedTime As Long = 0
             Dim dlSpeed As Long = 0
 
-            _TotalSize = req.ContentLength
+            _totalSize = req.ContentLength
             _speedSamples = New List(Of Double)
-            _CurrentSize = 0
+            _currentSize = 0
 
-            Do While _CurrentSize < _TotalSize
-                Dim read As Integer = resp.GetResponseStream.Read(buffer, 0, 8192) 'Read the buffer from the response the WebRequest gave you
+            Do While _currentSize < _totalSize
+                ' Read the buffer from the response the WebRequest gave you
+                Dim read As Integer = resp.GetResponseStream.Read(buffer, 0, 8192)
 
-                fs.Write(buffer, 0, read) 'Write to filestream that you declared at the beginning of the DoWork sub
+                ' Write to filestream that you declared at the beginning of the DoWork sub
+                Call fs.Write(buffer, 0, read)
 
-                _CurrentSize += read
-
+                _currentSize += read
+                ' Add 1 millisecond for every cycle the While field makes
                 downloadedsize += read
-                downloadedTime += 1 'Add 1 millisecond for every cycle the While field makes
+                downloadedTime += 1
 
-                If downloadedTime = 1000 Then 'Then, if downloadedTime reaches 1000 then it will call this part
-                    dlSpeed = (downloadedsize / TimeSpan.FromMilliseconds(downloadedTime).TotalSeconds) 'Calculate the download speed by dividing the downloadedSize by the total formatted seconds of the downloadedTime
-
-                    downloadedTime = 0 'Reset downloadedTime and downloadedSize
+                If downloadedTime = 1000 Then
+                    ' Then, if downloadedTime reaches 1000 then it will call this part
+                    ' Calculate the download speed by dividing the downloadedSize 
+                    ' by the total formatted seconds of the downloadedTime
+                    dlSpeed = (downloadedsize / TimeSpan.FromMilliseconds(downloadedTime).TotalSeconds)
+                    ' Reset downloadedTime and downloadedSize
+                    downloadedTime = 0
                     downloadedsize = 0
 
                     Call _speedSamples.Add(dlSpeed)
 
-                    RaiseEvent DownloadProcess(Me, 100 * CurrentSize / TotalSize)
+                    RaiseEvent DownloadProcess(Me, 100 * currentSize / totalSize)
                 End If
             Loop
 
-            fs.Close() 'Close the FileStream first, or the FileStream will crash.
-            resp.Close() 'Close the response
+            resp.Close()
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"{downloadUrl} ==> {savePath.ToFileURL}   [{100 * _CurrentSize / _TotalSize}%, {DownloadSpeed}KB/sec]"
+            Return $"{url} ==> {saveFile.ToFileURL}   [{(100 * _currentSize / _totalSize).ToString("F2")}%, {downloadSpeed}KB/sec]"
         End Function
 
 #Region "IDisposable Support"
@@ -154,6 +171,9 @@ Namespace Net.Http
             If Not Me.disposedValue Then
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
+                    Call fs.Flush()
+                    Call fs.Close()
+                    Call fs.Dispose()
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
