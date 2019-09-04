@@ -49,12 +49,12 @@
 Imports System.IO
 Imports System.Net
 
-Namespace Net
+Namespace Net.Http
 
     ''' <summary>
     ''' 提供一些比较详细的数据信息和事件处理
     ''' </summary>
-    Public Class wGetTools : Implements System.IDisposable
+    Public Class wGetTools : Implements IDisposable
 
         ReadOnly downloadUrl As String
         ReadOnly fs As FileStream
@@ -143,7 +143,7 @@ Namespace Net
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"{downloadUrl} ==> {savePath.ToFileURL}   [{100 * _currentSize / _totalSize}%, {DownloadSpeed}KB/sec]"
+            Return $"{downloadUrl} ==> {savePath.ToFileURL}   [{100 * _CurrentSize / _TotalSize}%, {DownloadSpeed}KB/sec]"
         End Function
 
 #Region "IDisposable Support"
