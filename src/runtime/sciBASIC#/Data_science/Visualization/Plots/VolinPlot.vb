@@ -10,6 +10,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
@@ -31,7 +32,7 @@ Public Module VolinPlot
     ''' <param name="bg"></param>
     ''' <param name="colorset"></param>
     ''' <returns></returns>
-    Public Function Plot(dataset As [Variant](Of IEnumerable(Of NamedCollection(Of Double)), IEnumerable(Of DataSet)),
+    Public Function Plot(dataset As IEnumerable(Of DataSet),
                          Optional size$ = "3100,2700",
                          Optional margin$ = g.DefaultPadding,
                          Optional bg$ = "white",
@@ -39,24 +40,46 @@ Public Module VolinPlot
                          Optional Ylabel$ = "y axis",
                          Optional yLabelFontCSS$ = CSSFont.PlotSubTitle,
                          Optional ytickFontCSS$ = CSSFont.PlotSmallTitle) As GraphicsData
+        With dataset.ToArray
+            Return .PropertyNames _
+                   .Select(Function(label)
+                               Return New NamedCollection(Of Double)(label, .Vector(label))
+                           End Function) _
+                   .DoCall(Function(data)
+                               Return VolinPlot.Plot(
+                                   dataset:=data,
+                                   size:=size,
+                                   margin:=margin,
+                                   bg:=bg,
+                                   colorset:=colorset,
+                                   Ylabel:=Ylabel,
+                                   yLabelFontCSS:=yLabelFontCSS,
+                                   ytickFontCSS:=ytickFontCSS
+                               )
+                           End Function)
+        End With
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="dataset">数据集中的样本数据可以不必等长</param>
+    ''' <param name="size"></param>
+    ''' <param name="margin"></param>
+    ''' <param name="bg"></param>
+    ''' <param name="colorset"></param>
+    ''' <returns></returns>
+    Public Function Plot(dataset As IEnumerable(Of NamedCollection(Of Double)),
+                         Optional size$ = "3100,2700",
+                         Optional margin$ = g.DefaultUltraLargePadding,
+                         Optional bg$ = "white",
+                         Optional colorset$ = DesignerTerms.TSFShellColors,
+                         Optional Ylabel$ = "y axis",
+                         Optional yLabelFontCSS$ = CSSFont.PlotSubTitle,
+                         Optional ytickFontCSS$ = CSSFont.PlotSmallTitle) As GraphicsData
 
         ' 进行数据分布统计计算
-        Dim matrix As NamedCollection(Of Double)()
-
-        If dataset Like GetType(IEnumerable(Of DataSet)) Then
-            With dataset.TryCast(Of IEnumerable(Of DataSet)).ToArray
-                matrix = .PropertyNames _
-                         .Select(Function(label)
-                                     Return New NamedCollection(Of Double)(label, .Vector(label))
-                                 End Function) _
-                         .ToArray
-            End With
-        Else
-            matrix = dataset _
-                .TryCast(Of IEnumerable(Of NamedCollection(Of Double))) _
-                .ToArray
-        End If
-
+        Dim matrix As NamedCollection(Of Double)() = dataset.ToArray
         'Dim quantiles = matrix _
         '    .Select(Function(data)
         '                Return New NamedValue(Of QuantileEstimationGK) With {
@@ -79,12 +102,12 @@ Public Module VolinPlot
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim plotRegion As Rectangle = region.PlotRegion
                 Dim Y = d3js.scale.linear.domain(yticks).range(integers:={plotRegion.Top, plotRegion.Bottom})
-                Dim yScale As New YScaler(False) With {
+                Dim yScale As New YScaler(True) With {
                     .region = plotRegion,
                     .Y = Y
                 }
 
-                Call Axis.DrawY(g, Pens.Black, Ylabel, region, yScale, 0, yticks, YAxisLayoutStyles.Left, Nothing, yLabelFontCSS, yTickFont, htmlLabel:=False)
+                Call Axis.DrawY(g, Pens.Black, Ylabel, yScale, 0, yticks, YAxisLayoutStyles.Left, Nothing, yLabelFontCSS, yTickFont, htmlLabel:=False)
 
                 Dim maxWidth = plotRegion.Width / (matrix.Length + 1)
                 Dim semiWidth = maxWidth / 2
@@ -107,9 +130,20 @@ Public Module VolinPlot
                         Dim range As DoubleRange = {q0, q1}
                         Dim density = group.Count(AddressOf range.IsInside)
 
-                        line_l += New PointF With {.X = X - density, .Y = lower + p * dy}
-                        line_r += New PointF With {.X = X + density, .Y = lower + p * dy}
+                        line_l += New PointF With {.X = density, .Y = lower + p * dy}
+                        line_r += New PointF With {.X = density, .Y = lower + p * dy}
                         q0 = q1
+                    Next
+
+                    ' 进行宽度伸缩映射
+                    Dim maxDensity As DoubleRange = line_l.X
+                    Dim densityWidth As Single
+
+                    For i As Integer = 0 To line_r.Count - 1
+                        densityWidth = (line_l(i).X - maxDensity.Min) / maxDensity.Length * semiWidth
+
+                        line_l(i) = New PointF With {.X = X - densityWidth, .Y = line_l(i).Y}
+                        line_r(i) = New PointF With {.X = X + densityWidth, .Y = line_r(i).Y}
                     Next
 
                     ' 需要插值么？
@@ -131,7 +165,7 @@ Public Module VolinPlot
                     ' 绘制X坐标轴分组标签
                     Call g.DrawString(group.name, CSSFont.TryParse(yLabelFontCSS), Brushes.Black, New PointF With {.X = X, .Y = plotRegion.Bottom + 10})
 
-                    X += groupInterval
+                    X += semiWidth + groupInterval + semiWidth
                 Next
             End Sub
 
