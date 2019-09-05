@@ -11,8 +11,11 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Interpolation
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' ## 小提琴图
@@ -71,7 +74,7 @@ Public Module VolinPlot
     ''' <returns></returns>
     Public Function Plot(dataset As IEnumerable(Of NamedCollection(Of Double)),
                          Optional size$ = "3100,2700",
-                         Optional margin$ = g.DefaultUltraLargePadding,
+                         Optional margin$ = Canvas.Resolution2K.PaddingWithTopTitleAndBottomLegend,
                          Optional bg$ = "white",
                          Optional colorset$ = DesignerTerms.TSFShellColors,
                          Optional Ylabel$ = "y axis",
@@ -79,7 +82,19 @@ Public Module VolinPlot
                          Optional ytickFontCSS$ = CSSFont.PlotSmallTitle) As GraphicsData
 
         ' 进行数据分布统计计算
-        Dim matrix As NamedCollection(Of Double)() = dataset.ToArray
+        Dim matrix As NamedCollection(Of Double)() = dataset _
+            .Select(Function(d)
+                        Dim quartile = d.Quartile
+                        Dim normals = d.AsVector _
+                            .Outlier(quartile) _
+                            .normal
+
+                        Return New NamedCollection(Of Double) With {
+                            .name = d.name,
+                            .value = normals
+                        }
+                    End Function) _
+            .ToArray
         'Dim quantiles = matrix _
         '    .Select(Function(data)
         '                Return New NamedValue(Of QuantileEstimationGK) With {
@@ -102,7 +117,7 @@ Public Module VolinPlot
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim plotRegion As Rectangle = region.PlotRegion
                 Dim Y = d3js.scale.linear.domain(yticks).range(integers:={plotRegion.Top, plotRegion.Bottom})
-                Dim yScale As New YScaler(True) With {
+                Dim yScale As New YScaler(False) With {
                     .region = plotRegion,
                     .Y = Y
                 }
@@ -117,23 +132,26 @@ Public Module VolinPlot
 
                 For Each group As NamedCollection(Of Double) In matrix
                     ' Dim q = quantiles(group)
-                    Dim upper = Y(group.Max)
-                    Dim lower = Y(group.Min)
+                    Dim upper = plotRegion.Bottom - Y(group.Max)
+                    Dim lower = plotRegion.Bottom - Y(group.Min)
                     ' 计算数据分布的密度之后，进行左右对称的线条的生成
                     Dim line_l As New List(Of PointF)
                     Dim line_r As New List(Of PointF)
                     Dim q0 = group.Min
-                    Dim dy = (upper - lower) / 100
+                    Dim dy = (group.Max - group.Min) / 100
+                    Dim outliers As New List(Of PointF)
 
-                    For p As Integer = 1 To 100
+                    For p As Integer = 10 To 100 Step 10
                         Dim q1 = q0 + dy
                         Dim range As DoubleRange = {q0, q1}
                         Dim density = group.Count(AddressOf range.IsInside)
 
-                        line_l += New PointF With {.X = density, .Y = lower + p * dy}
-                        line_r += New PointF With {.X = density, .Y = lower + p * dy}
+                        line_l += New PointF With {.X = density, .Y = lower - p * dy}
+                        line_r += New PointF With {.X = density, .Y = lower - p * dy}
                         q0 = q1
                     Next
+
+                    Call $"{group.name} = {New Double() {group.Min, group.Max}.GetJson}".__DEBUG_ECHO
 
                     ' 进行宽度伸缩映射
                     Dim maxDensity As DoubleRange = line_l.X
@@ -145,6 +163,9 @@ Public Module VolinPlot
                         line_l(i) = New PointF With {.X = X - densityWidth, .Y = line_l(i).Y}
                         line_r(i) = New PointF With {.X = X + densityWidth, .Y = line_r(i).Y}
                     Next
+
+                    line_l = line_l.BSpline
+                    line_r = line_r.BSpline
 
                     ' 需要插值么？
                     ' 生成多边形
