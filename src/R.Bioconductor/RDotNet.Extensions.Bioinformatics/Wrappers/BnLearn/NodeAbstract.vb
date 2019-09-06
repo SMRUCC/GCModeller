@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8071571c54c497a5012ad039e37130d5, RDotNet.Extensions.Bioinformatics\Wrappers\BnLearn\NodeAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::bb403a8874f1bfa6bb553aa2b2561787, RDotNet.Extensions.Bioinformatics\Wrappers\BnLearn\NodeAbstract.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,52 @@
-﻿Imports RDotNet.Dynamic
+﻿#Region "Microsoft.VisualBasic::3990984ee44036e20ec1f8f13602341b, RDotNET\RDotNET\SymbolicExpression.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class SymbolicExpression
+    ' 
+    '     Properties: Engine, IsInvalid, IsProtected, Type
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: (+2 Overloads) Equals, (+2 Overloads) GetAttribute, GetAttributeNames, GetFunction, GetHashCode
+    '               GetInternalStructure, GetMetaObject, op_Dynamic, ReleaseHandle
+    ' 
+    '     Sub: op_DynamicAssignment, Preserve, (+2 Overloads) SetAttribute, Unpreserve
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports RDotNet.Dynamic
 Imports RDotNet.Internals
 Imports RDotNet.Utilities
 Imports System.Diagnostics
@@ -294,3 +342,4 @@ Public Class SymbolicExpression
     Public Shared Sub op_DynamicAssignment(Of K)(sexp As SymbolicExpression, name As String, value As DynamicObject)
     End Sub
 End Class
+

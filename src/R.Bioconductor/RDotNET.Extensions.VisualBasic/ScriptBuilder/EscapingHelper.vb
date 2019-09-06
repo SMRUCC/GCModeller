@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07b059c6efdceb0804d20da6aa155213, RDotNET.Extensions.VisualBasic\ScriptBuilder\EscapingHelper.vb"
+﻿#Region "Microsoft.VisualBasic::6c5e8ae8d83e15f84419087cd7947bcb, RDotNET.Extensions.VisualBasic\ScriptBuilder\EscapingHelper.vb"
 
     ' Author:
     ' 

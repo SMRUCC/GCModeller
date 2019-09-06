@@ -1,59 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::3a2c4ffab9b7df1883b17d9348f1a8e8, RDotNET.Extensions.VisualBasic\API\stats\stats.vb"
+﻿#Region "Microsoft.VisualBasic::f2629e68a37fc4a7fe3447b6aec36699, RDotNET.Extensions.VisualBasic\API\stats\stats.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module stats
-' 
-'         Function: anova, arima, ts
-'         Enum padjusts
-' 
-'             BH, bonferroni, BY, fdr, hochberg
-'             holm, hommel, none
-' 
-' 
-' 
-'         Structure TtestResult
-' 
-'             Properties: alternative, confint, dataname, estimate, method
-'                         nullvalue, parameter, pvalue, statistic
-' 
-'             Function: padjust, ToString, (+2 Overloads) Ttest
-' 
-'  
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Module stats
+    ' 
+    '         Function: anova, arima, pnorm, (+2 Overloads) quantile, ts
+    '         Enum padjusts
+    ' 
+    '             BH, bonferroni, BY, fdr, hochberg
+    '             holm, hommel, none
+    ' 
+    ' 
+    ' 
+    '         Structure TtestResult
+    ' 
+    '             Properties: alternative, confint, dataname, estimate, method
+    '                         nullvalue, parameter, pvalue, statistic
+    ' 
+    '             Function: padjust, ToString, (+2 Overloads) Ttest
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

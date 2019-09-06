@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b2b5753a5983231ec7827d9bf831672, RDotNET.Extensions.VisualBasic\API\grDevices\images.vb"
+﻿#Region "Microsoft.VisualBasic::be01469383aa2196afcc30ee3b0bc42b, RDotNET.Extensions.VisualBasic\API\grDevices\images.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7607a0a3a84fbbc7eb08e8ac51d419c8, RDotNET.Extensions.VisualBasic\RSystem.vb"
+﻿#Region "Microsoft.VisualBasic::3aae7d26a2fbdbf19b3c71cc10f7aef0, RDotNET.Extensions.VisualBasic\RSystem.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '     Constructor: (+1 Overloads) Sub New
     ' 
     '     Function: ColorMaps, getwd, Library, packageVersion, params
-    '               setwd, source
+    '               Rvar, setwd
     ' 
     '     Sub: (+2 Overloads) TryInit
     ' 
