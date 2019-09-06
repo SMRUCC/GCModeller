@@ -1,7 +1,5 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\src",
     "\\src\\R.Bioconductor",
     "\\src\\R.Bioconductor\\RDotNET.Extensions.VisualBasic",
     "\\src\\runtime",
@@ -11,6 +9,5 @@
     "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\CommandLine\\CLI",
     "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\ComponentModel"
   ],
-  "SelectedNode": "\\src\\R.Bioconductor\\RDotNET.Extensions.VisualBasic\\RDotNET.Extensions.VisualBasic.vbproj",
   "PreviewInSolutionExplorer": false
 }

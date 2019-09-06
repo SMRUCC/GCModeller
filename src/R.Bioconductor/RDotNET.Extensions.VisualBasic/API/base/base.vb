@@ -1,48 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::d0f27cbaf204546cbc919c6c49eadb6a, RDotNET.Extensions.VisualBasic\API\base\base.vb"
+﻿#Region "Microsoft.VisualBasic::3d23c8db15f4f4086e137f7fec521fb3, RDotNET.Extensions.VisualBasic\API\base\base.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module base
-' 
-'         Properties: colnames, length, names, rownames
-' 
-'         Function: (+4 Overloads) c, cbind, dataframe, library, list
-'                   load, ls, (+2 Overloads) matrix, rbind, rep
-'                   require, summary, vector, warning
-' 
-'         Sub: __setNames, rm, save, suppressWarnings
-' 
-' 
-' /********************************************************************************/
+    '     Module base
+    ' 
+    '         Properties: colnames, dimnames, length, names, rownames
+    ' 
+    '         Function: argumentExpression, (+5 Overloads) c, cbind, (+2 Overloads) dataframe, exists
+    '                   (+2 Overloads) lapply, library, (+4 Overloads) list, load, log2
+    '                   ls, (+2 Overloads) matrix, order, parameterValueAssign, rbind
+    '                   rep, require, save, solve, sum
+    '                   summary, vector, warning
+    ' 
+    '         Sub: __setNames, gc, rm, save, source
+    '              suppressWarnings
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -684,7 +687,7 @@ Namespace API
         ''' effect Is the same As saving With compression. Also, a saved file can be uncompressed And re-compressed 
         ''' under a different compression scheme (And see resaveRdaFiles For a way To Do so from within R).
         ''' </remarks>
-        Public Sub save(objects As [Variant](Of IEnumerable(Of String), IEnumerable(Of var)),
+        Public Sub save(objects As String(),
                         file$,
                         Optional ascii As Boolean = False,
                         Optional version$ = "NULL",
@@ -707,19 +710,9 @@ Namespace API
                 Call file.ParentPath.MkDIR
             End If
 
-            Dim objNames$()
-
-            If objects Like GetType(IEnumerable(Of String)) Then
-                objNames = objects.TryCast(Of IEnumerable(Of String)).ToArray
-            Else
-                objNames = objects.TryCast(Of IEnumerable(Of var)) _
-                    .Select(Function(v) v.name) _
-                    .ToArray
-            End If
-
             SyncLock R
                 With R
-                    .call = $"save({objNames.JoinBy(", ")}, 
+                    .call = $"save({objects.JoinBy(", ")}, 
      file = {Rstring(file.UnixPath)},
      ascii = {ascii.λ}, version = {version}, envir = {envir},
      compress = {compress.λ}, compression_level = {compression_level},
@@ -728,7 +721,7 @@ Namespace API
             End SyncLock
         End Sub
 
-        Public Function save(vars As IEnumerable(Of var),
+        Public Function save(vars As var(),
                              file$,
                              Optional ascii As Boolean = False,
                              Optional version$ = "NULL",
@@ -738,7 +731,7 @@ Namespace API
                              Optional eval_promises As Boolean = True,
                              Optional precheck As Boolean = True) As Boolean
             Try
-                Call base.save(objects:=vars,
+                Call base.save(objects:=vars.Select(Function(v) v.name),
                                file:=file,
                                ascii:=ascii,
                                compress:=compress,

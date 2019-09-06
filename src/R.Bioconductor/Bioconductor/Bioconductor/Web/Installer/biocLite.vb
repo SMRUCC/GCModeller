@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4f41e691503c1f2dbee80b96ee54d1f, Bioconductor\Bioconductor\Web\Installer\biocLite.vb"
+﻿#Region "Microsoft.VisualBasic::6aa01a0e41d90a1563c8af5a4c49cf1a, Bioconductor\Bioconductor\Web\Installer\biocLite.vb"
 
     ' Author:
     ' 

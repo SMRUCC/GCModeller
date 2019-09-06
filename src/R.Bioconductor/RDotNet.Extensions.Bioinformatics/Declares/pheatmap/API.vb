@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9500078fe48a52cedf41d144633800fe, RDotNet.Extensions.Bioinformatics\Declares\pheatmap\API.vb"
+﻿#Region "Microsoft.VisualBasic::ebba8518fe8f41033006c3a32fb22a39, RDotNet.Extensions.Bioinformatics\Declares\pheatmap\API.vb"
 
     ' Author:
     ' 

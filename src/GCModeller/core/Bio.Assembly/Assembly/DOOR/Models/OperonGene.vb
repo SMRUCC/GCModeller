@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3af71a1b7a282475e4ee300e0280d17c, Bio.Assembly\Assembly\DOOR\Models\OperonGene.vb"
+﻿#Region "Microsoft.VisualBasic::88c7c0bc83c59ffc8d23e73eeedcb397, Bio.Assembly\Assembly\DOOR\Models\OperonGene.vb"
 
     ' Author:
     ' 

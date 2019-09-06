@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b64ef447121e3ce3403f9622beb790de, RDotNet.Extensions.Bioinformatics\Declares\CRAN\bnlearn\bnFitPlots.vb"
+﻿#Region "Microsoft.VisualBasic::8a99916aa7b98650a06cfdfb272f9994, RDotNet.Extensions.Bioinformatics\Declares\CRAN\bnlearn\bnFitPlots.vb"
 
     ' Author:
     ' 

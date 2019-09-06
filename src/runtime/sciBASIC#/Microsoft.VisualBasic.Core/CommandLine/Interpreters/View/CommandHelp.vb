@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d15e03f189cfb4385a3670b0c012f3f, Microsoft.VisualBasic.Core\CommandLine\Interpreters\View\CommandHelp.vb"
+﻿#Region "Microsoft.VisualBasic::14574b8822db88dd0c7be339f9911d81, Microsoft.VisualBasic.Core\CommandLine\Interpreters\View\CommandHelp.vb"
 
     ' Author:
     ' 
@@ -97,7 +97,7 @@ Namespace CommandLine.ManView
                         End If
                     End With
 
-                    Call Console.WriteLine("   " & msg)
+                    Call My.Log4VB.Println("   " & msg, ConsoleColor.DarkBlue, ConsoleColor.DarkMagenta)
                 End With
             Next
         End Sub
