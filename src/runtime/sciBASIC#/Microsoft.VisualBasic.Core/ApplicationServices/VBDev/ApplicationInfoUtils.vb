@@ -58,7 +58,7 @@ Namespace ApplicationServices.Development
     Public Module ApplicationInfoUtils
 
         ''' <summary>
-        ''' 计算出模块文件的编译时间
+        ''' 计算出模块文件的编译时间.(在编译项目之前应该手动修改vbproj文件中的``Deterministic``配置项的值为False来允许自动递增版本号的特性)
         ''' </summary>
         ''' <param name="assm"></param>
         ''' <returns></returns>
@@ -91,7 +91,9 @@ Namespace ApplicationServices.Development
         <Extension>
         Public Function CalculateCompileTime(assm As Assembly) As Date
             Dim version As Version = assm.GetName.Version
-            Dim builtTime = New DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.MinorRevision * 2)
+            Dim builtTime = New DateTime(2000, 1, 1) _
+                .AddDays(version.Build) _
+                .AddSeconds(version.MinorRevision * 2)
 
             Return builtTime
         End Function
