@@ -92,38 +92,6 @@ Namespace Terminal
     ''' <remarks>http://www.codeproject.com/Tips/626856/xConsole-Project</remarks>
     Public Module xConsole
 
-#Region "STATIC COSTRUCTOR .."
-
-        Sub New()
-            If System.Diagnostics.Debugger.IsAttached Then
-                Try
-                    If CheckForUpdatesEnabled = True Then
-                        Call __checkUpdates()
-                    End If
-                Catch generatedExceptionName As Exception
-                    Call App.LogException(generatedExceptionName)
-                End Try
-            End If
-        End Sub
-
-        Private Sub __checkUpdates()
-            Dim key As Microsoft.Win32.RegistryKey =
-            Microsoft.Win32.Registry.CurrentUser.OpenSubKey("Software", True).CreateSubKey("OverPowered")
-
-            If key.GetValue("UpdateLastCheck") Is Nothing Then
-                key.SetValue("UpdateLastCheck", 0)
-            End If
-
-            If CInt(key.GetValue("UpdateLastCheck")) < DateTime.Now.DayOfYear - 30 Then
-                key.SetValue("UpdateLastCheck", DateTime.Now.DayOfYear)
-                xConsole.CheckforUpdates()
-            End If
-
-            Call key.Close()
-        End Sub
-
-#End Region
-
 #Region "COOL WRITING ✌"
 
         Public NotInheritable Class CoolWriteSettings
@@ -887,82 +855,6 @@ Namespace Terminal
             Return HexAsBytes
         End Function
 
-#End Region
-
-#Region "CHECK FOR NEW VERSION ♻"
-
-        Public Sub CheckforUpdates()
-            CheckForUpdatesEnabled = False
-
-            ' New version
-            ' BACK TO THE FUTURE!? wooooooooo
-            ' up to date
-            Call New Thread(Sub()
-                                Thread.Sleep(10)
-                                Dim data = CheckNewVersion()
-                                If Not String.IsNullOrWhiteSpace(data("url").ToString()) Then
-                                    xConsole.WriteLine("[^mxConsole^!] ^6Current Ver: ^y{0}^! / ^6Latest: ^y{1}^!", MyASM.Version, data("ver"))
-                                    Dim compared As Integer = MyASM.Version.CompareTo(data("ver"))
-                                    If compared = -1 Then
-                                        xConsole.WriteLine("[^mxConsole^!] ^gNew version available!^!")
-                                        xConsole.WriteLine("[^mxConsole^!]^11 Download/info page: ^w{0}^!", data("url"))
-                                    ElseIf compared = 1 Then
-                                        xConsole.WriteLine("[^mxConsole^!] *y^r>>>^6" & vbNullChar & "BACK TO THE ^rFUTURE!^!*!")
-                                    Else
-                                        xConsole.WriteLine("[^mxConsole^!] ^gUp to date! :)^!")
-                                    End If
-                                Else
-                                    xConsole.WriteLine("[^mxConsole^!] ^rCan not check for updates :/^!")
-                                End If
-
-                            End Sub).Start()
-        End Sub
-
-        Private Function CheckNewVersion() As Dictionary(Of String, Object)
-            Dim reader As XmlTextReader = Nothing
-            Dim data As New Dictionary(Of String, Object)()
-            data.Add("ver", New Version())
-            data.Add("url", String.Empty)
-
-            Try
-                Dim xmlURL As String = "http://trigger.overpowered.it/xConsole/curr_version.xml"
-                reader = New XmlTextReader(xmlURL)
-                xConsole.WriteLine("[^mxConsole^!] ^6Checking for newer version...^!")
-
-                reader.MoveToContent()
-
-                Dim elementName As String = ""
-
-                If (reader.NodeType = XmlNodeType.Element) AndAlso (reader.Name = "data") Then
-                    While reader.Read()
-                        If reader.NodeType = XmlNodeType.Element Then
-                            elementName = reader.Name
-                        Else
-                            If (reader.NodeType = XmlNodeType.Text) AndAlso (reader.HasValue) Then
-                                Select Case elementName
-                                    Case "version"
-                                        data("ver") = New Version(reader.Value)
-
-
-                                    Case "url"
-                                        data("url") = reader.Value
-
-
-                                End Select
-                            End If
-                        End If
-                    End While
-                End If
-
-            Catch generatedExceptionName As Exception
-            Finally
-                If reader IsNot Nothing Then
-                    reader.Close()
-                End If
-            End Try
-
-            Return data
-        End Function
 #End Region
     End Module
 End Namespace
