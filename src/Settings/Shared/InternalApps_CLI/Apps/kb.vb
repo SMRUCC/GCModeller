@@ -11,9 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.0
+'  // VERSION:   3.3277.7188.43145
+'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
+'  // BUILT:     9/5/2019 11:33:38 AM
 '  // 
 ' 
 ' 
@@ -25,13 +27,14 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /field.translate:       
-'  /kb.abstract:           
-'  /kb.build.query:        
-'  /KEGG.compound.rda:     Create a kegg organism-compound maps dataset and save in rda file.
-'  /pubmed.kb:             
-'  /summary:               
-'  /word.translation:      
+'  /field.translate:          
+'  /kb.abstract:              
+'  /kb.build.query:           
+'  /KEGG.compound.rda:        Create a kegg organism-compound maps dataset and save in rda file.
+'  /KEGG.maps.background:     
+'  /pubmed.kb:                
+'  /summary:                  
+'  /word.translation:         
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -138,6 +141,26 @@ Public Function KEGGCompoundDataSet(repo As String, Optional out As String = "")
     Dim CLI As New StringBuilder("/KEGG.compound.rda")
     Call CLI.Append(" ")
     Call CLI.Append("/repo " & """" & repo & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /KEGG.maps.background /in &lt;reference_maps.directory> [/out &lt;gsea_background.rda>]
+''' ```
+''' </summary>
+'''
+Public Function KEGGMapsBackground([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/KEGG.maps.background")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
