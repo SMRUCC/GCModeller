@@ -1,70 +1,70 @@
 ﻿#Region "Microsoft.VisualBasic::a8251d66048cbc47fdba172bdaeb7f54, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\xConsole\xConsole.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module xConsole
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: CheckNewVersion, ClearInput, ClosestConsoleColor, ConvertHexStringToByteArray, getColor
-    '                   GetConsoleWindow, (+2 Overloads) Implode, ParseLine, Print, ReadKeys
-    '                   ReadLine, RetrieveLinkerTimestamp, SetWindowPos
-    ' 
-    '         Sub: __checkUpdates, CheckforUpdates, ClearInput, (+2 Overloads) CoolWrite, CoolWriteLine
-    '              Credits, ListFonts, RestoreColors, SetFont, SetIcon
-    '              SetWindowPos, Wait, Write, (+3 Overloads) WriteLine
-    '         Class CoolWriteSettings
-    ' 
-    '             Properties: CoolWriting, CoolWritingDelay, CWRDDelay
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Class Comparer
-    ' 
-    '             Constructor: (+3 Overloads) Sub New
-    '             Function: Find
-    ' 
-    '         Class Spinner
-    ' 
-    '             Constructor: (+2 Overloads) Sub New
-    ' 
-    '             Function: Turn
-    ' 
-    '             Sub: Break, Run, RunTask
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module xConsole
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: CheckNewVersion, ClearInput, ClosestConsoleColor, ConvertHexStringToByteArray, getColor
+'                   GetConsoleWindow, (+2 Overloads) Implode, ParseLine, Print, ReadKeys
+'                   ReadLine, RetrieveLinkerTimestamp, SetWindowPos
+' 
+'         Sub: __checkUpdates, CheckforUpdates, ClearInput, (+2 Overloads) CoolWrite, CoolWriteLine
+'              Credits, ListFonts, RestoreColors, SetFont, SetIcon
+'              SetWindowPos, Wait, Write, (+3 Overloads) WriteLine
+'         Class CoolWriteSettings
+' 
+'             Properties: CoolWriting, CoolWritingDelay, CWRDDelay
+' 
+'             Constructor: (+1 Overloads) Sub New
+' 
+'         Class Comparer
+' 
+'             Constructor: (+3 Overloads) Sub New
+'             Function: Find
+' 
+'         Class Spinner
+' 
+'             Constructor: (+2 Overloads) Sub New
+' 
+'             Function: Turn
+' 
+'             Sub: Break, Run, RunTask
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -80,39 +80,19 @@ Imports System.Reflection
 Imports System.Runtime.InteropServices
 Imports System.Text.RegularExpressions
 Imports System.Threading
-Imports System.Xml
 Imports Microsoft.VisualBasic.Language
-Imports sys = System.Math
+Imports stdNum = System.Math
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
-Namespace Terminal
+Namespace Terminal.xConsole
 
     ''' <summary>
     ''' Allows you to color and animate the console. ~ overpowered.it ~ TheTrigger - 💸
     ''' </summary>
     ''' <remarks>http://www.codeproject.com/Tips/626856/xConsole-Project</remarks>
-    Public Module xConsole
+    <HideModuleName> Public Module xConsole
 
 #Region "COOL WRITING ✌"
-
-        Public NotInheritable Class CoolWriteSettings
-            Private Sub New()
-            End Sub
-            ''' <summary>
-            ''' Gradual typing the output into console
-            ''' </summary>
-            Public Shared Property CoolWriting As Boolean = False
-
-            ''' <summary>
-            ''' Write speed
-            ''' </summary>
-            Public Shared Property CoolWritingDelay As Integer = 8
-
-            ''' <summary>
-            ''' Set the delay when write a new line or dots. (Default = 200).
-            ''' </summary>
-            Public Shared Property CWRDDelay As Integer = 280
-        End Class
-
         ''' <summary>
         ''' Gradual output animation 👍👍
         ''' </summary>
@@ -332,7 +312,7 @@ Namespace Terminal
             Dim result As New List(Of Char)()
             While AscW(key = Console.ReadKey(True).KeyChar) >= 0 AndAlso
                 AscW(+key) <> 13
-                Call result.Add(key.value)
+                Call result.Add(key.Value)
             End While
 
             Return String.Join("", result)
@@ -387,7 +367,7 @@ Namespace Terminal
                             Dim c As Integer = 0
                             Dim cList = [Enum].GetNames(GetType(ConsoleColor))
                             Do
-                                c = (RDN.[Next](0, cList.Length - 1))
+                                c = (randf.seeds.Next(0, cList.Length - 1))
                             Loop While c = CInt(If((Type = "*"c), Console.ForegroundColor, Console.BackgroundColor))
 
                             Return CType(c, ConsoleColor)
@@ -423,7 +403,7 @@ Namespace Terminal
         ''' The Parser
         ''' </summary>
         ''' <param name="input">Input string</param>
-        Private Function Print(input As String) As Integer
+        Friend Function Print(input As String) As Integer
             If String.IsNullOrWhiteSpace(input) Then
                 Return 0
             End If
@@ -479,218 +459,6 @@ Namespace Terminal
         '////////////////////////////////////////////////////////////////////////////////////////////////
         '////////////////////////////////////////////////////////////////////////////////////////////////
         '////////////////////////////////////////////////////////////////////////////////////////////////
-#End Region
-
-#Region "COMPARER 💻"
-
-        ''' <summary>
-        ''' This can compute the input then return back the most appropriate word.
-        ''' </summary>
-        Public Class Comparer
-
-            ''' <summary>
-            ''' This is the word to find
-            ''' </summary>
-            Public Word As String = String.Empty
-
-            ''' <summary>
-            ''' Descrizione
-            ''' </summary>
-            Public Description As String = String.Empty
-
-            ''' <summary>
-            ''' Init to 0!
-            ''' </summary>
-            Private Points As Integer = 0
-
-            ''' <summary>
-            ''' Initliaze a new instance
-            ''' </summary>
-            ''' <param name="w">The word to find</param>
-            ''' <param name="p">It's should be 0</param>
-            Public Sub New(w As String, p As Integer)
-                Word = w
-                Points = p
-            End Sub
-
-            ''' <summary>
-            ''' Initliaze a new instance
-            ''' </summary>
-            ''' <param name="w">The word to find</param>
-            Public Sub New(w As String)
-                Word = w
-                Points = 0
-            End Sub
-
-            ''' <summary>
-            ''' Initliaze a new instance
-            ''' </summary>
-            ''' <param name="w">The word to find</param>
-            ''' <param name="desc">Description (do nothing)</param>
-            Public Sub New(w As String, desc As String)
-                Word = w
-                Description = desc
-            End Sub
-
-            ''' <summary>
-            ''' Find a word from an input abbreviation (es n > name)
-            ''' </summary>
-            ''' <returns></returns>
-            Public Overloads Shared Function Find(abbr As String, ByRef Words As List(Of Comparer)) As String
-                Dim Result As String = String.Empty
-                Dim Best As Integer = 0
-                Dim c As Integer = 0
-
-                While Words.Count > c AndAlso Words(c) IsNot Nothing
-                    Dim word = Words(c)
-
-                    If abbr = word.Word Then
-                        Result = abbr
-                        Exit While
-                    End If
-
-                    For i As Integer = 0 To abbr.Length - 1
-                        If abbr.Length < word.Word.Length AndAlso abbr(i) = word.Word(i) Then
-                            word.Points += 1
-                        Else
-                            word.Points = 0
-                            Exit For
-                        End If
-                    Next
-
-                    If word.Points > Best Then
-                        Best = word.Points
-                    End If
-
-
-                    c += 1
-                End While
-                ' End while
-                Dim n As Integer = 0
-                For Each word As Comparer In Words
-                    If word.Points = Best AndAlso word.Points > 0 Then
-                        Result = word.Word
-                        If System.Threading.Interlocked.Increment(n) > 1 Then
-                            Result = String.Empty
-                        End If
-                    End If
-                Next
-
-                Return Result
-            End Function
-        End Class
-
-        '////////////////////////////////////////////////////////////////////////////////////////////////
-        '////////////////////////////////////////////////////////////////////////////////////////////////
-        '////////////////////////////////////////////////////////////////////////////////////////////////
-#End Region
-
-#Region "SPINNER ⌛"
-
-        ''' <summary>
-        ''' A list of spinners for your console ❤
-        ''' </summary>
-        Public Class Spinner
-            Private counter As Integer = 0
-            Private c As Char()
-
-            ''' <summary>
-            ''' List of available spinners (you can add new)
-            ''' </summary>
-            Public Spinners As New List(Of Char())() From {
-                New Char() {"-"c, "\"c, "|"c, "/"c},
-                New Char() {"▄"c, "■"c, "▀"c, "■"c},
-                New Char() {"╔"c, "╗"c, "╝"c, "╚"c},
-                New Char() {"."c, "·"c, "`"c, "·"c},
-                New Char() {"1"c, "2"c, "3"c, "4"c, "5"c, "6"c, "7"c, "8"c, "9"c, "0"c}
-            }
-
-            ''' <summary>
-            ''' looplooplooplooplooplooplooplooplooploop[...]
-            ''' </summary>
-            Private inLoop As Boolean = True
-
-            ''' <summary>
-            ''' The base string for spinning. {0} will display the spinner. COLOR is SUPPORTED! 🆒
-            ''' </summary>
-            Public SpinText As String = "{0} ^gLoading^!..."
-
-            ''' <summary>
-            ''' Initialize the spinner
-            ''' </summary>
-            ''' <param name="i">Index of the spinner to use</param>
-            ''' <param name="txt">Base string. `{0} show the spinner`</param>
-            Public Sub New(Optional i As Integer = 0, Optional txt As String = Nothing)
-                If Not String.IsNullOrWhiteSpace(txt) Then
-                    SpinText = txt
-                End If
-                c = If((Spinners.Count > i), Spinners(i), Spinners(0))
-            End Sub
-
-            ''' <summary>
-            ''' Initialize a custom spinner
-            ''' </summary>
-            ''' <param name="spinner">Set a custom spinner, no size limit.</param>
-            Public Sub New(spinner As Char())
-                c = spinner
-            End Sub
-
-            ''' <summary>
-            ''' Breaks the spinner
-            ''' </summary>
-            Public Sub Break()
-                inLoop = False
-            End Sub
-
-            Private StringSize As Integer = 0
-
-            ''' <summary>
-            ''' Turn the spin!
-            ''' </summary>
-            ''' <param name="time">Waiting time. Default 130 ms</param>
-            ''' <returns>False if it has been stopped</returns>
-            ''' <example>while(spinner.Turn());</example>
-            Public Function Turn(Optional time As Integer = 130) As Boolean
-                Dim [loop] = inLoop
-
-                If [loop] Then
-                    counter += 1
-                    Dim wr As String = String.Format(SpinText, c(counter Mod c.Length), "wtf?")
-                    My.InnerQueue.AddToQueue(Sub()
-                                                 StringSize = Print(wr)
-                                                 Dim left As Integer = Console.CursorLeft - StringSize
-                                                 If left < 0 Then
-                                                     left = 0
-                                                 End If
-                                                 Console.SetCursorPosition(left, Console.CursorTop)
-                                             End Sub)
-
-                    Thread.Sleep(time)
-                Else
-                    My.InnerQueue.AddToQueue(Sub()
-                                                 Dim pos As New Point(Console.CursorLeft, Console.CursorTop)
-                                                 Console.Write(New String(" "c, StringSize))
-                                                 Console.SetCursorPosition(pos.X, pos.Y)
-                                             End Sub)
-                End If
-
-                Console.CursorVisible = Not [loop]
-
-                Return [loop]
-            End Function
-
-            Public Sub Run(Optional speed As Integer = 130)
-                Do While inLoop
-                    Call Turn(speed)
-                    Call Thread.Sleep(10)
-                Loop
-            End Sub
-
-            Public Sub RunTask(Optional speed As Integer = 130)
-                Call Parallel.RunTask(Sub() Call Run(speed))
-            End Sub
-        End Class
-
 #End Region
 
 #Region "SET FONT / ICON ⚠"
@@ -749,12 +517,6 @@ Namespace Terminal
         ''' My ASM FILE
         ''' </summary>
         Dim MyASM As AssemblyName = Assembly.GetAssembly(GetType(xConsole)).GetName()
-
-        ''' <summary>
-        ''' Random number Generator
-        ''' </summary>
-        Dim RDN As New Random()
-
         ''' <summary>
         ''' This value is used when restoring the colors of the console.
         ''' </summary>
@@ -779,7 +541,6 @@ Namespace Terminal
         ''' </summary>
         Public ClearColorsAtEnd As Boolean = False
 
-
 #End Region
 
 #Region "THIRD PART ✅"
@@ -793,7 +554,7 @@ Namespace Terminal
             For Each cc As ConsoleColor In [Enum].GetValues(GetType(ConsoleColor))
                 Dim n = [Enum].GetName(GetType(ConsoleColor), cc)
                 Dim c = Color.FromName(If(n = "DarkYellow", "Orange", n))
-                Dim t = sys.Pow(c.R - rr, 2.0) + sys.Pow(c.G - gg, 2.0) + sys.Pow(c.B - bb, 2.0)
+                Dim t = stdNum.Pow(c.R - rr, 2.0) + stdNum.Pow(c.G - gg, 2.0) + stdNum.Pow(c.B - bb, 2.0)
                 If t = 0.0 Then
                     Return cc
                 End If

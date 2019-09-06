@@ -1016,6 +1016,9 @@
   <ItemGroup>
     <Compile Include="ApplicationServices\Debugger\Exception\StackFrame.vb" />
     <Compile Include="ApplicationServices\Terminal\MarkdownRender.vb" />
+    <Compile Include="ApplicationServices\Terminal\xConsole\Comparer.vb" />
+    <Compile Include="ApplicationServices\Terminal\xConsole\Spinner.vb" />
+    <Compile Include="ApplicationServices\Terminal\xConsole\CoolWriteSettings.vb" />
     <Compile Include="ComponentModel\Algorithm\BinaryTree\AVLTree\AVLClusterTree.vb" />
     <Compile Include="ComponentModel\System.Collections.Generic\BinaryHeap.vb" />
     <Compile Include="My\Framework\FrameworkConfig.vb" />
