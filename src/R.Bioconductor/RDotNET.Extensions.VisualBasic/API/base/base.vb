@@ -684,7 +684,7 @@ Namespace API
         ''' effect Is the same As saving With compression. Also, a saved file can be uncompressed And re-compressed 
         ''' under a different compression scheme (And see resaveRdaFiles For a way To Do so from within R).
         ''' </remarks>
-        Public Sub save(objects As [Variant](Of IEnumerable(Of String), IEnumerable(Of var)),
+        Public Sub save(objects As String(),
                         file$,
                         Optional ascii As Boolean = False,
                         Optional version$ = "NULL",
@@ -707,19 +707,9 @@ Namespace API
                 Call file.ParentPath.MkDIR
             End If
 
-            Dim objNames$()
-
-            If objects Like GetType(IEnumerable(Of String)) Then
-                objNames = objects.TryCast(Of IEnumerable(Of String)).ToArray
-            Else
-                objNames = objects.TryCast(Of IEnumerable(Of var)) _
-                    .Select(Function(v) v.name) _
-                    .ToArray
-            End If
-
             SyncLock R
                 With R
-                    .call = $"save({objNames.JoinBy(", ")}, 
+                    .call = $"save({objects.JoinBy(", ")}, 
      file = {Rstring(file.UnixPath)},
      ascii = {ascii.λ}, version = {version}, envir = {envir},
      compress = {compress.λ}, compression_level = {compression_level},
@@ -728,7 +718,7 @@ Namespace API
             End SyncLock
         End Sub
 
-        Public Function save(vars As IEnumerable(Of var),
+        Public Function save(vars As var(),
                              file$,
                              Optional ascii As Boolean = False,
                              Optional version$ = "NULL",
@@ -738,7 +728,7 @@ Namespace API
                              Optional eval_promises As Boolean = True,
                              Optional precheck As Boolean = True) As Boolean
             Try
-                Call base.save(objects:=vars,
+                Call base.save(objects:=vars.Select(Function(v) v.name),
                                file:=file,
                                ascii:=ascii,
                                compress:=compress,
