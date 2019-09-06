@@ -103,7 +103,7 @@ Namespace My
                             Console.ForegroundColor = cl
                             Call Console.Write("]")
 
-                            Call WriteLine(msg, msgColor)
+                            Call Println(msg, msgColor)
                         End If
                     End If
                 End Sub)
@@ -123,7 +123,7 @@ Namespace My
         ''' <param name="msg">兼容<see cref="xConsole"/>语法</param>
         ''' <param name="color">当<see cref="UsingxConsole"/>参数为True的时候，这个函数参数将不会起作用</param>
         <Extension>
-        Public Sub WriteLine(msg$, color As ConsoleColor)
+        Public Sub Println(msg$, Optional color As ConsoleColor = ConsoleColor.White, Optional background As ConsoleColor = -1)
             If Mute Then
                 Return
             End If
@@ -136,10 +136,16 @@ Namespace My
                 Else
                     ' 使用传统的输出输出方法
                     Dim cl As ConsoleColor = Console.ForegroundColor
+                    Dim bg As ConsoleColor = Console.BackgroundColor
+
+                    If background >= 0 Then
+                        Console.BackgroundColor = background
+                    End If
 
                     Console.ForegroundColor = color
                     Console.WriteLine(msg)
                     Console.ForegroundColor = cl
+                    Console.BackgroundColor = bg
                 End If
             End If
 
