@@ -56,6 +56,45 @@ Namespace ApplicationServices.Development
     ''' </remarks>
     Public Module ApplicationInfoUtils
 
+        ''' <summary>
+        ''' 计算出模块文件的编译时间
+        ''' </summary>
+        ''' <param name="assm"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' ### Get Compile date and time in application 
+        ''' 
+        ''' > https://social.msdn.microsoft.com/forums/en-US/172201e0-c47b-40a8-a5d7-0a052cb42532/get-compile-date-and-time-in-application
+        ''' 
+        ''' Set up your Build and MinorRevision numbers to auto-increment, pull out the date created for 
+        ''' by using the Version numbers from the version on the class. 
+        ''' 
+        ''' 1. Open ``AssemblyInfo.vb``.  You'll find it under the Properties folder in your solution.  
+        ''' Find the two lines that say "AssemblyVersion" and "AssemblyFileVersion" in them.  
+        ''' Change them to:
+        '''
+        ''' ```vbnet
+        ''' &lt;assembly AssemblyVersion("1.0.*")>
+        ''' &lt;assembly AssemblyFileVersion("1.0.*")>
+        ''' ```
+        '''
+        ''' Once you Do this, Visual Studio will automatically increment the last two values In the version.  
+        ''' 
+        ''' 2. The creation date can be found at runtime using the following algorithm:
+        '''
+        ''' ```vbnet
+        ''' Dim version = Assembly.GetExecutingAssembly().GetName().Version
+        ''' Dim creationDate = New DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.MinorRevision * 2)
+        ''' ```
+        ''' </remarks>
+        <Extension>
+        Public Function CalculateCompileTime(assm As Assembly) As Date
+            Dim version As Version = assm.GetName.Version
+            Dim builtTime = New DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.MinorRevision * 2)
+
+            Return builtTime
+        End Function
+
         <Extension>
         Public Function FromAssembly(assm As Assembly) As AssemblyInfo
             Return New AssemblyInfo With {
@@ -66,7 +105,8 @@ Namespace ApplicationServices.Development
                 .AssemblyTitle = GetProductTitle(assm),
                 .AssemblyDescription = GetProductDescription(assm),
                 .Guid = GetGuid(assm),
-                .AssemblyVersion = assm.GetVersion().ToString
+                .AssemblyVersion = assm.GetVersion().ToString,
+                .BuiltTime = assm.CalculateCompileTime
             }
         End Function
 
