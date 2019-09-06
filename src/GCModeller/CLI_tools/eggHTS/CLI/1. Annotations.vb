@@ -473,7 +473,7 @@ Partial Module CLI
               Description:="The GO annotation level from the DAG, default is level 2. Argument value -1 means no level.")>
     <Argument("/label.right", True, CLITypes.Boolean,
               Description:="Plot GO term their label will be alignment on right. default is alignment left if this aegument is not present.")>
-    <Argument("/in", False, CLITypes.File,
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv",
               Description:="Uniprot XML database export result from ``/protein.annotations`` command.")>
     <Argument("/tick", True, CLITypes.Double,
@@ -556,7 +556,9 @@ Partial Module CLI
               You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&format=htext&filedir= for download the custom KO classification set.")>
     <Argument("/label.right", True, CLITypes.Boolean, Description:="Align the label from right.")>
     <Argument("/size", True, CLITypes.String, Description:="The canvas size value.")>
-    <Argument("/in", False, CLITypes.File, Extensions:="*.Xlsx, *.csv", Description:="Total protein annotation from UniProtKB database. Which is generated from the command ``/protein.annotations``.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.Xlsx, *.csv",
+              Description:="Total protein annotation from UniProtKB database. Which is generated from the command ``/protein.annotations``.")>
     <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
               AcceptTypes:={GetType(String), GetType(String())},
               Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:

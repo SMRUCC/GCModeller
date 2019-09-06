@@ -166,9 +166,9 @@ Partial Module CLI
         Call $"Matrix have {matrix.Length} proteins".__INFO_ECHO
 
         For Each group In matrix.MatrixSplit(sampleInfo, designer, allowedSwap)
-            Dim groupName$ = AnalysisDesigner.CreateTitle(group.Name)
+            Dim groupName$ = AnalysisDesigner.CreateTitle(group.name)
             Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
-            Dim data As DataSet() = group.Value
+            Dim data As DataSet() = group.value
 
             Call $"{groupName} -> {data.Length} proteins...".__DEBUG_ECHO
 
@@ -192,9 +192,13 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/iTraq.RSD-P.Density")>
     <Usage("/iTraq.RSD-P.Density /in <matrix.csv> [/out <out.png>]")>
+    <Description("Visualize data QC analysis result.")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv",
               Description:="A data matrix which is comes from the ``/iTraq.matrix.split`` command.")>
+    <Argument("/out", True, CLITypes.File,
+              Extensions:="*.png, *.svg",
+              Description:="The file path of the plot result image.")>
     <Group(CLIGroups.iTraqTool)>
     Public Function iTraqRSDPvalueDensityPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
