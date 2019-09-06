@@ -112,7 +112,7 @@ Namespace CommandLine.ManView
 
                 Call Console.Write("  ")
                 Call My.Log4VB.Print(AppPath, ConsoleColor.DarkCyan)
-                Call Console.Write("  ")
+                Call Console.Write(" ")
                 Call My.Log4VB.Println(api.Usage, ConsoleColor.Green)
 
             End With
@@ -284,7 +284,10 @@ Namespace CommandLine.ManView
 
                 If std_in OrElse std_out OrElse bool Then
                     Call Console.WriteLine()
-                    Call Console.WriteLine("  " & New String("-"c, 100))
+                    Call Console.WriteLine()
+                    Call Console.WriteLine()
+                    Call Console.WriteLine("  [Annotations]")
+                    Call Console.WriteLine("  " & New String("-"c, 52))
                     Call Console.WriteLine()
                 End If
 
