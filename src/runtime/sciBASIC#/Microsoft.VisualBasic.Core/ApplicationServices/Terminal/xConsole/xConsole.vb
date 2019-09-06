@@ -80,9 +80,10 @@ Imports System.Reflection
 Imports System.Runtime.InteropServices
 Imports System.Text.RegularExpressions
 Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.Language
-Imports stdNum = System.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports stdNum = System.Math
 
 Namespace Terminal.xConsole
 
@@ -222,7 +223,7 @@ Namespace Terminal.xConsole
             WriteLine(vbCr & vbTab & vbTab & "^y│" & vbTab & "^3Created by^!:" & vbTab & "^8TheTrigger^!" & vbTab & vbTab & "^y│")
             WriteLine(vbCr & vbTab & vbTab & "^y│" & vbTab & "^3WebSite^!:" & vbTab & "^8overpowered.it^!" & vbTab & vbTab & "^y│")
             WriteLine(vbCr & vbTab & vbTab & "^y│" & vbTab & "^3Version^!:" & vbTab & "^g{0} ^!" & vbTab & vbTab & "^y│", MyASM.Version)
-            WriteLine(vbCr & vbTab & vbTab & "^y│" & vbTab & "^3Build Date^!:" & vbTab & "^y{0}" & vbTab & vbTab & "^y│^!.", RetrieveLinkerTimestamp().ToShortDateString())
+            WriteLine(vbCr & vbTab & vbTab & "^y│" & vbTab & "^3Build Date^!:" & vbTab & "^y{0}" & vbTab & vbTab & "^y│^!.", Assembly.GetCallingAssembly().RetrieveLinkerTimestamp().ToShortDateString())
             WriteLine(vbCr & vbTab & vbTab & "^8╘^r■^7=═=═=═=═=═=═=═=═=═=═=═=═=═=═=═=═=═=═=═=═=═=═=^r■^8╛^!``")
             WriteLine(vbCr & vbLf)
         End Sub
@@ -544,10 +545,11 @@ Namespace Terminal.xConsole
 #End Region
 
 #Region "THIRD PART ✅"
+
         ''' <summary>
         ''' Convert rgb color to ConsoleColor. From stackoverflow
         ''' </summary>
-        Private Function ClosestConsoleColor(r As Byte, g As Byte, b As Byte) As ConsoleColor
+        Public Function ClosestConsoleColor(r As Byte, g As Byte, b As Byte) As ConsoleColor
             Dim ret As ConsoleColor = 0
             Dim rr As Double = r, gg As Double = g, bb As Double = b, delta As Double = Double.MaxValue
 
@@ -565,36 +567,6 @@ Namespace Terminal.xConsole
             Next
             Return ret
         End Function
-
-
-        ''' <summary>
-        ''' Linker Timestamp
-        ''' </summary>
-        Private Function RetrieveLinkerTimestamp() As DateTime
-            ' from stackoverflow
-            Dim filePath As String = System.Reflection.Assembly.GetCallingAssembly().Location
-            Const c_PeHeaderOffset As Integer = 60
-            Const c_LinkerTimestampOffset As Integer = 8
-            Dim b As Byte() = New Byte(2047) {}
-            Dim s As System.IO.Stream = Nothing
-
-            Try
-                s = New System.IO.FileStream(filePath, System.IO.FileMode.Open, System.IO.FileAccess.Read)
-                s.Read(b, 0, 2048)
-            Finally
-                If s IsNot Nothing Then
-                    s.Close()
-                End If
-            End Try
-
-            Dim i As Integer = System.BitConverter.ToInt32(b, c_PeHeaderOffset)
-            Dim secondsSince1970 As Integer = System.BitConverter.ToInt32(b, i + c_LinkerTimestampOffset)
-            Dim dt As New DateTime(1970, 1, 1, 0, 0, 0)
-            dt = dt.AddSeconds(secondsSince1970)
-            dt = dt.AddHours(TimeZone.CurrentTimeZone.GetUtcOffset(dt).Hours)
-            Return dt
-        End Function
-
 
         ''' <summary>
         ''' Convert String to byte array

@@ -42,6 +42,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
@@ -56,6 +57,40 @@ Namespace ApplicationServices.Development
     ''' http://www.c-sharpcorner.com/uploadfile/ravesoft/access-assemblyinfo-file-and-get-product-informations/
     ''' </remarks>
     Public Module ApplicationInfoUtils
+
+        ''' <summary>
+        ''' Linker Timestamp
+        ''' </summary>
+        ''' 
+        <Extension>
+        Public Function RetrieveLinkerTimestamp(assembly As Assembly) As DateTime
+            ' from stackoverflow
+            Dim filePath As String = assembly.Location
+
+            Const c_PeHeaderOffset As Integer = 60
+            Const c_LinkerTimestampOffset As Integer = 8
+
+            Dim b As Byte() = New Byte(2047) {}
+            Dim s As Stream = Nothing
+
+            Try
+                s = New FileStream(filePath, FileMode.Open, FileAccess.Read)
+                s.Read(b, 0, 2048)
+            Finally
+                If s IsNot Nothing Then
+                    s.Close()
+                End If
+            End Try
+
+            Dim i As Integer = BitConverter.ToInt32(b, c_PeHeaderOffset)
+            Dim secondsSince1970 As Integer = BitConverter.ToInt32(b, i + c_LinkerTimestampOffset)
+            Dim dt As New DateTime(1970, 1, 1, 0, 0, 0)
+
+            dt = dt.AddSeconds(secondsSince1970)
+            dt = dt.AddHours(TimeZone.CurrentTimeZone.GetUtcOffset(dt).Hours)
+
+            Return dt
+        End Function
 
         ''' <summary>
         ''' 计算出模块文件的编译时间.(在编译项目之前应该手动修改vbproj文件中的``Deterministic``配置项的值为False来允许自动递增版本号的特性)
