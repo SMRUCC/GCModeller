@@ -146,7 +146,9 @@ Namespace CommandLine.ManView
 
                                     If .TokenType = CLITypes.Boolean Then
                                         ' 逻辑值类型的只能够是可选类型
-                                        s = "(optional) (boolean)"
+                                        ' 逻辑开关不计算在内
+                                        ' s = "(optional) (boolean)"
+                                        s = ""
                                         bool = True
                                     Else
 
@@ -197,8 +199,7 @@ Namespace CommandLine.ManView
                 Dim skipOptionalLine As Boolean = False
 
                 ' 必须的参数放在前面，可选的参数都是在后面的位置
-                For Each param As Argument In api.Arguments.Select(Function(x) x.Value)
-
+                For Each param As Argument In api.Arguments.Select(Function(a) a.Value)
                     If param.TokenType = CLITypes.Boolean AndAlso Not boolSeperator Then
                         boolSeperator = True
 
