@@ -54,6 +54,7 @@ Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
 Imports SMRUCC.genomics.Analysis.Microarray.GSEA
+Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -188,6 +189,17 @@ Public Module CLI
     <Argument("/format", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="apply this argument to specify the output table format, by default is in GCModeller table format, or you can assign the ``KOBAS`` format value at this parameter.")>
+    <Argument("/out", True, CLITypes.File,
+              AcceptTypes:={GetType(EnrichmentResult), GetType(EnrichmentTerm)},
+              Extensions:="*.csv",
+              Description:="The file path of the result output, the output result table format is affects by the ``/format`` argument.")>
+    <Argument("/geneSet", False, CLITypes.File,
+              AcceptTypes:={GetType(String())},
+              Extensions:="*.txt",
+              Description:="A text file that contains the gene id list that will be apply the GSEA analysis.")>
+    <Argument("/hide.progress", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="A logical flag argument that controls the console screen display the progress bar or not.")>
     Public Function EnrichmentTest(args As CommandLine) As Integer
         Dim backgroundXML$ = args("/background")
         Dim background = backgroundXML.LoadXml(Of Background)
