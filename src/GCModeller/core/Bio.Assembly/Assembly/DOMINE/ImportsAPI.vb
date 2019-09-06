@@ -43,7 +43,6 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
 
 Namespace Assembly.DOMINE
 
