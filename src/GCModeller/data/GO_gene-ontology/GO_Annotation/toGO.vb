@@ -7,6 +7,10 @@ Public Class toGO
     Public Property map2GO_term As String
     Public Property map2GO_id As String
 
+    Public Overrides Function ToString() As String
+        Return $"Dim {entry}[{name}] As {map2GO_id} = '{map2GO_term}'"
+    End Function
+
     Public Shared Iterator Function Parse2GO(file As String) As IEnumerable(Of toGO)
         Dim lines As String() = file.SolveStream _
             .LineTokens _
