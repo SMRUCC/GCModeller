@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad0888831b1110cca2e3af950fbd935c, RDotNET.Extensions.VisualBasic\Extensions\Serialization\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::c1c78aabc6557b417172b2e1e7e92918, RDotNET.Extensions.VisualBasic\Extensions\Serialization\Vector.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    ' Module Vector
+    ' Module VectorExtensions
     ' 
     '     Function: ToStrings, ToStringsGeneric
     ' 

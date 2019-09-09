@@ -1,3 +1,178 @@
+﻿#Region "Microsoft.VisualBasic::ff5c0fc0fdc4836becd39d41a03fc553, RDotNET\Graphics\Colors.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Colors
+    ' 
+    '         Properties: AliceBlue, AntiqueWhite, AntiqueWhite1, AntiqueWhite2, AntiqueWhite3
+    '                     AntiqueWhite4, Aquamarine, Aquamarine1, Aquamarine2, Aquamarine3
+    '                     Aquamarine4, Azure, Azure1, Azure2, Azure3
+    '                     Azure4, Beige, Bisque, Bisque1, Bisque2
+    '                     Bisque3, Bisque4, Black, BlanchedAlmond, Blue
+    '                     Blue1, Blue2, Blue3, Blue4, BlueViolet
+    '                     Brown, Brown1, Brown2, Brown3, Brown4
+    '                     Burlywood, Burlywood1, Burlywood2, Burlywood3, Burlywood4
+    '                     CadetBlue, CadetBlue1, CadetBlue2, CadetBlue3, CadetBlue4
+    '                     Chartreuse, Chartreuse1, Chartreuse2, Chartreuse3, Chartreuse4
+    '                     Chocolate, Chocolate1, Chocolate2, Chocolate3, Chocolate4
+    '                     Coral, Coral1, Coral2, Coral3, Coral4
+    '                     CornflowerBlue, Cornsilk, Cornsilk1, Cornsilk2, Cornsilk3
+    '                     Cornsilk4, Cyan, Cyan1, Cyan2, Cyan3
+    '                     Cyan4, DarkBlue, DarkCyan, DarkGoldenrod, DarkGoldenrod1
+    '                     DarkGoldenrod2, DarkGoldenrod3, DarkGoldenrod4, DarkGray, DarkGreen
+    '                     DarkGrey, DarkKhaki, DarkMagenta, DarkOliveGreen, DarkOliveGreen1
+    '                     DarkOliveGreen2, DarkOliveGreen3, DarkOliveGreen4, DarkOrange, DarkOrange1
+    '                     DarkOrange2, DarkOrange3, DarkOrange4, DarkOrchid, DarkOrchid1
+    '                     DarkOrchid2, DarkOrchid3, DarkOrchid4, DarkRed, DarkSalmon
+    '                     DarkSeaGreen, DarkSeaGreen1, DarkSeaGreen2, DarkSeaGreen3, DarkSeaGreen4
+    '                     DarkSlateBlue, DarkSlateGray, DarkSlateGray1, DarkSlateGray2, DarkSlateGray3
+    '                     DarkSlateGray4, DarkSlateGrey, DarkTurquoise, DarkViolet, DeepPink
+    '                     DeepPink1, DeepPink2, DeepPink3, DeepPink4, DeepSkyBlue
+    '                     DeepSkyBlue1, DeepSkyBlue2, DeepSkyBlue3, DeepSkyBlue4, DimGray
+    '                     DimGrey, DodgerBlue, DodgerBlue1, DodgerBlue2, DodgerBlue3
+    '                     DodgerBlue4, Firebrick, Firebrick1, Firebrick2, Firebrick3
+    '                     Firebrick4, FloralWhite, ForestGreen, Gainsboro, GhostWhite
+    '                     Gold, Gold1, Gold2, Gold3, Gold4
+    '                     Goldenrod, Goldenrod1, Goldenrod2, Goldenrod3, Goldenrod4
+    '                     Gray, Gray0, Gray1, Gray10, Gray100
+    '                     Gray11, Gray12, Gray13, Gray14, Gray15
+    '                     Gray16, Gray17, Gray18, Gray19, Gray2
+    '                     Gray20, Gray21, Gray22, Gray23, Gray24
+    '                     Gray25, Gray26, Gray27, Gray28, Gray29
+    '                     Gray3, Gray30, Gray31, Gray32, Gray33
+    '                     Gray34, Gray35, Gray36, Gray37, Gray38
+    '                     Gray39, Gray4, Gray40, Gray41, Gray42
+    '                     Gray43, Gray44, Gray45, Gray46, Gray47
+    '                     Gray48, Gray49, Gray5, Gray50, Gray51
+    '                     Gray52, Gray53, Gray54, Gray55, Gray56
+    '                     Gray57, Gray58, Gray59, Gray6, Gray60
+    '                     Gray61, Gray62, Gray63, Gray64, Gray65
+    '                     Gray66, Gray67, Gray68, Gray69, Gray7
+    '                     Gray70, Gray71, Gray72, Gray73, Gray74
+    '                     Gray75, Gray76, Gray77, Gray78, Gray79
+    '                     Gray8, Gray80, Gray81, Gray82, Gray83
+    '                     Gray84, Gray85, Gray86, Gray87, Gray88
+    '                     Gray89, Gray9, Gray90, Gray91, Gray92
+    '                     Gray93, Gray94, Gray95, Gray96, Gray97
+    '                     Gray98, Gray99, Green, Green1, Green2
+    '                     Green3, Green4, GreenYellow, Grey, Grey0
+    '                     Grey1, Grey10, Grey100, Grey11, Grey12
+    '                     Grey13, Grey14, Grey15, Grey16, Grey17
+    '                     Grey18, Grey19, Grey2, Grey20, Grey21
+    '                     Grey22, Grey23, Grey24, Grey25, Grey26
+    '                     Grey27, Grey28, Grey29, Grey3, Grey30
+    '                     Grey31, Grey32, Grey33, Grey34, Grey35
+    '                     Grey36, Grey37, Grey38, Grey39, Grey4
+    '                     Grey40, Grey41, Grey42, Grey43, Grey44
+    '                     Grey45, Grey46, Grey47, Grey48, Grey49
+    '                     Grey5, Grey50, Grey51, Grey52, Grey53
+    '                     Grey54, Grey55, Grey56, Grey57, Grey58
+    '                     Grey59, Grey6, Grey60, Grey61, Grey62
+    '                     Grey63, Grey64, Grey65, Grey66, Grey67
+    '                     Grey68, Grey69, Grey7, Grey70, Grey71
+    '                     Grey72, Grey73, Grey74, Grey75, Grey76
+    '                     Grey77, Grey78, Grey79, Grey8, Grey80
+    '                     Grey81, Grey82, Grey83, Grey84, Grey85
+    '                     Grey86, Grey87, Grey88, Grey89, Grey9
+    '                     Grey90, Grey91, Grey92, Grey93, Grey94
+    '                     Grey95, Grey96, Grey97, Grey98, Grey99
+    '                     Honeydew, Honeydew1, Honeydew2, Honeydew3, Honeydew4
+    '                     HotPink, HotPink1, HotPink2, HotPink3, HotPink4
+    '                     IndianRed, IndianRed1, IndianRed2, IndianRed3, IndianRed4
+    '                     Ivory, Ivory1, Ivory2, Ivory3, Ivory4
+    '                     Khaki, Khaki1, Khaki2, Khaki3, Khaki4
+    '                     Lavender, LavenderBlush, LavenderBlush1, LavenderBlush2, LavenderBlush3
+    '                     LavenderBlush4, LawnGreen, LemonChiffon, LemonChiffon1, LemonChiffon2
+    '                     LemonChiffon3, LemonChiffon4, LightBlue, LightBlue1, LightBlue2
+    '                     LightBlue3, LightBlue4, LightCoral, LightCyan, LightCyan1
+    '                     LightCyan2, LightCyan3, LightCyan4, LightGoldenrod, LightGoldenrod1
+    '                     LightGoldenrod2, LightGoldenrod3, LightGoldenrod4, LightGoldenrodYellow, LightGray
+    '                     LightGreen, LightGrey, LightPink, LightPink1, LightPink2
+    '                     LightPink3, LightPink4, LightSalmon, LightSalmon1, LightSalmon2
+    '                     LightSalmon3, LightSalmon4, LightSeaGreen, LightSkyBlue, LightSkyBlue1
+    '                     LightSkyBlue2, LightSkyBlue3, LightSkyBlue4, LightSlateBlue, LightSlateGray
+    '                     LightSlateGrey, LightSteelBlue, LightSteelBlue1, LightSteelBlue2, LightSteelBlue3
+    '                     LightSteelBlue4, LightYellow, LightYellow1, LightYellow2, LightYellow3
+    '                     LightYellow4, LimeGreen, Linen, Magenta, Magenta1
+    '                     Magenta2, Magenta3, Magenta4, Maroon, Maroon1
+    '                     Maroon2, Maroon3, Maroon4, MediumAquamarine, MediumBlue
+    '                     MediumOrchid, MediumOrchid1, MediumOrchid2, MediumOrchid3, MediumOrchid4
+    '                     MediumPurple, MediumPurple1, MediumPurple2, MediumPurple3, MediumPurple4
+    '                     MediumSeaGreen, MediumSlateBlue, MediumSpringGreen, MediumTurquoise, MediumVioletRed
+    '                     MidnightBlue, MintCream, MistyRose, MistyRose1, MistyRose2
+    '                     MistyRose3, MistyRose4, Moccasin, NavajoWhite, NavajoWhite1
+    '                     NavajoWhite2, NavajoWhite3, NavajoWhite4, Navy, NavyBlue
+    '                     OldLace, OliveDrab, OliveDrab1, OliveDrab2, OliveDrab3
+    '                     OliveDrab4, Orange, Orange1, Orange2, Orange3
+    '                     Orange4, OrangeRed, OrangeRed1, OrangeRed2, OrangeRed3
+    '                     OrangeRed4, Orchid, Orchid1, Orchid2, Orchid3
+    '                     Orchid4, PaleGoldenrod, PaleGreen, PaleGreen1, PaleGreen2
+    '                     PaleGreen3, PaleGreen4, PaleTurquoise, PaleTurquoise1, PaleTurquoise2
+    '                     PaleTurquoise3, PaleTurquoise4, PaleVioletRed, PaleVioletRed1, PaleVioletRed2
+    '                     PaleVioletRed3, PaleVioletRed4, PapayaWhip, PeachPuff, PeachPuff1
+    '                     PeachPuff2, PeachPuff3, PeachPuff4, Peru, Pink
+    '                     Pink1, Pink2, Pink3, Pink4, Plum
+    '                     Plum1, Plum2, Plum3, Plum4, PowderBlue
+    '                     Purple, Purple1, Purple2, Purple3, Purple4
+    '                     Red, Red1, Red2, Red3, Red4
+    '                     RosyBrown, RosyBrown1, RosyBrown2, RosyBrown3, RosyBrown4
+    '                     RoyalBlue, RoyalBlue1, RoyalBlue2, RoyalBlue3, RoyalBlue4
+    '                     SaddleBrown, Salmon, Salmon1, Salmon2, Salmon3
+    '                     Salmon4, SandyBrown, SeaGreen, SeaGreen1, SeaGreen2
+    '                     SeaGreen3, SeaGreen4, Seashell, Seashell1, Seashell2
+    '                     Seashell3, Seashell4, Sienna, Sienna1, Sienna2
+    '                     Sienna3, Sienna4, SkyBlue, SkyBlue1, SkyBlue2
+    '                     SkyBlue3, SkyBlue4, SlateBlue, SlateBlue1, SlateBlue2
+    '                     SlateBlue3, SlateBlue4, SlateGray, SlateGray1, SlateGray2
+    '                     SlateGray3, SlateGray4, SlateGrey, Snow, Snow1
+    '                     Snow2, Snow3, Snow4, SpringGreen, SpringGreen1
+    '                     SpringGreen2, SpringGreen3, SpringGreen4, SteelBlue, SteelBlue1
+    '                     SteelBlue2, SteelBlue3, SteelBlue4, Tan, Tan1
+    '                     Tan2, Tan3, Tan4, Thistle, Thistle1
+    '                     Thistle2, Thistle3, Thistle4, Tomato, Tomato1
+    '                     Tomato2, Tomato3, Tomato4, Transparent, Turquoise
+    '                     Turquoise1, Turquoise2, Turquoise3, Turquoise4, Violet
+    '                     VioletRed, VioletRed1, VioletRed2, VioletRed3, VioletRed4
+    '                     Wheat, Wheat1, Wheat2, Wheat3, Wheat4
+    '                     White, WhiteSmoke, Yellow, Yellow1, Yellow2
+    '                     Yellow3, Yellow4, YellowGreen
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Namespace Graphics
 
     ''' <summary>

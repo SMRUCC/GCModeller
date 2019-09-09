@@ -1,48 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::d0f27cbaf204546cbc919c6c49eadb6a, RDotNET.Extensions.VisualBasic\API\base\base.vb"
+﻿#Region "Microsoft.VisualBasic::3d23c8db15f4f4086e137f7fec521fb3, RDotNET.Extensions.VisualBasic\API\base\base.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module base
-' 
-'         Properties: colnames, length, names, rownames
-' 
-'         Function: (+4 Overloads) c, cbind, dataframe, library, list
-'                   load, ls, (+2 Overloads) matrix, rbind, rep
-'                   require, summary, vector, warning
-' 
-'         Sub: __setNames, rm, save, suppressWarnings
-' 
-' 
-' /********************************************************************************/
+    '     Module base
+    ' 
+    '         Properties: colnames, dimnames, length, names, rownames
+    ' 
+    '         Function: argumentExpression, (+5 Overloads) c, cbind, (+2 Overloads) dataframe, exists
+    '                   (+2 Overloads) lapply, library, (+4 Overloads) list, load, log2
+    '                   ls, (+2 Overloads) matrix, order, parameterValueAssign, rbind
+    '                   rep, require, save, solve, sum
+    '                   summary, vector, warning
+    ' 
+    '         Sub: __setNames, gc, rm, save, source
+    '              suppressWarnings
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

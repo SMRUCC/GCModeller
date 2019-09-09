@@ -11,9 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.0
+'  // VERSION:   3.3277.7188.43145
+'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
+'  // BUILT:     9/5/2019 11:33:38 AM
 '  // 
 ' 
 ' 
@@ -25,11 +27,13 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /GO.clusters:            
-'  /GSEA:                   Do gene set enrichment analysis.
-'  /id.converts:            
-'  /KO.clusters:            Create KEGG pathway map background for a given genome data.
-'  /KO.clusters.By_bbh:     
+'  /GO.clusters:                     
+'  /GSEA:                            Do gene set enrichment analysis.
+'  /id.converts:                     
+'  /kegg.metabolites.background:     Create background model for KEGG pathway enrichment based on the
+'                                    kegg metabolites, used for LC-MS metabolism data analysis.
+'  /KO.clusters:                     Create KEGG pathway map background for a given genome data.
+'  /KO.clusters.By_bbh:              
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -81,18 +85,21 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /GSEA /background &lt;clusters.XML> /geneSet &lt;geneSet.txt> [/hide.progress /locus_tag /cluster_id &lt;null, debug_used> /out &lt;out.csv>]
+''' /GSEA /background &lt;clusters.XML> /geneSet &lt;geneSet.txt> [/hide.progress /locus_tag /cluster_id &lt;null, debug_used> /format &lt;default=GCModeller> /out &lt;out.csv>]
 ''' ```
 ''' Do gene set enrichment analysis.
 ''' </summary>
 '''
-Public Function EnrichmentTest(background As String, geneSet As String, Optional cluster_id As String = "", Optional out As String = "", Optional hide_progress As Boolean = False, Optional locus_tag As Boolean = False) As Integer
+Public Function EnrichmentTest(background As String, geneSet As String, Optional cluster_id As String = "", Optional format As String = "GCModeller", Optional out As String = "", Optional hide_progress As Boolean = False, Optional locus_tag As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GSEA")
     Call CLI.Append(" ")
     Call CLI.Append("/background " & """" & background & """ ")
     Call CLI.Append("/geneSet " & """" & geneSet & """ ")
     If Not cluster_id.StringEmpty Then
             Call CLI.Append("/cluster_id " & """" & cluster_id & """ ")
+    End If
+    If Not format.StringEmpty Then
+            Call CLI.Append("/format " & """" & format & """ ")
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
@@ -121,6 +128,27 @@ Public Function IDconverts(uniprot As String, geneSet As String, Optional out As
     Call CLI.Append(" ")
     Call CLI.Append("/uniprot " & """" & uniprot & """ ")
     Call CLI.Append("/geneSet " & """" & geneSet & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /kegg.metabolites.background /in &lt;organism.repository_directory> [/out &lt;background_model.Xml>]
+''' ```
+''' Create background model for KEGG pathway enrichment based on the kegg metabolites, used for LC-MS metabolism data analysis.
+''' </summary>
+'''
+Public Function MetaboliteBackground([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/kegg.metabolites.background")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If

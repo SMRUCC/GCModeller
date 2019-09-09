@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3a62365916b5103fee1499ffe86c10f, RDotNET.Extensions.VisualBasic\API\base\seq.vb"
+﻿#Region "Microsoft.VisualBasic::9aea69bd6efcd61aeb6f8ee5f8e13fd9, RDotNET.Extensions.VisualBasic\API\base\seq.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module base
     ' 
-    '         Function: seq
+    '         Function: seq, unique
     ' 
     ' 
     ' /********************************************************************************/
