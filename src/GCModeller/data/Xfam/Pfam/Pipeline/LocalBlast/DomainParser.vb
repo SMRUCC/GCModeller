@@ -83,7 +83,7 @@ Public Module DomainParser
                                                          Select model.Location).ToArray
                              Let ChunkBuffer = (From loci As Location
                                                 In Loci_API.Group(ddLoci, lenOffset)
-                                                Select New DomainModel(sId, location:=loci)).ToArray
+                                                Select New DomainModel(sId, Location:=loci)).ToArray
                              Select ChunkBuffer).IteratesALL.OrderBy(Function(x) x.start).ToArray
         Dim Domains As DomainModel() = doGroupingAndTrimOverlap(ParsedDomains, lenOffset)
         Domains = trimOverlaps(Domains, 5) ', evalues)

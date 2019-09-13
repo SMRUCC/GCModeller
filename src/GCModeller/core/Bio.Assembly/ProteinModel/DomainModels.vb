@@ -76,9 +76,9 @@ Namespace ProteinModel
             End Set
         End Property
 
-        Sub New(domainId As String, location As Location)
+        Sub New(domainId As String, Location As Location)
             Me.DomainId = domainId
-            Me.Location = location
+            Me.Location = Location
         End Sub
 
         Sub New()

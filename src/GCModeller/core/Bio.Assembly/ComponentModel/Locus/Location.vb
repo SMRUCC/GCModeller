@@ -72,7 +72,7 @@ Namespace ComponentModel.Loci
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Left As Integer Implements ILocationComponent.left, IKeyValuePairObject(Of Integer, Integer).Key
+        <XmlAttribute> Public Property left As Integer Implements ILocationComponent.left, IKeyValuePairObject(Of Integer, Integer).Key
             Get
                 Return MyBase.Min
             End Get
@@ -87,7 +87,7 @@ Namespace ComponentModel.Loci
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Right As Integer Implements ILocationComponent.right, IKeyValuePairObject(Of Integer, Integer).Value
+        <XmlAttribute> Public Property right As Integer Implements ILocationComponent.right, IKeyValuePairObject(Of Integer, Integer).Value
             Get
                 Return MyBase.Max
             End Get
@@ -99,14 +99,15 @@ Namespace ComponentModel.Loci
         Sub New()
         End Sub
 
-        Sub New(Left As Integer, Right As Integer)
-            Me.Left = Left
-            Me.Right = Right
+        Sub New(left As Integer, right As Integer)
+            Me.left = left
+            Me.right = right
+
             Call Normalization()
         End Sub
 
         Sub New(loci As Location)
-            Call Me.New(loci.Left, loci.Right)
+            Call Me.New(loci.left, loci.right)
         End Sub
 
         Sub New(base As IntRange)
@@ -121,7 +122,7 @@ Namespace ComponentModel.Loci
         ''' <remarks></remarks>
         Public ReadOnly Property IsNormalized As Boolean
             Get
-                Return Left <= Right
+                Return left <= right
             End Get
         End Property
 
@@ -130,7 +131,7 @@ Namespace ComponentModel.Loci
         ''' </summary>
         ''' <remarks></remarks>
         Public Function Normalization() As Location
-            If Left > Right Then
+            If left > right Then
                 Call Min.SwapWith(Max)
             End If
             Return Me
@@ -165,7 +166,7 @@ Namespace ComponentModel.Loci
             ' >>> overlap(0, 100, 0, 20)
             ' 20
 
-            Return Math.Max(0, Math.Min(Me.Right, loci.Right) - Math.Max(Me.Left, loci.Right))
+            Return Math.Max(0, Math.Min(Me.right, loci.right) - Math.Max(Me.left, loci.right))
         End Function
 
         ''' <summary>
@@ -195,7 +196,7 @@ Namespace ComponentModel.Loci
             If a Is Nothing OrElse b Is Nothing Then
                 Return False
             End If
-            Return (a.Left = b.Left AndAlso a.Right = b.Right)
+            Return (a.left = b.left AndAlso a.right = b.right)
         End Operator
 
         ''' <summary>
@@ -205,12 +206,12 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function InsideOrOverlapWith(b As Location) As Boolean
-            If b.Left >= Left AndAlso b.Right <= Right Then
+            If b.left >= left AndAlso b.right <= right Then
                 ' b在当前的对象之中
                 Return True
             End If
 
-            Return IsInside(b.Left) OrElse IsInside(b.Right)
+            Return IsInside(b.left) OrElse IsInside(b.right)
         End Function
 
         ''' <summary>
@@ -219,11 +220,11 @@ Namespace ComponentModel.Loci
         ''' <param name="loci"></param>
         ''' <returns></returns>
         Public Function Inside(loci As Location, offSet As Integer) As Boolean
-            If IsInside(loci.Left) AndAlso IsInside(loci.Right) Then
+            If IsInside(loci.left) AndAlso IsInside(loci.right) Then
                 Return True
             Else
                 For i As Integer = 1 To offSet
-                    If IsInside(loci.Left + i) AndAlso IsInside(loci.Right - i) Then
+                    If IsInside(loci.left + i) AndAlso IsInside(loci.right - i) Then
                         Return True
                     End If
                 Next
@@ -239,13 +240,13 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function InsideOrOverlapWith(b As Location, WithOffSet As Integer) As Boolean
-            If IsInside(b.Left) OrElse IsInside(b.Right) Then
+            If IsInside(b.left) OrElse IsInside(b.right) Then
                 ' at least is overlaps
                 Return True
             End If
 
             For i As Integer = 1 To WithOffSet
-                If IsInside(b.Left - i) OrElse IsInside(b.Right + i) Then
+                If IsInside(b.left - i) OrElse IsInside(b.right + i) Then
                     Return True
                 End If
             Next
@@ -255,7 +256,7 @@ Namespace ComponentModel.Loci
 
         Public ReadOnly Property Center As Integer
             Get
-                Return Left + (Right - Left) / 2
+                Return left + (right - left) / 2
             End Get
         End Property
 
@@ -267,7 +268,7 @@ Namespace ComponentModel.Loci
         ''' <remarks></remarks>
         Public ReadOnly Property FragmentSize As Integer
             Get
-                Return Math.Abs(Right - Left) + 1
+                Return Math.Abs(right - left) + 1
             End Get
         End Property
 
@@ -276,7 +277,7 @@ Namespace ComponentModel.Loci
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return String.Format("|{0} ==> {1}|", Left, Right)
+            Return String.Format("|{0} ==> {1}|", left, right)
         End Function
 
         Public Function Clone() As Location
@@ -291,7 +292,7 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         Public Shared Function CreateObject(strData As String, Delimiter As String) As Location
             Dim Tokens As String() = Strings.Split(strData, Delimiter)
-            Return New Location(Left:=CLng(Val(Tokens.First)), Right:=CLng(Val(Tokens.Last)))
+            Return New Location(left:=CLng(Val(Tokens.First)), right:=CLng(Val(Tokens.Last)))
         End Function
 
         Public Overloads Shared Widening Operator CType(loci As Integer()) As Location
@@ -311,7 +312,7 @@ Namespace ComponentModel.Loci
         ''' <param name="value"></param>
         ''' <returns></returns>
         Public Function OffSet(value As Integer) As Location
-            Return New Location(Left + value, Right + value)
+            Return New Location(left + value, right + value)
         End Function
     End Class
 End Namespace
