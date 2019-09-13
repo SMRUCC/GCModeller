@@ -63,7 +63,7 @@ Partial Module CLI
     Public Function ExportUltraLarge(args As CommandLine) As Integer
         Dim inFile As String = args <= "/in"
         Dim out As String = args("/out") Or (inFile.TrimSuffix & ".pfamString.csv")
-        Dim evalue As Double = args("/evalue") Or DomainParser.Evalue1En5
+        Dim evalue As Double = args("/evalue") Or Annotation.Evalue1En5
         Dim coverage As Double = args("/coverage") Or 0.85
         Dim offset As Double = args("/offset") Or 0.1
 

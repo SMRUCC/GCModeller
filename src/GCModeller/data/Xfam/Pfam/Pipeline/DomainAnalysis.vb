@@ -372,7 +372,7 @@ Public Module DomainAnalysis
             }
         End If
 
-        Dim Domains As DomainModel() = DomainParser.ParserRaw(
+        Dim Domains As DomainModel() = Annotation.ParserRaw(
             query,
             evalue:=evalue,
             coverage:=coverage,

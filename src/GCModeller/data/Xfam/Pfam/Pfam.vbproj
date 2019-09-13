@@ -215,7 +215,7 @@
     <Compile Include="Pipeline\LocalBlast\BlastOutputParser.vb" />
     <Compile Include="Pipeline\LocalBlast\PfamHit.vb" />
     <Compile Include="Pipeline\LocalBlast\NamespaceDoc.vb" />
-    <Compile Include="Pipeline\LocalBlast\DomainParser.vb" />
+    <Compile Include="Pipeline\LocalBlast\Annotation.vb" />
     <Compile Include="MPAlignment\Algorithm\DomainEquals.vb" />
     <Compile Include="MPAlignment\Algorithm\LevAlign.vb" />
     <Compile Include="MPAlignment\Components\BiDirectionalBesthit.vb" />
