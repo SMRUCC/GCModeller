@@ -49,6 +49,9 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Loci
 
@@ -57,14 +60,14 @@ Namespace PfamFastaComponentModels
     ''' <summary>
     ''' Pfam title model
     ''' </summary>
-    Public Class PfamEntryHeader
+    Public Class PfamEntryHeader : Implements INamedValue
 
         Friend Const P1 As Integer = 0
         Friend Const P2 As Integer = 1
         Friend Const P3 As Integer = 2
 
 #Region "p1"
-        Public Property UniqueId As String
+        Public Property UniqueId As String Implements IKeyedEntity(Of String).Key
 #End Region
 
 #Region "p2"
@@ -97,6 +100,7 @@ Namespace PfamFastaComponentModels
 
         Const NULL_ERROR As String = "NULL_ERROR"
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Shared Function internalCreateNull(Of T As {New, PfamEntryHeader})() As T
             Return New T() With {
                 .ChainId = NULL_ERROR,
@@ -107,6 +111,11 @@ Namespace PfamFastaComponentModels
                 .Uniprot = NULL_ERROR,
                 .UniqueId = NULL_ERROR
             }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ParseHeaderTitle(str As String) As PfamEntryHeader
+            Return ParseHeaderTitle(Of PfamEntryHeader)(str)
         End Function
 
         Public Shared Function ParseHeaderTitle(Of T As {New, PfamEntryHeader})(str As String) As T
