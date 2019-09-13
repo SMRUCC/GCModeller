@@ -45,7 +45,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.Database
 Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.ProteinModel
@@ -63,34 +62,16 @@ Public Module DomainParser
     ''' <param name="identities">暂时无用</param>
     ''' <param name="offset"></param>
     ''' <returns></returns>
-    Public Function Parser(query As BlastPlus.Query,
-                           Optional evalue As Double = Evalue1En5,
-                           Optional coverage As Double = 0.85,
-                           Optional identities As Double = 0.3,
-                           Optional offset As Double = 0.1) As DomainModel()
-
-        Dim LQuery = (From Hit As BlastPlus.SubjectHit
-                      In query.SubjectHits
-                      Where applyDomainFilter(Hit, evalue, coverage, identities)
-                      Select Pfam = PfamEntryHeader.ParseHeaderTitle(Hit.Name),
-                             Location = New Location(Hit.QueryLocation),
-                             Hit.Score.Expect
-                      Order By Location.left Ascending).ToArray   '
-
-        Dim lenOffset As Integer = offset * query.QueryLength
-        Dim ParsedDomains = (From sId As String
-                             In (From parsed In LQuery Select parsed.Pfam.CommonName Distinct)
-                             Let ddLoci As Location() = (From model In LQuery
-                                                         Where String.Equals(model.Pfam.CommonName, sId)
-                                                         Select model.Location).ToArray
-                             Let ChunkBuffer = (From loci As Location
-                                                In Loci_API.Group(ddLoci, lenOffset)
-                                                Select New DomainModel(sId, Location:=loci)).ToArray
-                             Select ChunkBuffer).IteratesALL.OrderBy(Function(x) x.start).ToArray
-        Dim Domains As DomainModel() = doGroupingAndTrimOverlap(ParsedDomains, lenOffset)
-        Domains = trimOverlaps(Domains, 5) ', evalues)
-
-        Return Domains
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function ParserRaw(query As BlastPlus.Query,
+                              Optional evalue As Double = Evalue1En5,
+                              Optional coverage As Double = 0.85,
+                              Optional identities As Double = 0.3,
+                              Optional offset As Double = 0.1) As NamedCollection(Of DomainModel)
+        Return query _
+            .ParseProteinQuery _
+            .AnnotatedFromHitsGroup(evalue, coverage, identities, offset)
     End Function
 
     ''' <summary>
@@ -98,6 +79,8 @@ Public Module DomainParser
     ''' </summary>
     ''' <param name="hits">query都是相同的蛋白序列</param>
     ''' <returns></returns>
+    ''' 
+    <Extension>
     Public Function AnnotatedFromHitsGroup(hits As IEnumerable(Of PfamHit),
                                            Optional evalue As Double = Evalue1En5,
                                            Optional coverage As Double = 0.85,
