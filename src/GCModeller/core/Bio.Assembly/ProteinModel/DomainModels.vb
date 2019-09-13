@@ -63,16 +63,16 @@ Namespace ProteinModel
             IMotifSite.name,
             IMotifSite.family,
             IMotifDomain.Id
-        Public Property Start As Integer
+        Public Property start As Integer
         Public Property [End] As Integer
 
         Private Property Location As Location Implements IKeyValuePairObject(Of String, Location).Value, IMotifSite.site, IMotifDomain.location
             Get
-                Return New Location(Start, [End])
+                Return New Location(start, [End])
             End Get
             Set(value As Location)
                 If Not value Is Nothing Then
-                    Start = value.Left
+                    start = value.Left
                     [End] = value.Right
                 End If
             End Set

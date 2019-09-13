@@ -377,13 +377,14 @@ Public Module DomainAnalysis
             evalue:=evalue,
             coverage:=coverage,
             identities:=identities,
-            offset:=offset)
+            offset:=offset
+        )
         Dim Protein As New PfamString.PfamString With {
             .ProteinId = locusId,
             .Description = Description,
             .Length = query.QueryLength,
             .Domains = (From d In Domains Select $"{d.DomainId}:{d.DomainId}" Distinct).ToArray,
-            .PfamString = Domains.Select(Function(x) $"{x.DomainId}({x.Start}|{x.End})").Distinct.ToArray
+            .PfamString = Domains.Select(Function(x) $"{x.DomainId}({x.start}|{x.End})").Distinct.ToArray
         }
         Return Protein
     End Function

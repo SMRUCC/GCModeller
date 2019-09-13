@@ -168,7 +168,7 @@ Namespace Assembly.Uniprot.XML
                 .Select(Function(f)
                             Return New DomainModel With {
                                 .DomainId = f.description,
-                                .Start = f.location.begin.position,
+                                .start = f.location.begin.position,
                                 .End = f.location.end.position
                             }
                         End Function) _
