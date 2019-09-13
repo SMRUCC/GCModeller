@@ -58,8 +58,8 @@ Namespace PfamFastaComponentModels
         Implements IPolymerSequenceModel
         Implements IAbstractFastaToken
 
-        Public Property Location As Location
         Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
+
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.title
             Get
                 Return String.Format("{0}/{1}-{2} {3}.{4} {5}.{6};{7};", UniqueId, Location.Left, Location.Right, Uniprot, ChainId, PfamId, PfamIdAsub, PfamCommonName)
@@ -69,7 +69,7 @@ Namespace PfamFastaComponentModels
         Public Property Headers As String() Implements IAbstractFastaToken.headers
 
         Public Shared Function CreateObject(FastaObject As FastaSeq) As PfamFasta
-            Dim FastaData = ParseHeadTitle(FastaObject.Title)
+            Dim FastaData = ParseHeaderTitle(Of PfamFasta)(FastaObject.Title)
             FastaData.SequenceData = FastaObject.SequenceData
             Return FastaData
         End Function
@@ -86,7 +86,7 @@ Namespace PfamFastaComponentModels
             Dim s As String = Regex.Match(strValue, REGEX_PFAM_ENTRY, RegexOptions.IgnoreCase).Value
             If String.IsNullOrEmpty(s) Then
                 Call $"NULL_ERROR: {strValue}   @{MethodBase.GetCurrentMethod.Name}".__DEBUG_ECHO
-                Return internalCreateNULL
+                Return internalCreateNull(Of PfamFasta)()
             End If
 
             Dim Tokens As String() = Strings.Split(s, ";")

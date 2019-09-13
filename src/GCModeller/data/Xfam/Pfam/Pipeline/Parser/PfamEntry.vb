@@ -49,6 +49,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace PfamFastaComponentModels
@@ -77,6 +78,8 @@ Namespace PfamFastaComponentModels
         Public Property PfamCommonName As String
 #End Region
 
+        Public Property location As Location
+
         Public Function ShadowCopy(Of T As PfamEntryHeader)() As T
             Dim PfamObject As T = Activator.CreateInstance(Of T)()
 
@@ -94,57 +97,55 @@ Namespace PfamFastaComponentModels
 
         Const NULL_ERROR As String = "NULL_ERROR"
 
-        Protected Shared ReadOnly Property internalCreateNULL As PfamFasta
-            Get
-                Return New PfamFasta With {
-                    .ChainId = NULL_ERROR,
-                    .Location = New Location(0, 0),
-                    .PfamCommonName = NULL_ERROR,
-                    .PfamId = NULL_ERROR,
-                    .PfamIdAsub = NULL_ERROR,
-                    .SequenceData = NULL_ERROR,
-                    .Uniprot = NULL_ERROR,
-                    .UniqueId = NULL_ERROR
-                }
-            End Get
-        End Property
+        Protected Shared Function internalCreateNull(Of T As {New, PfamEntryHeader})() As T
+            Return New T() With {
+                .ChainId = NULL_ERROR,
+                .location = New Location(0, 0),
+                .PfamCommonName = NULL_ERROR,
+                .PfamId = NULL_ERROR,
+                .PfamIdAsub = NULL_ERROR,
+                .Uniprot = NULL_ERROR,
+                .UniqueId = NULL_ERROR
+            }
+        End Function
 
-        Public Shared Function ParseHeadTitle(strValue As String) As PfamFasta
-            Dim DataToken As String() = strValue.Split
+        Public Shared Function ParseHeaderTitle(Of T As {New, PfamEntryHeader})(str As String) As T
+            Dim tokens As String() = str.Split
 
-            If DataToken.IsNullOrEmpty OrElse
-                DataToken.TryCount = 0 OrElse
-                DataToken.Length < 2 Then
+            If tokens.IsNullOrEmpty OrElse
+                tokens.TryCount = 0 OrElse
+                tokens.Length < 2 Then
 
-                Call $"NULL title tokens!!!  ----->   ""{strValue}""".__DEBUG_ECHO
-                Return internalCreateNULL
+                Call $"NULL title tokens!!!  ----->   ""{str}""".__DEBUG_ECHO
+
+                Return internalCreateNull(Of T)()
             Else
-                Return __createObject(DataToken)
+                Return tokens.DoCall(AddressOf createObjectInternal(Of T))
             End If
         End Function
 
-        Private Shared Function __createObject(data As String()) As PfamFasta
-            Dim PfamFasta As PfamFasta = New PfamFasta
+        Private Shared Function createObjectInternal(Of T As {New, PfamEntryHeader})(data As String()) As T
+            Dim headers As New T
 
             Dim P1 As String = data(PfamEntryHeader.P1)
             Dim P2 As String = data(PfamEntryHeader.P2)
             Dim P3 As String = data(PfamEntryHeader.P3)
 
             data = P1.Split(CChar("/"))
-            PfamFasta.UniqueId = data.First
-            PfamFasta.Location = ComponentModel.Loci.Location.CreateObject(data.Last, "-")
+            headers.UniqueId = data.First
+            headers.location = Location.CreateObject(data.Last, "-")
 
             data = P2.Split(CChar("."))
-            PfamFasta.Uniprot = data.First
-            PfamFasta.ChainId = data.Last
+            headers.Uniprot = data.First
+            headers.ChainId = data.Last
 
             data = P3.Split(CChar(";"))
-            PfamFasta.PfamCommonName = data(1)
+            headers.PfamCommonName = data(1)
             data = data.First.Split(CChar("."))
-            PfamFasta.PfamId = data.First
-            PfamFasta.PfamIdAsub = data.Last
+            headers.PfamId = data.First
+            headers.PfamIdAsub = data.Last
 
-            Return PfamFasta
+            Return headers
         End Function
     End Class
 End Namespace
