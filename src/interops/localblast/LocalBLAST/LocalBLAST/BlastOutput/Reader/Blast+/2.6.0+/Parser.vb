@@ -160,7 +160,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 encoding = Encoding.Default
             End If
 
-            Using p As CBusyIndicator = New CBusyIndicator(_start:=True)
+            Using p As New CBusyIndicator(start:=True)
                 Dim source As String = IO.File.ReadAllText(path, encoding)
 
                 If IsBlastn(source) Then
@@ -519,7 +519,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
             If Encoding Is Nothing Then Encoding = Encoding.UTF8    ' The default text encoding of the blast log is utf8
 
-            Using busy As New CBusyIndicator(_start:=True)
+            Using busy As New CBusyIndicator(start:=True)
                 Return __tryParseUltraLarge(path, CHUNK_SIZE, Encoding)
             End Using
         End Function

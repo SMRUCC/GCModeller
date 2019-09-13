@@ -68,7 +68,7 @@ Public Module DownloaderWebAPI
     <ExportAPI("genbank.batch_download",
                Info:="This command required the bioperl package installed on your computer!")>
     Public Function DownloadGBK(list As IEnumerable(Of String), EXPORT As String, num_threads As Integer) As Integer
-        Using pb As New CBusyIndicator(_start:=True)
+        Using pb As New CBusyIndicator(start:=True)
             Dim downloads As New __genbankDownloadHelper With {.EXPORT = EXPORT}
             Dim tasks As Action() = list.Select(AddressOf downloads.Download).ToArray
             Return tasks.Invoke(numOfThreads:=num_threads)

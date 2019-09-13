@@ -97,7 +97,7 @@ Namespace ExportServices
 
         <ExportAPI("KEGGs.Load")>
         Public Function LoadReactions(repository As String) As bGetObject.Reaction()
-            Using cbar As New CBusyIndicator(_start:=True)
+            Using cbar As New CBusyIndicator(start:=True)
                 Call Console.WriteLine("Loading KEGG reaction models from the repository:  ")
                 Call Console.WriteLine(repository)
 
