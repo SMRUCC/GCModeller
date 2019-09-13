@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.Database
 Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.ProteinModel
@@ -67,10 +68,10 @@ Namespace Pipeline.LocalBlast
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ParserRaw(query As BlastPlus.Query,
-                              Optional evalue As Double = Evalue1En5,
-                              Optional coverage As Double = 0.85,
-                              Optional identities As Double = 0.3,
-                              Optional offset As Double = 0.1) As NamedCollection(Of DomainModel)
+                                  Optional evalue As Double = Evalue1En5,
+                                  Optional coverage As Double = 0.85,
+                                  Optional identities As Double = 0.3,
+                                  Optional offset As Double = 0.1) As NamedCollection(Of DomainModel)
             Return query _
                 .ParseProteinQuery _
                 .AnnotatedFromHitsGroup(evalue, coverage, identities, offset)
@@ -84,10 +85,10 @@ Namespace Pipeline.LocalBlast
         ''' 
         <Extension>
         Public Function AnnotatedFromHitsGroup(hits As IEnumerable(Of PfamHit),
-                                           Optional evalue As Double = Evalue1En5,
-                                           Optional coverage As Double = 0.85,
-                                           Optional identities As Double = 0.3,
-                                           Optional offset As Double = 0.1) As NamedCollection(Of DomainModel)
+                                               Optional evalue As Double = Evalue1En5,
+                                               Optional coverage As Double = 0.85,
+                                               Optional identities As Double = 0.3,
+                                               Optional offset As Double = 0.1) As NamedCollection(Of DomainModel)
 
             Dim hitsArray As PfamHit() = hits _
                 .Where(Function(hit) hit.applyDomainFilter(evalue, coverage, identities)) _
@@ -109,25 +110,8 @@ Namespace Pipeline.LocalBlast
                          End Function) _
                 .ToArray
             Dim lenOffset As Integer = offset * queryLength
-            Dim parseDomains = Iterator Function() As IEnumerable(Of DomainModel)
-                                   For Each domain In hitsGroup
-                                       ' 因为相同的编号的结构与可能在蛋白序列上存在多个重复
-                                       ' 所以会需要在这里按照位点合并分组
-                                       Dim locations As Location() = domain _
-                                          .Select(Function(hit)
-                                                      Return New Location(hit.hit.start, hit.hit.ends)
-                                                  End Function) _
-                                          .DoCall(Function(locis)
-                                                      Return Loci_API.Group(locis, lenOffset)
-                                                  End Function)
-
-                                       For Each loci As Location In locations
-                                           Yield New DomainModel(domain.Key, loci)
-                                       Next
-                                   Next
-                               End Function
-
-            Dim domains As DomainModel() = parseDomains() _
+            Dim domains As DomainModel() = hitsGroup _
+                .parseDomains(lenOffset) _
                 .doGroupingAndTrimOverlap(lenOffset) _
                 .trimOverlaps(5) _
                 .ToArray
@@ -140,6 +124,38 @@ Namespace Pipeline.LocalBlast
             Return annotation
         End Function
 
+        <Extension>
+        Private Iterator Function parseDomains(hitsGroup As IGrouping(Of String, (hit As PfamHit, pfam As PfamEntryHeader))(), lenOffset%) As IEnumerable(Of DomainModel)
+            For Each domain In hitsGroup
+                ' 因为相同的编号的结构与可能在蛋白序列上存在多个重复
+                ' 所以会需要在这里按照位点合并分组
+                Dim locations As Location() = domain _
+                   .Select(Function(hit)
+                               Return New Location(hit.hit.start, hit.hit.ends)
+                           End Function) _
+                   .DoCall(Function(locis)
+                               Return Loci_API.Group(locis, lenOffset)
+                           End Function)
+
+                For Each loci As Location In locations
+                    Yield New DomainModel(domain.Key, loci)
+                Next
+            Next
+        End Function
+
+        <Extension>
+        Private Function getOverlaps(domainHits As IEnumerable(Of DomainModel), loci As Location, lenOffset%) As DomainModel()
+            Return LinqAPI.Exec(Of DomainModel) <=
+ _
+                From x As DomainModel
+                In domainHits
+                Let location As Location = DirectCast(x, IMotifSite).site
+                Where loci.Inside(location, lenOffset) OrElse location.Inside(loci, lenOffset)
+                Select x
+                Order By DirectCast(x, IMotifSite).site.FragmentSize Descending
+
+        End Function
+
         ''' <summary>
         ''' 按照长度值将重叠的结构域清除掉，只留下大的结构域，因为在这之前都是经过阈值筛选了的，所以都是满足条件了的，
         ''' 这里只选择比较大的结构域，但是这样子会有什么问题么？有重叠的时候在KEGG上面是首先显示出比较大的结构域的
@@ -150,33 +166,27 @@ Namespace Pipeline.LocalBlast
         <Extension>
         Private Iterator Function trimOverlaps(domains As DomainModel(), lenOffset As Integer) As IEnumerable(Of DomainModel)
             Dim domainHits As List(Of DomainModel) = domains.AsList
+            Dim clean As DomainModel
 
             Do While domainHits > 0
                 Dim domain As DomainModel = domainHits.First
                 Dim loci As Location = DirectCast(domain, IMotifSite).site
-                Dim overlaps As DomainModel() = LinqAPI.Exec(Of DomainModel) <=
- _
-                From x As DomainModel
-                In domainHits
-                Let location As Location = DirectCast(x, IMotifSite).site
-                Where loci.Inside(location, lenOffset) OrElse
-                    location.Inside(loci, lenOffset)
-                Select x
-                Order By DirectCast(x, IMotifSite).site.FragmentSize Descending
+                Dim overlaps As DomainModel() = domainHits.getOverlaps(loci, lenOffset)
 
                 If overlaps.Length <= 1 Then
                     ' 这个结构域没有任何重叠
-                    Call domainHits.Remove(domain)
-
-                    Yield domain
+                    domainHits -= domain
+                    clean = domain
                 Else
                     ' 当具有重叠的话，将evalue最小的结构域留下来
-                    Yield overlaps.First
+                    clean = overlaps.First
 
-                    For Each x In overlaps
+                    For Each x As DomainModel In overlaps
                         Call domainHits.Remove(x)
                     Next
                 End If
+
+                Yield clean
             Loop
         End Function
 
