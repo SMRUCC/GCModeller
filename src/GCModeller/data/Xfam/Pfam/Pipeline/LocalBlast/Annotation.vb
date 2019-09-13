@@ -113,6 +113,7 @@ Namespace Pipeline.LocalBlast
             Dim domains As DomainModel() = hitsGroup _
                 .parseDomains(lenOffset) _
                 .doGroupingAndTrimOverlap(lenOffset) _
+                .IteratesALL _
                 .trimOverlaps(5) _
                 .ToArray
             Dim annotation As New NamedCollection(Of DomainModel) With {
@@ -164,7 +165,7 @@ Namespace Pipeline.LocalBlast
         ''' <returns></returns>
         ''' 
         <Extension>
-        Private Iterator Function trimOverlaps(domains As DomainModel(), lenOffset As Integer) As IEnumerable(Of DomainModel)
+        Private Iterator Function trimOverlaps(domains As IEnumerable(Of DomainModel), lenOffset As Integer) As IEnumerable(Of DomainModel)
             Dim domainHits As List(Of DomainModel) = domains.AsList
             Dim clean As DomainModel
 
@@ -220,22 +221,29 @@ Namespace Pipeline.LocalBlast
         ''' <returns></returns>
         ''' 
         <Extension>
-        Private Function doGroupingAndTrimOverlap(source As IEnumerable(Of DomainModel), lenOffset As Integer) As DomainModel()
-            Dim Group = (From domainLDM As IGrouping(Of String, DomainModel)
-                         In source.GroupBy(Function(x As ProteinModel.DomainModel) x.DomainId)
-                         Let locations As DomainModel() = domainLDM.OrderBy(Function(n) DirectCast(n, IMotifSite).site.left).ToArray
-                         Select DomainId = domainLDM.Key, locations).ToArray
-            Dim ClearOverlap = (From lstDomain In Group
-                                Let segments As Location() =
-                                lstDomain.locations.Select(Function(loci) DirectCast(loci, IMotifSite).site).ToArray
-                                Select lstDomain.DomainId, CleanLocations = FragmentAssembly(segments, lenOffset)).ToArray
-            Dim domains As DomainModel() =
-                LinqAPI.Exec(Of DomainModel) <= From x
-                                                In ClearOverlap
-                                                Let merge As DomainModel() =
-                                                    x.CleanLocations.Select(Function(n) New DomainModel(x.DomainId, n)).ToArray
-                                                Select merge
-            Return domains
+        Private Iterator Function doGroupingAndTrimOverlap(source As IEnumerable(Of DomainModel), lenOffset As Integer) As IEnumerable(Of DomainModel())
+            Dim group = (From domain As IGrouping(Of String, DomainModel)
+                         In source.GroupBy(Function(d) d.DomainId)
+                         Let locations As DomainModel() = domain _
+                             .OrderBy(Function(n) DirectCast(n, IMotifSite).site.left) _
+                             .ToArray
+                         Select DomainId = domain.Key, locations).ToArray
+            Dim clearOverlap = (From list
+                                In group
+                                Let segments As Location() = list.locations _
+                                    .Select(Function(loci) DirectCast(loci, IMotifSite).site) _
+                                    .ToArray
+                                Select list.DomainId,
+                                    cleanLocations = segments.FragmentAssembly(lenOffset)).ToArray
+            Dim result As DomainModel()
+
+            For Each clear In clearOverlap
+                result = clear.cleanLocations _
+                    .Select(Function(n) New DomainModel(clear.DomainId, n)) _
+                    .ToArray
+
+                Yield result
+            Next
         End Function
     End Module
 End Namespace
