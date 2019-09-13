@@ -110,7 +110,7 @@ Namespace PfamString
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function get_ChouFasmanData() As DomainObject()
+        Public Function GetChouFasmanData() As DomainObject()
             Dim ChunkBuffer = (From strData As String
                                In PfamString
                                Let DomainData = getDomainTrace(strData, 1)
