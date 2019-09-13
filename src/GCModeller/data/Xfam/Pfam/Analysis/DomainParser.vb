@@ -75,7 +75,7 @@ Public Module DomainParser
 
         Dim lenOffset As Integer = offset * queryIteration.QueryLength
         Dim ParsedDomains = (From sId As String
-                             In (From parsedLDM In LQuery Select parsedLDM.Pfam.PfamCommonName Distinct).ToArray
+                             In (From parsed In LQuery Select parsed.Pfam.PfamCommonName Distinct)
                              Let ddLoci As Location() = (From parsedLDM In LQuery
                                                          Where String.Equals(parsedLDM.Pfam.PfamCommonName, sId)
                                                          Select parsedLDM.Location).ToArray
