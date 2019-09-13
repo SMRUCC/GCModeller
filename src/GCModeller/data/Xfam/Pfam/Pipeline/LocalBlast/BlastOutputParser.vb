@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 
 Namespace Pipeline.LocalBlast
 
@@ -19,31 +20,40 @@ Namespace Pipeline.LocalBlast
         <Extension>
         Public Iterator Function ParseDomainQuery(query As Query) As IEnumerable(Of PfamHit)
             Dim pfamHit$ = query.QueryName
+            ' 因为比对的方向是pfam vs protein
+            ' 所以subject location是pfam在目标蛋白序列上的位置
+            Dim location As Location
+            Dim score As Score
 
             For Each hit As SubjectHit In query.SubjectHits.SafeQuery
                 Dim queryName = hit.Name.GetTagValue(, trim:=True)
                 Dim queryId = queryName.Name
                 Dim queryDescribe = queryName.Value
-                ' 因为比对的方向是pfam vs protein
-                ' 所以subject location是pfam在目标蛋白序列上的位置
-                Dim location As Location = hit.SubjectLocation
 
-                Yield New PfamHit With {
-                    .description = queryDescribe,
-                    .HitName = pfamHit,
-                    .QueryName = queryId,
-                    .query_length = hit.Length,
-                    .hit_length = query.QueryLength,
-                    .length_hit = hit.LengthQuery,
-                    .length_query = hit.LengthHit,
-                    .length_hsp = hit.Score.Gaps.Denominator,
-                    .evalue = hit.Score.Expect,
-                    .identities = hit.Score.Identities,
-                    .positive = hit.Score.Positives,
-                    .score = hit.Score.Score,
-                    .start = location.left,
-                    .ends = location.right
-                }
+                For Each fragment As FragmentHit In DirectCast(hit, BlastpSubjectHit).FragmentHits
+                    score = fragment.Score
+                    location = New Location(
+                        fragment.Hsp.Select(Function(hsp) hsp.Subject.Left).Min,
+                        fragment.Hsp.Select(Function(hsp) hsp.Subject.Right).Max
+                    )
+
+                    Yield New PfamHit With {
+                        .description = queryDescribe,
+                        .HitName = pfamHit,
+                        .QueryName = queryId,
+                        .query_length = hit.Length,
+                        .hit_length = query.QueryLength,
+                        .length_hit = fragment.LengthQuery,
+                        .length_query = fragment.LengthHit,
+                        .length_hsp = score.Gaps.Denominator,
+                        .evalue = score.Expect,
+                        .identities = score.Identities,
+                        .positive = score.Positives,
+                        .score = score.Score,
+                        .start = location.left,
+                        .ends = location.right
+                    }
+                Next
             Next
         End Function
 

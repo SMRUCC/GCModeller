@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::e3ec773ce0ece452b12f8fc15dd64d02, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\SubjectHit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class SubjectHit
-    ' 
-    '         Properties: Hsp, Length, LengthHit, LengthQuery, Name
-    '                     QueryLocation, Score, SubjectLocation
-    ' 
-    '         Function: GetItems, ParseHitSegments, ToString, TryParse
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class SubjectHit
+' 
+'         Properties: Hsp, Length, LengthHit, LengthQuery, Name
+'                     QueryLocation, Score, SubjectLocation
+' 
+'         Function: GetItems, ParseHitSegments, ToString, TryParse
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
@@ -93,32 +94,51 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' </summary>
         ''' <returns></returns>
         Public Overridable ReadOnly Property LengthHit As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Dim LQuery As IEnumerable(Of Integer) =
-                    LinqAPI.Exec(Of Integer) <= From Segment As HitSegment
-                                                In Hsp
-                                                Select From ch As Char
-                                                       In Segment.Query.SequenceData
-                                                       Where ch = "-"c
-                                                       Select 1
-                Dim value As Integer = LQuery.Sum
-                Return Score.Gaps.Denominator - value  ' 减去插入的空格就是比对上的长度了
+                Return GetLengthHit(Hsp, Score)
             End Get
         End Property
 
         Public Overridable ReadOnly Property LengthQuery As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Dim LQuery As Integer() =
-                    LinqAPI.Exec(Of Integer) <= From Segment As HitSegment
-                                                In Hsp
-                                                Select From ch As Char
-                                                       In Segment.Subject.SequenceData
-                                                       Where ch = "-"c
-                                                       Select 1
-                Dim value As Integer = LQuery.Sum
-                Return Score.Gaps.Denominator - value
+                Return GetLengthQuery(Hsp, Score)
             End Get
         End Property
+
+        Public Shared Function GetLengthQuery(hsp As HitSegment(), score As Score) As Integer
+            Dim LQuery = LinqAPI.Exec(Of Integer)() _
+ _
+                <= From Segment As HitSegment
+                   In hsp
+                   Select From ch As Char
+                          In Segment.Subject.SequenceData
+                          Where ch = "-"c
+                          Select 1
+
+            Dim value As Integer = LQuery.Sum
+            Dim lengthQuery = score.Gaps.Denominator - value
+
+            Return lengthQuery
+        End Function
+
+        Public Shared Function GetLengthHit(hsp As HitSegment(), score As Score) As Integer
+            Dim LQuery = LinqAPI.Exec(Of Integer)() _
+ _
+                <= From Segment As HitSegment
+                   In hsp
+                   Select From ch As Char
+                          In Segment.Query.SequenceData
+                          Where ch = "-"c
+                          Select 1
+
+            Dim value As Integer = LQuery.Sum
+            ' 减去插入的空格就是比对上的长度了
+            Dim lengthHit As Integer = score.Gaps.Denominator - value
+
+            Return lengthHit
+        End Function
 
         Public Overrides Function ToString() As String
             Return String.Format("Name: {0}, Length: {1}", Name, Length)

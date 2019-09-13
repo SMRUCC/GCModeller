@@ -111,6 +111,24 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <returns></returns>
         Public Property Hsp As HitSegment()
 
+        ''' <summary>
+        ''' 高分区的hit片段的长度
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overridable ReadOnly Property LengthHit As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return SubjectHit.GetLengthHit(Hsp, Score)
+            End Get
+        End Property
+
+        Public Overridable ReadOnly Property LengthQuery As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return SubjectHit.GetLengthQuery(Hsp, Score)
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return HitName
         End Function
