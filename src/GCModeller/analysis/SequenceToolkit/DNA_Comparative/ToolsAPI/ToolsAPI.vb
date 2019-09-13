@@ -516,7 +516,7 @@ Public Module ToolsAPI
     ''' 
     <ExportAPI("delta_diff.partitioning_query", Info:="Please notice that the query parameter is sensitive to the character case.")>
     Public Function PartitioningSigmaCompareWith(source As IEnumerable(Of PartitioningData), query As String, EXPORT As String, Optional winSize As Integer = 1000) As Boolean
-        Using pb = New CBusyIndicator(_start:=True)
+        Using pb = New CBusyIndicator(start:=True)
             Dim MAT = (From nn In (From item In source Select item Group By item.PartitioningTag Into Group).ToArray
                        Select nn.PartitioningTag,
                            dict = nn.Group.ToDictionary(Function(item) item.GenomeID)) _
@@ -751,7 +751,7 @@ Public Module ToolsAPI
         Call Console.WriteLine("Creation job done!")
         Call Console.WriteLine("Start to create the sigma data collection...")
 
-        Using pb As New CBusyIndicator(_start:=True)
+        Using pb As New CBusyIndicator(start:=True)
             Dim LQuery = (From segment In Windows.AsParallel
                           Let x = New NucleotideModels.NucleicAcid(segment.Items)
                           Let y = New NucleotideModels.NucleicAcid(compare)
@@ -909,7 +909,7 @@ Public Module ToolsAPI
     Public Function SigmaCompareWith(query As String, sbjDIR As String, EXPORT As String, Optional windowsSize As Integer = 1000) As Boolean
         Call ("Start to load subject fasta data from " & sbjDIR).__DEBUG_ECHO
 
-        Using pb = New CBusyIndicator(_start:=True)
+        Using pb = New CBusyIndicator(start:=True)
             Return __sigmaCompareWith(query, sbjDIR, EXPORT, windowsSize)
         End Using
     End Function
@@ -1004,7 +1004,7 @@ Public Module ToolsAPI
     Public Function BatchCalculation2(source As String, EXPORT As String, Optional windowsSize As Integer = 1000) As Boolean
         Call Console.WriteLine("[DEBUG] start to load fasta data from " & source)
 
-        Using pb As New CBusyIndicator(_start:=True)
+        Using pb As New CBusyIndicator(start:=True)
             Dim FastaObjects = (From path As String
                                 In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel
                                 Select FastaSeq.Load(path)).ToArray
@@ -1056,7 +1056,7 @@ Public Module ToolsAPI
     Public Function BatchCalculation(source As String, EXPORT As String, Optional windowsSize As Integer = 1000) As Boolean
 
         Call Console.WriteLine("[DEBUG] start to load fasta data from " & source)
-        Dim pb As New CBusyIndicator(_start:=True)
+        Dim pb As New CBusyIndicator(start:=True)
         Dim FastaObjects = (From path As String In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel Select SMRUCC.genomics.SequenceModel.FASTA.FastaSeq.Load(path)).ToArray
 
         Call $"Fasta data load done!, start to calculates the sigma differences in window_size {windowsSize / 1000}KB....".__DEBUG_ECHO

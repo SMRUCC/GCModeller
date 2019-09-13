@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::b17c3c602f3a15969b916f46cf8a188b, CLI_tools\CLI\BBH\UniProtTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: ExportKOFromUniprot, getSuffix, proteinEXPORT, UniProtBBHMapTable, UniProtKOAssign
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: ExportKOFromUniprot, getSuffix, proteinEXPORT, UniProtBBHMapTable, UniProtKOAssign
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -250,17 +250,9 @@ Partial Module CLI
             out = args("/out") Or $"{[in].TrimSuffix}.KO.csv"
         End If
 
-        Dim skipHitNotFound As New NamedValue(Of Func(Of String, Boolean)) With {
-            .Name = "hit_name",
-            .Value = Function(colVal)
-                         ' 将所有的HITS_NOT_FOUND的行都跳过
-                         ' 这样子可以节省比较多的内存
-                         Return colVal = "HITS_NOT_FOUND"
-                     End Function
-        }
-        Dim queryVsUniprot As BestHit() = [in].LoadCsv(Of BestHit)(skipWhile:=skipHitNotFound).ToArray
+        Dim queryVsUniprot As BestHit() = [in].LoadCsv(Of BestHit)(skipWhile:=SkipHitNotFound).ToArray
         Dim uniprotVsquery As BestHit() = bbh _
-            .LoadCsv(Of BestHit)(skipWhile:=skipHitNotFound) _
+            .LoadCsv(Of BestHit)(skipWhile:=SkipHitNotFound) _
             .ToArray
 
         ' 在这里主要是完成对标题的解析操作
