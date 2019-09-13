@@ -226,7 +226,7 @@ Namespace Topologically
                           In size.Sequence
                           Select (From site As TSite
                                   In sites
-                                  Where site.MappingLocation.ContainSite(i)
+                                  Where site.MappingLocation.IsInside(i)
                                   Select 1).FirstOrDefault).ToArray
             Call Console.Write(".")
             Return LQuery
