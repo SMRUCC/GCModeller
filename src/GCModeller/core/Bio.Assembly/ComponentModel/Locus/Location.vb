@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::11f7c569d516ef8f53ddaf0f7846312c, Bio.Assembly\ComponentModel\Locus\Location.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Location
-    ' 
-    '         Properties: Center, Extension, FragmentSize, IsNormalized, Left
-    '                     Right
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    '         Function: Clone, ContainSite, CreateObject, Equals, GetOverlapSize
-    '                   Inside, (+2 Overloads) InsideOrOverlapWith, Normalization, OffSet, ToString
-    '         Operators: <>, =
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Location
+' 
+'         Properties: Center, Extension, FragmentSize, IsNormalized, Left
+'                     Right
+' 
+'         Constructor: (+4 Overloads) Sub New
+'         Function: Clone, ContainSite, CreateObject, Equals, GetOverlapSize
+'                   Inside, (+2 Overloads) InsideOrOverlapWith, Normalization, OffSet, ToString
+'         Operators: <>, =
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -206,10 +206,11 @@ Namespace ComponentModel.Loci
         ''' <remarks></remarks>
         Public Function InsideOrOverlapWith(b As Location) As Boolean
             If b.Left >= Left AndAlso b.Right <= Right Then
-                Return True         'b在当前的对象之中
+                ' b在当前的对象之中
+                Return True
             End If
 
-            Return ContainSite(b.Left) OrElse ContainSite(b.Right)
+            Return IsInside(b.Left) OrElse IsInside(b.Right)
         End Function
 
         ''' <summary>
@@ -218,13 +219,11 @@ Namespace ComponentModel.Loci
         ''' <param name="loci"></param>
         ''' <returns></returns>
         Public Function Inside(loci As Location, offSet As Integer) As Boolean
-            If ContainSite(loci.Left) AndAlso
-                ContainSite(loci.Right) Then
+            If IsInside(loci.Left) AndAlso IsInside(loci.Right) Then
                 Return True
             Else
                 For i As Integer = 1 To offSet
-                    If ContainSite(loci.Left + i) AndAlso
-                        ContainSite(loci.Right - i) Then
+                    If IsInside(loci.Left + i) AndAlso IsInside(loci.Right - i) Then
                         Return True
                     End If
                 Next
@@ -240,12 +239,13 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function InsideOrOverlapWith(b As Location, WithOffSet As Integer) As Boolean
-            If ContainSite(b.Left) OrElse ContainSite(b.Right) Then
-                Return True ' at least is overlaps
+            If IsInside(b.Left) OrElse IsInside(b.Right) Then
+                ' at least is overlaps
+                Return True
             End If
 
             For i As Integer = 1 To WithOffSet
-                If ContainSite(b.Left - i) OrElse ContainSite(b.Right + i) Then
+                If IsInside(b.Left - i) OrElse IsInside(b.Right + i) Then
                     Return True
                 End If
             Next
@@ -258,17 +258,6 @@ Namespace ComponentModel.Loci
                 Return Left + (Right - Left) / 2
             End Get
         End Property
-
-        ''' <summary>
-        ''' Is the target site is on this location region?(目标位点是否被包含在当前的位置区域之中)
-        ''' </summary>
-        ''' <param name="p">这个点是没有指定链的方向的</param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Function ContainSite(p As Integer) As Boolean
-            'Dim Loci = {Left, Right}
-            Return p >= Left AndAlso p <= Right
-        End Function
 
         ''' <summary>
         ''' The segment length of this location object.(目标序列片段区域的片段长度)

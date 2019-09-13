@@ -169,7 +169,7 @@ Namespace Assembly.Uniprot.XML
                             Return New DomainModel With {
                                 .DomainId = f.description,
                                 .start = f.location.begin.position,
-                                .End = f.location.end.position
+                                .ends = f.location.end.position
                             }
                         End Function) _
                 .ToArray

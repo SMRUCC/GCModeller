@@ -384,7 +384,7 @@ Public Module DomainAnalysis
             .Description = Description,
             .Length = query.QueryLength,
             .Domains = (From d In Domains Select $"{d.DomainId}:{d.DomainId}" Distinct).ToArray,
-            .PfamString = Domains.Select(Function(x) $"{x.DomainId}({x.start}|{x.End})").Distinct.ToArray
+            .PfamString = Domains.Select(Function(x) $"{x.DomainId}({x.start}|{x.ends})").Distinct.ToArray
         }
         Return Protein
     End Function
