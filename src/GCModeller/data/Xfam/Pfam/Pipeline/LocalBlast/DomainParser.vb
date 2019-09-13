@@ -43,6 +43,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.Database
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.ProteinModel
 
@@ -68,7 +69,7 @@ Public Module DomainParser
         Dim LQuery = (From Hit As BlastPlus.SubjectHit
                       In queryIteration.SubjectHits
                       Where applyDomainFilter(Hit, evalue, coverage, identities)
-                      Select Pfam = PfamFastaComponentModels.PfamFasta.ParseEntry(Hit.Name),
+                      Select Pfam = PfamFasta.ParseEntry(Hit.Name),
                              Location = New Location(Hit.QueryLocation),
                              Hit.Score.Expect
                       Order By Location.Left Ascending).ToArray   '
