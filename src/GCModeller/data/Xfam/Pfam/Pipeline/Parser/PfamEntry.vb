@@ -49,12 +49,14 @@
 
 #End Region
 
-Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace PfamFastaComponentModels
 
-    Public Class PfamCommon
-
+    ''' <summary>
+    ''' Pfam title model
+    ''' </summary>
+    Public Class PfamEntryHeader
 
         Friend Const P1 As Integer = 0
         Friend Const P2 As Integer = 1
@@ -75,7 +77,7 @@ Namespace PfamFastaComponentModels
         Public Property PfamCommonName As String
 #End Region
 
-        Public Function ShadowCopy(Of T As PfamCommon)() As T
+        Public Function ShadowCopy(Of T As PfamEntryHeader)() As T
             Dim PfamObject As T = Activator.CreateInstance(Of T)()
 
             With PfamObject
@@ -88,6 +90,61 @@ Namespace PfamFastaComponentModels
             End With
 
             Return PfamObject
+        End Function
+
+        Const NULL_ERROR As String = "NULL_ERROR"
+
+        Protected Shared ReadOnly Property internalCreateNULL As PfamFasta
+            Get
+                Return New PfamFasta With {
+                    .ChainId = NULL_ERROR,
+                    .Location = New Location(0, 0),
+                    .PfamCommonName = NULL_ERROR,
+                    .PfamId = NULL_ERROR,
+                    .PfamIdAsub = NULL_ERROR,
+                    .SequenceData = NULL_ERROR,
+                    .Uniprot = NULL_ERROR,
+                    .UniqueId = NULL_ERROR
+                }
+            End Get
+        End Property
+
+        Public Shared Function ParseHeadTitle(strValue As String) As PfamFasta
+            Dim DataToken As String() = strValue.Split
+
+            If DataToken.IsNullOrEmpty OrElse
+                DataToken.TryCount = 0 OrElse
+                DataToken.Length < 2 Then
+
+                Call $"NULL title tokens!!!  ----->   ""{strValue}""".__DEBUG_ECHO
+                Return internalCreateNULL
+            Else
+                Return __createObject(DataToken)
+            End If
+        End Function
+
+        Private Shared Function __createObject(data As String()) As PfamFasta
+            Dim PfamFasta As PfamFasta = New PfamFasta
+
+            Dim P1 As String = data(PfamEntryHeader.P1)
+            Dim P2 As String = data(PfamEntryHeader.P2)
+            Dim P3 As String = data(PfamEntryHeader.P3)
+
+            data = P1.Split(CChar("/"))
+            PfamFasta.UniqueId = data.First
+            PfamFasta.Location = ComponentModel.Loci.Location.CreateObject(data.Last, "-")
+
+            data = P2.Split(CChar("."))
+            PfamFasta.Uniprot = data.First
+            PfamFasta.ChainId = data.Last
+
+            data = P3.Split(CChar(";"))
+            PfamFasta.PfamCommonName = data(1)
+            data = data.First.Split(CChar("."))
+            PfamFasta.PfamId = data.First
+            PfamFasta.PfamIdAsub = data.Last
+
+            Return PfamFasta
         End Function
     End Class
 End Namespace

@@ -54,7 +54,7 @@ Namespace PfamFastaComponentModels
     ''' <summary>
     ''' 用于解析和表示pfam的fasta序列库中的蛋白结构域序列的数据模型
     ''' </summary>
-    Public Class PfamFasta : Inherits PfamCommon
+    Public Class PfamFasta : Inherits PfamEntryHeader
         Implements IPolymerSequenceModel
         Implements IAbstractFastaToken
 
@@ -74,22 +74,6 @@ Namespace PfamFastaComponentModels
             Return FastaData
         End Function
 
-        Const NULL_ERROR As String = "NULL_ERROR"
-
-        Public Shared Function ParseHeadTitle(strValue As String) As PfamFasta
-            Dim DataToken As String() = strValue.Split
-
-            If DataToken.IsNullOrEmpty OrElse
-                DataToken.TryCount = 0 OrElse
-                DataToken.Length < 2 Then
-
-                Call $"NULL title tokens!!!  ----->   ""{strValue}""".__DEBUG_ECHO
-                Return __internalCreateNULL
-            Else
-                Return __createObject(DataToken)
-            End If
-        End Function
-
         Const REGEX_PFAM_ENTRY As String = "PF(am)?\d+\.\d+;.+?;"
 
         ''' <summary>
@@ -102,7 +86,7 @@ Namespace PfamFastaComponentModels
             Dim s As String = Regex.Match(strValue, REGEX_PFAM_ENTRY, RegexOptions.IgnoreCase).Value
             If String.IsNullOrEmpty(s) Then
                 Call $"NULL_ERROR: {strValue}   @{MethodBase.GetCurrentMethod.Name}".__DEBUG_ECHO
-                Return __internalCreateNULL
+                Return internalCreateNULL
             End If
 
             Dim Tokens As String() = Strings.Split(s, ";")
@@ -110,45 +94,6 @@ Namespace PfamFastaComponentModels
                 .PfamId = Tokens(0).Split("."c).First,
                 .PfamCommonName = Tokens(1)
             }
-        End Function
-
-        Private Shared ReadOnly Property __internalCreateNULL As PfamFasta
-            Get
-                Return New PfamFasta With {
-                    .ChainId = NULL_ERROR,
-                    .Location = New Location(0, 0),
-                    .PfamCommonName = NULL_ERROR,
-                    .PfamId = NULL_ERROR,
-                    .PfamIdAsub = NULL_ERROR,
-                    .SequenceData = NULL_ERROR,
-                    .Uniprot = NULL_ERROR,
-                    .UniqueId = NULL_ERROR
-                }
-            End Get
-        End Property
-
-        Private Shared Function __createObject(data As String()) As PfamFasta
-            Dim PfamFasta As PfamFasta = New PfamFasta
-
-            Dim P1 As String = data(PfamCommon.P1)
-            Dim P2 As String = data(PfamCommon.P2)
-            Dim P3 As String = data(PfamCommon.P3)
-
-            data = P1.Split(CChar("/"))
-            PfamFasta.UniqueId = data.First
-            PfamFasta.Location = ComponentModel.Loci.Location.CreateObject(data.Last, "-")
-
-            data = P2.Split(CChar("."))
-            PfamFasta.Uniprot = data.First
-            PfamFasta.ChainId = data.Last
-
-            data = P3.Split(CChar(";"))
-            PfamFasta.PfamCommonName = data(1)
-            data = data.First.Split(CChar("."))
-            PfamFasta.PfamId = data.First
-            PfamFasta.PfamIdAsub = data.Last
-
-            Return PfamFasta
         End Function
 
         Public Overrides Function ToString() As String

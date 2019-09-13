@@ -2,7 +2,7 @@
 
 Namespace PfamFastaComponentModels
 
-    Public Class PfamCsvRow : Inherits PfamCommon
+    Public Class PfamCsvRow : Inherits PfamEntryHeader
         Implements IPolymerSequenceModel
 
         Public Property Start As Integer
@@ -10,11 +10,11 @@ Namespace PfamFastaComponentModels
         Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         Public Shared Function CreateObject(FastaData As PfamFasta) As PfamCsvRow
-            Dim PfamCsvRow As PfamCsvRow = FastaData.ShadowCopy(Of PfamCsvRow)()
-            PfamCsvRow.Start = FastaData.Location.Left
-            PfamCsvRow.Ends = FastaData.Location.Right
+            Dim row As PfamCsvRow = FastaData.ShadowCopy(Of PfamCsvRow)()
+            row.Start = FastaData.Location.Left
+            row.Ends = FastaData.Location.Right
 
-            Return PfamCsvRow
+            Return row
         End Function
     End Class
 End Namespace
