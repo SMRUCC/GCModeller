@@ -51,6 +51,9 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace PfamFastaComponentModels
 
+    ''' <summary>
+    ''' 用于解析和表示pfam的fasta序列库中的蛋白结构域序列的数据模型
+    ''' </summary>
     Public Class PfamFasta : Inherits PfamCommon
         Implements IPolymerSequenceModel
         Implements IAbstractFastaToken

@@ -215,14 +215,14 @@
     <Compile Include="MPAlignment\Components\Components.vb" />
     <Compile Include="MPAlignment\Components\DomainAlignment.vb" />
     <Compile Include="MPAlignment\Output\CsvArchive.vb" />
-    <Compile Include="Parser\HeaderCommon.vb" />
-    <Compile Include="Parser\PfamFamily.vb" />
+    <Compile Include="Pipeline\Parser\HeaderCommon.vb" />
+    <Compile Include="Pipeline\Parser\PfamFamily.vb" />
     <Compile Include="MPAlignment\Output\MPAlignmentOutput.vb" />
     <Compile Include="MPAlignment\Algorithm\MPAlignment.vb" />
     <Compile Include="MPAlignment\MotifParallelAlignment.vb" />
     <Compile Include="Pipeline\LocalBlast\DomainAnalysis.vb" />
-    <Compile Include="Parser\PfamFasta.vb" />
-    <Compile Include="Parser\Entry.vb" />
+    <Compile Include="Pipeline\Parser\PfamFasta.vb" />
+    <Compile Include="Pipeline\Parser\Entry.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -238,9 +238,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Parser\PfamString\DomainObject.vb" />
-    <Compile Include="Parser\PfamString\API.vb" />
-    <Compile Include="Parser\PfamString\PfamString.vb" />
+    <Compile Include="Pipeline\Parser\PfamString\DomainObject.vb" />
+    <Compile Include="Pipeline\Parser\PfamString\API.vb" />
+    <Compile Include="Pipeline\Parser\PfamString\PfamString.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
