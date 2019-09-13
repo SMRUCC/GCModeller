@@ -54,9 +54,53 @@ Imports SMRUCC.genomics.Data.Xfam.Pfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.SequenceModel
+Imports Query = SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query
 
 Partial Module CLI
+
+    <ExportAPI("/Export.PfamHits")>
+    <Usage("/Export.PfamHits /in <blastp_vs_pfamA.txt> [/alt.direction /evalue <1e-5> /coverage <0.85> /identities <0.9> /out <pfamhits.csv>]")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              AcceptTypes:={GetType(PfamHit)},
+              Extensions:="*.csv",
+              Description:="The output pfam hits result which is parsed from the pfam_vs_protein blastp result.")>
+    Public Function ExportPfamHits(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim alt_direction As Boolean = args("/alt.direction")
+        Dim evalue# = args("/evalue") Or 0.00001
+        Dim coverage# = args("/coverage") Or 0.85
+        Dim identities# = args("/identities") Or 0.9
+        Dim i As i32 = 0
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pfamhits.csv"
+        Dim hits As PfamHit()
+
+        Call $"Parse {[in]}...".__INFO_ECHO
+
+        Using pfamhits As New WriteStream(Of PfamHit)(Out)
+            For Each query As Query In BlastpOutputReader.RunParser(in$)
+                If alt_direction Then
+                    hits = query.ParseProteinQuery.ToArray
+                Else
+                    hits = query.ParseDomainQuery.ToArray
+                End If
+
+                Call hits _
+                    .Where(Function(hit)
+                               Return hit.ApplyDomainFilter(evalue, coverage, identities)
+                           End Function) _
+                    .DoCall(AddressOf pfamhits.Flush)
+
+                If ++i Mod 50 = 0 Then
+                    Console.Write(i)
+                    Console.Write(vbTab)
+                End If
+            Next
+        End Using
+
+        Return 0
+    End Function
 
     <ExportAPI("/Export.Pfam.UltraLarge")>
     <Usage("/Export.Pfam.UltraLarge /in <blastOUT.txt> [/out <out.csv> /evalue <0.00001> /coverage <0.85> /offset <0.1>]")>
