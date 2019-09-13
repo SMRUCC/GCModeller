@@ -42,6 +42,7 @@
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -347,6 +348,8 @@ Public Module DomainAnalysis
     ''' <param name="offset">0.11</param>
     ''' <param name="identities">暂时无用</param>
     ''' <returns></returns>
+    ''' 
+    <Extension>
     Public Function ToPfamString(QueryIteration As BlastPlus.Query,
                                  Optional evalue As Double = Evalue1En5,
                                  Optional coverage As Double = 0.85,

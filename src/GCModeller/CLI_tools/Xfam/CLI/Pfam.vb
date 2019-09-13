@@ -1,44 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::43e6af4373f6014c5c6aa0768d7ea2f1, CLI_tools\Xfam\CLI\Pfam.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __getPfam, ExportHMMScan, ExportHMMSearch, ExportUltraLarge
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __getPfam, ExportHMMScan, ExportHMMSearch, ExportUltraLarge
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -56,19 +57,27 @@ Imports SMRUCC.genomics.SequenceModel
 
 Partial Module CLI
 
-    <ExportAPI("/Export.Pfam.UltraLarge", Usage:="/Export.Pfam.UltraLarge /in <blastOUT.txt> [/out <out.csv> /evalue <0.00001> /coverage <0.85> /offset <0.1>]")>
+    <ExportAPI("/Export.Pfam.UltraLarge")>
+    <Usage("/Export.Pfam.UltraLarge /in <blastOUT.txt> [/out <out.csv> /evalue <0.00001> /coverage <0.85> /offset <0.1>]")>
+    <Description("Export pfam annotation result from blastp based sequence alignment analysis.")>
     Public Function ExportUltraLarge(args As CommandLine) As Integer
-        Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Export.Csv")
-        Dim evalue As Double = args.GetValue("/evalue", DomainParser.Evalue1En5)
-        Dim coverage As Double = args.GetValue("/coverage", 0.85)
-        Dim offset As Double = args.GetValue("/offset", 0.1)
+        Dim inFile As String = args <= "/in"
+        Dim out As String = args("/out") Or (inFile.TrimSuffix & ".pfamString.csv")
+        Dim evalue As Double = args("/evalue") Or DomainParser.Evalue1En5
+        Dim coverage As Double = args("/coverage") Or 0.85
+        Dim offset As Double = args("/offset") Or 0.1
 
         Using fileStream As New WriteStream(Of PfamString)(out)
+            Dim pstring As PfamString
             Dim save As Action(Of BlastPlus.Query) =
                 Sub(query As BlastPlus.Query)
-                    Dim lstBuffer = ToPfamString(query, evalue:=evalue, coverage:=coverage, offset:=offset)
-                    Call fileStream.Flush({lstBuffer})
+                    pstring = query.ToPfamString(
+                        evalue:=evalue,
+                        coverage:=coverage,
+                        offset:=offset
+                    )
+
+                    Call fileStream.Flush({pstring})
                 End Sub
             Dim chunkSize As Long = 768 * 1024 * 1024
 
@@ -100,7 +109,7 @@ Partial Module CLI
                                                              d.BestEvalue <= evalue
                                                          Select d).ToArray
                            Let l As Integer = x.Group.First.len
-                           Select locus.__getPfam(domains, l)).ToArray
+                           Select locus.getPfam(domains, l)).ToArray
 
         Call pfamStrings.SaveTo(out.TrimSuffix & ".pfam-string.Csv")
         Return result.SaveTo(out).CLICode
@@ -161,7 +170,7 @@ Partial Module CLI
     End Function
 
     <Extension>
-    Private Function __getPfam(locus As String, domains As ScanTable(), l As Integer) As PfamString
+    Private Function getPfam(locus As String, domains As ScanTable(), l As Integer) As PfamString
         Dim ps As String() = domains.Select(Function(x) x.GetPfamToken)
         Dim ds As String() = domains.Select(Function(x) $"{x.model}:{x.model}").Distinct.ToArray
 

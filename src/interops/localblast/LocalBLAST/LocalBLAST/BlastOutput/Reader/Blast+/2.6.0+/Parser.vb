@@ -312,7 +312,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Call path.FixPath
 
             Dim parser As QueryParser = __getParser(path)
-            Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, encoding Or DefaultEncoding)
+            Dim readsBuffer As IEnumerable(Of String) = doLoadDataInternal(path, CHUNK_SIZE, encoding Or DefaultEncoding)
 
             Call $"Open file handle {path.ToFileURL} for data loading...".__DEBUG_ECHO
 
@@ -349,7 +349,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Call path.FixPath
 
             Dim parser As QueryParser = __getParser(path)
-            Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, encoding Or DefaultEncoding)
+            Dim readsBuffer As IEnumerable(Of String) = doLoadDataInternal(path, CHUNK_SIZE, encoding Or DefaultEncoding)
 
             Call $"Open file handle {path.ToFileURL} for data loading...".__DEBUG_ECHO
             Call (From line As String In readsBuffer Select __blockWorker(line, transform, parser, grep)).ToArray
@@ -426,7 +426,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Function __tryParseUltraLarge(path As String, CHUNK_SIZE As Long, Encoding As Encoding) As v228
-            Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, Encoding)
+            Dim readsBuffer As IEnumerable(Of String) = doLoadDataInternal(path, CHUNK_SIZE, Encoding)
             Call "[Loading Job Done!] Start to regex parsing!".__DEBUG_ECHO
 
             ' The regular expression parsing function just single thread, here using parallel to parsing 
@@ -457,7 +457,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return BLASTOutput
         End Function
 
-        Private Iterator Function __loadData(path As String, CHUNK_SIZE As Long, Encoding As Encoding) As IEnumerable(Of String)
+        Private Iterator Function doLoadDataInternal(path As String, CHUNK_SIZE As Long, Encoding As Encoding) As IEnumerable(Of String)
             Dim readBuffer As Byte() = New Byte(CHUNK_SIZE - 1) {}
             Dim LastIndex As New StringBuilder '(capacity:=Integer.MaxValue)'StringBuilder不能够太大，会出现内存溢出的错误
             Dim bufLength& = FileIO.FileSystem.GetFileInfo(path).Length
