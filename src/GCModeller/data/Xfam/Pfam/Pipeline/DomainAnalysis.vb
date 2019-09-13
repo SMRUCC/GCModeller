@@ -44,6 +44,7 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
@@ -53,6 +54,7 @@ Imports Microsoft.VisualBasic.Terminal.Utility
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.Expasy.Database
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
@@ -301,13 +303,13 @@ Public Module DomainAnalysis
             Return describ
         End If
 
-        Dim Domains = (From item In describ.GetDomainData(True) Select item Order By item.Position.Left).ToArray
+        Dim Domains = (From item In describ.GetDomainData(True) Select item Order By item.Position.left).ToArray
         Dim p As Integer = 0
         Dim ChunkBuffer As List(Of ProteinModel.DomainObject) = New List(Of ProteinModel.DomainObject)
 
         Do While p < Domains.Count - 1
-            Dim currentDomain_p = Domains(p).Position.Right
-            Dim nextDomain_p = Domains(p + 1).Position.Left
+            Dim currentDomain_p = Domains(p).Position.right
+            Dim nextDomain_p = Domains(p + 1).Position.left
 
             If currentDomain_p >= nextDomain_p Then
                 p += 1
@@ -328,7 +330,7 @@ Public Module DomainAnalysis
         Loop
 
         Call ChunkBuffer.AddRange(Domains)
-        ChunkBuffer = (From item In ChunkBuffer Select item Order By item.Position.Left Ascending).AsList
+        ChunkBuffer = (From item In ChunkBuffer Select item Order By item.Position.left Ascending).AsList
         describ.PfamString = (From item In ChunkBuffer Select PfamString.ToPfamStringToken(item)).ToArray
 
         Return describ
@@ -372,7 +374,7 @@ Public Module DomainAnalysis
             }
         End If
 
-        Dim Domains As DomainModel() = Annotation.ParserRaw(
+        Dim Domains As NamedCollection(Of DomainModel) = Annotation.ParserRaw(
             query,
             evalue:=evalue,
             coverage:=coverage,
@@ -383,7 +385,7 @@ Public Module DomainAnalysis
             .ProteinId = locusId,
             .Description = Description,
             .Length = query.QueryLength,
-            .Domains = (From d In Domains Select $"{d.DomainId}:{d.DomainId}" Distinct).ToArray,
+            .Domains = (From d As DomainModel In Domains Select $"{d.DomainId}:{d.DomainId}" Distinct).ToArray,
             .PfamString = Domains.Select(Function(x) $"{x.DomainId}({x.start}|{x.ends})").Distinct.ToArray
         }
         Return Protein

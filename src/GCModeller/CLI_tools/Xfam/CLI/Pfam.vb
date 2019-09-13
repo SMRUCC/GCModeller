@@ -52,6 +52,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan
 Imports SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan.hmmscan
 Imports SMRUCC.genomics.Data.Xfam.Pfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.SequenceModel
 
