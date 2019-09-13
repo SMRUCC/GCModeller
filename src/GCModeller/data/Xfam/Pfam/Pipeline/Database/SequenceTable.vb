@@ -1,6 +1,6 @@
 ﻿Imports SMRUCC.genomics.SequenceModel
 
-Namespace PfamFastaComponentModels
+Namespace Pipeline.Database
 
     Public Class PfamCsvRow : Inherits PfamEntryHeader
         Implements IPolymerSequenceModel
@@ -11,8 +11,8 @@ Namespace PfamFastaComponentModels
 
         Public Shared Function CreateObject(FastaData As PfamFasta) As PfamCsvRow
             Dim row As PfamCsvRow = FastaData.ShadowCopy(Of PfamCsvRow)()
-            row.Start = FastaData.Location.Left
-            row.Ends = FastaData.Location.Right
+            row.Start = FastaData.location.Left
+            row.Ends = FastaData.location.Right
 
             Return row
         End Function

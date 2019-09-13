@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace PfamFastaComponentModels
+Namespace Pipeline.Database
 
     ''' <summary>
     ''' 用于解析和表示pfam的fasta序列库中的蛋白结构域序列的数据模型
@@ -62,7 +62,7 @@ Namespace PfamFastaComponentModels
 
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.title
             Get
-                Return String.Format("{0}/{1}-{2} {3}.{4} {5}.{6};{7};", UniqueId, Location.Left, Location.Right, Uniprot, ChainId, PfamId, PfamIdAsub, PfamCommonName)
+                Return String.Format("{0}/{1}-{2} {3}.{4} {5}.{6};{7};", UniqueId, location.Left, location.Right, Uniprot, ChainId, PfamId, PfamIdAsub, PfamCommonName)
             End Get
         End Property
 

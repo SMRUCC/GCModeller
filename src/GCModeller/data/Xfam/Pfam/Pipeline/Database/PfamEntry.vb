@@ -55,7 +55,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Loci
 
-Namespace PfamFastaComponentModels
+Namespace Pipeline.Database
 
     ''' <summary>
     ''' Pfam title model
