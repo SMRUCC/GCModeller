@@ -78,7 +78,7 @@ Partial Module CLI
 
         Call $"Parse {[in]}...".__INFO_ECHO
 
-        Using pfamhits As New WriteStream(Of PfamHit)(Out)
+        Using pfamhits As New WriteStream(Of PfamHit)(out)
             For Each query As Query In BlastpOutputReader.RunParser(in$)
                 If alt_direction Then
                     hits = query.ParseProteinQuery.ToArray
@@ -92,7 +92,9 @@ Partial Module CLI
                            End Function) _
                     .DoCall(AddressOf pfamhits.Flush)
 
-                If ++i Mod 50 = 0 Then
+                If alt_direction Then
+                    Console.Write(".")
+                ElseIf ++i Mod 50 = 0 Then
                     Console.Write(i)
                     Console.Write(vbTab)
                 End If
