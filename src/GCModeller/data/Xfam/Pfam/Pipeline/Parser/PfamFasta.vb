@@ -59,6 +59,7 @@ Namespace PfamFastaComponentModels
         Implements IAbstractFastaToken
 
         Public Property Location As Location
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.title
             Get
                 Return String.Format("{0}/{1}-{2} {3}.{4} {5}.{6};{7};", UniqueId, Location.Left, Location.Right, Uniprot, ChainId, PfamId, PfamIdAsub, PfamCommonName)

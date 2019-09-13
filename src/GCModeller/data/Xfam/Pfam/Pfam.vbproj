@@ -221,7 +221,8 @@
     <Compile Include="MPAlignment\Components\Components.vb" />
     <Compile Include="MPAlignment\Components\DomainAlignment.vb" />
     <Compile Include="MPAlignment\Output\CsvArchive.vb" />
-    <Compile Include="Pipeline\Parser\HeaderCommon.vb" />
+    <Compile Include="Pipeline\Parser\SequenceTable.vb" />
+    <Compile Include="Pipeline\Parser\PfamEntry.vb" />
     <Compile Include="PfamFamily.vb" />
     <Compile Include="MPAlignment\Output\MPAlignmentOutput.vb" />
     <Compile Include="MPAlignment\Algorithm\MPAlignment.vb" />

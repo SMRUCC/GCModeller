@@ -53,8 +53,8 @@ Imports SMRUCC.genomics.SequenceModel
 
 Namespace PfamFastaComponentModels
 
-    Public MustInherit Class PfamCommon
-        Implements IPolymerSequenceModel
+    Public Class PfamCommon
+
 
         Friend Const P1 As Integer = 0
         Friend Const P2 As Integer = 1
@@ -75,8 +75,6 @@ Namespace PfamFastaComponentModels
         Public Property PfamCommonName As String
 #End Region
 
-        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
-
         Public Function ShadowCopy(Of T As PfamCommon)() As T
             Dim PfamObject As T = Activator.CreateInstance(Of T)()
 
@@ -85,26 +83,11 @@ Namespace PfamFastaComponentModels
                 .PfamId = PfamId
                 .PfamIdAsub = PfamIdAsub
                 .PfamCommonName = PfamCommonName
-                .SequenceData = SequenceData
                 .Uniprot = Uniprot
                 .UniqueId = UniqueId
             End With
 
             Return PfamObject
-        End Function
-    End Class
-
-    Public Class PfamCsvRow : Inherits PfamCommon
-
-        Public Property Start As Integer
-        Public Property Ends As Integer
-
-        Public Shared Function CreateObject(FastaData As PfamFasta) As PfamCsvRow
-            Dim PfamCsvRow As PfamCsvRow = FastaData.ShadowCopy(Of PfamCsvRow)()
-            PfamCsvRow.Start = FastaData.Location.Left
-            PfamCsvRow.Ends = FastaData.Location.Right
-
-            Return PfamCsvRow
         End Function
     End Class
 End Namespace
