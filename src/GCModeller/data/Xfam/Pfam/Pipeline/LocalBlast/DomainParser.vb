@@ -40,11 +40,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.Database
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.ProteinModel
 
@@ -73,7 +75,7 @@ Public Module DomainParser
                       Select Pfam = PfamEntryHeader.ParseHeaderTitle(Hit.Name),
                              Location = New Location(Hit.QueryLocation),
                              Hit.Score.Expect
-                      Order By Location.Left Ascending).ToArray   '
+                      Order By Location.left Ascending).ToArray   '
 
         Dim lenOffset As Integer = offset * query.QueryLength
         Dim ParsedDomains = (From sId As String
@@ -89,6 +91,68 @@ Public Module DomainParser
         Domains = trimOverlaps(Domains, 5) ', evalues)
 
         Return Domains
+    End Function
+
+    ''' <summary>
+    ''' 从一组对相同的目标蛋白做的比较结果中进行结构域的注释
+    ''' </summary>
+    ''' <param name="hits">query都是相同的蛋白序列</param>
+    ''' <returns></returns>
+    Public Function AnnotatedFromHitsGroup(hits As IEnumerable(Of PfamHit),
+                                           Optional evalue As Double = Evalue1En5,
+                                           Optional coverage As Double = 0.85,
+                                           Optional identities As Double = 0.3,
+                                           Optional offset As Double = 0.1) As NamedCollection(Of DomainModel)
+
+        Dim hitsArray As PfamHit() = hits _
+            .Where(Function(hit) hit.applyDomainFilter(evalue, coverage, identities)) _
+            .ToArray
+
+        If hitsArray.Length = 0 Then
+            Return Nothing
+        End If
+
+        ' 因为query是相同的一个对象，所以下面的两个属性都是相同的值
+        ' 直接取出第一个
+        Dim queryId$ = hitsArray(Scan0).QueryName
+        Dim description$ = hitsArray(Scan0).description
+        Dim queryLength% = hitsArray(Scan0).query_length
+        Dim hitsGroup = hitsArray _
+            .Select(Function(hit) (hit:=hit, Pfam:=hit.Pfam)) _
+            .GroupBy(Function(g)
+                         Return g.Pfam.CommonName
+                     End Function) _
+            .ToArray
+        Dim lenOffset As Integer = offset * queryLength
+        Dim parseDomains = Iterator Function() As IEnumerable(Of DomainModel)
+                               For Each domain In hitsGroup
+                                   ' 因为相同的编号的结构与可能在蛋白序列上存在多个重复
+                                   ' 所以会需要在这里按照位点合并分组
+                                   Dim locations As Location() = domain _
+                                      .Select(Function(hit)
+                                                  Return New Location(hit.hit.start, hit.hit.ends)
+                                              End Function) _
+                                      .DoCall(Function(locis)
+                                                  Return Loci_API.Group(locis, lenOffset)
+                                              End Function)
+
+                                   For Each loci As Location In locations
+                                       Yield New DomainModel(domain.Key, loci)
+                                   Next
+                               Next
+                           End Function
+
+        Dim domains As DomainModel() = parseDomains() _
+            .doGroupingAndTrimOverlap(lenOffset) _
+            .trimOverlaps(5) _
+            .ToArray
+        Dim annotation As New NamedCollection(Of DomainModel) With {
+            .name = queryId,
+            .description = description,
+            .value = domains
+        }
+
+        Return annotation
     End Function
 
     ''' <summary>
@@ -145,10 +209,10 @@ Public Module DomainParser
     ''' <returns></returns>
     ''' 
     <Extension>
-    Private Function applyDomainFilter(hit As BlastPlus.SubjectHit, evalue#, coverage#, identities#) As Boolean
-        Dim b As Boolean = hit.Score.Expect <= evalue AndAlso
-            (hit.Length / Val(hit.LengthHit)) > coverage AndAlso
-            (hit.LengthHit - hit.LengthQuery).DoCall(AddressOf Math.Abs) < 20
+    Private Function applyDomainFilter(hit As PfamHit, evalue#, coverage#, identities#) As Boolean
+        Dim b As Boolean = hit.evalue <= evalue AndAlso
+            (hit.hit_length / hit.length_hit) > coverage AndAlso
+            (hit.length_hit - hit.length_query).DoCall(AddressOf Math.Abs) < 20
         Return b
     End Function
 
@@ -158,10 +222,12 @@ Public Module DomainParser
     ''' <param name="source"></param>
     ''' <param name="lenOffset"></param>
     ''' <returns></returns>
+    ''' 
+    <Extension>
     Private Function doGroupingAndTrimOverlap(source As IEnumerable(Of DomainModel), lenOffset As Integer) As DomainModel()
         Dim Group = (From domainLDM As IGrouping(Of String, DomainModel)
                      In source.GroupBy(Function(x As ProteinModel.DomainModel) x.DomainId)
-                     Let locations As DomainModel() = domainLDM.OrderBy(Function(n) DirectCast(n, IMotifSite).site.Left).ToArray
+                     Let locations As DomainModel() = domainLDM.OrderBy(Function(n) DirectCast(n, IMotifSite).site.left).ToArray
                      Select DomainId = domainLDM.Key, locations).ToArray
         Dim ClearOverlap = (From lstDomain In Group
                             Let segments As Location() =
