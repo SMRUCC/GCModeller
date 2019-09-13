@@ -74,6 +74,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Get
                 Dim left As Integer = If(Hsp.IsNullOrEmpty, 0, Hsp.First.Query.Left)
                 Dim right As Integer = If(Hsp.IsNullOrEmpty, 0, Hsp.Last.Query.Right)
+
                 Return New Location(left, right)
             End Get
         End Property
@@ -82,6 +83,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Get
                 Dim left As Integer = If(Hsp.IsNullOrEmpty, 0, Hsp.First.Subject.Left)
                 Dim right As Integer = If(Hsp.IsNullOrEmpty, 0, Hsp.Last.Subject.Right)
+
                 Return New Location(left, right)
             End Get
         End Property
