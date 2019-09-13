@@ -70,8 +70,8 @@ Module CRISPRPhylogeneticTree
     ''' <remarks></remarks>
     Public Function TrimData(CRISPRData As GenomeScanResult, loc As Location) As GenomeScanResult
         CRISPRData.Sites = (From item In CRISPRData.Sites
-                            Where Not (loc.ContainSite(item.Start) OrElse
-                                loc.ContainSite(item.Right))
+                            Where Not (loc.IsInside(item.Start) OrElse
+                                loc.IsInside(item.Right))
                             Select item).ToArray
         Return CRISPRData
     End Function

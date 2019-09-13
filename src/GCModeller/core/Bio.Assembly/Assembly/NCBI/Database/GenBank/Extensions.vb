@@ -185,7 +185,7 @@ Namespace Assembly.NCBI.GenBank
 
             Dim LQuery = (From item As TGene
                           In Data
-                          Where item.Location.ContainSite(site)
+                          Where item.Location.IsInside(site)
                           Select item).ToArray
             Return LQuery
         End Function

@@ -1,4 +1,4 @@
-﻿Namespace PfamFastaComponentModels
+﻿Namespace Pipeline.Database
 
     ''' <summary>
     ''' The pfam fasta database title parser

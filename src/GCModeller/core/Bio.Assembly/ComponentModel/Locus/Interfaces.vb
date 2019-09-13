@@ -107,7 +107,7 @@ Namespace ComponentModel.Loci.Abstract
     Public Interface ILoci
 
         ''' <summary>
-        ''' Left position of the loci site on sequence.
+        ''' Left position of the loci site on sequence.(左端起始位点)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

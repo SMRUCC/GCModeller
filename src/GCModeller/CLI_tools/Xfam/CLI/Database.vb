@@ -46,7 +46,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamFastaComponentModels
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.Database
 Imports SMRUCC.genomics.Data.Xfam.Rfam
 Imports SMRUCC.genomics.SequenceModel.FASTA
 

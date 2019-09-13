@@ -105,7 +105,7 @@ Namespace Output
             Dim located = LinqAPI.DefaultFirst(Of Location) <=
                 From x As Location
                 In loci
-                Where x.ContainSite(p)
+                Where x.IsInside(p)
                 Select x
 
             If located Is Nothing Then ' 没有落在保守的片段区域

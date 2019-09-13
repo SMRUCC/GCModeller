@@ -212,6 +212,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pipeline\LocalBlast\BlastOutputParser.vb" />
     <Compile Include="Pipeline\LocalBlast\PfamHit.vb" />
     <Compile Include="Pipeline\LocalBlast\NamespaceDoc.vb" />
     <Compile Include="Pipeline\LocalBlast\DomainParser.vb" />
@@ -221,15 +222,16 @@
     <Compile Include="MPAlignment\Components\Components.vb" />
     <Compile Include="MPAlignment\Components\DomainAlignment.vb" />
     <Compile Include="MPAlignment\Output\CsvArchive.vb" />
-    <Compile Include="Pipeline\Parser\HeaderCommon.vb" />
+    <Compile Include="Pipeline\Database\SequenceTable.vb" />
+    <Compile Include="Pipeline\Database\PfamEntry.vb" />
     <Compile Include="PfamFamily.vb" />
     <Compile Include="MPAlignment\Output\MPAlignmentOutput.vb" />
     <Compile Include="MPAlignment\Algorithm\MPAlignment.vb" />
     <Compile Include="MPAlignment\MotifParallelAlignment.vb" />
-    <Compile Include="Pipeline\LocalBlast\DomainAnalysis.vb" />
-    <Compile Include="Pipeline\Parser\NamespaceDoc.vb" />
-    <Compile Include="Pipeline\Parser\PfamFasta.vb" />
-    <Compile Include="Pipeline\Parser\Entry.vb" />
+    <Compile Include="Pipeline\DomainAnalysis.vb" />
+    <Compile Include="Pipeline\Database\NamespaceDoc.vb" />
+    <Compile Include="Pipeline\Database\PfamFasta.vb" />
+    <Compile Include="Pipeline\Database\Entry.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

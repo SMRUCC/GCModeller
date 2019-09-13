@@ -162,7 +162,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
                       Select gene).ToArray
             End If
 
-            Dim LQuery = (From g As GeneBrief In gs Where g.Location.ContainSite(site) Select g).ToArray
+            Dim LQuery = (From g As GeneBrief In gs Where g.Location.IsInside(site) Select g).ToArray
             Return LQuery
         End Function
 
@@ -177,7 +177,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
                 Data = _innerList
             End If
 
-            Dim LQuery = (From item In Data Where item.Location.ContainSite(site) Select item).ToArray
+            Dim LQuery = (From item In Data Where item.Location.IsInside(site) Select item).ToArray
             Return LQuery
         End Function
 
@@ -187,7 +187,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' <param name="Name">基因名称，而非基因号</param>
         ''' <returns></returns>
         Public Function GetGeneByName(Name As String) As GeneBrief Implements IGenomicsContextProvider(Of GeneBrief).GetByName
-            Dim found As GeneBrief = Me(Name)  ' 先假设这个Name值为基因号
+            ' 先假设这个Name值为基因号
+            Dim found As GeneBrief = Me(Name)
 
             If Not found Is Nothing Then
                 Return found

@@ -41,8 +41,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.Database
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.ProteinModel
 
@@ -53,36 +55,36 @@ Public Module DomainParser
     ''' <summary>
     '''
     ''' </summary>
-    ''' <param name="queryIteration"></param>
+    ''' <param name="query"></param>
     ''' <param name="evalue"></param>
     ''' <param name="coverage"></param>
     ''' <param name="identities">暂时无用</param>
     ''' <param name="offset"></param>
     ''' <returns></returns>
-    Public Function Parser(queryIteration As BlastPlus.Query,
+    Public Function Parser(query As BlastPlus.Query,
                            Optional evalue As Double = Evalue1En5,
                            Optional coverage As Double = 0.85,
                            Optional identities As Double = 0.3,
                            Optional offset As Double = 0.1) As DomainModel()
 
         Dim LQuery = (From Hit As BlastPlus.SubjectHit
-                      In queryIteration.SubjectHits
+                      In query.SubjectHits
                       Where applyDomainFilter(Hit, evalue, coverage, identities)
-                      Select Pfam = PfamFastaComponentModels.PfamFasta.ParseEntry(Hit.Name),
+                      Select Pfam = PfamEntryHeader.ParseHeaderTitle(Hit.Name),
                              Location = New Location(Hit.QueryLocation),
                              Hit.Score.Expect
                       Order By Location.Left Ascending).ToArray   '
 
-        Dim lenOffset As Integer = offset * queryIteration.QueryLength
+        Dim lenOffset As Integer = offset * query.QueryLength
         Dim ParsedDomains = (From sId As String
-                             In (From parsed In LQuery Select parsed.Pfam.PfamCommonName Distinct)
-                             Let ddLoci As Location() = (From parsedLDM In LQuery
-                                                         Where String.Equals(parsedLDM.Pfam.PfamCommonName, sId)
-                                                         Select parsedLDM.Location).ToArray
+                             In (From parsed In LQuery Select parsed.Pfam.CommonName Distinct)
+                             Let ddLoci As Location() = (From model In LQuery
+                                                         Where String.Equals(model.Pfam.CommonName, sId)
+                                                         Select model.Location).ToArray
                              Let ChunkBuffer = (From loci As Location
                                                 In Loci_API.Group(ddLoci, lenOffset)
                                                 Select New DomainModel(sId, Location:=loci)).ToArray
-                             Select ChunkBuffer).IteratesALL.OrderBy(Function(x) x.Start).ToArray
+                             Select ChunkBuffer).IteratesALL.OrderBy(Function(x) x.start).ToArray
         Dim Domains As DomainModel() = doGroupingAndTrimOverlap(ParsedDomains, lenOffset)
         Domains = trimOverlaps(Domains, 5) ', evalues)
 
@@ -97,31 +99,16 @@ Public Module DomainParser
     ''' <returns></returns>
     ''' 
     <Extension>
-    Private Function trimOverlaps(domains As DomainModel(), lenOffset As Integer) As DomainModel() ', evalues As Dictionary(Of String, Double)
-        ''Dim LQuery = (From x As KeyValuePair(Of String, Double)
-        ''              In evalues
-        ''              Let domain As DomainObject = Pfam.ProteinDomainArchitecture.PfamString.GetDomain(x.Key)
-        ''              Select domain,
-        ''                  evalue = x.Value          ' 因为可能会在不同的位置上面出现多个相同的结构域
-        ''              Group By domain.Identifier Into Group) _
-        ''                  .ToDictionary(Function(x) x.Identifier, Function(x) x.Group.ToArray)
-        'Dim LQuery = (From x In domains Select domain = x, x.Location.FragmentSize Group By domain.DomainId Into Group).ToDictionary(Function(x) x.DomainId, Function(x) x.Group.ToArray)
-        'Dim GetEvalues = (From x As DomainModel In domains
-        '                  Let d = LQuery(x.DomainId)
-        '                  Select x,
-        '                      evalue = (From od In d
-        '                                Where x.Location.ContainSite(od.domain.Location.Center)
-        '                                Select od.FragmentSize).FirstOrDefault).AsList
-        Dim lstDomains As New List(Of DomainModel)
-        Dim GetDomains As List(Of DomainModel) = domains.AsList
+    Private Iterator Function trimOverlaps(domains As DomainModel(), lenOffset As Integer) As IEnumerable(Of DomainModel)
+        Dim domainHits As List(Of DomainModel) = domains.AsList
 
-        Do While GetDomains.Count > 0
-            Dim domain As DomainModel = GetDomains.First
+        Do While domainHits > 0
+            Dim domain As DomainModel = domainHits.First
             Dim loci As Location = DirectCast(domain, IMotifSite).site
             Dim overlaps As DomainModel() = LinqAPI.Exec(Of DomainModel) <=
  _
                 From x As DomainModel
-                In GetDomains
+                In domainHits
                 Let location As Location = DirectCast(x, IMotifSite).site
                 Where loci.Inside(location, lenOffset) OrElse
                     location.Inside(loci, lenOffset)
@@ -129,18 +116,19 @@ Public Module DomainParser
                 Order By DirectCast(x, IMotifSite).site.FragmentSize Descending
 
             If overlaps.Length <= 1 Then
-                Call lstDomains.Add(domain)  ' 这个结构域没有任何重叠
-                Call GetDomains.Remove(domain)
+                ' 这个结构域没有任何重叠
+                Call domainHits.Remove(domain)
+
+                Yield domain
             Else
-                Call lstDomains.Add(overlaps.First)   ' 当具有重叠的话，将evalue最小的结构域留下来
+                ' 当具有重叠的话，将evalue最小的结构域留下来
+                Yield overlaps.First
 
                 For Each x In overlaps
-                    Call GetDomains.Remove(x)
+                    Call domainHits.Remove(x)
                 Next
             End If
         Loop
-
-        Return lstDomains.ToArray
     End Function
 
     ''' <summary>
@@ -157,13 +145,10 @@ Public Module DomainParser
     ''' <returns></returns>
     ''' 
     <Extension>
-    Private Function applyDomainFilter(hit As BlastPlus.SubjectHit,
-                                    evalue As Double,
-                                    coverage As Double,
-                                    identities As Double) As Boolean
+    Private Function applyDomainFilter(hit As BlastPlus.SubjectHit, evalue#, coverage#, identities#) As Boolean
         Dim b As Boolean = hit.Score.Expect <= evalue AndAlso
-            hit.Length / Val(hit.LengthHit) > coverage AndAlso
-            Math.Abs(hit.LengthHit - hit.LengthQuery) < 20
+            (hit.Length / Val(hit.LengthHit)) > coverage AndAlso
+            (hit.LengthHit - hit.LengthQuery).DoCall(AddressOf Math.Abs) < 20
         Return b
     End Function
 
