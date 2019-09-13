@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::c5e6d8b963319f185d3ffb57521803c3, data\Xfam\Pfam\Parser\PfamFasta.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class PfamFasta
-    ' 
-    '         Properties: __internalCreateNULL, Headers, Location, Title
-    ' 
-    '         Function: __createObject, CreateCsvArchive, CreateObject, ParseEntry, ParseHeadTitle
-    '                   ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class PfamFasta
+' 
+'         Properties: __internalCreateNULL, Headers, Location, Title
+' 
+'         Function: __createObject, CreateCsvArchive, CreateObject, ParseEntry, ParseHeadTitle
+'                   ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports System.Reflection
+Imports System.Text.RegularExpressions
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace PfamFastaComponentModels
 
@@ -55,7 +55,14 @@ Namespace PfamFastaComponentModels
         Implements IPolymerSequenceModel
         Implements IAbstractFastaToken
 
-        Public Property Location As SMRUCC.genomics.ComponentModel.Loci.Location
+        Public Property Location As Location
+        Public ReadOnly Property Title As String Implements IAbstractFastaToken.title
+            Get
+                Return String.Format("{0}/{1}-{2} {3}.{4} {5}.{6};{7};", UniqueId, Location.Left, Location.Right, Uniprot, ChainId, PfamId, PfamIdAsub, PfamCommonName)
+            End Get
+        End Property
+
+        Public Property Headers As String() Implements IAbstractFastaToken.headers
 
         Public Shared Function CreateObject(FastaObject As FastaSeq) As PfamFasta
             Dim FastaData = ParseHeadTitle(FastaObject.Title)
@@ -105,7 +112,7 @@ Namespace PfamFastaComponentModels
             Get
                 Return New PfamFasta With {
                     .ChainId = NULL_ERROR,
-                    .Location = New SMRUCC.genomics.ComponentModel.Loci.Location(0, 0),
+                    .Location = New Location(0, 0),
                     .PfamCommonName = NULL_ERROR,
                     .PfamId = NULL_ERROR,
                     .PfamIdAsub = NULL_ERROR,
@@ -144,18 +151,10 @@ Namespace PfamFastaComponentModels
             Return String.Format("[{0}] {1}", PfamId, SequenceData)
         End Function
 
-        Public Shared Function CreateCsvArchive(data As Generic.IEnumerable(Of PfamFasta)) As PfamCsvRow()
+        Public Shared Function CreateCsvArchive(data As IEnumerable(Of PfamFasta)) As PfamCsvRow()
             Return (From FastaObject As PfamFasta
                     In data.AsParallel
                     Select PfamCsvRow.CreateObject(FastaObject)).ToArray
         End Function
-
-        Public ReadOnly Property Title As String Implements SequenceModel.FASTA.IAbstractFastaToken.Title
-            Get
-                Return String.Format("{0}/{1}-{2} {3}.{4} {5}.{6};{7};", UniqueId, Location.Left, Location.Right, Uniprot, ChainId, PfamId, PfamIdAsub, PfamCommonName)
-            End Get
-        End Property
-
-        Public Property Headers As String() Implements IAbstractFastaToken.Headers
     End Class
 End Namespace

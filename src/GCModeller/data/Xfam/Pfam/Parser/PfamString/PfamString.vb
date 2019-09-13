@@ -113,7 +113,7 @@ Namespace PfamString
         Public Function get_ChouFasmanData() As DomainObject()
             Dim ChunkBuffer = (From strData As String
                                In PfamString
-                               Let DomainData = __getDomainTrace(strData, 1)
+                               Let DomainData = getDomainTrace(strData, 1)
                                Select DomainData
                                Order By DomainData.Position.Left Ascending).ToArray
             Dim ChunkList As List(Of DomainObject) = New List(Of DomainObject)
@@ -156,7 +156,7 @@ Namespace PfamString
 
             Dim LQuery = (From strValue As String In PfamString
                           Where Not Regex.Match(strValue, "\[.+?\]").Success
-                          Let DomainData As ProteinModel.DomainObject = __getDomainTrace(strValue, Length)
+                          Let DomainData As ProteinModel.DomainObject = getDomainTrace(strValue, Length)
                           Select DomainData).ToArray
             If ordered Then
                 LQuery = (From domainData As ProteinModel.DomainObject
