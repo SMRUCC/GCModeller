@@ -69,17 +69,17 @@ Public Module DomainParser
         Dim LQuery = (From Hit As BlastPlus.SubjectHit
                       In queryIteration.SubjectHits
                       Where applyDomainFilter(Hit, evalue, coverage, identities)
-                      Select Pfam = PfamFasta.ParseEntry(Hit.Name),
+                      Select Pfam = PfamEntryHeader.ParseHeaderTitle(Hit.Name),
                              Location = New Location(Hit.QueryLocation),
                              Hit.Score.Expect
                       Order By Location.Left Ascending).ToArray   '
 
         Dim lenOffset As Integer = offset * queryIteration.QueryLength
         Dim ParsedDomains = (From sId As String
-                             In (From parsed In LQuery Select parsed.Pfam.PfamCommonName Distinct)
-                             Let ddLoci As Location() = (From parsedLDM In LQuery
-                                                         Where String.Equals(parsedLDM.Pfam.PfamCommonName, sId)
-                                                         Select parsedLDM.Location).ToArray
+                             In (From parsed In LQuery Select parsed.Pfam.CommonName Distinct)
+                             Let ddLoci As Location() = (From model In LQuery
+                                                         Where String.Equals(model.Pfam.CommonName, sId)
+                                                         Select model.Location).ToArray
                              Let ChunkBuffer = (From loci As Location
                                                 In Loci_API.Group(ddLoci, lenOffset)
                                                 Select New DomainModel(sId, Location:=loci)).ToArray

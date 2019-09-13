@@ -66,19 +66,21 @@ Namespace Pipeline.Database
         Friend Const P2 As Integer = 1
         Friend Const P3 As Integer = 2
 
+        Public Const REGEX_PFAM_ENTRY As String = "PF(am)?\d+\.\d+;.+?;"
+
 #Region "p1"
         Public Property UniqueId As String Implements IKeyedEntity(Of String).Key
 #End Region
 
 #Region "p2"
-        Public Property Uniprot As String
+        Public Property UniProt As String
         Public Property ChainId As String
 #End Region
 
 #Region "p3"
         Public Property PfamId As String
         Public Property PfamIdAsub As String
-        Public Property PfamCommonName As String
+        Public Property CommonName As String
 #End Region
 
         Public Property location As Location
@@ -90,8 +92,8 @@ Namespace Pipeline.Database
                 .ChainId = ChainId
                 .PfamId = PfamId
                 .PfamIdAsub = PfamIdAsub
-                .PfamCommonName = PfamCommonName
-                .Uniprot = Uniprot
+                .CommonName = CommonName
+                .UniProt = UniProt
                 .UniqueId = UniqueId
             End With
 
@@ -105,10 +107,10 @@ Namespace Pipeline.Database
             Return New T() With {
                 .ChainId = NULL_ERROR,
                 .location = New Location(0, 0),
-                .PfamCommonName = NULL_ERROR,
+                .CommonName = NULL_ERROR,
                 .PfamId = NULL_ERROR,
                 .PfamIdAsub = NULL_ERROR,
-                .Uniprot = NULL_ERROR,
+                .UniProt = NULL_ERROR,
                 .UniqueId = NULL_ERROR
             }
         End Function
@@ -145,11 +147,11 @@ Namespace Pipeline.Database
             headers.location = Location.CreateObject(data.Last, "-")
 
             data = P2.Split(CChar("."))
-            headers.Uniprot = data.First
+            headers.UniProt = data.First
             headers.ChainId = data.Last
 
             data = P3.Split(CChar(";"))
-            headers.PfamCommonName = data(1)
+            headers.CommonName = data(1)
             data = data.First.Split(CChar("."))
             headers.PfamId = data.First
             headers.PfamIdAsub = data.Last

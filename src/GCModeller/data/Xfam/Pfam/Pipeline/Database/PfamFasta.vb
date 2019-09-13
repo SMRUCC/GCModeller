@@ -44,6 +44,7 @@
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
@@ -62,7 +63,7 @@ Namespace Pipeline.Database
 
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.title
             Get
-                Return String.Format("{0}/{1}-{2} {3}.{4} {5}.{6};{7};", UniqueId, location.Left, location.Right, Uniprot, ChainId, PfamId, PfamIdAsub, PfamCommonName)
+                Return String.Format("{0}/{1}-{2} {3}.{4} {5}.{6};{7};", UniqueId, location.Left, location.Right, UniProt, ChainId, PfamId, PfamIdAsub, CommonName)
             End Get
         End Property
 
@@ -74,36 +75,15 @@ Namespace Pipeline.Database
             Return FastaData
         End Function
 
-        Const REGEX_PFAM_ENTRY As String = "PF(am)?\d+\.\d+;.+?;"
-
-        ''' <summary>
-        ''' 本方法仅仅解析出Pfam编号以及Pfam结构域的名称
-        ''' </summary>
-        ''' <param name="strValue"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Shared Function ParseEntry(strValue As String) As PfamFasta
-            Dim s As String = Regex.Match(strValue, REGEX_PFAM_ENTRY, RegexOptions.IgnoreCase).Value
-            If String.IsNullOrEmpty(s) Then
-                Call $"NULL_ERROR: {strValue}   @{MethodBase.GetCurrentMethod.Name}".__DEBUG_ECHO
-                Return internalCreateNull(Of PfamFasta)()
-            End If
-
-            Dim Tokens As String() = Strings.Split(s, ";")
-            Return New PfamFasta With {
-                .PfamId = Tokens(0).Split("."c).First,
-                .PfamCommonName = Tokens(1)
-            }
-        End Function
-
         Public Overrides Function ToString() As String
             Return String.Format("[{0}] {1}", PfamId, SequenceData)
         End Function
 
-        Public Shared Function CreateCsvArchive(data As IEnumerable(Of PfamFasta)) As PfamCsvRow()
-            Return (From FastaObject As PfamFasta
-                    In data.AsParallel
-                    Select PfamCsvRow.CreateObject(FastaObject)).ToArray
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function CreateCsvArchive(data As IEnumerable(Of PfamFasta)) As IEnumerable(Of PfamCsvRow)
+            Return From FastaObject As PfamFasta
+                   In data.AsParallel
+                   Select PfamCsvRow.CreateObject(FastaObject)
         End Function
     End Class
 End Namespace
