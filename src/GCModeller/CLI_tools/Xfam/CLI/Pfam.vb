@@ -66,6 +66,19 @@ Partial Module CLI
               AcceptTypes:={GetType(PfamHit)},
               Extensions:="*.csv",
               Description:="The output pfam hits result which is parsed from the pfam_vs_protein blastp result.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.txt",
+              Description:="The blastp alignment output of pfamA align with query proteins.")>
+    <Argument("/alt.direction", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="By default, this cli tools processing the blastp alignment result in direction ``pfam_vs_protein``, 
+              apply this option argument in cli to switch the processor in direction ``protein_vs_pfam``.")>
+    <Argument("/evalue", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="E-value cutoff of the blastp alignment result.")>
+    <Argument("/coverage", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="The coverage cutoff of the pfam domain sequence. This argument is not the coverage threshold of your query protein.")>
     <Group(Program.PfamCliTools)>
     Public Function ExportPfamHits(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
