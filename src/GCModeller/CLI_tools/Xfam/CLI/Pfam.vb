@@ -141,7 +141,10 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pfam_string.csv"
         Dim pfamhits As IEnumerable(Of NamedCollection(Of PfamHit)) = [in].OpenHandle.AsLinq(Of PfamHit).DoHitsGrouping
-        Dim annotations As PfamString() = pfamhits.CreateAnnotations.ToArray
+        Dim annotations As PfamString() = pfamhits _
+            .CreateAnnotations _
+            .OrderBy(Function(q) q.ProteinId) _
+            .ToArray
 
         Return annotations.SaveTo(out).CLICode
     End Function

@@ -79,11 +79,15 @@ Namespace Pipeline.LocalBlast
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function CreateAnnotations(source As IEnumerable(Of NamedCollection(Of PfamHit))) As IEnumerable(Of PfamString.PfamString)
-            Return source _
-                .AsParallel _
-                .Select(Function(query) query.CreatePfamStringAnnotation) _
-                .OrderBy(Function(q) q.ProteinId)
+        Iterator Public Function CreateAnnotations(source As IEnumerable(Of NamedCollection(Of PfamHit))) As IEnumerable(Of PfamString.PfamString)
+            Dim protein As PfamString.PfamString
+
+            For Each query As NamedCollection(Of PfamHit) In source
+                protein = query.CreatePfamStringAnnotation
+                Console.WriteLine(query.name & vbTab & query.description)
+
+                Yield protein
+            Next
         End Function
 
         <Extension>
