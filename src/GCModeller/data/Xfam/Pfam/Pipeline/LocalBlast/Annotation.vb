@@ -60,9 +60,12 @@ Namespace Pipeline.LocalBlast
         Public Iterator Function DoHitsGrouping(hits As IEnumerable(Of PfamHit)) As IEnumerable(Of NamedCollection(Of PfamHit))
             Dim proteinGroups As New Dictionary(Of String, List(Of PfamHit))
 
+            Call "Create protein groups...".__DEBUG_ECHO
+
             For Each hit As PfamHit In hits
                 If Not proteinGroups.ContainsKey(hit.QueryName) Then
                     proteinGroups(hit.QueryName) = New List(Of PfamHit)
+                    Call $"{hit.QueryName}: {hit.description}".__DEBUG_ECHO
                 End If
 
                 proteinGroups(hit.QueryName) += hit
@@ -81,10 +84,11 @@ Namespace Pipeline.LocalBlast
         <Extension>
         Iterator Public Function CreateAnnotations(source As IEnumerable(Of NamedCollection(Of PfamHit))) As IEnumerable(Of PfamString.PfamString)
             Dim protein As PfamString.PfamString
+            Dim padLen% = 80
 
             For Each query As NamedCollection(Of PfamHit) In source
                 protein = query.CreatePfamStringAnnotation
-                Console.WriteLine(query.name & vbTab & query.description & vbTab & protein.PfamString.JoinBy("+"))
+                Console.WriteLine(query.name & vbTab & Mid(query.description, 1, padLen) & If(padLen > query.description.Length, New String(" "c, padLen - query.description.Length), "") & vbTab & protein.PfamString.JoinBy("+"))
 
                 Yield protein
             Next
