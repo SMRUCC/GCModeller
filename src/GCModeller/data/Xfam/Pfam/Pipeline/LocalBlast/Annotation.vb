@@ -201,12 +201,11 @@ Namespace Pipeline.LocalBlast
         ''' <param name="hit"></param>
         ''' <param name="evalue"></param>
         ''' <param name="coverage"></param>
-        ''' <param name="identities">暂时无用</param>
         ''' <returns></returns>
-        ''' 
         <Extension>
         Public Function ApplyDomainFilter(hit As PfamHit, evalue#, coverage#, identities#) As Boolean
             Dim b As Boolean = hit.evalue <= evalue AndAlso
+                (hit.identities >= identities) AndAlso
                 (hit.hit_length / hit.length_hit) > coverage AndAlso
                 (hit.length_hit - hit.length_query).DoCall(AddressOf Math.Abs) < 20
 
