@@ -208,8 +208,8 @@ Namespace Pipeline.LocalBlast
         Public Function ApplyDomainFilter(hit As PfamHit, evalue#, coverage#, identities#) As Boolean
             Dim b As Boolean = hit.evalue <= evalue AndAlso
                 (hit.identities >= identities) AndAlso
-                (hit.hit_length / hit.length_hit) > coverage AndAlso
-                (hit.length_hit - hit.length_query).DoCall(AddressOf Math.Abs) < 20
+                (hit.hit_length / hit.length_hit) >= coverage AndAlso
+                (hit.length_hit - hit.length_query).DoCall(AddressOf Math.Abs) <= 16
 
             Return b
         End Function
