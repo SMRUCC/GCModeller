@@ -43,6 +43,7 @@ Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
@@ -125,10 +126,34 @@ Partial Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/Pfam.Annotation")>
+    <Usage("/Pfam.Annotation /in <pfamhits.csv> [/out <out.pfamstring.csv>]")>
+    <Description("Do pfam functional domain annotation based on the pfam hits result.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(PfamHit)},
+              Extensions:="*.csv",
+              Description:="The pfam hits result from the blastp query output or hmm search output.")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              AcceptTypes:={GetType(PfamString)},
+              Extensions:="*.csv",
+              Description:="The annotation output.")>
+    Public Function PfamAnnotation(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pfam_string.csv"
+        Dim pfamhits As IEnumerable(Of NamedCollection(Of PfamHit)) = [in].OpenHandle.AsLinq(Of PfamHit).DoHitsGrouping
+        Dim annotations As PfamString() = pfamhits.CreateAnnotations.ToArray
+
+        Return annotations.SaveTo(out).CLICode
+    End Function
+
     <ExportAPI("/Export.Pfam.UltraLarge")>
     <Usage("/Export.Pfam.UltraLarge /in <blastOUT.txt> [/out <out.csv> /evalue <0.00001> /coverage <0.85> /offset <0.1>]")>
     <Description("Export pfam annotation result from blastp based sequence alignment analysis.")>
     <Group(Program.PfamCliTools)>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(String)},
+              Extensions:="*.txt",
+              Description:="The blastp raw output file of alignment in direction protein query vs pfam database.")>
     Public Function ExportUltraLarge(args As CommandLine) As Integer
         Dim inFile As String = args <= "/in"
         Dim out As String = args("/out") Or (inFile.TrimSuffix & ".pfamString.csv")

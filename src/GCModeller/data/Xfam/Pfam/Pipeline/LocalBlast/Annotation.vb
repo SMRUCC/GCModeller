@@ -56,6 +56,17 @@ Namespace Pipeline.LocalBlast
 
     Public Module Annotation
 
+        <Extension>
+        Public Iterator Function DoHitsGrouping(hits As IEnumerable(Of PfamHit)) As IEnumerable(Of NamedCollection(Of PfamHit))
+
+        End Function
+
+        <Extension>
+        Public Function CreateAnnotations(query As IEnumerable(Of NamedCollection(Of PfamHit))) As IEnumerable(Of PfamString.PfamString)
+
+        End Function
+
+
         Public Const Evalue1En5 As Double = 10 ^ -3
 
         ''' <summary>
