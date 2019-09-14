@@ -77,27 +77,41 @@ Namespace Pipeline.LocalBlast
             Next
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Iterator Function CreateAnnotations(source As IEnumerable(Of NamedCollection(Of PfamHit))) As IEnumerable(Of PfamString.PfamString)
-            For Each query As NamedCollection(Of PfamHit) In source
-                Dim domains As NamedCollection(Of DomainModel) = query.AnnotatedFromHitsGroup()
-                Dim idTable As Dictionary(Of String, String) = query _
-                    .Select(Function(p) p.Pfam) _
-                    .GroupBy(Function(p) p.CommonName) _
-                    .ToDictionary(Function(p) p.Key,
-                                  Function(p)
-                                      Return p.First.PfamId
-                                  End Function)
-                Dim protein As New PfamString.PfamString With {
-                    .ProteinId = query.name,
-                    .Description = query.description,
-                    .Length = query(Scan0).query_length,
-                    .Domains = (From d As DomainModel In domains Select $"{idTable(d.DomainId)}:{d.DomainId}" Distinct).ToArray,
-                    .PfamString = domains.Select(Function(x) $"{idTable(x.DomainId)}({x.start}|{x.ends})").Distinct.ToArray
-                }
+        Public Function CreateAnnotations(source As IEnumerable(Of NamedCollection(Of PfamHit))) As IEnumerable(Of PfamString.PfamString)
+            Return source _
+                .AsParallel _
+                .Select(Function(query) query.CreatePfamStringAnnotation) _
+                .OrderBy(Function(q) q.ProteinId)
+        End Function
 
-                Yield protein
-            Next
+        <Extension>
+        Public Function CreatePfamStringAnnotation(query As NamedCollection(Of PfamHit)) As PfamString.PfamString
+            Dim domains As NamedCollection(Of DomainModel) = query.AnnotatedFromHitsGroup()
+            Dim idTable As Dictionary(Of String, String) = query _
+                .Select(Function(p) p.Pfam) _
+                .GroupBy(Function(p) p.CommonName) _
+                .ToDictionary(Function(p) p.Key,
+                              Function(p)
+                                  Return p.First.PfamId
+                              End Function)
+            Dim domainIDs$() = (From d As DomainModel In domains Select $"{idTable(d.DomainId)}:{d.DomainId}" Distinct).ToArray
+            Dim pfamString$() = domains _
+                .Select(Function(x)
+                            Return $"{x.DomainId}({x.start}|{x.ends})"
+                        End Function) _
+                .Distinct _
+                .ToArray
+            Dim protein As New PfamString.PfamString With {
+                .ProteinId = query.name,
+                .Description = query.description,
+                .Length = query(Scan0).query_length,
+                .Domains = domainIDs,
+                .PfamString = pfamString
+            }
+
+            Return protein
         End Function
 
         Public Const Evalue1En5 As Double = 10 ^ -3
