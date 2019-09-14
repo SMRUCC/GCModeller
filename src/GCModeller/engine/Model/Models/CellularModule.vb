@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee0f0e07abee8f92a78007d51a96fb8e, Model\CellularModule.vb"
+﻿#Region "Microsoft.VisualBasic::ce2cc232af0bd5381e037e91b6a7d725, engine\Model\Models\CellularModule.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Structure CellularModule
     ' 
-    ' 
+    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
@@ -75,4 +75,3 @@ Public Structure CellularModule
     End Function
 
 End Structure
-

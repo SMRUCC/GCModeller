@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58decc9c054717c19f0fe25b00d3ab70, data\STRING\WebAPI\StringAPI.vb"
+﻿#Region "Microsoft.VisualBasic::cedd066d378cb07a9fe4ea7e0c7951c4, STRING\WebAPI\StringAPI.vb"
 
     ' Author:
     ' 

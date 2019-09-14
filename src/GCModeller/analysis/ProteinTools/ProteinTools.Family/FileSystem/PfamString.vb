@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0411bfba4abc2ce4fcdf3b0ceb190844, analysis\ProteinTools\ProteinTools.Family\FileSystem\PfamString.vb"
+﻿#Region "Microsoft.VisualBasic::eabc38fc2b79b3702b8676d29f665e21, analysis\ProteinTools\ProteinTools.Family\FileSystem\PfamString.vb"
 
     ' Author:
     ' 

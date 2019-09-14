@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2123d703131e12b802e6472b3efa22c5, data\WebServices\Regprecise\Regprecise.vb"
+﻿#Region "Microsoft.VisualBasic::2adf4ca3dd7137211c595d65af777e04, WebServices\Regprecise\Regprecise.vb"
 
     ' Author:
     ' 

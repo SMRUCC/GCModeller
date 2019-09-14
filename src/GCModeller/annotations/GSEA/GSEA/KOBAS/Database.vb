@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36489a6fa479065d57a5cd40dc6eb52a, GSEA\GSEA\KOBAS\Database.vb"
+﻿#Region "Microsoft.VisualBasic::b0621de5cc98d48b6c48499c556cb159, GSEA\GSEA\KOBAS\Database.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,10 @@
 
     ' Summaries:
 
-    ' Module KOBASDatabase
+    '     Module KOBASDatabase
     ' 
-    '     Function: ImportsKOBASSqlite3
+    '         Function: ImportsKOBASSqlite3
+    ' 
     ' 
     ' /********************************************************************************/
 

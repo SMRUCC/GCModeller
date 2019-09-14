@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7cf953676a5e2d039f34eba5cc0bff0d, data\WebServices\Service References\WSDbfetchDoclitServerServices\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::528737608720345d931275a928d8b7bd, WebServices\Service References\WSDbfetchDoclitServerServices\Reference.vb"
 
     ' Author:
     ' 

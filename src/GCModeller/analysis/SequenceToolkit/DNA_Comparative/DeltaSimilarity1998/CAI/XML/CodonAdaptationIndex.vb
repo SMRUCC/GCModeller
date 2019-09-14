@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76162a54843e0b6ce68bb80d401acc19, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\XML\CodonAdaptationIndex.vb"
+﻿#Region "Microsoft.VisualBasic::e42e902967ead72d43dc9fe560732460, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\XML\CodonAdaptationIndex.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6955ce10f456205ce43fdbebd5902bc2, data\ExternalDBSource\MetaCyc\bio_warehouse\protocolapplwidpersonwid.vb"
+﻿#Region "Microsoft.VisualBasic::6955ce10f456205ce43fdbebd5902bc2, ExternalDBSource\MetaCyc\bio_warehouse\protocolapplwidpersonwid.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ee330cc0de2a9902e25d540799861ce, analysis\Motifs\CRISPR\CRT\Output\GenomeScanResult.vb"
+﻿#Region "Microsoft.VisualBasic::37f2cae6db342f483c6eb236b35e5da5, analysis\Motifs\CRISPR\CRT\Output\GenomeScanResult.vb"
 
     ' Author:
     ' 

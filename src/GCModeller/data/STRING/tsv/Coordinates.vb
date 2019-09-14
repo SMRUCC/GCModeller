@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20e7fb7819ebfd7162d77e336540dc7f, data\STRING\tsv\Coordinates.vb"
+﻿#Region "Microsoft.VisualBasic::f01d7731278c569ad464e4bcd01de054, STRING\tsv\Coordinates.vb"
 
     ' Author:
     ' 

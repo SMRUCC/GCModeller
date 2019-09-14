@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0d09b248a54ac88aaad82bb7da069f2, ChromosomeMap\DrawingModels\LabelPadding.vb"
+﻿#Region "Microsoft.VisualBasic::2fc66999e6d45780afd26f37f9281f52, visualize\ChromosomeMap\DrawingModels\LabelPadding.vb"
 
     ' Author:
     ' 

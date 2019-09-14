@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb9509b0dcb1e8f8c81ff2aa45d581d4, IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\EnzymeActivityRegulator.vb"
+﻿#Region "Microsoft.VisualBasic::f96706ee47a9f0250b6a55480687b4f6, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\EnzymeActivityRegulator.vb"
 
     ' Author:
     ' 

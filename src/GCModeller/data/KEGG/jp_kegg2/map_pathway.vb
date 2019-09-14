@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a972fe565d8bca756e62282a2374719, data\KEGG\jp_kegg2\map_pathway.vb"
+﻿#Region "Microsoft.VisualBasic::4a972fe565d8bca756e62282a2374719, KEGG\jp_kegg2\map_pathway.vb"
 
     ' Author:
     ' 

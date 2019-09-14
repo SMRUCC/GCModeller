@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ac4b6b573bf2c6f3d91ed4ee21b0ca4, data\ExternalDBSource\MetaCyc\bio_warehouse\seqfeaturelocation.vb"
+﻿#Region "Microsoft.VisualBasic::5ac4b6b573bf2c6f3d91ed4ee21b0ca4, ExternalDBSource\MetaCyc\bio_warehouse\seqfeaturelocation.vb"
 
     ' Author:
     ' 

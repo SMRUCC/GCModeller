@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f67cebe99b1cb58888f33072cd066e18, foundation\PSICQUIC\psidev\XML\XmlCommon.vb"
+﻿#Region "Microsoft.VisualBasic::6a645a94aa7181c6bb91f939ab43be89, foundation\PSICQUIC\psidev\XML\XmlCommon.vb"
 
     ' Author:
     ' 

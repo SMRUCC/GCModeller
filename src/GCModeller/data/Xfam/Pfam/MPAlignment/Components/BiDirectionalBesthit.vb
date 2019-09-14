@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ca047bf04802d8af725d9a8a3c01c3b, data\Xfam\Pfam\MPAlignment\Components\BiDirectionalBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::a8057eb9e0b30993c464cb082a9e7575, Xfam\Pfam\MPAlignment\Components\BiDirectionalBesthit.vb"
 
     ' Author:
     ' 

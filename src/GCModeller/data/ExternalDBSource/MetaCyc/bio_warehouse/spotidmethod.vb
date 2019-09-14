@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24c83c026668c1edca12a37515d6d974, data\ExternalDBSource\MetaCyc\bio_warehouse\spotidmethod.vb"
+﻿#Region "Microsoft.VisualBasic::24c83c026668c1edca12a37515d6d974, ExternalDBSource\MetaCyc\bio_warehouse\spotidmethod.vb"
 
     ' Author:
     ' 

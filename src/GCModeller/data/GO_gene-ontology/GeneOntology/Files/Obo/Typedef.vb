@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::11e6241959e2d117185782a370e38d88, data\GO_gene-ontology\GeneOntology\Files\Obo\Typedef.vb"
+﻿#Region "Microsoft.VisualBasic::2caa2b802e4a9cd6388d4189f781b186, GO_gene-ontology\GeneOntology\Files\Obo\Typedef.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Typedef
-' 
-'         Properties: alt_id, comment, consider, def, domain
-'                     holds_over_chain, inverse_of, is_a, is_anonymous, is_anti_symmetric
-'                     is_class_level, is_cyclic, is_metadata_tag, is_obsolete, is_reflexive
-'                     is_symmetric, is_transitive, range, relationship, replaced_by
-'                     subset, synonym, transitive_over, xref
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class Typedef
+    ' 
+    '         Properties: alt_id, comment, consider, def, domain
+    '                     holds_over_chain, inverse_of, is_a, is_anonymous, is_anti_symmetric
+    '                     is_class_level, is_cyclic, is_metadata_tag, is_obsolete, is_reflexive
+    '                     is_symmetric, is_transitive, range, relationship, replaced_by
+    '                     subset, synonym, transitive_over, xref
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

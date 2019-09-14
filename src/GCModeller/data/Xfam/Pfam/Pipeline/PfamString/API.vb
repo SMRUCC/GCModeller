@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c12e66650fd9b1a2ed9412658d6348ae, data\Xfam\Pfam\Parser\PfamString\API.vb"
+﻿#Region "Microsoft.VisualBasic::318c51362dfdb6a2e26374d7584a1e46, Xfam\Pfam\Pipeline\PfamString\API.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,9 @@
 
     '     Module API
     ' 
-    '         Function: __getDomainLDM, __getDomainTrace, Analysis, CLIParser, CreateDistruction
-    '                   CreateDomainID, CreateObject, CreatePfamString, CreateProteinDescription, FromChouFasman
-    '                   GenerateData, GetDomain, ToPfamStringToken
+    '         Function: Analysis, CLIParser, CreateDistruction, CreateDomainID, CreateObject
+    '                   CreatePfamString, CreateProteinDescription, FromChouFasman, GenerateData, GetDomain
+    '                   getDomainModel, getDomainTrace, ToPfamStringToken
     ' 
     '         Sub: ExportEvolgeniusView
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::318e1c15a08a9d218e941d7bf3987ee5, data\ExternalDBSource\MetaCyc\bio_warehouse\mismatchinformation.vb"
+﻿#Region "Microsoft.VisualBasic::318e1c15a08a9d218e941d7bf3987ee5, ExternalDBSource\MetaCyc\bio_warehouse\mismatchinformation.vb"
 
     ' Author:
     ' 

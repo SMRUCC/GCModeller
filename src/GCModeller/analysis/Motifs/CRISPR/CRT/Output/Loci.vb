@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a970b5bdef7246588cf60a0337f17fb, analysis\Motifs\CRISPR\CRT\Output\Loci.vb"
+﻿#Region "Microsoft.VisualBasic::1c54764f5c391c7dc9ff5f363f803565, analysis\Motifs\CRISPR\CRT\Output\Loci.vb"
 
     ' Author:
     ' 

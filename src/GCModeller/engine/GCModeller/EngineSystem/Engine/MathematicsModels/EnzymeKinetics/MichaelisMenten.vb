@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::161022478fecd726bb7c7bfce93c7c13, GCModeller\EngineSystem\Engine\MathematicsModels\EnzymeKinetics\MichaelisMenten.vb"
+﻿#Region "Microsoft.VisualBasic::6d4f48e6540e31eeb0a1c24f03f3f0f2, engine\GCModeller\EngineSystem\Engine\MathematicsModels\EnzymeKinetics\MichaelisMenten.vb"
 
     ' Author:
     ' 

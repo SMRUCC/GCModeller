@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3453f3e3685cea8b47651b59daea4053, data\Xfam\Rfam\Infernal\DocCommons.vb"
+﻿#Region "Microsoft.VisualBasic::34a68e6da9684a0d2c90b5bc6a8eb74f, Xfam\Rfam\Infernal\DocCommons.vb"
 
     ' Author:
     ' 

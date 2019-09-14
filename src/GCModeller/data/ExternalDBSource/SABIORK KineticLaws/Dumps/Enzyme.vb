@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39052d8839e14f23ffba21b5d19a0b93, data\ExternalDBSource\SABIORK KineticLaws\Dumps\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::1a0db6712025affe45b5fa44a1913fee, ExternalDBSource\SABIORK KineticLaws\Dumps\Enzyme.vb"
 
     ' Author:
     ' 

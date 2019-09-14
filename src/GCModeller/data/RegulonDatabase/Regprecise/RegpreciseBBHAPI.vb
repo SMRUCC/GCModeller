@@ -1,44 +1,44 @@
-﻿#Region "Microsoft.VisualBasic::1e121197f39bf669226087de5264e098, data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e57d9b5f14b87029f27013fdde42e8eb, RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module RegpreciseBidirectionalBh_Methods
-' 
-'         Function: __applyingProperty, __applyProperty, __gettfbs, Convert, FamilyStatics
-'                   (+3 Overloads) Match, MatchAlignment, MPAlignment, MPCutoff, ReadData
-'                   SelectPfamSource, WriteData
-' 
-' 
-' /********************************************************************************/
+    '     Module RegpreciseBidirectionalBh_Methods
+    ' 
+    '         Function: __applyingProperty, __applyProperty, __gettfbs, Convert, FamilyStatics
+    '                   (+3 Overloads) Match, MatchAlignment, MPAlignment, MPCutoff, ReadData
+    '                   SelectPfamSource, WriteData
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

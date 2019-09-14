@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7198367af60f4feb37db0447c0357796, data\ExternalDBSource\MetaCyc\bio_warehouse\softwarewidcontactwid.vb"
+﻿#Region "Microsoft.VisualBasic::7198367af60f4feb37db0447c0357796, ExternalDBSource\MetaCyc\bio_warehouse\softwarewidcontactwid.vb"
 
     ' Author:
     ' 

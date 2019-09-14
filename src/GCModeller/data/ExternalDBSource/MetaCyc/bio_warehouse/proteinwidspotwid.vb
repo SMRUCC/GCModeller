@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc5692f92cb7f398b37c5e87a931f0f5, data\ExternalDBSource\MetaCyc\bio_warehouse\proteinwidspotwid.vb"
+﻿#Region "Microsoft.VisualBasic::cc5692f92cb7f398b37c5e87a931f0f5, ExternalDBSource\MetaCyc\bio_warehouse\proteinwidspotwid.vb"
 
     ' Author:
     ' 

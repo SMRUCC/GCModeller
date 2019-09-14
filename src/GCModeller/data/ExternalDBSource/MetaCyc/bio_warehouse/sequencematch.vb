@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::171e7ea38501cfb9f2fb3278dbfe11b0, data\ExternalDBSource\MetaCyc\bio_warehouse\sequencematch.vb"
+﻿#Region "Microsoft.VisualBasic::171e7ea38501cfb9f2fb3278dbfe11b0, ExternalDBSource\MetaCyc\bio_warehouse\sequencematch.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bf40be749bac19dfb53615bd345c249, data\RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb"
+﻿#Region "Microsoft.VisualBasic::416a37039260ec6a28b36766488ea044, RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb"
 
     ' Author:
     ' 

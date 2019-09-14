@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9afb9f3fd0784b39bbbfe99a85aa5ea1, CLI_tools\eggHTS\Test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::03be733957e06f45d1967f19b9828246, CLI_tools\eggHTS\Test\Module1.vb"
 
     ' Author:
     ' 

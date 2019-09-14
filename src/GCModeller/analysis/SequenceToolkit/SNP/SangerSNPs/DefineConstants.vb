@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74e622be31c2ee848cd0309893520292, analysis\SequenceToolkit\SNP\SangerSNPs\DefineConstants.vb"
+﻿#Region "Microsoft.VisualBasic::603813f6d8a47723ecc1762401d0fedd, analysis\SequenceToolkit\SNP\SangerSNPs\DefineConstants.vb"
 
     ' Author:
     ' 
