@@ -42,6 +42,8 @@
 
 Module Program
 
+    Friend Const PfamCliTools$ = "Pfam CLI tools"
+
     Public Function Main() As Integer
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function

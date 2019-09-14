@@ -42,6 +42,7 @@
 
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
@@ -58,6 +59,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
                   Description:="Xfam Tools (Pfam, Rfam, iPfam)",
                   Category:=APICategories.CLI_MAN,
                   Url:="http://xfam.org")>
+<CLI>
 Module CLI
 
     <ExportAPI("/Rfam.Align", Usage:="/Rfam.Align /query <sequence.fasta> [/rfam <DIR> /out <outDIR> /num_threads -1 /ticks 1000]")>

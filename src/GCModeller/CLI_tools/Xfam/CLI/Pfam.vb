@@ -66,6 +66,7 @@ Partial Module CLI
               AcceptTypes:={GetType(PfamHit)},
               Extensions:="*.csv",
               Description:="The output pfam hits result which is parsed from the pfam_vs_protein blastp result.")>
+    <Group(Program.PfamCliTools)>
     Public Function ExportPfamHits(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim alt_direction As Boolean = args("/alt.direction")
@@ -107,6 +108,7 @@ Partial Module CLI
     <ExportAPI("/Export.Pfam.UltraLarge")>
     <Usage("/Export.Pfam.UltraLarge /in <blastOUT.txt> [/out <out.csv> /evalue <0.00001> /coverage <0.85> /offset <0.1>]")>
     <Description("Export pfam annotation result from blastp based sequence alignment analysis.")>
+    <Group(Program.PfamCliTools)>
     Public Function ExportUltraLarge(args As CommandLine) As Integer
         Dim inFile As String = args <= "/in"
         Dim out As String = args("/out") Or (inFile.TrimSuffix & ".pfamString.csv")
@@ -135,8 +137,10 @@ Partial Module CLI
         End Using
     End Function
 
-    <ExportAPI("/Export.hmmscan",
-               Usage:="/Export.hmmscan /in <input_hmmscan.txt> [/evalue 1e-5 /out <pfam.csv>]")>
+    <ExportAPI("/Export.hmmscan")>
+    <Usage("/Export.hmmscan /in <input_hmmscan.txt> [/evalue 1e-5 /out <pfam.csv>]")>
+    <Description("Export result from HMM search based domain annotation result.")>
+    <Group(Program.PfamCliTools)>
     Public Function ExportHMMScan(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pfam.Csv")
@@ -165,6 +169,7 @@ Partial Module CLI
 
     <ExportAPI("/Export.hmmsearch",
                Usage:="/Export.hmmsearch /in <input_hmmsearch.txt> [/prot <query.fasta> /out <pfam.csv>]")>
+    <Group(Program.PfamCliTools)>
     Public Function ExportHMMSearch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pfam.Csv")
