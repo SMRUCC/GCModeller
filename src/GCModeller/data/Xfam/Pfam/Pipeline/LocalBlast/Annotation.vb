@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::ff60e0ca86604789db5875f6e73bd517, Xfam\Pfam\Pipeline\LocalBlast\Annotation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Annotation
-    ' 
-    '         Function: AnnotatedFromHitsGroup, ApplyDomainFilter, doGroupingAndTrimOverlap, getOverlaps, parseDomains
-    '                   ParserRaw, trimOverlaps
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Annotation
+' 
+'         Function: AnnotatedFromHitsGroup, ApplyDomainFilter, doGroupingAndTrimOverlap, getOverlaps, parseDomains
+'                   ParserRaw, trimOverlaps
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,14 +58,47 @@ Namespace Pipeline.LocalBlast
 
         <Extension>
         Public Iterator Function DoHitsGrouping(hits As IEnumerable(Of PfamHit)) As IEnumerable(Of NamedCollection(Of PfamHit))
+            Dim proteinGroups As New Dictionary(Of String, List(Of PfamHit))
 
+            For Each hit As PfamHit In hits
+                If Not proteinGroups.ContainsKey(hit.QueryName) Then
+                    proteinGroups(hit.QueryName) = New List(Of PfamHit)
+                End If
+
+                proteinGroups(hit.QueryName) += hit
+            Next
+
+            For Each proteinGroup In proteinGroups
+                Yield New NamedCollection(Of PfamHit) With {
+                    .name = proteinGroup.Key,
+                    .description = proteinGroup.Value(Scan0).description,
+                    .value = proteinGroup.Value
+                }
+            Next
         End Function
 
         <Extension>
-        Public Function CreateAnnotations(query As IEnumerable(Of NamedCollection(Of PfamHit))) As IEnumerable(Of PfamString.PfamString)
+        Public Iterator Function CreateAnnotations(source As IEnumerable(Of NamedCollection(Of PfamHit))) As IEnumerable(Of PfamString.PfamString)
+            For Each query As NamedCollection(Of PfamHit) In source
+                Dim domains As NamedCollection(Of DomainModel) = query.AnnotatedFromHitsGroup()
+                Dim idTable As Dictionary(Of String, String) = query _
+                    .Select(Function(p) p.Pfam) _
+                    .GroupBy(Function(p) p.CommonName) _
+                    .ToDictionary(Function(p) p.Key,
+                                  Function(p)
+                                      Return p.First.PfamId
+                                  End Function)
+                Dim protein As New PfamString.PfamString With {
+                    .ProteinId = query.name,
+                    .Description = query.description,
+                    .Length = query(Scan0).query_length,
+                    .Domains = (From d As DomainModel In domains Select $"{idTable(d.DomainId)}:{d.DomainId}" Distinct).ToArray,
+                    .PfamString = domains.Select(Function(x) $"{idTable(x.DomainId)}({x.start}|{x.ends})").Distinct.ToArray
+                }
 
+                Yield protein
+            Next
         End Function
-
 
         Public Const Evalue1En5 As Double = 10 ^ -3
 
@@ -104,7 +137,7 @@ Namespace Pipeline.LocalBlast
                                                Optional offset As Double = 0.1) As NamedCollection(Of DomainModel)
 
             Dim hitsArray As PfamHit() = hits _
-                .Where(Function(hit) hit.applyDomainFilter(evalue, coverage, identities)) _
+                .Where(Function(hit) hit.ApplyDomainFilter(evalue, coverage, identities)) _
                 .ToArray
 
             If hitsArray.Length = 0 Then
