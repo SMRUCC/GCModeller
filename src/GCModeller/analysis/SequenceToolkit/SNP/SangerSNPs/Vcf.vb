@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2772cd7ab68eb0d7760d72d143fcf033, analysis\SequenceToolkit\SNP\SangerSNPs\Vcf.vb"
+﻿#Region "Microsoft.VisualBasic::a80994a363061bb3c82762fe17a31095, analysis\SequenceToolkit\SNP\SangerSNPs\Vcf.vb"
 
     ' Author:
     ' 

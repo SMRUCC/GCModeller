@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ef23dabbaf3a8ad961139c8e253e65d, data\functional_DATA\CARD\Tables.vb"
+﻿#Region "Microsoft.VisualBasic::d97807503bf7c2740372d7c18267b7d2, analysis\Metagenome\MetaFunction\CARD\Tables.vb"
 
     ' Author:
     ' 

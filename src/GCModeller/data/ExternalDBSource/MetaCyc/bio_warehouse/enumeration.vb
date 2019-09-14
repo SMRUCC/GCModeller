@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::496942bbba159c6e1d4e651b0620cd5f, data\ExternalDBSource\MetaCyc\bio_warehouse\enumeration.vb"
+﻿#Region "Microsoft.VisualBasic::496942bbba159c6e1d4e651b0620cd5f, ExternalDBSource\MetaCyc\bio_warehouse\enumeration.vb"
 
     ' Author:
     ' 

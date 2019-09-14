@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::298f42b43fe770582459d8c962aabcbf, data\functional_DATA\CARD\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::4cc039195dc4f1555166dcf08ef25405, analysis\Metagenome\MetaFunction\CARD\Fasta.vb"
 
     ' Author:
     ' 
@@ -36,11 +36,6 @@
     '     Properties: AccessionID, ARO, loci, name, species
     ' 
     '     Function: NucleotideHeader, ProteinHeader, ToString
-    '     Class LocationParser
-    ' 
-    '         Function: ToString, TryParse
-    ' 
-    ' 
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::876bd2a7b2fd0c1dc3c184dbf633c9e7, analysis\SequenceToolkit\SNP\SangerSNPs\AlignmentMinusfile.vb"
+﻿#Region "Microsoft.VisualBasic::2c89f4f26e3a24dae53a80807d88e8ea, analysis\SequenceToolkit\SNP\SangerSNPs\AlignmentMinusfile.vb"
 
     ' Author:
     ' 

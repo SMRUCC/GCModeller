@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::378300c0871923eb6ca0530fa9dae074, IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\BacterialGenome.vb"
+﻿#Region "Microsoft.VisualBasic::04850ceb87bf703d4a894e124a413f28, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\BacterialGenome.vb"
 
     ' Author:
     ' 
@@ -33,11 +33,9 @@
 
     '     Class BacterialGenome
     ' 
-    '         Properties: Comment, CommonName, DbLinks, ExpressionKinetics, Genes
-    '                     Genome, NCBITaxonomy, OperonCounts, Regulons, Strain
-    '                     Transcripts, TransUnits
-    ' 
-    '         Function: GetExpressionKineticsLaw
+    '         Properties: Comment, CommonName, DbLinks, Genes, Genome
+    '                     NCBITaxonomy, OperonCounts, Regulons, Strain, Transcripts
+    '                     TransUnits
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed6ad2f5f3620c892f2ed31d03abf97f, CLI_tools\c2\Workflows\RegulationNetwork\TryParsePromoter.vb"
+﻿#Region "Microsoft.VisualBasic::78db05abe186f16dd4b377d7841c6ed7, CLI_tools\c2\Workflows\RegulationNetwork\TryParsePromoter.vb"
 
     ' Author:
     ' 

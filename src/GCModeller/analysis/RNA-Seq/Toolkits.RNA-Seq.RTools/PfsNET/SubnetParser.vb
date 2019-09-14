@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af449757ef7bff4aa6dd410e8296b49b, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\SubnetParser.vb"
+﻿#Region "Microsoft.VisualBasic::a7e0410a2832fbb49b7fc76be73cb242, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\SubnetParser.vb"
 
     ' Author:
     ' 

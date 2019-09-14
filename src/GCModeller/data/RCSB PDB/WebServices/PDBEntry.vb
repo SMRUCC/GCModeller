@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33cab704696526a3b9f2cb1bc00a29dc, data\RCSB PDB\WebServices\PDBEntry.vb"
+﻿#Region "Microsoft.VisualBasic::2ebcf762c1677e0da39946f3d289cd33, RCSB PDB\WebServices\PDBEntry.vb"
 
     ' Author:
     ' 

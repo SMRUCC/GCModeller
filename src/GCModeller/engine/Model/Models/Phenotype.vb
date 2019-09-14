@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e6d99b19ed54d4c9d48e38453567107, Model\Phenotype.vb"
+﻿#Region "Microsoft.VisualBasic::33ca148f4f1e19baa75fd8495596a413, engine\Model\Models\Phenotype.vb"
 
     ' Author:
     ' 
@@ -62,4 +62,3 @@ Public Structure Phenotype
     Public proteins As Protein()
 
 End Structure
-

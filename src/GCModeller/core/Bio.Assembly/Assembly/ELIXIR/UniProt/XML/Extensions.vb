@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca4b407288df8925932b6924585f0e3f, Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::411eb7efd9a37ca7e596f0c5d8c9d920, Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
 
     ' Author:
     ' 

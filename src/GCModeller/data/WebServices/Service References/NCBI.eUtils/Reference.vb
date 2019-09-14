@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e74af6b7398c2ed025f853710ad3148, data\WebServices\Service References\NCBI.eUtils\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::34e97200282c0bf13cf32bf277829286, WebServices\Service References\NCBI.eUtils\Reference.vb"
 
     ' Author:
     ' 

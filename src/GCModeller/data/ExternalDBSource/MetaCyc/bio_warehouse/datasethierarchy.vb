@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7771f0d691c1563120f75f5afe9079f, data\ExternalDBSource\MetaCyc\bio_warehouse\datasethierarchy.vb"
+﻿#Region "Microsoft.VisualBasic::c7771f0d691c1563120f75f5afe9079f, ExternalDBSource\MetaCyc\bio_warehouse\datasethierarchy.vb"
 
     ' Author:
     ' 

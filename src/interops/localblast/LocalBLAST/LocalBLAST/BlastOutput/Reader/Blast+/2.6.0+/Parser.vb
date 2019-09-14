@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3799bd975c131bc5a87f971033fe4bff, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::2cd4332f0ceed3e8214f864e7e7063ca, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb"
 
     ' Author:
     ' 
@@ -45,8 +45,8 @@
     ' 
     '     Properties: DefaultEncoding
     ' 
-    '     Function: [GetType], (+2 Overloads) __blockWorker, __getParser, __loadData, __queryParser
-    '               __tryParseBlastnOutput, __tryParseUltraLarge, BuildGrepScript, IsBlastOut, TryParseBlastnOutput
+    '     Function: [GetType], (+2 Overloads) __blockWorker, __getParser, __queryParser, __tryParseBlastnOutput
+    '               __tryParseUltraLarge, BuildGrepScript, doLoadDataInternal, IsBlastOut, TryParseBlastnOutput
     '               TryParseUltraLarge
     ' 
     '     Sub: (+2 Overloads) Transform

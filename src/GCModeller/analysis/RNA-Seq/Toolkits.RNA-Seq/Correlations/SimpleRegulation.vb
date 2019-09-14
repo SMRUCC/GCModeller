@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5abf0b62e0ce35482cf225d98f3894a2, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\SimpleRegulation.vb"
+﻿#Region "Microsoft.VisualBasic::159602600a8af8b9fa3d53751e627c4b, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\SimpleRegulation.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbb315ebd52eeaadbc809c9c06b0faa7, Networks\Microbiome\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::c904d1ad9c6ee837e7b1a0fe3ca42924, Networks\Microbiome\Enzyme.vb"
 
     ' Author:
     ' 
@@ -75,4 +75,3 @@ Public Class Enzyme
                       End Function)
     End Function
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb9b730c146327ca53b53ec871e20129, analysis\ProteinTools\ProteinTools.Family\API.vb"
+﻿#Region "Microsoft.VisualBasic::a7f99286bbd907da684458e4c962c4fd, analysis\ProteinTools\ProteinTools.Family\API.vb"
 
     ' Author:
     ' 

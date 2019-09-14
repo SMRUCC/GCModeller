@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af97200447ae0ed52335972be827a98a, data\ExternalDBSource\Regprecise\tfbsInfo.vb"
+﻿#Region "Microsoft.VisualBasic::824f2cc6c5e9c286bc87b013de3cae07, ExternalDBSource\Regprecise\tfbsInfo.vb"
 
     ' Author:
     ' 

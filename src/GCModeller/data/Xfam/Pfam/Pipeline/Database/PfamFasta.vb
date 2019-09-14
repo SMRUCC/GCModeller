@@ -1,45 +1,44 @@
-﻿#Region "Microsoft.VisualBasic::c5e6d8b963319f185d3ffb57521803c3, data\Xfam\Pfam\Parser\PfamFasta.vb"
+﻿#Region "Microsoft.VisualBasic::c709e0d6d12301262eb171ab029c9e2d, Xfam\Pfam\Pipeline\Database\PfamFasta.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class PfamFasta
-' 
-'         Properties: __internalCreateNULL, Headers, Location, Title
-' 
-'         Function: __createObject, CreateCsvArchive, CreateObject, ParseEntry, ParseHeadTitle
-'                   ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class PfamFasta
+    ' 
+    '         Properties: Headers, SequenceData, Title
+    ' 
+    '         Function: CreateCsvArchive, CreateObject, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

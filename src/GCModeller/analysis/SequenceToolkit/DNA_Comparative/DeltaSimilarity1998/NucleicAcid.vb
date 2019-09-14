@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3411021f33b17fdddd7b3f1747f16fe5, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::812ae4ce237a0c5f4697fa1bfe2def78, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\NucleicAcid.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     '     Class NucleicAcid
     ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: __createSigma, GetValue
+    '         Constructor: (+4 Overloads) Sub New
+    '         Function: __createSigma, CreateFragments, GetValue, slideWindows
     ' 
     ' 
     ' /********************************************************************************/

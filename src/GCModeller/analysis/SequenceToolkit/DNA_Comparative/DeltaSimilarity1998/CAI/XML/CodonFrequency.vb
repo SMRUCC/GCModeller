@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46f84ecd782672dc420e0637ae44da2f, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\XML\CodonFrequency.vb"
+﻿#Region "Microsoft.VisualBasic::a030d5266bb5bb80d0e5de22b1978547, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\XML\CodonFrequency.vb"
 
     ' Author:
     ' 

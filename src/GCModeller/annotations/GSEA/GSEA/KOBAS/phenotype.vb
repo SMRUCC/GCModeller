@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c1bd4053a633c637f5ae89b0bf362a9, GSEA\GSEA\KOBAS\phenotype.vb"
+﻿#Region "Microsoft.VisualBasic::328a4a724975c4a4792e1a92b9dffdaf, GSEA\GSEA\KOBAS\phenotype.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,14 @@
 
     ' Summaries:
 
-    ' Class phenotype
+    '     Class phenotype
     ' 
-    '     Properties: labels, phnameA, phnameB, sample_num, sample0
-    '                 sample1
+    '         Properties: labels, phnameA, phnameB, sample_num, sample0
+    '                     sample1
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: FromClsFile
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: FromClsFile
+    ' 
     ' 
     ' /********************************************************************************/
 

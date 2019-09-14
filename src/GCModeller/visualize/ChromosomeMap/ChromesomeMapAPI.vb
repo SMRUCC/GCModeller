@@ -1,50 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::94a99898dd9b46f1d4f881e624a45cb2, ChromosomeMap\ChromesomeMapAPI.vb"
+﻿#Region "Microsoft.VisualBasic::4ead5130199cdf1258164af566d0d1f1, visualize\ChromosomeMap\ChromesomeMapAPI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module ChromesomeMapAPI
-' 
-'     Function: __getRandomColor, AddLociSites, AddMotifSites, AddMutationData, ApplyCogColorProfile
-'               (+2 Overloads) CreateDevice, DescribTest, ExportColorInformation, FromGenbankDIR, FromGenes
-'               FromPTT, FromPttObject, get_Converted, GetDefaultConfiguration, InvokeDrawing
-'               LoadConfig, READ_PlasmidData, SaveImage, WriteGeneFasta
-'     Class __setRNAColorInvoke
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: __setColor, __setColorBrush
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Module ChromesomeMapAPI
+    ' 
+    '     Function: __getRandomColor, AddLociSites, AddMotifSites, AddMutationData, ApplyCogColorProfile
+    '               (+2 Overloads) CreateDevice, DescribTest, ExportColorInformation, FromGenbankDIR, FromGenes
+    '               FromPTT, FromPttObject, get_Converted, GetDefaultConfiguration, InvokeDrawing
+    '               LoadConfig, READ_PlasmidData, SaveImage, WriteGeneFasta
+    '     Class __setRNAColorInvoke
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: __setColor, __setColorBrush
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

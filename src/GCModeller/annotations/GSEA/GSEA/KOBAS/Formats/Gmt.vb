@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b6fbb8f8bdf76be95c51786bef5700d, GSEA\GSEA\Formats\Gmt.vb"
+﻿#Region "Microsoft.VisualBasic::f8eeb22b9faa1d6210cd4aa8279eb1b1, GSEA\GSEA\KOBAS\Formats\Gmt.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,12 @@
 
     ' Summaries:
 
-    ' Class Gmt
+    '     Class Gmt
     ' 
-    '     Properties: attributes, clusters, database, species
+    '         Properties: attributes, clusters, database, species
     ' 
-    '     Function: GetEnumerator, IEnumerable_GetEnumerator, LoadFile
+    '         Function: GetEnumerator, IEnumerable_GetEnumerator, LoadFile
+    ' 
     ' 
     ' 
     ' /********************************************************************************/

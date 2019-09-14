@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff5189964ee7fa31a5434c078b4e8c24, CLI_tools\RegPrecise\CLI\Rfam.vb"
+﻿#Region "Microsoft.VisualBasic::377d49ffc3fba52de15e13f1cad4506b, CLI_tools\RegPrecise\CLI\Rfam.vb"
 
     ' Author:
     ' 

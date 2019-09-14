@@ -1,83 +1,83 @@
-﻿#Region "Microsoft.VisualBasic::c2d8de7f60de8f40c3ea53e42336bc2b, data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
+﻿#Region "Microsoft.VisualBasic::faa7cb819cd9f23daa856f9a1dc56148, RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class RegPreciseTFFamily
-' 
-'         Properties: Family
-' 
-'         Function: Download, Export, FindAtRegulog, ToString
-' 
-'         Sub: Export
-' 
-'     Class TranscriptionFactorFamily
-' 
-'         Properties: Family, Genomes, Regulogs, TFBindingSites, TFRegulons
-'                     Url
-' 
-'         Function: Parse, ToString
-' 
-'     Class Regulogs
-' 
-'         Properties: Counts, Description, Logs
-' 
-'         Function: Export, GetDescription, GetUniqueIds, TrimText
-' 
-'         Sub: Parse
-'         Class Item
-' 
-'             Properties: Phylum, Regulog, TFBSs, TFRegulons
-' 
-'             Function: Parse, ParseLog, ToString
-' 
-' 
-' 
-'     Class Regulator
-' 
-'         Properties: BiologicalProcess, Effector, Family, RegulationMode, Regulog
-'                     TFBSs
-' 
-'         Function: [Select], ExportMotifs, GetUniqueId, GetValue, Parse
-'                   ParseLog, (+2 Overloads) SequenceTrimming
-' 
-'     Class MotifFasta
-' 
-'         Properties: bacteria, Headers, locus_tag, name, position
-'                     score, SequenceData, Title, UniqueId
-' 
-'         Function: [New], Parse, ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class RegPreciseTFFamily
+    ' 
+    '         Properties: Family
+    ' 
+    '         Function: Download, Export, FindAtRegulog, ToString
+    ' 
+    '         Sub: Export
+    ' 
+    '     Class TranscriptionFactorFamily
+    ' 
+    '         Properties: Family, Genomes, Regulogs, TFBindingSites, TFRegulons
+    '                     Url
+    ' 
+    '         Function: Parse, ToString
+    ' 
+    '     Class Regulogs
+    ' 
+    '         Properties: Counts, Description, Logs
+    ' 
+    '         Function: Export, GetDescription, GetUniqueIds, TrimText
+    ' 
+    '         Sub: Parse
+    '         Class Item
+    ' 
+    '             Properties: Phylum, Regulog, TFBSs, TFRegulons
+    ' 
+    '             Function: Parse, ParseLog, ToString
+    ' 
+    ' 
+    ' 
+    '     Class Regulator
+    ' 
+    '         Properties: BiologicalProcess, Effector, Family, RegulationMode, Regulog
+    '                     TFBSs
+    ' 
+    '         Function: [Select], ExportMotifs, GetUniqueId, GetValue, Parse
+    '                   ParseLog, (+2 Overloads) SequenceTrimming
+    ' 
+    '     Class MotifFasta
+    ' 
+    '         Properties: bacteria, Headers, locus_tag, name, position
+    '                     score, SequenceData, Title, UniqueId
+    ' 
+    '         Function: [New], GetSequenceData, Parse, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

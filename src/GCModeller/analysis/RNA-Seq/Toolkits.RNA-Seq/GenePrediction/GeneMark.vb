@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2bdd28dbd7e94b5e93a2b4fd8cae211, analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\GeneMark.vb"
+﻿#Region "Microsoft.VisualBasic::8b05cba8320d8da00512274214c59df3, analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\GeneMark.vb"
 
     ' Author:
     ' 

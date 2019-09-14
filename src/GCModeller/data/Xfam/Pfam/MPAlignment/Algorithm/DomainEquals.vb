@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::367943cafefa600f6c3b1652773c6020, data\Xfam\Pfam\MPAlignment\Algorithm\DomainEquals.vb"
+﻿#Region "Microsoft.VisualBasic::b4713edd06b0fbdc07e61468f94b019b, Xfam\Pfam\MPAlignment\Algorithm\DomainEquals.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::606bc74c328cc6a1608fd8f84ab3f720, shared\docs\ExtProperty.vb"
+﻿#Region "Microsoft.VisualBasic::bc9e3aa8249d46f49153a085f21bdd61, shared\docs\ExtProperty.vb"
 
     ' Author:
     ' 

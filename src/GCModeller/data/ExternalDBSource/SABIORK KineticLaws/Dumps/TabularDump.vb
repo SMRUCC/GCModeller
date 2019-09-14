@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6663e20ab692c1b6b4f6d4c8395eeaa5, data\ExternalDBSource\SABIORK KineticLaws\Dumps\TabularDump.vb"
+﻿#Region "Microsoft.VisualBasic::673fbb74a0c9cc44b7e24202008f0b35, ExternalDBSource\SABIORK KineticLaws\Dumps\TabularDump.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     ' 
     '     Class CompoundSpecie
     ' 
-    '         Properties: CommonNames, DBLinks, ICompoundObjectCHEBI_values, KEGG_Compound, PUBCHEM
+    '         Properties: CommonNames, DBLinks, KEGG_Compound
     ' 
     '         Function: CreateDBLinksData, CreateObjects, GetDBLinkManager, ToString
     ' 

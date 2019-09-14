@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29d5000f91cf15487751123a3e8d4ebe, data\MicrobesOnline\MySQL\genomics\locus2tigrfuncat.vb"
+﻿#Region "Microsoft.VisualBasic::29d5000f91cf15487751123a3e8d4ebe, MicrobesOnline\MySQL\genomics\locus2tigrfuncat.vb"
 
     ' Author:
     ' 

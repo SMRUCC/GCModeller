@@ -1,41 +1,41 @@
-﻿#Region "Microsoft.VisualBasic::43e6af4373f6014c5c6aa0768d7ea2f1, CLI_tools\Xfam\CLI\Pfam.vb"
+﻿#Region "Microsoft.VisualBasic::ca4d9eca6a1c4b3f25393d0c8e406b7c, CLI_tools\Xfam\CLI\Pfam.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module CLI
-' 
-'     Function: __getPfam, ExportHMMScan, ExportHMMSearch, ExportUltraLarge
-' 
-' /********************************************************************************/
+    ' Module CLI
+    ' 
+    '     Function: ExportHMMScan, ExportHMMSearch, ExportPfamHits, ExportUltraLarge, getPfam
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -52,18 +52,80 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan
 Imports SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan.hmmscan
 Imports SMRUCC.genomics.Data.Xfam.Pfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.SequenceModel
+Imports Query = SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query
 
 Partial Module CLI
+
+    <ExportAPI("/Export.PfamHits")>
+    <Usage("/Export.PfamHits /in <blastp_vs_pfamA.txt> [/alt.direction /evalue <1e-5> /coverage <0.85> /identities <0.9> /out <pfamhits.csv>]")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              AcceptTypes:={GetType(PfamHit)},
+              Extensions:="*.csv",
+              Description:="The output pfam hits result which is parsed from the pfam_vs_protein blastp result.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.txt",
+              Description:="The blastp alignment output of pfamA align with query proteins.")>
+    <Argument("/alt.direction", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="By default, this cli tools processing the blastp alignment result in direction ``pfam_vs_protein``, 
+              apply this option argument in cli to switch the processor in direction ``protein_vs_pfam``.")>
+    <Argument("/evalue", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="E-value cutoff of the blastp alignment result.")>
+    <Argument("/coverage", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="The coverage cutoff of the pfam domain sequence. This argument is not the coverage threshold of your query protein.")>
+    <Group(Program.PfamCliTools)>
+    Public Function ExportPfamHits(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim alt_direction As Boolean = args("/alt.direction")
+        Dim evalue# = args("/evalue") Or 0.00001
+        Dim coverage# = args("/coverage") Or 0.85
+        Dim identities# = args("/identities") Or 0.9
+        Dim i As i32 = 0
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pfamhits.csv"
+        Dim hits As PfamHit()
+
+        Call $"Parse {[in]}...".__INFO_ECHO
+
+        Using pfamhits As New WriteStream(Of PfamHit)(out)
+            For Each query As Query In BlastpOutputReader.RunParser(in$, fast:=False)
+                If alt_direction Then
+                    hits = query.ParseProteinQuery.ToArray
+                Else
+                    hits = query.ParseDomainQuery.ToArray
+                End If
+
+                Call hits _
+                    .Where(Function(hit)
+                               Return hit.ApplyDomainFilter(evalue, coverage, identities)
+                           End Function) _
+                    .DoCall(AddressOf pfamhits.Flush)
+
+                If alt_direction Then
+                    Console.Write(".")
+                ElseIf ++i Mod 50 = 0 Then
+                    Console.Write(i)
+                    Console.Write(vbTab)
+                End If
+            Next
+        End Using
+
+        Return 0
+    End Function
 
     <ExportAPI("/Export.Pfam.UltraLarge")>
     <Usage("/Export.Pfam.UltraLarge /in <blastOUT.txt> [/out <out.csv> /evalue <0.00001> /coverage <0.85> /offset <0.1>]")>
     <Description("Export pfam annotation result from blastp based sequence alignment analysis.")>
+    <Group(Program.PfamCliTools)>
     Public Function ExportUltraLarge(args As CommandLine) As Integer
         Dim inFile As String = args <= "/in"
         Dim out As String = args("/out") Or (inFile.TrimSuffix & ".pfamString.csv")
-        Dim evalue As Double = args("/evalue") Or DomainParser.Evalue1En5
+        Dim evalue As Double = args("/evalue") Or Annotation.Evalue1En5
         Dim coverage As Double = args("/coverage") Or 0.85
         Dim offset As Double = args("/offset") Or 0.1
 
@@ -88,8 +150,10 @@ Partial Module CLI
         End Using
     End Function
 
-    <ExportAPI("/Export.hmmscan",
-               Usage:="/Export.hmmscan /in <input_hmmscan.txt> [/evalue 1e-5 /out <pfam.csv>]")>
+    <ExportAPI("/Export.hmmscan")>
+    <Usage("/Export.hmmscan /in <input_hmmscan.txt> [/evalue 1e-5 /out <pfam.csv>]")>
+    <Description("Export result from HMM search based domain annotation result.")>
+    <Group(Program.PfamCliTools)>
     Public Function ExportHMMScan(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pfam.Csv")
@@ -118,6 +182,7 @@ Partial Module CLI
 
     <ExportAPI("/Export.hmmsearch",
                Usage:="/Export.hmmsearch /in <input_hmmsearch.txt> [/prot <query.fasta> /out <pfam.csv>]")>
+    <Group(Program.PfamCliTools)>
     Public Function ExportHMMSearch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pfam.Csv")

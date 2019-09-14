@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ef50fd0b61dd1444dee0bf7b84dde9a, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\Wavelets.vb"
+﻿#Region "Microsoft.VisualBasic::a59472baa8ab619633393ad4cc8c3503, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\Wavelets.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8b314ac5e357360fa4a57274ed57f6e, data\ExternalDBSource\MetaCyc\bio_warehouse\reporterdimenswidreporterwid.vb"
+﻿#Region "Microsoft.VisualBasic::f8b314ac5e357360fa4a57274ed57f6e, ExternalDBSource\MetaCyc\bio_warehouse\reporterdimenswidreporterwid.vb"
 
     ' Author:
     ' 

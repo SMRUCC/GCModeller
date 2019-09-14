@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5095fa245cf7eab505d8bd9f7bb0aa2e, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\SearchReversedRepeats.vb"
+﻿#Region "Microsoft.VisualBasic::b457b8eac3bcfff561071ab39d0725a4, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\SearchReversedRepeats.vb"
 
     ' Author:
     ' 

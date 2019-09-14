@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc18f879ba446e234707fbd226d8f2e7, data\ExternalDBSource\MetaCyc\bio_warehouse\quanttypewidquanttypemapwid.vb"
+﻿#Region "Microsoft.VisualBasic::bc18f879ba446e234707fbd226d8f2e7, ExternalDBSource\MetaCyc\bio_warehouse\quanttypewidquanttypemapwid.vb"
 
     ' Author:
     ' 
