@@ -84,7 +84,7 @@ Namespace Pipeline.LocalBlast
 
             For Each query As NamedCollection(Of PfamHit) In source
                 protein = query.CreatePfamStringAnnotation
-                Console.WriteLine(query.name & vbTab & query.description)
+                Console.WriteLine(query.name & vbTab & query.description & vbTab & protein.PfamString.JoinBy("+"))
 
                 Yield protein
             Next
@@ -100,6 +100,15 @@ Namespace Pipeline.LocalBlast
                               Function(p)
                                   Return p.First.PfamId
                               End Function)
+
+            If domains.IsEmpty Then
+                Return New PfamString.PfamString With {
+                    .ProteinId = query.name,
+                    .Description = query.description,
+                    .Length = query(Scan0).query_length
+                }
+            End If
+
             Dim domainIDs$() = (From d As DomainModel In domains Select $"{idTable(d.DomainId)}:{d.DomainId}" Distinct).ToArray
             Dim pfamString$() = domains _
                 .Select(Function(x)
@@ -199,7 +208,7 @@ Namespace Pipeline.LocalBlast
                                Return New Location(hit.hit.start, hit.hit.ends)
                            End Function) _
                    .DoCall(Function(locis)
-                               Return Loci_API.Group(locis, lenOffset)
+                               Return LociAPI.Group(locis, lenOffset)
                            End Function)
 
                 For Each loci As Location In locations
