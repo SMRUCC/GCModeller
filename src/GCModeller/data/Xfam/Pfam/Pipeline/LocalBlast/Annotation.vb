@@ -208,7 +208,7 @@ Namespace Pipeline.LocalBlast
                                Return New Location(hit.hit.start, hit.hit.ends)
                            End Function) _
                    .DoCall(Function(locis)
-                               Return LociAPI.Group(locis, lenOffset)
+                               Return LociAPI.Group(locis, lenOffset).ToArray
                            End Function)
 
                 For Each loci As Location In locations
