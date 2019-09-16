@@ -73,8 +73,8 @@ Partial Module CLI
               Description:="The blastp alignment output of pfamA align with query proteins.")>
     <Argument("/alt.direction", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
-              Description:="By default, this cli tools processing the blastp alignment result in direction ``pfam_vs_protein``, 
-              apply this option argument in cli to switch the processor in direction ``protein_vs_pfam``.")>
+              Description:="By default, this cli tools processing the blastp alignment result in direction ``protein_vs_pfam``, 
+              apply this option argument in cli to switch the processor in direction ``pfam_vs_protein``.")>
     <Argument("/evalue", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="E-value cutoff of the blastp alignment result.")>
@@ -84,7 +84,7 @@ Partial Module CLI
     <Group(Program.PfamCliTools)>
     Public Function ExportPfamHits(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim alt_direction As Boolean = args("/alt.direction")
+        Dim alt_direction As Boolean = Not args("/alt.direction")
         Dim evalue# = args("/evalue") Or 0.00001
         Dim coverage# = args("/coverage") Or 0.8
         Dim identities# = args("/identities") Or 0.7
@@ -140,7 +140,10 @@ Partial Module CLI
     Public Function PfamAnnotation(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pfam_string.csv"
-        Dim pfamhits As IEnumerable(Of NamedCollection(Of PfamHit)) = [in].OpenHandle.AsLinq(Of PfamHit).DoHitsGrouping
+        Dim pfamhits As IEnumerable(Of NamedCollection(Of PfamHit)) = [in] _
+            .OpenHandle _
+            .AsLinq(Of PfamHit) _
+            .DoHitsGrouping
         Dim annotations As PfamString() = pfamhits _
             .CreateAnnotations _
             .OrderBy(Function(q) q.ProteinId) _
@@ -149,6 +152,12 @@ Partial Module CLI
         Return annotations.SaveTo(out).CLICode
     End Function
 
+    ''' <summary>
+    ''' 这个函数相当于<see cref="ExportPfamHits"/> + <see cref="PfamAnnotation"/>的合并，
+    ''' 只不过使用上面的两个函数来进行注释在数据处理方面会更加的灵活
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Export.Pfam.UltraLarge")>
     <Usage("/Export.Pfam.UltraLarge /in <blastOUT.txt> [/out <out.csv> /evalue <0.00001> /coverage <0.85> /offset <0.1>]")>
     <Description("Export pfam annotation result from blastp based sequence alignment analysis.")>
