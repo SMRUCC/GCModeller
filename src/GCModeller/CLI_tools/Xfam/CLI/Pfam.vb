@@ -157,6 +157,13 @@ Partial Module CLI
               AcceptTypes:={GetType(String)},
               Extensions:="*.txt",
               Description:="The blastp raw output file of alignment in direction protein query vs pfam database.")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              AcceptTypes:={GetType(PfamString)},
+              Extensions:="*.csv",
+              Description:="The pfam annotation output.")>
+    <Argument("/offset", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="The max allowed offset value of the length delta between ``length_query`` and ``length_hit``.")>
     Public Function ExportUltraLarge(args As CommandLine) As Integer
         Dim inFile As String = args <= "/in"
         Dim out As String = args("/out") Or (inFile.TrimSuffix & ".pfamString.csv")
