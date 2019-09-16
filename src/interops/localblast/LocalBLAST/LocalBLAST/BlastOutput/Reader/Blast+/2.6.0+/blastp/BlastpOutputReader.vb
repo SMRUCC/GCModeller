@@ -113,12 +113,12 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                     .Split(block, "^Lambda\s+", RegexICMul) _
                     .First _
                     .Trim _
-                    .__queryParser(queryInfo, top:=False, fast:=fast)
+                    .internalQueryParser(queryInfo, top:=False, fast:=fast)
             End If
         End Function
 
         <Extension>
-        Private Function __queryParser(block$, queryInfo As NamedValue(Of Integer), top As Boolean, fast As Boolean) As Query
+        Private Function internalQueryParser(block$, queryInfo As NamedValue(Of Integer), top As Boolean, fast As Boolean) As Query
             Dim bufs As New List(Of SubjectHit)
             Dim parts$() = r _
                 .Split(block, "^>", RegexOptions.Multiline) _
@@ -163,7 +163,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
             For Each score As String In HSP
                 hspRegion = BlastX.parseFragment(block, score, pos)
-                tmp += __hspParser(hspRegion, score, fast)
+                tmp += HspParserInternal(hspRegion, score, fast)
                 pos += score.Length
             Next
 
@@ -179,7 +179,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             }
         End Function
 
-        Private Function __hspParser(s$, scoreText$, fast As Boolean) As FragmentHit
+        Private Function HspParserInternal(s$, scoreText$, fast As Boolean) As FragmentHit
             Dim LQuery As HitSegment()
 
             If fast Then
