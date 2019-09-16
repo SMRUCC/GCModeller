@@ -42,7 +42,8 @@
 
 Module Program
 
-    Friend Const PfamCliTools$ = "Pfam CLI tools"
+    Friend Const PfamCliTools$ = "Pfam Annotations CLI tools"
+    Friend Const RfamCliTools$ = "Rfam Annotations CLI tools"
 
     Public Function Main() As Integer
         Return GetType(CLI).RunCLI(App.CommandLine)
