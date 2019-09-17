@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3215263c54ffa26cbd7636e37112c62, data\RegulonDatabase\Regprecise\BBHH.vb"
+﻿#Region "Microsoft.VisualBasic::b7e74bbfed0ac5f3bf31eff89964a099, RegulonDatabase\Regprecise\BBHH.vb"
 
     ' Author:
     ' 

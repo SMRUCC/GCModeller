@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13f7e4ec32289797079f485518b63078, assembler\Expression.vb"
+﻿#Region "Microsoft.VisualBasic::7005feb220f2d35828bdd83588b752fb, assembler\Expression.vb"
 
     ' Author:
     ' 
@@ -53,4 +53,3 @@ Public Module Expression
 
     End Function
 End Module
-

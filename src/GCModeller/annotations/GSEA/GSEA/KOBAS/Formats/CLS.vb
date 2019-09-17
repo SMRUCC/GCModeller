@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::675e05e26b88b79e35b0fbedee40d320, GSEA\GSEA\Formats\CLS.vb"
+﻿#Region "Microsoft.VisualBasic::2716ac442b4b8218687dd2af34175b0c, GSEA\GSEA\KOBAS\Formats\CLS.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,12 @@
 
     ' Summaries:
 
-    ' Class CLS
+    '     Class CLS
     ' 
-    '     Properties: classNameMaps, numOfClasses, numOfSamples, sampleClass
+    '         Properties: classNameMaps, numOfClasses, numOfSamples, sampleClass
     ' 
-    '     Function: ParseFile
+    '         Function: ParseFile
+    ' 
     ' 
     ' /********************************************************************************/
 

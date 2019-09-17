@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fb2720f3448107811d9b1768e9be554, RDotNET.Extensions.VisualBasic\ScriptBuilder\Abstract\IScriptProvider.vb"
+﻿#Region "Microsoft.VisualBasic::4909fcfd5a73d93456bbe45c37a1282d, RDotNET.Extensions.VisualBasic\ScriptBuilder\Abstract\IScriptProvider.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e28b135f7883e60138b2f09cf278c26, analysis\ProteinTools\Interactions.BioGRID\Identifier.vb"
+﻿#Region "Microsoft.VisualBasic::0cf6110b3b1857135b093bb222b1fdec, analysis\ProteinTools\Interactions.BioGRID\Identifier.vb"
 
     ' Author:
     ' 

@@ -1,3 +1,56 @@
+﻿#Region "Microsoft.VisualBasic::6b1972db78f25bc53af95c86a89f1444, RDotNET\Graphics\DeviceDescription.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DeviceDescription
+    ' 
+    '         Properties: Adjustment, Bounds, CharacterSizeInRasterX, CharacterSizeInRasterY, CharOffsetX
+    '                     CharOffsetY, ClipBounds, DeviceSpecific, DisplayListOn, Gamma
+    '                     InchesPerRasterX, InchesPerRasterY, IsClippable, IsGammaModifiable, IsInvalid
+    '                     IsTextRotatedInContour, LineBiasY, StartBackground, StartFont, StartFontSize
+    '                     StartForeground, StartGamma, StartLineType
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ReleaseHandle
+    ' 
+    '         Sub: SetDefaultParameter, SetMethod, WriteBoolean, WriteColor, WriteDouble
+    '              WriteDoubleArray, WriteInt32, WriteInt32Enum, WriteIntPtr
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports RDotNet.Graphics.Internals
 Imports System.Runtime.InteropServices
 

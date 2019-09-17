@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0e71dc849c576895bb2ed750bdb9d22, analysis\Metagenome\Metagenome\newickParser.vb"
+﻿#Region "Microsoft.VisualBasic::465b39bad79b89773785fa3c373ed3d9, analysis\Metagenome\Metagenome\newickParser.vb"
 
     ' Author:
     ' 

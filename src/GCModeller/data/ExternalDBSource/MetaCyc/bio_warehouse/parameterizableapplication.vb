@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::644be0ef627f87b88d5da9fca6a5ad50, data\ExternalDBSource\MetaCyc\bio_warehouse\parameterizableapplication.vb"
+﻿#Region "Microsoft.VisualBasic::644be0ef627f87b88d5da9fca6a5ad50, ExternalDBSource\MetaCyc\bio_warehouse\parameterizableapplication.vb"
 
     ' Author:
     ' 

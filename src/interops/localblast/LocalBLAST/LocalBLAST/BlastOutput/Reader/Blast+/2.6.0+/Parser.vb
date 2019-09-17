@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3799bd975c131bc5a87f971033fe4bff, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::2cd4332f0ceed3e8214f864e7e7063ca, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb"
 
     ' Author:
     ' 
@@ -45,8 +45,8 @@
     ' 
     '     Properties: DefaultEncoding
     ' 
-    '     Function: [GetType], (+2 Overloads) __blockWorker, __getParser, __loadData, __queryParser
-    '               __tryParseBlastnOutput, __tryParseUltraLarge, BuildGrepScript, IsBlastOut, TryParseBlastnOutput
+    '     Function: [GetType], (+2 Overloads) __blockWorker, __getParser, __queryParser, __tryParseBlastnOutput
+    '               __tryParseUltraLarge, BuildGrepScript, doLoadDataInternal, IsBlastOut, TryParseBlastnOutput
     '               TryParseUltraLarge
     ' 
     '     Sub: (+2 Overloads) Transform
@@ -67,23 +67,23 @@ Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228
-Imports defaultEncoding = Microsoft.VisualBasic.Language.Default.[Default](Of  System.Text.Encoding)
+Imports defaultEncoding = Microsoft.VisualBasic.Language.Default.[Default](Of System.Text.Encoding)
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 
     Public Module Parser
 
-        Private Function __tryParseDatabase(s As String) As String
-            s = Regex.Match(s, "Database: .+?\s+\d+\s+sequences;", RegexOptions.Singleline).Value
+        Public Function ParseDbName(s As String) As String
+            s = r.Match(s, "Database: .+?\s+\d+\s+sequences;", RegexOptions.Singleline).Value
             s = s.Replace("Database:", "").Replace(vbLf, "").Replace(vbCr, "")
-            s = Regex.Replace(s, "\d+\s+sequences;", "").Trim
+            s = r.Replace(s, "\d+\s+sequences;", "").Trim
 
             ' 这个database属性只是调试之类使用的，好像也没有太多用途，空下来也无所谓
             If s.StringEmpty Then
                 Return ""
             Else
-                s = BaseName(s)
-                Return s
+                Return s.BaseName
             End If
         End Function
 
@@ -95,8 +95,8 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <param name="encoding"></param>
         ''' <returns></returns>
         Public Function ParsingSizeAuto(path As String, Optional encoding As Encoding = Nothing) As v228
-            If __fileSizeTooLarge(path) Then
-                Return Parser.TryParseUltraLarge(path, Encoding:=encoding)
+            If isUltraLargeFileSize(path) Then
+                Return Parser.TryParseUltraLarge(path, encoding:=encoding)
             Else
                 Return Parser.TryParse(path)
             End If
@@ -118,7 +118,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' 单条字符串的最大长度好像只有700MB的内存左右
         ''' </summary>
         ''' <returns></returns>
-        Private Function __fileSizeTooLarge(infile As String) As Boolean
+        Private Function isUltraLargeFileSize(infile As String) As Boolean
             Dim fileInfo = FileIO.FileSystem.GetFileInfo(infile)
 
             If fileInfo.Length >= 768& * 1024 * 1024 Then
@@ -160,7 +160,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 encoding = Encoding.Default
             End If
 
-            Using p As CBusyIndicator = New CBusyIndicator(_start:=True)
+            Using p As New CBusyIndicator(start:=True)
                 Dim source As String = IO.File.ReadAllText(path, encoding)
 
                 If IsBlastn(source) Then
@@ -189,7 +189,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim BLASTOutput As v228 = New v228 With {
                 .FilePath = Path & ".xml",
                 .Queries = Queries,
-                .Database = __tryParseDatabase(source)
+                .Database = ParseDbName(source)
             }
 
             Call $"BLASTOutput file loaded: {Sw.ElapsedMilliseconds}ms".__DEBUG_ECHO
@@ -308,13 +308,11 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' File processor for the file size which is greater than 10GB.
         ''' (处理非常大的blast输出文件的时候所需要的，大小大于10GB的文件建议使用这个方法处理)
         ''' </summary>
-        Public Sub Transform(path$, CHUNK_SIZE&, transform As Action(Of Query), Optional encoding As Encoding = Nothing, Optional grep As (q$, s$) = Nothing)
-            Call path.FixPath
+        Public Sub Transform(path As Value(Of String), CHUNK_SIZE&, transform As Action(Of Query), Optional encoding As Encoding = Nothing, Optional grep As (q$, s$) = Nothing)
+            Dim parser As QueryParser = measureParser(path = path.Value.FixPath)
+            Dim readsBuffer As IEnumerable(Of String) = doLoadDataInternal(path, CHUNK_SIZE, encoding Or DefaultEncoding)
 
-            Dim parser As QueryParser = __getParser(path)
-            Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, encoding Or DefaultEncoding)
-
-            Call $"Open file handle {path.ToFileURL} for data loading...".__DEBUG_ECHO
+            Call $"Open file handle {path.Value.ToFileURL} for data loading...".__DEBUG_ECHO
 
             Dim q, s As TextGrepMethod
 
@@ -348,8 +346,8 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
             Call path.FixPath
 
-            Dim parser As QueryParser = __getParser(path)
-            Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, encoding Or DefaultEncoding)
+            Dim parser As QueryParser = measureParser(path)
+            Dim readsBuffer As IEnumerable(Of String) = doLoadDataInternal(path, CHUNK_SIZE, encoding Or DefaultEncoding)
 
             Call $"Open file handle {path.ToFileURL} for data loading...".__DEBUG_ECHO
             Call (From line As String In readsBuffer Select __blockWorker(line, transform, parser, grep)).ToArray
@@ -402,18 +400,18 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' </summary>
         ''' <param name="path"></param>
         ''' <returns></returns>
-        Private Function __getParser(path As String) As QueryParser
-            Dim Parser As QueryParser
+        Private Function measureParser(path As String) As QueryParser
+            Dim parser As QueryParser
 
             Select Case LocalBLAST.BLASTOutput.BlastPlus.Parser.GetType(path)
-                Case ReaderTypes.BLASTN : Parser = AddressOf Query.BlastnOutputParser
-                Case ReaderTypes.BLASTP : Parser = AddressOf Query.TryParse
+                Case ReaderTypes.BLASTN : parser = AddressOf Query.BlastnOutputParser
+                Case ReaderTypes.BLASTP : parser = AddressOf Query.TryParse
                     'Case ReaderTypes.BLASTX
                 Case Else
-                    Parser = AddressOf Query.TryParse
+                    parser = AddressOf Query.TryParse
             End Select
 
-            Return Parser
+            Return parser
         End Function
 
         ''' <summary>
@@ -426,24 +424,24 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Function __tryParseUltraLarge(path As String, CHUNK_SIZE As Long, Encoding As Encoding) As v228
-            Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, Encoding)
+            Dim readsBuffer As IEnumerable(Of String) = doLoadDataInternal(path, CHUNK_SIZE, Encoding)
             Call "[Loading Job Done!] Start to regex parsing!".__DEBUG_ECHO
 
             ' The regular expression parsing function just single thread, here using parallel to parsing 
             ' the cache data can speed up the regular expression parsing job when dealing with the ultra 
             ' large Text file.
-            Dim Sections As LinkedList(Of String) = (From strLine As String
+            Dim sections As LinkedList(Of String) = (From strLine As String
                                                      In readsBuffer.AsParallel
                                                      Let strData As String = strLine.Replace(oldChar:=ASCII.NUL, newChar:=" "c)
                                                      Select __queryParser(strData)).MatrixToUltraLargeVector
 
-            Call ($"[Parsing Job Done!]  ==> {Sections.Count} Queries..." & vbCrLf & vbTab & vbTab &
+            Call ($"[Parsing Job Done!]  ==> {sections.Count} Queries..." & vbCrLf & vbTab & vbTab &
                 "Start to loading blast query hits data...").__DEBUG_ECHO
 
             Dim Sw As Stopwatch = Stopwatch.StartNew
-            Dim queryParser As QueryParser = __getParser(path)
+            Dim queryParser As QueryParser = measureParser(path)
             Dim LQuery As Query() = LinqAPI.Exec(Of Query) <= From line As String
-                                                              In Sections.AsParallel
+                                                              In sections.AsParallel
                                                               Let query As Query = queryParser(line)
                                                               Select query
                                                               Order By query.QueryName Ascending
@@ -457,7 +455,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return BLASTOutput
         End Function
 
-        Private Iterator Function __loadData(path As String, CHUNK_SIZE As Long, Encoding As Encoding) As IEnumerable(Of String)
+        Private Iterator Function doLoadDataInternal(path As String, CHUNK_SIZE As Long, Encoding As Encoding) As IEnumerable(Of String)
             Dim readBuffer As Byte() = New Byte(CHUNK_SIZE - 1) {}
             Dim LastIndex As New StringBuilder '(capacity:=Integer.MaxValue)'StringBuilder不能够太大，会出现内存溢出的错误
             Dim bufLength& = FileIO.FileSystem.GetFileInfo(path).Length
@@ -513,14 +511,13 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' It seems 768MB possibly is the up bound of the Utf8.GetString function. default is 64MB</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TryParseUltraLarge(path$, Optional CHUNK_SIZE& = Parser.CHUNK_SIZE, Optional Encoding As Encoding = Nothing) As v228
+        Public Function TryParseUltraLarge(path$, Optional CHUNK_SIZE& = Parser.CHUNK_SIZE, Optional encoding As Encoding = Nothing) As v228
             Call Console.WriteLine("Regular Expression parsing blast output...")
             Call path.FixPath
 
-            If Encoding Is Nothing Then Encoding = Encoding.UTF8    ' The default text encoding of the blast log is utf8
-
-            Using busy As New CBusyIndicator(_start:=True)
-                Return __tryParseUltraLarge(path, CHUNK_SIZE, Encoding)
+            Using busy As New CBusyIndicator(start:=True)
+                ' The default text encoding of the blast log is utf8
+                Return __tryParseUltraLarge(path, CHUNK_SIZE, encoding Or UTF8)
             End Using
         End Function
     End Module

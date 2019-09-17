@@ -46,16 +46,17 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel.Loci.Location
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports Microsoft.VisualBasic.Math
 
 Namespace ComponentModel.Loci
 
     ''' <summary>
     ''' The extension method for the location object operations.
     ''' </summary>
-    Public Module Loci_API
+    Public Module LociAPI
 
         Public Function InternalAssembler(source As IEnumerable(Of SegmentObject)) As NucleotideLocation()
-            Dim ls = (From p In source Select p Order By p.Left Ascending).AsList
+            Dim ls = (From p In source Select p Order By p.left Ascending).AsList
 
             For i As Integer = 0 To ls.Count - 1
                 If i = ls.Count - 1 Then
@@ -84,23 +85,23 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Extension> Public Function Merge(Of TLoci As Location)(a As TLoci, b As TLoci) As TLoci
-            a.Left = Math.Min(a.Left, b.Left)
-            a.Right = Math.Max(a.Right, b.Right)
+            a.left = Math.Min(a.left, b.left)
+            a.right = Math.Max(a.right, b.right)
             Return a
         End Function
 
         <Extension> Public Function Group_p(Of TLocation As Location)(
                                                lc As IEnumerable(Of TLocation),
                                                Optional Length_Offset As Integer = 5) As TLocation()
-            lc = (From lcl In lc Select lcl Order By lcl.Left Ascending)
+            lc = (From lcl In lc Select lcl Order By lcl.left Ascending)
             Dim GroupOperation = (From item In lc.AsParallel
                                   Let Possible_Duplicated = (From o As TLocation In lc
-                                                             Where Math.Abs(o.Left - item.Left) < Length_Offset AndAlso
+                                                             Where Math.Abs(o.left - item.left) < Length_Offset AndAlso
                                                                    Math.Abs(o.FragmentSize - item.FragmentSize) < Length_Offset
                                                              Select o
-                                                             Order By o.Left).ToArray
-                                  Let mLeft As Integer = (From o In Possible_Duplicated Select o.Left).Min
-                                  Let mRight As Integer = (From o In Possible_Duplicated Select o.Right).Max
+                                                             Order By o.left).ToArray
+                                  Let mLeft As Integer = (From o In Possible_Duplicated Select o.left).Min
+                                  Let mRight As Integer = (From o In Possible_Duplicated Select o.right).Max
                                   Select GroupTag = $"{mLeft}|{mRight}",
                                       Possible_Duplicated
                                   Order By GroupTag Ascending).ToArray
@@ -116,28 +117,30 @@ Namespace ComponentModel.Loci
         ''' <summary>
         ''' 非并行版本，为上一级是并行的LINQ查询所准备的
         ''' </summary>
-        ''' <typeparam name="TLocation"></typeparam>
+        ''' <typeparam name="Loci"></typeparam>
         ''' <param name="lc"></param>
-        ''' <param name="LenOffset"></param>
+        ''' <param name="lenOffset"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Group(Of TLocation As Location)(lc As Generic.IEnumerable(Of TLocation), Optional LenOffset As Integer = 5) As TLocation()
-            lc = (From lcl In lc Select lcl Order By lcl.Left Ascending).ToArray
-            Dim GroupOperation = (From item In lc
-                                  Let Possible_Duplicated = (From o As TLocation In lc
-                                                             Where Math.Abs(o.Left - item.Left) < LenOffset AndAlso
-                                                                   Math.Abs(o.FragmentSize - item.FragmentSize) < LenOffset
-                                                             Select o
-                                                             Order By o.Left).ToArray
-                                  Select GroupTag = String.Format("{0}|{1}", (From o In Possible_Duplicated Select o.Left).ToArray.Min, (From o In Possible_Duplicated Select o.Right).ToArray.Max),
-                                         Possible_Duplicated
-                                  Order By GroupTag Ascending).ToArray
-            Dim l_GroupOperation = (From GroupTag As String
-                              In (From item In GroupOperation Select item.GroupTag Distinct).ToArray
-                                    Let TagedLocation = (From item In GroupOperation Where String.Equals(GroupTag, item.GroupTag) Select item.Possible_Duplicated).ToArray.ToVector
-                                    Select GroupTag, TagedLocation).ToArray
-            lc = (From item In l_GroupOperation Select If(item.TagedLocation.Length = 1, item.TagedLocation.First, LocusExtensions.MergeJoins(item.TagedLocation))).ToArray
-            Return lc.ToArray
+        Public Iterator Function Group(Of Loci As {New, Location})(lc As IEnumerable(Of Loci), Optional lenOffset% = 5) As IEnumerable(Of Loci)
+            ' group by loci left at first
+            Dim groups = lc.GroupBy(Function(l) l.left, lenOffset).ToArray
+            Dim left%, right%
+
+            ' and then group by right
+            For Each leftGroup In groups
+                Dim rightGroup = leftGroup.GroupBy(Function(l) l.right, lenOffset).ToArray
+
+                For Each lociGroup As NamedCollection(Of Loci) In rightGroup
+                    left = Aggregate lo In lociGroup Into Min(lo.left)
+                    right = Aggregate lo In lociGroup Into Max(lo.right)
+
+                    Yield New Loci With {
+                        .left = left,
+                        .right = right
+                    }
+                Next
+            Next
         End Function
 
         ''' <summary>
@@ -182,8 +185,8 @@ Namespace ComponentModel.Loci
                 End If
 
                 Do While current.InsideOrOverlapWith(n = raw(Scan0), WithOffSet:=lenOffset)
-                    If current.Right < (+n).Right Then
-                        current.Right = (+n).Right
+                    If current.right < (+n).right Then
+                        current.right = (+n).right
                     End If
 
                     current.Extension.DynamicHashTable(

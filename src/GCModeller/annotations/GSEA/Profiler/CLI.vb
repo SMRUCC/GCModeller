@@ -1,41 +1,42 @@
-﻿#Region "Microsoft.VisualBasic::c116f2566012a55d8a6190858acae6ec, GSEA\Profiler\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::2cbb0215cb84a9f231374be57bbaae9f, GSEA\Profiler\CLI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module CLI
-' 
-'     Function: CreateGOClusters, CreateKOCluster, EnrichmentTest, IDconverts
-' 
-' /********************************************************************************/
+    ' Module CLI
+    ' 
+    '     Function: CreateGOClusters, CreateKOCluster, CreateKOClusterFromBBH, EnrichmentTest, getMapsAuto
+    '               IDconverts
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -54,6 +55,7 @@ Imports SMRUCC.genomics.Analysis.HTS
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase
 Imports SMRUCC.genomics.Analysis.Microarray.GSEA
+Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -188,6 +190,17 @@ Public Module CLI
     <Argument("/format", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="apply this argument to specify the output table format, by default is in GCModeller table format, or you can assign the ``KOBAS`` format value at this parameter.")>
+    <Argument("/out", True, CLITypes.File,
+              AcceptTypes:={GetType(EnrichmentResult), GetType(EnrichmentTerm)},
+              Extensions:="*.csv",
+              Description:="The file path of the result output, the output result table format is affects by the ``/format`` argument.")>
+    <Argument("/geneSet", False, CLITypes.File,
+              AcceptTypes:={GetType(String())},
+              Extensions:="*.txt",
+              Description:="A text file that contains the gene id list that will be apply the GSEA analysis.")>
+    <Argument("/hide.progress", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="A logical flag argument that controls the console screen display the progress bar or not.")>
     Public Function EnrichmentTest(args As CommandLine) As Integer
         Dim backgroundXML$ = args("/background")
         Dim background = backgroundXML.LoadXml(Of Background)
@@ -237,4 +250,3 @@ Public Module CLI
         End If
     End Function
 End Module
-

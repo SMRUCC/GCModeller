@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74ef4dc06dcc7772cd694eb7817d3405, data\ExternalDBSource\MetaCyc\bio_warehouse\quanttymapwidquanttymapwi.vb"
+﻿#Region "Microsoft.VisualBasic::74ef4dc06dcc7772cd694eb7817d3405, ExternalDBSource\MetaCyc\bio_warehouse\quanttymapwidquanttymapwi.vb"
 
     ' Author:
     ' 

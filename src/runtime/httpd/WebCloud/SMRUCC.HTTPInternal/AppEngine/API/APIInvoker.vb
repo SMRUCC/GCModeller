@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7246f5999a2256048ff42d4c913afa19, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\APIInvoker.vb"
+﻿#Region "Microsoft.VisualBasic::db303801ba67233f659a4c04adb23d9a, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\APIInvoker.vb"
 
     ' Author:
     ' 
@@ -31,26 +31,12 @@
 
     ' Summaries:
 
-    '     Delegate Function
-    ' 
-    ' 
-    '     Delegate Function
-    ' 
-    ' 
-    '     Delegate Function
-    ' 
-    ' 
     '     Class APIInvoker
     ' 
     '         Properties: EntryPoint, Help, Method, Name
     ' 
     '         Function: __handleERROR, __invoke, __invokePOST, Fakes, Invoke
     '                   InvokePOST, ToString, VirtualPath
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
     ' 
     ' 
     ' /********************************************************************************/

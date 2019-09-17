@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2047894333de18074bc2425ea5d699dc, Microsoft.VisualBasic.Core\My\Log4VB.vb"
+﻿#Region "Microsoft.VisualBasic::5210ca600366a201431189d4c7463c8c, Microsoft.VisualBasic.Core\My\Log4VB.vb"
 
 ' Author:
 ' 
@@ -35,7 +35,7 @@
 ' 
 '         Function: getColor, Print
 ' 
-'         Sub: WriteLine
+'         Sub: Print, Println
 ' 
 ' 
 ' /********************************************************************************/
@@ -45,6 +45,7 @@
 Imports System.ComponentModel.Composition
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.Terminal
 
 Namespace My
@@ -115,6 +116,12 @@ Namespace My
             Return False
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Sub Print(span As Span)
+            Call Print(span.text, span.style.ForeColor, span.style.BackgroundColor)
+        End Sub
+
         ''' <summary>
         ''' 输出的终端消息带有指定的终端颜色色彩，当<see cref="UsingxConsole"/>为True的时候，
         ''' <paramref name="msg"/>参数之中的文本字符串兼容<see cref="xConsole"/>语法，
@@ -145,7 +152,7 @@ Namespace My
             End If
 
 #If DEBUG Then
-            Call Debug.Write(msg) 
+            Call Debug.Write(msg)
 #End If
         End Sub
 
@@ -184,7 +191,7 @@ Namespace My
             End If
 
 #If DEBUG Then
-            Call Debug.WriteLine(msg) 
+            Call Debug.WriteLine(msg)
 #End If
         End Sub
     End Module

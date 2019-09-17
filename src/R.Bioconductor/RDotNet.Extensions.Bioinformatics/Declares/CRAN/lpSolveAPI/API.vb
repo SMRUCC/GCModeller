@@ -1,51 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::374faa8a350f8a8254a56d9670b85556, RDotNet.Extensions.Bioinformatics\Declares\CRAN\lpSolve\API.vb"
+﻿#Region "Microsoft.VisualBasic::634a486673135c9c113e6d34cbec7094, RDotNet.Extensions.Bioinformatics\Declares\CRAN\lpSolveAPI\API.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module API
-' 
-'         Function: lp
-' 
-'     Class lpObject
-' 
-'         Properties: bin_count, binary_vec, compute_sens, const_count, constraints
-'                     dense_col, dense_const_nrow, dense_ctr, dense_val, direction
-'                     duals, duals_from, duals_to, int_count, int_vec
-'                     num_bin_solns, objective, objval, presolve, scale
-'                     sens_coef_from, sens_coef_to, solution, status, tmp
-'                     use_dense, use_rw, x_count
-' 
-' 
-' /********************************************************************************/
+    '     Module APIExtensions
+    ' 
+    '         Function: getobjective, getvariables, lpcontrol, makelp
+    ' 
+    '         Sub: addconstraint, setbounds, setobjfn
+    ' 
+    '     Class setbounds
+    ' 
+    '         Properties: columns, lower, lprec, upper
+    ' 
+    '     Class addconstraint
+    ' 
+    '         Properties: indices, lhs, lprec, rhs, type
+    '                     xt
+    ' 
+    '     Enum constraintTypes
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

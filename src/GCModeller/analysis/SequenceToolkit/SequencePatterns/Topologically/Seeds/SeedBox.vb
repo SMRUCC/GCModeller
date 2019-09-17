@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6947ff10c1b16797d3bb049088dc468e, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedBox.vb"
+﻿#Region "Microsoft.VisualBasic::0ca211edee1e4e8552b42cdcd8c1d81e, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedBox.vb"
 
     ' Author:
     ' 

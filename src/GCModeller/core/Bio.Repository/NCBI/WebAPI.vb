@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86872eddbf6f8bffd8dc011674376c7d, Bio.Repository\NCBI\WebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::4d3d793df1f1db27b86839c6341e6ad8, Bio.Repository\NCBI\WebAPI.vb"
 
     ' Author:
     ' 
@@ -68,7 +68,7 @@ Public Module DownloaderWebAPI
     <ExportAPI("genbank.batch_download",
                Info:="This command required the bioperl package installed on your computer!")>
     Public Function DownloadGBK(list As IEnumerable(Of String), EXPORT As String, num_threads As Integer) As Integer
-        Using pb As New CBusyIndicator(_start:=True)
+        Using pb As New CBusyIndicator(start:=True)
             Dim downloads As New __genbankDownloadHelper With {.EXPORT = EXPORT}
             Dim tasks As Action() = list.Select(AddressOf downloads.Download).ToArray
             Return tasks.Invoke(numOfThreads:=num_threads)

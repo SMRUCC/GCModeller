@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f79f72d5e482e8746d8f2930d20db7c8, SBML\SBML\Export\Intersection.vb"
+﻿#Region "Microsoft.VisualBasic::2fb7cd83984a93315e19e0f0d06fa4aa, SBML\SBML\Export\Intersection.vb"
 
     ' Author:
     ' 
@@ -97,7 +97,7 @@ Namespace ExportServices
 
         <ExportAPI("KEGGs.Load")>
         Public Function LoadReactions(repository As String) As bGetObject.Reaction()
-            Using cbar As New CBusyIndicator(_start:=True)
+            Using cbar As New CBusyIndicator(start:=True)
                 Call Console.WriteLine("Loading KEGG reaction models from the repository:  ")
                 Call Console.WriteLine(repository)
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf98f5ffeacb50634a3039101e7b3185, data\ExternalDBSource\MetaCyc\bio_warehouse\featurewidfeaturewid.vb"
+﻿#Region "Microsoft.VisualBasic::bf98f5ffeacb50634a3039101e7b3185, ExternalDBSource\MetaCyc\bio_warehouse\featurewidfeaturewid.vb"
 
     ' Author:
     ' 

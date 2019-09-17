@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90b524de73bcfbe02f537acdaf723b18, GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\SignalTransductionSystem.vb"
+﻿#Region "Microsoft.VisualBasic::cf8cead36d5580f87af5bf92a4ad0d49, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\SignalTransductionSystem.vb"
 
     ' Author:
     ' 

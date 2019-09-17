@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c940566bd85a1b07da3edc59f57704c2, analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\NCBIWebMaster.vb"
+﻿#Region "Microsoft.VisualBasic::2577b924f9f23d50d130bc7a0ac217b9, analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\NCBIWebMaster.vb"
 
     ' Author:
     ' 

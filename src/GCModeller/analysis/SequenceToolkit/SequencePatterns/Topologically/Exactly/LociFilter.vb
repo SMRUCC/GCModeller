@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb9b9ab4df0c0d1782967a8235720931, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\LociFilter.vb"
+﻿#Region "Microsoft.VisualBasic::4216a7a59d1e777ef4f93cabf85c7d55, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\LociFilter.vb"
 
     ' Author:
     ' 

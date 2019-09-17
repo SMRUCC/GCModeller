@@ -295,6 +295,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pipeline\Extensions.vb" />
     <Compile Include="Pipeline\KO\KOAssignment.vb" />
     <Compile Include="Tasks\LocalBLAST.vb" />
     <Compile Include="Tasks\BBHLogs.vb" />

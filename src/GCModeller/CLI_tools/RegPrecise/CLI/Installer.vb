@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34b38fe368468874f233fa30c262b103, CLI_tools\RegPrecise\CLI\Installer.vb"
+﻿#Region "Microsoft.VisualBasic::5e4123ff098efb614911e4a0cd9bd580, CLI_tools\RegPrecise\CLI\Installer.vb"
 
     ' Author:
     ' 

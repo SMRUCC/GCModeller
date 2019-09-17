@@ -1,49 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamFastaComponentModels.Entry" Collapsed="true">
-    <Position X="16.75" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Parser\Entry.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamFastaComponentModels.Header" Collapsed="true">
-    <Position X="11.5" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Parser\Entry.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamFastaComponentModels.Reference" Collapsed="true">
-    <Position X="11.5" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Parser\Entry.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamFastaComponentModels.Comment" Collapsed="true">
-    <Position X="16.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Parser\Entry.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamFastaComponentModels.Alignment" Collapsed="true">
-    <Position X="11.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Parser\Entry.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamFastaComponentModels.PfamFasta">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.PfamFastaComponentModels.PfamFasta">
     <Position X="0.75" Y="9.25" Width="4" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAEAEQAIAAAIQAAACAgAAAAEAAAAAgAQ=</HashCode>
+      <HashCode>AAACAAAAAAAAAEAEQAIAAAIACAACAgAAAAEAAAAAgAQ=</HashCode>
       <FileName>Parser\PfamFasta.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamFastaComponentModels.PfamCommon">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.PfamFastaComponentModels.PfamCommon">
     <Position X="3.75" Y="5.5" Width="2" />
     <TypeIdentifier>
       <HashCode>QAACAAgQAAAAAAAAAAAAAQAAAACAAQAIAAYAAAAAQAA=</HashCode>
@@ -51,83 +16,77 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamFastaComponentModels.PfamCsvRow">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.PfamFastaComponentModels.PfamCsvRow">
     <Position X="5.5" Y="9.25" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAEAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
       <FileName>Parser\HeaderCommon.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.MPCsvArchive" Collapsed="true">
-    <Position X="15" Y="2.5" Width="1.5" />
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment.MPCsvArchive" Collapsed="true">
+    <Position X="16.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAAgAAAAAAgAAgAAAgAAAAAAAAAEgBAFAAEBQAAAAI=</HashCode>
+      <HashCode>ABABgAAAAAAgAAgEAAgAAAAAAAAAEgBAFAAEBQAAAAA=</HashCode>
       <FileName>MPAlignment\Output\CsvArchive.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.AlignmentOutput" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment.AlignmentOutput" Collapsed="true">
     <Position X="13.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAACgAAAAAIBAAgEAAgAgAAAAIAAAAAAAAAEAAAAAAI=</HashCode>
+      <HashCode>AAACgAAAAAABAAgEAAgAgAAAAIAAAAAAAAAEAAAAAAI=</HashCode>
       <FileName>MPAlignment\Output\MPAlignmentOutput.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.DomainDistribution" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment.DomainDistribution" Collapsed="true">
     <Position X="13.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <HashCode>ABAAAAAAAAAgAAQEAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
       <FileName>MPAlignment\Components\Components.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.My.MySettings" Collapsed="true">
-    <Position X="16.75" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.SiteSearch.PfamFamily">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.SiteSearch.PfamFamily">
     <Position X="0.5" Y="2.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAIECAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
       <FileName>Parser\PfamFamily.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.SiteSearch.PfamObject">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.SiteSearch.PfamObject">
     <Position X="2" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Parser\PfamFamily.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.SiteSearch.Entry">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.SiteSearch.Entry">
     <Position X="3" Y="2.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAABAAIIAAAAAAAAiAAA=</HashCode>
       <FileName>Parser\PfamFamily.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.SiteSearch.[Date]" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.SiteSearch.[Date]" Collapsed="true">
     <Position X="9.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAACAAAQAAAAAAAAA=</HashCode>
       <FileName>Parser\PfamFamily.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.SiteSearch.Field" Collapsed="true">
-    <Position X="9.75" Y="2.5" Width="1.5" />
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.SiteSearch.Field" Collapsed="true">
+    <Position X="11.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAAACAAAAAAAAAAAAA=</HashCode>
       <FileName>Parser\PfamFamily.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.SiteSearch.CrossRef" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.SiteSearch.CrossRef" Collapsed="true">
     <Position X="9.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>Parser\PfamFamily.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.BiDirectionalBesthit" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment.BiDirectionalBesthit" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="15" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAgAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -135,88 +94,128 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.DomainAlignment" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment.DomainAlignment" Collapsed="true">
     <Position X="11.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAgEAgAAAAAAAAAAAAAAAACAAAAAAIA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAgEAgAAAAAAAAAAAAAAAACAAAAAAIA=</HashCode>
       <FileName>MPAlignment\Components\DomainAlignment.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.LevAlign" Collapsed="true">
-    <Position X="13.25" Y="2.5" Width="1.5" />
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment.LevAlign" Collapsed="true">
+    <Position X="15" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAQAAAAAAAAAAAoAIAIEAAABAAAgAAIAAIAAAAAA=</HashCode>
+      <HashCode>AAABAQAAAAACAAAAAoAIAIEAAABAAAgAAIAEIAAAAAA=</HashCode>
       <FileName>MPAlignment\Algorithm\LevAlign.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString.DomainObject" Collapsed="true">
-    <Position X="15" Y="1.5" Width="1.5" />
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.PfamString.DomainObject" Collapsed="true">
+    <Position X="16.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Parser\PfamString\DomainObject.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString.PfamString" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="9.75" Y="3.5" Width="1.5" />
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.PfamString.PfamString" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAIAAAgAEAUAAAAAABEAAAAAAAABAABQABAAAA=</HashCode>
       <FileName>Parser\PfamString\PfamString.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Struct Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.NormLoci" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="9.75" Y="7" Width="1.5" />
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment.DomainEquals" Collapsed="true">
+    <Position X="15" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAgEAAAAAAAAAAAAAAAACACAAAAAAAA=</HashCode>
-      <FileName>MPAlignment\Algorithm\NrLoca.vb</FileName>
+      <HashCode>AAAAAAAAAAEAAAAEgAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>MPAlignment\Algorithm\DomainEquals.vb</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Struct>
-  <Module Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.DomainAnalysis" Collapsed="true">
+  </Class>
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.My.MySettings" Collapsed="true">
+    <Position X="9.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.PfamFastaComponentModels.Entry" Collapsed="true">
+    <Position X="9.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\Entry.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.PfamFastaComponentModels.Header" Collapsed="true">
+    <Position X="13.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\Entry.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.PfamFastaComponentModels.Reference" Collapsed="true">
+    <Position X="13.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\Entry.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.PfamFastaComponentModels.Comment" Collapsed="true">
+    <Position X="16.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\Entry.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Data.Xfam.Pfam.PfamFastaComponentModels.Alignment" Collapsed="true">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\Entry.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Module Name="SMRUCC.genomics.Data.Xfam.Pfam.DomainAnalysis" Collapsed="true">
     <Position X="13.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAABAgAABAAAAAIAAAAAAAAAAAQEAAAAABBAACAAEA=</HashCode>
       <FileName>Analysis\DomainAnalysis.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.MotifParallelAlignment" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment.MotifParallelAlignment" Collapsed="true">
     <Position X="16.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAQAABAAAAAAAAAAIAAIAAAAAAAAQAAAIAAAAAAAAA=</HashCode>
       <FileName>MPAlignment\MotifParallelAlignment.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.My.Resources.Resources" Collapsed="true">
-    <Position X="11.5" Y="5.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAACABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.My.MySettingsProperty" Collapsed="true">
-    <Position X="9.75" Y="5.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.Algorithm" Collapsed="true">
-    <Position X="9.75" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>EAAIAAAAABAAAIAAAAAAAACAAAAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>MPAlignment\Algorithm\MPAlignment.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.DomainParser" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Data.Xfam.Pfam.DomainParser" Collapsed="true">
     <Position X="15" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAABAAAgAAgAAAAAAACAA=</HashCode>
       <FileName>Analysis\DomainParser.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString.API" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Data.Xfam.Pfam.PfamString.API" Collapsed="true">
     <Position X="11.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAEAQgBAAAAAAAAAAAAQAAAgAAAABQBEAACIg=</HashCode>
       <FileName>Parser\PfamString\API.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment.Algorithm" Collapsed="true">
+    <Position X="9.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAABAABAAAIAAEAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MPAlignment\Algorithm\MPAlignment.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Data.Xfam.Pfam.My.Resources.Resources" Collapsed="true">
+    <Position X="11.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Data.Xfam.Pfam.My.MySettingsProperty" Collapsed="true">
+    <Position X="9.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Font Name="Calibri" Size="8.25" />

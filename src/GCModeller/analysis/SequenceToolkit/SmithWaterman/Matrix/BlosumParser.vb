@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1868a31ab18e89b44bec54451981b70e, analysis\SequenceToolkit\SmithWaterman\Matrix\BlosumParser.vb"
+﻿#Region "Microsoft.VisualBasic::a63b2db8110e2b36b42fc6b3dac6075e, analysis\SequenceToolkit\SmithWaterman\Matrix\BlosumParser.vb"
 
     ' Author:
     ' 

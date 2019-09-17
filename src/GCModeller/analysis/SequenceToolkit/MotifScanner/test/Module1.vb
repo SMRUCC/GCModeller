@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::980a3827bd62a68d28fb173357879afd, analysis\SequenceToolkit\MotifScanner\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::547f03d1989b6e743f6ee52e0ce8da2a, analysis\SequenceToolkit\MotifScanner\test\Module1.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b48759105387f63e79f211b90121c2ae, CLI_tools\RegPrecise\CLI\TF.vb"
+﻿#Region "Microsoft.VisualBasic::bd7c69ee510ab5153457c27b08b17634, CLI_tools\RegPrecise\CLI\TF.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,7 @@
 
     ' Module CLI
     ' 
-    '     Function: EffectorFillNames, Effectors, FamilyHits, ProteinMotifsEXPORT, ProtMotifToPfamString
-    '               ToPfamString
+    '     Function: Effectors, FamilyHits, ProteinMotifsEXPORT, ProtMotifToPfamString, ToPfamString
     ' 
     ' /********************************************************************************/
 

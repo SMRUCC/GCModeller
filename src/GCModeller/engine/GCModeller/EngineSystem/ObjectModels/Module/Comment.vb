@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::682e2cee4f5f4d58682e3f5ed9ba0952, GCModeller\EngineSystem\ObjectModels\Module\Comment.vb"
+﻿#Region "Microsoft.VisualBasic::45fdf6ada366a6a0e10622e6915d79b9, engine\GCModeller\EngineSystem\ObjectModels\Module\Comment.vb"
 
     ' Author:
     ' 

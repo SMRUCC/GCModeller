@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e45f4e89d894f1e2918b0c1398abd15, data\ExternalDBSource\Regtransbase\StructureObjects\Dictionary.vb"
+﻿#Region "Microsoft.VisualBasic::b47d6dd329231b9fc29cd66b947a07e9, ExternalDBSource\Regtransbase\StructureObjects\Dictionary.vb"
 
     ' Author:
     ' 

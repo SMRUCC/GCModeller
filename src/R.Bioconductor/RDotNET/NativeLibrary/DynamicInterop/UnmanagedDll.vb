@@ -1,3 +1,53 @@
+﻿#Region "Microsoft.VisualBasic::3ed8da04494c86478c0c1fec720e68ce, RDotNET\NativeLibrary\DynamicInterop\UnmanagedDll.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class UnmanagedDll
+    ' 
+    '         Properties: Filename
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: checkedGetSymbolHandle, createLdLibPathMsg, DangerousGetHandle, GetAnsiString, GetByte
+    '                   (+2 Overloads) GetFunction, GetFunctionAddress, GetInt32, GetInt64, GetIntPtr
+    ' 
+    '         Sub: (+2 Overloads) Dispose, ReportLoadLibError, throwEntryPointNotFound, ThrowFailedLibraryLoad, WriteByte
+    '              WriteInt32, WriteInt64, WriteIntPtr
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports System.Collections.Concurrent
 Imports System.Collections.Generic
 Imports System.IO
@@ -330,3 +380,4 @@ Namespace NativeLibrary.DynamicInterop
         End Function
     End Class
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::792fa42645741626827631af9a9a60c8, GO\EnrichPlot.vb"
+﻿#Region "Microsoft.VisualBasic::058d804215fad3eaf69a35b01966df10, GO\EnrichPlot.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,9 @@
 
     ' Module EnrichPlot
     ' 
-    '     Function: __createModel, __unenrichSerial, BubblePlot, EnrichResult
+    '     Function: BubblePlot, createModel, EnrichResult, unenrichSerial
     ' 
-    '     Sub: __plotInternal
+    '     Sub: plotInternal
     ' 
     ' /********************************************************************************/
 

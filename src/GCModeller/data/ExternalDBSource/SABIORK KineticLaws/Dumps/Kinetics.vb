@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7359c53ef3adb5c91b3702c264367ec, data\ExternalDBSource\SABIORK KineticLaws\Dumps\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::3f5d5edde4468bf2585d35f4507c9eda, ExternalDBSource\SABIORK KineticLaws\Dumps\Kinetics.vb"
 
     ' Author:
     ' 

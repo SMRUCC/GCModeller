@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18b76cc722e07bb284c4beb63275f1b8, data\RCSB PDB\PDB\PDB.vb"
+﻿#Region "Microsoft.VisualBasic::e4bee3eafa5695800d8891292e7c46f4, RCSB PDB\PDB\PDB.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '                 Sequence, Source, Title
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: Load, LoadDocument, Save
+    '     Function: Load, LoadDocument
     ' 
     ' /********************************************************************************/
 

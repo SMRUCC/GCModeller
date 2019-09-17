@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0546cbffbd22c93cfaf574783da49b5, CLI_tools\Xfam\CLI\Database.vb"
+﻿#Region "Microsoft.VisualBasic::b18a720fd3e8875a75b422176990568b, CLI_tools\Xfam\CLI\Database.vb"
 
     ' Author:
     ' 
@@ -33,17 +33,22 @@
 
     ' Module CLI
     ' 
-    '     Function: InstallRfam
+    '     Function: InstallRfam, ParseFastaAsTable
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.Database
 Imports SMRUCC.genomics.Data.Xfam.Rfam
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
@@ -66,5 +71,21 @@ Partial Module CLI
         Next
 
         Return seedDb.Values.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/Fasta2Table")>
+    <Usage("/Fasta2Table /in <database.fasta> [/out <table.csv>]")>
+    <Description("Parse and save the pfam sequence fasta database as csv table file. (Debug used only)")>
+    Public Function ParseFastaAsTable(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.table.csv"
+
+        Using reader As New StreamIterator([in]), table As New WriteStream(Of PfamFasta)(out)
+            For Each fa As FastaSeq In reader.ReadStream
+                Call PfamFasta.CreateObject(fa).DoCall(AddressOf table.Flush)
+            Next
+        End Using
+
+        Return 0
     End Function
 End Module

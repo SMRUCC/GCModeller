@@ -1,3 +1,50 @@
+﻿#Region "Microsoft.VisualBasic::a27ece0ea8ddc7be61d5a56be1801d57, RDotNET\RDotNET\IntegerVector.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class IntegerVector
+    ' 
+    '     Properties: DataSize, Item, NACode
+    ' 
+    '     Constructor: (+4 Overloads) Sub New
+    ' 
+    '     Function: GetArrayFast
+    ' 
+    '     Sub: CopyTo, SetVectorDirect
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports RDotNet.Internals
 Imports System.Collections.Generic
 Imports System.Runtime.InteropServices
@@ -139,3 +186,4 @@ Public Class IntegerVector
 		End Get
 	End Property
 End Class
+

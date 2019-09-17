@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da4caf7a46f3832e7640b7c3d31cd06b, RDotNET.Extensions.VisualBasic\Extensions\Serialization\Serialization.vb"
+﻿#Region "Microsoft.VisualBasic::52760a5a416485b3ac5216566ade98f4, RDotNET.Extensions.VisualBasic\Extensions\Serialization\Serialization.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,12 @@
 
     ' Summaries:
 
-    ' Module Serialization
+    '     Module SerializationExtensions
     ' 
-    '     Function: __createMatrix, __loadFromStream, InternalLoadS4Object, LoadRStream, S4Object
+    '         Function: __createMatrix, __loadFromStream, InternalLoadS4Object, LoadRStream, S4Object
     ' 
-    '     Sub: __mappingCollectionType, __rVectorToNETProperty, __valueMapping
+    '         Sub: __mappingCollectionType, __rVectorToNETProperty, __valueMapping
+    ' 
     ' 
     ' /********************************************************************************/
 

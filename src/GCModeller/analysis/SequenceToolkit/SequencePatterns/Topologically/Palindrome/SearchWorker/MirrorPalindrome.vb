@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::360354783ee718e197e417ae95d60917, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\MirrorPalindrome.vb"
+﻿#Region "Microsoft.VisualBasic::2653a2e20c531d8522e9d0d68cdcbd44, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\MirrorPalindrome.vb"
 
     ' Author:
     ' 
