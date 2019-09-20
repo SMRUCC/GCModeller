@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77b70521fac935ece60eaed2ecd1b9b5, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\ICorrelations.vb"
+﻿#Region "Microsoft.VisualBasic::05aba529a90c70827a62d6e765024a72, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\ICorrelations.vb"
 
     ' Author:
     ' 

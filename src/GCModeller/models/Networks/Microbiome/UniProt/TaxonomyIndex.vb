@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7db1d5aba2621fea6b3b1f14558dc2b3, Networks\Microbiome\UniProt\TaxonomyIndex.vb"
+﻿#Region "Microsoft.VisualBasic::988e47053cf40aae74ec9d2ebe2b854a, Networks\Microbiome\UniProt\TaxonomyIndex.vb"
 
     ' Author:
     ' 
@@ -47,7 +47,6 @@
 
 #End Region
 
-
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -87,4 +86,3 @@ Public Class Summary
         Return scientificName
     End Function
 End Class
-

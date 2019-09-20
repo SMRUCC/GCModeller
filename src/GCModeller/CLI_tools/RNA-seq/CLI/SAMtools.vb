@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a160c27c5dcccf9aaf0c547e852c4e6c, CLI_tools\RNA-seq\CLI\SAMtools.vb"
+﻿#Region "Microsoft.VisualBasic::9dd280733ee6d6ada88cd3cff6888abc, CLI_tools\RNA-seq\CLI\SAMtools.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     ' Module CLI
     ' 
-    '     Function: __export, __writeFile, AssociateGI, chisqTest, Clustering
-    '               ContactsNNN, CorrelatesVector, ExportSAMMaps, ExportSAMMapsBySamples, FormatGI
+    '     Function: __writeFile, AssociateGI, chisqTest, Clustering, ContactsNNN
+    '               CorrelatesVector, exportInternal, ExportSAMMaps, ExportSAMMapsBySamples, FormatGI
     '               Fq2fa, MergeFastQ, SAMcontigs, SelectSubs
     ' 
     ' /********************************************************************************/

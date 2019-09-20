@@ -1,52 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::4b9b7f1e64d81defa171d2ce6df963fa, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\PfsNETModuleAPI.vb"
+﻿#Region "Microsoft.VisualBasic::aa3128d71194de30a57c7cb490d0ed3a, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\PfsNETModuleAPI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module PfsNETModuleAPI
-' 
-'         Function: __getPath, AnalysisPhenotype, BatchScript, CreateList, CreateMatrix
-'                   CreatePathwayData, DenormalizePhenotypeData, Evaluate, ExportCytoscape, get_PFSNet_R_Handle
-'                   get_PFSNet_VB_Handle, GetRegulationGeneIdlist, Initialize, KEGGPathwaysPhenotypeAnalysis, LoadResult
-'                   (+2 Overloads) ParseCsv, PathwayGeneRelationship, ReadPfsnet, ReadRegulations, RegulationRelationship
-'                   SaveCsvResult, SavePathwayData, SavePfsNET, SavePFSNet, set_Handle
-'                   WriteKEGGPhenotypes
-'         Class Regulation
-' 
-'             Properties: DoorId, Pcc, SequenceId, TF
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Module PfsNETModuleAPI
+    ' 
+    '         Function: __getPath, AnalysisPhenotype, BatchScript, CreateList, CreateMatrix
+    '                   CreatePathwayData, DenormalizePhenotypeData, Evaluate, ExportCytoscape, GetRegulationGeneIdlist
+    '                   Initialize, KEGGPathwaysPhenotypeAnalysis, LoadResult, (+2 Overloads) ParseCsv, PathwayGeneRelationship
+    '                   ReadPfsnet, ReadRegulations, RegulationRelationship, SaveCsvResult, SavePathwayData
+    '                   SavePfsNET, SavePFSNet, WriteKEGGPhenotypes
+    '         Class Regulation
+    ' 
+    '             Properties: DoorId, Pcc, SequenceId, TF
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

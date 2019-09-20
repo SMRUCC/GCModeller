@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be1886e3e77e5cf9f08deece6317de29, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\RInvoke\PfsNET.vb"
+﻿#Region "Microsoft.VisualBasic::08d4de403cb16579c9ba4fad2a6604fe, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\RInvoke\PfsNET.vb"
 
     ' Author:
     ' 

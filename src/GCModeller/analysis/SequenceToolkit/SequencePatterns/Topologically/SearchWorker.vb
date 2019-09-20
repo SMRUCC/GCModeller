@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2af27d16a453a877152b5e3b554c37fa, analysis\SequenceToolkit\SequencePatterns\Topologically\SearchWorker.vb"
+﻿#Region "Microsoft.VisualBasic::cbb8863006670de390ff50d7f43c4d3b, analysis\SequenceToolkit\SequencePatterns\Topologically\SearchWorker.vb"
 
     ' Author:
     ' 

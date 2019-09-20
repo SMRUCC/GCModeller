@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3811dc4a9e5302abdae74e45baaf282a, sub-system\CellPhenotype\TRN\Regulators\OCS.vb"
+﻿#Region "Microsoft.VisualBasic::17f8e7565d9dbb7e42a01aab41485f4a, sub-system\CellPhenotype\TRN\Regulators\OCS.vb"
 
     ' Author:
     ' 

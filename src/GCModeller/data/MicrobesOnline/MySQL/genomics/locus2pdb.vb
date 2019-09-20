@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4eb92d77c13be9d29ebc6648b4c457c9, data\MicrobesOnline\MySQL\genomics\locus2pdb.vb"
+﻿#Region "Microsoft.VisualBasic::4eb92d77c13be9d29ebc6648b4c457c9, MicrobesOnline\MySQL\genomics\locus2pdb.vb"
 
     ' Author:
     ' 

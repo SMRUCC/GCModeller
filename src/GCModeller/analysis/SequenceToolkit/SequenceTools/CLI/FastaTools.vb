@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e16942fbaccb81afbb11bbf1f7df8ea, analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::c146b3e4154e220362f26d1a2488600b, analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce8ceafbb2d861f2d9a0198a1e7ea7d9, BIOM\BIOM\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::27b3e92ca38831ef4487b9569e8e1bd1, BIOM\BIOM\Extensions.vb"
 
     ' Author:
     ' 
@@ -97,4 +97,3 @@ Imports SMRUCC.genomics.foundation.BIOM.v10
         End If
     End Function
 End Module
-

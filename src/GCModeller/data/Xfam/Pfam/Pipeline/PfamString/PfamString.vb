@@ -1,46 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::da2b09efbed0952a18397625307e1596, data\Xfam\Pfam\Parser\PfamString\PfamString.vb"
+﻿#Region "Microsoft.VisualBasic::948fb8ef27da8a2149563c9267429c7a, Xfam\Pfam\Pipeline\PfamString\PfamString.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class PfamString
-' 
-'         Properties: Description, Domains, HasChouFasmanData, Length, PfamString
-'                     ProteinId
-' 
-'         Function: get__PfamString, get_ChouFasmanData, get_PlantTextOutput, GetDomainData, IsChouFasmanData
-'                   ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class PfamString
+    ' 
+    '         Properties: Description, Domains, HasChouFasmanData, Length, PfamString
+    '                     ProteinId
+    ' 
+    '         Function: get__PfamString, get_PlantTextOutput, GetChouFasmanData, GetDomainData, IsChouFasmanData
+    '                   ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -110,10 +110,10 @@ Namespace PfamString
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function get_ChouFasmanData() As DomainObject()
+        Public Function GetChouFasmanData() As DomainObject()
             Dim ChunkBuffer = (From strData As String
                                In PfamString
-                               Let DomainData = __getDomainTrace(strData, 1)
+                               Let DomainData = getDomainTrace(strData, 1)
                                Select DomainData
                                Order By DomainData.Position.Left Ascending).ToArray
             Dim ChunkList As List(Of DomainObject) = New List(Of DomainObject)
@@ -156,7 +156,7 @@ Namespace PfamString
 
             Dim LQuery = (From strValue As String In PfamString
                           Where Not Regex.Match(strValue, "\[.+?\]").Success
-                          Let DomainData As ProteinModel.DomainObject = __getDomainTrace(strValue, Length)
+                          Let DomainData As ProteinModel.DomainObject = getDomainTrace(strValue, Length)
                           Select DomainData).ToArray
             If ordered Then
                 LQuery = (From domainData As ProteinModel.DomainObject

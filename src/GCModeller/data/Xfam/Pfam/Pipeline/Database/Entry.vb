@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f57e63b30395e2d24235001a68de5ce, data\Xfam\Pfam\Parser\Entry.vb"
+﻿#Region "Microsoft.VisualBasic::aa02f22099621d76359b070ae9fb489b, Xfam\Pfam\Pipeline\Database\Entry.vb"
 
     ' Author:
     ' 
@@ -56,7 +56,7 @@
 
 #End Region
 
-Namespace PfamFastaComponentModels
+Namespace Pipeline.Database
 
     ''' <summary>
     ''' Pfam Entry, The format of Pfam entries has become stricter and we now enforce some ordering of the fields.

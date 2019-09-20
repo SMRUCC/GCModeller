@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41d26f0ede81a419dcc05e97e3944835, GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\Regulators.vb"
+﻿#Region "Microsoft.VisualBasic::578d13ed0fa5d2aff9fbcc879a0f25fb, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\Regulators.vb"
 
     ' Author:
     ' 

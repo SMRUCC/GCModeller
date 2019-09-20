@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::423eb32950d6d5fe31dff662991c12c5, analysis\SequenceToolkit\SequencePatterns\SequenceLogo\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::e290c44d71f8b8abd6f5a29510aeb771, analysis\SequenceToolkit\SequencePatterns\SequenceLogo\DrawingDevice.vb"
 
     ' Author:
     ' 

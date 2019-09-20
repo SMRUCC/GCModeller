@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df9de54e9b52cf69ed322574651729a7, analysis\Motifs\PrimerDesigner\Restriction_enzyme\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::6f560c367464f76e2cd2073b07ed7770, analysis\Motifs\PrimerDesigner\Restriction_enzyme\Enzyme.vb"
 
     ' Author:
     ' 

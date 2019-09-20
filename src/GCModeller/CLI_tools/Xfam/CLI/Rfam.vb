@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30d5a0f613e5ccfede0761a0b9fcb2b3, CLI_tools\Xfam\CLI\Rfam.vb"
+﻿#Region "Microsoft.VisualBasic::0cfc85f004aaabc6134417e14eb38615, CLI_tools\Xfam\CLI\Rfam.vb"
 
     ' Author:
     ' 
@@ -63,6 +63,7 @@ Partial Module CLI
                Usage:="/Rfam /in <blastMappings.Csv.DIR> /PTT <pttDIR> [/prefix <sp_prefix> /out <out.Rfam.csv> /offset 10 /non-directed]")>
     <Argument("/prefix", True,
                    Description:="Optional for the custom RNA id, is this parameter value is nothing, then the id prefix will be parsed from the PTT file automaticslly.")>
+    <Group(Program.RfamCliTools)>
     Public Function RfamAnalysis(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim outCsv As String = args.GetValue("/out", inDIR & ".Csv")
@@ -90,6 +91,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Rfam.Regulatory",
                Usage:="/Rfam.Regulatory /query <RfamilyMappings.csv> /mast <mastsites.csv> [/out <out.csv>]")>
+    <Group(Program.RfamCliTools)>
     Public Function RfamRegulatory(args As CommandLine) As Integer
         Dim queryMappings As String = args("/query")
         Dim mast As String = args("/mast")
@@ -101,6 +103,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Load.cmscan", Usage:="/Load.cmscan /in <stdout.txt> [/out <out.Xml>]")>
+    <Group(Program.RfamCliTools)>
     Public Function LoadDoc(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Xml")
@@ -110,6 +113,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Load.cmsearch", Usage:="/Load.cmsearch /in <stdio.txt> /out <out.Xml>")>
+    <Group(Program.RfamCliTools)>
     Public Function LoadCMSearch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Xml")
@@ -120,6 +124,7 @@ Partial Module CLI
 
     <ExportAPI("/Rfam.GenomicsContext",
                Usage:="/Rfam.GenomicsContext /in <scan_sites.Csv> /PTT <genome.PTT> [/dist 500 /out <out.csv>]")>
+    <Group(Program.RfamCliTools)>
     Public Function RfamGenomicsContext(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim PTT As String = args("/PTT")
@@ -153,6 +158,7 @@ Partial Module CLI
 
     <ExportAPI("/Rfam.Sites.seq",
                Usage:="/Rfam.Sites.Seq /nt <nt.fasta> /sites <sites.csv> [/out out.fasta]")>
+    <Group(Program.RfamCliTools)>
     Public Function RfamSites(args As CommandLine) As Integer
         Dim [in] As String = args("/nt")
         Dim sites As String = args("/sites")
@@ -181,6 +187,7 @@ Partial Module CLI
 
     <ExportAPI("/Rfam.Regulons",
                Usage:="/Rfam.Regulons /in <cmsearch.hits.csv> /regulons <regprecise.regulons.hits.csv> [/out <out.csv>]")>
+    <Group(Program.RfamCliTools)>
     Public Function RFamRegulons(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim regulons As String = args - "/regulons"

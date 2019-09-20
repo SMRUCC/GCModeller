@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c90b3f3b9bd070b42287f7a5834c903a, GSEA\GSEA\KOBAS\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::fcea3d863f79f20e40693e1216065b1d, GSEA\GSEA\KOBAS\GSEA.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,12 @@
 
     ' Summaries:
 
-    ' Module KOBAS_GSEA
+    '     Module KOBAS_GSEA
     ' 
-    '     Function: ES_all, ES_for_permutation, ES_null, fdr_cal, get_hit_matrix
-    '               nominal_p, normalized, output_set, rank_pro
-    '     Structure hitMatrix
+    '         Function: ES_all, ES_for_permutation, ES_null, fdr_cal, get_hit_matrix
+    '                   nominal_p, normalized, output_set, rank_pro
+    '         Structure hitMatrix
+    ' 
     ' 
     ' 
     ' 

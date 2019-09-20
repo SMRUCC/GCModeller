@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9a6ace7a3563df9dbc24ce64ac145b9, analysis\SequenceToolkit\MotifScanner\Consensus\SeedCluster.vb"
+﻿#Region "Microsoft.VisualBasic::e208fc29a100efcfbd0d1ca331720e9d, analysis\SequenceToolkit\MotifScanner\Consensus\SeedCluster.vb"
 
     ' Author:
     ' 

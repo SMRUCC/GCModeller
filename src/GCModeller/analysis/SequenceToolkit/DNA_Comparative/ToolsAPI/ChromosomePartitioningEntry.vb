@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0f7c976bfbeccaab7e241df11aff547, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ChromosomePartitioningEntry.vb"
+﻿#Region "Microsoft.VisualBasic::4be80344bc3fa26b94aeeb9b425a35bc, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ChromosomePartitioningEntry.vb"
 
     ' Author:
     ' 

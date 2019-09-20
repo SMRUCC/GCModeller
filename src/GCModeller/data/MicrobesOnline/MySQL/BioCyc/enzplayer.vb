@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f344ba1e586b030dcf5c03ad95dc21c7, data\MicrobesOnline\MySQL\BioCyc\enzplayer.vb"
+﻿#Region "Microsoft.VisualBasic::f344ba1e586b030dcf5c03ad95dc21c7, MicrobesOnline\MySQL\BioCyc\enzplayer.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::888709a1dc71ec1633f0af6f2108ab3d, data\MicrobesOnline\MySQL\genomics\scaffoldseq.vb"
+﻿#Region "Microsoft.VisualBasic::888709a1dc71ec1633f0af6f2108ab3d, MicrobesOnline\MySQL\genomics\scaffoldseq.vb"
 
     ' Author:
     ' 

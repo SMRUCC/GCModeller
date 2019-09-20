@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::593b85325663fc0b2f171548ac38177a, analysis\SequenceToolkit\SNP\VCF\VCFStream.vb"
+﻿#Region "Microsoft.VisualBasic::17e681b1446be57b1e7280ebf770ffc2, analysis\SequenceToolkit\SNP\VCF\VCFStream.vb"
 
     ' Author:
     ' 

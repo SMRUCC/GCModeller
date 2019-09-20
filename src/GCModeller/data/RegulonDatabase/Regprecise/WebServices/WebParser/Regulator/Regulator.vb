@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7faad2ba30eda9e63960a041f6a40a4, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::1f764fbab6d50a3c3af4ea7be237e6d5, RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\Regulator.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,6 @@
 
     ' Summaries:
 
-    '     Enum Types
-    ' 
-    '         RNA, TF
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
     '     Class Regulator
     ' 
     '         Properties: biological_process, effector, family, infoURL, locus_tag
@@ -46,8 +38,7 @@
     '                     regulator, regulatorySites, regulog, type
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: __exportServlet, __getTagValue, __getTagValue_td, CreateObject, ExportMotifs
-    '                   (+2 Overloads) GetMotifSite, More, ToString
+    '         Function: ExportMotifs, (+2 Overloads) GetMotifSite, ToString
     ' 
     ' 
     ' /********************************************************************************/

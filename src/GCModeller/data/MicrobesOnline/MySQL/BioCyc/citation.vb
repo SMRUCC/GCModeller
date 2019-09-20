@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a0c9b022b1e49ad1edc552ebb3a3fcf, data\MicrobesOnline\MySQL\BioCyc\citation.vb"
+﻿#Region "Microsoft.VisualBasic::2a0c9b022b1e49ad1edc552ebb3a3fcf, MicrobesOnline\MySQL\BioCyc\citation.vb"
 
     ' Author:
     ' 

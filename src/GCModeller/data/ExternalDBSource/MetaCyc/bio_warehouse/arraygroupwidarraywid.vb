@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64d996b4cb3dbcab9208ecbc2dbcef6d, data\ExternalDBSource\MetaCyc\bio_warehouse\arraygroupwidarraywid.vb"
+﻿#Region "Microsoft.VisualBasic::64d996b4cb3dbcab9208ecbc2dbcef6d, ExternalDBSource\MetaCyc\bio_warehouse\arraygroupwidarraywid.vb"
 
     ' Author:
     ' 

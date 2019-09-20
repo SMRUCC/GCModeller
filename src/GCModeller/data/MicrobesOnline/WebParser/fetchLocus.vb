@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5436b4e29f7cacfad0f560c871dd05c1, data\MicrobesOnline\WebParser\fetchLocus.vb"
+﻿#Region "Microsoft.VisualBasic::f8adb7fe2b8292a9db47ece290cd1bd8, MicrobesOnline\WebParser\fetchLocus.vb"
 
     ' Author:
     ' 

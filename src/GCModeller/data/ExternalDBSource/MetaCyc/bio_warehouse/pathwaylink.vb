@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4800a9f9ac5fb6d525c2c7ba8658a46, data\ExternalDBSource\MetaCyc\bio_warehouse\pathwaylink.vb"
+﻿#Region "Microsoft.VisualBasic::c4800a9f9ac5fb6d525c2c7ba8658a46, ExternalDBSource\MetaCyc\bio_warehouse\pathwaylink.vb"
 
     ' Author:
     ' 

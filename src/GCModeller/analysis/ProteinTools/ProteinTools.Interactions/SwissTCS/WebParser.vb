@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f52bba03ebd513a018139b500e74c65, analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\WebParser.vb"
+﻿#Region "Microsoft.VisualBasic::ba5652cfb49e6adf5d15778cc85901f0, analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\WebParser.vb"
 
     ' Author:
     ' 

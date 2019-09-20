@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c12e66650fd9b1a2ed9412658d6348ae, data\Xfam\Pfam\Parser\PfamString\API.vb"
+﻿#Region "Microsoft.VisualBasic::318c51362dfdb6a2e26374d7584a1e46, Xfam\Pfam\Pipeline\PfamString\API.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,9 @@
 
     '     Module API
     ' 
-    '         Function: __getDomainLDM, __getDomainTrace, Analysis, CLIParser, CreateDistruction
-    '                   CreateDomainID, CreateObject, CreatePfamString, CreateProteinDescription, FromChouFasman
-    '                   GenerateData, GetDomain, ToPfamStringToken
+    '         Function: Analysis, CLIParser, CreateDistruction, CreateDomainID, CreateObject
+    '                   CreatePfamString, CreateProteinDescription, FromChouFasman, GenerateData, GetDomain
+    '                   getDomainModel, getDomainTrace, ToPfamStringToken
     ' 
     '         Sub: ExportEvolgeniusView
     ' 
@@ -48,7 +48,6 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI
@@ -83,7 +82,7 @@ Namespace PfamString
         ''' <param name="strValue"></param>
         ''' <param name="normlz">一般是蛋白质的序列长度</param>
         ''' <returns></returns>
-        Private Function __getDomainLDM(strValue As String, normlz As Integer) As ProteinModel.DomainObject
+        Private Function getDomainModel(strValue As String, normlz As Integer) As ProteinModel.DomainObject
             Dim Loc As String = Regex.Match(strValue, "\(\d+\|\d+\)").Value
             Dim id As String = strValue.Replace(Loc, "")
             Dim lociX As Loci.Location = Loci.Location.CreateObject(Mid(Loc, 2, Len(Loc) - 2), "|")
@@ -96,9 +95,9 @@ Namespace PfamString
             Return DomainData
         End Function
 
-        Friend Function __getDomainTrace(strValue As String, normlz As Integer) As ProteinModel.DomainObject
+        Friend Function getDomainTrace(strValue As String, normlz As Integer) As ProteinModel.DomainObject
             Try
-                Return __getDomainLDM(strValue, normlz)
+                Return getDomainModel(strValue, normlz)
             Catch ex As Exception
                 ex = New Exception(strValue, ex)
                 Throw ex
@@ -113,7 +112,7 @@ Namespace PfamString
         '''
         <ExportAPI("GET.Domain")>
         Public Function GetDomain(token As String) As ProteinModel.DomainObject
-            Return __getDomainTrace(token, 1)
+            Return getDomainTrace(token, 1)
         End Function
 
         <ExportAPI("Pfam.Token"), Extension>

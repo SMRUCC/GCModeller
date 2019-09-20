@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df093f7524ac4a09392e318394e8d05c, analysis\RNA-Seq\TSSAR\Annotations\Reads.vb"
+﻿#Region "Microsoft.VisualBasic::932dc73cdf32b57656448096ba79a95d, analysis\RNA-Seq\TSSAR\Annotations\Reads.vb"
 
     ' Author:
     ' 

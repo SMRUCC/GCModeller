@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eeb1395b110cdb69d08dc4c0f3585071, analysis\PFSNet\R.vb"
+﻿#Region "Microsoft.VisualBasic::e4f4f456e288dc34d499f4a6f3f24203, GSEA\PFSNet\PFSNet\Models\R.vb"
 
     ' Author:
     ' 
@@ -33,11 +33,7 @@
 
     '     Module Base
     ' 
-    '         Function: (+2 Overloads) [Select], cbind, Quantile, rep, (+2 Overloads) Sample
-    ' 
-    '     Module Data
-    ' 
-    '         Function: Frame, simplify
+    '         Function: (+2 Overloads) [Select], cbind, rep, (+2 Overloads) Sample
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26415f9b49597de757e12e045cf3d305, data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
+﻿#Region "Microsoft.VisualBasic::a678a596de6e188ccf006829f49ed778, RegulonDatabase\Regprecise\RegpreciseAPI.vb"
 
     ' Author:
     ' 
@@ -40,10 +40,6 @@
     '                   ReGenerate, RegpreciseRegulatorMatch, SaveGenomes, WriteMatches, WriteRegprecise
     ' 
     '         Sub: __mergeAction
-    '         Class Matches
-    ' 
-    '             Properties: Matched, RegpreciseRegulator, RegulonSites
-    ' 
     '         Interface IRegulatorMatched
     ' 
     '             Properties: Address, Family, locusId

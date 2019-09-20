@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e1798278a56912da2df352ead4f1c24, Proteomics\LabelFree\FoldChangeMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::26023211b47ae60f945bf57a39419157, Proteomics\LabelFree\FoldChangeMatrix.vb"
 
     ' Author:
     ' 
@@ -33,17 +33,7 @@
 
     ' Module FoldChangeMatrix
     ' 
-    '     Function: (+2 Overloads) TotalSumNormalize
-    '     Enum InferMethods
-    ' 
-    '         Average, Min
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Function: inferByAverage, inferByMin, (+2 Overloads) iTraqMatrix, iTraqMatrixNormalized, SimulateMissingValues
-    '               SimulateMissingValuesByProtein, SimulateMissingValuesBySample
+    '     Function: (+2 Overloads) iTraqMatrix, iTraqMatrixNormalized, (+2 Overloads) TotalSumNormalize
     ' 
     ' /********************************************************************************/
 
@@ -185,4 +175,3 @@ Public Module FoldChangeMatrix
         End With
     End Function
 End Module
-

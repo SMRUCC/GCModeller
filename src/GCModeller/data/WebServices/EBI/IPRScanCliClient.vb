@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff7368a2b355178edcfde39d904a1c32, data\WebServices\EBI\IPRScanCliClient.vb"
+﻿#Region "Microsoft.VisualBasic::f77ba70108baff9aed8addef4d1c77d0, WebServices\EBI\IPRScanCliClient.vb"
 
     ' Author:
     ' 

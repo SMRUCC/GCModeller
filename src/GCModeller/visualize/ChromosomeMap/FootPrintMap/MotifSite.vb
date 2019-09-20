@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c923ed3d19ff2fc40b13973e4c55081, ChromosomeMap\FootPrintMap\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::8ab6ac55b427079df5535c493f3d7cf8, visualize\ChromosomeMap\FootPrintMap\MotifSite.vb"
 
     ' Author:
     ' 

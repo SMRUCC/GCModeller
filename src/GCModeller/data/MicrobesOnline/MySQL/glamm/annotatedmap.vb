@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::573bb8991ac5fd1853b1a7b6740837a2, data\MicrobesOnline\MySQL\glamm\annotatedmap.vb"
+﻿#Region "Microsoft.VisualBasic::573bb8991ac5fd1853b1a7b6740837a2, MicrobesOnline\MySQL\glamm\annotatedmap.vb"
 
     ' Author:
     ' 

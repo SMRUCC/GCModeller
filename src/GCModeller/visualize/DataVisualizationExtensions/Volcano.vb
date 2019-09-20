@@ -1,58 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::42d69ed3e6bbf20aaac1384337fa4a36, GCModeller.DataVisualization\Volcano.vb"
+﻿#Region "Microsoft.VisualBasic::759e58034128e4351a54142d1bb73c1e, visualize\DataVisualizationExtensions\Volcano.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Volcano
-' 
-'     Properties: PValueThreshold
-' 
-'     Function: CreateModel, GetLegends, Plot, (+2 Overloads) PlotDEGs
-'     Structure DEGModel
-' 
-'         Properties: label, logFC, pvalue
-' 
-'         Function: ToString
-' 
-'     Enum LabelTypes
-' 
-'         ALL, Custom, DEG, None
-' 
-' 
-' 
-'  
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Module Volcano
+    ' 
+    '     Properties: PValueThreshold
+    ' 
+    '     Function: CreateModel, GetLegends, Plot, (+2 Overloads) PlotDEGs
+    '     Structure DEGModel
+    ' 
+    '         Properties: label, logFC, pvalue
+    ' 
+    '         Function: ToString
+    ' 
+    '     Enum LabelTypes
+    ' 
+    '         ALL, Custom, DEG, None
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

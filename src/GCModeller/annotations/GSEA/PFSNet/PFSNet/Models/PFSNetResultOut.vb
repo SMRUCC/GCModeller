@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::571797292135b6a0e104b82ba542ebb6, analysis\PFSNet\DataStructure.vb"
+﻿#Region "Microsoft.VisualBasic::9402c5c78b982ce2ac9aeea1e3010a9c, GSEA\PFSNet\PFSNet\Models\PFSNetResultOut.vb"
 
     ' Author:
     ' 
@@ -31,34 +31,9 @@
 
     ' Summaries:
 
-    '     Class DataFrameRow
-    ' 
-    '         Properties: ExperimentValues, Name, Samples
-    ' 
-    '         Function: CreateApplyFunctionCache, CreateDataFrameFromCache, LoadData, TakeSamples, ToString
-    ' 
-    '     Class GraphEdge
-    ' 
-    '         Properties: g1, g2, PathwayID, SelfLoop
-    ' 
-    '         Function: LoadData, ToString
-    ' 
     '     Class PFSNetResultOut
     ' 
-    '         Properties: DataTag, Phenotype1, Phenotype2
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class PFSNetGraphNode
-    ' 
-    '         Properties: Name, weight, weight2
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class PFSNetGraph
-    ' 
-    '         Properties: Edges, Id, Length, masked, Nodes
-    '                     pvalue, statistics
+    '         Properties: phenotype1, phenotype2, tag
     ' 
     '         Function: ToString
     ' 

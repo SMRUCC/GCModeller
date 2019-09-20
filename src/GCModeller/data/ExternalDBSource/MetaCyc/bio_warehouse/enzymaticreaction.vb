@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4f781e9dc6cdff43ad5b962a709edc6, data\ExternalDBSource\MetaCyc\bio_warehouse\enzymaticreaction.vb"
+﻿#Region "Microsoft.VisualBasic::e4f781e9dc6cdff43ad5b962a709edc6, ExternalDBSource\MetaCyc\bio_warehouse\enzymaticreaction.vb"
 
     ' Author:
     ' 

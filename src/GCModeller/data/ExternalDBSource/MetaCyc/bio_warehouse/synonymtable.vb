@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::337c47e73bd38432633faffa63dc9873, data\ExternalDBSource\MetaCyc\bio_warehouse\synonymtable.vb"
+﻿#Region "Microsoft.VisualBasic::337c47e73bd38432633faffa63dc9873, ExternalDBSource\MetaCyc\bio_warehouse\synonymtable.vb"
 
     ' Author:
     ' 

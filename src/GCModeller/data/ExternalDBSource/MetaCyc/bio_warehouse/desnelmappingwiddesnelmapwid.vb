@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c5996a1a5c53f1c2d9f87da5ece656d, data\ExternalDBSource\MetaCyc\bio_warehouse\desnelmappingwiddesnelmapwid.vb"
+﻿#Region "Microsoft.VisualBasic::5c5996a1a5c53f1c2d9f87da5ece656d, ExternalDBSource\MetaCyc\bio_warehouse\desnelmappingwiddesnelmapwid.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb0f4340c2190208b54760cb911f5f63, data\ExternalDBSource\Regprecise\RegpreciseAPI.vb"
+﻿#Region "Microsoft.VisualBasic::6b01be8899d6a58d829312845b604fc7, ExternalDBSource\Regprecise\RegpreciseAPI.vb"
 
     ' Author:
     ' 

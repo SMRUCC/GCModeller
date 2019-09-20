@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5582b9bfaffb37adb15673dc80a919c5, data\ExternalDBSource\MetaCyc\bio_warehouse\nodevalue.vb"
+﻿#Region "Microsoft.VisualBasic::5582b9bfaffb37adb15673dc80a919c5, ExternalDBSource\MetaCyc\bio_warehouse\nodevalue.vb"
 
     ' Author:
     ' 

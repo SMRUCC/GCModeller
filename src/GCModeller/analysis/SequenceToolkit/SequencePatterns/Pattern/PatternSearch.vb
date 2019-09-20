@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e55086fe2ce46945e4a64640c1d15f09, analysis\SequenceToolkit\SequencePatterns\Pattern\PatternSearch.vb"
+﻿#Region "Microsoft.VisualBasic::edfe76b64f2fc96f5f81a6f533b022db, analysis\SequenceToolkit\SequencePatterns\Pattern\PatternSearch.vb"
 
     ' Author:
     ' 

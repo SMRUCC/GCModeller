@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5858a2982d0638982f40dfd6935dfc9b, analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
+﻿#Region "Microsoft.VisualBasic::23b5dad6a49420c360153792d373a864, analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: Alphabets, PWM
     ' 
-    '         Function: AA_PWM, GetEnumerator, IGetEnumerator, NT_PWM
+    '         Function: AA_PWM, NT_PWM
     ' 
     '     Module PWM
     ' 

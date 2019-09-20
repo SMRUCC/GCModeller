@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9069babb2a00ab67de7b5e42290dceb6, Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::45b98aa5fc2b277cdae1198e65fbb68a, Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
 
     ' Author:
     ' 
@@ -185,7 +185,7 @@ Namespace Assembly.NCBI.GenBank
 
             Dim LQuery = (From item As TGene
                           In Data
-                          Where item.Location.ContainSite(site)
+                          Where item.Location.IsInside(site)
                           Select item).ToArray
             Return LQuery
         End Function

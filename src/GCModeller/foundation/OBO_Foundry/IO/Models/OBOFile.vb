@@ -1,47 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::3c8df22644433c69e78de77f91d3f6f3, foundation\OBO_Foundry\IO\OBOFile.vb"
+﻿#Region "Microsoft.VisualBasic::79390a11f87c0839e63244530041112f, foundation\OBO_Foundry\IO\Models\OBOFile.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Class OBOFile
-' 
-'     Properties: header
-' 
-'     Constructor: (+1 Overloads) Sub New
-' 
-'     Function: GetDatas, ToString
-' 
-'     Sub: __parseHeader, (+2 Overloads) Dispose
-' 
-' /********************************************************************************/
+    '     Class OBOFile
+    ' 
+    '         Properties: header
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: createRawTerm, GetRawTerms, populateLines, ToString
+    ' 
+    '         Sub: (+2 Overloads) Dispose, parseHeader
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

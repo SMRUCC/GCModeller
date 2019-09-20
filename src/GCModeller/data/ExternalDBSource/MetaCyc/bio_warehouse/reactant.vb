@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf34b47b1d167bb66fbde0f70a5ff890, data\ExternalDBSource\MetaCyc\bio_warehouse\reactant.vb"
+﻿#Region "Microsoft.VisualBasic::cf34b47b1d167bb66fbde0f70a5ff890, ExternalDBSource\MetaCyc\bio_warehouse\reactant.vb"
 
     ' Author:
     ' 

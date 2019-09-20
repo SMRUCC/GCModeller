@@ -1,48 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::7331c13bdf63256a600e5760ef8004a2, data\Xfam\Pfam\Analysis\DomainAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::ec5f0eb97dc21646707a2d4f951a1b7e, Xfam\Pfam\Pipeline\DomainAnalysis.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module DomainAnalysis
-' 
-'     Function: __createResult, __createResultPLinq, __createStructureRegion, __getFasta, CreatePfamString
-'               (+2 Overloads) EnzymeClassified, (+2 Overloads) FillChouFasmanData, LoadPfamDescribRes, PfamStringEquals, SavePfamString
-'               ToPfamString
-' 
-' /********************************************************************************/
+    ' Module DomainAnalysis
+    ' 
+    '     Function: __createResult, __createResultPLinq, __createStructureRegion, __getFasta, CreatePfamString
+    '               (+2 Overloads) EnzymeClassified, (+2 Overloads) FillChouFasmanData, LoadPfamDescribRes, PfamStringEquals, SavePfamString
+    '               ToPfamString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
@@ -52,6 +54,7 @@ Imports Microsoft.VisualBasic.Terminal.Utility
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.Expasy.Database
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
@@ -300,13 +303,13 @@ Public Module DomainAnalysis
             Return describ
         End If
 
-        Dim Domains = (From item In describ.GetDomainData(True) Select item Order By item.Position.Left).ToArray
+        Dim Domains = (From item In describ.GetDomainData(True) Select item Order By item.Position.left).ToArray
         Dim p As Integer = 0
         Dim ChunkBuffer As List(Of ProteinModel.DomainObject) = New List(Of ProteinModel.DomainObject)
 
         Do While p < Domains.Count - 1
-            Dim currentDomain_p = Domains(p).Position.Right
-            Dim nextDomain_p = Domains(p + 1).Position.Left
+            Dim currentDomain_p = Domains(p).Position.right
+            Dim nextDomain_p = Domains(p + 1).Position.left
 
             If currentDomain_p >= nextDomain_p Then
                 p += 1
@@ -327,7 +330,7 @@ Public Module DomainAnalysis
         Loop
 
         Call ChunkBuffer.AddRange(Domains)
-        ChunkBuffer = (From item In ChunkBuffer Select item Order By item.Position.Left Ascending).AsList
+        ChunkBuffer = (From item In ChunkBuffer Select item Order By item.Position.left Ascending).AsList
         describ.PfamString = (From item In ChunkBuffer Select PfamString.ToPfamStringToken(item)).ToArray
 
         Return describ
@@ -341,46 +344,49 @@ Public Module DomainAnalysis
     End Function
 
     ''' <summary>
-    ''' 将blastp比对数据转换为Pfam-String数据
+    ''' 将blastp比对数据转换为Pfam-String数据.(这个函数导出来的是query为待注释的蛋白序列，数据库为Pfam序列数据库的比较结果)
     ''' </summary>
-    ''' <param name="QueryIteration"></param>
+    ''' <param name="query"></param>
     ''' <param name="offset">0.11</param>
     ''' <param name="identities">暂时无用</param>
     ''' <returns></returns>
-    Public Function ToPfamString(QueryIteration As BlastPlus.Query,
+    ''' 
+    <Extension>
+    Public Function ToPfamString(query As BlastPlus.Query,
                                  Optional evalue As Double = Evalue1En5,
                                  Optional coverage As Double = 0.85,
                                  Optional identities As Double = 0.3,
                                  Optional offset As Double = 0.1) As PfamString.PfamString
-        Dim locusId As String = QueryIteration.QueryName.Split.First
+        Dim locusId As String = query.QueryName.Split.First
         Dim Description As String
 
-        If String.Equals(locusId, QueryIteration.QueryName, StringComparison.OrdinalIgnoreCase) Then
+        If String.Equals(locusId, query.QueryName, StringComparison.OrdinalIgnoreCase) Then
             Description = ""
         Else
-            Description = Mid(QueryIteration.QueryName, Len(locusId) + 1).Trim
+            Description = Mid(query.QueryName, Len(locusId) + 1).Trim
         End If
 
-        If QueryIteration.SubjectHits.IsNullOrEmpty Then
+        If query.SubjectHits.IsNullOrEmpty Then
             Return New PfamString.PfamString With {
                 .ProteinId = locusId,
-                .Length = QueryIteration.QueryLength,
+                .Length = query.QueryLength,
                 .Description = Description
             }
         End If
 
-        Dim Domains As DomainModel() = DomainParser.Parser(
-            QueryIteration,
+        Dim Domains As NamedCollection(Of DomainModel) = Annotation.ParserRaw(
+            query,
             evalue:=evalue,
             coverage:=coverage,
             identities:=identities,
-            offset:=offset)
+            offset:=offset
+        )
         Dim Protein As New PfamString.PfamString With {
             .ProteinId = locusId,
             .Description = Description,
-            .Length = QueryIteration.QueryLength,
-            .Domains = (From d In Domains Select $"{d.DomainId}:{d.DomainId}" Distinct).ToArray,
-            .PfamString = Domains.Select(Function(x) $"{x.DomainId}({x.Start}|{x.End})").Distinct.ToArray
+            .Length = query.QueryLength,
+            .Domains = (From d As DomainModel In Domains Select $"{d.DomainId}:{d.DomainId}" Distinct).ToArray,
+            .PfamString = Domains.Select(Function(x) $"{x.DomainId}({x.start}|{x.ends})").Distinct.ToArray
         }
         Return Protein
     End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e0b9e062107ca6bf8bcd09d7939ccc9, data\Xfam\Pfam\Parser\PfamString\DomainObject.vb"
+﻿#Region "Microsoft.VisualBasic::ef36f2141674ae9feb5fc7fee35f8b2d, GO_gene-ontology\GO_Annotation\Annotations.vb"
 
     ' Author:
     ' 
@@ -31,38 +31,25 @@
 
     ' Summaries:
 
-    '     Class DomainObject
+    ' Module Annotations
     ' 
-    '         Properties: Id_Handle, ProteinId
-    ' 
+    '     Function: LoadSBHMaps, PfamAssign
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Text
-Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly.NCBI
-Imports SMRUCC.genomics.Assembly.NCBI.CDD
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.ProteinModel
+Imports Microsoft.VisualBasic.Data.csv
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 
-Namespace PfamString
+Public Module Annotations
 
-    ''' <summary>
-    ''' 这个数据结构是对ChouFasman结构而言的
-    ''' </summary>
-    ''' <remarks></remarks>
-    Public Class DomainObject : Inherits SMRUCC.genomics.ProteinModel.DomainObject
+    Public Function LoadSBHMaps(filepath As String) As IEnumerable(Of BestHit)
+        Return filepath.LoadCsv(Of BestHit)(skipWhile:=SkipHitNotFound)
+    End Function
 
-        ''' <summary>
-        ''' 在Pfam-String之中的位置，其格式为<see cref="SMRUCC.genomics.ProteinModel.DomainObject.Name"></see>
-        ''' _Handle*<see cref="SMRUCC.genomics.ProteinModel.DomainObject.Name"></see>_Handle
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property Id_Handle As String
-        Public Property ProteinId As String
-    End Class
-End Namespace
+    Public Function PfamAssign()
+
+    End Function
+End Module
