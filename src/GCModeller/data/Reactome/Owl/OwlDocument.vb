@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82e8f7c719af2b71d70ec43f3f9b6096, data\Reactome\Owl\OwlDocument.vb"
+﻿#Region "Microsoft.VisualBasic::306cccb125ea904d77792f5176df768f, Reactome\Owl\OwlDocument.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '                     PublicationXref, RelationshipTypeVocabulary, RelationshipXref, ResourceCollection, SequenceInterval
     '                     SequenceSite, SmallMoleculeReference, SmallMolecules, Stoichiometry, UnificationXref
     ' 
-    '         Function: __trim, Load, Save, ToString
+    '         Function: __trim, Load
     ' 
     '         Sub: __initDoc
     ' 

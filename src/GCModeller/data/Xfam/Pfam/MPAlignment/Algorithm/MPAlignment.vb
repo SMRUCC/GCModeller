@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57e2761ca6ba697b1cc30363382dbbb6, data\Xfam\Pfam\MPAlignment\Algorithm\MPAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::a4d614a0e33b9c5a2206729fa7487b27, Xfam\Pfam\MPAlignment\Algorithm\MPAlignment.vb"
 
     ' Author:
     ' 
@@ -284,11 +284,11 @@ Statistics as Topic",
                 Dim left_highlyPaired As Boolean
                 Dim pn As Double
 
-                ps = {Line.First.Left, Line.Last.Left}
+                ps = {Line.First.left, Line.Last.left}
                 pn = ps.Min / ps.Max  'Max is 1 (when min = max)
                 score += (pn * 2)
                 left_highlyPaired = pn >= high_Scoring_thresholds
-                ps = {Line.First.Right, Line.Last.Right}
+                ps = {Line.First.right, Line.Last.right}
                 pn = ps.Min / ps.Max  'Max is 1 (when min = max)
                 score += (pn * 2)
                 a_score += 4

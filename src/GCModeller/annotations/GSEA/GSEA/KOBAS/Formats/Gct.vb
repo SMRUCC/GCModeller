@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6bd965233a65396995aff1fd640f305, GSEA\GSEA\Formats\Gct.vb"
+﻿#Region "Microsoft.VisualBasic::84048d2ec453484d27a5e4cf32acf8ca, GSEA\GSEA\KOBAS\Formats\Gct.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,18 @@
 
     ' Summaries:
 
-    ' Class Gct
+    '     Class Gct
     ' 
-    '     Properties: genes, numberOfgenes, numberOfsamples, version
+    '         Properties: genes, numberOfgenes, numberOfsamples, version
     ' 
-    '     Function: GetEnumerator, IEnumerable_GetEnumerator, LoadFile
+    '         Function: GetEnumerator, IEnumerable_GetEnumerator, LoadFile
     ' 
-    '     Class GeneExpression
+    '         Class GeneExpression
     ' 
-    '         Properties: Description
+    '             Properties: Description
     ' 
-    '         Function: ToString
+    '             Function: ToString
+    ' 
     ' 
     ' 
     ' 

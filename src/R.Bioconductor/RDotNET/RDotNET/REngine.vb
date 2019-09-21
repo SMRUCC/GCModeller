@@ -1,3 +1,64 @@
+﻿#Region "Microsoft.VisualBasic::5fcaa53d548bb5d4c5ac3e066206886b, RDotNET\RDotNET\REngine.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class REngine
+    ' 
+    '     Properties: AutoPrint, BaseNamespace, Disposed, DllVersion, EmptyEnvironment
+    '                 EnableLock, EngineName, GlobalEnvironment, ID, IsRunning
+    '                 LastErrorMessage, NilValue, UnboundValue
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: BuildRArgv, CreateFromNativeSexp, CreateInstance, (+2 Overloads) Defer, EncodeNonAsciiCharacters
+    '               (+2 Overloads) Evaluate, EvenStringDelimitors, GetInstance, GetPredefinedSymbol, (+2 Overloads) GetSymbol
+    '               GetVisible, IndexOfAll, IsClosedString, Parse, processInputString
+    '               processLine, ProcessRDllFileName, Segment, splitOnFirst, splitOnNewLines
+    '               splitOnStatementSeparators
+    ' 
+    '     Sub: CheckEngineIsRunning, Dispose, ForceGarbageCollection, Initialize, OnDisposing
+    '          SetCommandLineArguments, SetCstackChecking, SetEnvironmentVariables, (+2 Overloads) SetSymbol
+    '     Delegate Function
+    ' 
+    '         Properties: NaString, NaStringPointer
+    ' 
+    '         Sub: ClearGlobalEnvironment, doDetachPackages, DoDotNetGarbageCollection
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports System.IO
 Imports System.Linq
 Imports System.Runtime.InteropServices
@@ -983,3 +1044,4 @@ Public Class REngine
         End Get
     End Property
 End Class
+

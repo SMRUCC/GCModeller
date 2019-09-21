@@ -70,8 +70,8 @@ Module CRISPRPhylogeneticTree
     ''' <remarks></remarks>
     Public Function TrimData(CRISPRData As GenomeScanResult, loc As Location) As GenomeScanResult
         CRISPRData.Sites = (From item In CRISPRData.Sites
-                            Where Not (loc.ContainSite(item.Start) OrElse
-                                loc.ContainSite(item.Right))
+                            Where Not (loc.IsInside(item.Start) OrElse
+                                loc.IsInside(item.Right))
                             Select item).ToArray
         Return CRISPRData
     End Function
@@ -139,8 +139,8 @@ Module CRISPRPhylogeneticTree
             right = besthits.hits(p).GetHitByTagInfo(subjectTag)
         Loop
 
-        Dim r = {(From item In cdsinfo Where String.Equals(item.LocusID, left.hitName) Select item.Location).First, (From item In cdsinfo Where String.Equals(item.LocusID, right.hitName) Select item.Location).First}
+        Dim r = {(From item In cdsinfo Where String.Equals(item.locus_id, left.hitName) Select item.Location).First, (From item In cdsinfo Where String.Equals(item.locus_id, right.hitName) Select item.Location).First}
         Dim c = {r.First.Left, r.First.Right, r.Last.Left, r.Last.Right}
-        Return New SMRUCC.genomics.ComponentModel.Loci.Location(c.Min, c.Max)
+        Return New Location(c.Min, c.Max)
     End Function
 End Module

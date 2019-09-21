@@ -28,7 +28,7 @@ Namespace Interpreter.Linker.APIHandler.Alignment
         End Function
 
         Friend Function __alignType(paramDef As Type, valueInput As Object, ByRef score As Integer, ByRef outRef As Object) As Boolean
-            Dim equalsValue As VBInteger = Scan0
+            Dim equalsValue As i32 = Scan0
             Dim inputType As Type = valueInput.GetType
 
             If (equalsValue = TypeEquals.TypeEquals(paramDef, inputType)) > 0 Then

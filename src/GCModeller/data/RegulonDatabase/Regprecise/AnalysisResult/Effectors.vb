@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce5bc73251f3517c24c4af32ea1596ca, data\RegulonDatabase\Regprecise\AnalysisResult\Effectors.vb"
+﻿#Region "Microsoft.VisualBasic::af2a9917b044c54363748be43200f1f5, RegulonDatabase\Regprecise\AnalysisResult\Effectors.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: BiologicalProcess, Effector, KEGG, MetaCyc, Pathway
     '                     Regulon, TF
     ' 
-    '         Function: Fill, ToString
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52ad69c02e7e6420468db5fa35165df4, assembler\Greedy.vb"
+﻿#Region "Microsoft.VisualBasic::4ba4b94b21ba8b6160809d8f5eddd69b, assembler\Greedy.vb"
 
     ' Author:
     ' 
@@ -78,7 +78,7 @@ Public Module Greedy
         Dim clusters As ClusterKey(Of Bits)()
         Dim n As Integer = readsList.Length
         Dim start&
-        Dim cycles As VBInteger = 1
+        Dim cycles As i32 = 1
 
         Do While True
             start = App.ElapsedMilliseconds

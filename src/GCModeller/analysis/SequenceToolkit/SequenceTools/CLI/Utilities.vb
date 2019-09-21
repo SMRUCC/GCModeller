@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80832dee9ad31d558e28c7368a2c44a1, analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
+﻿#Region "Microsoft.VisualBasic::8bc7fb14e33d07a4792aa55ab934100c, analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
 
     ' Author:
     ' 
@@ -251,7 +251,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
             .SaveTo(out & "/data.json")
         ' Call motifs.GetXml.SaveTo(out & "/data.xml")
 
-        Dim i As VBInteger = 0
+        Dim i As i32 = 0
 
         For Each motif As Motif In motifs
             Call motif _

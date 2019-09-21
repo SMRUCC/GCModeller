@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3833795011a6ed46058df56330aca07e, Microsoft.VisualBasic.Core\ComponentModel\System.Collections.Generic\BucketDictionary.vb"
+﻿#Region "Microsoft.VisualBasic::fb63cde407f533b915185b636ca705d8, Microsoft.VisualBasic.Core\ComponentModel\System.Collections.Generic\BucketDictionary.vb"
 
     ' Author:
     ' 
@@ -50,6 +50,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Collection
 
@@ -147,7 +148,7 @@ Namespace ComponentModel.Collection
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"Tuple of [{GetType(K).Name}, {GetType(V).Name}] with {buckets.Count} buckets."
+            Return $"Tuple of [{GetType(K).Name}, {GetType(V).Name}] with {Count} records in {buckets.Count} buckets."
         End Function
 
         Public Function ContainsKey(key As K) As Boolean Implements IReadOnlyDictionary(Of K, V).ContainsKey
@@ -184,19 +185,41 @@ Namespace ComponentModel.Collection
         End Function
     End Class
 
+    <HideModuleName>
     Public Module BucketDictionaryExtensions
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <typeparam name="K"></typeparam>
+        ''' <param name="source"></param>
+        ''' <param name="getKey"></param>
+        ''' <param name="size%"></param>
+        ''' <param name="overridesDuplicates">
+        ''' 当数据中存在重复的键名的时候，是将前面已有的数据覆盖掉还是抛出键名重复的错误？默认是不进行重写覆盖，而是键重复抛出错误。
+        ''' </param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function CreateBuckets(Of T, K)(source As IEnumerable(Of T), getKey As Func(Of T, K), Optional size% = Short.MaxValue * 10) As BucketDictionary(Of K, T)
-            Return source.CreateBuckets(getKey, Function(o) o, size:=size)
+        Public Function CreateBuckets(Of T, K)(source As IEnumerable(Of T),
+                                               getKey As Func(Of T, K),
+                                               Optional size% = Short.MaxValue * 10,
+                                               Optional overridesDuplicates As Boolean = False) As BucketDictionary(Of K, T)
+            Return source.CreateBuckets(
+                getKey:=getKey,
+                getValue:=Function(o) o,
+                size:=size,
+                overridesDuplicates:=overridesDuplicates
+            )
         End Function
 
         <Extension>
         Public Function CreateBuckets(Of T, K, V)(source As IEnumerable(Of T),
                                                   getKey As Func(Of T, K),
                                                   getValue As Func(Of T, V),
-                                                  Optional size% = Short.MaxValue * 10) As BucketDictionary(Of K, V)
+                                                  Optional size% = Short.MaxValue * 10,
+                                                  Optional overridesDuplicates As Boolean = False) As BucketDictionary(Of K, V)
 
             Dim table As New BucketDictionary(Of K, V)(size)
             Dim bucket As New Dictionary(Of K, V)
@@ -205,7 +228,13 @@ Namespace ComponentModel.Collection
                 Dim key As K = getKey(x)
                 Dim value As V = getValue(x)
 
-                Call bucket.Add(key, value)
+                If overridesDuplicates Then
+                    bucket(key) = value
+                ElseIf bucket.ContainsKey(key) Then
+                    Throw New DuplicateNameException(key.GetJson)
+                Else
+                    Call bucket.Add(key, value)
+                End If
 
                 If bucket.Count >= size Then
                     table.buckets.Add(bucket)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4b41d74c6fcd252e0082bdd0999eca3, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
+﻿#Region "Microsoft.VisualBasic::1a7a65a83e14391ed5b73242e2b8de90, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
 
     ' Author:
     ' 
@@ -140,7 +140,7 @@ Namespace Distributions
                 .ToArray
             Dim min As Integer = CInt(array.Min(Function(x) x.Tag)) - 1
             Dim max As Integer = CInt(array.Max(Function(x) x.Tag)) + 1
-            Dim l As VBInteger = min, low As Integer = min
+            Dim l As i32 = min, low As Integer = min
             Dim out As New Dictionary(Of Integer, DoubleTagged(Of Integer))
 
             Do While ++l < max

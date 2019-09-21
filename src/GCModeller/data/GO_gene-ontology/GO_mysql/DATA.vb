@@ -1,41 +1,41 @@
-﻿#Region "Microsoft.VisualBasic::c93db72daa36a18c58e4e30edadbb495, data\GO_gene-ontology\GO_mysql\DATA.vb"
+﻿#Region "Microsoft.VisualBasic::130a5e928584b16a0880530e0ab23d1a, GO_gene-ontology\GO_mysql\DATA.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module DATA
-' 
-'     Function: DumpMySQL, ImportsMySQL
-' 
-' /********************************************************************************/
+    ' Module DATA
+    ' 
+    '     Function: DumpMySQL, ImportsMySQL
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -64,7 +64,7 @@ Public Module DATA
         Dim xrefList As New List(Of kb_go.xref)
         Dim synonymNames As New List(Of kb_go.term_synonym)
         Dim altIDs As New List(Of kb_go.alt_id)
-        Dim synonymID As VBInteger = 0
+        Dim synonymID As i32 = 0
 
         With namespaces
             !cellular_component = New kb_go.term_namespace With {.id = Ontologies.CellularComponent, .namespace = "cellular_component"}

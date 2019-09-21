@@ -11,9 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   1.0.0.0
+'  // VERSION:   3.3277.7188.43145
+'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
+'  // BUILT:     9/5/2019 11:33:38 AM
 '  // 
 ' 
 ' 

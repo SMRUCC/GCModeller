@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc6979b4b647ec8a171f444056ce9403, Microsoft.VisualBasic.Core\CommandLine\Interpreters\View\SDKManual.vb"
+﻿#Region "Microsoft.VisualBasic::5f9f988fd11956c1f2392450da027f30, Microsoft.VisualBasic.Core\CommandLine\Interpreters\View\SDKManual.vb"
 
     ' Author:
     ' 
@@ -40,6 +40,7 @@
 
 #End Region
 
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
@@ -203,11 +204,13 @@ Namespace CommandLine.ManView
                 Call sb.AppendLine()
 
                 Call sb.AppendLine(" // ")
-                Call sb.AppendLine(" // " & Strings.Trim(descr))
+                Call sb.AppendLine(" // " & Strings.Trim(descr) Or "[No description]".AsDefault)
                 Call sb.AppendLine(" // ")
                 Call sb.AppendLine(" // VERSION:   " & (VBCore.Info.AssemblyVersion Or "1.0.0.*".AsDefault))
+                Call sb.AppendLine(" // ASSEMBLY:  " & Assembly.LoadFile(VBCore.ExecutablePath).GetName.ToString)
                 Call sb.AppendLine(" // COPYRIGHT: " & VBCore.Info.AssemblyCopyright)
                 Call sb.AppendLine(" // GUID:      " & VBCore.Info.Guid)
+                Call sb.AppendLine(" // BUILT:     " & VBCore.Info.BuiltTime.ToString)
                 Call sb.AppendLine(" // ")
 
                 Call sb.AppendLine()

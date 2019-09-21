@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f349d324fc83ebf99fca579000392da5, WebCloud\SMRUCC.HTTPInternal\Core\WebSocket\WsProcessor.vb"
+﻿#Region "Microsoft.VisualBasic::83a76e1732ce7b883ee206a998b34e02, WebCloud\SMRUCC.HTTPInternal\Core\WebSocket\WsProcessor.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '         Function: handshakePayload
     ' 
     '         Sub: CheckForDataAvailability, DecodeFrame, doChecks, HandShake, Response
-    '              SendBinary, SendText
+    '              SendBinary, (+2 Overloads) SendText
     ' 
     ' 
     ' /********************************************************************************/
@@ -210,7 +210,7 @@ Namespace Core.WebSocket
                 bytes(frameCount + 3)
             }
 
-            Dim j As VBInteger = Scan0
+            Dim j As i32 = Scan0
 
             For i As Integer = (frameCount + 4) To (bytes.Length - 2) Step 1
                 decoded(j) = Convert.ToByte((bytes(i) Xor masks(++j Mod 4)))

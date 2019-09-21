@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dde41442a03df3d5f5bc9ecea6992ca3, visualizeTools\NCBIBlastResult\BlastVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::fec05d15a9dc2b964915926b8fa09898, visualize\DataVisualizationTools\NCBIBlastResult\BlastVisualize.vb"
 
 ' Author:
 ' 
@@ -129,7 +129,7 @@ Namespace NCBIBlastResult
 #If DEBUG Then
                 Call loci.__DEBUG_ECHO
 #End If
-                rect = New Rectangle(New Point(Margin + loci.Left, Y), New Size(loci.FragmentSize, 10))
+                rect = New Rectangle(New Point(Margin + loci.left, Y), New Size(loci.FragmentSize, 10))
                 Call g.Graphics.FillRectangle(Brushes.Blue, rect)
                 Dim x As Integer = g.Graphics.MeasureString(hit.Name, font).Width
                 x = rect.Left + (rect.Width - x) / 2
@@ -289,7 +289,9 @@ Namespace NCBIBlastResult
                                    Select Entry.ID,
                                        Output).ToArray
             Dim ORF As Dictionary(Of String, GeneTable) =
-                CdsInfo.ToDictionary(Function(g) g.LocusID)
+                CdsInfo.ToDictionary(Function(g)
+                                         Return g.locus_id
+                                     End Function)
             Dim ChunkBuffer As HitRecord() = LinqAPI.Exec(Of HitRecord) <=
  _
                 From EntryInfo
@@ -322,7 +324,7 @@ Namespace NCBIBlastResult
                         Where Not query.SubjectHits.IsNullOrEmpty
                         Select Query = ORF(query.QueryName.Split(CChar("|")).First),
                             query.SubjectHits
-                        Order By Query.Left Ascending).ToArray
+                        Order By Query.left Ascending).ToArray
             Dim hits As String() =
                 LinqAPI.Exec(Of String) <= From x
                                            In Trim
@@ -334,8 +336,8 @@ Namespace NCBIBlastResult
                                                  In hits
                                               Where ORF.ContainsKey(id)
                                               Select _orf = ORF(id)
-                                              Order By _orf.Left Ascending
-            Dim OrderedHits As String() = SortHits.Select(Function(hit) hit.LocusID)
+                                              Order By _orf.left Ascending
+            Dim OrderedHits As String() = SortHits.Select(Function(hit) hit.locus_id)
 
             If OrderedHits.IsNullOrEmpty Then Return New HitRecord() {}
 
@@ -441,7 +443,7 @@ CONTINUTE:
                 Let loci As IEnumerable(Of Integer) =
                     (LinqAPI.MakeList(Of Integer) <= From GeneObject
                                                      In trimedData
-                                                     Select {GeneObject.Key.Left, GeneObject.Key.Right})  '
+                                                     Select {GeneObject.Key.left, GeneObject.Key.right})  '
                 Select New HitRecord With {
                     .QueryID = "",
                     .SubjectIDs = Blastoutput.Database,

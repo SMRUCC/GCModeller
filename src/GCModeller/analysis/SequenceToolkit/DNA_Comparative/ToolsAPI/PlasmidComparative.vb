@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edb9ec7a6a27e4820cf54f2a850be415, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PlasmidComparative.vb"
+﻿#Region "Microsoft.VisualBasic::cfec952bec9ba6e13ed608bada418aa6, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PlasmidComparative.vb"
 
 ' Author:
 ' 
@@ -64,9 +64,11 @@ Public Module PlasmidComparative
         Dim ORF = (From gene As GeneTable
                    In CdsInfo
                    Select gene
-                   Group By gene.LocusID Into Group) _
-                         .ToDictionary(Function(gene) gene.LocusID,
-                                       Function(gene) gene.Group.First)
+                   Group By gene.locus_id Into Group) _
+                         .ToDictionary(Function(gene) gene.locus_id,
+                                       Function(gene)
+                                           Return gene.Group.First
+                                       End Function)
         Dim Regions As List(Of String()) =
             New List(Of String())(ConservedRegions) + From id As String
                                                       In Besthits.GetUnConservedRegions(ConservedRegions)
@@ -77,7 +79,7 @@ Public Module PlasmidComparative
                                                  Let pos As Integer() = (From id As String
                                                                          In ls
                                                                          Let nn As GeneTable = ORF(id)
-                                                                         Select {nn.Left, nn.Right}).ToVector
+                                                                         Select {nn.left, nn.right}).ToVector
                                                  Let left As Integer = pos.Min
                                                  Let right As Integer = pos.Max
                                                  Select New PartitioningData With {

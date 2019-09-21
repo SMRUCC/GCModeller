@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d671d2ab6d2e569a3fb81959137f459a, LocalBLAST\Web\Alignment\HitTableParser.vb"
+﻿#Region "Microsoft.VisualBasic::5bc3f023f576c9cd127e04cf37b3cee2, LocalBLAST\Web\Alignment\HitTableParser.vb"
 
     ' Author:
     ' 
@@ -166,7 +166,7 @@ Namespace NCBIBlastResult.WebBlast
         ''' <returns></returns>
         Private Function Mapper(s As String, fields As Index(Of String)) As HitRecord
             Dim tokens As String() = s.Split(ASCII.TAB)
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
             Dim queryID As String = Nothing
             Dim subjectID As String = Nothing
 

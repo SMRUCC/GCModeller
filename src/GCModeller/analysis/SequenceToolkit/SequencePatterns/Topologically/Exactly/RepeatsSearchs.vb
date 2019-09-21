@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94757d1f02bcc8199d9c347d9d3c0dc5, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchs.vb"
+﻿#Region "Microsoft.VisualBasic::fdd00562fb5d484fb9d56090c9f253f3, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchs.vb"
 
     ' Author:
     ' 

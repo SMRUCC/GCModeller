@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2a8961d64d59c5916d5c3e76b74b51a, Proteomics\ProteinGroups.vb"
+﻿#Region "Microsoft.VisualBasic::2ffeab7609c3cbd9eff9243ddd3fdb57, Proteomics\ProteinGroups.vb"
 
     ' Author:
     ' 
@@ -152,7 +152,7 @@ Public Module ProteinGroups
         If uniprotXML.FileLength > 1024 * 1024 * 1024L Then
             ' ultra large size mode
             Dim idlist As Index(Of String) = ID.Indexing
-            Dim seq As VBInteger = 0
+            Dim seq As i32 = 0
 
             For Each protein As Uniprot.XML.entry In uniprotProteomics.EnumerateEntries(uniprotXML)
                 If protein.accessions.Any(Function(acc) acc Like idlist) Then
@@ -265,7 +265,8 @@ Public Module ProteinGroups
                 New Dictionary(Of String, String),
                 mappings, uniprot, prefix, geneID,
                 scientifcName,
-                iTraq)
+                iTraq
+            )
         Next
     End Function
 
@@ -291,9 +292,15 @@ Public Module ProteinGroups
         Dim maps = source _
             .Select(Function(s) UCase(s)) _
             .Where(Function(ref) mappings.ContainsKey(ref)) _
-            .Select(Function(ref) (ref:=ref, ID:=mappings(ref))) _
-            .ToArray  ' 从uniprot ref90 转换为标准基因号
-        Dim mapsID$() = maps.Select(Function(t) t.ID).IteratesALL.Distinct.ToArray
+            .Select(Function(ref)
+                        ' 从uniprot ref90 转换为标准基因号
+                        Return (ref:=ref, ID:=mappings(ref))
+                    End Function) _
+            .ToArray
+        Dim mapsID$() = maps.Select(Function(t) t.ID) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
         Dim refIDs = maps.Select(Function(t) t.ref).Distinct.JoinBy("; ")
         Dim uniprots As Uniprot.XML.entry() = mapsID _
             .Where(Function(acc) uniprot.ContainsKey(acc)) _
@@ -308,7 +315,8 @@ Public Module ProteinGroups
                 Dim protein As Uniprot.XML.entry = uniprots(j)
 
                 If Not protein.organism Is Nothing AndAlso protein.organism.scientificName = scientifcName Then
-                    uniprots = {protein}  ' 已经找到了目标物种的蛋白注释了，则会抛弃掉其他物种的蛋白注释
+                    ' 已经找到了目标物种的蛋白注释了，则会抛弃掉其他物种的蛋白注释
+                    uniprots = {protein}
                     mapsID = {
                         DirectCast(protein, INamedValue).Key
                     }
@@ -318,12 +326,15 @@ Public Module ProteinGroups
 #End If
                     Exit For
                 End If
-            Next   ' 假若找不到，才会使用其他的物种的注释
+            Next
 
+            ' 假若找不到，才会使用其他的物种的注释
             If Not found Then
                 For j As Integer = 0 To uniprots.Length - 1
-                    If uniprots(j).Xrefs.ContainsKey("KO") Then
-                        uniprots = {uniprots(j)}  ' 假若使用指定的物种的话，对于其他的找不到的基因，也只用一个基因，否则做富集的时候会出问题
+                    If uniprots(j).xrefs.ContainsKey("KO") Then
+                        ' 假若使用指定的物种的话，对于其他的找不到的基因，
+                        ' 也只用一个基因， 否则做富集的时候会出问题
+                        uniprots = {uniprots(j)}
                         Exit For
                     End If
                 Next

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79feda6eda6d8313665d5e29a12ca67c, CLI_tools\CLI\BBH\SBH.vb"
+﻿#Region "Microsoft.VisualBasic::280ec50f52661359a8aeff4cd3e7514e, CLI_tools\CLI\BBH\SBH.vb"
 
     ' Author:
     ' 
@@ -241,7 +241,7 @@ Partial Module CLI
 
                     Dim parseOne =
                         Sub([in] As String)
-                            Dim i As VBInteger = 0
+                            Dim i As i32 = 0
 
                             Call $"Parse {[in]}...".__INFO_ECHO
 
@@ -290,7 +290,7 @@ Partial Module CLI
                              End Function)
 
                 Dim parseOne = Sub([in] As String)
-                                   Dim i As VBInteger = 0
+                                   Dim i As i32 = 0
 
                                    Call $"Parse {[in]}...".__INFO_ECHO
 

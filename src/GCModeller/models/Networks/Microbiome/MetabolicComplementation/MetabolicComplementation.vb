@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd997c0f60959b157e7c41037f2cf5f7, Networks\Microbiome\MetabolicComplementation\MetabolicComplementation.vb"
+﻿#Region "Microsoft.VisualBasic::237b6a93e629cbb71d8f01897776e135, Networks\Microbiome\MetabolicComplementation\MetabolicComplementation.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module MetabolicComplementation
     ' 
-    '     Function: (+2 Overloads) BuildInternalNetwork, BuildMicrobiomeMetabolicNetwork
+    '     Function: BuildInternalNetwork, BuildMicrobiomeMetabolicNetwork
     ' 
     '     Sub: FetchModels, link, linkNodes, RenderColors
     ' 

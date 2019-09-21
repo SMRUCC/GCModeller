@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56d55d8650c0f56bf074812df392279e, CLI_tools\RNA-seq\CLI\Expressions.vb"
+﻿#Region "Microsoft.VisualBasic::79bc7976ed5310c0339968e392c3b94c, CLI_tools\RNA-seq\CLI\Expressions.vb"
 
     ' Author:
     ' 
@@ -79,7 +79,7 @@ Partial Module CLI
         Dim inFile As String = args("/log2")
         Dim data As String = args("/data")
         Dim locus_map As String = args.GetValue("/locus_map", "locus")
-        Dim out As VBInteger = args.OpenHandle("/out", inFile.TrimSuffix & $".selects-{data.BaseName}.out.csv")
+        Dim out As i32 = args.OpenHandle("/out", inFile.TrimSuffix & $".selects-{data.BaseName}.out.csv")
         Dim log2 = IO.DataSet.LoadDataSet(inFile, "LocusId")
         Dim factor As Double = args.GetValue("/factor", 1.0R)
         Dim dataSets = (From x As IO.EntityObject

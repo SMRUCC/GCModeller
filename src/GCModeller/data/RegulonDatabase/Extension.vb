@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee1cf95bcd79b673115df1798a31385f, data\RegulonDatabase\Extension.vb"
+﻿#Region "Microsoft.VisualBasic::36bc9b7b3b148187a5bb8c94eaf93d85, RegulonDatabase\Extension.vb"
 
     ' Author:
     ' 

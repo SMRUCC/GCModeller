@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6e9c39681dce3c348db4fc529aeff31, Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
+﻿#Region "Microsoft.VisualBasic::5b556747c4077cea98720e43d0160457, Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
 
     ' Author:
     ' 
@@ -144,7 +144,7 @@ Namespace Assembly.MiST2
                 End If
             Next
 
-            Dim p As VBInteger = Scan0
+            Dim p As i32 = Scan0
 
             RepliconMajorModule.OneComponent = WebServices.Download(url(++p))
             RepliconMajorModule.TwoComponent = New TwoComponent With {

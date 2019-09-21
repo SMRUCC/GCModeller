@@ -76,7 +76,12 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         Public Property description As String
 
-        Public ReadOnly Property coverage As Double
+        ''' <summary>
+        ''' 这个覆盖度是相对于query作为未知功能的全长protein序列而言的。
+        ''' <see cref="length_query"/> / <see cref="query_length"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overridable ReadOnly Property coverage As Double
             Get
                 Return Me.length_query / Me.query_length
             End Get

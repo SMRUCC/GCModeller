@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::23fbce635bb03bfa4a6df3de783486af, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\SparseVector.vb"
+﻿#Region "Microsoft.VisualBasic::a51e8460b3b5b1c44b7c0b44875eb13f, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\SparseVector.vb"
 
     ' Author:
     ' 
@@ -282,7 +282,7 @@ Namespace LinearAlgebra
         End Function
 
         Public Overrides Iterator Function GetEnumerator() As IEnumerator(Of Double)
-            Dim j As VBInteger = -1
+            Dim j As i32 = -1
 
             For i As Integer = 0 To dimension - 1
                 If (j = index.IndexOf(i)) > -1 Then

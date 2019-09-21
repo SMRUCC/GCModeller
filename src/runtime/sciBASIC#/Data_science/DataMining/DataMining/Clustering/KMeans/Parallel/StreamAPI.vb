@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69c477b3545aaf2e7633e01b297ff109, Data_science\DataMining\DataMining\Clustering\KMeans\Parallel\StreamAPI.vb"
+﻿#Region "Microsoft.VisualBasic::777bae13367062c1f01cb459f1ea8d89, Data_science\DataMining\DataMining\Clustering\KMeans\Parallel\StreamAPI.vb"
 
     ' Author:
     ' 
@@ -65,7 +65,7 @@ Namespace KMeans.Parallel
             Dim name As Byte() = Encoding.Unicode.GetBytes(x.uid)
             Dim buffer As Byte() =
                 New Byte(name.Length + RawStream.INT32 + (x.entityVector.Length * RawStream.DblFloat) - 1) {}
-            Dim i As VBInteger = 0
+            Dim i As i32 = 0
             Dim nameLen As Byte() = BitConverter.GetBytes(name.Length)
 
             Call Array.ConstrainedCopy(nameLen, Scan0, buffer, i + nameLen.Length, nameLen.Length)
@@ -80,7 +80,7 @@ Namespace KMeans.Parallel
 
         <Extension> Public Function GetObject(buffer As Byte()) As ClusterEntity
             Dim nameLen As Byte() = New Byte(RawStream.INT32 - 1) {}
-            Dim p As VBInteger = 0
+            Dim p As i32 = 0
             Call Array.ConstrainedCopy(buffer, p + nameLen.Length, nameLen, Scan0, nameLen.Length)
 
             Dim name As Byte() = New Byte(BitConverter.ToInt32(nameLen, Scan0) - 1) {}

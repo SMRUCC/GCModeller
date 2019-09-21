@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95be6c1cab220ae81e4655caf78384e2, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Models\HiddenLayers.vb"
+﻿#Region "Microsoft.VisualBasic::3b8885df50695a003b0747da0605bf45, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Models\HiddenLayers.vb"
 
     ' Author:
     ' 
@@ -98,7 +98,7 @@ Namespace NeuralNetwork
         ''' <param name="input">s神经网络的输入层会作为隐藏层的输入</param>
         ''' <param name="size%"></param>
         ''' <param name="active"></param>
-        Sub New(input As Layer, size%(), weight As Func(Of Double), active As IActivationFunction, guid As VBInteger)
+        Sub New(input As Layer, size%(), weight As Func(Of Double), active As IActivationFunction, guid As i32)
             Dim hiddenPortal As New Layer(size(Scan0), active, weight, input, guid)
 
             Layers = New Layer(size.Length - 1) {}

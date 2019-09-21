@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59ebd24f7bb7852c998d8cb9a1cb0b7f, WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
+﻿#Region "Microsoft.VisualBasic::67c08e37a636e1d4fd22702d8b2f3e3a, WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
 
     ' Author:
     ' 
@@ -362,7 +362,7 @@ Namespace Core
 
                 Dim buf As Byte() = New Byte(BUF_SIZE - 1) {}
                 Dim to_read As Integer = content_len
-                Dim numread As VBInteger = 0
+                Dim numread As i32 = 0
 
                 While to_read > 0
                     ' Console.WriteLine("starting Read, to_read={0}", to_read)

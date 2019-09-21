@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3a3ae1bc27c49e4628f0e88f60ddf38, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\ORGANISM.vb"
+﻿#Region "Microsoft.VisualBasic::6925ed82c448f709c0afd4528f3c8d6a, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\ORGANISM.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         Public Property SpeciesName As String
 
         Public Function ToTaxonomy() As Taxon
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
 
             Return New Taxon With {
                 .scientificName = SpeciesName,

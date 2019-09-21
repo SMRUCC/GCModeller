@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ceefbd1a13e126eb20d284064cee627, Data_science\Graph\API\PageRank\GraphMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::a605fd195c0f78d4b9587f5a2ce2f424, Data_science\Graph\API\PageRank\GraphMatrix.vb"
 
     ' Author:
     ' 
@@ -88,7 +88,7 @@ Namespace Analysis.PageRank
         ''' </summary>
         ''' <returns></returns>
         Public Function GetEdgeCount() As Dictionary(Of String, Integer)
-            Dim counts As New Dictionary(Of String, (Edge As VertexEdge, C As VBInteger))
+            Dim counts As New Dictionary(Of String, (Edge As VertexEdge, C As i32))
             Dim uid$
 
             For Each edge As VertexEdge In edges

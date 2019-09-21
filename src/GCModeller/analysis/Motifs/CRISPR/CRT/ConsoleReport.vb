@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e83c5b19589656a4c1e46a3ab48a8cf, analysis\Motifs\CRISPR\CRT\ConsoleReport.vb"
+﻿#Region "Microsoft.VisualBasic::09f30a521fdddf99fe765eaa35b5071b, analysis\Motifs\CRISPR\CRT\ConsoleReport.vb"
 
     ' Author:
     ' 
@@ -65,7 +65,7 @@ Public Module ConsoleReport
         Dim RepeatsMaxLength As Integer = (From c In dat Select c.RepeatLength).Max
         Dim SpacersMaxLength As Integer = (From c In dat Select c.AverageSpacerLength).Max
         Dim sBuilder As New StringBuilder(2048)
-        Dim i As VBInteger = 0
+        Dim i As i32 = 0
 
         positionMaxLength = If(positionMaxLength > 9, positionMaxLength, 9)
 

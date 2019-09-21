@@ -1,4 +1,48 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::d0fddd0abd92d88d0d3060967d46f9ae, RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\RegulatorQuery.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class RegulatorQuery
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: basicParser, doParseGuid, doParseObject, doParseUrl, exportServlet
+    '                   getTagValue, getTagValue_td
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -40,7 +84,7 @@ Namespace Regprecise
         ''' <returns></returns>
         Friend Shared Function basicParser(str As String, regulator As Regulator) As Regulator
             Dim list$() = r.Matches(str, "<td.+?</td>").ToArray
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
 
             If regulator Is Nothing Then
                 regulator = New Regulator
@@ -63,7 +107,7 @@ Namespace Regprecise
         Protected Overrides Function doParseObject(html As String, schema As Type) As Object
             Dim infoTable$ = html.Match("<table class=""proptbl"">.+?</table>", RegexOptions.Singleline)
             Dim properties$() = r.Matches(infoTable, "<tr>.+?</tr>", RegexICSng).ToArray
-            Dim i As VBInteger = 1
+            Dim i As i32 = 1
             Dim regulator As New Regulator
 
             With r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value

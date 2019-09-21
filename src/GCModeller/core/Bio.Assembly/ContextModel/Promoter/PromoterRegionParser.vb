@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95be91375e29eaab9775ed964d986399, Bio.Assembly\ContextModel\Promoter\PromoterRegionParser.vb"
+﻿#Region "Microsoft.VisualBasic::9b8f0a0cccf1cd82798ac03f93493d00, Bio.Assembly\ContextModel\Promoter\PromoterRegionParser.vb"
 
     ' Author:
     ' 
@@ -80,7 +80,7 @@ Namespace ContextModel.Promoter
         Sub New(nt As FastaSeq, PTT As PTT)
             Dim genome As IPolymerSequenceModel = nt
             Dim regions(PrefixLengths.GetLength - 1) As IntegerTagged(Of Dictionary(Of String, FastaSeq))
-            Dim i As VBInteger = 0
+            Dim i As i32 = 0
 
             genome.SequenceData = genome.SequenceData.ToUpper
 

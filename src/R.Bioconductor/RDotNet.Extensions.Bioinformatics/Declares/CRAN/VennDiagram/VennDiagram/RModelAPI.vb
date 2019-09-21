@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c4b823dcdc4cd94b3d6d40692690323, RDotNet.Extensions.Bioinformatics\Declares\CRAN\VennDiagram\VennDiagram\RModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::51bf2aa7ed4c6ca8648e7020b140271d, RDotNet.Extensions.Bioinformatics\Declares\CRAN\VennDiagram\VennDiagram\RModelAPI.vb"
 
     ' Author:
     ' 
@@ -127,7 +127,7 @@ Namespace VennDiagram.ModelAPI
             Dim lst As String()() = source.Select(Function(x) lTokens(x.Value)).ToArray
             Dim mapps = VectorMapper(lst)
             Dim result As New Dictionary(Of T, String)
-            Dim i As VBInteger = 0
+            Dim i As i32 = 0
 
             For Each x In source.ToArray
                 Call result.Add(x.Key, mapps(++i))

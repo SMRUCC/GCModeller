@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a9de9eccf88a1051f3b839971b9a5f2, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Models\Layer.vb"
+﻿#Region "Microsoft.VisualBasic::25e53b71ca3896892263708f3a0d8e06, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Models\Layer.vb"
 
     ' Author:
     ' 
@@ -87,7 +87,7 @@ Namespace NeuralNetwork
             Me.Neurons = neurons
         End Sub
 
-        Sub New(size%, active As IActivationFunction, weight As Func(Of Double), Optional input As Layer = Nothing, Optional guid As VBInteger = Nothing)
+        Sub New(size%, active As IActivationFunction, weight As Func(Of Double), Optional input As Layer = Nothing, Optional guid As i32 = Nothing)
             Neurons = New Neuron(size - 1) {}
 
             If input Is Nothing Then

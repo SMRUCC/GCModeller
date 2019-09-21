@@ -1,51 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::679670ebeda60c89228edeafe807e178, SyntenyVisual\ComparativeGenomics\ModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::c1062f5fe3b121e4881c8de4c07bcf66, visualize\SyntenyVisual\ComparativeGenomics\ModelAPI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module ModelAPI
-' 
-'         Function: __COGsColor, (+2 Overloads) CreateObject, CreateSyntenyGenome, GetMethod, ReverseCopy
-'         Delegate Function
-' 
-'             Function: COGsColorBrush, GeneNameAsID, OnlyDisplayGeneName, SynonymAsID
-'         Delegate Function
-' 
-' 
-' 
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Module ModelAPI
+    ' 
+    '         Function: __COGsColor, (+2 Overloads) CreateObject, CreateSyntenyGenome, GetMethod, ReverseCopy
+    '         Delegate Function
+    ' 
+    '             Function: COGsColorBrush, GeneNameAsID, OnlyDisplayGeneName, SynonymAsID
+    '         Delegate Function
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -116,10 +116,10 @@ Namespace ComparativeGenomics
                                                Select New GeneObject With {
                                                    .Color = If(String.IsNullOrEmpty(COG), Color.Brown, colours(COG)),
                                                    .Direction = gene.Location.Strand,
-                                                   .locus_tag = gene.LocusID,
-                                                   .geneName = gene.GeneName,
-                                                   .Left = gene.Location.Left,
-                                                   .Right = gene.Location.Right
+                                                   .locus_tag = gene.locus_id,
+                                                   .geneName = gene.geneName,
+                                                   .Left = gene.Location.left,
+                                                   .Right = gene.Location.right
                                                }
             Return New GenomeModel With {
                 .genes = LQuery,

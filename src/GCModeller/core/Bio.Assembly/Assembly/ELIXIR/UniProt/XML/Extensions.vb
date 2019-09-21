@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca4b407288df8925932b6924585f0e3f, Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::411eb7efd9a37ca7e596f0c5d8c9d920, Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
 
     ' Author:
     ' 
@@ -168,8 +168,8 @@ Namespace Assembly.Uniprot.XML
                 .Select(Function(f)
                             Return New DomainModel With {
                                 .DomainId = f.description,
-                                .Start = f.location.begin.position,
-                                .End = f.location.end.position
+                                .start = f.location.begin.position,
+                                .ends = f.location.end.position
                             }
                         End Function) _
                 .ToArray

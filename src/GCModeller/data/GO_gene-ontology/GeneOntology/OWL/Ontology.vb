@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29b7ca83865856b60ad9f92e502ea6ea, data\GO_gene-ontology\GeneOntology\OWL\Ontology.vb"
+﻿#Region "Microsoft.VisualBasic::1c323b8f329874df1350793d3547bf62, GO_gene-ontology\GeneOntology\OWL\Ontology.vb"
 
     ' Author:
     ' 

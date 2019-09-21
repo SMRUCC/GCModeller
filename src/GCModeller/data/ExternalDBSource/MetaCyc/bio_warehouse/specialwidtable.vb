@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c044f6d67ce282edeb88048da2b5e3a3, data\ExternalDBSource\MetaCyc\bio_warehouse\specialwidtable.vb"
+﻿#Region "Microsoft.VisualBasic::c044f6d67ce282edeb88048da2b5e3a3, ExternalDBSource\MetaCyc\bio_warehouse\specialwidtable.vb"
 
     ' Author:
     ' 

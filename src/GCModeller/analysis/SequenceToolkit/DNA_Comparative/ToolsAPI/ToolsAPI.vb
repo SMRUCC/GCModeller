@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93a13b6eeb1fba00b5633e2dcd0d3de1, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::73d38344e2253c0f261605a4ff9efd3d, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
 
 ' Author:
 ' 
@@ -147,7 +147,7 @@ Public Module ToolsAPI
                                                  Let Loci = New IntRange((From ORF As GeneBrief
                                                                           In pInfo.Group.Select(Function(x) x.ORF)
                                                                           Let pt As NucleotideLocation = ORF.Location
-                                                                          Select {pt.Left, pt.Right}).IteratesALL)
+                                                                          Select {pt.left, pt.right}).IteratesALL)
                                                  Let St As Integer = Loci.Max
                                                  Let SP As Integer = Loci.Min
                                                  Let Sequence As String = Reader.CutSequenceLinear(SP, St).SequenceData
@@ -348,12 +348,12 @@ Public Module ToolsAPI
                 End If
 
                 Dim Reader As IPolymerSequenceModel = Rule
-                Dim St As Integer = locus.dnaA.Location.Left
-                Dim Sp As Integer = locus.gyrB.Location.Right
+                Dim St As Integer = locus.dnaA.Location.left
+                Dim Sp As Integer = locus.gyrB.Location.right
 
                 If locus.dnaA.Location.Strand = Strands.Reverse Then
-                    St = locus.gyrB.Location.Left
-                    Sp = locus.dnaA.Location.Right
+                    St = locus.gyrB.Location.left
+                    Sp = locus.dnaA.Location.right
                 End If
 
                 Dim RuleSegment As NucleotideModels.NucleicAcid
@@ -410,8 +410,10 @@ Public Module ToolsAPI
                                      Select item).ToArray).ToArray
         Dim CDSInfo = (From g As GeneTable
                        In allCDSInfo
-                       Where Not String.IsNullOrEmpty(g.LocusID)
-                       Select g).ToDictionary(Function(obj) obj.LocusID)
+                       Where Not String.IsNullOrEmpty(g.locus_id)
+                       Select g).ToDictionary(Function(obj)
+                                                  Return obj.locus_id
+                                              End Function)
         Dim CreatePartitionLQuery = (From item In pData.AsParallel
                                      Let Create = ToolsAPI.__group(item.besthits)
                                      Select item.PartitioningTag,
@@ -420,15 +422,15 @@ Public Module ToolsAPI
                                                        Function(item) item.Data) '根据参数partition之中的参照数据进行创建基因组分区数据的创建
         Dim LQuery = (From item In CreatePartitionLQuery
                       Select (From genome In item.Value
-                              Let left As Integer = (From nn In genome.ORF Select nn.Left).Min
-                              Let right As Integer = (From nn In genome.ORF Select nn.Right).Max
+                              Let left As Integer = (From nn In genome.ORF Select nn.left).Min
+                              Let right As Integer = (From nn In genome.ORF Select nn.right).Max
                               Let seq As String = __readSeq(left, right, FastaReader, genome.GenomeID)
                               Select New PartitioningData With {
                                   .GenomeID = genome.GenomeID,
                                   .LociLeft = left,
                                   .LociRight = right,
                                   .SequenceData = seq,
-                                  .ORFList = (From nnnn In genome.ORF Select nnnn.LocusID).ToArray,
+                                  .ORFList = (From nnnn In genome.ORF Select nnnn.locus_id).ToArray,
                                   .PartitioningTag = item.Key}).ToArray).Unlist
 
         Dim removed = CType((From item In LQuery.AsParallel Where String.Equals(CType(item.GenomeID, String), CType(besthit.sp, String), CType(StringComparison.OrdinalIgnoreCase, StringComparison)) Select item).ToArray, PartitioningData())
@@ -437,8 +439,8 @@ Public Module ToolsAPI
         Next
 
         For Each p In (From item In partitions Select item Group item By item.PartitioningTag Into Group).ToArray
-            Dim left = (From nn In p.Group Let l = CDSInfo(nn.ORF).Left Select l).ToArray.Min
-            Dim Right = (From nn In p.Group Let r = CDSInfo(nn.ORF).Right Select r).ToArray.Max
+            Dim left = (From nn In p.Group Let l = CDSInfo(nn.ORF).left Select l).ToArray.Min
+            Dim Right = (From nn In p.Group Let r = CDSInfo(nn.ORF).right Select r).ToArray.Max
             Dim genomeID As String = besthit.sp
 
             Dim part As New PartitioningData With {
@@ -516,7 +518,7 @@ Public Module ToolsAPI
     ''' 
     <ExportAPI("delta_diff.partitioning_query", Info:="Please notice that the query parameter is sensitive to the character case.")>
     Public Function PartitioningSigmaCompareWith(source As IEnumerable(Of PartitioningData), query As String, EXPORT As String, Optional winSize As Integer = 1000) As Boolean
-        Using pb = New CBusyIndicator(_start:=True)
+        Using pb = New CBusyIndicator(start:=True)
             Dim MAT = (From nn In (From item In source Select item Group By item.PartitioningTag Into Group).ToArray
                        Select nn.PartitioningTag,
                            dict = nn.Group.ToDictionary(Function(item) item.GenomeID)) _
@@ -751,7 +753,7 @@ Public Module ToolsAPI
         Call Console.WriteLine("Creation job done!")
         Call Console.WriteLine("Start to create the sigma data collection...")
 
-        Using pb As New CBusyIndicator(_start:=True)
+        Using pb As New CBusyIndicator(start:=True)
             Dim LQuery = (From segment In Windows.AsParallel
                           Let x = New NucleotideModels.NucleicAcid(segment.Items)
                           Let y = New NucleotideModels.NucleicAcid(compare)
@@ -909,7 +911,7 @@ Public Module ToolsAPI
     Public Function SigmaCompareWith(query As String, sbjDIR As String, EXPORT As String, Optional windowsSize As Integer = 1000) As Boolean
         Call ("Start to load subject fasta data from " & sbjDIR).__DEBUG_ECHO
 
-        Using pb = New CBusyIndicator(_start:=True)
+        Using pb = New CBusyIndicator(start:=True)
             Return __sigmaCompareWith(query, sbjDIR, EXPORT, windowsSize)
         End Using
     End Function
@@ -1004,7 +1006,7 @@ Public Module ToolsAPI
     Public Function BatchCalculation2(source As String, EXPORT As String, Optional windowsSize As Integer = 1000) As Boolean
         Call Console.WriteLine("[DEBUG] start to load fasta data from " & source)
 
-        Using pb As New CBusyIndicator(_start:=True)
+        Using pb As New CBusyIndicator(start:=True)
             Dim FastaObjects = (From path As String
                                 In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel
                                 Select FastaSeq.Load(path)).ToArray
@@ -1056,7 +1058,7 @@ Public Module ToolsAPI
     Public Function BatchCalculation(source As String, EXPORT As String, Optional windowsSize As Integer = 1000) As Boolean
 
         Call Console.WriteLine("[DEBUG] start to load fasta data from " & source)
-        Dim pb As New CBusyIndicator(_start:=True)
+        Dim pb As New CBusyIndicator(start:=True)
         Dim FastaObjects = (From path As String In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel Select SMRUCC.genomics.SequenceModel.FASTA.FastaSeq.Load(path)).ToArray
 
         Call $"Fasta data load done!, start to calculates the sigma differences in window_size {windowsSize / 1000}KB....".__DEBUG_ECHO

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d01e69049d0d1eb284ebc4de42f7a4e6, Networks\Network.BLAST\BBHAPI.vb"
+﻿#Region "Microsoft.VisualBasic::96de7bee177dd15ab3afe133673a7368, Networks\Network.BLAST\BBHAPI.vb"
 
     ' Author:
     ' 
@@ -178,7 +178,7 @@ Public Module BBHAPI
         Dim partitions As List(Of BestHit)()
 
         Public Function InvokeGet() As BBH()
-            Using busy As New CBusyIndicator(_start:=True)
+            Using busy As New CBusyIndicator(start:=True)
                 Dim threads = (From x As List(Of BestHit)
                                In partitions.AsParallel
                                Let handle As Func(Of BBH()) = Function() BBHAPI.__partionThreadsBBH(x, Me)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8b2d0e44fe6c14be1b4a6c998625681, data\GO_gene-ontology\GeneOntology\OntologyRelations.vb"
+﻿#Region "Microsoft.VisualBasic::94a6bf01b084a99f481489f7f2fc36b5, GO_gene-ontology\GeneOntology\OntologyRelations.vb"
 
     ' Author:
     ' 

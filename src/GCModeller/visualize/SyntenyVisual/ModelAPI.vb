@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a34f6cfc92348f28ded305137a12d561, SyntenyVisual\ModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::cedeeceb102032bbdaa054b83d81bd4f, visualize\SyntenyVisual\ModelAPI.vb"
 
     ' Author:
     ' 
@@ -154,7 +154,7 @@ Public Module ModelAPI
         Dim h2 As Integer = h1 + height
         Dim links As New List(Of Line)
         Dim genomes As New List(Of GenomeBrief)
-        Dim i As VBInteger = Scan0
+        Dim i As i32 = Scan0
         Dim last As PTT = Nothing
         Dim titles As Dictionary(Of Title) = model.GetTitles(DIR).ToDictionary
         Dim lastsp As String = Nothing

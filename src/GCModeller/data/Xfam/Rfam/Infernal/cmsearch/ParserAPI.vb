@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::765e937f5200bfbad28a0c77ae55449a, data\Xfam\Rfam\Infernal\cmsearch\ParserAPI.vb"
+﻿#Region "Microsoft.VisualBasic::900c7e4a3528f5a4994c0c97ba659865, Xfam\Rfam\Infernal\cmsearch\ParserAPI.vb"
 
     ' Author:
     ' 

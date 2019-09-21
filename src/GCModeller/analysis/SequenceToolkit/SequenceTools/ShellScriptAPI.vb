@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9f8d4a3a5687c4c5194317d15968032, analysis\SequenceToolkit\SequenceTools\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::ec3822e084d340f7384fcb2d8ba6f287, analysis\SequenceToolkit\SequenceTools\ShellScriptAPI.vb"
 
     ' Author:
     ' 

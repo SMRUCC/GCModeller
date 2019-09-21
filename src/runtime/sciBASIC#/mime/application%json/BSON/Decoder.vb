@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72acf6d23cbd52f47163b0dfb93ac9c4, mime\application%json\BSON\Decoder.vb"
+﻿#Region "Microsoft.VisualBasic::db758888eb34aecebf8fe9315cf1ed60, mime\application%json\BSON\Decoder.vb"
 
     ' Author:
     ' 
@@ -81,7 +81,7 @@ Namespace BSON
 
         Private Function decodeArray() As JsonArray
             Dim obj As JsonObject = decodeDocument()
-            Dim i As VBInteger = 0
+            Dim i As i32 = 0
             Dim array As New JsonArray()
             Dim key As Value(Of String) = ""
 

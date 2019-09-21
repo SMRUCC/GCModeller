@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6e4c7fa71b6e386acbcb6815d53c1cf, vcsm\CLI\ModuleRegistry.vb"
+﻿#Region "Microsoft.VisualBasic::af8983d1ae71095212e1675c762b27e9, engine\vcsm\CLI\ModuleRegistry.vb"
 
     ' Author:
     ' 

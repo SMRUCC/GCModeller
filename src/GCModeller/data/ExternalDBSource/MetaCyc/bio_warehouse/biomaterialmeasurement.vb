@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::824d8d3a6975eea3fae7ecbd60050fcf, data\ExternalDBSource\MetaCyc\bio_warehouse\biomaterialmeasurement.vb"
+﻿#Region "Microsoft.VisualBasic::824d8d3a6975eea3fae7ecbd60050fcf, ExternalDBSource\MetaCyc\bio_warehouse\biomaterialmeasurement.vb"
 
     ' Author:
     ' 

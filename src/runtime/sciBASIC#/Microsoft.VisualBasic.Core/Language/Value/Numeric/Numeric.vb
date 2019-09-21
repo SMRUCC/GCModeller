@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d518f5ec49de56f51b664ee075e4808, Microsoft.VisualBasic.Core\Language\Value\Numeric\Numeric.vb"
+﻿#Region "Microsoft.VisualBasic::8fe9b46ce1afdc942074e66332a05c12, Microsoft.VisualBasic.Core\Language\Value\Numeric\Numeric.vb"
 
     ' Author:
     ' 
@@ -191,8 +191,8 @@ Namespace Language
         ''' <param name="rnd"></param>
         ''' <param name="max"></param>
         ''' <returns></returns>
-        <Extension> Public Function NextInteger(rnd As Random, max As Integer) As VBInteger
-            Return New VBInteger(rnd.Next(max))
+        <Extension> Public Function NextInteger(rnd As Random, max As Integer) As i32
+            Return New i32(rnd.Next(max))
         End Function
 
         Public Function ToUInt32(value As Single) As UInteger

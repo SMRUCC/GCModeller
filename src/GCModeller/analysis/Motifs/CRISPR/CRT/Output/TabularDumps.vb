@@ -1,42 +1,42 @@
-﻿#Region "Microsoft.VisualBasic::6c949bc0df253e13b81352922046fa71, analysis\Motifs\CRISPR\CRT\Output\TabularDumps.vb"
+﻿#Region "Microsoft.VisualBasic::15b46e78e78d334d09430387f37af82a, analysis\Motifs\CRISPR\CRT\Output\TabularDumps.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module TabularDumps
-' 
-'         Function: __isLocatedInConserved, BatchExportCsv, BatchTrimConserved, Export, (+2 Overloads) RemoveConserved
-' 
-' 
-' /********************************************************************************/
+    '     Module TabularDumps
+    ' 
+    '         Function: __isLocatedInConserved, BatchExportCsv, BatchTrimConserved, Export, (+2 Overloads) RemoveConserved
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -69,9 +69,11 @@ Namespace Output
             Dim ORF = (From pro As GeneTable
                        In CDSInfo
                        Select pro
-                       Group By pro.LocusID Into Group) _
-                            .ToDictionary(Function(x) x.LocusID,
-                                          Function(x) x.Group.First)
+                       Group By pro.locus_id Into Group) _
+                            .ToDictionary(Function(x) x.locus_id,
+                                          Function(x)
+                                              Return x.Group.First
+                                          End Function)
 
             Return RemoveConserved(besthit, ORF, data)
         End Function
@@ -80,7 +82,7 @@ Namespace Output
             Dim ConservedRegions = besthit.GetConservedRegions
             Dim LQuery = (From ls As String()
                           In ConservedRegions
-                          Let pos As Integer() = (From id As String In ls Let nn = ORF(id) Select {nn.Left, nn.Right}).ToVector
+                          Let pos As Integer() = (From id As String In ls Let nn = ORF(id) Select {nn.left, nn.right}).ToVector
                           Let left As Integer = pos.Min
                           Let right As Integer = pos.Max
                           Select ORFList = ls,
@@ -105,7 +107,7 @@ Namespace Output
             Dim located = LinqAPI.DefaultFirst(Of Location) <=
                 From x As Location
                 In loci
-                Where x.ContainSite(p)
+                Where x.IsInside(p)
                 Select x
 
             If located Is Nothing Then ' 没有落在保守的片段区域
@@ -139,9 +141,11 @@ Namespace Output
             Dim ORF = (From g As GeneTable
                        In CDS_info
                        Select g
-                       Group By g.LocusID Into Group) _
-                             .ToDictionary(Function(g) g.LocusID,
-                                           Function(g) g.Group.First)
+                       Group By g.locus_id Into Group) _
+                             .ToDictionary(Function(g) g.locus_id,
+                                           Function(g)
+                                               Return g.Group.First
+                                           End Function)
             Dim GroupResult = From x
                               In ScanningResults
                               Where BesthitsResults.ContainsKey(x.Key)

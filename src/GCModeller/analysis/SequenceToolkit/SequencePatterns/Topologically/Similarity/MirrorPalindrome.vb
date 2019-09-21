@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1348c22d495475b1726b5381f3801038, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\MirrorPalindrome.vb"
+﻿#Region "Microsoft.VisualBasic::822b831526e799ca30f11f2ba4e3fe5e, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\MirrorPalindrome.vb"
 
     ' Author:
     ' 

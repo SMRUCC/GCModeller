@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d9e795c16a7e95236a1ca93281c82df, Microsoft.VisualBasic.Core\Extensions\StringHelpers\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::061d3943f477ad923144a3cbaca58177, Microsoft.VisualBasic.Core\Extensions\StringHelpers\Parser.vb"
 
     ' Author:
     ' 
@@ -168,7 +168,7 @@ Public Module PrimitiveParser
     End Function
 
     ''' <summary>
-    ''' <see cref="Double"/> text parser
+    ''' <see cref="Double"/> text parser. (这个是一个非常安全的字符串解析函数)
     ''' </summary>
     ''' <param name="s"></param>
     ''' <returns></returns>

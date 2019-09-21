@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ddbfb5a6571bfb21e8d67c68844b81ff, Microsoft.VisualBasic.Core\ComponentModel\Ranges\Unit.vb"
+﻿#Region "Microsoft.VisualBasic::9e0cfe8fe42ca5f508c2f6df254c5533, Microsoft.VisualBasic.Core\ComponentModel\Ranges\Unit.vb"
 
     ' Author:
     ' 
@@ -150,7 +150,7 @@ Namespace ComponentModel.Ranges
     ''' 
     ''' </summary>
     ''' <typeparam name="TUnit">枚举类型，基础类型必须是值等于1</typeparam>
-    Public Class UnitValue(Of TUnit As Structure) : Inherits VBDouble
+    Public Class UnitValue(Of TUnit As Structure) : Inherits f64
 
         ''' <summary>
         ''' 分（d） ``10^-1``

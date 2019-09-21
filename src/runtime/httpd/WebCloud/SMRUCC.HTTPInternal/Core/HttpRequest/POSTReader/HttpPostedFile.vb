@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e6e1323e0e6ad482f050297911ed8fa, WebCloud\SMRUCC.HTTPInternal\Core\HttpRequest\POSTReader\HttpPostedFile.vb"
+﻿#Region "Microsoft.VisualBasic::45735a9f01b293e4ec0828b5f7b653cf, WebCloud\SMRUCC.HTTPInternal\Core\HttpRequest\POSTReader\HttpPostedFile.vb"
 
     ' Author:
     ' 
@@ -143,7 +143,7 @@ Namespace Core.HttpStream
 
             Try
                 Using fs As FileStream = File.Create(filename)
-                    Dim n As VBInteger = Scan0
+                    Dim n As i32 = Scan0
 
                     inputStream.Position = 0
 

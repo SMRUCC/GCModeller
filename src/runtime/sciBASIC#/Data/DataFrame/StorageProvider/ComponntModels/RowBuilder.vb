@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aae287a303cb4291dad3674158751754, Data\DataFrame\StorageProvider\ComponntModels\RowBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::7f9d5d527ea3547923ae6112ebf3b20c, Data\DataFrame\StorageProvider\ComponntModels\RowBuilder.vb"
 
     ' Author:
     ' 
@@ -241,7 +241,7 @@ Namespace StorageProvider.ComponentModels
             Dim missing As New List(Of NamedValue(Of Object))
             Dim propValue As Object
             Dim column As StorageProvider
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
 
             For Each field As NamedValue(Of Object) In row
                 If (i = ColumnIndex.IndexOf(field.Name)) = -1 Then

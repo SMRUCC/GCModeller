@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c9c8059652984989180a1a0abf713786, data\ExternalDBSource\MetaCyc\bio_warehouse\termrelationship.vb"
+﻿#Region "Microsoft.VisualBasic::c9c8059652984989180a1a0abf713786, ExternalDBSource\MetaCyc\bio_warehouse\termrelationship.vb"
 
     ' Author:
     ' 

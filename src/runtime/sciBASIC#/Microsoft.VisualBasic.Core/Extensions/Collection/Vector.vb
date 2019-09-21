@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53a619c4039ce93bc2f690996f1f92f1, Microsoft.VisualBasic.Core\Extensions\Collection\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::0c24963248bf4cc292874ecfd4a073fa, Microsoft.VisualBasic.Core\Extensions\Collection\Vector.vb"
 
     ' Author:
     ' 
@@ -237,7 +237,7 @@ Public Module VectorExtensions
     <Extension>
     Public Function Fill(Of T)(ByRef vector As T(),
                                data As IEnumerable(Of T),
-                               start As VBInteger,
+                               start As i32,
                                Optional reverse As Boolean = False) As T()
         If start < 0 Then
             start = vector.Length + start.Value

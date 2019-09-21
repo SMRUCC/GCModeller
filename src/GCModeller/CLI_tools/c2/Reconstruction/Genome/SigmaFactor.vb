@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c547544f518b8f00cf833862b5cfc81f, CLI_tools\c2\Reconstruction\Genome\SigmaFactor.vb"
+﻿#Region "Microsoft.VisualBasic::f1a88dd605b20543ada15d4bdd84d318, CLI_tools\c2\Reconstruction\Genome\SigmaFactor.vb"
 
     ' Author:
     ' 

@@ -1,44 +1,44 @@
-﻿#Region "Microsoft.VisualBasic::04561289c062cf5c7ec81fcbc5624f08, data\GO_gene-ontology\GeneOntology\GoStat.vb"
+﻿#Region "Microsoft.VisualBasic::0e1c5e03d90ba9b501b5fd6808efeadd, GO_gene-ontology\GeneOntology\GoStat.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module GoStat
-' 
-'     Properties: OntologyNamespaces
-' 
-'     Function: __t, (+2 Overloads) CountStat, EnumerateGOTerms, LevelGOTerms, QuantileCuts
-'               SaveCountValue
-' 
-' /********************************************************************************/
+    ' Module GoStat
+    ' 
+    '     Properties: OntologyNamespaces
+    ' 
+    '     Function: __t, (+2 Overloads) CountStat, EnumerateGOTerms, LevelGOTerms, QuantileCuts
+    '               SaveCountValue
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -140,11 +140,11 @@ Public Module GoStat
     ''' 
     <Extension>
     Public Function CountStat(Of gene)(genes As IEnumerable(Of gene), getGO As Func(Of gene, (goID$, number%)()), GO_terms As Dictionary(Of String, Term)) As Dictionary(Of String, NamedValue(Of Integer)())
-        Dim out As Dictionary(Of String, Dictionary(Of NamedValue(Of VBInteger))) =
+        Dim out As Dictionary(Of String, Dictionary(Of NamedValue(Of i32))) =
             Enums(Of Ontologies) _
             .ToDictionary(Function(o) o.Description,
                           Function(null)
-                              Return New Dictionary(Of NamedValue(Of VBInteger))
+                              Return New Dictionary(Of NamedValue(Of i32))
                           End Function)
 
         For Each g As gene In genes
@@ -161,7 +161,7 @@ Public Module GoStat
 
                 If Not count.ContainsKey(goID) Then
                     Call count.Add(
-                        New NamedValue(Of VBInteger) With {
+                        New NamedValue(Of i32) With {
                             .Name = goID,
                             .Description = term.name,
                             .Value = 0
@@ -205,7 +205,7 @@ Public Module GoStat
         Return True
     End Function
 
-    Private Function __t(value As IEnumerable(Of NamedValue(Of VBInteger))) As NamedValue(Of Integer)()
+    Private Function __t(value As IEnumerable(Of NamedValue(Of i32))) As NamedValue(Of Integer)()
         Dim array As New List(Of NamedValue(Of Integer))
 
         For Each term In value.Where(Function(c) c.Value.Value > 1).ToArray

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bfa015eacdddc8f0ceb48b167f5dc2c, sub-system\PLAS.NET\SSystem\Script\SEquation.vb"
+﻿#Region "Microsoft.VisualBasic::476243540e765f0dc4d2f0397ef6a21e, sub-system\PLAS.NET\SSystem\Script\SEquation.vb"
 
     ' Author:
     ' 

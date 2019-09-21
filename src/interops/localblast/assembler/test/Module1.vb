@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f6a89b8177875f65ffaec923baec030, assembler\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::1b3276e10e59df972c130d92cbcd81db, assembler\test\Module1.vb"
 
     ' Author:
     ' 
@@ -63,4 +63,3 @@ Module Module1
     End Sub
 
 End Module
-

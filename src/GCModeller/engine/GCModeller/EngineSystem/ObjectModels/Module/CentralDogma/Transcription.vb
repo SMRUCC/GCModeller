@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3eef4f3dcce33cf71c13d8c9a124c519, GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\Transcription.vb"
+﻿#Region "Microsoft.VisualBasic::a1d039201d5459d4ef2fbb19318bd82a, engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\Transcription.vb"
 
     ' Author:
     ' 
@@ -123,7 +123,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
             ConstraintModel.p_Dynamics_K_1 = K1
 
             Dim ConstraintMapping = MetabolismSystem.ConstraintMetabolite
-            Dim p As VBInteger = 0
+            Dim p As i32 = 0
 
             ConstraintModel.Reactants = {
                 New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ATP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(++p) + 2, 2)},

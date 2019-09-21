@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a8e7230a9b67230f4bad77248426c31, Data_science\Visualization\Plots-statistics\PCA\ScreePlot.vb"
+﻿#Region "Microsoft.VisualBasic::49af9583f3011aa19390bc16bedbbbed, Data_science\Visualization\Plots-statistics\PCA\ScreePlot.vb"
 
     ' Author:
     ' 
@@ -91,7 +91,7 @@ Namespace PCA
                         .region = rect
                     }
 
-                    Call g.DrawY(Stroke.TryParse(axisStrokeCSS), "Variances", region, scaler, -1, Y, YAxisLayoutStyles.Left, Nothing, labelFontStyle, CSSFont.TryParse(tickFontStyle), htmlLabel:=False, tickFormat:="F2")
+                    Call g.DrawY(Stroke.TryParse(axisStrokeCSS), "Variances", scaler, -1, Y, YAxisLayoutStyles.Left, Nothing, labelFontStyle, CSSFont.TryParse(tickFontStyle), htmlLabel:=False, tickFormat:="F2")
                 End Sub
 
             Return g.GraphicsPlots(

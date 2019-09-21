@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e089e352c84ef6ec15d1c13919dd62b4, Data_science\Mathematica\Math\Math\Algebra\Framework\Iterator.vb"
+﻿#Region "Microsoft.VisualBasic::18e14a776b37d74d62df4d250ea50a4f, Data_science\Mathematica\Math\Math\Algebra\Framework\Iterator.vb"
 
     ' Author:
     ' 
@@ -66,7 +66,7 @@ Namespace Framework
 
         <Extension>
         Public Sub Run(kernel As Kernel, Optional iterations% = 10 * 10000)
-            Dim i As VBInteger = 0
+            Dim i As i32 = 0
 
             Do While ++i <= iterations AndAlso Not kernel.terminated
                 Call kernel.Step(itr:=i)

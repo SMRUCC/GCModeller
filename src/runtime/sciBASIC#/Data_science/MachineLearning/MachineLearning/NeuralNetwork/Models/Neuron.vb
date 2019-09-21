@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1048fea9008dc91d64e58d63dcc68333, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Models\Neuron.vb"
+﻿#Region "Microsoft.VisualBasic::877e8333ef7b3d73a52f84cbc2b55a35, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Models\Neuron.vb"
 
     ' Author:
     ' 
@@ -104,7 +104,7 @@ Namespace NeuralNetwork
         ''' 创建的神经链接是空的
         ''' </summary>
         ''' <param name="active"><see cref="Sigmoid"/> as default</param>
-        Public Sub New(weight As Func(Of Double), Optional active As IActivationFunction = Nothing, Optional id As VBInteger = Nothing)
+        Public Sub New(weight As Func(Of Double), Optional active As IActivationFunction = Nothing, Optional id As i32 = Nothing)
             InputSynapses = New List(Of Synapse)
             OutputSynapses = New List(Of Synapse)
             Bias = weight()
@@ -124,7 +124,7 @@ Namespace NeuralNetwork
         ''' </summary>
         ''' <param name="inputNeurons"></param>
         ''' <param name="active"><see cref="Sigmoid"/> as default</param>
-        Public Sub New(inputNeurons As IEnumerable(Of Neuron), weight As Func(Of Double), Optional active As IActivationFunction = Nothing, Optional guid As VBInteger = Nothing)
+        Public Sub New(inputNeurons As IEnumerable(Of Neuron), weight As Func(Of Double), Optional active As IActivationFunction = Nothing, Optional guid As i32 = Nothing)
             Call Me.New(weight, active, guid)
 
             Dim synapse As Synapse

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba51978bca7fed7633328df3c6d607b6, LocalBLAST\Tasks\LocalBLAST.vb"
+﻿#Region "Microsoft.VisualBasic::ac9d0c436c61f393cece7a1d71cc22e4, LocalBLAST\Tasks\LocalBLAST.vb"
 
     ' Author:
     ' 
@@ -73,7 +73,7 @@ Namespace Tasks
         Public Function BLAST(paths As String(), logDIR As String, parms As InitializeParameter) As List(Of QueryPair())
             Dim files As Comb(Of String) = paths
             Dim localBlast As InteropService = CreateInstance(parms)
-            Dim DIR_index As VBInteger = 1
+            Dim DIR_index As i32 = 1
             Dim ReturnedList As New List(Of QueryPair())
 
             For Each File As String In paths  'formatdb
@@ -82,7 +82,7 @@ Namespace Tasks
 
             For Each list As Tuple(Of String, String)() In files.CombList
                 Dim DIR As String = String.Format("{0}/{1}/", logDIR, ++DIR_index)
-                Dim index As VBInteger = 1
+                Dim index As i32 = 1
                 Dim logPairList As New List(Of QueryPair)
 
                 Call DIR.MkDIR

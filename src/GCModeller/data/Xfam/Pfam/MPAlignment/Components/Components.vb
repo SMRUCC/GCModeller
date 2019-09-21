@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61ba52bd23c0de989f0c00422acbfe65, data\Xfam\Pfam\MPAlignment\Components\Components.vb"
+﻿#Region "Microsoft.VisualBasic::fa64899c4f205c7de475f0d3dd2dae8a, Xfam\Pfam\MPAlignment\Components\Components.vb"
 
     ' Author:
     ' 
@@ -66,8 +66,8 @@ Namespace ProteinDomainArchitecture.MPAlignment
             Get
                 Dim nullDistr As Position() = {
                     New Position With {
-                        .Left = 1,
-                        .Right = 1
+                        .left = 1,
+                        .right = 1
                     }
                 }
                 Dim empty As New DomainDistribution With {

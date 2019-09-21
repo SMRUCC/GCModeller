@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::593b85325663fc0b2f171548ac38177a, analysis\SequenceToolkit\SNP\VCF\VCFStream.vb"
+﻿#Region "Microsoft.VisualBasic::17e681b1446be57b1e7280ebf770ffc2, analysis\SequenceToolkit\SNP\VCF\VCFStream.vb"
 
     ' Author:
     ' 
@@ -86,7 +86,7 @@ Namespace VCF
         ''' <returns></returns>
         Public Function LineParser(line$, seqTitles$()) As SNPVcf
             Dim t$() = line.Split(ASCII.TAB)
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
 
             Return New SNPVcf With {
                 .CHROM = t(++i),

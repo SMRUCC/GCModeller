@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6dbbc9323980b339a26bb1859fa7438, ChromosomeMap\PlasmidAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::9c2882d9c08c27fd22575b30f5be74c6, visualize\ChromosomeMap\PlasmidAnnotation.vb"
 
 ' Author:
 ' 
@@ -127,8 +127,8 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
         End Get
         Set(value As NucleotideLocation)
             If Not value Is Nothing Then
-                ST = value.Left
-                SP = value.Right
+                ST = value.left
+                SP = value.right
             End If
         End Set
     End Property
@@ -177,12 +177,12 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
                       .GC_Content = gc,
                       .COG = item.COG_NO,
                       .Strand = item.Strand,
-                      .CommonName = item.product,
-                      .GeneName = item.Gene_name,
-                      .LocusID = item.ORF_ID,
+                      .commonName = item.product,
+                      .geneName = item.Gene_name,
+                      .locus_id = item.ORF_ID,
                       .Translation = item.Protein,
-                      .Left = item.Location.Left,
-                      .Right = item.Location.Right
+                      .left = item.Location.left,
+                      .right = item.Location.right
                   }
     End Function
 End Class

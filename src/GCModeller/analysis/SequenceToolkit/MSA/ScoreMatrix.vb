@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d4b6d81404b1021cfc68a92a477fd36, analysis\SequenceToolkit\MSA\ScoreMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::52c2fc8d1bada62267ad0672cb150e2d, analysis\SequenceToolkit\MSA\ScoreMatrix.vb"
 
     ' Author:
     ' 

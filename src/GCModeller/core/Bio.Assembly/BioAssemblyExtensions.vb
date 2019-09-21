@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bae8917a4349b29ea6e61615ef4d4622, Bio.Assembly\BioAssemblyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::d652ad0d210eb0c5e6becaf8e3f1c599, Bio.Assembly\BioAssemblyExtensions.vb"
 
     ' Author:
     ' 
@@ -66,9 +66,9 @@ Public Module BioAssemblyExtensions
     <Extension>
     Public Function AsSegment(gene As GeneTable) As SimpleSegment
         Return New SimpleSegment With {
-            .Ends = gene.Location.Right,
-            .Start = gene.Location.Left,
-            .ID = gene.LocusID,
+            .Ends = gene.Location.right,
+            .Start = gene.Location.left,
+            .ID = gene.locus_id,
             .SequenceData = gene.CDS,
             .Strand = gene.Location.Strand.Description
         }
@@ -228,7 +228,7 @@ Public Module BioAssemblyExtensions
                                          Optional offsets As Integer = 5) As Dictionary(Of Integer, Contig())
 
         Dim Groups As New Dictionary(Of Integer, List(Of Contig))
-        Dim idx As VBInteger = 1
+        Dim idx As i32 = 1
 
         For Each loci As Contig In contigs
             Dim equalContig As Func(Of IEnumerable(Of Contig), Contig) =

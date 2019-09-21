@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0777cfaeb307c3e3ea0e79c5ce893706, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Loci.vb"
+﻿#Region "Microsoft.VisualBasic::2d3d6098871a498a68593feb996fbe8c, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Loci.vb"
 
     ' Author:
     ' 

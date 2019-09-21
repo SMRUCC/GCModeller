@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6398d6a14ad9084e3d45680ec64fafd, Bio.Assembly\ProteinModel\DomainModels.vb"
+﻿#Region "Microsoft.VisualBasic::8a18ec0eeafaf58cbcd47f852023e1dd, Bio.Assembly\ProteinModel\DomainModels.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class DomainModel
     ' 
-    '         Properties: [End], DomainId, Location, Start
+    '         Properties: DomainId, ends, Location, start
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
@@ -43,10 +43,8 @@
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.Assembly.NCBI.CDD
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace ProteinModel
 
@@ -63,23 +61,23 @@ Namespace ProteinModel
             IMotifSite.name,
             IMotifSite.family,
             IMotifDomain.Id
-        Public Property Start As Integer
-        Public Property [End] As Integer
+        Public Property start As Integer
+        Public Property ends As Integer
 
         Private Property Location As Location Implements IKeyValuePairObject(Of String, Location).Value, IMotifSite.site, IMotifDomain.location
             Get
-                Return New Location(Start, [End])
+                Return New Location(start, ends)
             End Get
             Set(value As Location)
                 If Not value Is Nothing Then
-                    Start = value.Left
-                    [End] = value.Right
+                    start = value.Left
+                    ends = value.Right
                 End If
             End Set
         End Property
 
-        Sub New(DomainId As String, Location As Location)
-            Me.DomainId = DomainId
+        Sub New(domainId As String, Location As Location)
+            Me.DomainId = domainId
             Me.Location = Location
         End Sub
 

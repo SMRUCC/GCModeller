@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e6bf0bc275d7d897d0aac9e4abb49af, GCModeller\EngineSystem\ObjectModels\Module\Disposition.vb"
+﻿#Region "Microsoft.VisualBasic::ab63ae81bc4860e6d26eb1e60a2fa844, engine\GCModeller\EngineSystem\ObjectModels\Module\Disposition.vb"
 
     ' Author:
     ' 
@@ -149,7 +149,7 @@ Namespace EngineSystem.ObjectModels.Module
                         .StoiChiometry = Global.System.Math.Log10(Compound.CompositionVector.Sum + 10), .Identifier = Metabolism.ConstraintMetabolite.CONSTRAINT_WATER_MOLECULE.Identifier}}
 
             Dim CompositionVector As Integer() = Compound.CompositionVector
-            Dim p As VBInteger = Scan0
+            Dim p As i32 = Scan0
             FluxModelBase.Products = {
                     New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ALA.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(++p) + 2, 2)},
                     New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ARG.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(++p) + 2, 2)},
@@ -282,7 +282,7 @@ Namespace EngineSystem.ObjectModels.Module
                 }
 
             Dim CompositionVector As Integer() = Compound.CompositionVector
-            Dim p As VBInteger = Scan0
+            Dim p As i32 = Scan0
             FluxModelBase.Products = {
                     New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ADP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(++p) + 2, 2)},
                     New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(++p) + 2, 2)},

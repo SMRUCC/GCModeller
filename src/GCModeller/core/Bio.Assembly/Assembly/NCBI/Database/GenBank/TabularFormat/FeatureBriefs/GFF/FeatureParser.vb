@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6838ac588fb9a6dd533345eef3ee6fd2, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\FeatureParser.vb"
+﻿#Region "Microsoft.VisualBasic::5f1d443a741d08d7f7d45c41bff771f3, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\FeatureParser.vb"
 
     ' Author:
     ' 
@@ -83,7 +83,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         Public Function CreateObject(data$, version%) As Feature
             Dim t As String() = data.Split(ASCII.TAB)
             Dim feature As New Feature
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
 
             ' Fields are: <seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]
 

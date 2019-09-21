@@ -37,7 +37,7 @@ return rand
 
         Dim lines As String() = Strings.Split(mslScript, vbCrLf)
         Dim parser As New Interpreter.Parser.TextTokenliser.MSLTokens
-        Dim pppp As VBInteger
+        Dim pppp As i32
 
         Call parser.Parsing(lines(++pppp))
 

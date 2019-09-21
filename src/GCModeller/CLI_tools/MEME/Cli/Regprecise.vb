@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aefda962360c0e702a9df093890c988d, CLI_tools\MEME\Cli\Regprecise.vb"
+﻿#Region "Microsoft.VisualBasic::811e0a5097b8588cd369649df1cd377f, CLI_tools\MEME\Cli\Regprecise.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,9 @@
     ' 
     '     Function: __allRelated, __buildFamily, (+2 Overloads) __compile, __extract, __getEntry
     '               __getFamily, __isNothing, __mastNoMEME, __upstreamRelated, Build
-    '               BuildFamilyDb, BuildFromMotifSites, CompileMast, CompileMastBuck, CompileRegprecise
-    '               CORN, DownloadRegprecise, DownloadRegprecise2, FoundModules, KEGGFamilyDump
-    '               LDMMaxLen, RegulatorsBBh, RegulatorsCompile, SelectRegulatorsBBH, SiteMappedBack
-    '               TCSRegulateModule, TCSRegulations
+    '               BuildFamilyDb, BuildFromMotifSites, CompileMast, CompileMastBuck, CORN
+    '               FoundModules, KEGGFamilyDump, LDMMaxLen, RegulatorsBBh, RegulatorsCompile
+    '               SelectRegulatorsBBH, SiteMappedBack, TCSRegulateModule, TCSRegulations
     ' 
     ' /********************************************************************************/
 

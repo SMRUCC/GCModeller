@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bb371dabfa029b99aea6eec5d9d3744, Microsoft.VisualBasic.Core\Extensions\Collection\Linq\Takes.vb"
+﻿#Region "Microsoft.VisualBasic::ac1a4d12fe1a6b584c83cb78b4dfff06, Microsoft.VisualBasic.Core\Extensions\Collection\Linq\Takes.vb"
 
     ' Author:
     ' 
@@ -73,7 +73,7 @@ Namespace Linq
         ''' <returns></returns>
         <Extension>
         Public Iterator Function Takes(Of T)(source As IEnumerable(Of T), flags As Boolean()) As IEnumerable(Of T)
-            Dim i As VBInteger = 0
+            Dim i As i32 = 0
 
             For Each obj As T In source
                 If flags(++i) Then

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1cea93132554887274c551d9515ec4ea, Microsoft.VisualBasic.Core\CommandLine\CommandLine.vb"
+﻿#Region "Microsoft.VisualBasic::1e266ef3707ea88ae89c7bfbc8d789b4, Microsoft.VisualBasic.Core\CommandLine\CommandLine.vb"
 
     ' Author:
     ' 
@@ -763,7 +763,7 @@ Namespace CommandLine
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function OpenHandle(name$, Optional default$ = "", Optional encoding As Encodings = Encodings.UTF8) As VBInteger
+        Public Function OpenHandle(name$, Optional default$ = "", Optional encoding As Encodings = Encodings.UTF8) As i32
             Return My.File.OpenHandle(Me(name) Or [default].AsDefault, encoding)
         End Function
 #End Region

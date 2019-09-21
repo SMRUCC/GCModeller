@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c69e6e0f1acf36bb04b2b3cbb252d26, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\DoCall.vb"
+﻿#Region "Microsoft.VisualBasic::7d71f6016968eed82da90472840e7a2a, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\DoCall.vb"
 
     ' Author:
     ' 
@@ -150,7 +150,7 @@ Namespace LinearAlgebra
 
             Dim value As Object
             Dim type As Type
-            Dim i As VBInteger
+            Dim i As i32
 
             Public ReadOnly Property Length As Integer
 

@@ -1,46 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::0821f8e69735c63a0d98bbf05ff1d3bb, IO\GCTabular\Compiler\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::e92cd58aaea8d21d73fad462790c5704, engine\IO\GCTabular\Compiler\Compiler.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Compiler
-' 
-'         Function: _____createTranscript, _createProteinAssembly, AnalysisTransmenbraneFlux, Compile, CreateNewTransmembraneModel
-'                   GetGeneId, GetProteinSequenceData, GetTranscriptSequenceData, Link, PreCompile
-' 
-'         Sub: __createProteinObjects, __Initialize_MetaCyc, _createEnzymeObjects, _createRibosomeAssembly, _createTranscripts
-'              CreatePathwayObjects, Dispose, GenerateCompositionVectors, LinkEffectors
-' 
-' 
-' /********************************************************************************/
+    '     Class Compiler
+    ' 
+    '         Function: _____createTranscript, _createProteinAssembly, AnalysisTransmenbraneFlux, Compile, CreateNewTransmembraneModel
+    '                   GetGeneId, GetProteinSequenceData, GetTranscriptSequenceData, Link, PreCompile
+    ' 
+    '         Sub: __createProteinObjects, __Initialize_MetaCyc, _createEnzymeObjects, _createRibosomeAssembly, _createTranscripts
+    '              CreatePathwayObjects, Dispose, GenerateCompositionVectors, LinkEffectors
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

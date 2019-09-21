@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fe7c2157d5d28928262ede3b9e442c5, data\ExternalDBSource\MetaCyc\bio_warehouse\composseqdimenswidcomposseqwid.vb"
+﻿#Region "Microsoft.VisualBasic::3fe7c2157d5d28928262ede3b9e442c5, ExternalDBSource\MetaCyc\bio_warehouse\composseqdimenswidcomposseqwid.vb"
 
     ' Author:
     ' 

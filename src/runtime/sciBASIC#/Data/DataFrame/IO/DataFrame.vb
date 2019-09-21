@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::951915b38f812f3904aef20fd44dd23c, Data\DataFrame\IO\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::c6ba8ae95bb03a7af284bc3b62a5e415, Data\DataFrame\IO\DataFrame.vb"
 
     ' Author:
     ' 
@@ -104,7 +104,7 @@ Namespace IO
         ''' <param name="mapping">``{oldFieldName, newFieldName}``</param>
         ''' <remarks></remarks>
         Public Sub ChangeMapping(mapping As Dictionary(Of String, String))
-            Dim p As VBInteger = 0
+            Dim p As i32 = 0
             Dim oridinal = SchemaOridinal
 
             For Each map As NamedValue(Of String) In mapping.IterateNameValues

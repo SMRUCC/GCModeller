@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f80e156186e9603e70a05df1506a3c6, CLI_tools\S.M.A.R.T\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0a44b8a069b4ca20d66614570eae2d63, CLI_tools\S.M.A.R.T\Extensions.vb"
 
     ' Author:
     ' 

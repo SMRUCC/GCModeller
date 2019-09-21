@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25b23196341446e6f499adf70e912073, Bio.Repository\KEGG\ReactionRepository\PathwayRepository.vb"
+﻿#Region "Microsoft.VisualBasic::c6eb1a914dd0cca1ec78e470863d3bfd, Bio.Repository\KEGG\ReactionRepository\PathwayRepository.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '     Properties: PathwayMaps
     ' 
-    '     Function: ScanModels
+    '     Function: GenericEnumerator, GetEnumerator, ScanModels
     ' 
     ' /********************************************************************************/
 
@@ -45,8 +45,10 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Public Class PathwayRepository : Inherits XmlDataModel
+    Implements Enumeration(Of PathwayMap)
 
     Public Property PathwayMaps As PathwayMap()
 
@@ -60,5 +62,15 @@ Public Class PathwayRepository : Inherits XmlDataModel
         Return New PathwayRepository With {
             .PathwayMaps = maps
         }
+    End Function
+
+    Public Iterator Function GenericEnumerator() As IEnumerator(Of PathwayMap) Implements Enumeration(Of PathwayMap).GenericEnumerator
+        For Each map As PathwayMap In PathwayMaps
+            Yield map
+        Next
+    End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of PathwayMap).GetEnumerator
+        Yield GenericEnumerator()
     End Function
 End Class

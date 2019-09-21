@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7dbeda0a7468b872f6221f6d508f23f6, analysis\Motifs\SharedDataModels\VirtualFootprints.vb"
+﻿#Region "Microsoft.VisualBasic::941eb309bd5892d09ba3fb44b0899b51, analysis\Motifs\SharedDataModels\VirtualFootprints.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::027985be81fcd394765c01fcf4adb84f, Networks\KEGG\CompoundSupportsEvidence.vb"
+﻿#Region "Microsoft.VisualBasic::20c5db168e3679cbdcb6042d6d3f6249, Networks\KEGG\CompoundSupportsEvidence.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -137,4 +136,3 @@ Public Module CompoundSupportsEvidence
         Return scores
     End Function
 End Module
-

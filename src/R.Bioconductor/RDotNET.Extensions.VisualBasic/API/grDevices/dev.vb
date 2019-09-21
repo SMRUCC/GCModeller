@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db41f91c73b3edeb967aa95b6af5a43c, RDotNET.Extensions.VisualBasic\API\grDevices\dev.vb"
+﻿#Region "Microsoft.VisualBasic::57f3681481a9033032d1351aa5f94112, RDotNET.Extensions.VisualBasic\API\grDevices\dev.vb"
 
     ' Author:
     ' 

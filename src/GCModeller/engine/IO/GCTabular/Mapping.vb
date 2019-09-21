@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48271bda4e88a22f490e628749177e51, IO\GCTabular\Mapping.vb"
+﻿#Region "Microsoft.VisualBasic::5e9a64be6c68380fd3989bce58324c48, engine\IO\GCTabular\Mapping.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: CreateEnzrxnGeneMap, (+3 Overloads) EffectorMapping, (+3 Overloads) GetEffectors, GetSBMLQueryKeyword, InternalEffectorMapping
-    '               InternalGetEffectors, (+5 Overloads) IsEqually, IsEquals
+    '     Function: CreateEnzrxnGeneMap, EffectorMapping, (+3 Overloads) GetEffectors, GetSBMLQueryKeyword, InternalGetEffectors
+    '               (+3 Overloads) IsEqually
     ' 
     '     Sub: (+2 Overloads) Dispose
     '     Class EnzymeGeneMap

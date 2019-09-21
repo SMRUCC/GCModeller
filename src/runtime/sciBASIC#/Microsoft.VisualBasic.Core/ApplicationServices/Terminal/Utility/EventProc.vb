@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a55db275422fac8c7cd30fc5b1d99117, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\Utility\EventProc.vb"
+﻿#Region "Microsoft.VisualBasic::cf9c2b1393a625f0030b0dc643af94c9, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\Utility\EventProc.vb"
 
     ' Author:
     ' 
@@ -74,7 +74,7 @@ Namespace Terminal.Utility
         Dim delta As Integer
         Dim tag As String
         Dim out As StreamWriter
-        Dim current As VBInteger = 0
+        Dim current As i32 = 0
 
         ''' <summary>
         ''' 
@@ -85,9 +85,7 @@ Namespace Terminal.Utility
         Sub New(n As Integer, <CallerMemberName> Optional tag As String = "", Optional out As StreamWriter = Nothing)
             Me.Capacity = n
             Me.tag = tag
-            Me.out = If(out Is Nothing,
-                New StreamWriter(Console.OpenStandardOutput),
-                out)
+            Me.out = out Or App.StdOut
 
             If String.IsNullOrEmpty(Me.tag) Then
                 Me.tag = vbTab

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b17c3c602f3a15969b916f46cf8a188b, CLI_tools\CLI\BBH\UniProtTools.vb"
+﻿#Region "Microsoft.VisualBasic::62eea015c289e8539c35fd51d49767e8, CLI_tools\CLI\BBH\UniProtTools.vb"
 
     ' Author:
     ' 
@@ -96,7 +96,7 @@ Partial Module CLI
     Public Function ExportKOFromUniprot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.KO.faa"
-        Dim i As VBInteger = 0
+        Dim i As i32 = 0
         Dim lineBreak As Integer = args("/lineBreak") Or 120
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
@@ -250,17 +250,9 @@ Partial Module CLI
             out = args("/out") Or $"{[in].TrimSuffix}.KO.csv"
         End If
 
-        Dim skipHitNotFound As New NamedValue(Of Func(Of String, Boolean)) With {
-            .Name = "hit_name",
-            .Value = Function(colVal)
-                         ' 将所有的HITS_NOT_FOUND的行都跳过
-                         ' 这样子可以节省比较多的内存
-                         Return colVal = "HITS_NOT_FOUND"
-                     End Function
-        }
-        Dim queryVsUniprot As BestHit() = [in].LoadCsv(Of BestHit)(skipWhile:=skipHitNotFound).ToArray
+        Dim queryVsUniprot As BestHit() = [in].LoadCsv(Of BestHit)(skipWhile:=SkipHitNotFound).ToArray
         Dim uniprotVsquery As BestHit() = bbh _
-            .LoadCsv(Of BestHit)(skipWhile:=skipHitNotFound) _
+            .LoadCsv(Of BestHit)(skipWhile:=SkipHitNotFound) _
             .ToArray
 
         ' 在这里主要是完成对标题的解析操作

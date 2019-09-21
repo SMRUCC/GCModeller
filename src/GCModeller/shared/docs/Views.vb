@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::847cf657613c5a3ce818fba6cf1cb685, shared\docs\Views.vb"
+﻿#Region "Microsoft.VisualBasic::d08e0595ad0cdd6c2808ae7837d37c24, shared\docs\Views.vb"
 
     ' Author:
     ' 

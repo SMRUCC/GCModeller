@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f866c60899656138b8c6e40e907ff266, analysis\Motifs\PrimerDesigner\Designer.vb"
+﻿#Region "Microsoft.VisualBasic::15303b310fea4563cd1bdfa19b08703f, analysis\Motifs\PrimerDesigner\Designer.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e0d0c9f41403acb88796521d81f7859, Data_science\Visualization\Plots\Fractions\PieChart.vb"
+﻿#Region "Microsoft.VisualBasic::078ee2e0cad5f79420407c60058119fc, Data_science\Visualization\Plots\Fractions\PieChart.vb"
 
     ' Author:
     ' 
@@ -129,8 +129,8 @@ Namespace Fractions
 
                     If minRadius <= 0 OrElse CDbl(minRadius) >= r Then  ' 半径固定不变的样式
 
-                        Dim start As New VBDouble
-                        Dim sweep As New VBDouble
+                        Dim start As New f64
+                        Dim sweep As New f64
                         Dim alpha As Single, pt As PointF
                         Dim labelSize As SizeF
                         Dim label$

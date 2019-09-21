@@ -1,44 +1,45 @@
-﻿#Region "Microsoft.VisualBasic::fc729420a3e63d0a661470dad477db51, CLI_tools\eggHTS\CLI\1. Annotations.vb"
+﻿#Region "Microsoft.VisualBasic::c1a5c5ab74faebe24b254409efc64832, CLI_tools\eggHTS\CLI\1. Annotations.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module CLI
-' 
-'     Function: BBHReplace, BlastXFillORF, COGCatalogProfilingPlot, ColorKEGGPathwayMap, ExocartaHits
-'               GetFastaIDlist, GetIDlistFromSampleTable, KOCatalogs, NormalizeSpecies, PerseusTableAnnotations
-'               proteinEXPORT, ProteinsGoPlot, proteinsKEGGPlot, SampleAnnotations, SampleAnnotations2
-'               UniprotMappings, UniRef2UniprotKB, UniRefMap2Organism, Update2UniprotMappedID
-' 
-' /********************************************************************************/
+    ' Module CLI
+    ' 
+    '     Function: BBHReplace, BlastXFillORF, COGCatalogProfilingPlot, ColorKEGGPathwayMap, ExocartaHits
+    '               GetFastaIDlist, GetIDlistFromSampleTable, KOCatalogs, NormalizeSpecies, PerseusTableAnnotations
+    '               ProteinsGoPlot, proteinsKEGGPlot, SampleAnnotations, SampleAnnotations2, UniprotMappings
+    '               UniRef2UniprotKB, UniRefMap2Organism, Update2UniprotMappedID
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -370,7 +371,7 @@ Partial Module CLI
                 .SaveDataSet(out) _
                 .CLICode
         Else
-            out = args.GetValue("/out", uniprot.ParentPath & "/proteins-uniprot-annotations.csv")
+            out = args("/out") Or (uniprot.ParentPath & "/proteins-uniprot-annotations.csv")
 
             Return uniprot _
                 .ExportAnnotations(iTraq:=iTraq, accID:=accID) _
@@ -473,7 +474,7 @@ Partial Module CLI
               Description:="The GO annotation level from the DAG, default is level 2. Argument value -1 means no level.")>
     <Argument("/label.right", True, CLITypes.Boolean,
               Description:="Plot GO term their label will be alignment on right. default is alignment left if this aegument is not present.")>
-    <Argument("/in", False, CLITypes.File,
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv",
               Description:="Uniprot XML database export result from ``/protein.annotations`` command.")>
     <Argument("/tick", True, CLITypes.Double,
@@ -556,7 +557,9 @@ Partial Module CLI
               You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&format=htext&filedir= for download the custom KO classification set.")>
     <Argument("/label.right", True, CLITypes.Boolean, Description:="Align the label from right.")>
     <Argument("/size", True, CLITypes.String, Description:="The canvas size value.")>
-    <Argument("/in", False, CLITypes.File, Extensions:="*.Xlsx, *.csv", Description:="Total protein annotation from UniProtKB database. Which is generated from the command ``/protein.annotations``.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.Xlsx, *.csv",
+              Description:="Total protein annotation from UniProtKB database. Which is generated from the command ``/protein.annotations``.")>
     <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
               AcceptTypes:={GetType(String), GetType(String())},
               Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:

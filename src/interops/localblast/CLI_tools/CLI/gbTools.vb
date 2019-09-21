@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd15d78d5fb4f4ba68a1001212e6ed6a, CLI_tools\CLI\gbTools.vb"
+﻿#Region "Microsoft.VisualBasic::4e2036e2555bca4864c9e78c771b758c, CLI_tools\CLI\gbTools.vb"
 
     ' Author:
     ' 
@@ -376,7 +376,7 @@ Partial Module CLI
                           x
                       Group By uid Into Group).ToArray
 
-        Dim idx As VBInteger = 1
+        Dim idx As i32 = 1
 
         For Each geneX In LQuery
             Dim locusId As String =

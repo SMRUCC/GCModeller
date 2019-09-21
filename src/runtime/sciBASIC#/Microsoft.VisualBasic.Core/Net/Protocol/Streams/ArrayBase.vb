@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7ceedf73869affc6ffd0357bff5e945, Microsoft.VisualBasic.Core\Net\Protocol\Streams\ArrayBase.vb"
+﻿#Region "Microsoft.VisualBasic::7257bdfbbaf91a012ba9336d6efb662f, Microsoft.VisualBasic.Core\Net\Protocol\Streams\ArrayBase.vb"
 
     ' Author:
     ' 
@@ -69,7 +69,7 @@ Namespace Net.Protocols.Streams.Array
 
             If Not rawStream.IsNullOrEmpty Then
                 Dim valueList As New List(Of T)
-                Dim p As VBInteger = 0
+                Dim p As i32 = 0
                 Dim byts As Byte() = New Byte(_bufWidth - 1) {}
 
                 Do While p < rawStream.Length - 1
@@ -83,7 +83,7 @@ Namespace Net.Protocols.Streams.Array
 
         Public NotOverridable Overrides Function Serialize() As Byte()
             Dim bufferArray As Byte() = New Byte(Values.Length * _bufWidth - 1) {}
-            Dim p As VBInteger = 0
+            Dim p As i32 = 0
 
             For Each value As T In Values
                 Dim byts As Byte() = serialization(value)

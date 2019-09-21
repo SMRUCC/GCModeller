@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::298c39cd72471e76319c602fdb884b2f, GCModeller.DataVisualization\ColorMgr.vb"
+﻿#Region "Microsoft.VisualBasic::2148535699ef8a372da445e32e8be907, visualize\DataVisualizationExtensions\ColorMgr.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '     Constructor: (+1 Overloads) Sub New
     '     Function: GetEntityColor, GetValue, ToString
     ' 
-    ' Class ClMap
+    ' Class ColorMap
     ' 
     '     Properties: Identifier, map
     ' 

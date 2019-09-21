@@ -1,47 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::63a5fdbb8e61a426370b4f5ff71ba334, CLI_tools\Xfam\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::a71ab1b16a17494e68a699172bda2314, CLI_tools\Xfam\CLI\CLI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module CLI
-' 
-'     Function: __batchExportOpr, __exportCommon, DumpSeedsDb, ExportBlastn, ExportBlastns
-'               RfamAlignment
-' 
-' /********************************************************************************/
+    ' Module CLI
+    ' 
+    '     Function: __batchExportOpr, __exportCommon, DumpSeedsDb, ExportBlastn, ExportBlastns
+    '               RfamAlignment
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
@@ -58,6 +59,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
                   Description:="Xfam Tools (Pfam, Rfam, iPfam)",
                   Category:=APICategories.CLI_MAN,
                   Url:="http://xfam.org")>
+<CLI>
 Module CLI
 
     <ExportAPI("/Rfam.Align", Usage:="/Rfam.Align /query <sequence.fasta> [/rfam <DIR> /out <outDIR> /num_threads -1 /ticks 1000]")>

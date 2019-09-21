@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::447f87d7ed2f9167051d71c6e0a9bbd3, analysis\Motifs\PrimerDesigner\Restriction_enzyme\WikiLoader.vb"
+﻿#Region "Microsoft.VisualBasic::e9757c2e29e34440e3e310cff2cb2030, analysis\Motifs\PrimerDesigner\Restriction_enzyme\WikiLoader.vb"
 
     ' Author:
     ' 

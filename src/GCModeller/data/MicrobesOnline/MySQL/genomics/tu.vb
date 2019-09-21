@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd21b63f9dbaf38108d4b8cb81cd55b9, data\MicrobesOnline\MySQL\genomics\tu.vb"
+﻿#Region "Microsoft.VisualBasic::fd21b63f9dbaf38108d4b8cb81cd55b9, MicrobesOnline\MySQL\genomics\tu.vb"
 
     ' Author:
     ' 

@@ -476,9 +476,9 @@ different with the ideogram configuration document was not included in the circo
  _
             (sites) <= Function(site As Contig) New GeneTable With {
                 .Location = site.MappingLocation,
-                .LocusID = "",
-                .CommonName = "",
-                .GeneName = "",
+                .locus_id = "",
+                .commonName = "",
+                .geneName = "",
                 .ProteinId = ""
         }
 
@@ -979,7 +979,7 @@ SET_END:    Dim ends = i
 
         Dim Reader As System.IO.StreamReader = Process.StandardOutput
 
-        Using PI = New CBusyIndicator(_start:=True)
+        Using PI = New CBusyIndicator(start:=True)
             Call (Sub() Call __STDOUT_Threads(Reader)).BeginInvoke(Nothing, Nothing)
             Call Process.WaitForExit()
         End Using

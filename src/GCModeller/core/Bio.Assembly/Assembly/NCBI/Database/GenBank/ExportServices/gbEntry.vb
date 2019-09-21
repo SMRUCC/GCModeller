@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c9af24c7d18b24db8645e4c4eb85c17, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
+﻿#Region "Microsoft.VisualBasic::2b9cb0e2a9e6229fab6a99ea8a9d36d6, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
 
     ' Author:
     ' 
@@ -182,7 +182,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
 
             GBKEntryBrief.CDSsWithFunctionalAssignment = CDS.Length - GBKEntryBrief.ConservedHypotheticalCDSs - GBKEntryBrief.HypotheticalCDSs
 
-            Dim p As VBInteger = 0
+            Dim p As i32 = 0
             If p <= gbk.Reference.ReferenceList.Length - 1 Then GBKEntryBrief.Reference1 = gbk.Reference.ReferenceList(++p).ToString
             If p <= gbk.Reference.ReferenceList.Length - 1 Then GBKEntryBrief.Reference2 = gbk.Reference.ReferenceList(++p).ToString
             If p <= gbk.Reference.ReferenceList.Length - 1 Then GBKEntryBrief.Reference3 = gbk.Reference.ReferenceList(++p).ToString

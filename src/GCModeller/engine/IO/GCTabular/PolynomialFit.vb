@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bac056e46f55c35398daed176eb198bd, IO\GCTabular\PolynomialFit.vb"
+﻿#Region "Microsoft.VisualBasic::feed09e01ffaaf4557c5145e970d9af4, engine\IO\GCTabular\PolynomialFit.vb"
 
     ' Author:
     ' 

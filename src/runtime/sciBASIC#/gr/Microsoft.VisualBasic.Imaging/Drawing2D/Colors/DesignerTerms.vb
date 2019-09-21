@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d287108acf257b3a5f72233722d322b, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\DesignerTerms.vb"
+﻿#Region "Microsoft.VisualBasic::ea4ff45257e1b01eb54be4ff6db66400, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\DesignerTerms.vb"
 
     ' Author:
     ' 
@@ -48,13 +48,32 @@ Namespace Drawing2D.Colors
     Public Module DesignerTerms
 
 #Region "Color name terms"
+        ''' <summary>
+        ''' 20种Android MD设计中使用的颜色
+        ''' </summary>
         Public Const GoogleMaterialPalette$ = "material"
+        ''' <summary>
+        ''' 16种Windows的命令行配色
+        ''' </summary>
         Public Const ConsoleColors$ = "console.colors"
+        ''' <summary>
+        ''' 19中分类颜色
+        ''' </summary>
         Public Const TSFShellColors$ = "TSF"
+        ''' <summary>
+        ''' 总共7种彩虹色
+        ''' </summary>
         Public Const Rainbow$ = "rainbow"
         Public Const AllDotnetColors$ = "dotnet.colors"
         Public Const sciBASICChartColors$ = "scibasic.chart()"
+        ''' <summary>
+        ''' 31种分类颜色
+        ''' </summary>
         Public Const sciBASICCategory31$ = "scibasic.category31()"
+
+        ''' <summary>
+        ''' 总共10种分类颜色
+        ''' </summary>
         Public Const ClusterCategory10$ = Designer.Clusters
 #End Region
 

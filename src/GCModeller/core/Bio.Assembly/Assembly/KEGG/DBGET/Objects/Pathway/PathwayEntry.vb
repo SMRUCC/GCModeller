@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca50dd99da3f2ade30c573188b898f01, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayEntry.vb"
+﻿#Region "Microsoft.VisualBasic::b6f0edcef7d64647197ca1acc4906874, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayEntry.vb"
 
     ' Author:
     ' 
@@ -80,7 +80,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             entry.Url = sbuf.First.href
             sbuf = sbuf.Skip(3).ToArray
 
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
             entry.Name = sbuf(++i).GetValue
             entry.Description = sbuf(++i).GetValue
             entry.Object = sbuf(++i).GetValue

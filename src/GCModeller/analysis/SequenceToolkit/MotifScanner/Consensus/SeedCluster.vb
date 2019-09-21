@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9a6ace7a3563df9dbc24ce64ac145b9, analysis\SequenceToolkit\MotifScanner\Consensus\SeedCluster.vb"
+﻿#Region "Microsoft.VisualBasic::e208fc29a100efcfbd0d1ca331720e9d, analysis\SequenceToolkit\MotifScanner\Consensus\SeedCluster.vb"
 
     ' Author:
     ' 
@@ -165,7 +165,7 @@ Public Module SeedCluster
             .ID = i,
             .Properties = New Dictionary(Of String, Double)
         }
-        Dim j As VBInteger = 1
+        Dim j As i32 = 1
         Dim query As New FastaSeq With {
             .SequenceData = q.Query
         }

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::367943cafefa600f6c3b1652773c6020, data\Xfam\Pfam\MPAlignment\Algorithm\DomainEquals.vb"
+﻿#Region "Microsoft.VisualBasic::b4713edd06b0fbdc07e61468f94b019b, Xfam\Pfam\MPAlignment\Algorithm\DomainEquals.vb"
 
     ' Author:
     ' 
@@ -72,18 +72,18 @@ Namespace ProteinDomainArchitecture.MPAlignment
                 Return False
             End If
 
-            Dim ps As Double() = {a.Location.Left, b.Location.Left}
+            Dim ps As Double() = {a.Location.left, b.Location.left}
             Dim leftCheck As Boolean
             Dim pn As Double
 
-            If a.Location.Left = 0R AndAlso b.Location.Left = 0R Then
+            If a.Location.left = 0R AndAlso b.Location.left = 0R Then
                 leftCheck = True
             Else
                 pn = ps.Min / ps.Max     'Max is 1 (when min = max)
                 leftCheck = pn >= __high_Scoring_thresholds
             End If
 
-            ps = {a.Location.Right, b.Location.Right}
+            ps = {a.Location.right, b.Location.right}
             pn = ps.Min / ps.Max  'Max is 1 (when min = max)
 
             Dim rightCheck As Boolean = pn >= __high_Scoring_thresholds

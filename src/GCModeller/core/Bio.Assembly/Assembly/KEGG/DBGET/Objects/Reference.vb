@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28ccaabd1540807827b4b007adf31c0a, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::abb11247e27df24c529e6842ce72b157, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Reference.vb"
 
     ' Author:
     ' 
@@ -117,7 +117,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Select(Function(s) Regex.Match(s, DIVInternal).Value) _
                 .ToArray
 
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
             Dim PMID As String = tokens.ElementAtOrDefault(++i).GetValue
             Dim Authors As String = tokens.ElementAtOrDefault(++i).GetValue
             Dim Title As String = tokens.ElementAtOrDefault(++i).GetValue

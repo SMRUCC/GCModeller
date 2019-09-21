@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f44e4739fb2344dd15c2e520e078e304, Data_science\MachineLearning\MLDebugger\ANN\ANNDebugger.vb"
+﻿#Region "Microsoft.VisualBasic::398d8b0e76a273e6e1513cad519aac01, Data_science\MachineLearning\MLDebugger\ANN\ANNDebugger.vb"
 
     ' Author:
     ' 
@@ -202,7 +202,7 @@ Public Class ANNDebugger
         Next
 
         Using reader As BinaryDataReader = biasTemp.OpenBinaryReader
-            Dim index As VBInteger = Scan0
+            Dim index As i32 = Scan0
 
             For Each n As Neuron In neurons
                 attrs = {
@@ -214,7 +214,7 @@ Public Class ANNDebugger
         End Using
 
         Using reader As BinaryDataReader = frameTemp.OpenBinaryReader
-            Dim index As VBInteger = Scan0
+            Dim index As i32 = Scan0
 
             For Each s As Synapse In synapses
                 attrs = {
@@ -270,7 +270,7 @@ Public Class ANNDebugger
 
     Private Sub writeIndex(debugger As CDFWriter)
         Dim indexer = Iterator Function() As IEnumerable(Of Integer)
-                          Dim i As VBInteger = Scan0
+                          Dim i As i32 = Scan0
 
                           For Each x In errorTemp.OpenBinaryReader.ReadAsDoubleVector
                               Yield ++i

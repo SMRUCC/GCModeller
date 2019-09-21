@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bf9a6708bbe7a8ba0eeb4706b7f36ba, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixSerialization.vb"
+﻿#Region "Microsoft.VisualBasic::ae922db5f35fb8c1434df78c40756b59, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixSerialization.vb"
 
     ' Author:
     ' 
@@ -79,7 +79,7 @@ Public Module MatrixSerialization
         Dim TotalSize As Long = locusId.Length + arrayBuffer.Length
         Dim header As Byte() = BitConverter.GetBytes(TotalSize)
         Dim idLength As Byte() = BitConverter.GetBytes(locusId.Length)
-        Dim p As VBInteger = Scan0
+        Dim p As i32 = Scan0
 
         Call System.Array.ConstrainedCopy(header, Scan0, chunkBuffer, p + INT64, INT64)
         Call System.Array.ConstrainedCopy(idLength, Scan0, chunkBuffer, p + INT32, INT32)

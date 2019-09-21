@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c9c611f9730277c8165c1b98228d1c6, analysis\Metagenome\Metagenome\gast\Models.vb"
+﻿#Region "Microsoft.VisualBasic::328f3445fb3c560893447053f8ada233, analysis\Metagenome\Metagenome\gast\Models.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     '     Class Names
     ' 
-    '         Properties: Composition, distance, members, NumOfSeqs, refs
-    '                     taxonomy, Unique
+    '         Properties: composition, distance, members, numOfSeqs, refs
+    '                     taxonomy, unique
     ' 
     '         Function: ToString
     ' 

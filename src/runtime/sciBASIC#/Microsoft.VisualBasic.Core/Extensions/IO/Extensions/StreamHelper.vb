@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e0b7f03fe5774e8e50fcc26f1552a74, Microsoft.VisualBasic.Core\Extensions\IO\Extensions\StreamHelper.vb"
+﻿#Region "Microsoft.VisualBasic::183798cdc52877a3e30613de432c2d50, Microsoft.VisualBasic.Core\Extensions\IO\Extensions\StreamHelper.vb"
 
     ' Author:
     ' 
@@ -64,7 +64,7 @@ Public Module StreamHelper
         End If
 
         Dim buffer As Byte() = New Byte(bufferSize - 1) {}
-        Dim i As VBInteger = Scan0
+        Dim i As i32 = Scan0
 
         With target Or DirectCast(New MemoryStream(), Stream).AsDefault
             Do While (i = stream.Read(buffer, 0, buffer.Length)) > 0

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a379a2f5bc31ccee1e43102f7af78524, Microsoft.VisualBasic.Core\Language\Value\Clones.vb"
+﻿#Region "Microsoft.VisualBasic::da06393bffe69bbe757e33a122958bdb, Microsoft.VisualBasic.Core\Language\Value\Clones.vb"
 
     ' Author:
     ' 
@@ -72,12 +72,12 @@ Namespace Language.Values
             Return New String(s.ToCharArray)
         End Function
 
-        <Extension> Public Function Clone(int As VBInteger) As VBInteger
-            Return New VBInteger(int.value)
+        <Extension> Public Function Clone(int As i32) As i32
+            Return New i32(int.value)
         End Function
 
-        <Extension> Public Function Clone(float As VBDouble) As VBDouble
-            Return New VBDouble(float.value)
+        <Extension> Public Function Clone(float As f64) As f64
+            Return New f64(float.value)
         End Function
     End Module
 End Namespace

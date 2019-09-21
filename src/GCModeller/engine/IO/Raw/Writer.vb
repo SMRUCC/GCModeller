@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7b742d6a3de4af732337a14969d9406, IO\Raw\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::9100eaa1a2af21fb18705e0ff4b565c3, engine\IO\Raw\Writer.vb"
 
     ' Author:
     ' 
@@ -149,7 +149,7 @@ Public Class Writer : Inherits CellularModules
 
                         Return (time:=time.Key, offsets:=offsets)
                     End Function)
-        Dim i As VBInteger = Scan0
+        Dim i As i32 = Scan0
 
         For Each time As (point#, offsets As Long()) In times
             Dim start& = stream.Position

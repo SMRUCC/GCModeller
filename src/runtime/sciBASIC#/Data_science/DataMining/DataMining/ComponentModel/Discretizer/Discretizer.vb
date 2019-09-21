@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d493392bfbf03748add53031ca07d74a, Data_science\DataMining\DataMining\ComponentModel\Discretizer\Discretizer.vb"
+﻿#Region "Microsoft.VisualBasic::42ab668d81d321a063ced7ada88421dc, Data_science\DataMining\DataMining\ComponentModel\Discretizer\Discretizer.vb"
 
     ' Author:
     ' 
@@ -79,7 +79,7 @@ Namespace ComponentModel.Discretion
         End Sub
 
         Private Iterator Function createBins() As IEnumerable(Of DoubleRange)
-            Dim lower As VBDouble = min
+            Dim lower As f64 = min
 
             Do While lower < max
                 Yield New DoubleRange(lower, lower = lower + delta)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb97e142020036bc0744d3550cf6766a, Data_science\Mathematica\Math\Math\Distributions\BinBox\CutBins.vb"
+﻿#Region "Microsoft.VisualBasic::fe0641da49a026a0be5ef3af72cea7b8, Data_science\Mathematica\Math\Math\Distributions\BinBox\CutBins.vb"
 
     ' Author:
     ' 
@@ -82,7 +82,7 @@ Namespace Distributions.BinBox
             Dim len% = v.Length
             Dim min# = eval(v.First)
             Dim max# = eval(v.Last)
-            Dim i As VBInteger = 0
+            Dim i As i32 = 0
             Dim lowerbound# = min
             Dim upbound#
             Dim list As New List(Of T)
