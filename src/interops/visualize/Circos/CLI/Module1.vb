@@ -104,7 +104,7 @@ Module Module1
             .locus_id = locus_tag,
             .Length = anno.Length,
             .left = anno.Minimum,
-            .Right = anno.Maximum,
+            .right = anno.Maximum,
             .CDS = anno.Sequence,
             .COG = "-",
             .commonName = anno.db_xref,
@@ -112,7 +112,7 @@ Module Module1
             .[Function] = anno.Name,
             .geneName = anno.db_xref,
             .Strand = anno.Direction.GetStrand,
-            .Location = New NucleotideLocation(.left, .Right, .Strand),
+            .Location = New NucleotideLocation(.left, .right, .Strand),
             .Translation = anno.translation
         }
 
@@ -579,10 +579,10 @@ Module Module1
             .Where(Function(g) degPredicts.ContainsKey(g.locus_id)) _
             .Select(Function(g)
                         If degPredicts(g.locus_id) > 0.5 Then
-                            g.Location = New NucleotideLocation(g.left, g.Right, Strands.Forward)
+                            g.Location = New NucleotideLocation(g.left, g.right, Strands.Forward)
                             g.COG = "up"
                         Else
-                            g.Location = New NucleotideLocation(g.left, g.Right, Strands.Reverse)
+                            g.Location = New NucleotideLocation(g.left, g.right, Strands.Reverse)
                             g.COG = "down"
                         End If
 

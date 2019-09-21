@@ -443,7 +443,7 @@ CONTINUTE:
                 Let loci As IEnumerable(Of Integer) =
                     (LinqAPI.MakeList(Of Integer) <= From GeneObject
                                                      In trimedData
-                                                     Select {GeneObject.Key.left, GeneObject.Key.Right})  '
+                                                     Select {GeneObject.Key.left, GeneObject.Key.right})  '
                 Select New HitRecord With {
                     .QueryID = "",
                     .SubjectIDs = Blastoutput.Database,

@@ -82,7 +82,7 @@ Namespace Output
             Dim ConservedRegions = besthit.GetConservedRegions
             Dim LQuery = (From ls As String()
                           In ConservedRegions
-                          Let pos As Integer() = (From id As String In ls Let nn = ORF(id) Select {nn.left, nn.Right}).ToVector
+                          Let pos As Integer() = (From id As String In ls Let nn = ORF(id) Select {nn.left, nn.right}).ToVector
                           Let left As Integer = pos.Min
                           Let right As Integer = pos.Max
                           Select ORFList = ls,

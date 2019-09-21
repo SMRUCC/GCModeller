@@ -102,7 +102,7 @@ Module Program
             .locus_id = locus_tag,
             .Length = anno!Length.Match("\d+"),
             .left = anno!Minimum.Match("\d+"),
-            .Right = anno!Maximum.Match("\d+"),
+            .right = anno!Maximum.Match("\d+"),
             .CDS = anno!Sequence,
             .COG = anno("note").Match("COG\d+"),
             .commonName = anno("gene"),
@@ -110,7 +110,7 @@ Module Program
             .[Function] = anno!note,
             .geneName = anno!gene,
             .Strand = anno!Direction.GetStrand,
-            .Location = New NucleotideLocation(.left, .Right, .Strand),
+            .Location = New NucleotideLocation(.left, .right, .Strand),
             .Translation = anno!translation,
             .Species = anno("NCBI Feature Key")
         }
@@ -208,10 +208,10 @@ Module Program
             .Where(Function(g) degPredicts.ContainsKey(g.locus_id)) _
             .Select(Function(g)
                         If degPredicts(g.locus_id) > 0.98 Then
-                            g.Location = New NucleotideLocation(g.left, g.Right, Strands.Forward)
+                            g.Location = New NucleotideLocation(g.left, g.right, Strands.Forward)
                             g.COG = "up"
                         Else
-                            g.Location = New NucleotideLocation(g.left, g.Right, Strands.Reverse)
+                            g.Location = New NucleotideLocation(g.left, g.right, Strands.Reverse)
                             g.COG = "down"
                         End If
 

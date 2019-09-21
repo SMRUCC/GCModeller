@@ -182,7 +182,7 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
                       .locus_id = item.ORF_ID,
                       .Translation = item.Protein,
                       .left = item.Location.left,
-                      .Right = item.Location.right
+                      .right = item.Location.right
                   }
     End Function
 End Class

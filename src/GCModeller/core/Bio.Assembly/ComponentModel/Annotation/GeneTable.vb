@@ -71,7 +71,7 @@ Namespace ComponentModel.Annotation
         Public Property geneName As String
         Public Property commonName As String Implements IGeneBrief.Product
         Public Property left As Integer
-        Public Property Right As Integer
+        Public Property right As Integer
         Public Property Strand As String
         Public Property [Function] As String
         Public Property UniprotSwissProt As String
@@ -107,11 +107,11 @@ Namespace ComponentModel.Annotation
         Public Property Length As Integer Implements IGeneBrief.Length
         Public Property Location As NucleotideLocation Implements IGeneBrief.Location
             Get
-                Return New NucleotideLocation(left, Right, Strand:=Strand)
+                Return New NucleotideLocation(left, right, Strand:=Strand)
             End Get
             Set(value As NucleotideLocation)
                 left = value.left
-                Right = value.right
+                right = value.right
                 Strand = If(value.Strand = Strands.Forward, "+", "-")
                 Length = value.FragmentSize
             End Set

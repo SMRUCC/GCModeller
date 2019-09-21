@@ -423,7 +423,7 @@ Public Module ToolsAPI
         Dim LQuery = (From item In CreatePartitionLQuery
                       Select (From genome In item.Value
                               Let left As Integer = (From nn In genome.ORF Select nn.left).Min
-                              Let right As Integer = (From nn In genome.ORF Select nn.Right).Max
+                              Let right As Integer = (From nn In genome.ORF Select nn.right).Max
                               Let seq As String = __readSeq(left, right, FastaReader, genome.GenomeID)
                               Select New PartitioningData With {
                                   .GenomeID = genome.GenomeID,
@@ -440,7 +440,7 @@ Public Module ToolsAPI
 
         For Each p In (From item In partitions Select item Group item By item.PartitioningTag Into Group).ToArray
             Dim left = (From nn In p.Group Let l = CDSInfo(nn.ORF).left Select l).ToArray.Min
-            Dim Right = (From nn In p.Group Let r = CDSInfo(nn.ORF).Right Select r).ToArray.Max
+            Dim Right = (From nn In p.Group Let r = CDSInfo(nn.ORF).right Select r).ToArray.Max
             Dim genomeID As String = besthit.sp
 
             Dim part As New PartitioningData With {

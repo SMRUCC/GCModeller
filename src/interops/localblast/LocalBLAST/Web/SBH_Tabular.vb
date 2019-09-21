@@ -103,7 +103,7 @@ Namespace NCBIBlastResult
                                                      Select New HitRecord With {
                                                          .Identity = gene.Identities,
                                                          .QueryStart = QueryGene.left,
-                                                         .QueryEnd = QueryGene.Right,
+                                                         .QueryEnd = QueryGene.right,
                                                          .SubjectIDs = genome.LogEntry.HitName
                                                      }
             Dim Table As New AlignmentTable With {

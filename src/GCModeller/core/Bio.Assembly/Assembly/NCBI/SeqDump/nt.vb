@@ -132,7 +132,7 @@ Namespace Assembly.NCBI.SequenceDump
                     .commonName = fa.CommonName,
                     .geneName = fa.CommonName,
                     .left = fa.Location.left,
-                    .Right = fa.Location.right,
+                    .right = fa.Location.right,
                     .Strand = fa.Location.Strand.GetBriefCode,
                     .Location = fa.Location,
                     .Length = fa.Length,
