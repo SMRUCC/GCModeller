@@ -41,6 +41,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 
@@ -48,12 +49,12 @@ Public Module Annotations
 
     <Extension>
     Public Function PfamAssign(pfamhits As IEnumerable(Of PfamHit), pfam2GO As Dictionary(Of String, toGO())) As AnnotationClusters
-        Dim mapstoGO As New Dictionary(Of String, (desc$, go As List(Of String)))
+        Dim mapstoGO As New Dictionary(Of String, (desc$, go As List(Of toGO)))
         Dim go As toGO()
 
         For Each hit As PfamHit In pfamhits
             If Not mapstoGO.ContainsKey(hit.QueryName) Then
-                mapstoGO(hit.QueryName) = (hit.description, New List(Of String))
+                mapstoGO(hit.QueryName) = (hit.description, New List(Of toGO))
 
                 Call $"{hit.QueryName}: {hit.description}".__DEBUG_ECHO
             End If
@@ -61,7 +62,7 @@ Public Module Annotations
             go = pfam2GO.TryGetValue(hit.pfamID)
 
             If Not go Is Nothing Then
-                Call mapstoGO(hit.QueryName).go.AddRange(go.Select(Function(g) g.map2GO_id))
+                Call mapstoGO(hit.QueryName).go.AddRange(go)
             End If
         Next
 
@@ -70,10 +71,7 @@ Public Module Annotations
                         Return New ProteinAnnotation With {
                             .proteinID = prot.Key,
                             .description = prot.Value.desc,
-                            .GO = prot.Value _
-                                .go _
-                                .Distinct _
-                                .ToArray
+                            .GO_terms = prot.Value.go.createGoTerms
                         }
                     End Function) _
             .ToArray
@@ -81,6 +79,17 @@ Public Module Annotations
         Return New AnnotationClusters With {
             .proteins = annotations
         }
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Private Function createGoTerms(toGo As IEnumerable(Of toGO)) As NamedValue()
+        Return toGo.GroupBy(Function(t) t.map2GO_id) _
+            .Select(Function(g) g.First) _
+            .Select(Function(g)
+                        Return New NamedValue(g.map2GO_id, g.map2GO_term)
+                    End Function) _
+            .ToArray
     End Function
 
     <Extension>
