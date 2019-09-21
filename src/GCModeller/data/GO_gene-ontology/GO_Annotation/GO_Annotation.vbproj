@@ -136,6 +136,10 @@
       <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Xfam\Pfam\Pfam.vbproj">
+      <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
+      <Name>Pfam</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
