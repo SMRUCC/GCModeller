@@ -69,9 +69,11 @@ Namespace Output
             Dim ORF = (From pro As GeneTable
                        In CDSInfo
                        Select pro
-                       Group By pro.LocusID Into Group) _
-                            .ToDictionary(Function(x) x.LocusID,
-                                          Function(x) x.Group.First)
+                       Group By pro.locus_id Into Group) _
+                            .ToDictionary(Function(x) x.locus_id,
+                                          Function(x)
+                                              Return x.Group.First
+                                          End Function)
 
             Return RemoveConserved(besthit, ORF, data)
         End Function
@@ -139,9 +141,11 @@ Namespace Output
             Dim ORF = (From g As GeneTable
                        In CDS_info
                        Select g
-                       Group By g.LocusID Into Group) _
-                             .ToDictionary(Function(g) g.LocusID,
-                                           Function(g) g.Group.First)
+                       Group By g.locus_id Into Group) _
+                             .ToDictionary(Function(g) g.locus_id,
+                                           Function(g)
+                                               Return g.Group.First
+                                           End Function)
             Dim GroupResult = From x
                               In ScanningResults
                               Where BesthitsResults.ContainsKey(x.Key)

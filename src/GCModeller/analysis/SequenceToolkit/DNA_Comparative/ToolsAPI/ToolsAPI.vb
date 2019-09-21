@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::73d38344e2253c0f261605a4ff9efd3d, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module ToolsAPI
-    ' 
-    '     Function: __calculate, __calculates, __colorRender, __compile, __compileCAI
-    '               __compileCAIBIASCalculationThread, __compileSigma, __createTable, __echo, __genomeSigmaDiff
-    '               __getSequence, __group, __mergeDelta, (+2 Overloads) __process, __query
-    '               __readSeq, __readSequence, __regionMetaParser, __samples, __sigmaCompareWith
-    '               BatchCalculation, BatchCalculation2, CAI, Compile, CompileCABIAS
-    '               CompileCAIBIASCalculationThread, CompileCAIBIASCalculationThread_p, CreateChromesomePartitioningData, CreateSimplePartition, GenerateDeltaDiffReport
-    '               GenomeSigmaDifference_p, (+2 Overloads) MeasureHomogeneity, MergeDelta, PartionDataCreates, PartitioningDataFromFasta
-    '               PartitioningSigmaCompareWith, PartitionSimilarity, ReadPartitionalData, ReadPartitioningData, SaveCAI
-    '               SigmaCompareWith, SiteDataLoad, WritePartionalData
-    '     Structure Cache
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module ToolsAPI
+' 
+'     Function: __calculate, __calculates, __colorRender, __compile, __compileCAI
+'               __compileCAIBIASCalculationThread, __compileSigma, __createTable, __echo, __genomeSigmaDiff
+'               __getSequence, __group, __mergeDelta, (+2 Overloads) __process, __query
+'               __readSeq, __readSequence, __regionMetaParser, __samples, __sigmaCompareWith
+'               BatchCalculation, BatchCalculation2, CAI, Compile, CompileCABIAS
+'               CompileCAIBIASCalculationThread, CompileCAIBIASCalculationThread_p, CreateChromesomePartitioningData, CreateSimplePartition, GenerateDeltaDiffReport
+'               GenomeSigmaDifference_p, (+2 Overloads) MeasureHomogeneity, MergeDelta, PartionDataCreates, PartitioningDataFromFasta
+'               PartitioningSigmaCompareWith, PartitionSimilarity, ReadPartitionalData, ReadPartitioningData, SaveCAI
+'               SigmaCompareWith, SiteDataLoad, WritePartionalData
+'     Structure Cache
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -147,7 +147,7 @@ Public Module ToolsAPI
                                                  Let Loci = New IntRange((From ORF As GeneBrief
                                                                           In pInfo.Group.Select(Function(x) x.ORF)
                                                                           Let pt As NucleotideLocation = ORF.Location
-                                                                          Select {pt.Left, pt.Right}).IteratesALL)
+                                                                          Select {pt.left, pt.right}).IteratesALL)
                                                  Let St As Integer = Loci.Max
                                                  Let SP As Integer = Loci.Min
                                                  Let Sequence As String = Reader.CutSequenceLinear(SP, St).SequenceData
@@ -348,12 +348,12 @@ Public Module ToolsAPI
                 End If
 
                 Dim Reader As IPolymerSequenceModel = Rule
-                Dim St As Integer = locus.dnaA.Location.Left
-                Dim Sp As Integer = locus.gyrB.Location.Right
+                Dim St As Integer = locus.dnaA.Location.left
+                Dim Sp As Integer = locus.gyrB.Location.right
 
                 If locus.dnaA.Location.Strand = Strands.Reverse Then
-                    St = locus.gyrB.Location.Left
-                    Sp = locus.dnaA.Location.Right
+                    St = locus.gyrB.Location.left
+                    Sp = locus.dnaA.Location.right
                 End If
 
                 Dim RuleSegment As NucleotideModels.NucleicAcid
@@ -410,8 +410,10 @@ Public Module ToolsAPI
                                      Select item).ToArray).ToArray
         Dim CDSInfo = (From g As GeneTable
                        In allCDSInfo
-                       Where Not String.IsNullOrEmpty(g.LocusID)
-                       Select g).ToDictionary(Function(obj) obj.LocusID)
+                       Where Not String.IsNullOrEmpty(g.locus_id)
+                       Select g).ToDictionary(Function(obj)
+                                                  Return obj.locus_id
+                                              End Function)
         Dim CreatePartitionLQuery = (From item In pData.AsParallel
                                      Let Create = ToolsAPI.__group(item.besthits)
                                      Select item.PartitioningTag,
@@ -428,7 +430,7 @@ Public Module ToolsAPI
                                   .LociLeft = left,
                                   .LociRight = right,
                                   .SequenceData = seq,
-                                  .ORFList = (From nnnn In genome.ORF Select nnnn.LocusID).ToArray,
+                                  .ORFList = (From nnnn In genome.ORF Select nnnn.locus_id).ToArray,
                                   .PartitioningTag = item.Key}).ToArray).Unlist
 
         Dim removed = CType((From item In LQuery.AsParallel Where String.Equals(CType(item.GenomeID, String), CType(besthit.sp, String), CType(StringComparison.OrdinalIgnoreCase, StringComparison)) Select item).ToArray, PartitioningData())

@@ -476,8 +476,8 @@ different with the ideogram configuration document was not included in the circo
  _
             (sites) <= Function(site As Contig) New GeneTable With {
                 .Location = site.MappingLocation,
-                .LocusID = "",
-                .CommonName = "",
+                .locus_id = "",
+                .commonName = "",
                 .geneName = "",
                 .ProteinId = ""
         }
