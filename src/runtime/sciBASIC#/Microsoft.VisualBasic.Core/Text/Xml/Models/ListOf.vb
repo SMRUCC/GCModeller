@@ -48,6 +48,12 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace Text.Xml.Models
 
+    Public Interface IList(Of T) : Inherits Enumeration(Of T)
+
+        ReadOnly Property size As Integer
+
+    End Interface
+
     ''' <summary>
     ''' 可以通过<see cref="AsEnumerable"/>拓展函数转换这个列表对象为枚举类型
     ''' </summary>
@@ -68,8 +74,8 @@ Namespace Text.Xml.Models
         End Property
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of T) Implements Enumeration(Of T).GenericEnumerator
-            For Each x As T In getCollection()
-                Yield x
+            For Each item As T In getCollection()
+                Yield item
             Next
         End Function
 

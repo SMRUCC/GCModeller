@@ -1,7 +1,8 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports Microsoft.VisualBasic.Linq
 
 Public Class ProteinAnnotation
 
@@ -15,16 +16,26 @@ Public Class ProteinAnnotation
     End Function
 End Class
 
-Public Class AnnotationClusters : Inherits ListOf(Of ProteinAnnotation)
+Public Class AnnotationClusters : Inherits XmlDataModel
+    Implements IList(Of ProteinAnnotation)
 
     <XmlElement>
     Public Property proteins As ProteinAnnotation()
 
-    Protected Overrides Function getSize() As Integer
-        Return proteins.Length
+    <XmlAttribute>
+    Public ReadOnly Property size As Integer Implements IList(Of ProteinAnnotation).size
+        Get
+            Return proteins.Length
+        End Get
+    End Property
+
+    Public Iterator Function GenericEnumerator() As IEnumerator(Of ProteinAnnotation) Implements Enumeration(Of ProteinAnnotation).GenericEnumerator
+        For Each protein In proteins
+            Yield protein
+        Next
     End Function
 
-    Protected Overrides Function getCollection() As IEnumerable(Of ProteinAnnotation)
-        Return proteins
+    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of ProteinAnnotation).GetEnumerator
+        Yield GenericEnumerator()
     End Function
 End Class
