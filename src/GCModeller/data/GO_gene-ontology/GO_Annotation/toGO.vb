@@ -51,7 +51,8 @@ Public Class toGO
     ' Pfam:PF00001 7tm_1 > GO:G protein-coupled receptor activity ; GO:0004930
 
     ''' <summary>
-    ''' Annotation entry id, example as pfamId
+    ''' Annotation entry id, example as pfamId.
+    ''' (请注意，一个entry可能会map到好几个go term上面)
     ''' </summary>
     ''' <returns></returns>
     Public Property entry As String

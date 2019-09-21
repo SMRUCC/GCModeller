@@ -47,9 +47,9 @@ Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
 Public Module Annotations
 
     <Extension>
-    Public Function PfamAssign(pfamhits As IEnumerable(Of PfamHit), pfam2GO As Dictionary(Of String, toGO)) As AnnotationClusters
+    Public Function PfamAssign(pfamhits As IEnumerable(Of PfamHit), pfam2GO As Dictionary(Of String, toGO())) As AnnotationClusters
         Dim mapstoGO As New Dictionary(Of String, (desc$, go As List(Of String)))
-        Dim go As toGO
+        Dim go As toGO()
 
         For Each hit As PfamHit In pfamhits
             If Not mapstoGO.ContainsKey(hit.QueryName) Then
@@ -59,7 +59,7 @@ Public Module Annotations
             go = pfam2GO.TryGetValue(hit.pfamID)
 
             If Not go Is Nothing Then
-                Call mapstoGO(hit.QueryName).go.Add(go.map2GO_id)
+                Call mapstoGO(hit.QueryName).go.AddRange(go.Select(Function(g) g.map2GO_id))
             End If
         Next
 
@@ -68,7 +68,10 @@ Public Module Annotations
                         Return New ProteinAnnotation With {
                             .proteinID = prot.Key,
                             .description = prot.Value.desc,
-                            .GO = prot.Value.go.Distinct.ToArray
+                            .GO = prot.Value _
+                                .go _
+                                .Distinct _
+                                .ToArray
                         }
                     End Function) _
             .ToArray
@@ -79,7 +82,7 @@ Public Module Annotations
     End Function
 
     <Extension>
-    Public Function PfamAssign(annotations As IEnumerable(Of PfamString), pfam2GO As Dictionary(Of String, toGO)) As AnnotationClusters
-
+    Public Function PfamAssign(annotations As IEnumerable(Of PfamString), pfam2GO As Dictionary(Of String, toGO())) As AnnotationClusters
+        Throw New NotImplementedException
     End Function
 End Module

@@ -74,7 +74,12 @@ Partial Module CLI
         Dim pfamhits As IEnumerable(Of PfamHit) = [in] _
            .OpenHandle _
            .AsLinq(Of PfamHit)
-        Dim toGoMaps As Dictionary(Of String, toGO) = toGO.Parse2GO(toGoFile).ToDictionary(Function(pfam) pfam.entry)
+        Dim toGoMaps As Dictionary(Of String, toGO()) = toGO.Parse2GO(toGoFile) _
+            .GroupBy(Function(pfam) pfam.entry) _
+            .ToDictionary(Function(pfam) pfam.Key,
+                          Function(group)
+                              Return group.ToArray
+                          End Function)
         Dim annotations As AnnotationClusters = pfamhits.PfamAssign(toGoMaps)
 
         Return annotations _
