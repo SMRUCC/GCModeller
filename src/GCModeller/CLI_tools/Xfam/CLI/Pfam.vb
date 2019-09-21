@@ -76,7 +76,7 @@ Partial Module CLI
            .AsLinq(Of PfamHit)
         Dim toGoMaps As Dictionary(Of String, toGO()) = toGO.Parse2GO(toGoFile) _
             .GroupBy(Function(pfam) pfam.entry) _
-            .ToDictionary(Function(pfam) pfam.Key,
+            .ToDictionary(Function(pfam) pfam.Key.Split(":"c).Last,
                           Function(group)
                               Return group.ToArray
                           End Function)
