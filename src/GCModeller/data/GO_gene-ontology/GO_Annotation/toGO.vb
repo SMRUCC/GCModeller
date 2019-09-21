@@ -43,11 +43,32 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
+''' <summary>
+''' External annotation map to go term
+''' </summary>
 Public Class toGO
 
+    ' Pfam:PF00001 7tm_1 > GO:G protein-coupled receptor activity ; GO:0004930
+
+    ''' <summary>
+    ''' Annotation entry id, example as pfamId
+    ''' </summary>
+    ''' <returns></returns>
     Public Property entry As String
+    ''' <summary>
+    ''' The common name of the target <see cref="entry"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public Property name As String
+    ''' <summary>
+    ''' The name of the go term
+    ''' </summary>
+    ''' <returns></returns>
     Public Property map2GO_term As String
+    ''' <summary>
+    ''' The mapped go term id
+    ''' </summary>
+    ''' <returns></returns>
     Public Property map2GO_id As String
 
     Public Overrides Function ToString() As String

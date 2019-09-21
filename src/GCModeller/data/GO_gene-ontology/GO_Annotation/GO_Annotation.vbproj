@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Annotations.vb" />
+    <Compile Include="ProteinAnnotation.vb" />
     <Compile Include="toGO.vb" />
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

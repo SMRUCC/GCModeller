@@ -40,21 +40,46 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 
 Public Module Annotations
 
     <Extension>
-    Public Function PfamAssign(pfamhits As IEnumerable(Of PfamHit), pfam2GO As Dictionary(Of String, toGO))
+    Public Function PfamAssign(pfamhits As IEnumerable(Of PfamHit), pfam2GO As Dictionary(Of String, toGO)) As AnnotationClusters
+        Dim mapstoGO As New Dictionary(Of String, (desc$, go As List(Of String)))
+        Dim go As toGO
 
+        For Each hit As PfamHit In pfamhits
+            If Not mapstoGO.ContainsKey(hit.QueryName) Then
+                mapstoGO(hit.QueryName) = (hit.description, New List(Of String))
+            End If
+
+            go = pfam2GO.TryGetValue(hit.pfamID)
+
+            If Not go Is Nothing Then
+                Call mapstoGO(hit.QueryName).go.Add(go.map2GO_id)
+            End If
+        Next
+
+        Dim annotations As ProteinAnnotation() = mapstoGO _
+            .Select(Function(prot)
+                        Return New ProteinAnnotation With {
+                            .proteinID = prot.Key,
+                            .description = prot.Value.desc,
+                            .GO = prot.Value.go.Distinct.ToArray
+                        }
+                    End Function) _
+            .ToArray
+
+        Return New AnnotationClusters With {
+            .proteins = annotations
+        }
     End Function
 
     <Extension>
-    Public Function PfamAssign(pfamhits As IEnumerable(Of PfamString), pfam2GO As Dictionary(Of String, toGO))
+    Public Function PfamAssign(annotations As IEnumerable(Of PfamString), pfam2GO As Dictionary(Of String, toGO)) As AnnotationClusters
 
     End Function
 End Module
