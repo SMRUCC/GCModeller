@@ -169,10 +169,12 @@ Public Module BlastResultExtensions
                     Select x
                     Group x By x.QueryName Into Group) _
                         .ToDictionary(Function(x) x.QueryName,
-                                      Function(x) x.Group.First)
-        For Each x As GeneTable In dump
-            If hash.ContainsKey(x.LocusID) Then
-                x.COG = hash(x.LocusID).COG
+                                      Function(x)
+                                          Return x.Group.First
+                                      End Function)
+        For Each gene As GeneTable In dump
+            If hash.ContainsKey(gene.locus_id) Then
+                gene.COG = hash(gene.locus_id).COG
             End If
         Next
 

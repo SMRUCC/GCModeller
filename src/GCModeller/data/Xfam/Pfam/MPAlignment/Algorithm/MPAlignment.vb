@@ -284,11 +284,11 @@ Statistics as Topic",
                 Dim left_highlyPaired As Boolean
                 Dim pn As Double
 
-                ps = {Line.First.Left, Line.Last.Left}
+                ps = {Line.First.left, Line.Last.left}
                 pn = ps.Min / ps.Max  'Max is 1 (when min = max)
                 score += (pn * 2)
                 left_highlyPaired = pn >= high_Scoring_thresholds
-                ps = {Line.First.Right, Line.Last.Right}
+                ps = {Line.First.right, Line.Last.right}
                 pn = ps.Min / ps.Max  'Max is 1 (when min = max)
                 score += (pn * 2)
                 a_score += 4

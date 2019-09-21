@@ -371,7 +371,7 @@ Partial Module CLI
                 .SaveDataSet(out) _
                 .CLICode
         Else
-            out = args.GetValue("/out", uniprot.ParentPath & "/proteins-uniprot-annotations.csv")
+            out = args("/out") Or (uniprot.ParentPath & "/proteins-uniprot-annotations.csv")
 
             Return uniprot _
                 .ExportAnnotations(iTraq:=iTraq, accID:=accID) _

@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan
 Imports SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan.hmmscan
+Imports SMRUCC.genomics.Data.GeneOntology.Annotation
 Imports SMRUCC.genomics.Data.Xfam.Pfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
@@ -61,6 +62,33 @@ Imports SMRUCC.genomics.SequenceModel
 Imports Query = SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query
 
 Partial Module CLI
+
+    <ExportAPI("/pfam2go")>
+    <Usage("/pfam2go /in <pfamhits.csv> /togo <pfam2go.txt> [/out <annotations.xml>]")>
+    <Description("Do go annotation based on the pfam mapping to go term.")>
+    <Group(Program.PfamCliTools)>
+    Public Function Pfam2Go(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim toGoFile$ = args <= "/togo"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.2go_terms.Xml"
+        Dim pfamhits As IEnumerable(Of PfamHit) = [in] _
+           .OpenHandle _
+           .AsLinq(Of PfamHit)
+        Dim toGoMaps As Dictionary(Of String, toGO()) = toGO.Parse2GO(toGoFile) _
+            .GroupBy(Function(pfam) pfam.entry) _
+            .ToDictionary(Function(pfam) pfam.Key.Split(":"c).Last,
+                          Function(group)
+                              Return group.ToArray
+                          End Function)
+        Dim annotations As AnnotationClusters = pfamhits.PfamAssign(toGoMaps)
+
+        Call annotations.ToAnnotationTable.SaveTo($"{out.TrimSuffix}.csv")
+
+        Return annotations _
+            .GetXml _
+            .SaveTo(out) _
+            .CLICode
+    End Function
 
     <ExportAPI("/Export.PfamHits")>
     <Usage("/Export.PfamHits /in <blastp_vs_pfamA.txt> [/alt.direction /evalue <1e-5> /coverage <0.8> /identities <0.7> /out <pfamhits.csv>]")>
@@ -137,6 +165,7 @@ Partial Module CLI
               AcceptTypes:={GetType(PfamString)},
               Extensions:="*.csv",
               Description:="The annotation output.")>
+    <Group(Program.PfamCliTools)>
     Public Function PfamAnnotation(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pfam_string.csv"

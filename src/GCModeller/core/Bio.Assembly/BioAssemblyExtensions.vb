@@ -66,9 +66,9 @@ Public Module BioAssemblyExtensions
     <Extension>
     Public Function AsSegment(gene As GeneTable) As SimpleSegment
         Return New SimpleSegment With {
-            .Ends = gene.Location.Right,
-            .Start = gene.Location.Left,
-            .ID = gene.LocusID,
+            .Ends = gene.Location.right,
+            .Start = gene.Location.left,
+            .ID = gene.locus_id,
             .SequenceData = gene.CDS,
             .Strand = gene.Location.Strand.Description
         }

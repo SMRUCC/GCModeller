@@ -75,6 +75,18 @@ Namespace Pipeline.LocalBlast
             End Get
         End Property
 
+        Public ReadOnly Property pfamID As String
+            Get
+                Return Pfam.PfamId
+            End Get
+        End Property
+
+        Public ReadOnly Property domainName As String
+            Get
+                Return Pfam.CommonName
+            End Get
+        End Property
+
         Public Overrides ReadOnly Property coverage As Double
             Get
                 Return hit_length / length_hit

@@ -102,8 +102,8 @@ Namespace NCBIBlastResult
                                                      Let QueryGene As GeneTable = queryDict(gene.QueryName)
                                                      Select New HitRecord With {
                                                          .Identity = gene.Identities,
-                                                         .QueryStart = QueryGene.Left,
-                                                         .QueryEnd = QueryGene.Right,
+                                                         .QueryStart = QueryGene.left,
+                                                         .QueryEnd = QueryGene.right,
                                                          .SubjectIDs = genome.LogEntry.HitName
                                                      }
             Dim Table As New AlignmentTable With {

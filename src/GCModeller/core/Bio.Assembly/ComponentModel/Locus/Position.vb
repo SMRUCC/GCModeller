@@ -51,16 +51,17 @@ Namespace ComponentModel.Loci
     ''' 百分比相对位置
     ''' </summary>
     Public Structure Position
-        Public Property Left As Double
-        Public Property Right As Double
+
+        Public Property left As Double
+        Public Property right As Double
 
         Sub New(loci As Location, len As Integer)
-            Me.Left = loci.Left / len
-            Me.Right = loci.Right / len
+            Me.left = loci.left / len
+            Me.right = loci.right / len
         End Sub
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"[{left}%, {right}%]"
         End Function
     End Structure
 End Namespace
