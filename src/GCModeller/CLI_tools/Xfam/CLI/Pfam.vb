@@ -41,7 +41,6 @@
 
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
-Imports GO_Annotation
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -53,6 +52,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan
 Imports SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan.hmmscan
+Imports SMRUCC.genomics.Data.GeneOntology.Annotation
 Imports SMRUCC.genomics.Data.Xfam.Pfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
