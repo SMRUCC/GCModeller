@@ -82,6 +82,8 @@ Partial Module CLI
                           End Function)
         Dim annotations As AnnotationClusters = pfamhits.PfamAssign(toGoMaps)
 
+        Call annotations.ToAnnotationTable.SaveTo($"{out.TrimSuffix}.csv")
+
         Return annotations _
             .GetXml _
             .SaveTo(out) _

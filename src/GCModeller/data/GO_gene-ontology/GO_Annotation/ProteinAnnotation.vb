@@ -1,5 +1,6 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -28,6 +29,18 @@ Public Class AnnotationClusters : Inherits XmlDataModel
             Return proteins.Length
         End Get
     End Property
+
+    Public Iterator Function ToAnnotationTable() As IEnumerable(Of EntityObject)
+        For Each protein As ProteinAnnotation In proteins
+            Yield New EntityObject With {
+                .ID = protein.proteinID,
+                .Properties = New Dictionary(Of String, String) From {
+                    {"fullName", protein.description},
+                    {"GO", protein.GO_terms.AsEnumerable.Keys.JoinBy("; ")}
+                }
+            }
+        Next
+    End Function
 
     Public Iterator Function GenericEnumerator() As IEnumerator(Of ProteinAnnotation) Implements Enumeration(Of ProteinAnnotation).GenericEnumerator
         For Each protein In proteins
