@@ -137,6 +137,7 @@ Partial Module CLI
               AcceptTypes:={GetType(PfamString)},
               Extensions:="*.csv",
               Description:="The annotation output.")>
+    <Group(Program.PfamCliTools)>
     Public Function PfamAnnotation(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pfam_string.csv"
