@@ -54,6 +54,8 @@ Public Module Annotations
         For Each hit As PfamHit In pfamhits
             If Not mapstoGO.ContainsKey(hit.QueryName) Then
                 mapstoGO(hit.QueryName) = (hit.description, New List(Of String))
+
+                Call $"{hit.QueryName}: {hit.description}".__DEBUG_ECHO
             End If
 
             go = pfam2GO.TryGetValue(hit.pfamID)

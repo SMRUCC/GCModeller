@@ -4,9 +4,10 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Public Class ProteinAnnotation
 
+    <XmlAttribute("id")>
     Public Property proteinID As String
     Public Property description As String
-    Public Property GO As String()
+    Public Property GO As XmlList(Of String)
 
     Public Overrides Function ToString() As String
         Return $"Dim {proteinID} As [{description}] = {GO.GetJson}"
