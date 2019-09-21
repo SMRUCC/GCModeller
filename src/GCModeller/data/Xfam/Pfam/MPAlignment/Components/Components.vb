@@ -66,8 +66,8 @@ Namespace ProteinDomainArchitecture.MPAlignment
             Get
                 Dim nullDistr As Position() = {
                     New Position With {
-                        .Left = 1,
-                        .Right = 1
+                        .left = 1,
+                        .right = 1
                     }
                 }
                 Dim empty As New DomainDistribution With {

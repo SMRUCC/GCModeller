@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::bbb8e6ea64c10cb62da480f51cc40f62, Bio.Assembly\ComponentModel\Locus\LocusExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module LocusExtensions
-    ' 
-    '         Function: __tryParse, (+2 Overloads) Equals, GetRelationship, GetStrand, MergeJoins
-    '                   NCBIstyle, TryParse
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module LocusExtensions
+' 
+'         Function: __tryParse, (+2 Overloads) Equals, GetRelationship, GetStrand, MergeJoins
+'                   NCBIstyle, TryParse
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,6 +51,7 @@ Imports r = System.Text.RegularExpressions.Regex
 Namespace ComponentModel.Loci
 
     <Package("Loci.API", Description:="Methods for some nucleotide utility.")>
+    <HideModuleName>
     Public Module LocusExtensions
 
         ''' <summary>
@@ -67,16 +68,16 @@ Namespace ComponentModel.Loci
                 From l As TLocation
                 In grouped
                 Select l
-                Order By l.Right Descending
+                Order By l.right Descending
             Dim Lalign As TLocation() = LinqAPI.Exec(Of TLocation) <=
                 From l As TLocation
                 In grouped
                 Select l
-                Order By l.Left Ascending
+                Order By l.left Ascending
 
             Dim clone As TLocation = grouped.First.Clone
-            clone.Left = Lalign.First.Left
-            clone.Right = Ralign.Last.Right
+            clone.left = Lalign.First.left
+            clone.right = Ralign.Last.right
             Return clone
         End Function
 
@@ -92,31 +93,32 @@ Namespace ComponentModel.Loci
         ''' <remarks></remarks>
         '''
         <ExportAPI("Get.Relationship")>
-        <Extension> Public Function GetRelationship(x As NucleotideLocation, lcl As NucleotideLocation) As SegmentRelationships
-            Call x.Normalization()
+        <Extension>
+        Public Function GetRelationship(site As NucleotideLocation, lcl As NucleotideLocation) As SegmentRelationships
+            Call site.Normalization()
             Call lcl.Normalization()
 
-            If lcl.Left = x.Left() AndAlso lcl.Right = x.Right() Then
+            If lcl.left = site.left() AndAlso lcl.right = site.right() Then
                 Return SegmentRelationships.Equals
             End If
-            If lcl.Right < x.Left() Then
+            If lcl.right < site.left() Then
                 Return SegmentRelationships.UpStream
             End If
-            If lcl.Left > x.Right() Then
+            If lcl.left > site.right() Then
                 Return SegmentRelationships.DownStream
             End If
-            If lcl.Left > x.Left() AndAlso lcl.Right < x.Right() Then
+            If lcl.left > site.left() AndAlso lcl.right < site.right() Then
                 Return SegmentRelationships.Inside
             End If
-            If x.Left() > lcl.Left AndAlso x.Right() < lcl.Right Then
+            If site.left() > lcl.left AndAlso site.right() < lcl.right Then
                 Return SegmentRelationships.Cover
             End If
 
-            If lcl.Left <= x.Left() AndAlso lcl.Right <= x.Right() AndAlso lcl.Right > x.Left() Then
+            If lcl.left <= site.left() AndAlso lcl.right <= site.right() AndAlso lcl.right > site.left() Then
                 Return SegmentRelationships.UpStreamOverlap
             End If
 
-            If lcl.Left >= x.Left() AndAlso lcl.Right >= x.Right() AndAlso lcl.Left < x.Right() Then
+            If lcl.left >= site.left() AndAlso lcl.right >= site.right() AndAlso lcl.left < site.right() Then
                 Return SegmentRelationships.DownStreamOverlap
             End If
 
@@ -124,7 +126,8 @@ Namespace ComponentModel.Loci
         End Function
 
         ''' <summary>
-        ''' Convert the string value type nucleotide strand information description data into a strand enumerate data.
+        ''' Convert the string value type nucleotide strand information description data 
+        ''' into a <see cref="Strands"/> enumerate data.
         ''' </summary>
         ''' <param name="str">从文本文件之中所读取出来关于链方向的字符串描述数据</param>
         ''' <returns></returns>
@@ -161,7 +164,7 @@ Namespace ComponentModel.Loci
             If loci.StringEmpty Then
                 Return Nothing
             ElseIf InStr(loci, " ==> ") > 0 Then
-                Return __tryParse(loci)
+                Return tryParseInternal(loci)
             End If
 
             Const complement$ = "complement\([^)]+\)"
@@ -177,8 +180,8 @@ Namespace ComponentModel.Loci
                       Order By n Ascending
 
             Dim nuclLoci As New NucleotideLocation With {
-                .Left = pos(0),
-                .Right = pos(1),
+                .left = pos(0),
+                .right = pos(1),
                 .Strand = s,
                 .Tag = loci
             }
@@ -187,7 +190,7 @@ Namespace ComponentModel.Loci
         End Function
 
         <Extension> Public Function NCBIstyle(loci As NucleotideLocation) As String
-            Dim tag$ = $"{loci.Left}..{loci.Right}"
+            Dim tag$ = $"{loci.left}..{loci.right}"
 
             If loci.Strand = Strands.Reverse Then
                 tag = $"complement({tag})"
@@ -203,7 +206,7 @@ Namespace ComponentModel.Loci
         ''' </summary>
         ''' <param name="input"></param>
         ''' <returns></returns>
-        Private Function __tryParse(input As String) As NucleotideLocation
+        Private Function tryParseInternal(input As String) As NucleotideLocation
             Dim t$() = input.Split
             Dim left As Integer = CInt(Val(t(0)))
             Dim right As Integer = CInt(Val(t(2)))
@@ -215,24 +218,31 @@ Namespace ComponentModel.Loci
         ''' <summary>
         ''' 这个函数在<see cref="Equals"/>函数的基础之上还添加了对链方向的判断
         ''' </summary>
-        ''' <param name="x"></param>
+        ''' <param name="site"></param>
         ''' <param name="loci"></param>
         ''' <param name="allowedOffset"></param>
         ''' <returns></returns>
         <ExportAPI("Loci.Equals")>
-        Public Function Equals(x As NucleotideLocation, loci As NucleotideLocation, Optional allowedOffset As Integer = 10) As Boolean
-            If loci.Strand <> x.Strand Then
+        Public Function Equals(site As NucleotideLocation, loci As NucleotideLocation, Optional allowedOffset% = 10) As Boolean
+            If loci.Strand <> site.Strand Then
                 ' 链的方向不一样，不能相等
                 Return False
             Else
-                Return Equals(DirectCast(x, Location), DirectCast(loci, Location), allowedOffset)
+                Return Equals(DirectCast(site, Location), DirectCast(loci, Location), allowedOffset)
             End If
         End Function
 
+        ''' <summary>
+        ''' One site is reference to the same location as another loci site it does in a given offset range?
+        ''' </summary>
+        ''' <param name="site">A loci site</param>
+        ''' <param name="loci">Another loci site</param>
+        ''' <param name="allowedOffset"></param>
+        ''' <returns></returns>
         <ExportAPI("Loci.Equals")>
-        Public Function Equals(x As Location, loci As Location, Optional allowedOffset As Integer = 10) As Boolean
-            Dim loci1 As Integer() = {x.Left(), x.Right()}
-            Dim loci2 As Integer() = {loci.Left, loci.Right}
+        Public Function Equals(site As Location, loci As Location, Optional allowedOffset As Integer = 10) As Boolean
+            Dim loci1 As Integer() = {site.left, site.right}
+            Dim loci2 As Integer() = {loci.left, loci.right}
 
             If allowedOffset = 0 Then
                 Return loci1.Min = loci2.Min AndAlso loci1.Max = loci2.Max
