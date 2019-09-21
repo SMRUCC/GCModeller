@@ -86,7 +86,7 @@ Namespace Assembly.NCBI.GenBank
             Call obj.TryGetValue("gene", gene.geneName)
             Call obj.TryGetValue("translation", gene.Translation)
             Call obj.TryGetValue("function", gene.Function)
-            Call obj.TryGetValue("transl_table", gene.Transl_Table)
+            Call obj.TryGetValue("transl_table", gene.Transl_table)
 
             If String.IsNullOrEmpty(gene.locus_id) Then
                 gene.locus_id = gene.ProteinId
@@ -461,7 +461,7 @@ Namespace Assembly.NCBI.GenBank
                     .SpeciesAccessionID = "",
                     .Strand = gene.Location.Strand.ToString,
                     .Translation = "",
-                    .Transl_Table = "",
+                    .Transl_table = "",
                     .UniprotSwissProt = "",
                     .UniprotTrEMBL = ""
                 }

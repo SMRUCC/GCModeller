@@ -57,8 +57,7 @@ Namespace ComponentModel.Annotation
     ''' (从GBK文件之中所导出来的一个基因对象的简要信息，尝试使用这个对象以csv表格的格式存储一个基因的所有的注释信息)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GeneTable
-        Implements INamedValue
+    Public Class GeneTable : Implements INamedValue
         Implements IGeneBrief
 
         ''' <summary>
@@ -72,8 +71,12 @@ Namespace ComponentModel.Annotation
         Public Property commonName As String Implements IGeneBrief.Product
         Public Property left As Integer
         Public Property right As Integer
-        Public Property Strand As String
-        Public Property [Function] As String
+        Public Property strand As String
+        ''' <summary>
+        ''' The gene product function description
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property [function] As String
         Public Property UniprotSwissProt As String
         Public Property UniprotTrEMBL As String
         Public Property ProteinId As String
@@ -84,7 +87,12 @@ Namespace ComponentModel.Annotation
         ''' <returns></returns>
         Public Property GO As String()
         Public Property InterPro As String()
-        Public Property Species As String
+        ''' <summary>
+        ''' The KEGG Ortholog feature
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property KO As String
+        Public Property species As String
         Public Property GC_Content As Double
         ''' <summary>
         ''' 基因序列
@@ -101,19 +109,24 @@ Namespace ComponentModel.Annotation
         ''' <remarks></remarks>
         Public Property SpeciesAccessionID As String
         Public Property Translation As String
-        Public Property Transl_Table As String
+        Public Property Transl_table As String
 
+        ''' <summary>
+        ''' The COG feature
+        ''' </summary>
+        ''' <returns></returns>
         Public Property COG As String Implements IFeatureDigest.Feature
-        Public Property Length As Integer Implements IGeneBrief.Length
+        Public Property length As Integer Implements IGeneBrief.Length
+
         Public Property Location As NucleotideLocation Implements IGeneBrief.Location
             Get
-                Return New NucleotideLocation(left, right, Strand:=Strand)
+                Return New NucleotideLocation(left, right, Strand:=strand)
             End Get
             Set(value As NucleotideLocation)
                 left = value.left
                 right = value.right
-                Strand = If(value.Strand = Strands.Forward, "+", "-")
-                Length = value.FragmentSize
+                strand = If(value.Strand = Strands.Forward, "+", "-")
+                length = value.FragmentSize
             End Set
         End Property
 
