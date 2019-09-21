@@ -41,6 +41,7 @@
 
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
+Imports GO_Annotation
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -61,6 +62,26 @@ Imports SMRUCC.genomics.SequenceModel
 Imports Query = SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query
 
 Partial Module CLI
+
+    <ExportAPI("/pfam2go")>
+    <Usage("/pfam2go /in <pfamhits.csv> /togo <pfam2go.txt> [/out <annotations.xml>]")>
+    <Description("Do go annotation based on the pfam mapping to go term.")>
+    <Group(Program.PfamCliTools)>
+    Public Function Pfam2Go(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim toGoFile$ = args <= "/togo"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.2go_terms.Xml"
+        Dim pfamhits As IEnumerable(Of PfamHit) = [in] _
+           .OpenHandle _
+           .AsLinq(Of PfamHit)
+        Dim toGoMaps As Dictionary(Of String, toGO) = toGO.Parse2GO(toGoFile).ToDictionary(Function(pfam) pfam.entry)
+        Dim annotations As AnnotationClusters = pfamhits.PfamAssign(toGoMaps)
+
+        Return annotations _
+            .GetXml _
+            .SaveTo(out) _
+            .CLICode
+    End Function
 
     <ExportAPI("/Export.PfamHits")>
     <Usage("/Export.PfamHits /in <blastp_vs_pfamA.txt> [/alt.direction /evalue <1e-5> /coverage <0.8> /identities <0.7> /out <pfamhits.csv>]")>
