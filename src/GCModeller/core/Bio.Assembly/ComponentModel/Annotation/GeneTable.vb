@@ -120,7 +120,7 @@ Namespace ComponentModel.Annotation
         Public Property EC_Number As String
 
         Public Overrides Function ToString() As String
-            Return locusID & ": " & CommonName
+            Return locus_id & ": " & commonName
         End Function
     End Class
 End Namespace
