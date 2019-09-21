@@ -101,13 +101,13 @@ Module Module1
         End If
 
         Dim info As New GeneTable With {
-            .LocusID = locus_tag,
+            .locus_id = locus_tag,
             .Length = anno.Length,
             .left = anno.Minimum,
             .Right = anno.Maximum,
             .CDS = anno.Sequence,
             .COG = "-",
-            .CommonName = anno.db_xref,
+            .commonName = anno.db_xref,
             .EC_Number = "",
             .[Function] = anno.Name,
             .geneName = anno.db_xref,
@@ -116,8 +116,8 @@ Module Module1
             .Translation = anno.translation
         }
 
-        If info.LocusID.StringEmpty Then
-            info.LocusID = $"{anno.db_xref}-{info.Location.ToString}"
+        If info.locus_id.StringEmpty Then
+            info.locus_id = $"{anno.db_xref}-{info.Location.ToString}"
         End If
 
         Return info
@@ -128,8 +128,8 @@ Module Module1
         Dim annotationtable = Nucleotide.LoadAsGeneTable(Nucleotide.Load("P:\essentialgenes\20190803\4\pMT1_NC_003134.1\Yersinia pestis CO92 plasmid pMT1_NC_003134.1_gene.txt")).ToArray
 
         For Each gene In annotationtable
-            gene.LocusID = ">" & gene.ProteinId
-            gene.geneName = gene.geneName Or gene.CommonName.AsDefault
+            gene.locus_id = ">" & gene.ProteinId
+            gene.geneName = gene.geneName Or gene.commonName.AsDefault
         Next
 
         Dim nt = Assembly.AssembleOriginal(annotationtable.Select(Function(g) g.AsSegment))
@@ -321,8 +321,8 @@ Module Module1
         ' 所以在这里需要重新读取一次
         Dim geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source" AndAlso Not g.LocusID.StringEmpty) _
-            .GroupBy(Function(g) g.LocusID) _
+            .Where(Function(g) g.Species <> "source" AndAlso Not g.locus_id.StringEmpty) _
+            .GroupBy(Function(g) g.locus_id) _
             .Select(Function(g) g.First) _
             .ToArray
         Dim nt = Assembly.AssembleOriginal(geneTable.Select(Function(g) g.AsSegment))
@@ -340,7 +340,7 @@ Module Module1
 
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source").GroupBy(Function(g) g.LocusID).Select(Function(g) g.First).OrderBy(Function(g) g.Location.Left) _
+            .Where(Function(g) g.Species <> "source").GroupBy(Function(g) g.locus_id).Select(Function(g) g.First).OrderBy(Function(g) g.Location.left) _
             .ToArray
         'Dim annotations = geneTable _
         '    .GroupBy(Function(gene) gene.LocusID) _
@@ -398,7 +398,7 @@ Module Module1
 
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source").GroupBy(Function(g) g.LocusID).Select(Function(g) g.First) _
+            .Where(Function(g) g.Species <> "source").GroupBy(Function(g) g.locus_id).Select(Function(g) g.First) _
             .ToArray
 
 
@@ -414,7 +414,7 @@ Module Module1
                 gene.COG = "down"
             End If
 
-            gene.GeneName = Nothing
+            gene.geneName = Nothing
         Next
 
         'doc = Circos.CircosAPI.GenerateGeneCircle(
@@ -428,12 +428,12 @@ Module Module1
         '    })
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source" AndAlso Not g.LocusID.StringEmpty) _
-            .GroupBy(Function(g) g.LocusID) _
+            .Where(Function(g) g.Species <> "source" AndAlso Not g.locus_id.StringEmpty) _
+            .GroupBy(Function(g) g.locus_id) _
             .Select(Function(g) g.First) _
             .ToArray
 
-        Dim gcSkew = geneTable.Where(Function(g) Not g.CDS.StringEmpty).ToDictionary(Function(g) g.LocusID, Function(g) New FastaSeq With {.SequenceData = g.CDS}.GCSkew(100, 50, False).Average)
+        Dim gcSkew = geneTable.Where(Function(g) Not g.CDS.StringEmpty).ToDictionary(Function(g) g.locus_id, Function(g) New FastaSeq With {.SequenceData = g.CDS}.GCSkew(100, 50, False).Average)
 
         Dim predictsTracks = NtProps.GCSkew.FromValueContents(ptt.GeneObjects, gcSkew, 10000, 10000)
 
@@ -547,7 +547,7 @@ Module Module1
             .Where(Function(g) g.Species <> "source") _
             .ToArray
         Dim annotations = geneTable _
-            .GroupBy(Function(gene) gene.LocusID) _
+            .GroupBy(Function(gene) gene.locus_id) _
             .Select(Function(g)
                         Return g _
                             .GroupBy(Function(anno) anno.COG) _
@@ -559,30 +559,30 @@ Module Module1
             .Select(Function(anno)
                         Return anno.Values.First()(Scan0).With(Sub(g)
                                                                    ' 在这里主要是进行标签显示的控制
-                                                                   g.GeneName = g.Function
+                                                                   g.geneName = g.Function
 
                                                                    If g.COG Like otherFeatures Then
-                                                                       g.LocusID = ""
-                                                                       g.GeneName = Nothing
-                                                                   ElseIf Not degPredicts.ContainsKey(g.LocusID) Then
+                                                                       g.locus_id = ""
+                                                                       g.geneName = Nothing
+                                                                   ElseIf Not degPredicts.ContainsKey(g.locus_id) Then
                                                                        ' 只显示较为可能为deg的名称标记
-                                                                       g.LocusID = ""
-                                                                       g.GeneName = Nothing
-                                                                   ElseIf degPredicts(g.LocusID) < 0.05 Then
-                                                                       g.GeneName = Nothing
-                                                                       g.LocusID = ""
-                                                                   ElseIf degPredicts(g.LocusID) < 0.98 Then
-                                                                       g.GeneName = Nothing
+                                                                       g.locus_id = ""
+                                                                       g.geneName = Nothing
+                                                                   ElseIf degPredicts(g.locus_id) < 0.05 Then
+                                                                       g.geneName = Nothing
+                                                                       g.locus_id = ""
+                                                                   ElseIf degPredicts(g.locus_id) < 0.98 Then
+                                                                       g.geneName = Nothing
                                                                    End If
                                                                End Sub)
                     End Function) _
-            .Where(Function(g) degPredicts.ContainsKey(g.LocusID)) _
+            .Where(Function(g) degPredicts.ContainsKey(g.locus_id)) _
             .Select(Function(g)
-                        If degPredicts(g.LocusID) > 0.5 Then
-                            g.Location = New NucleotideLocation(g.Left, g.Right, Strands.Forward)
+                        If degPredicts(g.locus_id) > 0.5 Then
+                            g.Location = New NucleotideLocation(g.left, g.Right, Strands.Forward)
                             g.COG = "up"
                         Else
-                            g.Location = New NucleotideLocation(g.Left, g.Right, Strands.Reverse)
+                            g.Location = New NucleotideLocation(g.left, g.Right, Strands.Reverse)
                             g.COG = "down"
                         End If
 
@@ -615,7 +615,7 @@ Module Module1
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(AddressOf convert) _
             .Where(Function(g) g.Species <> "source") _
-            .GroupBy(Function(g) g.LocusID) _
+            .GroupBy(Function(g) g.locus_id) _
             .Select(Function(g) g.First) _
             .ToArray
 

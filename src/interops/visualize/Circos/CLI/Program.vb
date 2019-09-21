@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::1bd8cd6929ce984053f0419664f37757, visualize\Circos\CLI\Program.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Program
-    ' 
-    '     Function: convert, Main, pickAnno
-    ' 
-    '     Sub: testPlot2
-    ' 
-    ' /********************************************************************************/
+' Module Program
+' 
+'     Function: convert, Main, pickAnno
+' 
+'     Sub: testPlot2
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -99,13 +99,13 @@ Module Program
     Private Function convert(anno As EntityObject) As GeneTable
         Dim locus_tag$ = anno!locus_tag
         Dim info As New GeneTable With {
-            .LocusID = locus_tag,
+            .locus_id = locus_tag,
             .Length = anno!Length.Match("\d+"),
             .left = anno!Minimum.Match("\d+"),
             .Right = anno!Maximum.Match("\d+"),
             .CDS = anno!Sequence,
             .COG = anno("note").Match("COG\d+"),
-            .CommonName = anno("gene"),
+            .commonName = anno("gene"),
             .EC_Number = "",
             .[Function] = anno!note,
             .geneName = anno!gene,
@@ -115,8 +115,8 @@ Module Program
             .Species = anno("NCBI Feature Key")
         }
 
-        If info.LocusID.StringEmpty Then
-            info.LocusID = $"{anno.ID}-{info.Location.ToString}"
+        If info.locus_id.StringEmpty Then
+            info.locus_id = $"{anno.ID}-{info.Location.ToString}"
         End If
 
         Return info
@@ -138,13 +138,13 @@ Module Program
         End If
         If groups.ContainsKey("repeat_region") Then
             Dim element = groups("repeat_region").First
-            element.LocusID = "repeat_region"
+            element.locus_id = "repeat_region"
 
             Return element
         End If
         If groups.ContainsKey("mobile_element") Then
             Dim element = groups("mobile_element").First
-            element.LocusID = "mobile_element"
+            element.locus_id = "mobile_element"
 
             Return element
         End If
@@ -179,7 +179,7 @@ Module Program
             .LoadDataSet("P:\deg\A16R\A16R_NZ_CP001974 Annotations.csv") _
             .Select(AddressOf convert) _
             .Where(Function(g) g.Species <> "source") _
-            .GroupBy(Function(gene) gene.LocusID) _
+            .GroupBy(Function(gene) gene.locus_id) _
             .Select(Function(g)
                         Return g _
                             .GroupBy(Function(anno) anno.COG) _
@@ -191,27 +191,27 @@ Module Program
             .Select(Function(anno)
                         Return anno.pickAnno.With(Sub(g)
                                                       If g.COG Like otherFeatures Then
-                                                          g.LocusID = ""
-                                                          g.GeneName = Nothing
-                                                      ElseIf Not degPredicts.ContainsKey(g.LocusID) Then
+                                                          g.locus_id = ""
+                                                          g.geneName = Nothing
+                                                      ElseIf Not degPredicts.ContainsKey(g.locus_id) Then
                                                           ' 只显示较为可能为deg的名称标记
-                                                          g.LocusID = ""
-                                                          g.GeneName = Nothing
-                                                      ElseIf degPredicts(g.LocusID) < 0.05 Then
-                                                          g.GeneName = Nothing
-                                                          g.LocusID = ""
-                                                      ElseIf degPredicts(g.LocusID) < 0.98 Then
-                                                          g.GeneName = Nothing
+                                                          g.locus_id = ""
+                                                          g.geneName = Nothing
+                                                      ElseIf degPredicts(g.locus_id) < 0.05 Then
+                                                          g.geneName = Nothing
+                                                          g.locus_id = ""
+                                                      ElseIf degPredicts(g.locus_id) < 0.98 Then
+                                                          g.geneName = Nothing
                                                       End If
                                                   End Sub)
                     End Function) _
-            .Where(Function(g) degPredicts.ContainsKey(g.LocusID)) _
+            .Where(Function(g) degPredicts.ContainsKey(g.locus_id)) _
             .Select(Function(g)
-                        If degPredicts(g.LocusID) > 0.98 Then
-                            g.Location = New NucleotideLocation(g.Left, g.Right, Strands.Forward)
+                        If degPredicts(g.locus_id) > 0.98 Then
+                            g.Location = New NucleotideLocation(g.left, g.Right, Strands.Forward)
                             g.COG = "up"
                         Else
-                            g.Location = New NucleotideLocation(g.Left, g.Right, Strands.Reverse)
+                            g.Location = New NucleotideLocation(g.left, g.Right, Strands.Reverse)
                             g.COG = "down"
                         End If
 

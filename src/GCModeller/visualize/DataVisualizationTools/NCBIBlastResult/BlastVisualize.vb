@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::fec05d15a9dc2b964915926b8fa09898, visualize\DataVisualizationTools\NCBIBlastResult\BlastVisualize.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BlastVisualize
-    ' 
-    '         Function: __COGsBrush, __createHits, AlignmentTableFromBlastn, AlignmentTableFromBlastX, ApplyDescription
-    '                   ApplyDescription2, CreateTableFromBlastOutput, ExportTableOrderByGI, GetColor, GetSubjectHitLocusID
-    '                   InternalShortID_s, (+2 Overloads) InvokeDrawing, LoadResult, PlotMap, ShortID
-    ' 
-    '         Sub: AssignCogClass
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BlastVisualize
+' 
+'         Function: __COGsBrush, __createHits, AlignmentTableFromBlastn, AlignmentTableFromBlastX, ApplyDescription
+'                   ApplyDescription2, CreateTableFromBlastOutput, ExportTableOrderByGI, GetColor, GetSubjectHitLocusID
+'                   InternalShortID_s, (+2 Overloads) InvokeDrawing, LoadResult, PlotMap, ShortID
+' 
+'         Sub: AssignCogClass
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -129,7 +129,7 @@ Namespace NCBIBlastResult
 #If DEBUG Then
                 Call loci.__DEBUG_ECHO
 #End If
-                rect = New Rectangle(New Point(Margin + loci.Left, Y), New Size(loci.FragmentSize, 10))
+                rect = New Rectangle(New Point(Margin + loci.left, Y), New Size(loci.FragmentSize, 10))
                 Call g.Graphics.FillRectangle(Brushes.Blue, rect)
                 Dim x As Integer = g.Graphics.MeasureString(hit.Name, font).Width
                 x = rect.Left + (rect.Width - x) / 2
@@ -289,7 +289,9 @@ Namespace NCBIBlastResult
                                    Select Entry.ID,
                                        Output).ToArray
             Dim ORF As Dictionary(Of String, GeneTable) =
-                CdsInfo.ToDictionary(Function(g) g.LocusID)
+                CdsInfo.ToDictionary(Function(g)
+                                         Return g.locus_id
+                                     End Function)
             Dim ChunkBuffer As HitRecord() = LinqAPI.Exec(Of HitRecord) <=
  _
                 From EntryInfo
@@ -335,7 +337,7 @@ Namespace NCBIBlastResult
                                               Where ORF.ContainsKey(id)
                                               Select _orf = ORF(id)
                                               Order By _orf.left Ascending
-            Dim OrderedHits As String() = SortHits.Select(Function(hit) hit.LocusID)
+            Dim OrderedHits As String() = SortHits.Select(Function(hit) hit.locus_id)
 
             If OrderedHits.IsNullOrEmpty Then Return New HitRecord() {}
 
