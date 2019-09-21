@@ -101,16 +101,16 @@ Module Program
         Dim info As New GeneTable With {
             .LocusID = locus_tag,
             .Length = anno!Length.Match("\d+"),
-            .Left = anno!Minimum.Match("\d+"),
+            .left = anno!Minimum.Match("\d+"),
             .Right = anno!Maximum.Match("\d+"),
             .CDS = anno!Sequence,
             .COG = anno("note").Match("COG\d+"),
             .CommonName = anno("gene"),
             .EC_Number = "",
             .[Function] = anno!note,
-            .GeneName = anno!gene,
+            .geneName = anno!gene,
             .Strand = anno!Direction.GetStrand,
-            .Location = New NucleotideLocation(.Left, .Right, .Strand),
+            .Location = New NucleotideLocation(.left, .Right, .Strand),
             .Translation = anno!translation,
             .Species = anno("NCBI Feature Key")
         }

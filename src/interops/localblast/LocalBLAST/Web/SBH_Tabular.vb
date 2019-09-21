@@ -102,7 +102,7 @@ Namespace NCBIBlastResult
                                                      Let QueryGene As GeneTable = queryDict(gene.QueryName)
                                                      Select New HitRecord With {
                                                          .Identity = gene.Identities,
-                                                         .QueryStart = QueryGene.Left,
+                                                         .QueryStart = QueryGene.left,
                                                          .QueryEnd = QueryGene.Right,
                                                          .SubjectIDs = genome.LogEntry.HitName
                                                      }

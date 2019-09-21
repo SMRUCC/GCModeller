@@ -130,8 +130,8 @@ Namespace Assembly.NCBI.SequenceDump
                 Yield New GeneTable With {
                     .CDS = fa.SequenceData,
                     .CommonName = fa.CommonName,
-                    .GeneName = fa.CommonName,
-                    .Left = fa.Location.Left,
+                    .geneName = fa.CommonName,
+                    .left = fa.Location.Left,
                     .Right = fa.Location.Right,
                     .Strand = fa.Location.Strand.GetBriefCode,
                     .Location = fa.Location,

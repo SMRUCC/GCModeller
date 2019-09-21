@@ -322,7 +322,7 @@ Namespace NCBIBlastResult
                         Where Not query.SubjectHits.IsNullOrEmpty
                         Select Query = ORF(query.QueryName.Split(CChar("|")).First),
                             query.SubjectHits
-                        Order By Query.Left Ascending).ToArray
+                        Order By Query.left Ascending).ToArray
             Dim hits As String() =
                 LinqAPI.Exec(Of String) <= From x
                                            In Trim
@@ -334,7 +334,7 @@ Namespace NCBIBlastResult
                                                  In hits
                                               Where ORF.ContainsKey(id)
                                               Select _orf = ORF(id)
-                                              Order By _orf.Left Ascending
+                                              Order By _orf.left Ascending
             Dim OrderedHits As String() = SortHits.Select(Function(hit) hit.LocusID)
 
             If OrderedHits.IsNullOrEmpty Then Return New HitRecord() {}
@@ -441,7 +441,7 @@ CONTINUTE:
                 Let loci As IEnumerable(Of Integer) =
                     (LinqAPI.MakeList(Of Integer) <= From GeneObject
                                                      In trimedData
-                                                     Select {GeneObject.Key.Left, GeneObject.Key.Right})  '
+                                                     Select {GeneObject.Key.left, GeneObject.Key.Right})  '
                 Select New HitRecord With {
                     .QueryID = "",
                     .SubjectIDs = Blastoutput.Database,

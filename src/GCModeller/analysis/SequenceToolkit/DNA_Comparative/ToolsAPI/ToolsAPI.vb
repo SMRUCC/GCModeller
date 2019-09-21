@@ -420,7 +420,7 @@ Public Module ToolsAPI
                                                        Function(item) item.Data) '根据参数partition之中的参照数据进行创建基因组分区数据的创建
         Dim LQuery = (From item In CreatePartitionLQuery
                       Select (From genome In item.Value
-                              Let left As Integer = (From nn In genome.ORF Select nn.Left).Min
+                              Let left As Integer = (From nn In genome.ORF Select nn.left).Min
                               Let right As Integer = (From nn In genome.ORF Select nn.Right).Max
                               Let seq As String = __readSeq(left, right, FastaReader, genome.GenomeID)
                               Select New PartitioningData With {
@@ -437,7 +437,7 @@ Public Module ToolsAPI
         Next
 
         For Each p In (From item In partitions Select item Group item By item.PartitioningTag Into Group).ToArray
-            Dim left = (From nn In p.Group Let l = CDSInfo(nn.ORF).Left Select l).ToArray.Min
+            Dim left = (From nn In p.Group Let l = CDSInfo(nn.ORF).left Select l).ToArray.Min
             Dim Right = (From nn In p.Group Let r = CDSInfo(nn.ORF).Right Select r).ToArray.Max
             Dim genomeID As String = besthit.sp
 

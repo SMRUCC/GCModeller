@@ -117,7 +117,7 @@ Namespace ComparativeGenomics
                                                    .Color = If(String.IsNullOrEmpty(COG), Color.Brown, colours(COG)),
                                                    .Direction = gene.Location.Strand,
                                                    .locus_tag = gene.LocusID,
-                                                   .geneName = gene.GeneName,
+                                                   .geneName = gene.geneName,
                                                    .Left = gene.Location.Left,
                                                    .Right = gene.Location.Right
                                                }

@@ -77,7 +77,7 @@ Public Module PlasmidComparative
                                                  Let pos As Integer() = (From id As String
                                                                          In ls
                                                                          Let nn As GeneTable = ORF(id)
-                                                                         Select {nn.Left, nn.Right}).ToVector
+                                                                         Select {nn.left, nn.Right}).ToVector
                                                  Let left As Integer = pos.Min
                                                  Let right As Integer = pos.Max
                                                  Select New PartitioningData With {

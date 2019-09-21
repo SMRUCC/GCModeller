@@ -83,7 +83,7 @@ Namespace Assembly.NCBI.GenBank
             Call obj.TryGetValue("product", gene.CommonName)
             Call obj.TryGetValue("locus_tag", gene.LocusID)
             Call obj.TryGetValue("protein_id", gene.ProteinId)
-            Call obj.TryGetValue("gene", gene.GeneName)
+            Call obj.TryGetValue("gene", gene.geneName)
             Call obj.TryGetValue("translation", gene.Translation)
             Call obj.TryGetValue("function", gene.Function)
             Call obj.TryGetValue("transl_table", gene.Transl_Table)
@@ -113,8 +113,8 @@ Namespace Assembly.NCBI.GenBank
             'End If
 
             Try
-                gene.Left = obj.Location.ContiguousRegion.Left
-                gene.Right = obj.Location.ContiguousRegion.Right
+                gene.left = obj.Location.ContiguousRegion.left
+                gene.Right = obj.Location.ContiguousRegion.right
                 gene.Strand = If(obj.Location.Complement, "-", "+")
             Catch ex As Exception
                 Dim msg As String = $"{obj.gb.Accession.AccessionId} location data is null!"
@@ -379,7 +379,7 @@ Namespace Assembly.NCBI.GenBank
                                 Let GeneFastaDump = CType((From GeneObject In GBKFF.Features._innerList.AsParallel
                                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                                            Let loc = GeneObject.Location.ContiguousRegion
-                                                           Let Sequence As String = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
+                                                           Let Sequence As String = reader.CutSequenceLinear(loc.left, loc.right).SequenceData
                                                            Select New FASTA.FastaSeq With {
                                                                .Headers = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
                                                                .SequenceData = If(GeneObject.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
@@ -443,15 +443,15 @@ Namespace Assembly.NCBI.GenBank
                 Select New GeneTable With {
                     .CDS = "",
                     .COG = gene.COG,
-                    .CommonName = gene.Gene,
+                    .commonName = gene.Gene,
                     .EC_Number = "-",
                     .Function = gene.Product,
                     .GC_Content = 0,
-                    .GeneName = gene.Gene,
+                    .geneName = gene.Gene,
                     .GI = "-",
                     .GO = {},
                     .InterPro = {},
-                    .Left = gene.Location.left,
+                    .left = gene.Location.left,
                     .Length = gene.Location.FragmentSize,
                     .Location = gene.Location,
                     .LocusID = gene.Synonym,
@@ -529,7 +529,7 @@ Namespace Assembly.NCBI.GenBank
                 Dim GeneFastaDump = CType((From GeneObject In gb.Features._innerList.AsParallel
                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                            Let loc = GeneObject.Location.ContiguousRegion
-                                           Let Sequence As String = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
+                                           Let Sequence As String = reader.CutSequenceLinear(loc.left, loc.right).SequenceData
                                            Select New FASTA.FastaSeq With {
                                                .Headers = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
                                                .SequenceData = If(GeneObject.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
@@ -572,7 +572,7 @@ Namespace Assembly.NCBI.GenBank
         Private Function __exportWithAnnotation(data As GeneTable()) As FASTA.FastaFile
             Dim LQuery = From gene As GeneTable
                          In data.AsParallel
-                         Let attrs As String() = {gene.LocusID, gene.GeneName, gene.GI, gene.CommonName, gene.Function, gene.Species}
+                         Let attrs As String() = {gene.LocusID, gene.geneName, gene.GI, gene.CommonName, gene.Function, gene.Species}
                          Select New FASTA.FastaSeq With {
                              .Headers = attrs,
                              .SequenceData = gene.Translation

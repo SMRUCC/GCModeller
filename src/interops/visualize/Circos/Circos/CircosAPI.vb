@@ -478,7 +478,7 @@ different with the ideogram configuration document was not included in the circo
                 .Location = site.MappingLocation,
                 .LocusID = "",
                 .CommonName = "",
-                .GeneName = "",
+                .geneName = "",
                 .ProteinId = ""
         }
 

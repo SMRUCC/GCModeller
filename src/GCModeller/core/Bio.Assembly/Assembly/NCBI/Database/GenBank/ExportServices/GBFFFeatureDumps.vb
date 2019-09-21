@@ -107,7 +107,7 @@ Namespace Assembly.NCBI.GenBank
                         .CommonName = feature("note"),
                         .Location = feature.Location.ContiguousRegion,
                         .LocusID = feature("locus_tag"),
-                        .GeneName = feature("gene") & "_mics_feature",
+                        .geneName = feature("gene") & "_mics_feature",
                         .Translation = feature("translation"),
                         .ProteinId = feature("protein_id"),
                         .CDS = feature.SequenceData
@@ -123,7 +123,7 @@ Namespace Assembly.NCBI.GenBank
                     .CommonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .LocusID = feature("locus_tag"),
-                    .GeneName = feature("gene") & "_regulatory",
+                    .geneName = feature("gene") & "_regulatory",
                     .Translation = feature("translation"),
                     .ProteinId = feature("protein_id"),
                     .CDS = feature.SequenceData
@@ -140,7 +140,7 @@ Namespace Assembly.NCBI.GenBank
                     .CommonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .LocusID = feature("locus_tag"),
-                    .GeneName = feature("gene"),
+                    .geneName = feature("gene"),
                     .Translation = feature("translation"),
                     .ProteinId = feature("protein_id"),
                     .CDS = feature.SequenceData
@@ -156,7 +156,7 @@ Namespace Assembly.NCBI.GenBank
                     .CommonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .LocusID = $"5'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
-                    .GeneName = $"5'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
+                    .geneName = $"5'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
                     .CDS = feature.SequenceData
                 }).ToArray
             Return dump
@@ -170,7 +170,7 @@ Namespace Assembly.NCBI.GenBank
                     .CommonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .LocusID = $"3'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
-                    .GeneName = $"3'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
+                    .geneName = $"3'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
                     .CDS = feature.SequenceData
                 }).ToArray
             Return dump

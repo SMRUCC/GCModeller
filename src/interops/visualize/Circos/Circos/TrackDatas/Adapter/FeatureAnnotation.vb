@@ -321,16 +321,16 @@ Namespace TrackDatas
                 anno = LinqAPI.Exec(Of GeneTable) <= From gene As GeneTable
                                                         In anno
                                                      Let uid As String = If(
-                                                         String.IsNullOrEmpty(gene.GeneName),
+                                                         String.IsNullOrEmpty(gene.geneName),
                                                          getID(gene.LocusID),
-                                                         gene.GeneName)
+                                                         gene.geneName)
                                                      Select gene.With(Sub(g) g.LocusID = uid)
             Else
                 ' 仅仅显示基因名称
                 anno = LinqAPI.Exec(Of GeneTable) <=
                     From gene As GeneTable
                     In anno
-                    Select gene.With(Sub(g) g.LocusID = gene.GeneName)
+                    Select gene.With(Sub(g) g.LocusID = gene.geneName)
             End If
 
             ' 然后在这里过滤掉目标名称是空值的位点不进行标签的显示

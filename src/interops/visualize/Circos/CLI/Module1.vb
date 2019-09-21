@@ -103,16 +103,16 @@ Module Module1
         Dim info As New GeneTable With {
             .LocusID = locus_tag,
             .Length = anno.Length,
-            .Left = anno.Minimum,
+            .left = anno.Minimum,
             .Right = anno.Maximum,
             .CDS = anno.Sequence,
             .COG = "-",
             .CommonName = anno.db_xref,
             .EC_Number = "",
             .[Function] = anno.Name,
-            .GeneName = anno.db_xref,
+            .geneName = anno.db_xref,
             .Strand = anno.Direction.GetStrand,
-            .Location = New NucleotideLocation(.Left, .Right, .Strand),
+            .Location = New NucleotideLocation(.left, .Right, .Strand),
             .Translation = anno.translation
         }
 
@@ -129,7 +129,7 @@ Module Module1
 
         For Each gene In annotationtable
             gene.LocusID = ">" & gene.ProteinId
-            gene.GeneName = gene.GeneName Or gene.CommonName.AsDefault
+            gene.geneName = gene.geneName Or gene.CommonName.AsDefault
         Next
 
         Dim nt = Assembly.AssembleOriginal(annotationtable.Select(Function(g) g.AsSegment))

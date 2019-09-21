@@ -178,10 +178,10 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
                       .COG = item.COG_NO,
                       .Strand = item.Strand,
                       .CommonName = item.product,
-                      .GeneName = item.Gene_name,
+                      .geneName = item.Gene_name,
                       .LocusID = item.ORF_ID,
                       .Translation = item.Protein,
-                      .Left = item.Location.Left,
+                      .left = item.Location.Left,
                       .Right = item.Location.Right
                   }
     End Function

@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::bcab7de6ca35ff3b381b3bf7482db341, Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GeneTable
-    ' 
-    '         Properties: [Function], CDS, COG, CommonName, EC_Number
-    '                     GC_Content, GeneName, GI, GO, InterPro
-    '                     Left, Length, Location, LocusID, ProteinId
-    '                     Right, Species, SpeciesAccessionID, Strand, Transl_Table
-    '                     Translation, UniprotSwissProt, UniprotTrEMBL
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GeneTable
+' 
+'         Properties: [Function], CDS, COG, CommonName, EC_Number
+'                     GC_Content, GeneName, GI, GO, InterPro
+'                     Left, Length, Location, LocusID, ProteinId
+'                     Right, Species, SpeciesAccessionID, Strand, Transl_Table
+'                     Translation, UniprotSwissProt, UniprotTrEMBL
+' 
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -67,10 +67,10 @@ Namespace ComponentModel.Annotation
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property LocusID As String Implements INamedValue.Key
-        Public Property GeneName As String
-        Public Property CommonName As String Implements IGeneBrief.Product
-        Public Property Left As Integer
+        Public Property locus_id As String Implements INamedValue.Key
+        Public Property geneName As String
+        Public Property commonName As String Implements IGeneBrief.Product
+        Public Property left As Integer
         Public Property Right As Integer
         Public Property Strand As String
         Public Property [Function] As String
@@ -107,11 +107,11 @@ Namespace ComponentModel.Annotation
         Public Property Length As Integer Implements IGeneBrief.Length
         Public Property Location As NucleotideLocation Implements IGeneBrief.Location
             Get
-                Return New NucleotideLocation(Left, Right, Strand:=Strand)
+                Return New NucleotideLocation(left, Right, Strand:=Strand)
             End Get
             Set(value As NucleotideLocation)
-                Left = value.Left
-                Right = value.Right
+                left = value.left
+                Right = value.right
                 Strand = If(value.Strand = Strands.Forward, "+", "-")
                 Length = value.FragmentSize
             End Set
@@ -120,7 +120,7 @@ Namespace ComponentModel.Annotation
         Public Property EC_Number As String
 
         Public Overrides Function ToString() As String
-            Return LocusID & ": " & CommonName
+            Return locusID & ": " & CommonName
         End Function
     End Class
 End Namespace
