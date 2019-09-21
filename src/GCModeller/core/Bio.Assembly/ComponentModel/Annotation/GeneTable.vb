@@ -78,7 +78,11 @@ Namespace ComponentModel.Annotation
         Public Property UniprotTrEMBL As String
         Public Property ProteinId As String
         Public Property GI As String
-        Public Property GO As String
+        ''' <summary>
+        ''' The Go term id list of current protein object
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property GO As String()
         Public Property InterPro As String()
         Public Property Species As String
         Public Property GC_Content As Double
