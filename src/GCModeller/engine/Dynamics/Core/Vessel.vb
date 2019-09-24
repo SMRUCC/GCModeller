@@ -64,6 +64,9 @@ Namespace Core
         ''' 4. 跨膜转运过程
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 虚拟细胞中的生命活动过程事件网络
+        ''' </remarks>
         Public Property Channels As Channel()
         ''' <summary>
         ''' 当前的这个微环境之中的所有的物质列表，会包括代谢物，氨基酸，RNA等物质信息
@@ -105,7 +108,11 @@ Namespace Core
         ''' 当前的这个微环境的迭代器
         ''' </summary>
         Public Iterator Function ContainerIterator() As IEnumerable(Of NamedValue(Of Double))
-            For Each reaction As Channel In Channels
+            ' 在这里将原始序列随机打乱来模拟现实世界中的平行发生的事件
+            ' 因为在这里会涉及到mass对象的值的修改
+            ' 所以无法使用多线程进行并行计算
+            ' 在这里只能够使用随机+串联来模拟平行事件
+            For Each reaction As Channel In Channels.Shuffles
                 ' 不可以使用Where直接在for循环外进行筛选
                 ' 因为环境是不断地变化的
                 Yield iterateFlux(reaction)
