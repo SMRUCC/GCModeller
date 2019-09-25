@@ -115,6 +115,7 @@ Namespace Pipeline.LocalBlast
 
             Dim domainIDs$() = (From d As DomainModel In domains Select $"{idTable(d.DomainId)}:{d.DomainId}" Distinct).ToArray
             Dim pfamString$() = domains _
+                .OrderBy(Function(d) d.start) _
                 .Select(Function(x)
                             Return $"{x.DomainId}({x.start}|{x.ends})"
                         End Function) _

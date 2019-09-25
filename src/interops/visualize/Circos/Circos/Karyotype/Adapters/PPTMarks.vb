@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::fd2433ce1a1ba17552852d78271564a6, visualize\Circos\Circos\Karyotype\Adapters\PPTMarks.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class PTTMarks
-    ' 
-    '         Properties: Size
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: (+2 Overloads) Generate
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class PTTMarks
+' 
+'         Properties: Size
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: (+2 Overloads) Generate
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -88,7 +88,7 @@ Namespace Karyotype.GeneObjects
                 In genes
                 Select New COGTable With {
                     .COGId = gene.COG,
-                    .ProteinID = gene.LocusID,
+                    .ProteinID = gene.locus_id,
                     .ProteinLength = gene.Length
                 }
             Dim genome = PTTDbLoader.CreateObject(genes, nt)
@@ -106,8 +106,8 @@ Namespace Karyotype.GeneObjects
                         .chrName = "chr1",
                         .bandX = gene.Gene,
                         .bandY = gene.Product.Replace(" ", "_"),
-                        .start = gene.Location.Left,
-                        .end = gene.Location.Right,
+                        .start = gene.Location.left,
+                        .end = gene.Location.right,
                         .color = GetColorProfile(gene.Gene)
                     }
                 Next
@@ -121,8 +121,8 @@ Namespace Karyotype.GeneObjects
                         .chrName = "chr1",
                         .bandX = gene.Gene,
                         .bandY = gene.Product.Replace(" ", "_"),
-                        .start = gene.Location.Left,
-                        .end = gene.Location.Right,
+                        .start = gene.Location.left,
+                        .end = gene.Location.right,
                         .color = "blue"
                     }
                 Next
@@ -135,8 +135,8 @@ Namespace Karyotype.GeneObjects
                     .chrName = "chr1",
                     .bandX = gene.Gene,
                     .bandY = gene.Product.Replace(" ", "_"),
-                    .start = gene.Location.Left,
-                    .end = gene.Location.Right,
+                    .start = gene.Location.left,
+                    .end = gene.Location.right,
                     .color = defaultColor
                 }
             Next
@@ -145,8 +145,8 @@ Namespace Karyotype.GeneObjects
                     .chrName = "chr1",
                     .bandX = gene.Gene,
                     .bandY = gene.Product.Replace(" ", "_"),
-                    .start = gene.Location.Left,
-                    .end = gene.Location.Right,
+                    .start = gene.Location.left,
+                    .end = gene.Location.right,
                     .color = "blue"
                 }
             Next

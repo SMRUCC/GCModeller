@@ -72,7 +72,7 @@ Namespace Assembly.NCBI.GenBank
                                                 In gb.Features
                                                 Where x.ContainsKey("gene")
                                                 Select x
-                Return fs.__dumpCDS
+                Return fs.InternalDumpCDS
             End If
 
             If features Is Nothing Then features = {"5'UTR", "CDS", "regulatory", "misc_feature", "3'UTR"}
@@ -89,25 +89,27 @@ Namespace Assembly.NCBI.GenBank
 
 #Region "Dump Methods"
 
-        Dim _dumpMethods As Dictionary(Of String, Func(Of Feature(), GeneTable())) =
-            New Dictionary(Of String, Func(Of Feature(), GeneTable())) From {
-                {"5'UTR", AddressOf __dump5UTRs},
-                {"3'UTR", AddressOf __dump3UTRs},
-                {"CDS", AddressOf __dumpCDS},
-                {"regulatory", AddressOf __dumpRegulatory},
-                {"misc_feature", AddressOf __dumpMiscFeature}
+        ''' <summary>
+        ''' Method delegates for feature dumping
+        ''' </summary>
+        ReadOnly _dumpMethods As New Dictionary(Of String, Func(Of Feature(), GeneTable())) From {
+                {"5'UTR", AddressOf InternalDump5UTRs},
+                {"3'UTR", AddressOf InternalDump3UTRs},
+                {"CDS", AddressOf InternalDumpCDS},
+                {"regulatory", AddressOf InternalDumpRegulatory},
+                {"misc_feature", AddressOf InternalDumpMiscFeature}
         }
 
-        Private Function __dumpMiscFeature(features As Feature()) As GeneTable()
+        Private Function InternalDumpMiscFeature(features As Feature()) As GeneTable()
             Dim dump As GeneTable() =
                 LinqAPI.Exec(Of Feature, GeneTable)(features) <=
                     Function(feature As Feature) New GeneTable With {
                         .COG = "misc_feature",
                         .Function = feature("note"),
-                        .CommonName = feature("note"),
+                        .commonName = feature("note"),
                         .Location = feature.Location.ContiguousRegion,
-                        .LocusID = feature("locus_tag"),
-                        .GeneName = feature("gene") & "_mics_feature",
+                        .locus_id = feature("locus_tag"),
+                        .geneName = feature("gene") & "_mics_feature",
                         .Translation = feature("translation"),
                         .ProteinId = feature("protein_id"),
                         .CDS = feature.SequenceData
@@ -115,15 +117,15 @@ Namespace Assembly.NCBI.GenBank
             Return dump
         End Function
 
-        Private Function __dumpRegulatory(features As Feature()) As GeneTable()
+        Private Function InternalDumpRegulatory(features As Feature()) As GeneTable()
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "regulatory",
                     .Function = feature("regulatory_class"),
-                    .CommonName = feature("note"),
+                    .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
-                    .LocusID = feature("locus_tag"),
-                    .GeneName = feature("gene") & "_regulatory",
+                    .locus_id = feature("locus_tag"),
+                    .geneName = feature("gene") & "_regulatory",
                     .Translation = feature("translation"),
                     .ProteinId = feature("protein_id"),
                     .CDS = feature.SequenceData
@@ -132,15 +134,15 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         <Extension>
-        Private Function __dumpCDS(features As Feature()) As GeneTable()
+        Private Function InternalDumpCDS(features As Feature()) As GeneTable()
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "CDS",
                     .Function = feature("function"),
-                    .CommonName = feature("note"),
+                    .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
-                    .LocusID = feature("locus_tag"),
-                    .GeneName = feature("gene"),
+                    .locus_id = feature("locus_tag"),
+                    .geneName = feature("gene"),
                     .Translation = feature("translation"),
                     .ProteinId = feature("protein_id"),
                     .CDS = feature.SequenceData
@@ -148,29 +150,29 @@ Namespace Assembly.NCBI.GenBank
             Return dump
         End Function
 
-        <Extension> Private Function __dump5UTRs(features As Feature()) As GeneTable()
+        <Extension> Private Function InternalDump5UTRs(features As Feature()) As GeneTable()
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "5'UTR",
                     .Function = feature("function"),
-                    .CommonName = feature("note"),
+                    .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
-                    .LocusID = $"5'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
-                    .GeneName = $"5'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
+                    .locus_id = $"5'UTR_{feature.Location.ContiguousRegion.left}..{feature.Location.ContiguousRegion.right}",
+                    .geneName = $"5'UTR_{feature.Location.ContiguousRegion.left}..{feature.Location.ContiguousRegion.right}",
                     .CDS = feature.SequenceData
                 }).ToArray
             Return dump
         End Function
 
-        <Extension> Private Function __dump3UTRs(features As Feature()) As GeneTable()
+        <Extension> Private Function InternalDump3UTRs(features As Feature()) As GeneTable()
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "3'UTR",
                     .Function = feature("function"),
-                    .CommonName = feature("note"),
+                    .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
-                    .LocusID = $"3'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
-                    .GeneName = $"3'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
+                    .locus_id = $"3'UTR_{feature.Location.ContiguousRegion.left}..{feature.Location.ContiguousRegion.right}",
+                    .geneName = $"3'UTR_{feature.Location.ContiguousRegion.left}..{feature.Location.ContiguousRegion.right}",
                     .CDS = feature.SequenceData
                 }).ToArray
             Return dump

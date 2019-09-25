@@ -76,7 +76,7 @@ Namespace TrackDatas
                 .Distinct _
                 .ToArray
             Dim Colors = CircosColor.ColorProfiles(COGVector)
-            Dim setValue = New SetValue(Of GeneTable) <= NameOf(GeneTable.LocusID)
+            Dim setValue = New SetValue(Of GeneTable) <= NameOf(GeneTable.locus_id)
             Dim genes As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
  _
             From gene As GeneTable
@@ -86,7 +86,7 @@ Namespace TrackDatas
             Dim highlightLabel As New HighlightLabel(
             (From gene As GeneTable
              In genes
-             Where Not String.IsNullOrEmpty(gene.LocusID)
+             Where Not String.IsNullOrEmpty(gene.locus_id)
              Select gene).ToArray)
             Dim labels As New TextLabel(highlightLabel) With {
                 .r0 = "0.8r",
@@ -321,16 +321,20 @@ Namespace TrackDatas
                 anno = LinqAPI.Exec(Of GeneTable) <= From gene As GeneTable
                                                         In anno
                                                      Let uid As String = If(
-                                                         String.IsNullOrEmpty(gene.GeneName),
-                                                         getID(gene.LocusID),
-                                                         gene.GeneName)
-                                                     Select gene.With(Sub(g) g.LocusID = uid)
+                                                         String.IsNullOrEmpty(gene.geneName),
+                                                         getID(gene.locus_id),
+                                                         gene.geneName)
+                                                     Select gene.With(Sub(g)
+                                                                          g.locus_id = uid
+                                                                      End Sub)
             Else
                 ' 仅仅显示基因名称
                 anno = LinqAPI.Exec(Of GeneTable) <=
                     From gene As GeneTable
                     In anno
-                    Select gene.With(Sub(g) g.LocusID = gene.GeneName)
+                    Select gene.With(Sub(g)
+                                         g.locus_id = gene.geneName
+                                     End Sub)
             End If
 
             ' 然后在这里过滤掉目标名称是空值的位点不进行标签的显示
@@ -338,7 +342,7 @@ Namespace TrackDatas
  _
                 From gene As GeneTable
                 In anno
-                Where Not String.IsNullOrEmpty(gene.LocusID)
+                Where Not String.IsNullOrEmpty(gene.locus_id)
                 Select gene
 
             If LabelGenes.IsNullOrEmpty Then

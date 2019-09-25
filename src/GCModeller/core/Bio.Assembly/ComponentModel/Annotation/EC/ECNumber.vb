@@ -59,27 +59,28 @@ Namespace ComponentModel.Annotation
         ''' EC编号里面的第一个数字代表酶的分类号
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Type As EnzymeClasses
+        <XmlAttribute> Public Property type As EnzymeClasses
 
         ''' <summary>
         ''' 该大类之下的亚分类
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property SubType As Integer
+        <XmlAttribute> Public Property subType As Integer
         ''' <summary>
         ''' 该亚类之下的小分类
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property SubCategory As Integer
+        <XmlAttribute> Public Property subCategory As Integer
 
         ''' <summary>
         ''' 该小分类之下的序号
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property SerialNumber As Integer
+        <XmlAttribute> Public Property serialNumber As Integer
 
         Public Function Contains(ec As String) As Boolean
             Static parserCache As New Dictionary(Of String, ECNumber)
+
             Return parserCache _
                 .ComputeIfAbsent(
                     key:=ec,
@@ -180,6 +181,8 @@ Namespace ComponentModel.Annotation
         ''' </summary>
         ''' <param name="s$"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ValidateValue(s$) As Boolean
             Return s.MatchPattern(regex:=PatternECNumber)
         End Function
