@@ -21,5 +21,17 @@ Namespace Core
                 Return $"{var.Coefficient} {var.Mass.ID}"
             End If
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function GetReactants(r As Channel) As IEnumerable(Of Variable)
+            Return r.left.AsEnumerable
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function GetProducts(r As Channel) As IEnumerable(Of Variable)
+            Return r.right.AsEnumerable
+        End Function
     End Module
 End Namespace
