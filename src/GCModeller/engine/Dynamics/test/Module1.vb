@@ -44,6 +44,7 @@
 Imports Dynamics.Debugger
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
@@ -71,7 +72,7 @@ Module Module1
 
         Call snapshots.SaveTo("./test_mass.csv")
         Call flux.SaveTo("./test_flux.csv")
-        Call envir.ToGraph
+        Call envir.ToGraph.Tabular.Save("./test_network/")
 
         Pause()
     End Sub
