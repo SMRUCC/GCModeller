@@ -41,6 +41,7 @@
 
 #End Region
 
+Imports Dynamics.Debugger
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
@@ -70,6 +71,7 @@ Module Module1
 
         Call snapshots.SaveTo("./test_mass.csv")
         Call flux.SaveTo("./test_flux.csv")
+        Call envir.ToGraph
 
         Pause()
     End Sub
