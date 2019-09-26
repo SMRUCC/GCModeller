@@ -160,5 +160,17 @@ Namespace Core
                 .Min
         End Function
 
+        Public Overrides Function ToString() As String
+            If Direction = Directions.stop Then
+                Return "stopped..."
+            Else
+                Dim left = Me.left.Select(Function(var) $"{var.Coefficient} {var.Mass.ID}").JoinBy(" + ")
+                Dim right = Me.right.Select(Function(var) $"{var.Coefficient} {var.Mass.ID}").JoinBy(" + ")
+                Dim direct$ = If(Direction = Directions.forward, "=>", "<=")
+
+                Return $"{left} {direct} {right}"
+            End If
+        End Function
+
     End Class
 End Namespace
