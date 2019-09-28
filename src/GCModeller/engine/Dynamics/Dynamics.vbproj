@@ -85,6 +85,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Boundary.vb" />
     <Compile Include="Core\Extensions.vb" />
     <Compile Include="Engine\Engine.vb" />
     <Compile Include="Engine\MassTable.vb" />

@@ -66,7 +66,7 @@ Namespace Core
         ''' <returns></returns>
         Public ReadOnly Property Coefficient As Double
             Get
-                If Activation Is Nothing AndAlso Inhibition Is Nothing Then
+                If Activation.IsNullOrEmpty AndAlso Inhibition.IsNullOrEmpty Then
                     Return baseline
                 End If
 
@@ -74,8 +74,8 @@ Namespace Core
                 Dim a = Activation.Sum(Function(v) v.Coefficient * v.Mass.Value)
 
                 If i >= a Then
-                    ' 抑制的总量已经大于等于激活的总量的，则反应过程不会发生
-                    Return 0
+                    ' 抑制的总量已经大于等于激活的总量的，则反应过程可能不会发生
+                    Return baseline - i
                 Else
                     Return a - i
                 End If
@@ -108,6 +108,15 @@ Namespace Core
 
         Public Shared Operator <>(a As Controls, b As Controls) As Boolean
             Return Not a.Coefficient = b.Coefficient
+        End Operator
+
+        ''' <summary>
+        ''' 这个反应在当前方向上是自然发生的，速率为<see cref="baseline"/>
+        ''' </summary>
+        ''' <param name="base"></param>
+        ''' <returns></returns>
+        Public Shared Widening Operator CType(base As Double) As Controls
+            Return New Controls With {.baseline = base}
         End Operator
 
     End Class

@@ -68,7 +68,7 @@ Namespace Core
         ''' 在这里设置反应的正反过程这两个方向上的上下限？
         ''' </summary>
         ''' <returns></returns>
-        Public Property bounds As DoubleRange
+        Public Property bounds As Boundary
 
         ''' <summary>
         ''' 在衡量了<see cref="Forward"/>和<see cref="Reverse"/>的效应大小之后，当前的反应的方向
@@ -100,7 +100,7 @@ Namespace Core
         ''' <param name="regulation"></param>
         ''' <returns></returns>
         Public Function CoverLeft(shares As Dictionary(Of String, Double), regulation#, resolution#) As Double
-            Return minimalUnit(shares, left, regulation, bounds.Max) / resolution#
+            Return minimalUnit(shares, left, regulation, bounds.forward) / resolution#
         End Function
 
         ''' <summary>
@@ -110,7 +110,7 @@ Namespace Core
         ''' <param name="regulation"></param>
         ''' <returns></returns>
         Public Function CoverRight(shares As Dictionary(Of String, Double), regulation#, resolution#) As Double
-            Return minimalUnit(shares, right, regulation, bounds.Min) / resolution#
+            Return minimalUnit(shares, right, regulation, bounds.reverse) / resolution#
         End Function
 
         ''' <summary>

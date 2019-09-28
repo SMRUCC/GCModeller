@@ -81,16 +81,16 @@ Module Module1
     End Sub
 
     Private Iterator Function mass() As IEnumerable(Of Factor)
-        Yield New Factor With {.ID = "A", .Value = 1000}
+        Yield New Factor With {.ID = "A", .Value = 10}
         Yield New Factor With {.ID = "B", .Value = 1000}
-        Yield New Factor With {.ID = "C", .Value = 1000}
+        Yield New Factor With {.ID = "C", .Value = 10000}
         Yield New Factor With {.ID = "D", .Value = 1000}
-        Yield New Factor With {.ID = "E", .Value = 1000}
+        Yield New Factor With {.ID = "E", .Value = 5000}
         Yield New Factor With {.ID = "F", .Value = 1000}
-        Yield New Factor With {.ID = "G", .Value = 1000}
+        Yield New Factor With {.ID = "G", .Value = 3000}
         Yield New Factor With {.ID = "H", .Value = 1000}
-        Yield New Factor With {.ID = "I", .Value = 1000}
-        Yield New Factor With {.ID = "J", .Value = 1000}
+        Yield New Factor With {.ID = "I", .Value = 8000}
+        Yield New Factor With {.ID = "J", .Value = 2000}
     End Function
 
     ''' <summary>
@@ -101,72 +101,72 @@ Module Module1
     Private Iterator Function reactions(massTable As Dictionary(Of String, Factor)) As IEnumerable(Of Channel)
         Dim pop = Iterator Function(names As String()) As IEnumerable(Of Variable)
                       For Each ref In names
-                          Yield New Variable(massTable(ref), 2)
+                          Yield New Variable(massTable(ref), 1)
                       Next
                   End Function
 
         Yield New Channel(pop({"A", "B"}), pop({"C", "D"})) With {
-            .bounds = {5, 50},
+            .bounds = {50, 50},
             .ID = "ABCD",
             .Forward = New Controls,
             .Reverse = New Controls With {.Activation = pop({"B", "D"}).ToArray}}
 
         Yield New Channel(pop({"E", "F"}), pop({"A", "G"})) With {
-            .bounds = {5, 50},
+            .bounds = {50, 50},
             .ID = "EFAG",
             .Forward = New Controls,
             .Reverse = New Controls With {.Activation = pop({"B"}).ToArray}
         }
 
         Yield New Channel(pop({"B"}), pop({"A", "D"})) With {
-            .bounds = {5, 50},
+            .bounds = {50, 50},
             .ID = "BAD",
             .Forward = New Controls With {.Activation = pop({"C", "G", "B"}).ToArray},
             .Reverse = New Controls With {.Activation = pop({"E"}).ToArray}
         }
 
         Yield New Channel(pop({"G"}), pop({"E"})) With {
-            .bounds = {5, 50},
+            .bounds = {50, 50},
             .ID = "GE",
             .Forward = New Controls With {.Activation = pop({"F"}).ToArray}
         }
         Yield New Channel(pop({"E"}), pop({"G", "D", "C"})) With {
-            .bounds = {5, 50},
+            .bounds = {50, 50},
             .ID = "EGDC",
             .Forward = New Controls With {.Activation = pop({"E"}).ToArray},
             .Reverse = New Controls With {.Activation = pop({"C", "D"}).ToArray}
         }
 
         Yield New Channel(pop({"B", "F"}), pop({"H"})) With {
-            .bounds = {5, 50},
+            .bounds = {50, 50},
             .ID = "BFH",
             .Forward = New Controls With {.Activation = pop({"B"}).ToArray},
             .Reverse = New Controls With {.Activation = pop({"I", "D"}).ToArray}
         }
 
         Yield New Channel(pop({"D", "F"}), pop({"H"})) With {
-            .bounds = {5, 50},
+            .bounds = {50, 50},
             .ID = "DFH",
             .Forward = New Controls With {.Activation = pop({"B"}).ToArray},
             .Reverse = New Controls With {.Activation = pop({"I", "D"}).ToArray}
         }
 
         Yield New Channel(pop({"I"}), pop({"G"})) With {
-            .bounds = {5, 50},
+            .bounds = {50, 50},
             .ID = "IG",
            .Forward = New Controls With {.Activation = pop({"B"}).ToArray},
            .Reverse = New Controls With {.Activation = pop({"G", "D"}).ToArray}
        }
 
         Yield New Channel(pop({"H"}), pop({"I", "D"})) With {
-            .bounds = {5, 50},
+            .bounds = {50, 50},
             .ID = "HID",
            .Forward = New Controls With {.Activation = pop({"B", "H"}).ToArray},
            .Reverse = New Controls With {.Activation = pop({"A"}).ToArray}
        }
 
         Yield New Channel(pop({"I", "D"}), pop({"J", "B"})) With {
-            .bounds = {5, 50},
+            .bounds = {50, 50},
             .ID = "IDJB",
            .Forward = New Controls With {.Activation = pop({"A"}).ToArray},
            .Reverse = New Controls With {.Activation = pop({"C"}).ToArray}
