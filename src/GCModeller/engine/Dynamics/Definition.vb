@@ -64,6 +64,8 @@ Public Class Definition
 
 #Region "Object maps"
 
+    ' 当初主要是使用这种固定的映射来处理一些特定的模板事件
+
     ''' <summary>
     ''' 
     ''' </summary>

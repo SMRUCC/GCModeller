@@ -115,7 +115,7 @@ Public Class Loader
             Dim right = massTable.variables(reaction.products)
 
             channels += New Channel(left, right) With {
-                .bounds = reaction.bounds,
+                .bounds = New Boundary With {.forward = reaction.bounds.Max, .reverse = reaction.bounds.Min},
                 .ID = reaction.ID,
                 .Forward = New Controls With {
                     .Activation = massTable.variables(reaction.enzyme, 1)
@@ -126,7 +126,7 @@ Public Class Loader
 
         Return New Vessel With {
             .Channels = channels,
-            .Mass = massTable.ToArray
+            .MassEnvironment = massTable.ToArray
         }
     End Function
 
