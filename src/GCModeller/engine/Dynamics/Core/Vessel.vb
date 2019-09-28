@@ -150,7 +150,7 @@ Namespace Core
         End Function
 
         Private Function doReverseTransition(reaction As Channel) As Double
-            Dim regulate = reaction.Reverse.Coefficient
+            Dim regulate = reaction.reverse.coefficient
 
             If regulate > 0 Then
                 regulate = reaction.CoverRight(shareFactors.right, regulate, resolution)
@@ -168,7 +168,7 @@ Namespace Core
         ''' <param name="reaction"></param>
         ''' <returns></returns>
         Private Function doForwardTransition(reaction As Channel) As Double
-            Dim regulate = reaction.Forward.Coefficient
+            Dim regulate = reaction.forward.coefficient
 
             If regulate > 0 Then
                 ' 当前是具有调控效应的

@@ -20,8 +20,8 @@ Module unitTest
         Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 2)}) With {
             .bounds = {10, 500},
             .ID = "a->b",
-            .Forward = 300,
-            .Reverse = New Controls With {.baseline = 0.05, .Activation = {New Variable(b, 1)}}
+            .forward = 300,
+            .reverse = New Controls With {.baseline = 0.05, .activation = {New Variable(b, 1)}}
         }
 
         Dim machine As New Vessel() With {.Channels = {reaction}, .MassEnvironment = {a, b}}
@@ -58,20 +58,20 @@ Module unitTest
         Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 2)}) With {
             .bounds = {10, 500},
             .ID = "a->b",
-            .Forward = 300,
-            .Reverse = New Controls With {.baseline = 0.05, .Activation = {New Variable(b, 1)}}
+            .forward = 300,
+            .reverse = New Controls With {.baseline = 0.05, .activation = {New Variable(b, 1)}}
         }
         Dim reaction2 As New Channel({New Variable(b, 1)}, {New Variable(c, 2)}) With {
             .bounds = {10, 500},
             .ID = "b->c",
-            .Forward = 300,
-            .Reverse = New Controls With {.baseline = 0.05, .Activation = {New Variable(a, 1)}}
+            .forward = 300,
+            .reverse = New Controls With {.baseline = 0.05, .activation = {New Variable(a, 1)}}
         }
         Dim reaction3 As New Channel({New Variable(c, 4)}, {New Variable(a, 1)}) With {
             .bounds = {10, 500},
             .ID = "c->a",
-            .Forward = 300,
-            .Reverse = New Controls With {.baseline = 0.05, .Activation = {New Variable(a, 0.01)}}
+            .forward = 300,
+            .reverse = New Controls With {.baseline = 0.05, .activation = {New Variable(a, 0.01)}}
         }
 
         Dim machine As New Vessel() With {.Channels = {reaction, reaction2, reaction3}, .MassEnvironment = {a, b, c}}

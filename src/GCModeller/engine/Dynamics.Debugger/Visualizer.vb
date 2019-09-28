@@ -93,14 +93,14 @@ Public Module Visualizer
             Next
 
             ' add regulation controls
-            If Not reaction.Forward Is Nothing Then
-                Call g.addRegulations(reaction.ID, reaction.Forward.Activation, "forward_active")
-                Call g.addRegulations(reaction.ID, reaction.Forward.Inhibition, "forward_inhibit")
+            If Not reaction.forward Is Nothing Then
+                Call g.addRegulations(reaction.ID, reaction.forward.activation, "forward_active")
+                Call g.addRegulations(reaction.ID, reaction.forward.inhibition, "forward_inhibit")
             End If
 
-            If Not reaction.Reverse Is Nothing Then
-                Call g.addRegulations(reaction.ID, reaction.Reverse.Activation, "reverse_active")
-                Call g.addRegulations(reaction.ID, reaction.Reverse.Inhibition, "reverse_inhibit")
+            If Not reaction.reverse Is Nothing Then
+                Call g.addRegulations(reaction.ID, reaction.reverse.activation, "reverse_active")
+                Call g.addRegulations(reaction.ID, reaction.reverse.inhibition, "reverse_inhibit")
             End If
         Next
 
