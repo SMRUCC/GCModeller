@@ -35,7 +35,10 @@ Public Module Visualizer
                 .data = New NodeData With {
                     .label = reaction.ID,
                     .origID = reaction.ID,
-                    .mass = reaction.Direction
+                    .mass = reaction.Direction,
+                    .Properties = New Dictionary(Of String, String) From {
+                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"}
+                    }
                 }
             }
 
