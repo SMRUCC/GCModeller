@@ -126,7 +126,7 @@ Public Class Loader
 
         Return New Vessel With {
             .Channels = channels,
-            .Mass = massTable.ToArray
+            .MassEnvironment = massTable.ToArray
         }
     End Function
 
