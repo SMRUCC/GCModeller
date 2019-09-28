@@ -160,5 +160,13 @@ Namespace Core
                 .Min
         End Function
 
+        Public Overrides Function ToString() As String
+            If Direction = Directions.stop Then
+                Return "stopped..."
+            Else
+                Return Core.ToString(Me)
+            End If
+        End Function
+
     End Class
 End Namespace
