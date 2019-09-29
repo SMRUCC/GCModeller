@@ -46,7 +46,7 @@ Module HugeNetworkTest
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
 
-        For i As Integer = 0 To 100000
+        For i As Integer = 0 To 1000
             flux += New DataSet With {
                 .ID = i,
                 .Properties = cell.ContainerIterator().ToDictionary.FlatTable
@@ -55,6 +55,8 @@ Module HugeNetworkTest
                 .ID = i,
                 .Properties = mass.ToDictionary(Function(m) m.Key, Function(m) m.Value.Value)
             }
+
+            Call i.__DEBUG_ECHO
         Next
 
         Call snapshots.SaveTo("./test_mass.csv")
