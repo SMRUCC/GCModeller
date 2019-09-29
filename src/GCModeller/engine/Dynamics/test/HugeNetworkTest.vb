@@ -26,7 +26,7 @@ Module HugeNetworkTest
         Dim left, right As Variable()
         Dim equation As DefaultTypes.Equation
 
-        For Each reaction As Reaction In reactions
+        For Each reaction As Reaction In reactions.GroupBy(Function(r) r.ID).Select(Function(rg) rg.First)
             equation = reaction.ReactionModel
             left = equation.Reactants.Select(Function(c) New Variable(mass(c.ID), c.StoiChiometry)).ToArray
             right = equation.Products.Select(Function(c) New Variable(mass(c.ID), c.StoiChiometry)).ToArray
