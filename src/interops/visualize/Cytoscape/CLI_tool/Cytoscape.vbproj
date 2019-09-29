@@ -303,6 +303,10 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
+      <Name>Bio.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\models\Networks\KEGG\KEGG.vbproj">
       <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
       <Name>KEGG</Name>
