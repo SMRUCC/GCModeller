@@ -330,7 +330,7 @@ Public Module Extensions
         End If
 
         Return Reflector _
-            .__save(___source:=data,
+            .doSave(objSource:=data,
                     typeDef:=type,
                     strict:=False,
                     schemaOut:=Nothing) _
