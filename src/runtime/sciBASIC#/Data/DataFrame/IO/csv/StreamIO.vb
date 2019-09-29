@@ -71,8 +71,9 @@ Namespace IO
         ''' </summary>
         ''' <param name="header"></param>
         ''' <param name="types">A candidate type list</param>
-        ''' <returns></returns>
-        ''' 
+        ''' <returns>
+        ''' 一个也都没有匹配上, 则这个函数会返回空值
+        ''' </returns>
         <Extension>
         Public Function [TypeOf](header As RowObject, ParamArray types As Type()) As Type
             Dim scores As New List(Of (Type, Integer))

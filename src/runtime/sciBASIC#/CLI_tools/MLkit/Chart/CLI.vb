@@ -40,6 +40,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -169,14 +170,51 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
     Public Function RegressionROC(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.ROC.png"
-        Dim data = [in].LoadCsv(Of RegressionClassify) _
-            .Select(Function(p)
-                        Return New Validate With {
-                            .actuals = {p.actual},
-                            .predicts = {p.predicts}
-                        }
-                    End Function) _
-            .ToArray
+        Dim data As Validate()
+
+        If MappingsHelper.Typeof([in], GetType(RegressionClassify)) Is GetType(RegressionClassify) Then
+            data = [in].LoadCsv(Of RegressionClassify) _
+                .Select(Function(p)
+                            Return New Validate With {
+                                .actuals = {p.actual},
+                                .predicts = {p.predicts}
+                            }
+                        End Function) _
+                .ToArray
+        Else
+            Dim labelPredicts$ = args <= "/label.predicts"
+            Dim labelActuals$ = args <= "/label.actuals"
+            Dim positivePattern$ = args <= "/positive.pattern"
+            Dim resultSet As EntityObject() = EntityObject.LoadDataSet([in]).ToArray
+            Dim parseActual As Func(Of String, Double)
+
+            If Not positivePattern.StringEmpty Then
+                Dim allPredictsValues = resultSet.Vector(labelPredicts).AsDouble
+                Dim positive = allPredictsValues.Max
+                Dim negative = Math.Min(allPredictsValues.Min, 0)
+                Dim pattern As New Regex(positivePattern, RegexICSng)
+
+                parseActual = Function(label As String) As Double
+                                  If pattern.Match(label).Success Then
+                                      Return positive
+                                  Else
+                                      Return negative
+                                  End If
+                              End Function
+            Else
+                parseActual = AddressOf Val
+            End If
+
+            data = resultSet _
+                .Select(Function(r)
+                            Return New Validate With {
+                                .actuals = {parseActual(r(labelActuals))},
+                                .predicts = {Val(r(labelPredicts))}
+                            }
+                        End Function) _
+                .ToArray
+        End If
+
         Dim actuals = data _
             .Select(Function(p) p.actuals(Scan0)) _
             .ToArray
