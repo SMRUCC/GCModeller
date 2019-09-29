@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::ac64aeb9e7501941c2c93388796f03a4, CLI_tools\MLkit\Chart\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: BarPlotCLI, KMeansCluster, RegressionROC, ROC, Scatter
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: BarPlotCLI, KMeansCluster, RegressionROC, ROC, Scatter
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -148,12 +148,24 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
     End Function
 
     <ExportAPI("/ROC.regression")>
-    <Usage("/ROC.regression /in <validate.test.csv> [/out <ROC.png>]")>
+    <Usage("/ROC.regression /in <validate.test.csv> [/label.predicts <labelName> /label.actuals <labelName> /positive.pattern <actual_label.pattern> /out <ROC.png>]")>
     <Description("Draw ROC chart plot of the regression classifier output result.")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
-              AcceptTypes:={GetType(RegressionClassify)},
+              AcceptTypes:={GetType(RegressionClassify), GetType(DataSet)},
               Extensions:="*.csv",
               Description:="")>
+    <Argument("/label.predicts", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The column title name label for read sample dataset predicts data.")>
+    <Argument("/label.actuals", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The column title name label for read sample dataset actual classify labels. 
+              The value in this column should be integer value. ALL ZERO value is negative labels.")>
+    <Argument("/positive.pattern", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="If the ``/label.predicts`` is not the integer labels value, 
+              but have sample id data, and the positive label can be parse from the id data, 
+              then you could specific this argument a regular expression pattern for parse such positive pattern.")>
     Public Function RegressionROC(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.ROC.png"
