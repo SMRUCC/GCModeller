@@ -77,8 +77,9 @@ Imports File_csv = Microsoft.VisualBasic.Data.csv.IO.File
 ''' <remarks></remarks>
 '''
 <Package("IO_Device.Csv.Extensions",
-                  Description:="The shortcuts operation for the common csv document operations.",
-                  Publisher:="xie.guigang@gmail.com")>
+        Description:="The shortcuts operation for the common csv document operations.",
+        Publisher:="xie.guigang@gmail.com")>
+<HideModuleName>
 Public Module Extensions
 
     Sub New()
@@ -700,11 +701,11 @@ Public Module Extensions
         Return data
     End Function
 
-    <Extension> Public Sub Cable(Of T)(Method As LoadObject(Of T))
+    <Extension> Public Sub Cable(Of T)(method As LoadObject(Of T))
         Dim type As Type = GetType(T)
         Dim name As String = type.FullName
         Dim helper As New __loadHelper(Of T) With {
-            .handle = Method
+            .handle = method
         }
 
         Call CapabilityPromise(name, type, AddressOf helper.LoadObject)
