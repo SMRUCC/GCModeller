@@ -18,7 +18,7 @@ Module HugeNetworkTest
         For Each reaction As Reaction In reactions
             For Each name As String In reaction.GetSubstrateCompounds
                 If Not mass.ContainsKey(name) Then
-                    mass(name) = New Factor With {.ID = name, .Value = 1000}
+                    mass(name) = New Factor With {.ID = name, .Value = 3000}
                 End If
             Next
         Next
@@ -32,9 +32,9 @@ Module HugeNetworkTest
             right = equation.Products.Select(Function(c) New Variable(mass(c.ID), c.StoiChiometry)).ToArray
 
             channels += New Channel(left, right) With {
-                .bounds = {10, 10},
-                .forward = 3,
-                .reverse = 3,
+                .bounds = {300, 300},
+                .forward = New Controls With {.baseline = 100, .inhibition = right.Select(Function(v) New Variable(v.Mass, 0.025)).ToArray},
+                .reverse = New Controls With {.baseline = 100, .inhibition = left.Select(Function(v) New Variable(v.Mass, 0.025)).ToArray},
                 .ID = reaction.ID
             }
         Next
@@ -46,7 +46,7 @@ Module HugeNetworkTest
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
 
-        For i As Integer = 0 To 1000
+        For i As Integer = 0 To 5000
             flux += New DataSet With {
                 .ID = i,
                 .Properties = cell.ContainerIterator().ToDictionary.FlatTable
