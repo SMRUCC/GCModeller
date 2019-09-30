@@ -40,20 +40,25 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.Drawing.Drawing2D
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Data
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Evaluation
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -110,9 +115,43 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
     End Function
 
     <ExportAPI("/lines")>
-    <Usage("/lines /x <label> /y <label.list> [/color <colorsetname, default=> /out <output.png>]")>
+    <Usage("/lines /in <source.csv> /x <label> /y <label.list> [/color <colorsetname, default=> /out <output.png>]")>
     Public Function LinePlot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim xLabel$ = args <= "/x"
+        Dim yLabels$() = Tokenizer.CharsParser(args <= "/y")
+        Dim colors As LoopArray(Of Color) = Designer.GetColors(args("/color") Or "")
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.plot({xLabel.NormalizePathString}, {yLabels.JoinBy(",").NormalizePathString(False)}).png"
+        Dim table As File = File.Load([in])
+        Dim x As Double() = table.GetColumnObjects(xLabel, AddressOf Val).ToArray
+        Dim serials = yLabels _
+            .Select(Function(ylabel)
+                        Dim y = table.GetColumnObjects(ylabel, AddressOf Val).ToArray
+                        Dim points = x.Select(Function(xi, i) New PointF(xi, y(i))).ToArray
+                        Dim serial As New SerialData With {
+                            .color = colors.Next(),
+                            .lineType = DashStyle.Solid,
+                            .PointSize = 10,
+                            .title = ylabel,
+                            .width = 5,
+                            .Shape = LegendStyles.Triangle,
+                            .pts = points _
+                                .Select(Function(p)
+                                            Return New PointData With {
+                                                .pt = p
+                                            }
+                                        End Function) _
+                                .ToArray
+                        }
 
+                        Return serial
+                    End Function) _
+            .ToArray
+
+        Return ChartPlots.Scatter _
+            .Plot(serials, drawLine:=True, fill:=False) _
+            .Save(out) _
+            .CLICode
     End Function
 
     <ExportAPI("/kmeans")>
