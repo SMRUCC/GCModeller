@@ -576,6 +576,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DATA\Extensions.vb" />
     <Compile Include="DATA\Union.vb" />
     <Compile Include="DATA\DataFrame.vb" />
     <Compile Include="DATA\MySQL.vb" />

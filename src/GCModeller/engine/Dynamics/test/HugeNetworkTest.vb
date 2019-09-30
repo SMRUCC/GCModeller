@@ -11,7 +11,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Module HugeNetworkTest
 
     Sub Main()
-        Dim reactions = (ls - l - r - "*.Xml" <= "D:\biodeep\biodeep_v2\data\KEGG\br08201\1. Oxidoreductase reactions").Select(Function(path) path.LoadXml(Of Reaction)).ToArray
+        Dim reactions = (ls - l - r - "*.Xml" <= "D:\biodeep\biodeep_v2\data\KEGG\br08201").Select(AddressOf Reaction.LoadXml).ToArray
         Dim mass As New Dictionary(Of String, Factor)
         Dim channels As New List(Of Channel)
 
