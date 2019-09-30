@@ -109,6 +109,12 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
         Throw New NotImplementedException
     End Function
 
+    <ExportAPI("/lines")>
+    <Usage("/lines /x <label> /y <label.list> [/color <colorsetname, default=> /out <output.png>]")>
+    Public Function LinePlot(args As CommandLine) As Integer
+
+    End Function
+
     <ExportAPI("/kmeans")>
     <Usage("/kmeans /in <matrix.csv> [/n <expected_cluster_numbers, default=3> /out <clusters.csv>]")>
     <Group("Data tools")>

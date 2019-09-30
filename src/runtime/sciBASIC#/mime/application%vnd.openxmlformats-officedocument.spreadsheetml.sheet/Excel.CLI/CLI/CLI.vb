@@ -65,6 +65,7 @@ Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
     <ExportAPI("/name.values")>
     <Usage("/name.values /in <table.csv> /name <fieldName> /value <fieldName> [/describ <descriptionInfo.fieldName, default=Description> /out <values.csv>]")>
+    <Description("Subset of the input table file by columns, produce a <name,value,description> dataset.")>
     Public Function NameValues(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim name$ = args <= "/name"
@@ -86,6 +87,15 @@ Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
             .ToArray
 
         Return maps.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/subset")>
+    <Description("Subset of the table file by a given specific column labels")>
+    <Usage("/subset /in <table.csv> /columns <column.list> [/out <subset.csv>]")>
+    Public Function SubsetByColumns(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim columns$() = Tokenizer.CharsParser(args <= "/columns")
+
     End Function
 
     ''' <summary>
