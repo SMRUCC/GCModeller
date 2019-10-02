@@ -82,7 +82,35 @@ Partial Module CLI
     <Usage("/UniProt.GO.faa /in <uniprot.xml> [/lineBreak <default=120> /out <proteins.faa>]")>
     <Description("Export all of the protein sequence from the Uniprot database which have GO term id been assigned.")>
     Public Function ExportGOFromUniprot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.KO.faa"
+        Dim lineBreak As Integer = args("/lineBreak") Or 120
 
+        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+            For Each fa As FastaSeq In UniProtXML _
+                .EnumerateEntries(path:=[in]) _
+                .UniProtProteinExports(Function(prot)
+                                           Dim GOterms = prot.dbReferences _
+                                              .Where(Function(xref) xref.type = "GO") _
+                                              .ToArray
+
+                                           If GOterms.IsNullOrEmpty Then
+                                               Return Nothing
+                                           Else
+                                               Return GOterms _
+                                                   .Select(Function(term) term.id) _
+                                                   .Distinct _
+                                                   .JoinBy(",")
+                                           End If
+                                       End Function)
+
+                Call fa _
+                    .GenerateDocument(lineBreak) _
+                    .DoCall(AddressOf writer.WriteLine)
+            Next
+        End Using
+
+        Return 0
     End Function
 
     ''' <summary>
