@@ -83,7 +83,7 @@ Partial Module CLI
     <Description("Export all of the protein sequence from the Uniprot database which have GO term id been assigned.")>
     Public Function ExportGOFromUniprot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.KO.faa"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GO.faa"
         Dim lineBreak As Integer = args("/lineBreak") Or 120
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
