@@ -51,6 +51,11 @@ Namespace Assembly.Uniprot.XML
 
     <HideModuleName> Public Module Extensions
 
+        ''' <summary>
+        ''' Get protein sequence
+        ''' </summary>
+        ''' <param name="prot"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ProteinSequence(prot As entry) As String
