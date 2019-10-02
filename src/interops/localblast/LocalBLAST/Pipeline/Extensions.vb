@@ -80,12 +80,6 @@ Namespace Pipeline
             Dim fa As FastaSeq
 
             For Each prot As entry In source.Where(Function(g) Not g.sequence Is Nothing)
-                Dim KO As dbReference = prot.KO
-
-                If KO Is Nothing Then
-                    Continue For
-                End If
-
                 If (term = getAnnotationTerm(prot)).StringEmpty Then
                     Continue For
                 End If
