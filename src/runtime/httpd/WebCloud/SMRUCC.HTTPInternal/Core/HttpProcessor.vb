@@ -56,6 +56,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Net.Http
 Imports sys = System.Math
 
 ' offered to the public domain for any use with no restriction
@@ -184,7 +185,7 @@ Namespace Core
                 Call __processInvoker()
             Catch e As Exception
                 Call e.PrintException
-                writeFailure(e.ToString)
+                writeFailure(HTTP_RFC.RFC_INTERNAL_SERVER_ERROR, e.ToString)
             End Try
 
             Try
@@ -466,7 +467,7 @@ Namespace Core
         ''' <summary>
         ''' 404
         ''' </summary>
-        Public Sub writeFailure(ex As String)
+        Public Sub writeFailure(errCode%, ex As String)
             Try
                 Call __writeFailure(ex)
             Catch e As Exception

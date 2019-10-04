@@ -1,52 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::db303801ba67233f659a4c04adb23d9a, WebCloud\SMRUCC.HTTPInternal\AppEngine\API\APIInvoker.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class APIInvoker
-    ' 
-    '         Properties: EntryPoint, Help, Method, Name
-    ' 
-    '         Function: __handleERROR, __invoke, __invokePOST, Fakes, Invoke
-    '                   InvokePOST, ToString, VirtualPath
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class APIInvoker
+' 
+'         Properties: EntryPoint, Help, Method, Name
+' 
+'         Function: __handleERROR, __invoke, __invokePOST, Fakes, Invoke
+'                   InvokePOST, ToString, VirtualPath
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Reflection
-Imports System.Text
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 Namespace AppEngine.APIMethods
@@ -54,20 +55,47 @@ Namespace AppEngine.APIMethods
     Public Class APIInvoker : Implements INamedValue
 
         Public Property Name As String Implements INamedValue.Key
-        Public Property EntryPoint As MethodInfo
         Public Property Help As String
         Public Property Method As APIMethod
+
+        ''' <summary>
+        ''' 这个属性提供外部dll中的Api方法的执行入口点
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property EntryPoint As MethodInfo
+
+        ReadOnly getArguments As NamedValue(Of Func(Of HttpRequest, Object))()
+
+        Sub New(entryPoint As MethodInfo)
+            Dim parameters = entryPoint.GetParameters
+
+            If parameters.Length < 2 Then
+                Throw New InvalidProgramException($"Api method should have two required parameters: one is for request input and another is for response output.")
+            ElseIf parameters.Length = 2 Then
+                getArguments = Nothing
+            Else
+                getArguments = parameters _
+                    .DoCall(AddressOf getParameters) _
+                    .ToArray
+            End If
+
+            Me.EntryPoint = entryPoint
+        End Sub
+
+        Private Shared Iterator Function getParameters(parameters As ParameterInfo()) As IEnumerable(Of NamedValue(Of Func(Of HttpRequest, Object)))
+
+        End Function
 
         Public Overrides Function ToString() As String
             Return Name
         End Function
 
         <POST(GetType(Boolean))>
-        Public Function InvokePOST(App As Object, request As HttpPOSTRequest, response As HttpResponse) As Boolean
+        Public Function Invoke(App As Object, request As HttpPOSTRequest, response As HttpResponse) As Boolean
             Try
-                Return __invokePOST(App, request, response)
+                Return doExternalInvoke(App, request, response)
             Catch ex As Exception
-                Return __handleERROR(ex, request.URL, response)
+                Return internalHandleERROR(ex, request.URL, response)
             End Try
         End Function
 
@@ -78,88 +106,58 @@ Namespace AppEngine.APIMethods
         <[GET](GetType(Boolean))>
         Public Function Invoke(App As Object, request As HttpRequest, response As HttpResponse) As Boolean
             Try
-                Return __invoke(App, request, response)
+                Return doExternalInvoke(App, request, response)
             Catch ex As Exception
-                Return __handleERROR(ex, request.URL, response)
+                Return internalHandleERROR(ex, request.URL, response)
             End Try
         End Function
 
-        Private Function __handleERROR(ex As Exception, url As String, ByRef response As HttpResponse) As Boolean
+        Private Function internalHandleERROR(ex As Exception, url As String, ByRef response As HttpResponse) As Boolean
             Dim result As String
             ex = New Exception("Request page: " & url, ex)
 
 #If DEBUG Then
             result = ex.ToString
 #Else
-            result = Fakes(ex.ToString)
+            result = APIMethods.Fakes(ex)
 #End If
             Call App.LogException(ex)
             Call ex.PrintException
-            Call response.Write404(result)
+            Call response.WriteError(500, result)
 
             Return False
         End Function
 
-        Private Function VirtualPath(strData As String(), prefix As String) As Dictionary(Of String, String)
-            Dim LQuery = From source As String
-                         In strData
-                         Let trimPrefix = Regex.Replace(source, "in [A-Z][:]\\", "", RegexOptions.IgnoreCase)
-                         Let line = Regex.Match(trimPrefix, "[:]line \d+").Value
-                         Let path = trimPrefix.Replace(line, "")
-                         Select source,
-                             path
-
-            Dim LTokens = (From obj
-                           In LQuery
-                           Let tokens As String() = obj.path.Split("\"c)
-                           Select tokens,
-                               obj.source).ToArray
-            Dim p As Integer
-
-            If LTokens.Length = 0 Then
-                Return New Dictionary(Of String, String)
+        ''' <summary>
+        ''' <paramref name="app"/>.Method(<paramref name="request"/>, <paramref name="response"/>)
+        ''' </summary>
+        ''' <param name="app"></param>
+        ''' <param name="request"></param>
+        ''' <param name="response"></param>
+        ''' <returns></returns>
+        Private Function doExternalInvoke(app As Object, request As HttpRequest, response As HttpResponse) As Boolean
+            If getArguments Is Nothing Then
+                Return EntryPoint.Invoke(app, {request, response})
+            Else
+                Return InvokeSpecificArgumentMethod(app, request, response)
             End If
+        End Function
 
-            For i As Integer = 0 To (From obj In LTokens Select obj.tokens.Length).Min - 1
-                p = i
+        ''' <summary>
+        ''' <paramref name="app"/>.Method(arg1, arg2, ..., argn, <paramref name="request"/>, <paramref name="response"/>)
+        ''' </summary>
+        ''' <param name="app"></param>
+        ''' <param name="request"></param>
+        ''' <param name="response"></param>
+        ''' <returns></returns>
+        Private Function InvokeSpecificArgumentMethod(app As Object, request As HttpRequest, response As HttpResponse) As Boolean
+            Dim args As New List(Of Object)
 
-                If (From n In LTokens Select n.tokens(p) Distinct).Count > 1 Then
-                    Exit For
-                End If
+            For Each getter In getArguments
+                args += getter(request)
             Next
 
-            Dim LSkips = (From obj In LTokens Select obj.source, obj.tokens.Skip(p).ToArray).ToArray
-            Dim LpreFakes = (From obj In LSkips
-                             Select obj.source,
-                                 virtual = String.Join("/", obj.ToArray).Replace(".vb", ".vbs")).ToArray
-            Dim hash As Dictionary(Of String, String) = LpreFakes.ToDictionary(
-                Function(obj) obj.source,
-                Function(obj) $"in {prefix}/{obj.virtual}:line {CInt(5000 * Rnd() + 100)}")
-            Return hash
-        End Function
-
-        Const virtual As String = "/root/ubuntu.d~/->/wwwroot/~azure.microsoft.com/api.vbs?virtual=ms_visualBasic_sh:/"
-
-        Private Function Fakes(ex As String) As String
-            Dim line As String() = Regex.Matches(ex, "in .+?[:]line \d+").ToArray
-            Dim hash As Dictionary(Of String, String) = VirtualPath(line, virtual)
-            Dim sbr As New StringBuilder(ex)
-
-            For Each obj In hash
-                Call sbr.Replace(obj.Key, obj.Value)
-            Next
-
-            Return sbr.ToString
-        End Function
-
-        Private Function __invokePOST(App As Object, request As HttpPOSTRequest, response As HttpResponse) As Boolean
-            Dim value As Object = EntryPoint.Invoke(App, {request, response})
-            Return DirectCast(value, Boolean)
-        End Function
-
-        Private Function __invoke(App As Object, request As HttpRequest, response As HttpResponse) As Boolean
-            Dim value As Object = EntryPoint.Invoke(App, {request, response})
-            Return DirectCast(value, Boolean)
+            Return EntryPoint.Invoke(app, args + {request, response})
         End Function
     End Class
 End Namespace

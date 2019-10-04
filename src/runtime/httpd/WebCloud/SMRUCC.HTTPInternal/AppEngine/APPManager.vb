@@ -107,8 +107,7 @@ Namespace AppEngine
         ''' <param name="app">假若是模块Module，则使用这个默认的空值，假若是Class中的实例方法，则还需要把那个Class对象传递进来</param>
         ''' <param name="help$"></param>
         Public Sub Join(url$, method As APIMethod, API As MethodInfo, Optional app As Object = Nothing, Optional help$ = "No help info...")
-            dynamics(url.ToLower) = (app, New APIInvoker With {
-                .EntryPoint = API,
+            dynamics(url.ToLower) = (app, New APIInvoker(API) With {
                 .Help = help,
                 .Method = method,
                 .Name = url

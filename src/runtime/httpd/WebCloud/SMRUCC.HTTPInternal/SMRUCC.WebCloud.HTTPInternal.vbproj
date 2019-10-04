@@ -496,6 +496,7 @@
     <Compile Include="AppEngine\APIName.vb" />
     <Compile Include="AppEngine\API\APIMethod.vb" />
     <Compile Include="AppEngine\API\Abstract.vb" />
+    <Compile Include="AppEngine\API\Extensions.vb" />
     <Compile Include="AppEngine\JsonResponse.vb" />
     <Compile Include="Core\FileSystem\InternalUpdates.vb" />
     <Compile Include="Core\HttpRequest\HttpRequest.vb" />
@@ -538,6 +539,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Platform\AccessController\Access.vb" />
+    <Compile Include="Platform\AccessController\Accept.vb" />
+    <Compile Include="Platform\AccessController\Uses.vb" />
     <Compile Include="Platform\TaskWorker.vb" />
     <Compile Include="Platform\PlatformEngine.vb" />
     <Compile Include="Platform\Plugin\Scripting.vb" />
