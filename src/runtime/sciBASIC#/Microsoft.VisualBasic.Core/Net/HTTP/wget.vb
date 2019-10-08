@@ -95,6 +95,12 @@ Namespace Net.Http
         ''' <param name="resp"></param>
         Private Sub ReportRequest(req As WebRequest, resp As WebResponse, remote$) Handles task.ReportRequest
             Dim domain As New DomainName(task.url)
+            Dim contentSize$ = resp.ContentLength
+            Dim sizePrettyPrint$ = StringFormats.Lanudry(resp.ContentLength) Or "N/A".When(resp.ContentLength = -1)
+
+            If contentSize = "-1" Then
+                contentSize = "<Unknown Size>"
+            End If
 
             Call Console.WriteLine()
 
@@ -103,9 +109,9 @@ Namespace Net.Http
             Call ClearLine() : Console.WriteLine()
             Call ClearLine() : Console.WriteLine($"Resolving {resp.ResponseUri.Host} ({domain})... {remote}")
             Call ClearLine() : Console.WriteLine($"==> METHOD ... {req.Method}/{req.RequestUri.Scheme} {DirectCast(req, HttpWebRequest).ProtocolVersion}")
-            Call ClearLine() : Console.WriteLine($"==> SIZE {task.saveFile.FileName} ... {resp.ContentLength}")
+            Call ClearLine() : Console.WriteLine($"==> SIZE {task.saveFile.FileName} ... {contentSize}")
             Call ClearLine() : Console.WriteLine($"==> CONTENT-TYPE ... {resp.ContentType}")
-            Call ClearLine() : Console.WriteLine($"Length: {resp.ContentLength} ({StringFormats.Lanudry(resp.ContentLength)})")
+            Call ClearLine() : Console.WriteLine($"Length: {contentSize} ({sizePrettyPrint})")
 
             Call Console.WriteLine()
 
