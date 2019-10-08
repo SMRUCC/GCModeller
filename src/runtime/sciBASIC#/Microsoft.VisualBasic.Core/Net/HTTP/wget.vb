@@ -118,6 +118,13 @@ Namespace Net.Http
             cursorTop = Console.CursorTop
         End Sub
 
+        ''' <summary>
+        ''' 执行有详细进度信息显示的文件下载操作, 如果只需要调用一个单纯的文件下载函数, 
+        ''' 请使用<see cref="DownloadFile(String, String, String, String, Integer, DownloadProgressChangedEventHandler, String, String)"/>拓展函数
+        ''' </summary>
+        ''' <param name="url$"></param>
+        ''' <param name="save$"></param>
+        ''' <returns></returns>
         Public Shared Function Download(url$, Optional save$ = Nothing) As Boolean
             Dim local As New Value(Of String)
             Dim task As New wget(url, local = save Or $"./{url.Split("?"c).First.FileName}".AsDefault)

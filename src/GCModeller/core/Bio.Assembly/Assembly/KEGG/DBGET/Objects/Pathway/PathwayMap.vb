@@ -314,7 +314,8 @@ EXIT_LOOP:
         Public Shared Function DownloadPathwayMap(sp$, entry$, EXPORT$) As Boolean
             Dim url As String = $"http://www.genome.jp/kegg/pathway/{sp}/{sp}{entry}.png"
             Dim path$ = String.Format("{0}/{1}{2}.png", EXPORT, sp, entry)
-            Return url.DownloadFile(save:=path)
+
+            Return wget.Download(url, save:=path)
         End Function
     End Class
 End Namespace
