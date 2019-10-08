@@ -122,7 +122,7 @@ Namespace Net.Http
 RE:
             Try
                 Call doTaskInternal()
-            Catch ex As Exception
+            Catch ex As Exception When Not TypeOf ex Is NotImplementedException
                 If retry < 3 Then
                     retry += 1
                     GoTo RE

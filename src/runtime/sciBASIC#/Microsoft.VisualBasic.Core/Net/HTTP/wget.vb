@@ -71,6 +71,10 @@ Namespace Net.Http
             End If
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return task.url
+        End Function
+
         Private Sub DownloadProcess(wget As wgetTask, percentage As Double) Handles task.DownloadProcess
             Console.CursorTop = cursorTop
             ClearLine()
