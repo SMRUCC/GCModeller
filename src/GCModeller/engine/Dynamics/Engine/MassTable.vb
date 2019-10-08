@@ -104,6 +104,11 @@ Public Class MassTable : Implements IRepository(Of String, Factor)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function GetByKey(keys As IEnumerable(Of String)) As Factor()
+        Return massTable.Takes(keys)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetWhere(clause As Func(Of Factor, Boolean)) As IReadOnlyDictionary(Of String, Factor) Implements IRepositoryRead(Of String, Factor).GetWhere
         Return massTable.Values.Where(clause).ToDictionary
     End Function

@@ -331,6 +331,10 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\data\GO_gene-ontology\GO_Annotation\GO_Annotation.vbproj">
+      <Project>{a0870a07-8513-4b44-8886-6243a6bfc255}</Project>
+      <Name>GO_Annotation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>

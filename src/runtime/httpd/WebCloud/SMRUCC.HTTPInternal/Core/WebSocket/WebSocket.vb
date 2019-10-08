@@ -71,6 +71,14 @@ Namespace Core.WebSocket
         Dim connected As New List(Of WsProcessor)
         Dim activator As WebsocketActivator
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="url"></param>
+        ''' <param name="port"></param>
+        ''' <param name="activator">
+        ''' Function(<see cref="TcpClient"/>) As <see cref="WsProcessor"/>
+        ''' </param>
         Sub New(url$, port%, activator As WebsocketActivator)
             MyBase.New(IPAddress.Parse(url), port)
 

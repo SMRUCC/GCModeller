@@ -60,21 +60,25 @@ Namespace Core
         Friend left As Variable()
         Friend right As Variable()
 
-        Public Property Forward As Controls
-        Public Property Reverse As Controls
+        Public Property forward As Controls
+        Public Property reverse As Controls
 
         ''' <summary>
         ''' 因为细胞微环境内的容量很小，没有办法使整个反应过程以很大的速率来进行
         ''' 在这里设置反应的正反过程这两个方向上的上下限？
         ''' </summary>
         ''' <returns></returns>
-        Public Property bounds As DoubleRange
+        Public Property bounds As Boundary
 
-        Public Overloads ReadOnly Property Direction As Directions
+        ''' <summary>
+        ''' 在衡量了<see cref="forward"/>和<see cref="reverse"/>的效应大小之后，当前的反应的方向
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overloads ReadOnly Property direct As Directions
             Get
-                If Forward > Reverse Then
+                If forward > reverse Then
                     Return Directions.forward
-                ElseIf Reverse > Forward Then
+                ElseIf reverse > forward Then
                     Return Directions.reverse
                 Else
                     Return Directions.stop
@@ -82,32 +86,32 @@ Namespace Core
             End Get
         End Property
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="shares">事件并行化模拟因子</param>
-        ''' <param name="regulation"></param>
-        ''' <returns></returns>
-        Public Function CoverLeft(shares As Dictionary(Of String, Double), regulation As Double) As Double
-            Return minimalUnit(shares, left, regulation, bounds.Max)
-        End Function
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="shares">事件并行化模拟因子</param>
-        ''' <param name="regulation"></param>
-        ''' <returns></returns>
-        Public Function CoverRight(shares As Dictionary(Of String, Double), regulation As Double) As Double
-            Return minimalUnit(shares, right, regulation, bounds.Min)
-        End Function
-
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         Sub New(left As IEnumerable(Of Variable), right As IEnumerable(Of Variable))
             Me.left = left.ToArray
             Me.right = right.ToArray
         End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="shares">事件并行化模拟因子</param>
+        ''' <param name="regulation"></param>
+        ''' <returns></returns>
+        Public Function CoverLeft(shares As Dictionary(Of String, Double), regulation#, resolution#) As Double
+            Return minimalUnit(shares, left, regulation, bounds.forward) / resolution#
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="shares">事件并行化模拟因子</param>
+        ''' <param name="regulation"></param>
+        ''' <returns></returns>
+        Public Function CoverRight(shares As Dictionary(Of String, Double), regulation#, resolution#) As Double
+            Return minimalUnit(shares, right, regulation, bounds.reverse) / resolution#
+        End Function
 
         ''' <summary>
         ''' 
@@ -158,6 +162,14 @@ Namespace Core
                             Return Math.Min(reactionUnit, max)
                         End Function) _
                 .Min
+        End Function
+
+        Public Overrides Function ToString() As String
+            If direct = Directions.stop Then
+                Return "stopped..."
+            Else
+                Return Core.ToString(Me)
+            End If
         End Function
 
     End Class

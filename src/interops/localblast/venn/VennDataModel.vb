@@ -96,9 +96,11 @@ Namespace BlastAPI
             Dim GroupData = (From ORF As GeneTable
                              In dumpInfo.AsParallel
                              Select ORF
-                             Group By ORF.LocusID Into Group)
-            Dim hash = GroupData.ToDictionary(Function(x) x.LocusID,
-                                              Function(x) x.Group.First)
+                             Group By ORF.locus_id Into Group)
+            Dim hash = GroupData.ToDictionary(Function(x) x.locus_id,
+                                              Function(x)
+                                                  Return x.Group.First
+                                              End Function)
             Return hash
         End Function
 

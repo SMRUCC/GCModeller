@@ -165,7 +165,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
 
                 Call compound.GetXml.SaveTo(xmlFile)
             Else
-                Throw New NotImplementedException
+                Call entryID.Warning
             End If
         End Sub
     End Module

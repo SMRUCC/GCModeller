@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::2a54014adca76eaaf9fc508b8416a3f8, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module gbExportService
-    ' 
-    '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
-    '                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, DumpEXPORT, ExportGeneFeatures
-    '                   ExportGeneNtFasta, ExportPTTAsDump, GbffToPTT, InvokeExport, LoadGbkSource
-    '                   TryParseGBKID
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module gbExportService
+' 
+'         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
+'                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, DumpEXPORT, ExportGeneFeatures
+'                   ExportGeneNtFasta, ExportPTTAsDump, GbffToPTT, InvokeExport, LoadGbkSource
+'                   TryParseGBKID
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -80,23 +80,23 @@ Namespace Assembly.NCBI.GenBank
         Public Function DumpEXPORT(obj As CDS) As GeneTable
             Dim gene As New GeneTable
 
-            Call obj.TryGetValue("product", gene.CommonName)
-            Call obj.TryGetValue("locus_tag", gene.LocusID)
+            Call obj.TryGetValue("product", gene.commonName)
+            Call obj.TryGetValue("locus_tag", gene.locus_id)
             Call obj.TryGetValue("protein_id", gene.ProteinId)
-            Call obj.TryGetValue("gene", gene.GeneName)
+            Call obj.TryGetValue("gene", gene.geneName)
             Call obj.TryGetValue("translation", gene.Translation)
             Call obj.TryGetValue("function", gene.Function)
-            Call obj.TryGetValue("transl_table", gene.Transl_Table)
+            Call obj.TryGetValue("transl_table", gene.Transl_table)
 
-            If String.IsNullOrEmpty(gene.LocusID) Then
-                gene.LocusID = gene.ProteinId
+            If String.IsNullOrEmpty(gene.locus_id) Then
+                gene.locus_id = gene.ProteinId
             End If
-            If String.IsNullOrEmpty(gene.LocusID) Then
-                gene.LocusID = (From ref As String
+            If String.IsNullOrEmpty(gene.locus_id) Then
+                gene.locus_id = (From ref As String
                                 In obj.QueryDuplicated("db_xref")
-                                Let Tokens As String() = ref.Split(CChar(":"))
-                                Where String.Equals(Tokens.First, "PSEUDO")
-                                Select Tokens.Last).FirstOrDefault
+                                 Let Tokens As String() = ref.Split(CChar(":"))
+                                 Where String.Equals(Tokens.First, "PSEUDO")
+                                 Select Tokens.Last).FirstOrDefault
             End If
 
             gene.GI = obj.db_xref_GI
@@ -113,8 +113,8 @@ Namespace Assembly.NCBI.GenBank
             'End If
 
             Try
-                gene.Left = obj.Location.ContiguousRegion.Left
-                gene.Right = obj.Location.ContiguousRegion.Right
+                gene.left = obj.Location.ContiguousRegion.left
+                gene.right = obj.Location.ContiguousRegion.right
                 gene.Strand = If(obj.Location.Complement, "-", "+")
             Catch ex As Exception
                 Dim msg As String = $"{obj.gb.Accession.AccessionId} location data is null!"
@@ -379,7 +379,7 @@ Namespace Assembly.NCBI.GenBank
                                 Let GeneFastaDump = CType((From GeneObject In GBKFF.Features._innerList.AsParallel
                                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                                            Let loc = GeneObject.Location.ContiguousRegion
-                                                           Let Sequence As String = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
+                                                           Let Sequence As String = reader.CutSequenceLinear(loc.left, loc.right).SequenceData
                                                            Select New FASTA.FastaSeq With {
                                                                .Headers = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
                                                                .SequenceData = If(GeneObject.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
@@ -430,7 +430,7 @@ Namespace Assembly.NCBI.GenBank
                 In gbk.Features._innerList.AsParallel
                 Where String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
                 Select gene = New CDS(feature).DumpEXPORT
-                Order By gene.LocusID Ascending
+                Order By gene.locus_id Ascending
 
             Return dumps
         End Function
@@ -443,25 +443,25 @@ Namespace Assembly.NCBI.GenBank
                 Select New GeneTable With {
                     .CDS = "",
                     .COG = gene.COG,
-                    .CommonName = gene.Gene,
+                    .commonName = gene.Gene,
                     .EC_Number = "-",
                     .Function = gene.Product,
                     .GC_Content = 0,
-                    .GeneName = gene.Gene,
+                    .geneName = gene.Gene,
                     .GI = "-",
-                    .GO = "-",
+                    .GO = {},
                     .InterPro = {},
-                    .Left = gene.Location.Left,
+                    .left = gene.Location.left,
                     .Length = gene.Location.FragmentSize,
                     .Location = gene.Location,
-                    .LocusID = gene.Synonym,
+                    .locus_id = gene.Synonym,
                     .ProteinId = gene.Synonym,
-                    .Right = gene.Location.Right,
+                    .right = gene.Location.right,
                     .Species = "",
                     .SpeciesAccessionID = "",
                     .Strand = gene.Location.Strand.ToString,
                     .Translation = "",
-                    .Transl_Table = "",
+                    .Transl_table = "",
                     .UniprotSwissProt = "",
                     .UniprotTrEMBL = ""
                 }
@@ -529,7 +529,7 @@ Namespace Assembly.NCBI.GenBank
                 Dim GeneFastaDump = CType((From GeneObject In gb.Features._innerList.AsParallel
                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                            Let loc = GeneObject.Location.ContiguousRegion
-                                           Let Sequence As String = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
+                                           Let Sequence As String = reader.CutSequenceLinear(loc.left, loc.right).SequenceData
                                            Select New FASTA.FastaSeq With {
                                                .Headers = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
                                                .SequenceData = If(GeneObject.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
@@ -562,7 +562,7 @@ Namespace Assembly.NCBI.GenBank
                 In data.AsParallel
                 Let fa As FASTA.FastaSeq =
                     New FASTA.FastaSeq With {
-                        .Headers = New String() {gene.LocusID},
+                        .Headers = New String() {gene.locus_id},
                         .SequenceData = gene.Translation
                     }
                 Select fa
@@ -572,7 +572,7 @@ Namespace Assembly.NCBI.GenBank
         Private Function __exportWithAnnotation(data As GeneTable()) As FASTA.FastaFile
             Dim LQuery = From gene As GeneTable
                          In data.AsParallel
-                         Let attrs As String() = {gene.LocusID, gene.GeneName, gene.GI, gene.CommonName, gene.Function, gene.Species}
+                         Let attrs As String() = {gene.locus_id, gene.geneName, gene.GI, gene.commonName, gene.Function, gene.Species}
                          Select New FASTA.FastaSeq With {
                              .Headers = attrs,
                              .SequenceData = gene.Translation
@@ -624,10 +624,10 @@ Namespace Assembly.NCBI.GenBank
                     End If
 
                     [function] = products.SafeGetValue(locus_tag)?.Function
-                    [function] = If([function].StringEmpty, products.SafeGetValue(locus_tag)?.CommonName, [function])
+                    [function] = If([function].StringEmpty, products.SafeGetValue(locus_tag)?.commonName, [function])
                     loc = gene.Location.ContiguousRegion
                     attrs = {locus_tag, gene.Location.ToString, [function]}
-                    Sequence = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
+                    Sequence = reader.CutSequenceLinear(loc.left, loc.right).SequenceData
                     Sequence = If(gene.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
 
                     list += New FastaSeq(attrs, Sequence)

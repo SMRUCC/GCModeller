@@ -60,7 +60,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
     Public Class CDS : Inherits Feature
 
         Public Property db_xref_GI As String
-        Public Property db_xref_GO As String
+        Public Property db_xref_GO As String()
         Public Property db_xref_InterPro As String()
         Public Property db_xref_UniprotKBSwissProt As String
         Public Property db_xref_UniprotKBTrEMBL As String
@@ -91,7 +91,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                     Function(a) (From o In a.Group Select o.value).ToArray)
 
                 Call db_xref.TryGetValue("GI", tmp) : If Not tmp.IsNullOrEmpty Then db_xref_GI = tmp.First
-                Call db_xref.TryGetValue("GOA", tmp) : If Not tmp.IsNullOrEmpty Then db_xref_GO = tmp.First
+                Call db_xref.TryGetValue("GOA", tmp) : If Not tmp.IsNullOrEmpty Then db_xref_GO = tmp
                 Call db_xref.TryGetValue("UniProtKB/Swiss-Prot", tmp) : If Not tmp.IsNullOrEmpty Then db_xref_UniprotKBSwissProt = tmp.First
                 Call db_xref.TryGetValue("UniProtKB/TrEMBL", tmp) : If Not tmp.IsNullOrEmpty Then db_xref_UniprotKBTrEMBL = tmp.First
                 Call db_xref.TryGetValue("InterPro", db_xref_InterPro)

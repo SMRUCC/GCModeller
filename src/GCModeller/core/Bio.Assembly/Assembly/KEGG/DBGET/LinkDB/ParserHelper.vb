@@ -55,8 +55,8 @@ Namespace Assembly.KEGG.DBGET.LinkDB
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function LinkDbEntries(url As String, Optional cache$ = "./.kegg/linkdb/", Optional offline As Boolean = False) As IEnumerable(Of NamedValue)
-            Return GenericParser.LinkDbEntries(url, cache, offline)
+        Public Function LinkDbEntries(url As String, Optional cacheRoot$ = "./", Optional offline As Boolean = False) As IEnumerable(Of NamedValue)
+            Return GenericParser.LinkDbEntries(url, $"{cacheRoot}/.kegg/linkdb/", offline)
         End Function
 
         <Extension>

@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::62eea015c289e8539c35fd51d49767e8, CLI_tools\CLI\BBH\UniProtTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: ExportKOFromUniprot, getSuffix, proteinEXPORT, UniProtBBHMapTable, UniProtKOAssign
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: ExportKOFromUniprot, getSuffix, proteinEXPORT, UniProtBBHMapTable, UniProtKOAssign
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
@@ -77,6 +78,41 @@ Partial Module CLI
         Return table.Tsv(out,, reversed:=reversed).CLICode
     End Function
 
+    <ExportAPI("/UniProt.GO.faa")>
+    <Usage("/UniProt.GO.faa /in <uniprot.xml> [/lineBreak <default=120> /out <proteins.faa>]")>
+    <Description("Export all of the protein sequence from the Uniprot database which have GO term id been assigned.")>
+    Public Function ExportGOFromUniprot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GO.faa"
+        Dim lineBreak As Integer = args("/lineBreak") Or 120
+
+        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+            For Each fa As FastaSeq In UniProtXML _
+                .EnumerateEntries(path:=[in]) _
+                .UniProtProteinExports(Function(prot)
+                                           Dim GOterms = prot.dbReferences _
+                                              .Where(Function(xref) xref.type = "GO") _
+                                              .ToArray
+
+                                           If GOterms.IsNullOrEmpty Then
+                                               Return Nothing
+                                           Else
+                                               Return GOterms _
+                                                   .Select(Function(term) term.id) _
+                                                   .Distinct _
+                                                   .JoinBy(",")
+                                           End If
+                                       End Function)
+
+                Call fa _
+                    .GenerateDocument(lineBreak) _
+                    .DoCall(AddressOf writer.WriteLine)
+            Next
+        End Using
+
+        Return 0
+    End Function
+
     ''' <summary>
     ''' 从uniprot数据库之中导出具有KO编号的所有蛋白序列
     ''' </summary>
@@ -96,31 +132,24 @@ Partial Module CLI
     Public Function ExportKOFromUniprot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.KO.faa"
-        Dim i As i32 = 0
         Dim lineBreak As Integer = args("/lineBreak") Or 120
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
-            Dim source As IEnumerable(Of UniProtEntry) = UniProtXML.EnumerateEntries(path:=[in])
+            For Each fa As FastaSeq In UniProtXML _
+                .EnumerateEntries(path:=[in]) _
+                .UniProtProteinExports(Function(prot)
+                                           Dim KO = prot.KO
 
-            For Each prot As UniProtEntry In source.Where(Function(g) Not g.sequence Is Nothing)
-                Dim KO As dbReference = prot.KO
+                                           If KO Is Nothing Then
+                                               Return Nothing
+                                           Else
+                                               Return KO.id
+                                           End If
+                                       End Function)
 
-                If KO Is Nothing Then
-                    Continue For
-                End If
-
-                Dim seq As String = prot.ProteinSequence
-                Dim fa As New FastaSeq With {
-                    .SequenceData = seq,
-                    .Headers = {KO.id, prot.accessions.First & " " & prot.proteinFullName, prot.organism.scientificName}
-                }
-
-                Call writer.WriteLine(fa.GenerateDocument(lineBreak))
-
-                If ++i Mod 100 = 0 Then
-                    Console.Write(i)
-                    Console.Write(vbTab)
-                End If
+                Call fa _
+                    .GenerateDocument(lineBreak) _
+                    .DoCall(AddressOf writer.WriteLine)
             Next
         End Using
 

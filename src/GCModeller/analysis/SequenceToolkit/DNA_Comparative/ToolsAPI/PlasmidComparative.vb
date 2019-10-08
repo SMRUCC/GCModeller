@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::cfec952bec9ba6e13ed608bada418aa6, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PlasmidComparative.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module PlasmidComparative
-    ' 
-    '     Function: __generateCols, __row, CreateDeltaMatrix, PlasmidPartitioning
-    ' 
-    ' /********************************************************************************/
+' Module PlasmidComparative
+' 
+'     Function: __generateCols, __row, CreateDeltaMatrix, PlasmidPartitioning
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -64,9 +64,11 @@ Public Module PlasmidComparative
         Dim ORF = (From gene As GeneTable
                    In CdsInfo
                    Select gene
-                   Group By gene.LocusID Into Group) _
-                         .ToDictionary(Function(gene) gene.LocusID,
-                                       Function(gene) gene.Group.First)
+                   Group By gene.locus_id Into Group) _
+                         .ToDictionary(Function(gene) gene.locus_id,
+                                       Function(gene)
+                                           Return gene.Group.First
+                                       End Function)
         Dim Regions As List(Of String()) =
             New List(Of String())(ConservedRegions) + From id As String
                                                       In Besthits.GetUnConservedRegions(ConservedRegions)
@@ -77,7 +79,7 @@ Public Module PlasmidComparative
                                                  Let pos As Integer() = (From id As String
                                                                          In ls
                                                                          Let nn As GeneTable = ORF(id)
-                                                                         Select {nn.Left, nn.Right}).ToVector
+                                                                         Select {nn.left, nn.right}).ToVector
                                                  Let left As Integer = pos.Min
                                                  Let right As Integer = pos.Max
                                                  Select New PartitioningData With {
