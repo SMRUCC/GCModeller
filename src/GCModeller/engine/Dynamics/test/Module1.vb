@@ -108,68 +108,68 @@ Module Module1
         Yield New Channel(pop({"A", "B"}), pop({"C", "D"})) With {
             .bounds = {50, 50},
             .ID = "ABCD",
-            .Forward = New Controls,
-            .Reverse = New Controls With {.Activation = pop({"B", "D"}).ToArray}}
+            .forward = New Controls,
+            .reverse = New Controls With {.activation = pop({"B", "D"}).ToArray}}
 
         Yield New Channel(pop({"E", "F"}), pop({"A", "G"})) With {
             .bounds = {50, 50},
             .ID = "EFAG",
-            .Forward = New Controls,
-            .Reverse = New Controls With {.Activation = pop({"B"}).ToArray}
+            .forward = New Controls,
+            .reverse = New Controls With {.activation = pop({"B"}).ToArray}
         }
 
         Yield New Channel(pop({"B"}), pop({"A", "D"})) With {
             .bounds = {50, 50},
             .ID = "BAD",
-            .Forward = New Controls With {.Activation = pop({"C", "G", "B"}).ToArray},
-            .Reverse = New Controls With {.Activation = pop({"E"}).ToArray}
+            .forward = New Controls With {.activation = pop({"C", "G", "B"}).ToArray},
+            .reverse = New Controls With {.activation = pop({"E"}).ToArray}
         }
 
         Yield New Channel(pop({"G"}), pop({"E"})) With {
             .bounds = {50, 50},
             .ID = "GE",
-            .Forward = New Controls With {.Activation = pop({"F"}).ToArray}
+            .forward = New Controls With {.activation = pop({"F"}).ToArray}
         }
         Yield New Channel(pop({"E"}), pop({"G", "D", "C"})) With {
             .bounds = {50, 50},
             .ID = "EGDC",
-            .Forward = New Controls With {.Activation = pop({"E"}).ToArray},
-            .Reverse = New Controls With {.Activation = pop({"C", "D"}).ToArray}
+            .forward = New Controls With {.activation = pop({"E"}).ToArray},
+            .reverse = New Controls With {.activation = pop({"C", "D"}).ToArray}
         }
 
         Yield New Channel(pop({"B", "F"}), pop({"H"})) With {
             .bounds = {50, 50},
             .ID = "BFH",
-            .Forward = New Controls With {.Activation = pop({"B"}).ToArray},
-            .Reverse = New Controls With {.Activation = pop({"I", "D"}).ToArray}
+            .forward = New Controls With {.activation = pop({"B"}).ToArray},
+            .reverse = New Controls With {.activation = pop({"I", "D"}).ToArray}
         }
 
         Yield New Channel(pop({"D", "F"}), pop({"H"})) With {
             .bounds = {50, 50},
             .ID = "DFH",
-            .Forward = New Controls With {.Activation = pop({"B"}).ToArray},
-            .Reverse = New Controls With {.Activation = pop({"I", "D"}).ToArray}
+            .forward = New Controls With {.activation = pop({"B"}).ToArray},
+            .reverse = New Controls With {.activation = pop({"I", "D"}).ToArray}
         }
 
         Yield New Channel(pop({"I"}), pop({"G"})) With {
             .bounds = {50, 50},
             .ID = "IG",
-           .Forward = New Controls With {.Activation = pop({"B"}).ToArray},
-           .Reverse = New Controls With {.Activation = pop({"G", "D"}).ToArray}
+           .forward = New Controls With {.activation = pop({"B"}).ToArray},
+           .reverse = New Controls With {.activation = pop({"G", "D"}).ToArray}
        }
 
         Yield New Channel(pop({"H"}), pop({"I", "D"})) With {
             .bounds = {50, 50},
             .ID = "HID",
-           .Forward = New Controls With {.Activation = pop({"B", "H"}).ToArray},
-           .Reverse = New Controls With {.Activation = pop({"A"}).ToArray}
+           .forward = New Controls With {.activation = pop({"B", "H"}).ToArray},
+           .reverse = New Controls With {.activation = pop({"A"}).ToArray}
        }
 
         Yield New Channel(pop({"I", "D"}), pop({"J", "B"})) With {
             .bounds = {50, 50},
             .ID = "IDJB",
-           .Forward = New Controls With {.Activation = pop({"A"}).ToArray},
-           .Reverse = New Controls With {.Activation = pop({"C"}).ToArray}
+           .forward = New Controls With {.activation = pop({"A"}).ToArray},
+           .reverse = New Controls With {.activation = pop({"C"}).ToArray}
        }
     End Function
 End Module

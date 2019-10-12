@@ -117,10 +117,10 @@ Public Class Loader
             channels += New Channel(left, right) With {
                 .bounds = New Boundary With {.forward = reaction.bounds.Max, .reverse = reaction.bounds.Min},
                 .ID = reaction.ID,
-                .Forward = New Controls With {
-                    .Activation = massTable.variables(reaction.enzyme, 1)
+                .forward = New Controls With {
+                    .activation = massTable.variables(reaction.enzyme, 1)
                 },
-                .Reverse = New Controls With {.baseline = 10}
+                .reverse = New Controls With {.baseline = 10}
             }
         Next
 

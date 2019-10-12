@@ -157,6 +157,8 @@ Namespace Core
             _virtualMappings = New Dictionary(Of String, String)
             RequestStream = requestResource Or defaultResource
 
+            Call $"WWWROOT={root.GetDirectoryFullPath}".__INFO_ECHO
+
             Dim size$ = App.GetVariable("MAX_POST_SIZE")
 
             If size.StringEmpty Then
@@ -518,7 +520,7 @@ Namespace Core
         Public Overrides Sub handleOtherMethod(p As HttpProcessor)
             Dim msg As String = $"Unsupport {NameOf(p.http_method)}:={p.http_method}"
             Call msg.__DEBUG_ECHO
-            Call p.writeFailure(msg)
+            Call p.writeFailure(HTTP_RFC.RFC_METHOD_NOT_ALLOWED, msg)
         End Sub
 
         Public Overrides Sub handlePUTMethod(p As HttpProcessor, inputData$)

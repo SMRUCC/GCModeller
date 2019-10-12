@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::9da350c1e5d0c5c2778b11cf19de43f6, visualize\Cytoscape\CLI_tool\CLI\KEGG.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __classNetwork, __mergeCommon, __pathwayNetwork, __typeNetwork, BuildKOLinks
-    '               KEGGPathwayMapNetwork, ModsNET, ModuleRegulations, ReactionNET, WriteReactionTable
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __classNetwork, __mergeCommon, __pathwayNetwork, __typeNetwork, BuildKOLinks
+'               KEGGPathwayMapNetwork, ModsNET, ModuleRegulations, ReactionNET, WriteReactionTable
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,11 +49,14 @@ Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Model.Network.KEGG
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
@@ -89,13 +92,13 @@ Partial Module CLI
         Dim regulations = (From x In Footprints
                            Let regulation = New FileStream.NetworkEdge With {
                                .value = x.Pcc,
-                               .FromNode = x.Regulator,
-                               .ToNode = x.ORF,
-                               .Interaction = "Regulation"
+                               .fromNode = x.Regulator,
+                               .toNode = x.ORF,
+                               .interaction = "Regulation"
                            }
                            Select regulation
-                           Group regulation By regulation.ToNode Into Group) _
-                               .ToDictionary(Function(x) x.ToNode,
+                           Group regulation By regulation.toNode Into Group) _
+                               .ToDictionary(Function(x) x.toNode,
                                              Function(x) x.Group.ToArray)
         Dim outDIR As String = FileIO.FileSystem.GetDirectoryInfo(args("/out")).FullName
 
@@ -111,7 +114,7 @@ Partial Module CLI
 
         For Each kMod In Networks
             Dim edges = kMod.Value _
-                .Nodes _
+                .nodes _
                 .Select(Function(x) regulations.TryGetValue(x.ID)) _
                 .Unlist
             Dim Path As String = $"{outDIR}/{kMod.Key}/"
@@ -120,8 +123,8 @@ Partial Module CLI
                 Continue For
             End If
 
-            Call kMod.Value.Nodes.Add(regulators)
-            Call kMod.Value.Edges.Add(edges)
+            Call kMod.Value.nodes.Add(regulators)
+            Call kMod.Value.edges.Add(edges)
             Call kMod.Value.Save(Path, Encodings.UTF8)
         Next
 
@@ -173,9 +176,9 @@ Partial Module CLI
     End Function
 
     Private Function __mergeCommon(source As IEnumerable(Of ______NETWORK__)) As ______NETWORK__
-        Dim Nods = source.Where(Function(x) Not x Is Nothing).Select(Function(x) x.Nodes).Unlist
+        Dim Nods = source.Where(Function(x) Not x Is Nothing).Select(Function(x) x.nodes).Unlist
         Dim Edges As List(Of FileStream.NetworkEdge) =
-            source.Where(Function(x) Not x Is Nothing).Select(Function(x) x.Edges).Unlist
+            source.Where(Function(x) Not x Is Nothing).Select(Function(x) x.edges).Unlist
 
         Dim __nodes = LinqAPI.Exec(Of Node) <=
             From node
@@ -197,8 +200,8 @@ Partial Module CLI
                            id = edge.GetDirectedGuid
                        Group By id Into Group).Select(Function(x) x.Group.First.edge)
         Dim net As ______NETWORK__ = New ______NETWORK__ With {
-            .Edges = __edges,
-            .Nodes = __nodes
+            .edges = __edges,
+            .nodes = __nodes
         }
         Return net
     End Function
@@ -212,12 +215,12 @@ Partial Module CLI
     Private Function __pathwayNetwork(model As XmlModel, networks As Dictionary(Of String, ______NETWORK__)) As Dictionary(Of String, ______NETWORK__)
         Dim dict As New Dictionary(Of String, ______NETWORK__)
 
-        For Each ph As bGetObject.Pathway In model.GetAllPathways
-            If ph.Modules.IsNullOrEmpty Then
+        For Each ph As Pathway In model.GetAllPathways
+            If ph.modules.IsNullOrEmpty Then
                 Continue For
             End If
 
-            Dim LQuery = (From m In ph.Modules
+            Dim LQuery = (From m In ph.modules
                           Let km = networks.TryGetValue(m.name)
                           Where Not km Is Nothing
                           Select km).ToArray
@@ -282,27 +285,27 @@ Partial Module CLI
             Call net.AddFootprints(footprints, brief)
             If brief Then
                 Dim LQuery = (From x As FileStream.NetworkEdge
-                              In net.Edges
-                              Where String.Equals(x.Interaction, PathwayGene)
+                              In net.edges
+                              Where String.Equals(x.interaction, PathwayGene)
                               Select x
-                              Group x By x.FromNode Into Group)  ' 代谢途径基因按照模块分组
+                              Group x By x.fromNode Into Group)  ' 代谢途径基因按照模块分组
                 Dim rhaves As String() = footprints.Select(Function(x) x.ORF).Distinct.ToArray
                 Dim Trim = (From m In LQuery
                             Where (From x As FileStream.NetworkEdge In m.Group
-                                   Where Array.IndexOf(rhaves, x.ToNode) > -1
+                                   Where Array.IndexOf(rhaves, x.toNode) > -1
                                    Select x).FirstOrDefault Is Nothing
                             Select m).ToArray
                 nulls = New FileStream.NetworkTables + Trim.Select(Function(x) x.Group).IteratesALL ' 添加新的网络节点
-                net -= nulls.Edges  ' 删除旧的网络节点
-                nulls += net <= nulls.Edges.Select(Function(x) {x.FromNode, x.ToNode}).IteratesALL
-                net -= nulls.Nodes
+                net -= nulls.edges  ' 删除旧的网络节点
+                nulls += net <= nulls.edges.Select(Function(x) {x.fromNode, x.toNode}).IteratesALL
+                net -= nulls.nodes
             End If
         End If
 
         If cut <> 0R Then  ' 按照阈值筛选
-            net.Edges =
+            net.edges =
                 LinqAPI.Exec(Of NetworkEdge) <= From x As NetworkEdge
-                                                In net.Edges
+                                                In net.edges
                                                 Where Math.Abs(x.value) >= cut
                                                 Select x
             out = out & "." & cut
@@ -325,7 +328,7 @@ Partial Module CLI
 
         If node.FileExists(True) Then
             Dim data = EntityObject.LoadDataSet(node)
-            Dim nodes As New Dictionary(Of Node)(graph.Nodes)
+            Dim nodes As New Dictionary(Of Node)(graph.nodes)
 
             For Each n As EntityObject In data
                 If nodes.ContainsKey(n.ID) Then
@@ -349,6 +352,33 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", [in].TrimDIR & ".table.csv")
         Dim table As ReactionTable() = ReactionTable.Load(br08201:=[in]).ToArray
         Return table.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 主要是用于生成网络之中的代谢物节点的信息
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Write.Compounds.Table")>
+    <Usage("/Write.Compounds.Table /in <kegg_compounds.DIR> [/out <out.csv>]")>
+    <Group(CLIGrouping.KEGGTools)>
+    Public Function WriteKEGGCompoundsSummary(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimDIR}.table.csv"
+        Dim result As New List(Of EntityObject)
+
+        For Each compound As Compound In CompoundRepository.ScanRepository([in], False)
+            result += New EntityObject With {
+                .ID = compound.entry,
+                .Properties = New Dictionary(Of String, String) From {
+                    {"name", compound.commonNames.SafeQuery.FirstOrDefault Or compound.entry.AsDefault},
+                    {"reaction", compound.reactionId.JoinBy("|")},
+                    {"image", compound.Image}
+                }
+            }
+        Next
+
+        Return result.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("/KO.link")>

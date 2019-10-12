@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.APIInvoker" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="21.75" Y="0.5" Width="1.5" />
+    <Position X="25.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAEIQAAEEBAgAEQABAAAAAAAAAABAAAAAAA=</HashCode>
       <FileName>AppEngine\API\APIInvoker.vb</FileName>
@@ -11,7 +11,7 @@
   <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.APIMethod" Collapsed="true">
     <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIBAAAAAABgBAAAAAAAAAAAAAAAAAAQADAAAAAAAAA=</HashCode>
+      <HashCode>AAIRAAAAAABgBAAAAAAAAAAAAAAAAAAQADAAAAAAAAA=</HashCode>
       <FileName>AppEngine\API\APIMethod.vb</FileName>
     </TypeIdentifier>
   </Class>
@@ -78,96 +78,39 @@
       <FileName>AppEngine\API\Methods.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments.HttpRequest" Collapsed="true">
-    <Position X="0.5" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>QAAAACAAAAAQAAIEAAAAAAAAACAAAAAAABAAABAAAAA=</HashCode>
-      <FileName>AppEngine\API\Arguments.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments.HttpPOSTRequest" Collapsed="true">
-    <Position X="0.5" Y="8.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AppEngine\API\Arguments.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments.HttpResponse" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="25.25" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>IQEAAEAACCAAAAUICiAAAIAIAAAQIAAAABAgAgGoAAQ=</HashCode>
-      <FileName>AppEngine\API\Arguments.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
   <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APPEngine" Collapsed="true">
-    <Position X="23.5" Y="0.5" Width="1.5" />
+    <Position X="27" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAABAIQAAAAAAAAAEgAAAAAEAAAAAAAAAACAA=</HashCode>
       <FileName>AppEngine\APPEngine.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APPManager" Collapsed="true">
-    <Position X="0.5" Y="6.5" Width="1.5" />
+    <Position X="0.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAoQBgCAAIgAAAAAAABAAgMAgAIIAAgAAA=</HashCode>
+      <HashCode>AAAAAEAAAAAoQBgAAAIwAAAAAAABAAgMAgAIIAAgAAI=</HashCode>
       <FileName>AppEngine\APPManager.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.WebApp" Collapsed="true">
-    <Position X="0.5" Y="5" Width="1.5" />
+    <Position X="0.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAgAAAAAAQEAQAAAAAA=</HashCode>
       <FileName>AppEngine\WebApp.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser.HttpMultipart" Collapsed="true">
-    <Position X="27" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>sABEAAAgAAAAAAAiAACAAQAAAACAAIBAAABQAIgCAAA=</HashCode>
-      <FileName>AppEngine\POSTReader\HttpMultipart.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser.HttpPostedFile" Collapsed="true">
-    <Position X="21.75" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAABAAABAQAABAEAA=</HashCode>
-      <FileName>AppEngine\POSTReader\HttpPostedFile.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser.PostReader" Collapsed="true">
-    <Position X="21.75" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>gAAQAAAAAAACAAAAAAAAAAAAQAACAAAAAAAQAAEAEKA=</HashCode>
-      <FileName>AppEngine\POSTReader\PostReader.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser.ReadSubStream" Collapsed="true">
-    <Position X="23.5" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AACAAAAAACAAQAAgGAAAAABgAAAAAEAAAIgAAAEIACA=</HashCode>
-      <FileName>AppEngine\POSTReader\ReadSubStream.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.CachedFile" Collapsed="true">
-    <Position X="25.25" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACEAAAAAAAAAIkAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Core\CachedFile.vb</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.HttpFileSystem" Collapsed="true">
-    <Position X="5.5" Y="5" Width="1.5" />
+    <Position X="5.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACQAABEAALAAIACAAQsAAAAAAEgAoBAAAAQACCIQGEA=</HashCode>
+      <HashCode>AiAAABEABLAAoACAAQsAAAAAAEgAoBAAAAQACCAQGEA=</HashCode>
       <FileName>Core\HttpFileSystem.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.HttpProcessor" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="23.5" Y="1.5" Width="1.5" />
+    <Position X="27" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>UwAAMAAIACAAAAAcggAAAAABAAAjMhBEAAEIAyBgAEA=</HashCode>
+      <HashCode>UwAAMAAIBCAAAABcggAAAAABAAAhMgBEAQEIAyAgAEA=</HashCode>
       <FileName>Core\HttpProcessor.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -175,21 +118,21 @@
   <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.HttpServer" Collapsed="true">
     <Position X="5.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACgAABAMACABAAigCAAAQQAAAQAAAAAAAAAABgAAAEI=</HashCode>
+      <HashCode>ACgAABAMACABgAigCAAAQQAAAQAAAAAAAAAABgAAAEI=</HashCode>
       <FileName>Core\HttpServer.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="SMRUCC.WebCloud.HTTPInternal.My.MySettings" Collapsed="true">
-    <Position X="27" Y="1.5" Width="1.5" />
+    <Position X="21.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.WebCloud.HTTPInternal.Platform.PlatformEngine" Collapsed="true">
-    <Position X="5.5" Y="6.5" Width="1.5" />
+    <Position X="5.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACAIAAAAADIAAACAAACAAAAAAAAAABAAAAAACAAACAA=</HashCode>
+      <HashCode>ACAIAAAAADIAgACAAACAAAAAAAAAABAAAAAACAAACAA=</HashCode>
       <FileName>Platform\PlatformEngine.vb</FileName>
     </TypeIdentifier>
   </Class>
@@ -201,7 +144,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.WebCloud.HTTPInternal.Platform.Plugins.PluginBase" Collapsed="true">
-    <Position X="2.75" Y="5" Width="1.5" />
+    <Position X="2.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAAAAgAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Platform\Plugin\PluginBase.vb</FileName>
@@ -209,106 +152,306 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="SMRUCC.WebCloud.HTTPInternal.Platform.Plugins.ScriptingAttribute" Collapsed="true">
-    <Position X="25.25" Y="2.5" Width="1.5" />
+    <Position X="27" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Platform\Plugin\Scripting.vb</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.Sessions.Session" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAggAEAAAAQAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AppEngine\Sessions\Session.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.Sessions.Value" Collapsed="true">
+    <Position X="25.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>AppEngine\Sessions\Session.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.HttpRequest">
+    <Position X="0.5" Y="7.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>QAAAACAAAAAQAAIEAAAAAAAAACAAAAAAIBAAABAAAAA=</HashCode>
+      <FileName>Core\HttpRequest\HttpRequest.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.HttpPOSTRequest">
+    <Position X="0.75" Y="11.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Core\HttpRequest\HttpRequest.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.HttpResponse" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IYEAAEAACCAAIAUICiAAAIAIAAAQIAAAABAgAgGoAAQ=</HashCode>
+      <FileName>Core\HttpRequest\HttpResponse.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.Cache.CachedFile" Collapsed="true">
+    <Position X="28.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACEAAAAAAAAAIkAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\FileSystem\CachedFile.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.Cache.FileNode" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAoAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\FileSystem\FileNode.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.Cache.VirtualFileSystem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="27" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAACAAEAAEAABAAAAAAAgAEAAAAAAAggIAAAA=</HashCode>
+      <FileName>Core\FileSystem\VirtualFileSystem.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.HttpStream.HttpMultipart" Collapsed="true">
+    <Position X="23.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>sABEAAAgAAAAAAAiAACAAQAAAACAAIBAAABQAIgCAAA=</HashCode>
+      <FileName>Core\HttpRequest\POSTReader\HttpMultipart.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.HttpStream.HttpPostedFile" Collapsed="true">
+    <Position X="25.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAEAAAABAAADAQAABAAAA=</HashCode>
+      <FileName>Core\HttpRequest\POSTReader\HttpPostedFile.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.HttpStream.PostReader" Collapsed="true">
+    <Position X="23.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggAQAAAAgAACAAAAAAAAAAAAAAACAAAAAAAQAAEAEKA=</HashCode>
+      <FileName>Core\HttpRequest\POSTReader\PostReader.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.HttpStream.ReadSubStream" Collapsed="true">
+    <Position X="25.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAACAAQAAgGAAAAABgAAAAAEAAAIgAAAEIACA=</HashCode>
+      <FileName>Core\HttpRequest\POSTReader\ReadSubStream.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.WebSocket.WsServer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAABAAAEAggAgAAgQAAAAAIAAAAAAAAAAMAAQAAI=</HashCode>
+      <FileName>Core\WebSocket\WebSocket.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Core.WebSocket.WsProcessor" Collapsed="true">
+    <Position X="28.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABCAAAQAAFAAAAAEUEAQAABBAAAAOgAAAAAACAAEAA=</HashCode>
+      <FileName>Core\WebSocket\WsProcessor.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Platform.AccessController.Accept" Collapsed="true">
+    <Position X="21.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAEAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Platform\AccessController\Accept.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Platform.AccessController.Access(Of T)" Collapsed="true">
+    <Position X="23.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Platform\AccessController\Access.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Platform.AccessController.Uses" Collapsed="true">
+    <Position X="23.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Platform\AccessController\Uses.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.WebCloud.HTTPInternal.Platform.TaskWorker" Collapsed="true">
+    <Position X="21.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAECAAAAAAACAA=</HashCode>
+      <FileName>Platform\TaskWorker.vb</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="SMRUCC.WebCloud.HTTPInternal.Core.Content" Collapsed="true">
-    <Position X="21.75" Y="7" Width="1.5" />
+    <Position X="21.75" Y="9" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAABAAAAAAAAAAQAgAAAAAgA=</HashCode>
       <FileName>Core\Content.vb</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="SMRUCC.WebCloud.HTTPInternal.JsonResponse" Collapsed="true">
-    <Position X="23.5" Y="7" Width="1.5" />
+  <Struct Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.JsonResponse" Collapsed="true">
+    <Position X="23.5" Y="9" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAIAAAAAAAAAAAAAAAACA=</HashCode>
-      <FileName>Extensions.vb</FileName>
+      <FileName>AppEngine\JsonResponse.vb</FileName>
     </TypeIdentifier>
   </Struct>
-  <Delegate Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.APIAbstract" Collapsed="true">
-    <Position X="25.25" Y="8.25" Width="1.5" />
+  <Enum Name="SMRUCC.WebCloud.HTTPInternal.Core.WebSocket.Operations" Collapsed="true">
+    <Position X="21.75" Y="10.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAABAA=</HashCode>
-      <FileName>AppEngine\API\APIInvoker.vb</FileName>
+      <HashCode>QAAAAAAAAAAAAAAAAEAAAAAAAAAQAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Core\WebSocket\Operations.vb</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SMRUCC.WebCloud.HTTPInternal.Platform.AccessController.Usages" Collapsed="true">
+    <Position X="23.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAQAAAAABABAAAAAACAAgAAA=</HashCode>
+      <FileName>Platform\AccessController\Uses.vb</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.APIAbstract" Collapsed="true">
+    <Position X="25.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAACAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>AppEngine\API\Abstract.vb</FileName>
     </TypeIdentifier>
   </Delegate>
   <Delegate Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods._GET" Collapsed="true">
-    <Position X="21.75" Y="8.25" Width="1.5" />
+    <Position X="21.75" Y="11.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AppEngine\API\APIInvoker.vb</FileName>
+      <HashCode>AEAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AppEngine\API\Abstract.vb</FileName>
     </TypeIdentifier>
   </Delegate>
   <Delegate Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods._POST" Collapsed="true">
-    <Position X="23.5" Y="8.25" Width="1.5" />
+    <Position X="23.5" Y="11.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AppEngine\API\APIInvoker.vb</FileName>
+      <HashCode>AAAAAAAAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AppEngine\API\Abstract.vb</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="SMRUCC.WebCloud.HTTPInternal.Core.WebSocket.OnClientConnectDelegate" Collapsed="true">
+    <Position X="27" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Core\WebSocket\Events.vb</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="SMRUCC.WebCloud.HTTPInternal.Core.WebSocket.OnClientDisconnectDelegateHandler" Collapsed="true">
+    <Position X="28.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\WebSocket\Events.vb</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="SMRUCC.WebCloud.HTTPInternal.Core.WebSocket.OnClientTextMessage" Collapsed="true">
+    <Position X="21.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAEAA=</HashCode>
+      <FileName>Core\WebSocket\Events.vb</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="SMRUCC.WebCloud.HTTPInternal.Core.WebSocket.OnClinetBinaryMessage" Collapsed="true">
+    <Position X="23.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAA=</HashCode>
+      <FileName>Core\WebSocket\Events.vb</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="SMRUCC.WebCloud.HTTPInternal.Core.WebSocket.WebsocketActivator" Collapsed="true">
+    <Position X="25.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\WebSocket\WebsocketActivator.vb</FileName>
     </TypeIdentifier>
   </Delegate>
   <Module Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.APIName" Collapsed="true">
-    <Position X="21.75" Y="3.75" Width="1.5" />
+    <Position X="21.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AppEngine\APIName.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.CookieParser" Collapsed="true">
-    <Position X="23.5" Y="3.75" Width="1.5" />
+    <Position X="23.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAQAAAAAAAAAAAAAAAABAAAAAAAAAAAAAQA=</HashCode>
       <FileName>AppEngine\CookieParser.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.ExternalCall" Collapsed="true">
-    <Position X="21.75" Y="4.75" Width="1.5" />
+    <Position X="21.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AppEngine\ExternalCall.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.WebCloud.HTTPInternal.DebuggerAPI" Collapsed="true">
-    <Position X="25.25" Y="3.75" Width="1.5" />
+    <Position X="25.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAACAAACAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DebuggerAPI.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.WebCloud.HTTPInternal.Extensions" Collapsed="true">
-    <Position X="27" Y="3.75" Width="1.5" />
+    <Position X="27" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAoAAAAQAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Extensions.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.WebCloud.HTTPInternal.My.Resources.Resources" Collapsed="true">
-    <Position X="27" Y="4.75" Width="1.5" />
+    <Position X="28.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAACAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.WebCloud.HTTPInternal.My.MySettingsProperty" Collapsed="true">
-    <Position X="25.25" Y="4.75" Width="1.5" />
+    <Position X="27" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.WebCloud.HTTPInternal.Platform.Plugins.ExternalCall" Collapsed="true">
-    <Position X="23.5" Y="4.75" Width="1.5" />
+    <Position X="23.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Platform\Plugin\ExternalCall.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.WebCloud.HTTPInternal.Platform.Plugins.ScriptingExtensions" Collapsed="true">
-    <Position X="21.75" Y="5.75" Width="1.5" />
+    <Position X="21.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAEAEAAAAAABAAAA=</HashCode>
       <FileName>Platform\Plugin\Scripting.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.WebCloud.HTTPInternal.AppEngine.Sessions.SessionManager" Collapsed="true">
+    <Position X="23.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAIAAAAAAAAAAAAAAAAAAABAAAQAAAAQAAAAAAAA=</HashCode>
+      <FileName>AppEngine\Sessions\SessionManager.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.WebCloud.HTTPInternal.Core.Cache.InternalUpdates" Collapsed="true">
+    <Position X="25.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\FileSystem\InternalUpdates.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.WebCloud.HTTPInternal.Core.WebSocket.Extensions" Collapsed="true">
+    <Position X="28.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Core\WebSocket\WebsocketActivator.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Font Name="Microsoft YaHei" Size="9" />

@@ -60,8 +60,8 @@ Namespace Core
         Friend left As Variable()
         Friend right As Variable()
 
-        Public Property Forward As Controls
-        Public Property Reverse As Controls
+        Public Property forward As Controls
+        Public Property reverse As Controls
 
         ''' <summary>
         ''' 因为细胞微环境内的容量很小，没有办法使整个反应过程以很大的速率来进行
@@ -71,14 +71,14 @@ Namespace Core
         Public Property bounds As Boundary
 
         ''' <summary>
-        ''' 在衡量了<see cref="Forward"/>和<see cref="Reverse"/>的效应大小之后，当前的反应的方向
+        ''' 在衡量了<see cref="forward"/>和<see cref="reverse"/>的效应大小之后，当前的反应的方向
         ''' </summary>
         ''' <returns></returns>
         Public Overloads ReadOnly Property direct As Directions
             Get
-                If Forward > Reverse Then
+                If forward > reverse Then
                     Return Directions.forward
-                ElseIf Reverse > Forward Then
+                ElseIf reverse > forward Then
                     Return Directions.reverse
                 Else
                     Return Directions.stop

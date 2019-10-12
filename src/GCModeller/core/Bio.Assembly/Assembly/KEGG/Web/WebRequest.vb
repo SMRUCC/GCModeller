@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::fee7fa1ccbf9defe24d77c2e82e208ab, Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module WebRequest
-    ' 
-    '         Function: GetText
-    '         Delegate Function
-    ' 
-    '             Function: __downloadDirect, __downloads, __queryEntryParser, BatchQuery, Download16S_rRNA
-    '                       Downloads, DownloadsBatch, DownloadSequence, (+2 Overloads) FetchNt, (+2 Overloads) FetchSeq
-    '                       GetPageContent, GetQueryEntry, GetSpCode, (+2 Overloads) HandleQuery, LoadList
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module WebRequest
+' 
+'         Function: GetText
+'         Delegate Function
+' 
+'             Function: __downloadDirect, __downloads, __queryEntryParser, BatchQuery, Download16S_rRNA
+'                       Downloads, DownloadsBatch, DownloadSequence, (+2 Overloads) FetchNt, (+2 Overloads) FetchSeq
+'                       GetPageContent, GetQueryEntry, GetSpCode, (+2 Overloads) HandleQuery, LoadList
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -227,24 +227,27 @@ Namespace Assembly.KEGG.WebServices
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Query", Info:="Get an entry list from a keyword throught the KEGG database web request.{(speciesId:AccessionId), entry_description}")>
-        Public Function HandleQuery(keyword As String, Page As Integer) As QueryEntry()
-            Dim pageContent As String = String.Format(KEGG_DBGET_WWW_QUERY & Page, keyword).GET
-            Return __queryEntryParser(pageContent)
+        Public Function HandleQuery(keyword As String, page As Integer) As QueryEntry()
+            Return String.Format(KEGG_DBGET_WWW_QUERY & page, keyword) _
+                .GET _
+                .doParseQueryEntry
         End Function
 
-        Friend Function __queryEntryParser(PageContent As String) As QueryEntry()
-            Dim matches = Regex.Matches(PageContent, QUERY_RESULT_LINK_ITEM)
+        <Extension>
+        Friend Iterator Function doParseQueryEntry(html As String) As IEnumerable(Of QueryEntry)
+            Dim matches = Regex.Matches(html, QUERY_RESULT_LINK_ITEM)
 
             If matches.Count = 0 Then
-                Return New QueryEntry() {}
+                Return
             End If
 
-            Dim Result As QueryEntry() = New QueryEntry(matches.Count - 1) {}
+            Dim match$
+            Dim key$
+            Dim value$
 
-            For i As Integer = 0 To Result.Length - 1
-                Dim match = matches(i).Value
-                Dim key As String = Regex.Match(match, QUERY_RESULT_LINK1).Value,
-                    value As String
+            For i As Integer = 0 To matches.Count - 1
+                match = matches(i).Value
+                key = Regex.Match(match, QUERY_RESULT_LINK1).Value
 
                 value = Mid(match, Len(key) + 30)
                 value = Regex.Match(value, QUERY_RESULT_LINK2).Value
@@ -252,10 +255,8 @@ Namespace Assembly.KEGG.WebServices
 
                 key = Mid(key, 2, Len(key) - 10)
 
-                Result(i) = New QueryEntry(key, Description:=value)
+                Yield New QueryEntry(key, description:=value)
             Next
-
-            Return Result
         End Function
 
         ''' <summary>

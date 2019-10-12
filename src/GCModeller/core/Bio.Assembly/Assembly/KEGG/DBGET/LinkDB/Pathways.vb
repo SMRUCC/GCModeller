@@ -131,7 +131,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Else
                     entries += entry
                     url = $"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}"
-                    data.genes = url.LinkDbEntries(cache:=$"{cache}/linkdb/", offline:=offline).ToArray
+                    data.genes = url.LinkDbEntries(cacheRoot:=$"{cache}/linkdb/", offline:=offline).ToArray
 
                     Call data.SaveAsXml(xml)
                 End If
