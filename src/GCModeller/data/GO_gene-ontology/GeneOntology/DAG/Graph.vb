@@ -211,9 +211,5 @@ Namespace DAG
                 Return $"[{[Namespace]}] {Family.JoinBy(" -> ")}"
             End Function
         End Structure
-
-        'Public Function Infer(a$, b$) As Relationship
-
-        'End Function
     End Class
 End Namespace
