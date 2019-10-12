@@ -77,9 +77,9 @@ Namespace Pattern
 
         <Extension>
         Public Function GenerateSegment(Seq As FastaSeq, pattern As String) As RowObject()
-            Dim LQuery = RowObject.Distinct((From Segment As SegLoci
-                                             In Match(Seq.SequenceData, pattern)
-                                             Select Segment.ToRow).ToArray).ToArray
+            Dim LQuery = (From Segment As SegLoci
+                          In Match(Seq.SequenceData, pattern)
+                          Select Segment.ToRow).DoCall(AddressOf RowHelpers.Distinct).ToArray
             Dim Head As RowObject = {Seq.ToString}, Count As RowObject = {"Hits count:", CStr(LQuery.Count)}
             Dim RowList As New List(Of RowObject) From {Head, Count}
 
