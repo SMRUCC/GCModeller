@@ -67,7 +67,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 lazyValue:=Function()
                                Return New ReactionQuery(cache, sleepTime)
                            End Function) _
-               .Query(Of Reaction)(ID)
+               .Query(Of Reaction)(ID, cacheType:=".html")
         End Function
 
         ''' <summary>

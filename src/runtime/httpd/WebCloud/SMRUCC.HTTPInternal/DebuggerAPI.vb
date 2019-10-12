@@ -78,9 +78,9 @@ Public Module DebuggerAPI
 
     Public Function PrintOnConsole() As HttpResponse
         Return New HttpResponse(New StreamWriter(Console.OpenStandardOutput),
-            write404:=Sub(msg As String)
-                          Call msg.PrintException
-                      End Sub)
+            [error]:=Sub(errorCode%, msg As String)
+                         Call msg.PrintException
+                     End Sub)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

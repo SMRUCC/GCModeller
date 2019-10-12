@@ -60,20 +60,21 @@ Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 Namespace Core
+
+    Public Delegate Sub HttpError(code%, Msg As String)
 
     Public Class HttpResponse : Implements IDisposable
 
         Friend ReadOnly response As StreamWriter
-        Friend ReadOnly writeFailed As Action(Of String)
+        Friend ReadOnly writeFailed As HttpError
 
         Public Property AccessControlAllowOrigin As String
 
-        Sub New(rep As StreamWriter, write404 As Action(Of String))
+        Sub New(rep As StreamWriter, [error] As HttpError)
             response = rep
-            writeFailed = write404
+            writeFailed = [error]
         End Sub
 
         Dim __writeHTML As Boolean = False
@@ -85,8 +86,8 @@ Namespace Core
         ''' <param name="message$"></param>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub Write404(message$)
-            Call writeFailed(message)
+        Public Sub WriteError(code$, message$)
+            Call writeFailed(code, message)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
