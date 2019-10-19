@@ -48,7 +48,7 @@ Module Module1
         Dim test = GO_OBO.LoadDocument("P:\go.obo")
         Dim terms = test.CreateTermTable
 
-        Dim testTerm = terms("GO:0000186")
+        Dim testTerm = terms("GO:0000196")
         Dim relations As New OntologyRelations(testTerm)
         Dim info As Definition = Definition.Parse(testTerm)
 

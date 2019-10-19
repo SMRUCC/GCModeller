@@ -9,12 +9,16 @@ Namespace OBO
 
         Public Property definition As String
         Public Property evidences As String()
+        Public Property isOBSOLETE As Boolean
 
         Sub New()
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"""{definition}"" [{evidences.JoinBy(", ")}]"
+            Dim OBSOLETE = If(isOBSOLETE, "OBSOLETE. ", "")
+
+            ' add OBSOLETE. tags if it is true
+            Return $"""{OBSOLETE}{definition}"" [{evidences.JoinBy(", ")}]"
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -25,8 +29,14 @@ Namespace OBO
         Public Shared Function Parse(dataLine As String) As Definition
             Dim info = dataLine.GetStackValue("""", """")
             Dim evidences = dataLine.Match("\[.+?\]", RegexICSng).GetStackValue("[", "]")
+            Dim OBSOLETE = InStr(info, "OBSOLETE.") = 1
+
+            If OBSOLETE Then
+                info = Mid(info, 10).Trim
+            End If
 
             Return New Definition With {
+                .isOBSOLETE = OBSOLETE,
                 .definition = info,
                 .evidences = evidences _
                     .Split(","c) _
