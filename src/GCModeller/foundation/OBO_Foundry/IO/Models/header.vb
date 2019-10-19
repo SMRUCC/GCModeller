@@ -59,8 +59,8 @@ Namespace IO.Models
         <Field("date")> Public Property [Date] As String
         <Field("saved-by")> Public Property Author As String
         <Field("auto-generated-by")> Public Property Tools As String = "GCModeller"
-        <Field("subsetdef")> Public Property SubsetDef As String()
-        <Field("synonymtypedef")> Public Property SynonymTypeDef As String()
+        <Field("subsetdef")> Public Property SubsetDef As Dictionary(Of String, String)
+        <Field("synonymtypedef")> Public Property SynonymTypeDef As Dictionary(Of String, String)
         <Field("default-namespace")> Public Property DefaultNamespace As String
         <Field("remark")> Public Property Remark As String()
         <Field("ontology")> Public Property Ontology As String
