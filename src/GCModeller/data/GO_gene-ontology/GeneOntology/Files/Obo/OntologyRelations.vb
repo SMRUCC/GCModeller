@@ -82,6 +82,7 @@ Namespace OBO
             Dim relations As New List(Of Relationship)
 
             relations += term.is_a _
+                .SafeQuery _
                 .Select(Function(s) s.GetTagValue(" ! ", trim:=True)) _
                 .Select(Function(id)
                             Return New Relationship With {

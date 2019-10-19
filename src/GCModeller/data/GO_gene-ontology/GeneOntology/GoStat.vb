@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::0e1c5e03d90ba9b501b5fd6808efeadd, GO_gene-ontology\GeneOntology\GoStat.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module GoStat
-    ' 
-    '     Properties: OntologyNamespaces
-    ' 
-    '     Function: __t, (+2 Overloads) CountStat, EnumerateGOTerms, LevelGOTerms, QuantileCuts
-    '               SaveCountValue
-    ' 
-    ' /********************************************************************************/
+' Module GoStat
+' 
+'     Properties: OntologyNamespaces
+' 
+'     Function: __t, (+2 Overloads) CountStat, EnumerateGOTerms, LevelGOTerms, QuantileCuts
+'               SaveCountValue
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Models
@@ -58,6 +59,20 @@ Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Models
 ''' Statics of the GO function catalog
 ''' </summary>
 Public Module GoStat
+
+    ''' <summary>
+    ''' 返回来的GO编号列表是已经经过去重操作了的
+    ''' </summary>
+    ''' <param name="proteins"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function GoTermsFromUniProt(proteins As IEnumerable(Of entry)) As IEnumerable(Of String)
+        Return proteins _
+            .Select(Function(prot) prot.GO) _
+            .IteratesALL _
+            .Select(Function(entry) entry.id) _
+            .Distinct
+    End Function
 
     Public ReadOnly Property OntologyNamespaces As Dictionary(Of Ontologies, String) =
         Enums(Of Ontologies) _
