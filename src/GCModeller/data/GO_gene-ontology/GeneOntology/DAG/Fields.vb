@@ -49,7 +49,6 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 
 Namespace DAG
 
@@ -71,7 +70,7 @@ Namespace DAG
         End Sub
 
         Public Overrides Function ToString() As String
-            Dim refs As String = ref.Select(Function(x) $"{x.Name}:{x.Value}").JoinBy(", ")
+            Dim refs As String = ref.Select(Function(r) $"{r.Name}:{r.Value}").JoinBy(", ")
             Return $"def: ""{def}"" [{refs}]"
         End Function
     End Structure

@@ -75,7 +75,7 @@ Namespace DAG
         ''' </summary>
         ''' <param name="path$">File path of the GO database: ``go.obo``</param>
         Sub New(path$)
-            Call Me.New(GO_OBO.LoadDocument(path$).Terms, trace:=path)
+            Call Me.New(GO_OBO.LoadDocument(path$).terms, trace:=path)
         End Sub
 
         ''' <summary>
@@ -211,9 +211,5 @@ Namespace DAG
                 Return $"[{[Namespace]}] {Family.JoinBy(" -> ")}"
             End Function
         End Structure
-
-        'Public Function Infer(a$, b$) As Relationship
-
-        'End Function
     End Class
 End Namespace

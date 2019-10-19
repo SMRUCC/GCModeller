@@ -50,7 +50,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.foundation.OBO_Foundry
 Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection
 
 ''' <summary>

@@ -65,7 +65,7 @@ Namespace DAG
             parent = tokens(1).GetTagValue(":")
         End Sub
 
-        Shared ReadOnly relationshipParser As Dictionary(Of String, OntologyRelations) =
+        Public Shared ReadOnly relationshipParser As Dictionary(Of String, OntologyRelations) =
             ParserDictionary(Of OntologyRelations)()
 
         Public Overrides Function ToString() As String

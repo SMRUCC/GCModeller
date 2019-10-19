@@ -155,7 +155,7 @@ Public Module InternalCommands
 
     <ExportAPI("collection.split")>
     Public Function SplitCollection(collection As Generic.IEnumerable(Of Object), n As Integer) As Object()()
-        Return collection.Split(parTokens:=n)
+        Return collection.Split(partitionSize:=n)
     End Function
 
     <ExportAPI("sleep")>

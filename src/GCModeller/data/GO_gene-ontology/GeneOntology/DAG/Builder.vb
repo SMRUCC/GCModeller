@@ -119,6 +119,7 @@ Namespace DAG
             }
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function BuildTree(path$) As Dictionary(Of TermNode)
             Return GO_OBO.Open(path).BuildTree
         End Function

@@ -71,7 +71,7 @@ Namespace IO.Reflection
                            End Function)
         End Function
 
-        ReadOnly stringListType As Type = GetType(String())
+        ReadOnly supportedComplex As Index(Of Type) = {GetType(String()), GetType(Dictionary(Of String, String))}
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
@@ -85,9 +85,10 @@ Namespace IO.Reflection
                          inherit:=True
                      )
                      Let tName = [property].PropertyType
-                     Where Not attrs.IsNullOrEmpty AndAlso DataFramework.IsPrimitive(tName) OrElse tName = stringListType
+                     Where Not attrs.IsNullOrEmpty AndAlso DataFramework.IsPrimitive(tName) OrElse tName Like supportedComplex
                      Let field = DirectCast(attrs.First, Field)
                      Select New BindProperty(Of Field)(field, [property])
+
         End Function
 
         <Extension>
