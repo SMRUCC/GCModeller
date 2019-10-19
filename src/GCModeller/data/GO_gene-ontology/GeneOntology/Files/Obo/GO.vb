@@ -58,27 +58,31 @@ Imports Field = SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection.Field
 Namespace OBO
 
     ''' <summary>
-    ''' go.obo/go-basic.obo(Go注释功能定义文件)
+    ''' The file reader/writer for ``go.obo``/``go-basic.obo``(Go注释功能定义文件)
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' The Go database file I/O module
+    ''' </remarks>
     Public Class GO_OBO
 
-        Public Property header As header
-        Public Property Terms As Term()
+        Public Property headers As header
+        Public Property terms As Term()
 
+        ''' <summary>
+        ''' Save data as obo file
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
         Public Function Save(path As String) As Boolean
-            Dim bufs As List(Of String) = New List(Of String)
+            Dim bufs As New List(Of String)
             Dim schema = Reflection.LoadClassSchema(Of Term)()
-            Dim LQuery = From x As Term
-                         In Terms
-                         Select x.ToLines(schema)
 
-            Call bufs.AddRange(header.ToLines)
+            Call bufs.AddRange(headers.ToLines)
             Call bufs.Add("")
 
-            For Each x In LQuery
+            For Each lines In From t As Term In terms Select t.ToLines(schema)
                 Call bufs.Add(Term.Term)
-                Call bufs.AddRange(x)
+                Call bufs.AddRange(lines)
                 Call bufs.Add("")
             Next
 
@@ -92,14 +96,18 @@ Namespace OBO
         ''' <returns></returns>
         Public Shared Function LoadDocument(path As String) As GO_OBO
             Using obo As New OBOFile(path$)
+                Dim terms As Term() = obo _
+                    .DoCall(AddressOf ReadTerms) _
+                    .ToArray
+
                 Return New GO_OBO With {
-                    .header = obo.header,
-                    .Terms = ReadTerms(obo).ToArray
+                    .headers = obo.header,
+                    .terms = terms
                 }
             End Using
         End Function
 
-        Public Shared Function ParseHeader(path$) As header
+        Public Shared Function ParseHeader(path As String) As header
             Using obo As New OBOFile(path$)
                 Return obo.header
             End Using
@@ -108,9 +116,9 @@ Namespace OBO
         Public Shared Iterator Function ReadTerms(obo As OBOFile) As IEnumerable(Of Term)
             Dim schema As Dictionary(Of BindProperty(Of Field)) = Reflection.LoadClassSchema(Of Term)()
 
-            For Each x As RawTerm In obo.GetRawTerms
-                If x.type = Term.Term Then
-                    Yield schema.LoadData(Of Term)(x.GetData)
+            For Each term As RawTerm In obo.GetRawTerms
+                If term.type = GeneOntology.OBO.Term.Term Then
+                    Yield schema.LoadData(Of Term)(term.GetData)
                 End If
             Next
         End Function
@@ -122,10 +130,15 @@ Namespace OBO
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function Open(path$) As IEnumerable(Of Term)
+        Public Shared Function Open(path As String) As IEnumerable(Of Term)
             Return ReadTerms(New OBOFile(path))
         End Function
 
+        ''' <summary>
+        ''' Save as csv table file.
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <param name="encoding"></param>
         Public Sub SaveTable(path$, Optional encoding As Encodings = Encodings.ASCII)
             Using writer As StreamWriter = path.OpenWriter(encoding)
                 Dim write As Action(Of String) = AddressOf writer.WriteLine
@@ -134,7 +147,7 @@ Namespace OBO
                     .JoinBy(",") _
                     .DoCall(write)
 
-                For Each term As Term In Terms
+                For Each term As Term In terms
                     Call {term.id, term.namespace, term.name} _
                         .Select(Function(str) $"""{str}""") _
                         .JoinBy(",") _
