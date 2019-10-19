@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -45,7 +46,7 @@ Public Module DAGModel
             ' 边的连接是有方向的
             Call g.tryInsertNode(baseTerm)
 
-            relLabel = $"{g.GetNode(term.id).label} {rel.type.Description} {g.GetNode(rel.parent.Name).label}"
+            relLabel = $"{term.id} {rel.type.Description} {baseTerm.id}"
 
             ' 已经添加过了
             ' 则后面的都不需要再做添加了
@@ -64,7 +65,8 @@ Public Module DAGModel
                     .weight = rel.type,
                     .label = relLabel,
                     .Properties = New Dictionary(Of String, String) From {
-                        {"relationship", rel.type.Description}
+                        {"relationship", rel.type.Description},
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, rel.type.Description}
                     }
                 }
             }
