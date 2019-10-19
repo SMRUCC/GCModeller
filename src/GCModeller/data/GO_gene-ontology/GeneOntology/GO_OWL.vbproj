@@ -249,9 +249,6 @@
     <Compile Include="Files\Obo\Instance.vb" />
     <Compile Include="Files\Obo\Typedef.vb" />
     <Compile Include="Files\Obo\OntologyRelations.vb" />
-    <Compile Include="Files\xref2go\XrefIdTypes.vb" />
-    <Compile Include="Files\xref2go\XrefId.vb" />
-    <Compile Include="Files\xref2go\ToGo.vb" />
     <Compile Include="Files\Obo\GO.vb" />
     <Compile Include="Files\GAF.vb" />
     <Compile Include="OntologyRelations.vb" />
