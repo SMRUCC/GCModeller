@@ -63,10 +63,14 @@ Namespace OBO
     ''' <remarks>
     ''' The Go database file I/O module
     ''' </remarks>
-    Public Class GO_OBO
+    Public Class GO_OBO : Implements Enumeration(Of Term)
 
         Public Property headers As header
         Public Property terms As Term()
+
+        Public Overrides Function ToString() As String
+            Return $"{headers} with {terms.Length} terms"
+        End Function
 
         ''' <summary>
         ''' Save data as obo file
@@ -155,5 +159,15 @@ Namespace OBO
                 Next
             End Using
         End Sub
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of Term) Implements Enumeration(Of Term).GenericEnumerator
+            For Each item As Term In terms
+                Yield item
+            Next
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Term).GetEnumerator
+            Yield GenericEnumerator()
+        End Function
     End Class
 End Namespace

@@ -67,7 +67,7 @@ Namespace IO.Models
         <Field("property_value")> Public Property property_value As String
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"[ontology] {Ontology}, version={DataVersion}"
         End Function
     End Class
 End Namespace
