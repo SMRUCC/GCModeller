@@ -67,6 +67,7 @@ Namespace OBO
 
         Public Property headers As header
         Public Property terms As Term()
+        Public Property typedefs As Typedef()
 
         Public Overrides Function ToString() As String
             Return $"{headers} with {terms.Length} terms"

@@ -50,7 +50,10 @@ Imports SMRUCC.genomics.Data.GeneOntology.DAG
 
 Namespace OBO
 
-    Public Class OntologyRelations
+    ''' <summary>
+    ''' A Ontology relationship collection.
+    ''' </summary>
+    Public Class OntologyRelations : Implements Enumeration(Of Relationship)
 
         ''' <summary>
         ''' ```
@@ -62,21 +65,30 @@ Namespace OBO
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return allRelations _
-                    .Where(Function(r) r.relationship = GeneOntology.OntologyRelations.is_a) _
-                    .Select(Function(t) t.target) _
+                    .Where(Function(r) r.type = GeneOntology.OntologyRelations.is_a) _
+                    .Select(Function(t) t.parent) _
                     .ToArray
             End Get
         End Property
 
-        ReadOnly allRelations As (relationship As GeneOntology.OntologyRelations, target As NamedValue(Of String))()
+        ReadOnly allRelations As Relationship()
         ReadOnly term As Term
 
+        ''' <summary>
+        ''' 解析出一个新的关系集合
+        ''' </summary>
+        ''' <param name="term"></param>
         Sub New(term As Term)
-            Dim relations As New List(Of (GeneOntology.OntologyRelations, NamedValue(Of String)))
+            Dim relations As New List(Of Relationship)
 
             relations += term.is_a _
                 .Select(Function(s) s.GetTagValue(" ! ", trim:=True)) _
-                .Select(Function(id) (GeneOntology.OntologyRelations.is_a, id))
+                .Select(Function(id)
+                            Return New Relationship With {
+                                .type = GeneOntology.OntologyRelations.is_a,
+                                .parent = id
+                            }
+                        End Function)
             relations += parseRelationships(term.relationship)
 
             Me.allRelations = relations
@@ -87,13 +99,26 @@ Namespace OBO
             Return $"{term.id} have {allRelations.Length} relationships."
         End Function
 
-        Private Shared Iterator Function parseRelationships(dataLines As String()) As IEnumerable(Of (GeneOntology.OntologyRelations, NamedValue(Of String)))
+        Private Shared Iterator Function parseRelationships(dataLines As String()) As IEnumerable(Of Relationship)
             For Each line As String In dataLines.SafeQuery
                 Dim tokens = line.GetTagValue(trim:=True)
-                Dim type As GeneOntology.OntologyRelations = Relationship.relationshipParser(tokens.Name)
+                Dim type = Relationship.relationshipParser(tokens.Name)
 
-                Yield (type, tokens.Value.GetTagValue(" ! ", trim:=True))
+                Yield New Relationship With {
+                    .type = type,
+                    .parent = tokens.Value.GetTagValue(" ! ", trim:=True)
+                }
             Next
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of Relationship) Implements Enumeration(Of Relationship).GenericEnumerator
+            For Each item As Relationship In allRelations
+                Yield item
+            Next
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Relationship).GetEnumerator
+            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

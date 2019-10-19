@@ -238,6 +238,7 @@
     <Compile Include="DAG\Axioms.vb" />
     <Compile Include="Files\Obo\Definition.vb" />
     <Compile Include="Files\Obo\Extensions.vb" />
+    <Compile Include="Files\OWL\NamespaceDoc.vb" />
     <Compile Include="PseAA.vb" />
     <Compile Include="GoBriefTable.vb" />
     <Compile Include="GoStat.vb" />
@@ -246,7 +247,6 @@
     <Compile Include="DAG\Relationship.vb" />
     <Compile Include="DAG\TermNode.vb" />
     <Compile Include="DAG\Fields.vb" />
-    <Compile Include="Files\NCBI\gene2go.vb" />
     <Compile Include="Files\Obo\File\base.vb" />
     <Compile Include="Files\Obo\File\Instance.vb" />
     <Compile Include="Files\Obo\File\Typedef.vb" />
@@ -255,7 +255,7 @@
     <Compile Include="Files\GAF.vb" />
     <Compile Include="OntologyRelations.vb" />
     <Compile Include="Ontologies.vb" />
-    <Compile Include="OWL\Ontology.vb" />
+    <Compile Include="Files\OWL\Ontology.vb" />
     <Compile Include="Files\Obo\File\Term.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

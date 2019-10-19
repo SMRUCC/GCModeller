@@ -126,6 +126,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="xref2go\NCBI\gene2go.vb" />
     <Compile Include="xref2go\toGo.vb" />
     <Compile Include="xref2go\XrefId.vb" />
     <Compile Include="xref2go\XrefIdTypes.vb" />
