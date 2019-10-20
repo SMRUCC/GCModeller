@@ -2,12 +2,12 @@
 <background xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://gcmodeller.org/GSEA/background.xml">
   <!--
      model:     SMRUCC.genomics.Analysis.HTS.GSEA.Background
-     assembly:  SMRUCC.genomics.Analysis.HTS.GSEA, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-     md5:       9c18d61285c599d1196011d2696ed14e
+     assembly:  SMRUCC.genomics.Analysis.HTS.GSEA, Version=2.10.7233.3991, Culture=neutral, PublicKeyToken=null
+     md5:       f181a54412345ff5bd5346b75d414fa3
      timestamp: Monday, October 21, 2019
   -->
   <comments>Bacteria; Proteobacteria; Gammaproteobacteria; Xanthomonadales; Xanthomonadaceae; Xanthomonas</comments>
-  <build>2019-10-21T02:10:56.6213426+08:00</build>
+  <build>2019-10-21T02:13:48.4640939+08:00</build>
   <size>4252</size>
   <clusters size="305" ID="GO:0005524">
     <names>ATP binding</names>
