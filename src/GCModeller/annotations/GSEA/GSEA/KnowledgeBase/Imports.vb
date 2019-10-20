@@ -119,13 +119,15 @@ Public Module [Imports]
                                   If GO_term Is Nothing Then
                                       Call $"Missing GO term: {termID}, this go term may be obsolete or you needs update the GO obo database to the latest version.".Warning
                                   Else
+                                      Dim info As Definition = Definition.Parse(GO_term)
+
                                       ' 一个GO term类似于一个cluster
                                       ' 其所有基于is_a关系派生出来的子类型都是当前的这个term的cluster成员
                                       ' 在计算的时候会需要根据这个关系来展开计算
                                       Yield New NamedValue(Of String) With {
                                           .Name = GO_term.id,
                                           .Value = GO_term.name,
-                                          .Description = GO_term.def
+                                          .Description = info.definition
                                       }
                                   End If
                               End Function
