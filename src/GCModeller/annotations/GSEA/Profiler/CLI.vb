@@ -122,6 +122,10 @@ Public Module CLI
 
     <ExportAPI("/GO.clusters")>
     <Usage("/GO.clusters /uniprot <uniprot.XML> /go <go.obo> [/out <clusters.XML>]")>
+    <Description("Create GO enrichment background model from uniprot database.")>
+    <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.Xml",
+              Description:="The uniprot database.")>
     Public Function CreateGOClusters(args As CommandLine) As Integer
         Dim uniprot$ = args <= "/uniprot"
         Dim obo$ = args <= "/go"

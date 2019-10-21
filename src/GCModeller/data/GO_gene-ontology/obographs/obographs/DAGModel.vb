@@ -97,7 +97,8 @@ Public Module DAGModel
                     .Properties = New Dictionary(Of String, String) From {
                         {"definition", def.definition},
                         {"evidence", def.evidences.GetJson},
-                        {"is_obsolete", def.isOBSOLETE.ToString.ToLower}
+                        {"is_obsolete", def.isOBSOLETE.ToString.ToLower},
+                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, term.namespace}
                     }
                 }
             }
