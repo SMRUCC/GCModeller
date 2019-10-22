@@ -41,6 +41,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 ''' <summary>
@@ -55,9 +57,32 @@ Public Module Axioms
     ''' <param name="a"><see cref="Term.id"/></param>
     ''' <param name="b"><see cref="Term.id"/></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Infer(go As GO_OBO, a$, b$) As OntologyRelations
+        Return go.CreateTermTable.Infer(a, b)
+    End Function
 
+    <Extension>
+    Public Function Infer(go As Dictionary(Of String, Term), a$, b$) As OntologyRelations
+        Dim term As Term = go(a)
+        Dim relations As New OBO.OntologyRelations(term)
+        Dim relationship As OntologyRelations
+
+        For Each rel As Relationship In relations.AsEnumerable
+            If rel.parent.Name = b Then
+                Return rel.type
+            Else
+                relationship = go.Infer(rel.parent.Name, b)
+            End If
+
+            If relationship <> OntologyRelations.none Then
+                Return Axioms.InferRule(rel.type, relationship)
+            End If
+        Next
+
+        Return OntologyRelations.none
     End Function
 
     ReadOnly regulates As Index(Of OntologyRelations) = {
