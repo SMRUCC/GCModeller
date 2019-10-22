@@ -2,8 +2,7 @@
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 
-<HideModuleName>
-Public Module Extensions
+<HideModuleName> Public Module Extensions
 
     ''' <summary>
     ''' 将构建出来的图对象转换为表格数据模型，以进行文件保存操作
