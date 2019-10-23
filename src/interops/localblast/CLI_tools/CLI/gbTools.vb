@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::4e2036e2555bca4864c9e78c771b758c, CLI_tools\CLI\gbTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __EXPORTgpff, __trimName, AddLocusTag, AddNames, CopyFasta
-    '               CopyPTT, ExportBlastX, ExportGenbank, ExportGenesFasta, EXPORTgpff
-    '               EXPORTgpffs, HitsIDList, MergeFaa, Print
-    ' 
-    '     Sub: exportTo
-    ' 
-    ' Class NameAnno
-    ' 
-    '     Properties: Maximum, Minimum, Name
-    ' 
-    '     Function: ToString
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __EXPORTgpff, __trimName, AddLocusTag, AddNames, CopyFasta
+'               CopyPTT, ExportBlastX, ExportGenbank, ExportGenesFasta, EXPORTgpff
+'               EXPORTgpffs, HitsIDList, MergeFaa, Print
+' 
+'     Sub: exportTo
+' 
+' Class NameAnno
+' 
+'     Properties: Maximum, Minimum, Name
+' 
+'     Function: ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -344,40 +344,45 @@ Partial Module CLI
 
     <Extension>
     Private Function exportAnnotatonTable(gb As GBFF.File) As EntityObject()
-        Return gb.Features.Where(Function(feature) feature.KeyName <> "source").Select(Function(feature)
-                                                                                           Return New EntityObject With {
-                                       .ID = feature("locus_tag") Or feature("db_xref").AsDefault,
-                                       .Properties = New Dictionary(Of String, String) From {
-                                           {"Type", feature.KeyName},
-                                           {"Minimum", feature.Location.Location.left},
-                                           {"Maximum", feature.Location.Location.right},
-                                           {"Length", feature.Location.Location.Length},
-                                           {"Direction", "forward" Or "reverse".When(feature.Location.Complement)},
-                                           {"# Intervals", 1},
-                                           {"Document Name", gb.Source.SpeciesName},
-                                           {"Length (with gaps)", feature.Location.Location.Length},
-                                           {"Max (original sequence)", feature.Location.Location.right},
-                                           {"Max (with gaps)", feature.Location.Location.right},
-                                           {"Min (original sequence)", feature.Location.Location.left},
-                                           {"Min (with gaps)", feature.Location.Location.left},
-                                           {"NCBI Feature Key", feature.KeyName},
-                                           {"Sequence", feature.SequenceData},
-                                           {"Sequence Name", gb.Source.SpeciesName},
-                                           {"Track Name", ""},
-                                           {"product", feature("product")},
-                                           {"translation", feature("translation")},
-                                           {"Length (with extension)", feature.Location.Location.Length},
-                                           {"Sequence (with extension)", ""},
-                                           {"EC_number", feature("EC_number")},
-                                           {"db_xref", feature("db_xref")},
-                                           {"transl_table", feature("transl_table")},
-                                           {"genome_id", ""},
-                                           {"genome_md5", ""},
-                                           {"mol_type", ""},
-                                           {"organism", ""}
-                                       }
-                                   }
-                                                                                       End Function).ToArray
+        Return gb.Features _
+            .Where(Function(feature) feature.KeyName <> "source") _
+            .Select(Function(feature)
+                        Dim location = feature.Location.Location
+
+                        Return New EntityObject With {
+                            .ID = feature("locus_tag") Or feature("db_xref").AsDefault,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {"Type", feature.KeyName},
+                                {"Minimum", location.left},
+                                {"Maximum", location.right},
+                                {"Length", location.Length},
+                                {"Direction", "forward" Or "reverse".When(feature.Location.Complement)},
+                                {"# Intervals", 1},
+                                {"Document Name", gb.Source.SpeciesName},
+                                {"Length (with gaps)", location.Length},
+                                {"Max (original sequence)", location.right},
+                                {"Max (with gaps)", location.right},
+                                {"Min (original sequence)", location.left},
+                                {"Min (with gaps)", location.left},
+                                {"NCBI Feature Key", feature.KeyName},
+                                {"Sequence", feature.SequenceData},
+                                {"Sequence Name", gb.Source.SpeciesName},
+                                {"Track Name", ""},
+                                {"product", feature("product")},
+                                {"translation", feature("translation")},
+                                {"Length (with extension)", location.Length},
+                                {"Sequence (with extension)", ""},
+                                {"EC_number", feature("EC_number")},
+                                {"db_xref", feature("db_xref")},
+                                {"transl_table", feature("transl_table")},
+                                {"genome_id", ""},
+                                {"genome_md5", ""},
+                                {"mol_type", ""},
+                                {"organism", ""}
+                            }
+                        }
+                    End Function) _
+            .ToArray
     End Function
 
     <ExportAPI("/Export.gb.genes",
