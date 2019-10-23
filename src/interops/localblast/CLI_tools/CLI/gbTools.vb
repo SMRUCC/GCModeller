@@ -313,12 +313,7 @@ Partial Module CLI
         Dim GFF As GFFTable = gb.ToGff
         Dim name As String = gb.Source.SpeciesName  ' 
         Dim ffn As FastaFile = gb.ExportGeneNtFasta
-        Dim geneList$() = gb.Features _
-            .Where(Function(feature) feature.KeyName = "gene") _
-            .Select(Function(gene)
-                        Return gene.Query(FeatureQualifiers.locus_tag)
-                    End Function) _
-            .ToArray
+        Dim geneList$() = ffn.Select(Function(fa) fa.Headers.First).ToArray
 
         ' blast+程序要求序列文件的路径之中不可以有空格，所以将空格替换掉，方便后面的blast操作
         name = name.NormalizePathString(False).Replace(" ", "_")

@@ -625,7 +625,9 @@ Namespace Assembly.NCBI.GenBank
             If geneFeatures.Length = 0 Then
                 ' 在gb文件中没有定义gene feature
                 ' 则直接导出所有的feature的序列？
-                geneFeatures = gb.Features._innerList
+                geneFeatures = gb.Features._innerList _
+                    .Where(Function(feature) feature.KeyName <> "source") _
+                    .ToArray
             End If
 
             Try
