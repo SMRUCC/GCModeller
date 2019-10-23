@@ -98,6 +98,9 @@ Namespace Assembly.NCBI.GenBank
                                  Where String.Equals(Tokens.First, "PSEUDO")
                                  Select Tokens.Last).FirstOrDefault
             End If
+            If String.IsNullOrEmpty(gene.locus_id) Then
+                gene.locus_id = obj("db_xref")
+            End If
 
             gene.GI = obj.db_xref_GI
             gene.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt

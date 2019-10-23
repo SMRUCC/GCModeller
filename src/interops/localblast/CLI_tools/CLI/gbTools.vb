@@ -282,15 +282,15 @@ Partial Module CLI
             For Each file As String In ls - l - r - {"*.gb", "*.gbff", "*.gbk"} <= gb
                 Dim out As String = file.TrimSuffix
 
-                For Each x As GBFF.File In GBFF.File.LoadDatabase(file)
-                    Call x.exportTo(out, simple, flat)
+                For Each dbFile As GBFF.File In GBFF.File.LoadDatabase(file)
+                    Call dbFile.exportTo(out, simple, flat)
                 Next
             Next
         Else
             Dim out As String = args("/out") Or args("/gb").TrimSuffix
 
-            For Each x As GBFF.File In GBFF.File.LoadDatabase(gb)
-                Call x.exportTo(out, simple, flat)
+            For Each dbFile As GBFF.File In GBFF.File.LoadDatabase(gb)
+                Call dbFile.exportTo(out, simple, flat)
             Next
         End If
 
@@ -307,8 +307,6 @@ Partial Module CLI
     ''' 如果为true，则所有的结果都会在一个文件夹之中
     ''' </param>
     <Extension> Private Sub exportTo(gb As GBFF.File, out$, simple As Boolean, flat As Boolean)
-        On Error Resume Next
-
         Dim PTT As PTT = gb.GbffToPTT(ORF:=True)
         Dim Faa As New FastaFile(If(simple, gb.ExportProteins_Short, gb.ExportProteins))
         Dim Fna As FastaSeq = gb.Origin.ToFasta
@@ -329,8 +327,10 @@ Partial Module CLI
             out = out & "/" & gb.Locus.AccessionID
         End If
 
+        Call gb.exportAnnotatonTable.SaveTo($"{out}/{name}.Annotations.csv")
+
         Call PTT.Save(out & $"/{name}.ptt")
-        Call Fna.SaveTo(out & $"/{name}.fna")
+        Call Fna.SaveTo(120, out & $"/{name}.fna")
         Call Faa.Save(out & $"/{name}.faa")
         Call GFF.Save(out & $"/{name}.gff")
         Call ffn.Save(out & $"/{name}.ffn")
@@ -341,6 +341,44 @@ Partial Module CLI
                         End Function) _
                 .SaveTo($"{out}/{name}.csv")
     End Sub
+
+    <Extension>
+    Private Function exportAnnotatonTable(gb As GBFF.File) As EntityObject()
+        Return gb.Features.Where(Function(feature) feature.KeyName <> "source").Select(Function(feature)
+                                                                                           Return New EntityObject With {
+                                       .ID = feature("locus_tag") Or feature("db_xref").AsDefault,
+                                       .Properties = New Dictionary(Of String, String) From {
+                                           {"Type", feature.KeyName},
+                                           {"Minimum", feature.Location.Location.left},
+                                           {"Maximum", feature.Location.Location.right},
+                                           {"Length", feature.Location.Location.Length},
+                                           {"Direction", "forward" Or "reverse".When(feature.Location.Complement)},
+                                           {"# Intervals", 1},
+                                           {"Document Name", gb.Source.SpeciesName},
+                                           {"Length (with gaps)", feature.Location.Location.Length},
+                                           {"Max (original sequence)", feature.Location.Location.right},
+                                           {"Max (with gaps)", feature.Location.Location.right},
+                                           {"Min (original sequence)", feature.Location.Location.left},
+                                           {"Min (with gaps)", feature.Location.Location.left},
+                                           {"NCBI Feature Key", feature.KeyName},
+                                           {"Sequence", feature.SequenceData},
+                                           {"Sequence Name", gb.Source.SpeciesName},
+                                           {"Track Name", ""},
+                                           {"product", feature("product")},
+                                           {"translation", feature("translation")},
+                                           {"Length (with extension)", feature.Location.Location.Length},
+                                           {"Sequence (with extension)", ""},
+                                           {"EC_number", feature("EC_number")},
+                                           {"db_xref", feature("db_xref")},
+                                           {"transl_table", feature("transl_table")},
+                                           {"genome_id", ""},
+                                           {"genome_md5", ""},
+                                           {"mol_type", ""},
+                                           {"organism", ""}
+                                       }
+                                   }
+                                                                                       End Function).ToArray
+    End Function
 
     <ExportAPI("/Export.gb.genes",
                Usage:="/Export.gb.genes /gb <genbank.gb> [/geneName /out <out.fasta>]")>
