@@ -350,7 +350,7 @@ Partial Module CLI
                         Dim location = feature.Location.Location
 
                         Return New EntityObject With {
-                            .ID = feature("locus_tag") Or feature("db_xref").AsDefault,
+                            .ID = feature.EnsureNonEmptyLocusId,
                             .Properties = New Dictionary(Of String, String) From {
                                 {"Type", feature.KeyName},
                                 {"Minimum", location.left},
