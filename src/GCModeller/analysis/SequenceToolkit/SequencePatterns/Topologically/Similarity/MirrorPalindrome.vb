@@ -152,8 +152,8 @@ Namespace Topologically.SimilarityMatches
         End Sub
 
         Protected Overrides Sub DoSearch(seed As Seed)
-            Dim sites = CreateMirrors(seed.Sequence, seq.SequenceData, _maxDist, cut)
-            Call _resultSet.Add(sites)
+            Dim sites = CreateMirrors(seed.sequence, seq, _maxDist, cut)
+            Call m_resultSet.Add(sites)
         End Sub
     End Class
 End Namespace

@@ -72,11 +72,11 @@ Namespace Topologically
         End Sub
 
         Protected Overrides Sub DoSearch(seed As Seed)
-            If Pattern.FindLocation(seq.SequenceData, seed.Sequence).Length < MinAppeared Then
+            If Pattern.FindLocation(seq, seed.sequence).Length < MinAppeared Then
                 Return
             End If
 
-            Dim repeats As Repeats = GenerateRepeats(seq.SequenceData, seed.Sequence, MinAppeared)
+            Dim repeats As Repeats = GenerateRepeats(seq, seed.sequence, MinAppeared)
             If Not repeats Is Nothing Then
                 Call ResultSet.AddRange(repeats)
             End If

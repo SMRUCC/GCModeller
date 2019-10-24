@@ -64,7 +64,6 @@ Namespace Topologically
 
         ReadOnly _index As TextIndexing
         ReadOnly _cutoff As Double
-
         ReadOnly _resultSet As New List(Of ImperfectPalindrome)
 
         Public Shadows ReadOnly Property ResultSet As ImperfectPalindrome()
@@ -91,7 +90,7 @@ Namespace Topologically
 
             ' 因为是回文重复，所以到一半长度的时候肯定是没有了的
             If Me.max > Len(nt.SequenceData) / 2 Then
-                Me.max = Len(nt.SequenceData) / 2
+                Me.max = CInt(Len(nt.SequenceData) / 2)
             End If
 
             _index = New TextIndexing(nt.SequenceData, min, max)
@@ -103,8 +102,8 @@ Namespace Topologically
         Protected Overrides Sub DoSearch(seed As Seed)
             Dim palLoci As String = PalindromeLoci.GetPalindrome(seed.Sequence)
             Dim pali As Map(Of TextSegment, DistResult)() = _index.Found(seed.Sequence, _cutoff, _partitions)
-            Dim segment As String = seed.Sequence
-            Dim locis%() = FindLocation(seq.SequenceData, segment)
+            Dim segment As String = seed.sequence
+            Dim locis%() = FindLocation(seq, segment)
             Dim imperfects = LinqAPI.Exec(Of ImperfectPalindrome) _
  _
                 () <= From loci As Map(Of TextSegment, DistResult)
