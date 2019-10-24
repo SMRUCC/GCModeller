@@ -109,19 +109,20 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
                 .MaxLengthString _
                 .Length _
                 .DoCall(Function(l) New String(" "c, l))
-            Dim left$
+            Dim left$, right
 
             Call output.WriteLine(seq.Title)
             Call output.WriteLine($"  length={seq.Length}")
             Call output.WriteLine($"  gc%={seq.GCContent}")
 
             For Each fragment In createLines
-                left = fragment.left.FormatZero(padding)
+                left = (fragment.left - width).FormatZero(padding)
+                right = fragment.left - 1
 
                 If fragment.seq.Length < width Then
-                    Call output.WriteLine($"{left} {fragment.seq}")
+                    Call output.WriteLine($"{left} {fragment.seq}{New String(" "c, width - fragment.seq.Length)} {right}")
                 Else
-                    Call output.WriteLine($"{left} {fragment.seq} {fragment.left + fragment.seq.Length }")
+                    Call output.WriteLine($"{left} {fragment.seq} {right}")
                 End If
             Next
         End Using
