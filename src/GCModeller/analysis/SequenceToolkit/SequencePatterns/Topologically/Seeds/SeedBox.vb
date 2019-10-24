@@ -1,47 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::0ca211edee1e4e8552b42cdcd8c1d81e, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedBox.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class SeedBox
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: PopulateSeeds, PopulateSeedsFromSeedsFile, PopulateSeedsFromSequence, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class SeedBox
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: PopulateSeeds, PopulateSeedsFromSeedsFile, PopulateSeedsFromSequence, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel
 
@@ -69,17 +68,26 @@ Namespace Topologically.Seeding
             Me.seq = seq
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="min%"></param>
+        ''' <param name="max%"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 这个函数会丢弃掉在目标序列上不存在的种子以加快计算效率
+        ''' </remarks>
         Public Iterator Function PopulateSeeds(min%, max%) As IEnumerable(Of Seed())
-            Dim base As List(Of String) = seq _
+            Dim base As String() = seq _
                 .SequenceData _
                 .PopulateExistsSeeds(Seeds.InitializeSeeds(chars, min)) _
-                .AsList
+                .ToArray
 
             Yield base.Select(Function(s) New Seed(s)).ToArray
 
             For len As Integer = min To max
-                base = base.ExtendSequence(chars)
-                base = seq.SequenceData.PopulateExistsSeeds(base).AsList
+                base = base.ExtendSequence(chars).ToArray
+                base = seq.SequenceData.PopulateExistsSeeds(base).ToArray
 
                 Yield base.Select(Function(s) New Seed(s)).ToArray
             Next

@@ -56,17 +56,17 @@ Namespace Topologically
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="Sequence"></param>
-        ''' <param name="Min"></param>
-        ''' <param name="Max"></param>
-        Sub New(Sequence As IPolymerSequenceModel,
-                <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,
-                <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer)
+        ''' <param name="seq"></param>
+        ''' <param name="min"></param>
+        ''' <param name="max"></param>
+        Sub New(seq As IPolymerSequenceModel,
+                <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> min As Integer,
+                <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> max As Integer)
 
-            Me.seedBox = New SeedBox(Sequence)
-            Me.min = Min
-            Me.max = Max
-            Me.seq = Sequence
+            Me.seedBox = New SeedBox(seq)
+            Me.min = min
+            Me.max = max
+            Me.seq = seq
         End Sub
 
         ''' <summary>
