@@ -129,25 +129,48 @@ Module Module1
         Dim gb = GBFF.File.Load("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk")
         Dim nt As FastaSeq = gb.Origin.ToFasta
         Dim size = nt.Length
-        Dim ptt = gb.GbffToPTT(ORF:=True)
 
         Call Circos.CircosAPI.SetBasicProperty(doc, nt, loophole:=512)
 
-        Dim annotations = ptt.ExportPTTAsDump
+        Dim annotations = gb.ExportGeneFeatures
         Dim darkblue As Color = Color.DarkBlue
         Dim darkred As Color = Color.OrangeRed
 
-        For Each gene In annotations
-            If gene.Location.Strand = Strands.Forward Then
+        For Each gene As GeneTable In annotations
+            If gene.strand.GetStrand = Strands.Forward Then
                 gene.COG = "up"
             Else
                 gene.COG = "down"
             End If
 
-            If gene.EC_Number.StringEmpty Then
+            gene.geneName = Strings.Trim(gene.commonName).Split(";"c).First.Replace("_", " ")
+
+            If InStr(gene.geneName, "hypothetical", CompareMethod.Text) > 0 Then
                 gene.geneName = Nothing
-            Else
-                gene.geneName = Strings.Trim(gene.function).Split(";"c).First
+            ElseIf InStr(gene.geneName, "protein", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, ":", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "(", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "/", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "unknow", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, ",", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "database", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "Uncharacterized", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "putative", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "probable", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "Predict", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "similar", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
             End If
         Next
 
