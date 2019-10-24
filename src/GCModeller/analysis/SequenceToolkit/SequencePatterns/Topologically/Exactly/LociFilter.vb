@@ -76,21 +76,25 @@ Public Module LociFilter
         Next
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of RepeatsView()))) As IEnumerable(Of NamedValue(Of RepeatsView()))
         Return range.RangeSelects(data, Function(x) {x.Left})
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of RevRepeatsView()))) As IEnumerable(Of NamedValue(Of RevRepeatsView()))
         Return range.RangeSelects(data, Function(x) {x.Left})
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of PalindromeLoci()))) As IEnumerable(Of NamedValue(Of PalindromeLoci()))
         Return range.RangeSelects(data, Function(x) x.Start.Join({x.PalEnd, x.Mirror}).ToArray)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of ImperfectPalindrome()))) As IEnumerable(Of NamedValue(Of ImperfectPalindrome()))
         Return range.RangeSelects(data, Function(x) {x.Left, x.Paloci})
@@ -116,6 +120,8 @@ Public Module LociFilter
     ''' <param name="compare"></param>
     ''' <param name="returnsAll"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Filtering(Of T As RepeatsView)(
                               data As IEnumerable(Of T),
@@ -207,6 +213,8 @@ Public Module LociFilter
     ''' <param name="compare"></param>
     ''' <param name="returnsAll"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function FilteringRev(data As IEnumerable(Of RevRepeatsView),
                                  Optional interval As Integer = 2000,
