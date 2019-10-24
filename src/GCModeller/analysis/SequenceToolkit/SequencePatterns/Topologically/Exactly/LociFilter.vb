@@ -124,12 +124,13 @@ Public Module LociFilter
                            Optional returnsAll As Boolean = False,
                            Optional lenMin As Integer = 4) As IEnumerable(Of T)
 
-        Return data.__filtering(
-            Function(x) x.Locis,
-            Sub(x, l) x.Locis = l,
+        Return data.doFiltering(
+            Function(l) l.Locis,
+            Sub(view, l) view.Locis = l,
             interval,
             compare,
-            returnsAll, lenMin)
+            returnsAll, lenMin
+        )
     End Function
 
     ''' <summary>
@@ -145,7 +146,7 @@ Public Module LociFilter
     ''' <param name="lengthMin">重复片段的最小长度</param>
     ''' <returns></returns>
     <Extension>
-    Private Iterator Function __filtering(Of T As RepeatsView)(data As IEnumerable(Of T),
+    Private Iterator Function doFiltering(Of T As RepeatsView)(data As IEnumerable(Of T),
                                                                getLocis As Func(Of T, Integer()),
                                                                setLocis As Action(Of T, Integer()),
                                                                interval As Integer,
@@ -172,8 +173,7 @@ Public Module LociFilter
             Next
         Else
             For Each loci As T In data.Where(Function(x) x.SequenceData.Length >= lengthMin)
-                Dim orders As Integer() =
-                    getLocis(loci).OrderBy(Function(x) x).ToArray
+                Dim orders As Integer() = getLocis(loci).OrderBy(Function(x) x).ToArray
                 Dim locis As New List(Of Integer)
                 Dim pre As Integer = loci.Left
 
@@ -213,7 +213,7 @@ Public Module LociFilter
                                  Optional compare As Compares = Compares.Interval,
                                  Optional returnsAll As Boolean = False,
                                  Optional lenMin As Integer = 4) As IEnumerable(Of RevRepeatsView)
-        Return data.__filtering(Function(x) x.RevLocis,
+        Return data.doFiltering(Function(x) x.RevLocis,
                                 Sub(x, rl) x.RevLocis = rl,
                                 interval,
                                 compare,
