@@ -90,8 +90,9 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.debug.txt"
         Dim seq As FastaSeq = FastaSeq.Load([in])
+        Dim width% = args("/width") Or 200
         Dim segments = seq.SequenceData _
-            .Split(partitionSize:=args("/width") Or 200) _
+            .Split(partitionSize:=width) _
             .Select(AddressOf StringHelpers.CharString) _
             .ToArray
         Dim createLines = Iterator Function() As IEnumerable(Of (seq$, left%))
@@ -108,13 +109,20 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
                 .MaxLengthString _
                 .Length _
                 .DoCall(Function(l) New String(" "c, l))
+            Dim left$
 
             Call output.WriteLine(seq.Title)
             Call output.WriteLine($"  length={seq.Length}")
             Call output.WriteLine($"  gc%={seq.GCContent}")
 
             For Each fragment In createLines
-                Call output.WriteLine($"{fragment.left.FormatZero(padding)} {fragment.seq} {fragment.left + fragment.seq.Length }")
+                left = fragment.left.FormatZero(padding)
+
+                If fragment.seq.Length < width Then
+                    Call output.WriteLine($"{left} {fragment.seq}")
+                Else
+                    Call output.WriteLine($"{left} {fragment.seq} {fragment.left + fragment.seq.Length }")
+                End If
             Next
         End Using
 
