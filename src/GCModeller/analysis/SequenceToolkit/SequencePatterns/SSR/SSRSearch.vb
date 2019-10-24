@@ -85,13 +85,15 @@ Public Module SSRSearch
 
     Public Property Parallel As Boolean = False
 
+    ReadOnly ATGC As Char() = "ATGC".ToArray
+
     Private Function SeedingInternal(seedRange As IntRange) As List(Of String)
-        Dim seeds As List(Of String) = Seeding.InitializeSeeds("ATGC", seedRange.Min)
+        Dim seeds As String() = Seeding.InitializeSeeds(ATGC, seedRange.Min)
         Dim repeatUnit As New List(Of String)(seeds)
 
         For i As Integer = seedRange.Min + 1 To seedRange.Max
-            seeds = Seeding.ExtendSequence(seeds, "ATGC")
-            repeatUnit += seeds.AsEnumerable
+            seeds = Seeding.ExtendSequence(seeds, ATGC).ToArray
+            repeatUnit += seeds
         Next
 
         Return repeatUnit

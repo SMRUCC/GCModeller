@@ -78,18 +78,18 @@ Namespace Topologically
             Dim rev As String = NucleicAcid.Complement(segment)
 
             ' 找不到反向序列或者重复的次数少于阈值的，都将会被删除
-            If FindLocation(seq.SequenceData, rev).Length < MinAppeared Then
+            If FindLocation(seq, rev).Length < MinAppeared Then
                 Return
             End If
 
-            Dim repeats = GenerateRepeats(seq.SequenceData, rev, MinAppeared)
+            Dim repeats = GenerateRepeats(seq, rev, MinAppeared)
             If repeats Is Nothing Then
                 Return
             End If
 
             Dim RepeatsLeftLoci As Repeats = RepeatsSearchAPI.GenerateRepeats(
-                seq.SequenceData,
-                seed.Sequence,
+                seq,
+                seed.sequence,
                 MinAppeared,
                 Rev:=True)
             Dim result As RevRepeats = RevRepeats.GenerateFromBase(repeats)

@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::32babc3fd50fef39e5d59f82c6d656ef, Bio.Assembly\SequenceModel\CutSequence.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module CutSequence
-    ' 
-    '         Function: CutSequenceBylength, (+3 Overloads) CutSequenceCircular, (+3 Overloads) CutSequenceLinear, ReadComplement
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module CutSequence
+' 
+'         Function: CutSequenceBylength, (+3 Overloads) CutSequenceCircular, (+3 Overloads) CutSequenceLinear, ReadComplement
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,7 +63,15 @@ Namespace SequenceModel
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function CutSequenceLinear(seq As IPolymerSequenceModel, site As Location) As SimpleSegment
-            Return CutSequenceLinear(seq, site.Left, site.Right, site.ToString)
+            Return CutSequenceLinear(seq, site.left, site.right, site.ToString)
+        End Function
+
+#Region "Implementation"
+        Public Function CutSequenceLinear(seq$, left%, right%) As String
+            Dim l As Integer = (right - left) + 1
+            Dim cut$ = seq.Substring(left, l)
+
+            Return cut
         End Function
 
         ''' <summary>
@@ -74,7 +82,7 @@ Namespace SequenceModel
         <Extension>
         Public Function CutSequenceLinear(seq As IPolymerSequenceModel, left%, right%, Optional tag$ = Nothing) As SimpleSegment
             Dim l As Integer = (right - left) + 1
-            Dim cut$ = Mid(seq.SequenceData, left, l)
+            Dim cut$ = seq.SequenceData.Substring(left, l)
 
             Return New SimpleSegment With {
                 .SequenceData = cut,
@@ -84,6 +92,7 @@ Namespace SequenceModel
                 .Strand = "?"
             }
         End Function
+#End Region
 
         <Extension>
         Public Function CutSequenceBylength(seq As IPolymerSequenceModel, left%, length%, Optional tag$ = Nothing) As SimpleSegment
@@ -158,14 +167,14 @@ Namespace SequenceModel
             Dim [join] As NucleotideLocation
             Dim ntLen% = seq.SequenceData.Length
 
-            If site.Left < 0 Then
-                join = New NucleotideLocation(ntLen + site.Left, ntLen, site.Strand)
-                site = New NucleotideLocation(1, site.Right)
+            If site.left < 0 Then
+                join = New NucleotideLocation(ntLen + site.left, ntLen, site.Strand)
+                site = New NucleotideLocation(1, site.right)
 
                 Return seq.CutSequenceCircular(join, site)
-            ElseIf site.Right > ntLen Then
-                join = New NucleotideLocation(1, site.Right - ntLen, site.Strand)
-                site = New NucleotideLocation(site.Left, ntLen)
+            ElseIf site.right > ntLen Then
+                join = New NucleotideLocation(1, site.right - ntLen, site.Strand)
+                site = New NucleotideLocation(site.left, ntLen)
 
                 Return seq.CutSequenceCircular(site, join)
             Else
@@ -189,7 +198,7 @@ Namespace SequenceModel
 
             Dim a As SimpleSegment = seq.CutSequenceLinear(site:=site)
             Dim b As SimpleSegment = seq.CutSequenceLinear(site:=join)
-            Dim tag$ = $"{site.Left}..{site.Right} join {join.Left}..{join.Right}"
+            Dim tag$ = $"{site.left}..{site.right} join {join.left}..{join.right}"
             Dim out As New SimpleSegment With {
                 .Strand = If(site.Strand = Strands.Forward, "+", "-"),
                 .ID = If(site.Strand = Strands.Forward, tag, $"complement({tag})"),

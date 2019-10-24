@@ -389,7 +389,7 @@ Namespace Topologically
 
             With New MirrorPalindrome(seq, min, max)
                 .DoSearch()
-                out = .ResultSet.ToArray
+                out = .ResultSet
             End With
 
             If Not tag.StringEmpty Then
@@ -414,7 +414,7 @@ Namespace Topologically
 
             With New PalindromeSearch(Sequence, Min, Max)
                 .DoSearch()
-                out = .ResultSet.ToArray
+                out = .ResultSet
             End With
 
             If Not tag.StringEmpty Then

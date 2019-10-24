@@ -41,7 +41,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
 
 Namespace Topologically.Seeding
 
@@ -55,7 +54,7 @@ Namespace Topologically.Seeding
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function PopulateExistsSeeds(seq$, seeds As IEnumerable(Of String)) As IEnumerable(Of String)
-            Return seeds.Where(Function(s) seq.IndexOf(s) > -1)
+            Return seeds.AsParallel.Where(Function(s) seq.IndexOf(s) > -1)
         End Function
 
         ''' <summary>
@@ -65,12 +64,12 @@ Namespace Topologically.Seeding
         ''' <param name="Chars"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ExtendSequence(source As IEnumerable(Of String), Chars As Char()) As List(Of String)
-            Return LinqAPI.MakeList(Of String) _
- _
-                () <= From s As String
-                      In source.AsParallel
-                      Select Seeds.Combo(s, Chars)
+        Public Iterator Function ExtendSequence(source As IEnumerable(Of String), Chars As Char()) As IEnumerable(Of String)
+            For Each seq As String In source
+                For Each extend As String In Seeds.Combo(seq, Chars)
+                    Yield extend
+                Next
+            Next
         End Function
 
         ''' <summary>
@@ -80,46 +79,51 @@ Namespace Topologically.Seeding
         ''' <param name="length"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function InitializeSeeds(chars As Char(), length%) As List(Of String)
-            Dim tmp As New List(Of String) From {""}
+        <Extension>
+        Public Function InitializeSeeds(chars As Char(), length%) As String()
+            Dim seeds = {""}
 
             For i As Integer = 1 To length
-                tmp = ExtendSequence(tmp, chars)
+                seeds = seeds.ExtendSequence(chars).ToArray
             Next
 
-            Return LinqAPI.MakeList(Of String) _
- _
-                () <= From s As String
-                      In tmp
-                      Select s
-                      Order By s Descending
+            Return seeds
         End Function
 
+        ''' <summary>
+        ''' 这个函数会过滤掉一部分在目标序列上不存在的种子序列
+        ''' </summary>
+        ''' <param name="chars"></param>
+        ''' <param name="length%"></param>
+        ''' <param name="sequence">
+        ''' 因为过滤掉了一部分的不存在的种子序列
+        ''' 所以这个理论上搜索效率会更高
+        ''' </param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function InitializeSeeds(chars As Char(), length%, sequence$) As String()
-            Dim buf As List(Of String) = InitializeSeeds(chars, length)
-            Dim LQuery$() = LinqAPI.Exec(Of String) _
- _
-                () <= From seed As String
-                      In buf.AsParallel
-                      Where InStr(sequence, seed, CompareMethod.Text) > 0
-                      Select seed
-
-            Return LQuery
+        Public Function InitializeSeeds(chars As Char(), length%, sequence$) As IEnumerable(Of String)
+            Return sequence.PopulateExistsSeeds(seeds:=chars.InitializeSeeds(length))
         End Function
 
         ''' <summary>
         ''' Extend target <paramref name="seq"/> with one base character.
         ''' </summary>
         ''' <param name="seq$"></param>
-        ''' <param name="Chars"></param>
+        ''' <param name="chars"></param>
         ''' <returns></returns>
-        <Extension> Public Function Combo(seq$, Chars As Char()) As String()
-            Return LinqAPI.Exec(Of String) _
- _
-                () <= From ch As Char
-                      In Chars
-                      Select seq & CStr(ch)
+        <Extension>
+        Public Function Combo(seq$, chars As Char()) As String()
+            Dim seeds As String() = New String(chars.Length - 1) {}
+
+            ' 为了提升计算效率
+            ' 在这里采用预分配内存的固定数组来获取序列种子拓展的数据
+            For i As Integer = 0 To seeds.Length - 1
+                seeds(i) = seq & chars(i)
+            Next
+
+            Return seeds
         End Function
     End Module
 End Namespace

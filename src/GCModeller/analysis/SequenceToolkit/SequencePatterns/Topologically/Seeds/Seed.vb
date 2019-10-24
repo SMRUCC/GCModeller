@@ -45,14 +45,21 @@
 
 Namespace Topologically.Seeding
 
+    ''' <summary>
+    ''' 一个种子序列
+    ''' </summary>
     Public Structure Seed
 
-        Public ReadOnly Property Sequence As String
-        Public ReadOnly Property Parent As String
+        ReadOnly sequence As String
+
+        Public ReadOnly Property parent As Seed
+            Get
+                Return sequence.Substring(0, sequence.Length - 1)
+            End Get
+        End Property
 
         Sub New(seq$)
             Sequence = seq
-            Parent = Mid(seq, 1, seq.Length - 1)
         End Sub
 
         Public Function IsMyParent(seed$) As Boolean
@@ -60,7 +67,11 @@ Namespace Topologically.Seeding
         End Function
 
         Public Overrides Function ToString() As String
-            Return Parent & " --> " & Sequence
+            Return sequence
         End Function
+
+        Public Shared Widening Operator CType(seq As String) As Seed
+            Return New Seed(seq)
+        End Operator
     End Structure
 End Namespace
