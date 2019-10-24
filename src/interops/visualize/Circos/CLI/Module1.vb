@@ -48,6 +48,7 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -102,17 +103,17 @@ Module Module1
 
         Dim info As New GeneTable With {
             .locus_id = locus_tag,
-            .Length = anno.Length,
+            .length = anno.Length,
             .left = anno.Minimum,
             .right = anno.Maximum,
             .CDS = anno.Sequence,
             .COG = "-",
             .commonName = anno.db_xref,
             .EC_Number = "",
-            .[Function] = anno.Name,
+            .[function] = anno.Name,
             .geneName = anno.db_xref,
-            .Strand = anno.Direction.GetStrand,
-            .Location = New NucleotideLocation(.left, .right, .Strand),
+            .strand = anno.Direction.GetStrand,
+            .Location = New NucleotideLocation(.left, .right, .strand),
             .Translation = anno.translation
         }
 
@@ -153,10 +154,22 @@ Module Module1
                 {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
             })
 
-        Dim skewSteps = 100
-        Dim GCSkew = nt.GCSkew(500, skewSteps, True).Select(Function(v, i) New ValueTrackData With {.chr = "chr1", .start = i * skewSteps, .value = v, .[end] = skewSteps * (i + 1)}).ToArray
+        Dim skewSteps = 2000
+        Dim GCSkew = nt.GCSkew(5000, skewSteps, True) _
+            .Select(Function(v, i)
+                        Return New ValueTrackData With {.chr = "chr1", .start = i * skewSteps, .value = v, .[end] = skewSteps * (i + 1)}
+                    End Function) _
+            .ToArray
 
-        Call Circos.CircosAPI.AddGradientMappings(doc, GCSkew, ColorMap.PatternJet)
+        Call Circos.CircosAPI.AddGradientMappings(doc, GCSkew, ColorMap.PatternCool)
+
+        Dim GCcontent = nt.SequenceData.SlideWindows(5000, skewSteps) _
+            .Select(Function(f, i)
+                        Return New ValueTrackData With {.chr = "chr1", .start = i * skewSteps, .value = NucleicAcidStaticsProperty.GCContent(NT:=f.CharString), .[end] = skewSteps * (i + 1)}
+                    End Function) _
+            .ToArray
+
+        Call Circos.CircosAPI.AddGradientMappings(doc, GCcontent, ColorMap.PatternCool)
 
         Call Circos.CircosAPI.SetIdeogramWidth(Circos.GetIdeogram(doc), 0)
         Call Circos.CircosAPI.ShowTicksLabel(doc, True)
@@ -366,7 +379,7 @@ Module Module1
         ' 所以在这里需要重新读取一次
         Dim geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source" AndAlso Not g.locus_id.StringEmpty) _
+            .Where(Function(g) g.species <> "source" AndAlso Not g.locus_id.StringEmpty) _
             .GroupBy(Function(g) g.locus_id) _
             .Select(Function(g) g.First) _
             .ToArray
@@ -385,7 +398,7 @@ Module Module1
 
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source").GroupBy(Function(g) g.locus_id).Select(Function(g) g.First).OrderBy(Function(g) g.Location.left) _
+            .Where(Function(g) g.species <> "source").GroupBy(Function(g) g.locus_id).Select(Function(g) g.First).OrderBy(Function(g) g.Location.left) _
             .ToArray
         'Dim annotations = geneTable _
         '    .GroupBy(Function(gene) gene.LocusID) _
@@ -443,7 +456,7 @@ Module Module1
 
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source").GroupBy(Function(g) g.locus_id).Select(Function(g) g.First) _
+            .Where(Function(g) g.species <> "source").GroupBy(Function(g) g.locus_id).Select(Function(g) g.First) _
             .ToArray
 
 
@@ -473,7 +486,7 @@ Module Module1
         '    })
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source" AndAlso Not g.locus_id.StringEmpty) _
+            .Where(Function(g) g.species <> "source" AndAlso Not g.locus_id.StringEmpty) _
             .GroupBy(Function(g) g.locus_id) _
             .Select(Function(g) g.First) _
             .ToArray
