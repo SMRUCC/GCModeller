@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::ac0e96246299a0238e39b78dbbc5d2a4, analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module LociExtensions
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: __ip, __pl, __revp, __revpcsv, __rps
-    '               __rpscsv, ConvertsAuto, MirrorsLoci, (+4 Overloads) ToLoci, (+6 Overloads) ToLocis
-    ' 
-    ' /********************************************************************************/
+' Module LociExtensions
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: __ip, __pl, __revp, __revpcsv, __rps
+'               __rpscsv, ConvertsAuto, MirrorsLoci, (+4 Overloads) ToLoci, (+6 Overloads) ToLocis
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,14 +52,15 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 ''' <summary>
 ''' 将序列特征的搜索结果转换为<see cref="SimpleSegment"/>对象类型
 ''' </summary>
-Public Module LociExtensions
+''' 
+<HideModuleName> Public Module LociExtensions
 
     <Extension>
     Public Function ToLoci(x As PalindromeLoci) As SimpleSegment
         Return New SimpleSegment With {
             .Strand = x.MappingLocation.Strand.GetBriefCode,
-            .Start = x.MappingLocation.Left,
-            .Ends = x.MappingLocation.Right,
+            .Start = x.MappingLocation.left,
+            .Ends = x.MappingLocation.right,
             .SequenceData = x.Palindrome
         }
     End Function
@@ -67,15 +68,17 @@ Public Module LociExtensions
     ''' <summary>
     ''' --->&lt;---
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="loci"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function MirrorsLoci(x As PalindromeLoci) As SimpleSegment
+    Public Function MirrorsLoci(loci As PalindromeLoci) As SimpleSegment
+        Dim loc = loci.MappingLocation
+
         Return New SimpleSegment With {
-            .Strand = x.MappingLocation.Strand.GetBriefCode,
-            .Start = x.MappingLocation.Left,
-            .Ends = x.MappingLocation.Right,
-            .SequenceData = x.Loci & x.Palindrome
+            .Strand = loc.Strand.GetBriefCode,
+            .Start = loc.left,
+            .Ends = loc.right,
+            .SequenceData = loci.Loci & loci.Palindrome
         }
     End Function
 
@@ -120,8 +123,8 @@ Public Module LociExtensions
         id = id & $"{x.Left},{x.Paloci}"
 
         Return New SimpleSegment With {
-            .Start = x.MappingLocation.Left,
-            .Ends = x.MappingLocation.Right,
+            .Start = x.MappingLocation.left,
+            .Ends = x.MappingLocation.right,
             .Strand = x.MappingLocation.Strand.GetBriefCode,
             .SequenceData = x.Palindrome,
             .ID = id

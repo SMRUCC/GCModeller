@@ -52,8 +52,8 @@ Namespace Topologically.Seeding
     ''' </summary>
     Public Class SeedBox
 
-        ReadOnly __seq As IPolymerSequenceModel
-        ReadOnly __chars As Char()
+        ReadOnly seq As IPolymerSequenceModel
+        ReadOnly chars As Char()
 
         ''' <summary>
         ''' 会将``*``和``-``这些缺口的符号是需要被过滤掉的
@@ -61,25 +61,25 @@ Namespace Topologically.Seeding
         ''' <param name="seq"></param>
         Sub New(seq As IPolymerSequenceModel)
             ' 获取所有的残基的符号
-            __chars = seq.SequenceData _
+            Me.chars = seq.SequenceData _
                 .ToArray _
                 .Distinct _
                 .Where(Function(c) c <> "*" AndAlso c <> "-") _
                 .ToArray
-            __seq = seq
+            Me.seq = seq
         End Sub
 
         Public Iterator Function PopulateSeeds(min%, max%) As IEnumerable(Of Seed())
-            Dim base As List(Of String) = __seq _
+            Dim base As List(Of String) = seq _
                 .SequenceData _
-                .PopulateExistsSeeds(Seeds.InitializeSeeds(__chars, min)) _
+                .PopulateExistsSeeds(Seeds.InitializeSeeds(chars, min)) _
                 .AsList
 
             Yield base.Select(Function(s) New Seed(s)).ToArray
 
             For len As Integer = min To max
-                base = base.ExtendSequence(__chars)
-                base = __seq.SequenceData.PopulateExistsSeeds(base).AsList
+                base = base.ExtendSequence(chars)
+                base = seq.SequenceData.PopulateExistsSeeds(base).AsList
 
                 Yield base.Select(Function(s) New Seed(s)).ToArray
             Next
@@ -120,7 +120,7 @@ Namespace Topologically.Seeding
         End Function
 
         Public Overrides Function ToString() As String
-            Return __seq.ToString
+            Return seq.ToString
         End Function
     End Class
 End Namespace
