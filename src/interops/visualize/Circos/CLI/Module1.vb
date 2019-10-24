@@ -123,6 +123,51 @@ Module Module1
         Return info
     End Function
 
+    Sub plot20191024()
+        Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
+        Dim gb = GBFF.File.Load("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk")
+        Dim nt As FastaSeq = gb.Origin.ToFasta
+        Dim size = nt.Length
+        Dim ptt = gb.GbffToPTT(ORF:=True)
+
+        Call Circos.CircosAPI.SetBasicProperty(doc, nt, loophole:=512)
+
+        Dim annotations = ptt.ExportPTTAsDump
+        Dim darkblue As Color = Color.DarkBlue
+        Dim darkred As Color = Color.OrangeRed
+
+        For Each gene In annotations
+            If gene.Location.Strand = Strands.Forward Then
+                gene.COG = "up"
+            Else
+                gene.COG = "down"
+            End If
+        Next
+
+        doc = Circos.CircosAPI.GenerateGeneCircle(
+            doc, annotations, True,
+            splitOverlaps:=False,
+            snuggleRefine:=False,
+            colorProfiles:=New Dictionary(Of String, String) From {
+                {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
+                {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
+            })
+
+        Dim skewSteps = 100
+        Dim GCSkew = nt.GCSkew(500, skewSteps, True).Select(Function(v, i) New ValueTrackData With {.chr = "chr1", .start = i * skewSteps, .value = v, .[end] = skewSteps * (i + 1)}).ToArray
+
+        Call Circos.CircosAPI.AddGradientMappings(doc, GCSkew, ColorMap.PatternJet)
+
+        Call Circos.CircosAPI.SetIdeogramWidth(Circos.GetIdeogram(doc), 0)
+        Call Circos.CircosAPI.ShowTicksLabel(doc, True)
+        Call doc.ForceAutoLayout()
+        Call Circos.CircosAPI.SetIdeogramRadius(Circos.GetIdeogram(doc), 0.25)
+
+        Call Circos.CircosAPI.WriteData(doc, "P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_circos", debug:=False)
+
+        Call App.Stop()
+    End Sub
+
     Sub plot4()
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
         Dim annotationtable = Nucleotide.LoadAsGeneTable(Nucleotide.Load("P:\essentialgenes\20190803\4\pMT1_NC_003134.1\Yersinia pestis CO92 plasmid pMT1_NC_003134.1_gene.txt")).ToArray
@@ -525,6 +570,9 @@ Module Module1
     End Sub
 
     Sub Main()
+        Call plot20191024()
+
+
         Call plot4()
         Call plot3()
         Call Module1.plot2()
@@ -544,7 +592,7 @@ Module Module1
 
         Dim geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, False)) _
-            .Where(Function(g) g.Species <> "source") _
+            .Where(Function(g) g.species <> "source") _
             .ToArray
         Dim annotations = geneTable _
             .GroupBy(Function(gene) gene.locus_id) _
@@ -559,7 +607,7 @@ Module Module1
             .Select(Function(anno)
                         Return anno.Values.First()(Scan0).With(Sub(g)
                                                                    ' 在这里主要是进行标签显示的控制
-                                                                   g.geneName = g.Function
+                                                                   g.geneName = g.function
 
                                                                    If g.COG Like otherFeatures Then
                                                                        g.locus_id = ""
@@ -614,7 +662,7 @@ Module Module1
         ' 所以在这里需要重新读取一次
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(AddressOf convert) _
-            .Where(Function(g) g.Species <> "source") _
+            .Where(Function(g) g.species <> "source") _
             .GroupBy(Function(g) g.locus_id) _
             .Select(Function(g) g.First) _
             .ToArray
