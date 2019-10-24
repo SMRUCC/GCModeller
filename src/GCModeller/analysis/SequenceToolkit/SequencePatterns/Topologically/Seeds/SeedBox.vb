@@ -79,7 +79,7 @@ Namespace Topologically.Seeding
 
             For len As Integer = min To max
                 base = base.ExtendSequence(__chars)
-                base = __seq.SequenceData.PopulateExistsSeeds(base)
+                base = __seq.SequenceData.PopulateExistsSeeds(base).AsList
 
                 Yield base.Select(Function(s) New Seed(s)).ToArray
             Next
