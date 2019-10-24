@@ -143,6 +143,12 @@ Module Module1
             Else
                 gene.COG = "down"
             End If
+
+            If gene.EC_Number.StringEmpty Then
+                gene.geneName = Nothing
+            Else
+                gene.geneName = Strings.Trim(gene.function).Split(";"c).First
+            End If
         Next
 
         doc = Circos.CircosAPI.GenerateGeneCircle(
@@ -161,15 +167,15 @@ Module Module1
                     End Function) _
             .ToArray
 
-        Call Circos.CircosAPI.AddGradientMappings(doc, GCSkew, ColorMap.PatternCool)
+        Call Circos.CircosAPI.AddGradientMappings(doc, GCSkew, ColorMap.PatternHot)
 
-        Dim GCcontent = nt.SequenceData.SlideWindows(5000, skewSteps) _
+        Dim GCcontent = nt.SequenceData.SlideWindows(6000, skewSteps) _
             .Select(Function(f, i)
                         Return New ValueTrackData With {.chr = "chr1", .start = i * skewSteps, .value = NucleicAcidStaticsProperty.GCContent(NT:=f.CharString), .[end] = skewSteps * (i + 1)}
                     End Function) _
             .ToArray
 
-        Call Circos.CircosAPI.AddGradientMappings(doc, GCcontent, ColorMap.PatternCool)
+        Call Circos.CircosAPI.AddGradientMappings(doc, GCcontent, ColorMap.PatternJet)
 
         Call Circos.CircosAPI.SetIdeogramWidth(Circos.GetIdeogram(doc), 0)
         Call Circos.CircosAPI.ShowTicksLabel(doc, True)
