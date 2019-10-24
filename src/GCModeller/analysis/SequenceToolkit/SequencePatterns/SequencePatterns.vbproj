@@ -156,6 +156,7 @@
     <DebugType>full</DebugType>
     <DefineTrace>true</DefineTrace>
     <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.xml</DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86'">
     <OutputPath>./bin</OutputPath>
