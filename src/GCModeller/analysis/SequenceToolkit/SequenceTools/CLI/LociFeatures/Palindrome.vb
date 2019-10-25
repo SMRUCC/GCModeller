@@ -190,7 +190,7 @@ Partial Module Utilities
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
         Dim out As String = args("/out") Or ([in].TrimSuffix & $".mirror(fuzzy).cut,{cut}-dist,{maxDist}-min,max={min},{max}.csv")
-        Dim nt As New FastaSeq([in])
+        Dim nt As FastaSeq = FastaSeq.Load([in])
         Dim search As New FuzzyMirrors(nt, min, max, maxDist, cut)
 
         Call search.DoSearch()
