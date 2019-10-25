@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.Imaging
 Namespace SequenceLogo
 
     ''' <summary>
-    ''' Define two prefix color schema for the sequence logo: <see cref="NT"/> and <see cref="AA"/>.
+    ''' Define two prefix color schema for the sequence logo: <see cref="SequenceModel.NT"/> and <see cref="SequenceModel.AA"/>.
     ''' (包含有两种默认的颜色模式：核酸序列和蛋白质序列)
     ''' </summary>
     ''' <remarks>由于可能会涉及到并行化的原因，

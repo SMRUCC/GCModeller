@@ -44,6 +44,9 @@ Imports System.Runtime.CompilerServices
 
 Namespace SequenceModel
 
+    ''' <summary>
+    ''' Extensions helper function for different type of bio-sequence.
+    ''' </summary>
     <HideModuleName>
     Public Module TypeExtensions
 
