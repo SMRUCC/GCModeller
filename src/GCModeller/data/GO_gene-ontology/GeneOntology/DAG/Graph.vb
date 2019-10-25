@@ -75,7 +75,7 @@ Namespace DAG
         ''' </summary>
         ''' <param name="path$">File path of the GO database: ``go.obo``</param>
         Sub New(path$)
-            Call Me.New(GO_OBO.LoadDocument(path$).Terms, trace:=path)
+            Call Me.New(GO_OBO.LoadDocument(path$).terms, trace:=path)
         End Sub
 
         ''' <summary>
@@ -118,9 +118,9 @@ Namespace DAG
         Const molecular_function$ = NameOf(molecular_function)
 
         ''' <summary>
-        ''' 
+        ''' Create family tree of the GO terms based on the ``is_a`` relationship.
         ''' </summary>
-        ''' <param name="id$"><see cref="Term.id"/></param>
+        ''' <param name="id"><see cref="Term.id"/></param>
         ''' <returns></returns>
         Public Function Family(id As String) As IEnumerable(Of InheritsChain)
             Dim term As TermNode = __DAG(id)
@@ -136,7 +136,7 @@ Namespace DAG
             Else
                 Dim routes As New List(Of InheritsChain)
 
-                For Each parent In term.is_a
+                For Each parent As is_a In term.is_a
                     Dim chain As New InheritsChain With {
                         .Route = New List(Of TermNode)
                     }
@@ -211,9 +211,5 @@ Namespace DAG
                 Return $"[{[Namespace]}] {Family.JoinBy(" -> ")}"
             End Function
         End Structure
-
-        'Public Function Infer(a$, b$) As Relationship
-
-        'End Function
     End Class
 End Namespace

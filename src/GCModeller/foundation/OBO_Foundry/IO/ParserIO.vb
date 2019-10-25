@@ -101,8 +101,12 @@ Namespace IO
                     End If
 #End If
                     Call field.SetValue(o, array$(Scan0%))
-                Else
+                ElseIf field.Type Is GetType(String()) Then
                     Call field.SetValue(o, array$)
+                ElseIf field.Type Is GetType(Dictionary(Of String, String)) Then
+                    Call field.SetValue(o, asTable(array$))
+                Else
+                    Throw New NotImplementedException(field.ToString)
                 End If
             Next
 
@@ -112,10 +116,20 @@ Namespace IO
             Return o
         End Function
 
+        Private Function asTable(data As String()) As Dictionary(Of String, String)
+            Return data _
+                .Select(Function(s) s.GetTagValue(, trim:=True)) _
+                .ToDictionary(Function(a) a.Name,
+                              Function(a)
+                                  Return a.Value.GetStackValue("""", """")
+                              End Function)
+        End Function
+
         Private Sub checkField(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String()))
-            Dim names As String() = schema _
-                .Values _
-                .Select(Function(x) x.field.name) _
+            Dim names As String() = schema.Values _
+                .Select(Function(p)
+                            Return p.field.name
+                        End Function) _
                 .ToArray
 
             For Each key As String In data.Keys
@@ -146,7 +160,9 @@ Namespace IO
             Return LQuery.ToDictionary(Function(x) x.Name,
                                        Function(x)
                                            Return x.Group _
-                                               .Select(Function(value) value.Value) _
+                                               .Select(Function(value)
+                                                           Return value.Value
+                                                       End Function) _
                                                .ToArray
                                        End Function)
         End Function

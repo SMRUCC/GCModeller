@@ -249,3 +249,4 @@ pip-log.txt
 *.RData
 /.vs/GCModeller/v16/Browse.VC.db
 /.vs/GCModeller/v16/Browse.VC.opendb
+/GCModeller/bin_unix64

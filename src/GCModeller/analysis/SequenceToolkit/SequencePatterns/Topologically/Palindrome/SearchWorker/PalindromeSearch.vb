@@ -42,7 +42,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
@@ -71,8 +70,8 @@ Namespace Topologically
         ''' </summary>
         ''' <param name="seed"></param>
         Protected Overrides Sub DoSearch(seed As Seed)
-            Dim Sites As PalindromeLoci() = Palindrome.CreatePalindrome(seed.Sequence, seq.SequenceData).TrimNull
-            Call _resultSet.Add(Sites)
+            Dim Sites As PalindromeLoci() = Palindrome.CreatePalindrome(seed.sequence, seq).TrimNull
+            Call m_resultSet.Add(Sites)
         End Sub
     End Class
 End Namespace

@@ -134,7 +134,7 @@ Namespace Topologically.SimilarityMatches
                 cutoff = 0.3
             End If
 
-            Dim seeds As List(Of String) = Seeding.InitializeSeeds(chars, min)
+            Dim seeds As List(Of String) = Seeding.InitializeSeeds(chars, min).AsList
             Dim source = (From s As String In seeds
                           Let Score As Double = LevenshteinEvaluate(s, loci)
                           Where Score >= cutoff
@@ -144,7 +144,7 @@ Namespace Topologically.SimilarityMatches
             'Seeds = (From obj In SeedsCollection Select obj.s).AsList
 
             For i As Integer = min + 1 To max   '种子延伸至长度的上限
-                buf = Seeding.ExtendSequence(seeds, chars)
+                buf = Seeding.ExtendSequence(seeds, chars).AsList
                 Dim tmp = (From s As String
                            In buf.AsParallel
                            Let Score As Double = LevenshteinEvaluate(loci, s)

@@ -80,23 +80,23 @@ Namespace NCBI
                 From line As String
                 In lines.AsParallel
                 Let tokens As String() = Strings.Split(line, vbTab)
-                Select __create(tokens.MarshalAs)
+                Select createMaps(tokens.MarshalAs)
 
             Return LQuery
         End Function
 
-        Private Shared Function __create(tokens As Pointer(Of String)) As gene2go
-            Dim gg As New gene2go With {
-                .tax_id = (+tokens),
-                .GeneID = (+tokens),
-                .GO_ID = (+tokens),
-                .Evidence = (+tokens),
-                .Qualifier = (+tokens),
-                .GO_term = (+tokens),
-                .PubMed = (+tokens),
-                .Category = (+tokens)
+        Private Shared Function createMaps(i As Pointer(Of String)) As gene2go
+            Dim g2g As New gene2go With {
+                .tax_id = ++i,
+                .GeneID = ++i,
+                .GO_ID = ++i,
+                .Evidence = ++i,
+                .Qualifier = ++i,
+                .GO_term = ++i,
+                .PubMed = ++i,
+                .Category = ++i
             }
-            Return gg
+            Return g2g
         End Function
     End Class
 End Namespace
