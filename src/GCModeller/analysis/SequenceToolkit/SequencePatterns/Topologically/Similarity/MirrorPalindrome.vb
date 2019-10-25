@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::822b831526e799ca30f11f2ba4e3fe5e, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\MirrorPalindrome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module MirrorPalindrome
-    ' 
-    '         Function: __haveMirror, CreateMirrors
-    ' 
-    '     Class FuzzyMirrors
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: DoSearch
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module MirrorPalindrome
+' 
+'         Function: __haveMirror, CreateMirrors
+' 
+'     Class FuzzyMirrors
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: DoSearch
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Levenshtein
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
 
@@ -104,29 +105,31 @@ Namespace Topologically.SimilarityMatches
         ''' <returns></returns>
         <ExportAPI("Mirrors.Locis.Get")>
         Public Function CreateMirrors(Segment As String, Sequence As String, maxDist As Integer, Optional cut As Double = 0.6) As PalindromeLoci()
-            Dim Locations As Integer() = Pattern.Extensions.FindLocation(Sequence, Segment)
+            Dim locations As Integer() = IScanner.FindLocation(Sequence, Segment).ToArray
 
-            If Locations.IsNullOrEmpty Then
+            If locations.IsNullOrEmpty Then
                 Return Nothing
             End If
 
             Dim Mirror As String = New String(Segment.Reverse.ToArray)  ' 这个是目标片段的镜像回文部分，也是需要进行比较的参考序列
             Dim l As Integer = Len(Segment)
             Dim Result = (From loci As Integer
-                          In Locations
-                          Let ml As NamedValue(Of Integer) =
-                              __haveMirror(l, loci, Mirror, Sequence, cut, maxDist)
+                          In locations
+                          Let ml As NamedValue(Of Integer) = __haveMirror(l, loci, Mirror, Sequence, cut, maxDist)
                           Where ml.Value > -1
                           Select loci,
                               ml).ToArray
-            Return Result.Select(
-                Function(site) New PalindromeLoci With {
-                    .Loci = Segment,
-                    .Start = site.loci,
-                    .PalEnd = site.ml.Value,
-                    .Palindrome = site.ml.Name,
-                    .MirrorSite = Mirror
-                }).ToArray
+            Return Result _
+                .Select(Function(site)
+                            Return New PalindromeLoci With {
+                                .Loci = Segment,
+                                .Start = site.loci,
+                                .PalEnd = site.ml.Value,
+                                .Palindrome = site.ml.Name,
+                                .MirrorSite = Mirror
+                            }
+                        End Function) _
+                .ToArray
         End Function
     End Module
 

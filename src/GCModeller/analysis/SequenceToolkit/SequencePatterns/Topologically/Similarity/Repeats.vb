@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::09500eeb137a2d51f0aec60c50109401, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Repeats.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Repeats
-    ' 
-    '         Function: (+2 Overloads) __generateSeeds, __matchLociLocation, (+2 Overloads) InvokeSearch, InvokeSearchReversed, MatchLociLocations
-    '                   (+2 Overloads) SaveRepeatsResult
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Repeats
+' 
+'         Function: (+2 Overloads) __generateSeeds, __matchLociLocation, (+2 Overloads) InvokeSearch, InvokeSearchReversed, MatchLociLocations
+'                   (+2 Overloads) SaveRepeatsResult
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Similarity
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -101,7 +102,7 @@ Namespace Topologically.SimilarityMatches
             Dim setValue As New SetValue(Of LociMatchedResult)
             Dim Repeats As LociMatchedResult() =
                 LinqAPI.Exec(Of LociMatchedResult) <= From lociSegment As LociMatchedResult
-                                                      In __matchLociLocation(Sequence, Seeds)
+                                                      In Sequence.doMatchLociLocations(Seeds)
                                                       Let Score As Double = SeedsData(lociSegment.Matched)
                                                       Select setValue _
                                                           .InvokeSetValue(lociSegment, NameOf(lociSegment.Similarity), Score) _
@@ -116,11 +117,13 @@ Namespace Topologically.SimilarityMatches
         ''' <param name="seeds">为了加快计算效率，事先所生成的种子缓存</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function __matchLociLocation(Sequence As String, seeds As String()) As LociMatchedResult()
+        ''' 
+        <Extension>
+        Private Function doMatchLociLocations(Sequence As String, seeds As String()) As LociMatchedResult()
             Dim LQuery As LociMatchedResult() =
                 LinqAPI.Exec(Of LociMatchedResult) <= From s As String
                                                       In seeds
-                                                      Let Location = FindLocation(Sequence, s)
+                                                      Let Location = IScanner.FindLocation(Sequence, s).ToArray
                                                       Select New LociMatchedResult With {
                                                           .Matched = s,
                                                           .Location = Location
@@ -219,7 +222,7 @@ Namespace Topologically.SimilarityMatches
                            Let InternalSeedsSegment As String() = (From obj In InternalSeeds Select obj.Key).ToArray
                            Select InternalSeeds,
                                Loci,
-                               repeatsCollection = __matchLociLocation(SequenceData, InternalSeedsSegment)).ToArray '遍历种子，进行全序列扫描
+                               repeatsCollection = doMatchLociLocations(SequenceData, InternalSeedsSegment)).ToArray '遍历种子，进行全序列扫描
 
             Call $"{Repeats.Length} repeats loci!".__DEBUG_ECHO
 
@@ -280,7 +283,7 @@ Namespace Topologically.SimilarityMatches
                            Let InternalSeedsSegment As String() = (From obj In InternalSeeds Select obj.Key).ToArray
                            Select InternalSeeds,
                                Loci,
-                               repeatsCollection = __matchLociLocation(Sequence, InternalSeedsSegment)).ToArray '遍历种子，进行全序列扫描
+                               repeatsCollection = doMatchLociLocations(Sequence, InternalSeedsSegment)).ToArray '遍历种子，进行全序列扫描
 
             ' 反向重复的
             Dim setValue As New SetValue(Of LociMatchedResult)
