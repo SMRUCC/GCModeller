@@ -241,12 +241,6 @@
     <Compile Include="Motif\ResidueSite.vb" />
     <Compile Include="Pattern\PatternSearch.vb" />
     <Compile Include="Pattern\SegLoci.vb" />
-    <Compile Include="SequenceLogo\Alphabet.vb" />
-    <Compile Include="SequenceLogo\ColorSchema.vb" />
-    <Compile Include="SequenceLogo\DrawingDevice.vb" />
-    <Compile Include="SequenceLogo\DrawingModel.vb" />
-    <Compile Include="SequenceLogo\Extensions.vb" />
-    <Compile Include="SequenceLogo\Residue.vb" />
     <Compile Include="SSR\SSRSearch.vb" />
     <Compile Include="Topologically\Palindrome\SearchWorker\MirrorPalindrome.vb" />
     <Compile Include="Topologically\Seeds\Seed.vb" />
@@ -297,17 +291,9 @@
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\Math.Statistics.vbproj">
-      <Project>{3e195df1-9feb-44d5-904b-15626bbe74d7}</Project>
-      <Name>Math.Statistics</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
-      <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
-      <Name>Microsoft.VisualBasic.Imaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
