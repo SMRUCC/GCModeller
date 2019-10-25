@@ -109,6 +109,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("--palindrome.From.FASTA")>
+    <Description("")>
     <Usage("--palindrome.From.Fasta /nt <nt-sequence.fasta> [/out <out.csv> /min <default=3> /max <default=20>]")>
     <Argument("/nt", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.fasta, *.fa, *.fsa",
