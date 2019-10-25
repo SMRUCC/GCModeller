@@ -116,10 +116,10 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                            End Function)
 
             For Each entry As ListEntry In all
-                Dim imageUrl = String.Format("http://www.genome.jp/kegg/pathway/{0}/{1}.png", sp, entry.EntryID)
-                Dim img As String = EXPORT & $"/maps/{entry.EntryID}.png"
-                Dim bCode As String = Regex.Match(entry.EntryID, "\d+").Value
-                Dim xml$ = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.EntryID}.Xml"
+                Dim imageUrl = String.Format("http://www.genome.jp/kegg/pathway/{0}/{1}.png", sp, entry.entryId)
+                Dim img As String = EXPORT & $"/maps/{entry.entryId}.png"
+                Dim bCode As String = Regex.Match(entry.entryId, "\d+").Value
+                Dim xml$ = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.entryId}.Xml"
                 Dim data As Pathway = query.Query(Of Pathway)(entry, ".html", hitCache)
 
                 If img.FileLength < 1024 Then
@@ -127,10 +127,10 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 End If
 
                 If data Is Nothing Then
-                    failures += entry.EntryID
+                    failures += entry.entryId
                 Else
                     entries += entry
-                    url = $"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}"
+                    url = $"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.entryId}"
                     data.genes = url.LinkDbEntries(cacheRoot:=$"{cache}/linkdb/", offline:=offline).ToArray
 
                     Call data.SaveAsXml(xml)

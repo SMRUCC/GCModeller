@@ -102,9 +102,9 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 url = "http://www.genome.jp" & entry.href
 
                 Yield New ListEntry With {
-                    .EntryID = key,
-                    .Description = description,
-                    .Url = url
+                    .entryId = key,
+                    .description = description,
+                    .url = url
                 }
             Next
         End Function
@@ -118,7 +118,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                        Optional offline As Boolean = False)
 
             Call MyBase.New(url:=AddressOf pathwayPage,
-                            contextGuid:=Function(entry) entry.EntryID,
+                            contextGuid:=Function(entry) entry.entryId,
                             parser:=AddressOf pageParser,
                             prefix:=Function(entry) entry.Split(":"c).First,
                             cache:=cache,
@@ -128,7 +128,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         End Sub
 
         Private Shared Function pathwayPage(entry As ListEntry) As String
-            Return "http://www.genome.jp/dbget-bin/www_bget?pathway+" & entry.EntryID
+            Return "http://www.genome.jp/dbget-bin/www_bget?pathway+" & entry.entryId
         End Function
 
         Private Shared Function pageParser(html$, null As Type) As Object

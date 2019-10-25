@@ -136,7 +136,7 @@ Public Module ShellScriptAPI
     <ExportAPI("Cytoscape.Export.KEGG.ReferenceMap")>
     Public Function CreateMapNetworkData(RefMap As ReferenceMapData) As Graph
         Dim Reaction = (From refRxn As ReferenceReaction In RefMap.Reactions
-                        Let Orthology As String() = (From obj In RefMap.GetGeneOrthology(refRxn) Select obj.Key.Description).ToArray
+                        Let Orthology As String() = (From obj In RefMap.GetGeneOrthology(refRxn) Select obj.Key.description).ToArray
                         Select (From xId As String In refRxn.Enzyme
                                 Select ID = String.Format("[{0}] {1}", xId, refRxn.ID),
                                     DataModel = refRxn.ReactionModel,

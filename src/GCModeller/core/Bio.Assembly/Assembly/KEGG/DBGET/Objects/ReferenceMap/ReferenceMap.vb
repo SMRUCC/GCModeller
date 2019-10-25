@@ -75,22 +75,22 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         <XmlElement("ReferenceGeneData")>
         Public Property ReferenceGenes As KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)())()
             Get
-                If _refGeneOrthology.IsNullOrEmpty Then
+                If m_geneOrthology.IsNullOrEmpty Then
                     Return New KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)())() {}
                 End If
-                Return _refGeneOrthology.Values.ToArray
+                Return m_geneOrthology.Values.ToArray
             End Get
             Set(value As KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)())())
                 If value.IsNullOrEmpty Then
-                    _refGeneOrthology = New Dictionary(Of String, KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)()))
+                    m_geneOrthology = New Dictionary(Of String, KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)()))
                 Else
-                    _refGeneOrthology = value.ToDictionary(Function(obj) obj.Key.EntryID)
+                    m_geneOrthology = value.ToDictionary(Function(obj) obj.Key.entryId)
                 End If
             End Set
         End Property
 
-        Dim _refGeneOrthology As Dictionary(Of String, KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)()))
-        Dim _refReactions As New Dictionary(Of String, ReferenceReaction)
+        Dim m_geneOrthology As Dictionary(Of String, KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)()))
+        Dim m_reactions As New Dictionary(Of String, ReferenceReaction)
 
         Public Property [Class] As String
         Public Property Name As String
@@ -100,23 +100,23 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         Public Property References As String()
         Public Property Reactions As ReferenceReaction()
             Get
-                If _refReactions.IsNullOrEmpty Then
+                If m_reactions.IsNullOrEmpty Then
                     Return New ReferenceMap.ReferenceReaction() {}
                 End If
-                Return _refReactions.Values.ToArray
+                Return m_reactions.Values.ToArray
             End Get
             Set(value As ReferenceReaction())
                 If value.IsNullOrEmpty Then
-                    _refReactions = New Dictionary(Of String, ReferenceReaction)
+                    m_reactions = New Dictionary(Of String, ReferenceReaction)
                 Else
-                    _refReactions = value.ToDictionary(Function(ref) ref.ID)
+                    m_reactions = value.ToDictionary(Function(ref) ref.ID)
                 End If
             End Set
         End Property
 
         Public Function GetReaction(ID As String) As ReferenceMap.ReferenceReaction
-            If _refReactions.ContainsKey(ID) Then
-                Return _refReactions(ID)
+            If m_reactions.ContainsKey(ID) Then
+                Return m_reactions(ID)
             Else
                 Return Nothing
             End If
@@ -131,13 +131,13 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         Const MODULE_PATTERN As String = "<a href=""/kegg-bin/show_module\?M\d+.+?\[PATH:.+?</a>\]"
 
         Public Function GetGeneOrthology(refRxn As ReferenceMap.ReferenceReaction) As KeyValuePairObject(Of KEGG.WebServices.ListEntry, KeyValuePairObject(Of String, SequenceModel.FASTA.FastaSeq)())()
-            Dim LQuery = (From ort In refRxn.SSDBs Where _refGeneOrthology.ContainsKey(ort.Name) Select _refGeneOrthology(ort.Name)).ToArray
+            Dim LQuery = (From ort In refRxn.SSDBs Where m_geneOrthology.ContainsKey(ort.name) Select m_geneOrthology(ort.name)).ToArray
             Return LQuery
         End Function
 
         Public Function GetGeneOrthology(KO_ID As String) As KeyValuePairObject(Of KEGG.WebServices.ListEntry, KeyValuePairObject(Of String, SequenceModel.FASTA.FastaSeq)())
-            If _refGeneOrthology.ContainsKey(KO_ID) Then
-                Return _refGeneOrthology(KO_ID)
+            If m_geneOrthology.ContainsKey(KO_ID) Then
+                Return m_geneOrthology(KO_ID)
             Else
                 Return Nothing
             End If
@@ -202,7 +202,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         End Function
 
         Private Shared Function __downloadRefRxn(Entry As WebServices.ListEntry) As ReferenceMap.ReferenceReaction
-            Dim path As String = "./Downloads/" & Entry.EntryID.NormalizePathString & ".xml"
+            Dim path As String = "./Downloads/" & Entry.entryId.NormalizePathString & ".xml"
 
             If FileIO.FileSystem.FileExists(path) Then
                 Dim refData = path.LoadXml(Of ReferenceMap.ReferenceReaction)()
