@@ -174,20 +174,25 @@ Partial Module Utilities
         Return result.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/Mirror.Fuzzy",
-               Usage:="/Mirror.Fuzzy /in <in.fasta> [/out <out.csv> /cut 0.6 /max-dist 6 /min 3 /max 20]")>
+    <ExportAPI("/Mirror.Fuzzy")>
+    <Usage("/Mirror.Fuzzy /in <in.fasta> [/cut <default=0.6> /max-dist <default=6> /min <default=3> /max <default=20> /out <out.csv>]")>
+    <Description("Search mirror loci sites on your sequence.")>
     <Argument("/in", False, AcceptTypes:={GetType(FastaSeq)})>
     <Argument("/out", True, AcceptTypes:={GetType(PalindromeLoci)})>
+    <Argument("/max-dist", True, CLITypes.Integer,
+              AcceptTypes:={GetType(Integer)},
+              Description:="The max distance of the loci site and its mirror loci site.")>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function FuzzyMirrors(args As CommandLine) As Integer
-        Dim [in] As String = args - "/in"
+        Dim [in] As String = args <= "/in"
         Dim cut As Double = args.GetValue("/cut", 0.6)
         Dim maxDist As Integer = args.GetValue("/max-dist", 6)
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".cut,{cut}-dist,{maxDist}-min,max={min},{max}.Csv")
+        Dim out As String = args("/out") Or ([in].TrimSuffix & $".mirror(fuzzy).cut,{cut}-dist,{maxDist}-min,max={min},{max}.csv")
         Dim nt As New FastaSeq([in])
         Dim search As New FuzzyMirrors(nt, min, max, maxDist, cut)
+
         Call search.DoSearch()
         Call search.ResultSet.SaveTo(out)
 
