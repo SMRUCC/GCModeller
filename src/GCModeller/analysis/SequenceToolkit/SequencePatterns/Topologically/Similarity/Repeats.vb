@@ -42,7 +42,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -51,7 +50,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Similarity
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
@@ -90,7 +88,7 @@ Namespace Topologically.SimilarityMatches
                                          In Sequence
                                          Select c
                                          Distinct
-            Dim initSeeds = (From obj In __generateSeeds(Chars, loci, cutoff, Min, Max)
+            Dim initSeeds = (From obj In doGenerateSeeds(Chars, loci, cutoff, Min, Max)
                              Select obj
                              Group By obj.Name Into Group)
             Dim SeedsData = (From seed In initSeeds
@@ -113,40 +111,41 @@ Namespace Topologically.SimilarityMatches
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="Sequence"></param>
+        ''' <param name="sequence"></param>
         ''' <param name="seeds">为了加快计算效率，事先所生成的种子缓存</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <Extension>
-        Private Function doMatchLociLocations(Sequence As String, seeds As String()) As LociMatchedResult()
-            Dim LQuery As LociMatchedResult() =
-                LinqAPI.Exec(Of LociMatchedResult) <= From s As String
-                                                      In seeds
-                                                      Let Location = IScanner.FindLocation(Sequence, s).ToArray
-                                                      Select New LociMatchedResult With {
-                                                          .Matched = s,
-                                                          .Location = Location
-                                                      }
-            Return LQuery
+        Private Function doMatchLociLocations(sequence$, seeds$()) As IEnumerable(Of LociMatchedResult)
+            Return From s As String
+                   In seeds
+                   Let Location = IScanner.FindLocation(sequence, s).ToArray
+                   Select New LociMatchedResult With {
+                       .Matched = s,
+                       .Location = Location
+                   }
         End Function
 
         <Extension>
-        Private Function __generateSeeds(chars As Char(), loci$, cutoff#, min%, max%) As NamedValue(Of Double)()
+        Private Function doGenerateSeeds(chars As Char(), loci$, cutoff#, min%, max%) As NamedValue(Of Double)()
+            Dim seeds As List(Of String) = Seeding.InitializeSeeds(chars, min).AsList
+
             If min < 6 Then
                 cutoff = 0.3
             End If
 
-            Dim seeds As List(Of String) = Seeding.InitializeSeeds(chars, min).AsList
-            Dim source = (From s As String In seeds
-                          Let Score As Double = LevenshteinEvaluate(s, loci)
-                          Where Score >= cutoff
-                          Select s,
-                              Score).AsList '生成初始长度的种子
+            ' 生成初始长度的种子
+            Dim source = (From s As String
+                          In seeds
+                          Let score As Double = LevenshteinEvaluate(s, loci)
+                          Where score >= cutoff
+                          Select s, score).AsList
             Dim buf As List(Of String)
             'Seeds = (From obj In SeedsCollection Select obj.s).AsList
 
-            For i As Integer = min + 1 To max   '种子延伸至长度的上限
+            ' 种子延伸至长度的上限
+            For i As Integer = min + 1 To max
                 buf = Seeding.ExtendSequence(seeds, chars).AsList
                 Dim tmp = (From s As String
                            In buf.AsParallel
@@ -177,10 +176,10 @@ Namespace Topologically.SimilarityMatches
         ''' <param name="Cutoff"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function __generateSeeds(Chars As Char(), loci As String, Cutoff As Double) As NamedValue(Of Double)()
+        Private Function doGenerateSeeds(Chars As Char(), loci As String, Cutoff As Double) As NamedValue(Of Double)()
             Dim Min As Integer = Len(loci),
                 Max As Integer = Len(loci) * 2
-            Return __generateSeeds(Chars, loci, Cutoff, Min, Max)
+            Return doGenerateSeeds(Chars, loci, Cutoff, Min, Max)
         End Function
 
         ''' <summary>
@@ -214,7 +213,7 @@ Namespace Topologically.SimilarityMatches
             Dim Repeats = (From Loci As String
                            In Seeds
                            Let InternalSeeds = (From obj As NamedValue(Of Double)
-                                                In __generateSeeds(Chars, Loci, cutoff, Min, max:=Len(Loci) * 1.5)
+                                                In doGenerateSeeds(Chars, Loci, cutoff, Min, max:=Len(Loci) * 1.5)
                                                 Select obj
                                                 Group By obj.Name Into Group) _
                                                     .ToDictionary(Function(obj) obj.Name,
@@ -275,7 +274,7 @@ Namespace Topologically.SimilarityMatches
             'Seeds是具有重复的反向序列
             Dim Repeats = (From Loci As String
                            In Seeds.AsParallel
-                           Let InternalSeeds = (From obj In __generateSeeds(Chars, Loci, cutoff)
+                           Let InternalSeeds = (From obj In doGenerateSeeds(Chars, Loci, cutoff)
                                                 Select obj
                                                 Group By obj.Name Into Group) _
                                                       .ToDictionary(Function(obj) obj.Name,
