@@ -89,6 +89,8 @@ Namespace Topologically.Seeding
                 base = base.ExtendSequence(chars).ToArray
                 base = seq.SequenceData.PopulateExistsSeeds(base).ToArray
 
+                Call $"Populate {base.Length} seeds at width={len}".__DEBUG_ECHO
+
                 Yield base.Select(Function(s) New Seed(s)).ToArray
             Next
         End Function
