@@ -84,6 +84,7 @@ Namespace Motif
 
             Do While True
                 p = InStr(Start:=p, String1:=Sequence, String2:=Loci)
+
                 If p > 0 Then
                     locis += p
                     p += 1
