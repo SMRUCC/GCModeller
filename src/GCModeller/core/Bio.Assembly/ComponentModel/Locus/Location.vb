@@ -56,10 +56,15 @@ Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Namespace ComponentModel.Loci
 
     ''' <summary>
-    ''' A location property on a sequence data. Please notice that if the loci value its left value greater than right value then this object will swap the value automaticaly.
-    ''' (一个序列片段区域的位置，请注意，当Left的大小大于Right的时候，模块会自动纠正为Left小于Right的状态，这个对象可以同时用来表示核酸序列或者蛋白质序列上面的位置)
+    ''' A location property on a sequence data. Please notice that if the loci value its left value 
+    ''' greater than right value then this object will swap the value automaticaly.
+    ''' (一个序列片段区域的位置，请注意，当Left的大小大于Right的时候，模块会自动纠正为Left小于Right的状态，
+    ''' 这个对象可以同时用来表示核酸序列或者蛋白质序列上面的位置)
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' 字符串中的字符在计算机程序语言中是从零开始的
+    ''' 但是生物分子序列中的残基的起始是从1开始的
+    ''' </remarks>
     Public Class Location : Inherits IntRange
         Implements ILocationComponent
         Implements IKeyValuePairObject(Of Integer, Integer)

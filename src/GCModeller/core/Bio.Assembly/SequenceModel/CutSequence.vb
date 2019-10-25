@@ -69,7 +69,7 @@ Namespace SequenceModel
 #Region "Implementation"
         Public Function CutSequenceLinear(seq$, left%, right%) As String
             Dim l As Integer = (right - left) + 1
-            Dim cut$ = seq.Substring(left, l)
+            Dim cut$ = seq.Substring(left - 1, l)
 
             Return cut
         End Function
@@ -82,7 +82,7 @@ Namespace SequenceModel
         <Extension>
         Public Function CutSequenceLinear(seq As IPolymerSequenceModel, left%, right%, Optional tag$ = Nothing) As SimpleSegment
             Dim l As Integer = (right - left) + 1
-            Dim cut$ = seq.SequenceData.Substring(left, l)
+            Dim cut$ = seq.SequenceData.Substring(left - 1, l)
 
             Return New SimpleSegment With {
                 .SequenceData = cut,
