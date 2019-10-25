@@ -272,6 +272,7 @@
     <Compile Include="CLIGrouping.vb" />
     <Compile Include="CLI\Aligner.vb" />
     <Compile Include="CLI\DNA_Comparative.vb" />
+    <Compile Include="CLI\Debugger.vb" />
     <Compile Include="CLI\SNP\SNP.vb" />
     <Compile Include="CLI\PalindromeBatch.vb" />
     <Compile Include="CLI\NTProps.vb" />

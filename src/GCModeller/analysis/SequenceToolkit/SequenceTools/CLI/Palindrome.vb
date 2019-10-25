@@ -99,7 +99,7 @@ Partial Module Utilities
             .SequenceData = args("/nt"),
             .Headers = {"auto"}
         }
-        Dim Out As String = args("/out")
+        Dim Out As String = args("/out") Or "./nt.palindrome.csv"
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim Search As New Topologically.PalindromeSearch(NT, Min, Max)
@@ -117,7 +117,7 @@ Partial Module Utilities
     <Group(CLIGrouping.PalindromeTools)>
     Public Function SearchPalindromeFasta(args As CommandLine) As Integer
         Dim nt As FastaSeq = FastaSeq.Load(args("/nt"))
-        Dim Out As String = args("/out") Or (args("/nt").TrimSuffix & ".csv")
+        Dim Out As String = args("/out") Or (args("/nt").TrimSuffix & ".palindromes.csv")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim Search As New Topologically.PalindromeSearch(nt, Min, Max)
