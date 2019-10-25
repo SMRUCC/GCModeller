@@ -46,6 +46,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Windows.Forms
@@ -55,6 +56,7 @@ Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices
 
@@ -134,9 +136,9 @@ Namespace Assembly.KEGG.WebServices
 
         <ExportAPI("EntryList.Load")>
         Public Function LoadList(url As String) As ListEntry()
-            Dim PageContent As String = GetPageContent(url)
+            Dim html$ = GetPageContent(url)
             Dim TempChunk As String() = (From m As Match
-                                         In Regex.Matches(PageContent, "^<a href="".+?"">.+?</a>.+?$", RegexOptions.Multiline)
+                                         In r.Matches(html, "^<a href="".+?"">.+?</a>.+?$", RegexOptions.Multiline)
                                          Select m.Value).ToArray
             Dim LQuery = (From s As String
                           In TempChunk
@@ -145,7 +147,8 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         ''' <summary>
-        ''' Download a protein sequence data from the KEGG database.(从KEGG数据库之中下载一条蛋白质分子序列)
+        ''' Download a protein sequence data from the KEGG database.
+        ''' (从KEGG数据库之中下载一条蛋白质分子序列)
         ''' </summary>
         ''' <param name="specieId">KEGG species id.(KEGG物种编号)</param>
         ''' <param name="accessionId">NCBI gene locus tag.(NCBI基因编号)</param>
@@ -176,28 +179,29 @@ Namespace Assembly.KEGG.WebServices
         ''' <summary>
         ''' Fetch the nucleotide sequence fasta data from the kegg database.
         ''' </summary>
-        ''' <param name="Entry"></param>
+        ''' <param name="entry"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Nt.Fetch", Info:="Fetch the nucleotide sequence fasta data from the kegg database.")>
-        Public Function FetchNt(Entry As QueryEntry) As FastaSeq
-            Return FetchNt(Entry.speciesID, Entry.locusID)
+        Public Function FetchNt(entry As QueryEntry) As FastaSeq
+            Return FetchNt(entry.speciesID, entry.locusID)
         End Function
 
         ''' <summary>
         ''' Download a protein sequence data from the KEGG database.(从KEGG数据库之中下载一条蛋白质分子序列)
         ''' </summary>
-        ''' <param name="Entry">KEGG sequence query entry.(KEGG数据库的分子序列查询入口点)</param>
+        ''' <param name="entry">KEGG sequence query entry.(KEGG数据库的分子序列查询入口点)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Fasta.Fetch", Info:="Download a protein sequence data from the KEGG database.")>
-        Public Function FetchSeq(Entry As QueryEntry) As FastaSeq
-            If Entry Is Nothing Then
+        Public Function FetchSeq(entry As QueryEntry) As FastaSeq
+            If entry Is Nothing Then
                 Return Nothing
+            Else
+                Return FetchSeq(entry.speciesID, entry.locusID)
             End If
-            Return FetchSeq(Entry.speciesID, Entry.locusID)
         End Function
 
         Const KEGG_DBGET_WWW_QUERY As String = "http://www.genome.jp/dbget-bin/www_bfind_sub?mode=bfind&max_hit=1000&locale=en&serv=gn&dbkey=genes&keywords={0}&page="
@@ -235,7 +239,7 @@ Namespace Assembly.KEGG.WebServices
 
         <Extension>
         Friend Iterator Function doParseQueryEntry(html As String) As IEnumerable(Of QueryEntry)
-            Dim matches = Regex.Matches(html, QUERY_RESULT_LINK_ITEM)
+            Dim matches As MatchCollection = r.Matches(html, QUERY_RESULT_LINK_ITEM)
 
             If matches.Count = 0 Then
                 Return
@@ -263,65 +267,71 @@ Namespace Assembly.KEGG.WebServices
         ''' 
         ''' </summary>
         ''' <param name="keyword"></param>
-        ''' <param name="LimitCount">大批量的数据查询会不会被KEGG封IP？，可以使用本参数来控制数据的返回量</param>
+        ''' <param name="limit">大批量的数据查询会不会被KEGG封IP？，可以使用本参数来控制数据的返回量</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Query.Batch", Info:="Batch query protein sequence fasta data from the KEGG server.")>
-        Public Function BatchQuery(keyword$,
-                                   <Parameter("Limited.Counts")>
-                                   Optional LimitCount As UInteger = 30) As FastaFile
-            Dim EntryList As QueryEntry() = HandleQuery(keyword)
+        Public Function BatchQuery(keyword$, Optional limit As Integer = 30) As FastaFile
+            Dim list As QueryEntry() = HandleQuery(keyword)
 
-            Call $"KEGG DBGET Service return {EntryList.Length} records...".__DEBUG_ECHO
+            Call $"KEGG DBGET Service return {list.Length} records...".__DEBUG_ECHO
 
-            If LimitCount > EntryList.Length Then
-                LimitCount = EntryList.Length
+            If limit > list.Length Then
+                limit = list.Length
             End If
 
+            ' 使用DBGET服务执行对KEGG数据库服务器的数据查询
             Dim LQuery = (From entry As QueryEntry
-                          In EntryList.Take(LimitCount)
-                          Select FetchSeq(entry)).ToArray '使用DBGET服务执行对KEGG数据库服务器的数据查询
+                          In list.Take(limit)
+                          Select FetchSeq(entry)).ToArray
             Return LQuery
         End Function
 
         ''' <summary>
         ''' Download fasta sequence data from KEGG database, this function will automatically handles the species brief code.
         ''' </summary>
-        ''' <param name="Id"></param>
+        ''' <param name="id"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Fasta.Download", Info:="Download fasta sequence data from KEGG database, this function will automatically handles the species brief code.")>
-        Public Function DownloadSequence(Id As String) As FASTA.FastaSeq
-            Dim Entry As QueryEntry = GetQueryEntry(Id)
-            Dim fa = WebRequest.FetchSeq(Entry)
-            If fa Is Nothing Then Call $"[KEGG_DATA_NOT_FOUND] [{Scripting.ToString(Entry)}] KEGG not sure the object is a protein.".__DEBUG_ECHO
+        Public Function DownloadSequence(id As String) As FASTA.FastaSeq
+            Dim entry As QueryEntry = GetQueryEntry(id)
+            Dim fa = WebRequest.FetchSeq(entry)
+
+            If fa Is Nothing Then
+                Call $"[KEGG_DATA_NOT_FOUND] [{Scripting.ToString(entry)}] KEGG not sure the object is a protein.".__DEBUG_ECHO
+            End If
+
             Return fa
         End Function
 
         ''' <summary>
         ''' Handle query for a gene locus from KEGG
         ''' </summary>
-        ''' <param name="locusId"></param>
+        ''' <param name="locus_id"></param>
         ''' <returns></returns>
         <ExportAPI("QueryEntry.GET")>
-        Public Function GetQueryEntry(locusId As String) As QueryEntry
-            Dim EntryList As QueryEntry() = WebRequest.HandleQuery(locusId)
+        Public Function GetQueryEntry(locus_id As String) As QueryEntry
+            Dim list As QueryEntry() = WebRequest.HandleQuery(locus_id)
 
-            If EntryList.IsNullOrEmpty Then
-                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locusId}]".__DEBUG_ECHO
+            If list.IsNullOrEmpty Then
+                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locus_id}]".__DEBUG_ECHO
                 Return Nothing
             End If
 
-            Dim Entry As QueryEntry = (From queryEntry As QueryEntry
-                                       In EntryList
-                                       Where String.Equals(locusId, queryEntry.locusID, StringComparison.OrdinalIgnoreCase)
-                                       Select queryEntry).FirstOrDefault
-            If Entry Is Nothing Then
-                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locusId}]".__DEBUG_ECHO
+            Dim LQuery = From queryEntry As QueryEntry
+                                       In list
+                         Where String.Equals(locus_id, queryEntry.locusID, StringComparison.OrdinalIgnoreCase)
+                         Select queryEntry
+            Dim entry As QueryEntry = LQuery.FirstOrDefault
+
+            If entry Is Nothing Then
+                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locus_id}]".__DEBUG_ECHO
             End If
-            Return Entry
+
+            Return entry
         End Function
 
         <ExportAPI("Fasta.Download")>
@@ -332,7 +342,7 @@ Namespace Assembly.KEGG.WebServices
                 Return FastaSeq.Load(path)
             Else
                 Try
-                    Return __downloads(path, sId)
+                    Return downloadWithCache(path, sId)
                 Catch ex As Exception
                     Call App.LogException(ex)
                     Return Nothing
@@ -340,12 +350,14 @@ Namespace Assembly.KEGG.WebServices
             End If
         End Function
 
-        Private Function __downloads(fa As String, sId As String) As FastaSeq
-            Dim Fasta As FastaSeq = WebRequest.DownloadSequence(sId)
-            If Not Fasta Is Nothing Then
-                Call Fasta.SaveTo(fa)
+        Private Function downloadWithCache(fa As String, sId As String) As FastaSeq
+            Dim fasta As FastaSeq = WebRequest.DownloadSequence(sId)
+
+            If Not fasta Is Nothing Then
+                Call fasta.SaveTo(fa)
             End If
-            Return Fasta
+
+            Return fasta
         End Function
 
         ''' <summary>
@@ -353,8 +365,8 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         ''' <returns></returns>
         ''' 
-        <ExportAPI("Downloads.Batch",
-                   Info:="It is recommended using this method for the batch downloaded of the protein sequence from the KEGG server when the protein is in the same genome.")>
+        <ExportAPI("Downloads.Batch")>
+        <Description("It is recommended using this method for the batch downloaded of the protein sequence from the KEGG server when the protein is in the same genome.")>
         Public Function DownloadsBatch(DIR$, list As IEnumerable(Of String)) As FastaFile
             Dim LQuery = (From sId As String
                           In list

@@ -100,7 +100,7 @@ Namespace Regtransbase.WebServices
                     Dim RegulatorEntry = RegulatorEntries.First
 
                     Try
-                        Dim Fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(Entry:=RegulatorEntry)
+                        Dim Fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(entry:=RegulatorEntry)
                         Dim TempList = Fsa.Headers.First
 
                         TempList = TempList & String.Format(" [Regulog={0}]", Item.Key)

@@ -106,7 +106,7 @@ both of these relationships hold
                 Description = Mid(Description, 1, Len(Description) - 1)
 
                 Result(i) = New QueryEntry With {
-                    .Description = Description,
+                    .description = Description,
                     .locusID = value,
                     .speciesID = "ko"
                 }
@@ -183,7 +183,7 @@ both of these relationships hold
             Dim EntryData As QueryEntry = New QueryEntry With {
                 .locusID = Entry.GetValue,
                 .speciesID = Entry.href.Split(CChar("?")).Last.Split(CChar(":")).First,
-                .Description = Name
+                .description = Name
             }
             Return EntryData
         End Function

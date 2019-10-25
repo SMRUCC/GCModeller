@@ -146,7 +146,7 @@ Public Module DumpProcedures
                     .orthology = KO,
                     .locus_tag = gene.locusID,
                     .organism = gene.speciesID,
-                    .geneName = gene.Description,
+                    .geneName = gene.description,
                     .uid = LocusTagGuid(.organism, .locus_tag)
                 }
             Next
