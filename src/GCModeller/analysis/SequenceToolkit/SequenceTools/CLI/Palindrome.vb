@@ -108,12 +108,16 @@ Partial Module Utilities
         Return 0
     End Function
 
-    <ExportAPI("--Palindrome.From.FASTA",
-               Usage:="--Palindrome.From.Fasta /nt <nt-sequence.fasta> [/out <out.csv> /min <3> /max <20>]")>
-    <Argument("/nt", False,
-                   Description:="Fasta sequence file, and this file should just contains only one sequence.",
-                   AcceptTypes:={GetType(FastaSeq)})>
+    <ExportAPI("--palindrome.From.FASTA")>
+    <Usage("--palindrome.From.Fasta /nt <nt-sequence.fasta> [/out <out.csv> /min <default=3> /max <default=20>]")>
+    <Argument("/nt", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.fasta, *.fa, *.fsa",
+              Description:="Fasta sequence file, and this file should just contains only one sequence.",
+              AcceptTypes:={GetType(FastaSeq)})>
     <Argument("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
+    <Argument("/min", True, CLITypes.Integer,
+              AcceptTypes:={GetType(Integer)},
+              Description:="The min length of the palindrome mirror part.")>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function SearchPalindromeFasta(args As CommandLine) As Integer
         Dim nt As FastaSeq = FastaSeq.Load(args("/nt"))
