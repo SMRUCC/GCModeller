@@ -274,11 +274,11 @@
     <Compile Include="CLI\DNA_Comparative.vb" />
     <Compile Include="CLI\Debugger.vb" />
     <Compile Include="CLI\SNP\SNP.vb" />
-    <Compile Include="CLI\PalindromeBatch.vb" />
+    <Compile Include="CLI\LociFeatures\PalindromeBatch.vb" />
     <Compile Include="CLI\NTProps.vb" />
-    <Compile Include="CLI\Repeats.vb" />
+    <Compile Include="CLI\LociFeatures\Repeats.vb" />
     <Compile Include="CLI\FastaTools.vb" />
-    <Compile Include="CLI\Palindrome.vb" />
+    <Compile Include="CLI\LociFeatures\Palindrome.vb" />
     <Compile Include="CLI\ORF.vb" />
     <Compile Include="CLI\SNP\calcFst.vb" />
     <Compile Include="ShellScriptAPI.vb" />
