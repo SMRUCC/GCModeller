@@ -157,17 +157,17 @@ Namespace Assembly.KEGG.WebServices
 
                 For Each entry As ListEntry In all
                     Try
-                        url = KGML.pathway.ResourceURL(entry.EntryID)
-                        msg = entry.Description & " " & tick.ETA(progress.ElapsedMilliseconds).FormatTime
-                        bCode = r.Match(entry.EntryID, "\d+").Value
-                        path = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.EntryID}.Xml"
-                        refer = $"http://www.kegg.jp/kegg-bin/highlight_pathway?scale=1.0&map={entry.EntryID}"
+                        url = KGML.pathway.ResourceURL(entry.entryId)
+                        msg = entry.description & " " & tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                        bCode = r.Match(entry.entryId, "\d+").Value
+                        path = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.entryId}.Xml"
+                        refer = $"http://www.kegg.jp/kegg-bin/highlight_pathway?scale=1.0&map={entry.entryId}"
 
                         Call url.GET(refer:=refer).SaveTo(path, TextEncodings.UTF8WithoutBOM)
                         Call progress.SetProgress(tick.StepProgress, msg)
                     Catch ex As Exception
                         Call App.LogException(New Exception(entry.GetJson, ex))
-                        Call failures.Add(entry.EntryID)
+                        Call failures.Add(entry.entryId)
                     Finally
                         Call Thread.Sleep(3 * 1000)
                     End Try
