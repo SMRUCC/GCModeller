@@ -339,12 +339,12 @@ Namespace Topologically
         ''' 回文序列，即在互补链上面找到了自己的反向序列，这个函数找不到位点的话会返回空集合
         ''' </summary>
         ''' <param name="seed">The seed segment</param>
-        ''' <param name="Sequence"></param>
+        ''' <param name="sequence"></param>
         ''' <returns></returns>
         <ExportAPI("Palindrome.Locis.Get")>
         <Extension>
-        Public Function CreatePalindrome(seed$, Sequence As String) As PalindromeLoci()
-            Dim locis%() = FindLocation(Sequence, seed)
+        Public Function CreatePalindrome(seed$, sequence As String) As PalindromeLoci()
+            Dim locis%() = FindLocation(sequence, seed)
 
             If locis.IsNullOrEmpty Then
                 Return Nothing
@@ -355,7 +355,7 @@ Namespace Topologically
             Dim l As Integer = Len(seed)
             Dim result = (From loci As Integer
                           In locis
-                          Let ml As Integer = __haveMirror(l, loci, mirror, Sequence) ' 只需要判断当前的链相对应的位置上面是否含有目标反向互补位点的序列即可
+                          Let ml As Integer = __haveMirror(l, loci, mirror, sequence) ' 只需要判断当前的链相对应的位置上面是否含有目标反向互补位点的序列即可
                           Where ml > -1
                           Select loci, ml).ToArray
 

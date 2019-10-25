@@ -239,7 +239,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Motif\ResidueSite.vb" />
-    <Compile Include="Pattern\Extensions.vb" />
     <Compile Include="Pattern\PatternSearch.vb" />
     <Compile Include="Pattern\SegLoci.vb" />
     <Compile Include="SequenceLogo\Alphabet.vb" />
