@@ -1,8 +1,13 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
@@ -51,6 +56,25 @@ Partial Module CLI
                 End If
             Next
         End Using
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Loci.describ")>
+    <Description("Testing")>
+    <Usage("/Loci.describ /ptt <genome-context.ptt> [/test <loci:randomize> /complement /unstrand]")>
+    <Group(CLIGrouping.DebuggerCLI)>
+    Public Function LociDescript(args As CommandLine) As Integer
+        Dim PTT = GenBank.TabularFormat.PTT.Load(args("/ptt"))
+        Dim test As Integer = args("/test") Or (PTT.Size * Rnd())
+        Dim complement As Boolean = args("/complement")
+        Dim loci As New NucleotideLocation(test, test + 30, complement)
+        Dim unstrand As Boolean = args("/unstrand")
+        Dim list = PTT.GetRelatedGenes(loci, unstrand)
+
+        For Each g As Relationship(Of GeneBrief) In list
+            Call g.__DEBUG_ECHO
+        Next
 
         Return 0
     End Function

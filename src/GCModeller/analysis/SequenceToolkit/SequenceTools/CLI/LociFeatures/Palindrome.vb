@@ -60,34 +60,12 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
-Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.ContextModel.Promoter
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module Utilities
-
-    <ExportAPI("/Loci.describ",
-               Info:="Testing",
-               Usage:="/Loci.describ /ptt <genome-context.ptt> [/test <loci:randomize> /complement /unstrand]")>
-    Public Function LociDescript(args As CommandLine) As Integer
-        Dim PTT = GenBank.TabularFormat.PTT.Load(args("/ptt"))
-        Dim test As Integer = args.GetValue("/test", PTT.Size * Rnd())
-        Dim complement As Boolean = args.GetBoolean("/complement")
-        Dim loci As New NucleotideLocation(test, test + 30, complement)
-        Dim unstrand As Boolean = args.GetBoolean("/unstrand")
-        Dim lst = PTT.GetRelatedGenes(loci, unstrand)
-
-        For Each g As Relationship(Of GeneBrief) In lst
-            Call g.__DEBUG_ECHO
-        Next
-
-        Return 0
-    End Function
 
     <ExportAPI("--Palindrome.From.NT",
                Info:="This function is just for debugger test, /nt parameter is the nucleotide sequence data as ATGCCCC",
