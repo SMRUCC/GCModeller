@@ -238,14 +238,17 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute> Public Property locusID As String
-        <XmlText>
-        Public Property Description As String
 
-        Sub New(str As String, Optional description As String = Nothing)
-            Dim Tokens As String() = str.Split(":"c)
-            speciesID = Tokens.First
-            locusID = Tokens.Last
-            Me.Description = description
+        <XmlText>
+        Public Property description As String
+
+        Sub New(str$, Optional description$ = Nothing)
+            With str.Split(":"c)
+                speciesID = .First
+                locusID = .Last
+            End With
+
+            Me.description = description
         End Sub
 
         Sub New()
@@ -268,7 +271,7 @@ Namespace Assembly.KEGG.WebServices
                     Return New QueryEntry With {
                         .speciesID = strArray(0),
                         .locusID = strArray(1),
-                        .Description = strArray(2)
+                        .description = strArray(2)
                     }
                 End If
             End If

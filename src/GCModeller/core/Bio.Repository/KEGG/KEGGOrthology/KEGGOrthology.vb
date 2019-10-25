@@ -113,7 +113,7 @@ Public Class KEGGOrthology
  _
                 From gene As QueryEntry
                 In ko.Genes
-                Let desc = If(gene.Description Is Nothing, "", gene.Description)
+                Let desc = If(gene.description Is Nothing, "", gene.description)
                 Let og = New KO_gene With {
                     .gene = gene.locusID,
                     .ko = ko.Entry,

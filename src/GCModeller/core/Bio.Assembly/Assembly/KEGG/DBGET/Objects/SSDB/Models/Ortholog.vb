@@ -87,7 +87,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
             Return New Ortholog With {
                 .bestAll = $"{hit.Best.Key} {hit.Best.Value}",
                 .bits = Val(hit.Bits),
-                .Definition = hit.Entry.Description,
+                .Definition = hit.Entry.description,
                 .hit_name = hit.Entry.locusID,
                 .LocusId = result.KEGG_ID,
                 .identity = Val(hit.Identity),
