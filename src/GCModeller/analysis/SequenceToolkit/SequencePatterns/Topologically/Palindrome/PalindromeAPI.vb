@@ -366,7 +366,7 @@ Namespace Topologically
                             Return New PalindromeLoci With {
                                 .Loci = seed,
                                 .Start = site.loci,
-                                .PalEnd = site.ml,
+                                .PalEnd = site.ml - 1,
                                 .Palindrome = mirror,
                                 .MirrorSite = reversed
                             }
