@@ -49,7 +49,6 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 
 Namespace Motif
 
@@ -113,7 +112,7 @@ Namespace Motif
         End Sub
 
         Public Overrides Function ToString() As String
-            Dim ATGC As String = New String({__toChar("A"c, PWM(0)), __toChar("T"c, PWM(1)), __toChar("G"c, PWM(2)), __toChar("C"c, PWM(3))})
+            Dim ATGC As String = New String({ToChar("A"c, PWM(0)), ToChar("T"c, PWM(1)), ToChar("G"c, PWM(2)), ToChar("C"c, PWM(3))})
             Return $"{ATGC}   //({Math.Round(Bits, 2)} bits) [{Math.Round(PWM(0), 2)}, {Math.Round(PWM(1), 2)}, {Math.Round(PWM(2), 2)}, {Math.Round(PWM(3), 2)}];"
         End Function
 
@@ -122,9 +121,9 @@ Namespace Motif
                 Dim mxInd As Integer = PWM.MaxIndex
 
                 If PWM.Length = 4 Then
-                    Return __toChar("ATGC"(mxInd), PWM(mxInd))
+                    Return ToChar("ATGC"(mxInd), PWM(mxInd))
                 Else
-                    Return __toChar(ColorSchema.AA(mxInd), PWM(mxInd))
+                    Return ToChar(SequenceModel.AA(mxInd), PWM(mxInd))
                 End If
             End Get
         End Property
@@ -135,7 +134,7 @@ Namespace Motif
         ''' <param name="ch">大写的</param>
         ''' <param name="p"></param>
         ''' <returns></returns>
-        Protected Friend Shared Function __toChar(ch As Char, p As Double) As Char
+        Public Shared Function ToChar(ch As Char, p As Double) As Char
             If p < 0.65 Then
                 ch = Char.ToLower(ch)
             End If

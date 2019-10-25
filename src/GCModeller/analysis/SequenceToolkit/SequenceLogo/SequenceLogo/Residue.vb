@@ -88,12 +88,16 @@ Namespace SequenceLogo
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Dim maxInd As Integer = Alphabets.MaxIndex
-                Dim c As Char = If(
-                    Alphabets.Length = 4,
-                    ColorSchema.NT(maxInd),
-                    ColorSchema.AA(maxInd))
+                Dim c As Char
+                Dim p# = Alphabets(maxInd).RelativeFrequency
 
-                Return Motif.ResidueSite.__toChar(c, Alphabets(maxInd).RelativeFrequency)
+                If Alphabets.Length = 4 Then
+                    c = SequenceModel.NT(maxInd)
+                Else
+                    c = SequenceModel.AA(maxInd)
+                End If
+
+                Return Motif.ResidueSite.ToChar(c, p)
             End Get
         End Property
 
