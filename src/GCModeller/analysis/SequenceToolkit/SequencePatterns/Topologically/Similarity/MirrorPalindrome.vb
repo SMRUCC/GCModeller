@@ -112,7 +112,7 @@ Namespace Topologically.SimilarityMatches
             Dim mirror As String = New String(segment.Reverse.ToArray)
             Dim l As Integer = Len(segment)
             Dim result = (From loci As Integer
-                          In locations
+                          In locations.AsParallel
                           Let ml As NamedValue(Of Integer) = haveMirror(l, loci, mirror, sequence, cut, maxDist)
                           Where ml.Value > -1
                           Select loci, ml).ToArray
@@ -138,15 +138,11 @@ Namespace Topologically.SimilarityMatches
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="Sequence"></param>
-        ''' <param name="Min"></param>
-        ''' <param name="Max"></param>
-        Sub New(Sequence As IPolymerSequenceModel,
-                <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,
-                <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer,
-                maxDist As Integer,
-                cut As Double)
-            Call MyBase.New(Sequence, Min, Max)
+        ''' <param name="seq"></param>
+        ''' <param name="min"></param>
+        ''' <param name="max"></param>
+        Sub New(seq As IPolymerSequenceModel, min%, max%, maxDist%, cut#)
+            Call MyBase.New(seq, min, max)
 
             Me.cut = cut
             Me._maxDist = maxDist
