@@ -67,9 +67,20 @@ Namespace SequenceModel
         End Function
 
 #Region "Implementation"
-        Public Function CutSequenceLinear(seq$, left%, right%) As String
+
+        <Extension>
+        Public Function CutSequenceLinear(ByRef seq$, left%, right%) As String
             Dim l As Integer = (right - left) + 1
-            Dim cut$ = seq.Substring(left - 1, l)
+            Dim start = left - 1
+            Dim cut$
+
+            If start >= seq.Length Then
+                Return ""
+            ElseIf start + l >= seq.Length Then
+                cut = seq.Substring(start)
+            Else
+                cut = seq.Substring(left - 1, l)
+            End If
 
             Return cut
         End Function
@@ -81,8 +92,7 @@ Namespace SequenceModel
         ''' <returns></returns>
         <Extension>
         Public Function CutSequenceLinear(seq As IPolymerSequenceModel, left%, right%, Optional tag$ = Nothing) As SimpleSegment
-            Dim l As Integer = (right - left) + 1
-            Dim cut$ = seq.SequenceData.Substring(left - 1, l)
+            Dim cut$ = seq.SequenceData.CutSequenceLinear(left, right)
 
             Return New SimpleSegment With {
                 .SequenceData = cut,
