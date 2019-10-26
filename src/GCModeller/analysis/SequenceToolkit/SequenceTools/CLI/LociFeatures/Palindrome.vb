@@ -374,8 +374,8 @@ Partial Module Utilities
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
         Dim seq As FastaSeq
-        Dim cutoff As Double = args.GetValue("/cutoff", 0.6)
-        Dim maxDist As Integer = args.GetValue("/max-dist", 1000)
+        Dim cutoff As Double = args("/cutoff") Or 0.6
+        Dim maxDist As Integer = args("/max-dist") Or 1000
         Dim partitions As Integer = args.GetValue("/partitions", -1)
 
         If input.FileExists Then
@@ -513,19 +513,20 @@ Partial Module Utilities
         Return True
     End Function
 
-    <ExportAPI("--Hairpinks",
-               Usage:="--Hairpinks /in <in.fasta> [/out <out.csv> /min <6> /max <7> /cutoff 3 /max-dist <35 (bp)>]")>
+    <ExportAPI("--Hairpinks")>
+    <Usage("--Hairpinks /in <in.fasta> [/out <out.csv> /min <6> /max <7> /cutoff 3 /max-dist <35 (bp)>]")>
     <Argument("/out", True, AcceptTypes:={GetType(ImperfectPalindrome)})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function Hairpinks(args As CommandLine) As Integer
         Dim input As String = args("/in")
-        Dim out As String = args.GetValue("/out", input.TrimSuffix & ".hairpink.csv")
-        Dim min As Integer = args.GetValue("/min", 6)
-        Dim max As Integer = args.GetValue("/max", 7)
-        Dim cutoff As Integer = args.GetValue("/cutoff", 3)
-        Dim maxDist As Integer = args.GetValue("/max-dist", 35)
+        Dim out As String = args("/out") Or (input.TrimSuffix & ".hairpink.csv")
+        Dim min As Integer = args("/min") Or 6
+        Dim max As Integer = args("/max") Or 7
+        Dim cutoff As Integer = args("/cutoff") Or 3
+        Dim maxDist As Integer = args("/max-dist") Or 35
         Dim inFasta As FastaSeq = FastaSeq.Load(input)
         Dim resultSet = inFasta.SearchHairpinks(min, max, cutoff, maxDist)
+
         Return resultSet.SaveTo(out)
     End Function
 
