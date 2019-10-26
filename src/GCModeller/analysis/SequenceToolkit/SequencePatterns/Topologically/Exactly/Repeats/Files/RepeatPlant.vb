@@ -242,7 +242,7 @@ Namespace Topologically
     ''' <summary>
     ''' 反向重复序列的模型，继承于<see cref="RepeatsView"/>模型
     ''' </summary>
-    Public Class ReversedRepeatsView : Inherits RepeatsView
+    Public Class ReverseRepeatsView : Inherits RepeatsView
         Implements ILoci
         Implements IPolymerSequenceModel
 
@@ -276,10 +276,10 @@ Namespace Topologically
             Return reversed
         End Function
 
-        Public Overloads Shared Function TrimView(data As IEnumerable(Of RevRepeats)) As ReversedRepeatsView()
-            Dim LQuery As ReversedRepeatsView() = data _
+        Public Overloads Shared Function TrimView(data As IEnumerable(Of ReverseRepeats)) As ReverseRepeatsView()
+            Dim LQuery As ReverseRepeatsView() = data _
                 .Select(Function(loci)
-                            Return New ReversedRepeatsView With {
+                            Return New ReverseRepeatsView With {
                                 .left = loci.locations.Min,
                                 .locis = loci.RepeatLoci,
                                 .reversed = loci.locations,

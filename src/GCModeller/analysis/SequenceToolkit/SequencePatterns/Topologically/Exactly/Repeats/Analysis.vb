@@ -24,7 +24,7 @@ Namespace Topologically
                               rev = RepeatsSearchAPI.SearchReversedRepeats(genome, Min, Max, MinAppeared)).ToArray
             Dim Vecotrs = (From genome In LQuery
                            Let repeatsViews = RepeatsView.TrimView(Repeats.CreateDocument(genome.repeats)),
-                               revViews = ReversedRepeatsView.TrimView(genome.rev)
+                               revViews = ReverseRepeatsView.TrimView(genome.rev)
                            Select repeats = RepeatsView.ToVector(repeatsViews, Mla.First.Length),
                                revRepeats = RepeatsView.ToVector(revViews, Mla.First.Length)).ToArray
 
@@ -111,7 +111,7 @@ Namespace Topologically
 
         <ExportAPI("rev-Repeats.Density")>
         Public Function RevRepeatsDensity(dir As String, size As Integer, ref As String, Optional cutoff As Double = 0R) As Double()
-            Return Density(Of ReversedRepeatsView)(dir, size, ref, cutoff)
+            Return Density(Of ReverseRepeatsView)(dir, size, ref, cutoff)
         End Function
     End Module
 End Namespace

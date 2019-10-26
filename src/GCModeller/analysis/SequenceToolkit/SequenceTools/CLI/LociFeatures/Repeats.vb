@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::56a100ba74fbee84649af90b9b42f5a7, analysis\SequenceToolkit\SequenceTools\CLI\Repeats.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Utilities
-    ' 
-    '     Function: BatchSearch, RepeatsDensity, revRepeatsDensity, ScreenRepeats, SSRFinder
-    '               WriteSeeds
-    ' 
-    ' /********************************************************************************/
+' Module Utilities
+' 
+'     Function: BatchSearch, RepeatsDensity, revRepeatsDensity, ScreenRepeats, SSRFinder
+'               WriteSeeds
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -70,13 +70,17 @@ Partial Module Utilities
         Dim nt As FastaSeq = FastaSeq.Load([in])
 
         If isReversed Then
-            Dim reversed As RevRepeats() = RepeatsSearchAPI.SearchReversedRepeats(nt, min, max, minAp) ' 反向重复
-            Dim views = ReversedRepeatsView.TrimView(reversed).Trim(min, max, minAp)     ' 反向重复
+            ' 反向重复
+            Dim reversed As ReverseRepeats() = RepeatsSearchAPI.SearchReversedRepeats(nt, min, max, minAp)
+            ' 反向重复
+            Dim views = ReverseRepeatsView.TrimView(reversed).Trim(min, max, minAp)
 
             Return views.SaveTo(out).CLICode
         Else
-            Dim repeats As Topologically.Repeats() = RepeatsSearchAPI.SearchRepeats(nt, min, max, minAp) ' 简单重复
-            Dim views = RepeatsView.TrimView(Topologically.Repeats.CreateDocument(repeats)).Trim(min, max, minAp)  ' 简单重复
+            ' 简单重复
+            Dim repeats As Topologically.Repeats() = RepeatsSearchAPI.SearchRepeats(nt, min, max, minAp)
+            ' 简单重复
+            Dim views = RepeatsView.TrimView(Topologically.Repeats.CreateDocument(repeats)).Trim(min, max, minAp)
 
             Return views.SaveTo(out).CLICode
         End If
@@ -91,7 +95,7 @@ Partial Module Utilities
                Usage:="/Screen.sites /in <DIR/sites.csv> /range <min_bp>,<max_bp> [/type <type,default:=RepeatsView,alt:RepeatsView,RevRepeatsView,PalindromeLoci,ImperfectPalindrome> /out <out.csv>]")>
     <Argument("/in", AcceptTypes:={
         GetType(RepeatsView),
-        GetType(ReversedRepeatsView),
+        GetType(ReverseRepeatsView),
         GetType(PalindromeLoci),
         GetType(ImperfectPalindrome)
     })>
@@ -121,10 +125,10 @@ Partial Module Utilities
 
             Return result.SaveTo(out).CLICode
 
-        ElseIf type.TextEquals(NameOf(ReversedRepeatsView)) Then
-            Dim result As New List(Of ReversedRepeatsView)
+        ElseIf type.TextEquals(NameOf(ReverseRepeatsView)) Then
+            Dim result As New List(Of ReverseRepeatsView)
 
-            For Each part In loci.RangeSelects([in].RequestFiles(Of ReversedRepeatsView))
+            For Each part In loci.RangeSelects([in].RequestFiles(Of ReverseRepeatsView))
                 For Each x In part.Value
                     x.Data.Add("seq", part.Name)
                 Next
@@ -170,7 +174,7 @@ Partial Module Utilities
                Usage:="Search.Batch /aln <alignment.fasta> [/min 3 /max 20 /min-rep 2 /out <./>]")>
     <Argument("/aln", False,
                    Description:="The input fasta file should be the output of the clustal multiple alignment fasta output.")>
-    <Argument("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(ReversedRepeatsView)})>
+    <Argument("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(ReverseRepeatsView)})>
     <Group(CLIGrouping.RepeatsTools)>
     Public Function BatchSearch(args As CommandLine) As Integer
         Dim Mla As FastaFile = args.GetObject(Of FastaFile)("/aln", AddressOf FastaFile.Read)

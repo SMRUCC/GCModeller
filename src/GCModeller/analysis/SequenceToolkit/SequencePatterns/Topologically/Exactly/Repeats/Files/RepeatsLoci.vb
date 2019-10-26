@@ -60,7 +60,7 @@ Namespace Topologically
     ''' The reversed repeats.(反向重复序列)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class RevRepeats : Inherits Repeats
+    Public Class ReverseRepeats : Inherits Repeats
 
         Public Property RevSegment As String
         ''' <summary>
@@ -71,9 +71,9 @@ Namespace Topologically
         ''' <remarks></remarks>
         Public Property RepeatLoci As Integer()
 
-        Public Shared Function GenerateFromBase(obj As Repeats) As RevRepeats
+        Public Shared Function GenerateFromBase(obj As Repeats) As ReverseRepeats
             Dim seq As String = New String(obj.loci.ToArray.Reverse.ToArray)
-            Return New RevRepeats With {
+            Return New ReverseRepeats With {
                 .locations = obj.locations,
                 .loci = NucleicAcid.Complement(seq),
                 .RevSegment = obj.loci
@@ -103,9 +103,9 @@ Namespace Topologically
             Return LQuery
         End Function
 
-        Public Overloads Shared Function CreateDocument(RevData As IEnumerable(Of RevRepeats)) As Topologically.RevRepeatsLoci()
+        Public Overloads Shared Function CreateDocument(RevData As IEnumerable(Of ReverseRepeats)) As Topologically.RevRepeatsLoci()
             Dim LQuery As IEnumerable(Of RepeatsLoci) =
-                LinqAPI.Exec(Of RepeatsLoci) <= From line As RevRepeats
+                LinqAPI.Exec(Of RepeatsLoci) <= From line As ReverseRepeats
                                                 In RevData.AsParallel
                                                 Select line.GenerateDocumentSegment
             Return (From loci As RepeatsLoci

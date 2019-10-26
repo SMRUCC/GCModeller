@@ -99,7 +99,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     End Function
 
     <Extension>
-    Public Function ToLoci(x As RevRepeats, start As Integer) As SimpleSegment
+    Public Function ToLoci(x As ReverseRepeats, start As Integer) As SimpleSegment
         Return New SimpleSegment With {
             .Start = start,
             .Ends = start + x.length,
@@ -147,9 +147,9 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     End Function
 
     <Extension>
-    Public Function ToLocis(x As IEnumerable(Of RevRepeats)) As SimpleSegment()
+    Public Function ToLocis(x As IEnumerable(Of ReverseRepeats)) As SimpleSegment()
         Return LinqAPI.Exec(Of SimpleSegment) <=
-            From loci As RevRepeats
+            From loci As ReverseRepeats
             In x
             Select From n As Integer
                    In loci.locations
@@ -170,8 +170,8 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     Public Function ConvertsAuto(df As IO.File) As SimpleSegment()
         Dim types As Type() = {
             GetType(ImperfectPalindrome),
-            GetType(ReversedRepeatsView),
-            GetType(RevRepeats),
+            GetType(ReverseRepeatsView),
+            GetType(ReverseRepeats),
             GetType(RepeatsView),
             GetType(Repeats),
             GetType(PalindromeLoci)
@@ -188,7 +188,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     End Function
 
     Private Function __revp(df As IO.File) As SimpleSegment()
-        Return df.AsDataSource(Of RevRepeats).ToLocis
+        Return df.AsDataSource(Of ReverseRepeats).ToLocis
     End Function
 
     Private Function __rps(df As IO.File) As SimpleSegment()
@@ -196,7 +196,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     End Function
 
     Private Function __revpcsv(df As IO.File) As SimpleSegment()
-        Return df.AsDataSource(Of ReversedRepeatsView).ToLocis
+        Return df.AsDataSource(Of ReverseRepeatsView).ToLocis
     End Function
 
     Private Function __rpscsv(df As IO.File) As SimpleSegment()
@@ -209,7 +209,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     End Function
 
     <Extension>
-    Public Function ToLocis(locis As IEnumerable(Of ReversedRepeatsView)) As SimpleSegment()
+    Public Function ToLocis(locis As IEnumerable(Of ReverseRepeatsView)) As SimpleSegment()
         Return locis.Select(Function(l) l.ToLoci).ToArray
     End Function
 
@@ -223,11 +223,11 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
         Dim hash As New Dictionary(Of Type, Func(Of IO.File, SimpleSegment()))
 
         Call hash.Add(GetType(ImperfectPalindrome), AddressOf __ip)
-        Call hash.Add(GetType(RevRepeats), AddressOf __revp)
+        Call hash.Add(GetType(ReverseRepeats), AddressOf __revp)
         Call hash.Add(GetType(Repeats), AddressOf __rps)
         Call hash.Add(GetType(PalindromeLoci), AddressOf __pl)
         Call hash.Add(GetType(RepeatsView), AddressOf __rpscsv)
-        Call hash.Add(GetType(ReversedRepeatsView), AddressOf __revpcsv)
+        Call hash.Add(GetType(ReverseRepeatsView), AddressOf __revpcsv)
 
         __types = hash
     End Sub

@@ -84,7 +84,7 @@ Public Module LociFilter
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of ReversedRepeatsView()))) As IEnumerable(Of NamedValue(Of ReversedRepeatsView()))
+    Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of ReverseRepeatsView()))) As IEnumerable(Of NamedValue(Of ReverseRepeatsView()))
         Return range.RangeSelects(data, Function(x) {x.Left})
     End Function
 
@@ -206,7 +206,7 @@ Public Module LociFilter
     End Function
 
     ''' <summary>
-    ''' 根据<see cref="ReversedRepeatsView.reversed"/>来进行筛选
+    ''' 根据<see cref="ReverseRepeatsView.reversed"/>来进行筛选
     ''' </summary>
     ''' <param name="data"></param>
     ''' <param name="interval"></param>
@@ -216,11 +216,11 @@ Public Module LociFilter
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function FilteringRev(data As IEnumerable(Of ReversedRepeatsView),
+    Public Function FilteringRev(data As IEnumerable(Of ReverseRepeatsView),
                                  Optional interval As Integer = 2000,
                                  Optional compare As Compares = Compares.Interval,
                                  Optional returnsAll As Boolean = False,
-                                 Optional lenMin As Integer = 4) As IEnumerable(Of ReversedRepeatsView)
+                                 Optional lenMin As Integer = 4) As IEnumerable(Of ReverseRepeatsView)
         Return data.doFiltering(Function(x) x.reversed,
                                 Sub(x, rl) x.reversed = rl,
                                 interval,

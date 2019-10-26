@@ -75,7 +75,7 @@ Partial Module Utilities
     <Argument("/in", False,
               AcceptTypes:={
                 GetType(ImperfectPalindrome),
-                GetType(RevRepeats),
+                GetType(ReverseRepeats),
                 GetType(Repeats),
                 GetType(PalindromeLoci)})>
     <Argument("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>

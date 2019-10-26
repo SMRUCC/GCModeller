@@ -55,7 +55,7 @@ Namespace Topologically
     Public Class ReversedRepeatSeacher : Inherits SearchWorker
 
         Public ReadOnly Property MinAppeared As Integer
-        Public ReadOnly Property ResultSet As New List(Of RevRepeats)
+        Public ReadOnly Property ResultSet As New List(Of ReverseRepeats)
 
         Sub New(seq As IPolymerSequenceModel, Min As Integer, Max As Integer, minOccurs As Integer)
             Call MyBase.New(seq, Min, Max)
@@ -90,7 +90,7 @@ Namespace Topologically
                 MinAppeared,
                 reversed:=True
             )
-            Dim result As RevRepeats = RevRepeats.GenerateFromBase(repeats)
+            Dim result As ReverseRepeats = ReverseRepeats.GenerateFromBase(repeats)
             result.locations = RepeatsLeftLoci.locations
             Call ResultSet.Add(result)
         End Sub

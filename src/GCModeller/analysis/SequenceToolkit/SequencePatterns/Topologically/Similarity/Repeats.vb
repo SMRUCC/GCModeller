@@ -262,7 +262,7 @@ Namespace Topologically.SimilarityMatches
         Public Function InvokeSearchReversed(Sequence As String, Min As Integer, Max As Integer, Optional cutoff As Double = 0.65) As ReversedLociMatchedResult()
             Sequence = Sequence.ToUpper
 
-            Dim Seeds = (From rp As RevRepeats
+            Dim Seeds = (From rp As ReverseRepeats
                          In RepeatsSearchAPI.SearchReversedRepeats(New SegmentObject(Sequence, 1), Min, Max)
                          Select rp.RevSegment
                          Distinct).ToArray  '生成搜索所需要的反向重复序列的种子
