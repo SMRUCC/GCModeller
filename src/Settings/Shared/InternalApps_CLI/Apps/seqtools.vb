@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.24445
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.24445, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7238.31746
+'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 1:34:50 PM
+'  // BUILT:     10/26/2019 5:38:12 PM
 '  // 
 ' 
 ' 
@@ -149,12 +149,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 7. Sequence Repeats Loci Search
 ' 
 ' 
+'    /loci.Density:                           Do statistics of the loci density on a specific sequence.
 '    /Screen.sites:                           
 '    /Search.Repeats:                         Search for repeats sequence loci sites.
 '    /SSR:                                    Search for SSR on a nt sequence.
 '    /Write.Seeds:                            
-'    Repeats.Density:                         
-'    rev-Repeats.Density:                     
 '    Search.Batch:                            Batch search for repeats.
 ' 
 ' 
@@ -490,6 +489,39 @@ Public Function gwANIEvaluate([in] As String, Optional out As String = "", Optio
     End If
     If fast Then
         Call CLI.Append("/fast ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /loci.Density /locis &lt;data.csv> [/left &lt;default=Start> /size &lt;size> /win_size &lt;default=100> /offset &lt;default=1000> /out &lt;result.txt>]
+''' ```
+''' Do statistics of the loci density on a specific sequence.
+''' </summary>
+'''
+Public Function RepeatsDensity(locis As String, Optional left As String = "Start", Optional size As String = "", Optional win_size As String = "100", Optional offset As String = "1000", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/loci.Density")
+    Call CLI.Append(" ")
+    Call CLI.Append("/locis " & """" & locis & """ ")
+    If Not left.StringEmpty Then
+            Call CLI.Append("/left " & """" & left & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
+    If Not win_size.StringEmpty Then
+            Call CLI.Append("/win_size " & """" & win_size & """ ")
+    End If
+    If Not offset.StringEmpty Then
+            Call CLI.Append("/offset " & """" & offset & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -1960,31 +1992,6 @@ End Function
 
 ''' <summary>
 ''' ```
-''' Repeats.Density /dir &lt;dir> /size &lt;size> /ref &lt;refName> [/out &lt;out.csv> /cutoff &lt;default:=0>]
-''' ```
-''' </summary>
-'''
-Public Function RepeatsDensity(dir As String, size As String, ref As String, Optional out As String = "", Optional cutoff As String = "") As Integer
-    Dim CLI As New StringBuilder("Repeats.Density")
-    Call CLI.Append(" ")
-    Call CLI.Append("/dir " & """" & dir & """ ")
-    Call CLI.Append("/size " & """" & size & """ ")
-    Call CLI.Append("/ref " & """" & ref & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-    If Not cutoff.StringEmpty Then
-            Call CLI.Append("/cutoff " & """" & cutoff & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
 ''' -reverse -i &lt;input_fasta> [-o &lt;output_fasta>]
 ''' ```
 ''' </summary>
@@ -1995,31 +2002,6 @@ Public Function Reverse(i As String, Optional o As String = "") As Integer
     Call CLI.Append("-i " & """" & i & """ ")
     If Not o.StringEmpty Then
             Call CLI.Append("-o " & """" & o & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' rev-Repeats.Density /dir &lt;dir> /size &lt;size> /ref &lt;refName> [/out &lt;out.csv> /cutoff &lt;default:=0>]
-''' ```
-''' </summary>
-'''
-Public Function revRepeatsDensity(dir As String, size As String, ref As String, Optional out As String = "", Optional cutoff As String = "") As Integer
-    Dim CLI As New StringBuilder("rev-Repeats.Density")
-    Call CLI.Append(" ")
-    Call CLI.Append("/dir " & """" & dir & """ ")
-    Call CLI.Append("/size " & """" & size & """ ")
-    Call CLI.Append("/ref " & """" & ref & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-    If Not cutoff.StringEmpty Then
-            Call CLI.Append("/cutoff " & """" & cutoff & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
