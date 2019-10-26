@@ -45,9 +45,11 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Math.Distributions.BinBox
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
@@ -188,25 +190,32 @@ Partial Module Utilities
         Return 0
     End Function
 
-    <ExportAPI("Repeats.Density",
-               Usage:="Repeats.Density /dir <dir> /size <size> /ref <refName> [/out <out.csv> /cutoff <default:=0>]")>
+    ''' <summary>
+    ''' 统计位点在目标序列上面的分布密度
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/loci.Density")>
+    <Description("Do statistics of the loci density on a specific sequence.")>
+    <Usage("/loci.Density /locis <data.csv> [/left <default=Start> /size <size> /win_size <default=100> /offset <default=1000> /out <result.txt>]")>
     <Group(CLIGrouping.RepeatsTools)>
     Public Function RepeatsDensity(args As CommandLine) As Integer
-        Dim DIR As String = args("/dir")
-        Dim size As Integer = args.GetInt32("/size")
-        Dim out As String = args.GetValue("/out", DIR & "/Repeats.Density.vector.txt")
-        Dim vector As Double() = Topologically.RepeatsDensity(DIR, size, ref:=args("/ref"), cutoff:=args.GetValue("/cutoff", 0R))
-        Return vector.FlushAllLines(out).CLICode
-    End Function
+        Dim in$ = args <= "/locis"
+        Dim leftFieldName$ = args("/left") Or "Start"
+        Dim data = EntityObject.LoadDataSet([in]) _
+            .Select(Function(d) d(leftFieldName).ParseInteger) _
+            .OrderBy(Function(x) x) _
+            .ToArray
+        Dim size As Integer = args("/size") Or data.Max
+        Dim winSize = args("/win_size") Or 100
+        Dim offset = args("/offset") Or 1000
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.density.txt"
+        Dim density As Double() = CutBins _
+            .FixedWidthBins(Of Integer)(data, winSize, Function(x) x, 1, size, offset) _
+            .Select(Function(bin) CDbl(bin.Count)) _
+            .ToArray
 
-    <ExportAPI("rev-Repeats.Density", Usage:="rev-Repeats.Density /dir <dir> /size <size> /ref <refName> [/out <out.csv> /cutoff <default:=0>]")>
-    <Group(CLIGrouping.RepeatsTools)>
-    Public Function revRepeatsDensity(args As CommandLine) As Integer
-        Dim DIR As String = args("/dir")
-        Dim size As Integer = args.GetInt32("/size")
-        Dim out As String = args.GetValue("/out", DIR & "/rev-Repeats.Density.vector.txt")
-        Dim vector As Double() = Topologically.RevRepeatsDensity(DIR, size, ref:=args("/ref"), cutoff:=args.GetValue("/cutoff", 0R))
-        Return vector.FlushAllLines(out).CLICode
+        Return density.FlushAllLines(OutFile)
     End Function
 
     <ExportAPI("/Write.Seeds",
