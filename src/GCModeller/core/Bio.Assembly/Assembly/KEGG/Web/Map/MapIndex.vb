@@ -188,14 +188,14 @@ Namespace Assembly.KEGG.WebServices
                 .ID = map.ID,
                 .KeyVector = New TermsVector With {
                     .terms = map _
-                        .Areas _
+                        .shapes _
                         .Select(Function(a) a.IDVector) _
                         .IteratesALL _
                         .Distinct _
                         .OrderBy(Function(s) s) _
                         .ToArray
                 },
-                .Areas = map.Areas,
+                .shapes = map.shapes,
                 .Name = map.Name,
                 .PathwayImage = map.PathwayImage,
                 .URL = map.URL

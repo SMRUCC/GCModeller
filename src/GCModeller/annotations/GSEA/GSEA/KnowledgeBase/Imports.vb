@@ -70,7 +70,7 @@ Public Module [Imports]
     <Extension>
     Public Function KEGGMapRelation(maps As IEnumerable(Of Map)) As Dictionary(Of String, String())
         Return maps.Select(Function(m)
-                               Return m.Areas.Select(Function(a) a.IDVector) _
+                               Return m.shapes.Select(Function(a) a.IDVector) _
                                    .IteratesALL _
                                    .Where(Function(id) id.IsPattern("K\d+")) _
                                    .Distinct _
