@@ -201,7 +201,7 @@ Namespace Topologically.SimilarityMatches
             Dim Seeds As String() =
                 LinqAPI.Exec(Of String) <= From rp As Topologically.Repeats
                                            In SearchRepeats(New SegmentObject(SequenceData, 1), Min, Max)
-                                           Select seq = rp.SequenceData
+                                           Select seq = rp.loci
                                            Distinct  '生成搜索所需要的种子
 
             Call $"Generate repeats search seeds, job done! {Seeds.Length} repeats sequence was export for seeds!".__DEBUG_ECHO
