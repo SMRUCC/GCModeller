@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.20186
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.20186, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7238.24445
+'  // ASSEMBLY:  Settings, Version=3.3277.7238.24445, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 11:12:52 AM
+'  // BUILT:     10/26/2019 1:34:50 PM
 '  // 
 ' 
 ' 
@@ -79,6 +79,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /Download.Compounds:                     Downloads the KEGG compounds data from KEGG web server using
 '                                             dbget API. Apply this downloaded KEGG compounds data used
 '                                             for metabolism annotation in LC-MS data analysis.
+'    /download.kegg.maps:                     Dumping the blank reference KEGG maps database.
 '    /Download.Pathway.Maps:                  Fetch all of the pathway map information for a specific
 '                                             kegg organism by using a specifc kegg sp code.
 '    /Download.Pathway.Maps.Bacteria.All:     
@@ -86,7 +87,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /Download.Reaction:                      Downloads the KEGG enzyme reaction reference model data.
 '                                             Usually use these reference reaction data applied for metabolism
 '                                             network analysis.
-'    /kegg.maps.hsa:                          Dumping the KEGG maps database for human species.
 '    /Pathways.Downloads.All:                 Download all of the blank KEGG reference pathway map data.
 '                                             Apply for render KEGG pathway enrichment result or other
 '                                             biological system modelling work.
@@ -383,6 +383,29 @@ Public Function DownloadHumanGenes([in] As String, Optional out As String = "", 
     End If
     If batch Then
         Call CLI.Append("/batch ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /download.kegg.maps [/htext &lt;htext.txt> /out &lt;save_dir>]
+''' ```
+''' Dumping the blank reference KEGG maps database.
+''' </summary>
+'''
+Public Function HumanKEGGMaps(Optional htext As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/download.kegg.maps")
+    Call CLI.Append(" ")
+    If Not htext.StringEmpty Then
+            Call CLI.Append("/htext " & """" & htext & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -695,29 +718,6 @@ Public Function ImportsDb([in] As String, Optional out As String = "") As Intege
     Dim CLI As New StringBuilder("/Imports.SSDB")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' /dump.kegg.maps [/htext &lt;htext.txt> /out &lt;save_dir>]
-''' ```
-''' Dumping the KEGG maps database for human species.
-''' </summary>
-'''
-Public Function HumanKEGGMaps(Optional htext As String = "", Optional out As String = "") As Integer
-    Dim CLI As New StringBuilder("/dump.kegg.maps")
-    Call CLI.Append(" ")
-    If Not htext.StringEmpty Then
-            Call CLI.Append("/htext " & """" & htext & """ ")
-    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
