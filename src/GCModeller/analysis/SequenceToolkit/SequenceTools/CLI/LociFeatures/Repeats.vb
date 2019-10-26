@@ -215,7 +215,7 @@ Partial Module Utilities
             .Select(Function(bin) CDbl(bin.Count)) _
             .ToArray
 
-        Return density.FlushAllLines(OutFile)
+        Return density.FlushAllLines(out).CLICode
     End Function
 
     <ExportAPI("/Write.Seeds",
