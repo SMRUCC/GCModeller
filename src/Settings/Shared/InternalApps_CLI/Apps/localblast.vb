@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7188.43145
-'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7238.20186
+'  // ASSEMBLY:  Settings, Version=3.3277.7238.20186, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     9/5/2019 11:33:38 AM
+'  // BUILT:     10/26/2019 11:12:52 AM
 '  // 
 ' 
 ' 
@@ -42,6 +42,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Paralog:                          
 '  /SBH.tophits:                      Filtering the sbh result with top SBH Score
 '  /to.kobas:                         
+'  /UniProt.GO.faa:                   Export all of the protein sequence from the Uniprot database which
+'                                     have GO term id been assigned.
 '  /UniProt.KO.assign:                Assign KO number to query from Uniprot reference sequence database
 '                                     alignment result.
 '  /Whog.XML:                         Converts the whog text file into a XML data file.
@@ -1712,6 +1714,30 @@ Public Function UniProtBBHMapTable([in] As String, Optional out As String = "", 
     End If
     If reverse Then
         Call CLI.Append("/reverse ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /UniProt.GO.faa /in &lt;uniprot.xml> [/lineBreak &lt;default=120> /out &lt;proteins.faa>]
+''' ```
+''' Export all of the protein sequence from the Uniprot database which have GO term id been assigned.
+''' </summary>
+'''
+Public Function ExportGOFromUniprot([in] As String, Optional linebreak As String = "120", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/UniProt.GO.faa")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not linebreak.StringEmpty Then
+            Call CLI.Append("/linebreak " & """" & linebreak & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 

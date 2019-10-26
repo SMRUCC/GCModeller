@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7188.43145
-'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7238.20186
+'  // ASSEMBLY:  Settings, Version=3.3277.7238.20186, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     9/5/2019 11:33:38 AM
+'  // BUILT:     10/26/2019 11:12:52 AM
 '  // 
 ' 
 ' 
@@ -188,7 +188,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '     /iTraq.Bridge.Matrix:                   
 '     /iTraq.matrix.split:                    Split the raw matrix into different compare group based on
 '                                             the experimental designer information.
-'     /iTraq.RSD-P.Density:                   
+'     /iTraq.RSD-P.Density:                   Visualize data QC analysis result.
 '     /iTraq.Symbol.Replacement:              * Using this CLI tool for processing the tag header of iTraq
 '                                             result at first.
 '     /iTraq.t.test:                          Implements the screening for different expression proteins
@@ -1319,6 +1319,7 @@ End Function
 ''' ```
 ''' /iTraq.RSD-P.Density /in &lt;matrix.csv> [/out &lt;out.png>]
 ''' ```
+''' Visualize data QC analysis result.
 ''' </summary>
 '''
 Public Function iTraqRSDPvalueDensityPlot([in] As String, Optional out As String = "") As Integer
