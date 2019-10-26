@@ -57,8 +57,9 @@ Imports SMRUCC.genomics.SequenceModel.Polypeptides
 Partial Module Utilities
 
     <ExportAPI("/Search.Repeats")>
-    <Description("")>
+    <Description("Search for repeats sequence loci sites.")>
     <Usage("/Search.Repeats /in <nt.fasta> [/min <default=3> /max <default=20> /minOccurs <default=3> /reverse /out <result.csv>]")>
+    <Group(CLIGrouping.RepeatsTools)>
     Public Function SearchRepeats(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim min% = args("/min") Or 3
@@ -94,6 +95,7 @@ Partial Module Utilities
         GetType(PalindromeLoci),
         GetType(ImperfectPalindrome)
     })>
+    <Group(CLIGrouping.RepeatsTools)>
     Public Function ScreenRepeats(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim range As String() = args("/range").Split(","c)
@@ -219,6 +221,7 @@ Partial Module Utilities
     <ExportAPI("/SSR")>
     <Description("Search for SSR on a nt sequence.")>
     <Usage("/SSR /in <nt.fasta> [/range <default=2,6> /parallel /out <out.csv/DIR>]")>
+    <Group(CLIGrouping.RepeatsTools)>
     Public Function SSRFinder(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim range$ = args("/range") Or "2,6"
