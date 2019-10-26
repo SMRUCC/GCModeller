@@ -92,8 +92,8 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     Public Function ToLoci(x As Topologically.Repeats, start As Integer) As SimpleSegment
         Return New SimpleSegment With {
             .Start = start,
-            .Ends = start + x.Length,
-            .SequenceData = x.SequenceData,
+            .Ends = start + x.length,
+            .SequenceData = x.loci,
             .Strand = "+"
         }
     End Function
@@ -102,8 +102,8 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     Public Function ToLoci(x As RevRepeats, start As Integer) As SimpleSegment
         Return New SimpleSegment With {
             .Start = start,
-            .Ends = start + x.Length,
-            .SequenceData = x.SequenceData,
+            .Ends = start + x.length,
+            .SequenceData = x.loci,
             .Strand = "+"
         }
     End Function
