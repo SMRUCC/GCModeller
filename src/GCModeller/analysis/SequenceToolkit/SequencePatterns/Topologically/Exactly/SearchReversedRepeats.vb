@@ -45,9 +45,7 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -59,14 +57,11 @@ Namespace Topologically
         Public ReadOnly Property MinAppeared As Integer
         Public ReadOnly Property ResultSet As New List(Of RevRepeats)
 
-        Sub New(Sequence As IPolymerSequenceModel,
-                <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,
-                <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer,
-                MinAppeared As Integer)
+        Sub New(seq As IPolymerSequenceModel, Min As Integer, Max As Integer, minOccurs As Integer)
+            Call MyBase.New(seq, Min, Max)
 
-            Call MyBase.New(Sequence, Min, Max)
             With Me
-                ._MinAppeared = MinAppeared
+                ._MinAppeared = minOccurs
             End With
         End Sub
 
@@ -76,25 +71,27 @@ Namespace Topologically
         ''' <param name="seed"></param>
         Protected Overrides Sub DoSearch(seed As Seed)
             Dim segment As String = New String(seed.sequence.ToArray.Reverse.ToArray)
-            Dim rev As String = NucleicAcid.Complement(segment)
+            Dim reverse As String = NucleicAcid.Complement(segment)
 
             ' 找不到反向序列或者重复的次数少于阈值的，都将会被删除
-            If IScanner.FindLocation(seq, rev).Count < MinAppeared Then
+            If IScanner.FindLocation(seq, reverse).Count < MinAppeared Then
                 Return
             End If
 
-            Dim repeats = GenerateRepeats(seq, rev, MinAppeared)
+            Dim repeats = CreateRepeatLocis(seq, reverse, MinAppeared)
+
             If repeats Is Nothing Then
                 Return
             End If
 
-            Dim RepeatsLeftLoci As Repeats = RepeatsSearchAPI.GenerateRepeats(
+            Dim RepeatsLeftLoci As Repeats = RepeatsSearchAPI.CreateRepeatLocis(
                 seq,
                 seed.sequence,
                 MinAppeared,
-                Rev:=True)
+                reversed:=True
+            )
             Dim result As RevRepeats = RevRepeats.GenerateFromBase(repeats)
-            result.Locations = RepeatsLeftLoci.Locations
+            result.locations = RepeatsLeftLoci.locations
             Call ResultSet.Add(result)
         End Sub
     End Class

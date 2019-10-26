@@ -45,12 +45,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -75,23 +75,23 @@ Namespace Topologically
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="SequenceData"></param>
-        ''' <param name="Min"></param>
-        ''' <param name="Max"></param>
-        ''' <param name="MinAppeared">最少的重复出现次数为2，也可以将这个值设置得更高一些</param>
+        ''' <param name="seq"></param>
+        ''' <param name="Min">The minimum length of the repeat sequence loci.</param>
+        ''' <param name="Max">The maximum length of the repeat sequence loci.</param>
+        ''' <param name="minOccurs">最少的重复出现次数为2，也可以将这个值设置得更高一些</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Invoke.Search")>
-        Public Function SearchRepeats(SequenceData As IPolymerSequenceModel,
-                                      <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,
-                                      <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer,
-                                      Optional MinAppeared As Integer = 2) As Repeats()
+        Public Function SearchRepeats(seq As IPolymerSequenceModel, min%, max%, Optional minOccurs% = 2) As Repeats()
+            Dim search As New RepeatsSearcher(seq, min, max, minOccurs)
 
-            Dim Search As New RepeatsSearcher(SequenceData, Min, Max, MinAppeared)
-            Call Search.DoSearch()
-            Call Search.CountStatics.Save("./Random.Sequence.Matches.Counts.csv", False)
+            Call search.DoSearch()
+            Call search.CountStatics _
+                .AsMatrix _
+                .Select(AddressOf ToArray(Of String)) _
+                .PrintTable
 
-            Return Search.ResultSet.ToArray
+            Return search.ResultSet.ToArray
         End Function
 
         <ExportAPI("Save")>
@@ -123,31 +123,27 @@ Namespace Topologically
         ''' 则上一次迭代的序列可能为重复，所以<paramref name="Segment"></paramref>的长度减1的序列片段是会
         ''' 有重复的，故而会在函数之中将该目的片段缩短
         ''' </summary>
-        ''' <param name="Sequence"></param>
+        ''' <param name="seq"></param>
         ''' <param name="Segment"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GenerateRepeats(Sequence As String,
-                                        Segment As String,
-                                        MinAppeared As Integer,
-                                        Optional Rev As Boolean = False) As Repeats
+        Public Function CreateRepeatLocis(seq$, segment$, minOccurs%, Optional reversed As Boolean = False) As Repeats
+            Dim locis%()
 
-            Segment = Mid(Segment, 1, Len(Segment) - 1)
+            segment = Mid(segment, 1, Len(segment) - 1)
+            locis = IScanner.FindLocation(seq, segment).ToArray
 
-            Dim Locis = IScanner.FindLocation(Sequence, Segment).ToArray
-
-            If Locis.Length < MinAppeared Then
-                If Rev Then
-                    GoTo RETURN_VALUE
+            If locis.Length < minOccurs Then
+                If reversed Then
+                    GoTo returns
                 Else
                     Return Nothing
                 End If
             End If
 
-RETURN_VALUE:
-            Return New Repeats With {
-                .SequenceData = Segment,
-                .Locations = Locis
+returns:    Return New Repeats With {
+                .SequenceData = segment,
+                .locations = locis
             }
         End Function
 

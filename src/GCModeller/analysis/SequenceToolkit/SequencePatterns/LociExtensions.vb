@@ -142,7 +142,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
             From loci As Repeats
             In x
             Select From n As Integer
-                   In loci.Locations
+                   In loci.locations
                    Select loci.ToLoci(n)
     End Function
 
@@ -152,7 +152,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
             From loci As RevRepeats
             In x
             Select From n As Integer
-                   In loci.Locations
+                   In loci.locations
                    Select loci.ToLoci(n)
     End Function
 

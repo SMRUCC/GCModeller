@@ -1,67 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::f2398abb1fbad52fde0a2bc490c19e01, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatPlant.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class RepeatsLoci
-    ' 
-    '         Properties: LociLeft, RepeatLoci
-    ' 
-    '         Function: __hash
-    ' 
-    '     Class RevRepeatsLoci
-    ' 
-    '         Properties: RevLociLeft, RevRepeats
-    ' 
-    '         Function: __hash
-    ' 
-    '     Class RepeatsView
-    ' 
-    '         Properties: Data, Hot, IntervalAverages, Left, Length
-    '                     Locis, RepeatsNumber, SequenceData
-    ' 
-    '         Function: LociProvider, ToLoci, ToString, ToVector, TrimView
-    ' 
-    '     Class RevRepeatsView
-    ' 
-    '         Properties: Hot, IntervalAverages, RepeatsNumber, RevLocis, RevSegment
-    ' 
-    '         Function: LociProvider, TrimView
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class RepeatsLoci
+' 
+'         Properties: LociLeft, RepeatLoci
+' 
+'         Function: __hash
+' 
+'     Class RevRepeatsLoci
+' 
+'         Properties: RevLociLeft, RevRepeats
+' 
+'         Function: __hash
+' 
+'     Class RepeatsView
+' 
+'         Properties: Data, Hot, IntervalAverages, Left, Length
+'                     Locis, RepeatsNumber, SequenceData
+' 
+'         Function: LociProvider, ToLoci, ToString, ToVector, TrimView
+' 
+'     Class RevRepeatsView
+' 
+'         Properties: Hot, IntervalAverages, RepeatsNumber, RevLocis, RevSegment
+' 
+'         Function: LociProvider, TrimView
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
@@ -249,15 +248,18 @@ Namespace Topologically
         End Function
 
         Public Overloads Shared Function TrimView(data As IEnumerable(Of RevRepeats)) As RevRepeatsView()
-            Dim LQuery As RevRepeatsView() = data.Select(
-                Function(loci) _
-                    New RevRepeatsView With {
-                        .Left = loci.Locations.Min,
-                        .Locis = loci.RepeatLoci,
-                        .RevLocis = loci.Locations,
-                        .RevSegment = loci.RevSegment,
-                        .SequenceData = loci.SequenceData
-                    })
+            Dim LQuery As RevRepeatsView() = data _
+                .Select(Function(loci)
+                            Return New RevRepeatsView With {
+                                .Left = loci.locations.Min,
+                                .Locis = loci.RepeatLoci,
+                                .RevLocis = loci.locations,
+                                .RevSegment = loci.RevSegment,
+                                .SequenceData = loci.loci
+                            }
+                        End Function) _
+                .ToArray
+
             Return LQuery
         End Function
 

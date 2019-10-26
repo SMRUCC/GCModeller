@@ -77,7 +77,7 @@ Namespace Topologically
                 Return
             End If
 
-            Dim repeats As Repeats = GenerateRepeats(seq, seed.sequence, MinAppeared)
+            Dim repeats As Repeats = CreateRepeatLocis(seq, seed.sequence, MinAppeared)
             If Not repeats Is Nothing Then
                 Call ResultSet.AddRange(repeats)
             End If

@@ -56,6 +56,26 @@ Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 Partial Module Utilities
 
+    <ExportAPI("/Search.Repeats")>
+    <Description("")>
+    <Usage("/Search.Repeats /in <nt.fasta> [/min <default=3> /max <default=20> /minOccurs <default=3> /out <result.csv>]")>
+    Public Function SearchRepeats(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim min% = args("/min") Or 3
+        Dim max% = args("/max") Or 20
+        Dim minAp% = args("/minOccurs") Or 3
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.repeats.[{min},{max}],minOccurs={minAp}.csv"
+        Dim nt As FastaSeq = FastaSeq.Load([in])
+        Dim repeats As Topologically.Repeats() = RepeatsSearchAPI.SearchRepeats(nt, min, max, minAp) ' 简单重复
+        Dim rev As RevRepeats() = RepeatsSearchAPI.SearchReversedRepeats(nt, min, max, minAp) ' 反向重复
+        Dim repeatsViews = RepeatsView.TrimView(Topologically.Repeats.CreateDocument(repeats)).Trim(min, max, minAp)  ' 简单重复
+        Dim revViews = RevRepeatsView.TrimView(rev).Trim(min, max, minAp)     ' 反向重复
+        Dim RepeatLocis = repeats.ToLocis.AsList
+        Dim revRepeatlocis = rev.ToLocis
+
+        Return (RepeatLocis + revRepeatlocis).SaveTo(out).CLICode
+    End Function
+
     ''' <summary>
     ''' 這個函數會將文件夾之中的文件都合并到一個文件之中
     ''' </summary>
@@ -196,8 +216,8 @@ Partial Module Utilities
     <Usage("/SSR /in <nt.fasta> [/range <default=2,6> /parallel /out <out.csv/DIR>]")>
     Public Function SSRFinder(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim range$ = args.GetValue("/range", "2,6")
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".SSR.csv")
+        Dim range$ = args("/range") Or "2,6"
+        Dim out$ = args("/out") Or ([in].TrimSuffix & ".SSR.csv")
 
         SSRSearch.Parallel = args.IsTrue("/parallel")
 
@@ -217,7 +237,7 @@ Partial Module Utilities
             For Each nt As FastaSeq In New StreamIterator([in]).ReadStream
                 Dim path$ = out.TrimSuffix & $"/{nt.Title.NormalizePathString}.csv"
 
-                If path.FileExists Then
+                If path.FileLength > 0 Then
                     Console.Write(".")
                     Continue For
                 Else
