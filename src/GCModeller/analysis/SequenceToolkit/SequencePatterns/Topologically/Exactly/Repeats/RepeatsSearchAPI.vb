@@ -107,7 +107,7 @@ Namespace Topologically
         <ExportAPI("Save.Rev.Views")>
         Public Function SaveRevViews(data As IEnumerable(Of RevRepeats),
                                      <Parameter("Path.Csv")> SaveTo As String) As Boolean
-            Dim view = RevRepeatsView.TrimView(data)
+            Dim view = ReversedRepeatsView.TrimView(data)
             Return view.SaveTo(SaveTo)
         End Function
 
@@ -200,11 +200,11 @@ returns:    Return New Repeats With {
 
         <ExportAPI("rev-Repeats.Trim")>
         Public Sub TrimRevRepeats(Dir As String, min As Integer, max As Integer, minAppear As Integer, Optional ExportDir As String = "./Trim/")
-            Call BatchTrim(Of RevRepeatsView)(Dir, min, max, minAppear, ExportDir)
+            Call BatchTrim(Of ReversedRepeatsView)(Dir, min, max, minAppear, ExportDir)
         End Sub
 
         ''' <summary>
-        ''' Batch search for the repeats and reversed repeats sequence feature sites. ``<see cref="RepeatsView"/>`` and ``<see cref="RevRepeatsView"/>``
+        ''' Batch search for the repeats and reversed repeats sequence feature sites. ``<see cref="RepeatsView"/>`` and ``<see cref="ReversedRepeatsView"/>``
         ''' </summary>
         ''' <param name="Mla"></param>
         ''' <param name="Min"></param>
@@ -220,7 +220,7 @@ returns:    Return New Repeats With {
                 Dim rev = RepeatsSearchAPI.SearchReversedRepeats(genome, Min, Max, MinAppeared)
 
                 Dim repeatsViews = RepeatsView.TrimView(Topologically.Repeats.CreateDocument(repeats)).Trim(Min, Max, MinAppeared)
-                Dim revViews = RevRepeatsView.TrimView(rev).Trim(Min, Max, MinAppeared)
+                Dim revViews = ReversedRepeatsView.TrimView(rev).Trim(Min, Max, MinAppeared)
 
                 Call repeatsViews.SaveTo(saveDIR & $"/views.repeats/{genome.Title.NormalizePathString(True)}.csv")
                 Call revViews.SaveTo(saveDIR & $"/views.rev-repeats/{genome.Title.NormalizePathString(True)}.csv")

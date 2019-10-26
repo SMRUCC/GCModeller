@@ -166,7 +166,7 @@ Partial Module Utilities
             Dim rev As RevRepeats() = RepeatsSearchAPI.SearchReversedRepeats(nt, min, max, minAp) ' 反向重复
 
             Dim repeatsViews = RepeatsView.TrimView(Topologically.Repeats.CreateDocument(repeats)).Trim(min, max, minAp)  ' 简单重复
-            Dim revViews = RevRepeatsView.TrimView(rev).Trim(min, max, minAp)     ' 反向重复
+            Dim revViews = ReversedRepeatsView.TrimView(rev).Trim(min, max, minAp)     ' 反向重复
 
             Dim RepeatLocis = repeats.ToLocis
             Dim revRepeatlocis = rev.ToLocis

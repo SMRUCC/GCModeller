@@ -69,7 +69,7 @@ Partial Module Utilities
         Dim repeats As Topologically.Repeats() = RepeatsSearchAPI.SearchRepeats(nt, min, max, minAp) ' 简单重复
         Dim rev As RevRepeats() = RepeatsSearchAPI.SearchReversedRepeats(nt, min, max, minAp) ' 反向重复
         Dim repeatsViews = RepeatsView.TrimView(Topologically.Repeats.CreateDocument(repeats)).Trim(min, max, minAp)  ' 简单重复
-        Dim revViews = RevRepeatsView.TrimView(rev).Trim(min, max, minAp)     ' 反向重复
+        Dim revViews = ReversedRepeatsView.TrimView(rev).Trim(min, max, minAp)     ' 反向重复
         Dim RepeatLocis = repeats.ToLocis.AsList
         Dim revRepeatlocis = rev.ToLocis
 
@@ -85,7 +85,7 @@ Partial Module Utilities
                Usage:="/Screen.sites /in <DIR/sites.csv> /range <min_bp>,<max_bp> [/type <type,default:=RepeatsView,alt:RepeatsView,RevRepeatsView,PalindromeLoci,ImperfectPalindrome> /out <out.csv>]")>
     <Argument("/in", AcceptTypes:={
         GetType(RepeatsView),
-        GetType(RevRepeatsView),
+        GetType(ReversedRepeatsView),
         GetType(PalindromeLoci),
         GetType(ImperfectPalindrome)
     })>
@@ -114,10 +114,10 @@ Partial Module Utilities
 
             Return result.SaveTo(out).CLICode
 
-        ElseIf type.TextEquals(NameOf(RevRepeatsView)) Then
-            Dim result As New List(Of RevRepeatsView)
+        ElseIf type.TextEquals(NameOf(ReversedRepeatsView)) Then
+            Dim result As New List(Of ReversedRepeatsView)
 
-            For Each part In loci.RangeSelects([in].RequestFiles(Of RevRepeatsView))
+            For Each part In loci.RangeSelects([in].RequestFiles(Of ReversedRepeatsView))
                 For Each x In part.Value
                     x.Data.Add("seq", part.Name)
                 Next
@@ -163,7 +163,7 @@ Partial Module Utilities
                Usage:="Search.Batch /aln <alignment.fasta> [/min 3 /max 20 /min-rep 2 /out <./>]")>
     <Argument("/aln", False,
                    Description:="The input fasta file should be the output of the clustal multiple alignment fasta output.")>
-    <Argument("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(RevRepeatsView)})>
+    <Argument("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(ReversedRepeatsView)})>
     <Group(CLIGrouping.RepeatsTools)>
     Public Function BatchSearch(args As CommandLine) As Integer
         Dim Mla As FastaFile = args.GetObject(Of FastaFile)("/aln", AddressOf FastaFile.Read)
