@@ -58,22 +58,27 @@ Partial Module Utilities
 
     <ExportAPI("/Search.Repeats")>
     <Description("")>
-    <Usage("/Search.Repeats /in <nt.fasta> [/min <default=3> /max <default=20> /minOccurs <default=3> /out <result.csv>]")>
+    <Usage("/Search.Repeats /in <nt.fasta> [/min <default=3> /max <default=20> /minOccurs <default=3> /reverse /out <result.csv>]")>
     Public Function SearchRepeats(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim min% = args("/min") Or 3
         Dim max% = args("/max") Or 20
         Dim minAp% = args("/minOccurs") Or 3
-        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.repeats.[{min},{max}],minOccurs={minAp}.csv"
+        Dim isReversed As Boolean = args("/reverse")
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.repeats{If(isReversed, "(reverse)", "")}.[{min},{max}],minOccurs={minAp}.csv"
         Dim nt As FastaSeq = FastaSeq.Load([in])
-        Dim repeats As Topologically.Repeats() = RepeatsSearchAPI.SearchRepeats(nt, min, max, minAp) ' 简单重复
-        Dim rev As RevRepeats() = RepeatsSearchAPI.SearchReversedRepeats(nt, min, max, minAp) ' 反向重复
-        Dim repeatsViews = RepeatsView.TrimView(Topologically.Repeats.CreateDocument(repeats)).Trim(min, max, minAp)  ' 简单重复
-        Dim revViews = ReversedRepeatsView.TrimView(rev).Trim(min, max, minAp)     ' 反向重复
-        Dim RepeatLocis = repeats.ToLocis.AsList
-        Dim revRepeatlocis = rev.ToLocis
 
-        Return (RepeatLocis + revRepeatlocis).SaveTo(out).CLICode
+        If isReversed Then
+            Dim reversed As RevRepeats() = RepeatsSearchAPI.SearchReversedRepeats(nt, min, max, minAp) ' 反向重复
+            Dim views = ReversedRepeatsView.TrimView(reversed).Trim(min, max, minAp)     ' 反向重复
+
+            Return views.SaveTo(out).CLICode
+        Else
+            Dim repeats As Topologically.Repeats() = RepeatsSearchAPI.SearchRepeats(nt, min, max, minAp) ' 简单重复
+            Dim views = RepeatsView.TrimView(Topologically.Repeats.CreateDocument(repeats)).Trim(min, max, minAp)  ' 简单重复
+
+            Return views.SaveTo(out).CLICode
+        End If
     End Function
 
     ''' <summary>
