@@ -26,12 +26,14 @@ Partial Module CLI
         Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
         Dim saveInTiff As Boolean = args("/tiff")
         Dim outFile$
+        Dim tiff As TiffWriter
 
         For Each plot As NamedValue(Of GraphicsData) In enrichments.NamespaceEnrichmentPlot(terms)
             If TypeOf plot.Value Is ImageData Then
                 If saveInTiff Then
                     outFile = $"{out}/{plot.Name}.tiff"
-                    Call New TiffWriter(DirectCast(plot.Value, ImageData).Image).MultipageTiffSave(outFile)
+                    tiff = New TiffWriter(DirectCast(plot.Value, ImageData).Image)
+                    tiff.MultipageTiffSave(outFile)
                 Else
                     outFile = $"{out}/{plot.Name}.png"
                     plot.Value.Save(outFile)
