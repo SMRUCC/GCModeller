@@ -61,7 +61,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
-Public Module EnrichPlot
+Public Module EnrichBubbles
 
     ''' <summary>
     ''' GO富集结果可视化
