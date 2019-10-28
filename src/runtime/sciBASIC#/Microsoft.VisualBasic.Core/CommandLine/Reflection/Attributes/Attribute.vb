@@ -93,10 +93,10 @@ Namespace CommandLine.Reflection
     <AttributeUsage(AttributeTargets.All, AllowMultiple:=False, Inherited:=True)>
     Public Class NoteAttribute : Inherits Attribute
 
-        Public ReadOnly Property note As String
+        Public ReadOnly Property noteText As String
 
         Sub New(note As String)
-            Me.note = note
+            Me.noteText = note
         End Sub
     End Class
 End Namespace
