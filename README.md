@@ -122,14 +122,10 @@ Here listing the scientific paperworks that based on the analysis services of GC
 ![](./images/RSD-P.density.png)
 ![](./images/clusters.scatter.png)
 ![](./images/xcb_TCS_uniprot-taxonomy_314565_GO_enrichment_converts.GO_enrichment.pvalue=0.05.png)
+<img src="images/biological_process.png" width=285 />
+<img src="images/cellular_component.png" width=285 />
+<img src="images/molecular_function.png" width=285 />
 <img src="./manual/KEGG/Unigenes.blast.m8.filter-KO.Catalogs/kegg-level-A.png" width=435 /><img src="/images/GO-enrichment.png" width=435 />
-
-<tr>
-<td><img src="images/biological_process.png" width=250 /></td>
-<td><img src="images/cellular_component.png" width=250 /></td>
-<td><img src="images/molecular_function.png" width=250 /></td>
-</tr>
-
 ![](./images/FUR-lightbox.png)
 ![](./images/Xanthomonas_oryzae_oryzicola_BLS256_uid16740-lightbox.png)
 ![](./images/pXOCGX01-lightbox.png)
