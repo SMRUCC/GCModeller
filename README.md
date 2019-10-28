@@ -15,9 +15,9 @@ GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET lang
 > + SDK docs: http://docs.gcmodeller.org
 
 **Supported platform:** ``Microsoft Windows``, ``GNU Linux``, ``MAC``, ``Microsoft Azure Cloud`` <br />
-**Development:** Microsoft VisualStudio 2017 | VisualBasic.NET<br />
-**Runtime environment:** [sciBASIC#](https://www.nuget.org/packages/sciBASIC/) v2.1.5 beta &amp; ``.NET Framework 4.6`` (or ``mono 4.4``)<br />
-**Installation:** ``VS2017`` is required of compiles this project. After the source code have been clone using git, just open solution file **[/src/GCModeller.sln](./src/GCModeller.sln)**, and when restore nuget packages finished, then you are good to go of compile GCModeller project.<br />
+**Development:** Microsoft VisualStudio 2019 | VisualBasic.NET<br />
+**Runtime environment:** [sciBASIC#](https://www.nuget.org/packages/sciBASIC/) v2.1.5 beta &amp; ``.NET Framework 4.7`` (or ``mono 6.4``)<br />
+**Installation:** ``VS2019`` is required of compiles this project. After the source code have been clone using git, just open solution file **[/src/GCModeller.sln](./src/GCModeller.sln)**, and when restore nuget packages finished, then you are good to go of compile GCModeller project.<br />
 
 > **NOTE:** Due to the reason of this project is using git submodule for manage some runtime component, so that **please do not directly download** the project source code from github by using the ``Donwload Zip`` button. The internal github client in the VisualStudio is recommended using for download the project source code.
 
@@ -123,6 +123,7 @@ Here listing the scientific paperworks that based on the analysis services of GC
 ![](./images/clusters.scatter.png)
 ![](./images/KOBAS-GeneOntology.GO_enrichment.bubble.png)
 <img src="./manual/KEGG/Unigenes.blast.m8.filter-KO.Catalogs/kegg-level-A.png" width=435 /><img src="/images/GO-enrichment.png" width=435 />
+<img src="images/biological_process.png" width=200 /><img src="images/cellular_component.png" width=200 /><img src="images/molecular_function.png" width=200 />
 ![](./images/FUR-lightbox.png)
 ![](./images/Xanthomonas_oryzae_oryzicola_BLS256_uid16740-lightbox.png)
 ![](./images/pXOCGX01-lightbox.png)
