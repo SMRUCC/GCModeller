@@ -105,11 +105,13 @@ Namespace Imaging
             If bmp Is Nothing Then Return False
 
             Try
+                Call location.ParentPath.MkDIR
                 Call saveMultipage(layers2Bitmaps(bmp), location, type)
                 Return True
             Catch ex As Exception
-                ex = New Exception(location.ToFileURL & " ===> " & type, ex)
+                ex = New Exception(location.ToFileURL, ex)
                 Call App.LogException(ex)
+                Call ex.PrintException
             End Try
 
             Return False
@@ -200,8 +202,8 @@ Namespace Imaging
         End Function
 
         Private Shared Sub doSaveToExistingFile(fileName As String, bmp As Image(), type As String)
-            'bmp[0] is containing Image from Existing file on which we will append newly scanned Images
-            'SO first we will dicide wheter existing file is single page or multipage
+            ' bmp[0] is containing Image from Existing file on which we will append newly scanned Images
+            ' SO first we will dicide wheter existing file is single page or multipage
             Using fr As FileStream = IO.File.Open(fileName, FileMode.Open, FileAccess.ReadWrite)
                 Dim origionalFile As Image = Image.FromStream(fr)
                 Dim PageNumber As Integer = getPageNumber(origionalFile)
