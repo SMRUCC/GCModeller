@@ -188,6 +188,7 @@
   <ItemGroup>
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\Metabolism.vb" />
+    <Compile Include="CLI\GOEnrichment.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
