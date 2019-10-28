@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E9256498-A9F6-463E-8D80-70DAFF480832}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>test.Module1</StartupObject>
+    <StartupObject>test.DAGtest</StartupObject>
     <RootNamespace>test</RootNamespace>
     <AssemblyName>test</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Module1.vb" />
+    <Compile Include="DAGtest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

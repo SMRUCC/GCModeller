@@ -187,18 +187,27 @@
     <WarningsAsErrors>
     </WarningsAsErrors>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DocumentationFile>Circos.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64' ">
-    <OutputPath>./bin</OutputPath>
+    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
     <WarningsAsErrors>
     </WarningsAsErrors>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+    <DocumentationFile>Circos.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineTrace>true</DefineTrace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86' ">
     <OutputPath>./bin</OutputPath>
     <WarningsAsErrors>
     </WarningsAsErrors>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DocumentationFile>Circos.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>

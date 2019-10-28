@@ -78,6 +78,17 @@ Namespace Assembly.Uniprot.XML
             Return protein.xrefs.TryGetValue("KO", [default]:=Nothing).ElementAtOrDefault(0)
         End Function
 
+        ''' <summary>
+        ''' Get KO number of this protein
+        ''' </summary>
+        ''' <param name="protein"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function GO(protein As entry) As IEnumerable(Of dbReference)
+            Return protein.xrefs.TryGetValue("GO", [default]:=Nothing)
+        End Function
+
         <Extension>
         Public Iterator Function EnumerateAllIDs(entry As entry) As IEnumerable(Of (Database$, xrefID$))
             For Each accession As String In entry.accessions.SafeQuery

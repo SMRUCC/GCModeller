@@ -48,6 +48,7 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -60,6 +61,7 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
 Imports SMRUCC.genomics.BioAssemblyExtensions
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -91,6 +93,54 @@ End Class
 
 Module Module1
 
+    Sub writeGBK()
+        Dim gb = GBFF.File.Load("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk")
+        Dim palidroms = EntityObject.LoadDataSet("P:\nt\20191024\PTSB.assembly.palindromes.csv") _
+            .Select(Function(d)
+                        Dim feature As New Feature With {
+                            .KeyName = "palindrome",
+                            .Location = New GBFF.Keywords.FEATURES.Location With {
+                                .Complement = False,
+                                .Locations = {New RegionSegment With {.Left = d!Start, .Right = d!PalEnd}}
+                            }
+                        }
+
+                        feature.Add(New KeyValuePair(Of String, String)("sequence", d!SequenceData))
+                        feature.Add(New KeyValuePair(Of String, String)("length", d!Length))
+                        feature.Add(New KeyValuePair(Of String, String)("loci", d.ID))
+                        feature.Add(New KeyValuePair(Of String, String)("palindrome", d!Palindrome))
+
+                        Return feature
+                    End Function).ToArray
+
+        Call palidroms.DoEach(AddressOf gb.Features.Add)
+
+        Dim repeats = EntityObject _
+            .LoadDataSet("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_Repeat sequences.csv") _
+            .Select(Function(d)
+                        Dim feature As New Feature With {
+                            .KeyName = "repeat_region",
+                            .Location = New GBFF.Keywords.FEATURES.Location With {
+                                .Complement = d!Direction.GetStrand = Strands.Reverse,
+                                .Locations = {New RegionSegment With {.Left = d!Minimum, .Right = d!Maximum}}
+                            }
+                        }
+
+                        feature.Add(New KeyValuePair(Of String, String)("sequence", d!Sequence))
+                        feature.Add(New KeyValuePair(Of String, String)("length", d!Length))
+                        feature.Add(New KeyValuePair(Of String, String)("name", d.ID))
+                        feature.Add(New KeyValuePair(Of String, String)("all_locations", d("All Locations")))
+                        feature.Add(New KeyValuePair(Of String, String)("frequency", d("Frequency")))
+
+                        Return feature
+                    End Function)
+
+        Call repeats.DoEach(AddressOf gb.Features.Add)
+
+        Call gb.Save("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_loci_features_updated.gbk")
+
+        Pause()
+    End Sub
 
     Private Function convert(anno As Anno, useLocusTag As Boolean) As GeneTable
 
@@ -102,17 +152,17 @@ Module Module1
 
         Dim info As New GeneTable With {
             .locus_id = locus_tag,
-            .Length = anno.Length,
+            .length = anno.Length,
             .left = anno.Minimum,
             .right = anno.Maximum,
             .CDS = anno.Sequence,
             .COG = "-",
             .commonName = anno.db_xref,
             .EC_Number = "",
-            .[Function] = anno.Name,
+            .[function] = anno.Name,
             .geneName = anno.db_xref,
-            .Strand = anno.Direction.GetStrand,
-            .Location = New NucleotideLocation(.left, .right, .Strand),
+            .strand = anno.Direction.GetStrand,
+            .Location = New NucleotideLocation(.left, .right, .strand),
             .Translation = anno.translation
         }
 
@@ -122,6 +172,130 @@ Module Module1
 
         Return info
     End Function
+
+    Sub plot20191024()
+        Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
+        Dim gb = GBFF.File.Load("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk")
+        Dim nt As FastaSeq = gb.Origin.ToFasta
+        Dim size = nt.Length
+
+        Call Circos.CircosAPI.SetBasicProperty(doc, nt, loophole:=512)
+
+        Dim annotations = gb.ExportGeneFeatures
+        Dim darkblue As Color = Color.DarkBlue
+        Dim darkred As Color = Color.OrangeRed
+
+        For Each gene As GeneTable In annotations
+            If gene.strand.GetStrand = Strands.Forward Then
+                gene.COG = "up"
+            Else
+                gene.COG = "down"
+            End If
+
+            gene.geneName = Strings.Trim(gene.commonName).Split(";"c).First.Replace("_", " ")
+
+            If InStr(gene.geneName, "hypothetical", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "protein", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, ":", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "(", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "/", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "unknow", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, ",", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "database", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "Uncharacterized", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "putative", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "probable", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "Predict", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            ElseIf InStr(gene.geneName, "similar", CompareMethod.Text) > 0 Then
+                gene.geneName = Nothing
+            End If
+        Next
+
+        doc = Circos.CircosAPI.GenerateGeneCircle(
+            doc, annotations, True,
+            splitOverlaps:=False,
+            snuggleRefine:=False,
+            colorProfiles:=New Dictionary(Of String, String) From {
+                {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
+                {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
+            })
+
+        Dim densityOffset = 1000
+        Dim ii As Integer
+        Dim twoPatterns = {ColorMap.PatternJet, ColorMap.PatternHot}
+
+        For Each file As String In {"P:\nt\20191024\PTSB.assembly.mirror(fuzzy).cut,0.65-dist,6-min,max=3,8.density.txt",
+"P:\nt\20191024\PTSB.assembly.palindromes.density.txt",
+"P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_Repeat sequences.density.txt"}
+
+            Dim densityVector = file.ReadVector
+
+
+            ii += 1
+
+            If ii < 3 Then
+                Dim density = densityVector _
+                 .Select(Function(v, i)
+                             Return New ValueTrackData With {.chr = "chr1", .start = i * densityOffset, .value = v, .[end] = densityOffset * (i + 1)}
+                         End Function) _
+                 .ToArray
+
+                Call Circos.CircosAPI.AddGradientMappings(doc, density, twoPatterns(ii - 1))
+            Else
+                densityOffset = 500
+
+                Dim density = densityVector _
+                 .Select(Function(v, i)
+                             Return New ValueTrackData With {.chr = "chr1", .start = i * densityOffset, .value = v, .[end] = densityOffset * (i + 1)}
+                         End Function) _
+                 .ToArray
+
+                Dim plot2 As New Plots.Histogram(New NtProps.GCSkew(density))
+
+                Call Circos.AddPlotTrack(doc, plot2)
+            End If
+
+        Next
+
+
+        Dim skewSteps = 2000
+        Dim GCSkew = nt.GCSkew(5000, skewSteps, True) _
+            .Select(Function(v, i)
+                        Return New ValueTrackData With {.chr = "chr1", .start = i * skewSteps, .value = v, .[end] = skewSteps * (i + 1)}
+                    End Function) _
+            .ToArray
+
+        Call Circos.CircosAPI.AddGradientMappings(doc, GCSkew, ColorMap.PatternHot)
+
+        Dim GCcontent = nt.SequenceData.SlideWindows(6000, skewSteps) _
+            .Select(Function(f, i)
+                        Return New ValueTrackData With {.chr = "chr1", .start = i * skewSteps, .value = NucleicAcidStaticsProperty.GCContent(NT:=f.CharString), .[end] = skewSteps * (i + 1)}
+                    End Function) _
+            .ToArray
+
+        Call Circos.CircosAPI.AddGradientMappings(doc, GCcontent, ColorMap.PatternJet)
+
+        Call Circos.CircosAPI.SetIdeogramWidth(Circos.GetIdeogram(doc), 0)
+        Call Circos.CircosAPI.ShowTicksLabel(doc, True)
+        Call doc.ForceAutoLayout()
+        Call Circos.CircosAPI.SetIdeogramRadius(Circos.GetIdeogram(doc), 0.25)
+
+        Call Circos.CircosAPI.WriteData(doc, "P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_circos", debug:=False)
+
+        Call App.Stop()
+    End Sub
 
     Sub plot4()
         Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
@@ -321,7 +495,7 @@ Module Module1
         ' 所以在这里需要重新读取一次
         Dim geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source" AndAlso Not g.locus_id.StringEmpty) _
+            .Where(Function(g) g.species <> "source" AndAlso Not g.locus_id.StringEmpty) _
             .GroupBy(Function(g) g.locus_id) _
             .Select(Function(g) g.First) _
             .ToArray
@@ -340,7 +514,7 @@ Module Module1
 
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source").GroupBy(Function(g) g.locus_id).Select(Function(g) g.First).OrderBy(Function(g) g.Location.left) _
+            .Where(Function(g) g.species <> "source").GroupBy(Function(g) g.locus_id).Select(Function(g) g.First).OrderBy(Function(g) g.Location.left) _
             .ToArray
         'Dim annotations = geneTable _
         '    .GroupBy(Function(gene) gene.LocusID) _
@@ -398,7 +572,7 @@ Module Module1
 
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source").GroupBy(Function(g) g.locus_id).Select(Function(g) g.First) _
+            .Where(Function(g) g.species <> "source").GroupBy(Function(g) g.locus_id).Select(Function(g) g.First) _
             .ToArray
 
 
@@ -428,7 +602,7 @@ Module Module1
         '    })
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, True)) _
-            .Where(Function(g) g.Species <> "source" AndAlso Not g.locus_id.StringEmpty) _
+            .Where(Function(g) g.species <> "source" AndAlso Not g.locus_id.StringEmpty) _
             .GroupBy(Function(g) g.locus_id) _
             .Select(Function(g) g.First) _
             .ToArray
@@ -525,6 +699,12 @@ Module Module1
     End Sub
 
     Sub Main()
+
+        Call writeGBK()
+
+        Call plot20191024()
+
+
         Call plot4()
         Call plot3()
         Call Module1.plot2()
@@ -544,7 +724,7 @@ Module Module1
 
         Dim geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(Function(g) convert(g, False)) _
-            .Where(Function(g) g.Species <> "source") _
+            .Where(Function(g) g.species <> "source") _
             .ToArray
         Dim annotations = geneTable _
             .GroupBy(Function(gene) gene.locus_id) _
@@ -559,7 +739,7 @@ Module Module1
             .Select(Function(anno)
                         Return anno.Values.First()(Scan0).With(Sub(g)
                                                                    ' 在这里主要是进行标签显示的控制
-                                                                   g.geneName = g.Function
+                                                                   g.geneName = g.function
 
                                                                    If g.COG Like otherFeatures Then
                                                                        g.locus_id = ""
@@ -614,7 +794,7 @@ Module Module1
         ' 所以在这里需要重新读取一次
         geneTable = annotationtable.LoadCsv(Of Anno) _
             .Select(AddressOf convert) _
-            .Where(Function(g) g.Species <> "source") _
+            .Where(Function(g) g.species <> "source") _
             .GroupBy(Function(g) g.locus_id) _
             .Select(Function(g) g.First) _
             .ToArray

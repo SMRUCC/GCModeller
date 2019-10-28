@@ -46,6 +46,7 @@ Imports ScannerMotif = SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.M
 
 Namespace SequenceLogo
 
+    <HideModuleName>
     Public Module Extensions
 
         <Extension>

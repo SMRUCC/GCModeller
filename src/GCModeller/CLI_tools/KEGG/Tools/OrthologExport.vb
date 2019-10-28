@@ -66,7 +66,7 @@ Public Module OrthologExport
     Private Function __createRowObject(resultRow As SSDB.SShit) As IO.RowObject
         Dim ArrayData As String() = New String() {
             resultRow.Entry.ToString,
-            resultRow.Entry.Description,
+            resultRow.Entry.description,
             resultRow.KO.Value,
             resultRow.Length,
             resultRow.SWScore,

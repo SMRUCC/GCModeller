@@ -183,7 +183,7 @@ Namespace TrackDatas.Highlights
 
             For Each ch In chrs
                 Dim length As Integer = labels(ch.chr).end
-                Dim ranges As DoubleRange = ch.Group.Vector(length, Function(x) x.value)
+                Dim ranges As DoubleRange = ch.Group.Select(Function(x) x.value).ToArray
                 Dim colors As String() = New ColorPattern(500) _
                     .ColorSequence(mapName) _
                     .Select(Function(cl) $"({cl.R},{cl.G},{cl.B})") _

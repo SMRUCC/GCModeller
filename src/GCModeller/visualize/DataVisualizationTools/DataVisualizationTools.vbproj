@@ -151,12 +151,19 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU' ">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Visualize.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64' ">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Visualize.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineTrace>true</DefineTrace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86' ">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Visualize.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
@@ -192,16 +199,19 @@
     <OutputPath>bin\Biostack\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>SMRUCC.genomics.Visualize.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack|x64'">
     <OutputPath>bin\x64\Biostack\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>SMRUCC.genomics.Visualize.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack|x86'">
     <OutputPath>bin\x86\Biostack\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>SMRUCC.genomics.Visualize.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

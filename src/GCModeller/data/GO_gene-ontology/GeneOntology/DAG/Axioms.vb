@@ -40,6 +40,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 ''' <summary>
@@ -54,8 +57,57 @@ Public Module Axioms
     ''' <param name="a"><see cref="Term.id"/></param>
     ''' <param name="b"><see cref="Term.id"/></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Infer(go As GO_OBO, a$, b$) As OntologyRelations
+        Return go.CreateTermTable.Infer(a, b)
+    End Function
 
+    <Extension>
+    Public Function Infer(go As Dictionary(Of String, Term), a$, b$) As OntologyRelations
+        Dim term As Term = go(a)
+        Dim relations As New OBO.OntologyRelations(term)
+        Dim relationship As OntologyRelations
+
+        For Each rel As Relationship In relations.AsEnumerable
+            If rel.parent.Name = b Then
+                Return rel.type
+            Else
+                relationship = go.Infer(rel.parent.Name, b)
+            End If
+
+            If relationship <> OntologyRelations.none Then
+                Return Axioms.InferRule(rel.type, relationship)
+            End If
+        Next
+
+        Return OntologyRelations.none
+    End Function
+
+    ReadOnly regulates As Index(Of OntologyRelations) = {
+        OntologyRelations.negatively_regulates,
+        OntologyRelations.positively_regulates
+    }
+
+    ''' <summary>
+    ''' 计算出``A -> C``的关系，C是A和B的基础类型
+    ''' </summary>
+    ''' <param name="from">A -> B</param>
+    ''' <param name="[to]">B -> C</param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' https://github.com/SMRUCC/GCModeller/blob/master/src/GCModeller/data/GO_gene-ontology/docs/Ontology/Ontology_Relations/README.md
+    ''' </remarks>
+    Public Function InferRule(from As OntologyRelations, [to] As OntologyRelations) As OntologyRelations
+        If from Like regulates AndAlso [to] = OntologyRelations.part_of Then
+            Return OntologyRelations.regulates
+        End If
+
+        If [to] > from Then
+            Return [to]
+        Else
+            Return from
+        End If
     End Function
 End Module

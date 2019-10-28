@@ -69,6 +69,27 @@ Namespace Assembly.NCBI.GenBank
     ''' <remarks></remarks>
     Public Module gbExportService
 
+        <Extension>
+        Public Function EnsureNonEmptyLocusId(feature As Feature) As String
+            Dim locus_id$ = feature("locus_tag")
+
+            If String.IsNullOrEmpty(locus_id) Then
+                locus_id = feature("protein_id")
+            End If
+            If String.IsNullOrEmpty(locus_id) Then
+                locus_id = (From ref As String
+                            In feature.QueryDuplicated("db_xref")
+                            Let Tokens As String() = ref.Split(CChar(":"))
+                            Where String.Equals(Tokens.First, "PSEUDO")
+                            Select Tokens.Last).FirstOrDefault
+            End If
+            If String.IsNullOrEmpty(locus_id) Then
+                locus_id = feature("db_xref")
+            End If
+
+            Return locus_id
+        End Function
+
         ''' <summary>
         ''' Convert a feature site data in the NCBI GenBank file to the dump information table.
         ''' </summary>
@@ -78,26 +99,16 @@ Namespace Assembly.NCBI.GenBank
         ''' 
         <Extension>
         Public Function DumpEXPORT(obj As CDS) As GeneTable
-            Dim gene As New GeneTable
+            Dim gene As New GeneTable With {
+                .locus_id = obj.EnsureNonEmptyLocusId
+            }
 
             Call obj.TryGetValue("product", gene.commonName)
-            Call obj.TryGetValue("locus_tag", gene.locus_id)
             Call obj.TryGetValue("protein_id", gene.ProteinId)
             Call obj.TryGetValue("gene", gene.geneName)
             Call obj.TryGetValue("translation", gene.Translation)
             Call obj.TryGetValue("function", gene.Function)
             Call obj.TryGetValue("transl_table", gene.Transl_table)
-
-            If String.IsNullOrEmpty(gene.locus_id) Then
-                gene.locus_id = gene.ProteinId
-            End If
-            If String.IsNullOrEmpty(gene.locus_id) Then
-                gene.locus_id = (From ref As String
-                                In obj.QueryDuplicated("db_xref")
-                                 Let Tokens As String() = ref.Split(CChar(":"))
-                                 Where String.Equals(Tokens.First, "PSEUDO")
-                                 Select Tokens.Last).FirstOrDefault
-            End If
 
             gene.GI = obj.db_xref_GI
             gene.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt
@@ -604,26 +615,33 @@ Namespace Assembly.NCBI.GenBank
             Dim attrs As String() = Nothing
             Dim Sequence As String
             Dim products As Dictionary(Of GeneTable) = gb.ExportGeneFeatures.ToDictionary
+            Dim geneFeatures = (From x As Feature
+                                In gb.Features._innerList
+                                Where String.Equals(x.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
+                                Select x).ToArray
+            Dim locus_tag As String
+            Dim function$
+
+            If geneFeatures.Length = 0 Then
+                ' 在gb文件中没有定义gene feature
+                ' 则直接导出所有的feature的序列？
+                geneFeatures = gb.Features._innerList _
+                    .Where(Function(feature) feature.KeyName <> "source") _
+                    .ToArray
+            End If
 
             Try
-                For Each gene As Feature In (From x As Feature
-                                             In gb.Features._innerList
-                                             Where String.Equals(x.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
-                                             Select x)
-
-                    Dim locus_tag As String
-                    Dim function$
-
+                For Each gene As Feature In geneFeatures
                     If geneName Then
                         locus_tag = gene.Query("gene")
                         If String.IsNullOrEmpty(locus_tag) OrElse String.Equals(locus_tag, "-") Then
-                            locus_tag = gene.Query("locus_tag")
+                            locus_tag = gene.EnsureNonEmptyLocusId
                         End If
                     Else
-                        locus_tag = gene.Query("locus_tag")
+                        locus_tag = gene.EnsureNonEmptyLocusId
                     End If
 
-                    [function] = products.SafeGetValue(locus_tag)?.Function
+                    [function] = products.SafeGetValue(locus_tag)?.function
                     [function] = If([function].StringEmpty, products.SafeGetValue(locus_tag)?.commonName, [function])
                     loc = gene.Location.ContiguousRegion
                     attrs = {locus_tag, gene.Location.ToString, [function]}

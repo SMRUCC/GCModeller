@@ -76,21 +76,25 @@ Public Module LociFilter
         Next
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of RepeatsView()))) As IEnumerable(Of NamedValue(Of RepeatsView()))
         Return range.RangeSelects(data, Function(x) {x.Left})
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of RevRepeatsView()))) As IEnumerable(Of NamedValue(Of RevRepeatsView()))
+    Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of ReverseRepeatsView()))) As IEnumerable(Of NamedValue(Of ReverseRepeatsView()))
         Return range.RangeSelects(data, Function(x) {x.Left})
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of PalindromeLoci()))) As IEnumerable(Of NamedValue(Of PalindromeLoci()))
         Return range.RangeSelects(data, Function(x) x.Start.Join({x.PalEnd, x.Mirror}).ToArray)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of ImperfectPalindrome()))) As IEnumerable(Of NamedValue(Of ImperfectPalindrome()))
         Return range.RangeSelects(data, Function(x) {x.Left, x.Paloci})
@@ -116,6 +120,8 @@ Public Module LociFilter
     ''' <param name="compare"></param>
     ''' <param name="returnsAll"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Filtering(Of T As RepeatsView)(
                               data As IEnumerable(Of T),
@@ -124,12 +130,13 @@ Public Module LociFilter
                            Optional returnsAll As Boolean = False,
                            Optional lenMin As Integer = 4) As IEnumerable(Of T)
 
-        Return data.__filtering(
-            Function(x) x.Locis,
-            Sub(x, l) x.Locis = l,
+        Return data.doFiltering(
+            Function(l) l.Locis,
+            Sub(view, l) view.Locis = l,
             interval,
             compare,
-            returnsAll, lenMin)
+            returnsAll, lenMin
+        )
     End Function
 
     ''' <summary>
@@ -145,7 +152,7 @@ Public Module LociFilter
     ''' <param name="lengthMin">重复片段的最小长度</param>
     ''' <returns></returns>
     <Extension>
-    Private Iterator Function __filtering(Of T As RepeatsView)(data As IEnumerable(Of T),
+    Private Iterator Function doFiltering(Of T As RepeatsView)(data As IEnumerable(Of T),
                                                                getLocis As Func(Of T, Integer()),
                                                                setLocis As Action(Of T, Integer()),
                                                                interval As Integer,
@@ -172,8 +179,7 @@ Public Module LociFilter
             Next
         Else
             For Each loci As T In data.Where(Function(x) x.SequenceData.Length >= lengthMin)
-                Dim orders As Integer() =
-                    getLocis(loci).OrderBy(Function(x) x).ToArray
+                Dim orders As Integer() = getLocis(loci).OrderBy(Function(x) x).ToArray
                 Dim locis As New List(Of Integer)
                 Dim pre As Integer = loci.Left
 
@@ -200,21 +206,23 @@ Public Module LociFilter
     End Function
 
     ''' <summary>
-    ''' 根据<see cref="RevRepeatsView.RevLocis"/>来进行筛选
+    ''' 根据<see cref="ReverseRepeatsView.reversed"/>来进行筛选
     ''' </summary>
     ''' <param name="data"></param>
     ''' <param name="interval"></param>
     ''' <param name="compare"></param>
     ''' <param name="returnsAll"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function FilteringRev(data As IEnumerable(Of RevRepeatsView),
+    Public Function FilteringRev(data As IEnumerable(Of ReverseRepeatsView),
                                  Optional interval As Integer = 2000,
                                  Optional compare As Compares = Compares.Interval,
                                  Optional returnsAll As Boolean = False,
-                                 Optional lenMin As Integer = 4) As IEnumerable(Of RevRepeatsView)
-        Return data.__filtering(Function(x) x.RevLocis,
-                                Sub(x, rl) x.RevLocis = rl,
+                                 Optional lenMin As Integer = 4) As IEnumerable(Of ReverseRepeatsView)
+        Return data.doFiltering(Function(x) x.reversed,
+                                Sub(x, rl) x.reversed = rl,
                                 interval,
                                 compare,
                                 returnsAll, lenMin)

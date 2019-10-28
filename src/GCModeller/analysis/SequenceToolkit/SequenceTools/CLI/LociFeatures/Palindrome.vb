@@ -60,34 +60,12 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
-Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.ContextModel.Promoter
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module Utilities
-
-    <ExportAPI("/Loci.describ",
-               Info:="Testing",
-               Usage:="/Loci.describ /ptt <genome-context.ptt> [/test <loci:randomize> /complement /unstrand]")>
-    Public Function LociDescript(args As CommandLine) As Integer
-        Dim PTT = GenBank.TabularFormat.PTT.Load(args("/ptt"))
-        Dim test As Integer = args.GetValue("/test", PTT.Size * Rnd())
-        Dim complement As Boolean = args.GetBoolean("/complement")
-        Dim loci As New NucleotideLocation(test, test + 30, complement)
-        Dim unstrand As Boolean = args.GetBoolean("/unstrand")
-        Dim lst = PTT.GetRelatedGenes(loci, unstrand)
-
-        For Each g As Relationship(Of GeneBrief) In lst
-            Call g.__DEBUG_ECHO
-        Next
-
-        Return 0
-    End Function
 
     <ExportAPI("--Palindrome.From.NT",
                Info:="This function is just for debugger test, /nt parameter is the nucleotide sequence data as ATGCCCC",
@@ -99,7 +77,7 @@ Partial Module Utilities
             .SequenceData = args("/nt"),
             .Headers = {"auto"}
         }
-        Dim Out As String = args("/out")
+        Dim Out As String = args("/out") Or "./nt.palindrome.csv"
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim Search As New Topologically.PalindromeSearch(NT, Min, Max)
@@ -108,16 +86,21 @@ Partial Module Utilities
         Return 0
     End Function
 
-    <ExportAPI("--Palindrome.From.FASTA",
-               Usage:="--Palindrome.From.Fasta /nt <nt-sequence.fasta> [/out <out.csv> /min <3> /max <20>]")>
-    <Argument("/nt", False,
-                   Description:="Fasta sequence file, and this file should just contains only one sequence.",
-                   AcceptTypes:={GetType(FastaSeq)})>
+    <ExportAPI("--palindrome.From.FASTA")>
+    <Description("")>
+    <Usage("--palindrome.From.Fasta /nt <nt-sequence.fasta> [/out <out.csv> /min <default=3> /max <default=20>]")>
+    <Argument("/nt", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.fasta, *.fa, *.fsa",
+              Description:="Fasta sequence file, and this file should just contains only one sequence.",
+              AcceptTypes:={GetType(FastaSeq)})>
     <Argument("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
+    <Argument("/min", True, CLITypes.Integer,
+              AcceptTypes:={GetType(Integer)},
+              Description:="The min length of the palindrome mirror part.")>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function SearchPalindromeFasta(args As CommandLine) As Integer
         Dim nt As FastaSeq = FastaSeq.Load(args("/nt"))
-        Dim Out As String = args("/out") Or (args("/nt").TrimSuffix & ".csv")
+        Dim Out As String = args("/out") Or (args("/nt").TrimSuffix & ".palindromes.csv")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim Search As New Topologically.PalindromeSearch(nt, Min, Max)
@@ -169,20 +152,25 @@ Partial Module Utilities
         Return result.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/Mirror.Fuzzy",
-               Usage:="/Mirror.Fuzzy /in <in.fasta> [/out <out.csv> /cut 0.6 /max-dist 6 /min 3 /max 20]")>
+    <ExportAPI("/Mirror.Fuzzy")>
+    <Usage("/Mirror.Fuzzy /in <in.fasta> [/cut <default=0.6> /max-dist <default=6> /min <default=3> /max <default=20> /out <out.csv>]")>
+    <Description("Search mirror loci sites on your sequence.")>
     <Argument("/in", False, AcceptTypes:={GetType(FastaSeq)})>
     <Argument("/out", True, AcceptTypes:={GetType(PalindromeLoci)})>
+    <Argument("/max-dist", True, CLITypes.Integer,
+              AcceptTypes:={GetType(Integer)},
+              Description:="The max distance of the loci site and its mirror loci site.")>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function FuzzyMirrors(args As CommandLine) As Integer
-        Dim [in] As String = args - "/in"
+        Dim [in] As String = args <= "/in"
         Dim cut As Double = args.GetValue("/cut", 0.6)
         Dim maxDist As Integer = args.GetValue("/max-dist", 6)
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".cut,{cut}-dist,{maxDist}-min,max={min},{max}.Csv")
-        Dim nt As New FastaSeq([in])
+        Dim out As String = args("/out") Or ([in].TrimSuffix & $".mirror(fuzzy).cut,{cut}-dist,{maxDist}-min,max={min},{max}.csv")
+        Dim nt As FastaSeq = FastaSeq.Load([in])
         Dim search As New FuzzyMirrors(nt, min, max, maxDist, cut)
+
         Call search.DoSearch()
         Call search.ResultSet.SaveTo(out)
 
@@ -386,8 +374,8 @@ Partial Module Utilities
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
         Dim seq As FastaSeq
-        Dim cutoff As Double = args.GetValue("/cutoff", 0.6)
-        Dim maxDist As Integer = args.GetValue("/max-dist", 1000)
+        Dim cutoff As Double = args("/cutoff") Or 0.6
+        Dim maxDist As Integer = args("/max-dist") Or 1000
         Dim partitions As Integer = args.GetValue("/partitions", -1)
 
         If input.FileExists Then
@@ -525,19 +513,20 @@ Partial Module Utilities
         Return True
     End Function
 
-    <ExportAPI("--Hairpinks",
-               Usage:="--Hairpinks /in <in.fasta> [/out <out.csv> /min <6> /max <7> /cutoff 3 /max-dist <35 (bp)>]")>
+    <ExportAPI("--Hairpinks")>
+    <Usage("--Hairpinks /in <in.fasta> [/out <out.csv> /min <6> /max <7> /cutoff 3 /max-dist <35 (bp)>]")>
     <Argument("/out", True, AcceptTypes:={GetType(ImperfectPalindrome)})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function Hairpinks(args As CommandLine) As Integer
         Dim input As String = args("/in")
-        Dim out As String = args.GetValue("/out", input.TrimSuffix & ".hairpink.csv")
-        Dim min As Integer = args.GetValue("/min", 6)
-        Dim max As Integer = args.GetValue("/max", 7)
-        Dim cutoff As Integer = args.GetValue("/cutoff", 3)
-        Dim maxDist As Integer = args.GetValue("/max-dist", 35)
+        Dim out As String = args("/out") Or (input.TrimSuffix & ".hairpink.csv")
+        Dim min As Integer = args("/min") Or 6
+        Dim max As Integer = args("/max") Or 7
+        Dim cutoff As Integer = args("/cutoff") Or 3
+        Dim maxDist As Integer = args("/max-dist") Or 35
         Dim inFasta As FastaSeq = FastaSeq.Load(input)
         Dim resultSet = inFasta.SearchHairpinks(min, max, cutoff, maxDist)
+
         Return resultSet.SaveTo(out)
     End Function
 
