@@ -50,6 +50,7 @@ Imports System.Drawing.Imaging
 Imports System.IO
 Imports System.Runtime.InteropServices.Marshal
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Imaging
 
@@ -81,6 +82,8 @@ Namespace Imaging
         Public Function MultipageTiffSave(path As String) As Boolean
             If _imageLayers.Count = 0 Then
                 Return False
+            ElseIf path.FileLength > 0 Then
+                Return ExistingFileSave(path)
             Else
                 Return SaveMultipage(_imageLayers, path, "TIFF")
             End If
@@ -89,17 +92,20 @@ Namespace Imaging
         Public Function ExistingFileSave(path As String) As Boolean
             If _imageLayers.IsNullOrEmpty Then
                 Return False
+            Else
+                Return _imageLayers _
+                    .DoCall(AddressOf layers2Bitmaps) _
+                    .DoCall(Function(layers)
+                                Return SaveToExistingFile(path, layers, "TIFF")
+                            End Function)
             End If
-
-            Dim Res = SaveToExistingFile(path, __bitmaps(_imageLayers), "TIFF")
-            Return Res
         End Function
 
         Public Shared Function SaveMultipage(bmp As List(Of Image), location As String, type As String) As Boolean
             If bmp Is Nothing Then Return False
 
             Try
-                Call saveMultipage(__bitmaps(bmp), location, type)
+                Call saveMultipage(layers2Bitmaps(bmp), location, type)
                 Return True
             Catch ex As Exception
                 ex = New Exception(location.ToFileURL & " ===> " & type, ex)
@@ -109,13 +115,14 @@ Namespace Imaging
             Return False
         End Function
 
-        Private Shared Function __bitmaps(bmps As IEnumerable(Of Image)) As Image()
-            Return LinqAPI.Exec(Of Image) <=
-                From image As Image
-                In bmps
-                Where Not image Is Nothing
-                Let bitonal = ConvertToBitonal(DirectCast(image, Bitmap))
-                Select DirectCast(bitonal, Image)
+        Private Shared Function layers2Bitmaps(bmps As IEnumerable(Of Image)) As Image()
+            Return LinqAPI.Exec(Of Image) _
+ _
+                () <= From image As Image
+                      In bmps
+                      Where Not image Is Nothing
+                      Let bitonal = ConvertToBitonal(DirectCast(image, Bitmap))
+                      Select DirectCast(bitonal, Image)
         End Function
 
         Private Shared Sub saveMultipage(bmp As Image(), location As String, type As String)

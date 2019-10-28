@@ -639,6 +639,8 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{ecb7f87a-3690-4369-a191-2358ee940561}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{f5fc5f93-f929-496f-9cf9-8607203b9545}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{f5fc5f93-f929-496f-9cf9-8607203b9545}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{f680a759-33bf-451b-a1a6-05bad5d67bba}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{f680a759-33bf-451b-a1a6-05bad5d67bba}*SharedItemsImports = 4
 		runtime\mysqli\mysqliHelper\mysqliHelper.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4

@@ -198,7 +198,7 @@ Partial Module CLI
     <Group(CLIGroups.Enrichment_CLI)>
     <Note(DesignerTerms.TermHelpInfo)>
     Public Function GO_enrichmentPlot(args As CommandLine) As Integer
-        Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
+        Dim goDB As String = args("/go") Or (GCModeller.FileSystem.GO & "/go.obo")
         Dim terms = GO_OBO.Open(goDB).ToDictionary
         Dim [in] As String = args("/in")
         Dim PlantRegMap As Boolean = args.GetBoolean("/PlantRegMap")
