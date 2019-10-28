@@ -242,9 +242,9 @@ Partial Module CLI
         Return plot.Save(out).CLICode
     End Function
 
-    <ExportAPI("/KEGG.enrichment.plot",
-               Info:="Bar plots of the KEGG enrichment analysis result.",
-               Usage:="/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /colors <default=Set1:c6> /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]")>
+    <ExportAPI("/KEGG.enrichment.plot")>
+    <Description("Bar plots of the KEGG enrichment analysis result.")>
+    <Usage("/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /colors <default=Set1:c6> /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]")>
     <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
               AcceptTypes:={GetType(String), GetType(String())},
               Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
