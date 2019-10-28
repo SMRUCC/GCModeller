@@ -110,7 +110,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
             EntryTemp(1) = EntryTemp(1).Trim
             Dim TempChunk As String() = EntryTemp(0).Split(CChar(":"))
             ResultItem.Entry = New KEGG.WebServices.QueryEntry With {
-                .Description = EntryTemp(1),
+                .description = EntryTemp(1),
                 .speciesID = TempChunk(0),
                 .locusID = TempChunk(1)
             }

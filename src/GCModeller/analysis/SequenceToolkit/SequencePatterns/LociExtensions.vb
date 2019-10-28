@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::ac0e96246299a0238e39b78dbbc5d2a4, analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module LociExtensions
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: __ip, __pl, __revp, __revpcsv, __rps
-    '               __rpscsv, ConvertsAuto, MirrorsLoci, (+4 Overloads) ToLoci, (+6 Overloads) ToLocis
-    ' 
-    ' /********************************************************************************/
+' Module LociExtensions
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: __ip, __pl, __revp, __revpcsv, __rps
+'               __rpscsv, ConvertsAuto, MirrorsLoci, (+4 Overloads) ToLoci, (+6 Overloads) ToLocis
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,14 +52,15 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 ''' <summary>
 ''' 将序列特征的搜索结果转换为<see cref="SimpleSegment"/>对象类型
 ''' </summary>
-Public Module LociExtensions
+''' 
+<HideModuleName> Public Module LociExtensions
 
     <Extension>
     Public Function ToLoci(x As PalindromeLoci) As SimpleSegment
         Return New SimpleSegment With {
             .Strand = x.MappingLocation.Strand.GetBriefCode,
-            .Start = x.MappingLocation.Left,
-            .Ends = x.MappingLocation.Right,
+            .Start = x.MappingLocation.left,
+            .Ends = x.MappingLocation.right,
             .SequenceData = x.Palindrome
         }
     End Function
@@ -67,15 +68,17 @@ Public Module LociExtensions
     ''' <summary>
     ''' --->&lt;---
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="loci"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function MirrorsLoci(x As PalindromeLoci) As SimpleSegment
+    Public Function MirrorsLoci(loci As PalindromeLoci) As SimpleSegment
+        Dim loc = loci.MappingLocation
+
         Return New SimpleSegment With {
-            .Strand = x.MappingLocation.Strand.GetBriefCode,
-            .Start = x.MappingLocation.Left,
-            .Ends = x.MappingLocation.Right,
-            .SequenceData = x.Loci & x.Palindrome
+            .Strand = loc.Strand.GetBriefCode,
+            .Start = loc.left,
+            .Ends = loc.right,
+            .SequenceData = loci.Loci & loci.Palindrome
         }
     End Function
 
@@ -89,18 +92,18 @@ Public Module LociExtensions
     Public Function ToLoci(x As Topologically.Repeats, start As Integer) As SimpleSegment
         Return New SimpleSegment With {
             .Start = start,
-            .Ends = start + x.Length,
-            .SequenceData = x.SequenceData,
+            .Ends = start + x.length,
+            .SequenceData = x.loci,
             .Strand = "+"
         }
     End Function
 
     <Extension>
-    Public Function ToLoci(x As RevRepeats, start As Integer) As SimpleSegment
+    Public Function ToLoci(x As ReverseRepeats, start As Integer) As SimpleSegment
         Return New SimpleSegment With {
             .Start = start,
-            .Ends = start + x.Length,
-            .SequenceData = x.SequenceData,
+            .Ends = start + x.length,
+            .SequenceData = x.loci,
             .Strand = "+"
         }
     End Function
@@ -120,8 +123,8 @@ Public Module LociExtensions
         id = id & $"{x.Left},{x.Paloci}"
 
         Return New SimpleSegment With {
-            .Start = x.MappingLocation.Left,
-            .Ends = x.MappingLocation.Right,
+            .Start = x.MappingLocation.left,
+            .Ends = x.MappingLocation.right,
             .Strand = x.MappingLocation.Strand.GetBriefCode,
             .SequenceData = x.Palindrome,
             .ID = id
@@ -139,17 +142,17 @@ Public Module LociExtensions
             From loci As Repeats
             In x
             Select From n As Integer
-                   In loci.Locations
+                   In loci.locations
                    Select loci.ToLoci(n)
     End Function
 
     <Extension>
-    Public Function ToLocis(x As IEnumerable(Of RevRepeats)) As SimpleSegment()
+    Public Function ToLocis(x As IEnumerable(Of ReverseRepeats)) As SimpleSegment()
         Return LinqAPI.Exec(Of SimpleSegment) <=
-            From loci As RevRepeats
+            From loci As ReverseRepeats
             In x
             Select From n As Integer
-                   In loci.Locations
+                   In loci.locations
                    Select loci.ToLoci(n)
     End Function
 
@@ -167,8 +170,8 @@ Public Module LociExtensions
     Public Function ConvertsAuto(df As IO.File) As SimpleSegment()
         Dim types As Type() = {
             GetType(ImperfectPalindrome),
-            GetType(RevRepeatsView),
-            GetType(RevRepeats),
+            GetType(ReverseRepeatsView),
+            GetType(ReverseRepeats),
             GetType(RepeatsView),
             GetType(Repeats),
             GetType(PalindromeLoci)
@@ -185,7 +188,7 @@ Public Module LociExtensions
     End Function
 
     Private Function __revp(df As IO.File) As SimpleSegment()
-        Return df.AsDataSource(Of RevRepeats).ToLocis
+        Return df.AsDataSource(Of ReverseRepeats).ToLocis
     End Function
 
     Private Function __rps(df As IO.File) As SimpleSegment()
@@ -193,7 +196,7 @@ Public Module LociExtensions
     End Function
 
     Private Function __revpcsv(df As IO.File) As SimpleSegment()
-        Return df.AsDataSource(Of RevRepeatsView).ToLocis
+        Return df.AsDataSource(Of ReverseRepeatsView).ToLocis
     End Function
 
     Private Function __rpscsv(df As IO.File) As SimpleSegment()
@@ -206,7 +209,7 @@ Public Module LociExtensions
     End Function
 
     <Extension>
-    Public Function ToLocis(locis As IEnumerable(Of RevRepeatsView)) As SimpleSegment()
+    Public Function ToLocis(locis As IEnumerable(Of ReverseRepeatsView)) As SimpleSegment()
         Return locis.Select(Function(l) l.ToLoci).ToArray
     End Function
 
@@ -220,11 +223,11 @@ Public Module LociExtensions
         Dim hash As New Dictionary(Of Type, Func(Of IO.File, SimpleSegment()))
 
         Call hash.Add(GetType(ImperfectPalindrome), AddressOf __ip)
-        Call hash.Add(GetType(RevRepeats), AddressOf __revp)
+        Call hash.Add(GetType(ReverseRepeats), AddressOf __revp)
         Call hash.Add(GetType(Repeats), AddressOf __rps)
         Call hash.Add(GetType(PalindromeLoci), AddressOf __pl)
         Call hash.Add(GetType(RepeatsView), AddressOf __rpscsv)
-        Call hash.Add(GetType(RevRepeatsView), AddressOf __revpcsv)
+        Call hash.Add(GetType(ReverseRepeatsView), AddressOf __revpcsv)
 
         __types = hash
     End Sub

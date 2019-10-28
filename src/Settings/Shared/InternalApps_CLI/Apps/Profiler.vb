@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7188.43145
-'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7238.31746
+'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     9/5/2019 11:33:38 AM
+'  // BUILT:     10/26/2019 5:38:12 PM
 '  // 
 ' 
 ' 
@@ -27,7 +27,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /GO.clusters:                     
+'  /GO.clusters:                     Create GO enrichment background model from uniprot database.
 '  /GSEA:                            Do gene set enrichment analysis.
 '  /id.converts:                     
 '  /kegg.metabolites.background:     Create background model for KEGG pathway enrichment based on the
@@ -66,6 +66,7 @@ Public Class Profiler : Inherits InteropService
 ''' ```
 ''' /GO.clusters /uniprot &lt;uniprot.XML> /go &lt;go.obo> [/out &lt;clusters.XML>]
 ''' ```
+''' Create GO enrichment background model from uniprot database.
 ''' </summary>
 '''
 Public Function CreateGOClusters(uniprot As String, go As String, Optional out As String = "") As Integer

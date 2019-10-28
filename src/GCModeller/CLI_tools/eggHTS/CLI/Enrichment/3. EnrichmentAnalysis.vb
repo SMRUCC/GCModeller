@@ -157,13 +157,6 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/enrichment.go",
-               Usage:="/enrichment.go /deg <deg.list> /backgrounds <genome_genes.list> /t2g <term2gene.csv> [/go <go_brief.csv> /out <enricher.result.csv>]")>
-    <Group(CLIGroups.ClusterProfiler)>
-    Public Function GoEnrichment(args As CommandLine) As Integer
-
-    End Function
-
     <ExportAPI("/KEGG.Enrichment.PathwayMap.Render")>
     <Group(CLIGroups.Enrichment_CLI)>
     <Usage("/KEGG.Enrichment.PathwayMap.Render /in <enrichment.csv> [/repo <maps.directory> /DEPs <deps.csv> /colors <default=red,blue,green> /map <id2uniprotID.txt> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>

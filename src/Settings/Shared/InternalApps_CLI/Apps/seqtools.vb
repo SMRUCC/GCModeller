@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7188.43145
-'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7238.31746
+'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     9/5/2019 11:33:38 AM
+'  // BUILT:     10/26/2019 5:38:12 PM
 '  // 
 ' 
 ' 
@@ -31,7 +31,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Fasta.Subset.Large:                     
 '  /Genotype:                               
 '  /Genotype.Statics:                       
-'  /Loci.describ:                           Testing
 '  /logo:                                   * Drawing the sequence logo from the clustal alignment result.
 '  /motifs:                                 Populate possible motifs from a give nt fasta sequence dataset.
 '  /NeedlemanWunsch.NT:                     
@@ -42,9 +41,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '                                           computing.
 '  /Rule.dnaA_gyrB.Matrix:                  
 '  /ruler.dist.calc:                        
-'  /Screen.sites:                           
 '  /Sites2Fasta:                            Converts the simple segment object collection as fasta file.
-'  /SSR:                                    Search for SSR on a nt sequence.
 '  -321:                                    Polypeptide sequence 3 letters to 1 lettes sequence.
 '  -complement:                             
 '  --Drawing.ClustalW:                      
@@ -128,7 +125,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' 
 '    /Mirror.Batch:                           
-'    /Mirror.Fuzzy:                           
+'    /Mirror.Fuzzy:                           Search mirror loci sites on your sequence.
 '    /Mirror.Fuzzy.Batch:                     
 '    /Mirror.Vector:                          
 '    /Mirrors.Nt.Trim:                        
@@ -141,7 +138,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    --Mirror.From.NT:                        Mirror Palindrome, and this function is for the debugging
 '                                             test
 '    --Palindrome.batch.Task:                 
-'    --Palindrome.From.FASTA:                 
+'    --palindrome.From.FASTA:                 
 '    --Palindrome.From.NT:                    This function is just for debugger test, /nt parameter is
 '                                             the nucleotide sequence data as ATGCCCC
 '    --Palindrome.Imperfects:                 Gets all partly matched palindrome sites.
@@ -152,9 +149,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 7. Sequence Repeats Loci Search
 ' 
 ' 
+'    /loci.Density:                           Do statistics of the loci density on a specific sequence.
+'    /Screen.sites:                           
+'    /Search.Repeats:                         Search for repeats sequence loci sites.
+'    /SSR:                                    Search for SSR on a nt sequence.
 '    /Write.Seeds:                            
-'    Repeats.Density:                         
-'    rev-Repeats.Density:                     
 '    Search.Batch:                            Batch search for repeats.
 ' 
 ' 
@@ -500,23 +499,29 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Loci.describ /ptt &lt;genome-context.ptt> [/test &lt;loci:randomize> /complement /unstrand]
+''' /loci.Density /locis &lt;data.csv> [/left &lt;default=Start> /size &lt;size> /win_size &lt;default=100> /offset &lt;default=1000> /out &lt;result.txt>]
 ''' ```
-''' Testing
+''' Do statistics of the loci density on a specific sequence.
 ''' </summary>
 '''
-Public Function LociDescript(ptt As String, Optional test As String = "", Optional complement As Boolean = False, Optional unstrand As Boolean = False) As Integer
-    Dim CLI As New StringBuilder("/Loci.describ")
+Public Function RepeatsDensity(locis As String, Optional left As String = "Start", Optional size As String = "", Optional win_size As String = "100", Optional offset As String = "1000", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/loci.Density")
     Call CLI.Append(" ")
-    Call CLI.Append("/ptt " & """" & ptt & """ ")
-    If Not test.StringEmpty Then
-            Call CLI.Append("/test " & """" & test & """ ")
+    Call CLI.Append("/locis " & """" & locis & """ ")
+    If Not left.StringEmpty Then
+            Call CLI.Append("/left " & """" & left & """ ")
     End If
-    If complement Then
-        Call CLI.Append("/complement ")
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
     End If
-    If unstrand Then
-        Call CLI.Append("/unstrand ")
+    If Not win_size.StringEmpty Then
+            Call CLI.Append("/win_size " & """" & win_size & """ ")
+    End If
+    If Not offset.StringEmpty Then
+            Call CLI.Append("/offset " & """" & offset & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -643,17 +648,15 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Mirror.Fuzzy /in &lt;in.fasta> [/out &lt;out.csv> /cut 0.6 /max-dist 6 /min 3 /max 20]
+''' /Mirror.Fuzzy /in &lt;in.fasta> [/cut &lt;default=0.6> /max-dist &lt;default=6> /min &lt;default=3> /max &lt;default=20> /out &lt;out.csv>]
 ''' ```
+''' Search mirror loci sites on your sequence.
 ''' </summary>
 '''
-Public Function FuzzyMirrors([in] As String, Optional out As String = "", Optional cut As String = "", Optional max_dist As String = "", Optional min As String = "", Optional max As String = "") As Integer
+Public Function FuzzyMirrors([in] As String, Optional cut As String = "0.6", Optional max_dist As String = "6", Optional min As String = "3", Optional max As String = "20", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Mirror.Fuzzy")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
     If Not cut.StringEmpty Then
             Call CLI.Append("/cut " & """" & cut & """ ")
     End If
@@ -665,6 +668,9 @@ Public Function FuzzyMirrors([in] As String, Optional out As String = "", Option
     End If
     If Not max.StringEmpty Then
             Call CLI.Append("/max " & """" & max & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -1234,6 +1240,39 @@ Public Function ScreenRepeats([in] As String, range As String, Optional type As 
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Search.Repeats /in &lt;nt.fasta> [/min &lt;default=3> /max &lt;default=20> /minOccurs &lt;default=3> /reverse /out &lt;result.csv>]
+''' ```
+''' Search for repeats sequence loci sites.
+''' </summary>
+'''
+Public Function SearchRepeats([in] As String, Optional min As String = "3", Optional max As String = "20", Optional minoccurs As String = "3", Optional out As String = "", Optional reverse As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Search.Repeats")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not min.StringEmpty Then
+            Call CLI.Append("/min " & """" & min & """ ")
+    End If
+    If Not max.StringEmpty Then
+            Call CLI.Append("/max " & """" & max & """ ")
+    End If
+    If Not minoccurs.StringEmpty Then
+            Call CLI.Append("/minoccurs " & """" & minoccurs & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If reverse Then
+        Call CLI.Append("/reverse ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -1818,12 +1857,12 @@ End Function
 
 ''' <summary>
 ''' ```
-''' --Palindrome.From.Fasta /nt &lt;nt-sequence.fasta> [/out &lt;out.csv> /min &lt;3> /max &lt;20>]
+''' --palindrome.From.Fasta /nt &lt;nt-sequence.fasta> [/out &lt;out.csv> /min &lt;default=3> /max &lt;default=20>]
 ''' ```
 ''' </summary>
 '''
-Public Function SearchPalindromeFasta(nt As String, Optional out As String = "", Optional min As String = "", Optional max As String = "") As Integer
-    Dim CLI As New StringBuilder("--Palindrome.From.Fasta")
+Public Function SearchPalindromeFasta(nt As String, Optional out As String = "", Optional min As String = "3", Optional max As String = "20") As Integer
+    Dim CLI As New StringBuilder("--palindrome.From.Fasta")
     Call CLI.Append(" ")
     Call CLI.Append("/nt " & """" & nt & """ ")
     If Not out.StringEmpty Then
@@ -1953,31 +1992,6 @@ End Function
 
 ''' <summary>
 ''' ```
-''' Repeats.Density /dir &lt;dir> /size &lt;size> /ref &lt;refName> [/out &lt;out.csv> /cutoff &lt;default:=0>]
-''' ```
-''' </summary>
-'''
-Public Function RepeatsDensity(dir As String, size As String, ref As String, Optional out As String = "", Optional cutoff As String = "") As Integer
-    Dim CLI As New StringBuilder("Repeats.Density")
-    Call CLI.Append(" ")
-    Call CLI.Append("/dir " & """" & dir & """ ")
-    Call CLI.Append("/size " & """" & size & """ ")
-    Call CLI.Append("/ref " & """" & ref & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-    If Not cutoff.StringEmpty Then
-            Call CLI.Append("/cutoff " & """" & cutoff & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
 ''' -reverse -i &lt;input_fasta> [-o &lt;output_fasta>]
 ''' ```
 ''' </summary>
@@ -1988,31 +2002,6 @@ Public Function Reverse(i As String, Optional o As String = "") As Integer
     Call CLI.Append("-i " & """" & i & """ ")
     If Not o.StringEmpty Then
             Call CLI.Append("-o " & """" & o & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' rev-Repeats.Density /dir &lt;dir> /size &lt;size> /ref &lt;refName> [/out &lt;out.csv> /cutoff &lt;default:=0>]
-''' ```
-''' </summary>
-'''
-Public Function revRepeatsDensity(dir As String, size As String, ref As String, Optional out As String = "", Optional cutoff As String = "") As Integer
-    Dim CLI As New StringBuilder("rev-Repeats.Density")
-    Call CLI.Append(" ")
-    Call CLI.Append("/dir " & """" & dir & """ ")
-    Call CLI.Append("/size " & """" & size & """ ")
-    Call CLI.Append("/ref " & """" & ref & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-    If Not cutoff.StringEmpty Then
-            Call CLI.Append("/cutoff " & """" & cutoff & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 

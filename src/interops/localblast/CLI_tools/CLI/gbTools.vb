@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::4e2036e2555bca4864c9e78c771b758c, CLI_tools\CLI\gbTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __EXPORTgpff, __trimName, AddLocusTag, AddNames, CopyFasta
-    '               CopyPTT, ExportBlastX, ExportGenbank, ExportGenesFasta, EXPORTgpff
-    '               EXPORTgpffs, HitsIDList, MergeFaa, Print
-    ' 
-    '     Sub: exportTo
-    ' 
-    ' Class NameAnno
-    ' 
-    '     Properties: Maximum, Minimum, Name
-    ' 
-    '     Function: ToString
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __EXPORTgpff, __trimName, AddLocusTag, AddNames, CopyFasta
+'               CopyPTT, ExportBlastX, ExportGenbank, ExportGenesFasta, EXPORTgpff
+'               EXPORTgpffs, HitsIDList, MergeFaa, Print
+' 
+'     Sub: exportTo
+' 
+' Class NameAnno
+' 
+'     Properties: Maximum, Minimum, Name
+' 
+'     Function: ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -282,15 +282,15 @@ Partial Module CLI
             For Each file As String In ls - l - r - {"*.gb", "*.gbff", "*.gbk"} <= gb
                 Dim out As String = file.TrimSuffix
 
-                For Each x As GBFF.File In GBFF.File.LoadDatabase(file)
-                    Call x.exportTo(out, simple, flat)
+                For Each dbFile As GBFF.File In GBFF.File.LoadDatabase(file)
+                    Call dbFile.exportTo(out, simple, flat)
                 Next
             Next
         Else
             Dim out As String = args("/out") Or args("/gb").TrimSuffix
 
-            For Each x As GBFF.File In GBFF.File.LoadDatabase(gb)
-                Call x.exportTo(out, simple, flat)
+            For Each dbFile As GBFF.File In GBFF.File.LoadDatabase(gb)
+                Call dbFile.exportTo(out, simple, flat)
             Next
         End If
 
@@ -307,20 +307,13 @@ Partial Module CLI
     ''' 如果为true，则所有的结果都会在一个文件夹之中
     ''' </param>
     <Extension> Private Sub exportTo(gb As GBFF.File, out$, simple As Boolean, flat As Boolean)
-        On Error Resume Next
-
         Dim PTT As PTT = gb.GbffToPTT(ORF:=True)
         Dim Faa As New FastaFile(If(simple, gb.ExportProteins_Short, gb.ExportProteins))
         Dim Fna As FastaSeq = gb.Origin.ToFasta
         Dim GFF As GFFTable = gb.ToGff
         Dim name As String = gb.Source.SpeciesName  ' 
         Dim ffn As FastaFile = gb.ExportGeneNtFasta
-        Dim geneList$() = gb.Features _
-            .Where(Function(feature) feature.KeyName = "gene") _
-            .Select(Function(gene)
-                        Return gene.Query(FeatureQualifiers.locus_tag)
-                    End Function) _
-            .ToArray
+        Dim geneList$() = ffn.Select(Function(fa) fa.Headers.First).ToArray
 
         ' blast+程序要求序列文件的路径之中不可以有空格，所以将空格替换掉，方便后面的blast操作
         name = name.NormalizePathString(False).Replace(" ", "_")
@@ -329,8 +322,10 @@ Partial Module CLI
             out = out & "/" & gb.Locus.AccessionID
         End If
 
+        Call gb.exportAnnotatonTable.SaveTo($"{out}/{name}.Annotations.csv")
+
         Call PTT.Save(out & $"/{name}.ptt")
-        Call Fna.SaveTo(out & $"/{name}.fna")
+        Call Fna.SaveTo(120, out & $"/{name}.fna")
         Call Faa.Save(out & $"/{name}.faa")
         Call GFF.Save(out & $"/{name}.gff")
         Call ffn.Save(out & $"/{name}.ffn")
@@ -341,6 +336,49 @@ Partial Module CLI
                         End Function) _
                 .SaveTo($"{out}/{name}.csv")
     End Sub
+
+    <Extension>
+    Private Function exportAnnotatonTable(gb As GBFF.File) As EntityObject()
+        Return gb.Features _
+            .Where(Function(feature) feature.KeyName <> "source") _
+            .Select(Function(feature)
+                        Dim location = feature.Location.Location
+
+                        Return New EntityObject With {
+                            .ID = feature.EnsureNonEmptyLocusId,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {"Type", feature.KeyName},
+                                {"Minimum", location.left},
+                                {"Maximum", location.right},
+                                {"Length", location.Length},
+                                {"Direction", "forward" Or "reverse".When(feature.Location.Complement)},
+                                {"# Intervals", 1},
+                                {"Document Name", gb.Source.SpeciesName},
+                                {"Length (with gaps)", location.Length},
+                                {"Max (original sequence)", location.right},
+                                {"Max (with gaps)", location.right},
+                                {"Min (original sequence)", location.left},
+                                {"Min (with gaps)", location.left},
+                                {"NCBI Feature Key", feature.KeyName},
+                                {"Sequence", feature.SequenceData},
+                                {"Sequence Name", gb.Source.SpeciesName},
+                                {"Track Name", ""},
+                                {"product", feature("product")},
+                                {"translation", feature("translation")},
+                                {"Length (with extension)", location.Length},
+                                {"Sequence (with extension)", ""},
+                                {"EC_number", feature("EC_number")},
+                                {"db_xref", feature("db_xref")},
+                                {"transl_table", feature("transl_table")},
+                                {"genome_id", ""},
+                                {"genome_md5", ""},
+                                {"mol_type", ""},
+                                {"organism", ""}
+                            }
+                        }
+                    End Function) _
+            .ToArray
+    End Function
 
     <ExportAPI("/Export.gb.genes",
                Usage:="/Export.gb.genes /gb <genbank.gb> [/geneName /out <out.fasta>]")>

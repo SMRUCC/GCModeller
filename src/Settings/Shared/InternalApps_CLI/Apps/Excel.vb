@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7188.43145
-'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7238.31746
+'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     9/5/2019 11:33:38 AM
+'  // BUILT:     10/26/2019 5:38:12 PM
 '  // 
 ' 
 ' 
@@ -29,9 +29,10 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 '  /association:     
 '  /fill.zero:       
-'  /name.values:     
+'  /name.values:     Subset of the input table file by columns, produce a <name,value,description> dataset.
 '  /Print:           Print the csv/xlsx file content onto the console screen or text file in table layout.
 '  /removes:         Removes row or column data by given regular expression pattern.
+'  /subset:          Subset of the table file by a given specific column labels
 '  /subtract:        Performing ``a - b`` subtract by row unique id.
 '  /takes:           Takes specific rows by a given row id list.
 '  /transpose:       
@@ -210,6 +211,7 @@ End Function
 ''' ```
 ''' /name.values /in &lt;table.csv> /name &lt;fieldName> /value &lt;fieldName> [/describ &lt;descriptionInfo.fieldName, default=Description> /out &lt;values.csv>]
 ''' ```
+''' Subset of the input table file by columns, produce a <name,value,description> dataset.
 ''' </summary>
 '''
 Public Function NameValues([in] As String, name As String, value As String, Optional describ As String = "Description", Optional out As String = "") As Integer
@@ -344,6 +346,28 @@ Public Function Removes([in] As String, pattern As String, Optional out As Strin
     End If
     If by_row Then
         Call CLI.Append("/by_row ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /subset /in &lt;table.csv> /columns &lt;column.list> [/out &lt;subset.csv>]
+''' ```
+''' Subset of the table file by a given specific column labels
+''' </summary>
+'''
+Public Function SubsetByColumns([in] As String, columns As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/subset")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    Call CLI.Append("/columns " & """" & columns & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 

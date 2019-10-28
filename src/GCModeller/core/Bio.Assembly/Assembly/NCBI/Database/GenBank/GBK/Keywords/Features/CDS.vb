@@ -73,7 +73,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <param name="cds"></param>
         Sub New(cds As Feature)
 
-            Call cds.CopyTo(Me.__innerList)
+            Call cds.CopyTo(Me.innerList)
 
             With Me
                 .KeyName = cds.KeyName
