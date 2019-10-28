@@ -20,7 +20,7 @@ Public Module NamespaceCategoryPlots
                     data As IEnumerable(Of EnrichmentTerm),
                     GO_terms As Dictionary(Of Term),
                     Optional pvalue# = 0.05,
-                    Optional size$ = "2200,2000",
+                    Optional size$ = "2700,2100",
                     Optional tick# = 1,
                     Optional usingCorrected As Boolean = False,
                     Optional top% = -1,
