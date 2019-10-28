@@ -17,7 +17,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/GO.enrichment.barplot")>
-    <Usage("/GO.enrichment.barplot /in <result.csv> [/go <go.obo> /tiff /out <output_directory>]")>
+    <Usage("/GO.enrichment.barplot /in <result.csv> [/go <go.obo> /top <default=25> /colors <schemaName, default=YlGnBu:c8> /tiff /out <output_directory>]")>
     Public Function GOEnrichmentBarPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.go_enrichment.barplots/"
@@ -28,7 +28,11 @@ Partial Module CLI
         Dim outFile$
         Dim tiff As TiffWriter
 
-        For Each plot As NamedValue(Of GraphicsData) In enrichments.NamespaceEnrichmentPlot(terms)
+        For Each plot As NamedValue(Of GraphicsData) In enrichments.NamespaceEnrichmentPlot(
+            GO_terms:=terms,
+            top:=args("/top") Or 25,
+            colorSchema:=args("/colors") Or "YlGnBu:c8"
+        )
             If TypeOf plot.Value Is ImageData Then
                 If saveInTiff Then
                     outFile = $"{out}/{plot.Name}.tiff"

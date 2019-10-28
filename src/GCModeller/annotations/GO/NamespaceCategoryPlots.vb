@@ -2,7 +2,9 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
@@ -46,7 +48,14 @@ Public Module NamespaceCategoryPlots
         Return LevelBarplot.Plot(
             data:=profiles,
             size:=size,
-            title:=$"Enrichment of {[namespace]}"
+            title:=[namespace],
+            levelColorSchema:=colorSchema,
+            legendTitle:="p.adjust",
+            valueTitle:="-log10(p.value)",
+            labelFontCSS:=CSSFont.PlotTitle,
+            titleFontCSS:=CSSFont.Win7VeryVeryLargeNormal,
+            tickFontCSS:=CSSFont.Win7VeryLarge,
+            valueTitleFontCSS:="font-style: normal; font-size: 48; font-family: " & FontFace.MicrosoftYaHei & ";"
         )
     End Function
 
