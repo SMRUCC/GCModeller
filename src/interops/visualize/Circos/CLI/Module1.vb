@@ -91,6 +91,12 @@ Public Class Anno
 
 End Class
 
+Public Class FactorPrediction
+    Public Property db_xref As String
+    Public Property VF As Integer
+    Public Property EG As Integer
+End Class
+
 Module Module1
 
     Sub writeGBK()
@@ -231,6 +237,10 @@ Module Module1
                 {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
                 {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
             })
+
+        Dim precitions = "P:\nt\20191024\1025.csv".LoadCsv(Of FactorPrediction).ToDictionary(Function(g) g.db_xref)
+
+
 
         Dim densityOffset = 1000
         Dim ii As Integer
@@ -700,7 +710,7 @@ Module Module1
 
     Sub Main()
 
-        Call writeGBK()
+        ' Call writeGBK()
 
         Call plot20191024()
 
