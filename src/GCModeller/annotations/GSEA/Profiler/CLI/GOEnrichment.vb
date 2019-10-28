@@ -42,6 +42,12 @@ Partial Module CLI
                 outFile = $"{out}/{plot.Name}.svg"
                 plot.Value.Save(outFile)
             End If
+
+            If outFile.FileExists Then
+                Call outFile.__INFO_ECHO
+            Else
+                Call outFile.Warning
+            End If
         Next
 
         Return 0
