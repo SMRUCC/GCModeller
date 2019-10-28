@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::c2498a01e7939eb2ac7e6c40d53df7a2, analysis\SequenceToolkit\SequencePatterns.Abstract\Scanner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class IScanner
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __complement, Complement, FindLocation, ToString
-    ' 
-    '     Class Scanner
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) Scan
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class IScanner
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: __complement, Complement, FindLocation, ToString
+' 
+'     Class Scanner
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: (+2 Overloads) Scan
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -70,33 +70,40 @@ Namespace Motif
 
         Public MustOverride Function Scan(pattern As String) As SimpleSegment()
 
+        <ExportAPI("Loci.Find.Location", Info:="Found out all of the loci site on the target sequence.")>
+        Public Shared Function FindLocation(seq As IPolymerSequenceModel, loci As String) As Integer()
+            Return FindLocation(seq.SequenceData, loci).ToArray
+        End Function
+
         ''' <summary>
-        '''
+        ''' Found out all of the loci site on the target sequence.
+        ''' (使用字符串查找得到目标位点在序列之上的所有的位置集合)
         ''' </summary>
-        ''' <param name="Sequence"></param>
+        ''' <param name="seq"></param>
         ''' <param name="Loci"></param>
         ''' <returns></returns>
         ''' <remarks>这个位置查找函数是OK的</remarks>
         <ExportAPI("Loci.Find.Location", Info:="Found out all of the loci site on the target sequence.")>
-        Public Shared Function FindLocation(Sequence As String, Loci As String) As Integer()
-            Dim locis As New List(Of Integer)
-            Dim p As Integer = 1
+        Public Shared Iterator Function FindLocation(seq$, loci$) As IEnumerable(Of Integer)
+            Dim pI32% = 1
 
             Do While True
-                p = InStr(Start:=p, String1:=Sequence, String2:=Loci)
-                If p > 0 Then
-                    locis += p
-                    p += 1
+                ' 这里需要进行迭代查找，即在上一个位置之后查找，否则会出现无限的重复查找
+                pI32 = InStr(Start:=pI32, String1:=seq, String2:=loci)
+
+                If pI32 > 0 Then
+                    Yield pI32
                 Else
                     Exit Do
                 End If
-            Loop
 
-            Return locis.ToArray
+                pI32 += 1
+            Loop
         End Function
 
         Public Shared Function Complement(pattern As String) As String
             Dim tokens As String() = PatternParser.SimpleTokens(pattern)
+
             For i As Integer = 0 To tokens.Length - 1
                 Dim s As String = tokens(i)
                 If s.Length = 1 Then

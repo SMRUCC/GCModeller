@@ -160,6 +160,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Next
         End Sub
 
+        Public Sub Add(feature As Feature)
+            Call _innerList.Add(feature)
+        End Sub
+
         Friend Sub LinkEntry()
             For Each Feature In Me._innerList
                 Feature.gb = Me.gb

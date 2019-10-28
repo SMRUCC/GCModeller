@@ -92,7 +92,7 @@ Namespace Assembly.KEGG.WebServices
         Public Function GetTitle(mapName$) As String
             Dim map As Map = mapTable(mapName)
             Dim rect As Area = map _
-                .Areas _
+                .shapes _
                 .Where(Function(ar)
                            Return ar.shape.TextEquals("rect") AndAlso ar.IDVector.IndexOf(mapName) > -1
                        End Function) _
@@ -131,7 +131,7 @@ Namespace Assembly.KEGG.WebServices
         Public Iterator Function IteratesMapNames(list$(), Optional threshold% = 1) As IEnumerable(Of NamedValue(Of String()))
             For Each map As String In Me.mapTable.Keys
                 Dim id$() = mapTable(map) _
-                    .Areas _
+                    .shapes _
                     .Select(Function(ar) ar.IDVector) _
                     .IteratesALL _
                     .ToArray
@@ -226,7 +226,7 @@ Namespace Assembly.KEGG.WebServices
         End Sub
 
         Private Shared Function getAreas(map As Map, type$) As Dictionary(Of String, NamedValue(Of Area()))
-            Dim shapes = map.Areas _
+            Dim shapes = map.shapes _
                 .Where(Function(x) x.Type = type) _
                 .Select(Function(x)
                             Dim titles = x.Names

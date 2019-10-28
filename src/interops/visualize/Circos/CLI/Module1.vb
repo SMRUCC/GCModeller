@@ -61,6 +61,7 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
 Imports SMRUCC.genomics.BioAssemblyExtensions
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -92,6 +93,54 @@ End Class
 
 Module Module1
 
+    Sub writeGBK()
+        Dim gb = GBFF.File.Load("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk")
+        Dim palidroms = EntityObject.LoadDataSet("P:\nt\20191024\PTSB.assembly.palindromes.csv") _
+            .Select(Function(d)
+                        Dim feature As New Feature With {
+                            .KeyName = "palindrome",
+                            .Location = New GBFF.Keywords.FEATURES.Location With {
+                                .Complement = False,
+                                .Locations = {New RegionSegment With {.Left = d!Start, .Right = d!PalEnd}}
+                            }
+                        }
+
+                        feature.Add(New KeyValuePair(Of String, String)("sequence", d!SequenceData))
+                        feature.Add(New KeyValuePair(Of String, String)("length", d!Length))
+                        feature.Add(New KeyValuePair(Of String, String)("loci", d.ID))
+                        feature.Add(New KeyValuePair(Of String, String)("palindrome", d!Palindrome))
+
+                        Return feature
+                    End Function).ToArray
+
+        Call palidroms.DoEach(AddressOf gb.Features.Add)
+
+        Dim repeats = EntityObject _
+            .LoadDataSet("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_Repeat sequences.csv") _
+            .Select(Function(d)
+                        Dim feature As New Feature With {
+                            .KeyName = "repeat_region",
+                            .Location = New GBFF.Keywords.FEATURES.Location With {
+                                .Complement = d!Direction.GetStrand = Strands.Reverse,
+                                .Locations = {New RegionSegment With {.Left = d!Minimum, .Right = d!Maximum}}
+                            }
+                        }
+
+                        feature.Add(New KeyValuePair(Of String, String)("sequence", d!Sequence))
+                        feature.Add(New KeyValuePair(Of String, String)("length", d!Length))
+                        feature.Add(New KeyValuePair(Of String, String)("name", d.ID))
+                        feature.Add(New KeyValuePair(Of String, String)("all_locations", d("All Locations")))
+                        feature.Add(New KeyValuePair(Of String, String)("frequency", d("Frequency")))
+
+                        Return feature
+                    End Function)
+
+        Call repeats.DoEach(AddressOf gb.Features.Add)
+
+        Call gb.Save("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_loci_features_updated.gbk")
+
+        Pause()
+    End Sub
 
     Private Function convert(anno As Anno, useLocusTag As Boolean) As GeneTable
 
@@ -182,6 +231,44 @@ Module Module1
                 {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
                 {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
             })
+
+        Dim densityOffset = 1000
+        Dim ii As Integer
+        Dim twoPatterns = {ColorMap.PatternJet, ColorMap.PatternHot}
+
+        For Each file As String In {"P:\nt\20191024\PTSB.assembly.mirror(fuzzy).cut,0.65-dist,6-min,max=3,8.density.txt",
+"P:\nt\20191024\PTSB.assembly.palindromes.density.txt",
+"P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_Repeat sequences.density.txt"}
+
+            Dim densityVector = file.ReadVector
+
+
+            ii += 1
+
+            If ii < 3 Then
+                Dim density = densityVector _
+                 .Select(Function(v, i)
+                             Return New ValueTrackData With {.chr = "chr1", .start = i * densityOffset, .value = v, .[end] = densityOffset * (i + 1)}
+                         End Function) _
+                 .ToArray
+
+                Call Circos.CircosAPI.AddGradientMappings(doc, density, twoPatterns(ii - 1))
+            Else
+                densityOffset = 500
+
+                Dim density = densityVector _
+                 .Select(Function(v, i)
+                             Return New ValueTrackData With {.chr = "chr1", .start = i * densityOffset, .value = v, .[end] = densityOffset * (i + 1)}
+                         End Function) _
+                 .ToArray
+
+                Dim plot2 As New Plots.Histogram(New NtProps.GCSkew(density))
+
+                Call Circos.AddPlotTrack(doc, plot2)
+            End If
+
+        Next
+
 
         Dim skewSteps = 2000
         Dim GCSkew = nt.GCSkew(5000, skewSteps, True) _
@@ -612,6 +699,9 @@ Module Module1
     End Sub
 
     Sub Main()
+
+        Call writeGBK()
+
         Call plot20191024()
 
 

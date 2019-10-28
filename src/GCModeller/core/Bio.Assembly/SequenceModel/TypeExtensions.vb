@@ -44,8 +44,22 @@ Imports System.Runtime.CompilerServices
 
 Namespace SequenceModel
 
+    ''' <summary>
+    ''' Extensions helper function for different type of bio-sequence.
+    ''' </summary>
     <HideModuleName>
     Public Module TypeExtensions
+
+        ''' <summary>
+        ''' Enumeration for nucleotide residues
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property NT As IReadOnlyCollection(Of Char) = {"A"c, "T"c, "G"c, "C"c}
+        ''' <summary>
+        ''' Enumeration for amino acid.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property AA As IReadOnlyCollection(Of Char) = {"A"c, "R"c, "N"c, "D"c, "C"c, "E"c, "Q"c, "G"c, "H"c, "I"c, "L"c, "K"c, "M"c, "F"c, "P"c, "S"c, "T"c, "W"c, "Y"c, "V"c}
 
 #Region "Constants"
 

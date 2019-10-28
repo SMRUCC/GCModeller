@@ -49,7 +49,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Patterns
 
@@ -62,14 +61,14 @@ Namespace Motif
 
         Public Shared Function NT_PWM(sites As IEnumerable(Of ResidueSite)) As MotifPWM
             Return New MotifPWM With {
-                .Alphabets = ColorSchema.NT.ToArray,
+                .Alphabets = SequenceModel.NT.ToArray,
                 .PWM = sites.ToArray
             }
         End Function
 
         Public Shared Function AA_PWM(sites As IEnumerable(Of ResidueSite)) As MotifPWM
             Return New MotifPWM With {
-                .Alphabets = ColorSchema.AA,
+                .Alphabets = SequenceModel.AA,
                 .PWM = sites.ToArray
             }
         End Function
@@ -119,7 +118,7 @@ Namespace Motif
             If n = 4 Then
                 alphabets = {f("A"c), f("T"c), f("G"c), f("C"c)}
             Else
-                alphabets = LinqAPI.Exec(Of Double) <= From c As Char In ColorSchema.AA Select f(c)
+                alphabets = LinqAPI.Exec(Of Double) <= From c As Char In SequenceModel.AA Select f(c)
             End If
 
             Return New ResidueSite With {
@@ -141,7 +140,8 @@ Namespace Motif
         ''' </remarks>
         <Extension>
         Private Function __hi(f As Dictionary(Of Char, Double)) As Double
-            Dim h As Double = f.Values.Sum(Function(n) If(n = 0R, 0, n * Math.Log(n, 2))) ' 零乘以任何数都是得结果零
+            ' 零乘以任何数都是得结果零
+            Dim h As Double = f.Values.Sum(Function(n) If(n = 0R, 0, n * Math.Log(n, 2)))
             h = 0 - h
             Return h
         End Function

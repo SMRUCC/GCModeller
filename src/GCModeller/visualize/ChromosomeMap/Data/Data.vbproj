@@ -269,6 +269,10 @@
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>mime-htmls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\analysis\SequenceToolkit\SequenceLogo\SequenceLogo.vbproj">
+      <Project>{1AE6B8DA-1A79-4DC7-A291-A8AE75CE07BA}</Project>
+      <Name>SequenceLogo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.vbproj">
       <Project>{abdce82b-700e-4f70-a2f1-86b8054d0c8e}</Project>
       <Name>SequencePatterns</Name>

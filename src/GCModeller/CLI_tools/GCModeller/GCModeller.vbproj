@@ -389,6 +389,10 @@
       <Project>{e54c3dc8-66a0-4617-aff8-d89457569723}</Project>
       <Name>DNA_Comparative</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\SequenceToolkit\SequenceLogo\SequenceLogo.vbproj">
+      <Project>{1ae6b8da-1a79-4dc7-a291-a8ae75ce07ba}</Project>
+      <Name>SequenceLogo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>

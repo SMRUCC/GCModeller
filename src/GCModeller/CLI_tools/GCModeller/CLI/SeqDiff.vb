@@ -168,8 +168,8 @@ Public Class SeqDiff : Implements INamedValue
             Dim seq As SeqDiff = dict(uid)
             Try
                 If rev Then
-                    Dim data = files(key).LoadCsv(Of RevRepeatsView)
-                    Call __repeatsData(Of RevRepeatsView)(data, seq)
+                    Dim data = files(key).LoadCsv(Of ReverseRepeatsView)
+                    Call __repeatsData(Of ReverseRepeatsView)(data, seq)
                 Else
                     Dim data = files(key).LoadCsv(Of RepeatsView)
                     Call __repeatsData(Of RepeatsView)(data, seq)
