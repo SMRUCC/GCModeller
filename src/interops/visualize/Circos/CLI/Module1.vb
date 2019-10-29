@@ -48,6 +48,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
@@ -98,6 +99,40 @@ Public Class FactorPrediction
 End Class
 
 Module Module1
+
+    Sub deleteFeatures()
+        Dim gb = GBFF.File.Load("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk")
+        Dim deletesPending = "P:\nt\20191024\1025.csv".LoadCsv(Of FactorPrediction).Where(Function(gene) gene.VF = 1 AndAlso gene.EG = 0).ToArray
+        Dim genome = gb.Origin.ToFasta
+        Dim genes = gb.ExportGeneFeatures.ToDictionary(Function(g) g.locus_id)
+        Dim reportLogger As New StringBuilder
+        Dim deletetable = deletesPending.ToDictionary(Function(g) g.db_xref)
+
+        For Each gene In deletesPending.Select(Function(d) genes(d.db_xref))
+            Dim overlaps = genes.Values.Where(Function(g)
+                                                  Return (Not g.locus_id = gene.locus_id) AndAlso g.Location.IsOverlapping(gene.Location) AndAlso Not deletetable.ContainsKey(g.locus_id)
+                                              End Function).ToArray
+
+            If overlaps.Length = 0 Then
+                reportLogger.AppendLine($"{gene.locus_id}: {gene.function} have no overlaps, delete all sequence region")
+                genome.SequenceData = Mid(genome.SequenceData, 1, gene.left) & New String("Z"c, gene.length) & Mid(genome.SequenceData, gene.right)
+            Else
+                reportLogger.AppendLine($"{gene.locus_id}: {gene.function} have {overlaps.Length} gene overlaps with its sequence region:")
+
+                For Each g In overlaps
+                    reportLogger.AppendLine($"    {g.locus_id}: {gene.function}")
+                Next
+            End If
+        Next
+
+
+        Call reportLogger.SaveTo("X:/test.log")
+        Call genome.SaveTo(300, "x:/test.fasta")
+
+        Pause()
+
+
+    End Sub
 
     Sub writeGBK()
         Dim gb = GBFF.File.Load("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk")
@@ -750,7 +785,7 @@ Module Module1
     End Sub
 
     Sub Main()
-
+        Call deleteFeatures()
         ' Call writeGBK()
 
         Call plot20191024()
