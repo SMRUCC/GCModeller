@@ -115,19 +115,34 @@ Module Module1
 
             If overlaps.Length = 0 Then
                 reportLogger.AppendLine($"{gene.locus_id}: {gene.function} have no overlaps, delete all sequence region")
-                genome.SequenceData = Mid(genome.SequenceData, 1, gene.left) & New String("Z"c, gene.length) & Mid(genome.SequenceData, gene.right)
+                reportLogger.AppendLine($"  delete range from {gene.Location.left} to {gene.Location.right} with length={gene.Location.Length}")
+                genome.SequenceData = Mid(genome.SequenceData, 1, gene.Location.left) & New String("Z"c, gene.Location.Length) & Mid(genome.SequenceData, gene.Location.right)
             Else
                 reportLogger.AppendLine($"{gene.locus_id}: {gene.function} have {overlaps.Length} gene overlaps with its sequence region:")
 
                 For Each g In overlaps
                     reportLogger.AppendLine($"    {g.locus_id}: {gene.function}")
                 Next
+
+                Dim sequenceList = overlaps.Select(Function(g)
+                                                       Return (gene :=g, seq:= Mid(genome.SequenceData, g.Location.left, g.Location.Length))
+                                                   End Function).ToArray
+                genome.SequenceData = Mid(genome.SequenceData, 1, gene.Location.left) & New String("Z"c, gene.Location.Length) & Mid(genome.SequenceData, gene.Location.right)
+
+                For Each overlapPart In sequenceList
+                    genome.SequenceData = Mid(genome.SequenceData, 1, overlapPart.gene.Location.left) & overlapPart.seq & Mid(genome.SequenceData, overlapPart.gene.right)
+                Next
+
             End If
         Next
 
 
         Call reportLogger.SaveTo("X:/test.log")
-        Call genome.SaveTo(300, "x:/test.fasta")
+        Call genome.SaveTo(100, "x:/Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_1025_VF=1,EG=0,ZZZZZZZZZ.fasta")
+
+        genome.SequenceData = genome.SequenceData.Replace("Z"c, "")
+
+        Call genome.SaveTo(100, "x:/Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_1025_VF=1,EG=0.fasta")
 
         Pause()
 
