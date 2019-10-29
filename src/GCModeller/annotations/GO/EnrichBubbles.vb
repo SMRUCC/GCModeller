@@ -215,7 +215,8 @@ Public Module EnrichBubbles
             ylabel:="-log10(p.value)",
             bubbleBorder:=bubbleBorder,
             strokeColorAsMainColor:=True,
-            axisLabelFontCSS:=CSSFont.Win10NormalLarge
+            axisLabelFontCSS:=CSSFont.Win10NormalLarge,
+            positiveRangeY:=True
         )
 
         Call g.DrawImageUnscaled(plot, New Point)
