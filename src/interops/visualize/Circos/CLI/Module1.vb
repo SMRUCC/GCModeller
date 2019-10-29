@@ -239,8 +239,49 @@ Module Module1
             })
 
         Dim precitions = "P:\nt\20191024\1025.csv".LoadCsv(Of FactorPrediction).ToDictionary(Function(g) g.db_xref)
+        annotations = gb.ExportGeneFeatures
 
+        Dim vf = annotations _
+            .Select(Function(g As GeneTable)
+                        Dim value As Double
 
+                        If g.locus_id.StringEmpty OrElse Not precitions.ContainsKey(g.locus_id) Then
+                            value = 0
+                        Else
+                            value = precitions(g.locus_id).VF
+                        End If
+
+                        Return New ValueTrackData With {
+                            .chr = "chr1",
+                            .start = g.left,
+                            .value = value,
+                            .[end] = g.right
+                        }
+                    End Function) _
+            .ToArray
+
+        Call Circos.CircosAPI.AddGradientMappings(doc, vf, "cyan,yellow,red")
+
+        Dim eg = annotations _
+            .Select(Function(g As GeneTable)
+                        Dim value As Double
+
+                        If g.locus_id.StringEmpty OrElse Not precitions.ContainsKey(g.locus_id) Then
+                            value = 0
+                        Else
+                            value = precitions(g.locus_id).EG
+                        End If
+
+                        Return New ValueTrackData With {
+                            .chr = "chr1",
+                            .start = g.left,
+                            .value = value,
+                            .[end] = g.right
+                        }
+                    End Function) _
+            .ToArray
+
+        Call Circos.CircosAPI.AddGradientMappings(doc, eg, "gray,green,blue")
 
         Dim densityOffset = 1000
         Dim ii As Integer
