@@ -1,3 +1,6 @@
-﻿Public Class Class1
+﻿Namespace CatalogProfiling
 
-End Class
+    Public Class Class1
+
+    End Class
+End Namespace

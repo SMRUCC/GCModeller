@@ -64,7 +64,7 @@ Namespace CatalogProfiling
     ''' <summary>
     ''' COG, GO, KEGG
     ''' </summary>
-    Public Module CatalogProfiling
+    Public Module CatalogProfilingPlot
 
         <Extension>
         Public Function AsDouble(data As Dictionary(Of String, NamedValue(Of Integer)())) As Dictionary(Of String, NamedValue(Of Double)())
@@ -127,22 +127,22 @@ Namespace CatalogProfiling
         ''' <returns></returns>
         <Extension>
         Public Function ProfilesPlot(profile As Dictionary(Of String, NamedValue(Of Double)()),
-                                 Optional title$ = "Profiling Plot",
-                                 Optional axisTitle$ = "Number Of Gene",
-                                 Optional colorSchema$ = "Set1:c6",
-                                 Optional bg$ = "white",
-                                 Optional size$ = "2200,2000",
-                                 Optional padding$ = "padding: 125 25 25 25",
-                                 Optional classFontStyle$ = CSSFont.Win7LargerBold,
-                                 Optional catalogFontStyle$ = CSSFont.Win7Bold,
-                                 Optional titleFontStyle$ = CSSFont.PlotTitle,
-                                 Optional valueFontStyle$ = CSSFont.Win7Bold,
-                                 Optional tickFontStyle$ = CSSFont.Win7LargerBold,
-                                 Optional tick# = 50,
-                                 Optional removeNotAssign As Boolean = True,
-                                 Optional gray As Boolean = False,
-                                 Optional labelRightAlignment As Boolean = False,
-                                 Optional valueFormat$ = "F2") As GraphicsData
+                                     Optional title$ = "Profiling Plot",
+                                     Optional axisTitle$ = "Number Of Gene",
+                                     Optional colorSchema$ = "Set1:c6",
+                                     Optional bg$ = "white",
+                                     Optional size$ = "2200,2000",
+                                     Optional padding$ = "padding: 125 25 25 25",
+                                     Optional classFontStyle$ = CSSFont.Win7LargerBold,
+                                     Optional catalogFontStyle$ = CSSFont.Win7Bold,
+                                     Optional titleFontStyle$ = CSSFont.PlotTitle,
+                                     Optional valueFontStyle$ = CSSFont.Win7Bold,
+                                     Optional tickFontStyle$ = CSSFont.Win7LargerBold,
+                                     Optional tick# = 50,
+                                     Optional removeNotAssign As Boolean = True,
+                                     Optional gray As Boolean = False,
+                                     Optional labelRightAlignment As Boolean = False,
+                                     Optional valueFormat$ = "F2") As GraphicsData
 
             If removeNotAssign Then
                 profile = profile.removesNotAssign
