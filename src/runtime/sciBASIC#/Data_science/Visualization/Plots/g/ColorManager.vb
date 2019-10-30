@@ -43,6 +43,9 @@ Namespace Graphic
         End Function
     End Class
 
+    ''' <summary>
+    ''' scale(color_schema_term_name)
+    ''' </summary>
     Public Class ValueScaleColorProfile : Inherits ColorProfile
 
         Dim valueRange As DoubleRange
