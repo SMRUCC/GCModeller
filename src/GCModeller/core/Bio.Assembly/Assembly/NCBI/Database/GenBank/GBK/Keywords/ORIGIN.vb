@@ -125,17 +125,18 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
             End Get
         End Property
 
-        Public Shared Widening Operator CType(Data As String()) As ORIGIN
-            Dim sBuilder As StringBuilder = New StringBuilder(2048)
+        Public Shared Widening Operator CType(section As String()) As ORIGIN
+            Dim sb As New StringBuilder(2048)
 
-            For Each line As String In Data
-                sBuilder.Append(Mid$(line, 10))
+            For Each line As String In section
+                sb.Append(Mid$(line, 10))
             Next
 
-            Dim trimChars As Char() =
-                LinqAPI.Exec(Of Char) <= From b As Char In sBuilder.ToString
-                                         Where b <> " "c
-                                         Select b
+            Dim trimChars As Char() = LinqAPI.Exec(Of Char) _
+ _
+                () <= From b As Char In sb.ToString
+                      Where b <> " "c
+                      Select b
 
             Return New ORIGIN With {
                 .SequenceData = New String(trimChars)
@@ -158,7 +159,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' <remarks></remarks>
         Public Function ToFasta() As FastaSeq
             Dim attrs As String() = {Title & " " & Len(SequenceData) & "bp"}
-            Return New FastaSeq(attrs, SequenceData)
+            Dim seq$ = SequenceData.ToUpper
+
+            Return New FastaSeq(attrs, seq)
         End Function
 
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
