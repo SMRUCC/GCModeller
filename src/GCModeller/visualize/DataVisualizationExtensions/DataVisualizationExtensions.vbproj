@@ -217,6 +217,7 @@
     <Compile Include="Abstract\Ideg.vb" />
     <Compile Include="Abstract\MapModelCommon.vb" />
     <Compile Include="CatalogProfiling\CatalogProfiling.vb" />
+    <Compile Include="CatalogProfiling\Class1.vb" />
     <Compile Include="CatalogProfiling\COGCatalogProfiling.vb" />
     <Compile Include="ColorProfiles.vb" />
     <Compile Include="ColorMgr.vb" />
