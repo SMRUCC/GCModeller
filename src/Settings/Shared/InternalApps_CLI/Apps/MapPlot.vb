@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -67,8 +67,8 @@ Public Class MapPlot : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /Config.Template [/out &lt;./config.inf>]
+''' ```bash
+''' /Config.Template [/out &lt;./config.inf&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -86,8 +86,8 @@ Public Function WriteConfigTemplate(Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /draw.map.region /gb &lt;genome.gbk> [/COG &lt;cog.csv> /draw.shape.stroke /size &lt;default=10240,2048> /default.color &lt;default=brown> /gene.draw.height &lt;default=85> /disable.level.skip /out &lt;map.png>]
+''' ```bash
+''' /draw.map.region /gb &lt;genome.gbk&gt; [/COG &lt;cog.csv&gt; /draw.shape.stroke /size &lt;default=10240,2048&gt; /default.color &lt;default=brown&gt; /gene.draw.height &lt;default=85&gt; /disable.level.skip /out &lt;map.png&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -124,8 +124,8 @@ Public Function DrawMapRegion(gb As String, Optional cog As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /Plot.GC /in &lt;mal.fasta> [/plot &lt;gcskew/gccontent> /colors &lt;Jet> /out &lt;out.png>]
+''' ```bash
+''' /Plot.GC /in &lt;mal.fasta&gt; [/plot &lt;gcskew/gccontent&gt; /colors &lt;Jet&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -150,8 +150,8 @@ Public Function PlotGC([in] As String, Optional plot As String = "", Optional co
 End Function
 
 ''' <summary>
-''' ```
-''' /Visual.BBH /in &lt;bbh.Xml> /PTT &lt;genome.PTT> /density &lt;genomes.density.DIR> [/limits &lt;sp-list.txt> /out &lt;image.png>]
+''' ```bash
+''' /Visual.BBH /in &lt;bbh.Xml&gt; /PTT &lt;genome.PTT&gt; /density &lt;genomes.density.DIR&gt; [/limits &lt;sp-list.txt&gt; /out &lt;image.png&gt;]
 ''' ```
 ''' Visualize the blastp result.
 ''' </summary>
@@ -176,8 +176,8 @@ Public Function BBHVisual([in] As String, PTT As String, density As String, Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /visual.orthology.profiles /in &lt;bbh.csv> [/out &lt;plot.png>]
+''' ```bash
+''' /visual.orthology.profiles /in &lt;bbh.csv&gt; [/out &lt;plot.png&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -196,8 +196,8 @@ Public Function VisualOrthologyProfiles([in] As String, Optional out As String =
 End Function
 
 ''' <summary>
-''' ```
-''' /Visualize.blastn.alignment /in &lt;alignmentTable.txt> /genbank &lt;genome.gb> [/ORF.catagory &lt;catagory.tsv> /region &lt;left,right> /local /out &lt;image.png>]
+''' ```bash
+''' /Visualize.blastn.alignment /in &lt;alignmentTable.txt&gt; /genbank &lt;genome.gb&gt; [/ORF.catagory &lt;catagory.tsv&gt; /region &lt;left,right&gt; /local /out &lt;image.png&gt;]
 ''' ```
 ''' Blastn result alignment visualization from the NCBI web blast. This tools is only works for a plasmid blastn search result or a small gene cluster region in a large genome.
 ''' </summary>
@@ -227,8 +227,8 @@ Public Function BlastnVisualizeWebResult([in] As String, genbank As String, Opti
 End Function
 
 ''' <summary>
-''' ```
-''' --Draw.ChromosomeMap /ptt &lt;genome.ptt> [/conf &lt;config.inf> /out &lt;dir.export> /COG &lt;cog.csv>]
+''' ```bash
+''' --Draw.ChromosomeMap /ptt &lt;genome.ptt&gt; [/conf &lt;config.inf&gt; /out &lt;dir.export&gt; /COG &lt;cog.csv&gt;]
 ''' ```
 ''' Drawing the chromosomes map from the PTT object as the basically genome information source.
 ''' </summary>
@@ -254,8 +254,8 @@ Public Function DrawingChrMap(ptt As String, Optional conf As String = "", Optio
 End Function
 
 ''' <summary>
-''' ```
-''' --Draw.ChromosomeMap.genbank /gb &lt;genome.gbk> [/motifs &lt;motifs.csv> /hide.mics /conf &lt;config.inf> /out &lt;dir.export> /COG &lt;cog.csv>]
+''' ```bash
+''' --Draw.ChromosomeMap.genbank /gb &lt;genome.gbk&gt; [/motifs &lt;motifs.csv&gt; /hide.mics /conf &lt;config.inf&gt; /out &lt;dir.export&gt; /COG &lt;cog.csv&gt;]
 ''' ```
 ''' Draw bacterial genome map from genbank annotation dataset.
 ''' </summary>

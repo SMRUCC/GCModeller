@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -59,8 +59,8 @@ Public Class Synteny : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /cluster.tree /in &lt;besthit.csv> /genomes &lt;fasta.directory> [/out &lt;clusters.csv>]
+''' ```bash
+''' /cluster.tree /in &lt;besthit.csv&gt; /genomes &lt;fasta.directory&gt; [/out &lt;clusters.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -80,8 +80,8 @@ Public Function ClusterTree([in] As String, genomes As String, Optional out As S
 End Function
 
 ''' <summary>
-''' ```
-''' /mapping.plot /mapping &lt;blastn_mapping.csv> /query &lt;query.gff3> /ref &lt;subject.gff3> [/Ribbon &lt;default=Spectral:c6> /size &lt;default=6000,4000> /auto.reverse &lt;default=0.9> /grep &lt;default="-"> /out &lt;Synteny.png>]
+''' ```bash
+''' /mapping.plot /mapping &lt;blastn_mapping.csv&gt; /query &lt;query.gff3&gt; /ref &lt;subject.gff3&gt; [/Ribbon &lt;default=Spectral:c6&gt; /size &lt;default=6000,4000&gt; /auto.reverse &lt;default=0.9&gt; /grep &lt;default=&quot;-&quot;&gt; /out &lt;Synteny.png&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -114,7 +114,7 @@ Public Function PlotMapping(mapping As String, query As String, ref As String, O
 End Function
 
 ''' <summary>
-''' ```
+''' ```bash
 ''' 
 ''' ```
 ''' </summary>

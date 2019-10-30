@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -199,8 +199,8 @@ Public Class localblast : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /add.locus_tag /gb &lt;gb.gbk> /prefix &lt;prefix> [/add.gene /out &lt;out.gb>]
+''' ```bash
+''' /add.locus_tag /gb &lt;gb.gbk&gt; /prefix &lt;prefix&gt; [/add.gene /out &lt;out.gb&gt;]
 ''' ```
 ''' Add locus_tag qualifier into the feature slot.
 ''' </summary>
@@ -224,8 +224,8 @@ Public Function AddLocusTag(gb As String, prefix As String, Optional out As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /add.names /anno &lt;anno.csv> /gb &lt;genbank.gbk> [/out &lt;out.gbk> /tag &lt;overrides_name>]
+''' ```bash
+''' /add.names /anno &lt;anno.csv&gt; /gb &lt;genbank.gbk&gt; [/out &lt;out.gbk&gt; /tag &lt;overrides_name&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -248,8 +248,8 @@ Public Function AddNames(anno As String, gb As String, Optional out As String = 
 End Function
 
 ''' <summary>
-''' ```
-''' /align.union /query &lt;input.fasta> /ref &lt;input.fasta> /besthit &lt;besthit.csv> [/out &lt;union_hits.csv>]
+''' ```bash
+''' /align.union /query &lt;input.fasta&gt; /ref &lt;input.fasta&gt; /besthit &lt;besthit.csv&gt; [/out &lt;union_hits.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -270,8 +270,8 @@ Public Function AlignUnion(query As String, ref As String, besthit As String, Op
 End Function
 
 ''' <summary>
-''' ```
-''' /AlignmentTable.TopBest /in &lt;table.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /AlignmentTable.TopBest /in &lt;table.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' Export the top best hit result from the input web alignment table output.
 ''' </summary>
@@ -291,8 +291,8 @@ Public Function AlignmentTableTopBest([in] As String, Optional out As String = "
 End Function
 
 ''' <summary>
-''' ```
-''' /Bash.Venn /blast &lt;blastDIR> /inDIR &lt;fasta.DIR> /inRef &lt;inRefAs.DIR> [/out &lt;outDIR> /evalue &lt;evalue:10>]
+''' ```bash
+''' /Bash.Venn /blast &lt;blastDIR&gt; /inDIR &lt;fasta.DIR&gt; /inRef &lt;inRefAs.DIR&gt; [/out &lt;outDIR&gt; /evalue &lt;evalue:10&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -316,8 +316,8 @@ Public Function BashShell(blast As String, inDIR As String, inRef As String, Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /bbh.EXPORT /query &lt;query.blastp_out> /subject &lt;subject.blast_out> [/trim /out &lt;bbh.csv> /evalue 1e-3 /coverage 0.85 /identities 0.3]
+''' ```bash
+''' /bbh.EXPORT /query &lt;query.blastp_out&gt; /subject &lt;subject.blast_out&gt; [/trim /out &lt;bbh.csv&gt; /evalue 1e-3 /coverage 0.85 /identities 0.3]
 ''' ```
 ''' Export bbh mapping result from the blastp raw output.
 ''' </summary>
@@ -350,8 +350,8 @@ Public Function BBHExportFile(query As String, subject As String, Optional out A
 End Function
 
 ''' <summary>
-''' ```
-''' /BBH.Merge /in &lt;inDIR> [/out &lt;out.csv>]
+''' ```bash
+''' /BBH.Merge /in &lt;inDIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -370,8 +370,8 @@ Public Function MergeBBH([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /bbh.topbest /in &lt;bbh.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /bbh.topbest /in &lt;bbh.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -390,8 +390,8 @@ Public Function BBHTopBest([in] As String, Optional out As String = "") As Integ
 End Function
 
 ''' <summary>
-''' ```
-''' /Blastn.Maps.Taxid /in &lt;blastnMapping.csv> /2taxid &lt;acc2taxid.tsv/gi2taxid.dmp> [/gi2taxid /trim /tax &lt;NCBI_taxonomy:nodes/names> /out &lt;out.csv>]
+''' ```bash
+''' /Blastn.Maps.Taxid /in &lt;blastnMapping.csv&gt; /2taxid &lt;acc2taxid.tsv/gi2taxid.dmp&gt; [/gi2taxid /trim /tax &lt;NCBI_taxonomy:nodes/names&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -420,8 +420,8 @@ Public Function BlastnMapsTaxonomy([in] As String, _2taxid As String, Optional t
 End Function
 
 ''' <summary>
-''' ```
-''' /blastn.Query /query &lt;query.fna/faa> /db &lt;db.DIR> [/thread /evalue 1e-5 /word_size &lt;-1> /out &lt;out.DIR>]
+''' ```bash
+''' /blastn.Query /query &lt;query.fna/faa&gt; /db &lt;db.DIR&gt; [/thread /evalue 1e-5 /word_size &lt;-1&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' Using target fasta sequence query against all of the fasta sequence in target direcotry. This function is single thread.
 ''' </summary>
@@ -451,8 +451,8 @@ Public Function BlastnQuery(query As String, db As String, Optional evalue As St
 End Function
 
 ''' <summary>
-''' ```
-''' /blastn.Query.All /query &lt;query.fasta.DIR> /db &lt;db.DIR> [/skip-format /evalue 10 /word_size &lt;-1> /out &lt;out.DIR> /parallel /penalty &lt;penalty> /reward &lt;reward>]
+''' ```bash
+''' /blastn.Query.All /query &lt;query.fasta.DIR&gt; /db &lt;db.DIR&gt; [/skip-format /evalue 10 /word_size &lt;-1&gt; /out &lt;out.DIR&gt; /parallel /penalty &lt;penalty&gt; /reward &lt;reward&gt;]
 ''' ```
 ''' Using the fasta sequence in a directory query against all of the sequence in another directory.
 ''' </summary>
@@ -491,8 +491,8 @@ Public Function BlastnQueryAll(query As String, db As String, Optional evalue As
 End Function
 
 ''' <summary>
-''' ```
-''' /BlastnMaps.Match.Taxid /in &lt;maps.csv> /acc2taxid &lt;acc2taxid.DIR> [/out &lt;out.tsv>]
+''' ```bash
+''' /BlastnMaps.Match.Taxid /in &lt;maps.csv&gt; /acc2taxid &lt;acc2taxid.DIR&gt; [/out &lt;out.tsv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -512,8 +512,8 @@ Public Function MatchTaxid([in] As String, acc2taxid As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /BlastnMaps.Select /in &lt;reads.id.list.txt> /data &lt;blastn.maps.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /BlastnMaps.Select /in &lt;reads.id.list.txt&gt; /data &lt;blastn.maps.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -533,8 +533,8 @@ Public Function SelectMaps([in] As String, data As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /BlastnMaps.Select.Top /in &lt;maps.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /BlastnMaps.Select.Top /in &lt;maps.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -553,8 +553,8 @@ Public Function TopBlastnMapReads([in] As String, Optional out As String = "") A
 End Function
 
 ''' <summary>
-''' ```
-''' /BlastnMaps.Summery /in &lt;in.DIR> [/split "-" /out &lt;out.csv>]
+''' ```bash
+''' /BlastnMaps.Summery /in &lt;in.DIR&gt; [/split &quot;-&quot; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -576,8 +576,8 @@ Public Function BlastnMapsSummery([in] As String, Optional split As String = "-"
 End Function
 
 ''' <summary>
-''' ```
-''' /Blastp.BBH.Query /query &lt;query.fasta> /hit &lt;hit.source> [/out &lt;outDIR> /overrides /num_threads &lt;-1>]
+''' ```bash
+''' /Blastp.BBH.Query /query &lt;query.fasta&gt; /hit &lt;hit.source&gt; [/out &lt;outDIR&gt; /overrides /num_threads &lt;-1&gt;]
 ''' ```
 ''' Using query fasta invoke blastp against the fasta files in a directory.
 ''' * This command tools required of NCBI blast+ suite, you must config the blast bin path by using ``settings.exe`` before running this command.
@@ -605,8 +605,8 @@ Public Function BlastpBBHQuery(query As String, hit As String, Optional out As S
 End Function
 
 ''' <summary>
-''' ```
-''' /Chromosomes.Export /reads &lt;reads.fasta/DIR> /maps &lt;blastnMappings.Csv/DIR> [/out &lt;outDIR>]
+''' ```bash
+''' /Chromosomes.Export /reads &lt;reads.fasta/DIR&gt; /maps &lt;blastnMappings.Csv/DIR&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -626,8 +626,8 @@ Public Function ChromosomesBlastnResult(reads As String, maps As String, Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /COG.myva /blastp &lt;blastp.myva.txt/sbh.csv> /whog &lt;whog.XML> [/top.best /grep &lt;donothing> /simple /out &lt;out.csv/txt>]
+''' ```bash
+''' /COG.myva /blastp &lt;blastp.myva.txt/sbh.csv&gt; /whog &lt;whog.XML&gt; [/top.best /grep &lt;donothing&gt; /simple /out &lt;out.csv/txt&gt;]
 ''' ```
 ''' COG myva annotation using blastp raw output or exports sbh/bbh table result.
 ''' </summary>
@@ -657,8 +657,8 @@ Public Function COG_myva(blastp As String, whog As String, Optional grep As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /COG.Statics /in &lt;myva_cogs.csv> [/locus &lt;locus.txt/csv> /locuMap &lt;Gene> /out &lt;out.csv>]
+''' ```bash
+''' /COG.Statics /in &lt;myva_cogs.csv&gt; [/locus &lt;locus.txt/csv&gt; /locuMap &lt;Gene&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' Statics the COG profiling in your analysised genome.
 ''' </summary>
@@ -684,8 +684,8 @@ Public Function COGStatics([in] As String, Optional locus As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /COG2014.result /sbh &lt;query-vs-COG2003-2014.fasta> /cog &lt;cog2003-2014.csv> [/cog.names &lt;cognames2003-2014.tab> /out &lt;out.myva_cog.csv>]
+''' ```bash
+''' /COG2014.result /sbh &lt;query-vs-COG2003-2014.fasta&gt; /cog &lt;cog2003-2014.csv&gt; [/cog.names &lt;cognames2003-2014.tab&gt; /out &lt;out.myva_cog.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -708,8 +708,8 @@ Public Function COG2014_result(sbh As String, cog As String, Optional cog_names 
 End Function
 
 ''' <summary>
-''' ```
-''' /Copy.Fasta /imports &lt;DIR> [/type &lt;faa,fna,ffn,fasta,...., default:=faa> /out &lt;DIR>]
+''' ```bash
+''' /Copy.Fasta /imports &lt;DIR&gt; [/type &lt;faa,fna,ffn,fasta,...., default:=faa&gt; /out &lt;DIR&gt;]
 ''' ```
 ''' Copy target type files from different sub directory into a directory.
 ''' </summary>
@@ -732,8 +732,8 @@ Public Function CopyFasta([imports] As String, Optional type As String = "", Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /Copy.PTT /in &lt;inDIR> [/out &lt;outDIR>]
+''' ```bash
+''' /Copy.PTT /in &lt;inDIR&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -752,8 +752,8 @@ Public Function CopyPTT([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Copys /imports &lt;DIR> [/out &lt;outDIR>]
+''' ```bash
+''' /Copys /imports &lt;DIR&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -772,8 +772,8 @@ Public Function Copys([imports] As String, Optional out As String = "") As Integ
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.AlignmentTable /in &lt;alignment.txt> [/split /header.split /out &lt;outDIR/file>]
+''' ```bash
+''' /Export.AlignmentTable /in &lt;alignment.txt&gt; [/split /header.split /out &lt;outDIR/file&gt;]
 ''' ```
 ''' Export the web alignment result file as csv table.
 ''' </summary>
@@ -799,8 +799,8 @@ Public Function ExportWebAlignmentTable([in] As String, Optional out As String =
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.AlignmentTable.giList /in &lt;table.csv> [/out &lt;gi.txt>]
+''' ```bash
+''' /Export.AlignmentTable.giList /in &lt;table.csv&gt; [/out &lt;gi.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -819,8 +819,8 @@ Public Function ParseAlignmentTableGIlist([in] As String, Optional out As String
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.Blastn /in &lt;in.txt> [/out &lt;out.csv>]
+''' ```bash
+''' /Export.Blastn /in &lt;in.txt&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -839,8 +839,8 @@ Public Function ExportBlastn([in] As String, Optional out As String = "") As Int
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.blastnMaps /in &lt;blastn.txt> [/best /out &lt;out.csv>]
+''' ```bash
+''' /Export.blastnMaps /in &lt;blastn.txt&gt; [/best /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -862,8 +862,8 @@ Public Function ExportBlastnMaps([in] As String, Optional out As String = "", Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.blastnMaps.Batch /in &lt;blastn_out.DIR> [/best /out &lt;out.DIR> /num_threads &lt;-1>]
+''' ```bash
+''' /Export.blastnMaps.Batch /in &lt;blastn_out.DIR&gt; [/best /out &lt;out.DIR&gt; /num_threads &lt;-1&gt;]
 ''' ```
 ''' Multiple processor task.
 ''' </summary>
@@ -889,8 +889,8 @@ Public Function ExportBlastnMapsBatch([in] As String, Optional out As String = "
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.blastnMaps.littles /in &lt;blastn.txt.DIR> [/out &lt;out.csv.DIR>]
+''' ```bash
+''' /Export.blastnMaps.littles /in &lt;blastn.txt.DIR&gt; [/out &lt;out.csv.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -909,8 +909,8 @@ Public Function ExportBlastnMapsSmall([in] As String, Optional out As String = "
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.blastnMaps.Write /in &lt;blastn_out.DIR> [/best /out &lt;write.csv>]
+''' ```bash
+''' /Export.blastnMaps.Write /in &lt;blastn_out.DIR&gt; [/best /out &lt;write.csv&gt;]
 ''' ```
 ''' Exports large amount of blastn output files and write all data into a specific csv file.
 ''' </summary>
@@ -933,8 +933,8 @@ Public Function ExportBlastnMapsBatchWrite([in] As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.BlastX /in &lt;blastx.txt> [/top /Uncharacterized.exclude /out &lt;out.csv>]
+''' ```bash
+''' /Export.BlastX /in &lt;blastx.txt&gt; [/top /Uncharacterized.exclude /out &lt;out.csv&gt;]
 ''' ```
 ''' Export the blastx alignment result into a csv table.
 ''' </summary>
@@ -960,8 +960,8 @@ Public Function ExportBlastX([in] As String, Optional out As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /EXPORT.COGs.from.DOOR /in &lt;DOOR.opr> [/out &lt;out.csv>]
+''' ```bash
+''' /EXPORT.COGs.from.DOOR /in &lt;DOOR.opr&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -980,8 +980,8 @@ Public Function ExportDOORCogs([in] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.gb /gb &lt;genbank.gb/DIR> [/flat /out &lt;outDIR> /simple /batch]
+''' ```bash
+''' /Export.gb /gb &lt;genbank.gb/DIR&gt; [/flat /out &lt;outDIR&gt; /simple /batch]
 ''' ```
 ''' Export the *.fna, *.faa, *.ptt file from the gbk file.
 ''' </summary>
@@ -1010,8 +1010,8 @@ Public Function ExportGenbank(gb As String, Optional out As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.gb.genes /gb &lt;genbank.gb> [/geneName /out &lt;out.fasta>]
+''' ```bash
+''' /Export.gb.genes /gb &lt;genbank.gb&gt; [/geneName /out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1033,8 +1033,8 @@ Public Function ExportGenesFasta(gb As String, Optional out As String = "", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.gpff /in &lt;genome.gpff> /gff &lt;genome.gff> [/out &lt;out.PTT>]
+''' ```bash
+''' /Export.gpff /in &lt;genome.gpff&gt; /gff &lt;genome.gff&gt; [/out &lt;out.PTT&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1054,8 +1054,8 @@ Public Function EXPORTgpff([in] As String, gff As String, Optional out As String
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.gpffs [/in &lt;inDIR>]
+''' ```bash
+''' /Export.gpffs [/in &lt;inDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1073,8 +1073,8 @@ Public Function EXPORTgpffs(Optional [in] As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.Locus /in &lt;sbh/bbh_DIR> [/hit /out &lt;out.txt>]
+''' ```bash
+''' /Export.Locus /in &lt;sbh/bbh_DIR&gt; [/hit /out &lt;out.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1096,8 +1096,8 @@ Public Function ExportLocus([in] As String, Optional out As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.Protein /gb &lt;genome.gb> [/out &lt;out.fasta>]
+''' ```bash
+''' /Export.Protein /gb &lt;genome.gb&gt; [/out &lt;out.fasta&gt;]
 ''' ```
 ''' Export all of the protein sequence from the genbank database file.
 ''' </summary>
@@ -1117,8 +1117,8 @@ Public Function ExportProt(gb As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Fasta.Filters /in &lt;nt.fasta> /key &lt;regex/list.txt> [/tokens /out &lt;out.fasta> /p]
+''' ```bash
+''' /Fasta.Filters /in &lt;nt.fasta&gt; /key &lt;regex/list.txt&gt; [/tokens /out &lt;out.fasta&gt; /p]
 ''' ```
 ''' Filter the fasta sequence subset from a larger fasta database by using the regexp for match on the fasta title.
 ''' </summary>
@@ -1145,8 +1145,8 @@ Public Function Filter([in] As String, key As String, Optional out As String = "
 End Function
 
 ''' <summary>
-''' ```
-''' /hits.ID.list /in &lt;bbhindex.csv> [/out &lt;out.txt>]
+''' ```bash
+''' /hits.ID.list /in &lt;bbhindex.csv&gt; [/out &lt;out.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1165,8 +1165,8 @@ Public Function HitsIDList([in] As String, Optional out As String = "") As Integ
 End Function
 
 ''' <summary>
-''' ```
-''' /Identities.Matrix /hit &lt;sbh/bbh.csv> [/out &lt;out.csv> /cut 0.65]
+''' ```bash
+''' /Identities.Matrix /hit &lt;sbh/bbh.csv&gt; [/out &lt;out.csv&gt; /cut 0.65]
 ''' ```
 ''' </summary>
 '''
@@ -1188,8 +1188,8 @@ Public Function IdentitiesMAT(hit As String, Optional out As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /install.cog2003-2014 /db &lt;prot2003-2014.fasta>
+''' ```bash
+''' /install.cog2003-2014 /db &lt;prot2003-2014.fasta&gt;
 ''' ```
 ''' Config the ``prot2003-2014.fasta`` database for GCModeller localblast tools. This database will be using for the COG annotation.
 ''' This command required of the blast+ install first.
@@ -1207,8 +1207,8 @@ Public Function InstallCOGDatabase(db As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /locus.Selects /locus &lt;locus.txt> /bh &lt;bbhindex.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /locus.Selects /locus &lt;locus.txt&gt; /bh &lt;bbhindex.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1228,8 +1228,8 @@ Public Function LocusSelects(locus As String, bh As String, Optional out As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /MAT.evalue /in &lt;sbh.csv> [/out &lt;mat.csv> /flip]
+''' ```bash
+''' /MAT.evalue /in &lt;sbh.csv&gt; [/out &lt;mat.csv&gt; /flip]
 ''' ```
 ''' </summary>
 '''
@@ -1251,8 +1251,8 @@ Public Function EvalueMatrix([in] As String, Optional out As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /Merge.faa /in &lt;DIR> /out &lt;out.fasta>
+''' ```bash
+''' /Merge.faa /in &lt;DIR&gt; /out &lt;out.fasta&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1269,8 +1269,8 @@ Public Function MergeFaa([in] As String, out As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Paralog /blastp &lt;blastp.txt> [/coverage 0.5 /identities 0.3 /out &lt;out.csv>]
+''' ```bash
+''' /Paralog /blastp &lt;blastp.txt&gt; [/coverage 0.5 /identities 0.3 /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1295,8 +1295,8 @@ Public Function ExportParalog(blastp As String, Optional coverage As String = ""
 End Function
 
 ''' <summary>
-''' ```
-''' /Print /in &lt;inDIR> [/ext &lt;ext> /out &lt;out.Csv>]
+''' ```bash
+''' /Print /in &lt;inDIR&gt; [/ext &lt;ext&gt; /out &lt;out.Csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1318,8 +1318,8 @@ Public Function Print([in] As String, Optional ext As String = "", Optional out 
 End Function
 
 ''' <summary>
-''' ```
-''' /protein.EXPORT /in &lt;uniprot.xml> [/sp &lt;name> /exclude /out &lt;out.fasta>]
+''' ```bash
+''' /protein.EXPORT /in &lt;uniprot.xml&gt; [/sp &lt;name&gt; /exclude /out &lt;out.fasta&gt;]
 ''' ```
 ''' Export the protein sequence and save as fasta format from the uniprot database dump XML.
 ''' </summary>
@@ -1345,8 +1345,8 @@ Public Function proteinEXPORT([in] As String, Optional sp As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /query.cog2003-2014 /query &lt;query.fasta> [/evalue 1e-5 /coverage 0.65 /identities 0.85 /all /out &lt;out.DIR> /db &lt;cog2003-2014.fasta> /blast+ &lt;blast+/bin>]
+''' ```bash
+''' /query.cog2003-2014 /query &lt;query.fasta&gt; [/evalue 1e-5 /coverage 0.65 /identities 0.85 /all /out &lt;out.DIR&gt; /db &lt;cog2003-2014.fasta&gt; /blast+ &lt;blast+/bin&gt;]
 ''' ```
 ''' Protein COG annotation by using NCBI cog2003-2014.fasta database.
 ''' </summary>
@@ -1384,8 +1384,8 @@ Public Function COG2003_2014(query As String, Optional evalue As String = "", Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Reads.OTU.Taxonomy /in &lt;blastnMaps.csv> /OTU &lt;OTU_data.csv> /tax &lt;taxonomy:nodes/names> [/fill.empty /out &lt;out.csv>]
+''' ```bash
+''' /Reads.OTU.Taxonomy /in &lt;blastnMaps.csv&gt; /OTU &lt;OTU_data.csv&gt; /tax &lt;taxonomy:nodes/names&gt; [/fill.empty /out &lt;out.csv&gt;]
 ''' ```
 ''' If the blastnmapping data have the duplicated OTU tags, then this function will makes a copy of the duplicated OTU tag data. top-best data will not.
 ''' </summary>
@@ -1410,8 +1410,8 @@ Public Function ReadsOTU_Taxonomy([in] As String, OTU As String, tax As String, 
 End Function
 
 ''' <summary>
-''' ```
-''' /ref.acc.list /in &lt;blastnMaps.csv/DIR> [/out &lt;out.csv>]
+''' ```bash
+''' /ref.acc.list /in &lt;blastnMaps.csv/DIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1430,8 +1430,8 @@ Public Function AccessionList([in] As String, Optional out As String = "") As In
 End Function
 
 ''' <summary>
-''' ```
-''' /ref.gi.list /in &lt;blastnMaps.csv/DIR> [/out &lt;out.csv>]
+''' ```bash
+''' /ref.gi.list /in &lt;blastnMaps.csv/DIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1450,8 +1450,8 @@ Public Function GiList([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /SBH.BBH.Batch /in &lt;sbh.DIR> [/identities &lt;-1> /coverage &lt;-1> /all /out &lt;bbh.DIR> /num_threads &lt;-1>]
+''' ```bash
+''' /SBH.BBH.Batch /in &lt;sbh.DIR&gt; [/identities &lt;-1&gt; /coverage &lt;-1&gt; /all /out &lt;bbh.DIR&gt; /num_threads &lt;-1&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1482,8 +1482,8 @@ Public Function SBH_BBH_Batch([in] As String, Optional identities As String = ""
 End Function
 
 ''' <summary>
-''' ```
-''' /SBH.Export.Large /in &lt;blastp_out.txt/directory> [/top.best /trim-kegg /s.pattern &lt;default=-> /q.pattern &lt;default=-> /keeps_raw.queryName /identities 0.15 /coverage 0.5 /split /out &lt;sbh.csv>]
+''' ```bash
+''' /SBH.Export.Large /in &lt;blastp_out.txt/directory&gt; [/top.best /trim-kegg /s.pattern &lt;default=-&gt; /q.pattern &lt;default=-&gt; /keeps_raw.queryName /identities 0.15 /coverage 0.5 /split /out &lt;sbh.csv&gt;]
 ''' ```
 ''' Using this command for export the sbh result of your blastp raw data.
 ''' </summary>
@@ -1527,8 +1527,8 @@ Public Function ExportSBHLargeSize([in] As String, Optional s_pattern As String 
 End Function
 
 ''' <summary>
-''' ```
-''' /SBH.tophits /in &lt;sbh.csv> [/uniprotKB /out &lt;out.csv>]
+''' ```bash
+''' /SBH.tophits /in &lt;sbh.csv&gt; [/uniprotKB /out &lt;out.csv&gt;]
 ''' ```
 ''' Filtering the sbh result with top SBH Score
 ''' </summary>
@@ -1551,8 +1551,8 @@ Public Function SBH_topHits([in] As String, Optional out As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /SBH.Trim /in &lt;sbh.csv> /evalue &lt;evalue> [/identities 0.15 /coverage 0.5 /out &lt;out.csv>]
+''' ```bash
+''' /SBH.Trim /in &lt;sbh.csv&gt; /evalue &lt;evalue&gt; [/identities 0.15 /coverage 0.5 /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1578,8 +1578,8 @@ Public Function SBHTrim([in] As String, evalue As String, Optional identities As
 End Function
 
 ''' <summary>
-''' ```
-''' /sbh2bbh /qvs &lt;qvs.sbh.csv> /svq &lt;svq.sbh.csv> [/trim /query.pattern &lt;default="-"> /hit.pattern &lt;default="-"> /identities &lt;-1> /coverage &lt;-1> /all /out &lt;bbh.csv>]
+''' ```bash
+''' /sbh2bbh /qvs &lt;qvs.sbh.csv&gt; /svq &lt;svq.sbh.csv&gt; [/trim /query.pattern &lt;default=&quot;-&quot;&gt; /hit.pattern &lt;default=&quot;-&quot;&gt; /identities &lt;-1&gt; /coverage &lt;-1&gt; /all /out &lt;bbh.csv&gt;]
 ''' ```
 ''' Export bbh result from the sbh pairs.
 ''' </summary>
@@ -1618,8 +1618,8 @@ Public Function BBHExport2(qvs As String, svq As String, Optional query_pattern 
 End Function
 
 ''' <summary>
-''' ```
-''' /Select.Meta /in &lt;meta.Xml> /bbh &lt;bbh.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /Select.Meta /in &lt;meta.Xml&gt; /bbh &lt;bbh.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1639,8 +1639,8 @@ Public Function SelectsMeta([in] As String, bbh As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Taxonomy.efetch /in &lt;nt.fasta> [/out &lt;out.DIR>]
+''' ```bash
+''' /Taxonomy.efetch /in &lt;nt.fasta&gt; [/out &lt;out.DIR&gt;]
 ''' ```
 ''' Fetch the taxonomy information of the fasta sequence from NCBI web server.
 ''' </summary>
@@ -1660,8 +1660,8 @@ Public Function FetchTaxnData([in] As String, Optional out As String = "") As In
 End Function
 
 ''' <summary>
-''' ```
-''' /Taxonomy.efetch.Merge /in &lt;in.DIR> [/out &lt;out.Csv>]
+''' ```bash
+''' /Taxonomy.efetch.Merge /in &lt;in.DIR&gt; [/out &lt;out.Csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1680,8 +1680,8 @@ Public Function MergeFetchTaxonData([in] As String, Optional out As String = "")
 End Function
 
 ''' <summary>
-''' ```
-''' /to.kobas /in &lt;sbh.csv> [/out &lt;kobas.tsv>]
+''' ```bash
+''' /to.kobas /in &lt;sbh.csv&gt; [/out &lt;kobas.tsv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1700,8 +1700,8 @@ Public Function _2_KOBASOutput([in] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /UniProt.bbh.mappings /in &lt;bbh.csv> [/reverse /out &lt;mappings.txt>]
+''' ```bash
+''' /UniProt.bbh.mappings /in &lt;bbh.csv&gt; [/reverse /out &lt;mappings.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1723,8 +1723,8 @@ Public Function UniProtBBHMapTable([in] As String, Optional out As String = "", 
 End Function
 
 ''' <summary>
-''' ```
-''' /UniProt.GO.faa /in &lt;uniprot.xml> [/lineBreak &lt;default=120> /out &lt;proteins.faa>]
+''' ```bash
+''' /UniProt.GO.faa /in &lt;uniprot.xml&gt; [/lineBreak &lt;default=120&gt; /out &lt;proteins.faa&gt;]
 ''' ```
 ''' Export all of the protein sequence from the Uniprot database which have GO term id been assigned.
 ''' </summary>
@@ -1747,8 +1747,8 @@ Public Function ExportGOFromUniprot([in] As String, Optional linebreak As String
 End Function
 
 ''' <summary>
-''' ```
-''' /UniProt.KO.assign /in &lt;query_vs_uniprot.KO.besthit> [/bbh &lt;uniprot_vs_query.KO.besthit> /out &lt;out.KO.csv>]
+''' ```bash
+''' /UniProt.KO.assign /in &lt;query_vs_uniprot.KO.besthit&gt; [/bbh &lt;uniprot_vs_query.KO.besthit&gt; /out &lt;out.KO.csv&gt;]
 ''' ```
 ''' Assign KO number to query from Uniprot reference sequence database alignment result.
 ''' </summary>
@@ -1771,8 +1771,8 @@ Public Function UniProtKOAssign([in] As String, Optional bbh As String = "", Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /UniProt.KO.faa /in &lt;uniprot.xml> [/lineBreak &lt;default=120> /out &lt;proteins.faa>]
+''' ```bash
+''' /UniProt.KO.faa /in &lt;uniprot.xml&gt; [/lineBreak &lt;default=120&gt; /out &lt;proteins.faa&gt;]
 ''' ```
 ''' Export all of the protein sequence from the Uniprot database which have KO number been assigned.
 ''' </summary>
@@ -1795,8 +1795,8 @@ Public Function ExportKOFromUniprot([in] As String, Optional linebreak As String
 End Function
 
 ''' <summary>
-''' ```
-''' /venn.BBH /imports &lt;blastp_out.DIR> [/skip-load /query &lt;queryName> /all /coverage &lt;0.6> /identities &lt;0.3> /out &lt;outDIR>]
+''' ```bash
+''' /venn.BBH /imports &lt;blastp_out.DIR&gt; [/skip-load /query &lt;queryName&gt; /all /coverage &lt;0.6&gt; /identities &lt;0.3&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' 2. Build venn table And bbh data from the blastp result out Or sbh data cache.
 ''' </summary>
@@ -1831,8 +1831,8 @@ Public Function VennBBH([imports] As String, Optional query As String = "", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /venn.BlastAll /query &lt;queryDIR> [/out &lt;outDIR> /num_threads &lt;-1> /evalue 10 /overrides /all /coverage &lt;0.8> /identities &lt;0.3>]
+''' ```bash
+''' /venn.BlastAll /query &lt;queryDIR&gt; [/out &lt;outDIR&gt; /num_threads &lt;-1&gt; /evalue 10 /overrides /all /coverage &lt;0.8&gt; /identities &lt;0.3&gt;]
 ''' ```
 ''' Completely paired combos blastp bbh operations for the venn diagram Or network builder.
 ''' </summary>
@@ -1870,8 +1870,8 @@ Public Function vennBlastAll(query As String, Optional out As String = "", Optio
 End Function
 
 ''' <summary>
-''' ```
-''' /venn.cache /imports &lt;blastp.DIR> [/out &lt;sbh.out.DIR> /coverage &lt;0.6> /identities &lt;0.3> /num_threads &lt;-1> /overrides]
+''' ```bash
+''' /venn.cache /imports &lt;blastp.DIR&gt; [/out &lt;sbh.out.DIR&gt; /coverage &lt;0.6&gt; /identities &lt;0.3&gt; /num_threads &lt;-1&gt; /overrides]
 ''' ```
 ''' 1. [SBH_Batch] Creates the sbh cache data for the downstream bbh analysis.
 ''' And this batch function is suitable with any scale of the blastp sbh data output.
@@ -1904,8 +1904,8 @@ Public Function VennCache([imports] As String, Optional out As String = "", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /venn.sbh.thread /in &lt;blastp.txt> [/out &lt;out.sbh.csv> /coverage &lt;0.6> /identities &lt;0.3> /overrides]
+''' ```bash
+''' /venn.sbh.thread /in &lt;blastp.txt&gt; [/out &lt;out.sbh.csv&gt; /coverage &lt;0.6&gt; /identities &lt;0.3&gt; /overrides]
 ''' ```
 ''' </summary>
 '''
@@ -1933,8 +1933,8 @@ Public Function SBHThread([in] As String, Optional out As String = "", Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' /Whog.XML /in &lt;whog> [/out &lt;whog.XML>]
+''' ```bash
+''' /Whog.XML /in &lt;whog&gt; [/out &lt;whog.XML&gt;]
 ''' ```
 ''' Converts the whog text file into a XML data file.
 ''' </summary>
@@ -1954,8 +1954,8 @@ Public Function WhogXML([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' --bbh.export /in &lt;blast_out.DIR> [/all /out &lt;out.DIR> /single-query &lt;queryName> /coverage &lt;0.5> /identities 0.15]
+''' ```bash
+''' --bbh.export /in &lt;blast_out.DIR&gt; [/all /out &lt;out.DIR&gt; /single-query &lt;queryName&gt; /coverage &lt;0.5&gt; /identities 0.15]
 ''' ```
 ''' Batch export bbh result data from a directory.
 ''' </summary>
@@ -1987,8 +1987,8 @@ Public Function ExportBBH([in] As String, Optional out As String = "", Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' --blast.self /query &lt;query.fasta> [/blast &lt;blast_HOME> /out &lt;out.csv>]
+''' ```bash
+''' --blast.self /query &lt;query.fasta&gt; [/blast &lt;blast_HOME&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' Query fasta query against itself for paralogs.
 ''' </summary>
@@ -2011,8 +2011,8 @@ Public Function SelfBlast(query As String, Optional blast As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' --Export.Fasta /hits &lt;query-hits.csv> /query &lt;query.fasta> /subject &lt;subject.fasta>
+''' ```bash
+''' --Export.Fasta /hits &lt;query-hits.csv&gt; /query &lt;query.fasta&gt; /subject &lt;subject.fasta&gt;
 ''' ```
 ''' </summary>
 '''
@@ -2030,8 +2030,8 @@ Public Function ExportFasta(hits As String, query As String, subject As String) 
 End Function
 
 ''' <summary>
-''' ```
-''' --Export.Overviews /blast &lt;blastout.txt> [/out &lt;overview.csv>]
+''' ```bash
+''' --Export.Overviews /blast &lt;blastout.txt&gt; [/out &lt;overview.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2050,8 +2050,8 @@ Public Function ExportOverviews(blast As String, Optional out As String = "") As
 End Function
 
 ''' <summary>
-''' ```
-''' --Export.SBH /in &lt;in.DIR> /prefix &lt;queryName> /out &lt;out.csv> [/txt]
+''' ```bash
+''' --Export.SBH /in &lt;in.DIR&gt; /prefix &lt;queryName&gt; /out &lt;out.csv&gt; [/txt]
 ''' ```
 ''' </summary>
 '''
@@ -2072,8 +2072,8 @@ Public Function ExportSBH([in] As String, prefix As String, out As String, Optio
 End Function
 
 ''' <summary>
-''' ```
-''' --Xml2Excel /in &lt;in.xml> [/out &lt;out.csv>]
+''' ```bash
+''' --Xml2Excel /in &lt;in.xml&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2092,8 +2092,8 @@ Public Function XmlToExcel([in] As String, Optional out As String = "") As Integ
 End Function
 
 ''' <summary>
-''' ```
-''' --Xml2Excel.Batch /in &lt;inDIR> [/out &lt;outDIR> /Merge]
+''' ```bash
+''' --Xml2Excel.Batch /in &lt;inDIR&gt; [/out &lt;outDIR&gt; /Merge]
 ''' ```
 ''' </summary>
 '''
