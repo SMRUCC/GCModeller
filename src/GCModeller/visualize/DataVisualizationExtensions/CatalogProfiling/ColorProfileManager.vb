@@ -11,7 +11,7 @@ Namespace CatalogProfiling
         Public Function GetColors(profile As Dictionary(Of String, NamedValue(Of Double)()), colorSchema$) As ColorProfile
             If colorSchema.IsPattern("scale\(.+\)") Then
                 colorSchema = colorSchema.GetStackValue("(", ")")
-                Return New ValueScaleColorProfile(profile.Values.IteratesALL, colorSchema, 30)
+                Return New ValueScaleColorProfile(profile.Values.IteratesALL, colorSchema, 30, logarithm:=2)
             Else
                 Dim category As New Dictionary(Of String, String)
 
