@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::e61b1aae970b7570c73e6c0001d589a3, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CatalogProfiling
-    ' 
-    '     Function: AsDouble, GetTicks, ProfilesPlot, removesNotAssign
-    ' 
-    '     Sub: __plotInternal
-    ' 
-    ' /********************************************************************************/
+' Module CatalogProfiling
+' 
+'     Function: AsDouble, GetTicks, ProfilesPlot, removesNotAssign
+' 
+'     Sub: __plotInternal
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -329,7 +329,11 @@ Namespace CatalogProfiling
                         pos = New PointF(left + 25, y)
                     End If
 
-                    Call g.DrawString(label, catalogFont, Color, pos)
+                    If TypeOf colors Is CategoryColorProfile Then
+                        Call g.DrawString(label, catalogFont, color, pos)
+                    Else
+                        Call g.DrawString(label, catalogFont, Brushes.Black, pos)
+                    End If
 
                     ' 绘制虚线
                     yPlot = y + maxLenSubKeySize.Height / 2
@@ -351,7 +355,7 @@ Namespace CatalogProfiling
                     End If
 
                     Call g.DrawLine(linePen, New Point(barRect.Left, yPlot), New Point(barRect.Right, yPlot))
-                    Call g.FillRectangle(Color, barRectPlot)
+                    Call g.FillRectangle(color, barRectPlot)
 
                     If Not gray Then
                         ' 如果是灰度的图，就不需要再绘制值得标签字符串了，
@@ -369,6 +373,7 @@ Namespace CatalogProfiling
                 y += 20
             Next
 
+            ' 开始进行标尺的绘制
             Dim maxValue# = profile.Values _
                 .Max(Function(v)
                          Return If(v.Length = 0, 0, v.Max(Function(n) n.Value))
