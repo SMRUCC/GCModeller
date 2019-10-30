@@ -254,7 +254,9 @@ Partial Module CLI
               + <profile name term>: Set1:c6 
               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
               + <color name list>: black,green,blue 
-              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html")>
+              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html,
+              + <scale by value>: scale(color_set_name)
+              This will create color profiles based on the result value dataset.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGG_enrichment(args As CommandLine) As Integer
         Dim [in] As String = args("/in")

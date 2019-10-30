@@ -296,6 +296,7 @@ Public Module CatalogProfiling
             Dim valueSize As SizeF
             Dim valueLeft!
             Dim valueLabel$
+            Dim offset!
 
             If gray Then
                 color = "rgb(30,30,30)".GetBrush
@@ -306,21 +307,20 @@ Public Module CatalogProfiling
             y += maxLenClsKeySize.Height + 5
 
             ' 绘制统计的小分类标签以及barplot图形
-            For Each cata As NamedValue(Of Double) In profile(+[class])
+            For Each term As NamedValue(Of Double) In profile([class].value)
                 Dim pos As PointF
                 Dim label$
 
-                If cata.Name.Length > 64 Then
-                    label = Mid(cata.Name, 1, 63) & "..."
+                If term.Name.Length > 64 Then
+                    label = Mid(term.Name, 1, 63) & "..."
                 Else
-                    label = cata.Name
+                    label = term.Name
                 End If
 
                 If labelAlignmentRight Then
-
                     ' 重新计算位置进行右对齐操作
-                    Dim offset! = label.Length / (region.Width / 20) * catalogCharWidth
-                    offset = barRect.Left - 25 - g.MeasureString(label, catalogFont).Width + offset
+                    offset! = label.Length / (region.Width / 20) * catalogCharWidth
+                    offset! = barRect.Left - 25 - g.MeasureString(label, catalogFont).Width + offset
                     pos = New PointF With {
                         .X = offset,
                         .Y = y
@@ -334,7 +334,7 @@ Public Module CatalogProfiling
 
                 ' 绘制虚线
                 yPlot = y + maxLenSubKeySize.Height / 2
-                barWidth = mapper.ScallingWidth(cata.Value, barRect.Width - gap)
+                barWidth = mapper.ScallingWidth(term.Value, barRect.Width - gap)
                 barRectPlot = New Rectangle With {
                     .Location = New Point(barRect.Left, y),
                     .Size = New Size With {
@@ -343,7 +343,7 @@ Public Module CatalogProfiling
                     }
                 }
 
-                valueLabel = cata.Value.ToString(valueFormat)
+                valueLabel = term.Value.ToString(valueFormat)
                 valueSize = g.MeasureString(valueLabel, valueFont)
                 valueLeft = barRectPlot.Right - valueSize.Width
 
@@ -355,7 +355,8 @@ Public Module CatalogProfiling
                 Call g.FillRectangle(color, barRectPlot)
 
                 If Not gray Then
-                    ' 如果是灰度的图，就不需要再绘制值得标签字符串了，因为灰色和黑色的颜色太相近了，看不清楚
+                    ' 如果是灰度的图，就不需要再绘制值得标签字符串了，
+                    ' 因为灰色和黑色的颜色太相近了， 看不清楚
                     anchor = New PointF With {
                         .X = valueLeft,
                         .Y = y - valueSize.Height / 3
