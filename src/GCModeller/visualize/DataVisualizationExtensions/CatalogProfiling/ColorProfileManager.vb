@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Linq
 
@@ -6,6 +7,7 @@ Namespace CatalogProfiling
 
     Module Extensions
 
+        <Extension>
         Public Function GetColors(profile As Dictionary(Of String, NamedValue(Of Double)()), colorSchema$) As ColorProfile
             If colorSchema.IsPattern("scale\(.+\)") Then
                 colorSchema = colorSchema.GetStackValue("(", ")")

@@ -33,6 +33,10 @@ Namespace Graphic
 
             Me.category = category
             Me.categoryIndex = category.Values.Indexing
+
+            If colors.Length < categoryIndex.Count Then
+                colors = Designer.CubicSpline(colors, n:=categoryIndex.Count)
+            End If
         End Sub
 
         Public Overrides Function GetColor(item As NamedValue(Of Double)) As Color

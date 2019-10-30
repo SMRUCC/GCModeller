@@ -148,7 +148,7 @@ Namespace CatalogProfiling
                 profile = profile.removesNotAssign
             End If
 
-            Dim colors As Color() = Designer.FromSchema(colorSchema, profile.Count)
+            Dim colors As ColorProfile = profile.GetColors(colorSchema)
             Dim mapperValues As Double() = profile.Values _
                 .Select(Function(c)
                             Return c.Select(Function(v) CDbl(v.Value))
@@ -195,7 +195,7 @@ Namespace CatalogProfiling
         Private Sub __plotInternal(ByRef g As IGraphics, region As GraphicsRegion,
                                    profile As Dictionary(Of String, NamedValue(Of Double)()),
                                    title$,
-                                   colors As Color(),
+                                   colors As ColorProfile,
                                    titleFontStyle$,
                                    catalogFontStyle$,
                                    classFontStyle$, valueFontStyle$,
@@ -284,11 +284,6 @@ Namespace CatalogProfiling
             left = padding.Left
 
             For Each [class] As SeqValue(Of String) In classes.SeqIterator
-                Dim color As New SolidBrush(colors([class]))
-                Dim penColor As Color = colors([class]) Or grayColor
-                Dim linePen As New Pen(penColor, 2) With {
-                    .DashStyle = DashStyle.Dot
-                }
                 Dim yPlot!
                 Dim barWidth!
                 Dim barRectPlot As Rectangle
@@ -297,18 +292,23 @@ Namespace CatalogProfiling
                 Dim valueLabel$
                 Dim offset!
 
-                If gray Then
-                    color = "rgb(30,30,30)".GetBrush
-                End If
-
                 ' 绘制Class大分类的标签
                 g.DrawString([class], classFont, Brushes.Black, New PointF(left, y))
                 y += maxLenClsKeySize.Height + 5
 
                 ' 绘制统计的小分类标签以及barplot图形
                 For Each term As NamedValue(Of Double) In profile([class].value)
+                    Dim color As New SolidBrush(colors.GetColor(term))
+                    Dim penColor As Color = color.Color Or grayColor
+                    Dim linePen As New Pen(penColor, 2) With {
+                        .DashStyle = DashStyle.Dot
+                    }
                     Dim pos As PointF
                     Dim label$
+
+                    If gray Then
+                        color = "rgb(30,30,30)".GetBrush
+                    End If
 
                     If term.Name.Length > 64 Then
                         label = Mid(term.Name, 1, 63) & "..."
@@ -329,7 +329,7 @@ Namespace CatalogProfiling
                         pos = New PointF(left + 25, y)
                     End If
 
-                    Call g.DrawString(label, catalogFont, color, pos)
+                    Call g.DrawString(label, catalogFont, Color, pos)
 
                     ' 绘制虚线
                     yPlot = y + maxLenSubKeySize.Height / 2
@@ -351,7 +351,7 @@ Namespace CatalogProfiling
                     End If
 
                     Call g.DrawLine(linePen, New Point(barRect.Left, yPlot), New Point(barRect.Right, yPlot))
-                    Call g.FillRectangle(color, barRectPlot)
+                    Call g.FillRectangle(Color, barRectPlot)
 
                     If Not gray Then
                         ' 如果是灰度的图，就不需要再绘制值得标签字符串了，

@@ -67,6 +67,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.Visualize.CatalogProfiling
 
 Partial Module CLI
 
@@ -75,9 +76,9 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/GO.cellular_location.Plot",
-               Info:="Visualize of the subcellular location result from the GO enrichment analysis.",
-               Usage:="/GO.cellular_location.Plot /in <KOBAS.GO.csv> [/GO <go.obo> /3D /colors <schemaName, default=Paired:c8> /out <out.png>]")>
+    <ExportAPI("/GO.cellular_location.Plot")>
+    <Description("Visualize of the subcellular location result from the GO enrichment analysis.")>
+    <Usage("/GO.cellular_location.Plot /in <KOBAS.GO.csv> [/GO <go.obo> /3D /colors <schemaName, default=Paired:c8> /out <out.png>]")>
     <Argument("/3D", True,
               Description:="3D style pie chart for the plot?")>
     <Argument("/colors", True,
@@ -283,9 +284,9 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Enrichments.ORF.info",
-               Info:="Retrive KEGG/GO info for the genes in the enrichment result.",
-               Usage:="/Enrichments.ORF.info /in <enrichment.csv> /proteins <uniprot-genome.XML> [/nocut /ORF /out <out.csv>]")>
+    <ExportAPI("/Enrichments.ORF.info")>
+    <Description("Retrive KEGG/GO info for the genes in the enrichment result.")>
+    <Usage("/Enrichments.ORF.info /in <enrichment.csv> /proteins <uniprot-genome.XML> [/nocut /ORF /out <out.csv>]")>
     <Argument("/ORF", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument presented, then the program will using the ORF value in ``uniprot.xml`` as the record identifier, 
@@ -413,7 +414,8 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/KOBAS.split", Usage:="/KOBAS.split /in <kobas.out_run.txt> [/out <DIR>]")>
+    <ExportAPI("/KOBAS.split")>
+    <Usage("/KOBAS.split /in <kobas.out_run.txt> [/out <DIR>]")>
     <Description("Split the KOBAS run output result text file as seperated csv file.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KOBASSplit(args As CommandLine) As Integer
@@ -430,7 +432,8 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/KOBAS.add.ORF", Usage:="/KOBAS.add.ORF /in <table.csv> /sample <sample.csv> [/out <out.csv>]")>
+    <ExportAPI("/KOBAS.add.ORF")>
+    <Usage("/KOBAS.add.ORF /in <table.csv> /sample <sample.csv> [/out <out.csv>]")>
     <Group(CLIGroups.Enrichment_CLI)>
     <Argument("/in",
               AcceptTypes:={GetType(EnrichmentTerm)},
