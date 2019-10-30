@@ -262,12 +262,12 @@ Partial Module CLI
     Public Function KEGG_enrichment(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
-        Dim pvalue As Double = args.GetValue("/pvalue", 0.05)
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".GO_enrichment.pvalue={pvalue}.png")
-        Dim size As String = args.GetValue("/size", "2000,1600")
+        Dim pvalue As Double = args("/pvalue") Or 0.05
+        Dim out As String = args("/out") Or ([in].TrimSuffix & $".KEGG_enrichment.pvalue={pvalue}.png")
+        Dim size As String = args("/size") Or "2000,1600"
         Dim gray As Boolean = args.GetBoolean("/gray")
         Dim labelRight As Boolean = args.GetBoolean("/label.right")
-        Dim tick As Double = args.GetValue("/tick", 1.0)
+        Dim tick As Double = args("/tick") Or 1.0
         Dim plot As GraphicsData = enrichments.KEGGEnrichmentPlot(
             size, pvalue,
             gray:=gray,
