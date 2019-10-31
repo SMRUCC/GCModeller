@@ -108,6 +108,20 @@ Partial Module CLI
         Dim pvalue# = args.GetValue("/p.value", 0.05)
         Dim rank As TaxonomyRanks = args.GetValue("/rank", TaxonomyRanks.Family, AddressOf ParseRank)
 
+        Call $"Read {gast.Length} OTU data...".__DEBUG_ECHO
+
+        ' 合并OTU
+        gast = gast _
+            .GroupBy(Function(tax) tax.taxonomy) _
+            .Select(Function(g)
+                        Dim first = g.First
+                        first.counts = g.Sum(Function(s) s.counts)
+                        Return first
+                    End Function) _
+            .ToArray
+
+        Call $"Lefts {gast.Length} OTU data after union operation".__INFO_ECHO
+
         Call "Load UniProt reference genome model....".__INFO_ECHO
         Call VBDebugger.BENCHMARK(Sub() UniProt = TaxonomyRepository.LoadRepository(ref))
 
