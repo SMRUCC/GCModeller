@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::57c5f8d9860433d649b3d69d78571a31, Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BIOMTaxonomy
-    ' 
-    '         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
-    '         Delegate Function
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: AsTaxonomy, FillLineageEmpty, TaxonomyFromString, (+2 Overloads) TaxonomyParser, TaxonomyParserAlt
-    '                       TaxonomyString
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BIOMTaxonomy
+' 
+'         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
+'         Delegate Function
+' 
+'             Constructor: (+1 Overloads) Sub New
+'             Function: AsTaxonomy, FillLineageEmpty, TaxonomyFromString, (+2 Overloads) TaxonomyParser, TaxonomyParserAlt
+'                       TaxonomyString
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,9 +51,39 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Metagenomics
+
+    ''' <summary>
+    ''' Parser and stringfier of <see cref="Taxonomy"/> object.
+    ''' </summary>
+    Public Class BIOMTaxonomyParser : Implements IParser
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="obj">
+        ''' Object value should be in data type <see cref="Taxonomy"/>
+        ''' </param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Function ToString(obj As Object) As String Implements IParser.ToString
+            Return DirectCast(obj, Taxonomy).ToString(BIOMstyle:=True)
+        End Function
+
+        ''' <summary>
+        ''' Create a <see cref="Taxonomy"/> object from parse taxonomy string
+        ''' </summary>
+        ''' <param name="content"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TryParse(content As String) As Object Implements IParser.TryParse
+            Return BIOMTaxonomy.TaxonomyParser(content).AsTaxonomy
+        End Function
+    End Class
 
     Public Module BIOMTaxonomy
 
