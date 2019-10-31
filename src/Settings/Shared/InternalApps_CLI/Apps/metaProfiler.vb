@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7242.27856
-'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7243.31533
+'  // ASSEMBLY:  Settings, Version=3.3277.7243.31533, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     2019/10/30 15:28:32
+'  // BUILT:     10/31/2019 5:31:06 PM
 '  // 
 ' 
 ' 
@@ -485,17 +485,20 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /microbiome.pathway.profile /in &lt;gastout.csv&gt; /ref &lt;UniProt.ref.XML&gt; /maps &lt;kegg.maps.ref.XML&gt; [/just.profiles /rank &lt;default=family&gt; /p.value &lt;default=0.05&gt; /out &lt;out.directory&gt;]
+''' /microbiome.pathway.profile /in &lt;gastout.csv&gt; /ref &lt;UniProt.ref.index.json&gt; /maps &lt;kegg.maps.ref.XML&gt; [/sampleName &lt;default=NULL&gt; /just.profiles /rank &lt;default=family&gt; /p.value &lt;default=0.05&gt; /out &lt;out.directory&gt;]
 ''' ```
 ''' Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.
 ''' </summary>
 '''
-Public Function PathwayProfiles([in] As String, ref As String, maps As String, Optional rank As String = "family", Optional p_value As String = "0.05", Optional out As String = "", Optional just_profiles As Boolean = False) As Integer
+Public Function PathwayProfiles([in] As String, ref As String, maps As String, Optional samplename As String = "NULL", Optional rank As String = "family", Optional p_value As String = "0.05", Optional out As String = "", Optional just_profiles As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/microbiome.pathway.profile")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/ref " & """" & ref & """ ")
     Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not samplename.StringEmpty Then
+            Call CLI.Append("/samplename " & """" & samplename & """ ")
+    End If
     If Not rank.StringEmpty Then
             Call CLI.Append("/rank " & """" & rank & """ ")
     End If
