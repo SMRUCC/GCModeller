@@ -75,6 +75,12 @@ Namespace IO
             Return Math.Sqrt(d)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function NamedValues(matrix As IEnumerable(Of DataSet), propertyName$) As Dictionary(Of String, Double)
+            Return matrix.ToDictionary(Function(d) d.ID, Function(d) d(propertyName))
+        End Function
+
         ''' <summary>
         ''' 矩阵转置：将矩阵的行列进行颠倒
         ''' </summary>

@@ -154,7 +154,9 @@ Public Module PathwayProfile
         Dim profileGroup = profiles _
             .GroupBy(Function(tax) tax.RankGroup) _
             .ToDictionary(Function(g) g.Key,
-                          Function(profile) profile.ToArray)
+                          Function(profile)
+                              Return profile.ToArray
+                          End Function)
 
         Return profileGroup
     End Function
@@ -325,7 +327,9 @@ Public Module PathwayProfile
         Dim mapGroup = profiles _
             .GroupBy(Function(map) map.pathway) _
             .ToDictionary(Function(g) g.Key,
-                          Function(mapProfiles) mapProfiles.ToArray)
+                          Function(mapProfiles)
+                              Return mapProfiles.ToArray
+                          End Function)
         Dim maps = idlist _
             .Select(Function(mapID) KEGG.GetByKey(mapID)) _
             .ToArray
