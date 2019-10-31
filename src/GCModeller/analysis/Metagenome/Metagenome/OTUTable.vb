@@ -57,9 +57,6 @@ Imports SMRUCC.genomics.Metagenomics
 ''' </summary>
 Public Class OTUTable : Inherits DataSet
 
-    <Column("OTU_ID")>
-    Public Overrides Property ID As String
-
     ''' <summary>
     ''' OTU编号所对应的物种分类信息
     ''' </summary>
@@ -75,11 +72,10 @@ Public Class OTUTable : Inherits DataSet
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function LoadSample(table$, Optional ID$ = "OTU_ID") As OTUTable()
-        ' tsv文件
+    Public Shared Function LoadSample(table$, Optional uidMap$ = "OTU_ID") As OTUTable()
         Return DataSet.LoadDataSet(Of OTUTable)(
             path:=table,
-            uidMap:=ID,
+            uidMap:=uidMap,
             isTsv:=FileFormat.IsTsvFile(table)
         ).ToArray
     End Function

@@ -60,6 +60,14 @@ Namespace IO
     Public Class DataSet : Inherits DynamicPropertyBase(Of Double)
         Implements INamedValue
 
+        ''' <summary>
+        ''' 当前的这条数据记录在整个数据集之中的唯一标记符
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 20191031
+        ''' 重写这个属性会造成<see cref="FileFormat.SolveDataSetIDMapping(String, String, Boolean?, Encoding)"/>失效
+        ''' </remarks>
         Public Overridable Property ID As String Implements INamedValue.Key
 
         Protected Overrides ReadOnly Property MyHashCode As Integer
