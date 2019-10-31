@@ -65,12 +65,16 @@ Imports SMRUCC.genomics.Model.Network.Microbiome
 Partial Module CLI
 
     <ExportAPI("/microbiome.pathway.profile")>
-    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/sampleName <default=NULL> /just.profiles /rank <default=family> /p.value <default=0.05> /out <out.directory>]")>
+    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.index.json> /maps <kegg.maps.ref.XML> [/sampleName <default=NULL> /just.profiles /rank <default=family> /p.value <default=0.05> /out <out.directory>]")>
     <Description("Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(gast.gastOUT), GetType(OTUTable)},
               Extensions:="*.csv",
               Description:="The OTU sample counting result.")>
+    <Argument("/ref", False, CLITypes.File,
+              Extensions:="*.json",
+              AcceptTypes:={GetType(TaxonomyRepository)},
+              Description:="The bacteria genome annotation data repository index file.")>
     <Argument("/rank", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The enrichment profile will be statistics at this level")>
@@ -105,7 +109,7 @@ Partial Module CLI
         Dim rank As TaxonomyRanks = args.GetValue("/rank", TaxonomyRanks.Family, AddressOf ParseRank)
 
         Call "Load UniProt reference genome model....".__INFO_ECHO
-        Call VBDebugger.BENCHMARK(Sub() UniProt = ref.LoadXml(Of TaxonomyRepository))
+        Call VBDebugger.BENCHMARK(Sub() UniProt = TaxonomyRepository.LoadRepository(ref))
 
         If args.IsTrue("/just.profiles") Then
             Return gast _
