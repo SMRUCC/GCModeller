@@ -65,22 +65,40 @@ Imports SMRUCC.genomics.Model.Network.Microbiome
 Partial Module CLI
 
     <ExportAPI("/microbiome.pathway.profile")>
-    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/just.profiles /rank <default=family> /p.value <default=0.05> /out <out.directory>]")>
+    <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.XML> /maps <kegg.maps.ref.XML> [/sampleName <default=NULL> /just.profiles /rank <default=family> /p.value <default=0.05> /out <out.directory>]")>
     <Description("Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
-              AcceptTypes:={GetType(gast.gastOUT)},
+              AcceptTypes:={GetType(gast.gastOUT), GetType(OTUTable)},
               Extensions:="*.csv",
               Description:="The OTU sample counting result.")>
     <Argument("/rank", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The enrichment profile will be statistics at this level")>
+    <Argument("/sampleName", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="This argument is only works when the input table file is a OTU result data table.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     <Output(GetType(NetworkTables), "*.csv")>
     Public Function PathwayProfiles(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim ref$ = args <= "/ref"
-        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pathway.profiles/"
-        Dim gast As gast.gastOUT() = [in].LoadCsv(Of gast.gastOUT)
+        Dim out$
+        Dim gast As gast.gastOUT()
+
+        If MappingsHelper.Typeof([in], GetType(gast.gastOUT), GetType(OTUTable)) Is GetType(OTUTable) Then
+            Dim sampleName$ = args("/sampleName")
+
+            If sampleName.StringEmpty Then
+                Throw New Exception("No sample name provides for your OTU table!")
+            End If
+
+            gast = OTUTable.LoadSample([in]).CreateGastCountTabel(sampleName).ToArray
+            out = args("/out") Or $"{[in].TrimSuffix}_sample({sampleName}).pathway.profiles/"
+        Else
+            gast = [in].LoadCsv(Of gast.gastOUT)
+            out = args("/out") Or $"{[in].TrimSuffix}.pathway.profiles/"
+        End If
+
         Dim UniProt As TaxonomyRepository = Nothing
         Dim maps As MapRepository = args("/maps").LoadXml(Of MapRepository)
         Dim pvalue# = args.GetValue("/p.value", 0.05)

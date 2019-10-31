@@ -86,6 +86,9 @@ Namespace gast
         End Function
     End Class
 
+    ''' <summary>
+    ''' The gast script OTU count result table 
+    ''' </summary>
     Public Class gastOUT : Implements INamedValue
         Implements ITaxonomyLineage
 
