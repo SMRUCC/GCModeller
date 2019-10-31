@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.foundation.BIOM.v10
@@ -162,7 +163,7 @@ Public Module BIOM
             For Each cpi In x.value.composition
                 ix = x.i
                 iy = nameIndex(cpi.Key)
-                composition = CInt(n * Val(cpi.Value) / 100)
+                composition = CInt(n * cpi.Value / 100)
 
                 Yield New Integer() {ix, iy, composition}
             Next
@@ -176,7 +177,7 @@ Public Module BIOM
         For Each row As gast.Names In array
             Yield names _
                 .Select(Function(name)
-                            Return CInt(row.numOfSeqs * Val(row.composition.TryGetValue(name, [default]:="0")) / 100)
+                            Return CInt(row.numOfSeqs * row.composition.TryGetValue(name, [default]:=0) / 100)
                         End Function) _
                 .ToArray
         Next
@@ -273,7 +274,7 @@ Public Module BIOM
                       .TaxonomyString
                   Select New Names With {
                       .numOfSeqs = 100,
-                      .composition = otu.data,
+                      .composition = otu.data.AsNumeric,
                       .taxonomy = taxonomy,
                       .unique = otu.OTU
                   }
