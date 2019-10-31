@@ -104,4 +104,24 @@ Public Class OTUTable : Inherits DataSet
                         }
                     End Function)
     End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Overloads Shared Narrowing Operator CType(table As OTUTable) As OTUData
+        Return New OTUData With {
+            .OTU = table.ID,
+            .data = table.Properties.AsCharacter,
+            .taxonomy = table.taxonomy.ToString(BIOMstyle:=True)
+        }
+    End Operator
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Widening Operator CType(data As OTUData) As OTUTable
+        Return New OTUTable With {
+            .ID = data.OTU,
+            .Properties = data.data.AsNumeric,
+            .taxonomy = BIOMTaxonomy _
+                .TaxonomyParser(data.taxonomy) _
+                .AsTaxonomy
+        }
+    End Operator
 End Class
