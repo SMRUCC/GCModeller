@@ -76,11 +76,7 @@ Public Class OTUTable : Inherits DataSet
     Public Shared Function LoadSample(table$, Optional ID$ = "OTU_ID") As OTUTable()
         If table.ReadFirstLine.Count(ASCII.TAB) > 1 Then
             ' tsv文件
-            Return table _
-                .ReadAllLines _
-                .ImportsTsv(Of OTUTable)({
-                    {ID, NameOf(OTUTable.ID)}
-                })
+            Return DataSet.LoadDataSet(Of OTUTable)(table, uidMap:=ID)
         Else
             Return table.LoadCsv(Of OTUTable)(maps:={
                 {ID, NameOf(OTUTable.ID)}

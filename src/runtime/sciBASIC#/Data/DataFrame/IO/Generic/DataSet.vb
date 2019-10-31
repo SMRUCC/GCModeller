@@ -169,21 +169,42 @@ Namespace IO
             Return EntityObject.LoadDataSet(path, uidMap, fieldNameMaps, tsv, encoding).AsDataSet
         End Function
 
+        ''' <summary>
+        ''' 这个函数可以处理csv以及tsv数据格式
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="path$"></param>
+        ''' <param name="uidMap$"></param>
+        ''' <param name="encoding"></param>
+        ''' <returns></returns>
         Public Shared Function LoadDataSet(Of T As DataSet)(path$,
                                                             Optional uidMap$ = Nothing,
-                                                            Optional encoding As Encoding = Nothing) As IEnumerable(Of T)
+                                                            Optional encoding As Encoding = Nothing,
+                                                            Optional isTsv As Boolean = False) As IEnumerable(Of T)
 
             Dim mapFrom$ = uidMap Or New [Default](Of String) With {
-                .lazy = New Func(Of String)(Function() __getID(path)).AsLazy
+                .lazy = New Func(Of String)(Function()
+                                                Return tryGetDataSetId(path)
+                                            End Function).AsLazy
             }
-            Return path.LoadCsv(Of T)(
-                explicit:=False,
-                maps:={{mapFrom, NameOf(DataSet.ID)}},
-                encoding:=encoding
-            )
+
+            If isTsv Then
+                Return path.LoadTsv(Of T)(encoding, {{mapFrom, NameOf(DataSet.ID)}})
+            Else
+                Return path.LoadCsv(Of T)(
+                    explicit:=False,
+                    maps:={{mapFrom, NameOf(DataSet.ID)}},
+                    encoding:=encoding
+                )
+            End If
         End Function
 
-        Private Shared Function __getID(path$) As String
+        ''' <summary>
+        ''' 将第一列的第一个单元格的值作为ID列的映射名称
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
+        Private Shared Function tryGetDataSetId(path$) As String
             Dim first As New RowObject(path.ReadFirstLine)
             Return first.First
         End Function
