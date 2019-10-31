@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.Imaging
 Namespace SequenceLogo
 
     ''' <summary>
-    ''' Define two prefix color schema for the sequence logo: <see cref="NT"/> and <see cref="AA"/>.
+    ''' Define two prefix color schema for the sequence logo: <see cref="SequenceModel.NT"/> and <see cref="SequenceModel.AA"/>.
     ''' (包含有两种默认的颜色模式：核酸序列和蛋白质序列)
     ''' </summary>
     ''' <remarks>由于可能会涉及到并行化的原因，
@@ -81,17 +81,6 @@ Namespace SequenceLogo
             {"G"c, Brushes.Yellow},
             {"C"c, Brushes.Blue}
         }
-
-        ''' <summary>
-        ''' Enumeration for nucleotide residues
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property NT As IReadOnlyCollection(Of Char) = {"A"c, "T"c, "G"c, "C"c}
-        ''' <summary>
-        ''' Enumeration for amino acid.
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property AA As IReadOnlyCollection(Of Char) = {"A"c, "R"c, "N"c, "D"c, "C"c, "E"c, "Q"c, "G"c, "H"c, "I"c, "L"c, "K"c, "M"c, "F"c, "P"c, "S"c, "T"c, "W"c, "Y"c, "V"c}
 
         ''' <summary>
         ''' Creates the image cache for the alphabet.

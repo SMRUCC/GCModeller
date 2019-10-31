@@ -61,7 +61,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
-Public Module EnrichPlot
+Public Module EnrichBubbles
 
     ''' <summary>
     ''' GO富集结果可视化
@@ -215,7 +215,8 @@ Public Module EnrichPlot
             ylabel:="-log10(p.value)",
             bubbleBorder:=bubbleBorder,
             strokeColorAsMainColor:=True,
-            axisLabelFontCSS:=CSSFont.Win10NormalLarge
+            axisLabelFontCSS:=CSSFont.Win10NormalLarge,
+            positiveRangeY:=True
         )
 
         Call g.DrawImageUnscaled(plot, New Point)

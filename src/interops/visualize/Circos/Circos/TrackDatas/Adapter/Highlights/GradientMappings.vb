@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::732021cfc973a036e679417e4137afac, visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GradientMappings.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GradientMappings
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: __initCommon, mapGenerator
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GradientMappings
+' 
+'         Constructor: (+3 Overloads) Sub New
+'         Function: __initCommon, mapGenerator
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
@@ -65,9 +66,9 @@ Namespace TrackDatas.Highlights
             Dim g = From site As ILoci
                     In locis
                     Select site
-                    Group site By site.Left Into Group
+                    Group site By site.left Into Group
             Dim d As Dictionary(Of Integer, Double) =
-                g.ToDictionary(Function(site) site.Left,
+                g.ToDictionary(Function(site) site.left,
                                Function(site)
                                    Return CDbl(site.Group.ToArray.Length)
                                End Function)
@@ -172,6 +173,14 @@ Namespace TrackDatas.Highlights
                 chr, d, length, mapName, winSize, replaceBase, extTails)
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="values"></param>
+        ''' <param name="karyotype"></param>
+        ''' <param name="mapName">
+        ''' <see cref="Designer.GetColors(String, Integer, Integer)"/>
+        ''' </param>
         Sub New(values As IEnumerable(Of ValueTrackData), karyotype As Karyotype.SkeletonInfo, mapName As String)
             Dim labels As Dictionary(Of String, Karyotype.Karyotype) = karyotype.GetchrLabels
             Dim chrs = From x As ValueTrackData
@@ -184,8 +193,8 @@ Namespace TrackDatas.Highlights
             For Each ch In chrs
                 Dim length As Integer = labels(ch.chr).end
                 Dim ranges As DoubleRange = ch.Group.Select(Function(x) x.value).ToArray
-                Dim colors As String() = New ColorPattern(500) _
-                    .ColorSequence(mapName) _
+                Dim colors As String() = Designer _
+                    .GetColors(mapName, 500) _
                     .Select(Function(cl) $"({cl.R},{cl.G},{cl.B})") _
                     .ToArray
                 Dim indexRange As DoubleRange = {0, colors.Length - 1}

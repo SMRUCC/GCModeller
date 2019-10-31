@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7188.43145
-'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     9/5/2019 11:33:38 AM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -73,8 +73,8 @@ Public Class Reflector : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /MySQL.Markdown /sql &lt;database.sql/std_in> [/toc /out &lt;out.md/std_out>]
+''' ```bash
+''' /MySQL.Markdown /sql &lt;database.sql/std_in&gt; [/toc /out &lt;out.md/std_out&gt;]
 ''' ```
 ''' Generates the SDK document of your mysql database.
 ''' </summary>
@@ -97,8 +97,8 @@ Public Function MySQLMarkdown(sql As String, Optional out As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /union /in &lt;directory> [/out &lt;out.sql>]
+''' ```bash
+''' /union /in &lt;directory&gt; [/out &lt;out.sql&gt;]
 ''' ```
 ''' Union all of the sql file in the target directory into a one big sql text file.
 ''' </summary>
@@ -118,8 +118,8 @@ Public Function [Union]([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' --export.dump [-o &lt;out_dir> /namespace &lt;namespace> --dir &lt;source_dir>]
+''' ```bash
+''' --export.dump [-o &lt;out_dir&gt; /namespace &lt;namespace&gt; --dir &lt;source_dir&gt;]
 ''' ```
 ''' Scans for the table schema sql files in a directory and converts these sql file as visualbasic source code.
 ''' </summary>
@@ -144,8 +144,8 @@ Public Function ExportDumpDir(Optional o As String = "", Optional [namespace] As
 End Function
 
 ''' <summary>
-''' ```
-''' --reflects /sql &lt;sql_path/std_in> [-o &lt;output_path> /namespace &lt;namespace> --language &lt;php/visualbasic, default=visualbasic> /split]
+''' ```bash
+''' --reflects /sql &lt;sql_path/std_in&gt; [-o &lt;output_path&gt; /namespace &lt;namespace&gt; --language &lt;php/visualbasic, default=visualbasic&gt; /split]
 ''' ```
 ''' Automatically generates visualbasic source code from the MySQL database schema dump.
 ''' </summary>

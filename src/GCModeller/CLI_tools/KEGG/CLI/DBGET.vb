@@ -310,9 +310,9 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/kegg.maps.hsa")>
-    <Description("Dumping the KEGG maps database for human species.")>
-    <Usage("/dump.kegg.maps [/htext <htext.txt> /out <save_dir>]")>
+    <ExportAPI("/download.kegg.maps")>
+    <Description("Dumping the blank reference KEGG maps database.")>
+    <Usage("/download.kegg.maps [/htext <htext.txt> /out <save_dir>]")>
     <Argument("/htext", False, CLITypes.File,
               Extensions:="*.txt",
               Description:="The KEGG category term provider")>

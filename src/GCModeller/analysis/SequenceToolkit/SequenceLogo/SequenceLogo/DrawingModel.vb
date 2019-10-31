@@ -101,7 +101,7 @@ Namespace SequenceLogo
         ''' <returns></returns>
         Public Shared Function AAResidue(x As ILogoResidue) As Residue
             Dim Residue As New Residue With {
-                .Alphabets = ColorSchema _
+                .Alphabets = SequenceModel _
                     .AA _
                     .Select(Function(r)
                                 Return New Alphabet With {

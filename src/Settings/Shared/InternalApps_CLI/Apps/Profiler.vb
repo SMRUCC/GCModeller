@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7188.43145
-'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     9/5/2019 11:33:38 AM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -27,7 +27,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /GO.clusters:                     
+'  /GO.clusters:                     Create GO enrichment background model from uniprot database.
+'  /GO.enrichment.barplot:           
 '  /GSEA:                            Do gene set enrichment analysis.
 '  /id.converts:                     
 '  /kegg.metabolites.background:     Create background model for KEGG pathway enrichment based on the
@@ -63,9 +64,10 @@ Public Class Profiler : Inherits InteropService
      End Function
 
 ''' <summary>
+''' ```bash
+''' /GO.clusters /uniprot &lt;uniprot.XML&gt; /go &lt;go.obo&gt; [/out &lt;clusters.XML&gt;]
 ''' ```
-''' /GO.clusters /uniprot &lt;uniprot.XML> /go &lt;go.obo> [/out &lt;clusters.XML>]
-''' ```
+''' Create GO enrichment background model from uniprot database.
 ''' </summary>
 '''
 Public Function CreateGOClusters(uniprot As String, go As String, Optional out As String = "") As Integer
@@ -84,8 +86,40 @@ Public Function CreateGOClusters(uniprot As String, go As String, Optional out A
 End Function
 
 ''' <summary>
+''' ```bash
+''' /GO.enrichment.barplot /in &lt;result.csv&gt; [/go &lt;go.obo&gt; /top &lt;default=35&gt; /colors &lt;schemaName, default=YlGnBu:c8&gt; /tiff /out &lt;output_directory&gt;]
 ''' ```
-''' /GSEA /background &lt;clusters.XML> /geneSet &lt;geneSet.txt> [/hide.progress /locus_tag /cluster_id &lt;null, debug_used> /format &lt;default=GCModeller> /out &lt;out.csv>]
+''' </summary>
+'''
+Public Function GOEnrichmentBarPlot([in] As String, Optional go As String = "", Optional top As String = "35", Optional colors As String = "YlGnBu:c8", Optional out As String = "", Optional tiff As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/GO.enrichment.barplot")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not go.StringEmpty Then
+            Call CLI.Append("/go " & """" & go & """ ")
+    End If
+    If Not top.StringEmpty Then
+            Call CLI.Append("/top " & """" & top & """ ")
+    End If
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If tiff Then
+        Call CLI.Append("/tiff ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /GSEA /background &lt;clusters.XML&gt; /geneSet &lt;geneSet.txt&gt; [/hide.progress /locus_tag /cluster_id &lt;null, debug_used&gt; /format &lt;default=GCModeller&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' Do gene set enrichment analysis.
 ''' </summary>
@@ -118,8 +152,8 @@ Public Function EnrichmentTest(background As String, geneSet As String, Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /id.converts /uniprot &lt;uniprot.XML> /geneSet &lt;geneSet.txt> [/out &lt;converts.txt>]
+''' ```bash
+''' /id.converts /uniprot &lt;uniprot.XML&gt; /geneSet &lt;geneSet.txt&gt; [/out &lt;converts.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -139,8 +173,8 @@ Public Function IDconverts(uniprot As String, geneSet As String, Optional out As
 End Function
 
 ''' <summary>
-''' ```
-''' /kegg.metabolites.background /in &lt;organism.repository_directory> [/out &lt;background_model.Xml>]
+''' ```bash
+''' /kegg.metabolites.background /in &lt;organism.repository_directory&gt; [/out &lt;background_model.Xml&gt;]
 ''' ```
 ''' Create background model for KEGG pathway enrichment based on the kegg metabolites, used for LC-MS metabolism data analysis.
 ''' </summary>
@@ -160,8 +194,8 @@ Public Function MetaboliteBackground([in] As String, Optional out As String = ""
 End Function
 
 ''' <summary>
-''' ```
-''' /KO.clusters /uniprot &lt;uniprot.XML> /maps &lt;kegg_maps.XML/directory> [/out &lt;clusters.XML>]
+''' ```bash
+''' /KO.clusters /uniprot &lt;uniprot.XML&gt; /maps &lt;kegg_maps.XML/directory&gt; [/out &lt;clusters.XML&gt;]
 ''' ```
 ''' Create KEGG pathway map background for a given genome data.
 ''' </summary>
@@ -182,8 +216,8 @@ Public Function CreateKOCluster(uniprot As String, maps As String, Optional out 
 End Function
 
 ''' <summary>
-''' ```
-''' /KO.clusters.By_bbh /in &lt;KO.bbh.csv> /maps &lt;kegg_maps.XML/directory> [/size &lt;backgroundSize, default=-1> /genome &lt;genomeName/taxonomy> /out &lt;clusters.XML>]
+''' ```bash
+''' /KO.clusters.By_bbh /in &lt;KO.bbh.csv&gt; /maps &lt;kegg_maps.XML/directory&gt; [/size &lt;backgroundSize, default=-1&gt; /genome &lt;genomeName/taxonomy&gt; /out &lt;clusters.XML&gt;]
 ''' ```
 ''' </summary>
 '''

@@ -81,6 +81,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlu
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 

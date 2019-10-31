@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7188.43145
-'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     9/5/2019 11:33:38 AM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -64,8 +64,8 @@ Public Class kb : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /field.translate /in &lt;data.csv> /field &lt;fieldName> [/out &lt;out.csv>]
+''' ```bash
+''' /field.translate /in &lt;data.csv&gt; /field &lt;fieldName&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -85,8 +85,8 @@ Public Function TranslateField([in] As String, field As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /kb.abstract /in &lt;kb.directory> [/min.weight &lt;default=0.05> /out &lt;out.json>]
+''' ```bash
+''' /kb.abstract /in &lt;kb.directory&gt; [/min.weight &lt;default=0.05&gt; /out &lt;out.json&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -108,8 +108,8 @@ Public Function GetKBAbstractInformation([in] As String, Optional min_weight As 
 End Function
 
 ''' <summary>
-''' ```
-''' /kb.build.query /term &lt;term> [/pages &lt;default=20> /out &lt;out.directory>]
+''' ```bash
+''' /kb.build.query /term &lt;term&gt; [/pages &lt;default=20&gt; /out &lt;out.directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -131,8 +131,8 @@ Public Function BingAcademicQuery(term As String, Optional pages As String = "20
 End Function
 
 ''' <summary>
-''' ```
-''' /KEGG.compound.rda /repo &lt;directory> [/out &lt;save.rda>]
+''' ```bash
+''' /KEGG.compound.rda /repo &lt;directory&gt; [/out &lt;save.rda&gt;]
 ''' ```
 ''' Create a kegg organism-compound maps dataset and save in rda file.
 ''' </summary>
@@ -152,8 +152,8 @@ Public Function KEGGCompoundDataSet(repo As String, Optional out As String = "")
 End Function
 
 ''' <summary>
-''' ```
-''' /KEGG.maps.background /in &lt;reference_maps.directory> [/out &lt;gsea_background.rda>]
+''' ```bash
+''' /KEGG.maps.background /in &lt;reference_maps.directory&gt; [/out &lt;gsea_background.rda&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -172,8 +172,8 @@ Public Function KEGGMapsBackground([in] As String, Optional out As String = "") 
 End Function
 
 ''' <summary>
-''' ```
-''' /pubmed.kb /term &lt;term_string> [/out &lt;out_directory>]
+''' ```bash
+''' /pubmed.kb /term &lt;term_string&gt; [/out &lt;out_directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -192,8 +192,8 @@ Public Function BuildPubMedDatabase(term As String, Optional out As String = "")
 End Function
 
 ''' <summary>
-''' ```
-''' /summary /in &lt;directory> [/out &lt;out.csv>]
+''' ```bash
+''' /summary /in &lt;directory&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -212,8 +212,8 @@ Public Function Summary([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /word.translation /in &lt;list_words.txt> [/out &lt;translation.csv> /@set sleep=2000]
+''' ```bash
+''' /word.translation /in &lt;list_words.txt&gt; [/out &lt;translation.csv&gt; /@set sleep=2000]
 ''' ```
 ''' </summary>
 '''

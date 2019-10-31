@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7188.43145
-'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     9/5/2019 11:33:38 AM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -78,8 +78,8 @@ Public Class FBA : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /Analysis.Phenotype /in &lt;MetaCyc.Sbml> /reg &lt;footprints.csv> /obj &lt;list/path/module-xml> [/obj-type &lt;lst/pathway/module> /params &lt;rfba.parameters.xml> /stat &lt;stat.Csv> /sample &lt;sampleTable.csv> /modify &lt;locus_modify.csv> /out &lt;outDIR>]
+''' ```bash
+''' /Analysis.Phenotype /in &lt;MetaCyc.Sbml&gt; /reg &lt;footprints.csv&gt; /obj &lt;list/path/module-xml&gt; [/obj-type &lt;lst/pathway/module&gt; /params &lt;rfba.parameters.xml&gt; /stat &lt;stat.Csv&gt; /sample &lt;sampleTable.csv&gt; /modify &lt;locus_modify.csv&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -115,8 +115,8 @@ Public Function rFBABatch([in] As String, reg As String, obj As String, Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /disruptions /model &lt;virtualcell.gcmarkup> [/parallel &lt;num_threads, default=1> /out &lt;output.directory>]
+''' ```bash
+''' /disruptions /model &lt;virtualcell.gcmarkup&gt; [/parallel &lt;num_threads, default=1&gt; /out &lt;output.directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -138,8 +138,8 @@ Public Function SingleGeneDisruptions(model As String, Optional parallel As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /Flux.Coefficient /in &lt;rFBA.result_dumpDIR> [/footprints &lt;footprints.csv> /out &lt;outCsv> /spcc /KEGG]
+''' ```bash
+''' /Flux.Coefficient /in &lt;rFBA.result_dumpDIR&gt; [/footprints &lt;footprints.csv&gt; /out &lt;outCsv&gt; /spcc /KEGG]
 ''' ```
 ''' </summary>
 '''
@@ -167,8 +167,8 @@ Public Function FluxCoefficient([in] As String, Optional footprints As String = 
 End Function
 
 ''' <summary>
-''' ```
-''' /Flux.KEGG.Filter /in &lt;flux.csv> /model &lt;MetaCyc.sbml> [/out &lt;out.csv>]
+''' ```bash
+''' /Flux.KEGG.Filter /in &lt;flux.csv&gt; /model &lt;MetaCyc.sbml&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -188,8 +188,8 @@ Public Function KEGGFilter([in] As String, model As String, Optional out As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /Func.Coefficient /func &lt;objfunc_matrix.csv> /in &lt;rFBA.result_dumpDIR> [/footprints &lt;footprints.csv> /out &lt;outCsv> /spcc]
+''' ```bash
+''' /Func.Coefficient /func &lt;objfunc_matrix.csv&gt; /in &lt;rFBA.result_dumpDIR&gt; [/footprints &lt;footprints.csv&gt; /out &lt;outCsv&gt; /spcc]
 ''' ```
 ''' </summary>
 '''
@@ -215,8 +215,8 @@ Public Function FuncCoefficient(func As String, [in] As String, Optional footpri
 End Function
 
 ''' <summary>
-''' ```
-''' /gcFBA.Batch /model &lt;model.sbml> /phenotypes &lt;KEGG_modules/pathways.DIR> /footprints &lt;footprints.csv> [/obj-type &lt;pathway/module> /params &lt;rfba.parameters.xml> /stat &lt;RPKM-stat.Csv> /sample &lt;sampleTable.csv> /modify &lt;locus_modify.csv> /out &lt;outDIR> /parallel &lt;2>]
+''' ```bash
+''' /gcFBA.Batch /model &lt;model.sbml&gt; /phenotypes &lt;KEGG_modules/pathways.DIR&gt; /footprints &lt;footprints.csv&gt; [/obj-type &lt;pathway/module&gt; /params &lt;rfba.parameters.xml&gt; /stat &lt;RPKM-stat.Csv&gt; /sample &lt;sampleTable.csv&gt; /modify &lt;locus_modify.csv&gt; /out &lt;outDIR&gt; /parallel &lt;2&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -255,8 +255,8 @@ Public Function PhenotypeAnalysisBatch(model As String, phenotypes As String, fo
 End Function
 
 ''' <summary>
-''' ```
-''' /heatmap /x &lt;matrix.csv> [/out &lt;out.tiff> /name &lt;Name> /width &lt;8000> /height &lt;6000>]
+''' ```bash
+''' /heatmap /x &lt;matrix.csv&gt; [/out &lt;out.tiff&gt; /name &lt;Name&gt; /width &lt;8000&gt; /height &lt;6000&gt;]
 ''' ```
 ''' Draw heatmap from the correlations between the genes and the metabolism flux.
 ''' </summary>
@@ -285,8 +285,8 @@ Public Function Heatmap(x As String, Optional out As String = "", Optional name 
 End Function
 
 ''' <summary>
-''' ```
-''' /heatmap.scale /x &lt;matrix.csv> [/factor 30 /out &lt;out.csv>]
+''' ```bash
+''' /heatmap.scale /x &lt;matrix.csv&gt; [/factor 30 /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -308,8 +308,8 @@ Public Function ScaleHeatmap(x As String, Optional factor As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /Imports /in &lt;sbml.xml>
+''' ```bash
+''' /Imports /in &lt;sbml.xml&gt;
 ''' ```
 ''' </summary>
 '''
@@ -325,8 +325,8 @@ Public Function ImportsRxns([in] As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /phenos.MAT /in &lt;inDIR> [/out &lt;outcsv>]
+''' ```bash
+''' /phenos.MAT /in &lt;inDIR&gt; [/out &lt;outcsv&gt;]
 ''' ```
 ''' Merges the objective function result as a Matrix. For calculation the coefficient of the genes with the phenotype objective function.
 ''' </summary>
@@ -346,8 +346,8 @@ Public Function ObjMAT([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /phenos.out.Coefficient /gene &lt;samplesCopy.RPKM.csv> /pheno &lt;samples.phenos_out.csv> [/footprints &lt;footprints.csv> /out &lt;out.csv> /spcc]
+''' ```bash
+''' /phenos.out.Coefficient /gene &lt;samplesCopy.RPKM.csv&gt; /pheno &lt;samples.phenos_out.csv&gt; [/footprints &lt;footprints.csv&gt; /out &lt;out.csv&gt; /spcc]
 ''' ```
 ''' 2. Coefficient of the genes with the metabolism fluxs from the batch analysis result.
 ''' </summary>
@@ -374,8 +374,8 @@ Public Function PhenosOUTCoefficient(gene As String, pheno As String, Optional f
 End Function
 
 ''' <summary>
-''' ```
-''' /phenos.out.MAT /in &lt;inDIR> /samples &lt;sampleTable.csv> [/out &lt;outcsv> /model &lt;MetaCyc.sbml>]
+''' ```bash
+''' /phenos.out.MAT /in &lt;inDIR&gt; /samples &lt;sampleTable.csv&gt; [/out &lt;outcsv&gt; /model &lt;MetaCyc.sbml&gt;]
 ''' ```
 ''' 1. Merge flux.csv result as a Matrix, for the calculation of the coefficient of the genes with the metabolism flux.
 ''' </summary>
@@ -399,8 +399,8 @@ Public Function PhenoOUT_MAT([in] As String, samples As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /solve -i &lt;sbml_file> -o &lt;output_result_dir> -d &lt;max/min> [-m &lt;sbml/model> -f &lt;object_function> -knock_out &lt;gene_id_list>]
+''' ```bash
+''' /solve -i &lt;sbml_file&gt; -o &lt;output_result_dir&gt; -d &lt;max/min&gt; [-m &lt;sbml/model&gt; -f &lt;object_function&gt; -knock_out &lt;gene_id_list&gt;]
 ''' ```
 ''' solve a FBA model from a specific (SBML) model file.
 ''' </summary>
@@ -428,8 +428,8 @@ Public Function Solve(i As String, o As String, d As String, Optional m As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /solve.gcmarkup /model &lt;model.GCMarkup> [/mute &lt;locus_tags.txt/list> /trim /objective &lt;flux_names.txt> /out &lt;out.txt>]
+''' ```bash
+''' /solve.gcmarkup /model &lt;model.GCMarkup&gt; [/mute &lt;locus_tags.txt/list&gt; /trim /objective &lt;flux_names.txt&gt; /out &lt;out.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -457,8 +457,8 @@ Public Function SolveGCMarkup(model As String, Optional mute As String = "", Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /Solver.KEGG /in &lt;model.xml> /objs &lt;locus.txt> [/out &lt;outDIR>]
+''' ```bash
+''' /Solver.KEGG /in &lt;model.xml&gt; /objs &lt;locus.txt&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -478,8 +478,8 @@ Public Function KEGGSolver([in] As String, objs As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Solver.rFBA /in &lt;MetaCyc.Sbml> /reg &lt;footprints.csv> /obj &lt;object_function.txt/xml> [/obj-type &lt;lst/pathway/module> /params &lt;rfba.parameters.xml> /stat &lt;stat.Csv> /sample &lt;sampleName> /modify &lt;locus_modify.csv> /out &lt;outDIR>]
+''' ```bash
+''' /Solver.rFBA /in &lt;MetaCyc.Sbml&gt; /reg &lt;footprints.csv&gt; /obj &lt;object_function.txt/xml&gt; [/obj-type &lt;lst/pathway/module&gt; /params &lt;rfba.parameters.xml&gt; /stat &lt;stat.Csv&gt; /sample &lt;sampleName&gt; /modify &lt;locus_modify.csv&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -515,8 +515,8 @@ Public Function AnalysisPhenotype([in] As String, reg As String, obj As String, 
 End Function
 
 ''' <summary>
-''' ```
-''' /visual.kegg.pathways /model &lt;virtualCell.GCMarkup> /maps &lt;kegg_maps.repo.directory> [/gene &lt;default=red> /plasmid.highlight &lt;default=blue> /out &lt;directory>]
+''' ```bash
+''' /visual.kegg.pathways /model &lt;virtualCell.GCMarkup&gt; /maps &lt;kegg_maps.repo.directory&gt; [/gene &lt;default=red&gt; /plasmid.highlight &lt;default=blue&gt; /out &lt;directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -542,8 +542,8 @@ Public Function VisualKEGGPathways(model As String, maps As String, Optional gen
 End Function
 
 ''' <summary>
-''' ```
-''' compile -i &lt;input_file> -o &lt;output_file> [-if &lt;sbml/metacyc> -of &lt;fba/fba2> -f &lt;objective_function> -d &lt;max/min>]
+''' ```bash
+''' compile -i &lt;input_file&gt; -o &lt;output_file&gt; [-if &lt;sbml/metacyc&gt; -of &lt;fba/fba2&gt; -f &lt;objective_function&gt; -d &lt;max/min&gt;]
 ''' ```
 ''' Compile data source into a model file so that the fba program can using the data to performing the simulation calculation.
 ''' </summary>

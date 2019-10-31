@@ -59,4 +59,5 @@ Public Class CLIGrouping
 
     Public Const DNA_ComparativeTools As String = "DNA_Comparative tools"
 
+    Public Const DebuggerCLI$ = "Debugger helpers"
 End Class

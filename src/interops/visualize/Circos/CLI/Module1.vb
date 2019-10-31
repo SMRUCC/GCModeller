@@ -48,6 +48,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
@@ -61,6 +62,7 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
 Imports SMRUCC.genomics.BioAssemblyExtensions
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -90,8 +92,111 @@ Public Class Anno
 
 End Class
 
+Public Class FactorPrediction
+    Public Property db_xref As String
+    Public Property VF As Integer
+    Public Property EG As Integer
+End Class
+
 Module Module1
 
+    Sub deleteFeatures()
+        Dim gb = GBFF.File.Load("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk")
+        Dim deletesPending = "P:\nt\20191024\1025.csv".LoadCsv(Of FactorPrediction).Where(Function(gene) gene.VF = 1 AndAlso gene.EG = 0).ToArray
+        Dim genome = gb.Origin.ToFasta
+        Dim genes = gb.ExportGeneFeatures.ToDictionary(Function(g) g.locus_id)
+        Dim reportLogger As New StringBuilder
+        Dim deletetable = deletesPending.ToDictionary(Function(g) g.db_xref)
+
+        For Each gene In deletesPending.Select(Function(d) genes(d.db_xref))
+            Dim overlaps = genes.Values.Where(Function(g)
+                                                  Return (Not g.locus_id = gene.locus_id) AndAlso g.Location.IsOverlapping(gene.Location) AndAlso Not deletetable.ContainsKey(g.locus_id)
+                                              End Function).ToArray
+
+            If overlaps.Length = 0 Then
+                reportLogger.AppendLine($"{gene.locus_id}: {gene.function} have no overlaps, delete all sequence region")
+                reportLogger.AppendLine($"  delete range from {gene.Location.left} to {gene.Location.right} with length={gene.Location.Length}")
+                genome.SequenceData = Mid(genome.SequenceData, 1, gene.Location.left) & New String("Z"c, gene.Location.Length) & Mid(genome.SequenceData, gene.Location.right)
+            Else
+                reportLogger.AppendLine($"{gene.locus_id}: {gene.function} have {overlaps.Length} gene overlaps with its sequence region:")
+
+                For Each g In overlaps
+                    reportLogger.AppendLine($"    {g.locus_id}: {gene.function}")
+                Next
+
+                Dim sequenceList = overlaps.Select(Function(g)
+                                                       Return (gene :=g, seq:= Mid(genome.SequenceData, g.Location.left, g.Location.Length))
+                                                   End Function).ToArray
+                genome.SequenceData = Mid(genome.SequenceData, 1, gene.Location.left) & New String("Z"c, gene.Location.Length) & Mid(genome.SequenceData, gene.Location.right)
+
+                For Each overlapPart In sequenceList
+                    genome.SequenceData = Mid(genome.SequenceData, 1, overlapPart.gene.Location.left) & overlapPart.seq & Mid(genome.SequenceData, overlapPart.gene.right)
+                Next
+
+            End If
+        Next
+
+
+        Call reportLogger.SaveTo("X:/test.log")
+        Call genome.SaveTo(100, "x:/Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_1025_VF=1,EG=0,ZZZZZZZZZ.fasta")
+
+        genome.SequenceData = genome.SequenceData.Replace("Z"c, "")
+
+        Call genome.SaveTo(100, "x:/Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_1025_VF=1,EG=0.fasta")
+
+        Pause()
+
+
+    End Sub
+
+    Sub writeGBK()
+        Dim gb = GBFF.File.Load("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk")
+        Dim palidroms = EntityObject.LoadDataSet("P:\nt\20191024\PTSB.assembly.palindromes.csv") _
+            .Select(Function(d)
+                        Dim feature As New Feature With {
+                            .KeyName = "palindrome",
+                            .Location = New GBFF.Keywords.FEATURES.Location With {
+                                .Complement = False,
+                                .Locations = {New RegionSegment With {.Left = d!Start, .Right = d!PalEnd}}
+                            }
+                        }
+
+                        feature.Add(New KeyValuePair(Of String, String)("sequence", d!SequenceData))
+                        feature.Add(New KeyValuePair(Of String, String)("length", d!Length))
+                        feature.Add(New KeyValuePair(Of String, String)("loci", d.ID))
+                        feature.Add(New KeyValuePair(Of String, String)("palindrome", d!Palindrome))
+
+                        Return feature
+                    End Function).ToArray
+
+        Call palidroms.DoEach(AddressOf gb.Features.Add)
+
+        Dim repeats = EntityObject _
+            .LoadDataSet("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_Repeat sequences.csv") _
+            .Select(Function(d)
+                        Dim feature As New Feature With {
+                            .KeyName = "repeat_region",
+                            .Location = New GBFF.Keywords.FEATURES.Location With {
+                                .Complement = d!Direction.GetStrand = Strands.Reverse,
+                                .Locations = {New RegionSegment With {.Left = d!Minimum, .Right = d!Maximum}}
+                            }
+                        }
+
+                        feature.Add(New KeyValuePair(Of String, String)("sequence", d!Sequence))
+                        feature.Add(New KeyValuePair(Of String, String)("length", d!Length))
+                        feature.Add(New KeyValuePair(Of String, String)("name", d.ID))
+                        feature.Add(New KeyValuePair(Of String, String)("all_locations", d("All Locations")))
+                        feature.Add(New KeyValuePair(Of String, String)("frequency", d("Frequency")))
+
+                        Return feature
+                    End Function)
+
+        Call repeats.DoEach(AddressOf gb.Features.Add)
+
+        Call gb.Save("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_loci_features_updated.gbk")
+
+        Pause()
+    End Sub
 
     Private Function convert(anno As Anno, useLocusTag As Boolean) As GeneTable
 
@@ -182,6 +287,89 @@ Module Module1
                 {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
                 {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
             })
+
+        Dim precitions = "P:\nt\20191024\1025.csv".LoadCsv(Of FactorPrediction).ToDictionary(Function(g) g.db_xref)
+        annotations = gb.ExportGeneFeatures
+
+        Dim vf = annotations _
+            .Select(Function(g As GeneTable)
+                        Dim value As Double
+
+                        If g.locus_id.StringEmpty OrElse Not precitions.ContainsKey(g.locus_id) Then
+                            value = 0
+                        Else
+                            value = precitions(g.locus_id).VF
+                        End If
+
+                        Return New ValueTrackData With {
+                            .chr = "chr1",
+                            .start = g.left,
+                            .value = value,
+                            .[end] = g.right
+                        }
+                    End Function) _
+            .ToArray
+
+        Call Circos.CircosAPI.AddGradientMappings(doc, vf, "cyan,yellow,red")
+
+        Dim eg = annotations _
+            .Select(Function(g As GeneTable)
+                        Dim value As Double
+
+                        If g.locus_id.StringEmpty OrElse Not precitions.ContainsKey(g.locus_id) Then
+                            value = 0
+                        Else
+                            value = precitions(g.locus_id).EG
+                        End If
+
+                        Return New ValueTrackData With {
+                            .chr = "chr1",
+                            .start = g.left,
+                            .value = value,
+                            .[end] = g.right
+                        }
+                    End Function) _
+            .ToArray
+
+        Call Circos.CircosAPI.AddGradientMappings(doc, eg, "gray,green,blue")
+
+        Dim densityOffset = 1000
+        Dim ii As Integer
+        Dim twoPatterns = {ColorMap.PatternJet, ColorMap.PatternHot}
+
+        For Each file As String In {"P:\nt\20191024\PTSB.assembly.mirror(fuzzy).cut,0.65-dist,6-min,max=3,8.density.txt",
+"P:\nt\20191024\PTSB.assembly.palindromes.density.txt",
+"P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_Repeat sequences.density.txt"}
+
+            Dim densityVector = file.ReadVector
+
+
+            ii += 1
+
+            If ii < 3 Then
+                Dim density = densityVector _
+                 .Select(Function(v, i)
+                             Return New ValueTrackData With {.chr = "chr1", .start = i * densityOffset, .value = v, .[end] = densityOffset * (i + 1)}
+                         End Function) _
+                 .ToArray
+
+                Call Circos.CircosAPI.AddGradientMappings(doc, density, twoPatterns(ii - 1))
+            Else
+                densityOffset = 500
+
+                Dim density = densityVector _
+                 .Select(Function(v, i)
+                             Return New ValueTrackData With {.chr = "chr1", .start = i * densityOffset, .value = v, .[end] = densityOffset * (i + 1)}
+                         End Function) _
+                 .ToArray
+
+                Dim plot2 As New Plots.Histogram(New NtProps.GCSkew(density))
+
+                Call Circos.AddPlotTrack(doc, plot2)
+            End If
+
+        Next
+
 
         Dim skewSteps = 2000
         Dim GCSkew = nt.GCSkew(5000, skewSteps, True) _
@@ -612,6 +800,9 @@ Module Module1
     End Sub
 
     Sub Main()
+        Call deleteFeatures()
+        ' Call writeGBK()
+
         Call plot20191024()
 
 

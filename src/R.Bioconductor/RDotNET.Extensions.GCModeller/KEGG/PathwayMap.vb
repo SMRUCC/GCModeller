@@ -76,7 +76,7 @@ Public Module PathwayMap
                 For Each pathway As Map In maps
                     Dim map As String = App.NextTempName
                     Dim groups = pathway _
-                        .Areas _
+                        .shapes _
                         .GroupBy(Function(x)
                                      Try
                                          Return x.Type

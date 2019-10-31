@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7188.43145
-'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     9/5/2019 11:33:38 AM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -31,7 +31,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Fasta.Subset.Large:                     
 '  /Genotype:                               
 '  /Genotype.Statics:                       
-'  /Loci.describ:                           Testing
 '  /logo:                                   * Drawing the sequence logo from the clustal alignment result.
 '  /motifs:                                 Populate possible motifs from a give nt fasta sequence dataset.
 '  /NeedlemanWunsch.NT:                     
@@ -42,9 +41,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '                                           computing.
 '  /Rule.dnaA_gyrB.Matrix:                  
 '  /ruler.dist.calc:                        
-'  /Screen.sites:                           
 '  /Sites2Fasta:                            Converts the simple segment object collection as fasta file.
-'  /SSR:                                    Search for SSR on a nt sequence.
 '  -321:                                    Polypeptide sequence 3 letters to 1 lettes sequence.
 '  -complement:                             
 '  --Drawing.ClustalW:                      
@@ -128,7 +125,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' 
 '    /Mirror.Batch:                           
-'    /Mirror.Fuzzy:                           
+'    /Mirror.Fuzzy:                           Search mirror loci sites on your sequence.
 '    /Mirror.Fuzzy.Batch:                     
 '    /Mirror.Vector:                          
 '    /Mirrors.Nt.Trim:                        
@@ -141,7 +138,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    --Mirror.From.NT:                        Mirror Palindrome, and this function is for the debugging
 '                                             test
 '    --Palindrome.batch.Task:                 
-'    --Palindrome.From.FASTA:                 
+'    --palindrome.From.FASTA:                 
 '    --Palindrome.From.NT:                    This function is just for debugger test, /nt parameter is
 '                                             the nucleotide sequence data as ATGCCCC
 '    --Palindrome.Imperfects:                 Gets all partly matched palindrome sites.
@@ -152,9 +149,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 7. Sequence Repeats Loci Search
 ' 
 ' 
+'    /loci.Density:                           Do statistics of the loci density on a specific sequence.
+'    /Screen.sites:                           
+'    /Search.Repeats:                         Search for repeats sequence loci sites.
+'    /SSR:                                    Search for SSR on a nt sequence.
 '    /Write.Seeds:                            
-'    Repeats.Density:                         
-'    rev-Repeats.Density:                     
 '    Search.Batch:                            Batch search for repeats.
 ' 
 ' 
@@ -192,8 +191,8 @@ Public Class seqtools : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /align.SmithWaterman /query &lt;query.fasta> /subject &lt;subject.fasta> [/blosum &lt;matrix.txt> /out &lt;out.xml>]
+''' ```bash
+''' /align.SmithWaterman /query &lt;query.fasta&gt; /subject &lt;subject.fasta&gt; [/blosum &lt;matrix.txt&gt; /out &lt;out.xml&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -216,8 +215,8 @@ Public Function Align2(query As String, subject As String, Optional blosum As St
 End Function
 
 ''' <summary>
-''' ```
-''' /CAI /ORF &lt;orf_nt.fasta> [/out &lt;out.XML>]
+''' ```bash
+''' /CAI /ORF &lt;orf_nt.fasta&gt; [/out &lt;out.XML&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -236,8 +235,8 @@ Public Function CAI(ORF As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /check.attrs /in &lt;in.fasta> /n &lt;attrs.count> [/all]
+''' ```bash
+''' /check.attrs /in &lt;in.fasta&gt; /n &lt;attrs.count&gt; [/all]
 ''' ```
 ''' </summary>
 '''
@@ -257,8 +256,8 @@ Public Function CheckHeaders([in] As String, n As String, Optional all As Boolea
 End Function
 
 ''' <summary>
-''' ```
-''' /Clustal.Cut /in &lt;in.fasta> [/left 0.1 /right 0.1 /out &lt;out.fasta>]
+''' ```bash
+''' /Clustal.Cut /in &lt;in.fasta&gt; [/left 0.1 /right 0.1 /out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -283,8 +282,8 @@ Public Function CutMlAlignment([in] As String, Optional left As String = "", Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /Compare.By.Locis /file1 &lt;file1.fasta> /file2 &lt;/file2.fasta>
+''' ```bash
+''' /Compare.By.Locis /file1 &lt;file1.fasta&gt; /file2 &lt;/file2.fasta&gt;
 ''' ```
 ''' </summary>
 '''
@@ -301,8 +300,8 @@ Public Function CompareFile(file1 As String, file2 As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Count /in &lt;data.fasta>
+''' ```bash
+''' /Count /in &lt;data.fasta&gt;
 ''' ```
 ''' </summary>
 '''
@@ -318,8 +317,8 @@ Public Function Count([in] As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Distinct /in &lt;in.fasta> [/out &lt;out.fasta> /by_Uid &lt;uid_regexp>]
+''' ```bash
+''' /Distinct /in &lt;in.fasta&gt; [/out &lt;out.fasta&gt; /by_Uid &lt;uid_regexp&gt;]
 ''' ```
 ''' Distinct fasta sequence by sequence content.
 ''' </summary>
@@ -342,8 +341,8 @@ Public Function Distinct([in] As String, Optional out As String = "", Optional b
 End Function
 
 ''' <summary>
-''' ```
-''' /Excel.2Fasta /in &lt;anno.csv> [/out &lt;out.fasta> /attrs &lt;gene;locus_tag;gi;location,...> /seq &lt;Sequence>]
+''' ```bash
+''' /Excel.2Fasta /in &lt;anno.csv&gt; [/out &lt;out.fasta&gt; /attrs &lt;gene;locus_tag;gi;location,...&gt; /seq &lt;Sequence&gt;]
 ''' ```
 ''' Convert the sequence data in a excel annotation file into a fasta sequence file.
 ''' </summary>
@@ -369,8 +368,8 @@ Public Function ToFasta([in] As String, Optional out As String = "", Optional at
 End Function
 
 ''' <summary>
-''' ```
-''' /Fasta.Subset.Large /in &lt;locus.txt> /db &lt;large_db.fasta> [/keyword.map.multiple /out &lt;out.fasta>]
+''' ```bash
+''' /Fasta.Subset.Large /in &lt;locus.txt&gt; /db &lt;large_db.fasta&gt; [/keyword.map.multiple /out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -393,8 +392,8 @@ Public Function SubsetFastaDb([in] As String, db As String, Optional out As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /Genotype /in &lt;raw.csv> [/out &lt;out.Csv>]
+''' ```bash
+''' /Genotype /in &lt;raw.csv&gt; [/out &lt;out.Csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -413,8 +412,8 @@ Public Function Genotype([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Genotype.Statics /in &lt;in.DIR> [/out &lt;EXPORT>]
+''' ```bash
+''' /Genotype.Statics /in &lt;in.DIR&gt; [/out &lt;EXPORT&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -433,8 +432,8 @@ Public Function GenotypeStatics([in] As String, Optional out As String = "") As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Get.Locis /in &lt;locis.csv> /nt &lt;genome.nt.fasta> [/out &lt;outDIR>]
+''' ```bash
+''' /Get.Locis /in &lt;locis.csv&gt; /nt &lt;genome.nt.fasta&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -454,8 +453,8 @@ Public Function GetSimpleSegments([in] As String, nt As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Gff.Sites /fna &lt;genomic.fna> /gff &lt;genome.gff> [/out &lt;out.fasta>]
+''' ```bash
+''' /Gff.Sites /fna &lt;genomic.fna&gt; /gff &lt;genome.gff&gt; [/out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -475,8 +474,8 @@ Public Function GffSites(fna As String, gff As String, Optional out As String = 
 End Function
 
 ''' <summary>
-''' ```
-''' /gwANI /in &lt;in.fasta> [/fast /out &lt;out.Csv>]
+''' ```bash
+''' /gwANI /in &lt;in.fasta&gt; [/fast /out &lt;out.Csv&gt;]
 ''' ```
 ''' Given a multi-FASTA alignment, output the genome wide average nucleotide identity (gwANI) for Each sample against all other samples. A matrix containing the percentages Is outputted.
 ''' </summary>
@@ -499,24 +498,30 @@ Public Function gwANIEvaluate([in] As String, Optional out As String = "", Optio
 End Function
 
 ''' <summary>
+''' ```bash
+''' /loci.Density /locis &lt;data.csv&gt; [/left &lt;default=Start&gt; /size &lt;size&gt; /win_size &lt;default=100&gt; /offset &lt;default=1000&gt; /out &lt;result.txt&gt;]
 ''' ```
-''' /Loci.describ /ptt &lt;genome-context.ptt> [/test &lt;loci:randomize> /complement /unstrand]
-''' ```
-''' Testing
+''' Do statistics of the loci density on a specific sequence.
 ''' </summary>
 '''
-Public Function LociDescript(ptt As String, Optional test As String = "", Optional complement As Boolean = False, Optional unstrand As Boolean = False) As Integer
-    Dim CLI As New StringBuilder("/Loci.describ")
+Public Function RepeatsDensity(locis As String, Optional left As String = "Start", Optional size As String = "", Optional win_size As String = "100", Optional offset As String = "1000", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/loci.Density")
     Call CLI.Append(" ")
-    Call CLI.Append("/ptt " & """" & ptt & """ ")
-    If Not test.StringEmpty Then
-            Call CLI.Append("/test " & """" & test & """ ")
+    Call CLI.Append("/locis " & """" & locis & """ ")
+    If Not left.StringEmpty Then
+            Call CLI.Append("/left " & """" & left & """ ")
     End If
-    If complement Then
-        Call CLI.Append("/complement ")
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
     End If
-    If unstrand Then
-        Call CLI.Append("/unstrand ")
+    If Not win_size.StringEmpty Then
+            Call CLI.Append("/win_size " & """" & win_size & """ ")
+    End If
+    If Not offset.StringEmpty Then
+            Call CLI.Append("/offset " & """" & offset & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -526,8 +531,8 @@ Public Function LociDescript(ptt As String, Optional test As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /logo /in &lt;clustal.fasta> [/out &lt;out.png> /title ""]
+''' ```bash
+''' /logo /in &lt;clustal.fasta&gt; [/out &lt;out.png&gt; /title &quot;&quot;]
 ''' ```
 ''' * Drawing the sequence logo from the clustal alignment result.
 ''' </summary>
@@ -550,8 +555,8 @@ Public Function SequenceLogo([in] As String, Optional out As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /Merge /in &lt;fasta.DIR> [/out &lt;out.fasta> /trim /unique /ext &lt;*.fasta> /brief]
+''' ```bash
+''' /Merge /in &lt;fasta.DIR&gt; [/out &lt;out.fasta&gt; /trim /unique /ext &lt;*.fasta&gt; /brief]
 ''' ```
 ''' Only search for 1 level folder, dit not search receve.
 ''' </summary>
@@ -583,8 +588,8 @@ Public Function Merge([in] As String, Optional out As String = "", Optional ext 
 End Function
 
 ''' <summary>
-''' ```
-''' /Merge.Simple /in &lt;DIR> [/exts &lt;default:*.fasta,*.fa> /line.break 120 /out &lt;out.fasta>]
+''' ```bash
+''' /Merge.Simple /in &lt;DIR&gt; [/exts &lt;default:*.fasta,*.fa&gt; /line.break 120 /out &lt;out.fasta&gt;]
 ''' ```
 ''' This tools just merge the fasta sequence into one larger file.
 ''' </summary>
@@ -610,8 +615,8 @@ Public Function SimpleMerge([in] As String, Optional exts As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /Mirror.Batch /nt &lt;nt.fasta> [/out &lt;out.csv> /mp /min &lt;3> /max &lt;20> /num_threads &lt;-1>]
+''' ```bash
+''' /Mirror.Batch /nt &lt;nt.fasta&gt; [/out &lt;out.csv&gt; /mp /min &lt;3&gt; /max &lt;20&gt; /num_threads &lt;-1&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -642,18 +647,16 @@ Public Function MirrorBatch(nt As String, Optional out As String = "", Optional 
 End Function
 
 ''' <summary>
+''' ```bash
+''' /Mirror.Fuzzy /in &lt;in.fasta&gt; [/cut &lt;default=0.6&gt; /max-dist &lt;default=6&gt; /min &lt;default=3&gt; /max &lt;default=20&gt; /out &lt;out.csv&gt;]
 ''' ```
-''' /Mirror.Fuzzy /in &lt;in.fasta> [/out &lt;out.csv> /cut 0.6 /max-dist 6 /min 3 /max 20]
-''' ```
+''' Search mirror loci sites on your sequence.
 ''' </summary>
 '''
-Public Function FuzzyMirrors([in] As String, Optional out As String = "", Optional cut As String = "", Optional max_dist As String = "", Optional min As String = "", Optional max As String = "") As Integer
+Public Function FuzzyMirrors([in] As String, Optional cut As String = "0.6", Optional max_dist As String = "6", Optional min As String = "3", Optional max As String = "20", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Mirror.Fuzzy")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
     If Not cut.StringEmpty Then
             Call CLI.Append("/cut " & """" & cut & """ ")
     End If
@@ -666,6 +669,9 @@ Public Function FuzzyMirrors([in] As String, Optional out As String = "", Option
     If Not max.StringEmpty Then
             Call CLI.Append("/max " & """" & max & """ ")
     End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
@@ -674,8 +680,8 @@ Public Function FuzzyMirrors([in] As String, Optional out As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /Mirror.Fuzzy.Batch /in &lt;in.fasta/DIR> [/out &lt;out.DIR> /cut 0.6 /max-dist 6 /min 3 /max 20 /num_threads &lt;-1>]
+''' ```bash
+''' /Mirror.Fuzzy.Batch /in &lt;in.fasta/DIR&gt; [/out &lt;out.DIR&gt; /cut 0.6 /max-dist 6 /min 3 /max 20 /num_threads &lt;-1&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -709,8 +715,8 @@ Public Function FuzzyMirrorsBatch([in] As String, Optional out As String = "", O
 End Function
 
 ''' <summary>
-''' ```
-''' /Mirror.Vector /in &lt;inDIR> /size &lt;genome.size> [/out out.txt]
+''' ```bash
+''' /Mirror.Vector /in &lt;inDIR&gt; /size &lt;genome.size&gt; [/out out.txt]
 ''' ```
 ''' </summary>
 '''
@@ -730,8 +736,8 @@ Public Function MirrorsVector([in] As String, size As String, Optional out As St
 End Function
 
 ''' <summary>
-''' ```
-''' /Mirrors.Context /in &lt;mirrors.csv> /PTT &lt;genome.ptt> [/trans /strand &lt;+/-> /out &lt;out.csv> /stranded /dist &lt;500bp>]
+''' ```bash
+''' /Mirrors.Context /in &lt;mirrors.csv&gt; /PTT &lt;genome.ptt&gt; [/trans /strand &lt;+/-&gt; /out &lt;out.csv&gt; /stranded /dist &lt;500bp&gt;]
 ''' ```
 ''' This function will convert the mirror data to the simple segment object data
 ''' </summary>
@@ -764,8 +770,8 @@ Public Function MirrorContext([in] As String, PTT As String, Optional strand As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Mirrors.Context.Batch /in &lt;mirrors.csv.DIR> /PTT &lt;genome.ptt.DIR> [/trans /strand &lt;+/-> /out &lt;out.csv> /stranded /dist &lt;500bp> /num_threads -1]
+''' ```bash
+''' /Mirrors.Context.Batch /in &lt;mirrors.csv.DIR&gt; /PTT &lt;genome.ptt.DIR&gt; [/trans /strand &lt;+/-&gt; /out &lt;out.csv&gt; /stranded /dist &lt;500bp&gt; /num_threads -1]
 ''' ```
 ''' This function will convert the mirror data to the simple segment object data
 ''' </summary>
@@ -801,8 +807,8 @@ Public Function MirrorContextBatch([in] As String, PTT As String, Optional stran
 End Function
 
 ''' <summary>
-''' ```
-''' /Mirrors.Group /in &lt;mirrors.Csv> [/batch /fuzzy &lt;-1> /out &lt;out.DIR>]
+''' ```bash
+''' /Mirrors.Group /in &lt;mirrors.Csv&gt; [/batch /fuzzy &lt;-1&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -827,8 +833,8 @@ Public Function MirrorGroups([in] As String, Optional fuzzy As String = "", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /Mirrors.Group.Batch /in &lt;mirrors.DIR> [/fuzzy &lt;-1> /out &lt;out.DIR> /num_threads &lt;-1>]
+''' ```bash
+''' /Mirrors.Group.Batch /in &lt;mirrors.DIR&gt; [/fuzzy &lt;-1&gt; /out &lt;out.DIR&gt; /num_threads &lt;-1&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -853,8 +859,8 @@ Public Function MirrorGroupsBatch([in] As String, Optional fuzzy As String = "",
 End Function
 
 ''' <summary>
-''' ```
-''' /Mirrors.Nt.Trim /in &lt;mirrors.Csv> [/out &lt;out.Csv>]
+''' ```bash
+''' /Mirrors.Nt.Trim /in &lt;mirrors.Csv&gt; [/out &lt;out.Csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -873,8 +879,8 @@ Public Function TrimNtMirrors([in] As String, Optional out As String = "") As In
 End Function
 
 ''' <summary>
-''' ```
-''' /motifs /in &lt;data.fasta> [/min.w &lt;default=6> /max.w &lt;default=20> /n.motifs &lt;default=25> /n.occurs &lt;default=6> /out &lt;out.directory>]
+''' ```bash
+''' /motifs /in &lt;data.fasta&gt; [/min.w &lt;default=6&gt; /max.w &lt;default=20&gt; /n.motifs &lt;default=25&gt; /n.occurs &lt;default=6&gt; /out &lt;out.directory&gt;]
 ''' ```
 ''' Populate possible motifs from a give nt fasta sequence dataset.
 ''' </summary>
@@ -906,8 +912,8 @@ Public Function FindMotifs([in] As String, Optional min_w As String = "6", Optio
 End Function
 
 ''' <summary>
-''' ```
-''' /NeedlemanWunsch.NT /query &lt;nt> /subject &lt;nt>
+''' ```bash
+''' /NeedlemanWunsch.NT /query &lt;nt&gt; /subject &lt;nt&gt;
 ''' ```
 ''' </summary>
 '''
@@ -924,8 +930,8 @@ Public Function NWNT(query As String, subject As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /nw /query &lt;query.fasta> /subject &lt;subject.fasta> [/out &lt;out.txt>]
+''' ```bash
+''' /nw /query &lt;query.fasta&gt; /subject &lt;subject.fasta&gt; [/out &lt;out.txt&gt;]
 ''' ```
 ''' RunNeedlemanWunsch
 ''' </summary>
@@ -946,8 +952,8 @@ Public Function NW(query As String, subject As String, Optional out As String = 
 End Function
 
 ''' <summary>
-''' ```
-''' /Palindrome.BatchTask /in &lt;in.DIR> [/num_threads 4 /min 3 /max 20 /min-appears 2 /cutoff &lt;0.6> /Palindrome /max-dist &lt;1000 (bp)> /partitions &lt;-1> /out &lt;out.DIR>]
+''' ```bash
+''' /Palindrome.BatchTask /in &lt;in.DIR&gt; [/num_threads 4 /min 3 /max 20 /min-appears 2 /cutoff &lt;0.6&gt; /Palindrome /max-dist &lt;1000 (bp)&gt; /partitions &lt;-1&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -990,8 +996,8 @@ Public Function PalindromeBatchTask([in] As String, Optional num_threads As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /Palindrome.Screen.MaxMatches /in &lt;in.csv> /min &lt;min.max-matches> [/out &lt;out.csv>]
+''' ```bash
+''' /Palindrome.Screen.MaxMatches /in &lt;in.csv&gt; /min &lt;min.max-matches&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1011,8 +1017,8 @@ Public Function FilteringMatches([in] As String, min As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Palindrome.Screen.MaxMatches.Batch /in &lt;inDIR> /min &lt;min.max-matches> [/out &lt;out.DIR> /num_threads &lt;-1>]
+''' ```bash
+''' /Palindrome.Screen.MaxMatches.Batch /in &lt;inDIR&gt; /min &lt;min.max-matches&gt; [/out &lt;out.DIR&gt; /num_threads &lt;-1&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1035,8 +1041,8 @@ Public Function FilteringMatchesBatch([in] As String, min As String, Optional ou
 End Function
 
 ''' <summary>
-''' ```
-''' /Palindrome.Workflow /in &lt;in.fasta> [/batch /min-appears 2 /min 3 /max 20 /cutoff &lt;0.6> /max-dist &lt;1000 (bp)> /Palindrome /partitions &lt;-1> /out &lt;out.DIR>]
+''' ```bash
+''' /Palindrome.Workflow /in &lt;in.fasta&gt; [/batch /min-appears 2 /min 3 /max 20 /cutoff &lt;0.6&gt; /max-dist &lt;1000 (bp)&gt; /Palindrome /partitions &lt;-1&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1079,8 +1085,8 @@ Public Function PalindromeWorkflow([in] As String, Optional min_appears As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Promoter.Palindrome.Fasta /in &lt;palindrome.csv> [/out &lt;out.fasta>]
+''' ```bash
+''' /Promoter.Palindrome.Fasta /in &lt;palindrome.csv&gt; [/out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1099,8 +1105,8 @@ Public Function PromoterPalindrome2Fasta([in] As String, Optional out As String 
 End Function
 
 ''' <summary>
-''' ```
-''' /Promoter.Regions.Palindrome /in &lt;genbank.gb> [/min &lt;3> /max &lt;20> /len &lt;100,150,200,250,300,400,500, default:=250> /mirror /out &lt;out.csv>]
+''' ```bash
+''' /Promoter.Regions.Palindrome /in &lt;genbank.gb&gt; [/min &lt;3&gt; /max &lt;20&gt; /len &lt;100,150,200,250,300,400,500, default:=250&gt; /mirror /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1131,8 +1137,8 @@ Public Function PromoterRegionPalindrome([in] As String, Optional min As String 
 End Function
 
 ''' <summary>
-''' ```
-''' /Promoter.Regions.Parser.gb /gb &lt;genbank.gb> [/out &lt;out.DIR>]
+''' ```bash
+''' /Promoter.Regions.Parser.gb /gb &lt;genbank.gb&gt; [/out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1151,8 +1157,8 @@ Public Function PromoterRegionParser_gb(gb As String, Optional out As String = "
 End Function
 
 ''' <summary>
-''' ```
-''' /Rule.dnaA_gyrB /genome &lt;genbank.gb> [/out &lt;out.fasta>]
+''' ```bash
+''' /Rule.dnaA_gyrB /genome &lt;genbank.gb&gt; [/out &lt;out.fasta&gt;]
 ''' ```
 ''' Create a ruler fasta sequence for DNA sequence distance computing.
 ''' </summary>
@@ -1172,8 +1178,8 @@ Public Function dnaA_gyrB_rule(genome As String, Optional out As String = "") As
 End Function
 
 ''' <summary>
-''' ```
-''' /Rule.dnaA_gyrB.Matrix /genomes &lt;genomes.gb.DIR> [/out &lt;out.csv>]
+''' ```bash
+''' /Rule.dnaA_gyrB.Matrix /genomes &lt;genomes.gb.DIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1192,8 +1198,8 @@ Public Function RuleMatrix(genomes As String, Optional out As String = "") As In
 End Function
 
 ''' <summary>
-''' ```
-''' /ruler.dist.calc /in &lt;ruler.fasta> /genomes &lt;genome.gb.DIR> [/winSize &lt;default=1000> /step &lt;default=500> /out &lt;out.csv.dir>]
+''' ```bash
+''' /ruler.dist.calc /in &lt;ruler.fasta&gt; /genomes &lt;genome.gb.DIR&gt; [/winSize &lt;default=1000&gt; /step &lt;default=500&gt; /out &lt;out.csv.dir&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1219,8 +1225,8 @@ Public Function RulerSlideWindowMatrix([in] As String, genomes As String, Option
 End Function
 
 ''' <summary>
-''' ```
-''' /Screen.sites /in &lt;DIR/sites.csv> /range &lt;min_bp>,&lt;max_bp> [/type &lt;type,default:=RepeatsView,alt:RepeatsView,RevRepeatsView,PalindromeLoci,ImperfectPalindrome> /out &lt;out.csv>]
+''' ```bash
+''' /Screen.sites /in &lt;DIR/sites.csv&gt; /range &lt;min_bp&gt;,&lt;max_bp&gt; [/type &lt;type,default:=RepeatsView,alt:RepeatsView,RevRepeatsView,PalindromeLoci,ImperfectPalindrome&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1243,8 +1249,41 @@ Public Function ScreenRepeats([in] As String, range As String, Optional type As 
 End Function
 
 ''' <summary>
+''' ```bash
+''' /Search.Repeats /in &lt;nt.fasta&gt; [/min &lt;default=3&gt; /max &lt;default=20&gt; /minOccurs &lt;default=3&gt; /reverse /out &lt;result.csv&gt;]
 ''' ```
-''' /Select.By_Locus /in &lt;locus.txt/csv> /fa &lt;fasta/.inDIR> [/field &lt;columnName> /reverse /out &lt;out.fasta>]
+''' Search for repeats sequence loci sites.
+''' </summary>
+'''
+Public Function SearchRepeats([in] As String, Optional min As String = "3", Optional max As String = "20", Optional minoccurs As String = "3", Optional out As String = "", Optional reverse As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/Search.Repeats")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not min.StringEmpty Then
+            Call CLI.Append("/min " & """" & min & """ ")
+    End If
+    If Not max.StringEmpty Then
+            Call CLI.Append("/max " & """" & max & """ ")
+    End If
+    If Not minoccurs.StringEmpty Then
+            Call CLI.Append("/minoccurs " & """" & minoccurs & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If reverse Then
+        Call CLI.Append("/reverse ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /Select.By_Locus /in &lt;locus.txt/csv&gt; /fa &lt;fasta/.inDIR&gt; [/field &lt;columnName&gt; /reverse /out &lt;out.fasta&gt;]
 ''' ```
 ''' Select fasta sequence by local_tag.
 ''' </summary>
@@ -1271,8 +1310,8 @@ Public Function SelectByLocus([in] As String, fa As String, Optional field As St
 End Function
 
 ''' <summary>
-''' ```
-''' /Sigma /in &lt;in.fasta> [/out &lt;out.Csv> /simple /round &lt;-1>]
+''' ```bash
+''' /Sigma /in &lt;in.fasta&gt; [/out &lt;out.Csv&gt; /simple /round &lt;-1&gt;]
 ''' ```
 ''' Create a distance similarity matrix for the input sequence.
 ''' </summary>
@@ -1298,8 +1337,8 @@ Public Function Sigma([in] As String, Optional out As String = "", Optional roun
 End Function
 
 ''' <summary>
-''' ```
-''' /SimpleSegment.AutoBuild /in &lt;locis.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /SimpleSegment.AutoBuild /in &lt;locis.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1318,8 +1357,8 @@ Public Function ConvertsAuto([in] As String, Optional out As String = "") As Int
 End Function
 
 ''' <summary>
-''' ```
-''' /SimpleSegment.Mirrors /in &lt;in.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /SimpleSegment.Mirrors /in &lt;in.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1338,8 +1377,8 @@ Public Function ConvertMirrors([in] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /SimpleSegment.Mirrors.Batch /in &lt;in.DIR> [/out &lt;out.DIR>]
+''' ```bash
+''' /SimpleSegment.Mirrors.Batch /in &lt;in.DIR&gt; [/out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1358,8 +1397,8 @@ Public Function ConvertMirrorsBatch([in] As String, Optional out As String = "")
 End Function
 
 ''' <summary>
-''' ```
-''' /Sites2Fasta /in &lt;segments.csv> [/assemble /out &lt;out.fasta>]
+''' ```bash
+''' /Sites2Fasta /in &lt;segments.csv&gt; [/assemble /out &lt;out.fasta&gt;]
 ''' ```
 ''' Converts the simple segment object collection as fasta file.
 ''' </summary>
@@ -1382,8 +1421,8 @@ Public Function Sites2Fasta([in] As String, Optional out As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /SNP /in &lt;nt.fasta> [/ref &lt;int_index/title, default:0> /pure /monomorphic /high &lt;0.65>]
+''' ```bash
+''' /SNP /in &lt;nt.fasta&gt; [/ref &lt;int_index/title, default:0&gt; /pure /monomorphic /high &lt;0.65&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1411,8 +1450,8 @@ Public Function SNP([in] As String, Optional ref As String = "", Optional high A
 End Function
 
 ''' <summary>
-''' ```
-''' /Split /in &lt;in.fasta> [/n &lt;4096> /out &lt;outDIR>]
+''' ```bash
+''' /Split /in &lt;in.fasta&gt; [/n &lt;4096&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1434,8 +1473,8 @@ Public Function Split([in] As String, Optional n As String = "", Optional out As
 End Function
 
 ''' <summary>
-''' ```
-''' /SSR /in &lt;nt.fasta> [/range &lt;default=2,6> /parallel /out &lt;out.csv/DIR>]
+''' ```bash
+''' /SSR /in &lt;nt.fasta&gt; [/range &lt;default=2,6&gt; /parallel /out &lt;out.csv/DIR&gt;]
 ''' ```
 ''' Search for SSR on a nt sequence.
 ''' </summary>
@@ -1461,8 +1500,8 @@ Public Function SSRFinder([in] As String, Optional range As String = "2,6", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /subset /lstID &lt;lstID.txt> /fa &lt;source.fasta>
+''' ```bash
+''' /subset /lstID &lt;lstID.txt&gt; /fa &lt;source.fasta&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1479,8 +1518,8 @@ Public Function SubSet(lstID As String, fa As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Time.Mutation /in &lt;aln.fasta> [/ref &lt;default:first,other:title/index> /cumulative /out &lt;out.csv>]
+''' ```bash
+''' /Time.Mutation /in &lt;aln.fasta&gt; [/ref &lt;default:first,other:title/index&gt; /cumulative /out &lt;out.csv&gt;]
 ''' ```
 ''' The ongoing time mutation of the genome sequence.
 ''' </summary>
@@ -1506,8 +1545,8 @@ Public Function TimeDiffs([in] As String, Optional ref As String = "", Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' /Write.Seeds /out &lt;out.dat> [/prot /max &lt;20>]
+''' ```bash
+''' /Write.Seeds /out &lt;out.dat&gt; [/prot /max &lt;20&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1529,8 +1568,8 @@ Public Function WriteSeeds(out As String, Optional max As String = "", Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' -321 /in &lt;sequence.txt> [/out &lt;out.fasta>]
+''' ```bash
+''' -321 /in &lt;sequence.txt&gt; [/out &lt;out.fasta&gt;]
 ''' ```
 ''' Polypeptide sequence 3 letters to 1 lettes sequence.
 ''' </summary>
@@ -1550,8 +1589,8 @@ Public Function PolypeptideBriefs([in] As String, Optional out As String = "") A
 End Function
 
 ''' <summary>
-''' ```
-''' --align /query &lt;query.fasta> /subject &lt;subject.fasta> [/out &lt;out.DIR> /cost &lt;0.7>]
+''' ```bash
+''' --align /query &lt;query.fasta&gt; /subject &lt;subject.fasta&gt; [/out &lt;out.DIR&gt; /cost &lt;0.7&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1574,8 +1613,8 @@ Public Function Align(query As String, subject As String, Optional out As String
 End Function
 
 ''' <summary>
-''' ```
-''' --align.Self /query &lt;query.fasta> /out &lt;out.DIR> [/cost 0.75]
+''' ```bash
+''' --align.Self /query &lt;query.fasta&gt; /out &lt;out.DIR&gt; [/cost 0.75]
 ''' ```
 ''' </summary>
 '''
@@ -1595,8 +1634,8 @@ Public Function AlignSelf(query As String, out As String, Optional cost As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' -complement -i &lt;input_fasta> [-o &lt;output_fasta>]
+''' ```bash
+''' -complement -i &lt;input_fasta&gt; [-o &lt;output_fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1615,8 +1654,8 @@ Public Function Complement(i As String, Optional o As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' --Drawing.ClustalW /in &lt;align.fasta> [/out &lt;out.png> /dot.Size 10]
+''' ```bash
+''' --Drawing.ClustalW /in &lt;align.fasta&gt; [/out &lt;out.png&gt; /dot.Size 10]
 ''' ```
 ''' </summary>
 '''
@@ -1638,8 +1677,8 @@ Public Function DrawClustalW([in] As String, Optional out As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' --Hairpinks /in &lt;in.fasta> [/out &lt;out.csv> /min &lt;6> /max &lt;7> /cutoff 3 /max-dist &lt;35 (bp)>]
+''' ```bash
+''' --Hairpinks /in &lt;in.fasta&gt; [/out &lt;out.csv&gt; /min &lt;6&gt; /max &lt;7&gt; /cutoff 3 /max-dist &lt;35 (bp)&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1670,8 +1709,8 @@ Public Function Hairpinks([in] As String, Optional out As String = "", Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' --Hairpinks.batch.task /in &lt;in.fasta> [/out &lt;outDIR> /min &lt;6> /max &lt;7> /cutoff &lt;0.6> /max-dist &lt;35 (bp)> /num_threads &lt;-1>]
+''' ```bash
+''' --Hairpinks.batch.task /in &lt;in.fasta&gt; [/out &lt;outDIR&gt; /min &lt;6&gt; /max &lt;7&gt; /cutoff &lt;0.6&gt; /max-dist &lt;35 (bp)&gt; /num_threads &lt;-1&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1705,8 +1744,8 @@ Public Function HairpinksBatch([in] As String, Optional out As String = "", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' --ImperfectsPalindrome.batch.Task /in &lt;in.fasta> /out &lt;outDir> [/min &lt;3> /max &lt;20> /cutoff &lt;0.6> /max-dist &lt;1000 (bp)> /num_threads &lt;-1>]
+''' ```bash
+''' --ImperfectsPalindrome.batch.Task /in &lt;in.fasta&gt; /out &lt;outDir&gt; [/min &lt;3&gt; /max &lt;20&gt; /cutoff &lt;0.6&gt; /max-dist &lt;1000 (bp)&gt; /num_threads &lt;-1&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1738,8 +1777,8 @@ Public Function BatchSearchImperfectsPalindrome([in] As String, out As String, O
 End Function
 
 ''' <summary>
-''' ```
-''' --Mirror.From.Fasta /nt &lt;nt-sequence.fasta> [/out &lt;out.csv> /min &lt;3> /max &lt;20>]
+''' ```bash
+''' --Mirror.From.Fasta /nt &lt;nt-sequence.fasta&gt; [/out &lt;out.csv&gt; /min &lt;3&gt; /max &lt;20&gt;]
 ''' ```
 ''' Mirror Palindrome, search from a fasta file.
 ''' </summary>
@@ -1765,8 +1804,8 @@ Public Function SearchMirrotFasta(nt As String, Optional out As String = "", Opt
 End Function
 
 ''' <summary>
-''' ```
-''' --Mirror.From.NT /nt &lt;nt-sequence> /out &lt;out.csv> [/min &lt;3> /max &lt;20>]
+''' ```bash
+''' --Mirror.From.NT /nt &lt;nt-sequence&gt; /out &lt;out.csv&gt; [/min &lt;3&gt; /max &lt;20&gt;]
 ''' ```
 ''' Mirror Palindrome, and this function is for the debugging test
 ''' </summary>
@@ -1790,8 +1829,8 @@ Public Function SearchMirrotNT(nt As String, out As String, Optional min As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' --Palindrome.batch.Task /in &lt;in.fasta> /out &lt;outDir> [/min &lt;3> /max &lt;20> /num_threads &lt;-1>]
+''' ```bash
+''' --Palindrome.batch.Task /in &lt;in.fasta&gt; /out &lt;outDir&gt; [/min &lt;3&gt; /max &lt;20&gt; /num_threads &lt;-1&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1817,13 +1856,13 @@ Public Function BatchSearchPalindrome([in] As String, out As String, Optional mi
 End Function
 
 ''' <summary>
-''' ```
-''' --Palindrome.From.Fasta /nt &lt;nt-sequence.fasta> [/out &lt;out.csv> /min &lt;3> /max &lt;20>]
+''' ```bash
+''' --palindrome.From.Fasta /nt &lt;nt-sequence.fasta&gt; [/out &lt;out.csv&gt; /min &lt;default=3&gt; /max &lt;default=20&gt;]
 ''' ```
 ''' </summary>
 '''
-Public Function SearchPalindromeFasta(nt As String, Optional out As String = "", Optional min As String = "", Optional max As String = "") As Integer
-    Dim CLI As New StringBuilder("--Palindrome.From.Fasta")
+Public Function SearchPalindromeFasta(nt As String, Optional out As String = "", Optional min As String = "3", Optional max As String = "20") As Integer
+    Dim CLI As New StringBuilder("--palindrome.From.Fasta")
     Call CLI.Append(" ")
     Call CLI.Append("/nt " & """" & nt & """ ")
     If Not out.StringEmpty Then
@@ -1843,8 +1882,8 @@ Public Function SearchPalindromeFasta(nt As String, Optional out As String = "",
 End Function
 
 ''' <summary>
-''' ```
-''' --Palindrome.From.NT /nt &lt;nt-sequence> /out &lt;out.csv> [/min &lt;3> /max &lt;20>]
+''' ```bash
+''' --Palindrome.From.NT /nt &lt;nt-sequence&gt; /out &lt;out.csv&gt; [/min &lt;3&gt; /max &lt;20&gt;]
 ''' ```
 ''' This function is just for debugger test, /nt parameter is the nucleotide sequence data as ATGCCCC
 ''' </summary>
@@ -1868,8 +1907,8 @@ Public Function SearchPalindromeNT(nt As String, out As String, Optional min As 
 End Function
 
 ''' <summary>
-''' ```
-''' --Palindrome.Imperfects /in &lt;in.fasta> [/out &lt;out.csv> /min &lt;3> /max &lt;20> /cutoff &lt;0.6> /max-dist &lt;1000 (bp)> /partitions &lt;-1>]
+''' ```bash
+''' --Palindrome.Imperfects /in &lt;in.fasta&gt; [/out &lt;out.csv&gt; /min &lt;3&gt; /max &lt;20&gt; /cutoff &lt;0.6&gt; /max-dist &lt;1000 (bp)&gt; /partitions &lt;-1&gt;]
 ''' ```
 ''' Gets all partly matched palindrome sites.
 ''' </summary>
@@ -1904,8 +1943,8 @@ Public Function ImperfectPalindrome([in] As String, Optional out As String = "",
 End Function
 
 ''' <summary>
-''' ```
-''' -pattern_search -i &lt;file_name> -p &lt;regex_pattern> [-o &lt;output_directory> -f &lt;format:fsa/gbk>]
+''' ```bash
+''' -pattern_search -i &lt;file_name&gt; -p &lt;regex_pattern&gt; [-o &lt;output_directory&gt; -f &lt;format:fsa/gbk&gt;]
 ''' ```
 ''' Parsing the sequence segment from the sequence source using regular expression.
 ''' </summary>
@@ -1929,8 +1968,8 @@ Public Function PatternSearchA(i As String, p As String, Optional o As String = 
 End Function
 
 ''' <summary>
-''' ```
-''' --PerfectPalindrome.Filtering /in &lt;inDIR> [/min &lt;8> /out &lt;outDIR>]
+''' ```bash
+''' --PerfectPalindrome.Filtering /in &lt;inDIR&gt; [/min &lt;8&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1952,33 +1991,8 @@ Public Function FilterPerfectPalindrome([in] As String, Optional min As String =
 End Function
 
 ''' <summary>
-''' ```
-''' Repeats.Density /dir &lt;dir> /size &lt;size> /ref &lt;refName> [/out &lt;out.csv> /cutoff &lt;default:=0>]
-''' ```
-''' </summary>
-'''
-Public Function RepeatsDensity(dir As String, size As String, ref As String, Optional out As String = "", Optional cutoff As String = "") As Integer
-    Dim CLI As New StringBuilder("Repeats.Density")
-    Call CLI.Append(" ")
-    Call CLI.Append("/dir " & """" & dir & """ ")
-    Call CLI.Append("/size " & """" & size & """ ")
-    Call CLI.Append("/ref " & """" & ref & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-    If Not cutoff.StringEmpty Then
-            Call CLI.Append("/cutoff " & """" & cutoff & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' -reverse -i &lt;input_fasta> [-o &lt;output_fasta>]
+''' ```bash
+''' -reverse -i &lt;input_fasta&gt; [-o &lt;output_fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1997,33 +2011,8 @@ Public Function Reverse(i As String, Optional o As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' rev-Repeats.Density /dir &lt;dir> /size &lt;size> /ref &lt;refName> [/out &lt;out.csv> /cutoff &lt;default:=0>]
-''' ```
-''' </summary>
-'''
-Public Function revRepeatsDensity(dir As String, size As String, ref As String, Optional out As String = "", Optional cutoff As String = "") As Integer
-    Dim CLI As New StringBuilder("rev-Repeats.Density")
-    Call CLI.Append(" ")
-    Call CLI.Append("/dir " & """" & dir & """ ")
-    Call CLI.Append("/size " & """" & size & """ ")
-    Call CLI.Append("/ref " & """" & ref & """ ")
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-    If Not cutoff.StringEmpty Then
-            Call CLI.Append("/cutoff " & """" & cutoff & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' Search.Batch /aln &lt;alignment.fasta> [/min 3 /max 20 /min-rep 2 /out &lt;./>]
+''' ```bash
+''' Search.Batch /aln &lt;alignment.fasta&gt; [/min 3 /max 20 /min-rep 2 /out &lt;./&gt;]
 ''' ```
 ''' Batch search for repeats.
 ''' </summary>
@@ -2052,8 +2041,8 @@ Public Function BatchSearch(aln As String, Optional min As String = "", Optional
 End Function
 
 ''' <summary>
-''' ```
-''' -segment /fasta &lt;Fasta_Token> [-loci &lt;loci>] [/left &lt;left> /length &lt;length> /right &lt;right> [/reverse]] [/ptt &lt;ptt> /geneID &lt;gene_id> /dist &lt;distance> /downstream] -o &lt;saved> [-line.break 100]
+''' ```bash
+''' -segment /fasta &lt;Fasta_Token&gt; [-loci &lt;loci&gt;] [/left &lt;left&gt; /length &lt;length&gt; /right &lt;right&gt; [/reverse]] [/ptt &lt;ptt&gt; /geneID &lt;gene_id&gt; /dist &lt;distance&gt; /downstream] -o &lt;saved&gt; [-line.break 100]
 ''' ```
 ''' </summary>
 '''
@@ -2096,8 +2085,8 @@ Public Function GetSegment(fasta As String, Optional loci As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' --segments /regions &lt;regions.csv> /fasta &lt;nt.fasta> [/complement /reversed /brief-dump]
+''' ```bash
+''' --segments /regions &lt;regions.csv&gt; /fasta &lt;nt.fasta&gt; [/complement /reversed /brief-dump]
 ''' ```
 ''' </summary>
 '''
@@ -2123,8 +2112,8 @@ Public Function GetSegments(regions As String, fasta As String, Optional complem
 End Function
 
 ''' <summary>
-''' ```
-''' --ToVector /in &lt;in.DIR> /min &lt;4> /max &lt;8> /out &lt;out.txt> /size &lt;genome.size>
+''' ```bash
+''' --ToVector /in &lt;in.DIR&gt; /min &lt;4&gt; /max &lt;8&gt; /out &lt;out.txt&gt; /size &lt;genome.size&gt;
 ''' ```
 ''' </summary>
 '''
@@ -2144,10 +2133,10 @@ Public Function ToVector([in] As String, min As String, max As String, out As St
 End Function
 
 ''' <summary>
+''' ```bash
+''' --translates /orf &lt;orf.fasta&gt; [/transl_table 1 /force]
 ''' ```
-''' --translates /orf &lt;orf.fasta> [/transl_table 1 /force]
-''' ```
-''' Translates the ORF gene as protein sequence. If any error was output from the console, please using > operator dump the output to a log file for the analysis.
+''' Translates the ORF gene as protein sequence. If any error was output from the console, please using &gt; operator dump the output to a log file for the analysis.
 ''' </summary>
 '''
 Public Function Translates(orf As String, Optional transl_table As String = "", Optional force As Boolean = False) As Integer
@@ -2168,8 +2157,8 @@ Public Function Translates(orf As String, Optional transl_table As String = "", 
 End Function
 
 ''' <summary>
-''' ```
-''' --Trim /in &lt;in.fasta> [/case &lt;u/l> /break &lt;-1/int> /out &lt;out.fasta> /brief]
+''' ```bash
+''' --Trim /in &lt;in.fasta&gt; [/case &lt;u/l&gt; /break &lt;-1/int&gt; /out &lt;out.fasta&gt; /brief]
 ''' ```
 ''' </summary>
 '''

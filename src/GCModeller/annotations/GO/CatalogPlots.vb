@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::c9ee9db85018175e6ae1910ab36c58d6, GO\CatalogPlots.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CatalogPlots
-    ' 
-    '     Function: (+2 Overloads) EnrichmentPlot, (+4 Overloads) Plot
-    ' 
-    ' /********************************************************************************/
+' Module CatalogPlots
+' 
+'     Function: (+2 Overloads) EnrichmentPlot, (+4 Overloads) Plot
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -187,7 +187,8 @@ Public Module CatalogPlots
             title, axisTitle, colorSchema,
             bg, size, padding,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
-            tickFontStyle, tick)
+            tickFontStyle, tick
+        )
     End Function
 
     ''' <summary>
@@ -285,7 +286,8 @@ Public Module CatalogPlots
                 classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
                 tickFontStyle, tick,
                 labelRightAlignment:=labelAlignmentRight,
-                valueFormat:=valueFormat)
+                valueFormat:=valueFormat
+            )
         End With
     End Function
 
@@ -335,6 +337,64 @@ Public Module CatalogPlots
         )
     End Function
 
+    <Extension>
+    Public Function CreateEnrichmentProfiles(Of EnrichmentTerm As IGoTermEnrichment)(
+                    data As IEnumerable(Of EnrichmentTerm),
+                    GO_terms As Dictionary(Of Term),
+                    Optional usingCorrected As Boolean = False,
+                    Optional top% = -1,
+                    Optional pvalue# = 0.05) As Dictionary(Of String, NamedValue(Of Double)())
+
+        Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
+        Dim testPvalue As Func(Of EnrichmentTerm, Boolean)
+        Dim namespace$
+
+        If usingCorrected Then
+            testPvalue = Function(term) term.CorrectedPvalue <= pvalue
+        Else
+            testPvalue = Function(term) term.Pvalue <= pvalue
+        End If
+
+        For Each term As EnrichmentTerm In data _
+            .Where(Function(x)
+                       Return GO_terms.ContainsKey(x.Go_ID) AndAlso testPvalue(x)
+                   End Function)
+
+            With GO_terms(term.Go_ID)
+                namespace$ = .namespace
+
+                If Not profile.ContainsKey([namespace]) Then
+                    Call profile.Add([namespace], New List(Of NamedValue(Of Double)))
+                End If
+
+                Call profile([namespace]).Add(New NamedValue(Of Double)(.name, term.P))
+            End With
+        Next
+
+        If top > 0 Then
+            ' 已经转换为P值了，直接降序排序
+            For Each GO_ns In profile.ToArray
+                Dim name$ = GO_ns.Key
+                Dim terms = GO_ns.Value _
+                    .OrderByDescending(Function(t) t.Value) _
+                    .Take(top) _
+                    .AsList
+
+                profile(name) = terms
+            Next
+        End If
+
+        Dim orders As New Dictionary(Of String, NamedValue(Of Double)())
+
+        With orders
+            !biological_process = profile!biological_process
+            !cellular_component = profile!cellular_component
+            !molecular_function = profile!molecular_function
+        End With
+
+        Return orders
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -353,47 +413,8 @@ Public Module CatalogPlots
                                                                            Optional usingCorrected As Boolean = False,
                                                                            Optional top% = -1,
                                                                            Optional colorSchema$ = "Set1:c6") As GraphicsData
-
-        Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
-
-        For Each term As EnrichmentTerm In data.Where(
-            Function(x)
-                Return GO_terms.ContainsKey(x.Go_ID) AndAlso
-                    If(usingCorrected,
-                    x.CorrectedPvalue,
-                    x.Pvalue) <= pvalue#
-            End Function)
-
-            With GO_terms(term.Go_ID)
-                Dim namespace$ = .namespace
-
-                If Not profile.ContainsKey([namespace]) Then
-                    Call profile.Add([namespace], New List(Of NamedValue(Of Double)))
-                End If
-
-                Call profile([namespace]).Add(New NamedValue(Of Double)(.name, term.P))
-            End With
-        Next
-
-        If top > 0 Then
-            For Each ns In profile.ToArray
-                Dim name$ = ns.Key
-                Dim terms = ns.Value _
-                    .OrderByDescending(Function(t) t.Value) _
-                    .Take(top) _
-                    .AsList   ' 已经转换为P值了，直接降序排序
-
-                profile(name) = terms
-            Next
-        End If
-
-        Dim orders As New Dictionary(Of String, NamedValue(Of Double)())
-
-        orders("biological_process") = profile("biological_process")
-        orders("cellular_component") = profile("cellular_component")
-        orders("molecular_function") = profile("molecular_function")
-
-        Return orders _
+        Return data _
+            .CreateEnrichmentProfiles(GO_terms, usingCorrected, top, pvalue) _
             .ProfilesPlot(
                 "GO enrichment",
                 size:=size,

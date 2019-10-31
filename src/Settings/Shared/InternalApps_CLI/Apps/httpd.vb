@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7188.43145
-'  // ASSEMBLY:  Settings, Version=3.3277.7188.43145, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     9/5/2019 11:33:38 AM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -72,8 +72,8 @@ Public Class httpd : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /GET /url &lt;url, /std_in> [/out &lt;file/std_out>]
+''' ```bash
+''' /GET /url &lt;url, /std_in&gt; [/out &lt;file/std_out&gt;]
 ''' ```
 ''' Tools for http get request the content of a specific url.
 ''' </summary>
@@ -93,8 +93,8 @@ Public Function [GET](url As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /POST /url &lt;url, /std_in> [[/args1 value1 /args2 value2, ...] /out &lt;file/std_out>]
+''' ```bash
+''' /POST /url &lt;url, /std_in&gt; [[/args1 value1 /args2 value2, ...] /out &lt;file/std_out&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -119,8 +119,8 @@ Public Function POST(url As String, Optional __args1 As String = "", Optional ar
 End Function
 
 ''' <summary>
-''' ```
-''' /run /dll &lt;app.dll> [/port &lt;default=80> /wwwroot &lt;wwwroot_DIR>]
+''' ```bash
+''' /run /dll &lt;app.dll&gt; [/port &lt;default=80&gt; /wwwroot &lt;wwwroot_DIR&gt;]
 ''' ```
 ''' Run start the web server with specific Web App.
 ''' </summary>
@@ -143,8 +143,8 @@ Public Function RunApp(dll As String, Optional port As String = "80", Optional w
 End Function
 
 ''' <summary>
-''' ```
-''' /run.dll /api &lt;namespace::apiName> [....]
+''' ```bash
+''' /run.dll /api &lt;namespace::apiName&gt; [....]
 ''' ```
 ''' </summary>
 '''
@@ -163,8 +163,8 @@ Public Function RunDll(api As String, Optional ____ As Boolean = False) As Integ
 End Function
 
 ''' <summary>
-''' ```
-''' /socket /app &lt;appName> [/hostName &lt;default=127.0.0.1> /port &lt;default=81>]
+''' ```bash
+''' /socket /app &lt;appName&gt; [/hostName &lt;default=127.0.0.1&gt; /port &lt;default=81&gt;]
 ''' ```
 ''' Start a new websocket server.
 ''' </summary>
@@ -187,8 +187,8 @@ Public Function RunSocket(app As String, Optional hostname As String = "127.0.0.
 End Function
 
 ''' <summary>
-''' ```
-''' /start [/port 80 /wwwroot &lt;wwwroot_DIR> /threads &lt;default=-1> /cache]
+''' ```bash
+''' /start [/port 80 /wwwroot &lt;wwwroot_DIR&gt; /threads &lt;default=-1&gt; /cache]
 ''' ```
 ''' Run start the httpd web server.
 ''' </summary>
@@ -216,8 +216,8 @@ Public Function Start(Optional port As String = "", Optional wwwroot As String =
 End Function
 
 ''' <summary>
-''' ```
-''' /Stress.Testing /url &lt;target_url> [/out &lt;out.txt>]
+''' ```bash
+''' /Stress.Testing /url &lt;target_url&gt; [/out &lt;out.txt&gt;]
 ''' ```
 ''' Using Ctrl + C to stop the stress testing.
 ''' </summary>
