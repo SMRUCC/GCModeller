@@ -152,7 +152,7 @@ Namespace Metagenomics
                             If Not prefix.StringEmpty Then
                                 prefix = biomPrefixTable(prefix)
                             Else
-                                prefix = BIOMPrefix(level)
+                                prefix = BIOMPrefix(level).Trim("_"c)
                             End If
 
                             Return $"{prefix}__{node.Value}"
