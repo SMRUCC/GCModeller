@@ -240,7 +240,7 @@ Namespace Metagenomics
             Dim out As New Dictionary(Of String, String)
 
             For Each level As NamedValue(Of String) In catalogs
-                Dim name$ = level.Value
+                Dim name$ = level.Value.StringReplace("[_]{2,}", "_")
 
                 ' "superkingdom__", "phylum__", "class__", "order__", "family__", "genus__", "species__"
                 Select Case LCase(level.Name)
