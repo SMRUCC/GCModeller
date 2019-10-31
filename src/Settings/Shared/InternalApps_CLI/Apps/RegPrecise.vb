@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -110,8 +110,8 @@ Public Class RegPrecise : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /Build.Operons /bbh &lt;bbh.csv> /PTT &lt;genome.PTT> /TF-bbh &lt;bbh.csv> [/tfHit_hash /out &lt;out.csv> /regprecise &lt;regprecise.Xml>]
+''' ```bash
+''' /Build.Operons /bbh &lt;bbh.csv&gt; /PTT &lt;genome.PTT&gt; /TF-bbh &lt;bbh.csv&gt; [/tfHit_hash /out &lt;out.csv&gt; /regprecise &lt;regprecise.Xml&gt;]
 ''' ```
 ''' If the /regprecise parameter is not presented, then you should install the regprecise in the GCModeller database repostiory first.
 ''' </summary>
@@ -139,8 +139,8 @@ Public Function OperonBuilder(bbh As String, PTT As String, TF_bbh As String, Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.Regulons.Batch /bbh &lt;bbh.DIR> /PTT &lt;PTT.DIR> /tf-bbh &lt;tf-bbh.DIR> /regprecise &lt;regprecise.Xml> [/num_threads &lt;-1> /hits_hash /out &lt;outDIR>]
+''' ```bash
+''' /Build.Regulons.Batch /bbh &lt;bbh.DIR&gt; /PTT &lt;PTT.DIR&gt; /tf-bbh &lt;tf-bbh.DIR&gt; /regprecise &lt;regprecise.Xml&gt; [/num_threads &lt;-1&gt; /hits_hash /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -168,8 +168,8 @@ Public Function RegulonBatchBuilder(bbh As String, PTT As String, tf_bbh As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /CORN /in &lt;regulons.DIR> /motif-sites &lt;motiflogs.csv.DIR> /sites &lt;motiflogs.csv> /ref &lt;regulons.Csv> [/out &lt;out.csv>]
+''' ```bash
+''' /CORN /in &lt;regulons.DIR&gt; /motif-sites &lt;motiflogs.csv.DIR&gt; /sites &lt;motiflogs.csv&gt; /ref &lt;regulons.Csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' Join two vertices by edge if the correspondent operons:
 ''' i) are orthologous;
@@ -195,8 +195,8 @@ Public Function CORN([in] As String, motif_sites As String, sites As String, ref
 End Function
 
 ''' <summary>
-''' ```
-''' /CORN.Batch /sites &lt;motiflogs.gff.sites.Csv.DIR> /regulons &lt;regprecise.regulons.csv.DIR> [/name &lt;name> /out &lt;outDIR> /num_threads &lt;-1> /null-regprecise]
+''' ```bash
+''' /CORN.Batch /sites &lt;motiflogs.gff.sites.Csv.DIR&gt; /regulons &lt;regprecise.regulons.csv.DIR&gt; [/name &lt;name&gt; /out &lt;outDIR&gt; /num_threads &lt;-1&gt; /null-regprecise]
 ''' ```
 ''' </summary>
 '''
@@ -225,8 +225,8 @@ Public Function CORNBatch(sites As String, regulons As String, Optional name As 
 End Function
 
 ''' <summary>
-''' ```
-''' /CORN.thread /hit &lt;regulons.Csv> /hit-sites &lt;motiflogs.csv> /sites &lt;query.motiflogs.csv> /ref &lt;query.regulons.Csv> [/null-regprecise /out &lt;out.csv>]
+''' ```bash
+''' /CORN.thread /hit &lt;regulons.Csv&gt; /hit-sites &lt;motiflogs.csv&gt; /sites &lt;query.motiflogs.csv&gt; /ref &lt;query.regulons.Csv&gt; [/null-regprecise /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -251,8 +251,8 @@ Public Function CORNSingleThread(hit As String, hit_sites As String, sites As St
 End Function
 
 ''' <summary>
-''' ```
-''' /DOOR.Merge /in &lt;operon.csv> /DOOR &lt;genome.opr> [/out &lt;out.opr>]
+''' ```bash
+''' /DOOR.Merge /in &lt;operon.csv&gt; /DOOR &lt;genome.opr&gt; [/out &lt;out.opr&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -272,8 +272,8 @@ Public Function MergeDOOR([in] As String, DOOR As String, Optional out As String
 End Function
 
 ''' <summary>
-''' ```
-''' /Download.Motifs /imports &lt;RegPrecise.DIR> [/export &lt;EXPORT_DIR>]
+''' ```bash
+''' /Download.Motifs /imports &lt;RegPrecise.DIR&gt; [/export &lt;EXPORT_DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -292,8 +292,8 @@ Public Function DownloadMotifSites([imports] As String, Optional export As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Download.Regprecise [/work ./ /save &lt;save.Xml>]
+''' ```bash
+''' /Download.Regprecise [/work ./ /save &lt;save.Xml&gt;]
 ''' ```
 ''' Download Regprecise database from Web API
 ''' </summary>
@@ -315,8 +315,8 @@ Public Function DownloadRegprecise2(Optional work As String = "", Optional save 
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.Regprecise.motifs /in &lt;dir=genome_regprecise.xml> [/out &lt;motifs.fasta>]
+''' ```bash
+''' /Export.Regprecise.motifs /in &lt;dir=genome_regprecise.xml&gt; [/out &lt;motifs.fasta&gt;]
 ''' ```
 ''' Export Regprecise motif sites as a single fasta sequence file.
 ''' </summary>
@@ -336,8 +336,8 @@ Public Function ExportRegpreciseMotifSites([in] As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.Regulators /imports &lt;regprecise.downloads.DIR> /Fasta &lt;regprecise.fasta> [/locus-out /out &lt;out.fasta>]
+''' ```bash
+''' /Export.Regulators /imports &lt;regprecise.downloads.DIR&gt; /Fasta &lt;regprecise.fasta&gt; [/locus-out /out &lt;out.fasta&gt;]
 ''' ```
 ''' Exports all of the fasta sequence of the TF regulator from the download RegPrecsie FASTA database.
 ''' </summary>
@@ -361,8 +361,8 @@ Public Function ExportRegulators([imports] As String, Fasta As String, Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' /Family.Hits /bbh &lt;bbh.csv> [/regprecise &lt;RegPrecise.Xml> /pfamKey &lt;query.pfam-string> /out &lt;out.DIR>]
+''' ```bash
+''' /Family.Hits /bbh &lt;bbh.csv&gt; [/regprecise &lt;RegPrecise.Xml&gt; /pfamKey &lt;query.pfam-string&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -387,8 +387,8 @@ Public Function FamilyHits(bbh As String, Optional regprecise As String = "", Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Fasta.Downloads /source &lt;sourceDIR> [/out &lt;outDIR>]
+''' ```bash
+''' /Fasta.Downloads /source &lt;sourceDIR&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' Download protein fasta sequence from KEGG database.
 ''' </summary>
@@ -408,8 +408,8 @@ Public Function DownloadFasta(source As String, Optional out As String = "") As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Fetches /ncbi &lt;all_gbk.DIR> /imports &lt;inDIR> /out &lt;outDIR>
+''' ```bash
+''' /Fetches /ncbi &lt;all_gbk.DIR&gt; /imports &lt;inDIR&gt; /out &lt;outDIR&gt;
 ''' ```
 ''' </summary>
 '''
@@ -427,8 +427,8 @@ Public Function Fetch(ncbi As String, [imports] As String, out As String) As Int
 End Function
 
 ''' <summary>
-''' ```
-''' /Fetches.Thread /gbk &lt;gbkDIR> /query &lt;query.txt> /out &lt;outDIR>
+''' ```bash
+''' /Fetches.Thread /gbk &lt;gbkDIR&gt; /query &lt;query.txt&gt; /out &lt;outDIR&gt;
 ''' ```
 ''' </summary>
 '''
@@ -446,8 +446,8 @@ Public Function FetchThread(gbk As String, query As String, out As String) As In
 End Function
 
 ''' <summary>
-''' ```
-''' /Gets.Sites.Genes /in &lt;tf.bbh.csv> /sites &lt;motiflogs.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /Gets.Sites.Genes /in &lt;tf.bbh.csv&gt; /sites &lt;motiflogs.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -467,8 +467,8 @@ Public Function GetSites([in] As String, sites As String, Optional out As String
 End Function
 
 ''' <summary>
-''' ```
-''' /heap.supports /in &lt;inDIR> [/out &lt;out.Csv> /T /l]
+''' ```bash
+''' /heap.supports /in &lt;inDIR&gt; [/out &lt;out.Csv&gt; /T /l]
 ''' ```
 ''' </summary>
 '''
@@ -493,8 +493,8 @@ Public Function Supports([in] As String, Optional out As String = "", Optional t
 End Function
 
 ''' <summary>
-''' ```
-''' /install.motifs /imports &lt;motifs.DIR>
+''' ```bash
+''' /install.motifs /imports &lt;motifs.DIR&gt;
 ''' ```
 ''' </summary>
 '''
@@ -510,8 +510,8 @@ Public Function InstallRegPreciseMotifs([imports] As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Maps.Effector /imports &lt;RegPrecise.DIR> [/out &lt;out.csv>]
+''' ```bash
+''' /Maps.Effector /imports &lt;RegPrecise.DIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -530,8 +530,8 @@ Public Function Effectors([imports] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /Merge.CORN /in &lt;inDIR> [/out &lt;outDIR>]
+''' ```bash
+''' /Merge.CORN /in &lt;inDIR&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -550,8 +550,8 @@ Public Function MergeCORN([in] As String, Optional out As String = "") As Intege
 End Function
 
 ''' <summary>
-''' ```
-''' /Merge.RegPrecise.Fasta [/in &lt;inDIR> /out outDIR /offline]
+''' ```bash
+''' /Merge.RegPrecise.Fasta [/in &lt;inDIR&gt; /out outDIR /offline]
 ''' ```
 ''' </summary>
 '''
@@ -575,8 +575,8 @@ Public Function MergeDownload(Optional [in] As String = "", Optional out As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /Prot_Motifs.EXPORT.pfamString /in &lt;motifs.json> /PTT &lt;genome.ptt> [/out &lt;pfam-string.csv>]
+''' ```bash
+''' /Prot_Motifs.EXPORT.pfamString /in &lt;motifs.json&gt; /PTT &lt;genome.ptt&gt; [/out &lt;pfam-string.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -596,8 +596,8 @@ Public Function ProteinMotifsEXPORT([in] As String, PTT As String, Optional out 
 End Function
 
 ''' <summary>
-''' ```
-''' /Prot_Motifs.PfamString /in &lt;RegPrecise.Download_DIR> [/fasta &lt;RegPrecise.fasta> /out &lt;pfam-string.csv>]
+''' ```bash
+''' /Prot_Motifs.PfamString /in &lt;RegPrecise.Download_DIR&gt; [/fasta &lt;RegPrecise.fasta&gt; /out &lt;pfam-string.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -619,8 +619,8 @@ Public Function ProtMotifToPfamString([in] As String, Optional fasta As String =
 End Function
 
 ''' <summary>
-''' ```
-''' /ProtMotifs.Downloads /source &lt;source.DIR> [/kegg.Tools &lt;./kegg.exe>]
+''' ```bash
+''' /ProtMotifs.Downloads /source &lt;source.DIR&gt; [/kegg.Tools &lt;./kegg.exe&gt;]
 ''' ```
 ''' Download protein domain motifs structures from KEGG ssdb.
 ''' </summary>
@@ -640,8 +640,8 @@ Public Function DownloadProteinMotifs(source As String, Optional kegg_tools As S
 End Function
 
 ''' <summary>
-''' ```
-''' /regulators.bbh /bbh &lt;bbh.index.Csv> /regprecise &lt;repository.directory> [/sbh /description &lt;KEGG_genomes.fasta> /allow.multiple /out &lt;save.csv>]
+''' ```bash
+''' /regulators.bbh /bbh &lt;bbh.index.Csv&gt; /regprecise &lt;repository.directory&gt; [/sbh /description &lt;KEGG_genomes.fasta&gt; /allow.multiple /out &lt;save.csv&gt;]
 ''' ```
 ''' Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.
 ''' </summary>
@@ -671,8 +671,8 @@ Public Function RegulatorsBBh(bbh As String, regprecise As String, Optional desc
 End Function
 
 ''' <summary>
-''' ```
-''' /Repository.Fetch /imports &lt;RegPrecise.Xml> /genbank &lt;NCBI_Genbank_DIR> [/full /out &lt;outDIR>]
+''' ```bash
+''' /Repository.Fetch /imports &lt;RegPrecise.Xml&gt; /genbank &lt;NCBI_Genbank_DIR&gt; [/full /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -695,8 +695,8 @@ Public Function FetchRepostiory([imports] As String, genbank As String, Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /Rfam.Regulates /in &lt;RegPrecise.regulons.csv> /rfam &lt;rfam_search.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /Rfam.Regulates /in &lt;RegPrecise.regulons.csv&gt; /rfam &lt;rfam_search.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -716,8 +716,8 @@ Public Function RfamRegulates([in] As String, rfam As String, Optional out As St
 End Function
 
 ''' <summary>
-''' ```
-''' /Select.TF.BBH /bbh &lt;bbh.csv> /imports &lt;RegPrecise.downloads.DIR> [/out &lt;out.bbh.csv>]
+''' ```bash
+''' /Select.TF.BBH /bbh &lt;bbh.csv&gt; /imports &lt;RegPrecise.downloads.DIR&gt; [/out &lt;out.bbh.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -737,8 +737,8 @@ Public Function SelectTFBBH(bbh As String, [imports] As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Select.TF.Pfam-String /pfam-string &lt;RegPrecise.pfam-string.csv> /imports &lt;regprecise.downloads.DIR> [/out &lt;TF.pfam-string.csv>]
+''' ```bash
+''' /Select.TF.Pfam-String /pfam-string &lt;RegPrecise.pfam-string.csv&gt; /imports &lt;regprecise.downloads.DIR&gt; [/out &lt;TF.pfam-string.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -758,8 +758,8 @@ Public Function SelectTFPfams(pfam_string As String, [imports] As String, Option
 End Function
 
 ''' <summary>
-''' ```
-''' /siRNA.Maps /in &lt;siRNA.csv> /hits &lt;blastn.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /siRNA.Maps /in &lt;siRNA.csv&gt; /hits &lt;blastn.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -779,10 +779,10 @@ Public Function siRNAMaps([in] As String, hits As String, Optional out As String
 End Function
 
 ''' <summary>
+''' ```bash
+''' Regprecise.Compile [/src &lt;repository&gt;]
 ''' ```
-''' Regprecise.Compile [/src &lt;repository>]
-''' ```
-''' The repository parameter is a directory path which is the regprecise database root directory in the GCModeller directory, if you didn't know how to set this value, please leave it blank.
+''' The repository parameter is a directory path which is the regprecise database root directory in the GCModeller directory, if you didn&apos;t know how to set this value, please leave it blank.
 ''' </summary>
 '''
 Public Function CompileRegprecise(Optional src As String = "") As Integer
@@ -799,8 +799,8 @@ Public Function CompileRegprecise(Optional src As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' wGet.Regprecise [/repository-export &lt;dir.export, default: ./> /updates]
+''' ```bash
+''' wGet.Regprecise [/repository-export &lt;dir.export, default: ./&gt; /updates]
 ''' ```
 ''' Download Regprecise database from REST API
 ''' </summary>

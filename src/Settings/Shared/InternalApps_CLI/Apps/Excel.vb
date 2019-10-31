@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -85,8 +85,8 @@ Public Class Excel : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /association /a &lt;a.csv> /b &lt;dataset.csv> [/column.A &lt;scan0> /out &lt;out.csv>]
+''' ```bash
+''' /association /a &lt;a.csv&gt; /b &lt;dataset.csv&gt; [/column.A &lt;scan0&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -109,8 +109,8 @@ Public Function Association(a As String, b As String, Optional column_a As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /cbind /in &lt;a.csv> /append &lt;b.csv> [/ID.a &lt;default=ID> /ID.b &lt;default=ID> /grep.ID &lt;grep_script, default="token &lt;SPACE> first"> /unique /nothing.as.empty /out &lt;ALL.csv>]
+''' ```bash
+''' /cbind /in &lt;a.csv&gt; /append &lt;b.csv&gt; [/ID.a &lt;default=ID&gt; /ID.b &lt;default=ID&gt; /grep.ID &lt;grep_script, default=&quot;token &lt;SPACE&gt; first&quot;&gt; /unique /nothing.as.empty /out &lt;ALL.csv&gt;]
 ''' ```
 ''' Join of two table by a unique ID.
 ''' </summary>
@@ -146,8 +146,8 @@ Public Function cbind([in] As String, append As String, Optional id_a As String 
 End Function
 
 ''' <summary>
-''' ```
-''' /Create /target &lt;xlsx>
+''' ```bash
+''' /Create /target &lt;xlsx&gt;
 ''' ```
 ''' Create an empty Excel xlsx package file on a specific file path
 ''' </summary>
@@ -164,8 +164,8 @@ Public Function newEmpty(target As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Extract /open &lt;xlsx> [/sheetName &lt;name_string, default=*> /out &lt;out.csv/directory>]
+''' ```bash
+''' /Extract /open &lt;xlsx&gt; [/sheetName &lt;name_string, default=*&gt; /out &lt;out.csv/directory&gt;]
 ''' ```
 ''' Open target excel file And get target table And save into a csv file.
 ''' </summary>
@@ -188,8 +188,8 @@ Public Function Extract(open As String, Optional sheetname As String = "*", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /fill.zero /in &lt;dataset.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /fill.zero /in &lt;dataset.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -208,10 +208,10 @@ Public Function FillZero([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
+''' ```bash
+''' /name.values /in &lt;table.csv&gt; /name &lt;fieldName&gt; /value &lt;fieldName&gt; [/describ &lt;descriptionInfo.fieldName, default=Description&gt; /out &lt;values.csv&gt;]
 ''' ```
-''' /name.values /in &lt;table.csv> /name &lt;fieldName> /value &lt;fieldName> [/describ &lt;descriptionInfo.fieldName, default=Description> /out &lt;values.csv>]
-''' ```
-''' Subset of the input table file by columns, produce a <name,value,description> dataset.
+''' Subset of the input table file by columns, produce a &lt;name,value,description&gt; dataset.
 ''' </summary>
 '''
 Public Function NameValues([in] As String, name As String, value As String, Optional describ As String = "Description", Optional out As String = "") As Integer
@@ -234,8 +234,8 @@ Public Function NameValues([in] As String, name As String, value As String, Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /Print /in &lt;table.csv/xlsx> [/fields &lt;fieldNames> /sheet &lt;sheetName> /out &lt;device/txt>]
+''' ```bash
+''' /Print /in &lt;table.csv/xlsx&gt; [/fields &lt;fieldNames&gt; /sheet &lt;sheetName&gt; /out &lt;device/txt&gt;]
 ''' ```
 ''' Print the csv/xlsx file content onto the console screen or text file in table layout.
 ''' </summary>
@@ -261,8 +261,8 @@ Public Function Print([in] As String, Optional fields As String = "", Optional s
 End Function
 
 ''' <summary>
-''' ```
-''' /push /write &lt;*.xlsx> /table &lt;*.csv> [/sheetName &lt;name_string> /saveAs &lt;*.xlsx>]
+''' ```bash
+''' /push /write &lt;*.xlsx&gt; /table &lt;*.csv&gt; [/sheetName &lt;name_string&gt; /saveAs &lt;*.xlsx&gt;]
 ''' ```
 ''' Write target csv table its content data as a worksheet into the target Excel package.
 ''' </summary>
@@ -286,8 +286,8 @@ Public Function PushTable(write As String, table As String, Optional sheetname A
 End Function
 
 ''' <summary>
-''' ```
-''' /rbind /in &lt;*.csv.DIR> [/order_by &lt;column_name> /out &lt;EXPORT.csv>]
+''' ```bash
+''' /rbind /in &lt;*.csv.DIR&gt; [/order_by &lt;column_name&gt; /out &lt;EXPORT.csv&gt;]
 ''' ```
 ''' Row bind(merge tables directly) of the csv tables
 ''' </summary>
@@ -310,8 +310,8 @@ Public Function rbind([in] As String, Optional order_by As String = "", Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /rbind.group /in &lt;*.csv.DIR> [/out &lt;out.directory>]
+''' ```bash
+''' /rbind.group /in &lt;*.csv.DIR&gt; [/out &lt;out.directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -330,8 +330,8 @@ Public Function rbindGroup([in] As String, Optional out As String = "") As Integ
 End Function
 
 ''' <summary>
-''' ```
-''' /removes /in &lt;dataset.csv> /pattern &lt;regexp_pattern> [/by_row /out &lt;out.csv>]
+''' ```bash
+''' /removes /in &lt;dataset.csv&gt; /pattern &lt;regexp_pattern&gt; [/by_row /out &lt;out.csv&gt;]
 ''' ```
 ''' Removes row or column data by given regular expression pattern.
 ''' </summary>
@@ -355,8 +355,8 @@ Public Function Removes([in] As String, pattern As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /subset /in &lt;table.csv> /columns &lt;column.list> [/out &lt;subset.csv>]
+''' ```bash
+''' /subset /in &lt;table.csv&gt; /columns &lt;column.list&gt; [/out &lt;subset.csv&gt;]
 ''' ```
 ''' Subset of the table file by a given specific column labels
 ''' </summary>
@@ -377,8 +377,8 @@ Public Function SubsetByColumns([in] As String, columns As String, Optional out 
 End Function
 
 ''' <summary>
-''' ```
-''' /subtract /a &lt;data.csv> /b &lt;data.csv> [/out &lt;subtract.csv>]
+''' ```bash
+''' /subtract /a &lt;data.csv&gt; /b &lt;data.csv&gt; [/out &lt;subtract.csv&gt;]
 ''' ```
 ''' Performing ``a - b`` subtract by row unique id.
 ''' </summary>
@@ -399,8 +399,8 @@ Public Function Subtract(a As String, b As String, Optional out As String = "") 
 End Function
 
 ''' <summary>
-''' ```
-''' /takes /in &lt;data.csv> /id &lt;id.list> [/reverse /out &lt;takes.csv>]
+''' ```bash
+''' /takes /in &lt;data.csv&gt; /id &lt;id.list&gt; [/reverse /out &lt;takes.csv&gt;]
 ''' ```
 ''' Takes specific rows by a given row id list.
 ''' </summary>
@@ -424,8 +424,8 @@ Public Function Takes([in] As String, id As String, Optional out As String = "",
 End Function
 
 ''' <summary>
-''' ```
-''' /transpose /in &lt;data.csv> [/out &lt;data.transpose.csv>]
+''' ```bash
+''' /transpose /in &lt;data.csv&gt; [/out &lt;data.transpose.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -444,8 +444,8 @@ Public Function Transpose([in] As String, Optional out As String = "") As Intege
 End Function
 
 ''' <summary>
-''' ```
-''' /union /in &lt;*.csv.DIR> [/tag.field &lt;null> /out &lt;export.csv>]
+''' ```bash
+''' /union /in &lt;*.csv.DIR&gt; [/tag.field &lt;null&gt; /out &lt;export.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -467,8 +467,8 @@ Public Function [Union]([in] As String, Optional tag_field As String = "", Optio
 End Function
 
 ''' <summary>
-''' ```
-''' /unique /in &lt;dataset.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /unique /in &lt;dataset.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' Helper tools for make the ID column value uniques.
 ''' </summary>

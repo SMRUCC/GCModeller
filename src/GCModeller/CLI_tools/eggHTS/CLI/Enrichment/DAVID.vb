@@ -55,7 +55,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.Visualize.CatalogProfiling
 
 Partial Module CLI
 

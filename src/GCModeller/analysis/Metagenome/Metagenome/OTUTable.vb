@@ -57,6 +57,11 @@ Public Class OTUTable : Inherits DataSet
 
     <Column("OTU_ID")>
     Public Overrides Property ID As String
+
+    ''' <summary>
+    ''' OTU编号所对应的物种分类信息
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Taxonomy As Taxonomy
 
     ''' <summary>

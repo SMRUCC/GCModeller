@@ -48,6 +48,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
@@ -91,7 +92,62 @@ Public Class Anno
 
 End Class
 
+Public Class FactorPrediction
+    Public Property db_xref As String
+    Public Property VF As Integer
+    Public Property EG As Integer
+End Class
+
 Module Module1
+
+    Sub deleteFeatures()
+        Dim gb = GBFF.File.Load("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk")
+        Dim deletesPending = "P:\nt\20191024\1025.csv".LoadCsv(Of FactorPrediction).Where(Function(gene) gene.VF = 1 AndAlso gene.EG = 0).ToArray
+        Dim genome = gb.Origin.ToFasta
+        Dim genes = gb.ExportGeneFeatures.ToDictionary(Function(g) g.locus_id)
+        Dim reportLogger As New StringBuilder
+        Dim deletetable = deletesPending.ToDictionary(Function(g) g.db_xref)
+
+        For Each gene In deletesPending.Select(Function(d) genes(d.db_xref))
+            Dim overlaps = genes.Values.Where(Function(g)
+                                                  Return (Not g.locus_id = gene.locus_id) AndAlso g.Location.IsOverlapping(gene.Location) AndAlso Not deletetable.ContainsKey(g.locus_id)
+                                              End Function).ToArray
+
+            If overlaps.Length = 0 Then
+                reportLogger.AppendLine($"{gene.locus_id}: {gene.function} have no overlaps, delete all sequence region")
+                reportLogger.AppendLine($"  delete range from {gene.Location.left} to {gene.Location.right} with length={gene.Location.Length}")
+                genome.SequenceData = Mid(genome.SequenceData, 1, gene.Location.left) & New String("Z"c, gene.Location.Length) & Mid(genome.SequenceData, gene.Location.right)
+            Else
+                reportLogger.AppendLine($"{gene.locus_id}: {gene.function} have {overlaps.Length} gene overlaps with its sequence region:")
+
+                For Each g In overlaps
+                    reportLogger.AppendLine($"    {g.locus_id}: {gene.function}")
+                Next
+
+                Dim sequenceList = overlaps.Select(Function(g)
+                                                       Return (gene :=g, seq:= Mid(genome.SequenceData, g.Location.left, g.Location.Length))
+                                                   End Function).ToArray
+                genome.SequenceData = Mid(genome.SequenceData, 1, gene.Location.left) & New String("Z"c, gene.Location.Length) & Mid(genome.SequenceData, gene.Location.right)
+
+                For Each overlapPart In sequenceList
+                    genome.SequenceData = Mid(genome.SequenceData, 1, overlapPart.gene.Location.left) & overlapPart.seq & Mid(genome.SequenceData, overlapPart.gene.right)
+                Next
+
+            End If
+        Next
+
+
+        Call reportLogger.SaveTo("X:/test.log")
+        Call genome.SaveTo(100, "x:/Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_1025_VF=1,EG=0,ZZZZZZZZZ.fasta")
+
+        genome.SequenceData = genome.SequenceData.Replace("Z"c, "")
+
+        Call genome.SaveTo(100, "x:/Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal_1025_VF=1,EG=0.fasta")
+
+        Pause()
+
+
+    End Sub
 
     Sub writeGBK()
         Dim gb = GBFF.File.Load("P:\nt\20191024\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk")
@@ -231,6 +287,51 @@ Module Module1
                 {"up", $"({darkred.R},{darkred.G},{darkred.B})"},
                 {"down", $"({darkblue.R},{darkblue.G},{darkblue.B})"}
             })
+
+        Dim precitions = "P:\nt\20191024\1025.csv".LoadCsv(Of FactorPrediction).ToDictionary(Function(g) g.db_xref)
+        annotations = gb.ExportGeneFeatures
+
+        Dim vf = annotations _
+            .Select(Function(g As GeneTable)
+                        Dim value As Double
+
+                        If g.locus_id.StringEmpty OrElse Not precitions.ContainsKey(g.locus_id) Then
+                            value = 0
+                        Else
+                            value = precitions(g.locus_id).VF
+                        End If
+
+                        Return New ValueTrackData With {
+                            .chr = "chr1",
+                            .start = g.left,
+                            .value = value,
+                            .[end] = g.right
+                        }
+                    End Function) _
+            .ToArray
+
+        Call Circos.CircosAPI.AddGradientMappings(doc, vf, "cyan,yellow,red")
+
+        Dim eg = annotations _
+            .Select(Function(g As GeneTable)
+                        Dim value As Double
+
+                        If g.locus_id.StringEmpty OrElse Not precitions.ContainsKey(g.locus_id) Then
+                            value = 0
+                        Else
+                            value = precitions(g.locus_id).EG
+                        End If
+
+                        Return New ValueTrackData With {
+                            .chr = "chr1",
+                            .start = g.left,
+                            .value = value,
+                            .[end] = g.right
+                        }
+                    End Function) _
+            .ToArray
+
+        Call Circos.CircosAPI.AddGradientMappings(doc, eg, "gray,green,blue")
 
         Dim densityOffset = 1000
         Dim ii As Integer
@@ -699,8 +800,8 @@ Module Module1
     End Sub
 
     Sub Main()
-
-        Call writeGBK()
+        Call deleteFeatures()
+        ' Call writeGBK()
 
         Call plot20191024()
 

@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -121,8 +121,8 @@ Public Class metaProfiler : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /ARO.fasta.header.table /in &lt;directory> [/out &lt;out.csv>]
+''' ```bash
+''' /ARO.fasta.header.table /in &lt;directory&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -141,8 +141,8 @@ Public Function AROSeqTable([in] As String, Optional out As String = "") As Inte
 End Function
 
 ''' <summary>
-''' ```
-''' /box.plot /in &lt;data.csv> /groups &lt;sampleInfo.csv> [/out &lt;out.DIR>]
+''' ```bash
+''' /box.plot /in &lt;data.csv&gt; /groups &lt;sampleInfo.csv&gt; [/out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -162,8 +162,8 @@ Public Function Boxplot([in] As String, groups As String, Optional out As String
 End Function
 
 ''' <summary>
-''' ```
-''' /do.enterotype.cluster /in &lt;dataset.csv/txt> [/iterations 50000 /parallel /out &lt;clusters.csv>]
+''' ```bash
+''' /do.enterotype.cluster /in &lt;dataset.csv/txt&gt; [/iterations 50000 /parallel /out &lt;clusters.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -188,8 +188,8 @@ Public Function DoEnterotypeCluster([in] As String, Optional iterations As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.Megan.BIOM /in &lt;relative.table.csv> [/dense /out &lt;out.biom.json>]
+''' ```bash
+''' /Export.Megan.BIOM /in &lt;relative.table.csv&gt; [/dense /out &lt;out.biom.json&gt;]
 ''' ```
 ''' Export v1.0 biom json file for data visualize in Megan program.
 ''' </summary>
@@ -212,8 +212,8 @@ Public Function ExportToMegan([in] As String, Optional out As String = "", Optio
 End Function
 
 ''' <summary>
-''' ```
-''' /gast.stat.names /in &lt;*.names> /gast &lt;gast.out> [/out &lt;out.Csv>]
+''' ```bash
+''' /gast.stat.names /in &lt;*.names&gt; /gast &lt;gast.out&gt; [/out &lt;out.Csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -233,8 +233,8 @@ Public Function StateNames([in] As String, gast As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /gast.Taxonomy.greengenes /in &lt;blastn.txt> /query &lt;OTU.rep.fasta> /taxonomy &lt;97_otu_taxonomy.txt> [/removes.lt &lt;default=0.0001> /gast.consensus /min.pct &lt;default=0.6> /out &lt;gastOut.csv>]
+''' ```bash
+''' /gast.Taxonomy.greengenes /in &lt;blastn.txt&gt; /query &lt;OTU.rep.fasta&gt; /taxonomy &lt;97_otu_taxonomy.txt&gt; [/removes.lt &lt;default=0.0001&gt; /gast.consensus /min.pct &lt;default=0.6&gt; /out &lt;gastOut.csv&gt;]
 ''' ```
 ''' OTU taxonomy assign by apply gast method on the result of OTU rep sequence alignment against the greengenes.
 ''' </summary>
@@ -265,8 +265,8 @@ Public Function gastTaxonomy_greengenes([in] As String, query As String, taxonom
 End Function
 
 ''' <summary>
-''' ```
-''' /handle.hmp.manifest /in &lt;manifest.tsv> [/out &lt;save.directory>]
+''' ```bash
+''' /handle.hmp.manifest /in &lt;manifest.tsv&gt; [/out &lt;save.directory&gt;]
 ''' ```
 ''' Download files from HMP website through http/fasp.
 ''' </summary>
@@ -286,8 +286,8 @@ Public Function Download16sSeq([in] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /heatmap.plot /in &lt;data.csv> /groups &lt;sampleInfo.csv> [/schema &lt;default=YlGnBu:c9> /tsv /group /title &lt;title> /size &lt;2700,3000> /out &lt;out.DIR>]
+''' ```bash
+''' /heatmap.plot /in &lt;data.csv&gt; /groups &lt;sampleInfo.csv&gt; [/schema &lt;default=YlGnBu:c9&gt; /tsv /group /title &lt;title&gt; /size &lt;2700,3000&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -322,8 +322,8 @@ Public Function HeatmapPlot([in] As String, groups As String, Optional schema As
 End Function
 
 ''' <summary>
-''' ```
-''' /hmp.manifest.files /in &lt;manifest.tsv> [/out &lt;list.txt>]
+''' ```bash
+''' /hmp.manifest.files /in &lt;manifest.tsv&gt; [/out &lt;list.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -342,8 +342,8 @@ Public Function ExportFileList([in] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /hmp.otu_table /in &lt;download.directory> [/out &lt;out.csv>]
+''' ```bash
+''' /hmp.otu_table /in &lt;download.directory&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' Export otu table from hmp biom files.
 ''' </summary>
@@ -363,8 +363,8 @@ Public Function ExportsOTUTable([in] As String, Optional out As String = "") As 
 End Function
 
 ''' <summary>
-''' ```
-''' /LefSe.Matrix /in &lt;Species_abundance.csv> /ncbi_taxonomy &lt;NCBI_taxonomy> [/all_rank /out &lt;out.tsv>]
+''' ```bash
+''' /LefSe.Matrix /in &lt;Species_abundance.csv&gt; /ncbi_taxonomy &lt;NCBI_taxonomy&gt; [/all_rank /out &lt;out.tsv&gt;]
 ''' ```
 ''' Processing the relative aboundance matrix to the input format file as it describ: http://huttenhower.sph.harvard.edu/galaxy/root?tool_id=lefse_upload
 ''' </summary>
@@ -388,8 +388,8 @@ Public Function LefSeMatrix([in] As String, ncbi_taxonomy As String, Optional ou
 End Function
 
 ''' <summary>
-''' ```
-''' /Membrane_transport.network /metagenome &lt;list.txt/OTU.tab/biom> /ref &lt;reaction.repository.XML> /uniprot &lt;repository.json> [/out &lt;network.directory>]
+''' ```bash
+''' /Membrane_transport.network /metagenome &lt;list.txt/OTU.tab/biom&gt; /ref &lt;reaction.repository.XML&gt; /uniprot &lt;repository.json&gt; [/out &lt;network.directory&gt;]
 ''' ```
 ''' Construct a relationship network based on the Membrane transportor in bacteria genome
 ''' </summary>
@@ -411,8 +411,8 @@ Public Function Membrane_transportNetwork(metagenome As String, ref As String, u
 End Function
 
 ''' <summary>
-''' ```
-''' /Metabolic.EndPoint.Profiles.Background /ref &lt;reaction.repository.XML> /uniprot &lt;repository.json> [/out &lt;background.XML>]
+''' ```bash
+''' /Metabolic.EndPoint.Profiles.Background /ref &lt;reaction.repository.XML&gt; /uniprot &lt;repository.json&gt; [/out &lt;background.XML&gt;]
 ''' ```
 ''' Create Metabolic EndPoint Profiles Background Model
 ''' </summary>
@@ -433,8 +433,8 @@ Public Function MetabolicEndPointProfilesBackground(ref As String, uniprot As St
 End Function
 
 ''' <summary>
-''' ```
-''' /Metagenome.UniProt.Ref /in &lt;uniprot.ultralarge.xml/cache.directory> [/cache /all /out &lt;out.json>]
+''' ```bash
+''' /Metagenome.UniProt.Ref /in &lt;uniprot.ultralarge.xml/cache.directory&gt; [/cache /all /out &lt;out.json&gt;]
 ''' ```
 ''' Create background model for apply pathway enrichment analysis of the Metagenome data.
 ''' </summary>
@@ -460,8 +460,8 @@ Public Function BuildUniProtReference([in] As String, Optional out As String = "
 End Function
 
 ''' <summary>
-''' ```
-''' /microbiome.metabolic.network /metagenome &lt;list.txt/OTU.tab/biom> /ref &lt;reaction.repository.XML> /uniprot &lt;repository.json> /Membrane_transport &lt;Membrane_transport.csv> [/out &lt;network.directory>]
+''' ```bash
+''' /microbiome.metabolic.network /metagenome &lt;list.txt/OTU.tab/biom&gt; /ref &lt;reaction.repository.XML&gt; /uniprot &lt;repository.json&gt; /Membrane_transport &lt;Membrane_transport.csv&gt; [/out &lt;network.directory&gt;]
 ''' ```
 ''' Construct a metabolic complementation network between the bacterial genomes from a given taxonomy list.
 ''' </summary>
@@ -484,8 +484,8 @@ Public Function MetabolicComplementationNetwork(metagenome As String, ref As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /microbiome.pathway.profile /in &lt;gastout.csv> /ref &lt;UniProt.ref.XML> /maps &lt;kegg.maps.ref.XML> [/just.profiles /rank &lt;default=family> /p.value &lt;default=0.05> /out &lt;out.directory>]
+''' ```bash
+''' /microbiome.pathway.profile /in &lt;gastout.csv&gt; /ref &lt;UniProt.ref.XML&gt; /maps &lt;kegg.maps.ref.XML&gt; [/just.profiles /rank &lt;default=family&gt; /p.value &lt;default=0.05&gt; /out &lt;out.directory&gt;]
 ''' ```
 ''' Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.
 ''' </summary>
@@ -516,8 +516,8 @@ Public Function PathwayProfiles([in] As String, ref As String, maps As String, O
 End Function
 
 ''' <summary>
-''' ```
-''' /microbiome.pathway.run.profile /in &lt;profile.csv> /maps &lt;kegg.maps.ref.Xml> [/p.value &lt;default=0.05> /out &lt;out.directory>]
+''' ```bash
+''' /microbiome.pathway.run.profile /in &lt;profile.csv&gt; /maps &lt;kegg.maps.ref.Xml&gt; [/p.value &lt;default=0.05&gt; /out &lt;out.directory&gt;]
 ''' ```
 ''' Build pathway interaction network based on the microbiome profile result.
 ''' </summary>
@@ -541,8 +541,8 @@ Public Function RunProfile([in] As String, maps As String, Optional p_value As S
 End Function
 
 ''' <summary>
-''' ```
-''' /OTU.cluster /left &lt;left.fq> /right &lt;right.fq> /silva &lt;silva.bacteria.fasta> [/out &lt;out.directory> /processors &lt;default=2> /@set mothur=path]
+''' ```bash
+''' /OTU.cluster /left &lt;left.fq&gt; /right &lt;right.fq&gt; /silva &lt;silva.bacteria.fasta&gt; [/out &lt;out.directory&gt; /processors &lt;default=2&gt; /@set mothur=path]
 ''' ```
 ''' </summary>
 '''
@@ -570,8 +570,8 @@ Else
 End Function
 
 ''' <summary>
-''' ```
-''' /Rank_Abundance /in &lt;OTU.table.csv> [/schema &lt;color schema, default=Rainbow> /out &lt;out.DIR>]
+''' ```bash
+''' /Rank_Abundance /in &lt;OTU.table.csv&gt; [/schema &lt;color schema, default=Rainbow&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' https://en.wikipedia.org/wiki/Rank_abundance_curve
 ''' </summary>
@@ -594,8 +594,8 @@ Public Function Rank_Abundance([in] As String, Optional schema As String = "Rain
 End Function
 
 ''' <summary>
-''' ```
-''' /Relative_abundance.barplot /in &lt;dataset.csv> [/group &lt;sample_group.csv> /desc /asc /take &lt;-1> /size &lt;3000,2700> /column.n &lt;default=9> /interval &lt;10px> /out &lt;out.png>]
+''' ```bash
+''' /Relative_abundance.barplot /in &lt;dataset.csv&gt; [/group &lt;sample_group.csv&gt; /desc /asc /take &lt;-1&gt; /size &lt;3000,2700&gt; /column.n &lt;default=9&gt; /interval &lt;10px&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -635,8 +635,8 @@ Public Function Relative_abundance_barplot([in] As String, Optional group As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /Relative_abundance.stacked.barplot /in &lt;dataset.csv> [/group &lt;sample_group.csv> /out &lt;out.png>]
+''' ```bash
+''' /Relative_abundance.stacked.barplot /in &lt;dataset.csv&gt; [/group &lt;sample_group.csv&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -658,8 +658,8 @@ Public Function Relative_abundance_stackedbarplot([in] As String, Optional group
 End Function
 
 ''' <summary>
-''' ```
-''' /significant.difference /in &lt;data.csv> /groups &lt;sampleInfo.csv> [/out &lt;out.csv.DIR>]
+''' ```bash
+''' /significant.difference /in &lt;data.csv&gt; /groups &lt;sampleInfo.csv&gt; [/out &lt;out.csv.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -679,8 +679,8 @@ Public Function SignificantDifference([in] As String, groups As String, Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /SILVA.bacteria /in &lt;silva.fasta> [/out &lt;silva.bacteria.fasta>]
+''' ```bash
+''' /SILVA.bacteria /in &lt;silva.fasta&gt; [/out &lt;silva.bacteria.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -699,8 +699,8 @@ Public Function SILVABacterial([in] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /SILVA.headers /in &lt;silva.fasta> /out &lt;headers.tsv>
+''' ```bash
+''' /SILVA.headers /in &lt;silva.fasta&gt; /out &lt;headers.tsv&gt;
 ''' ```
 ''' </summary>
 '''
@@ -717,8 +717,8 @@ Public Function SILVA_headers([in] As String, out As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /UniProt.screen.model /in &lt;model.Xml> [/coverage &lt;default=0.6> /terms &lt;default=1000> /out &lt;subset.xml>]
+''' ```bash
+''' /UniProt.screen.model /in &lt;model.Xml&gt; [/coverage &lt;default=0.6&gt; /terms &lt;default=1000&gt; /out &lt;subset.xml&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -743,8 +743,8 @@ Public Function ScreenModels([in] As String, Optional coverage As String = "0.6"
 End Function
 
 ''' <summary>
-''' ```
-''' /UPGMA.Tree /in &lt;in.csv> [/out &lt;>]
+''' ```bash
+''' /UPGMA.Tree /in &lt;in.csv&gt; [/out &lt;&gt;]
 ''' ```
 ''' </summary>
 '''
