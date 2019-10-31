@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7242.27856
+'  // ASSEMBLY:  Settings, Version=3.3277.7242.27856, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     2019/10/30 15:28:32
 '  // 
 ' 
 ' 
@@ -128,8 +128,8 @@ Public Class NCBI_tools : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /accid2taxid.Match /in &lt;nt.parts.fasta/list.txt> /acc2taxid &lt;acc2taxid.dmp/DIR> [/gb_priority /append.src /accid_grep &lt;default=-> /out &lt;acc2taxid_match.txt>]
+''' ```bash
+''' /accid2taxid.Match /in &lt;nt.parts.fasta/list.txt&gt; /acc2taxid &lt;acc2taxid.dmp/DIR&gt; [/gb_priority /append.src /accid_grep &lt;default=-&gt; /out &lt;acc2taxid_match.txt&gt;]
 ''' ```
 ''' Creates the subset of the ultra-large accession to ncbi taxonomy id database.
 ''' </summary>
@@ -159,8 +159,8 @@ Public Function accidMatch([in] As String, acc2taxid As String, Optional accid_g
 End Function
 
 ''' <summary>
-''' ```
-''' /assign.fasta.taxonomy /in &lt;database.fasta> /accession2taxid &lt;accession2taxid.txt> /taxonomy &lt;names.dmp/nodes.dmp> [/accid_grep &lt;default=-> /append &lt;data.csv> /summary.tsv /out &lt;out.directory>]
+''' ```bash
+''' /assign.fasta.taxonomy /in &lt;database.fasta&gt; /accession2taxid &lt;accession2taxid.txt&gt; /taxonomy &lt;names.dmp/nodes.dmp&gt; [/accid_grep &lt;default=-&gt; /append &lt;data.csv&gt; /summary.tsv /out &lt;out.directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -190,8 +190,8 @@ Public Function AssignFastaTaxonomy([in] As String, accession2taxid As String, t
 End Function
 
 ''' <summary>
-''' ```
-''' /Assign.Taxonomy /in &lt;in.DIR> /gi &lt;regexp> /index &lt;fieldName> /tax &lt;NCBI nodes/names.dmp> /gi2taxi &lt;gi2taxi.txt/bin> [/out &lt;out.DIR>]
+''' ```bash
+''' /Assign.Taxonomy /in &lt;in.DIR&gt; /gi &lt;regexp&gt; /index &lt;fieldName&gt; /tax &lt;NCBI nodes/names.dmp&gt; /gi2taxi &lt;gi2taxi.txt/bin&gt; [/out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -214,8 +214,8 @@ Public Function AssignTaxonomy([in] As String, gi As String, index As String, ta
 End Function
 
 ''' <summary>
-''' ```
-''' /Assign.Taxonomy.From.Ref /in &lt;in.DIR> /ref &lt;nt.taxonomy.fasta> [/index &lt;Name> /non-BIOM /out &lt;out.DIR>]
+''' ```bash
+''' /Assign.Taxonomy.From.Ref /in &lt;in.DIR&gt; /ref &lt;nt.taxonomy.fasta&gt; [/index &lt;Name&gt; /non-BIOM /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -241,8 +241,8 @@ Public Function AssignTaxonomyFromRef([in] As String, ref As String, Optional in
 End Function
 
 ''' <summary>
-''' ```
-''' /Assign.Taxonomy.SSU /in &lt;in.DIR> /index &lt;fieldName> /ref &lt;SSU-ref.fasta> [/out &lt;out.DIR>]
+''' ```bash
+''' /Assign.Taxonomy.SSU /in &lt;in.DIR&gt; /index &lt;fieldName&gt; /ref &lt;SSU-ref.fasta&gt; [/out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -263,8 +263,8 @@ Public Function AssignTaxonomy2([in] As String, index As String, ref As String, 
 End Function
 
 ''' <summary>
-''' ```
-''' /Associate.Taxonomy /in &lt;in.DIR> /tax &lt;ncbi_taxonomy:names,nodes> /gi2taxi &lt;gi2taxi.bin> [/gi &lt;nt.gi.csv> /out &lt;out.DIR>]
+''' ```bash
+''' /Associate.Taxonomy /in &lt;in.DIR&gt; /tax &lt;ncbi_taxonomy:names,nodes&gt; /gi2taxi &lt;gi2taxi.bin&gt; [/gi &lt;nt.gi.csv&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -288,8 +288,8 @@ Public Function AssociateTaxonomy([in] As String, tax As String, gi2taxi As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /Associates.Brief /in &lt;in.DIR> /ls &lt;ls.txt> [/index &lt;Name> /out &lt;out.tsv>]
+''' ```bash
+''' /Associates.Brief /in &lt;in.DIR&gt; /ls &lt;ls.txt&gt; [/index &lt;Name&gt; /out &lt;out.tsv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -312,8 +312,8 @@ Public Function Associates([in] As String, ls As String, Optional index As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Build_gi2taxi /in &lt;gi2taxi.dmp> [/out &lt;out.dat>]
+''' ```bash
+''' /Build_gi2taxi /in &lt;gi2taxi.dmp&gt; [/out &lt;out.dat&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -332,8 +332,8 @@ Public Function Build_gi2taxi([in] As String, Optional out As String = "") As In
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.GI /in &lt;ncbi:nt.fasta> [/out &lt;out.csv>]
+''' ```bash
+''' /Export.GI /in &lt;ncbi:nt.fasta&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -352,8 +352,8 @@ Public Function ExportGI([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Filter.Exports /in &lt;nt.fasta> /tax &lt;taxonomy_DIR> /gi2taxid &lt;gi2taxid.txt> /words &lt;list.txt> [/out &lt;out.DIR>]
+''' ```bash
+''' /Filter.Exports /in &lt;nt.fasta&gt; /tax &lt;taxonomy_DIR&gt; /gi2taxid &lt;gi2taxid.txt&gt; /words &lt;list.txt&gt; [/out &lt;out.DIR&gt;]
 ''' ```
 ''' String similarity match of the fasta title with given terms for search and export by taxonomy.
 ''' </summary>
@@ -376,8 +376,8 @@ Public Function FilterExports([in] As String, tax As String, gi2taxid As String,
 End Function
 
 ''' <summary>
-''' ```
-''' /gbff.union /in &lt;data.directory> [/out &lt;output.union.gb>]
+''' ```bash
+''' /gbff.union /in &lt;data.directory&gt; [/out &lt;output.union.gb&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -396,8 +396,8 @@ Public Function UnionGBK([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /gi.Match /in &lt;nt.parts.fasta/list.txt> /gi2taxid &lt;gi2taxid.dmp> [/out &lt;gi_match.txt>]
+''' ```bash
+''' /gi.Match /in &lt;nt.parts.fasta/list.txt&gt; /gi2taxid &lt;gi2taxid.dmp&gt; [/out &lt;gi_match.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -417,8 +417,8 @@ Public Function giMatch([in] As String, gi2taxid As String, Optional out As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /gi.Matchs /in &lt;nt.parts.fasta.DIR> /gi2taxid &lt;gi2taxid.dmp> [/out &lt;gi_match.txt.DIR> /num_threads &lt;-1>]
+''' ```bash
+''' /gi.Matchs /in &lt;nt.parts.fasta.DIR&gt; /gi2taxid &lt;gi2taxid.dmp&gt; [/out &lt;gi_match.txt.DIR&gt; /num_threads &lt;-1&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -441,8 +441,8 @@ Public Function giMatchs([in] As String, gi2taxid As String, Optional out As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /gpff.fasta /in &lt;gpff.txt> [/out &lt;out.fasta>]
+''' ```bash
+''' /gpff.fasta /in &lt;gpff.txt&gt; [/out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -461,8 +461,8 @@ Public Function gpff2Fasta([in] As String, Optional out As String = "") As Integ
 End Function
 
 ''' <summary>
-''' ```
-''' /MapHits.list /in &lt;in.csv> [/out &lt;out.txt>]
+''' ```bash
+''' /MapHits.list /in &lt;in.csv&gt; [/out &lt;out.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -481,8 +481,8 @@ Public Function GetMapHitsList([in] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /nt.matches.accession /in &lt;nt.fasta> /list &lt;accession.list> [/accid &lt;default="tokens '.' first"> /out &lt;subset.fasta>]
+''' ```bash
+''' /nt.matches.accession /in &lt;nt.fasta&gt; /list &lt;accession.list&gt; [/accid &lt;default=&quot;tokens &apos;.&apos; first&quot;&gt; /out &lt;subset.fasta&gt;]
 ''' ```
 ''' Create subset of the nt database by a given list of Accession ID.
 ''' </summary>
@@ -506,8 +506,8 @@ Public Function NtAccessionMatches([in] As String, list As String, Optional acci
 End Function
 
 ''' <summary>
-''' ```
-''' /nt.matches.key /in &lt;nt.fasta> /list &lt;words.txt> [/out &lt;out.fasta>]
+''' ```bash
+''' /nt.matches.key /in &lt;nt.fasta&gt; /list &lt;words.txt&gt; [/out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -527,8 +527,8 @@ Public Function NtKeyMatches([in] As String, list As String, Optional out As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /nt.matches.name /in &lt;nt.fasta> /list &lt;names.csv> [/out &lt;out.fasta>]
+''' ```bash
+''' /nt.matches.name /in &lt;nt.fasta&gt; /list &lt;names.csv&gt; [/out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -548,8 +548,8 @@ Public Function NtNameMatches([in] As String, list As String, Optional out As St
 End Function
 
 ''' <summary>
-''' ```
-''' /Nt.Taxonomy /in &lt;nt.fasta> /gi2taxi &lt;gi2taxi.bin> /tax &lt;ncbi_taxonomy:names,nodes> [/out &lt;out.fasta>]
+''' ```bash
+''' /Nt.Taxonomy /in &lt;nt.fasta&gt; /gi2taxi &lt;gi2taxi.bin&gt; /tax &lt;ncbi_taxonomy:names,nodes&gt; [/out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -570,8 +570,8 @@ Public Function NtTaxonomy([in] As String, gi2taxi As String, tax As String, Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /OTU.associated /in &lt;OTU.Data> /maps &lt;mapsHit.csv> [/RawMap &lt;data_mapping.csv> /OTU_Field &lt;"#OTU_NUM"> /out &lt;out.csv>]
+''' ```bash
+''' /OTU.associated /in &lt;OTU.Data&gt; /maps &lt;mapsHit.csv&gt; [/RawMap &lt;data_mapping.csv&gt; /OTU_Field &lt;&quot;#OTU_NUM&quot;&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -597,8 +597,8 @@ Public Function OTUAssociated([in] As String, maps As String, Optional rawmap As
 End Function
 
 ''' <summary>
-''' ```
-''' /OTU.diff /ref &lt;OTU.Data1.csv> /parts &lt;OTU.Data2.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /OTU.diff /ref &lt;OTU.Data1.csv&gt; /parts &lt;OTU.Data2.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -618,8 +618,8 @@ Public Function OTUDiff(ref As String, parts As String, Optional out As String =
 End Function
 
 ''' <summary>
-''' ```
-''' /OTU.Taxonomy /in &lt;OTU.Data> /maps &lt;mapsHit.csv> /tax &lt;taxonomy:nodes/names> [/out &lt;out.csv>]
+''' ```bash
+''' /OTU.Taxonomy /in &lt;OTU.Data&gt; /maps &lt;mapsHit.csv&gt; /tax &lt;taxonomy:nodes/names&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -640,8 +640,8 @@ Public Function OTU_Taxonomy([in] As String, maps As String, tax As String, Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /OTU.Taxonomy.Replace /in &lt;otu.table.csv> /maps &lt;maphits.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /OTU.Taxonomy.Replace /in &lt;otu.table.csv&gt; /maps &lt;maphits.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' Using ``MapHits`` property
 ''' </summary>
@@ -662,8 +662,8 @@ Public Function OTUTaxonomyReplace([in] As String, maps As String, Optional out 
 End Function
 
 ''' <summary>
-''' ```
-''' /Search.Taxonomy /in &lt;list.txt/expression.csv> /ncbi_taxonomy &lt;taxnonmy:name/nodes.dmp> [/top 10 /expression /cut 0.65 /out &lt;out.csv>]
+''' ```bash
+''' /Search.Taxonomy /in &lt;list.txt/expression.csv&gt; /ncbi_taxonomy &lt;taxnonmy:name/nodes.dmp&gt; [/top 10 /expression /cut 0.65 /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -692,8 +692,8 @@ Public Function SearchTaxonomy([in] As String, ncbi_taxonomy As String, Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /Split.By.Taxid /in &lt;nt.fasta> [/gi2taxid &lt;gi2taxid.txt> /out &lt;outDIR>]
+''' ```bash
+''' /Split.By.Taxid /in &lt;nt.fasta&gt; [/gi2taxid &lt;gi2taxid.txt&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' Split the input fasta file by taxid grouping.
 ''' </summary>
@@ -716,8 +716,8 @@ Public Function SplitByTaxid([in] As String, Optional gi2taxid As String = "", O
 End Function
 
 ''' <summary>
-''' ```
-''' /Split.By.Taxid.Batch /in &lt;nt.fasta.DIR> [/num_threads &lt;-1> /out &lt;outDIR>]
+''' ```bash
+''' /Split.By.Taxid.Batch /in &lt;nt.fasta.DIR&gt; [/num_threads &lt;-1&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -739,8 +739,8 @@ Public Function SplitByTaxidBatch([in] As String, Optional num_threads As String
 End Function
 
 ''' <summary>
-''' ```
-''' /Taxonomy.Data /data &lt;data.csv> /field.gi &lt;GI> /gi2taxid &lt;gi2taxid.list.txt> /tax &lt;ncbi_taxonomy:nodes/names> [/out &lt;out.csv>]
+''' ```bash
+''' /Taxonomy.Data /data &lt;data.csv&gt; /field.gi &lt;GI&gt; /gi2taxid &lt;gi2taxid.list.txt&gt; /tax &lt;ncbi_taxonomy:nodes/names&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -762,8 +762,8 @@ Public Function TaxonomyTreeData(data As String, field_gi As String, gi2taxid As
 End Function
 
 ''' <summary>
-''' ```
-''' /Taxonomy.Maphits.Overview /in &lt;in.DIR> [/out &lt;out.csv>]
+''' ```bash
+''' /Taxonomy.Maphits.Overview /in &lt;in.DIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -782,8 +782,8 @@ Public Function TaxidMapHitViews([in] As String, Optional out As String = "") As
 End Function
 
 ''' <summary>
-''' ```
-''' /Taxonomy.Tree /taxid &lt;taxid.list.txt> /tax &lt;ncbi_taxonomy:nodes/names> [/out &lt;out.csv>]
+''' ```bash
+''' /Taxonomy.Tree /taxid &lt;taxid.list.txt&gt; /tax &lt;ncbi_taxonomy:nodes/names&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' Output taxonomy query info by a given NCBI taxid list.
 ''' </summary>
@@ -804,8 +804,8 @@ Public Function TaxonomyTree(taxid As String, tax As String, Optional out As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /word.tokens /in &lt;list.txt> [/out &lt;out.csv>]
+''' ```bash
+''' /word.tokens /in &lt;list.txt&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''

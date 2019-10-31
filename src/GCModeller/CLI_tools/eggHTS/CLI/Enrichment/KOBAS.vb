@@ -67,6 +67,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.Visualize.CatalogProfiling
 
 Partial Module CLI
 
@@ -75,9 +76,9 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/GO.cellular_location.Plot",
-               Info:="Visualize of the subcellular location result from the GO enrichment analysis.",
-               Usage:="/GO.cellular_location.Plot /in <KOBAS.GO.csv> [/GO <go.obo> /3D /colors <schemaName, default=Paired:c8> /out <out.png>]")>
+    <ExportAPI("/GO.cellular_location.Plot")>
+    <Description("Visualize of the subcellular location result from the GO enrichment analysis.")>
+    <Usage("/GO.cellular_location.Plot /in <KOBAS.GO.csv> [/GO <go.obo> /3D /colors <schemaName, default=Paired:c8> /out <out.png>]")>
     <Argument("/3D", True,
               Description:="3D style pie chart for the plot?")>
     <Argument("/colors", True,
@@ -254,17 +255,19 @@ Partial Module CLI
               + <profile name term>: Set1:c6 
               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
               + <color name list>: black,green,blue 
-              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html")>
+              Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html,
+              + <scale by value>: scale(color_set_name)
+              This will create color profiles based on the result value dataset.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGG_enrichment(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
-        Dim pvalue As Double = args.GetValue("/pvalue", 0.05)
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".GO_enrichment.pvalue={pvalue}.png")
-        Dim size As String = args.GetValue("/size", "2000,1600")
+        Dim pvalue As Double = args("/pvalue") Or 0.05
+        Dim out As String = args("/out") Or ([in].TrimSuffix & $".KEGG_enrichment.pvalue={pvalue}.png")
+        Dim size As String = args("/size") Or "2000,1600"
         Dim gray As Boolean = args.GetBoolean("/gray")
         Dim labelRight As Boolean = args.GetBoolean("/label.right")
-        Dim tick As Double = args.GetValue("/tick", 1.0)
+        Dim tick As Double = args("/tick") Or 1.0
         Dim plot As GraphicsData = enrichments.KEGGEnrichmentPlot(
             size, pvalue,
             gray:=gray,
@@ -281,9 +284,9 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Enrichments.ORF.info",
-               Info:="Retrive KEGG/GO info for the genes in the enrichment result.",
-               Usage:="/Enrichments.ORF.info /in <enrichment.csv> /proteins <uniprot-genome.XML> [/nocut /ORF /out <out.csv>]")>
+    <ExportAPI("/Enrichments.ORF.info")>
+    <Description("Retrive KEGG/GO info for the genes in the enrichment result.")>
+    <Usage("/Enrichments.ORF.info /in <enrichment.csv> /proteins <uniprot-genome.XML> [/nocut /ORF /out <out.csv>]")>
     <Argument("/ORF", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument presented, then the program will using the ORF value in ``uniprot.xml`` as the record identifier, 
@@ -411,7 +414,8 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/KOBAS.split", Usage:="/KOBAS.split /in <kobas.out_run.txt> [/out <DIR>]")>
+    <ExportAPI("/KOBAS.split")>
+    <Usage("/KOBAS.split /in <kobas.out_run.txt> [/out <DIR>]")>
     <Description("Split the KOBAS run output result text file as seperated csv file.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KOBASSplit(args As CommandLine) As Integer
@@ -428,7 +432,8 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/KOBAS.add.ORF", Usage:="/KOBAS.add.ORF /in <table.csv> /sample <sample.csv> [/out <out.csv>]")>
+    <ExportAPI("/KOBAS.add.ORF")>
+    <Usage("/KOBAS.add.ORF /in <table.csv> /sample <sample.csv> [/out <out.csv>]")>
     <Group(CLIGroups.Enrichment_CLI)>
     <Argument("/in",
               AcceptTypes:={GetType(EnrichmentTerm)},
