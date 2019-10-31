@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7243.31533
+'  // ASSEMBLY:  Settings, Version=3.3277.7243.31533, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     10/31/2019 5:31:06 PM
 '  // 
 ' 
 ' 
@@ -135,8 +135,8 @@ Public Class Cytoscape : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /Analysis.Graph.Properties /in &lt;net.DIR> [/colors &lt;Paired:c12> /ignores &lt;fields> /tick 5 /out &lt;out.DIR>]
+''' ```bash
+''' /Analysis.Graph.Properties /in &lt;net.DIR&gt; [/colors &lt;Paired:c12&gt; /ignores &lt;fields&gt; /tick 5 /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -164,8 +164,8 @@ Public Function AnalysisNetworkProperty([in] As String, Optional colors As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Analysis.Node.Clusters /in &lt;network.DIR> [/spcc /size "10000,10000" /schema &lt;YlGn:c8> /out &lt;DIR>]
+''' ```bash
+''' /Analysis.Node.Clusters /in &lt;network.DIR&gt; [/spcc /size &quot;10000,10000&quot; /schema &lt;YlGn:c8&gt; /out &lt;DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -193,8 +193,8 @@ Public Function NodeCluster([in] As String, Optional size As String = "10000,100
 End Function
 
 ''' <summary>
-''' ```
-''' /associate /in &lt;net.csv> /nodes &lt;nodes.csv> [/out &lt;out.net.DIR>]
+''' ```bash
+''' /associate /in &lt;net.csv&gt; /nodes &lt;nodes.csv&gt; [/out &lt;out.net.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -214,8 +214,8 @@ Public Function Assciates([in] As String, nodes As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /BBH.Simple /in &lt;sbh.csv> [/evalue &lt;evalue: 1e-5> /out &lt;out.bbh.csv>]
+''' ```bash
+''' /BBH.Simple /in &lt;sbh.csv&gt; [/evalue &lt;evalue: 1e-5&gt; /out &lt;out.bbh.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -237,8 +237,8 @@ Public Function SimpleBBH([in] As String, Optional evalue As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /bbh.Trim.Indeitites /in &lt;bbh.csv> [/identities &lt;0.3> /out &lt;out.csv>]
+''' ```bash
+''' /bbh.Trim.Indeitites /in &lt;bbh.csv&gt; [/identities &lt;0.3&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -260,10 +260,10 @@ Public Function BBHTrimIdentities([in] As String, Optional identities As String 
 End Function
 
 ''' <summary>
+''' ```bash
+''' /BLAST.Metagenome.SSU.Network /net &lt;blastn.self.txt/blastn.mapping.csv&gt; /tax &lt;ssu-nt.blastnMaps.csv&gt; /taxonomy &lt;ncbi_taxonomy:names,nodes&gt; [/x2taxid &lt;x2taxid.dmp/DIR&gt; /tax-build-in /skip-exists /gi2taxid /parallel /theme-color &lt;default=&apos;Paired:c12&apos;&gt; /identities &lt;default:0.3&gt; /coverage &lt;default:0.3&gt; /out &lt;out-net.DIR&gt;]
 ''' ```
-''' /BLAST.Metagenome.SSU.Network /net &lt;blastn.self.txt/blastn.mapping.csv> /tax &lt;ssu-nt.blastnMaps.csv> /taxonomy &lt;ncbi_taxonomy:names,nodes> [/x2taxid &lt;x2taxid.dmp/DIR> /tax-build-in /skip-exists /gi2taxid /parallel /theme-color &lt;default='Paired:c12'> /identities &lt;default:0.3> /coverage &lt;default:0.3> /out &lt;out-net.DIR>]
-''' ```
-''' > Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28
+''' &gt; Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28
 ''' </summary>
 '''
 Public Function SSU_MetagenomeNetwork(net As String, tax As String, taxonomy As String, Optional x2taxid As String = "", Optional theme_color As String = "'Paired:c12'", Optional identities As String = "", Optional coverage As String = "", Optional out As String = "", Optional tax_build_in As Boolean = False, Optional skip_exists As Boolean = False, Optional gi2taxid As Boolean = False, Optional parallel As Boolean = False) As Integer
@@ -307,8 +307,8 @@ Public Function SSU_MetagenomeNetwork(net As String, tax As String, taxonomy As 
 End Function
 
 ''' <summary>
-''' ```
-''' /BLAST.Network /in &lt;inFile> [/out &lt;outDIR> /type &lt;default:blast_out; values: blast_out, sbh, bbh> /dict &lt;dict.xml>]
+''' ```bash
+''' /BLAST.Network /in &lt;inFile&gt; [/out &lt;outDIR&gt; /type &lt;default:blast_out; values: blast_out, sbh, bbh&gt; /dict &lt;dict.xml&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -333,8 +333,8 @@ Public Function GenerateBlastNetwork([in] As String, Optional out As String = ""
 End Function
 
 ''' <summary>
-''' ```
-''' /BLAST.Network.MetaBuild /in &lt;inDIR> [/out &lt;outDIR> /dict &lt;dict.xml>]
+''' ```bash
+''' /BLAST.Network.MetaBuild /in &lt;inDIR&gt; [/out &lt;outDIR&gt; /dict &lt;dict.xml&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -356,8 +356,8 @@ Public Function MetaBuildBLAST([in] As String, Optional out As String = "", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.Tree.NET /in &lt;cluster.csv> [/out &lt;outDIR> /brief /FamilyInfo &lt;regulons.DIR>]
+''' ```bash
+''' /Build.Tree.NET /in &lt;cluster.csv&gt; [/out &lt;outDIR&gt; /brief /FamilyInfo &lt;regulons.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -382,8 +382,8 @@ Public Function BuildTreeNET([in] As String, Optional out As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.Tree.NET.COGs /cluster &lt;cluster.csv> /COGs &lt;myvacog.csv> [/out &lt;outDIR>]
+''' ```bash
+''' /Build.Tree.NET.COGs /cluster &lt;cluster.csv&gt; /COGs &lt;myvacog.csv&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -403,8 +403,8 @@ Public Function BuildTreeNETCOGs(cluster As String, COGs As String, Optional out
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.Tree.NET.DEGs /in &lt;cluster.csv> /up &lt;locus.txt> /down &lt;locus.txt> [/out &lt;outDIR> /brief]
+''' ```bash
+''' /Build.Tree.NET.DEGs /in &lt;cluster.csv&gt; /up &lt;locus.txt&gt; /down &lt;locus.txt&gt; [/out &lt;outDIR&gt; /brief]
 ''' ```
 ''' </summary>
 '''
@@ -428,8 +428,8 @@ Public Function BuildTreeNET_DEGs([in] As String, up As String, down As String, 
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.Tree.NET.KEGG_Modules /in &lt;cluster.csv> /mods &lt;modules.XML.DIR> [/out &lt;outDIR> /brief /trim]
+''' ```bash
+''' /Build.Tree.NET.KEGG_Modules /in &lt;cluster.csv&gt; /mods &lt;modules.XML.DIR&gt; [/out &lt;outDIR&gt; /brief /trim]
 ''' ```
 ''' </summary>
 '''
@@ -455,8 +455,8 @@ Public Function BuildTreeNET_KEGGModules([in] As String, mods As String, Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.Tree.NET.KEGG_Pathways /in &lt;cluster.csv> /mods &lt;pathways.XML.DIR> [/out &lt;outDIR> /brief /trim]
+''' ```bash
+''' /Build.Tree.NET.KEGG_Pathways /in &lt;cluster.csv&gt; /mods &lt;pathways.XML.DIR&gt; [/out &lt;outDIR&gt; /brief /trim]
 ''' ```
 ''' </summary>
 '''
@@ -482,8 +482,8 @@ Public Function BuildTreeNET_KEGGPathways([in] As String, mods As String, Option
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.Tree.NET.Merged_Regulons /in &lt;cluster.csv> /family &lt;family_Hits.Csv> [/out &lt;outDIR> /brief]
+''' ```bash
+''' /Build.Tree.NET.Merged_Regulons /in &lt;cluster.csv&gt; /family &lt;family_Hits.Csv&gt; [/out &lt;outDIR&gt; /brief]
 ''' ```
 ''' </summary>
 '''
@@ -506,8 +506,8 @@ Public Function BuildTreeNET_MergeRegulons([in] As String, family As String, Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.Tree.NET.TF /in &lt;cluster.csv> /maps &lt;TF.Regprecise.maps.Csv> /map &lt;keyvaluepair.xml> /mods &lt;kegg_modules.DIR> [/out &lt;outDIR> /brief /cuts 0.8]
+''' ```bash
+''' /Build.Tree.NET.TF /in &lt;cluster.csv&gt; /maps &lt;TF.Regprecise.maps.Csv&gt; /map &lt;keyvaluepair.xml&gt; /mods &lt;kegg_modules.DIR&gt; [/out &lt;outDIR&gt; /brief /cuts 0.8]
 ''' ```
 ''' </summary>
 '''
@@ -535,8 +535,8 @@ Public Function BuildTreeNetTF([in] As String, maps As String, map As String, mo
 End Function
 
 ''' <summary>
-''' ```
-''' /kegg.compound.network /in &lt;compound.csv> /reactions &lt;reaction_table.csv> [/enzyme &lt;annotation.csv> /extended /enzymeRelated /size &lt;default=10000,7000> /out &lt;network.directory>]
+''' ```bash
+''' /kegg.compound.network /in &lt;compound.csv&gt; /reactions &lt;reaction_table.csv&gt; [/enzyme &lt;annotation.csv&gt; /extended /enzymeRelated /size &lt;default=10000,7000&gt; /out &lt;network.directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -568,8 +568,8 @@ Public Function CompoundNetwork([in] As String, reactions As String, Optional en
 End Function
 
 ''' <summary>
-''' ```
-''' /KEGG.Mods.NET /in &lt;mods.xml.DIR> [/out &lt;outDIR> /pathway /footprints &lt;footprints.Csv> /brief /cut 0 /pcc 0]
+''' ```bash
+''' /KEGG.Mods.NET /in &lt;mods.xml.DIR&gt; [/out &lt;outDIR&gt; /pathway /footprints &lt;footprints.Csv&gt; /brief /cut 0 /pcc 0]
 ''' ```
 ''' </summary>
 '''
@@ -603,8 +603,8 @@ Public Function ModsNET([in] As String, Optional out As String = "", Optional fo
 End Function
 
 ''' <summary>
-''' ```
-''' /KEGG.pathwayMap.Network /in &lt;br08901.DIR> [/node &lt;nodes.data.csv> /out &lt;out.DIR>]
+''' ```bash
+''' /KEGG.pathwayMap.Network /in &lt;br08901.DIR&gt; [/node &lt;nodes.data.csv&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -626,8 +626,8 @@ Public Function KEGGPathwayMapNetwork([in] As String, Optional node As String = 
 End Function
 
 ''' <summary>
-''' ```
-''' /KO.link /in &lt;ko00001.DIR> [/out &lt;out.XML>]
+''' ```bash
+''' /KO.link /in &lt;ko00001.DIR&gt; [/out &lt;out.XML&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -646,8 +646,8 @@ Public Function BuildKOLinks([in] As String, Optional out As String = "") As Int
 End Function
 
 ''' <summary>
-''' ```
-''' /linkage.knowledge.network /in &lt;knowledge.network.csv/DIR> [/schema &lt;material> /no-type_prefix /out &lt;out.network.DIR>]
+''' ```bash
+''' /linkage.knowledge.network /in &lt;knowledge.network.csv/DIR&gt; [/schema &lt;material&gt; /no-type_prefix /out &lt;out.network.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -672,8 +672,8 @@ Public Function LinkageKnowledgeNetwork([in] As String, Optional schema As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Matrix.NET /in &lt;kmeans-out.csv> [/out &lt;net.DIR> /generic /colors &lt;clusters> /cutoff 0 /cutoff.paired]
+''' ```bash
+''' /Matrix.NET /in &lt;kmeans-out.csv&gt; [/out &lt;net.DIR&gt; /generic /colors &lt;clusters&gt; /cutoff 0 /cutoff.paired]
 ''' ```
 ''' Converts a generic distance matrix or kmeans clustering result to network model.
 ''' </summary>
@@ -705,8 +705,8 @@ Public Function MatrixToNetwork([in] As String, Optional out As String = "", Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /modNET.Simple /in &lt;mods/pathway_DIR> [/out &lt;outDIR> /pathway]
+''' ```bash
+''' /modNET.Simple /in &lt;mods/pathway_DIR&gt; [/out &lt;outDIR&gt; /pathway]
 ''' ```
 ''' </summary>
 '''
@@ -728,8 +728,8 @@ Public Function SimpleModesNET([in] As String, Optional out As String = "", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /Motif.Cluster /query &lt;meme.txt/MEME_OUT.DIR> /LDM &lt;LDM-name/xml.path> [/clusters &lt;3> /out &lt;outCsv>]
+''' ```bash
+''' /Motif.Cluster /query &lt;meme.txt/MEME_OUT.DIR&gt; /LDM &lt;LDM-name/xml.path&gt; [/clusters &lt;3&gt; /out &lt;outCsv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -752,8 +752,8 @@ Public Function MotifCluster(query As String, LDM As String, Optional clusters A
 End Function
 
 ''' <summary>
-''' ```
-''' /Motif.Cluster.Fast /query &lt;meme_OUT.DIR> [/LDM &lt;ldm-DIR> /out &lt;outDIR> /map &lt;gb.gbk> /maxw -1 /ldm_loads]
+''' ```bash
+''' /Motif.Cluster.Fast /query &lt;meme_OUT.DIR&gt; [/LDM &lt;ldm-DIR&gt; /out &lt;outDIR&gt; /map &lt;gb.gbk&gt; /maxw -1 /ldm_loads]
 ''' ```
 ''' </summary>
 '''
@@ -784,8 +784,8 @@ Public Function FastCluster(query As String, Optional ldm As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /Motif.Cluster.Fast.Sites /in &lt;meme.txt.DIR> [/out &lt;outDIR> /LDM &lt;ldm-DIR>]
+''' ```bash
+''' /Motif.Cluster.Fast.Sites /in &lt;meme.txt.DIR&gt; [/out &lt;outDIR&gt; /LDM &lt;ldm-DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -807,8 +807,8 @@ Public Function MotifClusterSites([in] As String, Optional out As String = "", O
 End Function
 
 ''' <summary>
-''' ```
-''' /Motif.Cluster.MAT /query &lt;meme_OUT.DIR> [/LDM &lt;ldm-DIR> /clusters 5 /out &lt;outDIR>]
+''' ```bash
+''' /Motif.Cluster.MAT /query &lt;meme_OUT.DIR&gt; [/LDM &lt;ldm-DIR&gt; /clusters 5 /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -833,8 +833,8 @@ Public Function ClusterMatrix(query As String, Optional ldm As String = "", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /net.model /model &lt;kegg.xmlModel.xml> [/out &lt;outDIR> /not-trim]
+''' ```bash
+''' /net.model /model &lt;kegg.xmlModel.xml&gt; [/out &lt;outDIR&gt; /not-trim]
 ''' ```
 ''' </summary>
 '''
@@ -856,8 +856,8 @@ Public Function BuildModelNet(model As String, Optional out As String = "", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /net.pathway /model &lt;kegg.pathway.xml> [/out &lt;outDIR> /trim]
+''' ```bash
+''' /net.pathway /model &lt;kegg.pathway.xml&gt; [/out &lt;outDIR&gt; /trim]
 ''' ```
 ''' </summary>
 '''
@@ -879,8 +879,8 @@ Public Function PathwayNet(model As String, Optional out As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /Net.rFBA /in &lt;metacyc.sbml> /fba.out &lt;flux.Csv> [/out &lt;outDIR>]
+''' ```bash
+''' /Net.rFBA /in &lt;metacyc.sbml&gt; /fba.out &lt;flux.Csv&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -900,8 +900,8 @@ Public Function net_rFBA([in] As String, fba_out As String, Optional out As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /NetModel.TF_regulates /in &lt;footprints.csv> [/out &lt;outDIR> /cut 0.45]
+''' ```bash
+''' /NetModel.TF_regulates /in &lt;footprints.csv&gt; [/out &lt;outDIR&gt; /cut 0.45]
 ''' ```
 ''' Builds the regulation network between the TF.
 ''' </summary>
@@ -924,8 +924,8 @@ Public Function TFNet([in] As String, Optional out As String = "", Optional cut 
 End Function
 
 ''' <summary>
-''' ```
-''' /Phenotypes.KEGG /mods &lt;KEGG_Modules/Pathways.DIR> /in &lt;VirtualFootprints.csv> [/pathway /out &lt;outCluster.csv>]
+''' ```bash
+''' /Phenotypes.KEGG /mods &lt;KEGG_Modules/Pathways.DIR&gt; /in &lt;VirtualFootprints.csv&gt; [/pathway /out &lt;outCluster.csv&gt;]
 ''' ```
 ''' Regulator phenotype relationship cluster from virtual footprints.
 ''' </summary>
@@ -949,8 +949,8 @@ Public Function KEGGModulesPhenotypeRegulates(mods As String, [in] As String, Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Plot.Cytoscape.Table /in &lt;table.csv> [/size &lt;default=1600,1440> /out &lt;out.DIR>]
+''' ```bash
+''' /Plot.Cytoscape.Table /in &lt;table.csv&gt; [/size &lt;default=1600,1440&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -972,8 +972,8 @@ Public Function PlotCytoscapeTable([in] As String, Optional size As String = "16
 End Function
 
 ''' <summary>
-''' ```
-''' /reaction.NET [/model &lt;xmlModel.xml> /source &lt;rxn.DIR> /out &lt;outDIR>]
+''' ```bash
+''' /reaction.NET [/model &lt;xmlModel.xml&gt; /source &lt;rxn.DIR&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -997,8 +997,8 @@ Public Function ReactionNET(Optional model As String = "", Optional source As St
 End Function
 
 ''' <summary>
-''' ```
-''' /replace /in &lt;net.csv> /nodes &lt;nodes.Csv> /out &lt;out.Csv>
+''' ```bash
+''' /replace /in &lt;net.csv&gt; /nodes &lt;nodes.Csv&gt; /out &lt;out.Csv&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1016,8 +1016,8 @@ Public Function replaceName([in] As String, nodes As String, out As String) As I
 End Function
 
 ''' <summary>
-''' ```
-''' /Tree.Cluster /in &lt;in.MAT.csv> [/out &lt;out.cluster.csv> /Locus.Map &lt;Name>]
+''' ```bash
+''' /Tree.Cluster /in &lt;in.MAT.csv&gt; [/out &lt;out.cluster.csv&gt; /Locus.Map &lt;Name&gt;]
 ''' ```
 ''' This method is not recommended.
 ''' </summary>
@@ -1040,8 +1040,8 @@ Public Function TreeCluster([in] As String, Optional out As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /Tree.Cluster.rFBA /in &lt;in.flux.pheno_OUT.Csv> [/out &lt;out.cluster.csv>]
+''' ```bash
+''' /Tree.Cluster.rFBA /in &lt;in.flux.pheno_OUT.Csv&gt; [/out &lt;out.cluster.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1060,8 +1060,8 @@ Public Function rFBATreeCluster([in] As String, Optional out As String = "") As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Write.Compounds.Table /in &lt;kegg_compounds.DIR> [/out &lt;out.csv>]
+''' ```bash
+''' /Write.Compounds.Table /in &lt;kegg_compounds.DIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1080,8 +1080,8 @@ Public Function WriteKEGGCompoundsSummary([in] As String, Optional out As String
 End Function
 
 ''' <summary>
-''' ```
-''' /Write.Reaction.Table /in &lt;br08201.DIR> [/out &lt;out.csv>]
+''' ```bash
+''' /Write.Reaction.Table /in &lt;br08201.DIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1100,8 +1100,8 @@ Public Function WriteReactionTable([in] As String, Optional out As String = "") 
 End Function
 
 ''' <summary>
-''' ```
-''' -draw /network &lt;net_file> /parser &lt;xgmml/cyjs> [-size &lt;width,height> -out &lt;out_image> /style &lt;style_file> /style_parser &lt;vizmap/json>]
+''' ```bash
+''' -draw /network &lt;net_file&gt; /parser &lt;xgmml/cyjs&gt; [-size &lt;width,height&gt; -out &lt;out_image&gt; /style &lt;style_file&gt; /style_parser &lt;vizmap/json&gt;]
 ''' ```
 ''' Drawing a network image visualization based on the generate network layout from the officials cytoscape software.
 ''' </summary>
@@ -1131,8 +1131,8 @@ Public Function DrawingInvoke(network As String, parser As String, Optional size
 End Function
 
 ''' <summary>
-''' ```
-''' --graph.regulates /footprint &lt;footprints.csv> [/trim]
+''' ```bash
+''' --graph.regulates /footprint &lt;footprints.csv&gt; [/trim]
 ''' ```
 ''' </summary>
 '''
@@ -1151,8 +1151,8 @@ Public Function SimpleRegulation(footprint As String, Optional trim As Boolean =
 End Function
 
 ''' <summary>
-''' ```
-''' --mod.regulations /model &lt;KEGG.xml> /footprints &lt;footprints.csv> /out &lt;outDIR> [/pathway /class /type]
+''' ```bash
+''' --mod.regulations /model &lt;KEGG.xml&gt; /footprints &lt;footprints.csv&gt; /out &lt;outDIR&gt; [/pathway /class /type]
 ''' ```
 ''' </summary>
 '''
@@ -1179,8 +1179,8 @@ Public Function ModuleRegulations(model As String, footprints As String, out As 
 End Function
 
 ''' <summary>
-''' ```
-''' --TCS /in &lt;TCS.csv.DIR> /regulations &lt;TCS.virtualfootprints> /out &lt;outForCytoscape.xml> [/Fill-pcc]
+''' ```bash
+''' --TCS /in &lt;TCS.csv.DIR&gt; /regulations &lt;TCS.virtualfootprints&gt; /out &lt;outForCytoscape.xml&gt; [/Fill-pcc]
 ''' ```
 ''' </summary>
 '''

@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::e9744df2612a24084112c1c5120e18a3, visualize\Cytoscape\CLI_tool\CLI\Analysis.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: AnalysisNetworkProperty, NodeCluster
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: AnalysisNetworkProperty, NodeCluster
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,7 +52,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 
 Partial Module CLI
@@ -68,7 +68,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in])
         Dim net As NetGraph = NetGraph.Load([in])
-        Dim nodes$() = net.Nodes.Keys
+        Dim nodes$() = net.nodes.Keys
         Dim from = net.SearchIndex(from:=True)
         Dim [to] = net.SearchIndex(from:=False)
         Dim objects As New List(Of DataSet)
@@ -125,7 +125,7 @@ Partial Module CLI
         Dim schema$ = args.GetValue("/colors", "Paired:12")
         Dim ignores As New Index(Of String)((args <= "/ignores").StringSplit(",", True))
         Dim nodeTable = network _
-            .Nodes _
+            .nodes _
             .Where(Function(n) ignores.IndexOf(n.NodeType) = -1) _
             .ToDictionary
         Dim tick% = args.GetValue("/tick", 5)
@@ -141,23 +141,29 @@ Partial Module CLI
             .ToArray
 
         Call data.SaveTo(out & "/degrees.csv")
-        Call data.Select(Function(x) (group:=nodeTable(x.Name).NodeType, x)) _
+        Call data.Select(Function(x)
+                             Return (group:=nodeTable(x.Name).NodeType, x)
+                         End Function) _
             .GroupBy(Function(n) n.group) _
-            .OrderByDescending(Function(g) g.Sum(Function(x) x.Item2.Value)) _
+            .OrderByDescending(Function(g)
+                                   Return g.Sum(Function(x) x.Item2.Value)
+                               End Function) _
             .Take(6) _
             .ToDictionary(Function(k) k.Key,
-                          Function(g) g _
-                              .Select(Function(t) t.Item2) _
-                              .OrderByDescending(Function(x) x.Value) _
-                              .Take(7) _
-                              .OrderBy(Function(o) o.Name) _
-                              .Select(Function(x)
-                                          Return New NamedValue(Of Double) With {
-                                              .Name = x.Name,
-                                              .Value = x.Value
-                                          }
-                                      End Function) _
-                              .ToArray) _
+                          Function(g)
+                              Return g _
+                                  .Select(Function(t) t.Item2) _
+                                  .OrderByDescending(Function(x) x.Value) _
+                                  .Take(7) _
+                                  .OrderBy(Function(o) o.Name) _
+                                  .Select(Function(x)
+                                              Return New NamedValue(Of Double) With {
+                                                  .Name = x.Name,
+                                                  .Value = x.Value
+                                              }
+                                          End Function) _
+                                  .ToArray
+                          End Function) _
             .ProfilesPlot(size:="2400,1900",
                           title:="Network Connection Degrees",
                           axisTitle:="Node Degrees",
@@ -178,8 +184,8 @@ Partial Module CLI
                 valueLabelStyle:=CSSFont.Win7Large) _
             .Save(out & "/group_counts.png")
         Call {
-                 ("nodes", network.Nodes.Length),
-                 ("edges", network.Edges.Length)
+                 ("nodes", network.nodes.Length),
+                 ("edges", network.edges.Length)
              } _
               .Select(Function(t) New NamedValue(Of Integer)(t.Item1, t.Item2)) _
               .ToArray _

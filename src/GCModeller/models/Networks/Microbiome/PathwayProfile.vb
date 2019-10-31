@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::e6837ac08144d5f0cbaae81ebf428d97, Networks\Microbiome\PathwayProfile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module PathwayProfile
-    ' 
-    '     Function: (+2 Overloads) CreateProfile, EnrichmentTestInternal, MicrobiomePathwayNetwork, PathwayProfile, (+3 Overloads) PathwayProfiles
-    '               ProfileEnrichment
-    '     Class Profile
-    ' 
-    '         Properties: pct, Profile, RankGroup, Taxonomy
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class EnrichmentProfiles
-    ' 
-    '         Properties: pathway, profile, pvalue, RankGroup
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module PathwayProfile
+' 
+'     Function: (+2 Overloads) CreateProfile, EnrichmentTestInternal, MicrobiomePathwayNetwork, PathwayProfile, (+3 Overloads) PathwayProfiles
+'               ProfileEnrichment
+'     Class Profile
+' 
+'         Properties: pct, Profile, RankGroup, Taxonomy
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'     Class EnrichmentProfiles
+' 
+'         Properties: pathway, profile, pvalue, RankGroup
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -56,7 +56,8 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports RDotNET.Extensions.VisualBasic.API
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports RDotNet.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Metagenomics
@@ -93,11 +94,11 @@ Public Module PathwayProfile
                 .ToArray
 
             For Each map As MapIndex In pathways
-                If Not profile.ContainsKey(map.ID) Then
-                    Call profile.Add(map.ID, New Counter)
+                If Not profile.ContainsKey(map.id) Then
+                    Call profile.Add(map.id, New Counter)
                 End If
 
-                Call profile(map.ID).Hit()
+                Call profile(map.id).Hit()
             Next
         Next
 
@@ -133,10 +134,11 @@ Public Module PathwayProfile
 
         Dim ALL = taxonomyGroup.Select(Function(tax) tax.counts).Sum
         Dim profiles = taxonomyGroup _
-            .AsParallel _
             .Select(Function(tax)
                         Dim taxonomy As Taxonomy = tax.taxonomy
                         Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
+
+                        Call taxonomy.ToString(BIOMstyle:=True).__DEBUG_ECHO
 
                         ' 因为可能是gast.taxonomy，所以在这里需要使用new来进行复制
                         ' 否则后面的json/XML序列化会出错
@@ -154,7 +156,9 @@ Public Module PathwayProfile
         Dim profileGroup = profiles _
             .GroupBy(Function(tax) tax.RankGroup) _
             .ToDictionary(Function(g) g.Key,
-                          Function(profile) profile.ToArray)
+                          Function(profile)
+                              Return profile.ToArray
+                          End Function)
 
         Return profileGroup
     End Function
@@ -210,6 +214,10 @@ Public Module PathwayProfile
             Me.Profile = profile
             Me.pct = pct
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return Taxonomy.family & ": " & Profile.GetJson
+        End Function
     End Class
 
     ''' <summary>
@@ -325,15 +333,17 @@ Public Module PathwayProfile
         Dim mapGroup = profiles _
             .GroupBy(Function(map) map.pathway) _
             .ToDictionary(Function(g) g.Key,
-                          Function(mapProfiles) mapProfiles.ToArray)
+                          Function(mapProfiles)
+                              Return mapProfiles.ToArray
+                          End Function)
         Dim maps = idlist _
             .Select(Function(mapID) KEGG.GetByKey(mapID)) _
             .ToArray
         Dim network As NetworkGraph = maps.BuildNetwork(
             Sub(mapNode)
-                With mapGroup(mapNode.Label).Shadows
-                    mapNode.Data!pvalue = (-Numeric.Log10(!pvalue)).Average
-                    mapNode.Data!profile = !profile.Average
+                With mapGroup(mapNode.label).Shadows
+                    mapNode.data!pvalue = (-Numeric.Log10(!pvalue)).Average
+                    mapNode.data!profile = !profile.Average
                 End With
             End Sub)
 

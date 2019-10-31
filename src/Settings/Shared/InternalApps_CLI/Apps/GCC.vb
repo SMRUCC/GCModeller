@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7243.31533
+'  // ASSEMBLY:  Settings, Version=3.3277.7243.31533, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     10/31/2019 5:31:06 PM
 '  // 
 ' 
 ' 
@@ -77,8 +77,8 @@ Public Class GCC : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /compile.KEGG /in &lt;genome.gb> /KO &lt;ko.assign.csv> /maps &lt;kegg.pathways.repository> /compounds &lt;kegg.compounds.repository> /reactions &lt;kegg.reaction.repository> [/regulations &lt;transcription.regulates.csv> /out &lt;out.model.Xml/xlsx>]
+''' ```bash
+''' /compile.KEGG /in &lt;genome.gb&gt; /KO &lt;ko.assign.csv&gt; /maps &lt;kegg.pathways.repository&gt; /compounds &lt;kegg.compounds.repository&gt; /reactions &lt;kegg.reaction.repository&gt; [/regulations &lt;transcription.regulates.csv&gt; /out &lt;out.model.Xml/xlsx&gt;]
 ''' ```
 ''' Create GCModeller virtual cell data model file from KEGG reference data.
 ''' </summary>
@@ -105,8 +105,8 @@ Public Function CompileKEGG([in] As String, KO As String, maps As String, compou
 End Function
 
 ''' <summary>
-''' ```
-''' /compile.organism /in &lt;genome.gb> /kegg &lt;kegg.organism_pathways.repository/model.xml> [/regulations &lt;transcription.regulates.csv> /out &lt;out.model.Xml>]
+''' ```bash
+''' /compile.organism /in &lt;genome.gb&gt; /kegg &lt;kegg.organism_pathways.repository/model.xml&gt; [/regulations &lt;transcription.regulates.csv&gt; /out &lt;out.model.Xml&gt;]
 ''' ```
 ''' Create GCModeller virtual cell data model from KEGG organism pathway data
 ''' </summary>
@@ -130,8 +130,8 @@ Public Function CompileKEGGOrganism([in] As String, kegg As String, Optional reg
 End Function
 
 ''' <summary>
-''' ```
-''' /export.model.graph /model &lt;GCMarkup.xml/table.xlsx> [/pathway &lt;default=none> /disable.trim /degree &lt;default=1> /out &lt;out.dir>]
+''' ```bash
+''' /export.model.graph /model &lt;GCMarkup.xml/table.xlsx&gt; [/pathway &lt;default=none&gt; /disable.trim /degree &lt;default=1&gt; /out &lt;out.dir&gt;]
 ''' ```
 ''' Export cellular module network from virtual cell model file for cytoscape visualization.
 ''' </summary>
@@ -160,8 +160,8 @@ Public Function ExportModelGraph(model As String, Optional pathway As String = "
 End Function
 
 ''' <summary>
-''' ```
-''' /export.model.pathway_graph /model &lt;GCMarkup.xml/table.xlsx> [/disable.trim /degree &lt;default=1> /out &lt;out.dir>]
+''' ```bash
+''' /export.model.pathway_graph /model &lt;GCMarkup.xml/table.xlsx&gt; [/disable.trim /degree &lt;default=1&gt; /out &lt;out.dir&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -186,8 +186,8 @@ Public Function ExportPathwaysNetwork(model As String, Optional degree As String
 End Function
 
 ''' <summary>
-''' ```
-''' /iGEM.query.parts /list &lt;id.list.txt> [/out &lt;table.xls>]
+''' ```bash
+''' /iGEM.query.parts /list &lt;id.list.txt&gt; [/out &lt;table.xls&gt;]
 ''' ```
 ''' Query parts data from iGEM server by given id list.
 ''' </summary>
@@ -207,8 +207,8 @@ Public Function QueryParts(list As String, Optional out As String = "") As Integ
 End Function
 
 ''' <summary>
-''' ```
-''' /iGEM.select.parts /list &lt;id.list.txt> /allparts &lt;ALL_parts.fasta> [/out &lt;table.xls>]
+''' ```bash
+''' /iGEM.select.parts /list &lt;id.list.txt&gt; /allparts &lt;ALL_parts.fasta&gt; [/out &lt;table.xls&gt;]
 ''' ```
 ''' Select iGEM part sequence by given id list.
 ''' </summary>
@@ -229,8 +229,8 @@ Public Function SelectParts(list As String, allparts As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /summary &lt;model.GCMarkup>
+''' ```bash
+''' /summary &lt;model.GCMarkup&gt;
 ''' ```
 ''' </summary>
 '''
@@ -246,8 +246,8 @@ Public Function Summary(term As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' -add_replacement -old &lt;old_value> -new &lt;new_value>
+''' ```bash
+''' -add_replacement -old &lt;old_value&gt; -new &lt;new_value&gt;
 ''' ```
 ''' </summary>
 '''
@@ -264,8 +264,8 @@ Public Function AddNewPair(old As String, [new] As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' -add_rule -rulefile &lt;path> -db &lt;datadir> -model &lt;path> [-grep &lt;scriptText>]
+''' ```bash
+''' -add_rule -rulefile &lt;path&gt; -db &lt;datadir&gt; -model &lt;path&gt; [-grep &lt;scriptText&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -286,8 +286,8 @@ Public Function AddRule(rulefile As String, db As String, model As String, Optio
 End Function
 
 ''' <summary>
-''' ```
-''' compile_metacyc -i &lt;data_dir> -o &lt;output_file>
+''' ```bash
+''' compile_metacyc -i &lt;data_dir&gt; -o &lt;output_file&gt;
 ''' ```
 ''' compile a metacyc database into a gcml(genetic clock markup language) model file.
 ''' </summary>

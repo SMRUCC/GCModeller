@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7243.31533
+'  // ASSEMBLY:  Settings, Version=3.3277.7243.31533, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     10/31/2019 5:31:06 PM
 '  // 
 ' 
 ' 
@@ -88,8 +88,8 @@ Public Class Xfam : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /Export.Blastn /in &lt;blastout.txt> [/out &lt;blastn.Csv>]
+''' ```bash
+''' /Export.Blastn /in &lt;blastout.txt&gt; [/out &lt;blastn.Csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -108,8 +108,8 @@ Public Function ExportBlastn([in] As String, Optional out As String = "") As Int
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.Blastn.Batch /in &lt;blastout.DIR> [/out outDIR /large /num_threads &lt;-1> /no_parallel]
+''' ```bash
+''' /Export.Blastn.Batch /in &lt;blastout.DIR&gt; [/out outDIR /large /num_threads &lt;-1&gt; /no_parallel]
 ''' ```
 ''' </summary>
 '''
@@ -137,8 +137,8 @@ Public Function ExportBlastns([in] As String, Optional out As String = "", Optio
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.hmmscan /in &lt;input_hmmscan.txt> [/evalue 1e-5 /out &lt;pfam.csv>]
+''' ```bash
+''' /Export.hmmscan /in &lt;input_hmmscan.txt&gt; [/evalue 1e-5 /out &lt;pfam.csv&gt;]
 ''' ```
 ''' Export result from HMM search based domain annotation result.
 ''' </summary>
@@ -161,8 +161,8 @@ Public Function ExportHMMScan([in] As String, Optional evalue As String = "", Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.hmmsearch /in &lt;input_hmmsearch.txt> [/prot &lt;query.fasta> /out &lt;pfam.csv>]
+''' ```bash
+''' /Export.hmmsearch /in &lt;input_hmmsearch.txt&gt; [/prot &lt;query.fasta&gt; /out &lt;pfam.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -184,8 +184,8 @@ Public Function ExportHMMSearch([in] As String, Optional prot As String = "", Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.Pfam.UltraLarge /in &lt;blastOUT.txt> [/out &lt;out.csv> /evalue &lt;0.00001> /coverage &lt;0.85> /offset &lt;0.1>]
+''' ```bash
+''' /Export.Pfam.UltraLarge /in &lt;blastOUT.txt&gt; [/out &lt;out.csv&gt; /evalue &lt;0.00001&gt; /coverage &lt;0.85&gt; /offset &lt;0.1&gt;]
 ''' ```
 ''' Export pfam annotation result from blastp based sequence alignment analysis.
 ''' </summary>
@@ -214,8 +214,8 @@ Public Function ExportUltraLarge([in] As String, Optional out As String = "", Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.PfamHits /in &lt;blastp_vs_pfamA.txt> [/alt.direction /evalue &lt;1e-5> /coverage &lt;0.8> /identities &lt;0.7> /out &lt;pfamhits.csv>]
+''' ```bash
+''' /Export.PfamHits /in &lt;blastp_vs_pfamA.txt&gt; [/alt.direction /evalue &lt;1e-5&gt; /coverage &lt;0.8&gt; /identities &lt;0.7&gt; /out &lt;pfamhits.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -246,8 +246,8 @@ Public Function ExportPfamHits([in] As String, Optional evalue As String = "", O
 End Function
 
 ''' <summary>
-''' ```
-''' /Fasta2Table /in &lt;database.fasta> [/out &lt;table.csv>]
+''' ```bash
+''' /Fasta2Table /in &lt;database.fasta&gt; [/out &lt;table.csv&gt;]
 ''' ```
 ''' Parse and save the pfam sequence fasta database as csv table file. (Debug used only)
 ''' </summary>
@@ -267,8 +267,8 @@ Public Function ParseFastaAsTable([in] As String, Optional out As String = "") A
 End Function
 
 ''' <summary>
-''' ```
-''' /Load.cmscan /in &lt;stdout.txt> [/out &lt;out.Xml>]
+''' ```bash
+''' /Load.cmscan /in &lt;stdout.txt&gt; [/out &lt;out.Xml&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -287,8 +287,8 @@ Public Function LoadDoc([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Load.cmsearch /in &lt;stdio.txt> /out &lt;out.Xml>
+''' ```bash
+''' /Load.cmsearch /in &lt;stdio.txt&gt; /out &lt;out.Xml&gt;
 ''' ```
 ''' </summary>
 '''
@@ -305,8 +305,8 @@ Public Function LoadCMSearch([in] As String, out As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Pfam.Annotation /in &lt;pfamhits.csv> [/out &lt;out.pfamstring.csv>]
+''' ```bash
+''' /Pfam.Annotation /in &lt;pfamhits.csv&gt; [/out &lt;out.pfamstring.csv&gt;]
 ''' ```
 ''' Do pfam functional domain annotation based on the pfam hits result.
 ''' </summary>
@@ -326,8 +326,8 @@ Public Function PfamAnnotation([in] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /pfam2go /in &lt;pfamhits.csv> /togo &lt;pfam2go.txt> [/out &lt;annotations.xml>]
+''' ```bash
+''' /pfam2go /in &lt;pfamhits.csv&gt; /togo &lt;pfam2go.txt&gt; [/out &lt;annotations.xml&gt;]
 ''' ```
 ''' Do go annotation based on the pfam mapping to go term.
 ''' </summary>
@@ -348,8 +348,8 @@ Public Function Pfam2Go([in] As String, togo As String, Optional out As String =
 End Function
 
 ''' <summary>
-''' ```
-''' /Rfam /in &lt;blastMappings.Csv.DIR> /PTT &lt;pttDIR> [/prefix &lt;sp_prefix> /out &lt;out.Rfam.csv> /offset 10 /non-directed]
+''' ```bash
+''' /Rfam /in &lt;blastMappings.Csv.DIR&gt; /PTT &lt;pttDIR&gt; [/prefix &lt;sp_prefix&gt; /out &lt;out.Rfam.csv&gt; /offset 10 /non-directed]
 ''' ```
 ''' </summary>
 '''
@@ -378,8 +378,8 @@ Public Function RfamAnalysis([in] As String, PTT As String, Optional prefix As S
 End Function
 
 ''' <summary>
-''' ```
-''' /Rfam.Align /query &lt;sequence.fasta> [/rfam &lt;DIR> /out &lt;outDIR> /num_threads -1 /ticks 1000]
+''' ```bash
+''' /Rfam.Align /query &lt;sequence.fasta&gt; [/rfam &lt;DIR&gt; /out &lt;outDIR&gt; /num_threads -1 /ticks 1000]
 ''' ```
 ''' </summary>
 '''
@@ -407,8 +407,8 @@ Public Function RfamAlignment(query As String, Optional rfam As String = "", Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /Rfam.GenomicsContext /in &lt;scan_sites.Csv> /PTT &lt;genome.PTT> [/dist 500 /out &lt;out.csv>]
+''' ```bash
+''' /Rfam.GenomicsContext /in &lt;scan_sites.Csv&gt; /PTT &lt;genome.PTT&gt; [/dist 500 /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -431,8 +431,8 @@ Public Function RfamGenomicsContext([in] As String, PTT As String, Optional dist
 End Function
 
 ''' <summary>
-''' ```
-''' /Rfam.Regulatory /query &lt;RfamilyMappings.csv> /mast &lt;mastsites.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /Rfam.Regulatory /query &lt;RfamilyMappings.csv&gt; /mast &lt;mastsites.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -452,8 +452,8 @@ Public Function RfamRegulatory(query As String, mast As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Rfam.Regulons /in &lt;cmsearch.hits.csv> /regulons &lt;regprecise.regulons.hits.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /Rfam.Regulons /in &lt;cmsearch.hits.csv&gt; /regulons &lt;regprecise.regulons.hits.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -473,8 +473,8 @@ Public Function RFamRegulons([in] As String, regulons As String, Optional out As
 End Function
 
 ''' <summary>
-''' ```
-''' /Rfam.SeedsDb.Dump /in &lt;rfam.seed> [/out &lt;rfam.csv>]
+''' ```bash
+''' /Rfam.SeedsDb.Dump /in &lt;rfam.seed&gt; [/out &lt;rfam.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -493,8 +493,8 @@ Public Function DumpSeedsDb([in] As String, Optional out As String = "") As Inte
 End Function
 
 ''' <summary>
-''' ```
-''' /Rfam.Sites.Seq /nt &lt;nt.fasta> /sites &lt;sites.csv> [/out out.fasta]
+''' ```bash
+''' /Rfam.Sites.Seq /nt &lt;nt.fasta&gt; /sites &lt;sites.csv&gt; [/out out.fasta]
 ''' ```
 ''' </summary>
 '''
@@ -514,8 +514,8 @@ Public Function RfamSites(nt As String, sites As String, Optional out As String 
 End Function
 
 ''' <summary>
-''' ```
-''' --Install.Rfam /seed &lt;rfam.seed>
+''' ```bash
+''' --Install.Rfam /seed &lt;rfam.seed&gt;
 ''' ```
 ''' </summary>
 '''

@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7243.31533
+'  // ASSEMBLY:  Settings, Version=3.3277.7243.31533, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     10/31/2019 5:31:06 PM
 '  // 
 ' 
 ' 
@@ -64,8 +64,8 @@ Public Class venn : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' .Draw -i &lt;csv_file> [-t &lt;diagram_title> -o &lt;_diagram_saved_path> -s &lt;partitions_option_pairs/*.csv> /First.ID.Skip -rbin &lt;r_bin_directory>]
+''' ```bash
+''' .Draw -i &lt;csv_file&gt; [-t &lt;diagram_title&gt; -o &lt;_diagram_saved_path&gt; -s &lt;partitions_option_pairs/*.csv&gt; /First.ID.Skip -rbin &lt;r_bin_directory&gt;]
 ''' ```
 ''' Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. The generated venn dragram will be saved as tiff file format.
 ''' </summary>

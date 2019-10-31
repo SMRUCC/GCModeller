@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7243.31533
+'  // ASSEMBLY:  Settings, Version=3.3277.7243.31533, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     10/31/2019 5:31:06 PM
 '  // 
 ' 
 ' 
@@ -184,8 +184,8 @@ Public Class MEME : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /BBH.Select.Regulators /in &lt;bbh.csv> /db &lt;regprecise_downloads.DIR> [/out &lt;out.csv>]
+''' ```bash
+''' /BBH.Select.Regulators /in &lt;bbh.csv&gt; /db &lt;regprecise_downloads.DIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' Select bbh result for the regulators in RegPrecise database from the regulon bbh data.
 ''' </summary>
@@ -206,8 +206,8 @@ Public Function SelectRegulatorsBBH([in] As String, db As String, Optional out A
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.FamilyDb /prot &lt;RegPrecise.prot.fasta> /pfam &lt;pfam-string.csv> [/out &lt;out.Xml>]
+''' ```bash
+''' /Build.FamilyDb /prot &lt;RegPrecise.prot.fasta&gt; /pfam &lt;pfam-string.csv&gt; [/out &lt;out.Xml&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -227,8 +227,8 @@ Public Function BuildFamilyDb(prot As String, pfam As String, Optional out As St
 End Function
 
 ''' <summary>
-''' ```
-''' /Copys /in &lt;inDIR> [/out &lt;outDIR> /file &lt;meme.txt>]
+''' ```bash
+''' /Copys /in &lt;inDIR&gt; [/out &lt;outDIR&gt; /file &lt;meme.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -250,8 +250,8 @@ Public Function BatchCopy([in] As String, Optional out As String = "", Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' /Copys.DIR /in &lt;inDIR> /out &lt;outDIR>
+''' ```bash
+''' /Copys.DIR /in &lt;inDIR&gt; /out &lt;outDIR&gt;
 ''' ```
 ''' </summary>
 '''
@@ -268,8 +268,8 @@ Public Function BatchCopyDIR([in] As String, out As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /CORN /in &lt;operons.csv> /mast &lt;mastDIR> /PTT &lt;genome.ptt> [/out &lt;out.csv>]
+''' ```bash
+''' /CORN /in &lt;operons.csv&gt; /mast &lt;mastDIR&gt; /PTT &lt;genome.ptt&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -290,8 +290,8 @@ Public Function CORN([in] As String, mast As String, PTT As String, Optional out
 End Function
 
 ''' <summary>
-''' ```
-''' /EXPORT.MotifDraws /in &lt;virtualFootprints.csv> /MEME &lt;meme.txt.DIR> /KEGG &lt;KEGG_Modules/Pathways.DIR> [/pathway /out &lt;outDIR>]
+''' ```bash
+''' /EXPORT.MotifDraws /in &lt;virtualFootprints.csv&gt; /MEME &lt;meme.txt.DIR&gt; /KEGG &lt;KEGG_Modules/Pathways.DIR&gt; [/pathway /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -315,8 +315,8 @@ Public Function ExportMotifDraw([in] As String, MEME As String, KEGG As String, 
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.MotifSites /in &lt;meme.txt> [/out &lt;outDIR> /batch]
+''' ```bash
+''' /Export.MotifSites /in &lt;meme.txt&gt; [/out &lt;outDIR&gt; /batch]
 ''' ```
 ''' Motif iteration step 1
 ''' </summary>
@@ -339,7 +339,7 @@ Public Function ExportTestMotifs([in] As String, Optional out As String = "", Op
 End Function
 
 ''' <summary>
-''' ```
+''' ```bash
 ''' /Export.Regprecise.Motifs
 ''' ```
 ''' This commandline tool have no argument parameters.
@@ -356,8 +356,8 @@ Public Function ExportRegpreciseMotifs() As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Export.Similarity.Hits /in &lt;inDIR> [/out &lt;out.Csv>]
+''' ```bash
+''' /Export.Similarity.Hits /in &lt;inDIR&gt; [/out &lt;out.Csv&gt;]
 ''' ```
 ''' Motif iteration step 2
 ''' </summary>
@@ -377,8 +377,8 @@ Public Function LoadSimilarityHits([in] As String, Optional out As String = "") 
 End Function
 
 ''' <summary>
-''' ```
-''' /Footprints /footprints &lt;footprints.xml> /coor &lt;name/DIR> /DOOR &lt;genome.opr> /maps &lt;bbhMappings.Csv> [/out &lt;out.csv> /cuts &lt;0.65> /extract]
+''' ```bash
+''' /Footprints /footprints &lt;footprints.xml&gt; /coor &lt;name/DIR&gt; /DOOR &lt;genome.opr&gt; /maps &lt;bbhMappings.Csv&gt; [/out &lt;out.csv&gt; /cuts &lt;0.65&gt; /extract]
 ''' ```
 ''' 3 - Generates the regulation footprints.
 ''' </summary>
@@ -407,8 +407,8 @@ Public Function ToFootprints(footprints As String, coor As String, DOOR As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Hits.Context /footprints &lt;footprints.Xml> /PTT &lt;genome.PTT> [/out &lt;out.Xml> /RegPrecise &lt;RegPrecise.Regulations.Xml>]
+''' ```bash
+''' /Hits.Context /footprints &lt;footprints.Xml&gt; /PTT &lt;genome.PTT&gt; [/out &lt;out.Xml&gt; /RegPrecise &lt;RegPrecise.Regulations.Xml&gt;]
 ''' ```
 ''' 2
 ''' </summary>
@@ -432,8 +432,8 @@ Public Function HitContext(footprints As String, PTT As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /LDM.Compares /query &lt;query.LDM.Xml> /sub &lt;subject.LDM.Xml> [/out &lt;outDIR>]
+''' ```bash
+''' /LDM.Compares /query &lt;query.LDM.Xml&gt; /sub &lt;subject.LDM.Xml&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -453,8 +453,8 @@ Public Function CompareMotif(query As String, [sub] As String, Optional out As S
 End Function
 
 ''' <summary>
-''' ```
-''' /LDM.MaxW [/in &lt;sourceDIR>]
+''' ```bash
+''' /LDM.MaxW [/in &lt;sourceDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -472,8 +472,8 @@ Public Function LDMMaxLen(Optional [in] As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /LDM.Selects /trace &lt;footprints.xml> /meme &lt;memeDIR> [/out &lt;outDIR> /named]
+''' ```bash
+''' /LDM.Selects /trace &lt;footprints.xml&gt; /meme &lt;memeDIR&gt; [/out &lt;outDIR&gt; /named]
 ''' ```
 ''' </summary>
 '''
@@ -496,8 +496,8 @@ Public Function Selectes(trace As String, meme As String, Optional out As String
 End Function
 
 ''' <summary>
-''' ```
-''' /MAST.MotifMatches /meme &lt;meme.txt.DIR> /mast &lt;MAST_OUT.DIR> [/out &lt;out.csv>]
+''' ```bash
+''' /MAST.MotifMatches /meme &lt;meme.txt.DIR&gt; /mast &lt;MAST_OUT.DIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -517,8 +517,8 @@ Public Function MotifMatch2(meme As String, mast As String, Optional out As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /MAST.MotifMatchs.Family /meme &lt;meme.txt.DIR> /mast &lt;MAST_OUT.DIR> [/out &lt;out.Xml>]
+''' ```bash
+''' /MAST.MotifMatchs.Family /meme &lt;meme.txt.DIR&gt; /mast &lt;MAST_OUT.DIR&gt; [/out &lt;out.Xml&gt;]
 ''' ```
 ''' 1
 ''' </summary>
@@ -539,8 +539,8 @@ Public Function MotifMatch(meme As String, mast As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /mast.Regulations /in &lt;mastSites.Csv> /correlation &lt;sp_name/DIR> /DOOR &lt;DOOR.opr> [/out &lt;footprint.csv> /cut &lt;0.65>]
+''' ```bash
+''' /mast.Regulations /in &lt;mastSites.Csv&gt; /correlation &lt;sp_name/DIR&gt; /DOOR &lt;DOOR.opr&gt; [/out &lt;footprint.csv&gt; /cut &lt;0.65&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -564,8 +564,8 @@ Public Function MastRegulations([in] As String, correlation As String, DOOR As S
 End Function
 
 ''' <summary>
-''' ```
-''' /MAST_LDM.Build /source &lt;sourceDIR> [/out &lt;exportDIR:=./> /evalue &lt;1e-3>]
+''' ```bash
+''' /MAST_LDM.Build /source &lt;sourceDIR&gt; [/out &lt;exportDIR:=./&gt; /evalue &lt;1e-3&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -587,8 +587,8 @@ Public Function BuildPWMDb(source As String, Optional out As String = "", Option
 End Function
 
 ''' <summary>
-''' ```
-''' /MEME.Batch /in &lt;inDIR> [/out &lt;outDIR> /evalue &lt;1> /nmotifs &lt;30> /mod &lt;zoops> /maxw &lt;100>]
+''' ```bash
+''' /MEME.Batch /in &lt;inDIR&gt; [/out &lt;outDIR&gt; /evalue &lt;1&gt; /nmotifs &lt;30&gt; /mod &lt;zoops&gt; /maxw &lt;100&gt;]
 ''' ```
 ''' Batch meme task by using tmod toolbox.
 ''' </summary>
@@ -620,8 +620,8 @@ Public Function MEMEBatch([in] As String, Optional out As String = "", Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' /MEME.LDMs /in &lt;meme.txt> [/out &lt;outDIR>]
+''' ```bash
+''' /MEME.LDMs /in &lt;meme.txt&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -640,8 +640,8 @@ Public Function MEME2LDM([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Motif.BuildRegulons /meme &lt;meme.txt.DIR> /model &lt;FootprintTrace.xml> /DOOR &lt;DOOR.opr> /maps &lt;bbhmappings.csv> /corrs &lt;name/DIR> [/cut &lt;0.65> /out &lt;outDIR>]
+''' ```bash
+''' /Motif.BuildRegulons /meme &lt;meme.txt.DIR&gt; /model &lt;FootprintTrace.xml&gt; /DOOR &lt;DOOR.opr&gt; /maps &lt;bbhmappings.csv&gt; /corrs &lt;name/DIR&gt; [/cut &lt;0.65&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -667,10 +667,10 @@ Public Function BuildRegulons(meme As String, model As String, DOOR As String, m
 End Function
 
 ''' <summary>
+''' ```bash
+''' /Motif.Info /loci &lt;loci.csv&gt; [/motifs &lt;motifs.DIR&gt; /gff &lt;genome.gff&gt; /atg-dist 250 /out &lt;out.csv&gt;]
 ''' ```
-''' /Motif.Info /loci &lt;loci.csv> [/motifs &lt;motifs.DIR> /gff &lt;genome.gff> /atg-dist 250 /out &lt;out.csv>]
-''' ```
-''' Assign the phenotype information And genomic context Info for the motif sites. [SimpleSegment] -> [MotifLog]
+''' Assign the phenotype information And genomic context Info for the motif sites. [SimpleSegment] -&gt; [MotifLog]
 ''' </summary>
 '''
 Public Function MotifInfo(loci As String, Optional motifs As String = "", Optional gff As String = "", Optional atg_dist As String = "", Optional out As String = "") As Integer
@@ -697,10 +697,10 @@ Public Function MotifInfo(loci As String, Optional motifs As String = "", Option
 End Function
 
 ''' <summary>
+''' ```bash
+''' /Motif.Info.Batch /in &lt;sites.csv.inDIR&gt; /gffs &lt;gff.DIR&gt; [/motifs &lt;regulogs.motiflogs.MEME.DIR&gt; /num_threads -1 /atg-dist 350 /out &lt;out.DIR&gt;]
 ''' ```
-''' /Motif.Info.Batch /in &lt;sites.csv.inDIR> /gffs &lt;gff.DIR> [/motifs &lt;regulogs.motiflogs.MEME.DIR> /num_threads -1 /atg-dist 350 /out &lt;out.DIR>]
-''' ```
-''' [SimpleSegment] -> [MotifLog]
+''' [SimpleSegment] -&gt; [MotifLog]
 ''' </summary>
 '''
 Public Function MotifInfoBatch([in] As String, gffs As String, Optional motifs As String = "", Optional num_threads As String = "", Optional atg_dist As String = "", Optional out As String = "") As Integer
@@ -728,8 +728,8 @@ Public Function MotifInfoBatch([in] As String, gffs As String, Optional motifs A
 End Function
 
 ''' <summary>
-''' ```
-''' /Motif.Similarity /in &lt;tomtom.DIR> /motifs &lt;MEME_OUT.DIR> [/out &lt;out.csv> /bp.var]
+''' ```bash
+''' /Motif.Similarity /in &lt;tomtom.DIR&gt; /motifs &lt;MEME_OUT.DIR&gt; [/out &lt;out.csv&gt; /bp.var]
 ''' ```
 ''' Export of the calculation result from the tomtom program.
 ''' </summary>
@@ -753,8 +753,8 @@ Public Function MEMETOM_MotifSimilarity([in] As String, motifs As String, Option
 End Function
 
 ''' <summary>
-''' ```
-''' /MotifHits.Regulation /hits &lt;motifHits.Csv> /source &lt;meme.txt.DIR> /PTT &lt;genome.PTT> /correlates &lt;sp/DIR> /bbh &lt;bbhh.csv> [/out &lt;out.footprints.Csv>]
+''' ```bash
+''' /MotifHits.Regulation /hits &lt;motifHits.Csv&gt; /source &lt;meme.txt.DIR&gt; /PTT &lt;genome.PTT&gt; /correlates &lt;sp/DIR&gt; /bbh &lt;bbhh.csv&gt; [/out &lt;out.footprints.Csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -777,8 +777,8 @@ Public Function HitsRegulation(hits As String, source As String, PTT As String, 
 End Function
 
 ''' <summary>
-''' ```
-''' /MotifSites.Fasta /in &lt;mast_motifsites.csv> [/out &lt;out.fasta>]
+''' ```bash
+''' /MotifSites.Fasta /in &lt;mast_motifsites.csv&gt; [/out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -797,8 +797,8 @@ Public Function MotifSites2Fasta([in] As String, Optional out As String = "") As
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.DEGs /degs &lt;deseq2.csv> /PTT &lt;genomePTT.DIR> /door &lt;genome.opr> /out &lt;out.DIR> [/log-fold 2]
+''' ```bash
+''' /Parser.DEGs /degs &lt;deseq2.csv&gt; /PTT &lt;genomePTT.DIR&gt; /door &lt;genome.opr&gt; /out &lt;out.DIR&gt; [/log-fold 2]
 ''' ```
 ''' </summary>
 '''
@@ -820,8 +820,8 @@ Public Function ParserDEGs(degs As String, PTT As String, door As String, out As
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.Locus /locus &lt;locus.txt> /PTT &lt;genomePTT.DIR> /DOOR &lt;genome.opr> [/out &lt;out.DIR>]
+''' ```bash
+''' /Parser.Locus /locus &lt;locus.txt&gt; /PTT &lt;genomePTT.DIR&gt; /DOOR &lt;genome.opr&gt; [/out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -842,8 +842,8 @@ Public Function ParserLocus(locus As String, PTT As String, DOOR As String, Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.Log2 /in &lt;log2.csv> /PTT &lt;genomePTT.DIR> /DOOR &lt;genome.opr> [/factor 1 /out &lt;outDIR>]
+''' ```bash
+''' /Parser.Log2 /in &lt;log2.csv&gt; /PTT &lt;genomePTT.DIR&gt; /DOOR &lt;genome.opr&gt; [/factor 1 /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -867,8 +867,8 @@ Public Function ParserLog2([in] As String, PTT As String, DOOR As String, Option
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.MAST /sites &lt;mastsites.csv> /ptt &lt;genome-context.pttDIR> /door &lt;genome.opr> [/out &lt;outDIR>]
+''' ```bash
+''' /Parser.MAST /sites &lt;mastsites.csv&gt; /ptt &lt;genome-context.pttDIR&gt; /door &lt;genome.opr&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -889,8 +889,8 @@ Public Function ParserMAST(sites As String, ptt As String, door As String, Optio
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.Modules /KEGG.Modules &lt;KEGG.modules.DIR> /PTT &lt;genomePTT.DIR> /DOOR &lt;genome.opr> [/locus &lt;union/initx/locus, default:=union> /out &lt;fasta.outDIR>]
+''' ```bash
+''' /Parser.Modules /KEGG.Modules &lt;KEGG.modules.DIR&gt; /PTT &lt;genomePTT.DIR&gt; /DOOR &lt;genome.opr&gt; [/locus &lt;union/initx/locus, default:=union&gt; /out &lt;fasta.outDIR&gt;]
 ''' ```
 ''' Parsing promoter sequence region for genes in kegg reaction modules
 ''' </summary>
@@ -915,8 +915,8 @@ Public Function ModuleParser(KEGG_Modules As String, PTT As String, DOOR As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.Operon /in &lt;footprint.csv> /PTT &lt;PTTDIR> [/out &lt;outDIR> /family /offset &lt;50> /all]
+''' ```bash
+''' /Parser.Operon /in &lt;footprint.csv&gt; /PTT &lt;PTTDIR&gt; [/out &lt;outDIR&gt; /family /offset &lt;50&gt; /all]
 ''' ```
 ''' </summary>
 '''
@@ -945,8 +945,8 @@ Public Function ParserNextIterator([in] As String, PTT As String, Optional out A
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.Pathway /KEGG.Pathways &lt;KEGG.pathways.DIR/organismModel.Xml> /src &lt;genomePTT.DIR/gbff.txt> [/DOOR &lt;genome.opr> /locus &lt;union/initx/locus, default:=union> /out &lt;fasta.outDIR>]
+''' ```bash
+''' /Parser.Pathway /KEGG.Pathways &lt;KEGG.pathways.DIR/organismModel.Xml&gt; /src &lt;genomePTT.DIR/gbff.txt&gt; [/DOOR &lt;genome.opr&gt; /locus &lt;union/initx/locus, default:=union&gt; /out &lt;fasta.outDIR&gt;]
 ''' ```
 ''' Parsing promoter sequence region for genes in pathways.
 ''' </summary>
@@ -973,8 +973,8 @@ Public Function PathwayParser(KEGG_Pathways As String, src As String, Optional d
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.Pathway.Batch /in &lt;pathway.directory> /assembly &lt;NCBI_assembly.directory> [/out &lt;out.directory>]
+''' ```bash
+''' /Parser.Pathway.Batch /in &lt;pathway.directory&gt; /assembly &lt;NCBI_assembly.directory&gt; [/out &lt;out.directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -994,8 +994,8 @@ Public Function PathwayParserBatch([in] As String, assembly As String, Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.RegPrecise.Operons /operon &lt;operons.Csv> /PTT &lt;PTT_DIR> [/corn /DOOR &lt;genome.opr> /id &lt;null> /locus &lt;union/initx/locus, default:=union> /out &lt;outDIR>]
+''' ```bash
+''' /Parser.RegPrecise.Operons /operon &lt;operons.Csv&gt; /PTT &lt;PTT_DIR&gt; [/corn /DOOR &lt;genome.opr&gt; /id &lt;null&gt; /locus &lt;union/initx/locus, default:=union&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1027,8 +1027,8 @@ Public Function ParserRegPreciseOperon(operon As String, PTT As String, Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.Regulon /inDIR &lt;regulons.inDIR> /out &lt;fasta.outDIR> /PTT &lt;genomePTT.DIR> [/door &lt;genome.opr>]
+''' ```bash
+''' /Parser.Regulon /inDIR &lt;regulons.inDIR&gt; /out &lt;fasta.outDIR&gt; /PTT &lt;genomePTT.DIR&gt; [/door &lt;genome.opr&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1049,8 +1049,8 @@ Public Function RegulonParser(inDIR As String, out As String, PTT As String, Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.Regulon.gb /inDIR &lt;regulons.inDIR> /out &lt;fasta.outDIR> /gb &lt;genbank.gbk> [/door &lt;genome.opr>]
+''' ```bash
+''' /Parser.Regulon.gb /inDIR &lt;regulons.inDIR&gt; /out &lt;fasta.outDIR&gt; /gb &lt;genbank.gbk&gt; [/door &lt;genome.opr&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1071,8 +1071,8 @@ Public Function RegulonParser2(inDIR As String, out As String, gb As String, Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /Parser.Regulon.Merged /in &lt;merged.Csv> /out &lt;fasta.outDIR> /PTT &lt;genomePTT.DIR> [/DOOR &lt;genome.opr>]
+''' ```bash
+''' /Parser.Regulon.Merged /in &lt;merged.Csv&gt; /out &lt;fasta.outDIR&gt; /PTT &lt;genomePTT.DIR&gt; [/DOOR &lt;genome.opr&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1093,8 +1093,8 @@ Public Function RegulonParser3([in] As String, out As String, PTT As String, Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /Regulator.Motifs /bbh &lt;bbh.csv> /regprecise &lt;genome.DIR> [/out &lt;outDIR>]
+''' ```bash
+''' /Regulator.Motifs /bbh &lt;bbh.csv&gt; /regprecise &lt;genome.DIR&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1114,8 +1114,8 @@ Public Function RegulatorMotifs(bbh As String, regprecise As String, Optional ou
 End Function
 
 ''' <summary>
-''' ```
-''' /Regulator.Motifs.Test /hits &lt;familyHits.Csv> /motifs &lt;motifHits.Csv> [/out &lt;out.csv>]
+''' ```bash
+''' /Regulator.Motifs.Test /hits &lt;familyHits.Csv&gt; /motifs &lt;motifHits.Csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1135,7 +1135,7 @@ Public Function TestRegulatorMotifs(hits As String, motifs As String, Optional o
 End Function
 
 ''' <summary>
-''' ```
+''' ```bash
 ''' /regulators.compile
 ''' ```
 ''' Regprecise regulators data source compiler.
@@ -1152,8 +1152,8 @@ Public Function RegulatorsCompile() As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /regulon.export /in &lt;sw-tom_out.DIR> /ref &lt;regulon.bbh.xml.DIR> [/out &lt;out.csv>]
+''' ```bash
+''' /regulon.export /in &lt;sw-tom_out.DIR&gt; /ref &lt;regulon.bbh.xml.DIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1173,8 +1173,8 @@ Public Function ExportRegulon([in] As String, ref As String, Optional out As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /Regulon.Reconstruct /bbh &lt;bbh.csv> /genome &lt;RegPrecise.genome.xml> /door &lt;operon.door> [/out &lt;outfile.csv>]
+''' ```bash
+''' /Regulon.Reconstruct /bbh &lt;bbh.csv&gt; /genome &lt;RegPrecise.genome.xml&gt; /door &lt;operon.door&gt; [/out &lt;outfile.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1195,8 +1195,8 @@ Public Function RegulonReconstruct(bbh As String, genome As String, door As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /Regulon.Reconstruct2 /bbh &lt;bbh.csv> /genome &lt;RegPrecise.genome.DIR> /door &lt;operons.opr> [/out &lt;outDIR>]
+''' ```bash
+''' /Regulon.Reconstruct2 /bbh &lt;bbh.csv&gt; /genome &lt;RegPrecise.genome.DIR&gt; /door &lt;operons.opr&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1217,8 +1217,8 @@ Public Function RegulonReconstructs2(bbh As String, genome As String, door As St
 End Function
 
 ''' <summary>
-''' ```
-''' /Regulon.Reconstructs /bbh &lt;bbh_EXPORT_csv.DIR> /genome &lt;RegPrecise.genome.DIR> [/door &lt;operon.door> /out &lt;outDIR>]
+''' ```bash
+''' /Regulon.Reconstructs /bbh &lt;bbh_EXPORT_csv.DIR&gt; /genome &lt;RegPrecise.genome.DIR&gt; [/door &lt;operon.door&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' Doing the regulon reconstruction job in batch mode.
 ''' </summary>
@@ -1242,8 +1242,8 @@ Public Function RegulonReconstructs(bbh As String, genome As String, Optional do
 End Function
 
 ''' <summary>
-''' ```
-''' /Regulon.Test /in &lt;meme.txt> /reg &lt;genome.bbh.regulon.xml> /bbh &lt;maps.bbh.Csv>
+''' ```bash
+''' /Regulon.Test /in &lt;meme.txt&gt; /reg &lt;genome.bbh.regulon.xml&gt; /bbh &lt;maps.bbh.Csv&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1261,8 +1261,8 @@ Public Function RegulonTest([in] As String, reg As String, bbh As String) As Int
 End Function
 
 ''' <summary>
-''' ```
-''' /RfamSites /source &lt;sourceDIR> [/out &lt;out.fastaDIR>]
+''' ```bash
+''' /RfamSites /source &lt;sourceDIR&gt; [/out &lt;out.fastaDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1281,8 +1281,8 @@ Public Function RfamSites(source As String, Optional out As String = "") As Inte
 End Function
 
 ''' <summary>
-''' ```
-''' /seq.logo /in &lt;meme.txt> [/out &lt;outDIR>]
+''' ```bash
+''' /seq.logo /in &lt;meme.txt&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1301,8 +1301,8 @@ Public Function SequenceLogoTask([in] As String, Optional out As String = "") As
 End Function
 
 ''' <summary>
-''' ```
-''' /Similarity.Union /in &lt;preSource.fasta.DIR> /meme &lt;meme.txt.DIR> /hits &lt;similarity_hist.Csv> [/out &lt;out.DIR>]
+''' ```bash
+''' /Similarity.Union /in &lt;preSource.fasta.DIR&gt; /meme &lt;meme.txt.DIR&gt; /hits &lt;similarity_hist.Csv&gt; [/out &lt;out.DIR&gt;]
 ''' ```
 ''' Motif iteration step 3
 ''' </summary>
@@ -1324,10 +1324,10 @@ Public Function UnionSimilarity([in] As String, meme As String, hits As String, 
 End Function
 
 ''' <summary>
+''' ```bash
+''' /Site.MAST_Scan /mast &lt;mast.xml/DIR&gt; [/batch /out &lt;out.csv&gt;]
 ''' ```
-''' /Site.MAST_Scan /mast &lt;mast.xml/DIR> [/batch /out &lt;out.csv>]
-''' ```
-''' [MAST.Xml] -> [SimpleSegment]
+''' [MAST.Xml] -&gt; [SimpleSegment]
 ''' </summary>
 '''
 Public Function SiteMASTScan(mast As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
@@ -1348,10 +1348,10 @@ Public Function SiteMASTScan(mast As String, Optional out As String = "", Option
 End Function
 
 ''' <summary>
+''' ```bash
+''' /Site.MAST_Scan /mast &lt;mast.xml.DIR&gt; [/out &lt;out.csv.DIR&gt; /num_threads &lt;-1&gt;]
 ''' ```
-''' /Site.MAST_Scan /mast &lt;mast.xml.DIR> [/out &lt;out.csv.DIR> /num_threads &lt;-1>]
-''' ```
-''' [MAST.Xml] -> [SimpleSegment]
+''' [MAST.Xml] -&gt; [SimpleSegment]
 ''' </summary>
 '''
 Public Function SiteMASTScanBatch(mast As String, Optional out As String = "", Optional num_threads As String = "") As Integer
@@ -1372,8 +1372,8 @@ Public Function SiteMASTScanBatch(mast As String, Optional out As String = "", O
 End Function
 
 ''' <summary>
-''' ```
-''' /Site.RegexScan /meme &lt;meme.txt> /nt &lt;nt.fasta> [/batch /out &lt;out.csv>]
+''' ```bash
+''' /Site.RegexScan /meme &lt;meme.txt&gt; /nt &lt;nt.fasta&gt; [/batch /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1396,8 +1396,8 @@ Public Function SiteRegexScan(meme As String, nt As String, Optional out As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' /site.scan /query &lt;LDM.xml> /subject &lt;subject.fasta> [/out &lt;outDIR>]
+''' ```bash
+''' /site.scan /query &lt;LDM.xml&gt; /subject &lt;subject.fasta&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1417,8 +1417,8 @@ Public Function SiteScan(query As String, subject As String, Optional out As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /SiteHits.Footprints /sites &lt;MotifSiteHits.Csv> /bbh &lt;bbh.Csv> /meme &lt;meme.txt_DIR> /PTT &lt;genome.PTT> /DOOR &lt;DOOR.opr> [/queryHash /out &lt;out.csv>]
+''' ```bash
+''' /SiteHits.Footprints /sites &lt;MotifSiteHits.Csv&gt; /bbh &lt;bbh.Csv&gt; /meme &lt;meme.txt_DIR&gt; /PTT &lt;genome.PTT&gt; /DOOR &lt;DOOR.opr&gt; [/queryHash /out &lt;out.csv&gt;]
 ''' ```
 ''' Generates the regulation information.
 ''' </summary>
@@ -1445,8 +1445,8 @@ Public Function SiteHitsToFootprints(sites As String, bbh As String, meme As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /SWTOM.Compares /query &lt;query.meme.txt> /subject &lt;subject.meme.txt> [/out &lt;outDIR> /no-HTML]
+''' ```bash
+''' /SWTOM.Compares /query &lt;query.meme.txt&gt; /subject &lt;subject.meme.txt&gt; [/out &lt;outDIR&gt; /no-HTML]
 ''' ```
 ''' </summary>
 '''
@@ -1469,8 +1469,8 @@ Public Function SWTomCompares(query As String, subject As String, Optional out A
 End Function
 
 ''' <summary>
-''' ```
-''' /SWTOM.Compares.Batch /query &lt;query.meme.DIR> /subject &lt;subject.meme.DIR> [/out &lt;outDIR> /no-HTML]
+''' ```bash
+''' /SWTOM.Compares.Batch /query &lt;query.meme.DIR&gt; /subject &lt;subject.meme.DIR&gt; [/out &lt;outDIR&gt; /no-HTML]
 ''' ```
 ''' </summary>
 '''
@@ -1493,8 +1493,8 @@ Public Function SWTomComparesBatch(query As String, subject As String, Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' /SWTOM.LDM /query &lt;ldm.xml> /subject &lt;ldm.xml> [/out &lt;outDIR> /method &lt;pcc/ed/sw; default:=pcc>]
+''' ```bash
+''' /SWTOM.LDM /query &lt;ldm.xml&gt; /subject &lt;ldm.xml&gt; [/out &lt;outDIR&gt; /method &lt;pcc/ed/sw; default:=pcc&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1517,8 +1517,8 @@ Public Function SWTomLDM(query As String, subject As String, Optional out As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /SWTOM.Query /query &lt;meme.txt> [/out &lt;outDIR> /method &lt;pcc> /bits.level 1.6 /minW 6 /no-HTML]
+''' ```bash
+''' /SWTOM.Query /query &lt;meme.txt&gt; [/out &lt;outDIR&gt; /method &lt;pcc&gt; /bits.level 1.6 /minW 6 /no-HTML]
 ''' ```
 ''' </summary>
 '''
@@ -1549,8 +1549,8 @@ Public Function SWTomQuery(query As String, Optional out As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /SWTOM.Query.Batch /query &lt;meme.txt.DIR> [/out &lt;outDIR> /SW-offset 0.6 /method &lt;pcc> /bits.level 1.5 /minW 4 /SW-threshold 0.75 /tom-threshold 0.75 /no-HTML]
+''' ```bash
+''' /SWTOM.Query.Batch /query &lt;meme.txt.DIR&gt; [/out &lt;outDIR&gt; /SW-offset 0.6 /method &lt;pcc&gt; /bits.level 1.5 /minW 4 /SW-threshold 0.75 /tom-threshold 0.75 /no-HTML]
 ''' ```
 ''' </summary>
 '''
@@ -1590,8 +1590,8 @@ Public Function SWTomQueryBatch(query As String, Optional out As String = "", Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Tom.Query /query &lt;ldm.xml/meme.txt> [/out &lt;outDIR> /method &lt;pcc/ed; default:=pcc> /cost &lt;0.7> /threshold &lt;0.65> /meme]
+''' ```bash
+''' /Tom.Query /query &lt;ldm.xml/meme.txt&gt; [/out &lt;outDIR&gt; /method &lt;pcc/ed; default:=pcc&gt; /cost &lt;0.7&gt; /threshold &lt;0.65&gt; /meme]
 ''' ```
 ''' </summary>
 '''
@@ -1622,8 +1622,8 @@ Public Function TomQuery(query As String, Optional out As String = "", Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' /Tom.Query.Batch /query &lt;inDIR> [/out &lt;outDIR> /method &lt;pcc/ed; default:=pcc> /cost 0.7 /threshold &lt;0.65>]
+''' ```bash
+''' /Tom.Query.Batch /query &lt;inDIR&gt; [/out &lt;outDIR&gt; /method &lt;pcc/ed; default:=pcc&gt; /cost 0.7 /threshold &lt;0.65&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1651,8 +1651,8 @@ Public Function TomQueryBatch(query As String, Optional out As String = "", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /TomTOM /query &lt;meme.txt> /subject &lt;LDM.xml> [/out &lt;outDIR> /method &lt;pcc/ed; default:=pcc> /cost &lt;0.7> /threshold &lt;0.3>]
+''' ```bash
+''' /TomTOM /query &lt;meme.txt&gt; /subject &lt;LDM.xml&gt; [/out &lt;outDIR&gt; /method &lt;pcc/ed; default:=pcc&gt; /cost &lt;0.7&gt; /threshold &lt;0.3&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1681,8 +1681,8 @@ Public Function TomTOMMethod(query As String, subject As String, Optional out As
 End Function
 
 ''' <summary>
-''' ```
-''' /TomTom.LDM /query &lt;ldm.xml> /subject &lt;ldm.xml> [/out &lt;outDIR> /method &lt;pcc/ed/sw; default:=sw> /cost &lt;0.7> /threshold &lt;0.65>]
+''' ```bash
+''' /TomTom.LDM /query &lt;ldm.xml&gt; /subject &lt;ldm.xml&gt; [/out &lt;outDIR&gt; /method &lt;pcc/ed/sw; default:=sw&gt; /cost &lt;0.7&gt; /threshold &lt;0.65&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1711,8 +1711,8 @@ Public Function LDMTomTom(query As String, subject As String, Optional out As St
 End Function
 
 ''' <summary>
-''' ```
-''' /TomTOM.Similarity /in &lt;TOM_OUT.DIR> [/out &lt;out.Csv>]
+''' ```bash
+''' /TomTOM.Similarity /in &lt;TOM_OUT.DIR&gt; [/out &lt;out.Csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1731,8 +1731,8 @@ Public Function MEMEPlantSimilarity([in] As String, Optional out As String = "")
 End Function
 
 ''' <summary>
-''' ```
-''' /TOMTOM.Similarity.Batch /in &lt;inDIR> [/out &lt;out.csv>]
+''' ```bash
+''' /TOMTOM.Similarity.Batch /in &lt;inDIR&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1751,8 +1751,8 @@ Public Function MEMEPlantSimilarityBatch([in] As String, Optional out As String 
 End Function
 
 ''' <summary>
-''' ```
-''' /TomTom.Sites.Groups /in &lt;similarity.csv> /meme &lt;meme.DIR> [/grep &lt;regex> /out &lt;out.DIR>]
+''' ```bash
+''' /TomTom.Sites.Groups /in &lt;similarity.csv&gt; /meme &lt;meme.DIR&gt; [/grep &lt;regex&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1775,8 +1775,8 @@ Public Function ExportTOMSites([in] As String, meme As String, Optional grep As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Trim.MastSite /in &lt;mastSite.Csv> /locus &lt;locus_tag> /correlations &lt;DIR/name> [/out &lt;out.csv> /cut &lt;0.65>]
+''' ```bash
+''' /Trim.MastSite /in &lt;mastSite.Csv&gt; /locus &lt;locus_tag&gt; /correlations &lt;DIR/name&gt; [/out &lt;out.csv&gt; /cut &lt;0.65&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1800,8 +1800,8 @@ Public Function Trim([in] As String, locus As String, correlations As String, Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Trim.MEME.Dataset /in &lt;seq.fasta> [/out &lt;out.fasta> /minl 8 /distinct]
+''' ```bash
+''' /Trim.MEME.Dataset /in &lt;seq.fasta&gt; [/out &lt;out.fasta&gt; /minl 8 /distinct]
 ''' ```
 ''' Trim meme input data set for duplicated sequence and short seqeucne which its min length is smaller than the required min length.
 ''' </summary>
@@ -1827,8 +1827,8 @@ Public Function TrimInputs([in] As String, Optional out As String = "", Optional
 End Function
 
 ''' <summary>
-''' ```
-''' --build.Regulations /bbh &lt;regprecise.bbhMapped.csv> /mast &lt;mastSites.csv> [/cutoff &lt;0.6> /out &lt;out.csv> /sp &lt;spName> /DOOR &lt;genome.opr> /DOOR.extract]
+''' ```bash
+''' --build.Regulations /bbh &lt;regprecise.bbhMapped.csv&gt; /mast &lt;mastSites.csv&gt; [/cutoff &lt;0.6&gt; /out &lt;out.csv&gt; /sp &lt;spName&gt; /DOOR &lt;genome.opr&gt; /DOOR.extract]
 ''' ```
 ''' Genome wide step 2
 ''' </summary>
@@ -1861,8 +1861,8 @@ Public Function Build(bbh As String, mast As String, Optional cutoff As String =
 End Function
 
 ''' <summary>
-''' ```
-''' --build.Regulations.From.Motifs /bbh &lt;regprecise.bbhMapped.csv> /motifs &lt;motifSites.csv> [/cutoff &lt;0.6> /sp &lt;spName> /out &lt;out.csv>]
+''' ```bash
+''' --build.Regulations.From.Motifs /bbh &lt;regprecise.bbhMapped.csv&gt; /motifs &lt;motifSites.csv&gt; [/cutoff &lt;0.6&gt; /sp &lt;spName&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1888,8 +1888,8 @@ Public Function BuildFromMotifSites(bbh As String, motifs As String, Optional cu
 End Function
 
 ''' <summary>
-''' ```
-''' --CExpr.WGCNA /mods &lt;CytoscapeNodes.txt> /genome &lt;genome.DIR|*.PTT;*.fna> [/out &lt;DIR.out>]
+''' ```bash
+''' --CExpr.WGCNA /mods &lt;CytoscapeNodes.txt&gt; /genome &lt;genome.DIR|*.PTT;*.fna&gt; [/out &lt;DIR.out&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1909,8 +1909,8 @@ Public Function WGCNAModsCExpr(mods As String, genome As String, Optional out As
 End Function
 
 ''' <summary>
-''' ```
-''' --Dump.KEGG.Family /in &lt;in.fasta> [/out &lt;out.csv>]
+''' ```bash
+''' --Dump.KEGG.Family /in &lt;in.fasta&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1929,8 +1929,8 @@ Public Function KEGGFamilyDump([in] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' --family.statics /sites &lt;motifSites.csv> /mods &lt;directory.kegg_modules>
+''' ```bash
+''' --family.statics /sites &lt;motifSites.csv&gt; /mods &lt;directory.kegg_modules&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1947,8 +1947,8 @@ Public Function FamilyStatics(sites As String, mods As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' --Get.Intergenic /PTT &lt;genome.ptt> /nt &lt;genome.fasta> [/o &lt;out.fasta> /len 100 /strict]
+''' ```bash
+''' --Get.Intergenic /PTT &lt;genome.ptt&gt; /nt &lt;genome.fasta&gt; [/o &lt;out.fasta&gt; /len 100 /strict]
 ''' ```
 ''' </summary>
 '''
@@ -1974,8 +1974,8 @@ Public Function GetIntergenic(PTT As String, nt As String, Optional o As String 
 End Function
 
 ''' <summary>
-''' ```
-''' --GetFasta /bbh &lt;bbhh.csv> /id &lt;subject_id> /regprecise &lt;regprecise.fasta>
+''' ```bash
+''' --GetFasta /bbh &lt;bbhh.csv&gt; /id &lt;subject_id&gt; /regprecise &lt;regprecise.fasta&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1993,8 +1993,8 @@ Public Function GetFasta(bbh As String, id As String, regprecise As String) As I
 End Function
 
 ''' <summary>
-''' ```
-''' --hits.diff /query &lt;bbhh.csv> /subject &lt;bbhh.csv> [/reverse]
+''' ```bash
+''' --hits.diff /query &lt;bbhh.csv&gt; /subject &lt;bbhh.csv&gt; [/reverse]
 ''' ```
 ''' </summary>
 '''
@@ -2014,8 +2014,8 @@ Public Function DiffHits(query As String, subject As String, Optional reverse As
 End Function
 
 ''' <summary>
-''' ```
-''' --Intersect.Max /query &lt;bbhh.csv> /subject &lt;bbhh.csv>
+''' ```bash
+''' --Intersect.Max /query &lt;bbhh.csv&gt; /subject &lt;bbhh.csv&gt;
 ''' ```
 ''' </summary>
 '''
@@ -2032,8 +2032,8 @@ Public Function MaxIntersection(query As String, subject As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' --logo.Batch -in &lt;inDIR> [/out &lt;outDIR>]
+''' ```bash
+''' --logo.Batch -in &lt;inDIR&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2052,8 +2052,8 @@ Public Function LogoBatch([in] As String, Optional out As String = "") As Intege
 End Function
 
 ''' <summary>
-''' ```
-''' --mapped-Back /meme &lt;meme.text> /mast &lt;mast.xml> /ptt &lt;genome.ptt> [/out &lt;out.csv> /offset &lt;10> /atg-dist &lt;250>]
+''' ```bash
+''' --mapped-Back /meme &lt;meme.text&gt; /mast &lt;mast.xml&gt; /ptt &lt;genome.ptt&gt; [/out &lt;out.csv&gt; /offset &lt;10&gt; /atg-dist &lt;250&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2080,8 +2080,8 @@ Public Function SiteMappedBack(meme As String, mast As String, ptt As String, Op
 End Function
 
 ''' <summary>
-''' ```
-''' mast.compile /mast &lt;mast.xml> /ptt &lt;genome.ptt> [/no-meme /no-regInfo /p-value 1e-3 /mast-ldm &lt;DIR default:=GCModeller/Regprecise/MEME/MAST_LDM> /atg-dist 250]
+''' ```bash
+''' mast.compile /mast &lt;mast.xml&gt; /ptt &lt;genome.ptt&gt; [/no-meme /no-regInfo /p-value 1e-3 /mast-ldm &lt;DIR default:=GCModeller/Regprecise/MEME/MAST_LDM&gt; /atg-dist 250]
 ''' ```
 ''' </summary>
 '''
@@ -2113,8 +2113,8 @@ Public Function CompileMast(mast As String, ptt As String, Optional p_value As S
 End Function
 
 ''' <summary>
-''' ```
-''' mast.compile.bulk /source &lt;source_dir> [/ptt &lt;genome.ptt> /atg-dist &lt;500> /no-meme /no-regInfo /p-value 1e-3 /mast-ldm &lt;DIR default:=GCModeller/Regprecise/MEME/MAST_LDM> /related.all]
+''' ```bash
+''' mast.compile.bulk /source &lt;source_dir&gt; [/ptt &lt;genome.ptt&gt; /atg-dist &lt;500&gt; /no-meme /no-regInfo /p-value 1e-3 /mast-ldm &lt;DIR default:=GCModeller/Regprecise/MEME/MAST_LDM&gt; /related.all]
 ''' ```
 ''' Genome wide step 1
 ''' </summary>
@@ -2152,8 +2152,8 @@ Public Function CompileMastBuck(source As String, Optional ptt As String = "", O
 End Function
 
 ''' <summary>
-''' ```
-''' --modules.regulates /in &lt;virtualfootprints.csv> [/out &lt;out.DIR> /mods &lt;KEGG_modules.DIR>]
+''' ```bash
+''' --modules.regulates /in &lt;virtualfootprints.csv&gt; [/out &lt;out.DIR&gt; /mods &lt;KEGG_modules.DIR&gt;]
 ''' ```
 ''' Exports the Venn diagram model for the module regulations.
 ''' </summary>
@@ -2176,8 +2176,8 @@ Public Function ModuleRegulates([in] As String, Optional out As String = "", Opt
 End Function
 
 ''' <summary>
-''' ```
-''' Motif.Locates -ptt &lt;bacterial_genome.ptt> -meme &lt;meme.txt> [/out &lt;out.csv>]
+''' ```bash
+''' Motif.Locates -ptt &lt;bacterial_genome.ptt&gt; -meme &lt;meme.txt&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2197,8 +2197,8 @@ Public Function MotifLocites(ptt As String, meme As String, Optional out As Stri
 End Function
 
 ''' <summary>
-''' ```
-''' MotifScan -nt &lt;nt.fasta> /motif &lt;motifLDM.xml/LDM_Name/FamilyName> [/delta &lt;default:80> /delta2 &lt;default:70> /offSet &lt;default:5> /out &lt;saved.csv>]
+''' ```bash
+''' MotifScan -nt &lt;nt.fasta&gt; /motif &lt;motifLDM.xml/LDM_Name/FamilyName&gt; [/delta &lt;default:80&gt; /delta2 &lt;default:70&gt; /offSet &lt;default:5&gt; /out &lt;saved.csv&gt;]
 ''' ```
 ''' Scan for the motif site by using fragment similarity.
 ''' </summary>
@@ -2228,8 +2228,8 @@ Public Function MotifScan(nt As String, motif As String, Optional delta As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' --pathway.regulates -footprints &lt;virtualfootprint.csv> /pathway &lt;DIR.KEGG.Pathways> [/out &lt;./PathwayRegulations/>]
+''' ```bash
+''' --pathway.regulates -footprints &lt;virtualfootprint.csv&gt; /pathway &lt;DIR.KEGG.Pathways&gt; [/out &lt;./PathwayRegulations/&gt;]
 ''' ```
 ''' Associates of the pathway regulation information for the predicted virtual footprint information.
 ''' </summary>
@@ -2250,8 +2250,8 @@ Public Function PathwayRegulations(footprints As String, pathway As String, Opti
 End Function
 
 ''' <summary>
-''' ```
-''' regulators.bbh /bbh &lt;bbhDIR/bbh.index.Csv> [/save &lt;save.csv> /direct /regulons /maps &lt;genome.gb>]
+''' ```bash
+''' regulators.bbh /bbh &lt;bbhDIR/bbh.index.Csv&gt; [/save &lt;save.csv&gt; /direct /regulons /maps &lt;genome.gb&gt;]
 ''' ```
 ''' Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.
 ''' </summary>
@@ -2280,8 +2280,8 @@ Public Function RegulatorsBBh(bbh As String, Optional save As String = "", Optio
 End Function
 
 ''' <summary>
-''' ```
-''' --site.Match /meme &lt;meme.text> /mast &lt;mast.xml> /out &lt;out.csv> [/ptt &lt;genome.ptt> /len &lt;150,200,250,300,350,400,450,500>]
+''' ```bash
+''' --site.Match /meme &lt;meme.text&gt; /mast &lt;mast.xml&gt; /out &lt;out.csv&gt; [/ptt &lt;genome.ptt&gt; /len &lt;150,200,250,300,350,400,450,500&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2305,8 +2305,8 @@ Public Function SiteMatch(meme As String, mast As String, out As String, Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' --site.Matches /meme &lt;DIR.meme.text> /mast &lt;DIR.mast.xml> /out &lt;out.csv> [/ptt &lt;genome.ptt>]
+''' ```bash
+''' --site.Matches /meme &lt;DIR.meme.text&gt; /mast &lt;DIR.mast.xml&gt; /out &lt;out.csv&gt; [/ptt &lt;genome.ptt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2327,8 +2327,8 @@ Public Function SiteMatches(meme As String, mast As String, out As String, Optio
 End Function
 
 ''' <summary>
-''' ```
-''' --site.Matches.text /meme &lt;DIR.meme.text> /mast &lt;DIR.mast.xml> /out &lt;out.csv> [/ptt &lt;genome.ptt> /fasta &lt;original.fasta.DIR>]
+''' ```bash
+''' --site.Matches.text /meme &lt;DIR.meme.text&gt; /mast &lt;DIR.mast.xml&gt; /out &lt;out.csv&gt; [/ptt &lt;genome.ptt&gt; /fasta &lt;original.fasta.DIR&gt;]
 ''' ```
 ''' Using this function for processing the meme text output from the tmod toolbox.
 ''' </summary>
@@ -2353,8 +2353,8 @@ Public Function SiteMatchesText(meme As String, mast As String, out As String, O
 End Function
 
 ''' <summary>
-''' ```
-''' --site.stat /in &lt;footprints.csv> [/out &lt;out.csv>]
+''' ```bash
+''' --site.stat /in &lt;footprints.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' Statics of the PCC correlation distribution of the regulation
 ''' </summary>
@@ -2374,8 +2374,8 @@ Public Function SiteStat([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' --TCS.Module.Regulations /MiST2 &lt;MiST2.xml> /footprint &lt;footprints.csv> /Pathways &lt;KEGG_Pathways.DIR>
+''' ```bash
+''' --TCS.Module.Regulations /MiST2 &lt;MiST2.xml&gt; /footprint &lt;footprints.csv&gt; /Pathways &lt;KEGG_Pathways.DIR&gt;
 ''' ```
 ''' </summary>
 '''
@@ -2393,8 +2393,8 @@ Public Function TCSRegulateModule(MiST2 As String, footprint As String, Pathways
 End Function
 
 ''' <summary>
-''' ```
-''' --TCS.Regulations /TCS &lt;DIR.TCS.csv> /modules &lt;DIR.mod.xml> /regulations &lt;virtualfootprint.csv>
+''' ```bash
+''' --TCS.Regulations /TCS &lt;DIR.TCS.csv&gt; /modules &lt;DIR.mod.xml&gt; /regulations &lt;virtualfootprint.csv&gt;
 ''' ```
 ''' </summary>
 '''
@@ -2412,8 +2412,8 @@ Public Function TCSRegulations(TCS As String, modules As String, regulations As 
 End Function
 
 ''' <summary>
-''' ```
-''' VirtualFootprint.DIP vf.csv &lt;csv> dip.csv &lt;csv>
+''' ```bash
+''' VirtualFootprint.DIP vf.csv &lt;csv&gt; dip.csv &lt;csv&gt;
 ''' ```
 ''' Associate the dip information with the Sigma 70 virtual footprints.
 ''' </summary>

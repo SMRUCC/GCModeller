@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7243.31533
+'  // ASSEMBLY:  Settings, Version=3.3277.7243.31533, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     10/31/2019 5:31:06 PM
 '  // 
 ' 
 ' 
@@ -150,7 +150,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 '    /enricher.background:                   Create enrichment analysis background based on the uniprot
 '                                            xml database.
-'    /enrichment.go:                         
 '    /Term2genes:                            
 ' 
 ' 
@@ -248,8 +247,8 @@ Public Class eggHTS : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /blastX.fill.ORF /in &lt;annotations.csv> /blastx &lt;blastx.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /blastX.fill.ORF /in &lt;annotations.csv&gt; /blastx &lt;blastx.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -269,8 +268,8 @@ Public Function BlastXFillORF([in] As String, blastx As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /COG.profiling.plot /in &lt;myvacog.csv> [/size &lt;image_size, default=1800,1200> /out &lt;out.png>]
+''' ```bash
+''' /COG.profiling.plot /in &lt;myvacog.csv&gt; [/size &lt;image_size, default=1800,1200&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' Plots the COGs category statics profiling of the target genome from the COG annotation file.
 ''' </summary>
@@ -293,8 +292,8 @@ Public Function COGCatalogProfilingPlot([in] As String, Optional size As String 
 End Function
 
 ''' <summary>
-''' ```
-''' /Converts /in &lt;GSEA.terms.csv> [/out &lt;result.terms.csv>]
+''' ```bash
+''' /Converts /in &lt;GSEA.terms.csv&gt; [/out &lt;result.terms.csv&gt;]
 ''' ```
 ''' Converts the GCModeller enrichment analysis output as the KOBAS enrichment analysis result output table.
 ''' </summary>
@@ -314,8 +313,8 @@ Public Function Converts([in] As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Data.Add.Mappings /in &lt;data.csv> /bbh &lt;bbh.csv> /ID.mappings &lt;uniprot.ID.mappings.tsv> /uniprot &lt;uniprot.XML> [/ID &lt;fieldName> /out &lt;out.csv>]
+''' ```bash
+''' /Data.Add.Mappings /in &lt;data.csv&gt; /bbh &lt;bbh.csv&gt; /ID.mappings &lt;uniprot.ID.mappings.tsv&gt; /uniprot &lt;uniprot.XML&gt; [/ID &lt;fieldName&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -340,8 +339,8 @@ Public Function AddReMapping([in] As String, bbh As String, ID_mappings As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Data.Add.ORF /in &lt;data.csv> /uniprot &lt;uniprot.XML> [/ID &lt;fieldName> /out &lt;out.csv>]
+''' ```bash
+''' /Data.Add.ORF /in &lt;data.csv&gt; /uniprot &lt;uniprot.XML&gt; [/ID &lt;fieldName&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -364,8 +363,8 @@ Public Function DataAddORF([in] As String, uniprot As String, Optional id As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /Data.Add.uniprotIDs /in &lt;annotations.csv> /data &lt;data.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /Data.Add.uniprotIDs /in &lt;annotations.csv&gt; /data &lt;data.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -385,8 +384,8 @@ Public Function DataAddUniprotIDs([in] As String, data As String, Optional out A
 End Function
 
 ''' <summary>
-''' ```
-''' /DAVID.Split /in &lt;DAVID.txt> [/out &lt;out.DIR, default=./>]
+''' ```bash
+''' /DAVID.Split /in &lt;DAVID.txt&gt; [/out &lt;out.DIR, default=./&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -405,10 +404,10 @@ Public Function SplitDAVID([in] As String, Optional out As String = "./") As Int
 End Function
 
 ''' <summary>
+''' ```bash
+''' /DEP.heatmap.scatter.3D /in &lt;kmeans.csv&gt; /sampleInfo &lt;sampleInfo.csv&gt; [/display.labels &lt;default=-1&gt; /cluster.prefix &lt;default=&quot;cluster: #&quot;&gt; /size &lt;default=1600,1400&gt; /schema &lt;default=clusters&gt; /view.angle &lt;default=30,60,-56.25&gt; /view.distance &lt;default=2500&gt; /arrow.factor &lt;default=1,2&gt; /cluster.title &lt;names.csv&gt; /out &lt;out.png&gt;]
 ''' ```
-''' /DEP.heatmap.scatter.3D /in &lt;kmeans.csv> /sampleInfo &lt;sampleInfo.csv> [/display.labels &lt;default=-1> /cluster.prefix &lt;default="cluster: #"> /size &lt;default=1600,1400> /schema &lt;default=clusters> /view.angle &lt;default=30,60,-56.25> /view.distance &lt;default=2500> /arrow.factor &lt;default=1,2> /cluster.title &lt;names.csv> /out &lt;out.png>]
-''' ```
-''' Visualize the DEPs' kmeans cluster result by using 3D scatter plot.
+''' Visualize the DEPs&apos; kmeans cluster result by using 3D scatter plot.
 ''' </summary>
 '''
 Public Function DEPHeatmapScatter3D([in] As String, sampleInfo As String, Optional display_labels As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional arrow_factor As String = "1,2", Optional cluster_title As String = "", Optional out As String = "") As Integer
@@ -451,8 +450,8 @@ Public Function DEPHeatmapScatter3D([in] As String, sampleInfo As String, Option
 End Function
 
 ''' <summary>
-''' ```
-''' /DEP.kmeans.scatter2D /in &lt;kmeans.csv> /sampleInfo &lt;sampleInfo.csv> [/t.log &lt;default=-1> /cluster.prefix &lt;default="cluster: #"> /size &lt;2500,2200> /pt.size &lt;radius pixels, default=15> /schema &lt;default=clusters> /out &lt;out.png>]
+''' ```bash
+''' /DEP.kmeans.scatter2D /in &lt;kmeans.csv&gt; /sampleInfo &lt;sampleInfo.csv&gt; [/t.log &lt;default=-1&gt; /cluster.prefix &lt;default=&quot;cluster: #&quot;&gt; /size &lt;2500,2200&gt; /pt.size &lt;radius pixels, default=15&gt; /schema &lt;default=clusters&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -487,8 +486,8 @@ Public Function DEPKmeansScatter2D([in] As String, sampleInfo As String, Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /DEP.logFC.hist /in &lt;log2test.csv> [/step &lt;0.25> /type &lt;default=log2fc> /legend.title &lt;Frequency(log2FC)> /x.axis "(min,max),tick=0.25" /color &lt;lightblue> /size &lt;1400,900> /out &lt;out.png>]
+''' ```bash
+''' /DEP.logFC.hist /in &lt;log2test.csv&gt; [/step &lt;0.25&gt; /type &lt;default=log2fc&gt; /legend.title &lt;Frequency(log2FC)&gt; /x.axis &quot;(min,max),tick=0.25&quot; /color &lt;lightblue&gt; /size &lt;1400,900&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' Using for plots the FC histogram when the experiment have no biological replicates.
 ''' </summary>
@@ -526,10 +525,10 @@ Public Function logFCHistogram([in] As String, Optional [step] As String = "", O
 End Function
 
 ''' <summary>
+''' ```bash
+''' /DEP.logFC.Volcano /in &lt;DEP-log2FC.t.test-table.csv&gt; [/title &lt;title&gt; /p.value &lt;default=0.05&gt; /level &lt;default=1.5&gt; /colors &lt;up=red;down=green;other=black&gt; /label.p &lt;default=-1&gt; /size &lt;1400,1400&gt; /display.count /out &lt;plot.csv&gt;]
 ''' ```
-''' /DEP.logFC.Volcano /in &lt;DEP-log2FC.t.test-table.csv> [/title &lt;title> /p.value &lt;default=0.05> /level &lt;default=1.5> /colors &lt;up=red;down=green;other=black> /label.p &lt;default=-1> /size &lt;1400,1400> /display.count /out &lt;plot.csv>]
-''' ```
-''' Volcano plot of the DEPs' analysis result.
+''' Volcano plot of the DEPs&apos; analysis result.
 ''' </summary>
 '''
 Public Function logFCVolcano([in] As String, Optional title As String = "", Optional p_value As String = "0.05", Optional level As String = "1.5", Optional colors As String = "", Optional label_p As String = "-1", Optional size As String = "", Optional out As String = "", Optional display_count As Boolean = False) As Integer
@@ -568,8 +567,8 @@ Public Function logFCVolcano([in] As String, Optional title As String = "", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /DEP.uniprot.list /DEP &lt;log2-test.DEP.csv> /sample &lt;sample.csv> [/out &lt;out.txt>]
+''' ```bash
+''' /DEP.uniprot.list /DEP &lt;log2-test.DEP.csv&gt; /sample &lt;sample.csv&gt; [/out &lt;out.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -589,8 +588,8 @@ Public Function DEPUniprotIDlist(DEP As String, sample As String, Optional out A
 End Function
 
 ''' <summary>
-''' ```
-''' /DEP.uniprot.list2 /in &lt;log2.test.csv> [/DEP.Flag &lt;is.DEP?> /uniprot.Flag &lt;uniprot> /species &lt;scientifcName> /uniprot &lt;uniprotXML> /out &lt;out.txt>]
+''' ```bash
+''' /DEP.uniprot.list2 /in &lt;log2.test.csv&gt; [/DEP.Flag &lt;is.DEP?&gt; /uniprot.Flag &lt;uniprot&gt; /species &lt;scientifcName&gt; /uniprot &lt;uniprotXML&gt; /out &lt;out.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -621,8 +620,8 @@ Public Function DEPUniprotIDs2([in] As String, Optional dep_flag As String = "",
 End Function
 
 ''' <summary>
-''' ```
-''' /DEP.venn /data &lt;Directory> [/title &lt;VennDiagram title> /out &lt;out.DIR>]
+''' ```bash
+''' /DEP.venn /data &lt;Directory&gt; [/title &lt;VennDiagram title&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' Generate the VennDiagram plot data and the venn plot tiff. The default parameter profile is using for the iTraq data.
 ''' </summary>
@@ -645,8 +644,8 @@ Public Function VennData(data As String, Optional title As String = "", Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /DEPs.heatmap /data &lt;Directory/csv_file> [/labelFree /schema &lt;color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation &lt;annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n &lt;default=6> /sampleInfo &lt;sampleinfo.csv> /non_DEP.blank /title "Heatmap of DEPs log2FC" /t.log2 /tick &lt;-1> /size &lt;size, default=2000,3000> /legend.size &lt;size, default=600,100> /out &lt;out.DIR>]
+''' ```bash
+''' /DEPs.heatmap /data &lt;Directory/csv_file&gt; [/labelFree /schema &lt;color_schema, default=RdYlGn:c11&gt; /no-clrev /KO.class /annotation &lt;annotation.csv&gt; /row.labels.geneName /hide.labels /is.matrix /cluster.n &lt;default=6&gt; /sampleInfo &lt;sampleinfo.csv&gt; /non_DEP.blank /title &quot;Heatmap of DEPs log2FC&quot; /t.log2 /tick &lt;-1&gt; /size &lt;size, default=2000,3000&gt; /legend.size &lt;size, default=600,100&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' Generates the heatmap plot input data. The default label profile is using for the iTraq result.
 ''' </summary>
@@ -714,8 +713,8 @@ Public Function DEPs_heatmapKmeans(data As String, Optional schema As String = "
 End Function
 
 ''' <summary>
-''' ```
-''' /DEPs.stat /in &lt;log2.test.csv> [/log2FC &lt;default=log2FC> /out &lt;out.stat.csv>]
+''' ```bash
+''' /DEPs.stat /in &lt;log2.test.csv&gt; [/log2FC &lt;default=log2FC&gt; /out &lt;out.stat.csv&gt;]
 ''' ```
 ''' https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R
 ''' </summary>
@@ -738,8 +737,8 @@ Public Function DEPStatics([in] As String, Optional log2fc As String = "log2FC",
 End Function
 
 ''' <summary>
-''' ```
-''' /DEPs.takes.values /in &lt;DEPs.csv> [/boolean.tag &lt;default=is.DEP> /by.FC &lt;tag=value, default=logFC=log2(1.5)> /by.p.value &lt;tag=value, p.value=0.05> /data &lt;data.csv> /out &lt;out.csv>]
+''' ```bash
+''' /DEPs.takes.values /in &lt;DEPs.csv&gt; [/boolean.tag &lt;default=is.DEP&gt; /by.FC &lt;tag=value, default=logFC=log2(1.5)&gt; /by.p.value &lt;tag=value, p.value=0.05&gt; /data &lt;data.csv&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -770,8 +769,8 @@ Public Function TakeDEPsValues([in] As String, Optional boolean_tag As String = 
 End Function
 
 ''' <summary>
-''' ```
-''' /DEPs.union /in &lt;csv.DIR> [/FC &lt;default=logFC> /out &lt;out.csv>]
+''' ```bash
+''' /DEPs.union /in &lt;csv.DIR&gt; [/FC &lt;default=logFC&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -793,8 +792,8 @@ Public Function DEPsUnion([in] As String, Optional fc As String = "logFC", Optio
 End Function
 
 ''' <summary>
-''' ```
-''' /edgeR.Designer /in &lt;proteinGroups.csv> /designer &lt;designer.csv> [/label &lt;default is empty> /deli &lt;default=-> /out &lt;out.DIR>]
+''' ```bash
+''' /edgeR.Designer /in &lt;proteinGroups.csv&gt; /designer &lt;designer.csv&gt; [/label &lt;default is empty&gt; /deli &lt;default=-&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' Generates the edgeR inputs table
 ''' </summary>
@@ -821,8 +820,8 @@ Public Function edgeRDesigner([in] As String, designer As String, Optional label
 End Function
 
 ''' <summary>
-''' ```
-''' /enricher.background /in &lt;uniprot.XML> [/mapping &lt;maps.tsv> /out &lt;term2gene.txt.DIR>]
+''' ```bash
+''' /enricher.background /in &lt;uniprot.XML&gt; [/mapping &lt;maps.tsv&gt; /out &lt;term2gene.txt.DIR&gt;]
 ''' ```
 ''' Create enrichment analysis background based on the uniprot xml database.
 ''' </summary>
@@ -845,33 +844,8 @@ Public Function Backgrounds([in] As String, Optional mapping As String = "", Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /enrichment.go /deg &lt;deg.list> /backgrounds &lt;genome_genes.list> /t2g &lt;term2gene.csv> [/go &lt;go_brief.csv> /out &lt;enricher.result.csv>]
-''' ```
-''' </summary>
-'''
-Public Function GoEnrichment(deg As String, backgrounds As String, t2g As String, Optional go As String = "", Optional out As String = "") As Integer
-    Dim CLI As New StringBuilder("/enrichment.go")
-    Call CLI.Append(" ")
-    Call CLI.Append("/deg " & """" & deg & """ ")
-    Call CLI.Append("/backgrounds " & """" & backgrounds & """ ")
-    Call CLI.Append("/t2g " & """" & t2g & """ ")
-    If Not go.StringEmpty Then
-            Call CLI.Append("/go " & """" & go & """ ")
-    End If
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' /Enrichment.Term.Filter /in &lt;enrichment.csv> /filter &lt;key-string> [/out &lt;out.csv>]
+''' ```bash
+''' /Enrichment.Term.Filter /in &lt;enrichment.csv&gt; /filter &lt;key-string&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' Filter the specific term result from the analysis output by using pattern keyword
 ''' </summary>
@@ -892,8 +866,8 @@ Public Function EnrichmentTermFilter([in] As String, filter As String, Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' /Enrichments.ORF.info /in &lt;enrichment.csv> /proteins &lt;uniprot-genome.XML> [/nocut /ORF /out &lt;out.csv>]
+''' ```bash
+''' /Enrichments.ORF.info /in &lt;enrichment.csv&gt; /proteins &lt;uniprot-genome.XML&gt; [/nocut /ORF /out &lt;out.csv&gt;]
 ''' ```
 ''' Retrive KEGG/GO info for the genes in the enrichment result.
 ''' </summary>
@@ -920,8 +894,8 @@ Public Function RetriveEnrichmentGeneInfo([in] As String, proteins As String, Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Exocarta.Hits /in &lt;list.txt> /annotation &lt;annotations.csv> /exocarta &lt;Exocarta.tsv> [/out &lt;out.csv>]
+''' ```bash
+''' /Exocarta.Hits /in &lt;list.txt&gt; /annotation &lt;annotations.csv&gt; /exocarta &lt;Exocarta.tsv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -942,8 +916,8 @@ Public Function ExocartaHits([in] As String, annotation As String, exocarta As S
 End Function
 
 ''' <summary>
-''' ```
-''' /Fasta.IDlist /in &lt;prot.fasta> [/out &lt;geneIDs.txt>]
+''' ```bash
+''' /Fasta.IDlist /in &lt;prot.fasta&gt; [/out &lt;geneIDs.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -962,8 +936,8 @@ Public Function GetFastaIDlist([in] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /FoldChange.Matrix.Invert /in &lt;data.csv> [/log2FC /out &lt;invert.csv>]
+''' ```bash
+''' /FoldChange.Matrix.Invert /in &lt;data.csv&gt; [/log2FC /out &lt;invert.csv&gt;]
 ''' ```
 ''' Reverse the FoldChange value from the source result matrix.
 ''' </summary>
@@ -986,10 +960,10 @@ Public Function iTraqInvert([in] As String, Optional out As String = "", Optiona
 End Function
 
 ''' <summary>
+''' ```bash
+''' /func.rich.string /in &lt;string_interactions.tsv&gt; /uniprot &lt;uniprot.XML&gt; /DEP &lt;dep.t.test.csv&gt; [/map &lt;map.tsv&gt; /r.range &lt;default=12,30&gt; /log2FC &lt;default=log2FC&gt; /layout &lt;string_network_coordinates.txt&gt; /out &lt;out.network.DIR&gt;]
 ''' ```
-''' /func.rich.string /in &lt;string_interactions.tsv> /uniprot &lt;uniprot.XML> /DEP &lt;dep.t.test.csv> [/map &lt;map.tsv> /r.range &lt;default=12,30> /log2FC &lt;default=log2FC> /layout &lt;string_network_coordinates.txt> /out &lt;out.network.DIR>]
-''' ```
-''' DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.
+''' DEPs&apos; functional enrichment network based on string-db exports, and color by KEGG pathway.
 ''' </summary>
 '''
 Public Function FunctionalNetworkEnrichment([in] As String, uniprot As String, DEP As String, Optional map As String = "", Optional r_range As String = "12,30", Optional log2fc As String = "log2FC", Optional layout As String = "", Optional out As String = "") As Integer
@@ -1021,8 +995,8 @@ Public Function FunctionalNetworkEnrichment([in] As String, uniprot As String, D
 End Function
 
 ''' <summary>
-''' ```
-''' /Gene.list.from.KOBAS /in &lt;KOBAS.csv> [/p.value &lt;default=1> /out &lt;out.txt>]
+''' ```bash
+''' /Gene.list.from.KOBAS /in &lt;KOBAS.csv&gt; [/p.value &lt;default=1&gt; /out &lt;out.txt&gt;]
 ''' ```
 ''' Using this command for generates the gene id list input for the STRING-db search.
 ''' </summary>
@@ -1045,8 +1019,8 @@ Public Function GeneIDListFromKOBASResult([in] As String, Optional p_value As St
 End Function
 
 ''' <summary>
-''' ```
-''' /GO.cellular_location.Plot /in &lt;KOBAS.GO.csv> [/GO &lt;go.obo> /3D /colors &lt;schemaName, default=Paired:c8> /out &lt;out.png>]
+''' ```bash
+''' /GO.cellular_location.Plot /in &lt;KOBAS.GO.csv&gt; [/GO &lt;go.obo&gt; /3D /colors &lt;schemaName, default=Paired:c8&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' Visualize of the subcellular location result from the GO enrichment analysis.
 ''' </summary>
@@ -1075,8 +1049,8 @@ Public Function GO_cellularLocationPlot([in] As String, Optional go As String = 
 End Function
 
 ''' <summary>
-''' ```
-''' /GO.enrichment.DAVID /in &lt;DAVID.csv> [/tsv /go &lt;go.obo> /colors &lt;default=Set1:c6> /size &lt;default=1200,1000> /tick 1 /p.value &lt;0.05> /out &lt;out.png>]
+''' ```bash
+''' /GO.enrichment.DAVID /in &lt;DAVID.csv&gt; [/tsv /go &lt;go.obo&gt; /colors &lt;default=Set1:c6&gt; /size &lt;default=1200,1000&gt; /tick 1 /p.value &lt;0.05&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1113,8 +1087,8 @@ Public Function DAVID_GOplot([in] As String, Optional go As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /Go.enrichment.plot /in &lt;enrichmentTerm.csv> [/bubble /r "log(x,1.5)" /Corrected /displays &lt;default=10> /PlantRegMap /label.right /colors &lt;default=Set1:c6> /gray /pvalue &lt;0.05> /size &lt;2000,1600> /tick 1 /go &lt;go.obo> /out &lt;out.png>]
+''' ```bash
+''' /Go.enrichment.plot /in &lt;enrichmentTerm.csv&gt; [/bubble /r &quot;log(x,1.5)&quot; /Corrected /displays &lt;default=10&gt; /PlantRegMap /label.right /colors &lt;default=Set1:c6&gt; /gray /pvalue &lt;0.05&gt; /size &lt;2000,1600&gt; /tick 1 /go &lt;go.obo&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' Go enrichment plot base on the KOBAS enrichment analysis result.
 ''' </summary>
@@ -1170,8 +1144,8 @@ Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,
 End Function
 
 ''' <summary>
-''' ```
-''' /iBAQ.Cloud /in &lt;expression.csv> /annotations &lt;annotations.csv> /DEPs &lt;DEPs.csv> /tag &lt;expression> [/out &lt;out.png>]
+''' ```bash
+''' /iBAQ.Cloud /in &lt;expression.csv&gt; /annotations &lt;annotations.csv&gt; /DEPs &lt;DEPs.csv&gt; /tag &lt;expression&gt; [/out &lt;out.png&gt;]
 ''' ```
 ''' Cloud plot of the iBAQ DEPs result.
 ''' </summary>
@@ -1194,8 +1168,8 @@ Public Function DEPsCloudPlot([in] As String, annotations As String, DEPs As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /ID.Replace.bbh /in &lt;dataset.csv> /bbh &lt;bbh/sbh.csv> [/description &lt;fieldName, default=Description> /out &lt;ID.replaced.csv>]
+''' ```bash
+''' /ID.Replace.bbh /in &lt;dataset.csv&gt; /bbh &lt;bbh/sbh.csv&gt; [/description &lt;fieldName, default=Description&gt; /out &lt;ID.replaced.csv&gt;]
 ''' ```
 ''' LabelFree result helper: replace the source ID to a unify organism protein ID by using ``bbh`` method.
 ''' This tools required the protein in ``datatset.csv`` associated with the alignment result in ``bbh.csv`` by using the ``query_name`` property.
@@ -1220,8 +1194,8 @@ Public Function BBHReplace([in] As String, bbh As String, Optional description A
 End Function
 
 ''' <summary>
-''' ```
-''' /Imports.Go.obo.mysql /in &lt;go.obo> [/out &lt;out.sql>]
+''' ```bash
+''' /Imports.Go.obo.mysql /in &lt;go.obo&gt; [/out &lt;out.sql&gt;]
 ''' ```
 ''' Dumping GO obo database as mysql database files.
 ''' </summary>
@@ -1241,8 +1215,8 @@ Public Function DumpGOAsMySQL([in] As String, Optional out As String = "") As In
 End Function
 
 ''' <summary>
-''' ```
-''' /Imports.Uniprot.Xml /in &lt;uniprot.xml> [/out &lt;out.sql>]
+''' ```bash
+''' /Imports.Uniprot.Xml /in &lt;uniprot.xml&gt; [/out &lt;out.sql&gt;]
 ''' ```
 ''' Dumping the UniprotKB XML database as mysql database file.
 ''' </summary>
@@ -1262,8 +1236,8 @@ Public Function DumpUniprot([in] As String, Optional out As String = "") As Inte
 End Function
 
 ''' <summary>
-''' ```
-''' /iTraq.Bridge.Matrix /A &lt;A_iTraq.csv> /B &lt;B_iTraq.csv> /C &lt;bridge_symbol> [/symbols.A &lt;symbols.csv> /symbols.B &lt;symbols.csv> /out &lt;matrix.csv>]
+''' ```bash
+''' /iTraq.Bridge.Matrix /A &lt;A_iTraq.csv&gt; /B &lt;B_iTraq.csv&gt; /C &lt;bridge_symbol&gt; [/symbols.A &lt;symbols.csv&gt; /symbols.B &lt;symbols.csv&gt; /out &lt;matrix.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1290,8 +1264,8 @@ Public Function iTraqBridge(A As String, B As String, C As String, Optional symb
 End Function
 
 ''' <summary>
-''' ```
-''' /iTraq.matrix.split /in &lt;matrix.csv> /sampleInfo &lt;sampleInfo.csv> /designer &lt;analysis.design.csv> [/allowed.swap /out &lt;out.Dir>]
+''' ```bash
+''' /iTraq.matrix.split /in &lt;matrix.csv&gt; /sampleInfo &lt;sampleInfo.csv&gt; /designer &lt;analysis.design.csv&gt; [/allowed.swap /out &lt;out.Dir&gt;]
 ''' ```
 ''' Split the raw matrix into different compare group based on the experimental designer information.
 ''' </summary>
@@ -1316,8 +1290,8 @@ Public Function iTraqAnalysisMatrixSplit([in] As String, sampleInfo As String, d
 End Function
 
 ''' <summary>
-''' ```
-''' /iTraq.RSD-P.Density /in &lt;matrix.csv> [/out &lt;out.png>]
+''' ```bash
+''' /iTraq.RSD-P.Density /in &lt;matrix.csv&gt; [/out &lt;out.png&gt;]
 ''' ```
 ''' Visualize data QC analysis result.
 ''' </summary>
@@ -1337,8 +1311,8 @@ Public Function iTraqRSDPvalueDensityPlot([in] As String, Optional out As String
 End Function
 
 ''' <summary>
-''' ```
-''' /iTraq.Symbol.Replacement /in &lt;iTraq.data.csv/xlsx> /symbols &lt;symbols.csv/xlsx> [/sheet.name &lt;Sheet1> /symbolSheet &lt;sheetName> /out &lt;out.DIR>]
+''' ```bash
+''' /iTraq.Symbol.Replacement /in &lt;iTraq.data.csv/xlsx&gt; /symbols &lt;symbols.csv/xlsx&gt; [/sheet.name &lt;Sheet1&gt; /symbolSheet &lt;sheetName&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' * Using this CLI tool for processing the tag header of iTraq result at first.
 ''' </summary>
@@ -1365,8 +1339,8 @@ Public Function iTraqSignReplacement([in] As String, symbols As String, Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /iTraq.t.test /in &lt;matrix.csv> [/level &lt;default=1.5> /p.value &lt;default=0.05> /FDR &lt;default=0.05> /skip.significant.test /pairInfo &lt;sampleTuple.csv> /out &lt;out.csv>]
+''' ```bash
+''' /iTraq.t.test /in &lt;matrix.csv&gt; [/level &lt;default=1.5&gt; /p.value &lt;default=0.05&gt; /FDR &lt;default=0.05&gt; /skip.significant.test /pairInfo &lt;sampleTuple.csv&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' Implements the screening for different expression proteins by using log2FC threshold and t.test pvalue threshold.
 ''' </summary>
@@ -1401,8 +1375,8 @@ Public Function iTraqTtest([in] As String, Optional level As String = "1.5", Opt
 End Function
 
 ''' <summary>
-''' ```
-''' /KEGG.Color.Pathway /in &lt;protein.annotations.csv> /ref &lt;KEGG.ref.pathwayMap.directory repository> [/out &lt;out.directory>]
+''' ```bash
+''' /KEGG.Color.Pathway /in &lt;protein.annotations.csv&gt; /ref &lt;KEGG.ref.pathwayMap.directory repository&gt; [/out &lt;out.directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1422,8 +1396,8 @@ Public Function ColorKEGGPathwayMap([in] As String, ref As String, Optional out 
 End Function
 
 ''' <summary>
-''' ```
-''' /KEGG.enrichment.DAVID /in &lt;david.csv> [/tsv /custom &lt;ko00001.keg> /colors &lt;default=Set1:c6> /size &lt;default=1200,1000> /p.value &lt;default=0.05> /tick 1 /out &lt;out.png>]
+''' ```bash
+''' /KEGG.enrichment.DAVID /in &lt;david.csv&gt; [/tsv /custom &lt;ko00001.keg&gt; /colors &lt;default=Set1:c6&gt; /size &lt;default=1200,1000&gt; /p.value &lt;default=0.05&gt; /tick 1 /out &lt;out.png&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1460,8 +1434,8 @@ Public Function DAVID_KEGGplot([in] As String, Optional custom As String = "", O
 End Function
 
 ''' <summary>
-''' ```
-''' /KEGG.enrichment.DAVID.pathwaymap /in &lt;david.csv> /uniprot &lt;uniprot.XML> [/tsv /DEPs &lt;deps.csv> /colors &lt;default=red,blue,green> /tag &lt;default=log2FC> /pvalue &lt;default=0.05> /out &lt;out.DIR>]
+''' ```bash
+''' /KEGG.enrichment.DAVID.pathwaymap /in &lt;david.csv&gt; /uniprot &lt;uniprot.XML&gt; [/tsv /DEPs &lt;deps.csv&gt; /colors &lt;default=red,blue,green&gt; /tag &lt;default=log2FC&gt; /pvalue &lt;default=0.05&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1496,8 +1470,8 @@ Public Function DAVID_KEGGPathwayMap([in] As String, uniprot As String, Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /KEGG.Enrichment.PathwayMap /in &lt;kobas.csv> [/DEPs &lt;deps.csv> /colors &lt;default=red,blue,green> /map &lt;id2uniprotID.txt> /uniprot &lt;uniprot.XML> /pvalue &lt;default=0.05> /out &lt;DIR>]
+''' ```bash
+''' /KEGG.Enrichment.PathwayMap /in &lt;kobas.csv&gt; [/DEPs &lt;deps.csv&gt; /colors &lt;default=red,blue,green&gt; /map &lt;id2uniprotID.txt&gt; /uniprot &lt;uniprot.XML&gt; /pvalue &lt;default=0.05&gt; /out &lt;DIR&gt;]
 ''' ```
 ''' Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.
 ''' </summary>
@@ -1532,8 +1506,8 @@ Public Function KEGGEnrichmentPathwayMap([in] As String, Optional deps As String
 End Function
 
 ''' <summary>
-''' ```
-''' /KEGG.Enrichment.PathwayMap.Render /in &lt;enrichment.csv> [/repo &lt;maps.directory> /DEPs &lt;deps.csv> /colors &lt;default=red,blue,green> /map &lt;id2uniprotID.txt> /uniprot &lt;uniprot.XML> /pvalue &lt;default=0.05> /out &lt;DIR>]
+''' ```bash
+''' /KEGG.Enrichment.PathwayMap.Render /in &lt;enrichment.csv&gt; [/repo &lt;maps.directory&gt; /DEPs &lt;deps.csv&gt; /colors &lt;default=red,blue,green&gt; /map &lt;id2uniprotID.txt&gt; /uniprot &lt;uniprot.XML&gt; /pvalue &lt;default=0.05&gt; /out &lt;DIR&gt;]
 ''' ```
 ''' KEGG pathway map enrichment analysis visual rendering locally. This function required a local kegg pathway repository.
 ''' </summary>
@@ -1571,8 +1545,8 @@ Public Function KEGGEnrichmentPathwayMapLocal([in] As String, Optional repo As S
 End Function
 
 ''' <summary>
-''' ```
-''' /KEGG.enrichment.plot /in &lt;enrichmentTerm.csv> [/gray /colors &lt;default=Set1:c6> /label.right /pvalue &lt;0.05> /tick 1 /size &lt;2000,1600> /out &lt;out.png>]
+''' ```bash
+''' /KEGG.enrichment.plot /in &lt;enrichmentTerm.csv&gt; [/gray /colors &lt;default=Set1:c6&gt; /label.right /pvalue &lt;0.05&gt; /tick 1 /size &lt;2000,1600&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' Bar plots of the KEGG enrichment analysis result.
 ''' </summary>
@@ -1610,8 +1584,8 @@ Public Function KEGG_enrichment([in] As String, Optional colors As String = "Set
 End Function
 
 ''' <summary>
-''' ```
-''' /KO.Catalogs /in &lt;blast.mapping.csv> /ko &lt;ko_genes.csv> [/key &lt;Query_id> /mapTo &lt;Subject_id> /out &lt;outDIR>]
+''' ```bash
+''' /KO.Catalogs /in &lt;blast.mapping.csv&gt; /ko &lt;ko_genes.csv&gt; [/key &lt;Query_id&gt; /mapTo &lt;Subject_id&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' Display the barplot of the KEGG orthology match.
 ''' </summary>
@@ -1638,8 +1612,8 @@ Public Function KOCatalogs([in] As String, ko As String, Optional key As String 
 End Function
 
 ''' <summary>
-''' ```
-''' /KOBAS.add.ORF /in &lt;table.csv> /sample &lt;sample.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /KOBAS.add.ORF /in &lt;table.csv&gt; /sample &lt;sample.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1659,8 +1633,8 @@ Public Function KOBASaddORFsource([in] As String, sample As String, Optional out
 End Function
 
 ''' <summary>
-''' ```
-''' /KOBAS.Sim.Heatmap /in &lt;sim.csv> [/size &lt;1024,800> /colors &lt;RdYlBu:8> /out &lt;out.png>]
+''' ```bash
+''' /KOBAS.Sim.Heatmap /in &lt;sim.csv&gt; [/size &lt;1024,800&gt; /colors &lt;RdYlBu:8&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1685,8 +1659,8 @@ Public Function SimHeatmap([in] As String, Optional size As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /KOBAS.Similarity /group1 &lt;DIR> /group2 &lt;DIR> [/fileName &lt;default=output_run-Gene Ontology.csv> /out &lt;out.DIR>]
+''' ```bash
+''' /KOBAS.Similarity /group1 &lt;DIR&gt; /group2 &lt;DIR&gt; [/fileName &lt;default=output_run-Gene Ontology.csv&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1709,8 +1683,8 @@ Public Function KOBASSimilarity(group1 As String, group2 As String, Optional fil
 End Function
 
 ''' <summary>
-''' ```
-''' /KOBAS.split /in &lt;kobas.out_run.txt> [/out &lt;DIR>]
+''' ```bash
+''' /KOBAS.split /in &lt;kobas.out_run.txt&gt; [/out &lt;DIR&gt;]
 ''' ```
 ''' Split the KOBAS run output result text file as seperated csv file.
 ''' </summary>
@@ -1730,8 +1704,8 @@ Public Function KOBASSplit([in] As String, Optional out As String = "") As Integ
 End Function
 
 ''' <summary>
-''' ```
-''' /KOBAS.Term.Kmeans /in &lt;dir.input> [/n &lt;default=3> /out &lt;out.clusters.csv>]
+''' ```bash
+''' /KOBAS.Term.Kmeans /in &lt;dir.input&gt; [/n &lt;default=3&gt; /out &lt;out.clusters.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1753,8 +1727,8 @@ Public Function KOBASKMeans([in] As String, Optional n As String = "3", Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /labelFree.matrix /in &lt;*.csv/*.xlsx> [/sheet &lt;default=proteinGroups> /intensity /uniprot &lt;uniprot.Xml> /organism &lt;scientificName> /out &lt;out.csv>]
+''' ```bash
+''' /labelFree.matrix /in &lt;*.csv/*.xlsx&gt; [/sheet &lt;default=proteinGroups&gt; /intensity /uniprot &lt;uniprot.Xml&gt; /organism &lt;scientificName&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1785,8 +1759,8 @@ Public Function LabelFreeMatrix([in] As String, Optional sheet As String = "prot
 End Function
 
 ''' <summary>
-''' ```
-''' /labelFree.matrix.split /in &lt;matrix.csv> /sampleInfo &lt;sampleInfo.csv> /designer &lt;analysis_designer.csv> [/out &lt;directory>]
+''' ```bash
+''' /labelFree.matrix.split /in &lt;matrix.csv&gt; /sampleInfo &lt;sampleInfo.csv&gt; /designer &lt;analysis_designer.csv&gt; [/out &lt;directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1807,8 +1781,8 @@ Public Function LabelFreeMatrixSplit([in] As String, sampleInfo As String, desig
 End Function
 
 ''' <summary>
-''' ```
-''' /labelFree.t.test /in &lt;matrix.csv> /sampleInfo &lt;sampleInfo.csv> /control &lt;groupName> /treatment &lt;groupName> [/significant &lt;t.test/AB, default=t.test> /level &lt;default=1.5> /p.value &lt;default=0.05> /FDR &lt;default=0.05> /out &lt;out.csv>]
+''' ```bash
+''' /labelFree.t.test /in &lt;matrix.csv&gt; /sampleInfo &lt;sampleInfo.csv&gt; /control &lt;groupName&gt; /treatment &lt;groupName&gt; [/significant &lt;t.test/AB, default=t.test&gt; /level &lt;default=1.5&gt; /p.value &lt;default=0.05&gt; /FDR &lt;default=0.05&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1842,8 +1816,8 @@ Public Function labelFreeTtest([in] As String, sampleInfo As String, control As 
 End Function
 
 ''' <summary>
-''' ```
-''' /matrix.clustering /in &lt;matrix.csv> [/cluster.n &lt;default:=10> /out &lt;EntityClusterModel.csv>]
+''' ```bash
+''' /matrix.clustering /in &lt;matrix.csv&gt; [/cluster.n &lt;default:=10&gt; /out &lt;EntityClusterModel.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1865,8 +1839,8 @@ Public Function MatrixClustering([in] As String, Optional cluster_n As String = 
 End Function
 
 ''' <summary>
-''' ```
-''' /Matrix.Normalization /in &lt;matrix.csv> /infer &lt;min/avg, default=min> [/out &lt;normalized.csv>]
+''' ```bash
+''' /Matrix.Normalization /in &lt;matrix.csv&gt; /infer &lt;min/avg, default=min&gt; [/out &lt;normalized.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1886,8 +1860,8 @@ Public Function MatrixNormalize([in] As String, infer As String, Optional out As
 End Function
 
 ''' <summary>
-''' ```
-''' /Merge.DEPs /in &lt;*.csv,DIR> [/log2 /threshold "log(1.5,2)" /raw &lt;sample.csv> /out &lt;out.csv>]
+''' ```bash
+''' /Merge.DEPs /in &lt;*.csv,DIR&gt; [/log2 /threshold &quot;log(1.5,2)&quot; /raw &lt;sample.csv&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' Usually using for generates the heatmap plot matrix of the DEPs. This function call will generates two dataset, one is using for the heatmap plot and another is using for the venn diagram plot.
 ''' </summary>
@@ -1916,8 +1890,8 @@ Public Function MergeDEPs([in] As String, Optional threshold As String = "log(1.
 End Function
 
 ''' <summary>
-''' ```
-''' /names /in &lt;matrix.csv> /sampleInfo &lt;sampleInfo.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /names /in &lt;matrix.csv&gt; /sampleInfo &lt;sampleInfo.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1937,8 +1911,8 @@ Public Function MatrixColRenames([in] As String, sampleInfo As String, Optional 
 End Function
 
 ''' <summary>
-''' ```
-''' /Network.PCC /in &lt;matrix.csv> [/cut &lt;default=0.45> /out &lt;out.DIR>]
+''' ```bash
+''' /Network.PCC /in &lt;matrix.csv&gt; [/cut &lt;default=0.45&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1960,8 +1934,8 @@ Public Function PccNetwork([in] As String, Optional cut As String = "0.45", Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /paired.sample.designer /sampleinfo &lt;sampleInfo.csv> /designer &lt;analysisDesigner.csv> /tuple &lt;sampleTuple.csv> [/out &lt;designer.out.csv.Directory>]
+''' ```bash
+''' /paired.sample.designer /sampleinfo &lt;sampleInfo.csv&gt; /designer &lt;analysisDesigner.csv&gt; /tuple &lt;sampleTuple.csv&gt; [/out &lt;designer.out.csv.Directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -1982,8 +1956,8 @@ Public Function PairedSampleDesigner(sampleinfo As String, designer As String, t
 End Function
 
 ''' <summary>
-''' ```
-''' /Perseus.MajorityProteinIDs /in &lt;table.csv> [/out &lt;out.txt>]
+''' ```bash
+''' /Perseus.MajorityProteinIDs /in &lt;table.csv&gt; [/out &lt;out.txt&gt;]
 ''' ```
 ''' Export the uniprot ID list from ``Majority Protein IDs`` row and generates a text file for batch search of the uniprot database.
 ''' </summary>
@@ -2003,8 +1977,8 @@ Public Function MajorityProteinIDs([in] As String, Optional out As String = "") 
 End Function
 
 ''' <summary>
-''' ```
-''' /Perseus.Stat /in &lt;proteinGroups.txt> [/out &lt;out.csv>]
+''' ```bash
+''' /Perseus.Stat /in &lt;proteinGroups.txt&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2023,8 +1997,8 @@ Public Function PerseusStatics([in] As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /Perseus.Table /in &lt;proteinGroups.txt> [/out &lt;out.csv>]
+''' ```bash
+''' /Perseus.Table /in &lt;proteinGroups.txt&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2043,8 +2017,8 @@ Public Function PerseusTable([in] As String, Optional out As String = "") As Int
 End Function
 
 ''' <summary>
-''' ```
-''' /Perseus.Table.annotations /in &lt;proteinGroups.csv> /uniprot &lt;uniprot.XML> [/scientifcName &lt;""> /out &lt;out.csv>]
+''' ```bash
+''' /Perseus.Table.annotations /in &lt;proteinGroups.csv&gt; /uniprot &lt;uniprot.XML&gt; [/scientifcName &lt;&quot;&quot;&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2067,8 +2041,8 @@ Public Function PerseusTableAnnotations([in] As String, uniprot As String, Optio
 End Function
 
 ''' <summary>
-''' ```
-''' /pfamstring.enrichment /in &lt;EntityClusterModel.csv> /pfamstring &lt;pfamstring.csv> [/out &lt;out.directory>]
+''' ```bash
+''' /pfamstring.enrichment /in &lt;EntityClusterModel.csv&gt; /pfamstring &lt;pfamstring.csv&gt; [/out &lt;out.directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2088,10 +2062,10 @@ Public Function PfamStringEnrichment([in] As String, pfamstring As String, Optio
 End Function
 
 ''' <summary>
+''' ```bash
+''' /plot.pimw /in &lt;samples.csv&gt; [/field.pi &lt;default=&quot;calc. pI&quot;&gt; /field.mw &lt;default=&quot;MW [kDa]&quot;&gt; /legend.fontsize &lt;20&gt; /legend.size (100,30) /quantile.removes &lt;default=1&gt; /out &lt;pimw.png&gt; /size &lt;1600,1200&gt; /color &lt;black&gt; /ticks.Y &lt;-1&gt; /pt.size &lt;8&gt;]
 ''' ```
-''' /plot.pimw /in &lt;samples.csv> [/field.pi &lt;default="calc. pI"> /field.mw &lt;default="MW [kDa]"> /legend.fontsize &lt;20> /legend.size (100,30) /quantile.removes &lt;default=1> /out &lt;pimw.png> /size &lt;1600,1200> /color &lt;black> /ticks.Y &lt;-1> /pt.size &lt;8>]
-''' ```
-''' 'calc. pI' - 'MW [kDa]' scatter plot of the protomics raw sample data.
+''' &apos;calc. pI&apos; - &apos;MW [kDa]&apos; scatter plot of the protomics raw sample data.
 ''' </summary>
 '''
 Public Function pimwScatterPlot([in] As String, Optional field_pi As String = "calc. pI", Optional field_mw As String = "MW [kDa]", Optional legend_fontsize As String = "", Optional legend_size As String = "", Optional quantile_removes As String = "1", Optional out As String = "", Optional size As String = "", Optional color As String = "", Optional ticks_y As String = "", Optional pt_size As String = "") As Integer
@@ -2136,8 +2110,8 @@ Public Function pimwScatterPlot([in] As String, Optional field_pi As String = "c
 End Function
 
 ''' <summary>
-''' ```
-''' /protein.annotations /uniprot &lt;uniprot.XML> [/accession.ID /iTraq /list &lt;uniprot.id.list.txt/rawtable.csv/Xlsx> /mapping &lt;mappings.tab/tsv> /out &lt;out.csv>]
+''' ```bash
+''' /protein.annotations /uniprot &lt;uniprot.XML&gt; [/accession.ID /iTraq /list &lt;uniprot.id.list.txt/rawtable.csv/Xlsx&gt; /mapping &lt;mappings.tab/tsv&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' Total proteins functional annotation by using uniprot database.
 ''' </summary>
@@ -2169,8 +2143,8 @@ Public Function SampleAnnotations(uniprot As String, Optional list As String = "
 End Function
 
 ''' <summary>
-''' ```
-''' /protein.annotations.shotgun /p1 &lt;data.csv> /p2 &lt;data.csv> /uniprot &lt;data.DIR/*.xml,*.tab> [/remapping /out &lt;out.csv>]
+''' ```bash
+''' /protein.annotations.shotgun /p1 &lt;data.csv&gt; /p2 &lt;data.csv&gt; /uniprot &lt;data.DIR/*.xml,*.tab&gt; [/remapping /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2194,8 +2168,8 @@ Public Function SampleAnnotations2(p1 As String, p2 As String, uniprot As String
 End Function
 
 ''' <summary>
-''' ```
-''' /proteinGroups.venn /in &lt;proteinGroups.csv> /designer &lt;designer.csv> [/label &lt;tag label> /deli &lt;delimiter, default=_> /out &lt;out.venn.DIR>]
+''' ```bash
+''' /proteinGroups.venn /in &lt;proteinGroups.csv&gt; /designer &lt;designer.csv&gt; [/label &lt;tag label&gt; /deli &lt;delimiter, default=_&gt; /out &lt;out.venn.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2221,8 +2195,8 @@ Public Function proteinGroupsVenn([in] As String, designer As String, Optional l
 End Function
 
 ''' <summary>
-''' ```
-''' /proteins.Go.plot /in &lt;proteins-uniprot-annotations.csv> [/GO &lt;go.obo> /label.right /colors &lt;default=Set1:c6> /tick &lt;default=-1> /level &lt;default=2> /selects Q3 /size &lt;2000,2200> /out &lt;out.DIR>]
+''' ```bash
+''' /proteins.Go.plot /in &lt;proteins-uniprot-annotations.csv&gt; [/GO &lt;go.obo&gt; /label.right /colors &lt;default=Set1:c6&gt; /tick &lt;default=-1&gt; /level &lt;default=2&gt; /selects Q3 /size &lt;2000,2200&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' ProteinGroups sample data go profiling plot from the uniprot annotation data.
 ''' </summary>
@@ -2263,8 +2237,8 @@ Public Function ProteinsGoPlot([in] As String, Optional go As String = "", Optio
 End Function
 
 ''' <summary>
-''' ```
-''' /proteins.KEGG.plot /in &lt;proteins-uniprot-annotations.csv> [/field &lt;default=KO> /not.human /geneId.field &lt;default=nothing> /label.right /colors &lt;default=Set1:c6> /custom &lt;sp00001.keg> /size &lt;2200,2000> /tick 20 /out &lt;out.DIR>]
+''' ```bash
+''' /proteins.KEGG.plot /in &lt;proteins-uniprot-annotations.csv&gt; [/field &lt;default=KO&gt; /not.human /geneId.field &lt;default=nothing&gt; /label.right /colors &lt;default=Set1:c6&gt; /custom &lt;sp00001.keg&gt; /size &lt;2200,2000&gt; /tick 20 /out &lt;out.DIR&gt;]
 ''' ```
 ''' KEGG function catalog profiling plot of the TP sample.
 ''' </summary>
@@ -2308,8 +2282,8 @@ Public Function proteinsKEGGPlot([in] As String, Optional field As String = "KO"
 End Function
 
 ''' <summary>
-''' ```
-''' /Relative.amount /in &lt;proteinGroups.csv> /designer &lt;designer.csv> [/uniprot &lt;annotations.csv> /label &lt;tag label> /deli &lt;delimiter, default=_> /out &lt;out.csv>]
+''' ```bash
+''' /Relative.amount /in &lt;proteinGroups.csv&gt; /designer &lt;designer.csv&gt; [/uniprot &lt;annotations.csv&gt; /label &lt;tag label&gt; /deli &lt;delimiter, default=_&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' Statistics of the relative expression value of the total proteins.
 ''' </summary>
@@ -2339,8 +2313,8 @@ Public Function RelativeAmount([in] As String, designer As String, Optional unip
 End Function
 
 ''' <summary>
-''' ```
-''' /Retrieve.ID.mapping /list &lt;geneID.list> /uniprot &lt;uniprot/uniparc.Xml> [/out &lt;map.list.csv>]
+''' ```bash
+''' /Retrieve.ID.mapping /list &lt;geneID.list&gt; /uniprot &lt;uniprot/uniparc.Xml&gt; [/out &lt;map.list.csv&gt;]
 ''' ```
 ''' Convert the protein id from other database to UniProtKB.
 ''' </summary>
@@ -2361,8 +2335,8 @@ Public Function RetrieveIDmapping(list As String, uniprot As String, Optional ou
 End Function
 
 ''' <summary>
-''' ```
-''' /richfun.KOBAS /in &lt;string_interactions.tsv> /uniprot &lt;uniprot.XML> /DEP &lt;dep.t.test.csv> /KOBAS &lt;enrichment.csv> [/r.range &lt;default=5,20> /fold &lt;1.5> /iTraq /logFC &lt;logFC> /layout &lt;string_network_coordinates.txt> /out &lt;out.network.DIR>]
+''' ```bash
+''' /richfun.KOBAS /in &lt;string_interactions.tsv&gt; /uniprot &lt;uniprot.XML&gt; /DEP &lt;dep.t.test.csv&gt; /KOBAS &lt;enrichment.csv&gt; [/r.range &lt;default=5,20&gt; /fold &lt;1.5&gt; /iTraq /logFC &lt;logFC&gt; /layout &lt;string_network_coordinates.txt&gt; /out &lt;out.network.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2399,8 +2373,8 @@ Public Function KOBASNetwork([in] As String, uniprot As String, DEP As String, K
 End Function
 
 ''' <summary>
-''' ```
-''' /Sample.Species.Normalization /bbh &lt;bbh.csv> /uniprot &lt;uniprot.XML/DIR> /idMapping &lt;refSeq2uniprotKB_mappings.tsv> /sample &lt;sample.csv> [/Description &lt;Description.FileName> /ID &lt;columnName> /out &lt;out.csv>]
+''' ```bash
+''' /Sample.Species.Normalization /bbh &lt;bbh.csv&gt; /uniprot &lt;uniprot.XML/DIR&gt; /idMapping &lt;refSeq2uniprotKB_mappings.tsv&gt; /sample &lt;sample.csv&gt; [/Description &lt;Description.FileName&gt; /ID &lt;columnName&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2428,8 +2402,8 @@ Public Function NormalizeSpecies_samples(bbh As String, uniprot As String, idMap
 End Function
 
 ''' <summary>
-''' ```
-''' /Samples.IDlist /in &lt;samples.csv> [/uniprot /out &lt;out.list.txt>]
+''' ```bash
+''' /Samples.IDlist /in &lt;samples.csv&gt; [/uniprot /out &lt;out.list.txt&gt;]
 ''' ```
 ''' Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.
 ''' </summary>
@@ -2452,8 +2426,8 @@ Public Function GetIDlistFromSampleTable([in] As String, Optional out As String 
 End Function
 
 ''' <summary>
-''' ```
-''' /Shotgun.Data.Strip /in &lt;data.csv> [/out &lt;output.csv>]
+''' ```bash
+''' /Shotgun.Data.Strip /in &lt;data.csv&gt; [/out &lt;output.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2472,8 +2446,8 @@ Public Function StripShotgunData([in] As String, Optional out As String = "") As
 End Function
 
 ''' <summary>
-''' ```
-''' /Species.Normalization /bbh &lt;bbh.csv> /uniprot &lt;uniprot.XML> /idMapping &lt;refSeq2uniprotKB_mappings.tsv> /annotations &lt;annotations.csv> [/out &lt;out.csv>]
+''' ```bash
+''' /Species.Normalization /bbh &lt;bbh.csv&gt; /uniprot &lt;uniprot.XML&gt; /idMapping &lt;refSeq2uniprotKB_mappings.tsv&gt; /annotations &lt;annotations.csv&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2495,8 +2469,8 @@ Public Function NormalizeSpecies(bbh As String, uniprot As String, idMapping As 
 End Function
 
 ''' <summary>
-''' ```
-''' /T.test.Designer.iTraq /in &lt;proteinGroups.csv> /designer &lt;designer.csv> [/label &lt;default is empty> /deli &lt;default=-> /out &lt;out.DIR>]
+''' ```bash
+''' /T.test.Designer.iTraq /in &lt;proteinGroups.csv&gt; /designer &lt;designer.csv&gt; [/label &lt;default is empty&gt; /deli &lt;default=-&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' Generates the iTraq data t.test DEP method inputs table
 ''' </summary>
@@ -2523,8 +2497,8 @@ Public Function TtestDesigner([in] As String, designer As String, Optional label
 End Function
 
 ''' <summary>
-''' ```
-''' /T.test.Designer.LFQ /in &lt;proteinGroups.csv> /designer &lt;designer.csv> [/label &lt;default is empty> /deli &lt;default=-> /out &lt;out.DIR>]
+''' ```bash
+''' /T.test.Designer.LFQ /in &lt;proteinGroups.csv&gt; /designer &lt;designer.csv&gt; [/label &lt;default is empty&gt; /deli &lt;default=-&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' Generates the LFQ data t.test DEP method inputs table
 ''' </summary>
@@ -2551,8 +2525,8 @@ Public Function TtestDesignerLFQ([in] As String, designer As String, Optional la
 End Function
 
 ''' <summary>
-''' ```
-''' /Term2genes /in &lt;uniprot.XML> [/term &lt;GO> /id &lt;ORF> /out &lt;out.tsv>]
+''' ```bash
+''' /Term2genes /in &lt;uniprot.XML&gt; [/term &lt;GO&gt; /id &lt;ORF&gt; /out &lt;out.tsv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2577,8 +2551,8 @@ Public Function Term2Genes([in] As String, Optional term As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /UniProt.ID.Maps /in &lt;uniprot.Xml> /dbName &lt;xref_dbname> [/out &lt;maps.list>]
+''' ```bash
+''' /UniProt.ID.Maps /in &lt;uniprot.Xml&gt; /dbName &lt;xref_dbname&gt; [/out &lt;maps.list&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2598,8 +2572,8 @@ Public Function UniProtIDMaps([in] As String, dbName As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /UniProt.IDs /in &lt;list.csv/txt> [/out &lt;list.txt>]
+''' ```bash
+''' /UniProt.IDs /in &lt;list.csv/txt&gt; [/out &lt;list.txt&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2618,8 +2592,8 @@ Public Function UniProtIDList([in] As String, Optional out As String = "") As In
 End Function
 
 ''' <summary>
-''' ```
-''' /Uniprot.Mappings /in &lt;id.list> [/type &lt;P_REFSEQ_AC> /out &lt;out.DIR>]
+''' ```bash
+''' /Uniprot.Mappings /in &lt;id.list&gt; [/type &lt;P_REFSEQ_AC&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' Retrieve the uniprot annotation data by using ID mapping operations.
 ''' </summary>
@@ -2642,8 +2616,8 @@ Public Function UniprotMappings([in] As String, Optional type As String = "", Op
 End Function
 
 ''' <summary>
-''' ```
-''' /Uniprot.organism_id /in &lt;uniprot_data.Xml> /dbName &lt;name> [/out &lt;out.csv>]
+''' ```bash
+''' /Uniprot.organism_id /in &lt;uniprot_data.Xml&gt; /dbName &lt;name&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' Get uniprot_id to Organism-specific databases id map table.
 ''' </summary>
@@ -2664,8 +2638,8 @@ Public Function OrganismSpecificDatabases([in] As String, dbName As String, Opti
 End Function
 
 ''' <summary>
-''' ```
-''' /UniRef.map.organism /in &lt;uniref.xml> [/org &lt;organism_name> /out &lt;out.csv>]
+''' ```bash
+''' /UniRef.map.organism /in &lt;uniref.xml&gt; [/org &lt;organism_name&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2687,8 +2661,8 @@ Public Function UniRefMap2Organism([in] As String, Optional org As String = "", 
 End Function
 
 ''' <summary>
-''' ```
-''' /UniRef.UniprotKB /in &lt;uniref.xml> [/out &lt;maps.csv>]
+''' ```bash
+''' /UniRef.UniprotKB /in &lt;uniref.xml&gt; [/out &lt;maps.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -2707,8 +2681,8 @@ Public Function UniRef2UniprotKB([in] As String, Optional out As String = "") As
 End Function
 
 ''' <summary>
-''' ```
-''' /update.uniprot.mapped /in &lt;table.csv> /mapping &lt;mapping.tsv/tab> [/source /out &lt;out.csv>]
+''' ```bash
+''' /update.uniprot.mapped /in &lt;table.csv&gt; /mapping &lt;mapping.tsv/tab&gt; [/source /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''

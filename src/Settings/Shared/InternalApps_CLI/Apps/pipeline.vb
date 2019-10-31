@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7243.31533
+'  // ASSEMBLY:  Settings, Version=3.3277.7243.31533, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     10/31/2019 5:31:06 PM
 '  // 
 ' 
 ' 
@@ -71,8 +71,8 @@ Public Class pipeline : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /dispose /resource &lt;resource_name>
+''' ```bash
+''' /dispose /resource &lt;resource_name&gt;
 ''' ```
 ''' Delete an exists memory mapping file resource.
 ''' </summary>
@@ -89,8 +89,8 @@ Public Function Dispose(resource As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /register /resource &lt;resource_name> /size &lt;size_in_bytes> /type &lt;meta_base64>
+''' ```bash
+''' /register /resource &lt;resource_name&gt; /size &lt;size_in_bytes&gt; /type &lt;meta_base64&gt;
 ''' ```
 ''' Allocate a new memory mapping file resource for save the temp data for cli pipeline scripting
 ''' </summary>
@@ -109,8 +109,8 @@ Public Function Register(resource As String, size As String, type As String) As 
 End Function
 
 ''' <summary>
-''' ```
-''' /start [/port &lt;default=8833>]
+''' ```bash
+''' /start [/port &lt;default=8833&gt;]
 ''' ```
 ''' Start the IPC pipeline host services
 ''' </summary>
@@ -129,8 +129,8 @@ Public Function Start(Optional port As String = "8833") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /stop [/port &lt;default=8833>]
+''' ```bash
+''' /stop [/port &lt;default=8833&gt;]
 ''' ```
 ''' Send a stop signal to the IPC host to shutdown the running services instance.
 ''' </summary>

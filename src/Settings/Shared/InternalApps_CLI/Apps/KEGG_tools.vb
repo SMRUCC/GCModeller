@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7238.31746
-'  // ASSEMBLY:  Settings, Version=3.3277.7238.31746, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7243.31533
+'  // ASSEMBLY:  Settings, Version=3.3277.7243.31533, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/26/2019 5:38:12 PM
+'  // BUILT:     10/31/2019 5:31:06 PM
 '  // 
 ' 
 ' 
@@ -132,8 +132,8 @@ Public Class KEGG_tools : Inherits InteropService
      End Function
 
 ''' <summary>
-''' ```
-''' /16s_rna [/out &lt;outDIR>]
+''' ```bash
+''' /16s_rna [/out &lt;outDIR&gt;]
 ''' ```
 ''' Download 16S rRNA data from KEGG.
 ''' </summary>
@@ -152,8 +152,8 @@ Public Function Download16SRNA(Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /blastn /query &lt;query.fasta> [/out &lt;outDIR>]
+''' ```bash
+''' /blastn /query &lt;query.fasta&gt; [/out &lt;outDIR&gt;]
 ''' ```
 ''' Blastn analysis of your DNA sequence on KEGG server for the functional analysis.
 ''' </summary>
@@ -173,8 +173,8 @@ Public Function Blastn(query As String, Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.Compounds.Repository /in &lt;directory> [/glycan.ignore /out &lt;repository.XML>]
+''' ```bash
+''' /Build.Compounds.Repository /in &lt;directory&gt; [/glycan.ignore /out &lt;repository.XML&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -196,8 +196,8 @@ Public Function BuildCompoundsRepository([in] As String, Optional out As String 
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.Ko.repository /DIR &lt;DIR> /repo &lt;root>
+''' ```bash
+''' /Build.Ko.repository /DIR &lt;DIR&gt; /repo &lt;root&gt;
 ''' ```
 ''' </summary>
 '''
@@ -214,8 +214,8 @@ Public Function BuildKORepository(DIR As String, repo As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Build.Reactions.Repository /in &lt;directory> [/out &lt;repository.XML>]
+''' ```bash
+''' /Build.Reactions.Repository /in &lt;directory&gt; [/out &lt;repository.XML&gt;]
 ''' ```
 ''' Package all of the single reaction model file into one data file for make improvements on the data loading.
 ''' </summary>
@@ -235,8 +235,8 @@ Public Function BuildReactionsRepository([in] As String, Optional out As String 
 End Function
 
 ''' <summary>
-''' ```
-''' /Compile.Model /pathway &lt;pathwayDIR> /mods &lt;modulesDIR> /sp &lt;sp_code> [/out &lt;out.Xml>]
+''' ```bash
+''' /Compile.Model /pathway &lt;pathwayDIR&gt; /mods &lt;modulesDIR&gt; /sp &lt;sp_code&gt; [/out &lt;out.Xml&gt;]
 ''' ```
 ''' KEGG pathway model compiler
 ''' </summary>
@@ -258,8 +258,8 @@ Public Function Compile(pathway As String, mods As String, sp As String, Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /Compound.Map.Render /list &lt;csv/txt> [/repo &lt;pathwayMap.repository> /scale &lt;default=1> /color &lt;default=red> /out &lt;out.DIR>]
+''' ```bash
+''' /Compound.Map.Render /list &lt;csv/txt&gt; [/repo &lt;pathwayMap.repository&gt; /scale &lt;default=1&gt; /color &lt;default=red&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' Render draw of the KEGG pathway map by using a given KEGG compound id list.
 ''' </summary>
@@ -288,8 +288,8 @@ Public Function CompoundMapRender(list As String, Optional repo As String = "", 
 End Function
 
 ''' <summary>
-''' ```
-''' /Cut_sequence.upstream /in &lt;list.txt> /PTT &lt;genome.ptt> /org &lt;kegg_sp> [/len &lt;100bp> /overrides /out &lt;outDIR>]
+''' ```bash
+''' /Cut_sequence.upstream /in &lt;list.txt&gt; /PTT &lt;genome.ptt&gt; /org &lt;kegg_sp&gt; [/len &lt;100bp&gt; /overrides /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -316,8 +316,8 @@ Public Function CutSequence_Upstream([in] As String, PTT As String, org As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Download.Compounds [/chebi &lt;accessions.tsv> /flat /updates /save &lt;DIR>]
+''' ```bash
+''' /Download.Compounds [/chebi &lt;accessions.tsv&gt; /flat /updates /save &lt;DIR&gt;]
 ''' ```
 ''' Downloads the KEGG compounds data from KEGG web server using dbget API. Apply this downloaded KEGG compounds data used for metabolism annotation in LC-MS data analysis.
 ''' </summary>
@@ -345,8 +345,8 @@ Public Function DownloadCompounds(Optional chebi As String = "", Optional save A
 End Function
 
 ''' <summary>
-''' ```
-''' /Download.Fasta /query &lt;querySource.txt> [/out &lt;outDIR> /source &lt;existsDIR>]
+''' ```bash
+''' /Download.Fasta /query &lt;querySource.txt&gt; [/out &lt;outDIR&gt; /source &lt;existsDIR&gt;]
 ''' ```
 ''' Download fasta sequence from KEGG database web api.
 ''' </summary>
@@ -369,8 +369,8 @@ Public Function DownloadSequence(query As String, Optional out As String = "", O
 End Function
 
 ''' <summary>
-''' ```
-''' /Download.human.genes /in &lt;geneID.list/DIR> [/batch /out &lt;save.DIR>]
+''' ```bash
+''' /Download.human.genes /in &lt;geneID.list/DIR&gt; [/batch /out &lt;save.DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -392,8 +392,8 @@ Public Function DownloadHumanGenes([in] As String, Optional out As String = "", 
 End Function
 
 ''' <summary>
-''' ```
-''' /download.kegg.maps [/htext &lt;htext.txt> /out &lt;save_dir>]
+''' ```bash
+''' /download.kegg.maps [/htext &lt;htext.txt&gt; /out &lt;save_dir&gt;]
 ''' ```
 ''' Dumping the blank reference KEGG maps database.
 ''' </summary>
@@ -415,8 +415,8 @@ Public Function HumanKEGGMaps(Optional htext As String = "", Optional out As Str
 End Function
 
 ''' <summary>
-''' ```
-''' /Download.Mapped.Sequence /map &lt;map.list> [/nucl /out &lt;seq.fasta>]
+''' ```bash
+''' /Download.Mapped.Sequence /map &lt;map.list&gt; [/nucl /out &lt;seq.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -438,8 +438,8 @@ Public Function DownloadMappedSequence(map As String, Optional out As String = "
 End Function
 
 ''' <summary>
-''' ```
-''' /Download.Ortholog -i &lt;gene_list_file.txt/gbk> -export &lt;exportedDIR> [/gbk /sp &lt;KEGG.sp>]
+''' ```bash
+''' /Download.Ortholog -i &lt;gene_list_file.txt/gbk&gt; -export &lt;exportedDIR&gt; [/gbk /sp &lt;KEGG.sp&gt;]
 ''' ```
 ''' Downloads the KEGG gene ortholog annotation data from the web server.
 ''' </summary>
@@ -463,8 +463,8 @@ Public Function DownloadOrthologs(i As String, export As String, Optional sp As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Download.Pathway.Maps /sp &lt;kegg.sp_code> [/KGML /out &lt;EXPORT_DIR> /@set &lt;progress_bar=disabled>]
+''' ```bash
+''' /Download.Pathway.Maps /sp &lt;kegg.sp_code&gt; [/KGML /out &lt;EXPORT_DIR&gt; /@set &lt;progress_bar=disabled&gt;]
 ''' ```
 ''' Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.
 ''' </summary>
@@ -491,8 +491,8 @@ Else
 End Function
 
 ''' <summary>
-''' ```
-''' /Download.Pathway.Maps.Bacteria.All [/in &lt;brite.keg> /KGML /out &lt;out.directory>]
+''' ```bash
+''' /Download.Pathway.Maps.Bacteria.All [/in &lt;brite.keg&gt; /KGML /out &lt;out.directory&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -516,8 +516,8 @@ Public Function DownloadsBacteriasRefMaps(Optional [in] As String = "", Optional
 End Function
 
 ''' <summary>
-''' ```
-''' /Download.Pathway.Maps.Batch /sp &lt;kegg.sp_code.list> [/KGML /out &lt;EXPORT_DIR>]
+''' ```bash
+''' /Download.Pathway.Maps.Batch /sp &lt;kegg.sp_code.list&gt; [/KGML /out &lt;EXPORT_DIR&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -539,8 +539,8 @@ Public Function DownloadPathwayMapsBatchTask(sp As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Download.Reaction [/try_all /compounds &lt;compounds.directory> /save &lt;DIR> /@set sleep=2000]
+''' ```bash
+''' /Download.Reaction [/try_all /compounds &lt;compounds.directory&gt; /save &lt;DIR&gt; /@set sleep=2000]
 ''' ```
 ''' Downloads the KEGG enzyme reaction reference model data. Usually use these reference reaction data applied for metabolism network analysis.
 ''' </summary>
@@ -569,8 +569,8 @@ Else
 End Function
 
 ''' <summary>
-''' ```
-''' /Dump.sp [/res &lt;sp.html, default=weburl.html> /out &lt;out.csv>]
+''' ```bash
+''' /Dump.sp [/res &lt;sp.html, default=weburl.html&gt; /out &lt;out.csv&gt;]
 ''' ```
 ''' /Dumping KEGG organism table in csv file format.
 ''' </summary>
@@ -592,8 +592,8 @@ Public Function DumpOrganisms(Optional res As String = "weburl.html", Optional o
 End Function
 
 ''' <summary>
-''' ```
-''' /Enrichment.Map.Render /url &lt;url> [/repo &lt;pathwayMap.repository> /out &lt;out.png>]
+''' ```bash
+''' /Enrichment.Map.Render /url &lt;url&gt; [/repo &lt;pathwayMap.repository&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' Rendering kegg pathway map for enrichment analysis result in local.
 ''' </summary>
@@ -616,8 +616,8 @@ Public Function EnrichmentMapRender(url As String, Optional repo As String = "",
 End Function
 
 ''' <summary>
-''' ```
-''' /Fasta.By.Sp /in &lt;KEGG.fasta> /sp &lt;sp.list> [/out &lt;out.fasta>]
+''' ```bash
+''' /Fasta.By.Sp /in &lt;KEGG.fasta&gt; /sp &lt;sp.list&gt; [/out &lt;out.fasta&gt;]
 ''' ```
 ''' Picks the fasta sequence from the input sequence database by a given species list.
 ''' </summary>
@@ -638,8 +638,8 @@ Public Function GetFastaBySp([in] As String, sp As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Get.prot_motif /query &lt;sp:locus> [/out out.json]
+''' ```bash
+''' /Get.prot_motif /query &lt;sp:locus&gt; [/out out.json]
 ''' ```
 ''' </summary>
 '''
@@ -658,8 +658,8 @@ Public Function ProteinMotifs(query As String, Optional out As String = "") As I
 End Function
 
 ''' <summary>
-''' ```
-''' /Gets.prot_motif /query &lt;query.txt/genome.PTT> [/PTT /sp &lt;kegg-sp> /out &lt;out.json> /update]
+''' ```bash
+''' /Gets.prot_motif /query &lt;query.txt/genome.PTT&gt; [/PTT /sp &lt;kegg-sp&gt; /out &lt;out.json&gt; /update]
 ''' ```
 ''' </summary>
 '''
@@ -687,8 +687,8 @@ Public Function GetsProteinMotifs(query As String, Optional sp As String = "", O
 End Function
 
 ''' <summary>
-''' ```
-''' /Imports.KO /pathways &lt;DIR> /KO &lt;DIR> [/save &lt;DIR>]
+''' ```bash
+''' /Imports.KO /pathways &lt;DIR&gt; /KO &lt;DIR&gt; [/save &lt;DIR&gt;]
 ''' ```
 ''' Imports the KEGG reference pathway map and KEGG orthology data as mysql dumps.
 ''' </summary>
@@ -709,8 +709,8 @@ Public Function ImportsKODatabase(pathways As String, KO As String, Optional sav
 End Function
 
 ''' <summary>
-''' ```
-''' /Imports.SSDB /in &lt;source.DIR> [/out &lt;ssdb.csv>]
+''' ```bash
+''' /Imports.SSDB /in &lt;source.DIR&gt; [/out &lt;ssdb.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -729,8 +729,8 @@ Public Function ImportsDb([in] As String, Optional out As String = "") As Intege
 End Function
 
 ''' <summary>
-''' ```
-''' /ko.index.sub.match /index &lt;index.csv> /maps &lt;maps.csv> /key &lt;key> /map &lt;mapTo> [/out &lt;out.csv>]
+''' ```bash
+''' /ko.index.sub.match /index &lt;index.csv&gt; /maps &lt;maps.csv&gt; /key &lt;key&gt; /map &lt;mapTo&gt; [/out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -752,8 +752,8 @@ Public Function IndexSubMatch(index As String, maps As String, key As String, ma
 End Function
 
 ''' <summary>
-''' ```
-''' /KO.list /kgml &lt;pathway.kgml> [/skip.empty /out &lt;list.csv>]
+''' ```bash
+''' /KO.list /kgml &lt;pathway.kgml&gt; [/skip.empty /out &lt;list.csv&gt;]
 ''' ```
 ''' Export a KO functional id list which all of the gene in this list is involved with the given pathway kgml data.
 ''' </summary>
@@ -776,8 +776,8 @@ Public Function TransmembraneKOlist(kgml As String, Optional out As String = "",
 End Function
 
 ''' <summary>
-''' ```
-''' /Maps.Repository.Build /imports &lt;directory> [/out &lt;repository.XML>]
+''' ```bash
+''' /Maps.Repository.Build /imports &lt;directory&gt; [/out &lt;repository.XML&gt;]
 ''' ```
 ''' Union the individual kegg reference pathway map file into one integral database file, usually used for fast loading.
 ''' </summary>
@@ -797,8 +797,8 @@ Public Function BuildPathwayMapsRepository([imports] As String, Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Organism.Table [/in &lt;br08601-htext.keg> /Bacteria /out &lt;out.csv>]
+''' ```bash
+''' /Organism.Table [/in &lt;br08601-htext.keg&gt; /Bacteria /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -822,8 +822,8 @@ Public Function KEGGOrganismTable(Optional [in] As String = "", Optional out As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Pathway.geneIDs /in &lt;pathway.XML> [/out &lt;out.list.txt>]
+''' ```bash
+''' /Pathway.geneIDs /in &lt;pathway.XML&gt; [/out &lt;out.list.txt&gt;]
 ''' ```
 ''' Get a list of gene ids from the given kegg pathway model xml file.
 ''' </summary>
@@ -843,8 +843,8 @@ Public Function PathwayGeneList([in] As String, Optional out As String = "") As 
 End Function
 
 ''' <summary>
-''' ```
-''' /Pathway.Modules.Build /in &lt;directory> [/batch /out &lt;out.Xml>]
+''' ```bash
+''' /Pathway.Modules.Build /in &lt;directory&gt; [/batch /out &lt;out.Xml&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -866,8 +866,8 @@ Public Function CompileGenomePathwayModule([in] As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' /Pathways.Downloads.All [/out &lt;outDIR>]
+''' ```bash
+''' /Pathways.Downloads.All [/out &lt;outDIR&gt;]
 ''' ```
 ''' Download all of the blank KEGG reference pathway map data. Apply for render KEGG pathway enrichment result or other biological system modelling work.
 ''' </summary>
@@ -886,8 +886,8 @@ Public Function DownloadsAllPathways(Optional out As String = "") As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' /Query.KO /in &lt;blastnhits.csv> [/out &lt;out.csv> /evalue 1e-5 /batch]
+''' ```bash
+''' /Query.KO /in &lt;blastnhits.csv&gt; [/out &lt;out.csv&gt; /evalue 1e-5 /batch]
 ''' ```
 ''' </summary>
 '''
@@ -912,8 +912,8 @@ Public Function QueryKOAnno([in] As String, Optional out As String = "", Optiona
 End Function
 
 ''' <summary>
-''' ```
-''' /show.organism /code &lt;kegg_sp> [/out &lt;out.json>]
+''' ```bash
+''' /show.organism /code &lt;kegg_sp&gt; [/out &lt;out.json&gt;]
 ''' ```
 ''' Save the summary information about the specific given kegg organism.
 ''' </summary>
@@ -933,8 +933,8 @@ Public Function ShowOrganism(code As String, Optional out As String = "") As Int
 End Function
 
 ''' <summary>
-''' ```
-''' /Views.mod_stat /in &lt;KEGG_Modules/Pathways_DIR> /locus &lt;in.csv> [/locus_map Gene /pathway /out &lt;out.csv>]
+''' ```bash
+''' /Views.mod_stat /in &lt;KEGG_Modules/Pathways_DIR&gt; /locus &lt;in.csv&gt; [/locus_map Gene /pathway /out &lt;out.csv&gt;]
 ''' ```
 ''' </summary>
 '''
@@ -960,7 +960,7 @@ Public Function Stats([in] As String, locus As String, Optional locus_map As Str
 End Function
 
 ''' <summary>
-''' ```
+''' ```bash
 ''' -Build.KO [/fill-missing]
 ''' ```
 ''' Download data from KEGG database to local server.
@@ -980,8 +980,8 @@ Public Function BuildKEGGOrthology(Optional fill_missing As Boolean = False) As 
 End Function
 
 ''' <summary>
-''' ```
-''' --Dump.Db /KEGG.Pathways &lt;DIR> /KEGG.Modules &lt;DIR> /KEGG.Reactions &lt;DIR> /sp &lt;sp.Code> /out &lt;out.Xml>
+''' ```bash
+''' --Dump.Db /KEGG.Pathways &lt;DIR&gt; /KEGG.Modules &lt;DIR&gt; /KEGG.Reactions &lt;DIR&gt; /sp &lt;sp.Code&gt; /out &lt;out.Xml&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1001,8 +1001,8 @@ Public Function DumpDb(KEGG_Pathways As String, KEGG_Modules As String, KEGG_Rea
 End Function
 
 ''' <summary>
-''' ```
-''' -function.association.analysis -i &lt;matrix_csv>
+''' ```bash
+''' -function.association.analysis -i &lt;matrix_csv&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1018,8 +1018,8 @@ Public Function FunctionAnalysis(i As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' --Get.KO /in &lt;KASS-query.txt>
+''' ```bash
+''' --Get.KO /in &lt;KASS-query.txt&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1035,8 +1035,8 @@ Public Function GetKOAnnotation([in] As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' --part.from /source &lt;source.fasta> /ref &lt;referenceFrom.fasta> [/out &lt;out.fasta> /brief]
+''' ```bash
+''' --part.from /source &lt;source.fasta&gt; /ref &lt;referenceFrom.fasta&gt; [/out &lt;out.fasta&gt; /brief]
 ''' ```
 ''' source and ref should be in KEGG annotation format.
 ''' </summary>
@@ -1060,8 +1060,8 @@ Public Function GetSource(source As String, ref As String, Optional out As Strin
 End Function
 
 ''' <summary>
-''' ```
-''' -query -keyword &lt;keyword> -o &lt;out_dir>
+''' ```bash
+''' -query -keyword &lt;keyword&gt; -o &lt;out_dir&gt;
 ''' ```
 ''' Query the KEGG database for nucleotide sequence and protein sequence by using a keywork.
 ''' </summary>
@@ -1079,8 +1079,8 @@ Public Function QueryGenes(keyword As String, o As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' -query.orthology -keyword &lt;gene_name> -o &lt;output_csv>
+''' ```bash
+''' -query.orthology -keyword &lt;gene_name&gt; -o &lt;output_csv&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1097,8 +1097,8 @@ Public Function QueryOrthology(keyword As String, o As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' -query.ref.map -id &lt;id> -o &lt;out_dir>
+''' ```bash
+''' -query.ref.map -id &lt;id&gt; -o &lt;out_dir&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1115,8 +1115,8 @@ Public Function DownloadReferenceMap(id As String, o As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' -ref.map.download -o &lt;out_dir>
+''' ```bash
+''' -ref.map.download -o &lt;out_dir&gt;
 ''' ```
 ''' </summary>
 '''
@@ -1132,8 +1132,8 @@ Public Function DownloadReferenceMapDatabase(o As String) As Integer
 End Function
 
 ''' <summary>
-''' ```
-''' -table.create -i &lt;input_dir> -o &lt;out_csv>
+''' ```bash
+''' -table.create -i &lt;input_dir&gt; -o &lt;out_csv&gt;
 ''' ```
 ''' </summary>
 '''

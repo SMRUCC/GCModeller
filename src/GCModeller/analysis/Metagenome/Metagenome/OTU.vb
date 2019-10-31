@@ -53,6 +53,28 @@ Imports Table = Microsoft.VisualBasic.Data.csv.IO.File
 
 Public Module OTU
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function CreateGastCountTabel(table As IEnumerable(Of OTUTable), sampleName$) As IEnumerable(Of gast.gastOUT)
+        Return table _
+            .Select(Function(OTU)
+                        Return New gast.gastOUT With {
+                            .counts = OTU(sampleName),
+                            .distance = 0,
+                            .max_pcts = 1,
+                            .minrank = 1,
+                            .na_pcts = 0,
+                            .rank = 1,
+                            .read_id = OTU.ID,
+                            .refhvr_ids = 1,
+                            .refssu_count = 1,
+                            .taxa_counts = 1,
+                            .taxonomy = OTU.taxonomy.ToString(BIOMstyle:=True),
+                            .vote = 1
+                        }
+                    End Function)
+    End Function
+
     ''' <summary>
     ''' Only works on the 16S/18S data
     ''' </summary>
