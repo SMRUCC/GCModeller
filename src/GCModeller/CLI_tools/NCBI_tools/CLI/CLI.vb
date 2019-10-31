@@ -704,7 +704,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         If append.FileExists Then
             Dim map$ = Nothing
 
-            If EntityObject.ContainsIDField(append) Then
+            If FileFormat.ContainsIDField(append) Then
                 appendByID = True
                 map = NameOf(EntityObject.ID)
 
