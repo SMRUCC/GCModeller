@@ -182,11 +182,7 @@ Namespace IO
                                                             Optional encoding As Encoding = Nothing,
                                                             Optional isTsv As Boolean = False) As IEnumerable(Of T)
 
-            Dim mapFrom$ = uidMap Or New [Default](Of String) With {
-                .lazy = New Func(Of String)(Function()
-                                                Return tryGetDataSetId(path)
-                                            End Function).AsLazy
-            }
+            Dim mapFrom$ = FileFormat.SolveDataSetIDMapping(path, uidMap, isTsv, encoding)
 
             If isTsv Then
                 Return path.LoadTsv(Of T)(encoding, {{mapFrom, NameOf(DataSet.ID)}})
@@ -197,16 +193,6 @@ Namespace IO
                     encoding:=encoding
                 )
             End If
-        End Function
-
-        ''' <summary>
-        ''' 将第一列的第一个单元格的值作为ID列的映射名称
-        ''' </summary>
-        ''' <param name="path$"></param>
-        ''' <returns></returns>
-        Private Shared Function tryGetDataSetId(path$) As String
-            Dim first As New RowObject(path.ReadFirstLine)
-            Return first.First
         End Function
     End Class
 End Namespace
