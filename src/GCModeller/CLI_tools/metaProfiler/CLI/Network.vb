@@ -175,6 +175,7 @@ Partial Module CLI
         Dim tick# = args("/tick") Or 1.0
         Dim size$ = args("/size") Or "2000,1600"
         Dim profiles = [in].LoadCsv(Of Profile) _
+            .Where(Function(tax) tax.Taxonomy.lowestLevel > TaxonomyRanks.Phylum) _
             .GroupBy(Function(tax) tax.RankGroup) _
             .Select(Function(tax)
                         Return tax.ProfileEnrichment _
