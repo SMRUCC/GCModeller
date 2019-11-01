@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7243.31533
-'  // ASSEMBLY:  Settings, Version=3.3277.7243.31533, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7244.17825
+'  // ASSEMBLY:  Settings, Version=3.3277.7244.17825, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/31/2019 5:31:06 PM
+'  // BUILT:     2019/11/1 9:54:10
 '  // 
 ' 
 ' 
@@ -520,16 +520,25 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /microbiome.pathway.run.profile /in &lt;profile.csv&gt; /maps &lt;kegg.maps.ref.Xml&gt; [/p.value &lt;default=0.05&gt; /out &lt;out.directory&gt;]
+''' /microbiome.pathway.run.profile /in &lt;profile.csv&gt; /maps &lt;kegg.maps.ref.Xml&gt; [/colors &lt;default=Set1:c6&gt; /tick 1 /size &lt;2000,1600&gt; /p.value &lt;default=0.05&gt; /out &lt;out.directory&gt;]
 ''' ```
 ''' Build pathway interaction network based on the microbiome profile result.
 ''' </summary>
 '''
-Public Function RunProfile([in] As String, maps As String, Optional p_value As String = "0.05", Optional out As String = "") As Integer
+Public Function RunProfile([in] As String, maps As String, Optional colors As String = "Set1:c6", Optional tick As String = "", Optional size As String = "", Optional p_value As String = "0.05", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/microbiome.pathway.run.profile")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not colors.StringEmpty Then
+            Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not tick.StringEmpty Then
+            Call CLI.Append("/tick " & """" & tick & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
+    End If
     If Not p_value.StringEmpty Then
             Call CLI.Append("/p.value " & """" & p_value & """ ")
     End If
