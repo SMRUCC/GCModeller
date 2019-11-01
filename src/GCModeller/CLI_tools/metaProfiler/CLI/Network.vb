@@ -216,6 +216,7 @@ Partial Module CLI
                             .Term = KO(pathway.pathway).entry.text
                         }
                     End Function) _
+            .OrderBy(Function(t) t.Pvalue) _
             .ToArray
 
         ' 进行绘图
