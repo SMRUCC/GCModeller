@@ -64,6 +64,11 @@ Imports SMRUCC.genomics.Model.Network.Microbiome
 
 Partial Module CLI
 
+    ''' <summary>
+    ''' 这个命令行函数包含有创建profile矩阵以及计算显著性的功能
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/microbiome.pathway.profile")>
     <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.index.json> /maps <kegg.maps.ref.XML> [/sampleName <default=NULL> /just.profiles /rank <default=family> /p.value <default=0.05> /out <out.directory>]")>
     <Description("Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.")>
@@ -75,6 +80,9 @@ Partial Module CLI
               Extensions:="*.json",
               AcceptTypes:={GetType(TaxonomyRepository)},
               Description:="The bacteria genome annotation data repository index file.")>
+    <Argument("/just.profiles", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="This option will makes this cli command only creates a pathway profile matrix. For enrichment command debug used only.")>
     <Argument("/rank", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The enrichment profile will be statistics at this level")>
@@ -139,17 +147,26 @@ Partial Module CLI
         End If
     End Function
 
+    ''' <summary>
+    ''' 可以使用这个命令来处理<see cref="PathwayProfiles"/>命令所生成的profile矩阵的富集计算分析
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/microbiome.pathway.run.profile")>
     <Usage("/microbiome.pathway.run.profile /in <profile.csv> /maps <kegg.maps.ref.Xml> [/p.value <default=0.05> /out <out.directory>]")>
     <Description("Build pathway interaction network based on the microbiome profile result.")>
     <Argument("/p.value", True, CLITypes.Double,
-              Description:="The pvalue cutoff of the profile mapID, selects as the network node if the mapID its pvalue is smaller than this cutoff value. By default is 0.05. If no cutoff, please set this value to 1.")>
+              Description:="The pvalue cutoff of the profile mapID, selects as the network node if the mapID its pvalue is smaller than this cutoff value. 
+              By default is 0.05. If no cutoff, please set this value to 1.")>
+    <Argument("/maps", False, CLITypes.File,
+              Extensions:="*.Xml",
+              Description:="The kegg reference map repository database file.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function RunProfile(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim maps As MapRepository = (args <= "/maps").LoadXml(Of MapRepository)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pathway.profiles/"
-        Dim pvalue# = args.GetValue("/p.value", 0.05)
+        Dim pvalue# = args("/p.value") Or 0.05
         Dim profiles = [in].LoadCsv(Of Profile) _
             .GroupBy(Function(tax) tax.RankGroup) _
             .Select(Function(tax)
