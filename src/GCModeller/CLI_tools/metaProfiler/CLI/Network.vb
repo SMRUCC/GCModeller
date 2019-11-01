@@ -243,6 +243,7 @@ Partial Module CLI
                 colorSchema:=color
             )
 
+        Call enrichmentTerms.SaveTo($"{out}/terms.csv")
         Call plot.Save($"{out}/pathway_enrichment.png")
         Call profiles _
             .Select(Function(profile)
