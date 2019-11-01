@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::f3e1c71712ec727517a8e76baf1c06ec, CLI_tools\metaProfiler\CLI\Network.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: BuildUniProtReference, Membrane_transportNetwork, MetabolicComplementationNetwork, MetabolicEndPointProfilesBackground, PathwayProfiles
-    '               (+2 Overloads) RunProfile, ScreenModels
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: BuildUniProtReference, Membrane_transportNetwork, MetabolicComplementationNetwork, MetabolicEndPointProfilesBackground, PathwayProfiles
+'               (+2 Overloads) RunProfile, ScreenModels
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,10 +49,13 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -154,7 +157,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/microbiome.pathway.run.profile")>
-    <Usage("/microbiome.pathway.run.profile /in <profile.csv> /maps <kegg.maps.ref.Xml> [/p.value <default=0.05> /out <out.directory>]")>
+    <Usage("/microbiome.pathway.run.profile /in <profile.csv> /maps <kegg.maps.ref.Xml> [/colors <default=Set1:c6> /tick 1 /size <2000,1600> /p.value <default=0.05> /out <out.directory>]")>
     <Description("Build pathway interaction network based on the microbiome profile result.")>
     <Argument("/p.value", True, CLITypes.Double,
               Description:="The pvalue cutoff of the profile mapID, selects as the network node if the mapID its pvalue is smaller than this cutoff value. 
@@ -168,6 +171,9 @@ Partial Module CLI
         Dim maps As MapRepository = (args <= "/maps").LoadXml(Of MapRepository)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.pathway.profiles/"
         Dim pvalue# = args("/p.value") Or 0.05
+        Dim colors$ = args("/colors") Or "Set1:c6"
+        Dim tick# = args("/tick") Or 1.0
+        Dim size$ = args("/size") Or "2000,1600"
         Dim profiles = [in].LoadCsv(Of Profile) _
             .GroupBy(Function(tax) tax.RankGroup) _
             .Select(Function(tax)
@@ -184,19 +190,45 @@ Partial Module CLI
             .IteratesALL _
             .ToArray
 
-        Return profiles.RunProfile(maps, out, pvalue)
+        Return profiles.RunProfile(maps, out, pvalue, colors, size, tick)
     End Function
 
     <Extension>
-    Public Function RunProfile(profiles As EnrichmentProfiles(), maps As MapRepository, out$, Optional pvalue# = 0.05) As Integer
+    Public Function RunProfile(profiles As EnrichmentProfiles(), maps As MapRepository, out$,
+                               Optional pvalue# = 0.05,
+                               Optional color$ = "Set1:c6",
+                               Optional size$ = "2000,1600",
+                               Optional tick# = 1) As Integer
+
         Dim KO = Pathway.LoadFromResource.ToDictionary(Function(map) "map" & map.EntryId)
 
         ' 进行绘图
         ' 绘制profile
-
-
         ' 绘制enrichment
+        Dim plot As GraphicsData = profiles _
+            .Select(Function(pathway)
+                        Return New EnrichmentTerm With {
+                            .Backgrounds = 1,
+                            .CorrectedPvalue = pathway.pvalue,
+                            .Database = "KEGG",
+                            .ID = pathway.pathway,
+                            .Input = 1,
+                            .link = 1,
+                            .number = 1,
+                            .ORF = {},
+                            .Pvalue = pathway.pvalue,
+                            .Term = pathway.pathway
+                        }
+                    End Function) _
+            .KEGGEnrichmentPlot(
+                size, pvalue,
+                gray:=False,
+                labelRightAlignment:=False,
+                tick:=tick,
+                colorSchema:=color
+            )
 
+        Call plot.Save($"{out}/pathway_enrichment.png")
         Call profiles _
             .Select(Function(profile)
                         Dim info As Pathway = KO(profile.pathway)

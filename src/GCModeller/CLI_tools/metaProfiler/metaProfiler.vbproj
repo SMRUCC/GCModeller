@@ -319,6 +319,10 @@
       <Project>{da7a7b6b-b27d-4b76-ac56-cf8c47917656}</Project>
       <Name>microbiomeGWAS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\Microarray\Microarray.vbproj">
+      <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
+      <Name>Microarray</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\annotations\KEGG\KEGG.vbproj">
       <Project>{282e1290-3475-4a7f-b232-608132ff561d}</Project>
       <Name>KEGG</Name>
