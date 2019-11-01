@@ -1,50 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::1a18d135c3b33f6300aa0ca15a416989, analysis\Metagenome\Metagenome\BIOM.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module BIOM
-    ' 
-    '     Function: [Imports], BIOMTaxonomyString, denseMatrix, EXPORT, sparseMatrix
-    '               TaxonomyString
-    ' 
-    ' /********************************************************************************/
+' Module BIOM
+' 
+'     Function: [Imports], BIOMTaxonomyString, denseMatrix, EXPORT, sparseMatrix
+'               TaxonomyString
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.foundation.BIOM.v10
@@ -161,7 +163,7 @@ Public Module BIOM
             For Each cpi In x.value.composition
                 ix = x.i
                 iy = nameIndex(cpi.Key)
-                composition = CInt(n * Val(cpi.Value) / 100)
+                composition = CInt(n * cpi.Value / 100)
 
                 Yield New Integer() {ix, iy, composition}
             Next
@@ -175,7 +177,7 @@ Public Module BIOM
         For Each row As gast.Names In array
             Yield names _
                 .Select(Function(name)
-                            Return CInt(row.numOfSeqs * Val(row.composition.TryGetValue(name, [default]:="0")) / 100)
+                            Return CInt(row.numOfSeqs * row.composition.TryGetValue(name, [default]:=0) / 100)
                         End Function) _
                 .ToArray
         Next
@@ -209,6 +211,26 @@ Public Module BIOM
 
         Dim s = r.Replace(l.JoinBy(";"), "(;NA)+$", "", RegexICMul)
         Return s
+    End Function
+
+    ''' <summary>
+    ''' Imports sample matrix from biom file as OTU table data.
+    ''' </summary>
+    ''' <param name="biom"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function [Imports](biom As BIOMDataSet(Of Double)) As IEnumerable(Of OTUTable)
+        Dim matrix As New Dictionary(Of String, OTUTable)
+
+        For Each otu As NamedValue(Of [Property](Of Double)) In biom.PopulateRows
+            If Not matrix.ContainsKey(otu.Name) Then
+                matrix.Add(otu.Name, New OTUTable With {.ID = otu.Name})
+            End If
+
+            matrix(otu.Name).Append(otu, AddressOf Math.Max)
+        Next
+
+        Return matrix.Values
     End Function
 
     ''' <summary>
@@ -252,7 +274,7 @@ Public Module BIOM
                       .TaxonomyString
                   Select New Names With {
                       .numOfSeqs = 100,
-                      .composition = otu.data,
+                      .composition = otu.data.AsNumeric,
                       .taxonomy = taxonomy,
                       .unique = otu.OTU
                   }
