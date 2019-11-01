@@ -81,7 +81,12 @@ Namespace Metagenomics
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TryParse(content As String) As Object Implements IParser.TryParse
-            Return BIOMTaxonomy.TaxonomyParser(content).AsTaxonomy
+            Return Parse(biomString:=content)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Parse(biomString As String) As Taxonomy
+            Return BIOMTaxonomy.TaxonomyParser(biomString).AsTaxonomy
         End Function
     End Class
 

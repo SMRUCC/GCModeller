@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Metagenomics
 
@@ -14,8 +15,14 @@ Namespace PathwayProfile
         ''' </summary>
         ''' <returns></returns>
         ''' 
-        <Column("taxonomy", GetType(BIOMTaxonomyParser))>
-        Public Property Taxonomy As Taxonomy
+        <Ignored>
+        Public ReadOnly Property Taxonomy As Taxonomy
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return BIOMTaxonomyParser.Parse(biomString:=RankGroup)
+            End Get
+        End Property
+
         ''' <summary>
         ''' The profile matrix data row
         ''' 
@@ -34,7 +41,7 @@ Namespace PathwayProfile
         End Sub
 
         Sub New(tax As Taxonomy, profile As Dictionary(Of String, Double), pct#)
-            Me.Taxonomy = tax
+            Me.RankGroup = tax.ToString(BIOMstyle:=True)
             Me.Profile = profile
             Me.pct = pct
         End Sub
