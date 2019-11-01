@@ -95,22 +95,31 @@ Namespace PathwayProfile
         ''' <param name="mapID$"></param>
         ''' <returns></returns>
         <Extension>
-        Private Function EnrichmentTestInternal(profiles As IEnumerable(Of Profile), mapID$) As (profile#, pvalue#)
+        Private Function EnrichmentTestInternal(profiles As Profile(), mapID$) As (profile#, pvalue#)
             Dim vector#() = profiles _
                 .Where(Function(tax) tax.Profile.ContainsKey(mapID)) _
                 .Where(Function(tax) tax.Profile(mapID) > 0R) _
                 .Select(Function(tax) tax.Profile(mapID) * tax.pct) _
                 .ToArray
-            Dim ZERO#() = Repeats(0R, vector.Length)
 
+            If vector.Length < 3 Then
+                vector = vector.Join(Repeats(0.0, 3 - vector.Length))
+            End If
+
+            Dim ZERO#() = Repeats(0R, vector.Length)
             Dim profile# = vector.Sum
             ' student t test
             Dim pvalue#
             Dim x0 = vector.FirstOrDefault
+            Dim means = vector.Average / 10
 
-            If vector.Length < 3 Then
-                pvalue = 1
-            ElseIf vector.All(Function(x) x = x0) Then
+            For i As Integer = 0 To vector.Length - 1
+                If vector(i) = 0R Then
+                    vector(i) = means
+                End If
+            Next
+
+            If vector.All(Function(x) x = x0) Then
                 If x0 = 0R Then
                     pvalue = 1
                 Else

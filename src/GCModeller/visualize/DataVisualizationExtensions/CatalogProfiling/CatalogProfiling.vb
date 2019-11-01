@@ -232,7 +232,6 @@ Namespace CatalogProfiling
 
             ' 这里要判断一下，否则绘制结果仍然是和没有限制长度的结果一样
             If maxLenSubKey.Length > 64 Then
-
                 ' 2017-9-30
                 ' 因为用的不是等宽字体，所以在这里使用字母来作为计算长度的单位会更加的合理一些
                 maxLenSubKey = New String("a"c, 68)

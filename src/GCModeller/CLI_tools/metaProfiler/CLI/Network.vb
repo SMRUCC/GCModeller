@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports RDotNet.Extensions.VisualBasic.API
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Metagenome
@@ -175,6 +176,11 @@ Partial Module CLI
         Dim tick# = args("/tick") Or 1.0
         Dim size$ = args("/size") Or "2000,1600"
         Dim rank As TaxonomyRanks = Metagenomics.ParseRank(args("/rank") Or "family")
+
+        If rank = TaxonomyRanks.NA Then
+            Throw New InvalidExpressionException($"Invalid input rank level string: {args("/rank")}")
+        End If
+
         Dim profiles = [in].LoadCsv(Of Profile) _
             .Where(Function(tax) tax.Taxonomy.lowestLevel > TaxonomyRanks.Phylum) _
             .GroupBy(Function(tax) tax.Taxonomy.ToString(rank)) _
@@ -204,21 +210,25 @@ Partial Module CLI
 
         Dim KO = Pathway.LoadFromResource.ToDictionary(Function(map) "map" & map.EntryId)
         Dim enrichmentTerms = profiles _
+            .GroupBy(Function(map) map.pathway) _
             .Select(Function(pathway)
+                        Dim profileVec = pathway.Select(Function(map) map.profile).ToArray
+                        Dim maxprofile = pathway.OrderByDescending(Function(p) p.profile).First
+
                         Return New EnrichmentTerm With {
-                            .Backgrounds = 1,
-                            .CorrectedPvalue = pathway.pvalue,
+                            .Backgrounds = pathway.Count,
+                            .CorrectedPvalue = 10 ^ (-profileVec.Average),
                             .Database = "KEGG",
-                            .ID = pathway.pathway,
-                            .Input = 1,
+                            .ID = pathway.Key,
+                            .Input = maxprofile.profile,
                             .link = 1,
                             .number = 1,
-                            .ORF = {},
-                            .Pvalue = pathway.pvalue,
-                            .Term = KO(pathway.pathway).entry.text
+                            .ORF = {maxprofile.RankGroup},
+                            .Pvalue = 10 ^ (-profileVec.Max / 2),
+                            .Term = KO(maxprofile.pathway).entry.text
                         }
                     End Function) _
-            .OrderBy(Function(t) t.Pvalue) _
+            .OrderBy(Function(t) t.pvalue) _
             .ToArray
 
         ' 进行绘图
