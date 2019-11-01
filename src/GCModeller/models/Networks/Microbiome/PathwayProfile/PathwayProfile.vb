@@ -76,14 +76,14 @@ Namespace PathwayProfile
             ' 转换为每一个mapID对应的pathway按照taxonomy排列的向量
             Dim profiles = profileData.ToArray
             Dim profileTable = profiles _
-            .Select(Function(tax) tax.Profile.Keys) _
-            .IteratesALL _
-            .Distinct _
-            .OrderBy(Function(id) id) _
-            .ToDictionary(Function(mapID) mapID,
-                          Function(mapID)
-                              Return profiles.EnrichmentTestInternal(mapID)
-                          End Function)
+                .Select(Function(tax) tax.Profile.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .OrderBy(Function(id) id) _
+                .ToDictionary(Function(mapID) mapID,
+                              Function(mapID)
+                                  Return profiles.EnrichmentTestInternal(mapID)
+                              End Function)
 
             Return profileTable
         End Function
@@ -97,10 +97,10 @@ Namespace PathwayProfile
         <Extension>
         Private Function EnrichmentTestInternal(profiles As IEnumerable(Of Profile), mapID$) As (profile#, pvalue#)
             Dim vector#() = profiles _
-            .Where(Function(tax) tax.Profile.ContainsKey(mapID)) _
-            .Where(Function(tax) tax.Profile(mapID) > 0R) _
-            .Select(Function(tax) tax.Profile(mapID) * tax.pct) _
-            .ToArray
+                .Where(Function(tax) tax.Profile.ContainsKey(mapID)) _
+                .Where(Function(tax) tax.Profile(mapID) > 0R) _
+                .Select(Function(tax) tax.Profile(mapID) * tax.pct) _
+                .ToArray
             Dim ZERO#() = Repeats(0R, vector.Length)
 
             Dim profile# = vector.Sum
@@ -126,9 +126,9 @@ Namespace PathwayProfile
 
         <Extension>
         Public Function PathwayProfiles(gast As IEnumerable(Of gast.gastOUT),
-                                    uniprot As TaxonomyRepository,
-                                    ref As MapRepository,
-                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As EnrichmentProfiles()
+                                        uniprot As TaxonomyRepository,
+                                        ref As MapRepository,
+                                        Optional rank As TaxonomyRanks = TaxonomyRanks.Genus) As EnrichmentProfiles()
 
             Dim profiles = gast.CreateProfile(uniprot, ref, rank)
             Dim profileTable = profiles.PathwayProfiles
@@ -145,22 +145,22 @@ Namespace PathwayProfile
         <Extension>
         Public Function PathwayProfiles(profiles As Dictionary(Of String, Profile())) As EnrichmentProfiles()
             Return profiles _
-            .Select(Function(group)
-                        Dim tax = group.Key ' 物种的分类字符串
-                        Dim enrichment = group.Value.ProfileEnrichment
+                .Select(Function(group)
+                            Dim tax = group.Key ' 物种的分类字符串
+                            Dim enrichment = group.Value.ProfileEnrichment
 
-                        Return enrichment _
-                            .Select(Function(pathway)
-                                        Return New EnrichmentProfiles With {
-                                            .pathway = pathway.Key,
-                                            .profile = pathway.Value.profile,
-                                            .pvalue = pathway.Value.pvalue,
-                                            .RankGroup = tax
-                                        }
-                                    End Function)
-                    End Function) _
-            .IteratesALL _
-            .ToArray
+                            Return enrichment _
+                                .Select(Function(pathway)
+                                            Return New EnrichmentProfiles With {
+                                                .pathway = pathway.Key,
+                                                .profile = pathway.Value.profile,
+                                                .pvalue = pathway.Value.pvalue,
+                                                .RankGroup = tax
+                                            }
+                                        End Function)
+                        End Function) _
+                .IteratesALL _
+                .ToArray
         End Function
     End Module
 End Namespace
