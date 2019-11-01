@@ -53,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
@@ -193,6 +194,8 @@ Public Module PathwayProfile
         ''' 物种分类信息
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <Column("taxonomy", GetType(BIOMTaxonomyParser))>
         Public Property Taxonomy As Taxonomy
         ''' <summary>
         ''' 该分类下的所有的具有覆盖度结果的KEGG编号的列表和相对应的覆盖度值
