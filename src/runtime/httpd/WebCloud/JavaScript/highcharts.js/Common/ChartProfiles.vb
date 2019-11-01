@@ -70,8 +70,8 @@ Friend Module ChartProfiles
             .type = "column",
             .options3d = New options3d With {
                 .enabled = True,
-                .alpha = 10,
-                .beta = 25,
+                .alpha = 5,
+                .beta = 20,
                 .depth = 70
             }
         }

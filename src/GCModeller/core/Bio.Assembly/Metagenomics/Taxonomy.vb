@@ -207,6 +207,10 @@ Namespace Metagenomics
             Return {kingdom, phylum, [class], order, family, genus, species}.Take(CInt(rank) - 100 + 1)
         End Function
 
+        Public Function Rank(level As TaxonomyRanks) As Taxonomy
+            Return BIOMTaxonomyParser.Parse(Me.ToString(level))
+        End Function
+
         ''' <summary>
         ''' 这个函数不会比较<see cref="scientificName"/>
         ''' </summary>
