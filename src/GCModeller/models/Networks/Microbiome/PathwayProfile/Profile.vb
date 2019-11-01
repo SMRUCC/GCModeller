@@ -40,7 +40,7 @@ Namespace PathwayProfile
         End Sub
 
         Public Overrides Function ToString() As String
-            Return Taxonomy.family & ": " & Profile.GetJson
+            Return $"[{(pct * 100).ToString("F2")}%] {Profile.Where(Function(p) p.Value > 0).ToDictionary.GetJson}"
         End Function
     End Class
 
