@@ -104,6 +104,10 @@ Namespace Core.HttpStream
         ''' <returns></returns>
         Public ReadOnly Property InputStream As String
         Public ReadOnly Property ContentEncoding As Encoding
+        ''' <summary>
+        ''' The web form input values
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Form As New NameValueCollection
         Public ReadOnly Property Files As New Dictionary(Of String, List(Of HttpPostedFile))
 
