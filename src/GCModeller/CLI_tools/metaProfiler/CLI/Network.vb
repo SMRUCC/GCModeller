@@ -61,6 +61,7 @@ Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.foundation.BIOM.v10.components
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.Microbiome
+Imports SMRUCC.genomics.Model.Network.Microbiome.PathwayProfile
 
 Partial Module CLI
 
