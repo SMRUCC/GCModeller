@@ -157,7 +157,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/microbiome.pathway.run.profile")>
-    <Usage("/microbiome.pathway.run.profile /in <profile.csv> /maps <kegg.maps.ref.Xml> [/colors <default=Set1:c6> /tick 1 /size <2000,1600> /p.value <default=0.05> /out <out.directory>]")>
+    <Usage("/microbiome.pathway.run.profile /in <profile.csv> /maps <kegg.maps.ref.Xml> [/rank <default=family> /colors <default=Set1:c6> /tick 1 /size <2000,1600> /p.value <default=0.05> /out <out.directory>]")>
     <Description("Build pathway interaction network based on the microbiome profile result.")>
     <Argument("/p.value", True, CLITypes.Double,
               Description:="The pvalue cutoff of the profile mapID, selects as the network node if the mapID its pvalue is smaller than this cutoff value. 
@@ -174,9 +174,10 @@ Partial Module CLI
         Dim colors$ = args("/colors") Or "Set1:c6"
         Dim tick# = args("/tick") Or 1.0
         Dim size$ = args("/size") Or "2000,1600"
+        Dim rank As TaxonomyRanks = Metagenomics.ParseRank(args("/rank") Or "family")
         Dim profiles = [in].LoadCsv(Of Profile) _
             .Where(Function(tax) tax.Taxonomy.lowestLevel > TaxonomyRanks.Phylum) _
-            .GroupBy(Function(tax) tax.RankGroup) _
+            .GroupBy(Function(tax) tax.Taxonomy.ToString(rank)) _
             .Select(Function(tax)
                         Return tax.ProfileEnrichment _
                             .Select(Function(pathway As KeyValuePair(Of String, (profile#, pvalue#)))

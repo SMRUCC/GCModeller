@@ -341,6 +341,11 @@ Namespace Metagenomics
             Return tax.JoinBy(";")
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Function ToString(rank As TaxonomyRanks) As String
+            Return Me.Select(rank).ToArray.TaxonomyString
+        End Function
+
         ''' <summary>
         ''' 如果<paramref name="BIOMstyle"/>参数为真,则返回符合BIOM文件要求的Taxonomy字符串格式
         ''' </summary>
