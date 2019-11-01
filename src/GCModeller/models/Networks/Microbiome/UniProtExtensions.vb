@@ -42,6 +42,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 
+<HideModuleName>
 Public Module UniProtExtensions
 
     ''' <summary>
