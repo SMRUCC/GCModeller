@@ -5,8 +5,17 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace CatalogProfiling
 
+    <HideModuleName>
     Module Extensions
 
+        ''' <summary>
+        ''' 根据用户所输入的名称字符串生成<see cref="ValueScaleColorProfile"/>或者<see cref="CategoryColorProfile"/>颜色管理器
+        ''' </summary>
+        ''' <param name="profile"></param>
+        ''' <param name="colorSchema">
+        ''' 如果需要生成<see cref="ValueScaleColorProfile"/>颜色管理器，字符串的格式应该是``scale(color_term)``
+        ''' </param>
+        ''' <returns></returns>
         <Extension>
         Public Function GetColors(profile As Dictionary(Of String, NamedValue(Of Double)()), colorSchema$) As ColorProfile
             If colorSchema.IsPattern("scale\(.+\)") Then
@@ -24,7 +33,5 @@ Namespace CatalogProfiling
                 Return New CategoryColorProfile(category, colorSchema)
             End If
         End Function
-
     End Module
-
 End Namespace

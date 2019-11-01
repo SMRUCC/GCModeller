@@ -292,6 +292,10 @@ Public Module KEGGOrthology
                 })
         Next
 
+        If profiles.Count = 0 Then
+            Throw New DataException($"No enrichment terms for data plot after pvalue(<={pvalue}) cutoff filtering!")
+        End If
+
         Dim profileData = profiles _
             .ToDictionary(Function(k) k.Key,
                           Function(terms) As NamedValue(Of Double)()

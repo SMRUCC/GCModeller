@@ -59,7 +59,9 @@ Namespace KOBAS
         Implements INamedValue
 
         ''' <summary>
-        ''' #Term
+        ''' #Term 
+        ''' 
+        ''' (这个属性一般为代谢途径的名称或者GO词条的名称)
         ''' </summary>
         ''' <returns></returns>
         <Column("#Term")>
@@ -68,6 +70,8 @@ Namespace KOBAS
 
         ''' <summary>
         ''' <see cref="INamedValue.Key"/>
+        ''' 
+        ''' (KEGG代谢途径的id编号或者GO词条的id编号)
         ''' </summary>
         ''' <returns></returns>
         Public Property ID As String Implements IGoTerm.Go_ID, IKEGGTerm.ID, INamedValue.Key
