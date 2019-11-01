@@ -201,11 +201,7 @@ Partial Module CLI
                                Optional tick# = 1) As Integer
 
         Dim KO = Pathway.LoadFromResource.ToDictionary(Function(map) "map" & map.EntryId)
-
-        ' 进行绘图
-        ' 绘制profile
-        ' 绘制enrichment
-        Dim plot As GraphicsData = profiles _
+        Dim enrichmentTerms = profiles _
             .Select(Function(pathway)
                         Return New EnrichmentTerm With {
                             .Backgrounds = 1,
@@ -217,9 +213,15 @@ Partial Module CLI
                             .number = 1,
                             .ORF = {},
                             .Pvalue = pathway.pvalue,
-                            .Term = pathway.pathway
+                            .Term = KO(pathway.pathway).entry.text
                         }
                     End Function) _
+            .ToArray
+
+        ' 进行绘图
+        ' 绘制profile
+        ' 绘制enrichment
+        Dim plot As GraphicsData = enrichmentTerms _
             .KEGGEnrichmentPlot(
                 size, pvalue,
                 gray:=False,
