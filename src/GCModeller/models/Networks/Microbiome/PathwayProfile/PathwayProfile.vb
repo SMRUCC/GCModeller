@@ -114,7 +114,8 @@ Namespace PathwayProfile
                 If x0 = 0R Then
                     pvalue = 1
                 Else
-                    pvalue = 0
+                    vector(Scan0) += 0.0000001
+                    pvalue = stats.Ttest(vector, ZERO, varEqual:=True).pvalue
                 End If
             Else
                 ' 可能有很多零
