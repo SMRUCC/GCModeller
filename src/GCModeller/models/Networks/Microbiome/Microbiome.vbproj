@@ -256,6 +256,8 @@
     <Compile Include="MetabolicComplementation\MetabolicEndPoints.vb" />
     <Compile Include="MetabolicComplementation\EndPointAnalysis.vb" />
     <Compile Include="PathwayProfile\EnrichmentProfiles.vb" />
+    <Compile Include="PathwayProfile\ProfileMatrix.vb" />
+    <Compile Include="PathwayProfile\NetworkVisualizer.vb" />
     <Compile Include="PathwayProfile\Profile.vb" />
     <Compile Include="PathwayProfile\PathwayProfile.vb" />
     <Compile Include="UniProtBuilder\CacheGenerator.vb" />
