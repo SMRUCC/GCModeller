@@ -138,7 +138,7 @@ Public Module ShellScriptAPI
                                     refRxnX = refRxn,
                                     EcNum = xId)).IteratesALL
 
-        Dim Graph As XGMMLgraph = Graph.CreateObject(RefMap.Name.Replace("<br>", ""), "KEGG reference map data", RefMap.description.Replace("<br>", ""))
+        Dim Graph As XGMMLgraph = XGMMLgraph.CreateObject(RefMap.Name.Replace("<br>", ""), "KEGG reference map data", RefMap.description.Replace("<br>", ""))
         Graph.id = RefMap.EntryId
         Graph.label = RefMap.Name
         Graph.nodes = (From rxn In Reaction
