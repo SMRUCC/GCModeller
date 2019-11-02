@@ -199,9 +199,9 @@ Namespace CytoscapeGraphView
                         Dim B = (From cl In ColorList Select clB = CDbl(cl.sp_Color.B)).ToArray.Average
                         Color = Drawing.Color.FromArgb(alpha, R, G, B)
 
-                        Call gdi.Graphics.DrawString(String.Join("; ", (From cl In ColorList Select cl.sp).ToArray), New Font(FontFace.Ubuntu, 6), Brushes.Red, New Point(Node.Graphics.x * Scale, Node.Graphics.y * Scale - Node.Graphics.h * 0.2))
+                        Call gdi.DrawString(String.Join("; ", (From cl In ColorList Select cl.sp).ToArray), New Font(FontFace.Ubuntu, 6), Brushes.Red, New Point(Node.Graphics.x * Scale, Node.Graphics.y * Scale - Node.Graphics.h * 0.2))
                     Else
-                        Color = System.Drawing.Color.FromArgb(alpha, Drawing.Color.Blue)
+                        Color = Color.FromArgb(alpha, Color.Blue)
                     End If
 
                     Dim IsPie As Boolean

@@ -51,6 +51,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 
 Namespace API
 
+    <HideModuleName>
     Public Module GraphExtensions
 
         ''' <summary>
