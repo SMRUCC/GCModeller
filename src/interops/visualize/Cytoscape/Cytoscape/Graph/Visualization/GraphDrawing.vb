@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
 Namespace CytoscapeGraphView
 
@@ -89,7 +90,9 @@ Namespace CytoscapeGraphView
                 Call GrDevice.FillRectangle(Brushes.White, New Rectangle(New Point, size))
 
                 Dim Nodes = graph.Nodes.ToDictionary(Function(n) n.id,
-                                                     Function(x) New Node(x, xScale, yScale))
+                                                     Function(x)
+                                                         Return New Node(x, xScale, yScale)
+                                                     End Function)
 
                 Dim RECT = getRectange(Nodes.Values.ToArray)  '得到绘图区域，然后将区域移动到设备的中间
                 Dim offSet = New Point((size.Width - RECT.Width) / 2 - RECT.X, (size.Height - RECT.Height) / 2 - RECT.Y)
@@ -187,9 +190,9 @@ Namespace CytoscapeGraphView
                                      New Point(pt2.Graphics.x * Scale, pt2.Graphics.y * Scale).OffSet2D(offset))
                 Next
 
-                For Each Node In Graph.Nodes
-                    Dim Orthology = refMap.GetReaction(Node("KEGG_ENTRY").Value).SSDBs
-                    Dim KO_sp As String() = (From Entry In (From ort In Orthology Select ort.Value).ToArray.Unlist Select Entry.speciesID Distinct).ToArray
+                For Each node As XGMMLnode In Graph.Nodes
+                    Dim Orthology = refMap.GetReaction(node("KEGG_ENTRY").Value).SSDBs
+                    Dim KO_sp As String() = (From Entry In (From ort In Orthology Select ort.value).ToArray.Unlist Select Entry.speciesID Distinct).ToArray
                     Dim ColorList = (From sp As String In KO_sp Where Colors.ContainsKey(sp) Select sp, sp_Color = Colors(sp)).ToArray
                     Dim Color As Color
 
@@ -199,13 +202,13 @@ Namespace CytoscapeGraphView
                         Dim B = (From cl In ColorList Select clB = CDbl(cl.sp_Color.B)).ToArray.Average
                         Color = Drawing.Color.FromArgb(alpha, R, G, B)
 
-                        Call gdi.DrawString(String.Join("; ", (From cl In ColorList Select cl.sp).ToArray), New Font(FontFace.Ubuntu, 6), Brushes.Red, New Point(Node.Graphics.x * Scale, Node.Graphics.y * Scale - Node.Graphics.h * 0.2))
+                        Call gdi.DrawString(String.Join("; ", (From cl In ColorList Select cl.sp).ToArray), New Font(FontFace.Ubuntu, 6), Brushes.Red, New Point(node.graphics.x * Scale, node.graphics.y * Scale - node.graphics.h * 0.2))
                     Else
                         Color = Color.FromArgb(alpha, Color.Blue)
                     End If
 
                     Dim IsPie As Boolean
-                    Dim Rect As Rectangle = __calculation(Node, IsPie, offset, Scale)
+                    Dim Rect As Rectangle = __calculation(node, IsPie, offset, Scale)
                     ' Dim BigRect As Rectangle = New Rectangle(Microsoft.VisualBasic.OffSet(Rect.Location, 5, 5), New Size(Rect.Size.Width + 2.5, Rect.Height + 2.5))
 
                     If IsPie Then
@@ -216,15 +219,15 @@ Namespace CytoscapeGraphView
                         Call gdi.Graphics.FillRectangle(New SolidBrush(Color), Rect)
                     End If
 
-                    Call gdi.Graphics.DrawString(Node.label, New Font("Ubuntu", 10), Brushes.Black, New Point(Node.Graphics.x * Scale, Node.Graphics.y * Scale))
+                    Call gdi.Graphics.DrawString(node.label, New Font("Ubuntu", 10), Brushes.Black, New Point(node.graphics.x * Scale, node.graphics.y * Scale))
                 Next
 
                 Return gdi.ImageResource
             End Using
         End Function
 
-        Private Function __calculation(Node As XGMML.Node, ByRef IsPie As Boolean, OffSet As Point, Scale As Integer) As Rectangle
-            Dim rt As Double = Math.Abs(Node.Graphics.w - Node.Graphics.h) / Math.Min(Node.Graphics.w, Node.Graphics.h)
+        Private Function __calculation(Node As XGMMLnode, ByRef IsPie As Boolean, OffSet As Point, Scale As Integer) As Rectangle
+            Dim rt As Double = Math.Abs(Node.graphics.w - Node.graphics.h) / Math.Min(Node.graphics.w, Node.graphics.h)
             Dim DEntry = Node("Degree")
             Dim Degree As Integer = If(DEntry Is Nothing, 1, CInt(Val(DEntry.Value)))
 
@@ -237,9 +240,9 @@ Namespace CytoscapeGraphView
                 End If
             End If
 
-            Dim RectSize = New Size(Node.Graphics.w * Degree, Node.Graphics.h * Degree)
-            Dim RectLoc As New Point(Node.Graphics.x * Scale - RectSize.Width / 2,
-                                     Node.Graphics.y * Scale - RectSize.Height / 2)
+            Dim RectSize = New Size(Node.graphics.w * Degree, Node.graphics.h * Degree)
+            Dim RectLoc As New Point(Node.graphics.x * Scale - RectSize.Width / 2,
+                                     Node.graphics.y * Scale - RectSize.Height / 2)
 
             IsPie = Not rt > 0.05
 

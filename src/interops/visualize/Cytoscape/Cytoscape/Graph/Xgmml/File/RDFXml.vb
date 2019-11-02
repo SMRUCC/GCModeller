@@ -43,7 +43,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.Text.Xml
 
-Namespace CytoscapeGraphView.XGMML
+Namespace CytoscapeGraphView.XGMML.File
 
     Module RDFXml
 

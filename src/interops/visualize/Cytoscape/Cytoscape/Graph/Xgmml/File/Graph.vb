@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::03a50492fe2e8a313020230617709063, visualize\Cytoscape\Cytoscape\Graph\Xgmml\Graph.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Graph
-    ' 
-    '         Properties: Attributes, Directed, documentVersion, Edges, Graphics
-    '                     ID, Label, NetworkMetaData, Nodes, Size
-    ' 
-    '         Function: (+2 Overloads) CreateObject, DeleteDuplication, ExistEdge, (+2 Overloads) GetNode, GetSize
-    '                   Load, (+2 Overloads) Save
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Graph
+' 
+'         Properties: Attributes, Directed, documentVersion, Edges, Graphics
+'                     ID, Label, NetworkMetaData, Nodes, Size
+' 
+'         Function: (+2 Overloads) CreateObject, DeleteDuplication, ExistEdge, (+2 Overloads) GetNode, GetSize
+'                   Load, (+2 Overloads) Save
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,11 +48,11 @@ Imports System.Drawing
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.MIME.application
 Imports Microsoft.VisualBasic.Text
 
-Namespace CytoscapeGraphView.XGMML
+Namespace CytoscapeGraphView.XGMML.File
 
     ''' <summary>
     ''' The Cytoscape software XML format network visualization model.(Cytoscape软件的网络XML模型文件)
@@ -63,14 +63,14 @@ Namespace CytoscapeGraphView.XGMML
 
 #Region "Assembly File Public Properties"
 
-        <XmlAttribute("id")> Public Property ID As String
+        <XmlAttribute("id")> Public Property id As String
         ''' <summary>
         ''' The brief title information of this cytoscape network model.(这个Cytoscape网络模型文件的摘要标题信息)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute("label")> Public Property Label As String
+        <XmlAttribute("label")> Public Property label As String
         ''' <summary>
         ''' The edges between these nodes have the direction from one node to another node?
         ''' (这个网络模型文件之中的相互作用的节点之间的边是否是具有方向性的)
@@ -78,77 +78,67 @@ Namespace CytoscapeGraphView.XGMML
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute("directed")> Public Property Directed As String
-        <XmlAttribute("cy-documentVersion")> Public Property documentVersion As String = "3.0"
+        <XmlAttribute("directed")> Public Property directed As String
+        <XmlAttribute("documentVersion", [Namespace]:=xmlnsCytoscape)>
+        Public Property documentVersion As String = "3.0"
 
         ''' <summary>
         ''' 在这个属性里面会自动设置Graph对象的属性列表里面的数据
         ''' </summary>
         ''' <returns></returns>
         <XmlIgnore>
-        Public Property NetworkMetaData As NetworkMetadata
+        Public ReadOnly Property networkMetadata As NetworkMetadata
             Get
-                If _attrs.ContainsKey(ATTR_NAME_NETWORK_METADATA) Then
-                    Return _attrs(ATTR_NAME_NETWORK_METADATA).RDF.meta
-                Else
-                    Return Nothing
-                End If
+                Return attributes _
+                    .Where(Function(a) a.name = "networkMetadata") _
+                    .FirstOrDefault() _
+                    .RDF _
+                    .meta
             End Get
-            Set(value As NetworkMetadata)
-                If _attrs.ContainsKey(ATTR_NAME_NETWORK_METADATA) Then
-                    _attrs(ATTR_NAME_NETWORK_METADATA).RDF =
-                        New InnerRDF With {
-                            .meta = value
-                    }
-                Else
-                    _attrs(ATTR_NAME_NETWORK_METADATA) =
-                        New GraphAttribute With {
-                            .Name = ATTR_NAME_NETWORK_METADATA,
-                            .RDF = New InnerRDF With {
-                                .meta = value
-                        }
-                    }
-                End If
-            End Set
         End Property
 
-        <XmlElement("att")> Public Property Attributes As GraphAttribute()
-            Get
-                If _attrs.IsNullOrEmpty Then
-                    Return New GraphAttribute() {}
-                End If
-
-                Return _attrs.Values.ToArray
-            End Get
-            Set(value As GraphAttribute())
-                If value.IsNullOrEmpty Then
-                    _attrs = New Dictionary(Of GraphAttribute)
-                Else
-                    _attrs = value.ToDictionary
-                End If
-            End Set
-        End Property
-        <XmlElement("graphics")> Public Property Graphics As Graphics
-        <XmlElement("node")> Public Property Nodes As XGMML.Node()
+        <XmlElement("att")> Public Property attributes As GraphAttribute()
+        <XmlElement("graphics")> Public Property graphics As Graphics
+        <XmlElement("node")> Public Property Nodes As XGMMLnode()
             Get
                 If _nodeList.IsNullOrEmpty Then
-                    Return New XGMML.Node() {}
+                    Return New XGMMLnode() {}
                 End If
                 Return _nodeList.Values.ToArray
             End Get
-            Set(value As XGMML.Node())
+            Set(value As XGMMLnode())
                 If value.IsNullOrEmpty Then
-                    _nodeList = New Dictionary(Of String, XGMML.Node)
+                    _nodeList = New Dictionary(Of String, XGMMLnode)
                 Else
                     _nodeList = value.ToDictionary(Function(obj) obj.label)
                 End If
             End Set
         End Property
 
-        <XmlElement("edge")> Public Property Edges As XGMML.Edge()
+        <XmlElement("edge")> Public Property Edges As XGMMLedge()
 
-        Dim _attrs As Dictionary(Of GraphAttribute)
-        Dim _nodeList As Dictionary(Of String, XGMML.Node)
+        Dim _nodeList As Dictionary(Of String, XGMMLnode)
+
+        <XmlNamespaceDeclarations()>
+        Public xmlns As XmlSerializerNamespaces
+
+        ''' <summary>
+        ''' cy:xxx
+        ''' </summary>
+        Public Const xmlnsCytoscape$ = "http://www.cytoscape.org"
+        ''' <summary>
+        ''' dc:xxx
+        ''' </summary>
+        Public Const xmlns_dc$ = "http://purl.org/dc/elements/1.1/"
+
+        Public Sub New()
+            xmlns = New XmlSerializerNamespaces
+
+            xmlns.Add("cy", xmlnsCytoscape)
+            xmlns.Add("rdf", rdf_xml.RDF.XmlnsNamespace)
+            xmlns.Add("xlink", "http://www.w3.org/1999/xlink")
+            xmlns.Add("dc", xmlns_dc)
+        End Sub
 #End Region
 
         ''' <summary>
@@ -156,15 +146,15 @@ Namespace CytoscapeGraphView.XGMML
         ''' </summary>
         ''' <param name="Label">Synonym</param>
         ''' <returns></returns>
-        Public Function GetNode(Label As String) As XGMML.Node
-            Dim Node As XGMML.Node = Nothing
+        Public Function GetNode(Label As String) As XGMMLnode
+            Dim Node As XGMMLnode = Nothing
             Call _nodeList.TryGetValue(Label, Node)
             Return Node
         End Function
 
-        Public Function GetNode(ID As Long) As XGMML.Node
-            Return LinqAPI.DefaultFirst(Of XGMML.Node) <=
-                From node As XGMML.Node
+        Public Function GetNode(ID As Long) As XGMMLnode
+            Return LinqAPI.DefaultFirst(Of XGMMLnode) <=
+                From node As XGMMLnode
                 In Me._nodeList.Values
                 Where node.id = ID
                 Select node
@@ -182,16 +172,16 @@ Namespace CytoscapeGraphView.XGMML
         End Function
 
         Public Function GetSize(Optional Scale As Double = 1) As Size
-            Dim Max_X As Integer = (From node In Nodes.AsParallel Select node.Graphics.x).Max * (Scale + 1)
-            Dim Max_Y As Integer = (From node In Nodes.AsParallel Select node.Graphics.y).Max * (Scale + 1)
+            Dim Max_X As Integer = (From node In Nodes.AsParallel Select node.graphics.x).Max * (Scale + 1)
+            Dim Max_Y As Integer = (From node In Nodes.AsParallel Select node.graphics.y).Max * (Scale + 1)
 
             Return New Size(Max_X, Max_Y)
         End Function
 
         Public ReadOnly Property Size As Size
             Get
-                Dim width = Me.Graphics("NETWORK_WIDTH")
-                Dim height = Me.Graphics("NETWORK_HEIGHT")
+                Dim width = Me.graphics("NETWORK_WIDTH")
+                Dim height = Me.graphics("NETWORK_HEIGHT")
 
                 If width Is Nothing OrElse height Is Nothing Then
                     Return GetSize()
@@ -208,15 +198,15 @@ Namespace CytoscapeGraphView.XGMML
         ''' <remarks></remarks>
         Public Overloads Shared Function CreateObject() As Graph
             Dim Graph As New Graph With {
-                .Label = "",
-                .ID = "",
-                .Directed = "1",
+                .label = "",
+                .id = "",
+                .directed = "1",
                 .NetworkMetaData = New NetworkMetadata
             }
             Return Graph
         End Function
 
-        Public Function ExistEdge(Edge As XGMML.Edge) As Boolean
+        Public Function ExistEdge(Edge As XGMMLedge) As Boolean
             Return Not (GetNode(Edge.source) Is Nothing OrElse GetNode(Edge.target) Is Nothing)
         End Function
 
@@ -228,10 +218,10 @@ Namespace CytoscapeGraphView.XGMML
         Public Overloads Shared Function CreateObject(Title As String, Type As String, Optional Description As String = "") As Graph
             Dim Graph As Graph = Graph.CreateObject
 
-            Graph.Label = Title
-            Graph.NetworkMetaData.Title = Title.Replace("<", "[").Replace(">", "]")
-            Graph.NetworkMetaData.InteractionType = Type.Replace("<", "[").Replace(">", "]")
-            Graph.NetworkMetaData.Description = Description.Replace("<", "[").Replace(">", "]")
+            Graph.label = Title
+            Graph.NetworkMetaData.title = Title.Replace("<", "[").Replace(">", "]")
+            Graph.NetworkMetaData.type = Type.Replace("<", "[").Replace(">", "]")
+            Graph.NetworkMetaData.description = Description.Replace("<", "[").Replace(">", "]")
             Return Graph
         End Function
 

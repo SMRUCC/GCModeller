@@ -48,15 +48,15 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 
-Namespace CytoscapeGraphView.XGMML
+Namespace CytoscapeGraphView.XGMML.File
 
     <XmlType("edge")>
-    Public Class Edge : Inherits AttributeDictionary
+    Public Class XGMMLedge : Inherits AttributeDictionary
         Implements IAddressOf
 
-        <XmlAttribute("id")> Public Property Id As Integer Implements IAddressOf.Address
-        <XmlAttribute("label")> Public Property Label As String
-        <XmlElement("graphics")> Public Property Graphics As EdgeGraphics
+        <XmlAttribute("id")> Public Property id As Integer Implements IAddressOf.Address
+        <XmlAttribute("label")> Public Property label As String
+        <XmlElement("graphics")> Public Property graphics As EdgeGraphics
         <XmlAttribute("source")> Public Property source As Long
         <XmlAttribute("target")> Public Property target As Long
 

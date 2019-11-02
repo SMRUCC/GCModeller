@@ -226,18 +226,18 @@
     <Compile Include="Graph\cytoscape.js\Cyjs.vb" />
     <Compile Include="Graph\Visualization\Node.vb" />
     <Compile Include="Graph\Serialization\GraphicsMapper.vb" />
-    <Compile Include="Graph\Xgmml\Attributes.vb" />
+    <Compile Include="Graph\Xgmml\File\Attributes.vb" />
     <Compile Include="Graph\Xgmml\Handle.vb" />
-    <Compile Include="Graph\Xgmml\NodeGraphics.vb" />
+    <Compile Include="Graph\Xgmml\File\network\NodeGraphics.vb" />
     <Compile Include="Graph\Xgmml\NameOf.vb" />
     <Compile Include="Graph\Xgmml\GraphExtensions.vb" />
-    <Compile Include="Graph\Xgmml\RDFXml.vb" />
-    <Compile Include="Graph\Xgmml\Graphics.vb" />
-    <Compile Include="Graph\Xgmml\EdgeGraphics.vb" />
-    <Compile Include="Graph\Xgmml\Edge.vb" />
-    <Compile Include="Graph\Xgmml\Node.vb" />
+    <Compile Include="Graph\Xgmml\File\RDFXml.vb" />
+    <Compile Include="Graph\Xgmml\File\Graphics.vb" />
+    <Compile Include="Graph\Xgmml\File\network\EdgeGraphics.vb" />
+    <Compile Include="Graph\Xgmml\File\network\Edge.vb" />
+    <Compile Include="Graph\Xgmml\File\network\Node.vb" />
     <Compile Include="Graph\Visualization\GraphDrawing.vb" />
-    <Compile Include="Graph\Xgmml\NetworkMetadata.vb" />
+    <Compile Include="Graph\Xgmml\File\NetworkMetadata.vb" />
     <Compile Include="Graph\VizMap\visualStyle\visualProperty.vb" />
     <Compile Include="Graph\VizMap\visualStyle\network.vb" />
     <Compile Include="Graph\VizMap\visualStyle\node.vb" />
@@ -245,7 +245,7 @@
     <Compile Include="Graph\VizMap\visualStyle\visualStyle.vb" />
     <Compile Include="Graph\VizMap\VizMap.vb" />
     <Compile Include="Graph\Serialization\ExportToFile.vb" />
-    <Compile Include="Graph\Xgmml\Graph.vb" />
+    <Compile Include="Graph\Xgmml\File\Graph.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

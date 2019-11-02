@@ -47,13 +47,11 @@
 Imports System.Drawing
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Linq
 
-Namespace CytoscapeGraphView.XGMML
+Namespace CytoscapeGraphView.XGMML.File
 
     <XmlType("node")>
-    Public Class Node : Inherits AttributeDictionary
+    Public Class XGMMLnode : Inherits AttributeDictionary
         Implements IAddressOf
 
         ''' <summary>
@@ -64,9 +62,9 @@ Namespace CytoscapeGraphView.XGMML
         ''' <remarks></remarks>
         <XmlAttribute> Public Property id As Integer Implements IAddressOf.Address
         <XmlAttribute> Public Property label As String
-        <XmlElement("graphics")> Public Property Graphics As NodeGraphics
+        <XmlElement("graphics")> Public Property graphics As NodeGraphics
 
-        Public ReadOnly Property Location As Point
+        Public ReadOnly Property location As Point
             Get
                 Return New Point(Graphics.x, Graphics.y)
             End Get
@@ -77,7 +75,7 @@ Namespace CytoscapeGraphView.XGMML
         End Sub
 
         Public Overrides Function ToString() As String
-            Dim array As String() = Attributes.Select(AddressOf Scripting.ToString)
+            Dim array As String() = attributes.Select(AddressOf Scripting.ToString)
             Return String.Format("{0} ""{1}""  ==> {2}", id, label, String.Join("; ", array))
         End Function
     End Class
