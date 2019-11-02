@@ -1,10 +1,9 @@
-﻿Imports Microsoft.VisualBasic.Data.visualize.Network
-Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
+﻿Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 
 Module xgmmlLoaderTest
 
     Sub Main()
-        Dim g = Graph.Load("E:\GCModeller\src\interops\visualize\Cytoscape\data\demo.xgmml")
+        Dim g = XGMML.RDFXml.Load("E:\GCModeller\src\interops\visualize\Cytoscape\data\demo.xgmml")
 
 
         Pause()

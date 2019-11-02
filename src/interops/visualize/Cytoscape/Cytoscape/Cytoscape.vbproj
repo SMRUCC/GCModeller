@@ -231,7 +231,7 @@
     <Compile Include="Graph\Xgmml\File\network\NodeGraphics.vb" />
     <Compile Include="Graph\Xgmml\NameOf.vb" />
     <Compile Include="Graph\Xgmml\GraphExtensions.vb" />
-    <Compile Include="Graph\Xgmml\File\RDFXml.vb" />
+    <Compile Include="Graph\Xgmml\RDFXml.vb" />
     <Compile Include="Graph\Xgmml\File\Graphics.vb" />
     <Compile Include="Graph\Xgmml\File\network\EdgeGraphics.vb" />
     <Compile Include="Graph\Xgmml\File\network\Edge.vb" />

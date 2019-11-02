@@ -88,6 +88,19 @@ Namespace CytoscapeGraphView.XGMML.File
         <XmlElement("source", [Namespace]:=Graph.xmlns_dc)> Public Property source As String = "http://GCModeller.org/"
         <XmlElement("format", [Namespace]:=Graph.xmlns_dc)> Public Property format As String = "Cytoscape-XGMML"
 
+        Friend Shared Function createAttribute(Optional title$ = "Default Network Title", Optional description$ = "GCModeller generated network model") As GraphAttribute
+            Return New GraphAttribute With {
+                .name = NameOf(Graph.networkMetadata),
+                .RDF = New InnerRDF With {
+                    .meta = New NetworkMetadata With {
+                        .about = "http://www.cytoscape.org/",
+                        .title = title,
+                        .description = description
+                    }
+                }
+            }
+        End Function
+
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function

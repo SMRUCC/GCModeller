@@ -160,17 +160,6 @@ Namespace CytoscapeGraphView.XGMML.File
                 Select node
         End Function
 
-        ''' <summary>
-        ''' 使用这个方法才能够正确的加载一个cytoscape的网络模型文件
-        ''' </summary>
-        ''' <param name="path"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Shared Function Load(path As String) As Graph
-            Dim graph As Graph = path.LoadXml(Of Graph)(preprocess:=AddressOf RDFXml.TrimRDF)
-            Return graph
-        End Function
-
         Public Function GetSize(Optional Scale As Double = 1) As Size
             Dim Max_X As Integer = (From node In Nodes.AsParallel Select node.graphics.x).Max * (Scale + 1)
             Dim Max_Y As Integer = (From node In Nodes.AsParallel Select node.graphics.y).Max * (Scale + 1)
@@ -201,7 +190,7 @@ Namespace CytoscapeGraphView.XGMML.File
                 .label = "",
                 .id = "",
                 .directed = "1",
-                .NetworkMetaData = New NetworkMetadata
+                .attributes = {NetworkMetadata.createAttribute}
             }
             Return Graph
         End Function
@@ -243,7 +232,7 @@ Namespace CytoscapeGraphView.XGMML.File
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Save(FilePath As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Return WriteXml(Me.GetXml, Encodings.UTF8.CodePage, FilePath)
+            Return RDFXml.WriteXml(Me, Encodings.UTF8.CodePage, FilePath)
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
