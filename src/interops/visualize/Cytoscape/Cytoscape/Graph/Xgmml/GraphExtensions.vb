@@ -41,39 +41,40 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
 Namespace CytoscapeGraphView.XGMML
 
+    <HideModuleName>
     Public Module GraphExtensions
 
         <Extension>
-        Public Function Distinct(Edges As Edge()) As Edge()
-            Dim LQuery = From edge As Edge
+        Public Function Distinct(Edges As XGMMLedge()) As XGMMLedge()
+            Dim LQuery = From edge As XGMMLedge
                          In Edges
                          Select edge
                          Group edge By edge.__internalUID Into Group
-            Dim buf As Edge() = LQuery.Select(Function(x) x.Group) _
+            Dim buf As XGMMLedge() = LQuery.Select(Function(x) x.Group) _
                 .Select(AddressOf MergeEdges) _
                 .WriteAddress.ToArray
             Return buf
         End Function
 
         <Extension>
-        Private Function MergeEdges(source As IEnumerable(Of Edge)) As Edge
-            Dim edges As Edge() = source.ToArray
+        Private Function MergeEdges(source As IEnumerable(Of XGMMLedge)) As XGMMLedge
+            Dim edges As XGMMLedge() = source.ToArray
 
             If edges.Length = 1 Then
                 Return edges.First
             End If
 
-            Dim First As Edge = edges.First
+            Dim First As XGMMLedge = edges.First
             Dim attrs As Attribute() =
-                LinqAPI.Exec(Of Attribute) <= edges.Select(Function(x) x.Attributes)
+                LinqAPI.Exec(Of Attribute) <= edges.Select(Function(x) x.attributes)
 
-            First.Attributes = MergeAttributes(attrs)
+            First.attributes = MergeAttributes(attrs)
 
             Return First
         End Function

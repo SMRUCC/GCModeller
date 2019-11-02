@@ -26,6 +26,10 @@ Namespace HTML
         ''' <returns></returns>
         Public ReadOnly Property directory As String
 
+        ''' <summary>
+        ''' 获取所有<see cref="templates"/>模板的文件路径
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property HtmlFiles As String()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -132,5 +136,14 @@ Namespace HTML
         Public Shared Operator &(dir As HTMLReport, fileName As String) As String
             Return (dir.directory & "/" & fileName).Replace("\", "/").StringReplace("[/]+", "/")
         End Operator
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="source">模板源文件夹</param>
+        ''' <param name="output">生成报告文件的目标文件夹</param>
+        Public Shared Sub CopyTemplate(source$, output$)
+            Call New Directory(source).CopyTo(target:=output).ToArray
+        End Sub
     End Class
 End Namespace

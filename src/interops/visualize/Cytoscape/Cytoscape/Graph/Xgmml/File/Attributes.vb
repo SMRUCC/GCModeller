@@ -54,7 +54,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 
-Namespace CytoscapeGraphView.XGMML
+Namespace CytoscapeGraphView.XGMML.File
 
     ''' <summary>
     ''' 一个网络之中的对象所具备有的属性值
@@ -63,14 +63,14 @@ Namespace CytoscapeGraphView.XGMML
     <XmlType("att")>
     Public Class Attribute : Implements INamedValue
 
-        <XmlAttribute("name")> Public Property Name As String Implements INamedValue.Key
+        <XmlAttribute("name")> Public Property name As String Implements INamedValue.Key
         <XmlAttribute("value")> Public Property Value As String
         <XmlAttribute("type")> Public Property Type As String
 
-        <XmlAttribute("cy-hidden")> Public Property Hidden As String
-        <XmlAttribute("cy-directed")> Public Property Directed As String
-        <XmlAttribute("cy-type")> Public Property cyType As String
-        <XmlAttribute("cy-elementType")> Public Property elementType As String
+        <XmlAttribute("hidden", [Namespace]:=XGMMLgraph.xmlnsCytoscape)> Public Property Hidden As String
+        <XmlAttribute("directed", [Namespace]:=XGMMLgraph.xmlnsCytoscape)> Public Property Directed As String
+        <XmlAttribute("type", [Namespace]:=XGMMLgraph.xmlnsCytoscape)> Public Property cyType As String
+        <XmlAttribute("elementType", [Namespace]:=XGMMLgraph.xmlnsCytoscape)> Public Property elementType As String
 
         ''' <summary>
         ''' Maps the .NET basic data type to the cytoscape data type name.
@@ -101,20 +101,20 @@ Namespace CytoscapeGraphView.XGMML
 
     Public MustInherit Class AttributeDictionary
 
-        Dim _innerHash As Dictionary(Of Attribute)
+        Dim attrs As Dictionary(Of Attribute)
 
-        <XmlElement("att")> Public Property Attributes As Attribute()
+        <XmlElement("att")> Public Property attributes As Attribute()
             Get
-                If _innerHash.IsNullOrEmpty Then
+                If attrs.IsNullOrEmpty Then
                     Return New Attribute() {}
                 End If
-                Return _innerHash.Values.ToArray
+                Return attrs.Values.ToArray
             End Get
             Set(value As Attribute())
                 If value.IsNullOrEmpty Then
-                    _innerHash = New Dictionary(Of Attribute)
+                    attrs = New Dictionary(Of Attribute)
                 Else
-                    _innerHash = value.ToDictionary
+                    attrs = value.ToDictionary
                 End If
             End Set
         End Property
@@ -126,8 +126,8 @@ Namespace CytoscapeGraphView.XGMML
         ''' <returns></returns>
         Default Public ReadOnly Property Value(Name As String) As Attribute
             Get
-                If _innerHash.ContainsKey(Name) Then
-                    Return _innerHash(Name)
+                If attrs.ContainsKey(Name) Then
+                    Return attrs(Name)
                 Else
                     Return Nothing
                 End If
@@ -137,11 +137,11 @@ Namespace CytoscapeGraphView.XGMML
         Public Function AddAttribute(Name As String, value As String, Type As String) As Boolean
             Dim attr As Attribute
 
-            If _innerHash.ContainsKey(Name) Then
-                attr = _innerHash(Name)
+            If attrs.ContainsKey(Name) Then
+                attr = attrs(Name)
             Else
-                attr = New Attribute With {.Name = Name}
-                Call _innerHash.Add(Name, attr)
+                attr = New Attribute With {.name = Name}
+                Call attrs.Add(Name, attr)
             End If
 
             attr.Value = value
@@ -151,15 +151,15 @@ Namespace CytoscapeGraphView.XGMML
         End Function
 
         Public Function SetAttribute(Name As String, Value As String) As Boolean
-            If _innerHash.ContainsKey(Name) Then
-                _innerHash(Name).Value = Value
+            If attrs.ContainsKey(Name) Then
+                attrs(Name).Value = Value
             Else
                 Dim attr As New Attribute With {
                     .Value = Value,
-                    .Name = Name,
+                    .name = Name,
                     .Type = ATTR_VALUE_TYPE_STRING
                 }
-                Call _innerHash.Add(Name, attr)
+                Call attrs.Add(Name, attr)
             End If
 
             Return True
@@ -168,7 +168,7 @@ Namespace CytoscapeGraphView.XGMML
         Public Overrides Function ToString() As String
             Dim array As String() =
                 LinqAPI.Exec(Of String) <= From attr As Attribute
-                                           In _innerHash.Values
+                                           In attrs.Values
                                            Let strValue As String = attr.ToString
                                            Select strValue
             Return String.Join("; ", array)
