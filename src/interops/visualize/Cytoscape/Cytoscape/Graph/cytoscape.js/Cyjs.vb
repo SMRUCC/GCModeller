@@ -104,7 +104,7 @@ Namespace CytoscapeGraphView.Cyjs
         Public Property data As Data
         Public Property elements As Network
 
-        Public Function ToGraphModel() As Graph
+        Public Function ToGraphModel() As XGMMLgraph
             If elements Is Nothing Then
                 elements = New Network
             End If

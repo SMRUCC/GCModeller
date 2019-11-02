@@ -84,6 +84,9 @@ Namespace CytoscapeGraphView.XGMML.File
         End Function
     End Class
 
+    ''' <summary>
+    ''' 全局的属性
+    ''' </summary>
     Public Class GraphAttribute : Inherits Attribute
 
         ''' <summary>

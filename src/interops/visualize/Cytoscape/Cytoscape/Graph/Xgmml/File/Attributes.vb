@@ -67,10 +67,10 @@ Namespace CytoscapeGraphView.XGMML.File
         <XmlAttribute("value")> Public Property Value As String
         <XmlAttribute("type")> Public Property Type As String
 
-        <XmlAttribute("hidden", [Namespace]:=Graph.xmlnsCytoscape)> Public Property Hidden As String
-        <XmlAttribute("directed", [Namespace]:=Graph.xmlnsCytoscape)> Public Property Directed As String
-        <XmlAttribute("type", [Namespace]:=Graph.xmlnsCytoscape)> Public Property cyType As String
-        <XmlAttribute("elementType", [Namespace]:=Graph.xmlnsCytoscape)> Public Property elementType As String
+        <XmlAttribute("hidden", [Namespace]:=XGMMLgraph.xmlnsCytoscape)> Public Property Hidden As String
+        <XmlAttribute("directed", [Namespace]:=XGMMLgraph.xmlnsCytoscape)> Public Property Directed As String
+        <XmlAttribute("type", [Namespace]:=XGMMLgraph.xmlnsCytoscape)> Public Property cyType As String
+        <XmlAttribute("elementType", [Namespace]:=XGMMLgraph.xmlnsCytoscape)> Public Property elementType As String
 
         ''' <summary>
         ''' Maps the .NET basic data type to the cytoscape data type name.

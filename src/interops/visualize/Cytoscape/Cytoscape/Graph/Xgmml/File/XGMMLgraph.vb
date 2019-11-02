@@ -59,7 +59,7 @@ Namespace CytoscapeGraphView.XGMML.File
     ''' </summary>
     ''' <remarks>请注意，由于在Cytoscape之中，每一个Xml元素都是小写字母的，所以在这个类之中的所有的Xml序列化的标记都不可以再更改大小写了</remarks>
     <XmlRoot("graph", Namespace:="http://www.cs.rpi.edu/XGMML")>
-    Public Class Graph : Implements ISaveHandle
+    Public Class XGMMLgraph : Implements ISaveHandle
 
 #Region "Assembly File Public Properties"
 
@@ -99,25 +99,8 @@ Namespace CytoscapeGraphView.XGMML.File
 
         <XmlElement("att")> Public Property attributes As GraphAttribute()
         <XmlElement("graphics")> Public Property graphics As Graphics
-        <XmlElement("node")> Public Property Nodes As XGMMLnode()
-            Get
-                If _nodeList.IsNullOrEmpty Then
-                    Return New XGMMLnode() {}
-                End If
-                Return _nodeList.Values.ToArray
-            End Get
-            Set(value As XGMMLnode())
-                If value.IsNullOrEmpty Then
-                    _nodeList = New Dictionary(Of String, XGMMLnode)
-                Else
-                    _nodeList = value.ToDictionary(Function(obj) obj.label)
-                End If
-            End Set
-        End Property
-
-        <XmlElement("edge")> Public Property Edges As XGMMLedge()
-
-        Dim _nodeList As Dictionary(Of String, XGMMLnode)
+        <XmlElement("node")> Public Property nodes As XGMMLnode()
+        <XmlElement("edge")> Public Property edges As XGMMLedge()
 
         <XmlNamespaceDeclarations()>
         Public xmlns As XmlSerializerNamespaces
@@ -130,42 +113,6 @@ Namespace CytoscapeGraphView.XGMML.File
         ''' dc:xxx
         ''' </summary>
         Public Const xmlns_dc$ = "http://purl.org/dc/elements/1.1/"
-
-        Public Sub New()
-            xmlns = New XmlSerializerNamespaces
-
-            xmlns.Add("cy", xmlnsCytoscape)
-            xmlns.Add("rdf", rdf_xml.RDF.XmlnsNamespace)
-            xmlns.Add("xlink", "http://www.w3.org/1999/xlink")
-            xmlns.Add("dc", xmlns_dc)
-        End Sub
-#End Region
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="Label">Synonym</param>
-        ''' <returns></returns>
-        Public Function GetNode(Label As String) As XGMMLnode
-            Dim Node As XGMMLnode = Nothing
-            Call _nodeList.TryGetValue(Label, Node)
-            Return Node
-        End Function
-
-        Public Function GetNode(ID As Long) As XGMMLnode
-            Return LinqAPI.DefaultFirst(Of XGMMLnode) <=
-                From node As XGMMLnode
-                In Me._nodeList.Values
-                Where node.id = ID
-                Select node
-        End Function
-
-        Public Function GetSize(Optional Scale As Double = 1) As Size
-            Dim Max_X As Integer = (From node In Nodes.AsParallel Select node.graphics.x).Max * (Scale + 1)
-            Dim Max_Y As Integer = (From node In Nodes.AsParallel Select node.graphics.y).Max * (Scale + 1)
-
-            Return New Size(Max_X, Max_Y)
-        End Function
 
         Public ReadOnly Property Size As Size
             Get
@@ -180,23 +127,40 @@ Namespace CytoscapeGraphView.XGMML.File
             End Get
         End Property
 
+        Public Sub New()
+            xmlns = New XmlSerializerNamespaces
+
+            xmlns.Add("cy", xmlnsCytoscape)
+            xmlns.Add("rdf", rdf_xml.RDF.XmlnsNamespace)
+            xmlns.Add("xlink", "http://www.w3.org/1999/xlink")
+            xmlns.Add("dc", xmlns_dc)
+        End Sub
+#End Region
+
+        Public Function GetSize(Optional Scale As Double = 1) As Size
+            Dim Max_X As Integer = (From node In nodes.AsParallel Select node.graphics.x).Max * (Scale + 1)
+            Dim Max_Y As Integer = (From node In nodes.AsParallel Select node.graphics.y).Max * (Scale + 1)
+
+            Return New Size(Max_X, Max_Y)
+        End Function
+
+        Public Function GetNodeIndex() As GraphIndex
+            Return New GraphIndex(Me)
+        End Function
+
         ''' <summary>
         ''' 创建一个初始默认的网络文件
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function CreateObject() As Graph
-            Dim Graph As New Graph With {
+        Public Overloads Shared Function CreateObject() As XGMMLgraph
+            Dim g As New XGMMLgraph With {
                 .label = "",
                 .id = "",
                 .directed = "1",
                 .attributes = {NetworkMetadata.createAttribute}
             }
-            Return Graph
-        End Function
-
-        Public Function ExistEdge(Edge As XGMMLedge) As Boolean
-            Return Not (GetNode(Edge.source) Is Nothing OrElse GetNode(Edge.target) Is Nothing)
+            Return g
         End Function
 
         ''' <summary>
@@ -204,23 +168,14 @@ Namespace CytoscapeGraphView.XGMML.File
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function CreateObject(Title As String, Type As String, Optional Description As String = "") As Graph
-            Dim Graph As Graph = Graph.CreateObject
+        Public Overloads Shared Function CreateObject(Title As String, Type As String, Optional Description As String = "") As XGMMLgraph
+            Dim Graph As XGMMLgraph = XGMMLgraph.CreateObject
 
             Graph.label = Title
-            Graph.NetworkMetaData.title = Title.Replace("<", "[").Replace(">", "]")
-            Graph.NetworkMetaData.type = Type.Replace("<", "[").Replace(">", "]")
-            Graph.NetworkMetaData.description = Description.Replace("<", "[").Replace(">", "]")
+            Graph.networkMetadata.title = Title.Replace("<", "[").Replace(">", "]")
+            Graph.networkMetadata.type = Type.Replace("<", "[").Replace(">", "]")
+            Graph.networkMetadata.description = Description.Replace("<", "[").Replace(">", "]")
             Return Graph
-        End Function
-
-        Public Function DeleteDuplication() As Graph
-            Dim sw As Stopwatch = Stopwatch.StartNew
-
-            Call $"{NameOf(Edges)}:={Edges.Count } in the network model...".__DEBUG_ECHO
-            Me.Edges = Distinct(Me.Edges)
-            Call $"{NameOf(Edges)}:={Edges.Count } left after remove duplicates in {sw.ElapsedMilliseconds}ms....".__DEBUG_ECHO
-            Return Me
         End Function
 
         ''' <summary>

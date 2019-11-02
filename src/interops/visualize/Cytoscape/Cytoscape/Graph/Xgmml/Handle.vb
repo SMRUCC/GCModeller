@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace CytoscapeGraphView.XGMML
 
@@ -19,6 +20,18 @@ Namespace CytoscapeGraphView.XGMML
         Dim y# = 0
 
         Const DELIMITER As Char = ","c
+
+        Public ReadOnly Property isDirectPoint As Boolean
+            Get
+                Return cosTheta.IsNaNImaginary AndAlso sinTheta.IsNaNImaginary AndAlso ratio.IsNaNImaginary
+            End Get
+        End Property
+
+        Public ReadOnly Property originalLocation As PointF
+            Get
+                Return New PointF(x, y)
+            End Get
+        End Property
 
         ''' <summary>
         ''' Rotate And scale the vector to the handle position
@@ -59,7 +72,15 @@ Namespace CytoscapeGraphView.XGMML
             Return cosTheta & DELIMITER & sinTheta & DELIMITER & ratio
         End Function
 
-        Public Shared Function parseHandles(strRepresentation As String) As IEnumerable(Of Handle)
+        Public Overrides Function ToString() As String
+            Return New Dictionary(Of String, Double) From {
+                {NameOf(cosTheta), cosTheta},
+                {NameOf(sinTheta), sinTheta},
+                {NameOf(ratio), ratio}
+            }.GetJson
+        End Function
+
+        Friend Shared Function parseHandles(strRepresentation As String) As IEnumerable(Of Handle)
             Return strRepresentation _
                 .Split("|"c) _
                 .Select(Function(str)
@@ -74,7 +95,7 @@ Namespace CytoscapeGraphView.XGMML
                                 Return New Handle With {
                                     .cosTheta = parts(0),
                                     .sinTheta = parts(1),
-                                    .ratio = parts(3)
+                                    .ratio = parts(2)
                                 }
                             Else
                                 Return Nothing

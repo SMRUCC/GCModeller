@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace CytoscapeGraphView.XGMML.File
 
+    <XmlType("RDF", [Namespace]:=RDF.XmlnsNamespace)>
     Public Class InnerRDF
 
         <XmlElement("Description", [Namespace]:=RDF.XmlnsNamespace)>
@@ -73,10 +74,10 @@ Namespace CytoscapeGraphView.XGMML.File
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement("type", [Namespace]:=Graph.xmlns_dc)> Public Property type As String = "Protein-Protein Interaction"
-        <XmlElement("description", [Namespace]:=Graph.xmlns_dc)> Public Property description As String = "N/A"
-        <XmlElement("identifier", [Namespace]:=Graph.xmlns_dc)> Public Property identifer As String = "N/A"
-        <XmlElement("date", [Namespace]:=Graph.xmlns_dc)> Public Property [date] As String
+        <XmlElement("type", [Namespace]:=XGMMLgraph.xmlns_dc)> Public Property type As String = "Protein-Protein Interaction"
+        <XmlElement("description", [Namespace]:=XGMMLgraph.xmlns_dc)> Public Property description As String = "N/A"
+        <XmlElement("identifier", [Namespace]:=XGMMLgraph.xmlns_dc)> Public Property identifer As String = "N/A"
+        <XmlElement("date", [Namespace]:=XGMMLgraph.xmlns_dc)> Public Property [date] As String
 
         ''' <summary>
         ''' 网络模型的名称
@@ -84,13 +85,13 @@ Namespace CytoscapeGraphView.XGMML.File
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement("title", [Namespace]:=Graph.xmlns_dc)> Public Property title As String = "Default Network Title"
-        <XmlElement("source", [Namespace]:=Graph.xmlns_dc)> Public Property source As String = "http://GCModeller.org/"
-        <XmlElement("format", [Namespace]:=Graph.xmlns_dc)> Public Property format As String = "Cytoscape-XGMML"
+        <XmlElement("title", [Namespace]:=XGMMLgraph.xmlns_dc)> Public Property title As String = "Default Network Title"
+        <XmlElement("source", [Namespace]:=XGMMLgraph.xmlns_dc)> Public Property source As String = "http://GCModeller.org/"
+        <XmlElement("format", [Namespace]:=XGMMLgraph.xmlns_dc)> Public Property format As String = "Cytoscape-XGMML"
 
         Friend Shared Function createAttribute(Optional title$ = "Default Network Title", Optional description$ = "GCModeller generated network model") As GraphAttribute
             Return New GraphAttribute With {
-                .name = NameOf(Graph.networkMetadata),
+                .name = NameOf(XGMMLgraph.networkMetadata),
                 .RDF = New InnerRDF With {
                     .meta = New NetworkMetadata With {
                         .about = "http://www.cytoscape.org/",

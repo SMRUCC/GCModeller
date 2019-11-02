@@ -226,6 +226,7 @@
     <Compile Include="Graph\cytoscape.js\Cyjs.vb" />
     <Compile Include="Graph\Visualization\Node.vb" />
     <Compile Include="Graph\Serialization\GraphicsMapper.vb" />
+    <Compile Include="Graph\Xgmml\GraphIndex.vb" />
     <Compile Include="Graph\Xgmml\File\Attributes.vb" />
     <Compile Include="Graph\Xgmml\Handle.vb" />
     <Compile Include="Graph\Xgmml\File\network\NodeGraphics.vb" />
@@ -245,7 +246,7 @@
     <Compile Include="Graph\VizMap\visualStyle\visualStyle.vb" />
     <Compile Include="Graph\VizMap\VizMap.vb" />
     <Compile Include="Graph\Serialization\ExportToFile.vb" />
-    <Compile Include="Graph\Xgmml\File\Graph.vb" />
+    <Compile Include="Graph\Xgmml\File\XGMMLgraph.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

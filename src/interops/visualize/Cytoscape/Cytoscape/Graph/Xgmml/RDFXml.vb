@@ -53,7 +53,7 @@ Namespace CytoscapeGraphView.XGMML
         Const rdf As String = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
         Const cy As String = "http://www.cytoscape.org"
 
-        Public Shared Function WriteXml(graph As Graph, encoding As Encoding, path As String) As Boolean
+        Public Shared Function WriteXml(graph As XGMMLgraph, encoding As Encoding, path As String) As Boolean
             If graph.networkMetadata Is Nothing Then
                 graph.attributes.Add(NetworkMetadata.createAttribute)
             Else
@@ -69,8 +69,8 @@ Namespace CytoscapeGraphView.XGMML
         ''' <param name="path"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function Load(path As String) As Graph
-            Return path.LoadXml(Of Graph)()
+        Public Shared Function Load(path As String) As XGMMLgraph
+            Return path.LoadXml(Of XGMMLgraph)()
         End Function
     End Class
 End Namespace

@@ -59,15 +59,15 @@ Namespace API
         ''' <param name="g"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function CreateGraph(g As Graph) As NetworkGraph
+        Public Function CreateGraph(g As XGMMLgraph) As NetworkGraph
             Dim nodes As Network.Graph.Node() =
                 LinqAPI.Exec(Of Network.Graph.Node) <= From n As XGMMLnode
-                                                       In g.Nodes
+                                                       In g.nodes
                                                        Select n.__node()
             Dim nodeHash As New Dictionary(Of Network.Graph.Node)(nodes)
             Dim edges As Network.Graph.Edge() =
                 LinqAPI.Exec(Of Network.Graph.Edge) <= From edge As XGMMLedge
-                                                       In g.Edges
+                                                       In g.edges
                                                        Select edge.__edge(nodeHash)
             Dim net As New NetworkGraph(nodes, edges)
 

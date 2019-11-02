@@ -77,7 +77,7 @@ Namespace CytoscapeGraphView
         ''' <param name="size"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function InvokeDrawing(graph As Graph, size As Size) As Image
+        Public Function InvokeDrawing(graph As XGMMLgraph, size As Size) As Image
             Dim Bitmap As Bitmap = New Bitmap(size.Width, size.Height)
             Dim grSize = graph.Size
 
@@ -89,7 +89,7 @@ Namespace CytoscapeGraphView
             Using GrDevice As Drawing.Graphics = Drawing.Graphics.FromImage(Bitmap)
                 Call GrDevice.FillRectangle(Brushes.White, New Rectangle(New Point, size))
 
-                Dim Nodes = graph.Nodes.ToDictionary(Function(n) n.id,
+                Dim Nodes = graph.nodes.ToDictionary(Function(n) n.id,
                                                      Function(x)
                                                          Return New Node(x, xScale, yScale)
                                                      End Function)
@@ -104,11 +104,11 @@ Namespace CytoscapeGraphView
                 Dim ss = (xScale + yScale) / 2
                 Dim ssLabel = ss * 0.5
 
-                For Each Edge In graph.Edges
+                For Each Edge In graph.edges
                     Dim pt1 = Nodes(Edge.source), pt2 = Nodes(Edge.target)
                     Dim a = pt1.Point_getInterface(pt2)
                     Dim b = pt2.Point_getInterface(pt1) '这个点是箭头的指向
-                    Dim Color As Color = Edge.Graphics.LineColor
+                    Dim Color As Color = Edge.Graphics.lineColor
                     Dim pen = New Pen(Color, Edge.Graphics.Width * ss)
 
                     pen.DashStyle = Drawing2D.DashStyle.Dash
@@ -164,7 +164,7 @@ Namespace CytoscapeGraphView
         ''' <remarks></remarks>
         ''' 
         <Extension>
-        Public Function InvokeDrawing(Graph As Graph,
+        Public Function InvokeDrawing(Graph As XGMMLgraph,
                                       refMap As ReferenceMapData,
                                       map As String(),
                                       Optional Size As String = "",
@@ -180,17 +180,17 @@ Namespace CytoscapeGraphView
 
                 Call Size.__DEBUG_ECHO
 
-                Dim Nodes = Graph.Nodes.ToDictionary(Function(n) n.id)
+                Dim Nodes = Graph.nodes.ToDictionary(Function(n) n.id)
                 Dim Colors = GenerateColorProfiles(map)
 
-                For Each Edge In Graph.Edges
+                For Each Edge In Graph.edges
                     Dim pt1 = Nodes(Edge.source), pt2 = Nodes(Edge.target)
                     Call gdi.DrawLine(New Pen(Brushes.Gray, 2),
                                      New Point(pt1.Graphics.x * Scale, pt1.Graphics.y * Scale).OffSet2D(offset),
                                      New Point(pt2.Graphics.x * Scale, pt2.Graphics.y * Scale).OffSet2D(offset))
                 Next
 
-                For Each node As XGMMLnode In Graph.Nodes
+                For Each node As XGMMLnode In Graph.nodes
                     Dim Orthology = refMap.GetReaction(node("KEGG_ENTRY").Value).SSDBs
                     Dim KO_sp As String() = (From Entry In (From ort In Orthology Select ort.value).ToArray.Unlist Select Entry.speciesID Distinct).ToArray
                     Dim ColorList = (From sp As String In KO_sp Where Colors.ContainsKey(sp) Select sp, sp_Color = Colors(sp)).ToArray

@@ -66,7 +66,7 @@ Namespace CytoscapeGraphView.Serialization
         Public Function Export(Of Edge As INetworkEdge)(
                                  nodes As IEnumerable(Of FileStream.Node),
                                  edges As IEnumerable(Of Edge),
-                                 Optional title$ = "NULL") As Graph
+                                 Optional title$ = "NULL") As XGMMLgraph
 
             Return Export(Of FileStream.Node, Edge)(nodes.ToArray, edges.ToArray, title)
         End Function
@@ -81,8 +81,8 @@ Namespace CytoscapeGraphView.Serialization
         ''' <param name="title"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Export(Of Node As INode, Edge As INetworkEdge)(nodeList As Node(), edges As Edge(), Optional title$ = "NULL") As Graph
-            Dim Model As New Graph With {
+        Public Function Export(Of Node As INode, Edge As INetworkEdge)(nodeList As Node(), edges As Edge(), Optional title$ = "NULL") As XGMMLgraph
+            Dim Model As New XGMMLgraph With {
                     .label = "0",
                     .id = "1",
                     .directed = "1",
@@ -105,9 +105,9 @@ Namespace CytoscapeGraphView.Serialization
 
             VBDebugger.Mute = False
 
-            Model.Nodes = __exportNodes(nodeList, GetType(Node).GetDataFrameworkTypeSchema(False))
-            Model.Edges = __exportEdges(Of Edge)(edges,
-                                                 Nodes:=Model.Nodes.ToDictionary(Function(item) item.label),
+            Model.nodes = __exportNodes(nodeList, GetType(Node).GetDataFrameworkTypeSchema(False))
+            Model.edges = __exportEdges(Of Edge)(edges,
+                                                 Nodes:=Model.nodes.ToDictionary(Function(item) item.label),
                                                  EdgeTypeMapping:=GetType(Edge).GetDataFrameworkTypeSchema(False),
                                                  schema:=interMaps)
             Model.attributes = ModelAttributes
@@ -121,7 +121,7 @@ Namespace CytoscapeGraphView.Serialization
         Public Function Export(Of Node As FileStream.Node,
                                   Edge As FileStream.NetworkEdge)(
                                network As Network(Of Node, Edge),
-                               Optional title$ = "NULL") As Graph
+                               Optional title$ = "NULL") As XGMMLgraph
 
             Return Export(network.nodes, network.edges, title)
         End Function
@@ -144,9 +144,9 @@ Namespace CytoscapeGraphView.Serialization
                                  Edges As Edge(),
                        NodeTypeMapping As Dictionary(Of String, Type),
                        EdgeTypeMapping As Dictionary(Of String, Type),
-                              Optional Title$ = "NULL") As Graph
+                              Optional Title$ = "NULL") As XGMMLgraph
 
-            Dim Model As New Graph With {
+            Dim Model As New XGMMLgraph With {
                 .label = "0",
                 .id = "1",
                 .directed = "1",
@@ -166,12 +166,12 @@ Namespace CytoscapeGraphView.Serialization
             }
             Dim EdgeSchema = SchemaProvider.CreateObject(GetType(Edge), False)
             Dim interMaps = __mapInterface(EdgeSchema)
-            Dim hash As Dictionary(Of String, XGMMLnode) = Model.Nodes.ToDictionary(Function(x) x.label)
+            Dim hash As Dictionary(Of String, XGMMLnode) = Model.nodes.ToDictionary(Function(x) x.label)
 
             VBDebugger.Mute = True
 
-            Model.Nodes = __exportNodes(NodeList, NodeTypeMapping)
-            Model.Edges = __exportEdges(Edges, hash, EdgeTypeMapping, interMaps)
+            Model.nodes = __exportNodes(NodeList, NodeTypeMapping)
+            Model.edges = __exportEdges(Edges, hash, EdgeTypeMapping, interMaps)
             Model.attributes = ModelAttributes
 
             VBDebugger.Mute = False
