@@ -137,7 +137,7 @@ Namespace gast
                         End Function) _
                 .ToArray
 
-            For Each rank In NcbiTaxonomyTree.stdranks
+            For Each rank As String In NcbiTaxonomyTree.stdranks
                 If array.Any(Function(t) Not t(rank).TaxonomyRankEmpty) Then
                     minrank = rank
                     Exit For

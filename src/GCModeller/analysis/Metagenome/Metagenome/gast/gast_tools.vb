@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::775076a12cae9218c3cc45ca54866914, analysis\Metagenome\Metagenome\gast\gast_tools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module gast_tools
-    ' 
-    '         Function: __gi, ExportNt, ExportSILVA, FillTaxonomy, gastTaxonomyInternal
-    '                   NamesClusterOut, ParseNames
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module gast_tools
+' 
+'         Function: __gi, ExportNt, ExportSILVA, FillTaxonomy, gastTaxonomyInternal
+'                   NamesClusterOut, ParseNames
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -223,8 +223,8 @@ Namespace gast
                 Let members As String() = tokens(1).Split(","c)
                 Select New Names With {
                     .members = members,
-                    .NumOfSeqs = members.Length,
-                    .Unique = uid
+                    .numOfSeqs = members.Length,
+                    .unique = uid
                 }
 
             'Dim tags As String() = LinqAPI.Exec(Of String) <=
@@ -239,14 +239,16 @@ Namespace gast
                              Select sid = Regex.Replace(s, "\d+", "")
                              Group By sid Into Count
 
-                x.Composition = myTags.ToDictionary(
+                x.composition = myTags.ToDictionary(
                     Function(s) s.sid,
-                    Function(s) CStr((s.Count * 100) / x.NumOfSeqs))
+                    Function(s)
+                        Return (s.Count * 100) / x.numOfSeqs
+                    End Function)
             Next
 
             Return New Names With {
-                .Unique = TagTotal,
-                .NumOfSeqs = LQuery.Sum(Function(x) x.NumOfSeqs)
+                .unique = TagTotal,
+                .numOfSeqs = LQuery.Sum(Function(x) x.numOfSeqs)
             } + LQuery
         End Function
 
@@ -259,20 +261,20 @@ Namespace gast
             Dim notAssigned As Integer
 
             For Each x As Names In source
-                If Not hash.ContainsKey(x.Unique) Then
+                If Not hash.ContainsKey(x.unique) Then
                     Yield x
                     Continue For
                 Else
 
                 End If
 
-                Dim taxi As gastOUT = hash(x.Unique)
+                Dim taxi As gastOUT = hash(x.unique)
                 x.taxonomy = taxi.taxonomy
                 x.distance = taxi.distance
                 x.refs = taxi.refhvr_ids
 
                 If taxi.refhvr_ids = "NA" Then
-                    notAssigned += x.NumOfSeqs
+                    notAssigned += x.numOfSeqs
                 End If
 
                 Yield x
@@ -280,10 +282,10 @@ Namespace gast
 
             Yield New Names With {
                 .distance = -1,
-                .NumOfSeqs = notAssigned,
+                .numOfSeqs = notAssigned,
                 .refs = "N/A",
                 .taxonomy = "null",
-                .Unique = TagNoAssign
+                .unique = TagNoAssign
             }
         End Function
     End Module

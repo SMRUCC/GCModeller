@@ -118,9 +118,12 @@ Public Class Axis
     Public Property endOnTick As Boolean?
     Public Property showLastLabel As Boolean?
     Public Property gridLineWidth As Boolean?
+    Public Property gridLineInterpolation As String
     Public Property showFirstLabel As Boolean?
     Public Property crosshair As Boolean?
     Public Property enabled As Boolean?
+    Public Property tickmarkPlacement As String
+    Public Property lineWidth As Integer
 
     ''' <summary>
     ''' 逻辑值或者一个实数

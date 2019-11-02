@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Proteomics")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("Proteomics")>
-<Assembly: AssemblyCopyright("Copyright ©  2017")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTitle("Processing the Label free, iTraq/TMT proteomics fingerprint data")>
+<Assembly: AssemblyDescription("Processing the Label free, iTraq/TMT proteomics fingerprint data")>
+<Assembly: AssemblyCompany("SMRUCC")>
+<Assembly: AssemblyProduct("GCModeller")>
+<Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2017")>
+<Assembly: AssemblyTrademark("Proteomics")>
 
 <Assembly: ComVisible(False)>
 

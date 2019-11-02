@@ -51,6 +51,7 @@ Namespace PolarChart
     Public Class paneOptions
         Public Property startAngle As Double?
         Public Property endAngle As Double?
+        Public Property size As String
     End Class
 
     ''' <summary>

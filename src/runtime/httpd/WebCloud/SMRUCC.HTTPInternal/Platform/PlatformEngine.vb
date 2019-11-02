@@ -1,51 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::2d8ddc2f282fcbcf7aaa39d0fd4872c3, WebCloud\SMRUCC.HTTPInternal\Platform\PlatformEngine.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class PlatformEngine
-    ' 
-    '         Properties: AppManager, EnginePlugins
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: __finally, __handleREST, __init, __runDll, Dispose
-    '              handleOtherMethod, handlePOSTRequest, handlePUTMethod
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class PlatformEngine
+' 
+'         Properties: AppManager, EnginePlugins
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: __finally, __handleREST, __init, __runDll, Dispose
+'              handleOtherMethod, handlePOSTRequest, handlePUTMethod
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine
 Imports SMRUCC.WebCloud.HTTPInternal.Core
 Imports SMRUCC.WebCloud.HTTPInternal.Platform.Plugins
@@ -75,7 +76,7 @@ Namespace Platform
                 Optional cache As Boolean = False)
 
             Call MyBase.New(port, wwwroot, nullExists, threads:=threads, cache:=cache)
-            Call __init(appDll)
+            Call appDll.DoCall(AddressOf doInit)
         End Sub
 
         ''' <summary>
@@ -85,17 +86,17 @@ Namespace Platform
         ''' 如果这个dll文件存在的话，则服务器进行注册这个dll容器之中所定义的Web应用程序
         ''' 否则，服务器进程会扫描其所在的文件夹<see cref="App.HOME"/>之中的所有的.NET assembly文件
         ''' </param>
-        Private Sub __init(Optional dll$ = Nothing)
+        Private Sub doInit(Optional dll$ = Nothing)
             _AppManager = New AppEngine.APPManager(Me)
 
             If dll.FileExists Then
                 dll = FileIO.FileSystem.GetFileInfo(dll).FullName
 
                 Call AppEngine.ExternalCall.ParseDll(dll, Me)
-                Call __runDll(dll)
+                Call runDll(dll)
             Else
                 For Each dll$ In AppEngine.ExternalCall.Scan(Me)
-                    Call __runDll(dll)
+                    Call runDll(dll)
                 Next
             End If
 
@@ -115,7 +116,7 @@ Namespace Platform
         ''' + 并且在该容器之中存在着一个名称为``Main``的静态共享方法
         ''' </summary>
         ''' <param name="dll"></param>
-        Private Sub __runDll(dll As String)
+        Private Sub runDll(dll As String)
             Dim assm As Assembly = Assembly.LoadFile(dll)
             Dim types As Type() = assm.GetTypes
             Dim webApp As Type = LinqAPI.DefaultFirst(Of Type) _
@@ -130,11 +131,11 @@ Namespace Platform
                 Return
             End If
 
-            Dim ms = webApp.GetMethods
+            Dim methods As MethodInfo() = webApp.GetMethods
             Dim main As MethodInfo = LinqAPI.DefaultFirst(Of MethodInfo) _
  _
                 () <= From m As MethodInfo
-                      In ms
+                      In methods
                       Where String.Equals(m.Name, "Main", StringComparison.OrdinalIgnoreCase)
                       Select m
 
@@ -158,7 +159,7 @@ Namespace Platform
             Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure)
             Dim success As Boolean = AppManager.InvokePOST(request, response)
 
-            Call __finally(request, success)
+            Call doFinally(request, success)
         End Sub
 
         Public Overrides Sub handlePUTMethod(p As HttpProcessor, inputData$)
@@ -166,7 +167,7 @@ Namespace Platform
             Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure)
             Dim success As Boolean = AppManager.InvokePOST(request, response)
 
-            Call __finally(request, success)
+            Call doFinally(request, success)
         End Sub
 
         ''' <summary>
@@ -177,15 +178,17 @@ Namespace Platform
             Dim request As New HttpRequest(p)
             Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure)
             Dim success As Boolean = AppManager.Invoke(request, response)
-            Call __finally(request, success)
+
+            Call doFinally(request, success)
         End Sub
 
         Public Overrides Sub handleOtherMethod(p As HttpProcessor)
             MyBase.handleOtherMethod(p)
-            Call __finally(New HttpRequest(p), False)
+
+            Call doFinally(New HttpRequest(p), False)
         End Sub
 
-        Private Sub __finally(p As HttpRequest, success As Boolean)
+        Private Sub doFinally(p As HttpRequest, success As Boolean)
             For Each plugin As PluginBase In EnginePlugins
                 Call plugin.handleVisit(p, success)
             Next

@@ -67,6 +67,11 @@ Namespace Metagenomics
         ''' </summary>
         ''' <returns></returns>
         Public Property taxonomy As String Implements ITaxonomyLineage.Taxonomy
+
+        ''' <summary>
+        ''' 每一个样本的OTU含量或者其他的结果数据
+        ''' </summary>
+        ''' <returns></returns>
         Public Property data As Dictionary(Of String, String)
 
         Sub New()

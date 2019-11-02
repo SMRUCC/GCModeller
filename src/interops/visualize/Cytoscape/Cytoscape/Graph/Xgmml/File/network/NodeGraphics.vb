@@ -48,7 +48,7 @@ Imports System.Drawing
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Imaging
 
-Namespace CytoscapeGraphView.XGMML
+Namespace CytoscapeGraphView.XGMML.File
 
     Public Class NodeGraphics : Inherits AttributeDictionary
 
