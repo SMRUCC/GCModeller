@@ -21,12 +21,13 @@ Namespace PathwayMaps
 
             For Each node As Node In g.vertex
                 If node.label.IsPattern("C\d+") Then
+                    node.data.color = Brushes.Red
                 Else
-                    node.data.color = Brushes.Blue
+                    node.data.color = Brushes.SkyBlue
                 End If
             Next
 
-            Return NetworkVisualizer.DrawImage(g, labelerIterations:=500, doEdgeBundling:=True)
+            Return NetworkVisualizer.DrawImage(g, canvasSize:="20480,19200", labelerIterations:=500, doEdgeBundling:=True)
         End Function
     End Module
 End Namespace
