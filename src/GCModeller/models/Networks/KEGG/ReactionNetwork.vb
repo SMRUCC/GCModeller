@@ -51,6 +51,10 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
+''' <summary>
+''' 这个模块是针对一组给定的特定的代谢物编号列表
+''' 生成对应的小分子代谢物互做网络图
+''' </summary>
 Public Module ReactionNetwork
 
     <Extension>
