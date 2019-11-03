@@ -8,7 +8,12 @@ Namespace PathwayMaps
     Public Module ReferenceMap
 
         Private Function getCompoundsInMap(map As Map) As IEnumerable(Of NamedValue(Of String))
-
+            Return map.shapes _
+                .Select(Function(a) a.Names) _
+                .IteratesALL _
+                .Where(Function(term)
+                           Return term.Name.IsPattern("C\d+")
+                       End Function)
         End Function
 
         ''' <summary>
@@ -25,6 +30,11 @@ Namespace PathwayMaps
                 .IteratesALL _
                 .GroupBy(Function(c) c.Name) _
                 .ToArray
+
+            Dim nodes As New Dictionary(Of String, Node)
+            Dim edges As New List(Of NetworkEdge)
+
+            Return New NetworkTables(nodes.Values, edges)
         End Function
     End Module
 End Namespace

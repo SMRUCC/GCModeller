@@ -56,6 +56,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Model.Network.KEGG
@@ -342,6 +343,16 @@ Partial Module CLI
         End If
 
         Return graph.Save(out, Encodings.ASCII).CLICode
+    End Function
+
+    <ExportAPI("/KEGG.referenceMap.Model")>
+    <Usage("/KEGG.referenceMap.Model /repository <kegg_maps.directory> [/out <result_network.directory>]")>
+    Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
+        Dim in$ = args <= "/repository"
+        Dim out$ = args("/out") Or $"{[in].TrimDIR}.referenceMap/"
+        Dim model As NetworkTables = PathwayMaps.BuildNetworkModel(MapRepository.ScanMaps(directory:=[in]))
+
+        Return model.Save(out).CLICode
     End Function
 
     <ExportAPI("/Write.Reaction.Table")>
