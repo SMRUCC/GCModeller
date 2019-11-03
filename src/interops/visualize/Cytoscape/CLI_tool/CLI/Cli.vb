@@ -43,7 +43,10 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Visualize.Cytoscape
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
@@ -64,28 +67,20 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.Visualization
                Usage:="-draw /network <net_file> /parser <xgmml/cyjs> [-size <width,height> -out <out_image> /style <style_file> /style_parser <vizmap/json>]",
                Info:="Drawing a network image visualization based on the generate network layout from the officials cytoscape software.")>
     Public Function DrawingInvoke(argvs As CommandLine.CommandLine) As Integer
-        Dim Size As Size = argvs.GetObject(Of Size)("-size", AddressOf getSize)
-        Dim Output As String = argvs("-out")
-        Dim Style As Visualization.VizMap =
-            argvs.GetObject(Of VizMap)("/style", argvs.GetObject(Of Func(Of String, VizMap))("/style_parser", AddressOf getStyleParser))
-
-        Dim NetworkGraph = argvs.GetObject(Of XGMMLgraph)("/network", argvs.GetObject(Of Func(Of String, XGMMLgraph))("/parser", AddressOf getNetworkParser))
-        Dim res As Image = Nothing
+        Dim Size$ = argvs("-size") Or "8000,5000"
+        Dim Output As String = argvs("-out") Or (argvs("/network") & ".png")
+        Dim Style As VizMap = argvs.GetObject(Of VizMap)("/style", argvs.GetObject(Of Func(Of String, VizMap))("/style_parser", AddressOf getStyleParser))
+        Dim g = argvs.GetObject(Of XGMMLgraph)("/network", argvs.GetObject(Of Func(Of String, XGMMLgraph))("/parser", AddressOf getNetworkParser))
+        Dim res As GraphicsData = Nothing
 
         If Style Is Nothing Then
             Call $"{NameOf(Style)} data is nothing, irnored of the drawing styles...".__DEBUG_ECHO
-            res = GraphDrawing.InvokeDrawing(NetworkGraph, Size)
+            res = NetworkVisualizer.DrawImage(g.ToNetworkGraph, canvasSize:=Size)
         Else
-
+            Throw New NotImplementedException
         End If
 
-        If String.IsNullOrEmpty(Output) Then
-            Output = argvs("/network") & ".png"
-        End If
-
-        Call res.Save(Output, Imaging.ImageFormat.Png)
-
-        Return 0
+        Return res.Save(Output).CLICode
     End Function
 
     Private Function getNetworkParser(name As String) As Func(Of String, XGMMLgraph)
