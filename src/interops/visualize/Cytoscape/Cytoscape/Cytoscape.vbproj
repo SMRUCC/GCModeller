@@ -224,7 +224,6 @@
     <Compile Include="Graph\cytoscape.js\Styles\Translator.vb" />
     <Compile Include="Graph\cytoscape.js\Styles\style.vb" />
     <Compile Include="Graph\cytoscape.js\Cyjs.vb" />
-    <Compile Include="Graph\Visualization\Node.vb" />
     <Compile Include="Graph\Serialization\GraphicsMapper.vb" />
     <Compile Include="Graph\Xgmml\GraphIndex.vb" />
     <Compile Include="Graph\Xgmml\File\Attributes.vb" />
@@ -237,7 +236,7 @@
     <Compile Include="Graph\Xgmml\File\network\EdgeGraphics.vb" />
     <Compile Include="Graph\Xgmml\File\network\Edge.vb" />
     <Compile Include="Graph\Xgmml\File\network\Node.vb" />
-    <Compile Include="Graph\Visualization\GraphDrawing.vb" />
+    <Compile Include="Graph\VizModel.vb" />
     <Compile Include="Graph\Xgmml\File\NetworkMetadata.vb" />
     <Compile Include="Graph\VizMap\visualStyle\visualProperty.vb" />
     <Compile Include="Graph\VizMap\visualStyle\network.vb" />
@@ -273,7 +272,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Cytoscape.Designer.cd" />
-    <None Include="Graph\Visualization\Visualization.pptx" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
