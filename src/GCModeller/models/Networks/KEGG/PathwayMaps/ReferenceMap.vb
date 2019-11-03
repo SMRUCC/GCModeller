@@ -67,7 +67,10 @@ Namespace PathwayMaps
         ReadOnly ignores As Index(Of String) = {
             "C00001", ' H2O
             "C00007", ' O2
-            "C00011"  ' CO2
+            "C00011",  ' CO2
+            "C00012", ' Peptide
+            "C00014",' Ammonia
+            "C11481" ' HSO3-
         }
 
         ''' <summary>
