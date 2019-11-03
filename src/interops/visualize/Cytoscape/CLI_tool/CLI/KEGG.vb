@@ -354,17 +354,21 @@ Partial Module CLI
         Dim in$ = args <= "/repository"
         Dim out$ = args("/out") Or $"{[in].TrimDIR}.referenceMap/"
         Dim reactions = ReactionTable.Load(args <= "/reactions")
-        Dim model As NetworkTables = PathwayMaps.BuildNetworkModel(MapRepository.ScanMaps(directory:=[in]), reactions)
+        Dim model As NetworkTables = PathwayMaps.BuildNetworkModel(MapRepository.ScanMaps(directory:=[in]), reactions, classFilter:=True)
 
         Return model.Save(out).CLICode
     End Function
 
     <ExportAPI("/KEGG.referenceMap.render")>
-    <Usage("/KEGG.referenceMap.render /model <network.xgmml> [/out <viz.png>]")>
+    <Usage("/KEGG.referenceMap.render /model <network.xgmml> [/size <25000,16000> /out <viz.png>]")>
     Public Function RenderReferenceMapNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim out$ = args("/out") Or ([in].TrimSuffix & ".render.png")
-        Dim result As GraphicsData = ReferenceMapRender.Render(XGMML.RDFXml.Load([in]))
+        Dim size$ = args("/size") Or "25000,16000"
+        Dim result As GraphicsData = ReferenceMapRender.Render(
+            model:=XGMML.RDFXml.Load([in]),
+            canvasSize:=size
+        )
 
         Return result.Save(out).CLICode
     End Function

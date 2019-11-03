@@ -1,9 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Namespace PathwayMaps
@@ -42,7 +44,7 @@ Namespace PathwayMaps
         End Function
 
         <Extension>
-        Private Function createNodeTable(compounds As IGrouping(Of String, NamedValue(Of String))()) As Dictionary(Of String, Node)
+        Private Function createNodeTable(compounds As IGrouping(Of String, NamedValue(Of String))(), compoundsWithBiologicalRoles As Dictionary(Of String, String)) As Dictionary(Of String, Node)
             Dim nodes As New Dictionary(Of String, Node)
             Dim node As Node
             Dim mapList$
@@ -54,7 +56,8 @@ Namespace PathwayMaps
                     .NodeType = "compound",
                     .Properties = New Dictionary(Of String, String) From {
                         {"label", compound.First.Value},
-                        {"maps", mapList}
+                        {"maps", mapList},
+                        {"class", compoundsWithBiologicalRoles.TryGetValue(compound.Key, [default]:="NA")}
                     }
                 }
 
@@ -70,7 +73,10 @@ Namespace PathwayMaps
             "C00011",  ' CO2
             "C00012", ' Peptide
             "C00014",' Ammonia
-            "C11481" ' HSO3-
+            "C11481", ' HSO3-
+            "C00283", 'Hydrogen sulfide
+            "C00094", ' Sulfite
+            "C00080" ' H+
         }
 
         ''' <summary>
@@ -83,20 +89,34 @@ Namespace PathwayMaps
         ''' <see cref="ReactionTable.Load(String)"/>
         ''' </param>
         ''' <returns></returns>
-        Public Function BuildNetworkModel(maps As IEnumerable(Of Map), reactions As IEnumerable(Of ReactionTable)) As NetworkTables
+        Public Function BuildNetworkModel(maps As IEnumerable(Of Map), reactions As IEnumerable(Of ReactionTable), Optional classFilter As Boolean = True) As NetworkTables
             Dim mapsVector = maps.ToArray
             Dim reactionVector As ReactionTable() = reactions.ToArray
+            Dim compoundsWithBiologicalRoles = CompoundBrite _
+                .CompoundsWithBiologicalRoles _
+                .GroupBy(Function(c) c.entry.Key) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(c)
+                                  Return c.First.class
+                              End Function)
             Dim compounds = mapsVector _
                 .Select(AddressOf getCompoundsInMap) _
                 .IteratesALL _
                 .GroupBy(Function(c) c.Name) _
                 .Where(Function(c) Not c.Key Like ignores) _
+                .Where(Function(c)
+                           If classFilter Then
+                               Return compoundsWithBiologicalRoles.ContainsKey(c.Key)
+                           Else
+                               Return True
+                           End If
+                       End Function) _
                 .ToArray
 
             Dim reactantIndex = reactionVector.getCompoundIndex(Function(r) r.substrates)
             Dim productIndex = reactionVector.getCompoundIndex(Function(r) r.products)
 
-            Dim nodes As Dictionary(Of String, Node) = compounds.createNodeTable
+            Dim nodes As Dictionary(Of String, Node) = compounds.createNodeTable(compoundsWithBiologicalRoles)
             Dim edges As New List(Of NetworkEdge)
             Dim edge1 As NetworkEdge
             Dim edge2 As NetworkEdge
@@ -115,8 +135,8 @@ Namespace PathwayMaps
                     .IteratesALL _
                     .GroupBy(Function(cid) cid.cid) _
                     .ToDictionary(Function(c) c.Key,
-                                  Function(g)
-                                      Return g.Select(Function(r) r.r).ToArray
+                                  Function(group)
+                                      Return group.Select(Function(r) r.r).ToArray
                                   End Function)
 
                 For Each b In compounds.Where(Function(c) c.Key <> a.Key AndAlso producs.ContainsKey(c.Key))
@@ -151,7 +171,11 @@ Namespace PathwayMaps
                 Next
             Next
 
-            Return New NetworkTables(nodes.Values, edges)
+            Dim g As New NetworkTables(nodes.Values, edges)
+
+            Call g.ComputeNodeDegrees
+
+            Return g
         End Function
     End Module
 End Namespace
