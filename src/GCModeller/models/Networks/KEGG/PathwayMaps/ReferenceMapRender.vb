@@ -92,7 +92,7 @@ Namespace PathwayMaps
                 minLinkWidth:=8,
                 nodeRadius:=220,
                 edgeShadowDistance:=5,
-                defaultEdgeColor:=NameOf(Color.DarkGreen)
+                defaultEdgeColor:=NameOf(Color.Gray)
             )
         End Function
     End Module
