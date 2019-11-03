@@ -35,11 +35,13 @@ Namespace PathwayMaps
                 Sub(id$, g As IGraphics, br As Brush, radius!, center As PointF)
                     Dim node As Node = nodes(id)
 
+                    br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(200))
+
                     If node.label.IsPattern("C\d+") Then
                         ' 圆形
                         Dim rect As New Rectangle With {
-                            .X = center.X - radius / 2,
-                            .Y = center.Y - radius / 2,
+                            .X = center.X - radius,
+                            .Y = center.Y + radius,
                             .Width = radius,
                             .Height = radius
                         }
@@ -48,8 +50,8 @@ Namespace PathwayMaps
                     Else
                         ' 方形
                         Dim rect As New Rectangle With {
-                            .X = center.X - radius / 2,
-                            .Y = center.Y - radius / 4,
+                            .X = center.X - radius * 3 / 4,
+                            .Y = center.Y + radius / 2,
                             .Width = radius,
                             .Height = radius / 2
                         }
@@ -60,11 +62,13 @@ Namespace PathwayMaps
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                canvasSize:="20480,19200",
-                labelerIterations:=500,
+                canvasSize:="10480,8200",
+                labelerIterations:=50,
                 doEdgeBundling:=True,
                 drawNodeShape:=drawNode,
-                minLinkWidth:=10
+                minLinkWidth:=13,
+                edgeShadowDistance:=5,
+                defaultEdgeColor:="black"
             )
         End Function
     End Module
