@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
@@ -94,7 +95,9 @@ Namespace PathwayMaps
 
             Dim nodes As Dictionary(Of String, Node) = compounds.createNodeTable
             Dim edges As New List(Of NetworkEdge)
-            Dim edge As NetworkEdge
+            Dim edge1 As NetworkEdge
+            Dim edge2 As NetworkEdge
+            Dim fluxNode As Node
 
             ' 下面的两个for循环产生的是从reactant a到products b的反应过程边连接
             For Each a In compounds
@@ -104,24 +107,44 @@ Namespace PathwayMaps
                     Continue For
                 End If
 
-                Dim producs As Dictionary(Of String, Integer) = forwards _
-                    .Select(Function(r) r.products) _
+                Dim producs As Dictionary(Of String, ReactionTable()) = forwards _
+                    .Select(Function(r) r.products.Select(Function(cid) (cid, r))) _
                     .IteratesALL _
-                    .GroupBy(Function(cid) cid) _
+                    .GroupBy(Function(cid) cid.cid) _
                     .ToDictionary(Function(c) c.Key,
                                   Function(g)
-                                      Return g.Count
+                                      Return g.Select(Function(r) r.r).ToArray
                                   End Function)
 
                 For Each b In compounds.Where(Function(c) c.Key <> a.Key AndAlso producs.ContainsKey(c.Key))
-                    edge = New NetworkEdge With {
-                        .fromNode = a.Key,
-                        .toNode = b.Key,
-                        .interaction = "forward",
-                        .value = producs(b.Key)
-                    }
+                    ' reactant -> reaction
+                    ' reaction -> product
+                    For Each flux In producs(b.Key)
+                        edge1 = New NetworkEdge With {
+                            .fromNode = a.Key,
+                            .toNode = flux.entry,
+                            .interaction = "substrate"
+                        }
+                        edge2 = New NetworkEdge With {
+                            .fromNode = flux.entry,
+                            .toNode = b.Key,
+                            .interaction = "product"
+                        }
 
-                    edges += edge
+                        edges = edges + edge1 + edge2
+
+                        If Not nodes.ContainsKey(flux.entry) Then
+                            fluxNode = New Node With {
+                                .ID = flux.entry,
+                                .NodeType = "flux",
+                                .Properties = New Dictionary(Of String, String) From {
+                                    {"label", flux.EC.JoinBy("+") Or flux.name.AsDefault}
+                                }
+                            }
+
+                            Call nodes.Add(flux.entry, fluxNode)
+                        End If
+                    Next
                 Next
             Next
 
