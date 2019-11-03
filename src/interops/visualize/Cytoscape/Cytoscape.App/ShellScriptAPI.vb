@@ -116,13 +116,6 @@ Public Module ShellScriptAPI
         Call analysis.AnalysisMetaPathwayRegulations(Export, Regulations)
     End Sub
 
-    <ExportAPI("Cytoscape.Graph.Drawing",
-               Info:="size is a string expression in format likes <width>,<height>, if this parameter is empty then the system will using the cytoscape network file default size.")>
-    Public Function DrawingMap(graph As XGMMLgraph, Optional size As String = "") As Image
-        Dim _size = GraphDrawing.getSize(size)
-        Return GraphDrawing.InvokeDrawing(graph, _size)
-    End Function
-
     <ExportAPI("Remove.Duplicates")>
     Public Function RemoveDuplicated(graph As XGMMLgraph) As XGMMLgraph
         Return New GraphIndex(graph).DeleteDuplication
@@ -188,11 +181,5 @@ Public Module ShellScriptAPI
                                         .label = Compound.First}).ToArray
                        Select Edges).ToArray.ToVector.WriteAddress '从rxn的右边到target的左边形成一条边
         Return Graph
-    End Function
-
-    <ExportAPI("Cytoscape.Drawing.KEGG.refMap",
-               Info:="size is a string expression in format likes <width>,<height>, if this parameter is empty then the system will using the cytoscape network file default size.")>
-    Public Function DrawingMap(graph As XGMMLgraph, refMap As ReferenceMapData, Mapping As String(), Optional size As String = "") As Image
-        Return GraphDrawing.InvokeDrawing(graph, refMap, Mapping, size)
     End Function
 End Module
