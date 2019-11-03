@@ -39,6 +39,29 @@ Namespace PathwayMaps
                               End Function)
         End Function
 
+        <Extension>
+        Private Function createNodeTable(compounds As IGrouping(Of String, NamedValue(Of String))()) As Dictionary(Of String, Node)
+            Dim nodes As New Dictionary(Of String, Node)
+            Dim node As Node
+            Dim mapList$
+
+            For Each compound In compounds
+                mapList = compound.Select(Function(map) map.Description).JoinBy("|")
+                node = New Node With {
+                    .ID = compound.Key,
+                    .NodeType = "compound",
+                    .Properties = New Dictionary(Of String, String) From {
+                        {"label", compound.First.Value},
+                        {"maps", mapList}
+                    }
+                }
+
+                Call nodes.Add(compound.Key, node)
+            Next
+
+            Return nodes
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -61,8 +84,38 @@ Namespace PathwayMaps
             Dim reactantIndex = reactionVector.getCompoundIndex(Function(r) r.substrates)
             Dim productIndex = reactionVector.getCompoundIndex(Function(r) r.products)
 
-            Dim nodes As New Dictionary(Of String, Node)
+            Dim nodes As Dictionary(Of String, Node) = compounds.createNodeTable
             Dim edges As New List(Of NetworkEdge)
+            Dim edge As NetworkEdge
+
+            ' 下面的两个for循环产生的是从reactant a到products b的反应过程边连接
+            For Each a In compounds
+                Dim forwards = reactantIndex.TryGetValue(a.Key)
+
+                If forwards.IsNullOrEmpty Then
+                    Continue For
+                End If
+
+                Dim producs As Dictionary(Of String, Integer) = forwards _
+                    .Select(Function(r) r.products) _
+                    .IteratesALL _
+                    .GroupBy(Function(cid) cid) _
+                    .ToDictionary(Function(c) c.Key,
+                                  Function(g)
+                                      Return g.Count
+                                  End Function)
+
+                For Each b In compounds.Where(Function(c) c.Key <> a.Key AndAlso producs.ContainsKey(c.Key))
+                    edge = New NetworkEdge With {
+                        .fromNode = a.Key,
+                        .toNode = b.Key,
+                        .interaction = "forward",
+                        .value = producs(b.Key)
+                    }
+
+                    edges += edge
+                Next
+            Next
 
             Return New NetworkTables(nodes.Values, edges)
         End Function
