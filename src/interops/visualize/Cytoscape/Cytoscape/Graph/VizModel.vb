@@ -40,7 +40,6 @@
 
 #End Region
 
-Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
@@ -55,6 +54,11 @@ Namespace CytoscapeGraphView
     ''' </summary>
     Public Module VizModel
 
+        ''' <summary>
+        ''' 请注意，这个函数只会产生最基本的网络模型数据，以及布局信息，个性化的样式调整需要在外部函数调用之中自行添加完成
+        ''' </summary>
+        ''' <param name="graph"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function ToNetworkGraph(graph As XGMMLgraph) As NetworkGraph
             Dim g As New NetworkGraph
@@ -80,15 +84,36 @@ Namespace CytoscapeGraphView
             Dim index As New GraphIndex(graph)
 
             For Each xgmmlEdge As XGMMLedge In graph.edges
-                Dim s As Node = g.GetNode(index.GetNode(xgmmlEdge.source).label)
-                Dim t As Node = g.GetNode(index.GetNode(xgmmlEdge.target).label)
+                Dim s = index.GetNode(xgmmlEdge.source)
+                Dim t = index.GetNode(xgmmlEdge.target)
+                Dim u As Node = g.GetNode(s.label)
+                Dim v As Node = g.GetNode(t.label)
+
+                Dim sx = s.graphics.x
+                Dim sy = s.graphics.y
+                Dim tx = t.graphics.x
+                Dim ty = t.graphics.y
+                Dim bendPoints As FDGVector3() = xgmmlEdge.graphics _
+                    .edgeBendHandles _
+                    .Select(Function(b)
+                                If b.isDirectPoint Then
+                                    Return b.originalLocation
+                                Else
+                                    Return b.convert(sx, sy, tx, ty)
+                                End If
+                            End Function) _
+                    .Select(Function(pt)
+                                Return New FDGVector3 With {.x = pt.X, .y = pt.Y}
+                            End Function) _
+                    .ToArray
 
                 edge = New Edge With {
-                    .U = s,
-                    .V = t,
+                    .U = u,
+                    .V = v,
                     .ID = xgmmlEdge.id,
                     .data = New EdgeData With {
-                        .label = xgmmlEdge.label
+                        .label = xgmmlEdge.label,
+                        .controlsPoint = bendPoints
                     }
                 }
 

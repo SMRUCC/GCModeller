@@ -1,4 +1,5 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -17,9 +18,15 @@ Namespace PathwayMaps
         <Extension>
         Public Function Render(model As XGMMLgraph) As GraphicsData
             Dim g As NetworkGraph = model.ToNetworkGraph
-            Dim img As GraphicsData = NetworkVisualizer.DrawImage(g)
 
-            Return img
+            For Each node As Node In g.vertex
+                If node.label.IsPattern("C\d+") Then
+                Else
+                    node.data.color = Brushes.Blue
+                End If
+            Next
+
+            Return NetworkVisualizer.DrawImage(g, labelerIterations:=500, doEdgeBundling:=True)
         End Function
     End Module
 End Namespace
