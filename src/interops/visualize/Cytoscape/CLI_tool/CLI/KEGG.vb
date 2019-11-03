@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -56,10 +57,13 @@ Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Model.Network.KEGG
+Imports SMRUCC.genomics.Model.Network.KEGG.PathwayMaps
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG.ReactionNET
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
@@ -180,7 +184,7 @@ Partial Module CLI
         Dim Edges As List(Of FileStream.NetworkEdge) =
             source.Where(Function(x) Not x Is Nothing).Select(Function(x) x.edges).Unlist
 
-        Dim __nodes = LinqAPI.Exec(Of Node) <=
+        Dim __nodes = LinqAPI.Exec(Of FileStream.Node) <=
             From node
             In (From node As FileStream.Node
                 In Nods
@@ -328,7 +332,7 @@ Partial Module CLI
 
         If node.FileExists(True) Then
             Dim data = EntityObject.LoadDataSet(node)
-            Dim nodes As New Dictionary(Of Node)(graph.nodes)
+            Dim nodes As New Dictionary(Of FileStream.Node)(graph.nodes)
 
             For Each n As EntityObject In data
                 If nodes.ContainsKey(n.ID) Then
@@ -342,6 +346,27 @@ Partial Module CLI
         End If
 
         Return graph.Save(out, Encodings.ASCII).CLICode
+    End Function
+
+    <ExportAPI("/KEGG.referenceMap.Model")>
+    <Usage("/KEGG.referenceMap.Model /repository <kegg_maps.directory> /reactions <kegg_reactions.directory> [/out <result_network.directory>]")>
+    Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
+        Dim in$ = args <= "/repository"
+        Dim out$ = args("/out") Or $"{[in].TrimDIR}.referenceMap/"
+        Dim reactions = ReactionTable.Load(args <= "/reactions")
+        Dim model As NetworkTables = PathwayMaps.BuildNetworkModel(MapRepository.ScanMaps(directory:=[in]), reactions)
+
+        Return model.Save(out).CLICode
+    End Function
+
+    <ExportAPI("/KEGG.referenceMap.render")>
+    <Usage("/KEGG.referenceMap.render /model <network.xgmml> [/out <viz.png>]")>
+    Public Function RenderReferenceMapNetwork(args As CommandLine) As Integer
+        Dim in$ = args <= "/model"
+        Dim out$ = args("/out") Or ([in].TrimSuffix & ".render.png")
+        Dim result As GraphicsData = ReferenceMapRender.Render(XGMML.RDFXml.Load([in]))
+
+        Return result.Save(out).CLICode
     End Function
 
     <ExportAPI("/Write.Reaction.Table")>

@@ -1,65 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::4a6265ff8647aee7043bbc0ab52c0d5c, sub-system\CellPhenotype\PhenotypeRegulations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module PhenotypeRegulations
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: __existsItem, __exportTCS_CrossTalks, __levelMapping, __phenotypeRegulats, __quantile
-    '               __ranking, AssignPhenotype, AssignPhenotype2, (+2 Overloads) CommandLineTools, CreateDefaultConfig
-    '               (+2 Overloads) CreateDynamicNetwork, CreateEmptyInput, CreateExpressionMatrix, CreateInput_AllRegulators, CreateMutationInit
-    '               ExportCytoscapeNetwork, ExportNetworkModel, ExportPfsNET, ExportTCSCrossTalksCytoscape, FamilyStatics
-    '               ImportantPhenotypeRegulators, ModelApplyingConfiguration, ModelSetupKernelLoops, ModelSetupMutation, MonteCarloExperiment
-    '               ReadInputStatus, SaveNetworkModel, Simulation, StaticsFamilyDistributions, WriteNetworkStateData
-    '               WriteRegulationState
-    ' 
-    '     Sub: CommandLineTools
-    '     Class CrossTalk
-    ' 
-    ' 
-    '         Class TCS_GeneObject
-    ' 
-    '             Properties: Quantity
-    ' 
-    ' 
-    ' 
-    '     Structure __phenotype
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module PhenotypeRegulations
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: __existsItem, __exportTCS_CrossTalks, __levelMapping, __phenotypeRegulats, __quantile
+'               __ranking, AssignPhenotype, AssignPhenotype2, (+2 Overloads) CommandLineTools, CreateDefaultConfig
+'               (+2 Overloads) CreateDynamicNetwork, CreateEmptyInput, CreateExpressionMatrix, CreateInput_AllRegulators, CreateMutationInit
+'               ExportCytoscapeNetwork, ExportNetworkModel, ExportPfsNET, ExportTCSCrossTalksCytoscape, FamilyStatics
+'               ImportantPhenotypeRegulators, ModelApplyingConfiguration, ModelSetupKernelLoops, ModelSetupMutation, MonteCarloExperiment
+'               ReadInputStatus, SaveNetworkModel, Simulation, StaticsFamilyDistributions, WriteNetworkStateData
+'               WriteRegulationState
+' 
+'     Sub: CommandLineTools
+'     Class CrossTalk
+' 
+' 
+'         Class TCS_GeneObject
+' 
+'             Properties: Quantity
+' 
+' 
+' 
+'     Structure __phenotype
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -94,9 +94,10 @@ Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Serialization
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 Imports KernelDriver = SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.KernelDriver(Of Integer,
-                       SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression,
-                       SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork)
+    SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression,
+    SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork)
 
 ''' <summary>
 ''' 将MEME所分析出来的调控信息附加到代谢途径的网络图之中
@@ -203,8 +204,8 @@ Public Module PhenotypeRegulations
         Return False
     End Function
 
-    Private Function __exportTCS_CrossTalks(TAG As String, Data As Dictionary(Of String, Double), Network As CrossTalks()) As Graph
-        Dim Edges = (From item In Network Select New CrossTalk With {.FromNode = item.Kinase, .ToNode = item.Regulator, .value = Math.Min(Data(item.Kinase), Data(item.Regulator)) * item.Probability}).ToArray
+    Private Function __exportTCS_CrossTalks(TAG As String, Data As Dictionary(Of String, Double), Network As CrossTalks()) As XGMMLgraph
+        Dim Edges = (From item In Network Select New CrossTalk With {.fromNode = item.Kinase, .toNode = item.Regulator, .value = Math.Min(Data(item.Kinase), Data(item.Regulator)) * item.Probability}).ToArray
         Dim Nodes = (From item In Network Select {New CrossTalk.TCS_GeneObject With {.ID = item.Kinase, .Quantity = Data(item.Kinase), .NodeType = "Kinase"},
                                                   New CrossTalk.TCS_GeneObject With {.ID = item.Regulator, .NodeType = "RR", .Quantity = Data(item.Regulator)}}).ToArray.ToVector
 
@@ -749,7 +750,7 @@ Public Module PhenotypeRegulations
                           Let PhenoTypeRegulators = (From GeneId As String In PhenotypeRelateGene Let GeneRegulators = (From item In RegulationData Where String.Equals(item.LocusId, GeneId) Let RegulatorIdColection = item.Regulators Select RegulatorIdColection).ToArray.ToVector Select GeneRegulators).ToArray.ToVector
                           Select Phenotype = strPhenotype, PhenotypeRelateGene, RegulatorCounts = PhenoTypeRegulators.Count, PhenoTypeRegulators).ToArray
         Dim LQuery = (From phenotype In Phenotypes
-                      Select (From RegulatorId As String In phenotype.PhenoTypeRegulators Select New NetworkEdge With {.FromNode = RegulatorId, .Interaction = "PhenotypeRegulation", .ToNode = phenotype.Phenotype}).ToArray).ToArray.ToVector
+                      Select (From RegulatorId As String In phenotype.PhenoTypeRegulators Select New NetworkEdge With {.fromNode = RegulatorId, .interaction = "PhenotypeRegulation", .toNode = phenotype.Phenotype}).ToArray).ToArray.ToVector
         Dim RegulatorNodes = (From RegulatorId As String In Regulators Select New FileStream.Node With {.ID = RegulatorId, .NodeType = "Regulator"}).ToArray
         Dim PhenotypeNodes = (From phenotype In Phenotypes Select New FileStream.Node With {.ID = phenotype.Phenotype, .NodeType = "Cell.Phenotype"}).ToArray
 
@@ -797,10 +798,10 @@ Public Module PhenotypeRegulations
                                     Select (From Regulator
                                             In Phenotype.Regulators
                                             Select New FileStream.NetworkEdge With {
-                                                .FromNode = Regulator.Regulator,
-                                                .ToNode = Phenotype.Phenotype,
+                                                .fromNode = Regulator.Regulator,
+                                                .toNode = Phenotype.Phenotype,
                                                 .value = Regulator.RankedScore,
-                                                .Interaction = "Phenotype.Regulations"})).ToVector
+                                                .interaction = "Phenotype.Regulations"})).ToVector
         Dim PhenotypeNodes = (From Phenotype
                               In EvaluateRanks
                               Select New FileStream.Node With {
@@ -893,9 +894,9 @@ Public Module PhenotypeRegulations
         Dim PhenotypeRegulationsEdges = (From Phenotype In PhenotypeRegulations.AsParallel
                                          Select (From Regulator In Phenotype.Regulators
                                                  Select New NetworkEdge With {
-                                                     .FromNode = Regulator.Regulator,
-                                                     .ToNode = Phenotype.Phenotype,
-                                                     .Interaction = "PhenotypeRegulation",
+                                                     .fromNode = Regulator.Regulator,
+                                                     .toNode = Phenotype.Phenotype,
+                                                     .interaction = "PhenotypeRegulation",
                                                      .value = Regulator.Score}).ToArray).ToArray.ToVector
 
         Call PhenotypeRegulationsEdges.SaveTo(String.Format("{0}/Edges.csv", ExportDIR), False)

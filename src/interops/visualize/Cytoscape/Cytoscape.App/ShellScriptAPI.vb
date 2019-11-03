@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::6618e210ce3793a22fc1571d39d1554f, visualize\Cytoscape\Cytoscape.App\ShellScriptAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module ShellScriptAPI
-    ' 
-    '     Function: CreateMapNetworkData, (+2 Overloads) DrawingMap, ExportMetaCycPathways, LoadNetworkGraphicDocument, RemoveDuplicated
-    ' 
-    '     Sub: ExportPathwayRegulations
-    ' 
-    ' /********************************************************************************/
+' Module ShellScriptAPI
+' 
+'     Function: CreateMapNetworkData, (+2 Overloads) DrawingMap, ExportMetaCycPathways, LoadNetworkGraphicDocument, RemoveDuplicated
+' 
+'     Sub: ExportPathwayRegulations
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,10 +47,10 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
-Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
 <Package("Cytoscape",
                     Cites:="Shannon, P., et al. (2003). ""Cytoscape: a software environment For integrated models Of biomolecular interaction networks."" Genome Res 13(11): 2498-2504.
@@ -116,25 +116,13 @@ Public Module ShellScriptAPI
         Call analysis.AnalysisMetaPathwayRegulations(Export, Regulations)
     End Sub
 
-    <ExportAPI("Read.Xml.CytoscapeGraph")>
-    Public Function LoadNetworkGraphicDocument(Xml As String) As Graph
-        Return Graph.Load(Xml)
-    End Function
-
-    <ExportAPI("Cytoscape.Graph.Drawing",
-               Info:="size is a string expression in format likes <width>,<height>, if this parameter is empty then the system will using the cytoscape network file default size.")>
-    Public Function DrawingMap(graph As Graph, Optional size As String = "") As Image
-        Dim _size = GraphDrawing.getSize(size)
-        Return GraphDrawing.InvokeDrawing(graph, _size)
-    End Function
-
     <ExportAPI("Remove.Duplicates")>
-    Public Function RemoveDuplicated(graph As Graph) As Graph
-        Return graph.DeleteDuplication
+    Public Function RemoveDuplicated(graph As XGMMLgraph) As XGMMLgraph
+        Return New GraphIndex(graph).DeleteDuplication
     End Function
 
     <ExportAPI("Cytoscape.Export.KEGG.ReferenceMap")>
-    Public Function CreateMapNetworkData(RefMap As ReferenceMapData) As Graph
+    Public Function CreateMapNetworkData(RefMap As ReferenceMapData) As XGMMLgraph
         Dim Reaction = (From refRxn As ReferenceReaction In RefMap.Reactions
                         Let Orthology As String() = (From obj In RefMap.GetGeneOrthology(refRxn) Select obj.Key.description).ToArray
                         Select (From xId As String In refRxn.Enzyme
@@ -143,59 +131,55 @@ Public Module ShellScriptAPI
                                     refRxnX = refRxn,
                                     EcNum = xId)).IteratesALL
 
-        Dim Graph As Graph = Graph.CreateObject(RefMap.Name.Replace("<br>", ""), "KEGG reference map data", RefMap.Description.Replace("<br>", ""))
-        Graph.ID = RefMap.EntryId
-        Graph.Label = RefMap.Name
-        Graph.Nodes = (From rxn In Reaction
-                       Let InternalAttr = New XGMML.Attribute() {
-                           New XGMML.Attribute With {
-                                .Name = "KEGG_ENTRY",
+        Dim Graph As XGMMLgraph = XGMMLgraph.CreateObject(RefMap.Name.Replace("<br>", ""), "KEGG reference map data", RefMap.description.Replace("<br>", ""))
+        Graph.id = RefMap.EntryId
+        Graph.label = RefMap.Name
+        Graph.nodes = (From rxn In Reaction
+                       Let InternalAttr = New Attribute() {
+                           New Attribute With {
+                                .name = "KEGG_ENTRY",
                                 .Type = ATTR_VALUE_TYPE_STRING,
                                 .Value = rxn.refRxnX.ID
                            },
-                           New XGMML.Attribute With {
-                                .Name = "Equation",
+                           New Attribute With {
+                                .name = "Equation",
                                 .Type = ATTR_VALUE_TYPE_STRING,
                                 .Value = rxn.refRxnX.Equation
                            },
-                           New XGMML.Attribute With {
-                                .Name = "EC",
+                           New Attribute With {
+                                .name = "EC",
                                 .Type = ATTR_VALUE_TYPE_STRING,
                                 .Value = rxn.EcNum
                            },
-                           New XGMML.Attribute With {
-                                .Name = "def",
+                           New Attribute With {
+                                .name = "def",
                                 .Type = ATTR_VALUE_TYPE_STRING,
                                 .Value = rxn.refRxnX.Definition
                            },
-                           New XGMML.Attribute With {
-                                .Name = "comments",
+                           New Attribute With {
+                                .name = "comments",
                                 .Type = ATTR_VALUE_TYPE_STRING,
                                 .Value = rxn.refRxnX.Comments
                            }
                        }
-                       Select New XGMML.Node With {
+                       Select New XGMMLnode With {
                            .label = rxn.ID,
-                           .Attributes = InternalAttr
+                           .attributes = InternalAttr
                            }).ToArray.WriteAddress
 
-        Graph.Edges = (From rxn In Reaction
+        Dim index As New GraphIndex(Graph)
+
+        Graph.edges = (From rxn In Reaction
                        Let Edges = (From target In Reaction
                                     Let Compound As String() = (From source In rxn.DataModel.Products
                                                                 Where target.DataModel.GetCoEfficient(source.ID) < 0
                                                                 Select source.ID).ToArray
                                     Where Not Compound.IsNullOrEmpty
-                                    Select New XGMML.Edge With {
-                                        .source = Graph.GetNode(rxn.ID).id,
-                                        .target = Graph.GetNode(target.ID).id,
-                                        .Label = Compound.First}).ToArray
+                                    Select New XGMMLedge With {
+                                        .source = index.GetNode(rxn.ID).id,
+                                        .target = index.GetNode(target.ID).id,
+                                        .label = Compound.First}).ToArray
                        Select Edges).ToArray.ToVector.WriteAddress '从rxn的右边到target的左边形成一条边
         Return Graph
-    End Function
-
-    <ExportAPI("Cytoscape.Drawing.KEGG.refMap",
-               Info:="size is a string expression in format likes <width>,<height>, if this parameter is empty then the system will using the cytoscape network file default size.")>
-    Public Function DrawingMap(graph As Graph, refMap As ReferenceMapData, Mapping As String(), Optional size As String = "") As Image
-        Return GraphDrawing.InvokeDrawing(graph, refMap, Mapping, size)
     End Function
 End Module

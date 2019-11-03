@@ -45,6 +45,13 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Public Module PathwayNetwork
 
+    ''' <summary>
+    ''' 在这里创建的是map与map之间通过所拥有的交集代谢物来创建边连接
+    ''' 生成一幅网络概览图
+    ''' </summary>
+    ''' <param name="ref"></param>
+    ''' <param name="nodeValue"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function BuildNetwork(ref As IEnumerable(Of Map), nodeValue As Action(Of Node)) As NetworkGraph
         Dim graph As New NetworkGraph

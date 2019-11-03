@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::659d2798b24e0fbb7698d943aabaa1f1, Networks\Network.Regulons\RegulatesGraph\RegulatesGraph.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module GraphAPI
-    ' 
-    '         Function: __family, (+2 Overloads) __node, __regulates, (+2 Overloads) Create, SaveGraph
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module GraphAPI
+' 
+'         Function: __family, (+2 Overloads) __node, __regulates, (+2 Overloads) Create, SaveGraph
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Serialization
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
 Namespace RegulatesGraph
 
@@ -56,7 +57,7 @@ Namespace RegulatesGraph
     Public Module GraphAPI
 
         <ExportAPI("Create.Doc")>
-        Public Function Create(sites As String, <Parameter("Dir.Modules")> mods As String) As Graph
+        Public Function Create(sites As String, <Parameter("Dir.Modules")> mods As String) As XGMMLgraph
             Dim motifSites = sites.LoadCsv(Of MotifSite)
             Dim modDetails = FileIO.FileSystem.GetFiles(mods, FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
                 .Select(Function(file) file.LoadXml(Of bGetObject.Module)) _
@@ -69,7 +70,7 @@ Namespace RegulatesGraph
             Return Family
         End Function
 
-        Public Function Create(motifSites As IEnumerable(Of MotifSite), modDetails As Dictionary(Of String, bGetObject.Module)) As Graph
+        Public Function Create(motifSites As IEnumerable(Of MotifSite), modDetails As Dictionary(Of String, bGetObject.Module)) As XGMMLgraph
             Dim LQuery = (From site As MotifSite In motifSites.AsParallel
                           Let [mod] As String = site.Tag.Split("\"c)(2).Split("_"c).Last.ToUpper
                           Select Family = __family(site.Family),
@@ -92,11 +93,11 @@ Namespace RegulatesGraph
 
         Private Function __regulates(from As String, obj As String, target As String()) As PathwayRegulates
             Return New PathwayRegulates With {
-                .FromNode = obj,
+                .fromNode = obj,
                 .Regulates = target.Distinct.ToArray.JoinBy(", "),
-                .ToNode = obj,
+                .toNode = obj,
                 .value = target.Length,
-                .Interaction = "regulates"
+                .interaction = "regulates"
             }
         End Function
 
@@ -117,7 +118,7 @@ Namespace RegulatesGraph
         End Function
 
         <ExportAPI("Write.XGMML")>
-        Public Function SaveGraph(graph As Graph, SaveTo As String) As Boolean
+        Public Function SaveGraph(graph As XGMMLgraph, SaveTo As String) As Boolean
             Return graph.Save(SaveTo)
         End Function
     End Module

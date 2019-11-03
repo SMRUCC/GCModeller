@@ -173,11 +173,16 @@ Namespace Assembly.KEGG.WebServices
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function BuildRepository(directory As String) As MapRepository
             Return New MapRepository With {
-                .Maps = (ls - l - r - "*.XML" <= directory) _
-                    .Select(AddressOf LoadXml(Of Map)) _
+                .Maps = directory _
+                    .DoCall(AddressOf ScanMaps) _
                     .Select(AddressOf CreateIndex) _
                     .ToArray
             }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ScanMaps(directory As String) As IEnumerable(Of Map)
+            Return (ls - l - r - "*.XML" <= directory).Select(AddressOf LoadXml(Of Map))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

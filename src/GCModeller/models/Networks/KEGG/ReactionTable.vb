@@ -90,7 +90,14 @@ Public Class ReactionTable
         Return name
     End Function
 
-    Public Shared Iterator Function Load(br08201$) As IEnumerable(Of ReactionTable)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="br08201">
+    ''' <see cref="Reaction"/>
+    ''' </param>
+    ''' <returns></returns>
+    Public Shared Iterator Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
         Dim proc As New SwayBar
 
         For Each file As String In (ls - l - r - "*.XML" <= br08201)
