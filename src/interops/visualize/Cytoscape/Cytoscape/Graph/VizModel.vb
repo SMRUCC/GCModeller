@@ -43,6 +43,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
@@ -67,7 +68,8 @@ Namespace CytoscapeGraphView
                     .label = xgmmlNode.label,
                     .data = New NodeData With {
                         .label = xgmmlNode.label,
-                        .origID = xgmmlNode.label
+                        .origID = xgmmlNode.label,
+                        .initialPostion = New FDGVector2 With {.x = xgmmlNode.graphics.x, .y = xgmmlNode.graphics.y}
                     }
                 }
 
