@@ -19,6 +19,7 @@ Namespace PathwayMaps
         <Extension>
         Public Function Render(model As XGMMLgraph) As GraphicsData
             Dim graph As NetworkGraph = model.ToNetworkGraph
+            Dim nodes As New Dictionary(Of String, Node)
 
             For Each node As Node In graph.vertex
                 If node.label.IsPattern("C\d+") Then
@@ -26,11 +27,35 @@ Namespace PathwayMaps
                 Else
                     node.data.color = Brushes.SkyBlue
                 End If
+
+                nodes.Add(node.label, node)
             Next
 
             Dim drawNode As DrawNodeShape =
                 Sub(id$, g As IGraphics, br As Brush, radius!, center As PointF)
+                    Dim node As Node = nodes(id)
 
+                    If node.label.IsPattern("C\d+") Then
+                        ' 圆形
+                        Dim rect As New Rectangle With {
+                            .X = center.X - radius / 2,
+                            .Y = center.Y - radius / 2,
+                            .Width = radius,
+                            .Height = radius
+                        }
+
+                        Call g.FillEllipse(br, rect)
+                    Else
+                        ' 方形
+                        Dim rect As New Rectangle With {
+                            .X = center.X - radius / 2,
+                            .Y = center.Y - radius / 4,
+                            .Width = radius,
+                            .Height = radius / 2
+                        }
+
+                        Call g.FillRectangle(br, rect)
+                    End If
                 End Sub
 
             Return NetworkVisualizer.DrawImage(
