@@ -86,7 +86,7 @@ Namespace PathwayMaps
                 net:=graph,
                 padding:="padding: 300px 300px 300px 300px;",
                 canvasSize:=canvasSize,
-                labelerIterations:=50,
+                labelerIterations:=5,
                 doEdgeBundling:=True,
                 drawNodeShape:=drawNode,
                 minLinkWidth:=8,

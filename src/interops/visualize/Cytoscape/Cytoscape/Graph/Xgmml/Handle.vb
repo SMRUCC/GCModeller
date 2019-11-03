@@ -81,26 +81,32 @@ Namespace CytoscapeGraphView.XGMML
         End Function
 
         Friend Shared Function parseHandles(strRepresentation As String) As IEnumerable(Of Handle)
-            Return strRepresentation _
-                .Split("|"c) _
-                .Select(Function(str)
-                            Dim parts As Double() = str _
-                                .Split(DELIMITER) _
-                                .Select(AddressOf Double.Parse) _
-                                .ToArray
+            If strRepresentation.StringEmpty Then
+                Return {}
+            Else
+                Return strRepresentation _
+                    .Split("|"c) _
+                    .Select(AddressOf parseHandle)
+            End If
+        End Function
 
-                            If parts.Length = 2 Then
-                                Return New Handle With {.x = parts(0), .y = parts(1)}
-                            ElseIf parts.Length = 3 Then
-                                Return New Handle With {
-                                    .cosTheta = parts(0),
-                                    .sinTheta = parts(1),
-                                    .ratio = parts(2)
-                                }
-                            Else
-                                Return Nothing
-                            End If
-                        End Function)
+        Private Shared Function parseHandle(str As String) As Handle
+            Dim parts As Double() = str _
+                .Split(DELIMITER) _
+                .Select(AddressOf Double.Parse) _
+                .ToArray
+
+            If parts.Length = 2 Then
+                Return New Handle With {.x = parts(0), .y = parts(1)}
+            ElseIf parts.Length = 3 Then
+                Return New Handle With {
+                    .cosTheta = parts(0),
+                    .sinTheta = parts(1),
+                    .ratio = parts(2)
+                }
+            Else
+                Return Nothing
+            End If
         End Function
     End Class
 End Namespace
