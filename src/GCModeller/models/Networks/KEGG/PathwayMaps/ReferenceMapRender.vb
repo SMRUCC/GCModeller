@@ -21,7 +21,7 @@ Namespace PathwayMaps
         ''' <returns></returns>
         <Extension>
         Public Function Render(model As XGMMLgraph,
-                               Optional canvasSize$ = "10480,8200",
+                               Optional canvasSize$ = "11480,9200",
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters") As GraphicsData
 
@@ -57,7 +57,7 @@ Namespace PathwayMaps
                 Sub(id$, g As IGraphics, br As Brush, radius!, center As PointF)
                     Dim node As Node = nodes(id)
 
-                    br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(225))
+                    br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
 
                     If node.label.IsPattern("C\d+") Then
                         ' 圆形
@@ -84,14 +84,15 @@ Namespace PathwayMaps
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
+                padding:="padding: 300px 300px 300px 300px;",
                 canvasSize:=canvasSize,
                 labelerIterations:=50,
                 doEdgeBundling:=True,
                 drawNodeShape:=drawNode,
-                minLinkWidth:=13,
-                nodeRadius:=120,
+                minLinkWidth:=8,
+                nodeRadius:=220,
                 edgeShadowDistance:=5,
-                defaultEdgeColor:="black"
+                defaultEdgeColor:=NameOf(Color.DarkGreen)
             )
         End Function
     End Module
