@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Linq
@@ -62,6 +63,12 @@ Namespace PathwayMaps
             Return nodes
         End Function
 
+        ReadOnly ignores As Index(Of String) = {
+            "C00001", ' H2O
+            "C00007", ' O2
+            "C00011"  ' CO2
+        }
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -79,6 +86,7 @@ Namespace PathwayMaps
                 .Select(AddressOf getCompoundsInMap) _
                 .IteratesALL _
                 .GroupBy(Function(c) c.Name) _
+                .Where(Function(c) Not c.Key Like ignores) _
                 .ToArray
 
             Dim reactantIndex = reactionVector.getCompoundIndex(Function(r) r.substrates)
