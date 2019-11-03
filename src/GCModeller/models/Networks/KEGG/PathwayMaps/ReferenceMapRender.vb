@@ -1,9 +1,12 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
@@ -17,15 +20,34 @@ Namespace PathwayMaps
         ''' <param name="model"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function Render(model As XGMMLgraph) As GraphicsData
+        Public Function Render(model As XGMMLgraph,
+                               Optional canvasSize$ = "10480,8200",
+                               Optional enzymeColorSchema$ = "Set1:c8",
+                               Optional compoundColorSchema$ = "Clusters") As GraphicsData
+
             Dim graph As NetworkGraph = model.ToNetworkGraph
             Dim nodes As New Dictionary(Of String, Node)
+            Dim fluxCategory = EnzymaticReaction.LoadFromResource.GroupBy(Function(r) r.Entry.Key).ToDictionary(Function(r) r.Key, Function(r) r.First)
+            Dim compoundCategory = CompoundBrite.CompoundsWithBiologicalRoles.GroupBy(Function(c) c.entry.Key).ToDictionary(Function(c) c.Key, Function(c) c.First.class)
+            Dim enzymeColors As Color() = Designer.GetColors(enzymeColorSchema)
+            Dim compoundColors As New CategoryColorProfile(compoundCategory, compoundColorSchema)
 
             For Each node As Node In graph.vertex
                 If node.label.IsPattern("C\d+") Then
-                    node.data.color = Brushes.Red
+                    If compoundCategory.ContainsKey(node.label) Then
+                        node.data.color = New SolidBrush(compoundColors.GetColor(node.label))
+                    Else
+                        node.data.color = Brushes.LightGray
+                    End If
                 Else
-                    node.data.color = Brushes.SkyBlue
+                    If fluxCategory.ContainsKey(node.label) Then
+                        Dim enzyme% = fluxCategory(node.label).EC.Split("."c).First.ParseInteger
+                        Dim color As Color = enzymeColors(enzyme)
+
+                        node.data.color = New SolidBrush(color)
+                    Else
+                        node.data.color = Brushes.SkyBlue
+                    End If
                 End If
 
                 nodes.Add(node.label, node)
@@ -35,7 +57,7 @@ Namespace PathwayMaps
                 Sub(id$, g As IGraphics, br As Brush, radius!, center As PointF)
                     Dim node As Node = nodes(id)
 
-                    br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(200))
+                    br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(225))
 
                     If node.label.IsPattern("C\d+") Then
                         ' 圆形
@@ -62,11 +84,12 @@ Namespace PathwayMaps
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                canvasSize:="10480,8200",
+                canvasSize:=canvasSize,
                 labelerIterations:=50,
                 doEdgeBundling:=True,
                 drawNodeShape:=drawNode,
                 minLinkWidth:=13,
+                nodeRadius:=120,
                 edgeShadowDistance:=5,
                 defaultEdgeColor:="black"
             )
