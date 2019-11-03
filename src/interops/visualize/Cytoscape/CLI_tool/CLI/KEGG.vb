@@ -346,11 +346,12 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <kegg_maps.directory> [/out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <kegg_maps.directory> /reactions <kegg_reactions.directory> [/out <result_network.directory>]")>
     Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
         Dim in$ = args <= "/repository"
         Dim out$ = args("/out") Or $"{[in].TrimDIR}.referenceMap/"
-        Dim model As NetworkTables = PathwayMaps.BuildNetworkModel(MapRepository.ScanMaps(directory:=[in]))
+        Dim reactions = ReactionTable.Load(args <= "/reactions")
+        Dim model As NetworkTables = PathwayMaps.BuildNetworkModel(MapRepository.ScanMaps(directory:=[in]), reactions)
 
         Return model.Save(out).CLICode
     End Function
