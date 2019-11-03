@@ -63,7 +63,8 @@ Namespace PathwayMaps
                 canvasSize:="20480,19200",
                 labelerIterations:=500,
                 doEdgeBundling:=True,
-                drawNodeShape:=drawNode
+                drawNodeShape:=drawNode,
+                minLinkWidth:=10
             )
         End Function
     End Module

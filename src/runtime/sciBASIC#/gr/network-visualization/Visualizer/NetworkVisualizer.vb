@@ -275,6 +275,10 @@ Public Module NetworkVisualizer
 
                 For Each edge As Edge In .ByRef
                     For Each null In edgeBundling(edge)
+                        ' 20191103
+                        ' 在这里因为每一个edge的边连接点的数量是不一样的
+                        ' 所以在这里使用for loop加上递增序列来
+                        ' 正确的获取得到每一条边所对应的边连接节点
                         tempList += scalePoints(i)
                         i += 1
                     Next
