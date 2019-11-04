@@ -103,7 +103,7 @@ Namespace PathwayMaps
             Next
 
             Dim reactionShapeStroke As Pen = Stroke.TryParse(reactionShapeStrokeCSS)
-            Dim rectShadow As New Shadow(30, 45, 1.25, 1.25)
+            Dim rectShadow As New Shadow(10, 30, 1.125, 1.25)
             Dim circleShadow As New Shadow(130, 45, 2, 2)
             Dim offsetCircle As New PointF(20, 20)
             Dim offsetRect As New PointF(30, 20)
@@ -153,34 +153,36 @@ Namespace PathwayMaps
                         center = center.OffSet2D(offsetCircle)
 
                         Return New PointF(
-                            x:=center.X - labelSize.Width,
-                            y:=center.Y + labelSize.Height * 3.7
+                            x:=center.X - labelSize.Width * 6 / 8,
+                            y:=center.Y + labelSize.Height * 2
                         )
                     Else
                         center = center.OffSet2D(offsetRect)
 
                         Return New PointF(
-                            x:=center.X - labelSize.Width * 6 / 7,
-                            y:=center.Y + labelSize.Height * 3.7
+                            x:=center.X - labelSize.Width * 5 / 7,
+                            y:=center.Y + labelSize.Height * 2
                         )
                     End If
                 End Function
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                background:="#7ac1d0",
+                background:="#e4faff",
                 padding:="padding: 500px 500px 500px 500px;",
                 canvasSize:=canvasSize,
                 labelerIterations:=0,
                 doEdgeBundling:=True,
                 drawNodeShape:=drawNode,
-                minLinkWidth:=3,
+                minLinkWidth:=10,
                 nodeRadius:=220,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=DashStyle.Solid,
                 defaultEdgeColor:="white",
                 getNodeLabel:=AddressOf getNodeLabel,
-                getLabelPosition:=getLabelPositoon
+                getLabelPosition:=getLabelPositoon，
+                labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
+                fontSize:=27
             )
         End Function
 
