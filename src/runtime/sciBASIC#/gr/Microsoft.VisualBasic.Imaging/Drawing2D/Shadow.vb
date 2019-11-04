@@ -1,12 +1,61 @@
 ﻿Imports System.Drawing
 Imports System.Drawing.Drawing2D
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Namespace Drawing2D
 
     Public Class Shadow
+
+        Dim offset As PointF
+        Dim scale As SizeF
+
+        Public Property shadowColor As String = NameOf(Color.Gray)
+        Public Property alphaLevels As String = "0,120,150,200"
+        Public Property gradientLevels As String = "[0,0.125,0.5,1]"
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="distance">正实数</param>
+        ''' <param name="angle">[0, 360]</param>
+        ''' <param name="scaleX!"></param>
+        ''' <param name="scaleY!"></param>
+        Sub New(distance!, angle!, Optional scaleX! = 1, Optional scaleY! = 1)
+            Dim alpha! = angle / 180 * Math.PI
+
+            ' 计算出distance
+            offset = New PointF With {
+                .X = distance * Math.Sin(alpha),
+                .Y = distance * Math.Cos(alpha)
+            }
+            scale = New SizeF With {.Width = scaleX, .Height = scaleY}
+        End Sub
+
+        Sub Circle(g As IGraphics, centra As PointF, radius!)
+            Dim circle As New GraphicsPath()
+            Dim points As PointF() = Shapes.Circle _
+                .PathIterator(centra, radius, 100) _
+                .Select(Function(pt)
+                            Return pt.OffSet2D(offset)
+                        End Function) _
+                .Enlarge(scale)
+            Dim a As PointF = points(Scan0)
+
+            For Each vertex As PointF In points.Skip(1)
+                Call circle.AddLine(a, vertex)
+            Next
+
+            Call DropdownShadows(g, circle, shadowColor, alphaLevels, gradientLevels)
+        End Sub
+
+        Sub RoundRectangle(g As IGraphics, rect As Rectangle, radius!)
+            Dim modification As Rectangle = rect.OffSet2D(offset).Scale(scale)
+            Dim rectangle As GraphicsPath = Shapes.RoundRect.GetRoundedRectPath(modification, radius)
+
+            Call DropdownShadows(g, rectangle, shadowColor, alphaLevels, gradientLevels)
+        End Sub
 
         Public Shared Sub DrawCircleShadow(g As IGraphics, centra As PointF, radius As Single,
                                            Optional shadowColor$ = NameOf(Color.Gray),

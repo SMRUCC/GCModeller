@@ -147,6 +147,15 @@ Namespace Imaging.Math2D
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
+        Public Function OffSet2D(rect As Rectangle, offset As PointF) As Rectangle
+            Return New Rectangle With {
+                .Location = rect.Location.OffSet2D(offset),
+                .Size = rect.Size
+            }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
         Public Function OffSet2D(rect As Rectangle, offsetX!, offsetY!) As Rectangle
             Return New Rectangle With {
                 .Location = rect.Location.OffSet2D(offsetX, offsetY),
