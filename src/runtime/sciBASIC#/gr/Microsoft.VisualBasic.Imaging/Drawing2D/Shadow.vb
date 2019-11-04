@@ -6,13 +6,12 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Namespace Drawing2D
 
-    Public Module Shadow
+    Public Class Shadow
 
-        <Extension>
-        Public Sub DrawCircleShadow(g As IGraphics, centra As PointF, radius As Single,
-                                    Optional shadowColor$ = NameOf(Color.Gray),
-                                    Optional alphaLevels$ = "0,120,150,200",
-                                    Optional gradientLevels$ = "[0,0.125,0.5,1]")
+        Public Shared Sub DrawCircleShadow(g As IGraphics, centra As PointF, radius As Single,
+                                           Optional shadowColor$ = NameOf(Color.Gray),
+                                           Optional alphaLevels$ = "0,120,150,200",
+                                           Optional gradientLevels$ = "[0,0.125,0.5,1]")
 
             Dim circle As New GraphicsPath()
             Dim points As PointF() = Shapes.Circle.PathIterator(centra, radius, 100).ToArray
@@ -22,7 +21,7 @@ Namespace Drawing2D
                 Call circle.AddLine(a, vertex)
             Next
 
-            Call g.DropdownShadows(circle, shadowColor, alphaLevels, gradientLevels)
+            Call DropdownShadows(g, circle, shadowColor, alphaLevels, gradientLevels)
         End Sub
 
         ''' <summary>
@@ -33,16 +32,15 @@ Namespace Drawing2D
         ''' <param name="shadowColor$"></param>
         ''' <param name="alphaLevels$"></param>
         ''' <param name="gradientLevels$"></param>
-        <Extension> Public Sub DropdownShadows(g As IGraphics,
-                                               rectangle As RectangleF,
-                                               Optional shadowColor$ = NameOf(Color.Gray),
-                                               Optional alphaLevels$ = "0,120,150,200",
-                                               Optional gradientLevels$ = "[0,0.125,0.5,1]")
+        Public Shared Sub DropdownShadows(g As IGraphics, rectangle As RectangleF,
+                                          Optional shadowColor$ = NameOf(Color.Gray),
+                                          Optional alphaLevels$ = "0,120,150,200",
+                                          Optional gradientLevels$ = "[0,0.125,0.5,1]")
             Dim path As New GraphicsPath
 
             Call path.AddRectangle(rectangle)
             Call path.CloseAllFigures()
-            Call g.DropdownShadows(path, shadowColor, alphaLevels, gradientLevels)
+            Call DropdownShadows(g, path, shadowColor, alphaLevels, gradientLevels)
         End Sub
 
         ''' <summary>
@@ -53,11 +51,10 @@ Namespace Drawing2D
         ''' <param name="shadowColor$"></param>
         ''' <param name="alphaLevels$"></param>
         ''' <param name="gradientLevels$"></param>
-        <Extension> Public Sub DropdownShadows(g As IGraphics,
-                                               polygon As GraphicsPath,
-                                               Optional shadowColor$ = NameOf(Color.Gray),
-                                               Optional alphaLevels$ = "0,120,150,200",
-                                               Optional gradientLevels$ = "[0,0.125,0.5,1]")
+        Public Shared Sub DropdownShadows(g As IGraphics, polygon As GraphicsPath,
+                                          Optional shadowColor$ = NameOf(Color.Gray),
+                                          Optional alphaLevels$ = "0,120,150,200",
+                                          Optional gradientLevels$ = "[0,0.125,0.5,1]")
 
             Dim alphas As Vector = alphaLevels
             ' Create a color blend to manage our colors And positions And
@@ -91,6 +88,5 @@ Namespace Drawing2D
                 Call g.FillPath(pgBrush, polygon)
             End Using
         End Sub
-
-    End Module
+    End Class
 End Namespace

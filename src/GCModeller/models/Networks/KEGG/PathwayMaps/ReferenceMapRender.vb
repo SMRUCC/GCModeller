@@ -1,11 +1,15 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
@@ -79,7 +83,8 @@ Namespace PathwayMaps
                             .Height = radius / 2
                         }
 
-                        Call g.FillRectangle(br, rect)
+                        Call Shadow.DropdownShadows(g, RoundRect.GetRoundedRectPath(rect.OffSet2D(radius / 10, radius / 10).Scale(1.125, 1.125), 30))
+                        Call g.FillPath(br, RoundRect.GetRoundedRectPath(rect, 30))
                     End If
                 End Sub
 
