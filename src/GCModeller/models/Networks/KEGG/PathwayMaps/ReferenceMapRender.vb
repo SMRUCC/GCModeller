@@ -1,5 +1,4 @@
 ﻿Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
@@ -9,7 +8,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
@@ -17,6 +16,25 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 Namespace PathwayMaps
 
     Public Module ReferenceMapRender
+
+        ReadOnly compoundNames As Dictionary(Of String, String) = getCompoundNames()
+        ReadOnly reactionNames As Dictionary(Of String, String) = getReactionNames()
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function getCompoundNames() As Dictionary(Of String, String)
+            Return CompoundBrite.GetAllCompoundResources _
+                .Values _
+                .IteratesALL _
+                .GroupBy(Function(name) name.entry.Key) _
+                .ToDictionary(Function(name) name.Key,
+                              Function(terms)
+                                  Return terms.First.entry.Value
+                              End Function)
+        End Function
+
+        Private Function getReactionNames() As Dictionary(Of String, String)
+            Return
+        End Function
 
         ''' <summary>
         ''' 将完成node和edge布局操作的网络模型进行渲染
@@ -31,8 +49,18 @@ Namespace PathwayMaps
 
             Dim graph As NetworkGraph = model.ToNetworkGraph
             Dim nodes As New Dictionary(Of String, Node)
-            Dim fluxCategory = EnzymaticReaction.LoadFromResource.GroupBy(Function(r) r.Entry.Key).ToDictionary(Function(r) r.Key, Function(r) r.First)
-            Dim compoundCategory = CompoundBrite.CompoundsWithBiologicalRoles.GroupBy(Function(c) c.entry.Key).ToDictionary(Function(c) c.Key, Function(c) c.First.class)
+            Dim fluxCategory = EnzymaticReaction.LoadFromResource _
+                .GroupBy(Function(r) r.Entry.Key) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(r)
+                                  Return r.First
+                              End Function)
+            Dim compoundCategory = CompoundBrite.CompoundsWithBiologicalRoles _
+                .GroupBy(Function(c) c.entry.Key) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(c)
+                                  Return c.First.class
+                              End Function)
             Dim enzymeColors As Color() = Designer.GetColors(enzymeColorSchema)
             Dim compoundColors As New CategoryColorProfile(compoundCategory, compoundColorSchema)
 
@@ -57,6 +85,8 @@ Namespace PathwayMaps
                 nodes.Add(node.label, node)
             Next
 
+            Dim rectShadow As New Shadow(30, 45, 1.25, 1.25)
+            Dim circleShadow As New Shadow(130, 45, 2, 2)
             Dim drawNode As DrawNodeShape =
                 Sub(id$, g As IGraphics, br As Brush, radius!, center As PointF)
                     Dim node As Node = nodes(id)
@@ -73,7 +103,9 @@ Namespace PathwayMaps
                             .Height = radius
                         }
 
+                        Call circleShadow.Circle(g, center, radius)
                         Call g.FillEllipse(br, rect)
+                        Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Darken, 10), rect)
                     Else
                         ' 方形
                         Dim rect As New Rectangle With {
@@ -83,7 +115,7 @@ Namespace PathwayMaps
                             .Height = radius / 2
                         }
 
-                        Call Shadow.DropdownShadows(g, RoundRect.GetRoundedRectPath(rect.OffSet2D(radius / 10, radius / 10).Scale(1.125, 1.125), 30))
+                        Call rectShadow.RoundRectangle(g, rect, 30)
                         Call g.FillPath(br, RoundRect.GetRoundedRectPath(rect, 30))
                     End If
                 End Sub
@@ -98,7 +130,8 @@ Namespace PathwayMaps
                 minLinkWidth:=8,
                 nodeRadius:=220,
                 edgeShadowDistance:=5,
-                defaultEdgeColor:=NameOf(Color.Gray)
+                defaultEdgeColor:=NameOf(Color.Gray),
+                getNodeLabel:=Function(n) n.data.label
             )
         End Function
     End Module
