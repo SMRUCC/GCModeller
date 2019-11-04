@@ -8,6 +8,21 @@ Namespace Drawing2D
 
     Public Module Shadow
 
+        <Extension>
+        Public Sub DrawCircleShadow(g As IGraphics, centra As PointF, radius As Single,
+                                    Optional shadowColor$ = NameOf(Color.Gray),
+                                    Optional alphaLevels$ = "0,120,150,200",
+                                    Optional gradientLevels$ = "[0,0.125,0.5,1]")
+
+            Dim path As New GraphicsPath()
+            Dim points As PointF() = Shapes.Circle.PathIterator(centra, radius, 100).ToArray
+            Dim a As PointF = points(Scan0)
+
+            For Each vertex As PointF In points.Skip(1)
+                Call path.AddLine(a, vertex)
+            Next
+        End Sub
+
         ''' <summary>
         ''' Draw shadow of a specifc <paramref name="rectangle"/>
         ''' </summary>
