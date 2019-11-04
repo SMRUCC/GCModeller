@@ -41,10 +41,10 @@ Namespace PathwayMaps
                               Function(r)
                                   Dim reaction As EnzymaticReaction = r.First
 
-                                  If reaction.Entry.Value.StringEmpty Then
-                                      Return reaction.EC
+                                  If reaction.EC.StringEmpty Then
+                                      Return r.Key
                                   Else
-                                      Return reaction.Entry.Value
+                                      Return reaction.EC
                                   End If
                               End Function)
         End Function
