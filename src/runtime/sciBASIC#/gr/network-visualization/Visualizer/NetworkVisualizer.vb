@@ -181,6 +181,9 @@ Public Module NetworkVisualizer
     ''' <param name="displayId">
     ''' 是否现在节点的标签文本
     ''' </param>
+    ''' <param name="labelerIterations">
+    ''' 0表示不进行
+    ''' </param>
     ''' <param name="edgeDashTypes">
     ''' 1. ``interaction_type`` property value in <see cref="Edge.data"/>, or
     ''' 2. <see cref="Edge.ID"/> value

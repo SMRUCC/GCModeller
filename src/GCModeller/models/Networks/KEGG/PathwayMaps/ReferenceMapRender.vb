@@ -9,7 +9,9 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
@@ -59,7 +61,8 @@ Namespace PathwayMaps
         Public Function Render(model As XGMMLgraph,
                                Optional canvasSize$ = "11480,9200",
                                Optional enzymeColorSchema$ = "Set1:c8",
-                               Optional compoundColorSchema$ = "Clusters") As GraphicsData
+                               Optional compoundColorSchema$ = "Clusters",
+                               Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
 
             Dim graph As NetworkGraph = model.ToNetworkGraph
             Dim nodes As New Dictionary(Of String, Node)
@@ -99,6 +102,7 @@ Namespace PathwayMaps
                 nodes.Add(node.label, node)
             Next
 
+            Dim reactionShapeStroke As Pen = Stroke.TryParse(reactionShapeStrokeCSS)
             Dim rectShadow As New Shadow(30, 45, 1.25, 1.25)
             Dim circleShadow As New Shadow(130, 45, 2, 2)
             Dim drawNode As DrawNodeShape =
@@ -106,11 +110,10 @@ Namespace PathwayMaps
                     Dim node As Node = nodes(id)
                     Dim connectedNodes = graph.GetConnectedVertex(id)
 
-                    br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
-
                     If node.label.IsPattern("C\d+") Then
                         ' 圆形
-                        radius = radius * 0.6
+                        radius = radius * 0.4
+                        center = center.OffSet2D(20, 20)
 
                         Dim rect As New Rectangle With {
                             .X = center.X - radius,
@@ -124,6 +127,11 @@ Namespace PathwayMaps
                         Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Darken, 10), rect)
                     Else
                         ' 方形
+                        Dim offset As New PointF(30, 20)
+
+                        center = center.OffSet2D(offset)
+                        radius = radius * 0.8
+
                         Dim rect As New Rectangle With {
                             .X = center.X - radius * 3 / 4,
                             .Y = center.Y + radius / 2,
@@ -131,23 +139,27 @@ Namespace PathwayMaps
                             .Height = radius / 2
                         }
 
+                        br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
+
                         Call rectShadow.RoundRectangle(g, rect, 30)
                         Call g.FillPath(br, RoundRect.GetRoundedRectPath(rect, 30))
+                        Call g.DrawPath(reactionShapeStroke, RoundRect.GetRoundedRectPath(rect, 30))
                     End If
                 End Sub
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
+                background:="#7ac1d0",
                 padding:="padding: 500px 500px 500px 500px;",
                 canvasSize:=canvasSize,
                 labelerIterations:=5,
                 doEdgeBundling:=True,
                 drawNodeShape:=drawNode,
-                minLinkWidth:=4,
+                minLinkWidth:=5,
                 nodeRadius:=220,
-                edgeShadowDistance:=5,
-                edgeDashTypes:=DashStyle.Dash,
-                defaultEdgeColor:=NameOf(Color.Gray),
+                edgeShadowDistance:=0,
+                edgeDashTypes:=DashStyle.Solid,
+                defaultEdgeColor:=NameOf(Color.LightGray),
                 getNodeLabel:=AddressOf getNodeLabel
             )
         End Function
