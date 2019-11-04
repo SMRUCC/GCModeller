@@ -33,7 +33,18 @@ Namespace PathwayMaps
         End Function
 
         Private Function getReactionNames() As Dictionary(Of String, String)
-            Return
+            Return EnzymaticReaction.LoadFromResource _
+                .GroupBy(Function(r) r.Entry.Key) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(r)
+                                  Dim reaction As EnzymaticReaction = r.First
+
+                                  If reaction.Entry.Value.StringEmpty Then
+                                      Return reaction.EC
+                                  Else
+                                      Return reaction.Entry.Value
+                                  End If
+                              End Function)
         End Function
 
         ''' <summary>
@@ -131,8 +142,18 @@ Namespace PathwayMaps
                 nodeRadius:=220,
                 edgeShadowDistance:=5,
                 defaultEdgeColor:=NameOf(Color.Gray),
-                getNodeLabel:=Function(n) n.data.label
+                getNodeLabel:=AddressOf getNodeLabel
             )
+        End Function
+
+        Private Function getNodeLabel(node As Node) As String
+            If node.label.IsPattern("C\d+") Then
+                Return compoundNames.TryGetValue(node.label, [default]:=node.label)
+            ElseIf node.label.IsPattern("R\d+") Then
+                Return reactionNames.TryGetValue(node.label, [default]:=node.label)
+            Else
+                Return node.label
+            End If
         End Function
     End Module
 End Namespace
