@@ -137,7 +137,7 @@ Namespace PathwayMaps
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                padding:="padding: 300px 300px 300px 300px;",
+                padding:="padding: 500px 500px 500px 500px;",
                 canvasSize:=canvasSize,
                 labelerIterations:=5,
                 doEdgeBundling:=True,
