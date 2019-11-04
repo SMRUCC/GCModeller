@@ -99,15 +99,19 @@ Public Class ReactionTable
     ''' <returns></returns>
     Public Shared Iterator Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
         Dim proc As New SwayBar
+        Dim model As ReactionTable = Nothing
 
         For Each file As String In (ls - l - r - "*.XML" <= br08201)
             Try
-                Yield Reaction.LoadXml(handle:=file).DoCall(AddressOf creates)
+                model = Reaction.LoadXml(handle:=file).DoCall(AddressOf creates)
+                ' populate data from xml load result
+                ' if success
+                Yield model
             Catch ex As Exception
                 Call file.PrintException
                 Call App.LogException(ex)
             Finally
-                Call proc.Step()
+                Call proc.Step(model?.name)
             End Try
         Next
     End Function

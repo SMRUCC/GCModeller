@@ -113,6 +113,25 @@ Namespace PathwayMaps
                        End Function) _
                 .ToArray
 
+            If classFilter Then
+                reactionVector = reactionVector _
+                    .Where(Function(r)
+                               ' reaction show have EC class value
+                               If r.EC.IsNullOrEmpty Then
+                                   Return False
+                               Else
+                                   Return r.EC _
+                                       .Any(Function([class])
+                                                Return [class] _
+                                                    .Split("."c) _
+                                                    .First _
+                                                    .ParseInteger > 0
+                                            End Function)
+                               End If
+                           End Function) _
+                    .ToArray
+            End If
+
             Dim reactantIndex = reactionVector.getCompoundIndex(Function(r) r.substrates)
             Dim productIndex = reactionVector.getCompoundIndex(Function(r) r.products)
 

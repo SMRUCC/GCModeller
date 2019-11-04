@@ -354,7 +354,7 @@ Partial Module CLI
         Dim in$ = args <= "/repository"
         Dim out$ = args("/out") Or $"{[in].TrimDIR}.referenceMap/"
         Dim reactions = ReactionTable.Load(args <= "/reactions")
-        Dim model As NetworkTables = PathwayMaps.BuildNetworkModel(MapRepository.ScanMaps(directory:=[in]), reactions, classFilter:=True)
+        Dim model As NetworkTables = PathwayMaps.BuildNetworkModel(MapRepository.ScanMaps(directory:=[in]), reactions, classFilter:=False)
 
         Return model.Save(out).CLICode
     End Function
