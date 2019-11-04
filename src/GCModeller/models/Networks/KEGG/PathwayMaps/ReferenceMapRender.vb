@@ -61,6 +61,8 @@ Namespace PathwayMaps
 
                     If node.label.IsPattern("C\d+") Then
                         ' 圆形
+                        radius = radius * 0.6
+
                         Dim rect As New Rectangle With {
                             .X = center.X - radius,
                             .Y = center.Y + radius,
