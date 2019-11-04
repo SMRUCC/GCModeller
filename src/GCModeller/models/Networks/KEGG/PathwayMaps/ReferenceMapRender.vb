@@ -56,6 +56,7 @@ Namespace PathwayMaps
             Dim drawNode As DrawNodeShape =
                 Sub(id$, g As IGraphics, br As Brush, radius!, center As PointF)
                     Dim node As Node = nodes(id)
+                    Dim connectedNodes = graph.GetConnectedVertex(id)
 
                     br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
 

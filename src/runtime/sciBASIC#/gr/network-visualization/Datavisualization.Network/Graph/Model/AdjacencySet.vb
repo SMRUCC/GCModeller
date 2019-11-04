@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Graph
 
     ''' <summary>
-    ''' 
+    ''' 两个节点对象之间的重复的边链接的集合
     ''' </summary>
     ''' <remarks>
     ''' 所有的<see cref="Edge.U"/>和<see cref="Edge.V"/>都是一样的
@@ -90,6 +90,11 @@ Namespace Graph
         ''' </summary>
         ReadOnly adjacentNodes As New Dictionary(Of String, EdgeSet)
 
+        ''' <summary>
+        ''' 当前的这个节点的<see cref="Node.label"/>
+        ''' 在这里<see cref="adjacentNodes"/>所有的边对象都是与这个label所代表的节点相连接的
+        ''' </summary>
+        ''' <returns></returns>
         Public Property U As String
 
         Public ReadOnly Property Count As Integer

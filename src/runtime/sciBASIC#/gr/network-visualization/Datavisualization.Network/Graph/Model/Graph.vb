@@ -124,7 +124,7 @@ Namespace Graph
         End Property
 
         ''' <summary>
-        ''' <see cref="Node.Label"/>为键名
+        ''' 应用于按照节点的<see cref="Node.Label"/>为键名进行节点对象的快速查找
         ''' </summary>
         Dim _nodeSet As Dictionary(Of String, Node)
         Dim _adjacencySet As Dictionary(Of String, AdjacencySet)
@@ -339,6 +339,11 @@ Namespace Graph
             End If
         End Function
 
+        ''' <summary>
+        ''' 获取得到与目标节点所有相连接的节点
+        ''' </summary>
+        ''' <param name="iNode"></param>
+        ''' <returns></returns>
         Public Function GetEdges(iNode As Node) As IEnumerable(Of Edge)
             If Not _adjacencySet.ContainsKey(iNode.label) Then
                 Return {}
@@ -394,12 +399,16 @@ Namespace Graph
         ''' <param name="label"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetNode(label As String) As Node
-            Return vertex _
-                .Where(Function(n)
-                           Return n.label = label OrElse n.data.label = label
-                       End Function) _
-                .FirstOrDefault
+        Public Function GetNode(label As String, Optional dataLabel As Boolean = False) As Node
+            If Not dataLabel AndAlso _nodeSet.ContainsKey(label) Then
+                Return _nodeSet(label)
+            Else
+                Return vertex _
+                    .Where(Function(n)
+                               Return n.data.label = label
+                           End Function) _
+                    .FirstOrDefault
+            End If
         End Function
 
         ''' <summary>
