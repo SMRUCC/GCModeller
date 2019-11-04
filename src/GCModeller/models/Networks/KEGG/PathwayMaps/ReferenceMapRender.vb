@@ -26,6 +26,7 @@ Namespace PathwayMaps
                 .Values _
                 .IteratesALL _
                 .GroupBy(Function(name) name.entry.Key) _
+                .Where(Function(g) Not g.Key.StringEmpty) _
                 .ToDictionary(Function(name) name.Key,
                               Function(terms)
                                   Return terms.First.entry.Value
@@ -35,6 +36,7 @@ Namespace PathwayMaps
         Private Function getReactionNames() As Dictionary(Of String, String)
             Return EnzymaticReaction.LoadFromResource _
                 .GroupBy(Function(r) r.Entry.Key) _
+                .Where(Function(g) Not g.Key.StringEmpty) _
                 .ToDictionary(Function(r) r.Key,
                               Function(r)
                                   Dim reaction As EnzymaticReaction = r.First
