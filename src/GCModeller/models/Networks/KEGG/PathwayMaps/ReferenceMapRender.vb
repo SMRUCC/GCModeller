@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
@@ -44,7 +45,7 @@ Namespace PathwayMaps
                                   If reaction.EC.StringEmpty Then
                                       Return r.Key
                                   Else
-                                      Return reaction.EC
+                                      Return "EC " & reaction.EC
                                   End If
                               End Function)
         End Function
@@ -142,9 +143,10 @@ Namespace PathwayMaps
                 labelerIterations:=5,
                 doEdgeBundling:=True,
                 drawNodeShape:=drawNode,
-                minLinkWidth:=8,
+                minLinkWidth:=4,
                 nodeRadius:=220,
                 edgeShadowDistance:=5,
+                edgeDashTypes:=DashStyle.Dash,
                 defaultEdgeColor:=NameOf(Color.Gray),
                 getNodeLabel:=AddressOf getNodeLabel
             )
