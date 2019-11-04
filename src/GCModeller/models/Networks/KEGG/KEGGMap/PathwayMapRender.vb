@@ -49,6 +49,9 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
+''' <summary>
+''' 在空白的pathway map的基础上利用map中预先定义的位置进行区域颜色渲染 
+''' </summary>
 Public Module PathwayMapRender
 
     ''' <summary>

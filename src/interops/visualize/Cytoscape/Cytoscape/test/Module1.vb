@@ -65,7 +65,7 @@ End Class
 Module Module1
 
     Private Sub xgmmlLoaderTest()
-        Dim g = Graph.Load("D:\MassSpectrum-toolkits\MetaDNA\test\human_blood\network-edges.csv.xgmml")
+        Dim g = XGMML.RDFXml.Load("E:\GCModeller\src\interops\visualize\Cytoscape\data\demo.xgmml")
         Dim net As NetworkGraph = g.CreateGraph
 
 

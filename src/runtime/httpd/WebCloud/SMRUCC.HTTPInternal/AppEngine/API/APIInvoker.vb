@@ -66,11 +66,13 @@ Namespace AppEngine.APIMethods
 
         ReadOnly getArguments As NamedValue(Of Func(Of HttpRequest, Object))()
 
+        Const InvalidMethodDefine$ = "Api method should have two required parameters: one is for request input and another is for response output."
+
         Sub New(entryPoint As MethodInfo)
             Dim parameters = entryPoint.GetParameters
 
             If parameters.Length < 2 Then
-                Throw New InvalidProgramException($"Api method should have two required parameters: one is for request input and another is for response output.")
+                Throw New InvalidProgramException(InvalidMethodDefine)
             ElseIf parameters.Length = 2 Then
                 getArguments = Nothing
             Else
@@ -83,7 +85,30 @@ Namespace AppEngine.APIMethods
         End Sub
 
         Private Shared Iterator Function getParameters(parameters As ParameterInfo()) As IEnumerable(Of NamedValue(Of Func(Of HttpRequest, Object)))
+            ' 倒数两个参数必须要是httprequest和httpresponse
+            ' 所以在这里忽略掉最后的两个元素
+            For Each ainput As ParameterInfo In parameters.Take(parameters.Length - 2)
+                Yield New NamedValue(Of Func(Of HttpRequest, Object)) With {
+                    .Name = ainput.Name,
+                    .Value = ainput.DoCall(AddressOf parameterGetter)
+                }
+            Next
+        End Function
 
+        Private Shared Function parameterGetter(parameter As ParameterInfo) As Func(Of HttpRequest, Object)
+            Dim name = parameter.Name
+            Dim type As Type = parameter.ParameterType
+
+            Return Function(request)
+                       If request.HasValue(name) Then
+                           Dim strVal$ = request(name)
+                           Dim value As Object = Scripting.CTypeDynamic(strVal, type)
+
+                           Return value
+                       Else
+                           Return parameter.DefaultValue
+                       End If
+                   End Function
         End Function
 
         Public Overrides Function ToString() As String

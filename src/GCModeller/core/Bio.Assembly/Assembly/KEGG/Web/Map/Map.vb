@@ -61,6 +61,9 @@ Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices
 
+    ''' <summary>
+    ''' The kegg reference map
+    ''' </summary>
     <XmlRoot("Map", [Namespace]:=Map.XmlNamespace)>
     Public Class Map : Inherits XmlDataModel
         Implements INamedValue

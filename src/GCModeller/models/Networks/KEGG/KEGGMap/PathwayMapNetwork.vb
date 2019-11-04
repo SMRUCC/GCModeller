@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::9b02b057b864818f85af6c5eff0411fb, Networks\KEGG\KEGGMap\PathwayMapNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module PathwayMapNetwork
-    ' 
-    '     Function: BuildModel
-    ' 
-    ' /********************************************************************************/
+' Module PathwayMapNetwork
+' 
+'     Function: BuildModel
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,15 +55,22 @@ Public Module PathwayMapNetwork
 
     ''' <summary>
     ''' 这个函数所产生的模型是以代谢途径为主体对象的
+    ''' 
+    ''' 在这个函数里面产生的也是代谢途径与代谢途径之间的相互作用的概览图
     ''' </summary>
-    ''' <param name="br08901$"></param>
+    ''' <param name="br08901">
+    ''' <see cref="PathwayMap"/>
+    ''' </param>
     ''' <returns></returns>
-    Public Function BuildModel(br08901$) As NetworkTables
+    Public Function BuildModel(br08901 As String) As NetworkTables
         Dim nodes As New List(Of Node)
         Dim pathwayMap As PathwayMap
 
-        For Each Xml As String In ls - l - r - "*.XML" <= br08901
-            pathwayMap = Xml.LoadXml(Of PathwayMap)
+        For Each xml As String In ls - l - r - "*.XML" <= br08901
+            pathwayMap = xml.LoadXml(Of PathwayMap)
+            ' 直接使用name作为键名会和cytoscape网络模型之中的name产生冲突
+            ' 所以下面的节点属性中
+            ' 使用pathway.name来存储代谢途径的名称
             nodes += New Node(pathwayMap.EntryId) With {
                 .NodeType = pathwayMap.brite?.class,
                 .Properties = New Dictionary(Of String, String) From {
@@ -74,7 +81,7 @@ Public Module PathwayMapNetwork
                         .JoinBy(PathwayMapNetwork.delimiter)
                     },
                     {"KO.counts", pathwayMap.KEGGOrthology.size},
-                    {"pathway.name", pathwayMap.name} ' 直接使用name作为键名会和cytoscape网络模型之中的name产生冲突
+                    {"pathway.name", pathwayMap.name}
                 }
             }
         Next
@@ -97,9 +104,9 @@ Public Module PathwayMapNetwork
 
                 If Not n = 0 Then
                     edges += New NetworkEdge With {
-                        .Interaction = type,
-                        .FromNode = a.ID,
-                        .ToNode = b.ID,
+                        .interaction = type,
+                        .fromNode = a.ID,
+                        .toNode = b.ID,
                         .value = n.Count,
                         .Properties = New Dictionary(Of String, String) From {
                             {"intersets", n.JoinBy(delimiter)}

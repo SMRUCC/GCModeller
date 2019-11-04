@@ -95,6 +95,11 @@ Namespace Core
             End Get
         End Property
 
+        ''' <summary>
+        ''' Get from <see cref="URLParameters"/>
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <returns></returns>
         Default Public Overridable ReadOnly Property Argument(name As String) As DefaultString
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -102,6 +107,10 @@ Namespace Core
             End Get
         End Property
 
+        ''' <summary>
+        ''' The url query arguments
+        ''' </summary>
+        ''' <returns></returns>
         Public Property URLParameters As NameValueCollection
 
         Sub New(request As HttpProcessor)
@@ -127,6 +136,10 @@ Namespace Core
             Remote = "127.0.0.1"
             URLParameters = args.NameValueCollection
         End Sub
+
+        Public Overridable Function HasValue(name As String) As Boolean
+            Return URLParameters.ContainsKey(name)
+        End Function
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
@@ -165,5 +178,13 @@ Namespace Core
                 HttpHeaders.TryGetValue("fileName") Or uploadfile
             )
         End Sub
+
+        Public Overrides Function HasValue(name As String) As Boolean
+            If Not URLParameters.ContainsKey(name) Then
+                Return POSTData.Form.ContainsKey(name)
+            Else
+                Return False
+            End If
+        End Function
     End Class
 End Namespace
