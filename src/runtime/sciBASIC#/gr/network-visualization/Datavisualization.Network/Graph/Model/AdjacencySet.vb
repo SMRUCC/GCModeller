@@ -125,6 +125,11 @@ Namespace Graph
             Next
         End Function
 
+        ''' <summary>
+        ''' 获取目标两个节点之间的所有的重复的边连接
+        ''' </summary>
+        ''' <param name="V"></param>
+        ''' <returns></returns>
         Public Function EnumerateAllEdges(V As Node) As IEnumerable(Of Edge)
             If Not adjacentNodes.ContainsKey(V.label) Then
                 Return {}

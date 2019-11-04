@@ -329,6 +329,24 @@ Namespace Graph
             Return createEdgeInternal(u, v, data)
         End Function
 
+        Public Overloads Function GetConnectedVertex(label As String) As Node()
+            Dim node As Node = GetNode(label)
+            Dim edges = GetEdges(node).ToArray
+            Dim connectedNodes As Node() = edges _
+                .Select(Function(e) {e.U, e.V}) _
+                .IteratesALL _
+                .Where(Function(n) Not n Is node) _
+                .ToArray
+
+            Return connectedNodes
+        End Function
+
+        ''' <summary>
+        ''' 获取目标两个节点之间的所有的重复的边连接
+        ''' </summary>
+        ''' <param name="u"></param>
+        ''' <param name="v"></param>
+        ''' <returns></returns>
         Public Function GetEdges(u As Node, v As Node) As IEnumerable(Of Edge)
             If u Is Nothing OrElse v Is Nothing Then
                 Return Nothing
