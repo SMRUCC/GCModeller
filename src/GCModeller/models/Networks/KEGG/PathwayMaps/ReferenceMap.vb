@@ -151,6 +151,7 @@ Namespace PathwayMaps
                     Continue For
                 End If
 
+                Dim aName$ = a.First.Value
                 Dim producs As Dictionary(Of String, ReactionTable()) = forwards _
                     .Select(Function(r) r.products.Select(Function(cid) (cid, r))) _
                     .IteratesALL _
@@ -161,18 +162,28 @@ Namespace PathwayMaps
                                   End Function)
 
                 For Each b In compounds.Where(Function(c) c.Key <> a.Key AndAlso producs.ContainsKey(c.Key))
+                    Dim bName$ = b.First.Value
+
                     ' reactant -> reaction
                     ' reaction -> product
-                    For Each flux In producs(b.Key)
+                    For Each flux As ReactionTable In producs(b.Key)
                         edge1 = New NetworkEdge With {
                             .fromNode = a.Key,
                             .toNode = flux.entry,
-                            .interaction = "substrate"
+                            .interaction = "substrate",
+                            .Properties = New Dictionary(Of String, String) From {
+                                {"compound.name", aName},
+                                {"flux.name", flux.EC.First}
+                            }
                         }
                         edge2 = New NetworkEdge With {
                             .fromNode = flux.entry,
                             .toNode = b.Key,
-                            .interaction = "product"
+                            .interaction = "product",
+                            .Properties = New Dictionary(Of String, String) From {
+                                {"compound.name", bName},
+                                {"flux.name", flux.EC.First}
+                            }
                         }
 
                         edges = edges + edge1 + edge2
