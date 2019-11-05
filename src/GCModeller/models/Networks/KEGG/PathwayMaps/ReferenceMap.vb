@@ -48,6 +48,9 @@ Namespace PathwayMaps
         <Extension>
         Private Function getCompoundIndex(reactionVector As ReactionTable(), getIds As Func(Of ReactionTable, String())) As Dictionary(Of String, ReactionTable())
             Return reactionVector _
+                .Where(Function(r)
+                           Return Not r.EC.IsNullOrEmpty AndAlso r.EC.Any(Function(num) num.IsPattern("\d(\.\d+)+"))
+                       End Function) _
                 .Select(Function(r)
                             Return getIds(r).Select(Function(cid) (cid, r))
                         End Function) _
