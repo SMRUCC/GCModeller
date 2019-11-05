@@ -67,6 +67,9 @@ Namespace PathwayMaps
             Return nodes
         End Function
 
+        ''' <summary>
+        ''' Ignores these generic compounds for reduce network complexity
+        ''' </summary>
         ReadOnly ignores As Index(Of String) = {
             "C00001", ' H2O
             "C00007", ' O2
@@ -76,7 +79,16 @@ Namespace PathwayMaps
             "C11481", ' HSO3-
             "C00283", 'Hydrogen sulfide
             "C00094", ' Sulfite
-            "C00080" ' H+
+            "C00080", ' H+
+            "C00027", ' Hydrogen peroxide
+            "C00288", ' HCO3-
+            "C00088", ' Nitrite
+            "C00162", ' Fatty acid
+            "C00039", ' DNA
+            "C00017", ' protein
+            "C00059",' Sulfate
+            "C14818", ' Fe2+
+            "C00151" ' L-Amino acid
         }
 
         ''' <summary>
