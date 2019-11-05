@@ -41,6 +41,7 @@
 
 Imports System.ComponentModel
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -83,10 +84,11 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GO.faa"
         Dim lineBreak As Integer = args("/lineBreak") Or 120
+        Dim files$() = [in].GetFileList
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
             For Each fa As FastaSeq In UniProtXML _
-                .EnumerateEntries(path:=[in]) _
+                .EnumerateEntries(files) _
                 .UniProtProteinExports(Function(prot)
                                            Dim GOterms = prot.dbReferences _
                                               .Where(Function(xref) xref.type = "GO") _
@@ -109,6 +111,29 @@ Partial Module CLI
         End Using
 
         Return 0
+    End Function
+
+    <Extension>
+    Public Function GetFileList(input As String) As String()
+        Dim files$()
+
+        If Not input.FileExists AndAlso [input].IndexOf("/"c) = -1 AndAlso [input].IndexOf("\"c) = -1 Then
+            files = [input].Split(","c) _
+                .Select(Function(fileName)
+                            Return $"{App.CurrentDirectory}/{fileName}"
+                        End Function) _
+                .ToArray
+        ElseIf Not input.FileExists Then
+            Throw New FileNotFoundException(input)
+        Else
+            files = {[input].GetFullPath}
+        End If
+
+        For Each path As String In files
+            Call path.__DEBUG_ECHO
+        Next
+
+        Return files
     End Function
 
     ''' <summary>
@@ -135,17 +160,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.KO.faa"
         Dim lineBreak As Integer = args("/lineBreak") Or 120
-        Dim files$()
-
-        If [in].IndexOf("/"c) = -1 AndAlso [in].IndexOf("\"c) = -1 Then
-            files = [in].Split(","c).Select(Function(fileName) $"{App.CurrentDirectory}/{fileName}")
-        Else
-            files = {[in].GetFullPath}
-        End If
-
-        For Each path As String In files
-            Call path.__DEBUG_ECHO
-        Next
+        Dim files$() = [in].GetFileList
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
             For Each fa As FastaSeq In UniProtXML _
@@ -192,7 +207,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/protein.EXPORT")>
     <Usage("/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
-    <Description("Export the protein sequence and save as fasta format from the uniprot database dump XML.")>
+    <Description("Export the protein sequence And save as fasta format from the uniprot database dump XML.")>
     <Argument("/sp", True, CLITypes.String,
           AcceptTypes:={GetType(String)},
           Description:="The organism scientific name.")>
@@ -204,7 +219,7 @@ Partial Module CLI
           Description:="Exclude the specific organism by ``/sp`` scientific name instead of only include it?")>
     <Argument("/out", True, CLITypes.File,
           Extensions:="*.fa, *.fasta, *.txt",
-          Description:="The saved file path for output protein sequence fasta file. The title format of this command output is ``uniprot_id fullName``")>
+          Description:="The saved file path for output protein sequence fasta file. The title format of this command output Is ``uniprot_id fullName``")>
     <Group(CLIGrouping.UniProtTools)>
     Public Function proteinEXPORT(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
