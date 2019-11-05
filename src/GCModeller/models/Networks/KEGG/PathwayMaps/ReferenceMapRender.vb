@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
@@ -8,7 +9,9 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
@@ -41,10 +44,10 @@ Namespace PathwayMaps
                               Function(r)
                                   Dim reaction As EnzymaticReaction = r.First
 
-                                  If reaction.Entry.Value.StringEmpty Then
-                                      Return reaction.EC
+                                  If reaction.EC.StringEmpty Then
+                                      Return r.Key
                                   Else
-                                      Return reaction.Entry.Value
+                                      Return "EC " & reaction.EC
                                   End If
                               End Function)
         End Function
@@ -58,7 +61,8 @@ Namespace PathwayMaps
         Public Function Render(model As XGMMLgraph,
                                Optional canvasSize$ = "11480,9200",
                                Optional enzymeColorSchema$ = "Set1:c8",
-                               Optional compoundColorSchema$ = "Clusters") As GraphicsData
+                               Optional compoundColorSchema$ = "Clusters",
+                               Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
 
             Dim graph As NetworkGraph = model.ToNetworkGraph
             Dim nodes As New Dictionary(Of String, Node)
@@ -98,17 +102,22 @@ Namespace PathwayMaps
                 nodes.Add(node.label, node)
             Next
 
-            Dim rectShadow As New Shadow(30, 45, 1.25, 1.25)
+            Dim reactionShapeStroke As Pen = Stroke.TryParse(reactionShapeStrokeCSS)
+            Dim rectShadow As New Shadow(10, 30, 1.125, 1.25)
             Dim circleShadow As New Shadow(130, 45, 2, 2)
+            Dim offsetCircle As New PointF(20, 20)
+            Dim offsetRect As New PointF(30, 20)
+
             Dim drawNode As DrawNodeShape =
                 Sub(id$, g As IGraphics, br As Brush, radius!, center As PointF)
                     Dim node As Node = nodes(id)
                     Dim connectedNodes = graph.GetConnectedVertex(id)
 
-                    br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
-
                     If node.label.IsPattern("C\d+") Then
                         ' 圆形
+                        radius = radius * 0.4
+                        center = center.OffSet2D(offsetCircle)
+
                         Dim rect As New Rectangle With {
                             .X = center.X - radius,
                             .Y = center.Y + radius,
@@ -121,6 +130,9 @@ Namespace PathwayMaps
                         Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Darken, 10), rect)
                     Else
                         ' 方形
+                        center = center.OffSet2D(offsetRect)
+                        radius = radius * 0.8
+
                         Dim rect As New Rectangle With {
                             .X = center.X - radius * 3 / 4,
                             .Y = center.Y + radius / 2,
@@ -128,23 +140,49 @@ Namespace PathwayMaps
                             .Height = radius / 2
                         }
 
+                        br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
+
                         Call rectShadow.RoundRectangle(g, rect, 30)
                         Call g.FillPath(br, RoundRect.GetRoundedRectPath(rect, 30))
+                        Call g.DrawPath(reactionShapeStroke, RoundRect.GetRoundedRectPath(rect, 30))
                     End If
                 End Sub
+            Dim getLabelPositoon As GetLabelPosition =
+                Function(node As Node, label$, center As PointF, labelSize As SizeF)
+                    If node.label.IsPattern("C\d+") Then
+                        center = center.OffSet2D(offsetCircle)
+
+                        Return New PointF(
+                            x:=center.X - labelSize.Width * 6 / 8,
+                            y:=center.Y + labelSize.Height * 2
+                        )
+                    Else
+                        center = center.OffSet2D(offsetRect)
+
+                        Return New PointF(
+                            x:=center.X - labelSize.Width * 5 / 7,
+                            y:=center.Y + labelSize.Height * 2
+                        )
+                    End If
+                End Function
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                padding:="padding: 300px 300px 300px 300px;",
+                background:="#e4faff",
+                padding:="padding: 500px 500px 500px 500px;",
                 canvasSize:=canvasSize,
-                labelerIterations:=5,
+                labelerIterations:=0,
                 doEdgeBundling:=True,
                 drawNodeShape:=drawNode,
-                minLinkWidth:=8,
+                minLinkWidth:=10,
                 nodeRadius:=220,
-                edgeShadowDistance:=5,
-                defaultEdgeColor:=NameOf(Color.Gray),
-                getNodeLabel:=AddressOf getNodeLabel
+                edgeShadowDistance:=0,
+                edgeDashTypes:=DashStyle.Solid,
+                defaultEdgeColor:="white",
+                getNodeLabel:=AddressOf getNodeLabel,
+                getLabelPosition:=getLabelPositoon，
+                labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
+                fontSize:=27
             )
         End Function
 
