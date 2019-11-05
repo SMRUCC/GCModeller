@@ -173,7 +173,7 @@ Namespace PathwayMaps
                             .interaction = "substrate",
                             .Properties = New Dictionary(Of String, String) From {
                                 {"compound.name", aName},
-                                {"flux.name", flux.EC.First}
+                                {"flux.name", flux.EC.FirstOrDefault}
                             }
                         }
                         edge2 = New NetworkEdge With {
@@ -182,7 +182,7 @@ Namespace PathwayMaps
                             .interaction = "product",
                             .Properties = New Dictionary(Of String, String) From {
                                 {"compound.name", bName},
-                                {"flux.name", flux.EC.First}
+                                {"flux.name", flux.EC.FirstOrDefault}
                             }
                         }
 
