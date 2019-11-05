@@ -5,8 +5,10 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Data
 
 Namespace PathwayMaps
 
@@ -24,6 +26,20 @@ Namespace PathwayMaps
                                 .Name = c.Name,
                                 .Value = c.Value,
                                 .Description = map.id
+                            }
+                        End Function)
+        End Function
+
+        Private Function getCompoundsInMap(map As bGetObject.Pathway) As IEnumerable(Of NamedValue(Of String))
+            Return map.compound _
+                .Where(Function(term)
+                           Return term.name.IsPattern("C\d+")
+                       End Function) _
+                .Select(Function(a)
+                            Return New NamedValue(Of String) With {
+                                .Name = a.name,
+                                .Value = a.text,
+                                .Description = map.EntryId
                             }
                         End Function)
         End Function
@@ -79,62 +95,48 @@ Namespace PathwayMaps
             "C00080" ' H+
         }
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="maps">
-        ''' <see cref="MapRepository.ScanMaps(String)"/>
-        ''' </param>
-        ''' <param name="reactions">
-        ''' <see cref="ReactionTable.Load(String)"/>
-        ''' </param>
-        ''' <returns></returns>
-        Public Function BuildNetworkModel(maps As IEnumerable(Of Map), reactions As IEnumerable(Of ReactionTable), Optional classFilter As Boolean = True) As NetworkTables
-            Dim mapsVector = maps.ToArray
-            Dim reactionVector As ReactionTable() = reactions.ToArray
-            Dim compoundsWithBiologicalRoles = CompoundBrite _
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function getCompoundClassCategory() As Dictionary(Of String, String)
+            Return CompoundBrite _
                 .CompoundsWithBiologicalRoles _
                 .GroupBy(Function(c) c.entry.Key) _
                 .ToDictionary(Function(c) c.Key,
                               Function(c)
                                   Return c.First.class
                               End Function)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="maps">
+        ''' <see cref="OrganismModel.EnumerateModules(String)"/>
+        ''' </param>
+        ''' <param name="reactions"></param>
+        ''' <returns></returns>
+        Public Function BuildNetworkModel(maps As IEnumerable(Of bGetObject.Pathway), reactions As IEnumerable(Of ReactionTable)) As NetworkTables
+            Dim mapsVector = maps.ToArray
+            Dim reactionVector As ReactionTable() = reactions.ToArray
             Dim compounds = mapsVector _
                 .Select(AddressOf getCompoundsInMap) _
                 .IteratesALL _
                 .GroupBy(Function(c) c.Name) _
-                .Where(Function(c) Not c.Key Like ignores) _
                 .Where(Function(c)
-                           If classFilter Then
-                               Return compoundsWithBiologicalRoles.ContainsKey(c.Key)
-                           Else
-                               Return True
-                           End If
+                           ' 因为在这里是物种特定的代谢途径模型数据
+                           ' 所以在这里就不进行生物学功能分类了
+                           ' 直接全部使用该物种的pathway map里面的所有的代谢物来进行作图
+                           Return Not c.Key Like ignores
                        End Function) _
                 .ToArray
 
-            If classFilter Then
-                reactionVector = reactionVector _
-                    .Where(Function(r)
-                               ' reaction show have EC class value
-                               If r.EC.IsNullOrEmpty Then
-                                   Return False
-                               Else
-                                   Return r.EC _
-                                       .Any(Function([class])
-                                                Return [class] _
-                                                    .Split("."c) _
-                                                    .First _
-                                                    .ParseInteger > 0
-                                            End Function)
-                               End If
-                           End Function) _
-                    .ToArray
-            End If
+            Return compounds.buildNetworkModelInternal(reactionVector)
+        End Function
 
+        <Extension>
+        Private Function buildNetworkModelInternal(compounds As IGrouping(Of String, NamedValue(Of String))(), reactionVector As ReactionTable()) As NetworkTables
             Dim reactantIndex = reactionVector.getCompoundIndex(Function(r) r.substrates)
             Dim productIndex = reactionVector.getCompoundIndex(Function(r) r.products)
-
+            Dim compoundsWithBiologicalRoles = getCompoundClassCategory()
             Dim nodes As Dictionary(Of String, Node) = compounds.createNodeTable(compoundsWithBiologicalRoles)
             Dim edges As New List(Of NetworkEdge)
             Dim edge1 As NetworkEdge
@@ -195,6 +197,56 @@ Namespace PathwayMaps
             Call g.ComputeNodeDegrees
 
             Return g
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="maps">
+        ''' <see cref="MapRepository.ScanMaps(String)"/>
+        ''' </param>
+        ''' <param name="reactions">
+        ''' <see cref="ReactionTable.Load(String)"/>
+        ''' </param>
+        ''' <returns></returns>
+        Public Function BuildNetworkModel(maps As IEnumerable(Of Map), reactions As IEnumerable(Of ReactionTable), Optional classFilter As Boolean = True) As NetworkTables
+            Dim mapsVector = maps.ToArray
+            Dim reactionVector As ReactionTable() = reactions.ToArray
+            Dim compoundsWithBiologicalRoles = getCompoundClassCategory()
+            Dim compounds = mapsVector _
+                .Select(AddressOf getCompoundsInMap) _
+                .IteratesALL _
+                .GroupBy(Function(c) c.Name) _
+                .Where(Function(c) Not c.Key Like ignores) _
+                .Where(Function(c)
+                           If classFilter Then
+                               Return compoundsWithBiologicalRoles.ContainsKey(c.Key)
+                           Else
+                               Return True
+                           End If
+                       End Function) _
+                .ToArray
+
+            If classFilter Then
+                reactionVector = reactionVector _
+                    .Where(Function(r)
+                               ' reaction show have EC class value
+                               If r.EC.IsNullOrEmpty Then
+                                   Return False
+                               Else
+                                   Return r.EC _
+                                       .Any(Function([class])
+                                                Return [class] _
+                                                    .Split("."c) _
+                                                    .First _
+                                                    .ParseInteger > 0
+                                            End Function)
+                               End If
+                           End Function) _
+                    .ToArray
+            End If
+
+            Return compounds.buildNetworkModelInternal(reactionVector)
         End Function
     End Module
 End Namespace
