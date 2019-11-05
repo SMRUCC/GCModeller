@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::800992e7b3b7126fa1a3020a666ab707, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compound.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module CompoundBrite
-    ' 
-    '         Function: BioactivePeptides, Carcinogens, CompoundsWithBiologicalRoles, DownloadCompounds, EndocrineDisruptingCompounds
-    '                   GetAllPubchemMapCompound, Lipids, LoadFile, NaturalToxins, Pesticides
-    '                   PhytochemicalCompounds, TargetbasedClassificationOfCompounds
-    ' 
-    '         Sub: DownloadFromResource
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module CompoundBrite
+' 
+'         Function: BioactivePeptides, Carcinogens, CompoundsWithBiologicalRoles, DownloadCompounds, EndocrineDisruptingCompounds
+'                   GetAllPubchemMapCompound, Lipids, LoadFile, NaturalToxins, Pesticides
+'                   PhytochemicalCompounds, TargetbasedClassificationOfCompounds
+' 
+'         Sub: DownloadFromResource
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -186,6 +186,18 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return BriteTerm.GetInformation(cpd_br08010, CompoundIDPattern)
         End Function
 
+        Public Iterator Function GetAllCompoundResources() As IEnumerable(Of NamedValue(Of BriteTerm()))
+            Yield New NamedValue(Of BriteTerm())("Compounds with biological roles", CompoundsWithBiologicalRoles)
+            Yield New NamedValue(Of BriteTerm())("Lipids", Lipids)
+            Yield New NamedValue(Of BriteTerm())("Phytochemical compounds", PhytochemicalCompounds)
+            Yield New NamedValue(Of BriteTerm())("Bioactive peptides", BioactivePeptides)
+            Yield New NamedValue(Of BriteTerm())("Endocrine disrupting compounds", EndocrineDisruptingCompounds)
+            Yield New NamedValue(Of BriteTerm())("Pesticides", Pesticides)
+            Yield New NamedValue(Of BriteTerm())("Carcinogens", Carcinogens)
+            Yield New NamedValue(Of BriteTerm())("Natural toxins", NaturalToxins)
+            Yield New NamedValue(Of BriteTerm())("Target-based classification of compounds", TargetbasedClassificationOfCompounds)
+        End Function
+
         ''' <summary>
         ''' 请注意，这个函数只能够下载包含有分类信息的化合物，假若代谢物还没有分类信息的话，则无法利用这个函数进行下载
         ''' (gif图片是以base64编码放在XML文件里面的)
@@ -206,17 +218,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <remarks></remarks>
         Public Sub DownloadFromResource(EXPORT$, Optional directoryOrganized As Boolean = True, Optional structInfo As Boolean = False)
             Dim satellite As New ResourcesSatellite(GetType(LICENSE))
-            Dim resource = {
-                New NamedValue(Of BriteTerm())("Compounds with biological roles", CompoundsWithBiologicalRoles),
-                New NamedValue(Of BriteTerm())("Lipids", Lipids),
-                New NamedValue(Of BriteTerm())("Phytochemical compounds", PhytochemicalCompounds),
-                New NamedValue(Of BriteTerm())("Bioactive peptides", BioactivePeptides),
-                New NamedValue(Of BriteTerm())("Endocrine disrupting compounds", EndocrineDisruptingCompounds),
-                New NamedValue(Of BriteTerm())("Pesticides", Pesticides),
-                New NamedValue(Of BriteTerm())("Carcinogens", Carcinogens),
-                New NamedValue(Of BriteTerm())("Natural toxins", NaturalToxins),
-                New NamedValue(Of BriteTerm())("Target-based classification of compounds", TargetbasedClassificationOfCompounds)
-            }
+            Dim resource = GetAllCompoundResources.ToArray
 
             For Each entry As NamedValue(Of BriteTerm()) In resource
                 With entry

@@ -1,11 +1,17 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
@@ -13,6 +19,38 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 Namespace PathwayMaps
 
     Public Module ReferenceMapRender
+
+        ReadOnly compoundNames As Dictionary(Of String, String) = getCompoundNames()
+        ReadOnly reactionNames As Dictionary(Of String, String) = getReactionNames()
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function getCompoundNames() As Dictionary(Of String, String)
+            Return CompoundBrite.GetAllCompoundResources _
+                .Values _
+                .IteratesALL _
+                .GroupBy(Function(name) name.entry.Key) _
+                .Where(Function(g) Not g.Key.StringEmpty) _
+                .ToDictionary(Function(name) name.Key,
+                              Function(terms)
+                                  Return terms.First.entry.Value
+                              End Function)
+        End Function
+
+        Private Function getReactionNames() As Dictionary(Of String, String)
+            Return EnzymaticReaction.LoadFromResource _
+                .GroupBy(Function(r) r.Entry.Key) _
+                .Where(Function(g) Not g.Key.StringEmpty) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(r)
+                                  Dim reaction As EnzymaticReaction = r.First
+
+                                  If reaction.EC.StringEmpty Then
+                                      Return r.Key
+                                  Else
+                                      Return "EC " & reaction.EC
+                                  End If
+                              End Function)
+        End Function
 
         ''' <summary>
         ''' 将完成node和edge布局操作的网络模型进行渲染
@@ -23,12 +61,23 @@ Namespace PathwayMaps
         Public Function Render(model As XGMMLgraph,
                                Optional canvasSize$ = "11480,9200",
                                Optional enzymeColorSchema$ = "Set1:c8",
-                               Optional compoundColorSchema$ = "Clusters") As GraphicsData
+                               Optional compoundColorSchema$ = "Clusters",
+                               Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
 
-            Dim graph As NetworkGraph = model.ToNetworkGraph
+            Dim graph As NetworkGraph = model.ToNetworkGraph("label", "class")
             Dim nodes As New Dictionary(Of String, Node)
-            Dim fluxCategory = EnzymaticReaction.LoadFromResource.GroupBy(Function(r) r.Entry.Key).ToDictionary(Function(r) r.Key, Function(r) r.First)
-            Dim compoundCategory = CompoundBrite.CompoundsWithBiologicalRoles.GroupBy(Function(c) c.entry.Key).ToDictionary(Function(c) c.Key, Function(c) c.First.class)
+            Dim fluxCategory = EnzymaticReaction.LoadFromResource _
+                .GroupBy(Function(r) r.Entry.Key) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(r)
+                                  Return r.First
+                              End Function)
+            Dim compoundCategory = CompoundBrite.CompoundsWithBiologicalRoles _
+                .GroupBy(Function(c) c.entry.Key) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(c)
+                                  Return c.First.class
+                              End Function)
             Dim enzymeColors As Color() = Designer.GetColors(enzymeColorSchema)
             Dim compoundColors As New CategoryColorProfile(compoundCategory, compoundColorSchema)
 
@@ -53,14 +102,22 @@ Namespace PathwayMaps
                 nodes.Add(node.label, node)
             Next
 
+            Dim reactionShapeStroke As Pen = Stroke.TryParse(reactionShapeStrokeCSS)
+            Dim rectShadow As New Shadow(10, 30, 1.125, 1.25)
+            Dim circleShadow As New Shadow(130, 45, 2, 2)
+            Dim offsetCircle As New PointF(20, 20)
+            Dim offsetRect As New PointF(30, 20)
+
             Dim drawNode As DrawNodeShape =
                 Sub(id$, g As IGraphics, br As Brush, radius!, center As PointF)
                     Dim node As Node = nodes(id)
-
-                    br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
+                    Dim connectedNodes = graph.GetConnectedVertex(id)
 
                     If node.label.IsPattern("C\d+") Then
                         ' 圆形
+                        radius = radius * 0.4
+                        center = center.OffSet2D(offsetCircle)
+
                         Dim rect As New Rectangle With {
                             .X = center.X - radius,
                             .Y = center.Y + radius,
@@ -68,9 +125,14 @@ Namespace PathwayMaps
                             .Height = radius
                         }
 
+                        Call circleShadow.Circle(g, center, radius)
                         Call g.FillEllipse(br, rect)
+                        Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Darken, 10), rect)
                     Else
                         ' 方形
+                        center = center.OffSet2D(offsetRect)
+                        radius = radius * 0.8
+
                         Dim rect As New Rectangle With {
                             .X = center.X - radius * 3 / 4,
                             .Y = center.Y + radius / 2,
@@ -78,22 +140,60 @@ Namespace PathwayMaps
                             .Height = radius / 2
                         }
 
-                        Call g.FillRectangle(br, rect)
+                        br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
+
+                        Call rectShadow.RoundRectangle(g, rect, 30)
+                        Call g.FillPath(br, RoundRect.GetRoundedRectPath(rect, 30))
+                        Call g.DrawPath(reactionShapeStroke, RoundRect.GetRoundedRectPath(rect, 30))
                     End If
                 End Sub
+            Dim getLabelPositoon As GetLabelPosition =
+                Function(node As Node, label$, center As PointF, labelSize As SizeF)
+                    If node.label.IsPattern("C\d+") Then
+                        center = center.OffSet2D(offsetCircle)
+
+                        Return New PointF(
+                            x:=center.X - labelSize.Width * 6 / 8,
+                            y:=center.Y + labelSize.Height * 2
+                        )
+                    Else
+                        center = center.OffSet2D(offsetRect)
+
+                        Return New PointF(
+                            x:=center.X - labelSize.Width * 5 / 7,
+                            y:=center.Y + labelSize.Height * 2
+                        )
+                    End If
+                End Function
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                padding:="padding: 300px 300px 300px 300px;",
+                background:="#e4faff",
+                padding:="padding: 500px 500px 500px 500px;",
                 canvasSize:=canvasSize,
-                labelerIterations:=50,
+                labelerIterations:=0,
                 doEdgeBundling:=True,
                 drawNodeShape:=drawNode,
-                minLinkWidth:=8,
+                minLinkWidth:=10,
                 nodeRadius:=220,
-                edgeShadowDistance:=5,
-                defaultEdgeColor:=NameOf(Color.Gray)
+                edgeShadowDistance:=0,
+                edgeDashTypes:=DashStyle.Solid,
+                defaultEdgeColor:="white",
+                getNodeLabel:=AddressOf getNodeLabel,
+                getLabelPosition:=getLabelPositoon，
+                labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
+                fontSize:=27
             )
+        End Function
+
+        Private Function getNodeLabel(node As Node) As String
+            If node.label.IsPattern("C\d+") Then
+                Return compoundNames.TryGetValue(node.label, [default]:=node.label)
+            ElseIf node.label.IsPattern("R\d+") Then
+                Return reactionNames.TryGetValue(node.label, [default]:=node.label)
+            Else
+                Return node.label
+            End If
         End Function
     End Module
 End Namespace
