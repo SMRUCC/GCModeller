@@ -222,7 +222,8 @@ Public Module NetworkVisualizer
                               Optional labelerIterations% = 1500,
                               Optional showLabelerProgress As Boolean = True,
                               Optional defaultEdgeColor$ = NameOf(Color.LightGray),
-                              Optional defaultLabelColor$ = "black") As GraphicsData
+                              Optional defaultLabelColor$ = "black",
+                              Optional labelTextStroke$ = "stroke: black; stroke-width: 1px; stroke-dash: solid;") As GraphicsData
 
         ' 所绘制的图像输出的尺寸大小
         Dim frameSize As Size = canvasSize.SizeParser
@@ -422,7 +423,8 @@ Public Module NetworkVisualizer
                         labelColorAsNodeColor:=labelColorAsNodeColor,
                         iteration:=labelerIterations,
                         showLabelerProgress:=showLabelerProgress,
-                        defaultLabelColorValue:=defaultLabelColor
+                        defaultLabelColorValue:=defaultLabelColor,
+                        labelTextStrokeCSS:=labelTextStroke
                     )
                 End If
             End Sub
@@ -674,11 +676,13 @@ Public Module NetworkVisualizer
                            labelColorAsNodeColor As Boolean,
                            iteration%,
                            showLabelerProgress As Boolean,
-                           defaultLabelColorValue$)
+                           defaultLabelColorValue$,
+                           labelTextStrokeCSS$)
         Dim br As Brush
         Dim rect As Rectangle
         Dim lx, ly As Single
         Dim defaultLabelColor As New SolidBrush(defaultLabelColorValue.TranslateColor)
+        Dim labelTextStroke As Pen = Stroke.TryParse(labelTextStrokeCSS)
 
         ' 小于等于零的时候表示不进行布局计算
         If iteration > 0 Then
@@ -729,9 +733,11 @@ Public Module NetworkVisualizer
 
                 Call g.DrawString(.label.text, .style, br, lx, ly)
 
-                ' 绘制轮廓（描边）
-                ' Call g.FillPath(br, path)
-                ' Call g.DrawPath(New Pen(DirectCast(br, SolidBrush).Color.Dark(0.005), 4), path)
+                If Not labelTextStroke Is Nothing Then
+                    ' 绘制轮廓（描边）
+                    ' Call g.FillPath(br, path)
+                    Call g.DrawPath(labelTextStroke, path)
+                End If
             End With
         Next
     End Sub
