@@ -223,7 +223,7 @@ Public Module NetworkVisualizer
                               Optional showLabelerProgress As Boolean = True,
                               Optional defaultEdgeColor$ = NameOf(Color.LightGray),
                               Optional defaultLabelColor$ = "black",
-                              Optional labelTextStroke$ = "stroke: black; stroke-width: 1px; stroke-dash: solid;") As GraphicsData
+                              Optional labelTextStroke$ = "stroke: lightgray; stroke-width: 1px; stroke-dash: solid;") As GraphicsData
 
         ' 所绘制的图像输出的尺寸大小
         Dim frameSize As Size = canvasSize.SizeParser
@@ -726,7 +726,7 @@ Public Module NetworkVisualizer
                 Dim path As GraphicsPath = Imaging.GetStringPath(
                     .label.text,
                     g.DpiX,
-                    rect.ToFloat,
+                    rect.OffSet2D(.style.Size / 5, 0).ToFloat,
                     .style,
                     StringFormat.GenericTypographic
                 )
