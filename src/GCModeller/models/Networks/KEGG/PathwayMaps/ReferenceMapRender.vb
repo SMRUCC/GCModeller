@@ -64,7 +64,7 @@ Namespace PathwayMaps
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
 
-            Dim graph As NetworkGraph = model.ToNetworkGraph
+            Dim graph As NetworkGraph = model.ToNetworkGraph("label", "class")
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
                 .GroupBy(Function(r) r.Entry.Key) _
