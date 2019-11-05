@@ -41,11 +41,10 @@
 
 Imports System.ComponentModel
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -85,10 +84,11 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GO.faa"
         Dim lineBreak As Integer = args("/lineBreak") Or 120
+        Dim files$() = [in].GetFileList
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
             For Each fa As FastaSeq In UniProtXML _
-                .EnumerateEntries(path:=[in]) _
+                .EnumerateEntries(files) _
                 .UniProtProteinExports(Function(prot)
                                            Dim GOterms = prot.dbReferences _
                                               .Where(Function(xref) xref.type = "GO") _
@@ -113,6 +113,29 @@ Partial Module CLI
         Return 0
     End Function
 
+    <Extension>
+    Public Function GetFileList(input As String) As String()
+        Dim files$()
+
+        If Not input.FileExists AndAlso [input].IndexOf("/"c) = -1 AndAlso [input].IndexOf("\"c) = -1 Then
+            files = [input].Split(","c) _
+                .Select(Function(fileName)
+                            Return $"{App.CurrentDirectory}/{fileName}"
+                        End Function) _
+                .ToArray
+        ElseIf Not input.FileExists Then
+            Throw New FileNotFoundException(input)
+        Else
+            files = {[input].GetFullPath}
+        End If
+
+        For Each path As String In files
+            Call path.__DEBUG_ECHO
+        Next
+
+        Return files
+    End Function
+
     ''' <summary>
     ''' 从uniprot数据库之中导出具有KO编号的所有蛋白序列
     ''' </summary>
@@ -123,7 +146,11 @@ Partial Module CLI
     <Description("Export all of the protein sequence from the Uniprot database which have KO number been assigned.")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.Xml",
-              Description:="The Uniprot database which is downloaded from the Uniprot website or ftp site.")>
+              Description:="The Uniprot database which is downloaded from the Uniprot website or ftp site. 
+              NOTE: this argument could be a file name list for export multiple database file, 
+              each file should located in current directory and all of the sequence in given 
+              file names will export into one fasta sequence file. 
+              File names should be seperated by comma symbol as delimiter.")>
     <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
               AcceptTypes:={GetType(FastaFile)},
               Extensions:="*.faa, *.fasta, *.fa",
@@ -133,10 +160,11 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.KO.faa"
         Dim lineBreak As Integer = args("/lineBreak") Or 120
+        Dim files$() = [in].GetFileList
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
             For Each fa As FastaSeq In UniProtXML _
-                .EnumerateEntries(path:=[in]) _
+                .EnumerateEntries(files) _
                 .UniProtProteinExports(Function(prot)
                                            Dim KO = prot.KO
 
@@ -179,7 +207,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/protein.EXPORT")>
     <Usage("/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
-    <Description("Export the protein sequence and save as fasta format from the uniprot database dump XML.")>
+    <Description("Export the protein sequence And save as fasta format from the uniprot database dump XML.")>
     <Argument("/sp", True, CLITypes.String,
           AcceptTypes:={GetType(String)},
           Description:="The organism scientific name.")>
@@ -191,7 +219,7 @@ Partial Module CLI
           Description:="Exclude the specific organism by ``/sp`` scientific name instead of only include it?")>
     <Argument("/out", True, CLITypes.File,
           Extensions:="*.fa, *.fasta, *.txt",
-          Description:="The saved file path for output protein sequence fasta file. The title format of this command output is ``uniprot_id fullName``")>
+          Description:="The saved file path for output protein sequence fasta file. The title format of this command output Is ``uniprot_id fullName``")>
     <Group(CLIGrouping.UniProtTools)>
     Public Function proteinEXPORT(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
