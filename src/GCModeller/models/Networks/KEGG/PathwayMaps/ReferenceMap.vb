@@ -225,6 +225,28 @@ Namespace PathwayMaps
             Return g
         End Function
 
+        <Extension>
+        Private Iterator Function reactionKOFilter(reactions As IEnumerable(Of ReactionTable), KO As Index(Of String)) As IEnumerable(Of ReactionTable)
+            For Each reaction As ReactionTable In reactions
+                If reaction.KO.IsNullOrEmpty Then
+                    Continue For
+                End If
+                If reaction.KO.Any(Function(enzyme) enzyme Like KO) Then
+                    Yield reaction
+                End If
+            Next
+        End Function
+
+        <Extension>
+        Private Function getKOlist(maps As IEnumerable(Of Map)) As Index(Of String)
+            Return maps.Select(Function(map) map.shapes.Select(Function(a) a.IDVector)) _
+                .IteratesALL _
+                .IteratesALL _
+                .Where(Function(id) id.IsPattern("K\d+")) _
+                .Distinct _
+                .Indexing
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -237,7 +259,7 @@ Namespace PathwayMaps
         ''' <returns></returns>
         Public Function BuildNetworkModel(maps As IEnumerable(Of Map), reactions As IEnumerable(Of ReactionTable), Optional classFilter As Boolean = True) As NetworkTables
             Dim mapsVector = maps.ToArray
-            Dim reactionVector As ReactionTable() = reactions.ToArray
+            Dim reactionVector As ReactionTable() = reactions.reactionKOFilter(mapsVector.getKOlist).ToArray
             Dim compoundsWithBiologicalRoles = getCompoundClassCategory()
             Dim compounds = mapsVector _
                 .Select(AddressOf getCompoundsInMap) _
