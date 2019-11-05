@@ -182,15 +182,16 @@ Namespace PathwayMaps
                 getNodeLabel:=AddressOf getNodeLabel,
                 getLabelPosition:=getLabelPositoon，
                 labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
-                fontSize:=27
+                fontSize:=27,
+                defaultLabelColor:="white"
             )
         End Function
 
         Private Function getNodeLabel(node As Node) As String
             If node.label.IsPattern("C\d+") Then
-                Return compoundNames.TryGetValue(node.label, [default]:=node.label)
+                Return compoundNames.TryGetValue(node.label, [default]:=node.data!label)
             ElseIf node.label.IsPattern("R\d+") Then
-                Return reactionNames.TryGetValue(node.label, [default]:=node.label)
+                Return reactionNames.TryGetValue(node.label, [default]:=node.data!label)
             Else
                 Return node.label
             End If
