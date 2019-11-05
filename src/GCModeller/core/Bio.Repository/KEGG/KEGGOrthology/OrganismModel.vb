@@ -139,6 +139,13 @@ Public Class OrganismModel : Inherits XmlDataModel
         End If
     End Function
 
+    ''' <summary>
+    ''' 这个函数会自动判断数据的来源进行加载
+    ''' </summary>
+    ''' <param name="handle">
+    ''' 可以同时兼容<see cref="OrganismModel"/>或者<see cref="Pathway"/>文件集合这两种类型的数据源
+    ''' </param>
+    ''' <returns></returns>
     Public Shared Function EnumerateModules(handle As String) As IEnumerable(Of Pathway)
         If handle.FileExists AndAlso handle.ExtensionSuffix.TextEquals("Xml") Then
             Return handle.LoadXml(Of OrganismModel).genome

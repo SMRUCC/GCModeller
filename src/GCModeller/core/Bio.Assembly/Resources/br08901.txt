@@ -345,6 +345,7 @@ C    04922  Glucagon signaling pathway
 C    04923  Regulation of lipolysis in adipocytes
 C    04920  Adipocytokine signaling pathway
 C    03320  PPAR signaling pathway
+C    04929  GnRH secretion
 C    04912  GnRH signaling pathway
 C    04913  Ovarian steroidogenesis
 C    04915  Estrogen signaling pathway
@@ -352,6 +353,7 @@ C    04914  Progesterone-mediated oocyte maturation
 C    04917  Prolactin signaling pathway
 C    04921  Oxytocin signaling pathway
 C    04926  Relaxin signaling pathway
+C    04935  Growth hormone synthesis, secretion and action
 C    04918  Thyroid hormone synthesis
 C    04919  Thyroid hormone signaling pathway
 C    04928  Parathyroid hormone synthesis, secretion and action
@@ -398,9 +400,10 @@ C    04745  Phototransduction - fly
 C    04740  Olfactory transduction
 C    04742  Taste transduction
 C    04750  Inflammatory mediator regulation of TRP channels
-B  Development
+B  Development and regeneration
 C    04320  Dorso-ventral axis formation
 C    04360  Axon guidance
+C    04361  Axon regeneration
 C    04380  Osteoclast differentiation
 B  Aging
 C    04211  Longevity regulating pathway
@@ -609,5 +612,5 @@ C    07117  Benzodiazepine family
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: June 13, 2019
+#Last updated: October 2, 2019
 #<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>

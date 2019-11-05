@@ -54,13 +54,22 @@ Namespace CytoscapeGraphView
     ''' </summary>
     Public Module VizModel
 
+        <Extension>
+        Private Function createProperties(element As AttributeDictionary, propertyNames$()) As Dictionary(Of String, String)
+            Return propertyNames _
+                .ToDictionary(Function(key) key,
+                              Function(key)
+                                  Return element(key)?.Value
+                              End Function)
+        End Function
+
         ''' <summary>
         ''' 请注意，这个函数只会产生最基本的网络模型数据，以及布局信息，个性化的样式调整需要在外部函数调用之中自行添加完成
         ''' </summary>
         ''' <param name="graph"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ToNetworkGraph(graph As XGMMLgraph) As NetworkGraph
+        Public Function ToNetworkGraph(graph As XGMMLgraph, ParamArray propertyNames As String()) As NetworkGraph
             Dim g As New NetworkGraph
             Dim node As Node
             Dim edge As Edge
@@ -73,7 +82,8 @@ Namespace CytoscapeGraphView
                     .data = New NodeData With {
                         .label = xgmmlNode.label,
                         .origID = xgmmlNode.label,
-                        .initialPostion = New FDGVector2 With {.x = xgmmlNode.graphics.x, .y = xgmmlNode.graphics.y}
+                        .initialPostion = New FDGVector2 With {.x = xgmmlNode.graphics.x, .y = xgmmlNode.graphics.y},
+                        .Properties = xgmmlNode.createProperties(propertyNames)
                     }
                 }
 
@@ -113,7 +123,8 @@ Namespace CytoscapeGraphView
                     .ID = xgmmlEdge.id,
                     .data = New EdgeData With {
                         .label = xgmmlEdge.label,
-                        .controlsPoint = bendPoints
+                        .controlsPoint = bendPoints,
+                        .Properties = xgmmlEdge.createProperties(propertyNames)
                     }
                 }
 
