@@ -40,6 +40,8 @@
 
 #End Region
 
+Imports System.ComponentModel
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -129,7 +131,7 @@ Partial Module CLI
 
             Call kMod.Value.nodes.Add(regulators)
             Call kMod.Value.edges.Add(edges)
-            Call kMod.Value.Save(Path, Encodings.UTF8)
+            Call kMod.Value.Save(Path, Encoding.UTF8)
         Next
 
         Return 0
@@ -316,9 +318,9 @@ Partial Module CLI
         End If
 
         If Not nulls Is Nothing Then
-            Call nulls.Save(out & "/no-regs/", Encodings.ASCII)
+            Call nulls.Save(out & "/no-regs/", Encoding.ASCII)
         End If
-        Return net.Save(out, Encodings.ASCII).CLICode
+        Return net.Save(out, Encoding.ASCII).CLICode
     End Function
 
     <ExportAPI("/KEGG.pathwayMap.Network")>
@@ -345,16 +347,40 @@ Partial Module CLI
             Next
         End If
 
-        Return graph.Save(out, Encodings.ASCII).CLICode
+        Return graph.Save(out, Encodings.ASCII.CodePage).CLICode
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <kegg_maps.directory> /reactions <kegg_reactions.directory> [/out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/organism <name> /out <result_network.directory>]")>
+    <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
+    <Argument("/repository", False, CLITypes.File,
+              AcceptTypes:={GetType(Map), GetType(Pathway)},
+              Extensions:="*.Xml",
+              Description:="This parameter accept two kind of parameters: The kegg reference map data or organism specific pathway map model data.")>
+    <Argument("/reactions", False, CLITypes.File,
+              AcceptTypes:={GetType(Reaction)},
+              Extensions:="*.Xml",
+              Description:="The KEGG reference reaction data models.")>
+    <Argument("/organism", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The organism name or code, if this argument presents in the cli command input, then it means 
+              the ``/repository`` parameter data model is the organism specific pathway map data.")>
+    <Argument("/out", True, CLITypes.File,
+              AcceptTypes:={GetType(NetworkTables)},
+              Extensions:="*.csv",
+              Description:="The network file data output directory that used for cytoscape network visualization.")>
     Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
         Dim in$ = args <= "/repository"
-        Dim out$ = args("/out") Or $"{[in].TrimDIR}.referenceMap/"
+        Dim organismName$ = args("/organism")
+        Dim out$ = args("/out") Or $"{[in].TrimDIR}.{organismName.NormalizePathString}.referenceMap/"
         Dim reactions = ReactionTable.Load(args <= "/reactions")
-        Dim model As NetworkTables = PathwayMaps.BuildNetworkModel(MapRepository.ScanMaps(directory:=[in]), reactions, classFilter:=False)
+        Dim model As NetworkTables
+
+        If organismName.StringEmpty Then
+            model = PathwayMaps.BuildNetworkModel(MapRepository.ScanMaps(directory:=[in]), reactions, classFilter:=False)
+        Else
+            model = PathwayMaps.BuildNetworkModel(OrganismModel.EnumerateModules(handle:=[in]), reactions)
+        End If
 
         Return model.Save(out).CLICode
     End Function

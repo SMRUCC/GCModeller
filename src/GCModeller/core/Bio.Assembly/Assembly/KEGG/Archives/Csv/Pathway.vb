@@ -120,15 +120,15 @@ Namespace Assembly.KEGG.Archives.Csv
         ''' <summary>
         ''' 将所下载的代谢途径数据转换为CSV文档保存
         ''' </summary>
-        ''' <param name="DIR"></param>
-        ''' <param name="spCode">物种名称的三字母简写，例如xcb</param>
+        ''' <param name="directory"></param>
+        ''' <param name="sp_code">物种名称的三字母简写，例如xcb</param>
         ''' <returns></returns>
-        Public Shared Function LoadData(DIR As String, spCode As String) As Pathway()
+        Public Shared Function LoadData(directory$, sp_code$) As Pathway()
             Dim XMLFiles As KEGG.DBGET.bGetObject.Pathway() =
-                (ls - l - r - wildcards("*.xml") <= DIR) _
+                (ls - l - r - "*.xml" <= directory) _
                 .Select(AddressOf SafeLoadXml(Of bGetObject.Pathway)) _
                 .ToArray
-            Return CreateObjects(XMLFiles, spCode)
+            Return CreateObjects(XMLFiles, sp_code)
         End Function
 
         Public Shared Function CreateObjects(source As KEGG.DBGET.bGetObject.Pathway(), spCode As String) As Pathway()

@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::28ad7ea31c296ac1289a60934588a65b, visualize\Cytoscape\CLI_tool\CLI\Module1.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: Assciates, LinkageKnowledgeNetwork, PlotCytoscapeTable, replaceName
-    '     Class __net
-    ' 
-    '         Properties: EntryName1, meta, SNP, source, target
-    ' 
-    '         Function: Copy
-    ' 
-    '     Class nodeName
-    ' 
-    '         Properties: Entered, GeneID, HumanSymbol, ID2, Name
-    ' 
-    '     Class __node
-    ' 
-    '         Properties: Entry, EntryName, GeneNames, Length, Organism
-    '                     ProteinNames
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: Assciates, LinkageKnowledgeNetwork, PlotCytoscapeTable, replaceName
+'     Class __net
+' 
+'         Properties: EntryName1, meta, SNP, source, target
+' 
+'         Function: Copy
+' 
+'     Class nodeName
+' 
+'         Properties: Entered, GeneID, HumanSymbol, ID2, Name
+' 
+'     Class __node
+' 
+'         Properties: Entry, EntryName, GeneNames, Length, Organism
+'                     ProteinNames
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -67,8 +68,6 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Cytoscape
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
 Partial Module CLI
@@ -189,7 +188,7 @@ Partial Module CLI
             network = LinkageNetwork.BuildNetwork(data, typePrefix, schema)
         End If
 
-        Return network.Save(out, Encodings.ASCII)
+        Return network.Save(out, Encoding.ASCII)
     End Function
 
     <ExportAPI("/Plot.Cytoscape.Table",

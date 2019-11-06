@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::bbffae04ffc8b3d3c90c3fef58a26800, CLI_tools\PhenoTree\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: ClusterEnrichment, GenePhenoClusters, PartitioningCOGs, TreePartitions
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: ClusterEnrichment, GenePhenoClusters, PartitioningCOGs, TreePartitions
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
@@ -56,7 +57,7 @@ Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports RDotNET.Extensions.VisualBasic.API
+Imports RDotNet.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
@@ -131,7 +132,7 @@ Public Module CLI
         Dim in$ = args("/in")
         Dim quantile = args.GetValue("/quantile", 0.99)
         Dim out = args.GetValue("/out", [in].TrimDIR & $".cuts,quantile={quantile}/")
-        Dim net As NetworkTables = NetworkTables.Load([in])
+        Dim net As NetworkTables = NetworkFileIO.Load([in])
         Dim parts As Partition() = net.BuildTree.CutTrees(quantile).ToArray
         Dim json = parts.PartionTable
         Dim colors As Color() = Designer.GetColors("vb.chart", json.Count + 1)
@@ -157,7 +158,7 @@ Public Module CLI
             Next
         Next
 
-        Call net.Save(out, Encodings.ASCII)
+        Call net.Save(out, Encodings.ASCII.CodePage)
 
         Return json.GetJson(True).SaveTo(out & "/clusters.json").CLICode
     End Function
