@@ -1,45 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::359ab22acc9e2da86574d33287a13c66, CLI_tools\MLkit\render\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: VisualizeNetwork
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: VisualizeNetwork
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
+Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
@@ -54,9 +55,35 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
 Imports Microsoft.VisualBasic.Data.visualize.Network.Styling
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 <CLI> Module CLI
+
+    <ExportAPI("/layout.orthogonal")>
+    <Usage("/layout.orthogonal /in <network.model.directory> [/node.size <width,height, default=13,8> /grid <size, default=700,500> /min.dist <default=20> /out <result.model.directory>]")>
+    <Description("Do orthogonal network layout for the input given network data model.")>
+    <Argument("/node.size", True, CLITypes.String,
+              AcceptTypes:={GetType(Size)},
+              Description:="The unify node size value in [width,height].")>
+    <Argument("/grid", True, CLITypes.String,
+              AcceptTypes:={GetType(Size)},
+              Description:="")>
+    Public Function OrthogonalLayout(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim nodeSize$ = args("/node.size") Or "13,8"
+        Dim grid$ = args("/grid") Or "700,500"
+        Dim minDist# = args("/min.dist") Or 20.0
+        Dim out$ = args("/out") Or ([in].TrimDIR & $".layout.orthogonal/")
+        Dim network As NetworkTables = NetworkFileIO.Load([in])
+        Dim graph As NetworkGraph = network.CreateGraph
+
+        Call Orthogonal.DoLayout(graph, grid.SizeParser, delta:=minDist)
+
+        Return graph.Tabular _
+            .Save(out) _
+            .CLICode
+    End Function
 
     <ExportAPI("/network")>
     <Description("Rendering network data model as png/svg image.")>
