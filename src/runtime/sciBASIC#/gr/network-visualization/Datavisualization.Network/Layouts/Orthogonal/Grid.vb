@@ -31,7 +31,15 @@ Namespace Layouts.Orthogonal
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return $"[{index.X},{index.Y}] x:={location.X}, y:={location.Y}; {node.label}"
+            Dim nodeLabel$
+
+            If node Is Nothing Then
+                nodeLabel = "<none>"
+            Else
+                nodeLabel = node.label
+            End If
+
+            Return $"[{index.X},{index.Y}] x:={location.X}, y:={location.Y}; {nodeLabel}"
         End Function
 
     End Class
@@ -43,17 +51,32 @@ Namespace Layouts.Orthogonal
         Dim nodes As New Dictionary(Of String, GridCell)
         Dim g As NetworkGraph
 
+        ''' <summary>
+        ''' 单元格的数量，单位为个
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property size As Size
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return New Size(gridCells.Length, gridCells(0).Length)
-            End Get
-        End Property
+        ''' <summary>
+        ''' 网格的实际物理大小，单位为像素
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property actualSize As Size
 
         Default Public ReadOnly Property GetCell(index As Point) As GridCell
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return gridCells(index.X)(index.Y)
+                Return gridCells(index.Y)(index.X)
+            End Get
+        End Property
+
+        Public ReadOnly Property GetAllNodeFilledCells As GridCell()
+            Get
+                Return gridCells _
+                    .IteratesALL _
+                    .Where(Function(cell)
+                               Return Not cell.node Is Nothing
+                           End Function) _
+                    .ToArray
             End Get
         End Property
 
@@ -64,22 +87,29 @@ Namespace Layouts.Orthogonal
         ''' <param name="cellSize"><see cref="GridCellSize"/></param>
         Sub New(size As Size, cellSize#)
             Dim y As Double = 0
+            Dim index As Integer
+
+            Me.size = size
+            Me.actualSize = New Size With {
+                .Width = size.Width * cellSize,
+                .Height = size.Height * cellSize
+            }
 
             gridCells = New GridCell(size.Width - 1)() {}
-            gridIndex = New GridIndex(size, New SizeF(cellSize, cellSize))
+            gridIndex = New GridIndex(actualSize, New SizeF(cellSize, cellSize))
 
             For i As Integer = 0 To gridCells.Length - 1
+                index = i
                 gridCells(i) = size.Width _
                     .Sequence() _
                     .Select(Function(ix)
-#Disable Warning
                                 Return New GridCell With {
-                                    .index = New Point With {.X = ix, .Y = i},
+                                    .index = New Point With {.X = ix, .Y = index},
                                     .location = New PointF With {.X = ix * cellSize, .Y = y}
                                 }
-#Enable Warning
                             End Function) _
                     .ToArray
+                y += cellSize
             Next
         End Sub
 
@@ -98,14 +128,37 @@ Namespace Layouts.Orthogonal
         ''' <param name="index"></param>
         ''' <returns></returns>
         Public Iterator Function GetAdjacentCells(index As Point) As IEnumerable(Of GridCell)
-            Yield gridCells(index.X - 1)(index.Y - 1)  ' 左上
-            Yield gridCells(index.X)(index.Y - 1)      ' 上
-            Yield gridCells(index.X + 1)(index.Y - 1)  ' 右上
-            Yield gridCells(index.X + 1)(index.Y)      ' 右
-            Yield gridCells(index.X + 1)(index.Y + 1)  ' 右下
-            Yield gridCells(index.X)(index.Y + 1)      ' 下
-            Yield gridCells(index.X - 1)(index.Y + 1)  ' 左下
-            Yield gridCells(index.X - 1)(index.Y)      ' 左
+            If index.Y > 0 Then
+                If index.X > 0 Then
+                    Yield gridCells(index.Y - 1)(index.X - 1) ' 左上
+                End If
+
+                Yield gridCells(index.Y - 1)(index.X)     ' 上
+
+                If index.X < size.Width Then
+                    Yield gridCells(index.Y - 1)(index.X + 1) ' 右上
+                End If
+            End If
+
+            If index.X < size.Width Then
+                Yield gridCells(index.Y)(index.X + 1)     ' 右
+            End If
+
+            If index.Y < size.Height Then
+                If index.X < size.Width Then
+                    Yield gridCells(index.Y + 1)(index.X + 1) ' 右下
+                End If
+
+                Yield gridCells(index.Y + 1)(index.X)     ' 下
+
+                If index.X > 0 Then
+                    Yield gridCells(index.Y + 1)(index.X - 1) ' 左下
+                End If
+            End If
+
+            If index.X > 0 Then
+                Yield gridCells(index.Y)(index.X - 1)     ' 左
+            End If
         End Function
 
         ''' <summary>
@@ -124,6 +177,10 @@ Namespace Layouts.Orthogonal
             nodes(node.label) = toCell
             toCell.PutNode(node)
             fromCell.RemoveNode()
+
+            If toCell.node Is Nothing AndAlso fromCell.node Is Nothing Then
+                Throw New NoNullAllowedException
+            End If
         End Sub
 
         Public Sub SwapNode(a As Point, b As Point)
@@ -145,7 +202,26 @@ Namespace Layouts.Orthogonal
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function FindIndex(x#, y#) As Point
-            Return gridIndex.Index(x, y)
+            Dim index As Point = gridIndex.Index(x, y)
+            Dim ix, iy As Integer
+
+            If x <= 0 Then
+                ix = 0
+            ElseIf index.X >= size.Width Then
+                ix = size.Width - 1
+            Else
+                ix = index.X
+            End If
+
+            If y <= 0 Then
+                iy = 0
+            ElseIf index.Y >= size.Height Then
+                iy = size.Height - 1
+            Else
+                iy = index.Y
+            End If
+
+            Return New Point(ix, iy)
         End Function
 
         ''' <summary>
@@ -172,7 +248,7 @@ Namespace Layouts.Orthogonal
             g = network
 
             For Each node As Node In network.vertex
-                cell = gridCells(x(++i))(y(++j))
+                cell = gridCells(y(++j))(x(++i))
 
                 Call cell.PutNode(node)
                 Call nodes.Add(node.label, cell)
