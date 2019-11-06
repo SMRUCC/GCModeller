@@ -1,6 +1,8 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports GridIndex = Microsoft.VisualBasic.Data.GraphTheory.Grid
@@ -113,6 +115,26 @@ Namespace Layouts.Orthogonal
             Next
         End Sub
 
+        Public Sub SwapNode(a As Point, b As Point)
+            Dim x As GridCell = Me(a)
+            Dim y As GridCell = Me(b)
+
+            If x.node Is Nothing Then
+                Call MoveNode(b, a)
+            ElseIf y.node Is Nothing Then
+                Call MoveNode(a, b)
+            Else
+                Dim vi = x.node
+                Dim vj = y.node
+
+                nodes(vi.label) = y
+                y.PutNode(vi)
+
+                nodes(vj.label) = x
+                x.PutNode(vj)
+            End If
+        End Sub
+
         Public Sub MoveNode(from As Point, [to] As Point)
             Dim fromCell As GridCell = Me(from)
             Dim toCell As GridCell = Me([to])
@@ -177,27 +199,6 @@ Namespace Layouts.Orthogonal
             nodes(node.label) = toCell
             toCell.PutNode(node)
             fromCell.RemoveNode()
-
-            If toCell.node Is Nothing AndAlso fromCell.node Is Nothing Then
-                Throw New NoNullAllowedException
-            End If
-        End Sub
-
-        Public Sub SwapNode(a As Point, b As Point)
-            Dim x As GridCell = Me(a)
-            Dim y As GridCell = Me(b)
-
-            If x.node Is Nothing Then
-                Call MoveNode(b, a)
-            ElseIf y.node Is Nothing Then
-                Call MoveNode(a, b)
-            Else
-                Dim vi = x.node
-                Dim vj = y.node
-
-                Call moveNode(x, y, vi)
-                Call moveNode(y, x, vj)
-            End If
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -241,17 +242,28 @@ Namespace Layouts.Orthogonal
         Public Function PutRandomNodes(network As NetworkGraph) As Grid
             Dim x As Integer() = size.Width.SeqRandom
             Dim y As Integer() = size.Height.SeqRandom
-            Dim i As i32 = Scan0
-            Dim j As i32 = Scan0
             Dim cell As GridCell
+            Dim V As New Pointer(Of Node)(network.vertex)
+            Dim break As Boolean = False
 
             g = network
 
-            For Each node As Node In network.vertex
-                cell = gridCells(y(++j))(x(++i))
+            For Each i As Integer In x
+                For Each j As Integer In y
+                    cell = gridCells(j)(i)
 
-                Call cell.PutNode(node)
-                Call nodes.Add(node.label, cell)
+                    If Not V.EndRead Then
+                        Call cell.PutNode(++V)
+                        Call nodes.Add(cell.node.label, cell)
+                    Else
+                        break = True
+                        Exit For
+                    End If
+                Next
+
+                If break Then
+                    Exit For
+                End If
             Next
 
             Return Me
