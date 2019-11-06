@@ -62,7 +62,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 <CLI> Module CLI
 
     <ExportAPI("/layout.orthogonal")>
-    <Usage("/layout.orthogonal /in <network.model.directory> [/node.size <width,height, default=13,8> /grid <size, default=700,500> /min.dist <default=20> /out <result.model.directory>]")>
+    <Usage("/layout.orthogonal /in <network.model.directory> [/node.size <width,height, default=13,8> /grid <size, default=500,300> /min.dist <default=20> /out <result.model.directory>]")>
     <Description("Do orthogonal network layout for the input given network data model.")>
     <Argument("/node.size", True, CLITypes.String,
               AcceptTypes:={GetType(Size)},

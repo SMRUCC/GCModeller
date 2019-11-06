@@ -62,7 +62,10 @@ Namespace Layouts.Orthogonal
             Call "Running layout iteration...".__INFO_ECHO
             Call "Phase 1".__INFO_ECHO
 
-            For i As Integer = 0 To iterationCount \ 2
+            Dim [stop] = iterationCount \ 2
+            Dim totalEdgeLength As Double = workspace.totalEdgeLength
+
+            For i As Integer = 0 To [stop]
                 For j As Integer = 0 To V.Length - 1
                     ' To perform local optimization, every node is moved to a location that minimizes
                     ' the total length of its adjacent edges.
@@ -81,7 +84,7 @@ Namespace Layouts.Orthogonal
                     End If
                 Next
 
-                Call Console.WriteLine(i)
+                Call Console.WriteLine("[{0}] {1}%, T={2}, total:={3}", i, (100 * i / [stop]).ToString("F2"), T, totalEdgeLength)
 
                 If iterationCount Mod 9 = 0 Then
                     workspace.compact(compactionDir, 3, False)
@@ -89,6 +92,7 @@ Namespace Layouts.Orthogonal
                 End If
 
                 T = T * k
+                totalEdgeLength = workspace.totalEdgeLength
             Next
 
             Call "Phase 2".__INFO_ECHO
@@ -115,7 +119,7 @@ Namespace Layouts.Orthogonal
                     End If
                 Next
 
-                Call Console.WriteLine(i)
+                Call Console.WriteLine("[{0}] {1}%, T={2}", i, (100 * i / iterationCount).ToString("F2"), T)
 
                 If iterationCount Mod 9 = 0 Then
                     workspace.compact(compactionDir, stdNum.Max(1, 1 + 2 * (iterationCount - i - 30) / (0.5 * iterationCount)), False)
