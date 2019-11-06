@@ -371,12 +371,24 @@ Partial Module CLI
     Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
         Dim in$ = args <= "/repository"
         Dim organismName$ = args("/organism")
-        Dim out$ = args("/out") Or $"{[in].TrimDIR}.{organismName.NormalizePathString}.referenceMap/"
+        Dim out$
         Dim reactions = ReactionTable.Load(args <= "/reactions")
         Dim model As NetworkTables
 
         If organismName.StringEmpty Then
-            model = PathwayMaps.BuildNetworkModel(MapRepository.ScanMaps(directory:=[in]), reactions, classFilter:=False)
+            Dim maps As Map()
+
+            If [in].FileExists Then
+                out = args("/out") Or $"{[in].TrimSuffix}/"
+                maps = {[in].LoadXml(Of Map)}
+            Else
+                out = args("/out") Or $"{[in].TrimDIR}.referenceMap/"
+                maps = MapRepository _
+                    .ScanMaps(directory:=[in]) _
+                    .ToArray
+            End If
+
+            model = PathwayMaps.BuildNetworkModel(maps, reactions, classFilter:=False)
         Else
             model = PathwayMaps.BuildNetworkModel(OrganismModel.EnumerateModules(handle:=[in]), reactions)
         End If
