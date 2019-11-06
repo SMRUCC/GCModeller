@@ -47,7 +47,6 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network
-Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
@@ -80,7 +79,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
         Dim isCytoscape As Boolean = args("/cytoscape")
         Dim out$ = args("/out") Or $"{[in].TrimDIR}/image.png"
         Dim fdArgv As ForceDirectedArgs = Parameters.Load(args("/fd"), ForceDirectedArgs.DefaultNew)
-        Dim model = NetworkTables.Load(DIR:=[in], cytoscapeFormat:=isCytoscape).AnalysisDegrees
+        Dim model = NetworkFileIO.Load(DIR:=[in], cytoscapeFormat:=isCytoscape).AnalysisDegrees
         Dim graph As NetworkGraph = model.CreateGraph(nodeColor:=Function(n) n!color.GetBrush)
         Dim nodeSizeMapper As Func(Of Graph.Node, Single) = NodeStyles.NodeDegreeSize(graph.vertex, "30,300")
 
