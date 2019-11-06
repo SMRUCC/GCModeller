@@ -57,6 +57,8 @@ Namespace PathwayMaps
         ''' </summary>
         ''' <param name="model"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Render(model As XGMMLgraph,
                                Optional canvasSize$ = "11480,9200",
@@ -64,7 +66,25 @@ Namespace PathwayMaps
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
 
-            Dim graph As NetworkGraph = model.ToNetworkGraph("label", "class")
+            Return model.ToNetworkGraph("label", "class") _
+                .Render(canvasSize:=canvasSize,
+                        enzymeColorSchema:=enzymeColorSchema,
+                        compoundColorSchema:=compoundColorSchema,
+                        reactionShapeStrokeCSS:=reactionShapeStrokeCSS
+                )
+        End Function
+
+        ''' <summary>
+        ''' 将完成node和edge布局操作的网络模型进行渲染
+        ''' </summary>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Render(graph As NetworkGraph,
+                               Optional canvasSize$ = "11480,9200",
+                               Optional enzymeColorSchema$ = "Set1:c8",
+                               Optional compoundColorSchema$ = "Clusters",
+                               Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
+
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
                 .GroupBy(Function(r) r.Entry.Key) _

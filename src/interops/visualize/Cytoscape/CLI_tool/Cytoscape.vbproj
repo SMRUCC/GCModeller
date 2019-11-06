@@ -347,6 +347,10 @@
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
       <Name>Network.GraphTheory</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\Network.IO.Extensions.vbproj">
+      <Project>{78cb32e6-2904-41e7-acca-f1e2757bfa8e}</Project>
+      <Name>Network.IO.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\NetworkCanvas\NetworkCanvas.vbproj">
       <Project>{ef70bed6-8795-4523-a260-c1abed9405aa}</Project>
       <Name>NetworkCanvas</Name>

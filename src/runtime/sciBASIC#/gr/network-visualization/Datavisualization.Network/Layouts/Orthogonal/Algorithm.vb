@@ -7,34 +7,18 @@ Imports stdNum = System.Math
 
 Namespace Layouts.Orthogonal
 
-    Friend Class Workspace
-
-        Public g As NetworkGraph
-        Public grid As Grid
-        Public V As Node()
-        ''' <summary>
-        ''' c
-        ''' </summary>
-        Public cellSize As Double
-        Public delta As Double
-
-        Public width As Dictionary(Of String, Double)
-        Public height As Dictionary(Of String, Double)
-
-        Public ReadOnly Property totalEdgeLength As Double
-            Get
-                Dim len As Double
-
-                For Each edge As Edge In g.graphEdges
-                    len += distance(edge.U, edge.V, cellSize, delta)
-                Next
-
-                Return len
-            End Get
-        End Property
-    End Class
-
     Public Module Algorithm
+
+        <Extension>
+        Public Function ResetNodeSize(g As NetworkGraph, size$) As NetworkGraph
+            Dim sizeVals As Double() = size.Split(","c).Select(AddressOf Val).ToArray
+
+            For Each node As Node In g.vertex
+                node.data.size = sizeVals
+            Next
+
+            Return g
+        End Function
 
         ''' <summary>
         ''' 
@@ -46,7 +30,9 @@ Namespace Layouts.Orthogonal
         ''' </param>
         <Extension>
         Public Sub DoLayout(graph As NetworkGraph, gridSize As Size, Optional delta# = 1)
-            Dim V As Node() = graph.vertex.ToArray
+            ' 只针对非孤立的网络节点来进行布局的计算
+            ' 孤立节点会在for循环中的swap步骤进行被动布局
+            Dim V As Node() = graph.GetConnectedVertex.ToArray
             Dim compactionDir = True
             Dim iterationCount = 90 * V.Length
             ' T的作用是用来计算交换的范围
@@ -56,6 +42,9 @@ Namespace Layouts.Orthogonal
             Dim T As Double = 2 * V.Length
             Dim k As Double = (0.2 / T) ^ (1 / iterationCount)
             Dim cellSize As Double = V.GridCellSize
+
+            Call "Initialize grid model....".__INFO_ECHO
+
             Dim grid As New Grid(gridSize, cellSize)
             Dim workspace As New Workspace With {
                 .g = graph,
@@ -66,9 +55,17 @@ Namespace Layouts.Orthogonal
                 .height = V.ToDictionary(Function(n) n.label, Function(n) n.height(cellSize, delta))
             }
 
+            Call "Create random node layout...".__INFO_ECHO
+
             Call grid.PutRandomNodes(graph)
 
-            For i As Integer = 0 To iterationCount \ 2
+            Call "Running layout iteration...".__INFO_ECHO
+            Call "Phase 1".__INFO_ECHO
+
+            Dim [stop] = iterationCount \ 2
+            Dim totalEdgeLength As Double = workspace.totalEdgeLength
+
+            For i As Integer = 0 To [stop]
                 For j As Integer = 0 To V.Length - 1
                     ' To perform local optimization, every node is moved to a location that minimizes
                     ' the total length of its adjacent edges.
@@ -87,13 +84,18 @@ Namespace Layouts.Orthogonal
                     End If
                 Next
 
+                Call Console.WriteLine("[{0}] {1}%, T={2}, total:={3}", i, (100 * i / [stop]).ToString("F2"), T, totalEdgeLength)
+
                 If iterationCount Mod 9 = 0 Then
                     workspace.compact(compactionDir, 3, False)
                     compactionDir = Not compactionDir
                 End If
 
                 T = T * k
+                totalEdgeLength = workspace.totalEdgeLength
             Next
+
+            Call "Phase 2".__INFO_ECHO
 
             workspace.compact(True, 3, True)
             workspace.compact(False, 3, True)
@@ -117,6 +119,8 @@ Namespace Layouts.Orthogonal
                     End If
                 Next
 
+                Call Console.WriteLine("[{0}] {1}%, T={2}", i, (100 * i / iterationCount).ToString("F2"), T)
+
                 If iterationCount Mod 9 = 0 Then
                     workspace.compact(compactionDir, stdNum.Max(1, 1 + 2 * (iterationCount - i - 30) / (0.5 * iterationCount)), False)
                     compactionDir = Not compactionDir
@@ -124,6 +128,8 @@ Namespace Layouts.Orthogonal
 
                 T = T * k
             Next
+
+            Call "Do layout job done!".__INFO_ECHO
         End Sub
 
         <Extension>
@@ -132,7 +138,7 @@ Namespace Layouts.Orthogonal
             Dim totalLenAfter As Double
             Dim gain As Double
 
-            For Each nearby As GridCell In workspace.grid.GetAdjacentCells(origin.index)
+            For Each nearby As GridCell In workspace.grid.GetAdjacentCells(origin.index).Shuffles
                 If nearby.node Is Nothing Then
                     ' 附近的单元格是没有节点的，直接放置进去?
                     Call workspace.grid.MoveNode(origin.index, nearby.index)

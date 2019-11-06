@@ -158,7 +158,7 @@ Namespace NetworkModel.PfsNET
         Public Function ExportPathwayGraph(<Parameter("From.Pathway")> FromPathway As XmlModel, saveDIR As String, Optional Trim As Boolean = True) As Boolean
             For Each [mod] As KeyValuePair(Of String, ______NETWORK__) In ExportPathwayGraph(FromPathway, Trim)
                 Dim DIR As String = $"{saveDIR}/{[mod].Key}/"
-                Call [mod].Value.Save(DIR, Encodings.UTF8)
+                Call [mod].Value.Save(DIR, Encodings.UTF8.CodePage)
                 Call CytoscapeGraphView.Serialization.Export([mod].Value).Save($"{DIR}/Cytoscape.xml")
             Next
 
@@ -264,7 +264,7 @@ Namespace NetworkModel.PfsNET
                                                saveDIR As String,
                                                Optional Trim As Boolean = True) As Boolean
             Dim Network = __exportPathwayGraph(FromPathway, Trim)
-            Return Network.Save(saveDIR, Encodings.UTF8)
+            Return Network.Save(saveDIR, Encodings.UTF8.CodePage)
         End Function
 
         Public Class Enzyme : Inherits FileStream.Node
@@ -428,7 +428,7 @@ Namespace NetworkModel.PfsNET
                     Continue For
                 End If
 
-                Call [mod].Value.Save(String.Format("{0}/{1}/", ExportDIR, [mod].Key), Encodings.UTF8)
+                Call [mod].Value.Save(String.Format("{0}/{1}/", ExportDIR, [mod].Key), Encodings.UTF8.CodePage)
                 Call nodes.SaveTo(String.Format("{0}/{1}/Nodes__{2}.csv", ExportDIR, [mod].Key, item.PhenotypePair))
             Next
 
@@ -474,7 +474,7 @@ Namespace NetworkModel.PfsNET
                         Continue For
                     End If
 
-                    Call network.Save(String.Format("{0}/{1}/", ExportDIR, obj.EntryId), Encodings.UTF8)
+                    Call network.Save(String.Format("{0}/{1}/", ExportDIR, obj.EntryId), Encodings.UTF8.CodePage)
 
                     Dim NodeTable = (From item In network.Nodes Select item.CopyTo(Of PfsNETNode)()).ToArray
 

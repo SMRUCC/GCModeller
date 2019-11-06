@@ -1,17 +1,16 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.visualize.Network
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
-Imports node = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
+Imports inode = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
 
-Module OrthogonalTest
+Module OrthogonalLayoutTest
 
     Sub Main()
         Dim g As New NetworkGraph
 
         For Each label As String In {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "single"}
-            Call g.AddNode(New node With {.label = label, .data = New NodeData With {.initialPostion = New FDGVector2, .size = {5, 5}}})
+            Call g.AddNode(New inode With {.label = label, .data = New NodeData With {.initialPostion = New FDGVector2, .size = {5, 5}}})
         Next
 
         Call g.AddEdge("A", "B")
@@ -28,11 +27,8 @@ Module OrthogonalTest
         Call g.AddEdge("B", "F")
         Call g.AddEdge("G", "K")
 
-        Call Orthogonal.Algorithm.DoLayout(g, New Size(10, 10), 10)
-
-        Dim result = g.Tabular()
-
-        Call result.Save("./OrthogonalTest")
+        Call Orthogonal.Algorithm.DoLayout(g, New Size(100, 60), 10)
+        Call NetworkVisualizer.DrawImage(g, "3000,3000").Save("./Orthogonal.png")
 
         Pause()
     End Sub

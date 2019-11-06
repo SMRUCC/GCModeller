@@ -61,7 +61,6 @@ Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Interpolation
 Imports Microsoft.VisualBasic.MIME.Markup.HTML
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -288,28 +287,30 @@ Public Module NetworkVisualizer
                                       .ToArray
                               End Function)
 
-            With edgeBundling.Keys.ToArray
-                Dim tempList As New List(Of PointF)
-                Dim i As Integer
+            If edgeBundling.Count > 0 Then
+                With edgeBundling.Keys.ToArray
+                    Dim tempList As New List(Of PointF)
+                    Dim i As Integer
 
-                scalePoints = .Select(Function(e) edgeBundling(e)) _
-                              .IteratesALL _
-                              .Enlarge((CDbl(scale.Width), CDbl(scale.Height)))
+                    scalePoints = .Select(Function(e) edgeBundling(e)) _
+                                  .IteratesALL _
+                                  .Enlarge((CDbl(scale.Width), CDbl(scale.Height)))
 
-                For Each edge As Edge In .ByRef
-                    For Each null In edgeBundling(edge)
-                        ' 20191103
-                        ' 在这里因为每一个edge的边连接点的数量是不一样的
-                        ' 所以在这里使用for loop加上递增序列来
-                        ' 正确的获取得到每一条边所对应的边连接节点
-                        tempList += scalePoints(i)
-                        i += 1
+                    For Each edge As Edge In .ByRef
+                        For Each null In edgeBundling(edge)
+                            ' 20191103
+                            ' 在这里因为每一个edge的边连接点的数量是不一样的
+                            ' 所以在这里使用for loop加上递增序列来
+                            ' 正确的获取得到每一条边所对应的边连接节点
+                            tempList += scalePoints(i)
+                            i += 1
+                        Next
+
+                        edgeBundling(edge) = tempList
+                        tempList *= 0
                     Next
-
-                    edgeBundling(edge) = tempList
-                    tempList *= 0
-                Next
-            End With
+                End With
+            End If
         End If
 
         Call "Initialize gdi objects...".__INFO_ECHO
@@ -436,7 +437,7 @@ Public Module NetworkVisualizer
 
     Public Function DirectMapRadius(Optional scale# = 1) As Func(Of Node, Single)
         Return Function(n)
-                   Dim r As Single = n.data.radius
+                   Dim r As Single = n.data.size(0)
 
                    ' 当网络之中没有任何边的时候，r的值会是NAN
                    If r = 0# OrElse r.IsNaNImaginary Then

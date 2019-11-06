@@ -305,6 +305,6 @@ Partial Module CLI
         Dim graph As XGMMLgraph = ExportToFile.Export(net.nodes, net.edges, "KEGG pathway network simple")
         Call graph.Save(outDIR & "/Graph.XGMML", )
 
-        Return net > outDIR   ' Write the network data to the filesystem.
+        Return net.Save(outDIR)   ' Write the network data to the filesystem.
     End Function
 End Module

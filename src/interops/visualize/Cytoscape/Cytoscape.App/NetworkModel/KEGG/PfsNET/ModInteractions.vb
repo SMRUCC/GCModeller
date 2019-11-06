@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::7e01650fb9133df0f27844409336cdc7, visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\ModInteractions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ModInteractions
-    ' 
-    '         Function: (+2 Overloads) __modProperty, __tfNode, AddFootprints, (+3 Overloads) BuildNET, LoadModules
-    '                   LoadPathways, SaveNetwork
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ModInteractions
+' 
+'         Function: (+2 Overloads) __modProperty, __tfNode, AddFootprints, (+3 Overloads) BuildNET, LoadModules
+'                   LoadPathways, SaveNetwork
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -101,10 +102,10 @@ Namespace NetworkModel.KEGG
                          .Select(Function(x) (From edge In x.Group
                                               Select New NetworkEdge With {
                                                   .value = 1,
-                                                  .FromNode = edge.__mod.EntryId,
-                                                  .ToNode = edge.g,
-                                                  .Interaction = PathwayGene})).IteratesALL
-            net += net.__modProperty(net.Edges)
+                                                  .fromNode = edge.__mod.EntryId,
+                                                  .toNode = edge.g,
+                                                  .interaction = PathwayGene})).IteratesALL
+            net += net.__modProperty(net.edges)
 
             Return net
         End Function
@@ -122,13 +123,13 @@ Namespace NetworkModel.KEGG
         <Extension>
         Private Function __modProperty(net As NetworkTables, edges As NetworkEdge()) As IEnumerable(Of Node)
             Dim LQuery = (From x As NetworkEdge In edges
-                          Let mId As String = x.FromNode
+                          Let mId As String = x.fromNode
                           Let mX As Node = net & mId
                           Where Not mX Is Nothing AndAlso
                               Not mX.Properties Is Nothing
                           Let props = New Dictionary(Of String, String)(mX.Properties)
                           Select New Node With {
-                              .ID = x.ToNode,
+                              .ID = x.toNode,
                               .NodeType = "Enzyme",
                               .Properties = props})
             Dim Groups = (From x In LQuery Select x Group x By x.ID Into Group)
@@ -179,9 +180,9 @@ Namespace NetworkModel.KEGG
                         c
                     Group By uid Into Group).Select(
                         Function(x) New NetworkEdge With {
-                            .FromNode = x.Group.First.Regulator,
-                            .ToNode = x.Group.First.ORF,
-                            .Interaction = "Regulates",
+                            .fromNode = x.Group.First.Regulator,
+                            .toNode = x.Group.First.ORF,
+                            .interaction = "Regulates",
                             .value = x.Group.First.c})
             Return net
         End Function
@@ -195,7 +196,7 @@ Namespace NetworkModel.KEGG
 
         <ExportAPI("Write.Csv.Network")>
         Public Function SaveNetwork(net As NetworkTables, DIR As String) As Boolean
-            Return net.Save(DIR, Encodings.ASCII)
+            Return net.Save(DIR, Encodings.ASCII.CodePage)
         End Function
 
         <ExportAPI("Build.NET")>
