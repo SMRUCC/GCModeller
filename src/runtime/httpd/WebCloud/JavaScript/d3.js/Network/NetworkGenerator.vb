@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::35f5ae26d3d41171c73ca6f90b3faa80, WebCloud\JavaScript\d3.js\Network\NetworkGenerator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module NetworkGenerator
-    ' 
-    '         Function: FromNetwork, (+2 Overloads) FromRegulations, LoadJson
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module NetworkGenerator
+' 
+'         Function: FromNetwork, (+2 Overloads) FromRegulations, LoadJson
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,6 +51,7 @@ Imports SMRUCC.WebCloud.JavaScript.d3js.Network.JSON
 Imports SMRUCC.WebCloud.JavaScript.d3js.Network.JSON.v3
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 Imports NetworkEdge = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge
+Imports NetworkIO = Microsoft.VisualBasic.Data.visualize.Network.IO
 
 Namespace Network
 
@@ -66,14 +67,14 @@ Namespace Network
         ''' <param name="indent">默认值False是为了网络传输所优化的无换行的格式</param>
         ''' <returns></returns>
         <Extension> Public Function FromNetwork(net As NetGraph, Optional indent As Boolean = False) As String
-            Dim types$() = net.Nodes _
+            Dim types$() = net.nodes _
                 .Select(Function(x) x.NodeType) _
                 .Distinct _
                 .ToArray
             Dim nodes As node() = LinqAPI.Exec(Of node) <=
  _
                 From x As FileStream.Node
-                In net.Nodes
+                In net.nodes
                 Let color As String = x("color")
                 Select New node With {
                     .name = x.ID,
@@ -89,10 +90,10 @@ Namespace Network
             Dim links As link(Of Integer)() = LinqAPI.Exec(Of link(Of Integer)) <=
  _
                 From edge As NetworkEdge
-                In net.Edges
+                In net.edges
                 Select New link(Of Integer) With {
-                    .source = nodeTable(edge.FromNode).ID,
-                    .target = nodeTable(edge.ToNode).ID,
+                    .source = nodeTable(edge.fromNode).ID,
+                    .target = nodeTable(edge.toNode).ID,
                     .value = edge.value
                 }
 
@@ -157,7 +158,7 @@ Namespace Network
         End Function
 
         Public Function LoadJson(netDIR As String) As String
-            Dim net As NetGraph = NetGraph.Load(netDIR)
+            Dim net As NetGraph = NetworkIO.Load(netDIR)
             Dim json As String = FromNetwork(net)
             Return json
         End Function

@@ -78,7 +78,7 @@ Namespace API
         Private Function __node(n As XGMMLnode) As Network.Graph.Node
             Dim data As New NodeData With {
                 .color = New SolidBrush(n.graphics.FillColor),
-                .radius = n.graphics.radius
+                .size = {n.graphics.radius}
             }
 
             Return New Network.Graph.Node(n.id, data)
