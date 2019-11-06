@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Data.csv
 Imports System.Runtime.CompilerServices
 
-Public Module IO
+Public Module NetworkFileIO
 
     ''' <summary>
     '''

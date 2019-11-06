@@ -51,7 +51,7 @@ Imports SMRUCC.WebCloud.JavaScript.d3js.Network.JSON
 Imports SMRUCC.WebCloud.JavaScript.d3js.Network.JSON.v3
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 Imports NetworkEdge = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge
-Imports NetworkIO = Microsoft.VisualBasic.Data.visualize.Network.IO
+Imports NetworkIO = Microsoft.VisualBasic.Data.visualize.Network.NetworkFileIO
 
 Namespace Network
 
