@@ -121,7 +121,7 @@ Partial Module CLI
             End If
         Next
 
-        Return bTree > out
+        Return bTree.Save(out).CLICode
     End Function
 
     <ExportAPI("/Motif.Cluster", Usage:="/Motif.Cluster /query <meme.txt/MEME_OUT.DIR> /LDM <LDM-name/xml.path> [/clusters <3> /out <outCsv>]")>
