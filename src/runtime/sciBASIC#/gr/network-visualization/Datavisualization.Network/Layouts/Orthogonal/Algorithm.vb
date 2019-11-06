@@ -31,6 +31,9 @@ Namespace Layouts.Orthogonal
             Dim T As Double = 2 * V.Length
             Dim k As Double = (0.2 / T) ^ (1 / iterationCount)
             Dim cellSize As Double = V.GridCellSize
+
+            Call "Initialize grid model....".__INFO_ECHO
+
             Dim grid As New Grid(gridSize, cellSize)
             Dim workspace As New Workspace With {
                 .g = graph,
@@ -41,7 +44,12 @@ Namespace Layouts.Orthogonal
                 .height = V.ToDictionary(Function(n) n.label, Function(n) n.height(cellSize, delta))
             }
 
+            Call "Create random node layout...".__INFO_ECHO
+
             Call grid.PutRandomNodes(graph)
+
+            Call "Running layout iteration...".__INFO_ECHO
+            Call "Phase 1".__INFO_ECHO
 
             For i As Integer = 0 To iterationCount \ 2
                 For j As Integer = 0 To V.Length - 1
@@ -62,6 +70,8 @@ Namespace Layouts.Orthogonal
                     End If
                 Next
 
+                Call Console.WriteLine(i)
+
                 If iterationCount Mod 9 = 0 Then
                     workspace.compact(compactionDir, 3, False)
                     compactionDir = Not compactionDir
@@ -69,6 +79,8 @@ Namespace Layouts.Orthogonal
 
                 T = T * k
             Next
+
+            Call "Phase 2".__INFO_ECHO
 
             workspace.compact(True, 3, True)
             workspace.compact(False, 3, True)
@@ -92,6 +104,8 @@ Namespace Layouts.Orthogonal
                     End If
                 Next
 
+                Call Console.WriteLine(i)
+
                 If iterationCount Mod 9 = 0 Then
                     workspace.compact(compactionDir, stdNum.Max(1, 1 + 2 * (iterationCount - i - 30) / (0.5 * iterationCount)), False)
                     compactionDir = Not compactionDir
@@ -99,6 +113,8 @@ Namespace Layouts.Orthogonal
 
                 T = T * k
             Next
+
+            Call "Do layout job done!".__INFO_ECHO
         End Sub
 
         <Extension>
