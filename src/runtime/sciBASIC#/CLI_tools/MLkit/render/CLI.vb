@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Orthogonal
 Imports Microsoft.VisualBasic.Data.visualize.Network.Styling
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -76,7 +77,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
         Dim minDist# = args("/min.dist") Or 20.0
         Dim out$ = args("/out") Or ([in].TrimDIR & $".layout.orthogonal/")
         Dim network As NetworkTables = NetworkFileIO.Load([in])
-        Dim graph As NetworkGraph = network.CreateGraph(defaultNodeSize:=nodeSize)
+        Dim graph As NetworkGraph = network _
+            .CreateGraph(defaultNodeSize:=nodeSize) _
+            .ResetNodeSize(nodeSize)
 
         Call Orthogonal.DoLayout(graph, grid.SizeParser, delta:=minDist)
 

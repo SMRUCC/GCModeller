@@ -9,6 +9,17 @@ Namespace Layouts.Orthogonal
 
     Public Module Algorithm
 
+        <Extension>
+        Public Function ResetNodeSize(g As NetworkGraph, size$) As NetworkGraph
+            Dim sizeVals As Double() = size.Split(","c).Select(AddressOf Val).ToArray
+
+            For Each node As Node In g.vertex
+                node.data.size = sizeVals
+            Next
+
+            Return g
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
