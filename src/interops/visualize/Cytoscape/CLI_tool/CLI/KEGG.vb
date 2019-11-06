@@ -41,6 +41,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -130,7 +131,7 @@ Partial Module CLI
 
             Call kMod.Value.nodes.Add(regulators)
             Call kMod.Value.edges.Add(edges)
-            Call kMod.Value.Save(Path, Encodings.UTF8)
+            Call kMod.Value.Save(Path, Encoding.UTF8)
         Next
 
         Return 0
@@ -317,9 +318,9 @@ Partial Module CLI
         End If
 
         If Not nulls Is Nothing Then
-            Call nulls.Save(out & "/no-regs/", Encodings.ASCII)
+            Call nulls.Save(out & "/no-regs/", Encoding.ASCII)
         End If
-        Return net.Save(out, Encodings.ASCII).CLICode
+        Return net.Save(out, Encoding.ASCII).CLICode
     End Function
 
     <ExportAPI("/KEGG.pathwayMap.Network")>
@@ -346,7 +347,7 @@ Partial Module CLI
             Next
         End If
 
-        Return graph.Save(out, Encodings.ASCII).CLICode
+        Return graph.Save(out, Encodings.ASCII.CodePage).CLICode
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>

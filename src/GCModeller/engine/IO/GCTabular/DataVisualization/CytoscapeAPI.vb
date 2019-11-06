@@ -80,7 +80,7 @@ Namespace DataVisualization
 
         <ExportAPI("write.csv.network")>
         Public Function SaveNetwork(network As NetModel, outDIR As String) As Boolean
-            Return network.Save(outDIR, Encodings.ASCII)
+            Return network.Save(outDIR, Encodings.ASCII.CodePage)
         End Function
 
         <ExportAPI("save.paths")>

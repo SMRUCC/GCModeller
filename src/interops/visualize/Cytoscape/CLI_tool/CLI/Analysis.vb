@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Correlations
@@ -67,7 +68,7 @@ Partial Module CLI
     Public Function NodeCluster(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in])
-        Dim net As NetGraph = NetGraph.Load([in])
+        Dim net As NetGraph = NetworkFileIO.Load([in])
         Dim nodes$() = net.nodes.Keys
         Dim from = net.SearchIndex(from:=True)
         Dim [to] = net.SearchIndex(from:=False)
@@ -120,7 +121,7 @@ Partial Module CLI
     Public Function AnalysisNetworkProperty(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in])
-        Dim network As NetGraph = NetGraph.Load([in])
+        Dim network As NetGraph = NetworkFileIO.Load([in])
         Dim data As NamedValue(Of Integer)()
         Dim schema$ = args.GetValue("/colors", "Paired:12")
         Dim ignores As New Index(Of String)((args <= "/ignores").StringSplit(",", True))
