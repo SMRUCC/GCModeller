@@ -546,7 +546,8 @@ Public Module NetworkVisualizer
                     .label = label,
                     .anchor = New Anchor(rect),
                     .style = font,
-                    .color = br
+                    .color = br,
+                    .node = n
                 }
             End If
         Next
