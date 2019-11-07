@@ -188,6 +188,9 @@ Public Module NetworkVisualizer
     ''' 1. ``interaction_type`` property value in <see cref="Edge.data"/>, or
     ''' 2. <see cref="Edge.ID"/> value
     ''' </param>
+    ''' <param name="labelTextStroke">
+    ''' 当这个参数为空字符串的时候，将不进行描边
+    ''' </param>
     ''' <returns></returns>
     ''' <remarks>
     ''' 一些内置的样式支持:

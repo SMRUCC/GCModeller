@@ -201,9 +201,10 @@ Namespace PathwayMaps
                 nodeRadius:=220,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=DashStyle.Solid,
-                defaultEdgeColor:="white",
+                defaultEdgeColor:="darkblue",
                 getNodeLabel:=AddressOf getNodeLabel,
                 getLabelPosition:=getLabelPositoon，
+                labelTextStroke:=Nothing,
                 labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
                 fontSize:=27,
                 defaultLabelColor:="white",
