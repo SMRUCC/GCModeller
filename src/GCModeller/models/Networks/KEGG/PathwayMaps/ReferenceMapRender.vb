@@ -83,7 +83,8 @@ Namespace PathwayMaps
                                Optional canvasSize$ = "11480,9200",
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
-                               Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
+                               Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
+                               Optional hideCompoundCircle As Boolean = True) As GraphicsData
 
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
@@ -134,20 +135,22 @@ Namespace PathwayMaps
                     Dim connectedNodes = graph.GetConnectedVertex(id)
 
                     If node.label.IsPattern("C\d+") Then
-                        ' 圆形
-                        radius = radius * 0.4
-                        center = center.OffSet2D(offsetCircle)
+                        If Not hideCompoundCircle Then
+                            ' 圆形
+                            radius = radius * 0.4
+                            center = center.OffSet2D(offsetCircle)
 
-                        Dim rect As New Rectangle With {
-                            .X = center.X - radius,
-                            .Y = center.Y + radius,
-                            .Width = radius,
-                            .Height = radius
-                        }
+                            Dim rect As New Rectangle With {
+                                .X = center.X - radius,
+                                .Y = center.Y + radius,
+                                .Width = radius,
+                                .Height = radius
+                            }
 
-                        Call circleShadow.Circle(g, center, radius)
-                        Call g.FillEllipse(br, rect)
-                        Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Darken, 10), rect)
+                            Call circleShadow.Circle(g, center, radius)
+                            Call g.FillEllipse(br, rect)
+                            Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Darken, 10), rect)
+                        End If
                     Else
                         ' 方形
                         center = center.OffSet2D(offsetRect)
@@ -203,7 +206,14 @@ Namespace PathwayMaps
                 getLabelPosition:=getLabelPositoon，
                 labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
                 fontSize:=27,
-                defaultLabelColor:="white"
+                defaultLabelColor:="white",
+                getLabelColor:=Function(node As Node) As Color
+                                   If node.label.IsPattern("C\d+") Then
+                                       Return Color.Black
+                                   Else
+                                       Return Color.White
+                                   End If
+                               End Function
             )
         End Function
 

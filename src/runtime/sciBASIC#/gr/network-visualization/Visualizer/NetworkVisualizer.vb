@@ -214,6 +214,7 @@ Public Module NetworkVisualizer
                               Optional drawNodeShape As DrawNodeShape = Nothing,
                               Optional getNodeLabel As Func(Of Node, String) = Nothing,
                               Optional getLabelPosition As GetLabelPosition = Nothing,
+                              Optional getLabelColor As Func(Of Node, Color) = Nothing,
                               Optional hideDisconnectedNode As Boolean = False,
                               Optional throwEx As Boolean = True,
                               Optional hullPolygonGroups$ = Nothing,
@@ -425,7 +426,8 @@ Public Module NetworkVisualizer
                         iteration:=labelerIterations,
                         showLabelerProgress:=showLabelerProgress,
                         defaultLabelColorValue:=defaultLabelColor,
-                        labelTextStrokeCSS:=labelTextStroke
+                        labelTextStrokeCSS:=labelTextStroke,
+                        getLabelColor:=getLabelColor
                     )
                 End If
             End Sub
@@ -678,12 +680,14 @@ Public Module NetworkVisualizer
                            iteration%,
                            showLabelerProgress As Boolean,
                            defaultLabelColorValue$,
-                           labelTextStrokeCSS$)
+                           labelTextStrokeCSS$,
+                           getLabelColor As Func(Of Node, Color))
         Dim br As Brush
         Dim rect As Rectangle
         Dim lx, ly As Single
         Dim defaultLabelColor As New SolidBrush(defaultLabelColorValue.TranslateColor)
         Dim labelTextStroke As Pen = Stroke.TryParse(labelTextStrokeCSS)
+        Dim color As Color
 
         ' 小于等于零的时候表示不进行布局计算
         If iteration > 0 Then
@@ -696,10 +700,16 @@ Public Module NetworkVisualizer
                 .Start(nsweeps:=iteration, showProgress:=showLabelerProgress)
         End If
 
-        For Each label In labels
+        For Each label As LayoutLabel In labels
             With label
                 If Not labelColorAsNodeColor Then
-                    br = defaultLabelColor
+                    color = getLabelColor(label.node)
+
+                    If color.IsEmpty Then
+                        br = defaultLabelColor
+                    Else
+                        br = New SolidBrush(color)
+                    End If
                 Else
                     br = .color
                     br = New SolidBrush(DirectCast(br, SolidBrush).Color.Darken(0.005))
