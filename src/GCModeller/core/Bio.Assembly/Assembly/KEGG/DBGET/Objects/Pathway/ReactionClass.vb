@@ -1,9 +1,9 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -12,7 +12,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <XmlAttribute>
         Public Property entryId As String
         Public Property definition As String
-        Public Property reactantPairs As NamedValue()
+        Public Property reactantPairs As CompoundTransform()
         Public Property reactions As NamedValue()
         Public Property enzymes As NamedValue()
         Public Property pathways As NamedValue()
@@ -39,5 +39,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Next
         End Function
 
+        Public Class CompoundTransform
+
+            <XmlAttribute> Public Property from As String
+            <XmlAttribute> Public Property [to] As String
+
+            Public Overrides Function ToString() As String
+                Return $"{from}->{[to]}"
+            End Function
+        End Class
     End Class
 End Namespace
