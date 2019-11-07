@@ -160,7 +160,7 @@ Namespace PathwayMaps
                             .X = center.X - radius * 3 / 4,
                             .Y = center.Y + radius / 2,
                             .Width = radius,
-                            .Height = radius / 2
+                            .Height = radius / 3
                         }
 
                         br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
@@ -184,7 +184,7 @@ Namespace PathwayMaps
 
                         Return New PointF(
                             x:=center.X - labelSize.Width * 5 / 7,
-                            y:=center.Y + labelSize.Height * 2
+                            y:=center.Y + labelSize.Height * 1.7
                         )
                     End If
                 End Function
@@ -201,7 +201,7 @@ Namespace PathwayMaps
                 nodeRadius:=220,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=DashStyle.Solid,
-                defaultEdgeColor:="darkblue",
+                defaultEdgeColor:="lightblue",
                 getNodeLabel:=AddressOf getNodeLabel,
                 getLabelPosition:=getLabelPositoon，
                 labelTextStroke:=Nothing,
