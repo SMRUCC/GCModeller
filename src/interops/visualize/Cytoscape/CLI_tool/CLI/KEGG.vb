@@ -398,11 +398,11 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.render")>
-    <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/size <25000,16000> /out <viz.png>]")>
+    <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/size <10(A0)> /out <viz.png>]")>
     Public Function RenderReferenceMapNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim out$
-        Dim size$ = args("/size") Or "25000,16000"
+        Dim size$ = args("/size") Or "10(A0)"
         Dim result As GraphicsData
 
         If [in].FileExists AndAlso [in].ExtensionSuffix.TextEquals("xgmml") Then

@@ -103,7 +103,7 @@ Public Module NetworkVisualizer
     ''' <param name="size"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CentralOffsets(nodes As Dictionary(Of Node, PointF), size As Size) As PointF
+    Public Function CentralOffsets(nodes As Dictionary(Of Node, PointF), size As SizeF) As PointF
         Return nodes.Values.CentralOffset(size)
     End Function
 
@@ -142,7 +142,7 @@ Public Module NetworkVisualizer
     End Function
 
     <Extension>
-    Public Function AutoScaler(shape As IEnumerable(Of PointF), frameSize As Size, padding As Padding) As SizeF
+    Public Function AutoScaler(shape As IEnumerable(Of PointF), frameSize As SizeF, padding As Padding) As SizeF
         With shape.GetBounds
             Dim width = frameSize.Width - padding.Horizontal
             Dim height = frameSize.Height - padding.Vertical
@@ -225,7 +225,7 @@ Public Module NetworkVisualizer
                               Optional labelTextStroke$ = "stroke: lightgray; stroke-width: 1px; stroke-dash: solid;") As GraphicsData
 
         ' 所绘制的图像输出的尺寸大小
-        Dim frameSize As Size = canvasSize.SizeParser
+        Dim frameSize As SizeF = PrinterDimension.SizeOf(canvasSize)
         Dim margin As Padding = CSS.Padding.TryParse(
             padding, [default]:=New Padding With {
                 .Bottom = 100,
@@ -420,7 +420,7 @@ Public Module NetworkVisualizer
                 If displayId AndAlso labels > 0 Then
                     Call g.drawLabels(
                         labels:=labels,
-                        frameSize:=frameSize,
+                        frameSize:=frameSize.ToSize,
                         labelColorAsNodeColor:=labelColorAsNodeColor,
                         iteration:=labelerIterations,
                         showLabelerProgress:=showLabelerProgress,
@@ -432,7 +432,7 @@ Public Module NetworkVisualizer
 
         Call "Start Render...".__INFO_ECHO
 
-        Return g.GraphicsPlots(frameSize, margin, background, plotInternal)
+        Return g.GraphicsPlots(frameSize.ToSize, margin, background, plotInternal)
     End Function
 
     Public Function DirectMapRadius(Optional scale# = 1) As Func(Of Node, Single)
