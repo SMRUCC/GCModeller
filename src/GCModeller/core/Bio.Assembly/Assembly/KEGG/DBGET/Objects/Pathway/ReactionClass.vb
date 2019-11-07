@@ -1,9 +1,12 @@
-﻿Imports Microsoft.VisualBasic.Text.Xml.Models
+﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
-    Public Class ReactionClass
+    Public Class ReactionClass : Inherits XmlDataModel
 
+        <XmlAttribute>
         Public Property entryId As String
         Public Property definition As String
         Public Property reactantPairs As NamedValue()
