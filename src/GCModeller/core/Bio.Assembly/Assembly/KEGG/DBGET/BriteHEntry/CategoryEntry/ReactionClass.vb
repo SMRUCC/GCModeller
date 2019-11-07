@@ -62,12 +62,18 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
             If [class].Length > 64 Then
                 tokens += Mid([class], 1, 61).NormalizePathString & "~"
+            Else
+                tokens += [class]
             End If
             If subclass.Length > 64 Then
                 tokens += Mid(subclass, 1, 61).NormalizePathString & "~"
+            Else
+                tokens += subclass
             End If
             If category.Length > 64 Then
                 tokens += Mid(category, 1, 61).NormalizePathString & "~"
+            Else
+                tokens += category
             End If
 
             tokens += ECNumber
