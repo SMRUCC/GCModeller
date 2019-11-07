@@ -1,9 +1,12 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.WebQuery
 
@@ -78,9 +81,41 @@ Namespace Assembly.KEGG.DBGET.WebQuery
 
         Friend Function ParseReactionClass(html As String) As ReactionClass
             Dim web As New WebForm(html)
-            Dim [class] As New ReactionClass
+            Dim reactantPairs = WebForm.parseList(web.GetValue("Reactant pair").FirstOrDefault, "<a href="".+?"">.+?</a>")
+            Dim reactions = WebForm.parseList(web.GetValue("Reaction").FirstOrDefault, "<a href="".+?"">.+?</a>")
+            Dim enzymes = WebForm.parseList(web.GetValue("Enzyme").FirstOrDefault, "<a href="".+?"">.+?</a>")
+            Dim pathways = WebForm.parseList(web.GetValue("Pathway").FirstOrDefault, "<a href="".+?"">.+?</a>")
+            Dim orthology = WebForm.parseList(web.GetValue("Orthology").FirstOrDefault.removesECLink, "<a href="".+?"">.+?</a>")
+            Dim [class] As New ReactionClass With {
+                .entryId = web("Entry")(Scan0).StripHTMLTags.Match("RC\d+"),
+                .definition = web("Definition").JoinBy("") _
+                    .SplitBy("</th>") _
+                    .Last _
+                    .StripHTMLTags _
+                    .TrimNewLine _
+                    .Trim,
+                .reactantPairs = reactantPairs,
+                .reactions = reactions,
+                .enzymes = enzymes,
+                .orthology = orthology,
+                .pathways = pathways
+            }
 
             Return [class]
+        End Function
+
+        <Extension>
+        Private Function removesECLink(html As String) As String
+            Dim EClinks = r.Matches(html, "<a href[=]""/dbget-bin/www_bget[?]ec[:].+?"">.+?</a>").ToArray
+            Dim sb As New StringBuilder(html)
+            Dim ECnumber As String
+
+            For Each link As String In EClinks
+                ECnumber = link.GetValue
+                sb.Replace(link, ECnumber)
+            Next
+
+            Return sb.ToString
         End Function
     End Module
 End Namespace
