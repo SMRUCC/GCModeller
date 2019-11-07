@@ -33,8 +33,26 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Property RCNumber As String Implements IKeyedEntity(Of String).Key
 
-        Public Shared Function LoadFromResource() As ReactionClass
+        Public Shared Iterator Function LoadFromResource() As IEnumerable(Of ReactionClass)
             Dim htext As htext = htext.br08201
+
+            For Each [class] As BriteHText In htext.Hierarchical.categoryItems
+                For Each subclass As BriteHText In [class].categoryItems
+                    For Each category As BriteHText In subclass.categoryItems
+                        For Each ECNumber As BriteHText In category.categoryItems
+                            For Each entry As BriteHText In ECNumber.categoryItems
+                                Yield New ReactionClass With {
+                                    .category = category.entryID,
+                                    .[class] = [class].entryID,
+                                    .ECNumber = ECNumber.entryID,
+                                    .RCNumber = entry.entryID,
+                                    .subclass = subclass.entryID
+                                }
+                            Next
+                        Next
+                    Next
+                Next
+            Next
         End Function
 
     End Class

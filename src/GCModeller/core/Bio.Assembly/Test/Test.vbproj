@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0670D2E7-0A62-41AF-BDB7-D6698EC799CC}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Test.sequenceToolsTest</StartupObject>
+    <StartupObject>Test.htextTest</StartupObject>
     <RootNamespace>Test</RootNamespace>
     <AssemblyName>Test</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -95,6 +95,7 @@
     <Compile Include="chebiTest.vb" />
     <Compile Include="KEGGRefMaps.vb" />
     <Compile Include="Module1.vb" />
+    <Compile Include="htextTest.vb" />
     <Compile Include="sequenceToolsTest.vb" />
     <Compile Include="TaxonomyTreeTest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -136,7 +137,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+      <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
