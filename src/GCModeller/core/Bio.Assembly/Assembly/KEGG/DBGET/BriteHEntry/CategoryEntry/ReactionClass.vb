@@ -1,6 +1,7 @@
 ﻿
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -40,13 +41,13 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 For Each subclass As BriteHText In [class].categoryItems
                     For Each category As BriteHText In subclass.categoryItems
                         For Each ECNumber As BriteHText In category.categoryItems
-                            For Each entry As BriteHText In ECNumber.categoryItems
+                            For Each entry As BriteHText In ECNumber.categoryItems.SafeQuery
                                 Yield New ReactionClass With {
-                                    .category = category.entryID,
-                                    .[class] = [class].entryID,
-                                    .ECNumber = ECNumber.entryID,
+                                    .category = category.classLabel,
+                                    .[class] = [class].classLabel,
+                                    .ECNumber = ECNumber.classLabel,
                                     .RCNumber = entry.entryID,
-                                    .subclass = subclass.entryID
+                                    .subclass = subclass.classLabel
                                 }
                             Next
                         Next
