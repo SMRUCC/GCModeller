@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Public Class ReactionClassifier
@@ -7,21 +8,44 @@ Public Class ReactionClassifier
     Dim reactionIndex As Dictionary(Of String, ReactionClass())
     Dim compoundTransformIndex As New Dictionary(Of String, ReactionClass())
 
+    Public ReadOnly Property Count As Integer
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return classes.Length
+        End Get
+    End Property
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function haveClassification(reactionId As String) As Boolean
+        Return reactionIndex.ContainsKey(reactionId)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function haveClassification(reaction As Reaction) As Boolean
         Return reactionIndex.ContainsKey(reaction.ID)
     End Function
 
-    Public Iterator Function GetReactantTransform(reaction As Reaction) As IEnumerable(Of (from$, to$))
-        Dim classes As ReactionClass() = reactionIndex.TryGetValue(reaction.ID)
+    Public Function GetReactantTransform(reaction As Reaction) As IEnumerable(Of (from$, to$))
+        If Not haveClassification(reaction) Then
+            Return {}
+        Else
+            With reaction.ReactionModel
+                Return GetReactantTransform(
+                    reaction:=reaction.ID,
+                    reactants:= .Reactants.Select(Function(c) c.ID).ToArray,
+                    products:= .Products.Select(Function(c) c.ID).ToArray
+                )
+            End With
+        End If
+    End Function
 
-        If classes.IsNullOrEmpty Then
+    Public Iterator Function GetReactantTransform(reaction$, reactants$(), products$()) As IEnumerable(Of (from$, to$))
+        If Not haveClassification(reaction) Then
             Return
         End If
 
-        Dim model = reaction.ReactionModel
-
-        For Each reactant As String In model.Reactants.Select(Function(r) r.ID)
-            For Each product As String In model.Products.Select(Function(r) r.ID)
+        For Each reactant As String In reactants
+            For Each product As String In products
                 If compoundTransformIndex.ContainsKey($"{reactant}_{product}") Then
                     Yield (reactant, product)
                 End If
@@ -72,6 +96,7 @@ Public Class ReactionClassifier
         Return Me
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromRepository(directory As String) As ReactionClassifier
         Return New ReactionClassifier With {
             .classes = ReactionClass.ScanRepository(directory).ToArray
@@ -79,4 +104,8 @@ Public Class ReactionClassifier
          .buildTupleIndex
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function IsNullOrEmpty(classifier As ReactionClassifier) As Boolean
+        Return classifier Is Nothing OrElse classifier.classes.IsNullOrEmpty
+    End Function
 End Class

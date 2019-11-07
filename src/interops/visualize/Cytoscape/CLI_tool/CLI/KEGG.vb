@@ -350,7 +350,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/organism <name> /out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /out <result_network.directory>]")>
     <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
     <Argument("/repository", False, CLITypes.File,
               AcceptTypes:={GetType(Map), GetType(Pathway)},
@@ -368,12 +368,23 @@ Partial Module CLI
               AcceptTypes:={GetType(NetworkTables)},
               Extensions:="*.csv",
               Description:="The network file data output directory that used for cytoscape network visualization.")>
+    <Argument("/reaction_class", True, CLITypes.File,
+              AcceptTypes:={GetType(ReactionClass)},
+              Extensions:="*.Xml",
+              Description:="Apply reaction class filter for reduce network size.")>
     Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
         Dim in$ = args <= "/repository"
         Dim organismName$ = args("/organism")
         Dim out$
         Dim reactions = ReactionTable.Load(args <= "/reactions")
         Dim model As NetworkTables
+        Dim reactionClass As ReactionClassifier = ReactionClassifier.FromRepository(args <= "/reaction_class")
+
+        If ReactionClassifier.IsNullOrEmpty(reactionClass) Then
+            reactionClass = Nothing
+        Else
+            Call $"Try to reduce network size with {reactionClass.Count} reaction class data.".__INFO_ECHO
+        End If
 
         If organismName.StringEmpty Then
             Dim maps As Map()
@@ -388,10 +399,10 @@ Partial Module CLI
                     .ToArray
             End If
 
-            model = PathwayMaps.BuildNetworkModel(maps, reactions, classFilter:=False)
+            model = PathwayMaps.BuildNetworkModel(maps, reactions, classFilter:=False, reactionClass:=reactionClass)
         Else
             out = args("/out") Or $"{[in].TrimDIR}.{organismName}.referenceMap/"
-            model = PathwayMaps.BuildNetworkModel(OrganismModel.EnumerateModules(handle:=[in]), reactions)
+            model = PathwayMaps.BuildNetworkModel(OrganismModel.EnumerateModules(handle:=[in]), reactions, reactionClass)
         End If
 
         Return model.Save(out).CLICode
