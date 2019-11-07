@@ -1,6 +1,7 @@
 ﻿
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
@@ -56,5 +57,22 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Next
         End Function
 
+        Friend Function GetPathComponents() As String
+            Dim tokens As New List(Of String)
+
+            If [class].Length > 64 Then
+                tokens += Mid([class], 1, 61).NormalizePathString & "~"
+            End If
+            If subclass.Length > 64 Then
+                tokens += Mid(subclass, 1, 61).NormalizePathString & "~"
+            End If
+            If category.Length > 64 Then
+                tokens += Mid(category, 1, 61).NormalizePathString & "~"
+            End If
+
+            tokens += ECNumber
+
+            Return tokens.JoinBy("/")
+        End Function
     End Class
 End Namespace
