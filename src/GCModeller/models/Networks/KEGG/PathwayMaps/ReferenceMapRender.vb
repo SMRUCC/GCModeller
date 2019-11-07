@@ -159,8 +159,8 @@ Namespace PathwayMaps
                         Dim rect As New Rectangle With {
                             .X = center.X - radius * 3 / 4,
                             .Y = center.Y + radius / 2,
-                            .Width = radius,
-                            .Height = radius / 3
+                            .Width = radius * 1.25,
+                            .Height = radius / 2.75
                         }
 
                         br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
