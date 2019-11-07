@@ -33,5 +33,9 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Property RCNumber As String Implements IKeyedEntity(Of String).Key
 
+        Public Shared Function LoadFromResource() As ReactionClass
+            Dim htext As htext = htext.br08201
+        End Function
+
     End Class
 End Namespace
