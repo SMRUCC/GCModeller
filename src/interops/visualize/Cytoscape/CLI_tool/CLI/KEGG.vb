@@ -390,6 +390,7 @@ Partial Module CLI
 
             model = PathwayMaps.BuildNetworkModel(maps, reactions, classFilter:=False)
         Else
+            out = args("/out") Or $"{[in].TrimDIR}.{organismName}.referenceMap/"
             model = PathwayMaps.BuildNetworkModel(OrganismModel.EnumerateModules(handle:=[in]), reactions)
         End If
 
