@@ -13,14 +13,17 @@ Namespace PathwayMaps
     Public Module MapAssignment
 
         ''' <summary>
-        ''' 
+        ''' Biological object map assignment by simple coverage calculation
         ''' </summary>
         ''' <param name="objects">实际的目标集合</param>
         ''' <param name="maps">
         ''' Pathway map作为<paramref name="objects"/> cluster的定义
         ''' </param>
         ''' <returns></returns>
-        Public Iterator Function MapAssignmentByCoverage(objects As IEnumerable(Of String), maps As IEnumerable(Of NamedCollection(Of String))) As IEnumerable(Of NamedCollection(Of String))
+        Public Iterator Function MapAssignmentByCoverage(objects As IEnumerable(Of String),
+                                                         maps As IEnumerable(Of NamedCollection(Of String)),
+                                                         Optional includesUnknown As Boolean = False) As IEnumerable(Of NamedCollection(Of String))
+
             Dim objectPool As Index(Of String) = objects.Distinct.Indexing
             Dim mapList As Dictionary(Of String, String()) =
                 maps.ToDictionary(Function(map) map.name,
@@ -51,11 +54,22 @@ Namespace PathwayMaps
                     .description = top.coverage
                 }
             Loop
+
+            If includesUnknown AndAlso objectPool.Count > 0 Then
+                ' unknowns
+                ' not includes in any given maps data
+                Yield New NamedCollection(Of String) With {
+                    .name = "unknown",
+                    .value = objectPool.Objects
+                }
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function CompoundsMapAssignment(maps As IEnumerable(Of Map), compoundIds As IEnumerable(Of String)) As IEnumerable(Of NamedCollection(Of String))
+        Public Function CompoundsMapAssignment(maps As IEnumerable(Of Map),
+                                               compoundIds As IEnumerable(Of String),
+                                               Optional includesUnknown As Boolean = False) As IEnumerable(Of NamedCollection(Of String))
             Return maps _
                 .Select(Function(map)
                             Return New NamedCollection(Of String) With {
@@ -69,13 +83,15 @@ Namespace PathwayMaps
                             }
                         End Function) _
                 .DoCall(Function(assign)
-                            Return MapAssignmentByCoverage(compoundIds, assign)
+                            Return MapAssignmentByCoverage(compoundIds, assign, includesUnknown)
                         End Function)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function ReactionsMapAssignment(maps As IEnumerable(Of Map), reactionIds As IEnumerable(Of String)) As IEnumerable(Of NamedCollection(Of String))
+        Public Function ReactionsMapAssignment(maps As IEnumerable(Of Map),
+                                               reactionIds As IEnumerable(Of String),
+                                               Optional includesUnknown As Boolean = False) As IEnumerable(Of NamedCollection(Of String))
             Return maps _
                 .Select(Function(map)
                             Return New NamedCollection(Of String) With {
@@ -89,7 +105,7 @@ Namespace PathwayMaps
                             }
                         End Function) _
                 .DoCall(Function(assign)
-                            Return MapAssignmentByCoverage(reactionIds, assign)
+                            Return MapAssignmentByCoverage(reactionIds, assign, includesUnknown)
                         End Function)
         End Function
     End Module
