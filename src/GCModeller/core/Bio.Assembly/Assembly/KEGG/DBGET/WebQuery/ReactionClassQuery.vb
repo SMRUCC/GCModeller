@@ -81,7 +81,16 @@ Namespace Assembly.KEGG.DBGET.WebQuery
 
         Friend Function ParseReactionClass(html As String) As ReactionClass
             Dim web As New WebForm(html)
-            Dim reactantPairs = WebForm.parseList(web.GetValue("Reactant pair").FirstOrDefault, "<a href="".+?"">.+?</a>")
+            Dim reactantPairs = WebForm.parseList(web.GetValue("Reactant pair").FirstOrDefault, "<a href="".+?"">.+?</a>") _
+                .Select(Function(name) name.name.Split("_"c)) _
+                .Where(Function(tuple) tuple.Length = 2) _
+                .Select(Function(tuple)
+                            Return New ReactionCompoundTransform With {
+                                .from = tuple(0),
+                                .[to] = tuple(1)
+                            }
+                        End Function) _
+                .ToArray
             Dim reactions = WebForm.parseList(web.GetValue("Reaction").FirstOrDefault, "<a href="".+?"">.+?</a>")
             Dim enzymes = WebForm.parseList(web.GetValue("Enzyme").FirstOrDefault, "<a href="".+?"">.+?</a>")
             Dim pathways = WebForm.parseList(web.GetValue("Pathway").FirstOrDefault, "<a href="".+?"">.+?</a>")
