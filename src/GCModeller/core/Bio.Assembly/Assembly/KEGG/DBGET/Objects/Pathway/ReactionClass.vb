@@ -12,7 +12,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <XmlAttribute>
         Public Property entryId As String
         Public Property definition As String
-        Public Property reactantPairs As CompoundTransform()
+        Public Property reactantPairs As ReactionCompoundTransform()
         Public Property reactions As NamedValue()
         Public Property enzymes As NamedValue()
         Public Property pathways As NamedValue()
@@ -38,15 +38,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 End If
             Next
         End Function
+    End Class
 
-        Public Class CompoundTransform
+    Public Class ReactionCompoundTransform
 
-            <XmlAttribute> Public Property from As String
-            <XmlAttribute> Public Property [to] As String
+        <XmlAttribute> Public Property from As String
+        <XmlAttribute> Public Property [to] As String
 
-            Public Overrides Function ToString() As String
-                Return $"{from}->{[to]}"
-            End Function
-        End Class
+        Public Overrides Function ToString() As String
+            Return $"{from}->{[to]}"
+        End Function
     End Class
 End Namespace
