@@ -144,12 +144,19 @@ Namespace PathwayMaps
                            Return Not c.Key Like ignores
                        End Function) _
                 .ToArray
+            Dim compoundCluster = mapsVector _
+                .Select(AddressOf BiologicalObjectCluster.CompoundsMap) _
+                .ToArray
 
-            Return compounds.buildNetworkModelInternal(reactionVector)
+            Return compounds.buildNetworkModelInternal(reactionVector, compoundCluster, {})
         End Function
 
         <Extension>
-        Private Function buildNetworkModelInternal(compounds As IGrouping(Of String, NamedValue(Of String))(), reactionVector As ReactionTable()) As NetworkTables
+        Private Function buildNetworkModelInternal(compounds As IGrouping(Of String, NamedValue(Of String))(),
+                                                   reactionVector As ReactionTable(),
+                                                   compoundCluster As NamedCollection(Of String)(),
+                                                   reactionCluster As NamedCollection(Of String)()) As NetworkTables
+
             Dim reactantIndex = reactionVector.getCompoundIndex(Function(r) r.substrates)
             Dim productIndex = reactionVector.getCompoundIndex(Function(r) r.products)
             Dim compoundsWithBiologicalRoles = getCompoundClassCategory()
@@ -220,11 +227,40 @@ Namespace PathwayMaps
             Next
 
             Dim g As New NetworkTables(nodes.Values, edges)
+            Dim nodesVector As Node() = nodes.Values.ToArray
 
+            Call nodesVector.doMapAssignment(compoundCluster, reactionCluster)
             Call g.ComputeNodeDegrees
 
             Return g
         End Function
+
+        <Extension>
+        Private Sub doMapAssignment(nodes As Node(),
+                                    compoundCluster As NamedCollection(Of String)(),
+                                    reactionCluster As NamedCollection(Of String)())
+
+            Dim compoundsId = nodes.Where(Function(n) n.NodeType <> "flux").Keys
+            Dim reactionsId = nodes.Where(Function(n) n.NodeType = "flux").Keys
+            Dim compoundsAssignment = MapAssignment.MapAssignmentByCoverage(compoundsId, compoundCluster).CategoryValues
+            Dim reactionsAssignment = MapAssignment.MapAssignmentByCoverage(reactionsId, reactionCluster).CategoryValues
+
+            For Each node As Node In nodes
+                If node.NodeType = "flux" Then
+                    If reactionsAssignment.ContainsKey(node.ID) Then
+                        node("group") = reactionsAssignment(node.ID)
+                    Else
+                        node("group") = "NA"
+                    End If
+                Else
+                    If compoundsAssignment.ContainsKey(node.ID) Then
+                        node("group") = compoundsAssignment(node.ID)
+                    Else
+                        node("group") = "NA"
+                    End If
+                End If
+            Next
+        End Sub
 
         <Extension>
         Private Iterator Function reactionKOFilter(reactions As IEnumerable(Of ReactionTable), KO As Index(Of String)) As IEnumerable(Of ReactionTable)
@@ -295,7 +331,10 @@ Namespace PathwayMaps
                     .ToArray
             End If
 
-            Return compounds.buildNetworkModelInternal(reactionVector)
+            Dim compoundCluster = mapsVector.Select(AddressOf BiologicalObjectCluster.CompoundsMap).ToArray
+            Dim reactionCluster = mapsVector.Select(AddressOf BiologicalObjectCluster.ReactionMap).ToArray
+
+            Return compounds.buildNetworkModelInternal(reactionVector, compoundCluster, reactionCluster)
         End Function
     End Module
 End Namespace

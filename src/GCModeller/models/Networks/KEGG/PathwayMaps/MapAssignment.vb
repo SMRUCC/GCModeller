@@ -37,7 +37,7 @@ Namespace PathwayMaps
                                 Let coverage As Double = objectPool _
                                     .Intersect(collection:=map.Value) _
                                     .Count
-                                Select map, coverage
+                                Select map, coverage = coverage / (maps.Count ^ 2) ' 尽量规模小的代谢图优先分配，这样子作图的时候更加美观
                                 Order By coverage Descending
 
                 Dim top = coverages.First
@@ -71,17 +71,7 @@ Namespace PathwayMaps
                                                compoundIds As IEnumerable(Of String),
                                                Optional includesUnknown As Boolean = False) As IEnumerable(Of NamedCollection(Of String))
             Return maps _
-                .Select(Function(map)
-                            Return New NamedCollection(Of String) With {
-                                .name = map.id,
-                                .value = map.shapes _
-                                    .Select(Function(a) a.IDVector) _
-                                    .IteratesALL _
-                                    .Where(Function(id) id.IsPattern("C\d+")) _
-                                    .Distinct _
-                                    .ToArray
-                            }
-                        End Function) _
+                .Select(AddressOf BiologicalObjectCluster.CompoundsMap) _
                 .DoCall(Function(assign)
                             Return MapAssignmentByCoverage(compoundIds, assign, includesUnknown)
                         End Function)
@@ -93,17 +83,7 @@ Namespace PathwayMaps
                                                reactionIds As IEnumerable(Of String),
                                                Optional includesUnknown As Boolean = False) As IEnumerable(Of NamedCollection(Of String))
             Return maps _
-                .Select(Function(map)
-                            Return New NamedCollection(Of String) With {
-                                .name = map.id,
-                                .value = map.shapes _
-                                    .Select(Function(a) a.IDVector) _
-                                    .IteratesALL _
-                                    .Where(Function(id) id.IsPattern("R\d+")) _
-                                    .Distinct _
-                                    .ToArray
-                            }
-                        End Function) _
+                .Select(AddressOf BiologicalObjectCluster.ReactionMap) _
                 .DoCall(Function(assign)
                             Return MapAssignmentByCoverage(reactionIds, assign, includesUnknown)
                         End Function)
