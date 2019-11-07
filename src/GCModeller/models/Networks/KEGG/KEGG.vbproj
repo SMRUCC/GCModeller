@@ -233,6 +233,7 @@
     <Compile Include="KEGGMap\PathwayMapRender.vb" />
     <Compile Include="KOLinks.vb" />
     <Compile Include="CompoundSupportsEvidence.vb" />
+    <Compile Include="PathwayMaps\MapAssignment.vb" />
     <Compile Include="PathwayMaps\ReferenceMapRender.vb" />
     <Compile Include="PathwayMaps\ReferenceMap.vb" />
     <Compile Include="ReactionNetwork.vb" />
