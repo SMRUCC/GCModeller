@@ -35,7 +35,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Property RCNumber As String Implements IKeyedEntity(Of String).Key
 
         Public Shared Iterator Function LoadFromResource() As IEnumerable(Of ReactionClass)
-            Dim htext As htext = htext.br08201
+            Dim htext As htext = htext.br08204
 
             For Each [class] As BriteHText In htext.Hierarchical.categoryItems
                 For Each subclass As BriteHText In [class].categoryItems
