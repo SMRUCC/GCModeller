@@ -1,9 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -375,6 +377,17 @@ Namespace PathwayMaps
                 If node("group") <> "NA" Then
                     node("group.class") = mapCategories(node("group").Match("\d+")).class
                     node("group.category") = mapCategories(node("group").Match("\d+")).category
+                End If
+            Next
+
+            Dim categoryColors As New CategoryColorProfile(
+                category:=nodes.ToDictionary(Function(n) n.ID, Function(n) n("group.category")),
+                colorSchema:="material"
+            )
+
+            For Each node As Node In nodes
+                If node("group") <> "NA" Then
+                    node("group.category.color") = categoryColors.GetColor(node.ID).ToHtmlColor
                 End If
             Next
         End Sub
