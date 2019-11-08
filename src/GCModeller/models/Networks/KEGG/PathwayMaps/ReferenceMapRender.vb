@@ -223,7 +223,7 @@ Namespace PathwayMaps
                     If node.label.IsPattern("C\d+") Then
                         Return 64
                     Else
-                        Return 32
+                        Return 40
                     End If
                 End Function
             Dim yellow As Color = "#f5f572".TranslateColor
@@ -244,8 +244,8 @@ Namespace PathwayMaps
                 minLinkWidth:=3,
                 nodeRadius:=300,
                 edgeShadowDistance:=0,
-                edgeDashTypes:=DashStyle.Solid,
-                defaultEdgeColor:="black",
+                edgeDashTypes:=DashStyle.Dot,
+                defaultEdgeColor:="brown",
                 getNodeLabel:=AddressOf getNodeLabel,
                 getLabelPosition:=getLabelPositoon，
                 labelTextStroke:=Nothing,
@@ -260,7 +260,8 @@ Namespace PathwayMaps
                                    Else
                                        Return Color.White
                                    End If
-                               End Function
+                               End Function,
+                convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";"
             )
         End Function
 
