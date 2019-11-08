@@ -19,10 +19,14 @@ Namespace PathwayMaps
         ''' <param name="maps">
         ''' Pathway map作为<paramref name="objects"/> cluster的定义
         ''' </param>
+        ''' <param name="coverageCutoff">
+        ''' coverage结果值低于这个阈值的代谢通路将不会被抛出，这个参数默认为零，即不进行coverage相关的筛选
+        ''' </param>
         ''' <returns></returns>
         Public Iterator Function MapAssignmentByCoverage(objects As IEnumerable(Of String),
                                                          maps As IEnumerable(Of NamedCollection(Of String)),
-                                                         Optional includesUnknown As Boolean = False) As IEnumerable(Of NamedCollection(Of String))
+                                                         Optional includesUnknown As Boolean = False,
+                                                         Optional coverageCutoff As Double = 0) As IEnumerable(Of NamedCollection(Of String))
 
             Dim objectPool As Index(Of String) = objects.Distinct.Indexing
             Dim mapList As Dictionary(Of String, String()) =
@@ -37,13 +41,21 @@ Namespace PathwayMaps
                                 Let coverage As Double = objectPool _
                                     .Intersect(collection:=map.Value) _
                                     .Count
-                                Select map, coverage = coverage / (maps.Count ^ 2) ' 尽量规模小的代谢图优先分配，这样子作图的时候更加美观
+                                Let numberOfGenes As Integer = map.Value.Length
+                                Select map, coverage = coverage / (numberOfGenes ^ 2) ' 尽量规模小的代谢图优先分配，这样子作图的时候更加美观
                                 Order By coverage Descending
 
                 Dim top = coverages.First
                 Dim intersectObjects As String() = objectPool _
                     .Intersect(collection:=top.map.Value) _
                     .ToArray
+
+                ' 最高的coverage已经达到阈值了
+                ' 则后面已经不会再出现比较高的coverage结果了
+                ' 结束计算循环
+                If (top.coverage * top.map.Value.Length) < coverageCutoff Then
+                    Exit Do
+                End If
 
                 Call mapList.Remove(top.map.Key)
                 Call intersectObjects.DoEach(AddressOf objectPool.Delete)

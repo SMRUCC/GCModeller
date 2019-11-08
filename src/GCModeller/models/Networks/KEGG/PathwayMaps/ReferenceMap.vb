@@ -132,7 +132,8 @@ Namespace PathwayMaps
         ''' <returns></returns>
         Public Function BuildNetworkModel(maps As IEnumerable(Of bGetObject.Pathway),
                                           reactions As IEnumerable(Of ReactionTable),
-                                          Optional reactionClass As ReactionClassifier = Nothing) As NetworkTables
+                                          Optional reactionClass As ReactionClassifier = Nothing,
+                                          Optional doRemoveUnmmaped As Boolean = False) As NetworkTables
             Dim mapsVector = maps.ToArray
             Dim reactionVector As ReactionTable() = reactions.ToArray
             Dim compounds = mapsVector _
@@ -150,7 +151,13 @@ Namespace PathwayMaps
                 .Select(AddressOf BiologicalObjectCluster.CompoundsMap) _
                 .ToArray
 
-            Return compounds.buildNetworkModelInternal(reactionVector, compoundCluster, {}, reactionClass)
+            Return compounds.buildNetworkModelInternal(
+                reactionVector:=reactionVector,
+                compoundCluster:=compoundCluster,
+                reactionCluster:={},
+                reactionClass:=reactionClass,
+                doRemoveUnmmaped:=doRemoveUnmmaped
+            )
         End Function
 
         <Extension>
@@ -158,7 +165,8 @@ Namespace PathwayMaps
                                                    reactionVector As ReactionTable(),
                                                    compoundCluster As NamedCollection(Of String)(),
                                                    reactionCluster As NamedCollection(Of String)(),
-                                                   reactionClass As ReactionClassifier) As NetworkTables
+                                                   reactionClass As ReactionClassifier,
+                                                   doRemoveUnmmaped As Boolean) As NetworkTables
 
             Dim reactantIndex = reactionVector.getCompoundIndex(Function(r) r.substrates)
             Dim productIndex = reactionVector.getCompoundIndex(Function(r) r.products)
@@ -196,10 +204,18 @@ Namespace PathwayMaps
             Dim nodesVector As Node() = nodes.Values.ToArray
 
             Call nodesVector.doMapAssignment(compoundCluster, reactionCluster)
+            Call g.removesUnmapped(doRemoveUnmmaped)
             Call g.ComputeNodeDegrees
 
             Return g
         End Function
+
+        <Extension>
+        Private Sub removesUnmapped(g As NetworkTables, doRemoveUnmmaped As Boolean)
+            If Not doRemoveUnmmaped Then
+                Return 
+            End If
+        End Sub
 
         <Extension>
         Private Sub edgesFromClassFilter(forwards As ReactionTable(), aId$, aName$,
@@ -360,7 +376,8 @@ Namespace PathwayMaps
         ''' <returns></returns>
         Public Function BuildNetworkModel(maps As IEnumerable(Of Map), reactions As IEnumerable(Of ReactionTable),
                                           Optional classFilter As Boolean = True,
-                                          Optional reactionClass As ReactionClassifier = Nothing) As NetworkTables
+                                          Optional reactionClass As ReactionClassifier = Nothing,
+                                          Optional doRemoveUnmmaped As Boolean = False) As NetworkTables
 
             Dim mapsVector = maps.ToArray
             Dim reactionVector As ReactionTable() = reactions.reactionKOFilter(mapsVector.getKOlist).ToArray
@@ -401,7 +418,13 @@ Namespace PathwayMaps
             Dim compoundCluster = mapsVector.Select(AddressOf BiologicalObjectCluster.CompoundsMap).ToArray
             Dim reactionCluster = mapsVector.Select(AddressOf BiologicalObjectCluster.ReactionMap).ToArray
 
-            Return compounds.buildNetworkModelInternal(reactionVector, compoundCluster, reactionCluster, reactionClass)
+            Return compounds.buildNetworkModelInternal(
+                reactionVector:=reactionVector,
+                compoundCluster:=compoundCluster,
+                reactionCluster:=reactionCluster,
+                reactionClass:=reactionClass,
+                doRemoveUnmmaped:=doRemoveUnmmaped
+            )
         End Function
     End Module
 End Namespace
