@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
@@ -65,13 +66,15 @@ Namespace PathwayMaps
                                Optional canvasSize$ = "11480,9200",
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
-                               Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
+                               Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
+                               Optional convexHull As String() = Nothing) As GraphicsData
 
             Return model.ToNetworkGraph("label", "class", "group.category", "group.category.color") _
                 .Render(canvasSize:=canvasSize,
                         enzymeColorSchema:=enzymeColorSchema,
                         compoundColorSchema:=compoundColorSchema,
-                        reactionShapeStrokeCSS:=reactionShapeStrokeCSS
+                        reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
+                        convexHull:=convexHull
                 )
         End Function
 
@@ -85,7 +88,8 @@ Namespace PathwayMaps
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
-                               Optional hideCompoundCircle As Boolean = False) As GraphicsData
+                               Optional hideCompoundCircle As Boolean = False,
+                               Optional convexHull As Index(Of String) = Nothing) As GraphicsData
 
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
@@ -190,10 +194,18 @@ Namespace PathwayMaps
                     End If
                 End Function
 
+            If convexHull Is Nothing Then
+                convexHull = New Index(Of String)
+            End If
+
             Dim allCategories$() = graph.vertex _
                 .Select(Function(n)
                             Return n.data("group.category")
                         End Function) _
+                .Distinct _
+                .Where(Function(cat)
+                           Return cat Like convexHull
+                       End Function) _
                 .ToArray
             Dim categoryColors = allCategories _
                 .Select(Function(c)
@@ -204,6 +216,14 @@ Namespace PathwayMaps
                                 .data("group.category.color")
                         End Function) _
                 .ToArray
+
+            If Not allCategories.IsNullOrEmpty Then
+                Call $"Network canvas will render {allCategories.Length} category data for convexHull...".__INFO_ECHO
+
+                For Each category As String In allCategories
+                    Call category.__INFO_ECHO
+                Next
+            End If
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
