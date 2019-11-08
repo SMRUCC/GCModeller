@@ -1,9 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -53,7 +55,7 @@ Namespace PathwayMaps
                            Return Not r.EC.IsNullOrEmpty AndAlso r.EC.Any(Function(num) num.IsPattern("\d(\.\d+)+"))
                        End Function) _
                 .Select(Function(r)
-                            Return getIds(r).Select(Function(cid) (cid, r))
+                            Return getIds(r).Select(Function(cid) (cid:=cid, r:=r))
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(t) t.cid) _
@@ -132,7 +134,9 @@ Namespace PathwayMaps
         ''' <returns></returns>
         Public Function BuildNetworkModel(maps As IEnumerable(Of bGetObject.Pathway),
                                           reactions As IEnumerable(Of ReactionTable),
-                                          Optional reactionClass As ReactionClassifier = Nothing) As NetworkTables
+                                          Optional reactionClass As ReactionClassifier = Nothing,
+                                          Optional doRemoveUnmmaped As Boolean = False,
+                                          Optional coverageCutoff As Double = 0) As NetworkTables
             Dim mapsVector = maps.ToArray
             Dim reactionVector As ReactionTable() = reactions.ToArray
             Dim compounds = mapsVector _
@@ -150,7 +154,14 @@ Namespace PathwayMaps
                 .Select(AddressOf BiologicalObjectCluster.CompoundsMap) _
                 .ToArray
 
-            Return compounds.buildNetworkModelInternal(reactionVector, compoundCluster, {}, reactionClass)
+            Return compounds.buildNetworkModelInternal(
+                reactionVector:=reactionVector,
+                compoundCluster:=compoundCluster,
+                reactionCluster:={},
+                reactionClass:=reactionClass,
+                doRemoveUnmmaped:=doRemoveUnmmaped,
+                coverageCutoff:=coverageCutoff
+            )
         End Function
 
         <Extension>
@@ -158,7 +169,9 @@ Namespace PathwayMaps
                                                    reactionVector As ReactionTable(),
                                                    compoundCluster As NamedCollection(Of String)(),
                                                    reactionCluster As NamedCollection(Of String)(),
-                                                   reactionClass As ReactionClassifier) As NetworkTables
+                                                   reactionClass As ReactionClassifier,
+                                                   doRemoveUnmmaped As Boolean,
+                                                   coverageCutoff As Double) As NetworkTables
 
             Dim reactantIndex = reactionVector.getCompoundIndex(Function(r) r.substrates)
             Dim productIndex = reactionVector.getCompoundIndex(Function(r) r.products)
@@ -178,7 +191,7 @@ Namespace PathwayMaps
 
                 If reactionClass Is Nothing Then
                     Dim producs As Dictionary(Of String, ReactionTable()) = forwards _
-                        .Select(Function(r) r.products.Select(Function(cid) (cid, r))) _
+                        .Select(Function(r) r.products.Select(Function(cid) (cid:=cid, r:=r))) _
                         .IteratesALL _
                         .GroupBy(Function(cid) cid.cid) _
                         .ToDictionary(Function(c) c.Key,
@@ -195,11 +208,41 @@ Namespace PathwayMaps
             Dim g As New NetworkTables(nodes.Values, edges)
             Dim nodesVector As Node() = nodes.Values.ToArray
 
-            Call nodesVector.doMapAssignment(compoundCluster, reactionCluster)
+            Call nodesVector.doMapAssignment(compoundCluster, reactionCluster, coverageCutoff)
+            Call g.removesUnmapped(doRemoveUnmmaped)
+            Call g.RemoveDuplicated()
+            Call g.RemovesIsolatedNodes()
             Call g.ComputeNodeDegrees
+
+            Call $"Result network size=[{g.nodes.Length} nodes, {g.edges.Length} edges]".__INFO_ECHO
 
             Return g
         End Function
+
+        <Extension>
+        Private Sub removesUnmapped(g As NetworkTables, doRemoveUnmmaped As Boolean)
+            If Not doRemoveUnmmaped Then
+                Return
+            Else
+                Call "All of the unmapped node and the related edges will be removed from the network graph.".__DEBUG_ECHO
+            End If
+
+            Dim nodesToRemoves As Index(Of String) = g.nodes.Where(Function(n) n("group") = "NA").Keys.Indexing
+
+            Call $"There are {nodesToRemoves.Count} unmapped nodes will be removes from graph".__INFO_ECHO
+            Call $"Current network size=[{g.nodes.Length} nodes, {g.edges.Length} edges]".__INFO_ECHO
+
+            ' removes all of the unmapped nodes
+            g.nodes = g.nodes.Where(Function(n) Not n.ID Like nodesToRemoves).ToArray
+            ' removes all of the unmapped node related edges
+            g.edges = g.edges _
+                .Where(Function(e)
+                           Return Not New String() {e.fromNode, e.toNode}.Any(Function(id) id Like nodesToRemoves)
+                       End Function) _
+                .ToArray
+
+            Call $"Network size=[{g.nodes.Length} nodes, {g.edges.Length} edges] after operation of removes unmapped nodes".__INFO_ECHO
+        End Sub
 
         <Extension>
         Private Sub edgesFromClassFilter(forwards As ReactionTable(), aId$, aName$,
@@ -302,12 +345,15 @@ Namespace PathwayMaps
         <Extension>
         Private Sub doMapAssignment(nodes As Node(),
                                     compoundCluster As NamedCollection(Of String)(),
-                                    reactionCluster As NamedCollection(Of String)())
+                                    reactionCluster As NamedCollection(Of String)(),
+                                    coverageCutoff As Double)
 
             Dim compoundsId = nodes.Where(Function(n) n.NodeType <> "flux").Keys
             Dim reactionsId = nodes.Where(Function(n) n.NodeType = "flux").Keys
-            Dim compoundsAssignment = MapAssignment.MapAssignmentByCoverage(compoundsId, compoundCluster).CategoryValues
-            Dim reactionsAssignment = MapAssignment.MapAssignmentByCoverage(reactionsId, reactionCluster).CategoryValues
+            Dim compoundsAssignment = MapAssignment.MapAssignmentByCoverage(compoundsId, compoundCluster, coverageCutoff:=coverageCutoff).CategoryValues
+            Dim reactionsAssignment = MapAssignment.MapAssignmentByCoverage(reactionsId, reactionCluster, coverageCutoff:=coverageCutoff).CategoryValues
+
+            Call "Do node map assignment.".__DEBUG_ECHO
 
             For Each node As Node In nodes
                 If node.NodeType = "flux" Then
@@ -322,6 +368,32 @@ Namespace PathwayMaps
                     Else
                         node("group") = "NA"
                     End If
+                End If
+            Next
+
+            Dim mapCategories = BiologicalObjectCluster.GetMapCategories
+
+            For Each node As Node In nodes
+                If node("group") <> "NA" Then
+                    node("group.class") = mapCategories(node("group").Match("\d+")).class
+                    node("group.category") = mapCategories(node("group").Match("\d+")).category
+                End If
+            Next
+
+            Dim category As Dictionary(Of String, String) = nodes _
+                .Where(Function(n) n("group") <> "NA") _
+                .ToDictionary(Function(n) n.ID,
+                              Function(n)
+                                  Return n("group.category")
+                              End Function)
+            Dim categoryColors As New CategoryColorProfile(
+                category:=category,
+                colorSchema:="material"
+            )
+
+            For Each node As Node In nodes
+                If node("group") <> "NA" Then
+                    node("group.category.color") = categoryColors.GetColor(node.ID).ToHtmlColor
                 End If
             Next
         End Sub
@@ -360,7 +432,9 @@ Namespace PathwayMaps
         ''' <returns></returns>
         Public Function BuildNetworkModel(maps As IEnumerable(Of Map), reactions As IEnumerable(Of ReactionTable),
                                           Optional classFilter As Boolean = True,
-                                          Optional reactionClass As ReactionClassifier = Nothing) As NetworkTables
+                                          Optional reactionClass As ReactionClassifier = Nothing,
+                                          Optional doRemoveUnmmaped As Boolean = False,
+                                          Optional coverageCutoff As Double = 0) As NetworkTables
 
             Dim mapsVector = maps.ToArray
             Dim reactionVector As ReactionTable() = reactions.reactionKOFilter(mapsVector.getKOlist).ToArray
@@ -401,7 +475,14 @@ Namespace PathwayMaps
             Dim compoundCluster = mapsVector.Select(AddressOf BiologicalObjectCluster.CompoundsMap).ToArray
             Dim reactionCluster = mapsVector.Select(AddressOf BiologicalObjectCluster.ReactionMap).ToArray
 
-            Return compounds.buildNetworkModelInternal(reactionVector, compoundCluster, reactionCluster, reactionClass)
+            Return compounds.buildNetworkModelInternal(
+                reactionVector:=reactionVector,
+                compoundCluster:=compoundCluster,
+                reactionCluster:=reactionCluster,
+                reactionClass:=reactionClass,
+                doRemoveUnmmaped:=doRemoveUnmmaped,
+                coverageCutoff:=coverageCutoff
+            )
         End Function
     End Module
 End Namespace

@@ -40,6 +40,12 @@ Public Module CategoryOperations
                              End Function)
     End Function
 
+    ''' <summary>
+    ''' transform ``[category => items]`` to ``[item -> category][]``
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="categories"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CategoryValues(Of T)(categories As IEnumerable(Of NamedCollection(Of T))) As Dictionary(Of T, String)
         Return categories _
