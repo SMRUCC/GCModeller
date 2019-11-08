@@ -88,7 +88,7 @@ Namespace PathwayMaps
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
-                               Optional hideCompoundCircle As Boolean = False,
+                               Optional hideCompoundCircle As Boolean = True,
                                Optional convexHull As Index(Of String) = Nothing) As GraphicsData
 
             Dim nodes As New Dictionary(Of String, Node)
@@ -157,9 +157,9 @@ Namespace PathwayMaps
                     Else
                         ' 方形
                         rect = New Rectangle With {
-                            .X = center.X - radius / 2,
+                            .X = center.X - radius / 2.25,
                             .Y = center.Y - radius / 5,
-                            .Width = radius,
+                            .Width = radius * 1.125,
                             .Height = radius / 2.5
                         }
 
