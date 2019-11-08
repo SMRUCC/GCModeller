@@ -59,11 +59,11 @@ Public Module CanvasScaler
             .ToArray
         Dim scale = (CDbl(scaleFactor.Width), CDbl(scaleFactor.Height))
 
-        edgeBundlingShape = edgeBundlingShape.Enlarge(scale)
-
         If edgeBundlingShape.Length > 0 Then
             Dim pointList As New List(Of PointF)
             Dim i As Integer
+
+            edgeBundlingShape = edgeBundlingShape.Enlarge(scale)
 
             For Each edge As Edge In edges
                 For Each null In edge.data.controlsPoint
