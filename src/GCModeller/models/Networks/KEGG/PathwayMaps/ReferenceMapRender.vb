@@ -127,8 +127,8 @@ Namespace PathwayMaps
             Dim reactionShapeStroke As Pen = Stroke.TryParse(reactionShapeStrokeCSS)
             Dim rectShadow As New Shadow(10, 30, 1.125, 1.25)
             Dim circleShadow As New Shadow(130, 45, 2, 2)
-            Dim offsetCircle As New PointF(20, 20)
-            Dim offsetRect As New PointF(30, 20)
+            Dim offsetCircle As New PointF(0, 0)
+            Dim offsetRect As New PointF(0, 0)
 
             Dim drawNode As DrawNodeShape =
                 Sub(id$, g As IGraphics, br As Brush, radius!, center As PointF)
@@ -207,7 +207,7 @@ Namespace PathwayMaps
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                background:="#e4faff",
+                background:="white",'"transparent",
                 padding:="padding: 500px 500px 500px 500px;",
                 canvasSize:=canvasSize,
                 labelerIterations:=0,
@@ -218,11 +218,11 @@ Namespace PathwayMaps
                     .Value = allCategories.JoinBy(","),
                     .Description = categoryColors.JoinBy(",")
                 },
-                minLinkWidth:=10,
+                minLinkWidth:=3,
                 nodeRadius:=220,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=DashStyle.Solid,
-                defaultEdgeColor:="lightblue",
+                defaultEdgeColor:="black",
                 getNodeLabel:=AddressOf getNodeLabel,
                 getLabelPosition:=getLabelPositoon，
                 labelTextStroke:=Nothing,
