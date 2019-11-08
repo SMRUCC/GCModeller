@@ -207,14 +207,34 @@ Namespace PathwayMaps
             Call g.removesUnmapped(doRemoveUnmmaped)
             Call g.ComputeNodeDegrees
 
+            Call $"Result network size=[{g.nodes.Length} nodes, {g.edges.Length} edges]".__INFO_ECHO
+
             Return g
         End Function
 
         <Extension>
         Private Sub removesUnmapped(g As NetworkTables, doRemoveUnmmaped As Boolean)
             If Not doRemoveUnmmaped Then
-                Return 
+                Return
+            Else
+                Call "All of the unmapped node and the related edges will be removed from the network graph.".__DEBUG_ECHO
             End If
+
+            Dim nodesToRemoves As Index(Of String) = g.nodes.Where(Function(n) n("group") = "NA").Keys.Indexing
+
+            Call $"There are {nodesToRemoves.Count} unmapped nodes will be removes from graph".__INFO_ECHO
+            Call $"Current network size=[{g.nodes.Length} nodes, {g.edges.Length} edges]".__INFO_ECHO
+
+            ' removes all of the unmapped nodes
+            g.nodes = g.nodes.Where(Function(n) Not n.ID Like nodesToRemoves).ToArray
+            ' removes all of the unmapped node related edges
+            g.edges = g.edges _
+                .Where(Function(e)
+                           Return Not New String() {e.fromNode, e.toNode}.Any(Function(id) id Like nodesToRemoves)
+                       End Function) _
+                .ToArray
+
+            Call $"Network size=[{g.nodes.Length} nodes, {g.edges.Length} edges] after operation of removes unmapped nodes".__INFO_ECHO
         End Sub
 
         <Extension>
@@ -324,6 +344,8 @@ Namespace PathwayMaps
             Dim reactionsId = nodes.Where(Function(n) n.NodeType = "flux").Keys
             Dim compoundsAssignment = MapAssignment.MapAssignmentByCoverage(compoundsId, compoundCluster).CategoryValues
             Dim reactionsAssignment = MapAssignment.MapAssignmentByCoverage(reactionsId, reactionCluster).CategoryValues
+
+            Call "Do node map assignment.".__DEBUG_ECHO
 
             For Each node As Node In nodes
                 If node.NodeType = "flux" Then

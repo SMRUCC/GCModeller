@@ -350,7 +350,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /delete.unmapped /out <result_network.directory>]")>
     <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
     <Argument("/repository", False, CLITypes.File,
               AcceptTypes:={GetType(Map), GetType(Pathway)},
@@ -379,6 +379,7 @@ Partial Module CLI
         Dim reactions = ReactionTable.Load(args <= "/reactions")
         Dim model As NetworkTables
         Dim reactionClass As ReactionClassifier = ReactionClassifier.FromRepository(args <= "/reaction_class")
+        Dim doRemoveUnmapped As Boolean = args("/delete.unmapped")
 
         If ReactionClassifier.IsNullOrEmpty(reactionClass) Then
             reactionClass = Nothing
@@ -399,10 +400,21 @@ Partial Module CLI
                     .ToArray
             End If
 
-            model = PathwayMaps.BuildNetworkModel(maps, reactions, classFilter:=False, reactionClass:=reactionClass)
+            model = PathwayMaps.BuildNetworkModel(
+                maps:=maps,
+                reactions:=reactions,
+                classFilter:=False,
+                reactionClass:=reactionClass,
+                doRemoveUnmmaped:=doRemoveUnmapped
+            )
         Else
             out = args("/out") Or $"{[in].TrimDIR}.{organismName}.referenceMap/"
-            model = PathwayMaps.BuildNetworkModel(OrganismModel.EnumerateModules(handle:=[in]), reactions, reactionClass)
+            model = PathwayMaps.BuildNetworkModel(
+                maps:=OrganismModel.EnumerateModules(handle:=[in]),
+                reactions:=reactions,
+                reactionClass:=reactionClass,
+                doRemoveUnmmaped:=doRemoveUnmapped
+            )
         End If
 
         Return model.Save(out).CLICode
