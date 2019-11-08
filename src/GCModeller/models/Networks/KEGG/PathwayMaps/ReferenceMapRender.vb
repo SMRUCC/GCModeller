@@ -157,9 +157,9 @@ Namespace PathwayMaps
                     Else
                         ' 方形
                         rect = New Rectangle With {
-                            .X = center.X - radius / 2.25,
+                            .X = center.X - radius / 2,
                             .Y = center.Y - radius / 5,
-                            .Width = radius * 1.125,
+                            .Width = radius,
                             .Height = radius / 2.5
                         }
 
@@ -221,11 +221,12 @@ Namespace PathwayMaps
             Dim getFontSize As Func(Of Node, Single) =
                 Function(node As Node) As Single
                     If node.label.IsPattern("C\d+") Then
-                        Return 27
+                        Return 64
                     Else
-                        Return 40
+                        Return 32
                     End If
                 End Function
+            Dim yellow As Color = "#f5f572".TranslateColor
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
@@ -254,6 +255,8 @@ Namespace PathwayMaps
                 getLabelColor:=Function(node As Node) As Color
                                    If node.label.IsPattern("C\d+") Then
                                        Return Color.Black
+                                   ElseIf DirectCast(node.data.color, SolidBrush).Color.EuclideanDistance(yellow) <= 30 Then
+                                       Return Color.DarkBlue
                                    Else
                                        Return Color.White
                                    End If
