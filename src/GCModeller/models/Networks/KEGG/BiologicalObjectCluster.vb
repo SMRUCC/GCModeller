@@ -1,10 +1,13 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Public Module BiologicalObjectCluster
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function CompoundsMap(map As Pathway) As NamedCollection(Of String)
         Return New NamedCollection(Of String) With {
             .name = map.EntryId,
@@ -12,6 +15,7 @@ Public Module BiologicalObjectCluster
         }
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function CompoundsMap(map As Map) As NamedCollection(Of String)
         Return New NamedCollection(Of String) With {
             .name = map.id,
@@ -24,6 +28,7 @@ Public Module BiologicalObjectCluster
         }
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function ReactionMap(map As Map) As NamedCollection(Of String)
         Return New NamedCollection(Of String) With {
             .name = map.id,
@@ -34,5 +39,12 @@ Public Module BiologicalObjectCluster
                 .Distinct _
                 .ToArray
         }
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function GetMapCategories() As Dictionary(Of String, BriteHEntry.Pathway)
+        Return BriteHEntry.Pathway _
+            .LoadFromResource _
+            .ToDictionary(Function(map) map.EntryId)
     End Function
 End Module

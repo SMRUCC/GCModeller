@@ -424,6 +424,12 @@ Partial Module CLI
             )
         End If
 
+        Dim groupSelects = model.nodes.GroupBy(Function(n) n("group.category")).ToArray
+
+        For Each group In groupSelects
+            Call group.Keys.FlushAllLines($"{out}/selects/{group.Key.NormalizePathString}.txt")
+        Next
+
         Return model.Save(out).CLICode
     End Function
 
