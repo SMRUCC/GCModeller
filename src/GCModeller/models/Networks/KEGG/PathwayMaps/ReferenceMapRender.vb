@@ -67,7 +67,7 @@ Namespace PathwayMaps
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
 
-            Return model.ToNetworkGraph("label", "class", "group.category") _
+            Return model.ToNetworkGraph("label", "class", "group.category", "group.category.color") _
                 .Render(canvasSize:=canvasSize,
                         enzymeColorSchema:=enzymeColorSchema,
                         compoundColorSchema:=compoundColorSchema,
@@ -85,7 +85,7 @@ Namespace PathwayMaps
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
-                               Optional hideCompoundCircle As Boolean = True) As GraphicsData
+                               Optional hideCompoundCircle As Boolean = False) As GraphicsData
 
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
@@ -195,6 +195,15 @@ Namespace PathwayMaps
                             Return n.data("group.category")
                         End Function) _
                 .ToArray
+            Dim categoryColors = allCategories _
+                .Select(Function(c)
+                            Return graph.vertex _
+                                .First(Function(n)
+                                           Return n.data("group.category") = c
+                                       End Function) _
+                                .data("group.category.color")
+                        End Function) _
+                .ToArray
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
@@ -206,7 +215,8 @@ Namespace PathwayMaps
                 drawNodeShape:=drawNode,
                 hullPolygonGroups:=New NamedValue(Of String) With {
                     .Name = "group.category",
-                    .Value = allCategories.JoinBy(",")
+                    .Value = allCategories.JoinBy(","),
+                    .Description = categoryColors.JoinBy(",")
                 },
                 minLinkWidth:=10,
                 nodeRadius:=220,
