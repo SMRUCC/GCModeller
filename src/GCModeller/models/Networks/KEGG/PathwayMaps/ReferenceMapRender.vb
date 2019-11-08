@@ -227,17 +227,17 @@ Namespace PathwayMaps
             Dim getFontSize As Func(Of Node, Single) =
                 Function(node As Node) As Single
                     If node.label.IsPattern("C\d+") Then
-                        Return 64
+                        Return 32
                     Else
-                        Return 40
+                        Return 36
                     End If
                 End Function
             Dim yellow As Color = "#f5f572".TranslateColor
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                background:="white",'"transparent",
-                padding:="padding: 500px 500px 500px 500px;",
+                background:="transparent",
+                padding:="padding: 800px 800px 800px 800px;",
                 canvasSize:=canvasSize,
                 labelerIterations:=0,
                 doEdgeBundling:=True,
@@ -267,7 +267,8 @@ Namespace PathwayMaps
                                        Return Color.White
                                    End If
                                End Function,
-                convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";"
+                convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";",
+                convexHullScale:=1.025
             )
         End Function
 
