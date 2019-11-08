@@ -380,8 +380,14 @@ Namespace PathwayMaps
                 End If
             Next
 
+            Dim category As Dictionary(Of String, String) = nodes _
+                .Where(Function(n) n("group") <> "NA") _
+                .ToDictionary(Function(n) n.ID,
+                              Function(n)
+                                  Return n("group.category")
+                              End Function)
             Dim categoryColors As New CategoryColorProfile(
-                category:=nodes.ToDictionary(Function(n) n.ID, Function(n) n("group.category")),
+                category:=category,
                 colorSchema:="material"
             )
 
