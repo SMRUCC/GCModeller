@@ -350,7 +350,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /delete.unmapped /out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /out <result_network.directory>]")>
     <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
     <Argument("/repository", False, CLITypes.File,
               AcceptTypes:={GetType(Map), GetType(Pathway)},
@@ -372,6 +372,9 @@ Partial Module CLI
               AcceptTypes:={GetType(ReactionClass)},
               Extensions:="*.Xml",
               Description:="Apply reaction class filter for reduce network size.")>
+    <Argument("/coverage.cutoff", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.")>
     Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
         Dim in$ = args <= "/repository"
         Dim organismName$ = args("/organism")
@@ -380,6 +383,7 @@ Partial Module CLI
         Dim model As NetworkTables
         Dim reactionClass As ReactionClassifier = ReactionClassifier.FromRepository(args <= "/reaction_class")
         Dim doRemoveUnmapped As Boolean = args("/delete.unmapped")
+        Dim coverageCutoff As Double = args("/coverage.cutoff") Or 0.0
 
         If ReactionClassifier.IsNullOrEmpty(reactionClass) Then
             reactionClass = Nothing
@@ -405,7 +409,8 @@ Partial Module CLI
                 reactions:=reactions,
                 classFilter:=False,
                 reactionClass:=reactionClass,
-                doRemoveUnmmaped:=doRemoveUnmapped
+                doRemoveUnmmaped:=doRemoveUnmapped,
+                coverageCutoff:=coverageCutoff
             )
         Else
             out = args("/out") Or $"{[in].TrimDIR}.{organismName}.referenceMap/"
@@ -413,7 +418,8 @@ Partial Module CLI
                 maps:=OrganismModel.EnumerateModules(handle:=[in]),
                 reactions:=reactions,
                 reactionClass:=reactionClass,
-                doRemoveUnmmaped:=doRemoveUnmapped
+                doRemoveUnmmaped:=doRemoveUnmapped,
+                coverageCutoff:=coverageCutoff
             )
         End If
 
