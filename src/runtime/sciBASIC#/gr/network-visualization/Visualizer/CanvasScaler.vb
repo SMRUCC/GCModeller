@@ -24,7 +24,116 @@ Imports stdNum = System.Math
 ''' <summary>
 ''' 进行网络模型之中的节点的位置缩放以及中心化平移操作的帮助模块
 ''' </summary>
+''' <remarks>
+''' 计算节点在画布上面的正确的位置操作：
+''' 
+''' 1. 计算整个网络图形的边界
+''' 2. 计算出缩放因子
+''' 3. 执行位置的缩放
+''' 4. 计算出中心点平移的偏移值
+''' 5. 执行中心点平移
+''' 6. 完成节点的位置计算操作
+''' </remarks>
 Public Module CanvasScaler
+
+    <Extension>
+    Public Function CalculateEdgeBends(net As NetworkGraph, frameSize As SizeF, padding As Padding) As Dictionary(Of Edge, PointF())
+        edgeBundling = net.graphEdges _
+                .Where(Function(e)
+                           ' 空集合会在下面的分割for循环中产生移位bug
+                           ' 跳过
+                           Return Not e.data.controlsPoint.IsNullOrEmpty
+                       End Function) _
+                .ToDictionary(Function(e) e,
+                              Function(e)
+                                  Return e.data.controlsPoint _
+                                      .Select(Function(v)
+                                                  Return New PointF With {
+                                                      .X = v.x,
+                                                      .Y = v.y
+                                                  }.OffSet2D(Offset)
+                                              End Function) _
+                                      .ToArray
+                              End Function)
+
+        If edgeBundling.Count > 0 Then
+            With edgeBundling.Keys.ToArray
+                Dim tempList As New List(Of PointF)
+                Dim i As Integer
+
+                scalePoints = .Select(Function(e) edgeBundling(e)) _
+                              .IteratesALL _
+                              .Enlarge((CDbl(Scale.Width), CDbl(Scale.Height)))
+
+                For Each edge As Edge In .ByRef
+                    For Each null In edgeBundling(edge)
+                        ' 20191103
+                        ' 在这里因为每一个edge的边连接点的数量是不一样的
+                        ' 所以在这里使用for loop加上递增序列来
+                        ' 正确的获取得到每一条边所对应的边连接节点
+                        tempList += scalePoints(i)
+                        i += 1
+                    Next
+
+                    edgeBundling(edge) = tempList
+                    tempList *= 0
+                Next
+            End With
+        End If
+    End Function
+
+    ''' <summary>
+    ''' <see cref="Node.label"/>
+    ''' </summary>
+    ''' <param name="net"><see cref="Node.label"/></param>
+    ''' <param name="frameSize"></param>
+    ''' <param name="padding"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CalculateNodePositions(net As NetworkGraph, frameSize As SizeF, padding As Padding) As Dictionary(Of String, PointF)
+        Dim points As Dictionary(Of String, PointF) = net.vertex _
+            .ToDictionary(Function(n) n.label,
+                          Function(n)
+                              Return New PointF With {
+                                  .X = n.data.initialPostion.x,
+                                  .Y = n.data.initialPostion.y
+                              }
+                          End Function)
+
+        ' 1. 首先计算出边界
+        Dim boundary As RectangleF = points.Values.GetBounds
+        ' 2. 计算出缩放的因子大小
+        Dim factor As SizeF = boundary.AutoScaler(frameSize, padding)
+        ' 3. 执行缩放
+        Dim keys As String() = points.Keys.ToArray
+        Dim scalePoints As PointF() = keys _
+            .Select(Function(id) points(id)) _
+            .Enlarge((CDbl(factor.Width), CDbl(factor.Height)))
+
+        With keys
+            For i As Integer = 0 To .Count - 1
+                points(.GetValue(i)) = scalePoints(i)
+            Next
+        End With
+
+        ' 4. 计算出中心点平移的偏移值
+        Dim plotSize As New Size With {
+            .Width = frameSize.Width - padding.Horizontal,
+            .Height = frameSize.Height - padding.Vertical
+        }
+        Dim offset As PointF = scalePoints _
+            .CentralOffset(plotSize) _
+            .OffSet2D(New PointF(padding.Left, padding.Top))
+
+        ' 5. 执行中心点平移
+        Call keys.DoEach(Sub(id)
+                             points(id) = points(id).OffSet2D(offset)
+                         End Sub)
+
+        ' 6. 完成节点的位置计算操作
+        '    返回节点位置结果
+        Return points
+    End Function
 
     ''' <summary>
     ''' 这里是计算出网络几点偏移到图像的中心所需要的偏移量
@@ -38,36 +147,12 @@ Public Module CanvasScaler
     End Function
 
     <Extension>
-    Private Function scales(nodes As IEnumerable(Of Node), scale As SizeF) As Dictionary(Of Node, Point)
-        Dim table As New Dictionary(Of Node, Point)
+    Public Function AutoScaler(boundary As RectangleF, frameSize As SizeF, padding As Padding) As SizeF
+        With boundary
+            Dim w = frameSize.Width / (.Width + padding.Horizontal)
+            Dim h = frameSize.Height / (.Height + padding.Vertical)
 
-        For Each n As Node In nodes
-            With n.data.initialPostion.Point2D
-                Call table.Add(n, New Point(.X * scale.Width, .Y * scale.Height))
-            End With
-        Next
-
-        Return table
-    End Function
-
-    <Extension>
-    Public Function GetBounds(graph As NetworkGraph) As RectangleF
-        Dim points As Point() = graph _
-            .vertex _
-            .scales(scale:=New SizeF(1, 1)) _
-            .Values _
-            .ToArray
-        Dim rect = points.GetBounds
-        Return rect
-    End Function
-
-    <Extension>
-    Public Function AutoScaler(graph As NetworkGraph, frameSize As Size, padding As Padding) As SizeF
-        With graph.GetBounds
-            Return New SizeF(
-                frameSize.Width / (.Width + padding.Horizontal),
-                frameSize.Height / (.Height + padding.Vertical)
-            )
+            Return New SizeF(w, h)
         End With
     End Function
 
