@@ -368,6 +368,15 @@ Namespace PathwayMaps
                     End If
                 End If
             Next
+
+            Dim mapCategories = BiologicalObjectCluster.GetMapCategories
+
+            For Each node As Node In nodes
+                If node("group") <> "NA" Then
+                    node("group.class") = mapCategories(node("group").Match("\d+")).class
+                    node("group.category") = mapCategories(node("group").Match("\d+")).category
+                End If
+            Next
         End Sub
 
         <Extension>
