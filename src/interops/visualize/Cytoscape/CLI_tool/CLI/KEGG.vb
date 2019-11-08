@@ -375,6 +375,7 @@ Partial Module CLI
     <Argument("/coverage.cutoff", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.")>
+    <Group(CLIGrouping.KEGGPathwayMapTools)>
     Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
         Dim in$ = args <= "/repository"
         Dim organismName$ = args("/organism")
@@ -428,6 +429,8 @@ Partial Module CLI
 
     <ExportAPI("/KEGG.referenceMap.render")>
     <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/size <10(A0)> /out <viz.png>]")>
+    <Description("Render pathway map as image after cytoscape layout progress.")>
+    <Group(CLIGrouping.KEGGPathwayMapTools)>
     Public Function RenderReferenceMapNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim out$
