@@ -53,7 +53,7 @@ Namespace PathwayMaps
                            Return Not r.EC.IsNullOrEmpty AndAlso r.EC.Any(Function(num) num.IsPattern("\d(\.\d+)+"))
                        End Function) _
                 .Select(Function(r)
-                            Return getIds(r).Select(Function(cid) (cid, r))
+                            Return getIds(r).Select(Function(cid) (cid:=cid, r:=r))
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(t) t.cid) _
@@ -189,7 +189,7 @@ Namespace PathwayMaps
 
                 If reactionClass Is Nothing Then
                     Dim producs As Dictionary(Of String, ReactionTable()) = forwards _
-                        .Select(Function(r) r.products.Select(Function(cid) (cid, r))) _
+                        .Select(Function(r) r.products.Select(Function(cid) (cid:=cid, r:=r))) _
                         .IteratesALL _
                         .GroupBy(Function(cid) cid.cid) _
                         .ToDictionary(Function(c) c.Key,

@@ -71,6 +71,7 @@ Namespace netCDF.Components
         Public Property integers As Integer()
         Public Property tiny_num As Single()
         Public Property numerics As Double()
+        Public Property longs As Long()
 
         Public ReadOnly Property Length As Integer
             Get
@@ -87,6 +88,8 @@ Namespace netCDF.Components
                         Return integers.Length
                     Case CDFDataTypes.SHORT
                         Return tiny_int.Length
+                    Case CDFDataTypes.LONG
+                        Return longs.Length
                     Case Else
                         Return 0
                 End Select
@@ -107,10 +110,35 @@ Namespace netCDF.Components
                     Return CDFDataTypes.FLOAT
                 ElseIf Not numerics.IsNullOrEmpty Then
                     Return CDFDataTypes.DOUBLE
+                ElseIf Not longs.IsNullOrEmpty Then
+                    Return CDFDataTypes.LONG
                 Else
                     ' null
                     Return CDFDataTypes.undefined
                 End If
+            End Get
+        End Property
+
+        Public ReadOnly Property genericValue As Object
+            Get
+                Select Case cdfDataType
+                    Case CDFDataTypes.BYTE
+                        Return byteStream.Base64RawBytes
+                    Case CDFDataTypes.CHAR
+                        Return chars
+                    Case CDFDataTypes.DOUBLE
+                        Return numerics
+                    Case CDFDataTypes.FLOAT
+                        Return tiny_num
+                    Case CDFDataTypes.INT
+                        Return integers
+                    Case CDFDataTypes.LONG
+                        Return longs
+                    Case CDFDataTypes.SHORT
+                        Return tiny_int
+                    Case Else
+                        Return Nothing
+                End Select
             End Get
         End Property
 
@@ -124,6 +152,7 @@ Namespace netCDF.Components
                 Case CDFDataTypes.FLOAT : stringify = tiny_num.JoinBy(",")
                 Case CDFDataTypes.INT : stringify = integers.JoinBy(",")
                 Case CDFDataTypes.SHORT : stringify = tiny_int.JoinBy(",")
+                Case CDFDataTypes.LONG : stringify = longs.JoinBy(",")
                 Case Else
                     Return "null"
             End Select
@@ -166,44 +195,20 @@ Namespace netCDF.Components
                         .Select(Function(b) DirectCast(b, IEnumerable(Of Byte)).Reverse) _
                         .IteratesALL _
                         .ToArray
+                Case CDFDataTypes.LONG
+                    Return longs _
+                        .Select(AddressOf BitConverter.GetBytes) _
+                        .Select(Function(b) DirectCast(b, IEnumerable(Of Byte)).Reverse) _
+                        .IteratesALL _
+                        .ToArray
                 Case Else
                     Throw New NotImplementedException(cdfDataType.Description)
             End Select
         End Function
 
-        ''' <summary>
-        ''' 将<see cref="byteStream"/>转换为字节流之后分割然后转换为<see cref="Long"/>之后返回
-        ''' </summary>
-        ''' <returns></returns>
-        Public Function GetInt64Buffer() As Long()
-            Dim bytes As Byte() = Convert.FromBase64String(byteStream)
-            Dim int64s&() = bytes _
-                .Split(8) _
-                .Select(Function(chunk)
-                            Return BitConverter.ToInt64(chunk, Scan0)
-                        End Function) _
-                .ToArray
-
-            Return int64s
-        End Function
-
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Widening Operator CType(data As Byte()) As CDFData
             Return New CDFData With {.byteStream = data.ToBase64String}
-        End Operator
-
-        ''' <summary>
-        ''' 在进行转换的时候也需要以相同的方式进行逆变换
-        ''' </summary>
-        ''' <param name="data"></param>
-        ''' <returns></returns>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Widening Operator CType(data As Long()) As CDFData
-            Return New CDFData With {
-                .byteStream = data _
-                    .SelectMany(Function(i) BitConverter.GetBytes(i)) _
-                    .ToBase64String
-            }
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -236,6 +241,11 @@ Namespace netCDF.Components
             Return New CDFData With {.numerics = data.Array}
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(data As Long()) As CDFData
+            Return New CDFData With {.longs = data.ToArray}
+        End Operator
+
         Public Shared Widening Operator CType(data As (values As Object(), type As CDFDataTypes)) As CDFData
             Select Case data.type
                 Case CDFDataTypes.BYTE
@@ -250,6 +260,8 @@ Namespace netCDF.Components
                     Return data.values.As(Of Integer).ToArray
                 Case CDFDataTypes.SHORT
                     Return data.values.As(Of Short).ToArray
+                Case CDFDataTypes.LONG
+                    Return data.values.As(Of Long).ToArray
                 Case Else
                     Return New CDFData
             End Select
