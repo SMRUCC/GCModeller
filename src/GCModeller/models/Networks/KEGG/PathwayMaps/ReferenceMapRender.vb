@@ -57,6 +57,8 @@ Namespace PathwayMaps
         ''' </summary>
         ''' <param name="model"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Render(model As XGMMLgraph,
                                Optional canvasSize$ = "11480,9200",
@@ -64,7 +66,26 @@ Namespace PathwayMaps
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
 
-            Dim graph As NetworkGraph = model.ToNetworkGraph("label", "class")
+            Return model.ToNetworkGraph("label", "class") _
+                .Render(canvasSize:=canvasSize,
+                        enzymeColorSchema:=enzymeColorSchema,
+                        compoundColorSchema:=compoundColorSchema,
+                        reactionShapeStrokeCSS:=reactionShapeStrokeCSS
+                )
+        End Function
+
+        ''' <summary>
+        ''' 将完成node和edge布局操作的网络模型进行渲染
+        ''' </summary>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Render(graph As NetworkGraph,
+                               Optional canvasSize$ = "11480,9200",
+                               Optional enzymeColorSchema$ = "Set1:c8",
+                               Optional compoundColorSchema$ = "Clusters",
+                               Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
+                               Optional hideCompoundCircle As Boolean = True) As GraphicsData
+
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
                 .GroupBy(Function(r) r.Entry.Key) _
@@ -114,20 +135,22 @@ Namespace PathwayMaps
                     Dim connectedNodes = graph.GetConnectedVertex(id)
 
                     If node.label.IsPattern("C\d+") Then
-                        ' 圆形
-                        radius = radius * 0.4
-                        center = center.OffSet2D(offsetCircle)
+                        If Not hideCompoundCircle Then
+                            ' 圆形
+                            radius = radius * 0.4
+                            center = center.OffSet2D(offsetCircle)
 
-                        Dim rect As New Rectangle With {
-                            .X = center.X - radius,
-                            .Y = center.Y + radius,
-                            .Width = radius,
-                            .Height = radius
-                        }
+                            Dim rect As New Rectangle With {
+                                .X = center.X - radius,
+                                .Y = center.Y + radius,
+                                .Width = radius,
+                                .Height = radius
+                            }
 
-                        Call circleShadow.Circle(g, center, radius)
-                        Call g.FillEllipse(br, rect)
-                        Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Darken, 10), rect)
+                            Call circleShadow.Circle(g, center, radius)
+                            Call g.FillEllipse(br, rect)
+                            Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Darken, 10), rect)
+                        End If
                     Else
                         ' 方形
                         center = center.OffSet2D(offsetRect)
@@ -136,8 +159,8 @@ Namespace PathwayMaps
                         Dim rect As New Rectangle With {
                             .X = center.X - radius * 3 / 4,
                             .Y = center.Y + radius / 2,
-                            .Width = radius,
-                            .Height = radius / 2
+                            .Width = radius * 1.25,
+                            .Height = radius / 2.75
                         }
 
                         br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
@@ -161,7 +184,7 @@ Namespace PathwayMaps
 
                         Return New PointF(
                             x:=center.X - labelSize.Width * 5 / 7,
-                            y:=center.Y + labelSize.Height * 2
+                            y:=center.Y + labelSize.Height * 1.7
                         )
                     End If
                 End Function
@@ -178,12 +201,20 @@ Namespace PathwayMaps
                 nodeRadius:=220,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=DashStyle.Solid,
-                defaultEdgeColor:="white",
+                defaultEdgeColor:="lightblue",
                 getNodeLabel:=AddressOf getNodeLabel,
                 getLabelPosition:=getLabelPositoon，
+                labelTextStroke:=Nothing,
                 labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
                 fontSize:=27,
-                defaultLabelColor:="white"
+                defaultLabelColor:="white",
+                getLabelColor:=Function(node As Node) As Color
+                                   If node.label.IsPattern("C\d+") Then
+                                       Return Color.Black
+                                   Else
+                                       Return Color.White
+                                   End If
+                               End Function
             )
         End Function
 

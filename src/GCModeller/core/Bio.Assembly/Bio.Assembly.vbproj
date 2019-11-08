@@ -529,6 +529,7 @@
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\TreeParser.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ReactionClass.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Enzyme.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ProteinFamily.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Organism.vb" />
@@ -546,6 +547,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\Organism.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionClass.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\ModuleDBGet.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayEntry.vb" />
@@ -554,6 +556,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Models\Enzyme.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\EnzymeWebQuery.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\WebQuery\ReactionClassQuery.vb" />
     <Compile Include="Assembly\KEGG\DBGET\WebQuery\ReactionQuery.vb" />
     <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb" />
     <Compile Include="Assembly\KEGG\DBGET\WebQuery\Compounds\DbGetWebQuery.vb" />
@@ -1044,6 +1047,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Reactions\br08204.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -63,10 +63,10 @@ Public Module ReactionNetwork
         Dim compoundIndex As Dictionary(Of String, String()) = maps _
             .Select(Function(pathway)
                         Return pathway.shapes _
-                                      .Select(Function(a) a.IDVector) _
-                                      .IteratesALL _
-                                      .Where(Function(id) id.IsPattern("C\d+")) _
-                                      .Select(Function(id) (id, pathway))
+                            .Select(Function(a) a.IDVector) _
+                            .IteratesALL _
+                            .Where(Function(id) id.IsPattern("C\d+")) _
+                            .Select(Function(id) (id, pathway))
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(link) link.Item1) _

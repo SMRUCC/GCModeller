@@ -1,4 +1,4 @@
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7244.17825
-'  // ASSEMBLY:  Settings, Version=3.3277.7244.17825, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7251.18537
+'  // ASSEMBLY:  Settings, Version=3.3277.7251.18537, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     2019/11/1 9:54:10
+'  // BUILT:     11/8/2019 10:17:54 AM
 '  // 
 ' 
 ' 
@@ -72,7 +72,15 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /Phenotypes.KEGG:                    Regulator phenotype relationship cluster from virtual footprints.
 ' 
 ' 
-' 3. KEGG tools
+' 3. KEGG reference pathway map visualization
+' 
+' 
+'    /KEGG.referenceMap.Model:            Create network model of KEGG reference pathway map for cytoscape
+'                                         data visualization.
+'    /KEGG.referenceMap.render:           Render pathway map as image after cytoscape layout progress.
+' 
+' 
+' 4. KEGG tools
 ' 
 ' 
 '    /KEGG.Mods.NET:                      
@@ -84,13 +92,13 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    --mod.regulations:                   
 ' 
 ' 
-' 4. MetaCyc pathway network tools
+' 5. MetaCyc pathway network tools
 ' 
 ' 
 '    /Net.rFBA:                           
 ' 
 ' 
-' 5. Metagenomics tools
+' 6. Metagenomics tools
 ' 
 ' 
 '    /BBH.Simple:                         
@@ -101,7 +109,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '    /BLAST.Network.MetaBuild:            
 ' 
 ' 
-' 6. TF/Regulon network tools
+' 7. TF/Regulon network tools
 ' 
 ' 
 '    /NetModel.TF_regulates:              Builds the regulation network between the TF.
@@ -614,6 +622,66 @@ Public Function KEGGPathwayMapNetwork([in] As String, Optional node As String = 
     Call CLI.Append("/in " & """" & [in] & """ ")
     If Not node.StringEmpty Then
             Call CLI.Append("/node " & """" & node & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /KEGG.referenceMap.Model /repository &lt;[reference/organism]kegg_maps.directory&gt; /reactions &lt;kegg_reactions.directory&gt; [/reaction_class &lt;repository&gt; /organism &lt;name&gt; /coverage.cutoff &lt;[0,1], default=0&gt; /delete.unmapped /out &lt;result_network.directory&gt;]
+''' ```
+''' Create network model of KEGG reference pathway map for cytoscape data visualization.
+''' </summary>
+'''
+Public Function KEGGReferenceMapModel(repository As String, Optional reactions As String = "", Optional __reaction_class As String = "", Optional organism As String = "", Optional coverage_cutoff As String = "0", Optional out As String = "", Optional delete_unmapped As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/KEGG.referenceMap.Model")
+    Call CLI.Append(" ")
+    Call CLI.Append("/repository " & """" & repository & """ ")
+    If Not reactions.StringEmpty Then
+            Call CLI.Append("/reactions " & """" & reactions & """ ")
+    End If
+    If Not __reaction_class.StringEmpty Then
+            Call CLI.Append("[/reaction_class " & """" & __reaction_class & """ ")
+    End If
+    If Not organism.StringEmpty Then
+            Call CLI.Append("/organism " & """" & organism & """ ")
+    End If
+    If Not coverage_cutoff.StringEmpty Then
+            Call CLI.Append("/coverage.cutoff " & """" & coverage_cutoff & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If delete_unmapped Then
+        Call CLI.Append("/delete.unmapped ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /KEGG.referenceMap.render /model &lt;network.xgmml/directory&gt; [/size &lt;10(A0)&gt; /out &lt;viz.png&gt;]
+''' ```
+''' Render pathway map as image after cytoscape layout progress.
+''' </summary>
+'''
+Public Function RenderReferenceMapNetwork(model As String, Optional size As String = "", Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/KEGG.referenceMap.render")
+    Call CLI.Append(" ")
+    Call CLI.Append("/model " & """" & model & """ ")
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")

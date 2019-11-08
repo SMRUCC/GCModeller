@@ -54,7 +54,6 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -79,7 +78,6 @@ Namespace SequenceModel.FASTA
     Public Class FastaSeq : Inherits ISequenceModel
         Implements IPolymerSequenceModel
         Implements IAbstractFastaToken
-        Implements ISaveHandle
         Implements IFastaProvider
         Implements ICloneable
         Implements ICloneable(Of FastaSeq)
@@ -563,7 +561,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <param name="encoding"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function SaveTo(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+        Public Function SaveTo(Path As String, encoding As Encoding) As Boolean
             Return SaveTo(lineBreak:=60, Path:=Path, encoding:=encoding)
         End Function
 
@@ -578,7 +576,7 @@ AAGCGAACAAATGTTCTATA"
             Dim doc$ = GenerateDocument(lineBreak)
 
             If encoding Is Nothing Then
-                encoding = Encoding.Default
+                encoding = Encoding.ASCII
             End If
 
             Return doc.SaveTo(Path, encoding, False)
@@ -597,10 +595,14 @@ AAGCGAACAAATGTTCTATA"
             Call sb.AppendLine(ToString)
             Call sb.AppendLine(SequenceData)
 
+            If encoding Is Nothing Then
+                encoding = Encodings.ASCII.CodePage
+            End If
+
             Return sb.ToString.SaveTo(Path, encoding)
         End Function
 
-        Public Function Save(Path$, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
             Return SaveTo(Path, encoding.CodePage)
         End Function
 
