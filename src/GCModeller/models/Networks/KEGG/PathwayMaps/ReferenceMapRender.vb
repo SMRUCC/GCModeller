@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -66,7 +67,7 @@ Namespace PathwayMaps
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
 
-            Return model.ToNetworkGraph("label", "class") _
+            Return model.ToNetworkGraph("label", "class", "group.category") _
                 .Render(canvasSize:=canvasSize,
                         enzymeColorSchema:=enzymeColorSchema,
                         compoundColorSchema:=compoundColorSchema,
@@ -189,6 +190,12 @@ Namespace PathwayMaps
                     End If
                 End Function
 
+            Dim allCategories$() = graph.vertex _
+                .Select(Function(n)
+                            Return n.data("group.category")
+                        End Function) _
+                .ToArray
+
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
                 background:="#e4faff",
@@ -197,6 +204,10 @@ Namespace PathwayMaps
                 labelerIterations:=0,
                 doEdgeBundling:=True,
                 drawNodeShape:=drawNode,
+                hullPolygonGroups:=New NamedValue(Of String) With {
+                    .Name = "group.category",
+                    .Value = allCategories.JoinBy(",")
+                },
                 minLinkWidth:=10,
                 nodeRadius:=220,
                 edgeShadowDistance:=0,
