@@ -59,7 +59,11 @@ Public Class ReactionClassifier
     Private Function buildTupleIndex() As ReactionClassifier
         compoundTransformIndex = classes _
             .Select(Function(cls)
-                        Return cls.reactantPairs.Select(Function(tuple) (key:=$"{tuple.from}_{tuple.to}", cls))
+                        Return cls _
+                            .reactantPairs _
+                            .Select(Function(tuple)
+                                        Return (key:=$"{tuple.from}_{tuple.to}", cls:=cls)
+                                    End Function)
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(transform) transform.key) _
@@ -79,7 +83,7 @@ Public Class ReactionClassifier
     Private Function buildIndex() As ReactionClassifier
         reactionIndex = classes _
             .Select(Function(cls)
-                        Return cls.reactions.Keys.Select(Function(rid) (rid, cls))
+                        Return cls.reactions.Keys.Select(Function(rid) (rid:=rid, cls:=cls))
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(r) r.rid) _
