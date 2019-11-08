@@ -38,48 +38,49 @@ Public Module CanvasScaler
 
     <Extension>
     Public Function CalculateEdgeBends(net As NetworkGraph, frameSize As SizeF, padding As Padding) As Dictionary(Of Edge, PointF())
-        edgeBundling = net.graphEdges _
-                .Where(Function(e)
-                           ' 空集合会在下面的分割for循环中产生移位bug
-                           ' 跳过
-                           Return Not e.data.controlsPoint.IsNullOrEmpty
-                       End Function) _
-                .ToDictionary(Function(e) e,
-                              Function(e)
-                                  Return e.data.controlsPoint _
-                                      .Select(Function(v)
-                                                  Return New PointF With {
-                                                      .X = v.x,
-                                                      .Y = v.y
-                                                  }.OffSet2D(Offset)
-                                              End Function) _
-                                      .ToArray
-                              End Function)
+        Dim edgeBundling As New Dictionary(Of Edge, PointF())
+        Dim scaleFactor As SizeF = Nothing
+        Dim centraOffset As PointF = Nothing
 
-        If edgeBundling.Count > 0 Then
-            With edgeBundling.Keys.ToArray
-                Dim tempList As New List(Of PointF)
-                Dim i As Integer
+        Call net.CalculateNodePositions(frameSize, padding, scaleFactor, centraOffset)
 
-                scalePoints = .Select(Function(e) edgeBundling(e)) _
-                              .IteratesALL _
-                              .Enlarge((CDbl(Scale.Width), CDbl(Scale.Height)))
+        ' 1. 先做缩放
+        Dim edges As Edge() = net.graphEdges _
+            .Where(Function(e)
+                       ' 空集合会在下面的分割for循环中产生移位bug
+                       ' 跳过
+                       Return Not e.data.controlsPoint.IsNullOrEmpty
+                   End Function) _
+            .ToArray
+        Dim edgeBundlingShape As PointF() = edges _
+            .Select(Function(e) e.data.controlsPoint) _
+            .IteratesALL _
+            .Select(Function(v) New PointF With {.X = v.x, .Y = v.y}) _
+            .ToArray
+        Dim scale = (CDbl(scaleFactor.Width), CDbl(scaleFactor.Height))
 
-                For Each edge As Edge In .ByRef
-                    For Each null In edgeBundling(edge)
-                        ' 20191103
-                        ' 在这里因为每一个edge的边连接点的数量是不一样的
-                        ' 所以在这里使用for loop加上递增序列来
-                        ' 正确的获取得到每一条边所对应的边连接节点
-                        tempList += scalePoints(i)
-                        i += 1
-                    Next
+        edgeBundlingShape = edgeBundlingShape.Enlarge(scale)
 
-                    edgeBundling(edge) = tempList
-                    tempList *= 0
+        If edgeBundlingShape.Length > 0 Then
+            Dim pointList As New List(Of PointF)
+            Dim i As Integer
+
+            For Each edge As Edge In edges
+                For Each null In edge.data.controlsPoint
+                    ' 20191103
+                    ' 在这里因为每一个edge的边连接点的数量是不一样的
+                    ' 所以在这里使用for loop加上递增序列来
+                    ' 正确的获取得到每一条边所对应的边连接节点
+                    pointList += edgeBundlingShape(i)
+                    i += 1
                 Next
-            End With
+
+                edgeBundling(edge) = pointList
+                pointList *= 0
+            Next
         End If
+
+        Return edgeBundling
     End Function
 
     ''' <summary>
@@ -90,7 +91,10 @@ Public Module CanvasScaler
     ''' <param name="padding"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CalculateNodePositions(net As NetworkGraph, frameSize As SizeF, padding As Padding) As Dictionary(Of String, PointF)
+    Public Function CalculateNodePositions(net As NetworkGraph, frameSize As SizeF, padding As Padding,
+                                           Optional ByRef scaleFactor As SizeF = Nothing,
+                                           Optional ByRef centraOffset As PointF = Nothing) As Dictionary(Of String, PointF)
+
         Dim points As Dictionary(Of String, PointF) = net.vertex _
             .ToDictionary(Function(n) n.label,
                           Function(n)
@@ -129,6 +133,9 @@ Public Module CanvasScaler
         Call keys.DoEach(Sub(id)
                              points(id) = points(id).OffSet2D(offset)
                          End Sub)
+
+        scaleFactor = factor
+        centraOffset = offset
 
         ' 6. 完成节点的位置计算操作
         '    返回节点位置结果
