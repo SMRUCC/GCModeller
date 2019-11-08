@@ -208,6 +208,7 @@ Namespace PathwayMaps
 
             Call nodesVector.doMapAssignment(compoundCluster, reactionCluster, coverageCutoff)
             Call g.removesUnmapped(doRemoveUnmmaped)
+            Call g.RemoveDuplicated()
             Call g.ComputeNodeDegrees
 
             Call $"Result network size=[{g.nodes.Length} nodes, {g.edges.Length} edges]".__INFO_ECHO
