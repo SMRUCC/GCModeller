@@ -131,8 +131,6 @@ Namespace PathwayMaps
             Dim reactionShapeStroke As Pen = Stroke.TryParse(reactionShapeStrokeCSS)
             Dim rectShadow As New Shadow(10, 30, 1.125, 1.25)
             Dim circleShadow As New Shadow(130, 45, 2, 2)
-            Dim offsetCircle As New PointF(0, 0)
-            Dim offsetRect As New PointF(0, 0)
 
             Dim drawNode As DrawNodeShape =
                 Function(id$, g As IGraphics, br As Brush, radius!, center As PointF)
@@ -143,7 +141,6 @@ Namespace PathwayMaps
                     If node.label.IsPattern("C\d+") Then
                         ' 圆形
                         radius = radius * 0.5
-                        center = center.OffSet2D(offsetCircle)
                         rect = New Rectangle With {
                             .X = center.X - radius / 2,
                             .Y = center.Y - radius / 2,
@@ -159,13 +156,11 @@ Namespace PathwayMaps
                         End If
                     Else
                         ' 方形
-                        center = center.OffSet2D(offsetRect)
-                        radius = radius * 0.8
                         rect = New Rectangle With {
-                            .X = center.X - radius * 3 / 4,
-                            .Y = center.Y + radius / 2,
-                            .Width = radius * 1.25,
-                            .Height = radius / 2.75
+                            .X = center.X - radius / 2,
+                            .Y = center.Y - radius / 5,
+                            .Width = radius,
+                            .Height = radius / 2.5
                         }
 
                         br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
@@ -223,6 +218,15 @@ Namespace PathwayMaps
                 Next
             End If
 
+            Dim getFontSize As Func(Of Node, Single) =
+                Function(node As Node) As Single
+                    If node.label.IsPattern("C\d+") Then
+                        Return 27
+                    Else
+                        Return 40
+                    End If
+                End Function
+
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
                 background:="white",'"transparent",
@@ -245,7 +249,7 @@ Namespace PathwayMaps
                 getLabelPosition:=getLabelPositoon，
                 labelTextStroke:=Nothing,
                 labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
-                fontSize:=27,
+                fontSize:=getFontSize,
                 defaultLabelColor:="white",
                 getLabelColor:=Function(node As Node) As Color
                                    If node.label.IsPattern("C\d+") Then
