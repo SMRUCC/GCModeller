@@ -350,7 +350,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/organism <name> /out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /out <result_network.directory>]")>
     <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
     <Argument("/repository", False, CLITypes.File,
               AcceptTypes:={GetType(Map), GetType(Pathway)},
@@ -368,12 +368,29 @@ Partial Module CLI
               AcceptTypes:={GetType(NetworkTables)},
               Extensions:="*.csv",
               Description:="The network file data output directory that used for cytoscape network visualization.")>
+    <Argument("/reaction_class", True, CLITypes.File,
+              AcceptTypes:={GetType(ReactionClass)},
+              Extensions:="*.Xml",
+              Description:="Apply reaction class filter for reduce network size.")>
+    <Argument("/coverage.cutoff", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.")>
+    <Group(CLIGrouping.KEGGPathwayMapTools)>
     Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
         Dim in$ = args <= "/repository"
         Dim organismName$ = args("/organism")
         Dim out$
         Dim reactions = ReactionTable.Load(args <= "/reactions")
         Dim model As NetworkTables
+        Dim reactionClass As ReactionClassifier = ReactionClassifier.FromRepository(args <= "/reaction_class")
+        Dim doRemoveUnmapped As Boolean = args("/delete.unmapped")
+        Dim coverageCutoff As Double = args("/coverage.cutoff") Or 0.0
+
+        If ReactionClassifier.IsNullOrEmpty(reactionClass) Then
+            reactionClass = Nothing
+        Else
+            Call $"Try to reduce network size with {reactionClass.Count} reaction class data.".__INFO_ECHO
+        End If
 
         If organismName.StringEmpty Then
             Dim maps As Map()
@@ -388,20 +405,42 @@ Partial Module CLI
                     .ToArray
             End If
 
-            model = PathwayMaps.BuildNetworkModel(maps, reactions, classFilter:=False)
+            model = PathwayMaps.BuildNetworkModel(
+                maps:=maps,
+                reactions:=reactions,
+                classFilter:=False,
+                reactionClass:=reactionClass,
+                doRemoveUnmmaped:=doRemoveUnmapped,
+                coverageCutoff:=coverageCutoff
+            )
         Else
-            model = PathwayMaps.BuildNetworkModel(OrganismModel.EnumerateModules(handle:=[in]), reactions)
+            out = args("/out") Or $"{[in].TrimDIR}.{organismName}.referenceMap/"
+            model = PathwayMaps.BuildNetworkModel(
+                maps:=OrganismModel.EnumerateModules(handle:=[in]),
+                reactions:=reactions,
+                reactionClass:=reactionClass,
+                doRemoveUnmmaped:=doRemoveUnmapped,
+                coverageCutoff:=coverageCutoff
+            )
         End If
+
+        Dim groupSelects = model.nodes.GroupBy(Function(n) n("group.category")).ToArray
+
+        For Each group In groupSelects
+            Call group.Keys.FlushAllLines($"{out}/selects/{group.Key.NormalizePathString}.txt")
+        Next
 
         Return model.Save(out).CLICode
     End Function
 
     <ExportAPI("/KEGG.referenceMap.render")>
-    <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/size <25000,16000> /out <viz.png>]")>
+    <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/size <10(A0)> /out <viz.png>]")>
+    <Description("Render pathway map as image after cytoscape layout progress.")>
+    <Group(CLIGrouping.KEGGPathwayMapTools)>
     Public Function RenderReferenceMapNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim out$
-        Dim size$ = args("/size") Or "25000,16000"
+        Dim size$ = args("/size") Or "10(A0)"
         Dim result As GraphicsData
 
         If [in].FileExists AndAlso [in].ExtensionSuffix.TextEquals("xgmml") Then

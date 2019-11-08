@@ -43,6 +43,7 @@ Public Class CLIGrouping
     Public Const KEGGTools = "KEGG tools"
     Public Const KEGGPhenotype = "KEGG phenotype network analysis tools"
     Public Const KEGGPhenotypeDescription = "Associates the KEGG pathway category information with the gene annotations."
+    Public Const KEGGPathwayMapTools = "KEGG reference pathway map visualization"
 
     Public Const MetaCyc = "MetaCyc pathway network tools"
     Public Const Metagenomics = "Metagenomics tools"
