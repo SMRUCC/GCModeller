@@ -1,4 +1,4 @@
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7244.17825
-'  // ASSEMBLY:  Settings, Version=3.3277.7244.17825, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7251.18537
+'  // ASSEMBLY:  Settings, Version=3.3277.7251.18537, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     2019/11/1 9:54:10
+'  // BUILT:     11/8/2019 10:17:54 AM
 '  // 
 ' 
 ' 
@@ -520,16 +520,19 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /microbiome.pathway.run.profile /in &lt;profile.csv&gt; /maps &lt;kegg.maps.ref.Xml&gt; [/colors &lt;default=Set1:c6&gt; /tick 1 /size &lt;2000,1600&gt; /p.value &lt;default=0.05&gt; /out &lt;out.directory&gt;]
+''' /microbiome.pathway.run.profile /in &lt;profile.csv&gt; /maps &lt;kegg.maps.ref.Xml&gt; [/rank &lt;default=family&gt; /colors &lt;default=Set1:c6&gt; /tick 1 /size &lt;2000,1600&gt; /p.value &lt;default=0.05&gt; /out &lt;out.directory&gt;]
 ''' ```
 ''' Build pathway interaction network based on the microbiome profile result.
 ''' </summary>
 '''
-Public Function RunProfile([in] As String, maps As String, Optional colors As String = "Set1:c6", Optional tick As String = "", Optional size As String = "", Optional p_value As String = "0.05", Optional out As String = "") As Integer
+Public Function RunProfile([in] As String, maps As String, Optional rank As String = "family", Optional colors As String = "Set1:c6", Optional tick As String = "", Optional size As String = "", Optional p_value As String = "0.05", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/microbiome.pathway.run.profile")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/maps " & """" & maps & """ ")
+    If Not rank.StringEmpty Then
+            Call CLI.Append("/rank " & """" & rank & """ ")
+    End If
     If Not colors.StringEmpty Then
             Call CLI.Append("/colors " & """" & colors & """ ")
     End If
