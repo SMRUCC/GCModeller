@@ -135,33 +135,33 @@ Namespace PathwayMaps
             Dim offsetRect As New PointF(0, 0)
 
             Dim drawNode As DrawNodeShape =
-                Sub(id$, g As IGraphics, br As Brush, radius!, center As PointF)
+                Function(id$, g As IGraphics, br As Brush, radius!, center As PointF)
                     Dim node As Node = nodes(id)
                     Dim connectedNodes = graph.GetConnectedVertex(id)
+                    Dim rect As Rectangle
 
                     If node.label.IsPattern("C\d+") Then
+                        ' 圆形
+                        radius = radius * 0.5
+                        center = center.OffSet2D(offsetCircle)
+                        rect = New Rectangle With {
+                            .X = center.X - radius / 2,
+                            .Y = center.Y - radius / 2,
+                            .Width = radius,
+                            .Height = radius
+                        }
+
                         If Not hideCompoundCircle Then
-                            ' 圆形
-                            radius = radius * 0.4
-                            center = center.OffSet2D(offsetCircle)
-
-                            Dim rect As New Rectangle With {
-                                .X = center.X - radius,
-                                .Y = center.Y + radius,
-                                .Width = radius,
-                                .Height = radius
-                            }
-
                             Call circleShadow.Circle(g, center, radius)
+
                             Call g.FillEllipse(br, rect)
-                            Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Darken, 10), rect)
+                            Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Alpha(200).Darken, 10), rect)
                         End If
                     Else
                         ' 方形
                         center = center.OffSet2D(offsetRect)
                         radius = radius * 0.8
-
-                        Dim rect As New Rectangle With {
+                        rect = New Rectangle With {
                             .X = center.X - radius * 3 / 4,
                             .Y = center.Y + radius / 2,
                             .Width = radius * 1.25,
@@ -174,22 +174,20 @@ Namespace PathwayMaps
                         Call g.FillPath(br, RoundRect.GetRoundedRectPath(rect, 30))
                         Call g.DrawPath(reactionShapeStroke, RoundRect.GetRoundedRectPath(rect, 30))
                     End If
-                End Sub
-            Dim getLabelPositoon As GetLabelPosition =
-                Function(node As Node, label$, center As PointF, labelSize As SizeF)
-                    If node.label.IsPattern("C\d+") Then
-                        center = center.OffSet2D(offsetCircle)
 
+                    Return rect
+                End Function
+            Dim getLabelPositoon As GetLabelPosition =
+                Function(node As Node, label$, shapeLayout As RectangleF, labelSize As SizeF)
+                    If node.label.IsPattern("C\d+") Then
                         Return New PointF(
-                            x:=center.X - labelSize.Width * 6 / 8,
-                            y:=center.Y + labelSize.Height * 2
+                            x:=shapeLayout.Left + (shapeLayout.Width - labelSize.Width) / 2,
+                            y:=shapeLayout.Top + (shapeLayout.Height - labelSize.Height) / 2
                         )
                     Else
-                        center = center.OffSet2D(offsetRect)
-
                         Return New PointF(
-                            x:=center.X - labelSize.Width * 5 / 7,
-                            y:=center.Y + labelSize.Height * 1.7
+                            x:=shapeLayout.Left + (shapeLayout.Width - labelSize.Width) / 2,
+                            y:=shapeLayout.Top + (shapeLayout.Height - labelSize.Height) / 2
                         )
                     End If
                 End Function
@@ -239,7 +237,7 @@ Namespace PathwayMaps
                     .Description = categoryColors.JoinBy(",")
                 },
                 minLinkWidth:=3,
-                nodeRadius:=220,
+                nodeRadius:=300,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=DashStyle.Solid,
                 defaultEdgeColor:="black",
