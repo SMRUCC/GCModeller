@@ -11,10 +11,11 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
@@ -22,19 +23,17 @@ Namespace PathwayMaps
 
     Public Module ReferenceMapRender
 
-        ReadOnly compoundNames As Dictionary(Of String, String) = getCompoundNames()
         ReadOnly reactionNames As Dictionary(Of String, String) = getReactionNames()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function getCompoundNames() As Dictionary(Of String, String)
-            Return CompoundBrite.GetAllCompoundResources _
-                .Values _
-                .IteratesALL _
-                .GroupBy(Function(name) name.entry.Key) _
-                .Where(Function(g) Not g.Key.StringEmpty) _
-                .ToDictionary(Function(name) name.Key,
-                              Function(terms)
-                                  Return terms.First.entry.Value
+        Private Function getCompoundNames(repository As String) As Dictionary(Of String, String)
+            Return CompoundRepository.ScanRepository(repository, False) _
+                .GroupBy(Function(c) c.entry) _
+                .ToDictionary(Function(cpd) cpd.Key,
+                              Function(cpd)
+                                  Return cpd.First _
+                                      .commonNames _
+                                      .FirstOrDefault Or cpd.Key.AsDefault
                               End Function)
         End Function
 
@@ -67,14 +66,16 @@ Namespace PathwayMaps
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
-                               Optional convexHull As String() = Nothing) As GraphicsData
+                               Optional convexHull As String() = Nothing,
+                               Optional compoundRepository$ = Nothing) As GraphicsData
 
             Return model.ToNetworkGraph("label", "class", "group.category", "group.category.color") _
                 .Render(canvasSize:=canvasSize,
                         enzymeColorSchema:=enzymeColorSchema,
                         compoundColorSchema:=compoundColorSchema,
                         reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
-                        convexHull:=convexHull
+                        convexHull:=convexHull,
+                        compoundNames:=getCompoundNames(compoundRepository)
                 )
         End Function
 
@@ -89,7 +90,8 @@ Namespace PathwayMaps
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
                                Optional hideCompoundCircle As Boolean = True,
-                               Optional convexHull As Index(Of String) = Nothing) As GraphicsData
+                               Optional convexHull As Index(Of String) = Nothing,
+                               Optional compoundNames As Dictionary(Of String, String) = Nothing) As GraphicsData
 
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
@@ -106,6 +108,10 @@ Namespace PathwayMaps
                               End Function)
             Dim enzymeColors As Color() = Designer.GetColors(enzymeColorSchema)
             Dim compoundColors As New CategoryColorProfile(compoundCategory, compoundColorSchema)
+
+            If compoundNames Is Nothing Then
+                compoundNames = New Dictionary(Of String, String)
+            End If
 
             For Each node As Node In graph.vertex
                 If node.label.IsPattern("C\d+") Then
@@ -246,7 +252,7 @@ Namespace PathwayMaps
                 edgeShadowDistance:=0,
                 edgeDashTypes:=DashStyle.Dot,
                 defaultEdgeColor:="brown",
-                getNodeLabel:=AddressOf getNodeLabel,
+                getNodeLabel:=getNodeLabel(compoundNames),
                 getLabelPosition:=getLabelPositoon，
                 labelTextStroke:=Nothing,
                 labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
@@ -265,14 +271,19 @@ Namespace PathwayMaps
             )
         End Function
 
-        Private Function getNodeLabel(node As Node) As String
-            If node.label.IsPattern("C\d+") Then
-                Return compoundNames.TryGetValue(node.label, [default]:=node.data!label)
-            ElseIf node.label.IsPattern("R\d+") Then
-                Return reactionNames.TryGetValue(node.label, [default]:=node.data!label)
-            Else
-                Return node.label
-            End If
+        Private Function getNodeLabel(compoundNames As Dictionary(Of String, String)) As Func(Of Node, String)
+            Return Function(node As Node) As String
+                       If node.label.IsPattern("C\d+") Then
+                           Return compoundNames _
+                              .TryGetValue(node.label, [default]:=node.data!label) _
+                              .Split(";"c) _
+                              .First
+                       ElseIf node.label.IsPattern("R\d+") Then
+                           Return reactionNames.TryGetValue(node.label, [default]:=node.data!label)
+                       Else
+                           Return node.label
+                       End If
+                   End Function
         End Function
     End Module
 End Namespace
