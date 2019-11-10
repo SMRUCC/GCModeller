@@ -48,6 +48,8 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Extensions
@@ -444,6 +446,13 @@ Partial Module CLI
                            End Function) _
                     .ToArray
                 Dim subNetwork As New NetworkTables(group, edges)
+
+                If deleteTupleEdges Then
+                    Dim index = New GraphIndex(Of FileStream.Node, NetworkEdge)().nodes(subNetwork.nodes).edges(subNetwork.edges)
+                    Dim nonTuples = subNetwork.edges.Where(Function(e) Not e.isTupleEdge(index)).ToArray
+
+                    subNetwork.edges = nonTuples
+                End If
 
                 Call subNetwork.Save($"{out}/subset/{group.Key.NormalizePathString}/")
                 Call model.edges _
