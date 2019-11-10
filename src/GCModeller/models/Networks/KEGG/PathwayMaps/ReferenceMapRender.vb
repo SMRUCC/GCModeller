@@ -213,7 +213,7 @@ Namespace PathwayMaps
             Dim rewriteGroupCategoryColor As LoopArray(Of Color) = Designer.GetColors(rewriteGroupCategoryColors)
             Dim categoryColors = allCategories _
                 .Select(Function(c)
-                            If rewriteGroupCategoryColor.Count = 0 Then
+                            If rewriteGroupCategoryColor.Length = 0 Then
                                 Return graph.vertex _
                                     .First(Function(n)
                                                Return n.data("group.category") = c
