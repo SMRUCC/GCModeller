@@ -104,19 +104,6 @@ Namespace CytoscapeGraphView
                 Dim sy = s.graphics.y
                 Dim tx = t.graphics.x
                 Dim ty = t.graphics.y
-                Dim bendPoints As FDGVector3() = xgmmlEdge.graphics _
-                    .edgeBendHandles _
-                    .Select(Function(b)
-                                If b.isDirectPoint Then
-                                    Return b.originalLocation
-                                Else
-                                    Return b.convert(sx, sy, tx, ty)
-                                End If
-                            End Function) _
-                    .Select(Function(pt)
-                                Return New FDGVector3 With {.x = pt.X, .y = pt.Y}
-                            End Function) _
-                    .ToArray
 
                 edge = New Edge With {
                     .U = u,
@@ -124,7 +111,7 @@ Namespace CytoscapeGraphView
                     .ID = xgmmlEdge.id,
                     .data = New EdgeData With {
                         .label = xgmmlEdge.label,
-                        .controlsPoint = bendPoints,
+                        .bends = xgmmlEdge.graphics.edgeBendHandles,
                         .Properties = xgmmlEdge.createProperties(propertyNames)
                     }
                 }
