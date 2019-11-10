@@ -3,6 +3,7 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -86,12 +87,15 @@ Namespace PathwayMaps
         <Extension>
         Public Function Render(graph As NetworkGraph,
                                Optional canvasSize$ = "11480,9200",
+                               Optional padding$ = "padding: 300px 300px 300px 300px;",
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
                                Optional hideCompoundCircle As Boolean = True,
                                Optional convexHull As Index(Of String) = Nothing,
-                               Optional compoundNames As Dictionary(Of String, String) = Nothing) As GraphicsData
+                               Optional compoundNames As Dictionary(Of String, String) = Nothing,
+                               Optional wordWrapWidth% = 14,
+                               Optional rewriteGroupCategoryColors$ = "blue,green,red,yellow,black,purple") As GraphicsData
 
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
@@ -206,30 +210,35 @@ Namespace PathwayMaps
                            Return cat Like convexHull
                        End Function) _
                 .ToArray
+            Dim rewriteGroupCategoryColor As LoopArray(Of Color) = Designer.GetColors(rewriteGroupCategoryColors)
             Dim categoryColors = allCategories _
                 .Select(Function(c)
-                            Return graph.vertex _
-                                .First(Function(n)
-                                           Return n.data("group.category") = c
-                                       End Function) _
-                                .data("group.category.color")
+                            If rewriteGroupCategoryColor.Length = 0 Then
+                                Return graph.vertex _
+                                    .First(Function(n)
+                                               Return n.data("group.category") = c
+                                           End Function) _
+                                    .data("group.category.color")
+                            Else
+                                Return rewriteGroupCategoryColor.Next().ToHtmlColor
+                            End If
                         End Function) _
                 .ToArray
 
             If Not allCategories.IsNullOrEmpty Then
                 Call $"Network canvas will render {allCategories.Length} category data for convexHull...".__INFO_ECHO
 
-                For Each category As String In allCategories
-                    Call category.__INFO_ECHO
+                For Each category As SeqValue(Of String) In allCategories.SeqIterator
+                    Call $"  {category.value} -> {categoryColors(category)}".__INFO_ECHO
                 Next
             End If
 
             Dim getFontSize As Func(Of Node, Single) =
                 Function(node As Node) As Single
                     If node.label.IsPattern("C\d+") Then
-                        Return 64
+                        Return 24
                     Else
-                        Return 40
+                        Return 24
                     End If
                 End Function
             Dim yellow As Color = "#f5f572".TranslateColor
@@ -237,18 +246,17 @@ Namespace PathwayMaps
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
                 background:="white",'"transparent",
-                padding:="padding: 500px 500px 500px 500px;",
+                padding:=padding,
                 canvasSize:=canvasSize,
-                labelerIterations:=0,
-                doEdgeBundling:=True,
+                labelerIterations:=-1000,
                 drawNodeShape:=drawNode,
                 hullPolygonGroups:=New NamedValue(Of String) With {
                     .Name = "group.category",
                     .Value = allCategories.JoinBy(","),
                     .Description = categoryColors.JoinBy(",")
                 },
-                minLinkWidth:=3,
-                nodeRadius:=300,
+                minLinkWidth:=8,
+                nodeRadius:=150,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=DashStyle.Dot,
                 defaultEdgeColor:="brown",
@@ -267,7 +275,13 @@ Namespace PathwayMaps
                                        Return Color.White
                                    End If
                                End Function,
-                convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";"
+                convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";",
+                convexHullScale:=1.025,
+                drawEdgeBends:=False,
+                labelWordWrapWidth:=wordWrapWidth,
+                isLabelPinned:=Function(n, actualLabel)
+                                   Return n.label.IsPattern("R\d+") OrElse actualLabel.Length <= wordWrapWidth
+                               End Function
             )
         End Function
 

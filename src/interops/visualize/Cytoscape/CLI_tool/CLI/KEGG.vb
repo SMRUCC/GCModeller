@@ -48,11 +48,14 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
@@ -350,7 +353,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /out <result_network.directory>]")>
     <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
     <Argument("/repository", False, CLITypes.File,
               AcceptTypes:={GetType(Map), GetType(Pathway)},
@@ -385,6 +388,8 @@ Partial Module CLI
         Dim reactionClass As ReactionClassifier = ReactionClassifier.FromRepository(args <= "/reaction_class")
         Dim doRemoveUnmapped As Boolean = args("/delete.unmapped")
         Dim coverageCutoff As Double = args("/coverage.cutoff") Or 0.0
+        Dim splitNetwork As Boolean = args("/split")
+        Dim deleteTupleEdges As Boolean = args("/delete.tupleEdges")
 
         If ReactionClassifier.IsNullOrEmpty(reactionClass) Then
             reactionClass = Nothing
@@ -429,6 +434,45 @@ Partial Module CLI
         For Each group In groupSelects
             Call group.Keys.FlushAllLines($"{out}/selects/{group.Key.NormalizePathString}.txt")
         Next
+
+        If splitNetwork Then
+            Dim bridgeEdges As New List(Of NetworkEdge)
+
+            For Each group In groupSelects
+                Dim nodeIndex = group.Select(Function(n) n.ID).Indexing
+                Dim edges = model.edges _
+                    .Where(Function(e)
+                               Return e.fromNode Like nodeIndex AndAlso e.toNode Like nodeIndex
+                           End Function) _
+                    .ToArray
+                Dim subNetwork As New NetworkTables(group, edges)
+
+                If deleteTupleEdges Then
+                    Dim index = New GraphIndex(Of FileStream.Node, NetworkEdge)().nodes(subNetwork.nodes).edges(subNetwork.edges)
+                    Dim nonTuples = subNetwork.edges.Where(Function(e) Not e.isTupleEdge(index)).ToArray
+
+                    subNetwork.edges = nonTuples
+                End If
+
+                Call subNetwork.Save($"{out}/subset/{group.Key.NormalizePathString}/")
+                Call model.edges _
+                    .Where(Function(e)
+                               Return (e.fromNode Like nodeIndex AndAlso Not e.toNode Like nodeIndex) OrElse (Not e.fromNode Like nodeIndex AndAlso e.toNode Like nodeIndex)
+                           End Function) _
+                    .DoCall(AddressOf bridgeEdges.AddRange)
+            Next
+
+            Dim bridgeNodex As Index(Of String) = bridgeEdges _
+                .Select(Function(e) {e.fromNode, e.toNode}) _
+                .IteratesALL _
+                .Distinct _
+                .Indexing
+
+            Dim bridgeNetwork As New NetworkTables(bridgeEdges, model.nodes.Where(Function(n) n.ID Like bridgeNodex))
+
+            Call bridgeNetwork.RemoveDuplicated()
+            Call bridgeNetwork.Save($"{out}/subset/bridge/")
+        End If
 
         Return model.Save(out).CLICode
     End Function

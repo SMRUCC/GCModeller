@@ -358,7 +358,7 @@ Public Module Volcano
 
                     For Each label As SeqValue(Of Label) In labels.SeqIterator
                         With label.value
-                            Dim textAnchor = .Rectangle _
+                            Dim textAnchor = .rectangle _
                                              .GetTextAnchor(anchors(label))
 
                             Call g.DrawLine(Pens.Black, textAnchor, anchors(label))

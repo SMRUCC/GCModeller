@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0569ae726059e254a14afc26807b45c0, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
+﻿#Region "Microsoft.VisualBasic::cb94467b1b5644a217277c416f28dff9, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
 
 ' Author:
 ' 
@@ -33,12 +33,19 @@
 
 ' Module NetworkVisualizer
 ' 
-'     Properties: BackgroundColor, DefaultEdgeColor
+'     Properties: BackgroundColor
+'     Delegate Function
 ' 
-'     Function: (+2 Overloads) AutoScaler, CentralOffsets, DirectMapRadius, DrawImage, drawVertexNodes
-'               GetBounds, GetDisplayText, scales
 ' 
-'     Sub: drawEdges, drawhullPolygon, drawLabels
+'     Delegate Function
+' 
+'         Function: DirectMapRadius, DrawImage, drawVertexNodes
+' 
+'         Sub: drawEdges, drawhullPolygon, drawLabels
+' 
+' 
+' 
+' 
 ' 
 ' /********************************************************************************/
 
@@ -47,18 +54,22 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
@@ -110,10 +121,6 @@ Public Module NetworkVisualizer
     ''' <param name="labelFontBase">
     ''' 这个参数会提供字体的一些基础样式,字体的大小会从节点的属性中计算出来
     ''' </param>
-    ''' <param name="doEdgeBundling">
-    ''' 如果<see cref="EdgeData.controlsPoint"/>不是空的话，会按照这个定义的点集合绘制边
-    ''' 否则会直接在两个节点之间绘制一条直线作为边连接
-    ''' </param>
     ''' <param name="displayId">
     ''' 是否现在节点的标签文本
     ''' </param>
@@ -127,11 +134,16 @@ Public Module NetworkVisualizer
     ''' <param name="labelTextStroke">
     ''' 当这个参数为空字符串的时候，将不进行描边
     ''' </param>
+    ''' <param name="labelWordWrapWidth">
+    ''' 小于等于零表示不进行自动textwrap
+    ''' </param>
     ''' <returns></returns>
     ''' <remarks>
     ''' 一些内置的样式支持:
     ''' 
     ''' + 节点的颜色或者纹理: <see cref="NodeData.color"/>
+    ''' + 如果<see cref="EdgeData.bends"/>不是空的话，会按照这个定义的点集合绘制边
+    '''   否则会直接在两个节点之间绘制一条直线作为边连接
     ''' </remarks>
     <ExportAPI("Draw.Image")>
     <Extension>
@@ -156,14 +168,25 @@ Public Module NetworkVisualizer
                               Optional hideDisconnectedNode As Boolean = False,
                               Optional throwEx As Boolean = True,
                               Optional hullPolygonGroups As NamedValue(Of String) = Nothing,
-                              Optional doEdgeBundling As Boolean = False,
                               Optional labelerIterations% = 1500,
+                              Optional labelWordWrapWidth% = -1,
+                              Optional isLabelPinned As Func(Of Node, String, Boolean) = Nothing,
                               Optional showLabelerProgress As Boolean = True,
                               Optional defaultEdgeColor$ = NameOf(Color.LightGray),
                               Optional defaultLabelColor$ = "black",
                               Optional labelTextStroke$ = "stroke: lightgray; stroke-width: 1px; stroke-dash: solid;",
                               Optional showConvexHullLegend As Boolean = True,
-                              Optional convexHullLabelFontCSS$ = CSSFont.Win7VeryLarge) As GraphicsData
+                              Optional drawEdgeBends As Boolean = True,
+                              Optional convexHullLabelFontCSS$ = CSSFont.Win7VeryLarge,
+                              Optional convexHullScale! = 1.125) As GraphicsData
+
+        Call GetType(NetworkVisualizer).Assembly _
+            .FromAssembly _
+            .DoCall(Sub(assm)
+                        CLITools.AppSummary(assm, "Welcome to use network graph visualizer api from sciBASIC.NET framework.", "", App.StdOut)
+
+                        Call Console.WriteLine()
+                    End Sub)
 
         ' 所绘制的图像输出的尺寸大小
         Dim frameSize As SizeF = PrinterDimension.SizeOf(canvasSize)
@@ -176,6 +199,7 @@ Public Module NetworkVisualizer
             })
 
         Call $"Canvas size expression '{canvasSize}' = [{frameSize.Width}, {frameSize.Height}]".__DEBUG_ECHO
+        Call $"Canvas padding [{margin.Top}, {margin.Right}, {margin.Bottom}, {margin.Left}]".__DEBUG_ECHO
 
         ' 1. 先将网络图形对象置于输出的图像的中心位置
         ' 2. 进行矢量图放大
@@ -183,11 +207,6 @@ Public Module NetworkVisualizer
 
         ' 获取得到当前的这个网络对象相对于图像的中心点的位移值
         Dim scalePos As Dictionary(Of String, PointF) = CanvasScaler.CalculateNodePositions(net, frameSize, margin)
-        Dim edgeBundling As New Dictionary(Of Edge, PointF())
-
-        If doEdgeBundling Then
-            edgeBundling = CanvasScaler.CalculateEdgeBends(net, frameSize, margin)
-        End If
 
         Call "Initialize gdi objects...".__INFO_ECHO
 
@@ -255,7 +274,7 @@ Public Module NetworkVisualizer
 
                 If Not hullPolygonGroups.IsEmpty Then
                     Call "Render hull polygon layer...".__DEBUG_ECHO
-                    Call g.drawhullPolygon(drawPoints, hullPolygonGroups, scalePos, showConvexHullLegend, convexHullLabelFontCSS$)
+                    Call g.drawhullPolygon(drawPoints, hullPolygonGroups, scalePos, showConvexHullLegend, convexHullLabelFontCSS$, convexHullScale!)
                 End If
 
                 Call "Render network edges...".__INFO_ECHO
@@ -265,10 +284,10 @@ Public Module NetworkVisualizer
                     minLinkWidthValue,
                     edgeDashTypes,
                     scalePos,
-                    edgeBundling,
                     throwEx,
                     edgeShadowDistance:=edgeShadowDistance,
-                    defaultEdgeColor:=defaultEdgeColor.TranslateColor
+                    defaultEdgeColor:=defaultEdgeColor.TranslateColor,
+                    drawEdgeBends:=drawEdgeBends
                 )
 
                 Call "Render network elements...".__INFO_ECHO
@@ -288,7 +307,9 @@ Public Module NetworkVisualizer
                     throwEx:=throwEx,
                     getDisplayLabel:=getNodeLabel,
                     drawNodeShape:=drawNodeShape,
-                    getLabelPosition:=getLabelPosition
+                    getLabelPosition:=getLabelPosition,
+                    labelWordWrapWidth:=labelWordWrapWidth,
+                    isLabelPinned:=isLabelPinned
                 )
 
                 If displayId AndAlso labels = 0 Then
@@ -341,12 +362,19 @@ Public Module NetworkVisualizer
                                               throwEx As Boolean,
                                               getDisplayLabel As Func(Of Node, String),
                                               drawNodeShape As DrawNodeShape,
-                                              getLabelPosition As GetLabelPosition) As IEnumerable(Of LayoutLabel)
+                                              getLabelPosition As GetLabelPosition,
+                                              labelWordWrapWidth As Integer,
+                                              isLabelPinned As Func(Of Node, String, Boolean)) As IEnumerable(Of LayoutLabel)
         Dim pt As Point
         Dim br As Brush
         Dim rect As RectangleF
 
         Call "Rendering nodes...".__DEBUG_ECHO
+
+        If isLabelPinned Is Nothing Then
+            ' all of the label is unpinned by default 
+            isLabelPinned = Function(n, l) False
+        End If
 
         For Each n As Node In drawPoints
             Dim r# = radiusValue(n)
@@ -401,8 +429,13 @@ Public Module NetworkVisualizer
                 )
                 ' 节点的标签文本的位置默认在正中
                 Dim label As New Label With {
-                    .text = displayID
+                    .text = displayID,
+                    .pinned = isLabelPinned(n, displayID)
                 }
+
+                If labelWordWrapWidth > 0 Then
+                    label.text = WordWrap.DoWordWrap(label.text, labelWordWrapWidth)
+                End If
 
                 With g.MeasureString(label.text, font)
                     label.width = .Width
@@ -449,7 +482,8 @@ Public Module NetworkVisualizer
                                 hullPolygonGroups As NamedValue(Of String),
                                 scalePos As Dictionary(Of String, PointF),
                                 showConvexHullLegend As Boolean,
-                                convexHullLabelFontCSS$)
+                                convexHullLabelFontCSS$,
+                                convexHullScale!)
 
         Dim hullPolygon As Index(Of String)
         Dim groups = drawPoints _
@@ -494,8 +528,12 @@ Public Module NetworkVisualizer
                 Dim positions = group _
                     .Select(Function(p) scalePos(p.label)) _
                     .JarvisMatch _
-                    .Enlarge(1.25)
+                    .Enlarge(convexHullScale!)
                 Dim color As Color = colors.Next
+                'Dim largest As NamedCollection(Of PointF) = positions _
+                '    .Kmeans _
+                '    .OrderByDescending(Function(c) c.Length) _
+                '    .First
 
                 Call g.DrawHullPolygon(positions, color, alpha:=50)
                 Call labels.Add((group.Key, color))
@@ -506,26 +544,28 @@ Public Module NetworkVisualizer
             labels = New List(Of (String, Color)) From {(singleGroupKey, labels.Last.Item2)}
         End If
 
-        Dim maxLabel = labels.Select(Function(lb) lb.Item1).MaxLengthString
-        Dim maxSize As SizeF = g.MeasureString(maxLabel, convexHullLabelFont)
-        Dim legendShapeSize As New SizeF With {
-            .Width = maxSize.Height * 1.5,
-            .Height = maxSize.Height
-        }
-        Dim topLeft As New PointF With {
-            .X = g.Size.Width - maxSize.Width - maxSize.Height * 2.5,
-            .Y = legendShapeSize.Width
-        }
-
-        For Each label In labels
-            Call g.FillRectangle(New SolidBrush(label.Item2), New RectangleF(topLeft, legendShapeSize))
-            Call g.DrawString(label.Item1, convexHullLabelFont, Brushes.Black, New PointF(topLeft.X + legendShapeSize.Width + 20, topLeft.Y))
-
-            topLeft = New PointF With {
-                .X = topLeft.X,
-                .Y = topLeft.Y + maxSize.Height * 1.25
+        If showConvexHullLegend Then
+            Dim maxLabel = labels.Select(Function(lb) lb.Item1).MaxLengthString
+            Dim maxSize As SizeF = g.MeasureString(maxLabel, convexHullLabelFont)
+            Dim legendShapeSize As New SizeF With {
+                .Width = maxSize.Height * 1.5,
+                .Height = maxSize.Height
             }
-        Next
+            Dim topLeft As New PointF With {
+                .X = g.Size.Width - maxSize.Width - maxSize.Height * 2.5,
+                .Y = legendShapeSize.Width
+            }
+
+            For Each label In labels
+                Call g.FillRectangle(New SolidBrush(label.Item2), New RectangleF(topLeft, legendShapeSize))
+                Call g.DrawString(label.Item1, convexHullLabelFont, Brushes.Black, New PointF(topLeft.X + legendShapeSize.Width + 20, topLeft.Y))
+
+                topLeft = New PointF With {
+                    .X = topLeft.X,
+                    .Y = topLeft.Y + maxSize.Height * 1.25
+                }
+            Next
+        End If
     End Sub
 
     <Extension>
@@ -533,10 +573,10 @@ Public Module NetworkVisualizer
                           minLinkWidthValue As [Default](Of Single),
                           edgeDashTypes As Dictionary(Of String, DashStyle),
                           scalePos As Dictionary(Of String, PointF),
-                          edgeBundling As Dictionary(Of Edge, PointF()),
                           throwEx As Boolean,
                           edgeShadowDistance As Single,
-                          defaultEdgeColor As Color)
+                          defaultEdgeColor As Color,
+                          drawEdgeBends As Boolean)
         Dim cl As Color
 
         For Each edge As Edge In net.graphEdges
@@ -577,12 +617,26 @@ Public Module NetworkVisualizer
                            Call g.DrawLine(lineColor, line(0), line(1))
                        End Sub
             Try
-                If edgeBundling.ContainsKey(edge) AndAlso edgeBundling(edge).Length > 0 Then
-                    If edgeBundling(edge).Length = 1 Then
+                Dim bends = edge.data.bends _
+                    .SafeQuery _
+                    .Where(Function(bend)
+                               Return Not bend.isDirectPoint
+                           End Function) _
+                    .ToArray
+
+                If drawEdgeBends AndAlso Not bends.IsNullOrEmpty Then
+                    If bends.Length <> edge.data.bends.Length Then
+                        Call $"{edge.ID} removes {edge.data.bends.Length - bends.Length} bends points.".__DEBUG_ECHO
+                    End If
+
+                    If bends.Length = 1 Then
                         Call draw({a, b})
                     Else
-                        For Each line In edgeBundling(edge).SlideWindows(2)
-                            Call draw(line.ToArray)
+                        For Each line As SlideWindow(Of Handle) In bends.SlideWindows(2)
+                            Dim pta = line(Scan0).convert(a.X, a.Y, b.X, b.Y)
+                            Dim ptb = line(1).convert(a.X, a.Y, b.X, b.Y)
+
+                            Call {pta, ptb}.DoCall(draw)
                         Next
                     End If
                 Else
@@ -677,12 +731,12 @@ Public Module NetworkVisualizer
                     StringFormat.GenericTypographic
                 )
 
-                Call g.DrawString(.label.text, .style, br, lx, ly)
-
                 If Not labelTextStroke Is Nothing Then
                     ' 绘制轮廓（描边）
-                    ' Call g.FillPath(br, path)
+                    Call g.DrawString(.label.text, .style, br, lx, ly)
                     Call g.DrawPath(labelTextStroke, path)
+                Else
+                    Call WordWrap.DrawTextCentraAlign(g, .label, New PointF(lx, ly), br, .style)
                 End If
             End With
         Next

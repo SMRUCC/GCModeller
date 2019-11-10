@@ -45,6 +45,7 @@
 
 Imports System.Drawing
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
 Imports Microsoft.VisualBasic.Imaging
 
 Namespace CytoscapeGraphView.XGMML.File
@@ -70,7 +71,7 @@ Namespace CytoscapeGraphView.XGMML.File
                 If attr Is Nothing Then
                     Return {}
                 Else
-                    Return Handle.parseHandles(attr.Value).ToArray
+                    Return Handle.ParseHandles(attr.Value).ToArray
                 End If
             End Get
         End Property
