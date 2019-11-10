@@ -270,7 +270,10 @@ Namespace PathwayMaps
                 convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";",
                 convexHullScale:=1.025,
                 drawEdgeBends:=False,
-                labelWordWrapWidth:=14
+                labelWordWrapWidth:=14,
+                isLabelPinned:=Function(n)
+                                   Return n.label.IsPattern("R\d+")
+                               End Function
             )
         End Function
 
