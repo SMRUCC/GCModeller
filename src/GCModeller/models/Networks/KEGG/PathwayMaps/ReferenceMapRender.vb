@@ -150,7 +150,7 @@ Namespace PathwayMaps
                         radius = radius * 0.5
                         rect = New Rectangle With {
                             .X = center.X - radius / 2 - nodeSize(Scan0),
-                            .Y = center.Y - radius / 2 - nodeSize(Scan0),
+                            .Y = center.Y - radius / 2 + nodeSize(Scan0),
                             .Width = radius,
                             .Height = radius
                         }
@@ -165,7 +165,7 @@ Namespace PathwayMaps
                         ' 方形
                         rect = New Rectangle With {
                             .X = center.X - radius / 2 - nodeSize(Scan0),
-                            .Y = center.Y - radius / 5 - nodeSize(Scan0),
+                            .Y = center.Y - radius / 5 + nodeSize(Scan0),
                             .Width = radius,
                             .Height = radius / 2.5
                         }
