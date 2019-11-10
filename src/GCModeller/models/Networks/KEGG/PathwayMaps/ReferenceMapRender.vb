@@ -86,6 +86,7 @@ Namespace PathwayMaps
         <Extension>
         Public Function Render(graph As NetworkGraph,
                                Optional canvasSize$ = "11480,9200",
+                               Optional padding$ = "padding: 800px 800px 800px 800px;",
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
@@ -137,6 +138,17 @@ Namespace PathwayMaps
             Dim reactionShapeStroke As Pen = Stroke.TryParse(reactionShapeStrokeCSS)
             Dim rectShadow As New Shadow(10, 30, 1.125, 1.25)
             Dim circleShadow As New Shadow(130, 45, 2, 2)
+            Dim scaleFactor As SizeF = Nothing
+            Dim centraOffset As PointF = Nothing
+
+            Call CanvasScaler.CalculateNodePositions(
+                net:=graph,
+                frameSize:=PrinterDimension.SizeOf(canvasSize),
+                padding:=padding,
+                scaleFactor:=scaleFactor,
+                centraOffset:=centraOffset
+            )
+            Call $"Scale factor of rectangle offset is [{scaleFactor.Width}, {scaleFactor.Height}]".__DEBUG_ECHO
 
             Dim drawNode As DrawNodeShape =
                 Function(id$, g As IGraphics, br As Brush, radius!, center As PointF)
@@ -149,8 +161,8 @@ Namespace PathwayMaps
                         ' 圆形
                         radius = radius * 0.5
                         rect = New Rectangle With {
-                            .X = center.X - radius / 2 - nodeSize(Scan0),
-                            .Y = center.Y - radius / 2 + nodeSize(Scan0),
+                            .X = center.X - radius / 2 - nodeSize(Scan0) * scaleFactor.Width,
+                            .Y = center.Y - radius / 2 + nodeSize(Scan0) * scaleFactor.Height,
                             .Width = radius,
                             .Height = radius
                         }
@@ -164,8 +176,8 @@ Namespace PathwayMaps
                     Else
                         ' 方形
                         rect = New Rectangle With {
-                            .X = center.X - radius / 2 - nodeSize(Scan0),
-                            .Y = center.Y - radius / 5 + nodeSize(Scan0),
+                            .X = center.X - radius / 2 - nodeSize(Scan0) * scaleFactor.Width,
+                            .Y = center.Y - radius / 5 + nodeSize(Scan0) * scaleFactor.Height,
                             .Width = radius,
                             .Height = radius / 2.5
                         }
@@ -238,7 +250,7 @@ Namespace PathwayMaps
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
                 background:="white", '"transparent",
-                padding:="padding: 800px 800px 800px 800px;",
+                padding:=padding,
                 canvasSize:=canvasSize,
                 labelerIterations:=0,
                 doEdgeBundling:=True,

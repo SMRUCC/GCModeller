@@ -1,10 +1,10 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace CytoscapeGraphView.XGMML
+Namespace Layouts.EdgeBundling
 
     ''' <summary>
-    ''' 
+    ''' 进行网络之中的边连接的布局走向的拐点的矢量化描述
     ''' </summary>
     ''' <remarks>
     ''' https://github.com/cytoscape/cytoscape-impl/blob/93530ef3b35511d9b1fe0d0eb913ecdcd3b456a8/ding-impl/ding-presentation-impl/src/main/java/org/cytoscape/ding/impl/HandleImpl.java#L247
