@@ -138,31 +138,19 @@ Namespace PathwayMaps
             Dim reactionShapeStroke As Pen = Stroke.TryParse(reactionShapeStrokeCSS)
             Dim rectShadow As New Shadow(10, 30, 1.125, 1.25)
             Dim circleShadow As New Shadow(130, 45, 2, 2)
-            Dim scaleFactor As SizeF = Nothing
-            Dim centraOffset As PointF = Nothing
-
-            Call CanvasScaler.CalculateNodePositions(
-                net:=graph,
-                frameSize:=PrinterDimension.SizeOf(canvasSize),
-                padding:=padding,
-                scaleFactor:=scaleFactor,
-                centraOffset:=centraOffset
-            )
-            Call $"Scale factor of rectangle offset is [{scaleFactor.Width}, {scaleFactor.Height}]".__DEBUG_ECHO
 
             Dim drawNode As DrawNodeShape =
                 Function(id$, g As IGraphics, br As Brush, radius!, center As PointF)
                     Dim node As Node = nodes(id)
                     Dim connectedNodes = graph.GetConnectedVertex(id)
                     Dim rect As Rectangle
-                    Dim nodeSize As Double() = node.data.size
 
                     If node.label.IsPattern("C\d+") Then
                         ' 圆形
                         radius = radius * 0.5
                         rect = New Rectangle With {
-                            .X = center.X - radius / 2 - nodeSize(Scan0) * scaleFactor.Width,
-                            .Y = center.Y - radius / 2 + nodeSize(Scan0) * scaleFactor.Height,
+                            .X = center.X - radius / 2,
+                            .Y = center.Y - radius / 2,
                             .Width = radius,
                             .Height = radius
                         }
@@ -176,8 +164,8 @@ Namespace PathwayMaps
                     Else
                         ' 方形
                         rect = New Rectangle With {
-                            .X = center.X - radius / 2 - nodeSize(Scan0) * scaleFactor.Width,
-                            .Y = center.Y - radius / 5 + nodeSize(Scan0) * scaleFactor.Height,
+                            .X = center.X - radius / 2,
+                            .Y = center.Y - radius / 5,
                             .Width = radius,
                             .Height = radius / 2.5
                         }
