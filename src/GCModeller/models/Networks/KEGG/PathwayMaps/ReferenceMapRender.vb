@@ -236,7 +236,7 @@ Namespace PathwayMaps
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                background:="transparent",
+                background:="white", '"transparent",
                 padding:="padding: 800px 800px 800px 800px;",
                 canvasSize:=canvasSize,
                 labelerIterations:=0,

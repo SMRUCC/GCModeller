@@ -177,6 +177,7 @@ Public Module NetworkVisualizer
             })
 
         Call $"Canvas size expression '{canvasSize}' = [{frameSize.Width}, {frameSize.Height}]".__DEBUG_ECHO
+        Call $"Canvas padding [{margin.Top}, {margin.Right}, {margin.Bottom}, {margin.Left}]".__DEBUG_ECHO
 
         ' 1. 先将网络图形对象置于输出的图像的中心位置
         ' 2. 进行矢量图放大
