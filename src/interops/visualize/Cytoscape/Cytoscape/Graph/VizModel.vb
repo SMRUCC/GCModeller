@@ -83,7 +83,8 @@ Namespace CytoscapeGraphView
                         .label = xgmmlNode.label,
                         .origID = xgmmlNode.label,
                         .initialPostion = New FDGVector2 With {.x = xgmmlNode.graphics.x, .y = xgmmlNode.graphics.y},
-                        .Properties = xgmmlNode.createProperties(propertyNames)
+                        .Properties = xgmmlNode.createProperties(propertyNames),
+                        .size = {xgmmlNode.graphics.w, xgmmlNode.graphics.h}
                     }
                 }
 

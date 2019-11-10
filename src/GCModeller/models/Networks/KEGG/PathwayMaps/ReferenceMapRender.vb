@@ -143,13 +143,14 @@ Namespace PathwayMaps
                     Dim node As Node = nodes(id)
                     Dim connectedNodes = graph.GetConnectedVertex(id)
                     Dim rect As Rectangle
+                    Dim nodeSize As Double() = node.data.size
 
                     If node.label.IsPattern("C\d+") Then
                         ' 圆形
                         radius = radius * 0.5
                         rect = New Rectangle With {
-                            .X = center.X - radius / 2,
-                            .Y = center.Y - radius / 2,
+                            .X = center.X - radius / 2 - nodeSize(Scan0),
+                            .Y = center.Y - radius / 2 - nodeSize(Scan0),
                             .Width = radius,
                             .Height = radius
                         }
@@ -163,8 +164,8 @@ Namespace PathwayMaps
                     Else
                         ' 方形
                         rect = New Rectangle With {
-                            .X = center.X - radius / 2,
-                            .Y = center.Y - radius / 5,
+                            .X = center.X - radius / 2 - nodeSize(Scan0),
+                            .Y = center.Y - radius / 5 - nodeSize(Scan0),
                             .Width = radius,
                             .Height = radius / 2.5
                         }
