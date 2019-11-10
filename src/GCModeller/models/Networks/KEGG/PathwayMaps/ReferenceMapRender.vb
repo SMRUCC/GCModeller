@@ -241,7 +241,7 @@ Namespace PathwayMaps
                 background:="white", '"transparent",
                 padding:=padding,
                 canvasSize:=canvasSize,
-                labelerIterations:=100,
+                labelerIterations:=-1000,
                 drawNodeShape:=drawNode,
                 hullPolygonGroups:=New NamedValue(Of String) With {
                     .Name = "group.category",
