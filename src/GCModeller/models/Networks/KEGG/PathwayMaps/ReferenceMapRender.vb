@@ -270,7 +270,7 @@ Namespace PathwayMaps
                 convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";",
                 convexHullScale:=1.025,
                 drawEdgeBends:=False,
-                labelWordWrapWidth:=32
+                labelWordWrapWidth:=14
             )
         End Function
 
