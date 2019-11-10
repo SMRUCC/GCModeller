@@ -229,16 +229,16 @@ Namespace PathwayMaps
             Dim getFontSize As Func(Of Node, Single) =
                 Function(node As Node) As Single
                     If node.label.IsPattern("C\d+") Then
-                        Return 32
+                        Return 24
                     Else
-                        Return 36
+                        Return 24
                     End If
                 End Function
             Dim yellow As Color = "#f5f572".TranslateColor
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                background:="white", '"transparent",
+                background:="transparent",
                 padding:=padding,
                 canvasSize:=canvasSize,
                 labelerIterations:=-1000,
@@ -248,8 +248,8 @@ Namespace PathwayMaps
                     .Value = allCategories.JoinBy(","),
                     .Description = categoryColors.JoinBy(",")
                 },
-                minLinkWidth:=3,
-                nodeRadius:=300,
+                minLinkWidth:=8,
+                nodeRadius:=150,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=DashStyle.Dot,
                 defaultEdgeColor:="brown",
