@@ -3,6 +3,7 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -86,14 +87,15 @@ Namespace PathwayMaps
         <Extension>
         Public Function Render(graph As NetworkGraph,
                                Optional canvasSize$ = "11480,9200",
-                               Optional padding$ = "padding: 800px 800px 800px 800px;",
+                               Optional padding$ = "padding: 300px 300px 300px 300px;",
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
                                Optional hideCompoundCircle As Boolean = True,
                                Optional convexHull As Index(Of String) = Nothing,
                                Optional compoundNames As Dictionary(Of String, String) = Nothing,
-                               Optional wordWrapWidth% = 14) As GraphicsData
+                               Optional wordWrapWidth% = 14,
+                               Optional rewriteGroupCategoryColors$ = "blue,green,red,yellow,black,purple") As GraphicsData
 
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
@@ -208,21 +210,26 @@ Namespace PathwayMaps
                            Return cat Like convexHull
                        End Function) _
                 .ToArray
+            Dim rewriteGroupCategoryColor As LoopArray(Of Color) = Designer.GetColors(rewriteGroupCategoryColors)
             Dim categoryColors = allCategories _
                 .Select(Function(c)
-                            Return graph.vertex _
-                                .First(Function(n)
-                                           Return n.data("group.category") = c
-                                       End Function) _
-                                .data("group.category.color")
+                            If rewriteGroupCategoryColor.Count = 0 Then
+                                Return graph.vertex _
+                                    .First(Function(n)
+                                               Return n.data("group.category") = c
+                                           End Function) _
+                                    .data("group.category.color")
+                            Else
+                                Return rewriteGroupCategoryColor.Next().ToHtmlColor
+                            End If
                         End Function) _
                 .ToArray
 
             If Not allCategories.IsNullOrEmpty Then
                 Call $"Network canvas will render {allCategories.Length} category data for convexHull...".__INFO_ECHO
 
-                For Each category As String In allCategories
-                    Call category.__INFO_ECHO
+                For Each category As SeqValue(Of String) In allCategories.SeqIterator
+                    Call $"  {category.value} -> {categoryColors(category)}".__INFO_ECHO
                 Next
             End If
 
@@ -238,7 +245,7 @@ Namespace PathwayMaps
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                background:="transparent",
+                background:="white",'"transparent",
                 padding:=padding,
                 canvasSize:=canvasSize,
                 labelerIterations:=-1000,
