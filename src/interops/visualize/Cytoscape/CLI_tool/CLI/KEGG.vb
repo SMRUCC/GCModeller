@@ -40,26 +40,34 @@
 
 #End Region
 
+Imports System.ComponentModel
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Model.Network.KEGG
+Imports SMRUCC.genomics.Model.Network.KEGG.PathwayMaps
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG.ReactionNET
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
@@ -125,7 +133,7 @@ Partial Module CLI
 
             Call kMod.Value.nodes.Add(regulators)
             Call kMod.Value.edges.Add(edges)
-            Call kMod.Value.Save(Path, Encodings.UTF8)
+            Call kMod.Value.Save(Path, Encoding.UTF8)
         Next
 
         Return 0
@@ -180,7 +188,7 @@ Partial Module CLI
         Dim Edges As List(Of FileStream.NetworkEdge) =
             source.Where(Function(x) Not x Is Nothing).Select(Function(x) x.edges).Unlist
 
-        Dim __nodes = LinqAPI.Exec(Of Node) <=
+        Dim __nodes = LinqAPI.Exec(Of FileStream.Node) <=
             From node
             In (From node As FileStream.Node
                 In Nods
@@ -312,9 +320,9 @@ Partial Module CLI
         End If
 
         If Not nulls Is Nothing Then
-            Call nulls.Save(out & "/no-regs/", Encodings.ASCII)
+            Call nulls.Save(out & "/no-regs/", Encoding.ASCII)
         End If
-        Return net.Save(out, Encodings.ASCII).CLICode
+        Return net.Save(out, Encoding.ASCII).CLICode
     End Function
 
     <ExportAPI("/KEGG.pathwayMap.Network")>
@@ -328,7 +336,7 @@ Partial Module CLI
 
         If node.FileExists(True) Then
             Dim data = EntityObject.LoadDataSet(node)
-            Dim nodes As New Dictionary(Of Node)(graph.nodes)
+            Dim nodes As New Dictionary(Of FileStream.Node)(graph.nodes)
 
             For Each n As EntityObject In data
                 If nodes.ContainsKey(n.ID) Then
@@ -341,7 +349,166 @@ Partial Module CLI
             Next
         End If
 
-        Return graph.Save(out, Encodings.ASCII).CLICode
+        Return graph.Save(out, Encodings.ASCII.CodePage).CLICode
+    End Function
+
+    <ExportAPI("/KEGG.referenceMap.Model")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /out <result_network.directory>]")>
+    <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
+    <Argument("/repository", False, CLITypes.File,
+              AcceptTypes:={GetType(Map), GetType(Pathway)},
+              Extensions:="*.Xml",
+              Description:="This parameter accept two kind of parameters: The kegg reference map data or organism specific pathway map model data.")>
+    <Argument("/reactions", False, CLITypes.File,
+              AcceptTypes:={GetType(Reaction)},
+              Extensions:="*.Xml",
+              Description:="The KEGG reference reaction data models.")>
+    <Argument("/organism", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The organism name or code, if this argument presents in the cli command input, then it means 
+              the ``/repository`` parameter data model is the organism specific pathway map data.")>
+    <Argument("/out", True, CLITypes.File,
+              AcceptTypes:={GetType(NetworkTables)},
+              Extensions:="*.csv",
+              Description:="The network file data output directory that used for cytoscape network visualization.")>
+    <Argument("/reaction_class", True, CLITypes.File,
+              AcceptTypes:={GetType(ReactionClass)},
+              Extensions:="*.Xml",
+              Description:="Apply reaction class filter for reduce network size.")>
+    <Argument("/coverage.cutoff", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.")>
+    <Group(CLIGrouping.KEGGPathwayMapTools)>
+    Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
+        Dim in$ = args <= "/repository"
+        Dim organismName$ = args("/organism")
+        Dim out$
+        Dim reactions = ReactionTable.Load(args <= "/reactions")
+        Dim model As NetworkTables
+        Dim reactionClass As ReactionClassifier = ReactionClassifier.FromRepository(args <= "/reaction_class")
+        Dim doRemoveUnmapped As Boolean = args("/delete.unmapped")
+        Dim coverageCutoff As Double = args("/coverage.cutoff") Or 0.0
+        Dim splitNetwork As Boolean = args("/split")
+        Dim deleteTupleEdges As Boolean = args("/delete.tupleEdges")
+
+        If ReactionClassifier.IsNullOrEmpty(reactionClass) Then
+            reactionClass = Nothing
+        Else
+            Call $"Try to reduce network size with {reactionClass.Count} reaction class data.".__INFO_ECHO
+        End If
+
+        If organismName.StringEmpty Then
+            Dim maps As Map()
+
+            If [in].FileExists Then
+                out = args("/out") Or $"{[in].TrimSuffix}/"
+                maps = {[in].LoadXml(Of Map)}
+            Else
+                out = args("/out") Or $"{[in].TrimDIR}.referenceMap/"
+                maps = MapRepository _
+                    .ScanMaps(directory:=[in]) _
+                    .ToArray
+            End If
+
+            model = PathwayMaps.BuildNetworkModel(
+                maps:=maps,
+                reactions:=reactions,
+                classFilter:=False,
+                reactionClass:=reactionClass,
+                doRemoveUnmmaped:=doRemoveUnmapped,
+                coverageCutoff:=coverageCutoff
+            )
+        Else
+            out = args("/out") Or $"{[in].TrimDIR}.{organismName}.referenceMap/"
+            model = PathwayMaps.BuildNetworkModel(
+                maps:=OrganismModel.EnumerateModules(handle:=[in]),
+                reactions:=reactions,
+                reactionClass:=reactionClass,
+                doRemoveUnmmaped:=doRemoveUnmapped,
+                coverageCutoff:=coverageCutoff
+            )
+        End If
+
+        Dim groupSelects = model.nodes.GroupBy(Function(n) n("group.category")).ToArray
+
+        For Each group In groupSelects
+            Call group.Keys.FlushAllLines($"{out}/selects/{group.Key.NormalizePathString}.txt")
+        Next
+
+        If splitNetwork Then
+            Dim bridgeEdges As New List(Of NetworkEdge)
+
+            For Each group In groupSelects
+                Dim nodeIndex = group.Select(Function(n) n.ID).Indexing
+                Dim edges = model.edges _
+                    .Where(Function(e)
+                               Return e.fromNode Like nodeIndex AndAlso e.toNode Like nodeIndex
+                           End Function) _
+                    .ToArray
+                Dim subNetwork As New NetworkTables(group, edges)
+
+                If deleteTupleEdges Then
+                    Dim index = New GraphIndex(Of FileStream.Node, NetworkEdge)().nodes(subNetwork.nodes).edges(subNetwork.edges)
+                    Dim nonTuples = subNetwork.edges.Where(Function(e) Not e.isTupleEdge(index)).ToArray
+
+                    subNetwork.edges = nonTuples
+                End If
+
+                Call subNetwork.Save($"{out}/subset/{group.Key.NormalizePathString}/")
+                Call model.edges _
+                    .Where(Function(e)
+                               Return (e.fromNode Like nodeIndex AndAlso Not e.toNode Like nodeIndex) OrElse (Not e.fromNode Like nodeIndex AndAlso e.toNode Like nodeIndex)
+                           End Function) _
+                    .DoCall(AddressOf bridgeEdges.AddRange)
+            Next
+
+            Dim bridgeNodex As Index(Of String) = bridgeEdges _
+                .Select(Function(e) {e.fromNode, e.toNode}) _
+                .IteratesALL _
+                .Distinct _
+                .Indexing
+
+            Dim bridgeNetwork As New NetworkTables(bridgeEdges, model.nodes.Where(Function(n) n.ID Like bridgeNodex))
+
+            Call bridgeNetwork.RemoveDuplicated()
+            Call bridgeNetwork.Save($"{out}/subset/bridge/")
+        End If
+
+        Return model.Save(out).CLICode
+    End Function
+
+    <ExportAPI("/KEGG.referenceMap.render")>
+    <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/compounds <repository> /convexHull <category.txt> /size <10(A0)> /out <viz.png>]")>
+    <Description("Render pathway map as image after cytoscape layout progress.")>
+    <Group(CLIGrouping.KEGGPathwayMapTools)>
+    Public Function RenderReferenceMapNetwork(args As CommandLine) As Integer
+        Dim in$ = args <= "/model"
+        Dim out$
+        Dim size$ = args("/size") Or "10(A0)"
+        Dim result As GraphicsData
+        Dim convexHull As String() = args("/convexHull").ReadAllLines
+        Dim compounds$ = args <= "/compounds"
+
+        If [in].FileExists AndAlso [in].ExtensionSuffix.TextEquals("xgmml") Then
+            out = args("/out") Or ([in].TrimSuffix & ".render.png")
+            result = ReferenceMapRender.Render(
+                model:=XGMML.RDFXml.Load([in]),
+                canvasSize:=size,
+                convexHull:=convexHull,
+                compoundRepository:=compounds
+            )
+        Else
+            Dim table As NetworkTables = NetworkFileIO.Load([in])
+            Dim graph As NetworkGraph = table.CreateGraph
+
+            out = args("/out") Or ([in] & "/render.png")
+            result = ReferenceMapRender.Render(
+                graph:=graph,
+                canvasSize:=size
+            )
+        End If
+
+        Return result.Save(out).CLICode
     End Function
 
     <ExportAPI("/Write.Reaction.Table")>

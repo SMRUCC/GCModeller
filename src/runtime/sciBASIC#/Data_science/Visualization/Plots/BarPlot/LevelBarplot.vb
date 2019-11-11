@@ -1,4 +1,46 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::de706c63bb773431674be31d8e70d995, Data_science\Visualization\Plots\BarPlot\LevelBarplot.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module LevelBarplot
+    ' 
+    '         Function: Plot, trimLabel
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
@@ -45,13 +87,21 @@ Namespace BarPlot
                              Optional tickFontCSS$ = CSSFont.Win7LargerNormal,
                              Optional legendTitle$ = "Value Levels",
                              Optional valueTitle$ = "Value Levels",
-                             Optional valueTitleFontCSS$ = CSSFont.Win7LargerBold) As GraphicsData
+                             Optional valueTitleFontCSS$ = CSSFont.Win7LargerBold,
+                             Optional nolabelTrim As Boolean = False) As GraphicsData
 
             Dim titleFont As Font = CSSFont.TryParse(titleFontCSS)
             Dim labelFont As Font = CSSFont.TryParse(labelFontCSS)
             Dim tickFont As Font = CSSFont.TryParse(tickFontCSS)
             Dim valueTitleFont As Font = CSSFont.TryParse(valueTitleFontCSS)
-            Dim trim = trimLabel(maxLabelLength)
+            Dim trim As Func(Of String, String)
+
+            If nolabelTrim Then
+                trim = Function(s) s
+            Else
+                trim = trimLabel(maxLabelLength)
+            End If
+
             Dim maxLengthLabel$ = data.Keys _
                 .Select(trim) _
                 .MaxLengthString
@@ -86,6 +136,7 @@ Namespace BarPlot
 
                     Call g.DrawString(title, titleFont, Brushes.Black, pos)
                     Call g.DrawRectangle(pen, chartBox)
+                    Call g.FillRectangle(bg.GetBrush, chartBox)
 
                     Dim ticks = {0, indexScaler.Max}.CreateAxisTicks
                     Dim widthScaler = d3js _
@@ -156,7 +207,7 @@ Namespace BarPlot
                         .Height = chartBox.Height / 2
                     }
 
-                    Call g.ColorMapLegend(legendLayout, colors, ticks, valueTitleFont, legendTitle, tickFont, pen, "gray")
+                    Call g.ColorMapLegend(legendLayout, colors, ticks, valueTitleFont, legendTitle, tickFont, pen, Nothing)
 
                     ' 绘制底部的小标题
                     titleSize = g.MeasureString(valueTitle, valueTitleFont)

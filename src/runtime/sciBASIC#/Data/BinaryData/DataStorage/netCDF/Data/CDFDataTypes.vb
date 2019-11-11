@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e99e80578576883b7c90fca68402a788, Data\BinaryData\DataStorage\netCDF\Data\CDFDataTypes.vb"
+﻿#Region "Microsoft.VisualBasic::1211d995bfd30734e4c4363698df9c86, Data\BinaryData\DataStorage\netCDF\Data\CDFDataTypes.vb"
 
     ' Author:
     ' 
@@ -87,5 +87,12 @@ Namespace netCDF
         ''' IEEE double precision floats
         ''' </summary>
         <Description("double")> [DOUBLE] = 6
+
+        ' 下面是拓展类型
+
+        ''' <summary>
+        ''' #define NC_INT64   10
+        ''' </summary>
+        <Description("long")> [LONG] = 10
     End Enum
 End Namespace

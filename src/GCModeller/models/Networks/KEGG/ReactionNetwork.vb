@@ -51,6 +51,10 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
+''' <summary>
+''' 这个模块是针对一组给定的特定的代谢物编号列表
+''' 生成对应的小分子代谢物互做网络图
+''' </summary>
 Public Module ReactionNetwork
 
     <Extension>
@@ -59,10 +63,10 @@ Public Module ReactionNetwork
         Dim compoundIndex As Dictionary(Of String, String()) = maps _
             .Select(Function(pathway)
                         Return pathway.shapes _
-                                      .Select(Function(a) a.IDVector) _
-                                      .IteratesALL _
-                                      .Where(Function(id) id.IsPattern("C\d+")) _
-                                      .Select(Function(id) (id, pathway))
+                            .Select(Function(a) a.IDVector) _
+                            .IteratesALL _
+                            .Where(Function(id) id.IsPattern("C\d+")) _
+                            .Select(Function(id) (id, pathway))
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(link) link.Item1) _

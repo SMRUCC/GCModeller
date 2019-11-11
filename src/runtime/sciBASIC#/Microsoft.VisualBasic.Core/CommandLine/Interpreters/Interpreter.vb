@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6c2b3e5d881c8a129a2f3fe5f61c166, Microsoft.VisualBasic.Core\CommandLine\Interpreters\Interpreter.vb"
+﻿#Region "Microsoft.VisualBasic::8809e5ad7b8bb9480cf6ffb246d01139, Microsoft.VisualBasic.Core\CommandLine\Interpreters\Interpreter.vb"
 
     ' Author:
     ' 
@@ -154,13 +154,16 @@ Namespace CommandLine
         ''' <returns></returns>
         Private Function __executeEmpty() As Integer
             If Not ExecuteEmptyCli Is Nothing Then
+#If DEBUG Then
+                Return _ExecuteEmptyCli()
+#Else
                 Try
                     Return _ExecuteEmptyCli()
                 Catch ex As Exception
                     Call App.LogException(ex)
                     Call ex.PrintException
                 End Try
-
+#End If
                 Return -100
             Else
                 ' 当用户什么也不输入的时候，打印出所有的命令名称帮助信息

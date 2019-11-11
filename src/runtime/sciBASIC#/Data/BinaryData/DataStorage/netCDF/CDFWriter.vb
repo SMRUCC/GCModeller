@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::703b70144bb5fa2f70cc17d350fce52e, Data\BinaryData\DataStorage\netCDF\CDFWriter.vb"
+﻿#Region "Microsoft.VisualBasic::276b066d7023317eb993e641da98ae27, Data\BinaryData\DataStorage\netCDF\CDFWriter.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,8 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: CalcOffsets, Dimensions, getDimensionList, getVariableHeaderBuffer, GlobalAttributes
+    '         Function: CalcOffsets, Dimensions, getDimension, getDimensionList, getVariableHeaderBuffer
+    '                   GlobalAttributes
     ' 
     '         Sub: (+2 Overloads) AddVariable, (+2 Overloads) Dispose, Save, writeAttributes
     ' 
@@ -235,7 +236,9 @@ Namespace netCDF
             dimensionList = [dim] _
                 .SeqIterator _
                 .ToDictionary(Function(d) d.value.name,
-                              Function(d) d)
+                              Function(d)
+                                  Return d
+                              End Function)
             Return Me
         End Function
 
@@ -396,6 +399,9 @@ Namespace netCDF
                     Case CDFDataTypes.SHORT
                         Call output.Write(1)
                         Call output.Write(Short.Parse(attr.value))
+                    Case CDFDataTypes.LONG
+                        Call output.Write(1)
+                        Call output.Write(Long.Parse(attr.value))
                     Case Else
                         Throw New NotImplementedException(attr.type.Description)
                 End Select
@@ -428,6 +434,10 @@ Namespace netCDF
                 .dimensions = getDimensionList(dims)
             }
         End Sub
+
+        Public Function getDimension(name As String) As Dimension
+            Return dimensionList.TryGetValue(name).value
+        End Function
 
         Private Function getDimensionList(dims As [Variant](Of String(), String)) As Integer()
             If dims Like GetType(String) Then

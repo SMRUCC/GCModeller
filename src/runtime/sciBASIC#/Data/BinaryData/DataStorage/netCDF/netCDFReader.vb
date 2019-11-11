@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf60f5a32d97a477f4d03edc972b7def, Data\BinaryData\DataStorage\netCDF\netCDFReader.vb"
+﻿#Region "Microsoft.VisualBasic::908c9cbdd97c267de749a744b89a5281, Data\BinaryData\DataStorage\netCDF\netCDFReader.vb"
 
     ' Author:
     ' 
@@ -152,6 +152,7 @@ Namespace netCDF
                             Case CDFDataTypes.FLOAT : Return Single.Parse(.value)
                             Case CDFDataTypes.INT : Return Integer.Parse(.value)
                             Case CDFDataTypes.SHORT : Return Short.Parse(.value)
+                            Case CDFDataTypes.LONG : Return Long.Parse(.value)
 
                             Case Else
                                 Throw New NotSupportedException

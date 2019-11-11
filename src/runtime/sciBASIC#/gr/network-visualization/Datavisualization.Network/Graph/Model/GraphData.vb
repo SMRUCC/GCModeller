@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd78ccb3910e477e895c49ae78ee3afe, gr\network-visualization\Datavisualization.Network\Graph\Model\GraphData.vb"
+﻿#Region "Microsoft.VisualBasic::503d6da1924451e6543cc26a6b47c927, gr\network-visualization\Datavisualization.Network\Graph\Model\GraphData.vb"
 
     ' Author:
     ' 
@@ -34,14 +34,14 @@
     '     Class NodeData
     ' 
     '         Properties: color, force, initialPostion, mass, neighborhoods
-    '                     neighbours, origID, radius, weights
+    '                     neighbours, origID, size, weights
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: Clone, ToString
     ' 
     '     Class EdgeData
     ' 
-    '         Properties: controlsPoint, length, weight
+    '         Properties: bends, length, weight
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: Clone, ToString
@@ -100,6 +100,7 @@ Imports System.Drawing
 Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -122,12 +123,22 @@ Namespace Graph
             End Get
         End Property
 
-        Public Property radius As Single
+        ''' <summary>
+        ''' 这个主要是为了兼容圆形或者矩形之类的大小信息
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property size As Double()
+
         ''' <summary>
         ''' Mass weight
         ''' </summary>
         ''' <returns></returns>
         Public Property mass As Single
+
+        ''' <summary>
+        ''' For 2d layout <see cref="FDGVector2"/> / 3d layout <see cref="FDGVector3"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public Property initialPostion As AbstractVector
         Public Property origID As String
         Public Property force As Point
@@ -169,7 +180,7 @@ Namespace Graph
             Me.neighbours = copy.neighbours.SafeQuery.ToArray
             Me.origID = copy.origID
             Me.Properties = New Dictionary(Of String, String)(copy.Properties)
-            Me.radius = copy.radius
+            Me.size = copy.size.ToArray
             Me.weights = copy.weights.SafeQuery.ToArray
         End Sub
 
@@ -178,7 +189,7 @@ Namespace Graph
         End Function
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return initialPostion.ToString
         End Function
     End Class
 
@@ -190,7 +201,7 @@ Namespace Graph
         ''' <returns></returns>
         Public Property length As Single
         Public Property weight As Double
-        Public Property controlsPoint As FDGVector3()
+        Public Property bends As Handle()
 
         Public Sub New()
             MyBase.New()

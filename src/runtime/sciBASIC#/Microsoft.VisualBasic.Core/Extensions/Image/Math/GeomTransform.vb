@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee4aaadfff928a88ce98216f467dc3a6, Microsoft.VisualBasic.Core\Extensions\Image\Math\GeomTransform.vb"
+﻿#Region "Microsoft.VisualBasic::d8bd1c6a0fc7d93851919387150272dc, Microsoft.VisualBasic.Core\Extensions\Image\Math\GeomTransform.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '         Function: Angle, Area, (+2 Overloads) CalculateAngle, CenterAlign, (+2 Overloads) CentralOffset
     '                   (+4 Overloads) Centre, CircleRectangle, (+4 Overloads) Distance, (+2 Overloads) GetBounds, GetCenter
-    '                   (+2 Overloads) InRegion, MirrorX, MirrorY, (+5 Overloads) OffSet2D, Offsets
-    '                   (+4 Overloads) Scale, ShapePoints, SquareSize
+    '                   (+2 Overloads) InRegion, MirrorX, MirrorY, (+8 Overloads) OffSet2D, Offsets
+    '                   (+5 Overloads) Scale, ShapePoints, SquareSize
     ' 
     ' 
     ' /********************************************************************************/
@@ -134,6 +134,33 @@ Namespace Imaging.Math2D
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function GetCenter(size As Size) As Point
             Return New Point(size.Width / 2, size.Height / 2)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function OffSet2D(rect As Rectangle, offset As Point) As Rectangle
+            Return New Rectangle With {
+                .Location = rect.Location.OffSet2D(offset),
+                .Size = rect.Size
+            }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function OffSet2D(rect As Rectangle, offset As PointF) As Rectangle
+            Return New Rectangle With {
+                .Location = rect.Location.OffSet2D(offset),
+                .Size = rect.Size
+            }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function OffSet2D(rect As Rectangle, offsetX!, offsetY!) As Rectangle
+            Return New Rectangle With {
+                .Location = rect.Location.OffSet2D(offsetX, offsetY),
+                .Size = rect.Size
+            }
         End Function
 
         ''' <summary>
@@ -249,6 +276,14 @@ Namespace Imaging.Math2D
             Return New PointF(x, y)
         End Function
 
+        ''' <summary>
+        ''' 计算两个二维坐标的欧几里得距离
+        ''' </summary>
+        ''' <param name="x1#"></param>
+        ''' <param name="y1#"></param>
+        ''' <param name="x2#"></param>
+        ''' <param name="y2#"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Distance(x1#, y1#, x2#, y2#) As Double
             Return sys.Sqrt((x1 - x2) ^ 2 + (y1 - y2) ^ 2)
@@ -410,6 +445,15 @@ Namespace Imaging.Math2D
         <Extension> Public Function Scale(rect As Rectangle, factor As SizeF) As Rectangle
             With rect
                 With New RectangleF(.Location.PointF, .Size.SizeF).Scale(factor)
+                    Return New Rectangle(.Location.ToPoint, .Size.ToSize)
+                End With
+            End With
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension> Public Function Scale(rect As Rectangle, factorX!, factorY!) As Rectangle
+            With rect
+                With New RectangleF(.Location.PointF, .Size.SizeF).Scale(New SizeF(factorX, factorY))
                     Return New Rectangle(.Location.ToPoint, .Size.ToSize)
                 End With
             End With

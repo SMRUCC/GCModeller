@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e5696f3beb157e7024e29c700c5f887, Data\BinaryData\DataStorage\netCDF\Components\Components.vb"
+﻿#Region "Microsoft.VisualBasic::e5d02d8991a24c65119298209b30fab8, Data\BinaryData\DataStorage\netCDF\Components\Components.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     '     Structure Dimension
     ' 
-    '         Properties: [Double], [Integer], Text
+    '         Properties: [Byte], [Double], [Integer], [Long], [Short]
+    '                     Float, Text
     ' 
     '         Function: ToString
     ' 
@@ -100,9 +101,33 @@ Namespace netCDF.Components
             End Get
         End Property
 
+        Public Shared ReadOnly Property [Long] As Dimension
+            Get
+                Return New Dimension With {.name = GetType(Long).FullName, .size = 8}
+            End Get
+        End Property
+
+        Public Shared ReadOnly Property Float As Dimension
+            Get
+                Return New Dimension With {.name = GetType(Single).FullName, .size = 4}
+            End Get
+        End Property
+
+        Public Shared ReadOnly Property [Short] As Dimension
+            Get
+                Return New Dimension With {.name = GetType(Short).FullName, .size = 2}
+            End Get
+        End Property
+
         Public Shared ReadOnly Property [Integer] As Dimension
             Get
                 Return New Dimension With {.name = GetType(Integer).FullName, .size = 4}
+            End Get
+        End Property
+
+        Public Shared ReadOnly Property [Byte] As Dimension
+            Get
+                Return New Dimension With {.name = GetType(Byte).FullName, .size = 1}
             End Get
         End Property
 

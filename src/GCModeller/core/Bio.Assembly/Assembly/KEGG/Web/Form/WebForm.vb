@@ -216,7 +216,9 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 cpd.text = cpd.text.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
             Next
 
-            Return componentList.ToArray
+            Return componentList _
+                .Where(Function(li) li.name <> "DBGET") _
+                .ToArray
         End Function
 
         ''' <summary>

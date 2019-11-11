@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84ebe917805a662f87a5ed3016710b8b, Microsoft.VisualBasic.Core\Scripting\MetaData\Type.vb"
+﻿#Region "Microsoft.VisualBasic::e5ae64f845b53aa6957e99cc714b1792, Microsoft.VisualBasic.Core\Scripting\MetaData\Type.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class TypeInfo
     ' 
-    '         Properties: assm, fullIdentity, isSystemKnownType
+    '         Properties: assembly, fullName, isSystemKnownType
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
@@ -63,12 +63,12 @@ Namespace Scripting.MetaData
         ''' The assembly file which contains this type definition.(模块文件)
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property assm As String
+        <XmlAttribute> Public Property assembly As String
         ''' <summary>
         ''' <see cref="Type.FullName"/>.(类型源)
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property fullIdentity As String
+        <XmlText> Public Property fullName As String
 
         ''' <summary>
         ''' Is this type object is a known system type?(是否是已知的类型？)
@@ -76,7 +76,7 @@ Namespace Scripting.MetaData
         ''' <returns></returns>
         Public ReadOnly Property isSystemKnownType As Boolean
             Get
-                Return Not Scripting.GetType(fullIdentity) Is Nothing
+                Return Not Scripting.GetType(fullName) Is Nothing
             End Get
         End Property
 
@@ -88,7 +88,7 @@ Namespace Scripting.MetaData
         ''' </summary>
         ''' <param name="info"></param>
         Sub New(info As Type)
-            Call doInfoParser(info, assm, fullIdentity)
+            Call doInfoParser(info, assembly, fullName)
         End Sub
 
         Private Shared Sub doInfoParser(info As Type, ByRef assm As String, ByRef id As String)
@@ -97,7 +97,7 @@ Namespace Scripting.MetaData
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"{assm}!{fullIdentity}"
+            Return $"{assembly}!{fullName}"
         End Function
 
         ''' <summary>
@@ -106,8 +106,8 @@ Namespace Scripting.MetaData
         ''' </summary>
         ''' <returns></returns>
         Public Function LoadAssembly(Optional directory As DefaultString = Nothing) As Assembly
-            Dim path As String = $"{directory Or App.HOME}/{Me.assm}"
-            Dim assm As Assembly = Assembly.LoadFile(path)
+            Dim path As String = $"{directory Or App.HOME}/{Me.assembly}"
+            Dim assm As Assembly = System.Reflection.Assembly.LoadFile(path)
 
             Return assm
         End Function
@@ -118,21 +118,41 @@ Namespace Scripting.MetaData
         ''' <param name="knownFirst">
         ''' 如果这个参数为真的话, 则会尝试直接从当前的应用程序域中查找类信息, 反之则会加载目标程序集进行类型信息查找
         ''' </param>
+        ''' <param name="throwEx">
+        ''' 如果这个参数设置为False的话，则出错的时候会返回空值
+        ''' </param>
         ''' <returns></returns>
-        Public Overloads Function [GetType](Optional knownFirst As Boolean = False) As Type
+        Public Overloads Function [GetType](Optional knownFirst As Boolean = False,
+                                            Optional throwEx As Boolean = True,
+                                            Optional ByRef getException As Exception = Nothing) As Type
             Dim type As Type
             Dim assm As Assembly
 
             If knownFirst Then
-                type = Scripting.GetType(fullIdentity)
+                type = Scripting.GetType(fullName)
 
                 If Not type Is Nothing Then
                     Return type
                 End If
             End If
 
-            assm = LoadAssembly()
-            type = assm.GetType(Me.fullIdentity)
+            ' 错误一般出现在loadassembly阶段
+            ' 主要是文件未找到
+            Try
+                assm = LoadAssembly()
+                type = assm.GetType(Me.fullName)
+                getException = Nothing
+            Catch ex As Exception
+                ex = New DllNotFoundException(ToString, ex)
+
+                If throwEx Then
+                    Throw ex
+                Else
+                    getException = ex
+                End If
+            Finally
+                type = Nothing
+            End Try
 
             Return type
         End Function
@@ -146,8 +166,8 @@ Namespace Scripting.MetaData
         Public Overloads Shared Operator =(a As TypeInfo, b As Type) As Boolean
             Dim assm As String = Nothing, type As String = Nothing
             Call doInfoParser(b, assm, type)
-            Return String.Equals(a.assm, assm, StringComparison.OrdinalIgnoreCase) AndAlso
-                String.Equals(a.fullIdentity, type, StringComparison.Ordinal)
+            Return String.Equals(a.assembly, assm, StringComparison.OrdinalIgnoreCase) AndAlso
+                String.Equals(a.fullName, type, StringComparison.Ordinal)
         End Operator
 
         Public Overloads Shared Operator <>(a As TypeInfo, b As Type) As Boolean

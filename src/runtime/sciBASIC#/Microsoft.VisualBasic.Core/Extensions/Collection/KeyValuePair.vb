@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c026d261e64952d9a7ef92a273c04ed, Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::4c34fe7ef695119d13070eda59ef9163, Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
 
     ' Author:
     ' 
@@ -33,14 +33,14 @@
 
     ' Module KeyValuePairExtensions
     ' 
-    '     Function: (+3 Overloads) [Select], (+2 Overloads) Add, AsEnumerable, AsGroups, AsNamedValueTuples
-    '               AsNamedVector, AsTable, ComputeIfAbsent, (+3 Overloads) ContainsKey, DictionaryData
-    '               (+2 Overloads) EnumerateTuples, EnumParser, FlatTable, (+2 Overloads) GetByKey, GetValueOrDefault
-    '               GroupByKey, HaveData, IGrouping, IterateNameCollections, IterateNameValues
-    '               IteratesAll, Join, KeyItem, (+2 Overloads) Keys, (+2 Overloads) NamedValues
-    '               (+3 Overloads) NameValueCollection, ParserDictionary, RemoveAndGet, ReverseMaps, (+2 Overloads) Selects
-    '               SetOfKeyValuePairs, (+2 Overloads) Subset, tableInternal, Takes, (+3 Overloads) ToDictionary
-    '               Tsv, Tuple, (+2 Overloads) Values, XMLModel
+    '     Function: (+3 Overloads) [Select], (+2 Overloads) Add, AsEnumerable, AsNamedValueTuples, AsTable
+    '               ComputeIfAbsent, (+3 Overloads) ContainsKey, DictionaryData, (+2 Overloads) EnumerateTuples, EnumParser
+    '               FlatTable, (+2 Overloads) GetByKey, GetValueOrDefault, GroupByKey, HaveData
+    '               IterateNameCollections, IterateNameValues, IteratesAll, Join, KeyItem
+    '               (+2 Overloads) Keys, (+2 Overloads) NamedValues, (+3 Overloads) NameValueCollection, ParserDictionary, RemoveAndGet
+    '               ReverseMaps, (+2 Overloads) Selects, SetOfKeyValuePairs, (+2 Overloads) Subset, tableInternal
+    '               Takes, (+3 Overloads) ToDictionary, ToLower, ToUpper, Tsv
+    '               Tuple, (+2 Overloads) Values, XMLModel
     ' 
     '     Sub: SortByKey, SortByValue
     ' 
@@ -297,35 +297,10 @@ Public Module KeyValuePairExtensions
         Next
     End Function
 
-    <Extension> Public Function AsNamedVector(Of T)(groups As IEnumerable(Of IGrouping(Of String, T))) As IEnumerable(Of NamedCollection(Of T))
-        Return groups.Select(Function(group)
-                                 Return New NamedCollection(Of T) With {
-                                    .Name = group.Key,
-                                    .Value = group.ToArray
-                                 }
-                             End Function)
-    End Function
-
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function AsNamedValueTuples(Of T)(tuples As IEnumerable(Of KeyValuePair(Of String, T))) As IEnumerable(Of NamedValue(Of T))
         Return tuples.Select(Function(p) New NamedValue(Of T)(p.Key, p.Value))
-    End Function
-
-    <Extension>
-    Public Function AsGroups(Of T)(table As Dictionary(Of String, T())) As IEnumerable(Of NamedCollection(Of T))
-        Return table.Select(Function(item)
-                                Return New NamedCollection(Of T) With {
-                                    .Name = item.Key,
-                                    .Value = item.Value
-                                }
-                            End Function)
-    End Function
-
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension>
-    Public Function IGrouping(Of T)(source As IEnumerable(Of NamedCollection(Of T))) As IEnumerable(Of IGrouping(Of String, T))
-        Return source.Select(Function(x) DirectCast(x, IGrouping(Of String, T)))
     End Function
 
     ''' <summary>

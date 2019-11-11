@@ -1,53 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::4939f2138b7735df0a2a063c66f46f20, visualize\Cytoscape\CLI_tool\CLI\Metagenomics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __loadDict, BBHTrimIdentities, GenerateBlastNetwork, MatrixToNetwork, MetaBuildBLAST
-    '               SimpleBBH, SSU_MetagenomeNetwork
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __loadDict, BBHTrimIdentities, GenerateBlastNetwork, MatrixToNetwork, MetaBuildBLAST
+'               SimpleBBH, SSU_MetagenomeNetwork
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
 Imports System.Drawing
+Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -79,7 +81,7 @@ Partial Module CLI
         Using IO As New IO.Linq.WriteStream(Of BBH)(out)
             Dim reader As New IO.Linq.DataStream(inFile)
             Call reader.ForEachBlock(Of BBH)(Sub(data0)
-                                                 data0 = (From x In data0.AsParallel Where x.Identities >= identities Select x).ToArray
+                                                 data0 = (From x In data0.AsParallel Where x.identities >= identities Select x).ToArray
                                                  Call IO.Flush(data0)
                                              End Sub)
             Return 0
@@ -190,7 +192,7 @@ Partial Module CLI
         End If
 
         Dim net As NetworkTables = data.ToNetwork(clusterColors, cut:=cut)
-        Return net.Save(out, Encodings.ASCII).CLICode
+        Return net.Save(out, Encoding.ASCII).CLICode
     End Function
 
     <ExportAPI("/BLAST.Metagenome.SSU.Network")>
@@ -277,6 +279,6 @@ Partial Module CLI
         ' 第一步的iterator直到第三布的时候才会被执行，所以这个列表要放在最后面保存，否则会没有数据
         Call notFound.FlushAllLines(EXPORT & "/taxonomy_notfound.txt")
 
-        Return network.Save(EXPORT, Encodings.ASCII).CLICode
+        Return network.Save(EXPORT, Encoding.ASCII).CLICode
     End Function
 End Module

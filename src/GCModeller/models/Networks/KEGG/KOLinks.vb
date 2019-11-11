@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::e651aedb971ab7cc88879ce555e0bcc4, Networks\KEGG\KOLinks.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class KOLinks
-    ' 
-    '     Properties: definition, entry, name, pathways, reactions
-    ' 
-    '     Function: Build
-    ' 
-    ' /********************************************************************************/
+' Class KOLinks
+' 
+'     Properties: definition, entry, name, pathways, reactions
+' 
+'     Function: Build
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,9 +63,11 @@ Public Class KOLinks
     ''' <summary>
     ''' 使用这个函数直接从KEGG的直系同源注释数据转换
     ''' </summary>
-    ''' <param name="ko00001$"></param>
+    ''' <param name="ko00001">
+    ''' <see cref="Orthology"/>
+    ''' </param>
     ''' <returns></returns>
-    Public Shared Iterator Function Build(ko00001$) As IEnumerable(Of KOLinks)
+    Public Shared Iterator Function Build(ko00001 As String) As IEnumerable(Of KOLinks)
         For Each path As String In ls - l - r - "*.XML" <= ko00001
             Dim xml As Orthology = path.LoadXml(Of Orthology)
 
@@ -73,10 +75,9 @@ Public Class KOLinks
                 Continue For
             End If
 
-            Dim reactions$() = xml.xref _
-                .Terms _
+            Dim reactions$() = xml.xref.Terms _
                 .Where(Function(l) l.name = "RN") _
-                .Select(Function(x) x.Comment) _
+                .Select(Function(x) x.comment) _
                 .ToArray
             Dim pathways As NamedValue() = xml.pathway _
                 .Select(Function(x)

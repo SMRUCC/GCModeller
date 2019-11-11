@@ -47,12 +47,12 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports RDotNet.Extensions.VisualBasic.API
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Metagenome
@@ -228,7 +228,7 @@ Partial Module CLI
                             .Term = KO(maxprofile.pathway).entry.text
                         }
                     End Function) _
-            .OrderBy(Function(t) t.pvalue) _
+            .OrderBy(Function(t) t.Pvalue) _
             .ToArray
 
         ' 进行绘图

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a51f874214b53f5d20beb2edb471bb3, gr\network-visualization\NetworkCanvas\Canvas3D\Renderer3D.vb"
+﻿#Region "Microsoft.VisualBasic::2c92e0e127f76260347ec2c7c4c28322, gr\network-visualization\NetworkCanvas\Canvas3D\Renderer3D.vb"
 
     ' Author:
     ' 
@@ -103,7 +103,7 @@ Public Class Renderer3D : Inherits Renderer
     End Sub
 
     Protected Overrides Sub drawNode(n As Node, iPosition As AbstractVector)
-        Dim r As Single = If(dynamicsRadius, n.Data.radius, radiushash(n))
+        Dim r As Single = If(dynamicsRadius, n.data.size(0), radiushash(n))
 
         If r < 0.6 OrElse Single.IsNaN(r) OrElse r > 500 Then
             Return

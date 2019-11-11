@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9490f2816c0da8b6b17f1427ef4dfc0e, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
+﻿#Region "Microsoft.VisualBasic::b991a0b5114b02ada7ce3d93dfd50342, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
 
     ' Author:
     ' 
@@ -148,7 +148,11 @@ Namespace Drawing2D.Shapes
                 border.fill = border.fill Or black.When(border.fill.StringEmpty)
 
                 Call g.DrawCircle(
-                    rect.Centre, radius, border.GDIObject, fill:=False)
+                    centra:=rect.Centre,
+                    r:=radius,
+                    color:=border.GDIObject,
+                    fill:=False
+                )
             End If
         End Sub
     End Class

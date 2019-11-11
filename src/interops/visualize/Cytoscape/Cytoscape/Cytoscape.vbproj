@@ -151,12 +151,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Visualize.Cytoscape.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Visualize.Cytoscape.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86'">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Visualize.Cytoscape.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
@@ -172,11 +175,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Cytoscape.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x86'">
     <DefineTrace>true</DefineTrace>
@@ -224,11 +229,9 @@
     <Compile Include="Graph\cytoscape.js\Styles\Translator.vb" />
     <Compile Include="Graph\cytoscape.js\Styles\style.vb" />
     <Compile Include="Graph\cytoscape.js\Cyjs.vb" />
-    <Compile Include="Graph\Visualization\Node.vb" />
     <Compile Include="Graph\Serialization\GraphicsMapper.vb" />
     <Compile Include="Graph\Xgmml\GraphIndex.vb" />
     <Compile Include="Graph\Xgmml\File\Attributes.vb" />
-    <Compile Include="Graph\Xgmml\Handle.vb" />
     <Compile Include="Graph\Xgmml\File\network\NodeGraphics.vb" />
     <Compile Include="Graph\Xgmml\NameOf.vb" />
     <Compile Include="Graph\Xgmml\GraphExtensions.vb" />
@@ -237,7 +240,7 @@
     <Compile Include="Graph\Xgmml\File\network\EdgeGraphics.vb" />
     <Compile Include="Graph\Xgmml\File\network\Edge.vb" />
     <Compile Include="Graph\Xgmml\File\network\Node.vb" />
-    <Compile Include="Graph\Visualization\GraphDrawing.vb" />
+    <Compile Include="Graph\VizModel.vb" />
     <Compile Include="Graph\Xgmml\File\NetworkMetadata.vb" />
     <Compile Include="Graph\VizMap\visualStyle\visualProperty.vb" />
     <Compile Include="Graph\VizMap\visualStyle\network.vb" />
@@ -273,7 +276,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Cytoscape.Designer.cd" />
-    <None Include="Graph\Visualization\Visualization.pptx" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -331,6 +333,10 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
       <Name>Network.GraphTheory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\Network.IO.Extensions.vbproj">
+      <Project>{78cb32e6-2904-41e7-acca-f1e2757bfa8e}</Project>
+      <Name>Network.IO.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\physics\physics.vbproj">
       <Project>{3291389c-ea87-4b33-a9a5-65a2d60ba3e2}</Project>

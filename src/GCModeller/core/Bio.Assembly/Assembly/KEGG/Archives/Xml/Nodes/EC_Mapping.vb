@@ -112,11 +112,11 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
             Dim gECs = (From cat As PwyBriteFunc In Model.Pathways
                         Select (From Pathway As bGetObject.Pathway
                                 In cat.Pathways
-                                Where Not Pathway.Genes.IsNullOrEmpty
-                                Select (From gene As NamedValue In Pathway.Genes
+                                Where Not Pathway.genes.IsNullOrEmpty
+                                Select (From gene As NamedValue In Pathway.genes
                                         Let EC As String() = gene.text.EcParser
                                         Select locusId = gene.name,
-                                            EC).ToArray).ToArray).ToVector.IteratesALL
+                                            EC).ToArray).ToArray).IteratesALL.IteratesALL
             Dim gLst = (From GG In (From GO In gECs
                                     Select GO
                                     Group GO By GO.locusId Into Group)

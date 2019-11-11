@@ -1,4 +1,4 @@
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7244.17825
-'  // ASSEMBLY:  Settings, Version=3.3277.7244.17825, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7251.18537
+'  // ASSEMBLY:  Settings, Version=3.3277.7251.18537, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     2019/11/1 9:54:10
+'  // BUILT:     11/8/2019 10:17:54 AM
 '  // 
 ' 
 ' 
@@ -164,7 +164,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 7. UniProt tools
 ' 
 ' 
-'    /protein.EXPORT:                   Export the protein sequence and save as fasta format from the
+'    /protein.EXPORT:                   Export the protein sequence And save as fasta format from the
 '                                       uniprot database dump XML.
 '    /UniProt.bbh.mappings:             
 '    /UniProt.KO.faa:                   Export all of the protein sequence from the Uniprot database which
@@ -1321,7 +1321,7 @@ End Function
 ''' ```bash
 ''' /protein.EXPORT /in &lt;uniprot.xml&gt; [/sp &lt;name&gt; /exclude /out &lt;out.fasta&gt;]
 ''' ```
-''' Export the protein sequence and save as fasta format from the uniprot database dump XML.
+''' Export the protein sequence And save as fasta format from the uniprot database dump XML.
 ''' </summary>
 '''
 Public Function proteinEXPORT([in] As String, Optional sp As String = "", Optional out As String = "", Optional exclude As Boolean = False) As Integer

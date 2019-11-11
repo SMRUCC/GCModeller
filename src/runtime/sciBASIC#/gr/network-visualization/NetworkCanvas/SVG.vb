@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5380f2a685347398499c569d27ea7548, gr\network-visualization\NetworkCanvas\SVG.vb"
+﻿#Region "Microsoft.VisualBasic::a728dcc456fb60d620a1a302f8b84cf2, gr\network-visualization\NetworkCanvas\SVG.vb"
 
     ' Author:
     ' 
@@ -181,7 +181,7 @@ Public Module SVGExtensions
 
     <Extension>
     Private Function __getRadius(n As Graph.Node) As Single
-        Dim r As Single = n.Data.radius
+        Dim r As Single = n.data.size(0)
         Dim rd As Single = If(r = 0!, If(n.Data.Neighborhoods < 30, n.Data.Neighborhoods * 9, n.Data.Neighborhoods * 7), r)
         Dim r2 As Single = If(rd = 0, 10.0!, rd) / 2.5!
 

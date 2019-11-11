@@ -140,11 +140,11 @@ Namespace NetworkModel.PfsNET
         Public Function SaveNetwork(network As KeyValuePair(Of NetworkModel.Edge(), NetworkModel.Node()), saveDIR As String) As Boolean
             Dim filePath As String = String.Format("{0}/pfsnet.edges.csv", saveDIR)
             Call network.Key.SaveTo(filePath, False)
-            Call IO.File.WriteAllLines(filePath, (From strLine As String In IO.File.ReadAllLines(filePath) Select strLine Distinct).ToArray)
+            Call (From strLine As String In filePath.ReadAllLines Select strLine Distinct).FlushAllLines(filePath)
 
             filePath = String.Format("{0}/pfsnet.nodes.csv", saveDIR)
             Call network.Value.SaveTo(filePath, False)
-            Call IO.File.WriteAllLines(filePath, (From strLine As String In IO.File.ReadAllLines(filePath) Select strLine Distinct).ToArray)
+            Call (From strLine As String In filePath.ReadAllLines Select strLine Distinct).ToArray.FlushAllLines(filePath)
 
             Return True
         End Function

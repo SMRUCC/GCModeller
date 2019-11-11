@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c90f3b518528b13db6ae69c53cb38fa6, gr\network-visualization\Visualizer\LayoutLabel.vb"
+﻿#Region "Microsoft.VisualBasic::38f5f5a2c8257c855ef7f822f28f5e38, gr\network-visualization\Visualizer\LayoutLabel.vb"
 
     ' Author:
     ' 
@@ -40,6 +40,7 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 
 Friend Class LayoutLabel
@@ -47,4 +48,6 @@ Friend Class LayoutLabel
     Public anchor As Anchor
     Public style As Font
     Public color As Brush
+    Public node As Node
+    Public shapeRectangle As RectangleF
 End Class
