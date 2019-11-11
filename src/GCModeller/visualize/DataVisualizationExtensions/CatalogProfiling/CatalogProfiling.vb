@@ -142,6 +142,7 @@ Namespace CatalogProfiling
                                      Optional removeNotAssign As Boolean = True,
                                      Optional gray As Boolean = False,
                                      Optional labelRightAlignment As Boolean = False,
+                                     Optional disableLabelColor As Boolean = False,
                                      Optional valueFormat$ = "F2") As GraphicsData
 
             If removeNotAssign Then
@@ -158,7 +159,7 @@ Namespace CatalogProfiling
             Dim mapper As New Scaling(mapperValues, horizontal:=True)
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                    Call g.__plotInternal(
+                    Call g.internalPlotImpl(
                        region, profile, title,
                        colors,
                        titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
@@ -167,7 +168,8 @@ Namespace CatalogProfiling
                        axisTitle,
                        gray:=gray,
                        labelAlignmentRight:=labelRightAlignment,
-                       valueFormat:=valueFormat
+                       valueFormat:=valueFormat,
+                       disableLabelColor:=disableLabelColor
                     )
                 End Sub
 
@@ -192,7 +194,7 @@ Namespace CatalogProfiling
         ''' <param name="axisTitle$"></param>
         ''' <param name="gray">条形图使用灰色的颜色，不再根据分类而产生不同颜色了</param>
         <Extension>
-        Private Sub __plotInternal(ByRef g As IGraphics, region As GraphicsRegion,
+        Private Sub internalPlotImpl(ByRef g As IGraphics, region As GraphicsRegion,
                                    profile As Dictionary(Of String, NamedValue(Of Double)()),
                                    title$,
                                    colors As ColorProfile,
@@ -205,6 +207,7 @@ Namespace CatalogProfiling
                                    axisTitle$,
                                    gray As Boolean,
                                    labelAlignmentRight As Boolean,
+                                   disableLabelColor As Boolean,
                                    valueFormat$)
 
             ' 这里是大标签的字符串向量
@@ -329,7 +332,11 @@ Namespace CatalogProfiling
                     End If
 
                     If TypeOf colors Is CategoryColorProfile Then
-                        Call g.DrawString(label, catalogFont, color, pos)
+                        If disableLabelColor Then
+                            Call g.DrawString(label, catalogFont, color, pos)
+                        Else
+                            Call g.DrawString(label, catalogFont, Brushes.Black, pos)
+                        End If
                     Else
                         Call g.DrawString(label, catalogFont, Brushes.Black, pos)
                     End If
