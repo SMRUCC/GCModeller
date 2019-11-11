@@ -95,7 +95,7 @@ Namespace PathwayMaps
                                Optional convexHull As Index(Of String) = Nothing,
                                Optional compoundNames As Dictionary(Of String, String) = Nothing,
                                Optional wordWrapWidth% = 14,
-                               Optional rewriteGroupCategoryColors$ = "blue,green,red,yellow,black,purple") As GraphicsData
+                               Optional rewriteGroupCategoryColors$ = "TSF") As GraphicsData
 
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
