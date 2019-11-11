@@ -149,7 +149,7 @@ Namespace CatalogProfiling
                 profile = profile.removesNotAssign
             End If
 
-            Dim colors As ColorProfile = profile.GetColors(colorSchema)
+            Dim colors As ColorProfile = profile.GetColors(colorSchema, logarithm:=-1)
             Dim mapperValues As Double() = profile.Values _
                 .Select(Function(c)
                             Return c.Select(Function(v) CDbl(v.Value))
