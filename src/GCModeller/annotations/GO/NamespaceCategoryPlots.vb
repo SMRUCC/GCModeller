@@ -39,6 +39,10 @@ Public Module NamespaceCategoryPlots
                 .Value _
                 .doSingleBarplot(namespaceTitle, size, tick, colorSchema, nolabelTrim)
 
+            If TypeOf image Is SVGData Then
+                DirectCast(image, SVGData).title = "Go enrichment of " & namespaceTitle
+            End If
+
             Yield New NamedValue(Of GraphicsData) With {
                 .Name = [namespace].Key,
                 .Value = image
