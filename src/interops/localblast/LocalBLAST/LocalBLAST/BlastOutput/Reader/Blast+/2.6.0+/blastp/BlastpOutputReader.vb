@@ -109,11 +109,13 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                     .QueryLength = queryInfo.Value
                 }
             Else
-                Return r _
-                    .Split(block, "^Lambda\s+", RegexICMul) _
-                    .First _
-                    .Trim _
-                    .internalQueryParser(queryInfo, top:=False, fast:=fast)
+                ' 20191111
+                ' due to the reason of word lambda may exists in bacteria species name
+                ' so that this regex match should be case sensitive.
+                Dim blocks = r.Split(block, "^Lambda\s{2,}", RegexOptions.Multiline)
+                Dim alignDetails = blocks(Scan0).Trim
+
+                Return alignDetails.internalQueryParser(queryInfo, top:=False, fast:=fast)
             End If
         End Function
 
