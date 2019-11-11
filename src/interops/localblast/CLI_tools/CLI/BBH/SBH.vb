@@ -83,17 +83,6 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Paralog", Usage:="/Paralog /blastp <blastp.txt> [/coverage 0.5 /identities 0.3 /out <out.csv>]")>
-    Public Function ExportParalog(args As CommandLine) As Integer
-        Dim [in] As String = args - "/blastp"
-        Dim blastp As v228 = BlastPlus.ParsingSizeAuto([in])
-        Dim coverage As Double = args.GetValue("/coverage", 0.5)
-        Dim identities As Double = args.GetValue("/identities", 0.3)
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".paralogs.csv")
-        Dim paralogs As BestHit() = Paralog.ExportParalog(blastp, coverage, identities)
-        Return paralogs.SaveTo(out).CLICode
-    End Function
-
     Private Function __evalueRow(hitsTags As String(),
                                  queryName As String,
                                  hashHits As Dictionary(Of String, BestHit()),
