@@ -412,7 +412,8 @@ Public Module CatalogPlots
                                                                            Optional labelRightAlignment As Boolean = False,
                                                                            Optional usingCorrected As Boolean = False,
                                                                            Optional top% = -1,
-                                                                           Optional colorSchema$ = "Set1:c6") As GraphicsData
+                                                                           Optional colorSchema$ = "Set1:c6",
+                                                                           Optional disableLabelColor As Boolean = False) As GraphicsData
         Return data _
             .CreateEnrichmentProfiles(GO_terms, usingCorrected, top, pvalue) _
             .ProfilesPlot(
@@ -422,7 +423,8 @@ Public Module CatalogPlots
                 tick:=tick,
                 gray:=gray,
                 labelRightAlignment:=labelRightAlignment,
-                colorSchema:=colorSchema
+                colorSchema:=colorSchema,
+                disableLabelColor:=disableLabelColor
             )
     End Function
 End Module

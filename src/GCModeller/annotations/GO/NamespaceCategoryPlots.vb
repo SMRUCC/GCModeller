@@ -26,7 +26,8 @@ Public Module NamespaceCategoryPlots
                     Optional tick# = 1,
                     Optional usingCorrected As Boolean = False,
                     Optional top% = -1,
-                    Optional colorSchema$ = "Set1:c6") As IEnumerable(Of NamedValue(Of GraphicsData))
+                    Optional colorSchema$ = "Set1:c6",
+                    Optional nolabelTrim As Boolean = False) As IEnumerable(Of NamedValue(Of GraphicsData))
 
         Dim namespaceProfiles = data.CreateEnrichmentProfiles(GO_terms, usingCorrected, top, pvalue)
         Dim image As GraphicsData
@@ -34,7 +35,13 @@ Public Module NamespaceCategoryPlots
 
         For Each [namespace] In namespaceProfiles
             namespaceTitle = [namespace].Key
-            image = [namespace].Value.doSingleBarplot(namespaceTitle, size, tick, colorSchema)
+            image = [namespace] _
+                .Value _
+                .doSingleBarplot(namespaceTitle, size, tick, colorSchema, nolabelTrim)
+
+            If TypeOf image Is SVGData Then
+                DirectCast(image, SVGData).title = "Go enrichment of " & namespaceTitle
+            End If
 
             Yield New NamedValue(Of GraphicsData) With {
                 .Name = [namespace].Key,
@@ -44,7 +51,7 @@ Public Module NamespaceCategoryPlots
     End Function
 
     <Extension>
-    Private Function doSingleBarplot(profiles As NamedValue(Of Double)(), namespace$, size$, tick#, colorSchema$) As GraphicsData
+    Private Function doSingleBarplot(profiles As NamedValue(Of Double)(), namespace$, size$, tick#, colorSchema$, nolabelTrim As Boolean) As GraphicsData
         Return LevelBarplot.Plot(
             data:=profiles,
             size:=size,
@@ -55,7 +62,8 @@ Public Module NamespaceCategoryPlots
             labelFontCSS:=CSSFont.PlotTitle,
             titleFontCSS:=CSSFont.Win7VeryVeryLargeNormal,
             tickFontCSS:=CSSFont.Win7VeryLarge,
-            valueTitleFontCSS:="font-style: normal; font-size: 48; font-family: " & FontFace.MicrosoftYaHei & ";"
+            valueTitleFontCSS:="font-style: normal; font-size: 48; font-family: " & FontFace.MicrosoftYaHei & ";",
+            nolabelTrim:=nolabelTrim
         )
     End Function
 

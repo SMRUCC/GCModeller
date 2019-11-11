@@ -17,7 +17,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/GO.enrichment.barplot")>
-    <Usage("/GO.enrichment.barplot /in <result.csv> [/go <go.obo> /top <default=35> /colors <schemaName, default=YlGnBu:c8> /tiff /out <output_directory>]")>
+    <Usage("/GO.enrichment.barplot /in <result.csv> [/go <go.obo> /disable.label_trim /top <default=35> /colors <schemaName, default=YlGnBu:c8> /tiff /out <output_directory>]")>
     Public Function GOEnrichmentBarPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.go_enrichment.barplots/"
@@ -27,11 +27,13 @@ Partial Module CLI
         Dim saveInTiff As Boolean = args("/tiff")
         Dim outFile$
         Dim tiff As TiffWriter
+        Dim disableLabelTrim As Boolean = args("/disable.label_trim")
 
         For Each plot As NamedValue(Of GraphicsData) In enrichments.NamespaceEnrichmentPlot(
             GO_terms:=terms,
             top:=args("/top") Or 35,
-            colorSchema:=args("/colors") Or "YlGnBu:c8"
+            colorSchema:=args("/colors") Or "YlGnBu:c8",
+            nolabelTrim:=disableLabelTrim
         )
             If TypeOf plot.Value Is ImageData Then
                 If saveInTiff Then
