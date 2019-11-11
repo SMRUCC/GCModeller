@@ -8,7 +8,7 @@ Imports System.Runtime.InteropServices
 
 ' 查看程序集特性的值
 
-<Assembly: AssemblyTitle("CLI Interop service &  extensions for NCBI BLAST program")> 
+<Assembly: AssemblyTitle("CLI Interop service & extensions for NCBI BLAST program")> 
 <Assembly: AssemblyDescription("NCBI BLAST program extensions")> 
 <Assembly: AssemblyCompany("蓝思生物信息工程师工作站")> 
 <Assembly: AssemblyProduct("NCBI BLAST")>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' 方法是按如下所示使用“*”: 
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.2.0.34")> 
-<Assembly: AssemblyFileVersion("1.6.55.5")> 
+<Assembly: AssemblyVersion("2.332.*")> 
+<Assembly: AssemblyFileVersion("1.986.*")> 
