@@ -1,10 +1,55 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::248a39b15bd2d7d403929814eabb921c, gr\network-visualization\Datavisualization.Network\Layouts\EdgeBundling\Handle.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Handle
+    ' 
+    '         Properties: isDirectPoint, originalLocation
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: convert, getSerializableString, parseHandle, ParseHandles, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Drawing
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace CytoscapeGraphView.XGMML
+Namespace Layouts.EdgeBundling
 
     ''' <summary>
-    ''' 
+    ''' 进行网络之中的边连接的布局走向的拐点的矢量化描述
     ''' </summary>
     ''' <remarks>
     ''' https://github.com/cytoscape/cytoscape-impl/blob/93530ef3b35511d9b1fe0d0eb913ecdcd3b456a8/ding-impl/ding-presentation-impl/src/main/java/org/cytoscape/ding/impl/HandleImpl.java#L247
@@ -32,6 +77,14 @@ Namespace CytoscapeGraphView.XGMML
                 Return New PointF(x, y)
             End Get
         End Property
+
+        Sub New()
+        End Sub
+
+        Sub New(location As PointF)
+            x = location.X
+            y = location.Y
+        End Sub
 
         ''' <summary>
         ''' Rotate And scale the vector to the handle position
@@ -80,7 +133,14 @@ Namespace CytoscapeGraphView.XGMML
             }.GetJson
         End Function
 
-        Friend Shared Function parseHandles(strRepresentation As String) As IEnumerable(Of Handle)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="strRepresentation">
+        ''' String join of <see cref="getSerializableString()"/> between handles with delimiter ``|``.
+        ''' </param>
+        ''' <returns></returns>
+        Public Shared Function ParseHandles(strRepresentation As String) As IEnumerable(Of Handle)
             If strRepresentation.StringEmpty Then
                 Return {}
             Else

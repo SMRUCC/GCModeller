@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::a27b940aad74d0ef2c16c00f723a360b, Networks\KEGG\FunctionalNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module FunctionalNetwork
-    ' 
-    '     Function: KOGroupTable, VisualizeKEGG
-    ' 
-    ' /********************************************************************************/
+' Module FunctionalNetwork
+' 
+'     Function: KOGroupTable, VisualizeKEGG
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
 
@@ -163,7 +164,6 @@ Public Module FunctionalNetwork
                                            End Function)
         End If
 
-        Dim nodePoints As Dictionary(Of Graph.Node, PointF) = Nothing
         Dim image As Image
 
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
@@ -180,9 +180,10 @@ Public Module FunctionalNetwork
             dash = .ByRef
         End With
 
+        Dim nodePoints = CanvasScaler.CalculateNodePositions(graph, size.SizeParser, g.DefaultPadding)
+
         Using g As Graphics2D = graph _
             .DrawImage(canvasSize:=size,
-                       nodePoints:=nodePoints,
                        edgeDashTypes:=dash,
                        minLinkWidth:=5,
                        nodeRadius:=DirectMapRadius(),
@@ -194,7 +195,7 @@ Public Module FunctionalNetwork
             For Each pathway In nodeGroups.SeqIterator
                 Dim nodes = (+pathway).Value
                 Dim name$ = (+pathway).Key
-                Dim polygon As PointF() = nodePoints.Selects(nodes).ToArray
+                Dim polygon As PointF() = nodes.Select(Function(n) nodePoints(n.label)).ToArray
 
                 Try
                     ' 计算出KEGG代谢途径簇的边界点
