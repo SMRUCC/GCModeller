@@ -388,7 +388,7 @@ Namespace PathwayMaps
                               End Function)
             Dim categoryColors As New CategoryColorProfile(
                 category:=category,
-                colorSchema:="material"
+                colorSchema:="Set1:c8"
             )
 
             For Each node As Node In nodes

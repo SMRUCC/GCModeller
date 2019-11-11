@@ -102,6 +102,13 @@ Public Class CompoundRepository : Inherits XmlDataModel
     Public Shared Iterator Function ScanRepository(directory$, Optional ignoreGlycan As Boolean = True) As IEnumerable(Of Compound)
         Dim compound As Compound
 
+        If directory.StringEmpty OrElse Not directory.DirectoryExists Then
+            Call "Repository config invalid...".Warning
+            Return
+        Else
+            Call "Loading compounds data repository...".__DEBUG_ECHO
+        End If
+
         For Each xml As String In ls - l - r - "*.Xml" <= directory
             If xml.BaseName.First = "G"c Then
                 If ignoreGlycan Then

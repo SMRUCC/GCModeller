@@ -1,7 +1,9 @@
 ﻿Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -10,10 +12,11 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
@@ -21,19 +24,17 @@ Namespace PathwayMaps
 
     Public Module ReferenceMapRender
 
-        ReadOnly compoundNames As Dictionary(Of String, String) = getCompoundNames()
         ReadOnly reactionNames As Dictionary(Of String, String) = getReactionNames()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function getCompoundNames() As Dictionary(Of String, String)
-            Return CompoundBrite.GetAllCompoundResources _
-                .Values _
-                .IteratesALL _
-                .GroupBy(Function(name) name.entry.Key) _
-                .Where(Function(g) Not g.Key.StringEmpty) _
-                .ToDictionary(Function(name) name.Key,
-                              Function(terms)
-                                  Return terms.First.entry.Value
+        Private Function getCompoundNames(repository As String) As Dictionary(Of String, String)
+            Return CompoundRepository.ScanRepository(repository, False) _
+                .GroupBy(Function(c) c.entry) _
+                .ToDictionary(Function(cpd) cpd.Key,
+                              Function(cpd)
+                                  Return cpd.First _
+                                      .commonNames _
+                                      .FirstOrDefault Or cpd.Key.AsDefault
                               End Function)
         End Function
 
@@ -65,13 +66,17 @@ Namespace PathwayMaps
                                Optional canvasSize$ = "11480,9200",
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
-                               Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
+                               Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
+                               Optional convexHull As String() = Nothing,
+                               Optional compoundRepository$ = Nothing) As GraphicsData
 
-            Return model.ToNetworkGraph("label", "class", "group.category") _
+            Return model.ToNetworkGraph("label", "class", "group.category", "group.category.color") _
                 .Render(canvasSize:=canvasSize,
                         enzymeColorSchema:=enzymeColorSchema,
                         compoundColorSchema:=compoundColorSchema,
-                        reactionShapeStrokeCSS:=reactionShapeStrokeCSS
+                        reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
+                        convexHull:=convexHull,
+                        compoundNames:=getCompoundNames(compoundRepository)
                 )
         End Function
 
@@ -82,10 +87,15 @@ Namespace PathwayMaps
         <Extension>
         Public Function Render(graph As NetworkGraph,
                                Optional canvasSize$ = "11480,9200",
+                               Optional padding$ = "padding: 300px 300px 300px 300px;",
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
-                               Optional hideCompoundCircle As Boolean = True) As GraphicsData
+                               Optional hideCompoundCircle As Boolean = True,
+                               Optional convexHull As Index(Of String) = Nothing,
+                               Optional compoundNames As Dictionary(Of String, String) = Nothing,
+                               Optional wordWrapWidth% = 14,
+                               Optional rewriteGroupCategoryColors$ = "TSF") As GraphicsData
 
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
@@ -102,6 +112,10 @@ Namespace PathwayMaps
                               End Function)
             Dim enzymeColors As Color() = Designer.GetColors(enzymeColorSchema)
             Dim compoundColors As New CategoryColorProfile(compoundCategory, compoundColorSchema)
+
+            If compoundNames Is Nothing Then
+                compoundNames = New Dictionary(Of String, String)
+            End If
 
             For Each node As Node In graph.vertex
                 If node.label.IsPattern("C\d+") Then
@@ -127,41 +141,36 @@ Namespace PathwayMaps
             Dim reactionShapeStroke As Pen = Stroke.TryParse(reactionShapeStrokeCSS)
             Dim rectShadow As New Shadow(10, 30, 1.125, 1.25)
             Dim circleShadow As New Shadow(130, 45, 2, 2)
-            Dim offsetCircle As New PointF(20, 20)
-            Dim offsetRect As New PointF(30, 20)
 
             Dim drawNode As DrawNodeShape =
-                Sub(id$, g As IGraphics, br As Brush, radius!, center As PointF)
+                Function(id$, g As IGraphics, br As Brush, radius!, center As PointF)
                     Dim node As Node = nodes(id)
                     Dim connectedNodes = graph.GetConnectedVertex(id)
+                    Dim rect As Rectangle
 
                     If node.label.IsPattern("C\d+") Then
+                        ' 圆形
+                        radius = radius * 0.5
+                        rect = New Rectangle With {
+                            .X = center.X - radius / 2,
+                            .Y = center.Y - radius / 2,
+                            .Width = radius,
+                            .Height = radius
+                        }
+
                         If Not hideCompoundCircle Then
-                            ' 圆形
-                            radius = radius * 0.4
-                            center = center.OffSet2D(offsetCircle)
-
-                            Dim rect As New Rectangle With {
-                                .X = center.X - radius,
-                                .Y = center.Y + radius,
-                                .Width = radius,
-                                .Height = radius
-                            }
-
                             Call circleShadow.Circle(g, center, radius)
+
                             Call g.FillEllipse(br, rect)
-                            Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Darken, 10), rect)
+                            Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Alpha(200).Darken, 10), rect)
                         End If
                     Else
                         ' 方形
-                        center = center.OffSet2D(offsetRect)
-                        radius = radius * 0.8
-
-                        Dim rect As New Rectangle With {
-                            .X = center.X - radius * 3 / 4,
-                            .Y = center.Y + radius / 2,
-                            .Width = radius * 1.25,
-                            .Height = radius / 2.75
+                        rect = New Rectangle With {
+                            .X = center.X - radius / 2,
+                            .Y = center.Y - radius / 5,
+                            .Width = radius,
+                            .Height = radius / 2.5
                         }
 
                         br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
@@ -170,73 +179,125 @@ Namespace PathwayMaps
                         Call g.FillPath(br, RoundRect.GetRoundedRectPath(rect, 30))
                         Call g.DrawPath(reactionShapeStroke, RoundRect.GetRoundedRectPath(rect, 30))
                     End If
-                End Sub
-            Dim getLabelPositoon As GetLabelPosition =
-                Function(node As Node, label$, center As PointF, labelSize As SizeF)
-                    If node.label.IsPattern("C\d+") Then
-                        center = center.OffSet2D(offsetCircle)
 
+                    Return rect
+                End Function
+            Dim getLabelPositoon As GetLabelPosition =
+                Function(node As Node, label$, shapeLayout As RectangleF, labelSize As SizeF)
+                    If node.label.IsPattern("C\d+") Then
                         Return New PointF(
-                            x:=center.X - labelSize.Width * 6 / 8,
-                            y:=center.Y + labelSize.Height * 2
+                            x:=shapeLayout.Left + (shapeLayout.Width - labelSize.Width) / 2,
+                            y:=shapeLayout.Top + (shapeLayout.Height - labelSize.Height) / 2
                         )
                     Else
-                        center = center.OffSet2D(offsetRect)
-
                         Return New PointF(
-                            x:=center.X - labelSize.Width * 5 / 7,
-                            y:=center.Y + labelSize.Height * 1.7
+                            x:=shapeLayout.Left + (shapeLayout.Width - labelSize.Width) / 2,
+                            y:=shapeLayout.Top + (shapeLayout.Height - labelSize.Height) / 2
                         )
                     End If
                 End Function
+
+            If convexHull Is Nothing Then
+                convexHull = New Index(Of String)
+            End If
 
             Dim allCategories$() = graph.vertex _
                 .Select(Function(n)
                             Return n.data("group.category")
                         End Function) _
+                .Distinct _
+                .Where(Function(cat)
+                           Return cat Like convexHull
+                       End Function) _
                 .ToArray
+            Dim rewriteGroupCategoryColor As LoopArray(Of Color) = Designer.GetColors(rewriteGroupCategoryColors)
+            Dim categoryColors = allCategories _
+                .Select(Function(c)
+                            If rewriteGroupCategoryColor.Length = 0 Then
+                                Return graph.vertex _
+                                    .First(Function(n)
+                                               Return n.data("group.category") = c
+                                           End Function) _
+                                    .data("group.category.color")
+                            Else
+                                Return rewriteGroupCategoryColor.Next().ToHtmlColor
+                            End If
+                        End Function) _
+                .ToArray
+
+            If Not allCategories.IsNullOrEmpty Then
+                Call $"Network canvas will render {allCategories.Length} category data for convexHull...".__INFO_ECHO
+
+                For Each category As SeqValue(Of String) In allCategories.SeqIterator
+                    Call $"  {category.value} -> {categoryColors(category)}".__INFO_ECHO
+                Next
+            End If
+
+            Dim getFontSize As Func(Of Node, Single) =
+                Function(node As Node) As Single
+                    If node.label.IsPattern("C\d+") Then
+                        Return 24
+                    Else
+                        Return 24
+                    End If
+                End Function
+            Dim yellow As Color = "#f5f572".TranslateColor
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
-                background:="#e4faff",
-                padding:="padding: 500px 500px 500px 500px;",
+                background:="white",'"transparent",
+                padding:=padding,
                 canvasSize:=canvasSize,
-                labelerIterations:=0,
-                doEdgeBundling:=True,
+                labelerIterations:=-1000,
                 drawNodeShape:=drawNode,
                 hullPolygonGroups:=New NamedValue(Of String) With {
                     .Name = "group.category",
-                    .Value = allCategories.JoinBy(",")
+                    .Value = allCategories.JoinBy(","),
+                    .Description = categoryColors.JoinBy(",")
                 },
-                minLinkWidth:=10,
-                nodeRadius:=220,
+                minLinkWidth:=8,
+                nodeRadius:=150,
                 edgeShadowDistance:=0,
-                edgeDashTypes:=DashStyle.Solid,
-                defaultEdgeColor:="lightblue",
-                getNodeLabel:=AddressOf getNodeLabel,
+                edgeDashTypes:=DashStyle.Dot,
+                defaultEdgeColor:="brown",
+                getNodeLabel:=getNodeLabel(compoundNames),
                 getLabelPosition:=getLabelPositoon，
                 labelTextStroke:=Nothing,
                 labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
-                fontSize:=27,
+                fontSize:=getFontSize,
                 defaultLabelColor:="white",
                 getLabelColor:=Function(node As Node) As Color
                                    If node.label.IsPattern("C\d+") Then
                                        Return Color.Black
+                                   ElseIf DirectCast(node.data.color, SolidBrush).Color.EuclideanDistance(yellow) <= 30 Then
+                                       Return Color.DarkBlue
                                    Else
                                        Return Color.White
                                    End If
+                               End Function,
+                convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";",
+                convexHullScale:=1.025,
+                drawEdgeBends:=False,
+                labelWordWrapWidth:=wordWrapWidth,
+                isLabelPinned:=Function(n, actualLabel)
+                                   Return n.label.IsPattern("R\d+") OrElse actualLabel.Length <= wordWrapWidth
                                End Function
             )
         End Function
 
-        Private Function getNodeLabel(node As Node) As String
-            If node.label.IsPattern("C\d+") Then
-                Return compoundNames.TryGetValue(node.label, [default]:=node.data!label)
-            ElseIf node.label.IsPattern("R\d+") Then
-                Return reactionNames.TryGetValue(node.label, [default]:=node.data!label)
-            Else
-                Return node.label
-            End If
+        Private Function getNodeLabel(compoundNames As Dictionary(Of String, String)) As Func(Of Node, String)
+            Return Function(node As Node) As String
+                       If node.label.IsPattern("C\d+") Then
+                           Return compoundNames _
+                              .TryGetValue(node.label, [default]:=node.data!label) _
+                              .Split(";"c) _
+                              .First
+                       ElseIf node.label.IsPattern("R\d+") Then
+                           Return reactionNames.TryGetValue(node.label, [default]:=node.data!label)
+                       Else
+                           Return node.label
+                       End If
+                   End Function
         End Function
     End Module
 End Namespace

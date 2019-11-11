@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7bfbeaee32bfb2344907f80533f3f27, gr\network-visualization\Datavisualization.Network\NetworkAPI.vb"
+﻿#Region "Microsoft.VisualBasic::7d0b58a6f6b3b0ca1023df018be39184, gr\network-visualization\Datavisualization.Network\Analysis\Model\EdgeSet.vb"
 
     ' Author:
     ' 
@@ -31,24 +31,40 @@
 
     ' Summaries:
 
-    ' Module NetworkAPI
+    '     Class EdgeSet
     ' 
-    '     Function: EndPoints
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.GraphTheory.Network
-Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 
-<Package("DataVisualization.Network", Publisher:="xie.guigang@gmail.com")>
-Public Module NetworkAPI
+Namespace Analysis.Model
 
-    <Extension>
-    Public Function EndPoints(network As Graph.NetworkGraph) As (input As Graph.Node(), output As Graph.Node())
-        Return New NetworkGraph(Of Graph.Node, Graph.Edge)(network.vertex, network.graphEdges).EndPoints
-    End Function
+    ''' <summary>
+    ''' 两个节点对象之间的重复的边链接的集合
+    ''' </summary>
+    ''' <remarks>
+    ''' 所有的<see cref="IInteraction.source"/>和<see cref="IInteraction.target"/>都是一样的
+    ''' </remarks>
+    Public Class EdgeSet(Of Edge As IInteraction) : Inherits List(Of Edge)
 
-End Module
+        Sub New()
+            Call MyBase.New
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Dim first As Edge = Me.First
+
+            If Count = 1 Then
+                Return $"[{first.source}, {first.target}]"
+            Else
+                Return $"[{first.source}, {first.target}] have {Count} duplicated connections."
+            End If
+        End Function
+    End Class
+End Namespace
