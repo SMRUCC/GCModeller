@@ -136,7 +136,8 @@ Namespace PathwayMaps
                                           reactions As IEnumerable(Of ReactionTable),
                                           Optional reactionClass As ReactionClassifier = Nothing,
                                           Optional doRemoveUnmmaped As Boolean = False,
-                                          Optional coverageCutoff As Double = 0) As NetworkTables
+                                          Optional coverageCutoff As Double = 0,
+                                          Optional categoryLevel2 As Boolean = False) As NetworkTables
             Dim mapsVector = maps.ToArray
             Dim reactionVector As ReactionTable() = reactions.ToArray
             Dim compounds = mapsVector _
@@ -160,7 +161,8 @@ Namespace PathwayMaps
                 reactionCluster:={},
                 reactionClass:=reactionClass,
                 doRemoveUnmmaped:=doRemoveUnmmaped,
-                coverageCutoff:=coverageCutoff
+                coverageCutoff:=coverageCutoff,
+                categoryLevel2:=categoryLevel2
             )
         End Function
 
@@ -171,7 +173,8 @@ Namespace PathwayMaps
                                                    reactionCluster As NamedCollection(Of String)(),
                                                    reactionClass As ReactionClassifier,
                                                    doRemoveUnmmaped As Boolean,
-                                                   coverageCutoff As Double) As NetworkTables
+                                                   coverageCutoff As Double,
+                                                   categoryLevel2 As Boolean) As NetworkTables
 
             Dim reactantIndex = reactionVector.getCompoundIndex(Function(r) r.substrates)
             Dim productIndex = reactionVector.getCompoundIndex(Function(r) r.products)
@@ -208,7 +211,7 @@ Namespace PathwayMaps
             Dim g As New NetworkTables(nodes.Values, edges)
             Dim nodesVector As Node() = nodes.Values.ToArray
 
-            Call nodesVector.doMapAssignment(compoundCluster, reactionCluster, coverageCutoff)
+            Call nodesVector.doMapAssignment(compoundCluster, reactionCluster, coverageCutoff, categoryLevel2)
             Call g.removesUnmapped(doRemoveUnmmaped)
             Call g.RemoveDuplicated()
             Call g.RemovesIsolatedNodes()
@@ -346,7 +349,8 @@ Namespace PathwayMaps
         Private Sub doMapAssignment(nodes As Node(),
                                     compoundCluster As NamedCollection(Of String)(),
                                     reactionCluster As NamedCollection(Of String)(),
-                                    coverageCutoff As Double)
+                                    coverageCutoff As Double,
+                                    categoryLevel2 As Boolean)
 
             Dim compoundsId = nodes.Where(Function(n) n.NodeType <> "flux").Keys
             Dim reactionsId = nodes.Where(Function(n) n.NodeType = "flux").Keys
@@ -372,11 +376,18 @@ Namespace PathwayMaps
             Next
 
             Dim mapCategories = BiologicalObjectCluster.GetMapCategories
+            Dim map As Pathway
+
+            If categoryLevel2 Then
+                Call "Do map assignment in category level 3".__DEBUG_ECHO
+            End If
 
             For Each node As Node In nodes
                 If node("group") <> "NA" Then
-                    node("group.class") = mapCategories(node("group").Match("\d+")).class
-                    node("group.category") = mapCategories(node("group").Match("\d+")).category
+                    map = mapCategories(node("group").Match("\d+"))
+
+                    node("group.class") = map.class
+                    node("group.category") = If(categoryLevel2, map.entry.text, map.category)
                 End If
             Next
 
@@ -434,7 +445,8 @@ Namespace PathwayMaps
                                           Optional classFilter As Boolean = True,
                                           Optional reactionClass As ReactionClassifier = Nothing,
                                           Optional doRemoveUnmmaped As Boolean = False,
-                                          Optional coverageCutoff As Double = 0) As NetworkTables
+                                          Optional coverageCutoff As Double = 0,
+                                          Optional categoryLevel2 As Boolean = False) As NetworkTables
 
             Dim mapsVector = maps.ToArray
             Dim reactionVector As ReactionTable() = reactions.reactionKOFilter(mapsVector.getKOlist).ToArray
@@ -481,7 +493,8 @@ Namespace PathwayMaps
                 reactionCluster:=reactionCluster,
                 reactionClass:=reactionClass,
                 doRemoveUnmmaped:=doRemoveUnmmaped,
-                coverageCutoff:=coverageCutoff
+                coverageCutoff:=coverageCutoff,
+                categoryLevel2:=categoryLevel2
             )
         End Function
     End Module

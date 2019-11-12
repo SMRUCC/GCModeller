@@ -353,7 +353,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/category.level2 /reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /out <result_network.directory>]")>
     <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
     <Argument("/repository", False, CLITypes.File,
               AcceptTypes:={GetType(Map), GetType(Pathway)},
@@ -390,6 +390,7 @@ Partial Module CLI
         Dim coverageCutoff As Double = args("/coverage.cutoff") Or 0.0
         Dim splitNetwork As Boolean = args("/split")
         Dim deleteTupleEdges As Boolean = args("/delete.tupleEdges")
+        Dim categoryLevel2 As Boolean = args("/category.level2")
 
         If ReactionClassifier.IsNullOrEmpty(reactionClass) Then
             reactionClass = Nothing
@@ -416,7 +417,8 @@ Partial Module CLI
                 classFilter:=False,
                 reactionClass:=reactionClass,
                 doRemoveUnmmaped:=doRemoveUnmapped,
-                coverageCutoff:=coverageCutoff
+                coverageCutoff:=coverageCutoff,
+                categoryLevel2:=categoryLevel2
             )
         Else
             out = args("/out") Or $"{[in].TrimDIR}.{organismName}.referenceMap/"
@@ -425,7 +427,8 @@ Partial Module CLI
                 reactions:=reactions,
                 reactionClass:=reactionClass,
                 doRemoveUnmmaped:=doRemoveUnmapped,
-                coverageCutoff:=coverageCutoff
+                coverageCutoff:=coverageCutoff,
+                categoryLevel2:=categoryLevel2
             )
         End If
 
