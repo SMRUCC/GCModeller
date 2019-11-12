@@ -62,6 +62,8 @@ Namespace PathwayMaps
 
                     top = (orderMap, objectPool.Intersect(collection:=orderMap.Value).Count / (orderMap.Value.Length ^ 2))
                     topMaps.Delete(orderMap.Key)
+
+                    Call $"{orderMap.Key}".__INFO_ECHO
                 End If
 
                 Dim intersectObjects As String() = objectPool _
