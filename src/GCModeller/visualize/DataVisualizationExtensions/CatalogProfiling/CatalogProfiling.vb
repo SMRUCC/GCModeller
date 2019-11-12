@@ -332,7 +332,7 @@ Namespace CatalogProfiling
                     End If
 
                     If TypeOf colors Is CategoryColorProfile Then
-                        If disableLabelColor Then
+                        If Not disableLabelColor Then
                             Call g.DrawString(label, catalogFont, color, pos)
                         Else
                             Call g.DrawString(label, catalogFont, Brushes.Black, pos)
