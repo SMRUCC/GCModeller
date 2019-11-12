@@ -63,6 +63,11 @@ Namespace DAG
         Public Property is_a As is_a()
         Public Property synonym As synonym()
         Public Property relationship As Relationship()
+
+        ''' <summary>
+        ''' <see cref="Term.id"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public Property id As String Implements INamedValue.Key
         Public Property [namespace] As String
         Public Property GO_term As Term
