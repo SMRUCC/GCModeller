@@ -97,6 +97,7 @@ Public Module Enrichment
                 ' 除了当前的这个GO term之外
                 ' 还要找出当前的这个GO term之下的所有继承当前的这个Go term的子条目
                 Dim members = goClusters.GetClusterMembers(cluster.ID) _
+                    .Where(Function(c) backgroundClusterTable.ContainsKey(c.id)) _
                     .Select(Function(c) backgroundClusterTable(c.id).members) _
                     .IteratesALL _
                     .GroupBy(Function(g) g.accessionID) _

@@ -190,7 +190,7 @@ Public Module CLI
     ''' <returns></returns>
     ''' 
     <ExportAPI("/GSEA.GO")>
-    <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> /go <go.obo> [/hide.progress /locus_tag /cluster_id <null, debug_used> /format <default=GCModeller> /out <out.csv>]")>
+    <Usage("/GSEA.GO /background <clusters.XML> /geneSet <geneSet.txt> /go <go.obo> [/hide.progress /locus_tag /cluster_id <null, debug_used> /format <default=GCModeller> /out <out.csv>]")>
     Public Function GSEA_GO(args As CommandLine) As Integer
         Dim backgroundXML$ = args("/background")
         Dim background = backgroundXML.LoadXml(Of Background)
