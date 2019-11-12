@@ -106,6 +106,7 @@ Public Module Enrichment
                            End Function) _
                     .Select(Function(c) backgroundClusterTable(c.id).members) _
                     .IteratesALL _
+                    .JoinIterates(cluster.members) _
                     .GroupBy(Function(g) g.accessionID) _
                     .Select(Function(g)
                                 Return g.First
