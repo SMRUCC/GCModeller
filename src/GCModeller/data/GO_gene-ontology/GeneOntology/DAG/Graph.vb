@@ -65,8 +65,9 @@ Namespace DAG
     ''' </summary>
     Public Class Graph
 
-        ReadOnly __DAG As Dictionary(Of TermNode)
-        ReadOnly _file$
+        ReadOnly DAG As Dictionary(Of TermNode)
+        ReadOnly clusters As Dictionary(Of String, TermNode())
+        ReadOnly file$
 
         Public ReadOnly Property header As header
 
@@ -83,12 +84,15 @@ Namespace DAG
         ''' </summary>
         ''' <param name="terms"></param>
         Sub New(terms As IEnumerable(Of Term), <CallerMemberName> Optional trace$ = Nothing)
-            __DAG = terms.BuildTree
-            _file = trace
+            With terms.ToArray
+                DAG = .BuildTree
+            End With
+
+            file = trace
         End Sub
 
         Public Overrides Function ToString() As String
-            Return _file.ToFileURL
+            Return file.ToFileURL
         End Function
 
         ''' <summary>
@@ -122,8 +126,11 @@ Namespace DAG
         ''' </summary>
         ''' <param name="id"><see cref="Term.id"/></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 这个函数是往顶层查找直到查找到三大namespace为止
+        ''' </remarks>
         Public Function Family(id As String) As IEnumerable(Of InheritsChain)
-            Dim term As TermNode = __DAG(id)
+            Dim term As TermNode = DAG(id)
 
             If term Is Nothing Then
                 Return {}
@@ -151,6 +158,15 @@ Namespace DAG
 
                 Return routes
             End If
+        End Function
+
+        ''' <summary>
+        ''' 这个函数是往下查找，找出当前的term的所有的通过is_a关系继承得到的子类型
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <returns></returns>
+        Public Function GetClusterMembers(id As String) As IEnumerable(Of TermNode)
+
         End Function
 
         Public Structure InheritsChain

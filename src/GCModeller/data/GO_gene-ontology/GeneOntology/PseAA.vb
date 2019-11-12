@@ -53,7 +53,8 @@ Public Module PseAA
     ''' </summary>
     ''' <param name="ALL">``{proteinID, GO-list}``</param>
     ''' <param name="threshold">``[0, 1]`` percentage</param>
-    <Extension> Public Function Construct(ALL As IEnumerable(Of NamedValue(Of String())), Optional threshold# = 0.1) As NamedValue(Of Vector)()
+    <Extension>
+    Public Function Construct(ALL As IEnumerable(Of NamedValue(Of String())), Optional threshold# = 0.1) As NamedValue(Of Vector)()
         Dim data = ALL.ToArray
         Dim n As Dictionary(Of String, Double) = data _
             .Values _
