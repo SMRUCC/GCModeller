@@ -68,7 +68,8 @@ Namespace PathwayMaps
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
                                Optional convexHull As String() = Nothing,
-                               Optional compoundRepository$ = Nothing) As GraphicsData
+                               Optional compoundRepository$ = Nothing,
+                               Optional edgeBends As Boolean = False) As GraphicsData
 
             Return model.ToNetworkGraph("label", "class", "group.category", "group.category.color") _
                 .Render(canvasSize:=canvasSize,
@@ -76,7 +77,8 @@ Namespace PathwayMaps
                         compoundColorSchema:=compoundColorSchema,
                         reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
                         convexHull:=convexHull,
-                        compoundNames:=getCompoundNames(compoundRepository)
+                        compoundNames:=getCompoundNames(compoundRepository),
+                        edgeBends:=edgeBends
                 )
         End Function
 
@@ -95,7 +97,8 @@ Namespace PathwayMaps
                                Optional convexHull As Index(Of String) = Nothing,
                                Optional compoundNames As Dictionary(Of String, String) = Nothing,
                                Optional wordWrapWidth% = 14,
-                               Optional rewriteGroupCategoryColors$ = "TSF") As GraphicsData
+                               Optional rewriteGroupCategoryColors$ = "TSF",
+                               Optional edgeBends As Boolean = False) As GraphicsData
 
             Dim nodes As New Dictionary(Of String, Node)
             Dim fluxCategory = EnzymaticReaction.LoadFromResource _
@@ -277,7 +280,7 @@ Namespace PathwayMaps
                                End Function,
                 convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";",
                 convexHullScale:=1.025,
-                drawEdgeBends:=False,
+                drawEdgeBends:=edgeBends,
                 labelWordWrapWidth:=wordWrapWidth,
                 isLabelPinned:=Function(n, actualLabel)
                                    Return n.label.IsPattern("R\d+") OrElse actualLabel.Length <= wordWrapWidth
