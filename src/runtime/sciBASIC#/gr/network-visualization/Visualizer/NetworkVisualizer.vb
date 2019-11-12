@@ -184,10 +184,10 @@ Public Module NetworkVisualizer
             .FromAssembly _
             .DoCall(Sub(assm)
                         Dim driverPrompt$ = "
-Current graphic driver is pixel based gdi+ engine, and you could change the graphics driver 
-to vector based graphic engine via config in commandline:
+ Current graphic driver is pixel based gdi+ engine, and you could change the graphics driver 
+ to vector based graphic engine via config in commandline:
 
-tool /command [...arguments] /@set ""graphic_driver=svg/ps"""
+    tool /command [...arguments] /@set ""graphic_driver=svg/ps"""
 
                         If g.ActiveDriver <> Drivers.GDI AndAlso g.ActiveDriver <> Drivers.Default Then
                             driverPrompt = ""
