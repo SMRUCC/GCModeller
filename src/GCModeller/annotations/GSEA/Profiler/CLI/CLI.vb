@@ -227,6 +227,7 @@ Public Module CLI
         Dim result As EnrichmentResult() = background _
             .Enrichment(
                 list:=geneSet,
+                goClusters:=DAG,
                 isLocustag:=isLocusTag,
                 showProgress:=Not args.IsTrue("/hide.progress")
             ) _

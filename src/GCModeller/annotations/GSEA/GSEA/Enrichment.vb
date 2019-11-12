@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::fd7f7ad41316496f7047ae4dd300a5a4, GSEA\GSEA\Enrichment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Enrichment
-    ' 
-    '     Function: calcResult, Enrichment, FDRCorrection
-    ' 
-    ' /********************************************************************************/
+' Module Enrichment
+' 
+'     Function: calcResult, Enrichment, FDRCorrection
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -44,12 +44,91 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
+Imports SMRUCC.genomics.Data.GeneOntology
 Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.FishersExactTest
 
 ''' <summary>
 ''' 基于Fisher Extract test算法的富集分析
 ''' </summary>
 Public Module Enrichment
+
+    <Extension>
+    Public Iterator Function Enrichment(genome As Background,
+                                        list As IEnumerable(Of String),
+                                        goClusters As DAG.Graph,
+                                        Optional outputAll As Boolean = False,
+                                        Optional isLocustag As Boolean = False,
+                                        Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
+
+        Dim doProgress As Action(Of String)
+        Dim progress As ProgressBar = Nothing
+        Dim tick As New ProgressProvider(genome.clusters.Length)
+        Dim ETA$
+        Dim termResult As New Value(Of EnrichmentResult)
+        Dim genes As Integer
+
+        If showProgress Then
+            progress = New ProgressBar("Do enrichment...")
+            doProgress = Sub(id)
+                             ETA = $"{id}.... ETA: {tick.ETA(progress.ElapsedMilliseconds)}"
+                             progress.SetProgress(tick.StepProgress, ETA)
+                         End Sub
+        Else
+            doProgress = Sub()
+                             ' Do Nothing
+                         End Sub
+        End If
+
+        If genome.size <= 0 Then
+            genes = genome.clusters _
+                .Select(Function(c) c.members) _
+                .IteratesALL _
+                .Distinct _
+                .Count
+        Else
+            genes = genome.size
+        End If
+
+        With list.ToArray
+            Dim backgroundClusterTable = genome.clusters.ToDictionary()
+
+            ' 一个cluster就是一个Go term
+            For Each cluster As Cluster In genome.clusters
+                ' 除了当前的这个GO term之外
+                ' 还要找出当前的这个GO term之下的所有继承当前的这个Go term的子条目
+                Dim members = goClusters.GetClusterMembers(cluster.ID) _
+                    .Select(Function(c) backgroundClusterTable(c.id).members) _
+                    .IteratesALL _
+                    .GroupBy(Function(g) g.accessionID) _
+                    .Select(Function(g)
+                                Return g.First
+                            End Function) _
+                    .ToArray
+                ' 构建出一个完整的cluster集合
+                ' 然后再在这个完整的cluster集合的基础之上进行富集计算分析
+                Dim newCluster As New Cluster With {
+                    .ID = cluster.ID,
+                    .description = cluster.description,
+                    .names = cluster.names,
+                    .members = members,
+                    .size = members.Length
+                }
+                Dim enriched$() = newCluster _
+                    .Intersect(.ByRef, isLocustag) _
+                    .ToArray
+
+                Call doProgress(cluster.ID)
+
+                If Not (termResult = newCluster.calcResult(enriched, .Length, genes, outputAll)) Is Nothing Then
+                    Yield termResult
+                End If
+            Next
+        End With
+
+        If Not progress Is Nothing Then
+            progress.Dispose()
+        End If
+    End Function
 
     ''' <summary>
     ''' 
