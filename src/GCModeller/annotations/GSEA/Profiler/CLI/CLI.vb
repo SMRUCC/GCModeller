@@ -206,7 +206,6 @@ Public Module CLI
         Dim isLocusTag As Boolean = args("/locus_tag")
         Dim format$ = args("/format") Or "GCModeller"
         Dim go As GO_OBO = GO_OBO.LoadDocument(args <= "/go")
-        Dim DAG As New DAG.Graph(go.AsEnumerable)
 
         ' 在这里还需要将列表约束在背景模型的范围内
         ' 这一步操作在LC-MS的代谢物富集分析中尤其重要
@@ -227,7 +226,7 @@ Public Module CLI
         Dim result As EnrichmentResult() = background _
             .Enrichment(
                 list:=geneSet,
-                goClusters:=DAG,
+                go:=go,
                 isLocustag:=isLocusTag,
                 showProgress:=Not args.IsTrue("/hide.progress")
             ) _

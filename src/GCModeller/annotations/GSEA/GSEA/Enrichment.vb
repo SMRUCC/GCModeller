@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Data.GeneOntology
+Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.FishersExactTest
 
 ''' <summary>
@@ -55,7 +56,7 @@ Public Module Enrichment
     <Extension>
     Public Iterator Function Enrichment(genome As Background,
                                         list As IEnumerable(Of String),
-                                        goClusters As DAG.Graph,
+                                        go As GO_OBO,
                                         Optional outputAll As Boolean = False,
                                         Optional isLocustag As Boolean = False,
                                         Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
@@ -66,6 +67,7 @@ Public Module Enrichment
         Dim ETA$
         Dim termResult As New Value(Of EnrichmentResult)
         Dim genes As Integer
+        Dim goClusters As New DAG.Graph(go.AsEnumerable)
 
         If showProgress Then
             progress = New ProgressBar("Do enrichment...")
@@ -97,7 +99,11 @@ Public Module Enrichment
                 ' 除了当前的这个GO term之外
                 ' 还要找出当前的这个GO term之下的所有继承当前的这个Go term的子条目
                 Dim members = goClusters.GetClusterMembers(cluster.ID) _
-                    .Where(Function(c) backgroundClusterTable.ContainsKey(c.id)) _
+                    .Where(Function(c)
+                               ' 因为有些Go term是在目标基因组中不存在的
+                               ' 所以会在这里判断一下是否包含有当前cluster中的目标go term成员
+                               Return backgroundClusterTable.ContainsKey(c.id)
+                           End Function) _
                     .Select(Function(c) backgroundClusterTable(c.id).members) _
                     .IteratesALL _
                     .GroupBy(Function(g) g.accessionID) _

@@ -89,7 +89,12 @@ Namespace DAG
             clusters = CreateClusterMembers _
                 .ToDictionary(Function(cluster) cluster.Key,
                               Function(cluster)
-                                  Return cluster.Value.ToArray
+                                  Return cluster.Value _
+                                      .GroupBy(Function(t) t.id) _
+                                      .Select(Function(c)
+                                                  Return c.First
+                                              End Function) _
+                                      .ToArray
                               End Function)
             file = trace
         End Sub
