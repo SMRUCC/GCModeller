@@ -169,7 +169,11 @@ Namespace DAG
         ''' <param name="id"></param>
         ''' <returns></returns>
         Public Function GetClusterMembers(id As String) As IEnumerable(Of TermNode)
-
+            If clusters.ContainsKey(id) Then
+                Return clusters(id)
+            Else
+                Return {}
+            End If
         End Function
 
         Public Structure InheritsChain
