@@ -26,7 +26,8 @@ Namespace PathwayMaps
         Public Iterator Function MapAssignmentByCoverage(objects As IEnumerable(Of String),
                                                          maps As IEnumerable(Of NamedCollection(Of String)),
                                                          Optional includesUnknown As Boolean = False,
-                                                         Optional coverageCutoff As Double = 0) As IEnumerable(Of NamedCollection(Of String))
+                                                         Optional coverageCutoff As Double = 0,
+                                                         Optional topMaps As Index(Of String) = Nothing) As IEnumerable(Of NamedCollection(Of String))
 
             Dim objectPool As Index(Of String) = objects.Distinct.Indexing
             Dim mapList As Dictionary(Of String, String()) =
@@ -35,17 +36,34 @@ Namespace PathwayMaps
                                       Return map.ToArray
                                   End Function)
 
-            Do While mapList.Count > 0
-                Dim coverages = From map
-                                In mapList
-                                Let coverage As Double = objectPool _
-                                    .Intersect(collection:=map.Value) _
-                                    .Count
-                                Let numberOfGenes As Integer = map.Value.Length
-                                Select map, coverage = coverage / (numberOfGenes ^ 2) ' 尽量规模小的代谢图优先分配，这样子作图的时候更加美观
-                                Order By coverage Descending
+            If topMaps Is Nothing Then
+                topMaps = New Index(Of String)
+            End If
 
-                Dim top = coverages.First
+            Do While mapList.Count > 0
+                Dim top As (Map As KeyValuePair(Of String, String()), coverage As Double)
+
+                If topMaps.Count = 0 Then
+                    Dim coverages = From map
+                                    In mapList
+                                    Let coverage As Double = objectPool _
+                                        .Intersect(collection:=map.Value) _
+                                        .Count
+                                    Let numberOfGenes As Integer = map.Value.Length
+                                    Select result = (map:=map, coverage:=coverage / (numberOfGenes ^ 2)) ' 尽量规模小的代谢图优先分配，这样子作图的时候更加美观
+                                    Order By result.coverage Descending
+
+                    top = coverages.First
+                Else
+                    Dim orderMap = mapList _
+                        .Where(Function(m) topMaps(m.Key) > -1) _
+                        .OrderBy(Function(m) topMaps(m.Key)) _
+                        .First
+
+                    top = (orderMap, objectPool.Intersect(collection:=orderMap.Value).Count / (orderMap.Value.Length ^ 2))
+                    topMaps.Delete(orderMap.Key)
+                End If
+
                 Dim intersectObjects As String() = objectPool _
                     .Intersect(collection:=top.map.Value) _
                     .ToArray
