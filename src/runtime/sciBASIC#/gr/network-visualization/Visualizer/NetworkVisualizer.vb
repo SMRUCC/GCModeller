@@ -193,6 +193,7 @@ Public Module NetworkVisualizer
                             driverPrompt = ""
                         End If
 
+                        VBDebugger.WaitOutput()
                         CLITools.AppSummary(assm, "Welcome to use network graph visualizer api from sciBASIC.NET framework.", driverPrompt, App.StdOut)
 
                         Call Console.WriteLine()
