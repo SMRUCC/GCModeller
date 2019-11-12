@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
@@ -353,12 +354,16 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/top.priority <map.name.list> /category.level2 /reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /out <result_network.directory>]")>
     <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
     <Argument("/repository", False, CLITypes.File,
               AcceptTypes:={GetType(Map), GetType(Pathway)},
               Extensions:="*.Xml",
               Description:="This parameter accept two kind of parameters: The kegg reference map data or organism specific pathway map model data.")>
+    <Argument("/top.priority", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The map names in the argument value will be forced populate in top priority and ignores of their map coverage value is top or not. 
+              Use comma symbol as the map id terms' delimiter.")>
     <Argument("/reactions", False, CLITypes.File,
               AcceptTypes:={GetType(Reaction)},
               Extensions:="*.Xml",
@@ -390,6 +395,8 @@ Partial Module CLI
         Dim coverageCutoff As Double = args("/coverage.cutoff") Or 0.0
         Dim splitNetwork As Boolean = args("/split")
         Dim deleteTupleEdges As Boolean = args("/delete.tupleEdges")
+        Dim categoryLevel2 As Boolean = args("/category.level2")
+        Dim topMaps As String() = args("/top.priority").Split(",")
 
         If ReactionClassifier.IsNullOrEmpty(reactionClass) Then
             reactionClass = Nothing
@@ -416,7 +423,9 @@ Partial Module CLI
                 classFilter:=False,
                 reactionClass:=reactionClass,
                 doRemoveUnmmaped:=doRemoveUnmapped,
-                coverageCutoff:=coverageCutoff
+                coverageCutoff:=coverageCutoff,
+                categoryLevel2:=categoryLevel2,
+                topMaps:=topMaps
             )
         Else
             out = args("/out") Or $"{[in].TrimDIR}.{organismName}.referenceMap/"
@@ -425,7 +434,9 @@ Partial Module CLI
                 reactions:=reactions,
                 reactionClass:=reactionClass,
                 doRemoveUnmmaped:=doRemoveUnmapped,
-                coverageCutoff:=coverageCutoff
+                coverageCutoff:=coverageCutoff,
+                categoryLevel2:=categoryLevel2,
+                topMaps:=topMaps
             )
         End If
 

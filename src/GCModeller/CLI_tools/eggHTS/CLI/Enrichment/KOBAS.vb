@@ -153,7 +153,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Go.enrichment.plot")>
-    <Usage("/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays <default=10> /PlantRegMap /label.right /label.color.disable /colors <default=Set1:c6> /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
+    <Usage("/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays <default=10> /PlantRegMap /label.right /label.color.disable /label.maxlen <char_count, default=64> /colors <default=Set1:c6> /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
     <Description("Go enrichment plot base on the KOBAS enrichment analysis result.")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv",
@@ -213,6 +213,7 @@ Partial Module CLI
         Dim labelRight As Boolean = args.GetBoolean("/label.right")
         Dim usingCorrected As Boolean = args.GetBoolean("/Corrected")
         Dim labelColorDisable As Boolean = args("/label.color.disable")
+        Dim labelMaxlen As Integer = args("/label.maxlen") Or 64
 
         If PlantRegMap Then
             Dim enrichments As IEnumerable(Of PlantRegMap_GoTermEnrichment) =
@@ -240,7 +241,8 @@ Partial Module CLI
                     gray, labelRight,
                     top:=displays,
                     colorSchema:=args("/colors") Or DefaultColorSchema,
-                    disableLabelColor:=labelColorDisable
+                    disableLabelColor:=labelColorDisable,
+                    labelMaxLen:=labelMaxlen
                 )
             End If
         End If

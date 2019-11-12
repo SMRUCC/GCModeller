@@ -143,7 +143,8 @@ Namespace CatalogProfiling
                                      Optional gray As Boolean = False,
                                      Optional labelRightAlignment As Boolean = False,
                                      Optional disableLabelColor As Boolean = False,
-                                     Optional valueFormat$ = "F2") As GraphicsData
+                                     Optional valueFormat$ = "F2",
+                                     Optional labelTrimLength% = 64) As GraphicsData
 
             If removeNotAssign Then
                 profile = profile.removesNotAssign
@@ -169,7 +170,8 @@ Namespace CatalogProfiling
                        gray:=gray,
                        labelAlignmentRight:=labelRightAlignment,
                        valueFormat:=valueFormat,
-                       disableLabelColor:=disableLabelColor
+                       disableLabelColor:=disableLabelColor,
+                       labelTrimLength:=labelTrimLength
                     )
                 End Sub
 
@@ -195,21 +197,21 @@ Namespace CatalogProfiling
         ''' <param name="gray">条形图使用灰色的颜色，不再根据分类而产生不同颜色了</param>
         <Extension>
         Private Sub internalPlotImpl(ByRef g As IGraphics, region As GraphicsRegion,
-                                   profile As Dictionary(Of String, NamedValue(Of Double)()),
-                                   title$,
-                                   colors As ColorProfile,
-                                   titleFontStyle$,
-                                   catalogFontStyle$,
-                                   classFontStyle$, valueFontStyle$,
-                                   mapper As Mapper,
-                                   tickFontStyle$,
-                                   tick#,
-                                   axisTitle$,
-                                   gray As Boolean,
-                                   labelAlignmentRight As Boolean,
-                                   disableLabelColor As Boolean,
-                                   valueFormat$)
-
+                                     profile As Dictionary(Of String, NamedValue(Of Double)()),
+                                     title$,
+                                     colors As ColorProfile,
+                                     titleFontStyle$,
+                                     catalogFontStyle$,
+                                     classFontStyle$, valueFontStyle$,
+                                     mapper As Mapper,
+                                     tickFontStyle$,
+                                     tick#,
+                                     axisTitle$,
+                                     gray As Boolean,
+                                     labelAlignmentRight As Boolean,
+                                     disableLabelColor As Boolean,
+                                     valueFormat$,
+                                     labelTrimLength%)
             ' 这里是大标签的字符串向量
             Dim classes$() = profile.Keys.ToArray
             Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject
@@ -225,7 +227,12 @@ Namespace CatalogProfiling
                            ' 2017-12-27
                            ' 因为下面会将长度大于64的名字给截断，所以在这里需要将这些比较长的名字给过滤掉
                            ' 否则会出现很大的空白的绘图bug
-                           Return name.Length <= 64
+                           If labelTrimLength <= 0 Then
+                               ' no trim
+                               Return True
+                           Else
+                               Return name.Length <= labelTrimLength
+                           End If
                        End Function) _
                 .OrderByDescending(Function(s) s.Length) _
                 .First
@@ -234,10 +241,10 @@ Namespace CatalogProfiling
                 .First
 
             ' 这里要判断一下，否则绘制结果仍然是和没有限制长度的结果一样
-            If maxLenSubKey.Length > 64 Then
+            If labelTrimLength > 0 AndAlso maxLenSubKey.Length > labelTrimLength Then
                 ' 2017-9-30
                 ' 因为用的不是等宽字体，所以在这里使用字母来作为计算长度的单位会更加的合理一些
-                maxLenSubKey = New String("a"c, 68)
+                maxLenSubKey = New String("a"c, labelTrimLength + 4)
             End If
 
             Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
@@ -312,8 +319,8 @@ Namespace CatalogProfiling
                         color = "rgb(30,30,30)".GetBrush
                     End If
 
-                    If term.Name.Length > 64 Then
-                        label = Mid(term.Name, 1, 63) & "..."
+                    If labelTrimLength > 0 AndAlso term.Name.Length > labelTrimLength Then
+                        label = Mid(term.Name, 1, labelTrimLength - 1) & "..."
                     Else
                         label = term.Name
                     End If
@@ -332,7 +339,7 @@ Namespace CatalogProfiling
                     End If
 
                     If TypeOf colors Is CategoryColorProfile Then
-                        If disableLabelColor Then
+                        If Not disableLabelColor Then
                             Call g.DrawString(label, catalogFont, color, pos)
                         Else
                             Call g.DrawString(label, catalogFont, Brushes.Black, pos)
