@@ -100,6 +100,8 @@ Partial Module CLI
             .AssemblingMetabolicNetwork(geneKO, kegg, locationAsLocus_tag) _
             .AssemblingRegulationNetwork(regulations)
 
+        Call $"Model file save at location: {out}!".__DEBUG_ECHO
+
         If out.IsGCMarkup Then
             Return model.ToMarkup(genome, kegg, regulations) _
                         .GetXml _
