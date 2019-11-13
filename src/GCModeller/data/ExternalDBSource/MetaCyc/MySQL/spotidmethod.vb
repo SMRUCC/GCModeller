@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38fc1f7192d5cc7e95b11d62e8581f4d, ExternalDBSource\MetaCyc\MySQL\spotidmethod.vb"
+﻿#Region "Microsoft.VisualBasic::38fc1f7192d5cc7e95b11d62e8581f4d, data\ExternalDBSource\MetaCyc\MySQL\spotidmethod.vb"
 
     ' Author:
     ' 

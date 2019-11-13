@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c49bb8df4271b7362687577ce496feea, ExternalDBSource\MetaCyc\MySQL\pathwaylink.vb"
+﻿#Region "Microsoft.VisualBasic::c49bb8df4271b7362687577ce496feea, data\ExternalDBSource\MetaCyc\MySQL\pathwaylink.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da04e3ce3725efaac08a375ddabcc741, ExternalDBSource\MetaCyc\MySQL\valence.vb"
+﻿#Region "Microsoft.VisualBasic::da04e3ce3725efaac08a375ddabcc741, data\ExternalDBSource\MetaCyc\MySQL\valence.vb"
 
     ' Author:
     ' 

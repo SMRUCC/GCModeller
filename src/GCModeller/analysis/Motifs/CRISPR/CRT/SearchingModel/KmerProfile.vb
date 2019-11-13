@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e096951776c25ed8035ab0cb8aa3e2e, analysis\Motifs\CRISPR\CRT\SearchingModel\KmerProfile.vb"
+﻿#Region "Microsoft.VisualBasic::02c12b9a0e9ba68c6e60593ffba4b1ab, analysis\Motifs\CRISPR\CRT\SearchingModel\KmerProfile.vb"
 
     ' Author:
     ' 

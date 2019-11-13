@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec5f0eb97dc21646707a2d4f951a1b7e, Xfam\Pfam\Pipeline\DomainAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::5656d86d4bc64bc3febb378f38fdb9a8, data\Xfam\Pfam\Pipeline\DomainAnalysis.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a74c14dc14aaec3972076dcfea9057f9, ExternalDBSource\MetaCyc\bio_warehouse\superpathway.vb"
+﻿#Region "Microsoft.VisualBasic::a74c14dc14aaec3972076dcfea9057f9, data\ExternalDBSource\MetaCyc\bio_warehouse\superpathway.vb"
 
     ' Author:
     ' 

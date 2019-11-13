@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f51fc3a39e53b90959eba6a05daba301, ExternalDBSource\DEG\Web\Models\Summary.vb"
+﻿#Region "Microsoft.VisualBasic::f51fc3a39e53b90959eba6a05daba301, data\ExternalDBSource\DEG\Web\Models\Summary.vb"
 
     ' Author:
     ' 

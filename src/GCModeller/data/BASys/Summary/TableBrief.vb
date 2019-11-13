@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a266d8edd61104d43d80dccb7230ab76, BASys\Summary\TableBrief.vb"
+﻿#Region "Microsoft.VisualBasic::a266d8edd61104d43d80dccb7230ab76, data\BASys\Summary\TableBrief.vb"
 
     ' Author:
     ' 

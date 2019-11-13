@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::399ac73e1e9df9f52687cbf8e9b722a5, ExternalDBSource\DEG\OGEE\Models.vb"
+﻿#Region "Microsoft.VisualBasic::399ac73e1e9df9f52687cbf8e9b722a5, data\ExternalDBSource\DEG\OGEE\Models.vb"
 
     ' Author:
     ' 

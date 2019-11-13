@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8588ca6072bbedd0e9329634422a30d8, GO_gene-ontology\GO_mysql\kb_go\dag_relationship.vb"
+﻿#Region "Microsoft.VisualBasic::8588ca6072bbedd0e9329634422a30d8, data\GO_gene-ontology\GO_mysql\kb_go\dag_relationship.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f32f30485086c3209d8ba531942d386, engine\Compiler\KEGG\PathwayCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::39418213fedd3fa0d749f2f81abb2e43, engine\Compiler\KEGG\PathwayCompiler.vb"
 
     ' Author:
     ' 
@@ -125,4 +125,3 @@ Public Module PathwayCompiler
         }
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca8ceb7dc5411a771121295ed166160f, KEGG\jp_kegg2\meta_class_br08201.vb"
+﻿#Region "Microsoft.VisualBasic::ca8ceb7dc5411a771121295ed166160f, data\KEGG\jp_kegg2\meta_class_br08201.vb"
 
     ' Author:
     ' 

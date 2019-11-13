@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::346fa4169d2d8e6d50034af35d8a0088, ExternalDBSource\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::a56b2ba7054b3e4ae28d35fb2054991e, data\ExternalDBSource\ShellScriptAPI.vb"
 
     ' Author:
     ' 

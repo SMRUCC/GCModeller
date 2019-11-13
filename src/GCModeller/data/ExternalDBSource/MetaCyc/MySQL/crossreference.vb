@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0504b1208df00576895c58a06344c57, ExternalDBSource\MetaCyc\MySQL\crossreference.vb"
+﻿#Region "Microsoft.VisualBasic::a0504b1208df00576895c58a06344c57, data\ExternalDBSource\MetaCyc\MySQL\crossreference.vb"
 
     ' Author:
     ' 

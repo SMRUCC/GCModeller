@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b40e664db58193d243c67ec5a500d78f, CLI_tools\RegPrecise\CLI\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::99151f8d3fd011416a2fa16a79d1a1a6, CLI_tools\RegPrecise\CLI\Regulon.vb"
 
     ' Author:
     ' 

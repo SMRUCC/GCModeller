@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::150c8ad8b5ed127f4c2c2ba5c34e0fac, KEGG\LocalMySQL\data_pathway.vb"
+﻿#Region "Microsoft.VisualBasic::150c8ad8b5ed127f4c2c2ba5c34e0fac, data\KEGG\LocalMySQL\data_pathway.vb"
 
     ' Author:
     ' 

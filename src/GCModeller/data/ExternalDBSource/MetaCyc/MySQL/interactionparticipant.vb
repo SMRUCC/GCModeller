@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1758ec54ca69a235ce9acab9d66fbab6, ExternalDBSource\MetaCyc\MySQL\interactionparticipant.vb"
+﻿#Region "Microsoft.VisualBasic::1758ec54ca69a235ce9acab9d66fbab6, data\ExternalDBSource\MetaCyc\MySQL\interactionparticipant.vb"
 
     ' Author:
     ' 

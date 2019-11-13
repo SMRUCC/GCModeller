@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a25b058a12aff862a8b42444cc8b2cf, ExternalDBSource\MetaCyc\bio_warehouse\channelwidcompoundwid.vb"
+﻿#Region "Microsoft.VisualBasic::4a25b058a12aff862a8b42444cc8b2cf, data\ExternalDBSource\MetaCyc\bio_warehouse\channelwidcompoundwid.vb"
 
     ' Author:
     ' 

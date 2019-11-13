@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c076bed24e208a38a698b1531d75f52a, ExternalDBSource\ChEBI\Tables\names.vb"
+﻿#Region "Microsoft.VisualBasic::c076bed24e208a38a698b1531d75f52a, data\ExternalDBSource\ChEBI\Tables\names.vb"
 
     ' Author:
     ' 

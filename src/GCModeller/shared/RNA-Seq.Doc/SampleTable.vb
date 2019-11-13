@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1692826a1fa57ef3ba35fd608e6394f, shared\RNA-Seq.Doc\SampleTable.vb"
+﻿#Region "Microsoft.VisualBasic::4af0f597338c720c81d069f7d4be2291, shared\RNA-Seq.Doc\SampleTable.vb"
 
     ' Author:
     ' 

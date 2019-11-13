@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::181975f53a940410c676194fb46a0f90, analysis\Metagenome\Metagenome\OTU.vb"
+﻿#Region "Microsoft.VisualBasic::c840a9255643d7307c180cd8f8a5db61, analysis\Metagenome\Metagenome\OTU.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module OTU
     ' 
-    '     Function: BuildOTUClusters, LoadOTU_taxa_table
+    '     Function: BuildOTUClusters, CreateGastCountTabel, LoadOTU_taxa_table
     ' 
     ' /********************************************************************************/
 

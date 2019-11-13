@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4d614a0e33b9c5a2206729fa7487b27, Xfam\Pfam\MPAlignment\Algorithm\MPAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::0f0b0347db5c7a885abb087f121a6bca, data\Xfam\Pfam\MPAlignment\Algorithm\MPAlignment.vb"
 
     ' Author:
     ' 

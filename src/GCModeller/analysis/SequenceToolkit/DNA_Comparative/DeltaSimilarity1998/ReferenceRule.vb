@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8623efe9656f681aeef1a52764715d58, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\ReferenceRule.vb"
+﻿#Region "Microsoft.VisualBasic::28e8d23106cbf2dd7825f20b2b9c96a7, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\ReferenceRule.vb"
 
     ' Author:
     ' 

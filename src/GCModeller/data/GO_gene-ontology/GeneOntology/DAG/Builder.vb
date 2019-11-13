@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9f483645425345ba116ed8039adec75, GO_gene-ontology\GeneOntology\DAG\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::ee652e746c508318b8be0cdda2b00660, data\GO_gene-ontology\GeneOntology\DAG\Builder.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Builder
     ' 
-    '         Function: (+2 Overloads) BuildTree, ConstructNode, xrefParser
+    '         Function: (+2 Overloads) BuildTree, ConstructNode, CreateClusterMembers, xrefParser
     ' 
     ' 
     ' /********************************************************************************/

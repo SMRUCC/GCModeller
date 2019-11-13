@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7213ccc1048995f6d29b51faa4c407d0, RegulonDatabase\Regtransbase\MySQL\operons.vb"
+﻿#Region "Microsoft.VisualBasic::7213ccc1048995f6d29b51faa4c407d0, data\RegulonDatabase\Regtransbase\MySQL\operons.vb"
 
     ' Author:
     ' 

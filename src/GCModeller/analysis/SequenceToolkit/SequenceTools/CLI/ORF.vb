@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b59cbd734c96a37164daf226ef6592e7, analysis\SequenceToolkit\SequenceTools\CLI\ORF.vb"
+﻿#Region "Microsoft.VisualBasic::596e7da66b228e1c42f9e4518d572c26, analysis\SequenceToolkit\SequenceTools\CLI\ORF.vb"
 
     ' Author:
     ' 

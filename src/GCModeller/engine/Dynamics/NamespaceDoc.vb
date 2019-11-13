@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a806438813e52a5867cd563eeb55aabe, engine\Dynamics\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::1cf1ab94cf1463626bf1f930d66e4e4f, engine\Dynamics\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 ''' <summary>
 ''' 生命反应容器模拟器

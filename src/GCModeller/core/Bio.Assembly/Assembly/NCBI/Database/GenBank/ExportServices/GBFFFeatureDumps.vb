@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cec467a804f42aa3f5c24406db183967, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
+﻿#Region "Microsoft.VisualBasic::220b52ba13f5fbd78b6fd9e106ddeac7, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     '     Module GBFFFeatureDumps
     ' 
-    '         Function: __dump3UTRs, __dump5UTRs, __dumpCDS, __dumpMiscFeature, __dumpRegulatory
-    '                   FeatureDumps, GbffToPTT
+    '         Function: FeatureDumps, GbffToPTT, InternalDump3UTRs, InternalDump5UTRs, InternalDumpCDS
+    '                   InternalDumpMiscFeature, InternalDumpRegulatory
     ' 
     ' 
     ' /********************************************************************************/

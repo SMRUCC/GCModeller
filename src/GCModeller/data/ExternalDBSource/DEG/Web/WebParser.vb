@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe8514c0588f0a312bdff3ea2834e28b, ExternalDBSource\DEG\Web\WebParser.vb"
+﻿#Region "Microsoft.VisualBasic::fe8514c0588f0a312bdff3ea2834e28b, data\ExternalDBSource\DEG\Web\WebParser.vb"
 
     ' Author:
     ' 

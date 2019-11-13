@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::349347aff83ae2e025a2ad37d4a8b2ee, CLI_tools\c2\NetworkLearning\Encodings.vb"
+﻿#Region "Microsoft.VisualBasic::f0546509c7b6622e6077a47d653c59ee, CLI_tools\c2\NetworkLearning\Encodings.vb"
 
     ' Author:
     ' 

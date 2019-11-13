@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7457d4c80b752e77e03f060eda333f5b, engine\GCModeller.Framework.Kernel_Driver\DataServices\ModelBase\Property.vb"
+﻿#Region "Microsoft.VisualBasic::7152eef05000ec86f7c70d1b1412c900, engine\GCModeller.Framework.Kernel_Driver\DataServices\ModelBase\Property.vb"
 
     ' Author:
     ' 

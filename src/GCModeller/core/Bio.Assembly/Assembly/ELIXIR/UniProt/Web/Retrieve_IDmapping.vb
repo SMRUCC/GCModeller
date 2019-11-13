@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ebffbb045cd06a906c87d42217d0e9c, Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Retrieve_IDmapping.vb"
+﻿#Region "Microsoft.VisualBasic::2ebffbb045cd06a906c87d42217d0e9c, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Retrieve_IDmapping.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74e9bf23cf56fa66f63e888efdf4d1d1, Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::74e9bf23cf56fa66f63e888efdf4d1d1, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
 
     ' Author:
     ' 

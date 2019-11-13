@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e04d9ba139dbc3f1b9d56ca683d6c129, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e04d9ba139dbc3f1b9d56ca683d6c129, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb"
 
     ' Author:
     ' 

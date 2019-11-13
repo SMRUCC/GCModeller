@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::265c75bc57a0c3defe5b7a3925ee573c, ExternalDBSource\DEG\SeqRef.vb"
+﻿#Region "Microsoft.VisualBasic::265c75bc57a0c3defe5b7a3925ee573c, data\ExternalDBSource\DEG\SeqRef.vb"
 
     ' Author:
     ' 

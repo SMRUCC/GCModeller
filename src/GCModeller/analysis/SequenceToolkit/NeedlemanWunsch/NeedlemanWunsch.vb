@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0754977575ab821612ff27ab12526f9a, analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::9c4684443c8238a7a71353b593015f15, analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db8850bc77a98f45b1fc1bcab616a773, analysis\ProteinTools\ProteinTools.Family\FileSystem\BlockXml.vb"
+﻿#Region "Microsoft.VisualBasic::cfbbd13a4ca3af01405c08d5624e7ce6, analysis\ProteinTools\ProteinTools.Family\FileSystem\BlockXml.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc37200a13b1103c5d473fe9af6c9515, test\GFF.vb"
+﻿#Region "Microsoft.VisualBasic::bc37200a13b1103c5d473fe9af6c9515, core\test\GFF.vb"
 
     ' Author:
     ' 

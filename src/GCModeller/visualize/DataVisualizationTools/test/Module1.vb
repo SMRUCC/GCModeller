@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e815a0f10ce098a4091c552190de5ef2, visualize\DataVisualizationTools\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::afdac16dfc58cf67111b880b7bd8e92c, visualize\DataVisualizationTools\test\Module1.vb"
 
     ' Author:
     ' 
@@ -69,4 +69,3 @@ Module Module1
 
     End Sub
 End Module
-

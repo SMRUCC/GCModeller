@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88ca26bd7c5da7fc1e7cb8a77501a451, ExternalDBSource\MetaCyc\MySQL\enzymaticreaction.vb"
+﻿#Region "Microsoft.VisualBasic::88ca26bd7c5da7fc1e7cb8a77501a451, data\ExternalDBSource\MetaCyc\MySQL\enzymaticreaction.vb"
 
     ' Author:
     ' 

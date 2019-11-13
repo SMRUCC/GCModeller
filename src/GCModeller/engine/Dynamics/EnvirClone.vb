@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3144af1da279d8487fa050f5278d7614, engine\Dynamics\EnvirClone.vb"
+﻿#Region "Microsoft.VisualBasic::612d337a4a75138142e10e679b2530ea, engine\Dynamics\EnvirClone.vb"
 
     ' Author:
     ' 
@@ -51,4 +51,3 @@ Public Module EnvirClone
 
     End Function
 End Module
-

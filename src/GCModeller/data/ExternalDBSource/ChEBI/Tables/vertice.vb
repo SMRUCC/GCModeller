@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93a9567391823eb1f87709b7de57b727, ExternalDBSource\ChEBI\Tables\vertice.vb"
+﻿#Region "Microsoft.VisualBasic::93a9567391823eb1f87709b7de57b727, data\ExternalDBSource\ChEBI\Tables\vertice.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b2f3ab01fb7aad4af997bed6572d387, SBML\Biopax\Level3\File.vb"
+﻿#Region "Microsoft.VisualBasic::f5a276cacb43a7b993c94df5b79cfba0, models\SBML\Biopax\Level3\File.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '                     Provenance, PublicationXref, RelationshipTypeVocabulary, RelationshipXref, SequenceInterval
     '                     SequenceSite, SmallMoleculeReference, SmallMolecules, Stoichiometry, UnificationXref
     ' 
-    '         Function: __cleanXML, LoadDoc
+    '         Function: LoadDoc
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc87d19613b591faadfaa6af8777feae, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\ResultData.vb"
+﻿#Region "Microsoft.VisualBasic::fcb78f38ab19a3057598809b754b1204, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\ResultData.vb"
 
     ' Author:
     ' 

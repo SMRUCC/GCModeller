@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f49728f6e7bfbaa175dfa7dbcd8419b, Reactome\LocalMySQL\gk_current\controlledvocabulary_2_name.vb"
+﻿#Region "Microsoft.VisualBasic::6f49728f6e7bfbaa175dfa7dbcd8419b, data\Reactome\LocalMySQL\gk_current\controlledvocabulary_2_name.vb"
 
     ' Author:
     ' 

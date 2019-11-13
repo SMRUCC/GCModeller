@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd2296ccec11e8f95058cbfa772602e6, foundation\OBO_Foundry\IO\ParserIO.vb"
+﻿#Region "Microsoft.VisualBasic::6793358022ef69b5d1ef8acfce6551cb, foundation\OBO_Foundry\IO\ParserIO.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module ParserIO
     ' 
-    '         Function: createModel, (+2 Overloads) LoadData
+    '         Function: asTable, createModel, (+2 Overloads) LoadData
     ' 
     '         Sub: checkField
     ' 

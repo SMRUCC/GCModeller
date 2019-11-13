@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb568da4eb689023a98d6d121ab746cd, ExternalDBSource\MetaCyc\MySQL\quantitationtype.vb"
+﻿#Region "Microsoft.VisualBasic::cb568da4eb689023a98d6d121ab746cd, data\ExternalDBSource\MetaCyc\MySQL\quantitationtype.vb"
 
     ' Author:
     ' 

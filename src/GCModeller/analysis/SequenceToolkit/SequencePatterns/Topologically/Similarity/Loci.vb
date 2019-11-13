@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::2d3d6098871a498a68593feb996fbe8c, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Loci.vb"
+﻿#Region "Microsoft.VisualBasic::1f919ec8b33e8f97ea50bf89ca58bf25, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Loci.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class ReversedLociMatchedResult
-' 
-'         Properties: ReversedMatched
-' 
-'         Function: GenerateFromBase
-' 
-'     Class LociMatchedResult
-' 
-'         Properties: Location, Loci, Matched, Similarity
-' 
-' 
-' /********************************************************************************/
+    '     Class ReversedLociMatchedResult
+    ' 
+    '         Properties: isRevMatched
+    ' 
+    '         Function: GenerateFromBase
+    ' 
+    '     Class LociMatchedResult
+    ' 
+    '         Properties: Location, Loci, Matched, Similarity
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

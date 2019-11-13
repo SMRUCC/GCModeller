@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d7cfb59b4f901b1fb99cc0f5de70f62, visualize\DataVisualizationExtensions\RenderingColor.vb"
+﻿#Region "Microsoft.VisualBasic::47260c7cacab47e188c402b8383bc205, visualize\DataVisualizationExtensions\RenderingColor.vb"
 
     ' Author:
     ' 

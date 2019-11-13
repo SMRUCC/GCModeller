@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4fd8fb4993e1c93ffe3e26123f32f364, KEGG\LocalMySQL\data_compounds.vb"
+﻿#Region "Microsoft.VisualBasic::4fd8fb4993e1c93ffe3e26123f32f364, data\KEGG\LocalMySQL\data_compounds.vb"
 
     ' Author:
     ' 

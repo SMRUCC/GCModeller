@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9decf9b4e5e4eb73b3f7c644c08a90a, Bio.Assembly\Metagenomics\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::298fbfa20fefab06bce2ba07884ce0ec, core\Bio.Assembly\Metagenomics\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -33,12 +33,12 @@
 
     '     Class Taxonomy
     ' 
-    '         Properties: [class], family, genus, kingdom, order
-    '                     phylum, scientificName, species
+    '         Properties: [class], family, genus, kingdom, lowestLevel
+    '                     order, phylum, scientificName, species
     ' 
     '         Constructor: (+5 Overloads) Sub New
     '         Function: [Select], compare, CompareWith, CreateTable, IsEmpty
-    '                   (+2 Overloads) ToString
+    '                   Rank, (+3 Overloads) ToString
     '         Operators: (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
     ' 
     ' 

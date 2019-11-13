@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e190e44b2bad3bea64a7119c0bb4598f, Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb"
+﻿#Region "Microsoft.VisualBasic::d6d1efe57f9409b8d4638d31012565bf, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb"
 
     ' Author:
     ' 

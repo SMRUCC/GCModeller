@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::faa7cb819cd9f23daa856f9a1dc56148, RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
+﻿#Region "Microsoft.VisualBasic::faa7cb819cd9f23daa856f9a1dc56148, data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
 
     ' Author:
     ' 

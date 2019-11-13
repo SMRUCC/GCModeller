@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2caa2b802e4a9cd6388d4189f781b186, GO_gene-ontology\GeneOntology\Files\Obo\Typedef.vb"
+﻿#Region "Microsoft.VisualBasic::17da84ad7c9fda70a1bdb502babf019a, data\GO_gene-ontology\GeneOntology\Files\Obo\File\Typedef.vb"
 
     ' Author:
     ' 

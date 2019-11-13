@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be922668d07cae1aeddb9c7269effff9, RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb"
+﻿#Region "Microsoft.VisualBasic::be922668d07cae1aeddb9c7269effff9, data\RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb"
 
     ' Author:
     ' 

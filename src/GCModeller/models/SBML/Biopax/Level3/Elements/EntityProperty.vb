@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a83babd7979fc1b3dccd069f1b1df86f, SBML\Biopax\Level3\Elements\EntityProperty.vb"
+﻿#Region "Microsoft.VisualBasic::2f9b6ce29412b900245eacad4f328d0e, models\SBML\Biopax\Level3\Elements\EntityProperty.vb"
 
     ' Author:
     ' 

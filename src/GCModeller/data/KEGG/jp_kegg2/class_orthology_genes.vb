@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dd8935cd382dca9cee575ac44fec3d8, KEGG\jp_kegg2\class_orthology_genes.vb"
+﻿#Region "Microsoft.VisualBasic::0dd8935cd382dca9cee575ac44fec3d8, data\KEGG\jp_kegg2\class_orthology_genes.vb"
 
     ' Author:
     ' 

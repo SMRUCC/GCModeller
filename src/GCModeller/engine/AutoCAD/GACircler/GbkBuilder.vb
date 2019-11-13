@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfefccef739a7fc1a7e6da85757a00ab, engine\AutoCAD\GACircler\GbkBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::e50ec1a61162c9a01630bc3b34cf3835, engine\AutoCAD\GACircler\GbkBuilder.vb"
 
     ' Author:
     ' 
@@ -55,4 +55,3 @@ Public Module GbkBuilder
 
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee188947f6df7b18ab05329007ae25bc, ExternalDBSource\DEG\OGEE\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ee188947f6df7b18ab05329007ae25bc, data\ExternalDBSource\DEG\OGEE\Extensions.vb"
 
     ' Author:
     ' 

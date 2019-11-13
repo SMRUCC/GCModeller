@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3df465d8856d9a1a7417d59e70223b8, analysis\Microarray\Type.vb"
+﻿#Region "Microsoft.VisualBasic::8917d9bc43cd7c148b9667cd056428ae, analysis\Microarray\Type.vb"
 
     ' Author:
     ' 

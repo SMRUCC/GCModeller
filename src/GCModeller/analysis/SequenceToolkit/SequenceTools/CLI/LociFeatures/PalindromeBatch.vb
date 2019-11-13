@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61c6dbb73428e00e9fe9bf51cfe01e8a, analysis\SequenceToolkit\SequenceTools\CLI\PalindromeBatch.vb"
+﻿#Region "Microsoft.VisualBasic::497841d3e305a8a6106b777d1cb4ff1a, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\PalindromeBatch.vb"
 
     ' Author:
     ' 

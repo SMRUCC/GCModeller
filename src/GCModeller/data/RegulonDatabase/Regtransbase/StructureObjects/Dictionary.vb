@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::608f8fb50488380d28efd70c5b266a94, RegulonDatabase\Regtransbase\StructureObjects\Dictionary.vb"
+﻿#Region "Microsoft.VisualBasic::65ec4f7c5ab926e8f00138fad1d8a0c0, data\RegulonDatabase\Regtransbase\StructureObjects\Dictionary.vb"
 
     ' Author:
     ' 

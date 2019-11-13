@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75791645a471659fffa6cd2fbfbf37da, Reactome\LocalMySQL\gk_current\polymer_2_species.vb"
+﻿#Region "Microsoft.VisualBasic::75791645a471659fffa6cd2fbfbf37da, data\Reactome\LocalMySQL\gk_current\polymer_2_species.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd3e06e751ff34e33c8765321aead6d9, BASys\ecard\ecardParser.vb"
+﻿#Region "Microsoft.VisualBasic::14a9784252c965a40101371232643609, data\BASys\ecard\ecardParser.vb"
 
     ' Author:
     ' 

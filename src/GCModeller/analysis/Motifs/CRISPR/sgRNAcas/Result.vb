@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::085a1cfcc9f12c4a6b92b757308dfd4f, analysis\Motifs\CRISPR\sgRNAcas\Result.vb"
+﻿#Region "Microsoft.VisualBasic::b8044e4ccffba27325141bf5441b83bf, analysis\Motifs\CRISPR\sgRNAcas\Result.vb"
 
     ' Author:
     ' 
