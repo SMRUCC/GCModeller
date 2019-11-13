@@ -1,6 +1,6 @@
 ﻿Namespace PathwayMaps.RenderStyles
 
-    Public Class PlainStyle : Inherits RenderStyle
+    Public MustInherit Class RenderStyle
 
     End Class
 End Namespace
