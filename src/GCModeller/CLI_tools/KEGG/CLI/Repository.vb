@@ -43,6 +43,7 @@ Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -144,6 +145,37 @@ Partial Module CLI
         Dim names = GetCompoundNames(repo)
 
         Return names _
+            .GetJson _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/reaction.geneNames")>
+    <Usage("/reaction.geneNames /repo <kegg_reaction.directory> [/out <names.json>]")>
+    Public Function ReactionToGeneNames(args As CommandLine) As Integer
+        Dim repo$ = args <= "/repo"
+        Dim out$ = args("/out") Or $"{repo.TrimDIR}.geneNames.json"
+        Dim repository = KEGG.Metabolism.FetchReactionRepository(repo)
+        Dim reactions = repository.metabolicNetwork _
+            .Where(Function(r) r.Orthology.size > 0) _
+            .Select(Function(r)
+                        Return r.Orthology _
+                            .AsEnumerable _
+                            .Select(Function(term)
+                                        Return (KO:=term.name, reactionId:=r.ID)
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(r) r.reactionId) _
+            .ToDictionary(Function(r) r.Key,
+                          Function(list)
+                              Return list _
+                                 .Select(Function(map) map.KO) _
+                                 .Distinct _
+                                 .ToArray
+                          End Function)
+
+        Return reactions _
             .GetJson _
             .SaveTo(out) _
             .CLICode
