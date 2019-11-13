@@ -42,6 +42,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
@@ -106,6 +107,7 @@ Namespace PathwayMaps.RenderStyles
         Public MustOverride Function getFontSize(node As Node) As Single
         Public MustOverride Function drawNode(id$, g As IGraphics, br As Brush, radius!, center As PointF) As RectangleF
         Public MustOverride Function getLabelColor(node As Node) As Color
+        Public MustOverride Function getHullPolygonGroups() As NamedValue(Of String)
 
         Protected Function getNodeLayout(id As String, radius As Single, center As PointF) As Rectangle
             Dim node As Node = nodes(id)

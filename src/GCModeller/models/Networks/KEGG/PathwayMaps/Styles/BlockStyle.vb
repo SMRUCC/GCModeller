@@ -42,6 +42,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -62,6 +63,7 @@ Namespace PathwayMaps.RenderStyles
         End Property
 
         Sub New(graph As NetworkGraph,
+                convexHullCategoryStyle As (allCategory As String(), categoryColors As String()),
                 Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
                 Optional enzymeColorSchema$ = "Set1:c8",
                 Optional compoundColorSchema$ = "Clusters",
@@ -75,6 +77,7 @@ Namespace PathwayMaps.RenderStyles
 
             Me.reactionShapeStroke = Stroke.TryParse(reactionShapeStrokeCSS)
             Me.hideCompoundCircle = hideCompoundCircle
+            Me.convexHullCategoryStyle = convexHullCategoryStyle
         End Sub
 
         Public Overrides Function getFontSize(node As Node) As Single
@@ -89,9 +92,10 @@ Namespace PathwayMaps.RenderStyles
         Dim rectShadow As New Shadow(10, 30, 1.125, 1.25)
         Dim circleShadow As New Shadow(130, 45, 2, 2)
         Dim hideCompoundCircle As Boolean = True
+        Dim convexHullCategoryStyle As (allCategory As String(), categoryColors As String())
 
         Public Overrides Function drawNode(id As String, g As IGraphics, br As Brush, radius As Single, center As PointF) As RectangleF
-            Dim node As Node = Nodes(id)
+            Dim node As Node = nodes(id)
             Dim rect As Rectangle = getNodeLayout(id, radius, center)
 
             If node.label.IsPattern("C\d+") Then
@@ -122,6 +126,14 @@ Namespace PathwayMaps.RenderStyles
             Else
                 Return Color.White
             End If
+        End Function
+
+        Public Overrides Function getHullPolygonGroups() As NamedValue(Of String)
+            Return New NamedValue(Of String) With {
+                .Name = "group.category",
+                .Value = convexHullCategoryStyle.allCategory.JoinBy(","),
+                .Description = convexHullCategoryStyle.categoryColors.JoinBy(",")
+            }
         End Function
     End Class
 End Namespace

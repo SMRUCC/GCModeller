@@ -210,14 +210,19 @@ Namespace PathwayMaps
             End If
 
             If renderStyle Is Nothing Then
+                Dim convexHullCategoryStyle = graph.getCategoryColors(convexHull, rewriteGroupCategoryColors)
+
                 renderStyle = New BlockStyle(
                     graph:=graph,
+                    convexHullCategoryStyle:=convexHullCategoryStyle,
                     reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
                     hideCompoundCircle:=hideCompoundCircle,
                     enzymeColorSchema:=enzymeColorSchema,
                     compoundColorSchema:=compoundColorSchema
                 )
             End If
+
+            Call $"Network render style engine is: {renderStyle.GetType.FullName}".__DEBUG_ECHO
 
             Dim getLabelPositoon As GetLabelPosition =
                 Function(node As Node, label$, shapeLayout As RectangleF, labelSize As SizeF)
@@ -238,8 +243,6 @@ Namespace PathwayMaps
                 convexHull = New Index(Of String)
             End If
 
-            Dim convexHullCategoryStyle = graph.getCategoryColors(convexHull, rewriteGroupCategoryColors)
-
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
                 background:="white",'"transparent",
@@ -247,11 +250,7 @@ Namespace PathwayMaps
                 canvasSize:=canvasSize,
                 labelerIterations:=-1000,
                 drawNodeShape:=AddressOf renderStyle.drawNode,
-                hullPolygonGroups:=New NamedValue(Of String) With {
-                    .Name = "group.category",
-                    .Value = convexHullCategoryStyle.allCategory.JoinBy(","),
-                    .Description = convexHullCategoryStyle.categoryColors.JoinBy(",")
-                },
+                hullPolygonGroups:=renderStyle.getHullPolygonGroups,
                 minLinkWidth:=20,
                 nodeRadius:=400,
                 edgeShadowDistance:=0,

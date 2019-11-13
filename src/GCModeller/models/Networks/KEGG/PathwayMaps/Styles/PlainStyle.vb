@@ -42,6 +42,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 
@@ -95,6 +96,10 @@ Namespace PathwayMaps.RenderStyles
 
         Public Overrides Function getLabelColor(node As Node) As Color
             Return convexHullCategoryStyle(node.data("group.category")).TranslateColor
+        End Function
+
+        Public Overrides Function getHullPolygonGroups() As NamedValue(Of String)
+            Return Nothing
         End Function
     End Class
 End Namespace
