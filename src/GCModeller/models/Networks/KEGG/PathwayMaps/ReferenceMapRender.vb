@@ -41,25 +41,17 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG.PathwayMaps.RenderStyles
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
@@ -100,7 +92,7 @@ Namespace PathwayMaps
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
                                Optional convexHull As String() = Nothing,
-                               Optional compoundRepository$ = Nothing,
+                               Optional compoundNamesJson$ = Nothing,
                                Optional edgeBends As Boolean = False,
                                Optional altStyle As Boolean = False,
                                Optional rewriteGroupCategoryColors$ = "TSF") As GraphicsData
@@ -127,7 +119,9 @@ Namespace PathwayMaps
                 compoundColorSchema:=compoundColorSchema,
                 reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
                 convexHull:=convexHull,
-                compoundNames:=getCompoundNames(compoundRepository),
+                compoundNames:=compoundNamesJson _
+                    .ReadAllText _
+                    .LoadJSON(Of Dictionary(Of String, String)),
                 edgeBends:=edgeBends,
                 renderStyle:=style,
                 rewriteGroupCategoryColors:=rewriteGroupCategoryColors

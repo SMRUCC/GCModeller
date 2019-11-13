@@ -489,9 +489,15 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.render")>
-    <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/edge.bends /compounds <repository> /convexHull <category.txt> /style2 /size <10(A0)> /out <viz.png>]")>
+    <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/edge.bends /compounds <names.json> /convexHull <category.txt> /style2 /size <10(A0)> /out <viz.png>]")>
     <Description("Render pathway map as image after cytoscape layout progress.")>
     <Group(CLIGrouping.KEGGPathwayMapTools)>
+    <Argument("/compounds", True, CLITypes.File,
+              AcceptTypes:={GetType(Dictionary(Of String, String))},
+              Extensions:="*.json",
+              Description:="The kegg compound id to its command names mapping table file. 
+              Content in this table file should be ``Cid -> name``, which could be created 
+              by using ``/compound.names`` command from ``kegg_tools``.")>
     Public Function RenderReferenceMapNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim out$
@@ -508,7 +514,7 @@ Partial Module CLI
                 model:=XGMML.RDFXml.Load([in]),
                 canvasSize:=size,
                 convexHull:=convexHull,
-                compoundRepository:=compounds,
+                compoundNamesJson:=compounds,
                 edgeBends:=edgeBends,
                 altStyle:=altStyle
             )
