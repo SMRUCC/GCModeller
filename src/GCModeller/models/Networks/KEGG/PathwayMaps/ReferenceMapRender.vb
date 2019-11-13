@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Model.Network.KEGG.PathwayMaps.RenderStyles
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
@@ -60,9 +61,13 @@ Namespace PathwayMaps
 
     Public Module ReferenceMapRender
 
-        ReadOnly reactionNames As Dictionary(Of String, String) = getReactionNames()
+        Private Function getReactionNames(reactionKOMapping As Dictionary(Of String, String())) As Dictionary(Of String, String)
+            Dim KOnames = PathwayMapping.DefaultKOTable
 
-        Private Function getReactionNames() As Dictionary(Of String, String)
+            If reactionKOMapping Is Nothing Then
+                reactionKOMapping = New Dictionary(Of String, String())
+            End If
+
             Return EnzymaticReaction.LoadFromResource _
                 .GroupBy(Function(r) r.Entry.Key) _
                 .Where(Function(g) Not g.Key.StringEmpty) _
@@ -70,10 +75,21 @@ Namespace PathwayMaps
                               Function(r)
                                   Dim reaction As EnzymaticReaction = r.First
 
-                                  If reaction.EC.StringEmpty Then
-                                      Return r.Key
+                                  If reactionKOMapping.ContainsKey(r.Key) Then
+                                      Dim KO = reactionKOMapping(r.Key)
+                                      Dim names As String = KO _
+                                          .Select(Function(id) KOnames(id).description.Split(";"c).First) _
+                                          .Distinct _
+                                          .OrderBy(Function(name) name.Length) _
+                                          .First
+
+                                      Return names
                                   Else
-                                      Return "EC " & reaction.EC
+                                      If reaction.EC.StringEmpty Then
+                                          Return r.Key
+                                      Else
+                                          Return "EC " & reaction.EC
+                                      End If
                                   End If
                               End Function)
         End Function
@@ -93,6 +109,7 @@ Namespace PathwayMaps
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
                                Optional convexHull As String() = Nothing,
                                Optional compoundNamesJson$ = Nothing,
+                               Optional reactionKOMappingJson$ = Nothing,
                                Optional edgeBends As Boolean = False,
                                Optional altStyle As Boolean = False,
                                Optional rewriteGroupCategoryColors$ = "TSF") As GraphicsData
@@ -118,6 +135,9 @@ Namespace PathwayMaps
                 enzymeColorSchema:=enzymeColorSchema,
                 compoundColorSchema:=compoundColorSchema,
                 reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
+                reactionKOMapping:=reactionKOMappingJson _
+                    .ReadAllText _
+                    .LoadJSON(Of Dictionary(Of String, String())),
                 convexHull:=convexHull,
                 compoundNames:=compoundNamesJson _
                     .ReadAllText _
@@ -185,7 +205,10 @@ Namespace PathwayMaps
                                Optional compoundNames As Dictionary(Of String, String) = Nothing,
                                Optional wordWrapWidth% = 14,
                                Optional rewriteGroupCategoryColors$ = "TSF",
-                               Optional edgeBends As Boolean = False) As GraphicsData
+                               Optional edgeBends As Boolean = False,
+                               Optional reactionKOMapping As Dictionary(Of String, String()) = Nothing) As GraphicsData
+
+            Dim reactionNames As Dictionary(Of String, String) = getReactionNames(reactionKOMapping)
 
             If compoundNames Is Nothing Then
                 compoundNames = New Dictionary(Of String, String)
@@ -238,7 +261,7 @@ Namespace PathwayMaps
                 edgeShadowDistance:=0,
                 edgeDashTypes:=renderStyle.edgeDashType,
                 defaultEdgeColor:="brown",
-                getNodeLabel:=getNodeLabel(compoundNames),
+                getNodeLabel:=getNodeLabel(compoundNames, reactionNames),
                 getLabelPosition:=getLabelPositoon，
                 labelTextStroke:=Nothing,
                 labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
@@ -256,7 +279,7 @@ Namespace PathwayMaps
             )
         End Function
 
-        Private Function getNodeLabel(compoundNames As Dictionary(Of String, String)) As Func(Of Node, String)
+        Private Function getNodeLabel(compoundNames As Dictionary(Of String, String), reactionNames As Dictionary(Of String, String)) As Func(Of Node, String)
             Return Function(node As Node) As String
                        If node.label.IsPattern("C\d+") Then
                            Return compoundNames _

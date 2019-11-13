@@ -246,6 +246,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' KEGG Orthology
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Load_ko00001() As BriteHText
             Return BriteHTextParser.Load(text:=My.Resources.ko00001)
         End Function
