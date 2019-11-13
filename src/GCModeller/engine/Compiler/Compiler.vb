@@ -221,7 +221,11 @@ Public Module Workflow
                                        Return feature.KeyName Like centralDogmaComponents
                                    End Function) _
                             .GroupBy(Function(feature)
-                                         Return feature.Query("locus_tag")
+                                         If locationAsLocustag Then
+                                             Return feature.Location.ToString
+                                         Else
+                                             Return feature.Query("locus_tag")
+                                         End If
                                      End Function) _
                             .Select(Function(feature)
                                         Return New NamedCollection(Of Feature)(feature.Key, feature.ToArray, repliconId)
@@ -244,6 +248,14 @@ Public Module Workflow
                 .FirstOrDefault(Function(component)
                                     Return component.KeyName = "CDS"
                                 End Function)
+
+            ' 在注释不规范的原始数据文件中
+            ' 是可能不存在gene feature的
+            ' 在这里使用RNA feature来进行替代
+            If gene Is Nothing Then
+                gene = RNA
+            End If
+
             Dim locus_tag$ = feature.name Or gene.Location.ToString.When(locationAsLocustag)
             Dim rnaType As RNATypes = RNATypes.mRNA
             Dim rnaData As String = ""
