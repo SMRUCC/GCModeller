@@ -126,6 +126,46 @@ Namespace PathwayMaps
                 )
         End Function
 
+        <Extension>
+        Private Function getCategoryColors(graph As NetworkGraph,
+                                           convexHull As Index(Of String),
+                                           rewriteGroupCategoryColors As String) As (allCategory As String(), categoryColors As String())
+
+            Dim allCategories$() = graph.vertex _
+                .Select(Function(n)
+                            Return n.data("group.category")
+                        End Function) _
+                .Distinct _
+                .Where(Function(cat)
+                           Return cat Like convexHull
+                       End Function) _
+                .ToArray
+            Dim rewriteGroupCategoryColor As LoopArray(Of Color) = Designer.GetColors(rewriteGroupCategoryColors)
+            Dim categoryColors = allCategories _
+                .Select(Function(c)
+                            If rewriteGroupCategoryColor.Length = 0 Then
+                                Return graph.vertex _
+                                    .First(Function(n)
+                                               Return n.data("group.category") = c
+                                           End Function) _
+                                    .data("group.category.color")
+                            Else
+                                Return rewriteGroupCategoryColor.Next().ToHtmlColor
+                            End If
+                        End Function) _
+                .ToArray
+
+            If Not allCategories.IsNullOrEmpty Then
+                Call $"Network canvas will render {allCategories.Length} category data for convexHull...".__INFO_ECHO
+
+                For Each category As SeqValue(Of String) In allCategories.SeqIterator
+                    Call $"  {category.value} -> {categoryColors(category)}".__INFO_ECHO
+                Next
+            End If
+
+            Return (allCategories, categoryColors)
+        End Function
+
         ''' <summary>
         ''' 将完成node和edge布局操作的网络模型进行渲染
         ''' </summary>
@@ -178,38 +218,7 @@ Namespace PathwayMaps
                 convexHull = New Index(Of String)
             End If
 
-            Dim allCategories$() = graph.vertex _
-                .Select(Function(n)
-                            Return n.data("group.category")
-                        End Function) _
-                .Distinct _
-                .Where(Function(cat)
-                           Return cat Like convexHull
-                       End Function) _
-                .ToArray
-            Dim rewriteGroupCategoryColor As LoopArray(Of Color) = Designer.GetColors(rewriteGroupCategoryColors)
-            Dim categoryColors = allCategories _
-                .Select(Function(c)
-                            If rewriteGroupCategoryColor.Length = 0 Then
-                                Return graph.vertex _
-                                    .First(Function(n)
-                                               Return n.data("group.category") = c
-                                           End Function) _
-                                    .data("group.category.color")
-                            Else
-                                Return rewriteGroupCategoryColor.Next().ToHtmlColor
-                            End If
-                        End Function) _
-                .ToArray
-
-            If Not allCategories.IsNullOrEmpty Then
-                Call $"Network canvas will render {allCategories.Length} category data for convexHull...".__INFO_ECHO
-
-                For Each category As SeqValue(Of String) In allCategories.SeqIterator
-                    Call $"  {category.value} -> {categoryColors(category)}".__INFO_ECHO
-                Next
-            End If
-
+            Dim convexHullCategoryStyle = graph.getCategoryColors(convexHull, rewriteGroupCategoryColors)
             Dim yellow As Color = "#f5f572".TranslateColor
 
             Return NetworkVisualizer.DrawImage(
@@ -221,8 +230,8 @@ Namespace PathwayMaps
                 drawNodeShape:=AddressOf renderStyle.drawNode,
                 hullPolygonGroups:=New NamedValue(Of String) With {
                     .Name = "group.category",
-                    .Value = allCategories.JoinBy(","),
-                    .Description = categoryColors.JoinBy(",")
+                    .Value = convexHullCategoryStyle.allCategory.JoinBy(","),
+                    .Description = convexHullCategoryStyle.categoryColors.JoinBy(",")
                 },
                 minLinkWidth:=20,
                 nodeRadius:=400,
