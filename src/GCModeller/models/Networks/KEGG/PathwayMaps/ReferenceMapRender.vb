@@ -281,7 +281,7 @@ Namespace PathwayMaps
                                    End If
                                End Function,
                 convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";",
-                convexHullScale:=1.025,
+                convexHullScale:=1.25,
                 drawEdgeBends:=edgeBends,
                 labelWordWrapWidth:=wordWrapWidth,
                 isLabelPinned:=Function(n, actualLabel)
