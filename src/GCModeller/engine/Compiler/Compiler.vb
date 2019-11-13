@@ -244,7 +244,7 @@ Public Module Workflow
                 .FirstOrDefault(Function(component)
                                     Return component.KeyName = "CDS"
                                 End Function)
-            Dim locus_tag$ = feature.name
+            Dim locus_tag$ = feature.name Or gene.Location.ToString.When(locationAsLocustag)
             Dim rnaType As RNATypes = RNATypes.mRNA
             Dim rnaData As String = ""
             Dim proteinId As String = Nothing
