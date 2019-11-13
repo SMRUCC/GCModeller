@@ -99,11 +99,11 @@ Public Module Workflow
     ''' <param name="repo"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function AssemblingMetabolicNetwork(replicons As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
+    Public Function AssemblingMetabolicNetwork(replicons As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), repo As RepositoryArguments, locationAsLocustag As Boolean) As CellularModule
         Dim taxonomy As Taxonomy = replicons.getTaxonomy
         Dim genotype As New Genotype With {
             .centralDogmas = replicons _
-                .GetCentralDogmas(KOfunction) _
+                .GetCentralDogmas(KOfunction, locationAsLocustag) _
                 .ToArray
         }
         Dim phenotype As New Phenotype With {
@@ -199,8 +199,19 @@ Public Module Workflow
 
     ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA"}
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="genomes"></param>
+    ''' <param name="KOfunction"></param>
+    ''' <param name="locationAsLocustag">
+    ''' 对于刚注释完的基因组，由于还没有提交至NCBI服务器，所以一般都没有基因编号
+    ''' 则使用GCModeller进行KEGG代谢途径注释的时候，一般是使用location来唯一标记基因的
+    ''' 则可以设置这个参数为true，使用localtion作为基因的locus_tag
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
-    Friend Iterator Function GetCentralDogmas(genomes As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String)) As IEnumerable(Of CentralDogma)
+    Friend Iterator Function GetCentralDogmas(genomes As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), locationAsLocustag As Boolean) As IEnumerable(Of CentralDogma)
         Dim centralDogmaFeatures = genomes.Values _
             .Select(Function(genome)
                         Dim repliconId$ = genome.Locus.AccessionID
@@ -219,7 +230,12 @@ Public Module Workflow
             .IteratesALL
 
         For Each feature As NamedCollection(Of Feature) In centralDogmaFeatures
-            Dim gene As Feature = feature.First(Function(component) component.KeyName = "gene")
+            Dim gene As Feature = feature.FirstOrDefault(Function(component) component.KeyName = "gene")
+
+            If gene Is Nothing Then
+                gene = feature.FirstOrDefault(Function(component) component.KeyName = "CDS")
+            End If
+
             Dim RNA As Feature = feature _
                 .FirstOrDefault(Function(component)
                                     Return component.KeyName = "tRNA" OrElse component.KeyName = "rRNA"
@@ -228,7 +244,7 @@ Public Module Workflow
                 .FirstOrDefault(Function(component)
                                     Return component.KeyName = "CDS"
                                 End Function)
-            Dim locus_tag$ = feature.Name
+            Dim locus_tag$ = feature.name
             Dim rnaType As RNATypes = RNATypes.mRNA
             Dim rnaData As String = ""
             Dim proteinId As String = Nothing
@@ -262,7 +278,7 @@ Public Module Workflow
                 ' 既没有RNA也没有CDS，这个可能是其他的类型的feature
                 ' 例如移动原件之类的
                 ' 跳过这些
-                Call $"Skip invalid locus_tag: {feature.Name}".Warning
+                Call $"Skip invalid locus_tag: {feature.name}".Warning
 
                 Continue For
             End If
@@ -276,7 +292,7 @@ Public Module Workflow
                 },
                 .polypeptide = proteinId,
                 .orthology = KOfunction.TryGetValue(.geneID),
-                .replicon = feature.Description
+                .replicon = feature.description
             }
         Next
     End Function

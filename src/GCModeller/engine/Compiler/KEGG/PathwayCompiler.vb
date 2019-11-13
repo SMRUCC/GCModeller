@@ -54,12 +54,12 @@ Imports SMRUCC.genomics.Metagenomics
 Public Module PathwayCompiler
 
     <Extension>
-    Public Function CompileOrganism(replicons As Dictionary(Of String, GBFF.File), keggModel As OrganismModel) As VirtualCell
+    Public Function CompileOrganism(replicons As Dictionary(Of String, GBFF.File), keggModel As OrganismModel, locationAsLocustag As Boolean) As VirtualCell
         Dim taxonomy As Taxonomy = replicons.getTaxonomy
         Dim Kofunction As Dictionary(Of String, String) = keggModel.KoFunction
         Dim genotype As New Genotype With {
             .centralDogmas = replicons _
-                .GetCentralDogmas(Kofunction) _
+                .GetCentralDogmas(Kofunction, locationAsLocustag) _
                 .ToArray
         }
         Dim cell As New CellularModule With {

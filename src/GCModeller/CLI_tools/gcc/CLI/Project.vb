@@ -77,7 +77,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/compile.KEGG")>
     <Description("Create GCModeller virtual cell data model file from KEGG reference data.")>
-    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
+    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/location.as.locus_tag /regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
     <Argument("/regulations", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in)>
     Public Function CompileKEGG(args As CommandLine) As Integer
@@ -88,6 +88,7 @@ Partial Module CLI
             .KEGGPathway = args <= "/maps",
             .KEGGReactions = args <= "/reactions"
         }
+        Dim locationAsLocus_tag As Boolean = args("/location.as.locus_tag")
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GCMarkup"
         Dim genome As Dictionary(Of String, GBFF.File) = [in].loadRepliconTable
         Dim geneKO As Dictionary(Of String, String) = EntityObject _
@@ -96,7 +97,7 @@ Partial Module CLI
                           Function(protein) protein!KO)
         Dim regulations = (args <= "/regulations").LoadCsv(Of RegulationFootprint)
         Dim model As CellularModule = genome _
-            .AssemblingMetabolicNetwork(geneKO, kegg) _
+            .AssemblingMetabolicNetwork(geneKO, kegg, locationAsLocus_tag) _
             .AssemblingRegulationNetwork(regulations)
 
         If out.IsGCMarkup Then
@@ -121,7 +122,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/compile.organism")>
-    <Usage("/compile.organism /in <genome.gb> /kegg <kegg.organism_pathways.repository/model.xml> [/regulations <transcription.regulates.csv> /out <out.model.Xml>]")>
+    <Usage("/compile.organism /in <genome.gb> /kegg <kegg.organism_pathways.repository/model.xml> [/location.as.locus_tag /regulations <transcription.regulates.csv> /out <out.model.Xml>]")>
     <Description("Create GCModeller virtual cell data model from KEGG organism pathway data")>
     <Argument("/kegg", False, CLITypes.File,
               Description:="A directory path that contains pathway data from command ``kegg_tools /Download.Pathway.Maps``.")>
@@ -134,10 +135,11 @@ Partial Module CLI
         Dim kegg$ = args <= "/kegg"
         Dim regulations = (args <= "/regulations").LoadCsv(Of RegulationFootprint)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.CellAssembly.Xml"
+        Dim locationAsLocus_tag As Boolean = args("/location.as.locus_tag")
         Dim keggModel As OrganismModel = OrganismModel.CreateModel(kegg)
 
         Return [in].loadRepliconTable _
-            .CompileOrganism(keggModel) _
+            .CompileOrganism(keggModel, locationAsLocus_tag) _
             .GetXml _
             .SaveTo(out) _
             .CLICode
