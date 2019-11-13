@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef5deb7e20a6166e489db46c1e4a21ce, MicrobesOnline\MySQL\genomics\promoter.vb"
+﻿#Region "Microsoft.VisualBasic::ef5deb7e20a6166e489db46c1e4a21ce, data\MicrobesOnline\MySQL\genomics\promoter.vb"
 
     ' Author:
     ' 

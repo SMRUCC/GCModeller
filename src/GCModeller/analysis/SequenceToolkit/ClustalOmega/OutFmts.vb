@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d463354a4be4cee5b77272adc87c2ce6, analysis\SequenceToolkit\ClustalOmega\OutFmts.vb"
+﻿#Region "Microsoft.VisualBasic::cf3704efae643f960bf1771b3b7222bc, analysis\SequenceToolkit\ClustalOmega\OutFmts.vb"
 
     ' Author:
     ' 

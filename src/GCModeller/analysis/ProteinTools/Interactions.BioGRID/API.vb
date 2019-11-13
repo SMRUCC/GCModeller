@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1892ad29306029de217967971bc060c3, analysis\ProteinTools\Interactions.BioGRID\API.vb"
+﻿#Region "Microsoft.VisualBasic::1b180ddcef9aab3b9e1e70045939a1e6, analysis\ProteinTools\Interactions.BioGRID\API.vb"
 
     ' Author:
     ' 

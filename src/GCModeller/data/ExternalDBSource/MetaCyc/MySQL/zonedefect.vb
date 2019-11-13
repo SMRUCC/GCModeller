@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::273f683be5fa142724b2f60b5a3364fe, ExternalDBSource\MetaCyc\MySQL\zonedefect.vb"
+﻿#Region "Microsoft.VisualBasic::273f683be5fa142724b2f60b5a3364fe, data\ExternalDBSource\MetaCyc\MySQL\zonedefect.vb"
 
     ' Author:
     ' 

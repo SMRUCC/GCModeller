@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f110b58bc232bd3e23cf870ff1d2e557, analysis\ProteinTools\ProteinTools.Family\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::ea906c1a0466160f86fdea22a900e213, analysis\ProteinTools\ProteinTools.Family\KEGG.vb"
 
     ' Author:
     ' 

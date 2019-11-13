@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc45d723d21e8efd9156161098fec38d, RegulonDatabase\Regprecise\WebServices\WebParser\Operon\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::fc45d723d21e8efd9156161098fec38d, data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon\Operon.vb"
 
     ' Author:
     ' 

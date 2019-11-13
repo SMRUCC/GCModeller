@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdfcbfdfc78fc355bbeb88cbf7fa5fda, Reactome\LocalMySQL\gk_current\book_2_chapterauthors.vb"
+﻿#Region "Microsoft.VisualBasic::cdfcbfdfc78fc355bbeb88cbf7fa5fda, data\Reactome\LocalMySQL\gk_current\book_2_chapterauthors.vb"
 
     ' Author:
     ' 

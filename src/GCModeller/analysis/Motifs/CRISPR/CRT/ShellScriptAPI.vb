@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4b681486c3da3dca7c15a079eccad50, analysis\Motifs\CRISPR\CRT\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::23dc9aaf33cbef58b601a9e372d49e57, analysis\Motifs\CRISPR\CRT\ShellScriptAPI.vb"
 
     ' Author:
     ' 

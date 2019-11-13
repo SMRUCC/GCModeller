@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b5f3975ea7428ecce9a920c27660a21, ExternalDBSource\MetaCyc\MySQL\designelementtuple.vb"
+﻿#Region "Microsoft.VisualBasic::0b5f3975ea7428ecce9a920c27660a21, data\ExternalDBSource\MetaCyc\MySQL\designelementtuple.vb"
 
     ' Author:
     ' 

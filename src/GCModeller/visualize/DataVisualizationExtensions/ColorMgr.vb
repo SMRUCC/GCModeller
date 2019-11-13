@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2148535699ef8a372da445e32e8be907, visualize\DataVisualizationExtensions\ColorMgr.vb"
+﻿#Region "Microsoft.VisualBasic::155444b1e4a35fd181305605ea02136c, visualize\DataVisualizationExtensions\ColorMgr.vb"
 
     ' Author:
     ' 

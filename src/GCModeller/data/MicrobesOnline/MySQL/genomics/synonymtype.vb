@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::324189d67b3a67495bae6e00636917c9, MicrobesOnline\MySQL\genomics\synonymtype.vb"
+﻿#Region "Microsoft.VisualBasic::324189d67b3a67495bae6e00636917c9, data\MicrobesOnline\MySQL\genomics\synonymtype.vb"
 
     ' Author:
     ' 

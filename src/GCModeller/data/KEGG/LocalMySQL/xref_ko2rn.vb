@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7fd2e65a786a00bfd72949a69020ecf8, KEGG\LocalMySQL\xref_ko2rn.vb"
+﻿#Region "Microsoft.VisualBasic::7fd2e65a786a00bfd72949a69020ecf8, data\KEGG\LocalMySQL\xref_ko2rn.vb"
 
     ' Author:
     ' 

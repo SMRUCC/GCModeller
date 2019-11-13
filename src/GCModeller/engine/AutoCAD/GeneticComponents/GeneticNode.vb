@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdf260f6cf517f690f3d4e4bf546bc33, engine\AutoCAD\GeneticComponents\GeneticNode.vb"
+﻿#Region "Microsoft.VisualBasic::4d4dcb119b5b04370920d8a0b7a2de20, engine\AutoCAD\GeneticComponents\GeneticNode.vb"
 
     ' Author:
     ' 
@@ -38,11 +38,9 @@
     ' 
     '     Function: ToString
     ' 
-    ' 
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
@@ -90,5 +88,3 @@ Public Class GeneticNode
     End Function
 
 End Class
-
-

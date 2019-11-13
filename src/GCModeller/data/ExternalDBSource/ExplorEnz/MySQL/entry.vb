@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9dc68fb6c49839275ea888d8dc559a6, ExternalDBSource\ExplorEnz\MySQL\entry.vb"
+﻿#Region "Microsoft.VisualBasic::e9dc68fb6c49839275ea888d8dc559a6, data\ExternalDBSource\ExplorEnz\MySQL\entry.vb"
 
     ' Author:
     ' 

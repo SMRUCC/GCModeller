@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa00f340f6cd3ba72db778977f532ac1, RegulonDatabase\RegulonDB\MySQL\conformation.vb"
+﻿#Region "Microsoft.VisualBasic::aa00f340f6cd3ba72db778977f532ac1, data\RegulonDatabase\RegulonDB\MySQL\conformation.vb"
 
     ' Author:
     ' 

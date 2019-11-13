@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0e8db4cd18222a7f76490ea200c56ca, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\EntitySummary.vb"
+﻿#Region "Microsoft.VisualBasic::e0e8db4cd18222a7f76490ea200c56ca, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\EntitySummary.vb"
 
     ' Author:
     ' 

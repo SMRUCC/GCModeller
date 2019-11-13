@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f574512808439e52ea87b98a8880f77, ExternalDBSource\MetaCyc\MySQL\labeledextractwidcompoundwid.vb"
+﻿#Region "Microsoft.VisualBasic::4f574512808439e52ea87b98a8880f77, data\ExternalDBSource\MetaCyc\MySQL\labeledextractwidcompoundwid.vb"
 
     ' Author:
     ' 

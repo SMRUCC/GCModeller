@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a119d8873241333e4a4023993fdbe2b0, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternExpression.vb"
+﻿#Region "Microsoft.VisualBasic::c1a2d19949878c30d0830320fe53a07f, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternExpression.vb"
 
     ' Author:
     ' 

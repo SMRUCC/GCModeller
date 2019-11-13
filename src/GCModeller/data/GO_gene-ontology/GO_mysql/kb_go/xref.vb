@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea36e08fef818081a6455d02594afcf3, GO_gene-ontology\GO_mysql\kb_go\xref.vb"
+﻿#Region "Microsoft.VisualBasic::ea36e08fef818081a6455d02594afcf3, data\GO_gene-ontology\GO_mysql\kb_go\xref.vb"
 
     ' Author:
     ' 

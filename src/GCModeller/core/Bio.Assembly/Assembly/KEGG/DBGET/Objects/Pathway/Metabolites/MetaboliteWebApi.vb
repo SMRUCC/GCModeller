@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9adf6b4f82ebcede9b1c93eafc87de94, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetaboliteWebApi.vb"
+﻿#Region "Microsoft.VisualBasic::9adf6b4f82ebcede9b1c93eafc87de94, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetaboliteWebApi.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4bf461bbab5d0058699e76320dc13247, analysis\SequenceToolkit\SequencePatterns\ClustalVisual.vb"
+﻿#Region "Microsoft.VisualBasic::ad198ab959e3b4b6ffc5471d7ef324eb, analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
 
     ' Author:
     ' 

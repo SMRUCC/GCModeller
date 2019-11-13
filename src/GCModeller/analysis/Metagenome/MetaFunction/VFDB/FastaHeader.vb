@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f454183566006ebcffbc68a189b2fbbb, analysis\Metagenome\MetaFunction\VFDB\FastaHeader.vb"
+﻿#Region "Microsoft.VisualBasic::80ddebde7daac4c00072c50acd6c9943, analysis\Metagenome\MetaFunction\VFDB\FastaHeader.vb"
 
     ' Author:
     ' 
@@ -90,4 +90,3 @@ Namespace VFDB
     End Class
 
 End Namespace
-

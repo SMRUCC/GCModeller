@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4a9dec0d3af718ef3c4010585870632, ExternalDBSource\MetaCyc\MySQL\enzreactionaltcompound.vb"
+﻿#Region "Microsoft.VisualBasic::e4a9dec0d3af718ef3c4010585870632, data\ExternalDBSource\MetaCyc\MySQL\enzreactionaltcompound.vb"
 
     ' Author:
     ' 

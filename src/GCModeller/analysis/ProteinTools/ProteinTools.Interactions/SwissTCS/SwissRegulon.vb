@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a15e46506f4a7c0169a66856f207c820, analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\SwissRegulon.vb"
+﻿#Region "Microsoft.VisualBasic::e4971e89386973168f642fe06a4c74c3, analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\SwissRegulon.vb"
 
     ' Author:
     ' 

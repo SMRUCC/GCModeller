@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2bf2ca9c68e64c984f05a9538047d9b4, engine\IO\GCTabular\CsvTabularData\FileStream.vb"
+﻿#Region "Microsoft.VisualBasic::d3b202e921a77138f11082d40dc36153, engine\IO\GCTabular\CsvTabularData\FileStream.vb"
 
     ' Author:
     ' 

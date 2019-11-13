@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24c5b96129b929ab7b3ba111cdc69fd1, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Metabolite.vb"
+﻿#Region "Microsoft.VisualBasic::17a9fb547fedf7d79b94afdf964c7c2d, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Metabolite.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::183e2346d8e01ea154312f377a81ae68, ExternalDBSource\MetaCyc\MySQL\transformwidbioassaydatawid.vb"
+﻿#Region "Microsoft.VisualBasic::183e2346d8e01ea154312f377a81ae68, data\ExternalDBSource\MetaCyc\MySQL\transformwidbioassaydatawid.vb"
 
     ' Author:
     ' 

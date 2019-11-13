@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79fef973bbf51b81c8d7a9252e4abcf0, engine\Model\Models\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::48b88fc2076b22eb03b8dd80508f8d4b, engine\Model\Models\Extensions.vb"
 
     ' Author:
     ' 
@@ -57,4 +57,3 @@ Public Module Extensions
         End If
     End Function
 End Module
-

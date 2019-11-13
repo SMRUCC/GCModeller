@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c57b45aae0e1a5e043ee26cb4c44ec14, ExternalDBSource\MetaCyc\bio_warehouse\designelementtuple.vb"
+﻿#Region "Microsoft.VisualBasic::c57b45aae0e1a5e043ee26cb4c44ec14, data\ExternalDBSource\MetaCyc\bio_warehouse\designelementtuple.vb"
 
     ' Author:
     ' 

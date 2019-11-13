@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::759e58034128e4351a54142d1bb73c1e, visualize\DataVisualizationExtensions\Volcano.vb"
+﻿#Region "Microsoft.VisualBasic::b0e748aadd04b099ef80bd67f66c2793, visualize\DataVisualizationExtensions\Volcano.vb"
 
     ' Author:
     ' 

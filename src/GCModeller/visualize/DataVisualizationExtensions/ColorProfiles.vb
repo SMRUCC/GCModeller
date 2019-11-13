@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b559c34387ee712aa5b5b022f6fbd6dd, visualize\DataVisualizationExtensions\ColorProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::de6c6c5769e653c7b71c92b93ea7187e, visualize\DataVisualizationExtensions\ColorProfiles.vb"
 
     ' Author:
     ' 

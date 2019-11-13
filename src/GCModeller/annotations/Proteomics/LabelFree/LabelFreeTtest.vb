@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c5183a14b18af38f239635539f0f17b, Proteomics\LabelFree\LabelFreeTtest.vb"
+﻿#Region "Microsoft.VisualBasic::cfcf7b946aec0d280428f76fcba1a11c, annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
 
     ' Author:
     ' 

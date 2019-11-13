@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::753e2422647e25bb08a92f50058cbba0, visualize\PDB_canvas\ChainModel.vb"
+﻿#Region "Microsoft.VisualBasic::a255b7edb99604014df641a34e6a956b, visualize\PDB_canvas\ChainModel.vb"
 
     ' Author:
     ' 

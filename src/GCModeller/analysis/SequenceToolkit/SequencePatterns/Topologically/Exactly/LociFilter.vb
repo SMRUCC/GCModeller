@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4216a7a59d1e777ef4f93cabf85c7d55, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\LociFilter.vb"
+﻿#Region "Microsoft.VisualBasic::d0795316573b7d1c69dee20c3731f421, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\LociFilter.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@
     ' 
     '  
     ' 
-    '     Function: __filtering, Filtering, FilteringRev
+    '     Function: doFiltering, Filtering, FilteringRev
     ' 
     ' /********************************************************************************/
 

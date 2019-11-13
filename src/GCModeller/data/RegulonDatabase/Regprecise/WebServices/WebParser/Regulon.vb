@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d991235491199aff4a2c5a1eeaecab9, RegulonDatabase\Regprecise\WebServices\WebParser\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::6d991235491199aff4a2c5a1eeaecab9, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulon.vb"
 
     ' Author:
     ' 

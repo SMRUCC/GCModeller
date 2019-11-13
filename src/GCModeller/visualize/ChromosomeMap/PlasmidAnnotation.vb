@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::9c2882d9c08c27fd22575b30f5be74c6, visualize\ChromosomeMap\PlasmidAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::f8815816c5b61034578d50a76f0dc5c2, visualize\ChromosomeMap\PlasmidAnnotation.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Class PlasmidAnnotation
-' 
-'     Properties: COG_annotation, COG_cat, COG_NO, discription, Evalue
-'                 Family, Gene_name, GeneNA, GO_discription, GO_ID
-'                 GO_name, GOI, Identity, Length, Location
-'                 ORF_ID, product, Protein, Protein_len, qsp
-'                 qst, SP, ssp, sst, ST
-'                 Strand, subject_length
-' 
-'     Function: ExportAnnotations, ExportProteinFasta, READ_PlasmidData
-' 
-' /********************************************************************************/
+    ' Class PlasmidAnnotation
+    ' 
+    '     Properties: COG_annotation, COG_cat, COG_NO, discription, Evalue
+    '                 Family, Gene_name, GeneNA, GO_discription, GO_ID
+    '                 GO_name, GOI, Identity, Length, Location
+    '                 ORF_ID, product, Protein, Protein_len, qsp
+    '                 qst, SP, ssp, sst, ST
+    '                 Strand, subject_length
+    ' 
+    '     Function: ExportAnnotations, ExportProteinFasta, READ_PlasmidData
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

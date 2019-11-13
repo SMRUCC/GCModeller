@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec5e7632706f4bcae78ad579e0002f27, Bio.Repository\KEGG\KEGGOrthology\KO_gene.vb"
+﻿#Region "Microsoft.VisualBasic::ec5e7632706f4bcae78ad579e0002f27, core\Bio.Repository\KEGG\KEGGOrthology\KO_gene.vb"
 
     ' Author:
     ' 

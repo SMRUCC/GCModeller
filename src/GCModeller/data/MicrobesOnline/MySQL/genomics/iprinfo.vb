@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81fcf43b78a8735bb3c000814577cc62, MicrobesOnline\MySQL\genomics\iprinfo.vb"
+﻿#Region "Microsoft.VisualBasic::81fcf43b78a8735bb3c000814577cc62, data\MicrobesOnline\MySQL\genomics\iprinfo.vb"
 
     ' Author:
     ' 

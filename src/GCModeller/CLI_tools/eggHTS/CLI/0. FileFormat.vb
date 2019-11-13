@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16fb3c512e2231e18107cb6b44aad8e5, CLI_tools\eggHTS\CLI\0. FileFormat.vb"
+﻿#Region "Microsoft.VisualBasic::c3bd987196920b13a7845bb5e33daf5c, CLI_tools\eggHTS\CLI\0. FileFormat.vb"
 
     ' Author:
     ' 

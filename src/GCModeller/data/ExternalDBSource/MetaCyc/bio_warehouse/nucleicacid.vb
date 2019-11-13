@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a85d2dc8ddbc3812629e3ac7c1915417, ExternalDBSource\MetaCyc\bio_warehouse\nucleicacid.vb"
+﻿#Region "Microsoft.VisualBasic::a85d2dc8ddbc3812629e3ac7c1915417, data\ExternalDBSource\MetaCyc\bio_warehouse\nucleicacid.vb"
 
     ' Author:
     ' 

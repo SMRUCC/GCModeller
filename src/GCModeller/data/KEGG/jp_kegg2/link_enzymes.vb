@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81be2f59a560a5eaefc63cc7b484c186, KEGG\jp_kegg2\link_enzymes.vb"
+﻿#Region "Microsoft.VisualBasic::81be2f59a560a5eaefc63cc7b484c186, data\KEGG\jp_kegg2\link_enzymes.vb"
 
     ' Author:
     ' 

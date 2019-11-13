@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::bcab7de6ca35ff3b381b3bf7482db341, Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
+﻿#Region "Microsoft.VisualBasic::5daa726c8b0a014a2389462701a0fe34, core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class GeneTable
-' 
-'         Properties: [Function], CDS, COG, CommonName, EC_Number
-'                     GC_Content, GeneName, GI, GO, InterPro
-'                     Left, Length, Location, LocusID, ProteinId
-'                     Right, Species, SpeciesAccessionID, Strand, Transl_Table
-'                     Translation, UniprotSwissProt, UniprotTrEMBL
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class GeneTable
+    ' 
+    '         Properties: [function], CDS, COG, commonName, EC_Number
+    '                     GC_Content, geneName, GI, GO, InterPro
+    '                     KO, left, length, Location, locus_id
+    '                     ProteinId, right, species, SpeciesAccessionID, strand
+    '                     Transl_table, Translation, UniprotSwissProt, UniprotTrEMBL
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

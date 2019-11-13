@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50fdd9f6434f5e8b68519a0ecf5102c6, MicrobesOnline\MySQL\glamm\glammsynonym.vb"
+﻿#Region "Microsoft.VisualBasic::50fdd9f6434f5e8b68519a0ecf5102c6, data\MicrobesOnline\MySQL\glamm\glammsynonym.vb"
 
     ' Author:
     ' 

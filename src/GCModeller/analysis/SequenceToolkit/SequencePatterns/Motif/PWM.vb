@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::23b5dad6a49420c360153792d373a864, analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
+﻿#Region "Microsoft.VisualBasic::65aa3b22e480437ace871512b3ac9c56, analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
 
     ' Author:
     ' 

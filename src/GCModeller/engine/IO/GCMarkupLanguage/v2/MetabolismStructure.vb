@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecb4010087394e103f6fb4640b82273f, engine\IO\GCMarkupLanguage\v2\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::d0b2fcd960f75f79b16d5dac3cd3fd74, engine\IO\GCMarkupLanguage\v2\MetabolismStructure.vb"
 
     ' Author:
     ' 

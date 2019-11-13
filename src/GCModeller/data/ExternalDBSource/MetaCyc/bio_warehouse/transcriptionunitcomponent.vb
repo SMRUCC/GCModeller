@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cc394e240ae8214a471f2f6055bc9d8, ExternalDBSource\MetaCyc\bio_warehouse\transcriptionunitcomponent.vb"
+﻿#Region "Microsoft.VisualBasic::0cc394e240ae8214a471f2f6055bc9d8, data\ExternalDBSource\MetaCyc\bio_warehouse\transcriptionunitcomponent.vb"
 
     ' Author:
     ' 

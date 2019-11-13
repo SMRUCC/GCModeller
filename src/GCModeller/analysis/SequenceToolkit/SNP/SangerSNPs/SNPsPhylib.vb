@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9c7303e0bc7e6488d16f82c3730391e, analysis\SequenceToolkit\SNP\SangerSNPs\SNPsPhylib.vb"
+﻿#Region "Microsoft.VisualBasic::15019a0e6e7e374fd2476a5667a2e378, analysis\SequenceToolkit\SNP\SangerSNPs\SNPsPhylib.vb"
 
     ' Author:
     ' 
