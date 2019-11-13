@@ -83,13 +83,15 @@ Namespace PathwayMaps
                                           .OrderBy(Function(name) name.Length) _
                                           .First
 
-                                      Return names
-                                  Else
-                                      If reaction.EC.StringEmpty Then
-                                          Return r.Key
-                                      Else
-                                          Return "EC " & reaction.EC
+                                      If Not names.StringEmpty Then
+                                          Return names
                                       End If
+                                  End If
+
+                                  If reaction.EC.StringEmpty Then
+                                      Return r.Key
+                                  Else
+                                      Return "EC " & reaction.EC
                                   End If
                               End Function)
         End Function
@@ -257,7 +259,7 @@ Namespace PathwayMaps
                 drawNodeShape:=AddressOf renderStyle.drawNode,
                 hullPolygonGroups:=renderStyle.getHullPolygonGroups,
                 minLinkWidth:=20,
-                nodeRadius:=400,
+                nodeRadius:=300,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=renderStyle.edgeDashType,
                 defaultEdgeColor:="brown",
@@ -270,7 +272,7 @@ Namespace PathwayMaps
                 getLabelColor:=AddressOf renderStyle.getLabelColor,
                 convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";",
                 convexHullScale:=1.25,
-                convexHullCurveDegree:=5,
+                convexHullCurveDegree:=1,
                 drawEdgeBends:=edgeBends,
                 labelWordWrapWidth:=wordWrapWidth,
                 isLabelPinned:=Function(n, actualLabel)

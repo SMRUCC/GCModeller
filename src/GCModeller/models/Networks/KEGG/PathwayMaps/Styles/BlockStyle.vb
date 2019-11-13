@@ -81,11 +81,12 @@ Namespace PathwayMaps.RenderStyles
         End Sub
 
         Public Overrides Function getFontSize(node As Node) As Single
-            If node.label.IsPattern("C\d+") Then
-                Return 36
-            Else
-                Return 36
-            End If
+            'If node.label.IsPattern("C\d+") Then
+            '    Return 36
+            'Else
+            '    Return 36
+            'End If
+            Return 32
         End Function
 
         Dim reactionShapeStroke As Pen
