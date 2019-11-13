@@ -41,23 +41,93 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Namespace PathwayMaps.RenderStyles
 
     Public MustInherit Class RenderStyle
 
-        Protected ReadOnly nodes As Dictionary(Of String, Node)
+        Protected Friend ReadOnly nodes As Dictionary(Of String, Node)
         Protected ReadOnly graph As NetworkGraph
 
-        Sub New(nodes As Dictionary(Of String, Node), graph As NetworkGraph)
-            Me.nodes = nodes
+        Sub New(graph As NetworkGraph, enzymeColorSchema$, compoundColorSchema$)
+            Me.nodes = createNodeTable(graph, enzymeColorSchema$, compoundColorSchema$)
             Me.graph = graph
         End Sub
 
+        Private Shared Function createNodeTable(graph As NetworkGraph, enzymeColorSchema$, compoundColorSchema$) As Dictionary(Of String, Node)
+            Dim nodes As New Dictionary(Of String, Node)
+            Dim fluxCategory = EnzymaticReaction.LoadFromResource _
+                .GroupBy(Function(r) r.Entry.Key) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(r)
+                                  Return r.First
+                              End Function)
+            Dim compoundCategory = CompoundBrite.CompoundsWithBiologicalRoles _
+                .GroupBy(Function(c) c.entry.Key) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(c)
+                                  Return c.First.class
+                              End Function)
+            Dim enzymeColors As Color() = Designer.GetColors(enzymeColorSchema)
+            Dim compoundColors As New CategoryColorProfile(compoundCategory, compoundColorSchema)
+
+            For Each node As Node In graph.vertex
+                If node.label.IsPattern("C\d+") Then
+                    If compoundCategory.ContainsKey(node.label) Then
+                        node.data.color = New SolidBrush(compoundColors.GetColor(node.label))
+                    Else
+                        node.data.color = Brushes.LightGray
+                    End If
+                Else
+                    If fluxCategory.ContainsKey(node.label) Then
+                        Dim enzyme% = fluxCategory(node.label).EC.Split("."c).First.ParseInteger
+                        Dim color As Color = enzymeColors(enzyme)
+
+                        node.data.color = New SolidBrush(color)
+                    Else
+                        node.data.color = Brushes.SkyBlue
+                    End If
+                End If
+
+                nodes.Add(node.label, node)
+            Next
+
+            Return nodes
+        End Function
+
         Public MustOverride Function getFontSize(node As Node) As Single
         Public MustOverride Function drawNode(id$, g As IGraphics, br As Brush, radius!, center As PointF) As RectangleF
+
+        Protected Function getNodeLayout(id As String, radius As Single, center As PointF) As Rectangle
+            Dim node As Node = nodes(id)
+            Dim rect As Rectangle
+
+            If node.label.IsPattern("C\d+") Then
+                ' 圆形
+                radius = radius * 0.5
+                rect = New Rectangle With {
+                    .X = center.X - radius / 2,
+                    .Y = center.Y - radius / 2,
+                    .Width = radius,
+                    .Height = radius
+                }
+            Else
+                ' 方形
+                rect = New Rectangle With {
+                    .X = center.X - radius / 2,
+                    .Y = center.Y - radius / 5,
+                    .Width = radius,
+                    .Height = radius / 2.5
+                }
+            End If
+
+            Return rect
+        End Function
 
     End Class
 End Namespace

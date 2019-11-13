@@ -145,53 +145,17 @@ Namespace PathwayMaps
                                Optional rewriteGroupCategoryColors$ = "TSF",
                                Optional edgeBends As Boolean = False) As GraphicsData
 
-            Dim nodes As New Dictionary(Of String, Node)
-            Dim fluxCategory = EnzymaticReaction.LoadFromResource _
-                .GroupBy(Function(r) r.Entry.Key) _
-                .ToDictionary(Function(r) r.Key,
-                              Function(r)
-                                  Return r.First
-                              End Function)
-            Dim compoundCategory = CompoundBrite.CompoundsWithBiologicalRoles _
-                .GroupBy(Function(c) c.entry.Key) _
-                .ToDictionary(Function(c) c.Key,
-                              Function(c)
-                                  Return c.First.class
-                              End Function)
-            Dim enzymeColors As Color() = Designer.GetColors(enzymeColorSchema)
-            Dim compoundColors As New CategoryColorProfile(compoundCategory, compoundColorSchema)
-
             If compoundNames Is Nothing Then
                 compoundNames = New Dictionary(Of String, String)
             End If
 
-            For Each node As Node In graph.vertex
-                If node.label.IsPattern("C\d+") Then
-                    If compoundCategory.ContainsKey(node.label) Then
-                        node.data.color = New SolidBrush(compoundColors.GetColor(node.label))
-                    Else
-                        node.data.color = Brushes.LightGray
-                    End If
-                Else
-                    If fluxCategory.ContainsKey(node.label) Then
-                        Dim enzyme% = fluxCategory(node.label).EC.Split("."c).First.ParseInteger
-                        Dim color As Color = enzymeColors(enzyme)
-
-                        node.data.color = New SolidBrush(color)
-                    Else
-                        node.data.color = Brushes.SkyBlue
-                    End If
-                End If
-
-                nodes.Add(node.label, node)
-            Next
-
             If renderStyle Is Nothing Then
                 renderStyle = New BlockStyle(
-                    nodes:=nodes,
                     graph:=graph,
                     reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
-                    hideCompoundCircle:=hideCompoundCircle
+                    hideCompoundCircle:=hideCompoundCircle,
+                    enzymeColorSchema:=enzymeColorSchema,
+                    compoundColorSchema:=compoundColorSchema
                 )
             End If
 

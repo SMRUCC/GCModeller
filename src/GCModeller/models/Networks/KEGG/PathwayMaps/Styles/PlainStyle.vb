@@ -48,8 +48,21 @@ Namespace PathwayMaps.RenderStyles
 
     Public Class PlainStyle : Inherits RenderStyle
 
-        Public Sub New(nodes As Dictionary(Of String, Node), graph As NetworkGraph)
-            MyBase.New(nodes, graph)
+        Public Sub New(graph As NetworkGraph,
+                       Optional enzymeColorSchema$ = "Set1:c8",
+                       Optional compoundColorSchema$ = "Clusters")
+
+            Call MyBase.New(
+                graph:=graph,
+                enzymeColorSchema:=enzymeColorSchema,
+                compoundColorSchema:=compoundColorSchema
+            )
+
+            ' render edge color
+            ' no convex hull polygon draw
+            For Each edge As Edge In graph.graphEdges
+
+            Next
         End Sub
 
         Public Overrides Function getFontSize(node As Node) As Single

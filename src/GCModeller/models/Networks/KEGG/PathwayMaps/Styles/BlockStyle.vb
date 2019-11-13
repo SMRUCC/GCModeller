@@ -54,11 +54,17 @@ Namespace PathwayMaps.RenderStyles
     ''' </summary>
     Public Class BlockStyle : Inherits RenderStyle
 
-        Sub New(nodes As Dictionary(Of String, Node), graph As NetworkGraph,
+        Sub New(graph As NetworkGraph,
                 Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
+                Optional enzymeColorSchema$ = "Set1:c8",
+                Optional compoundColorSchema$ = "Clusters",
                 Optional hideCompoundCircle As Boolean = True)
 
-            Call MyBase.New(nodes, graph)
+            Call MyBase.New(
+                graph:=graph,
+                enzymeColorSchema:=enzymeColorSchema,
+                compoundColorSchema:=compoundColorSchema
+            )
 
             Me.reactionShapeStroke = Stroke.TryParse(reactionShapeStrokeCSS)
             Me.hideCompoundCircle = hideCompoundCircle
@@ -79,19 +85,9 @@ Namespace PathwayMaps.RenderStyles
 
         Public Overrides Function drawNode(id As String, g As IGraphics, br As Brush, radius As Single, center As PointF) As RectangleF
             Dim node As Node = Nodes(id)
-            Dim connectedNodes = graph.GetConnectedVertex(id)
-            Dim rect As Rectangle
+            Dim rect As Rectangle = getNodeLayout(id, radius, center)
 
             If node.label.IsPattern("C\d+") Then
-                ' 圆形
-                radius = radius * 0.5
-                rect = New Rectangle With {
-                            .X = center.X - radius / 2,
-                            .Y = center.Y - radius / 2,
-                            .Width = radius,
-                            .Height = radius
-                        }
-
                 If Not hideCompoundCircle Then
                     Call circleShadow.Circle(g, center, radius)
 
@@ -99,14 +95,6 @@ Namespace PathwayMaps.RenderStyles
                     Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Alpha(200).Darken, 10), rect)
                 End If
             Else
-                ' 方形
-                rect = New Rectangle With {
-                            .X = center.X - radius / 2,
-                            .Y = center.Y - radius / 5,
-                            .Width = radius,
-                            .Height = radius / 2.5
-                        }
-
                 br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
 
                 Call rectShadow.RoundRectangle(g, rect, 30)
