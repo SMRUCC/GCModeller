@@ -599,16 +599,18 @@ Public Module NetworkVisualizer
                           edgeShadowDistance As Single,
                           defaultEdgeColor As Color,
                           drawEdgeBends As Boolean)
-        Dim cl As Color
 
         For Each edge As Edge In net.graphEdges
             Dim n As Node = edge.U
             Dim otherNode As Node = edge.V
-
-            cl = defaultEdgeColor
-
             Dim w! = CSng(5 * edge.data.weight * 2) Or minLinkWidthValue
-            Dim lineColor As New Pen(cl, w)
+            Dim lineColor As Pen
+
+            If edge.data.color Is Nothing Then
+                lineColor = New Pen(defaultEdgeColor, w)
+            Else
+                lineColor = New Pen(edge.data.color, w)
+            End If
 
             With edge.data!interaction_type
                 If Not .IsNothing AndAlso edgeDashTypes.ContainsKey(.ByRef) Then

@@ -165,15 +165,6 @@ Namespace PathwayMaps
                 compoundNames = New Dictionary(Of String, String)
             End If
 
-            If renderStyle Is Nothing Then
-                renderStyle = New BlockStyle(
-                    nodes:=nodes,
-                    graph:=graph,
-                    reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
-                    hideCompoundCircle:=hideCompoundCircle
-                )
-            End If
-
             For Each node As Node In graph.vertex
                 If node.label.IsPattern("C\d+") Then
                     If compoundCategory.ContainsKey(node.label) Then
@@ -194,6 +185,15 @@ Namespace PathwayMaps
 
                 nodes.Add(node.label, node)
             Next
+
+            If renderStyle Is Nothing Then
+                renderStyle = New BlockStyle(
+                    nodes:=nodes,
+                    graph:=graph,
+                    reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
+                    hideCompoundCircle:=hideCompoundCircle
+                )
+            End If
 
             Dim getLabelPositoon As GetLabelPosition =
                 Function(node As Node, label$, shapeLayout As RectangleF, labelSize As SizeF)
@@ -260,8 +260,8 @@ Namespace PathwayMaps
                     .Value = allCategories.JoinBy(","),
                     .Description = categoryColors.JoinBy(",")
                 },
-                minLinkWidth:=8,
-                nodeRadius:=150,
+                minLinkWidth:=20,
+                nodeRadius:=400,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=DashStyle.Dot,
                 defaultEdgeColor:="brown",
@@ -282,6 +282,7 @@ Namespace PathwayMaps
                                End Function,
                 convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";",
                 convexHullScale:=1.25,
+                convexHullCurveDegree:=5,
                 drawEdgeBends:=edgeBends,
                 labelWordWrapWidth:=wordWrapWidth,
                 isLabelPinned:=Function(n, actualLabel)

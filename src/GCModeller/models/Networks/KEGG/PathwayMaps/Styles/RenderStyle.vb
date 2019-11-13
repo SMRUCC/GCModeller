@@ -48,6 +48,14 @@ Namespace PathwayMaps.RenderStyles
 
     Public MustInherit Class RenderStyle
 
+        Protected ReadOnly nodes As Dictionary(Of String, Node)
+        Protected ReadOnly graph As NetworkGraph
+
+        Sub New(nodes As Dictionary(Of String, Node), graph As NetworkGraph)
+            Me.nodes = nodes
+            Me.graph = graph
+        End Sub
+
         Public MustOverride Function getFontSize(node As Node) As Single
         Public MustOverride Function drawNode(id$, g As IGraphics, br As Brush, radius!, center As PointF) As RectangleF
 

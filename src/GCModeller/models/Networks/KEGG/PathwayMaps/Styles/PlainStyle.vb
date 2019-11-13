@@ -48,8 +48,12 @@ Namespace PathwayMaps.RenderStyles
 
     Public Class PlainStyle : Inherits RenderStyle
 
+        Public Sub New(nodes As Dictionary(Of String, Node), graph As NetworkGraph)
+            MyBase.New(nodes, graph)
+        End Sub
+
         Public Overrides Function getFontSize(node As Node) As Single
-            Throw New NotImplementedException
+            Return 32
         End Function
 
         Public Overrides Function drawNode(id As String, g As IGraphics, br As Brush, radius As Single, center As PointF) As RectangleF

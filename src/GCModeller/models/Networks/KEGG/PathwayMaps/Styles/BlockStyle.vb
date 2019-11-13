@@ -54,24 +54,21 @@ Namespace PathwayMaps.RenderStyles
     ''' </summary>
     Public Class BlockStyle : Inherits RenderStyle
 
-        Dim nodes As Dictionary(Of String, Node)
-        Dim graph As NetworkGraph
-
         Sub New(nodes As Dictionary(Of String, Node), graph As NetworkGraph,
                 Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
                 Optional hideCompoundCircle As Boolean = True)
 
+            Call MyBase.New(nodes, graph)
+
             Me.reactionShapeStroke = Stroke.TryParse(reactionShapeStrokeCSS)
             Me.hideCompoundCircle = hideCompoundCircle
-            Me.nodes = nodes
-            Me.graph = graph
         End Sub
 
         Public Overrides Function getFontSize(node As Node) As Single
             If node.label.IsPattern("C\d+") Then
-                Return 24
+                Return 36
             Else
-                Return 24
+                Return 36
             End If
         End Function
 
