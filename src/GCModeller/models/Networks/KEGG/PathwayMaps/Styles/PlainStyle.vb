@@ -41,12 +41,19 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 
 Namespace PathwayMaps.RenderStyles
 
     Public Class PlainStyle : Inherits RenderStyle
+
+        Public Overrides ReadOnly Property edgeDashType As DashStyle
+            Get
+                Return DashStyle.Solid
+            End Get
+        End Property
 
         Public Sub New(graph As NetworkGraph,
                        convexHullCategoryStyle As Dictionary(Of String, String),

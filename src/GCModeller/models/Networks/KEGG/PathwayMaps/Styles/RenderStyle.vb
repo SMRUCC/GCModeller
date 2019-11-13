@@ -41,6 +41,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
@@ -50,6 +51,8 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Namespace PathwayMaps.RenderStyles
 
     Public MustInherit Class RenderStyle
+
+        Public MustOverride ReadOnly Property edgeDashType As DashStyle
 
         Protected Friend ReadOnly nodes As Dictionary(Of String, Node)
         Protected ReadOnly graph As NetworkGraph

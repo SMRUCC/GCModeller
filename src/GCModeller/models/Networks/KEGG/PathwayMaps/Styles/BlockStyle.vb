@@ -41,6 +41,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -53,6 +54,12 @@ Namespace PathwayMaps.RenderStyles
     ''' The default style
     ''' </summary>
     Public Class BlockStyle : Inherits RenderStyle
+
+        Public Overrides ReadOnly Property edgeDashType As DashStyle
+            Get
+                Return DashStyle.Dot
+            End Get
+        End Property
 
         Sub New(graph As NetworkGraph,
                 Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",

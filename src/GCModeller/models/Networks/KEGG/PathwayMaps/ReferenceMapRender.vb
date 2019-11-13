@@ -256,7 +256,7 @@ Namespace PathwayMaps
                 minLinkWidth:=20,
                 nodeRadius:=400,
                 edgeShadowDistance:=0,
-                edgeDashTypes:=DashStyle.Dot,
+                edgeDashTypes:=renderStyle.edgeDashType,
                 defaultEdgeColor:="brown",
                 getNodeLabel:=getNodeLabel(compoundNames),
                 getLabelPosition:=getLabelPositoon，
