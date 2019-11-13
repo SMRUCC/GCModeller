@@ -239,7 +239,6 @@ Namespace PathwayMaps
             End If
 
             Dim convexHullCategoryStyle = graph.getCategoryColors(convexHull, rewriteGroupCategoryColors)
-            Dim yellow As Color = "#f5f572".TranslateColor
 
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
@@ -264,15 +263,7 @@ Namespace PathwayMaps
                 labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
                 fontSize:=New Func(Of Node, Single)(AddressOf renderStyle.getFontSize),
                 defaultLabelColor:="white",
-                getLabelColor:=Function(node As Node) As Color
-                                   If node.label.IsPattern("C\d+") Then
-                                       Return Color.Black
-                                   ElseIf DirectCast(node.data.color, SolidBrush).Color.EuclideanDistance(yellow) <= 30 Then
-                                       Return Color.DarkBlue
-                                   Else
-                                       Return Color.White
-                                   End If
-                               End Function,
+                getLabelColor:=AddressOf renderStyle.getLabelColor,
                 convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";",
                 convexHullScale:=1.25,
                 convexHullCurveDegree:=5,

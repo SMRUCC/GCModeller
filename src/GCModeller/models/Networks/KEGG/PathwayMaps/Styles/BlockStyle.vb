@@ -111,5 +111,17 @@ Namespace PathwayMaps.RenderStyles
 
             Return rect
         End Function
+
+        Dim yellow As Color = "#f5f572".TranslateColor
+
+        Public Overrides Function getLabelColor(node As Node) As Color
+            If node.label.IsPattern("C\d+") Then
+                Return Color.Black
+            ElseIf DirectCast(node.data.color, SolidBrush).Color.EuclideanDistance(yellow) <= 30 Then
+                Return Color.DarkBlue
+            Else
+                Return Color.White
+            End If
+        End Function
     End Class
 End Namespace

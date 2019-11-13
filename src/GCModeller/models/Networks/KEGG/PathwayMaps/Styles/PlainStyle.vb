@@ -55,6 +55,8 @@ Namespace PathwayMaps.RenderStyles
             End Get
         End Property
 
+        Dim convexHullCategoryStyle As Dictionary(Of String, String)
+
         Public Sub New(graph As NetworkGraph,
                        convexHullCategoryStyle As Dictionary(Of String, String),
                        Optional enzymeColorSchema$ = "Set1:c8",
@@ -79,6 +81,8 @@ Namespace PathwayMaps.RenderStyles
                     edge.data.color = New SolidBrush({u.TranslateColor, v.TranslateColor}.Average)
                 End If
             Next
+
+            Me.convexHullCategoryStyle = convexHullCategoryStyle
         End Sub
 
         Public Overrides Function getFontSize(node As Node) As Single
@@ -86,7 +90,11 @@ Namespace PathwayMaps.RenderStyles
         End Function
 
         Public Overrides Function drawNode(id As String, g As IGraphics, br As Brush, radius As Single, center As PointF) As RectangleF
-            Throw New NotImplementedException()
+            Return getNodeLayout(id, radius, center)
+        End Function
+
+        Public Overrides Function getLabelColor(node As Node) As Color
+            Return convexHullCategoryStyle(node.data("group.category")).TranslateColor
         End Function
     End Class
 End Namespace

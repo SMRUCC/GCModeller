@@ -105,6 +105,7 @@ Namespace PathwayMaps.RenderStyles
 
         Public MustOverride Function getFontSize(node As Node) As Single
         Public MustOverride Function drawNode(id$, g As IGraphics, br As Brush, radius!, center As PointF) As RectangleF
+        Public MustOverride Function getLabelColor(node As Node) As Color
 
         Protected Function getNodeLayout(id As String, radius As Single, center As PointF) As Rectangle
             Dim node As Node = nodes(id)
