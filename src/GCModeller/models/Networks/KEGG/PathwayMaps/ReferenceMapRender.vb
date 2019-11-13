@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::fd410f503abed88d792a31a79afd31e8, models\Networks\KEGG\PathwayMaps\ReferenceMapRender.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ReferenceMapRender
-    ' 
-    '         Function: getCompoundNames, getNodeLabel, getReactionNames, (+2 Overloads) Render
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ReferenceMapRender
+' 
+'         Function: getCompoundNames, getNodeLabel, getReactionNames, (+2 Overloads) Render
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,10 +55,12 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Model.Network.KEGG.PathwayMaps.RenderStyles
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
@@ -132,6 +134,7 @@ Namespace PathwayMaps
         Public Function Render(graph As NetworkGraph,
                                Optional canvasSize$ = "11480,9200",
                                Optional padding$ = "padding: 300px 300px 300px 300px;",
+                               Optional renderStyle As RenderStyle = Nothing,
                                Optional enzymeColorSchema$ = "Set1:c8",
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
@@ -162,6 +165,15 @@ Namespace PathwayMaps
                 compoundNames = New Dictionary(Of String, String)
             End If
 
+            If renderStyle Is Nothing Then
+                renderStyle = New BlockStyle(
+                    nodes:=nodes,
+                    graph:=graph,
+                    reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
+                    hideCompoundCircle:=hideCompoundCircle
+                )
+            End If
+
             For Each node As Node In graph.vertex
                 If node.label.IsPattern("C\d+") Then
                     If compoundCategory.ContainsKey(node.label) Then
@@ -183,50 +195,6 @@ Namespace PathwayMaps
                 nodes.Add(node.label, node)
             Next
 
-            Dim reactionShapeStroke As Pen = Stroke.TryParse(reactionShapeStrokeCSS)
-            Dim rectShadow As New Shadow(10, 30, 1.125, 1.25)
-            Dim circleShadow As New Shadow(130, 45, 2, 2)
-
-            Dim drawNode As DrawNodeShape =
-                Function(id$, g As IGraphics, br As Brush, radius!, center As PointF)
-                    Dim node As Node = nodes(id)
-                    Dim connectedNodes = graph.GetConnectedVertex(id)
-                    Dim rect As Rectangle
-
-                    If node.label.IsPattern("C\d+") Then
-                        ' 圆形
-                        radius = radius * 0.5
-                        rect = New Rectangle With {
-                            .X = center.X - radius / 2,
-                            .Y = center.Y - radius / 2,
-                            .Width = radius,
-                            .Height = radius
-                        }
-
-                        If Not hideCompoundCircle Then
-                            Call circleShadow.Circle(g, center, radius)
-
-                            Call g.FillEllipse(br, rect)
-                            Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Alpha(200).Darken, 10), rect)
-                        End If
-                    Else
-                        ' 方形
-                        rect = New Rectangle With {
-                            .X = center.X - radius / 2,
-                            .Y = center.Y - radius / 5,
-                            .Width = radius,
-                            .Height = radius / 2.5
-                        }
-
-                        br = New SolidBrush(DirectCast(br, SolidBrush).Color.Alpha(240))
-
-                        Call rectShadow.RoundRectangle(g, rect, 30)
-                        Call g.FillPath(br, RoundRect.GetRoundedRectPath(rect, 30))
-                        Call g.DrawPath(reactionShapeStroke, RoundRect.GetRoundedRectPath(rect, 30))
-                    End If
-
-                    Return rect
-                End Function
             Dim getLabelPositoon As GetLabelPosition =
                 Function(node As Node, label$, shapeLayout As RectangleF, labelSize As SizeF)
                     If node.label.IsPattern("C\d+") Then
@@ -278,14 +246,6 @@ Namespace PathwayMaps
                 Next
             End If
 
-            Dim getFontSize As Func(Of Node, Single) =
-                Function(node As Node) As Single
-                    If node.label.IsPattern("C\d+") Then
-                        Return 24
-                    Else
-                        Return 24
-                    End If
-                End Function
             Dim yellow As Color = "#f5f572".TranslateColor
 
             Return NetworkVisualizer.DrawImage(
@@ -294,7 +254,7 @@ Namespace PathwayMaps
                 padding:=padding,
                 canvasSize:=canvasSize,
                 labelerIterations:=-1000,
-                drawNodeShape:=drawNode,
+                drawNodeShape:=AddressOf renderStyle.drawNode,
                 hullPolygonGroups:=New NamedValue(Of String) With {
                     .Name = "group.category",
                     .Value = allCategories.JoinBy(","),
@@ -309,7 +269,7 @@ Namespace PathwayMaps
                 getLabelPosition:=getLabelPositoon，
                 labelTextStroke:=Nothing,
                 labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
-                fontSize:=getFontSize,
+                fontSize:=New Func(Of Node, Single)(AddressOf renderStyle.getFontSize),
                 defaultLabelColor:="white",
                 getLabelColor:=Function(node As Node) As Color
                                    If node.label.IsPattern("C\d+") Then
