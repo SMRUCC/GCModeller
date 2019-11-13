@@ -70,18 +70,6 @@ Namespace PathwayMaps
 
         ReadOnly reactionNames As Dictionary(Of String, String) = getReactionNames()
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function getCompoundNames(repository As String) As Dictionary(Of String, String)
-            Return CompoundRepository.ScanRepository(repository, False) _
-                .GroupBy(Function(c) c.entry) _
-                .ToDictionary(Function(cpd) cpd.Key,
-                              Function(cpd)
-                                  Return cpd.First _
-                                      .commonNames _
-                                      .FirstOrDefault Or cpd.Key.AsDefault
-                              End Function)
-        End Function
-
         Private Function getReactionNames() As Dictionary(Of String, String)
             Return EnzymaticReaction.LoadFromResource _
                 .GroupBy(Function(r) r.Entry.Key) _
