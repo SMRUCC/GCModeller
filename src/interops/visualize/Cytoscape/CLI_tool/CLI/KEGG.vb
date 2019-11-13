@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
@@ -521,12 +522,16 @@ Partial Module CLI
         Else
             Dim table As NetworkTables = NetworkFileIO.Load([in])
             Dim graph As NetworkGraph = table.CreateGraph
+            Dim compoundNames = compounds _
+                .ReadAllText _
+                .LoadJSON(Of Dictionary(Of String, String))
 
             out = args("/out") Or ([in] & "/render.png")
             result = ReferenceMapRender.Render(
                 graph:=graph,
                 canvasSize:=size,
-                edgeBends:=edgeBends
+                edgeBends:=edgeBends,
+                compoundNames:=compoundNames
             )
         End If
 
