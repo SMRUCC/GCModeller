@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::718545a3c33732b880861952d47a9b3e, GO_gene-ontology\GeneOntology\DAG\Graph.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Graph
-    ' 
-    '         Properties: header
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: Family, ToString
-    '         Structure InheritsChain
-    ' 
-    '             Properties: [Namespace], Family, Top
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: Level, Strip, ToString
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Graph
+' 
+'         Properties: header
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: Family, ToString
+'         Structure InheritsChain
+' 
+'             Properties: [Namespace], Family, Top
+' 
+'             Constructor: (+1 Overloads) Sub New
+'             Function: Level, Strip, ToString
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -65,8 +65,10 @@ Namespace DAG
     ''' </summary>
     Public Class Graph
 
-        ReadOnly __DAG As Dictionary(Of TermNode)
-        ReadOnly _file$
+        Friend ReadOnly DAG As Dictionary(Of TermNode)
+
+        ReadOnly clusters As Dictionary(Of String, TermNode())
+        ReadOnly file$
 
         Public ReadOnly Property header As header
 
@@ -83,12 +85,22 @@ Namespace DAG
         ''' </summary>
         ''' <param name="terms"></param>
         Sub New(terms As IEnumerable(Of Term), <CallerMemberName> Optional trace$ = Nothing)
-            __DAG = terms.BuildTree
-            _file = trace
+            DAG = terms.BuildTree
+            clusters = CreateClusterMembers _
+                .ToDictionary(Function(cluster) cluster.Key,
+                              Function(cluster)
+                                  Return cluster.Value _
+                                      .GroupBy(Function(t) t.id) _
+                                      .Select(Function(c)
+                                                  Return c.First
+                                              End Function) _
+                                      .ToArray
+                              End Function)
+            file = trace
         End Sub
 
         Public Overrides Function ToString() As String
-            Return _file.ToFileURL
+            Return file.ToFileURL
         End Function
 
         ''' <summary>
@@ -122,8 +134,11 @@ Namespace DAG
         ''' </summary>
         ''' <param name="id"><see cref="Term.id"/></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 这个函数是往顶层查找直到查找到三大namespace为止
+        ''' </remarks>
         Public Function Family(id As String) As IEnumerable(Of InheritsChain)
-            Dim term As TermNode = __DAG(id)
+            Dim term As TermNode = DAG(id)
 
             If term Is Nothing Then
                 Return {}
@@ -150,6 +165,19 @@ Namespace DAG
                 Next
 
                 Return routes
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 这个函数是往下查找，找出当前的term的所有的通过is_a关系继承得到的子类型
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <returns></returns>
+        Public Function GetClusterMembers(id As String) As IEnumerable(Of TermNode)
+            If clusters.ContainsKey(id) Then
+                Return clusters(id)
+            Else
+                Return {}
             End If
         End Function
 

@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::2cbb0215cb84a9f231374be57bbaae9f, GSEA\Profiler\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: CreateGOClusters, CreateKOCluster, CreateKOClusterFromBBH, EnrichmentTest, getMapsAuto
-    '               IDconverts
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: CreateGOClusters, CreateKOCluster, CreateKOClusterFromBBH, EnrichmentTest, getMapsAuto
+'               IDconverts
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.GSEA
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
@@ -180,6 +181,65 @@ Public Module CLI
         Call convertGeneSet.FlushAllLines(out)
 
         Return 0
+    End Function
+
+    ''' <summary>
+    ''' GO富集比较特殊一些，所以单独一个工具函数来进行计算分析
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/GSEA.GO")>
+    <Usage("/GSEA.GO /background <clusters.XML> /geneSet <geneSet.txt> /go <go.obo> [/hide.progress /locus_tag /cluster_id <null, debug_used> /format <default=GCModeller> /out <out.csv>]")>
+    Public Function GSEA_GO(args As CommandLine) As Integer
+        Dim backgroundXML$ = args("/background")
+        Dim background = backgroundXML.LoadXml(Of Background)
+        Dim debugIdlist As Index(Of String) = (args("/cluster_id") Or "").Split(","c)
+        Dim list$ = args("/geneset")
+        Dim geneSet$() = list _
+            .IterateAllLines _
+            .Select(Function(l)
+                        Return Strings.Trim(l).Split.First
+                    End Function) _
+            .ToArray
+        Dim out$ = args("/out") Or $"{list.TrimSuffix}_{backgroundXML.BaseName}_enrichment.csv"
+        Dim isLocusTag As Boolean = args("/locus_tag")
+        Dim format$ = args("/format") Or "GCModeller"
+        Dim go As GO_OBO = GO_OBO.LoadDocument(args <= "/go")
+
+        ' 在这里还需要将列表约束在背景模型的范围内
+        ' 这一步操作在LC-MS的代谢物富集分析中尤其重要
+        geneSet = background.clusters _
+            .Select(Function(c) c.Intersect(geneSet, isLocusTag)) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+        ' for debug test
+        If debugIdlist Then
+            background = background _
+                .SubsetOf(Function(cluster)
+                              Return cluster.ID Like debugIdlist
+                          End Function)
+        End If
+
+        Dim result As EnrichmentResult() = background _
+            .Enrichment(
+                list:=geneSet,
+                go:=go,
+                isLocustag:=isLocusTag,
+                showProgress:=Not args.IsTrue("/hide.progress")
+            ) _
+            .FDRCorrection _
+            .OrderBy(Function(term) term.pvalue) _
+            .ToArray
+
+        If format.TextEquals("KOBAS") Then
+            ' convert to KOBAS table
+            Return result.Converts.SaveTo(out).CLICode
+        Else
+            Return result.SaveTo(out).CLICode
+        End If
     End Function
 
     <ExportAPI("/GSEA")>
