@@ -449,17 +449,24 @@ Partial Module CLI
 
         If splitNetwork Then
             Dim bridgeEdges As New List(Of NetworkEdge)
+            Dim topMapName = topMaps.DefaultFirst("")
 
             For Each group In groupSelects
                 Dim nodeIndex = group.Select(Function(n) n.ID).Indexing
                 Dim edges = model.edges _
                     .Where(Function(e)
-                               Return e.fromNode Like nodeIndex AndAlso e.toNode Like nodeIndex
+                               ' The first top map will not be trimmed!
+                               If topMapName = group.Key Then
+                                   Return True
+                               Else
+                                   Return e.fromNode Like nodeIndex AndAlso e.toNode Like nodeIndex
+                               End If
                            End Function) _
                     .ToArray
                 Dim subNetwork As New NetworkTables(group, edges)
 
-                If deleteTupleEdges Then
+                ' The first top map will not be trimmed!
+                If deleteTupleEdges AndAlso topMapName <> group.Key Then
                     Dim index = New GraphIndex(Of FileStream.Node, NetworkEdge)().nodes(subNetwork.nodes).edges(subNetwork.edges)
                     Dim nonTuples = subNetwork.edges.Where(Function(e) Not e.isTupleEdge(index)).ToArray
 

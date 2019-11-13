@@ -104,7 +104,13 @@ Namespace PathwayMaps.RenderStyles
         End Function
 
         Public Overrides Function getLabelColor(node As Node) As Color
-            Return convexHullCategoryStyle(node.data("group.category")).TranslateColor
+            Dim category = node.data("group.category")
+
+            If category.StringEmpty Then
+                Return Color.Black
+            Else
+                Return convexHullCategoryStyle(category).TranslateColor
+            End If
         End Function
 
         Public Overrides Function getHullPolygonGroups() As NamedValue(Of String)
