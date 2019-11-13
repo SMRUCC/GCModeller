@@ -49,6 +49,7 @@ Namespace PathwayMaps.RenderStyles
     Public Class PlainStyle : Inherits RenderStyle
 
         Public Sub New(graph As NetworkGraph,
+                       convexHullCategoryStyle As Dictionary(Of String, String),
                        Optional enzymeColorSchema$ = "Set1:c8",
                        Optional compoundColorSchema$ = "Clusters")
 

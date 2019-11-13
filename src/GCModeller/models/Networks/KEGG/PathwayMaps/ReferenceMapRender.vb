@@ -113,17 +113,37 @@ Namespace PathwayMaps
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
                                Optional convexHull As String() = Nothing,
                                Optional compoundRepository$ = Nothing,
-                               Optional edgeBends As Boolean = False) As GraphicsData
+                               Optional edgeBends As Boolean = False,
+                               Optional altStyle As Boolean = False,
+                               Optional rewriteGroupCategoryColors$ = "TSF") As GraphicsData
 
-            Return model.ToNetworkGraph("label", "class", "group.category", "group.category.color") _
-                .Render(canvasSize:=canvasSize,
-                        enzymeColorSchema:=enzymeColorSchema,
-                        compoundColorSchema:=compoundColorSchema,
-                        reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
-                        convexHull:=convexHull,
-                        compoundNames:=getCompoundNames(compoundRepository),
-                        edgeBends:=edgeBends
+            Dim style As RenderStyle = Nothing
+            Dim graph As NetworkGraph = model.ToNetworkGraph("label", "class", "group.category", "group.category.color")
+
+            If altStyle Then
+                Dim convexHullCategoryStyle As Dictionary(Of String, String) = graph _
+                    .getCategoryColors(convexHull, rewriteGroupCategoryColors) _
+                    .TupleTable
+
+                style = New PlainStyle(
+                    graph:=graph,
+                    convexHullCategoryStyle:=convexHullCategoryStyle,
+                    enzymeColorSchema:=enzymeColorSchema,
+                    compoundColorSchema:=compoundColorSchema
                 )
+            End If
+
+            Return graph.Render(
+                canvasSize:=canvasSize,
+                enzymeColorSchema:=enzymeColorSchema,
+                compoundColorSchema:=compoundColorSchema,
+                reactionShapeStrokeCSS:=reactionShapeStrokeCSS,
+                convexHull:=convexHull,
+                compoundNames:=getCompoundNames(compoundRepository),
+                edgeBends:=edgeBends,
+                renderStyle:=style,
+                rewriteGroupCategoryColors:=rewriteGroupCategoryColors
+            )
         End Function
 
         <Extension>

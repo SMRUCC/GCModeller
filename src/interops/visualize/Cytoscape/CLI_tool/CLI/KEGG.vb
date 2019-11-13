@@ -489,7 +489,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.render")>
-    <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/edge.bends /compounds <repository> /convexHull <category.txt> /size <10(A0)> /out <viz.png>]")>
+    <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/edge.bends /compounds <repository> /convexHull <category.txt> /style2 /size <10(A0)> /out <viz.png>]")>
     <Description("Render pathway map as image after cytoscape layout progress.")>
     <Group(CLIGrouping.KEGGPathwayMapTools)>
     Public Function RenderReferenceMapNetwork(args As CommandLine) As Integer
@@ -500,6 +500,7 @@ Partial Module CLI
         Dim convexHull As String() = args("/convexHull").ReadAllLines
         Dim compounds$ = args <= "/compounds"
         Dim edgeBends As Boolean = args("/edge.bends")
+        Dim altStyle As Boolean = args("/style2")
 
         If [in].FileExists AndAlso [in].ExtensionSuffix.TextEquals("xgmml") Then
             out = args("/out") Or ([in].TrimSuffix & ".render.png")
@@ -508,7 +509,8 @@ Partial Module CLI
                 canvasSize:=size,
                 convexHull:=convexHull,
                 compoundRepository:=compounds,
-                edgeBends:=edgeBends
+                edgeBends:=edgeBends,
+                altStyle:=altStyle
             )
         Else
             Dim table As NetworkTables = NetworkFileIO.Load([in])
