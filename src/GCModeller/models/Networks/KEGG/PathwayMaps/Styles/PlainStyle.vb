@@ -62,7 +62,15 @@ Namespace PathwayMaps.RenderStyles
             ' render edge color
             ' no convex hull polygon draw
             For Each edge As Edge In graph.graphEdges
+                ' edge color by node category
+                Dim u = convexHullCategoryStyle(edge.U.data("group.category"))
+                Dim v = convexHullCategoryStyle(edge.V.data("group.category"))
 
+                If u = v Then
+                    edge.data.color = New SolidBrush(u.TranslateColor)
+                Else
+                    edge.data.color = New SolidBrush({u.TranslateColor, v.TranslateColor}.Average)
+                End If
             Next
         End Sub
 
