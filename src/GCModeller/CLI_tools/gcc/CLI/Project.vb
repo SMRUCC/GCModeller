@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::180627250b64e91813325e5017ffaa64, CLI_tools\gcc\CLI\Project.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: CompileKEGG, CompileKEGGOrganism, ExportModelGraph, ExportPathwaysNetwork, IsGCMarkup
-    '               loadRepliconTable, Summary
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: CompileKEGG, CompileKEGGOrganism, ExportModelGraph, ExportPathwaysNetwork, IsGCMarkup
+'               loadRepliconTable, Summary
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -77,7 +77,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/compile.KEGG")>
     <Description("Create GCModeller virtual cell data model file from KEGG reference data.")>
-    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
+    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/location.as.locus_tag /regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
     <Argument("/regulations", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in)>
     Public Function CompileKEGG(args As CommandLine) As Integer
@@ -88,6 +88,7 @@ Partial Module CLI
             .KEGGPathway = args <= "/maps",
             .KEGGReactions = args <= "/reactions"
         }
+        Dim locationAsLocus_tag As Boolean = args("/location.as.locus_tag")
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GCMarkup"
         Dim genome As Dictionary(Of String, GBFF.File) = [in].loadRepliconTable
         Dim geneKO As Dictionary(Of String, String) = EntityObject _
@@ -96,8 +97,10 @@ Partial Module CLI
                           Function(protein) protein!KO)
         Dim regulations = (args <= "/regulations").LoadCsv(Of RegulationFootprint)
         Dim model As CellularModule = genome _
-            .AssemblingMetabolicNetwork(geneKO, kegg) _
+            .AssemblingMetabolicNetwork(geneKO, kegg, locationAsLocus_tag) _
             .AssemblingRegulationNetwork(regulations)
+
+        Call $"Model file save at location: {out}!".__DEBUG_ECHO
 
         If out.IsGCMarkup Then
             Return model.ToMarkup(genome, kegg, regulations) _
@@ -121,7 +124,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/compile.organism")>
-    <Usage("/compile.organism /in <genome.gb> /kegg <kegg.organism_pathways.repository/model.xml> [/regulations <transcription.regulates.csv> /out <out.model.Xml>]")>
+    <Usage("/compile.organism /in <genome.gb> /kegg <kegg.organism_pathways.repository/model.xml> [/location.as.locus_tag /regulations <transcription.regulates.csv> /out <out.model.Xml>]")>
     <Description("Create GCModeller virtual cell data model from KEGG organism pathway data")>
     <Argument("/kegg", False, CLITypes.File,
               Description:="A directory path that contains pathway data from command ``kegg_tools /Download.Pathway.Maps``.")>
@@ -134,10 +137,11 @@ Partial Module CLI
         Dim kegg$ = args <= "/kegg"
         Dim regulations = (args <= "/regulations").LoadCsv(Of RegulationFootprint)
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.CellAssembly.Xml"
+        Dim locationAsLocus_tag As Boolean = args("/location.as.locus_tag")
         Dim keggModel As OrganismModel = OrganismModel.CreateModel(kegg)
 
         Return [in].loadRepliconTable _
-            .CompileOrganism(keggModel) _
+            .CompileOrganism(keggModel, locationAsLocus_tag) _
             .GetXml _
             .SaveTo(out) _
             .CLICode
