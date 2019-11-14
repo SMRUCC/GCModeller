@@ -85,7 +85,7 @@ Namespace PathwayMaps
                                           .First
 
                                       If Not names.StringEmpty Then
-                                          names = r.Replace(names, "E\d(\.\d)+[,]?", "").Trim
+                                          names = r.Replace(names, "E\s*\d(\.\d+)+[,]?", "").Trim
 
                                           If Not names.StringEmpty Then
                                               Return names
