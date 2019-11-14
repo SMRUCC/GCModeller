@@ -15,6 +15,20 @@ Namespace Driver
 
         Public Sub New(img As Object, size As Size)
             MyBase.New(img, size)
+
+            ' the wmf metafile temp file
+            ' which its file path is generated from function 
+            ' wmfTmp
+            ' in graphics plot helper api
+            If Not TypeOf img Is String Then
+                Throw New InvalidDataException("The input img data should be a temporary wmf meta file path!")
+            Else
+                tempfile = img
+            End If
+
+            If tempfile.FileLength <= 0 Then
+                Throw New InvalidDataException("The input img data is nothing or file unavailable currently!")
+            End If
         End Sub
 
         Public Overrides Function Save(path As String) As Boolean
