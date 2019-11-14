@@ -243,7 +243,7 @@ Namespace Drawing2D
                         .Padding = padding
                     })
 
-                    image = New WmfData(wmf.FilePath, size)
+                    image = New WmfData(wmf.wmfFile, size)
                 End Using
             Else
                 ' using gdi+ graphics driver
