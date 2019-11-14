@@ -72,6 +72,12 @@ Namespace ManagedSqlite.Core.SQLSchema
                                End If
                            End Function
 
+            If Not (tokens(Scan0).isKeyword("create") AndAlso tokens(1).isKeyword("table")) Then
+                Throw New InvalidProgramException("Only 'CREATE TABLE' expression is allowed!")
+            End If
+
+            Me.tableName = tokens(2).text
+
             'For Each column As String In columns.Where(Function(s) Not s.StringEmpty)
             '    tokens = column _
             '        .TrimNewLine _
