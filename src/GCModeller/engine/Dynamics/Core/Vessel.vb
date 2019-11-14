@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49469831fd643c138dac9f5c329b9eee, engine\Dynamics\Core\Vessel.vb"
+﻿#Region "Microsoft.VisualBasic::f183dd47b44276329b2a0d5520354895, engine\Dynamics\Core\Vessel.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,10 @@
 
     '     Class Vessel
     ' 
-    '         Properties: Channels, Mass
+    '         Properties: Channels, MassEnvironment
     ' 
-    '         Function: ContainerIterator, factorsByCount, iterateFlux, Reset
+    '         Function: ContainerIterator, doForwardTransition, doReverseTransition, factorsByCount, iterateFlux
+    '                   Reset
     ' 
     '         Sub: Initialize
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce2cc232af0bd5381e037e91b6a7d725, engine\Model\Models\CellularModule.vb"
+﻿#Region "Microsoft.VisualBasic::5cd0640e6ec523c330437481655c319f, engine\Model\Models\CellularModule.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6284e798670aa6e012ac00c1283acdee, analysis\Motifs\SharedDataModels\ModuleClassAPI.vb"
+﻿#Region "Microsoft.VisualBasic::7b6075b751bd31afc4571b1f354d8e4e, analysis\Motifs\SharedDataModels\ModuleClassAPI.vb"
 
     ' Author:
     ' 

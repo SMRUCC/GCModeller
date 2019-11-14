@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c0f537bd1d4bd14ee114cd51594a6d0, Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
+﻿#Region "Microsoft.VisualBasic::4fa03d38a2c88fc85986534c15c6e43f, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: BuildRepository, CreateIndex, Exists, GenericEnumerator, GetAll
-    '                   GetByKey, GetEnumerator, GetWhere, QueryMapsByMembers
+    '                   GetByKey, GetEnumerator, GetWhere, QueryMapsByMembers, ScanMaps
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a3798bb7b613955ff2b4d0a05a19e47, ExternalDBSource\MetaCyc\MySQL\proteinwidspotwid.vb"
+﻿#Region "Microsoft.VisualBasic::9a3798bb7b613955ff2b4d0a05a19e47, data\ExternalDBSource\MetaCyc\MySQL\proteinwidspotwid.vb"
 
     ' Author:
     ' 

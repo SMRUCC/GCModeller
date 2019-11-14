@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce69f5711d3f7ebf6ecc08f69336eeac, ExternalDBSource\Regtransbase\StructureObjects\RegulatoryElements.vb"
+﻿#Region "Microsoft.VisualBasic::d48dbec9004f351e807c19cfc7e6a74f, data\ExternalDBSource\Regtransbase\StructureObjects\RegulatoryElements.vb"
 
     ' Author:
     ' 

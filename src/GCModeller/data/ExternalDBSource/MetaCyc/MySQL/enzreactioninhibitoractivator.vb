@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf477f0cc1dd47baad39680ddcffd691, ExternalDBSource\MetaCyc\MySQL\enzreactioninhibitoractivator.vb"
+﻿#Region "Microsoft.VisualBasic::bf477f0cc1dd47baad39680ddcffd691, data\ExternalDBSource\MetaCyc\MySQL\enzreactioninhibitoractivator.vb"
 
     ' Author:
     ' 

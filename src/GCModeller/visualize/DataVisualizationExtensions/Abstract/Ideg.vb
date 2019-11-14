@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61962430cfb1d1ddbeced121dcbbf47e, visualize\DataVisualizationExtensions\Abstract\Ideg.vb"
+﻿#Region "Microsoft.VisualBasic::1dea82afe35a956dfcd2c05af4da60c4, visualize\DataVisualizationExtensions\Abstract\Ideg.vb"
 
     ' Author:
     ' 

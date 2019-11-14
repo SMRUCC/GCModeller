@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16f9b59db1289a4cb0a81d9af652b8c8, Bio.Assembly\Assembly\ELIXIR\UniProt\IdMapping.vb"
+﻿#Region "Microsoft.VisualBasic::16f9b59db1289a4cb0a81d9af652b8c8, core\Bio.Assembly\Assembly\ELIXIR\UniProt\IdMapping.vb"
 
     ' Author:
     ' 

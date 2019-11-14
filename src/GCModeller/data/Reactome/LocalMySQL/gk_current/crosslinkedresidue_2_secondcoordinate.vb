@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bf8c847ee3a5aa797cccff20bba72f5, Reactome\LocalMySQL\gk_current\crosslinkedresidue_2_secondcoordinate.vb"
+﻿#Region "Microsoft.VisualBasic::5bf8c847ee3a5aa797cccff20bba72f5, data\Reactome\LocalMySQL\gk_current\crosslinkedresidue_2_secondcoordinate.vb"
 
     ' Author:
     ' 

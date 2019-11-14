@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb9e3c3344984b179dcba808c95357c4, analysis\Motifs\CRISPR\CRT\Output\CRISPR.vb"
+﻿#Region "Microsoft.VisualBasic::218252a83416605dfcff271c7e9c8a56, analysis\Motifs\CRISPR\CRT\Output\CRISPR.vb"
 
     ' Author:
     ' 

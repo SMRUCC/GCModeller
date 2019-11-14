@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f219a17490a343d2e803cb4995923626, Bio.Repository\NCBI\Genbank.vb"
+﻿#Region "Microsoft.VisualBasic::f219a17490a343d2e803cb4995923626, core\Bio.Repository\NCBI\Genbank.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffa51318e5681005c3df55e5413bb733, ExternalDBSource\MetaCyc\bio_warehouse\gellocation.vb"
+﻿#Region "Microsoft.VisualBasic::ffa51318e5681005c3df55e5413bb733, data\ExternalDBSource\MetaCyc\bio_warehouse\gellocation.vb"
 
     ' Author:
     ' 

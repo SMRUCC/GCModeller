@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21429b6ed5c9597458d0e49820f35dd6, ExternalDBSource\MetaCyc\bio_warehouse\enzreactionaltcompound.vb"
+﻿#Region "Microsoft.VisualBasic::21429b6ed5c9597458d0e49820f35dd6, data\ExternalDBSource\MetaCyc\bio_warehouse\enzreactionaltcompound.vb"
 
     ' Author:
     ' 

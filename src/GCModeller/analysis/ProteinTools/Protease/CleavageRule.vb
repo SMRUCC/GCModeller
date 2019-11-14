@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37ca8d2e46c37cad5576d906798bd40e, analysis\ProteinTools\Protease\CleavageRule.vb"
+﻿#Region "Microsoft.VisualBasic::ad2d8436389daffae0400c0ddb120e06, analysis\ProteinTools\Protease\CleavageRule.vb"
 
     ' Author:
     ' 

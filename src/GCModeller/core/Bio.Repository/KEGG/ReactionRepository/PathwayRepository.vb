@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6eb1a914dd0cca1ec78e470863d3bfd, Bio.Repository\KEGG\ReactionRepository\PathwayRepository.vb"
+﻿#Region "Microsoft.VisualBasic::c6eb1a914dd0cca1ec78e470863d3bfd, core\Bio.Repository\KEGG\ReactionRepository\PathwayRepository.vb"
 
     ' Author:
     ' 

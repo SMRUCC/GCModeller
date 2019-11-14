@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::856b15c7f85bc400080dff56a8acbddf, WebServices\EBI\NcbiBlastCliClient.vb"
+﻿#Region "Microsoft.VisualBasic::1f545ea58d6bd1e7ac0088f2519ef9f5, data\WebServices\EBI\NcbiBlastCliClient.vb"
 
     ' Author:
     ' 

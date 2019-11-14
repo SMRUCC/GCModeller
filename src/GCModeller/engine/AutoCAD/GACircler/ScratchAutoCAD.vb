@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1c8488df0ffd4c26a50366345ae9eba, engine\AutoCAD\GACircler\ScratchAutoCAD.vb"
+﻿#Region "Microsoft.VisualBasic::8ed9b6e19ded98b8058b3c4673f54552, engine\AutoCAD\GACircler\ScratchAutoCAD.vb"
 
     ' Author:
     ' 
@@ -39,11 +39,9 @@
 
 #End Region
 
-
 ''' <summary>
 ''' 从头开始进行基因组设计合成
 ''' </summary>
 Public Module ScratchAutoCAD
 
 End Module
-

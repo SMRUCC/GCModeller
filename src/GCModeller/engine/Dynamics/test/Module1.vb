@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::620294729ac601e608fd6f2a8003d921, engine\Dynamics\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::9154af9ca9866179b4493dae1f93d81f, engine\Dynamics\test\Module1.vb"
 
 ' Author:
 ' 
@@ -44,6 +44,7 @@
 Imports Dynamics.Debugger
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -173,4 +174,3 @@ Module Module1
        }
     End Function
 End Module
-

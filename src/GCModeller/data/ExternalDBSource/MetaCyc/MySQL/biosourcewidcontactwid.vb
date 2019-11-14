@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0137bbc669f3a5962c5433b7ad0fb9fd, ExternalDBSource\MetaCyc\MySQL\biosourcewidcontactwid.vb"
+﻿#Region "Microsoft.VisualBasic::0137bbc669f3a5962c5433b7ad0fb9fd, data\ExternalDBSource\MetaCyc\MySQL\biosourcewidcontactwid.vb"
 
     ' Author:
     ' 

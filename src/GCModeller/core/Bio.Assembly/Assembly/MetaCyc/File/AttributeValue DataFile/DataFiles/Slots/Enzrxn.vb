@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::122fbadc263e342e476d10dae9d48603, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Enzrxn.vb"
+﻿#Region "Microsoft.VisualBasic::122fbadc263e342e476d10dae9d48603, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Enzrxn.vb"
 
     ' Author:
     ' 

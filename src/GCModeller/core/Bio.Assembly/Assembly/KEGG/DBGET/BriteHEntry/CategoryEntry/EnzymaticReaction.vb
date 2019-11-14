@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3f25ff7d15e60d12c96e891cf16c333, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb"
+﻿#Region "Microsoft.VisualBasic::97f3834076d7d65b7785481e06ed57e9, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: __getDIR, __trimInner, Build, DownloadReactions, KEGGrxns
+    '         Function: Build, doLongFileNameTrim, DownloadReactions, getCategorySaveDirectory, KEGGrxns
     '                   LoadFile, LoadFromResource, loadSource, ToString
     ' 
     '         Sub: downloaderInternal

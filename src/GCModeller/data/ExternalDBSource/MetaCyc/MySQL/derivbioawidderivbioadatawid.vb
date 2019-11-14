@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f2f5e05855308fe809d4786117de2e3, ExternalDBSource\MetaCyc\MySQL\derivbioawidderivbioadatawid.vb"
+﻿#Region "Microsoft.VisualBasic::1f2f5e05855308fe809d4786117de2e3, data\ExternalDBSource\MetaCyc\MySQL\derivbioawidderivbioadatawid.vb"
 
     ' Author:
     ' 

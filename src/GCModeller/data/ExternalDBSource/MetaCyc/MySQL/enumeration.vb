@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1950fbbb52bbe8f760b80db623df5073, ExternalDBSource\MetaCyc\MySQL\enumeration.vb"
+﻿#Region "Microsoft.VisualBasic::1950fbbb52bbe8f760b80db623df5073, data\ExternalDBSource\MetaCyc\MySQL\enumeration.vb"
 
     ' Author:
     ' 

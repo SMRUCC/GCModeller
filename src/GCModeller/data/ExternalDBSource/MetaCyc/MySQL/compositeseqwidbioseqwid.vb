@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a3d52776d50356dfdf6f52f98be3b7b, ExternalDBSource\MetaCyc\MySQL\compositeseqwidbioseqwid.vb"
+﻿#Region "Microsoft.VisualBasic::4a3d52776d50356dfdf6f52f98be3b7b, data\ExternalDBSource\MetaCyc\MySQL\compositeseqwidbioseqwid.vb"
 
     ' Author:
     ' 

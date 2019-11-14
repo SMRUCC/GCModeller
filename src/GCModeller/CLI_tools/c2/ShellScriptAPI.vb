@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ddd7255036434d8fd868fe158a4073d, CLI_tools\c2\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::58237a31a864d37e165ca7bf484efff0, CLI_tools\c2\ShellScriptAPI.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::237b6a93e629cbb71d8f01897776e135, Networks\Microbiome\MetabolicComplementation\MetabolicComplementation.vb"
+﻿#Region "Microsoft.VisualBasic::237b6a93e629cbb71d8f01897776e135, models\Networks\Microbiome\MetabolicComplementation\MetabolicComplementation.vb"
 
     ' Author:
     ' 

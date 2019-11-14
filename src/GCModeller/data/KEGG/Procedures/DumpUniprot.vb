@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71a7284c2e823fdc58f77ecdf44754d7, KEGG\Procedures\DumpUniprot.vb"
+﻿#Region "Microsoft.VisualBasic::1d200019fc4fdcfe23c7caa23e830939, data\KEGG\Procedures\DumpUniprot.vb"
 
     ' Author:
     ' 

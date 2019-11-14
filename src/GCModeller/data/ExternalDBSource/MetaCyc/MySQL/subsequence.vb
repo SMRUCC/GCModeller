@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::96c9943b1156f1e32d25d17062f540a9, ExternalDBSource\MetaCyc\MySQL\subsequence.vb"
+﻿#Region "Microsoft.VisualBasic::96c9943b1156f1e32d25d17062f540a9, data\ExternalDBSource\MetaCyc\MySQL\subsequence.vb"
 
     ' Author:
     ' 

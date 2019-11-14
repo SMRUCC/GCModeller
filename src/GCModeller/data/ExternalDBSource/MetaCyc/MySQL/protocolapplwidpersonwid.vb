@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb7213df218a4c9e10e1567dda469dfc, ExternalDBSource\MetaCyc\MySQL\protocolapplwidpersonwid.vb"
+﻿#Region "Microsoft.VisualBasic::bb7213df218a4c9e10e1567dda469dfc, data\ExternalDBSource\MetaCyc\MySQL\protocolapplwidpersonwid.vb"
 
     ' Author:
     ' 

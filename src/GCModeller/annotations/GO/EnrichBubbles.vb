@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::058d804215fad3eaf69a35b01966df10, GO\EnrichPlot.vb"
+﻿#Region "Microsoft.VisualBasic::2a0025db133b62d1bae809dbbe352527, annotations\GO\EnrichBubbles.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    ' Module EnrichPlot
+    ' Module EnrichBubbles
     ' 
     '     Function: BubblePlot, createModel, EnrichResult, unenrichSerial
     ' 

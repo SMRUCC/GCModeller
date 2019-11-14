@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42675077d87ccb3226e1930fbdbfc939, ExternalDBSource\ExplorEnz\MySQL\cite.vb"
+﻿#Region "Microsoft.VisualBasic::42675077d87ccb3226e1930fbdbfc939, data\ExternalDBSource\ExplorEnz\MySQL\cite.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05200e88db0f01904c015fec0ecc1045, engine\Dynamics\Core\Channel.vb"
+﻿#Region "Microsoft.VisualBasic::785c92ce1fe0628f44f33c44248a0431, engine\Dynamics\Core\Channel.vb"
 
     ' Author:
     ' 
@@ -33,11 +33,11 @@
 
     '     Class Channel
     ' 
-    '         Properties: bounds, Direction, Forward, ID, Reverse
+    '         Properties: bounds, direct, forward, ID, reverse
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: CoverLeft, CoverRight, minimalUnit
+    '         Function: CoverLeft, CoverRight, minimalUnit, ToString
     ' 
     '         Sub: Transition
     ' 

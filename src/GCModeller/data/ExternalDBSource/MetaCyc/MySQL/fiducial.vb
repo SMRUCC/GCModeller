@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1232a0f285779741a1ecc16004f5d05c, ExternalDBSource\MetaCyc\MySQL\fiducial.vb"
+﻿#Region "Microsoft.VisualBasic::1232a0f285779741a1ecc16004f5d05c, data\ExternalDBSource\MetaCyc\MySQL\fiducial.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26459437c85434224643cdb646cb3c54, analysis\ProteinTools\Interactions.BioGRID\TabularFiles\ALL.vb"
+﻿#Region "Microsoft.VisualBasic::d995046eb3628a100e1e70e3f4b04b0a, analysis\ProteinTools\Interactions.BioGRID\TabularFiles\ALL.vb"
 
     ' Author:
     ' 

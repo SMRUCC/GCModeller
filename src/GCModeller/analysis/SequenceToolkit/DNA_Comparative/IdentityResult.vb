@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::088b5a69f436b04f4723b3c67a91593c, analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
+﻿#Region "Microsoft.VisualBasic::95c48f88d78d551bdfe2c25a2251551c, analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90dd296ee6c2cf5dda89bba3407a5615, test\fetchTest.vb"
+﻿#Region "Microsoft.VisualBasic::90dd296ee6c2cf5dda89bba3407a5615, core\test\fetchTest.vb"
 
     ' Author:
     ' 

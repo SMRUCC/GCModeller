@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5431abe04a48c7187a4bec1943da78e7, ExternalDBSource\MetaCyc\bio_warehouse\quantitationtypetuple.vb"
+﻿#Region "Microsoft.VisualBasic::5431abe04a48c7187a4bec1943da78e7, data\ExternalDBSource\MetaCyc\bio_warehouse\quantitationtypetuple.vb"
 
     ' Author:
     ' 

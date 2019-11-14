@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e57d9b5f14b87029f27013fdde42e8eb, RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e57d9b5f14b87029f27013fdde42e8eb, data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
 
     ' Author:
     ' 

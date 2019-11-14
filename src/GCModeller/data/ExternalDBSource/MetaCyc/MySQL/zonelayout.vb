@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f11a47a17e7af5dde62c3ced00bb649c, ExternalDBSource\MetaCyc\MySQL\zonelayout.vb"
+﻿#Region "Microsoft.VisualBasic::f11a47a17e7af5dde62c3ced00bb649c, data\ExternalDBSource\MetaCyc\MySQL\zonelayout.vb"
 
     ' Author:
     ' 

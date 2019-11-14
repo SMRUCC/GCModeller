@@ -1,45 +1,45 @@
-﻿#Region "Microsoft.VisualBasic::2a54014adca76eaaf9fc508b8416a3f8, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
+﻿#Region "Microsoft.VisualBasic::8080a17f32231d072bf531bbb107d50c, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module gbExportService
-' 
-'         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
-'                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, DumpEXPORT, ExportGeneFeatures
-'                   ExportGeneNtFasta, ExportPTTAsDump, GbffToPTT, InvokeExport, LoadGbkSource
-'                   TryParseGBKID
-' 
-' 
-' /********************************************************************************/
+    '     Module gbExportService
+    ' 
+    '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
+    '                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, DumpEXPORT, EnsureNonEmptyLocusId
+    '                   ExportGeneFeatures, ExportGeneNtFasta, ExportPTTAsDump, GbffToPTT, InvokeExport
+    '                   LoadGbkSource, TryParseGBKID
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

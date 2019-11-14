@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4bb4ba721e2207390b059c93f870cd44, analysis\SequenceToolkit\SequenceTools\CLI\Palindrome.vb"
+﻿#Region "Microsoft.VisualBasic::33ab5e48bc4ff800acc911012df215d7, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Palindrome.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,9 @@
     ' 
     '     Function: __hairpinksCLI, __imperfectsPalindromeTask, __palindromeTask, BatchSearchImperfectsPalindrome, BatchSearchPalindrome
     '               FilteringMatches, FilteringMatchesBatch, FilterPerfectPalindrome, FuzzyMirrors, FuzzyMirrorsBatch
-    '               Hairpinks, HairpinksBatch, ImperfectPalindrome, LociDescript, MirrorBatch
-    '               MirrorsVector, PromoterPalindrome2Fasta, PromoterRegionPalindrome, SearchMirrotFasta, SearchMirrotNT
-    '               SearchPalindromeFasta, SearchPalindromeNT, ToVector, TrimNtMirrors
+    '               Hairpinks, HairpinksBatch, ImperfectPalindrome, MirrorBatch, MirrorsVector
+    '               PromoterPalindrome2Fasta, PromoterRegionPalindrome, SearchMirrotFasta, SearchMirrotNT, SearchPalindromeFasta
+    '               SearchPalindromeNT, ToVector, TrimNtMirrors
     ' 
     ' /********************************************************************************/
 

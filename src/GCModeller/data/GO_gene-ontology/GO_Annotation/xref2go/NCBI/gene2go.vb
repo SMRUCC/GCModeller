@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b490468b3edf3d286a2a89f57f83a1b, GO_gene-ontology\GeneOntology\Files\NCBI\gene2go.vb"
+﻿#Region "Microsoft.VisualBasic::5aa1bea998b53d9133a948ebca266305, data\GO_gene-ontology\GO_Annotation\xref2go\NCBI\gene2go.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: Category, Evidence, GeneID, GO_ID, GO_term
     '                     PubMed, Qualifier, tax_id
     ' 
-    '         Function: __create, LoadDoc, ToString
+    '         Function: createMaps, LoadDoc, ToString
     ' 
     ' 
     ' /********************************************************************************/

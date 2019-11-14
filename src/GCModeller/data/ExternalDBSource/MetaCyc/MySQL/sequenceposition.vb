@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89541dddc3c5be2d993b4a9c2f7f9e5f, ExternalDBSource\MetaCyc\MySQL\sequenceposition.vb"
+﻿#Region "Microsoft.VisualBasic::89541dddc3c5be2d993b4a9c2f7f9e5f, data\ExternalDBSource\MetaCyc\MySQL\sequenceposition.vb"
 
     ' Author:
     ' 

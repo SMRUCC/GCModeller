@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8894436c423a67b1f30f470b0658add, ExternalDBSource\MetaCyc\MySQL\mismatchinformation.vb"
+﻿#Region "Microsoft.VisualBasic::e8894436c423a67b1f30f470b0658add, data\ExternalDBSource\MetaCyc\MySQL\mismatchinformation.vb"
 
     ' Author:
     ' 

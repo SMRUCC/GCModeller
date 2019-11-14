@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aded3435b3a35095a7247cf5c2016a52, ExternalDBSource\MySQLDbReflector.vb"
+﻿#Region "Microsoft.VisualBasic::17ab7d3f923f441ab57f871e89b0c6c9, data\ExternalDBSource\MySQLDbReflector.vb"
 
     ' Author:
     ' 

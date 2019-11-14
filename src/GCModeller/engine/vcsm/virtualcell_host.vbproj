@@ -6,9 +6,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{580F3176-B71D-4602-99CC-3AB3C6EA7E9A}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>LANS.SystemsBiology.GCModeller.Program</StartupObject>
-    <RootNamespace>LANS.SystemsBiology.GCModeller</RootNamespace>
-    <AssemblyName>vcsm</AssemblyName>
+    <StartupObject>GCModeller_vcell.Program</StartupObject>
+    <RootNamespace>GCModeller_vcell</RootNamespace>
+    <AssemblyName>vcell</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
@@ -37,7 +37,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
@@ -49,7 +49,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
@@ -74,7 +74,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -84,7 +84,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
@@ -97,7 +97,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -108,7 +108,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -121,7 +121,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -131,7 +131,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -142,7 +142,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -154,7 +154,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -165,7 +165,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -177,7 +177,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -187,21 +187,21 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86'">
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -214,7 +214,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DefineConstants>DisableCsvTemplate=1</DefineConstants>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
@@ -226,7 +226,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
-    <DocumentationFile>vcsm.xml</DocumentationFile>
+    <DocumentationFile>vcell.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>

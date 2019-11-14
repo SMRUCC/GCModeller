@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36bff8f44287f449cd8c63210678f275, sub-system\FBA\FBA.Core\LinearProgrammingEngine.vb"
+﻿#Region "Microsoft.VisualBasic::e0dde780d7ccad2367c722c2464e2c87, sub-system\FBA\FBA.Core\LinearProgrammingEngine.vb"
 
     ' Author:
     ' 
@@ -107,4 +107,3 @@ Public Class LinearProgrammingEngine
     End Function
 
 End Class
-

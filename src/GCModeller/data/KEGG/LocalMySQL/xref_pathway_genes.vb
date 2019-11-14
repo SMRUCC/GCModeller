@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc80665520d1220457c9a178b41165dd, KEGG\LocalMySQL\xref_pathway_genes.vb"
+﻿#Region "Microsoft.VisualBasic::bc80665520d1220457c9a178b41165dd, data\KEGG\LocalMySQL\xref_pathway_genes.vb"
 
     ' Author:
     ' 

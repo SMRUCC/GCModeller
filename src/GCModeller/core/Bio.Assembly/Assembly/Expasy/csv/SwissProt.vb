@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac48008dee31454ab065a58409d04d96, Bio.Assembly\Assembly\Expasy\csv\SwissProt.vb"
+﻿#Region "Microsoft.VisualBasic::ac48008dee31454ab065a58409d04d96, core\Bio.Assembly\Assembly\Expasy\csv\SwissProt.vb"
 
     ' Author:
     ' 

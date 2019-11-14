@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7f146c59a86d84ec08fa56f5e6aeb0c, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\HMMStruct.vb"
+﻿#Region "Microsoft.VisualBasic::659b68c6cd5f7018a373a37c2510bd1d, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\HMMStruct.vb"
 
     ' Author:
     ' 

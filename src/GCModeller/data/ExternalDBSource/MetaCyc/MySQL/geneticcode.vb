@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::499921c252738c1f675bc2ad5c2939d3, ExternalDBSource\MetaCyc\MySQL\geneticcode.vb"
+﻿#Region "Microsoft.VisualBasic::499921c252738c1f675bc2ad5c2939d3, data\ExternalDBSource\MetaCyc\MySQL\geneticcode.vb"
 
     ' Author:
     ' 

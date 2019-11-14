@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c250e07962d25239e6d9857407173ef, foundation\OBO_Foundry\IO\Reflection\Reflector.vb"
+﻿#Region "Microsoft.VisualBasic::fc202110fe0d90b0b8316cd8f28de619, foundation\OBO_Foundry\IO\Reflection\Reflector.vb"
 
     ' Author:
     ' 

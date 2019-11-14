@@ -306,6 +306,7 @@
   <ItemGroup>
     <Compile Include="Indexing\NamesIndex.vb" />
     <Compile Include="Indexing\NamesFactory.vb" />
+    <Compile Include="KEGG\Extensions.vb" />
     <Compile Include="KEGG\KEGGOrthology\OrganismModel.vb" />
     <Compile Include="KEGG\ReactionRepository\ReactionClassifier.vb" />
     <Compile Include="KEGG\ReactionRepository\PathwayRepository.vb" />

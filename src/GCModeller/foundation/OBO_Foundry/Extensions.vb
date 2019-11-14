@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c892f3f54da7503868b31b8aae383743, foundation\OBO_Foundry\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::42777ae1be472d64657c52b0774cbbac, foundation\OBO_Foundry\Extensions.vb"
 
     ' Author:
     ' 
@@ -53,4 +53,3 @@ Imports SMRUCC.genomics.foundation.OBO_Foundry.Tree
             .ToArray
     End Function
 End Module
-

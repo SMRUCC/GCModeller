@@ -11,9 +11,9 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("Compiler")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("Compiler")>
-<Assembly: AssemblyCopyright("Copyright ©  2018")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyProduct("GCModeller")>
+<Assembly: AssemblyCopyright("Copyright © genomics@SMRUCC.org 2018")>
+<Assembly: AssemblyTrademark("vcell_compiler")>
 
 <Assembly: ComVisible(False)>
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05036debb907fa4046d5e6c950932351, ExternalDBSource\MetaCyc\BioWarehouse.vb"
+﻿#Region "Microsoft.VisualBasic::6bc6ee758fa2cebe228fa2cb43cf8b47, data\ExternalDBSource\MetaCyc\BioWarehouse.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f558fbaa2e42aeab5a0f8f0fb587967, Bio.Assembly\Assembly\KEGG\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::8f558fbaa2e42aeab5a0f8f0fb587967, core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
 
     ' Author:
     ' 

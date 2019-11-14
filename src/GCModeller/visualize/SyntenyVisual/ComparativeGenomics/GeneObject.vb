@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16dc78dae69f486644611ca6331f18a8, visualize\SyntenyVisual\ComparativeGenomics\GeneObject.vb"
+﻿#Region "Microsoft.VisualBasic::bef0f307ff02426c0c9249b7a4faa67f, visualize\SyntenyVisual\ComparativeGenomics\GeneObject.vb"
 
     ' Author:
     ' 

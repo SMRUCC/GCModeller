@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::803875709b1616b760951a84e2f600f8, analysis\SyntenySignature\bacterials-fingerprint\Regulation\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::4ba524725ee2c12fbb87dfa2cf79e8ea, analysis\SyntenySignature\bacterials-fingerprint\Regulation\ToolsAPI.vb"
 
     ' Author:
     ' 

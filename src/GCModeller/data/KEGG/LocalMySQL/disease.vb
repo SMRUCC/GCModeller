@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33ddeff30631fc8aed1a45daa9ae60c9, KEGG\LocalMySQL\disease.vb"
+﻿#Region "Microsoft.VisualBasic::33ddeff30631fc8aed1a45daa9ae60c9, data\KEGG\LocalMySQL\disease.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7537e162d132a0ece2eab530097d2868, Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
+﻿#Region "Microsoft.VisualBasic::f5a7bb0b7929990a3c103412d064d445, core\Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Module Loci_API
+    '     Module LociAPI
     ' 
     '         Function: __assembly, FragmentAssembly, Group, Group_p, InternalAssembler
     '                   Merge

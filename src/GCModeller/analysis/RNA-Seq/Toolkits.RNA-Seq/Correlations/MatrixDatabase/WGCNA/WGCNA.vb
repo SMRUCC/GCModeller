@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea32c913ce99143eda7e84db6aab9b3c, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\WGCNA\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::9cf22408ae2efd2909794b590a6c7d8f, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\WGCNA\WGCNA.vb"
 
     ' Author:
     ' 
