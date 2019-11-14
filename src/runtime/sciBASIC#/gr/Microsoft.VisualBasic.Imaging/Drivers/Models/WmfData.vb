@@ -11,23 +11,27 @@ Namespace Driver
             End Get
         End Property
 
-        ReadOnly tmpfile As String = App.GetAppSysTempFile(".wmf", App.PID, RandomASCIIString(10, skipSymbols:=True))
+        ReadOnly tempfile As String
 
         Public Sub New(img As Object, size As Size)
             MyBase.New(img, size)
         End Sub
 
         Public Overrides Function Save(path As String) As Boolean
-            Return tmpfile.FileCopy(path)
+            Return tempfile.FileCopy(path)
         End Function
 
         Public Overrides Function Save(out As Stream) As Boolean
-            Using reader As FileStream = tmpfile.Open(FileMode.Open, doClear:=False)
+            Using reader As FileStream = tempfile.Open(FileMode.Open, doClear:=False)
                 Call out.Seek(Scan0, SeekOrigin.Begin)
                 Call reader.CopyTo(out)
             End Using
 
             Return True
+        End Function
+
+        Friend Shared Function wmfTmp() As String
+            Return App.GetAppSysTempFile(".wmf", App.PID, RandomASCIIString(10, skipSymbols:=True))
         End Function
     End Class
 End Namespace
