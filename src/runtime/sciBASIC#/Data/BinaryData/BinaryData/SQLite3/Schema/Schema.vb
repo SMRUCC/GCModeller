@@ -62,6 +62,7 @@ Namespace ManagedSqlite.Core
         Private Iterator Function ParseColumns(columns As String(), removeNameEscape As Boolean) As IEnumerable(Of NamedValue(Of String))
             Dim tokens As String()
             Dim field As NamedValue(Of String)
+            Dim type As String
             Dim name As String
             Dim [nameOf] = Function(text As String())
                                If removeNameEscape Then
@@ -85,9 +86,17 @@ Namespace ManagedSqlite.Core
                 End If
 
                 name = [nameOf](tokens).GetStackValue("""", """")
+                type = tokens(1)
+
+                If type.ToLower = "[varchar]" Then
+                    If tokens(2).IsPattern("\(\s*\d+\s*\)") Then
+                        type = type.GetStackValue("[", "]") & tokens(2)
+                    End If
+                End If
+
                 field = New NamedValue(Of String) With {
                     .Name = name,
-                    .Value = tokens(1)
+                    .Value = type
                 }
 
                 Yield field
