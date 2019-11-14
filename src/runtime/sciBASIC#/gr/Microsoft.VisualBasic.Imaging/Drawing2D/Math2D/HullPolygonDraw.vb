@@ -74,8 +74,9 @@ Namespace Drawing2D.Math2D
             Dim shape As PointF() = polygon.ToArray
 
             If Not shadow AndAlso Not fillPolygon AndAlso Not drawPolygonStroke Then
-                ' options for draw nothing, 
-                ' return for do nothing...
+                ' drawing no elements
+                ' return for 
+                ' do nothing
                 Return
             End If
 
