@@ -72,7 +72,7 @@ Namespace ManagedSqlite.Core
                                End If
                            End Function
 
-            For Each column As String In columns
+            For Each column As String In columns.Where(Function(s) Not s.StringEmpty)
                 tokens = column _
                     .TrimNewLine _
                     .Trim(ASCII.TAB, " "c) _
@@ -89,8 +89,12 @@ Namespace ManagedSqlite.Core
                 type = tokens(1)
 
                 If type.ToLower = "[varchar]" Then
-                    If tokens(2).IsPattern("\(\s*\d+\s*\)") Then
-                        type = type.GetStackValue("[", "]") & tokens(2)
+                    If tokens.Length > 2 Then
+                        If tokens(2).IsPattern("\(\s*\d+\s*\)") Then
+                            type = type.GetStackValue("[", "]") & tokens(2)
+                        End If
+                    Else
+                        type = type.GetStackValue("[", "]")
                     End If
                 End If
 
