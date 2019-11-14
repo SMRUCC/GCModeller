@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
 Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Reaction
 
+<HideModuleName>
 Public Module Extensions
 
     <Extension>

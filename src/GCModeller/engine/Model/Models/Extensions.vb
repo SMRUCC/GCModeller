@@ -41,6 +41,7 @@
 
 Imports System.Runtime.CompilerServices
 
+<HideModuleName>
 Public Module Extensions
 
     <Extension> Public Function EvalEffects(regMode As String) As Double

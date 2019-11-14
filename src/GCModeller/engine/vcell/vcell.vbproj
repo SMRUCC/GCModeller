@@ -128,6 +128,10 @@
       <Project>{df077c8b-9b53-41c3-81f3-2ba4f3d7fc9f}</Project>
       <Name>Dynamics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IO\GCMarkupLanguage\GCMarkupLanguage.vbproj">
+      <Project>{1EE7910D-9171-426F-B874-B935E633C419}</Project>
+      <Name>GCMarkupLanguage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.vbproj">
       <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
       <Name>Model</Name>
