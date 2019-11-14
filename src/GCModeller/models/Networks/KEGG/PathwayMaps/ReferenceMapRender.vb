@@ -56,6 +56,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Model.Network.KEGG.PathwayMaps.RenderStyles
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace PathwayMaps
 
@@ -72,11 +73,11 @@ Namespace PathwayMaps
                 .GroupBy(Function(r) r.Entry.Key) _
                 .Where(Function(g) Not g.Key.StringEmpty) _
                 .ToDictionary(Function(r) r.Key,
-                              Function(r)
-                                  Dim reaction As EnzymaticReaction = r.First
+                              Function(rxn)
+                                  Dim reaction As EnzymaticReaction = rxn.First
 
-                                  If reactionKOMapping.ContainsKey(r.Key) Then
-                                      Dim KO = reactionKOMapping(r.Key)
+                                  If reactionKOMapping.ContainsKey(rxn.Key) Then
+                                      Dim KO = reactionKOMapping(rxn.Key)
                                       Dim names As String = KO _
                                           .Select(Function(id) KOnames(id).description.Split(";"c).First) _
                                           .Distinct _
@@ -84,12 +85,16 @@ Namespace PathwayMaps
                                           .First
 
                                       If Not names.StringEmpty Then
-                                          Return names
+                                          names = r.Replace(names, "E\d(\.\d)+[,]?", "").Trim
+
+                                          If Not names.StringEmpty Then
+                                              Return names
+                                          End If
                                       End If
                                   End If
 
                                   If reaction.EC.StringEmpty Then
-                                      Return r.Key
+                                      Return rxn.Key
                                   Else
                                       Return "EC " & reaction.EC
                                   End If
