@@ -46,7 +46,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text
 
 Namespace ManagedSqlite.Core.SQLSchema
 
