@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -518,7 +519,7 @@ Partial Module CLI
         Dim reactionKOMappingJson$ = args("/KO")
 
         If [in].FileExists AndAlso [in].ExtensionSuffix.TextEquals("xgmml") Then
-            out = args("/out") Or ([in].TrimSuffix & ".render.png")
+            out = args("/out") Or ([in].TrimSuffix & $".render.{g.DriverExtensionName}")
             result = ReferenceMapRender.Render(
                 model:=XGMML.RDFXml.Load([in]),
                 canvasSize:=size,
@@ -535,7 +536,7 @@ Partial Module CLI
                 .ReadAllText _
                 .LoadJSON(Of Dictionary(Of String, String))
 
-            out = args("/out") Or ([in] & "/render.png")
+            out = args("/out") Or ([in] & $"/render.{g.DriverExtensionName}")
             result = ReferenceMapRender.Render(
                 graph:=graph,
                 canvasSize:=size,
