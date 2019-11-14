@@ -106,7 +106,7 @@ Namespace PathwayMaps.RenderStyles
         Public Overrides Function getLabelColor(node As Node) As Color
             Dim category = node.data("group.category")
 
-            If category.StringEmpty Then
+            If category.StringEmpty OrElse Not convexHullCategoryStyle.ContainsKey(category) Then
                 Return Color.Black
             Else
                 Return convexHullCategoryStyle(category).TranslateColor
