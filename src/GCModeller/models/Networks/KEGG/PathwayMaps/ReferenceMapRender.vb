@@ -278,6 +278,7 @@ Namespace PathwayMaps
                 convexHullLabelFontCSS:="font-style: normal; font-size: 72; font-family: " & FontFace.MicrosoftYaHei & ";",
                 convexHullScale:=1.25,
                 convexHullCurveDegree:=1,
+                fillConvexHullPolygon:=False,
                 drawEdgeBends:=edgeBends,
                 labelWordWrapWidth:=wordWrapWidth,
                 isLabelPinned:=Function(n, actualLabel)
