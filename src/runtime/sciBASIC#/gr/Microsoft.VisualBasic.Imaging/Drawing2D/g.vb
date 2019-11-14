@@ -126,6 +126,8 @@ Namespace Drawing2D
                 g.__defaultDriver = Drivers.GDI
             ElseIf type.TextEquals("ps") Then
                 g.__defaultDriver = Drivers.PS
+            ElseIf type.TextEquals("wmf") Then
+                g.__defaultDriver = Drivers.WMF
             Else
                 g.__defaultDriver = Drivers.Default
             End If
@@ -153,6 +155,7 @@ Namespace Drawing2D
                     Case Drivers.GDI, Drivers.Default
                         Return "png"
                     Case Drivers.PS : Return "ps"
+                    Case Drivers.WMF : Return "wmf"
                     Case Else
                         Throw New NotImplementedException(ActiveDriver.Description)
                 End Select
@@ -233,6 +236,15 @@ Namespace Drawing2D
                 Dim ps As New GraphicsPS(size)
 
                 Throw New NotImplementedException
+            ElseIf g.__getDriver(developerValue:=driver) = Drivers.WMF Then
+                Using wmf As New Wmf(size, WmfData.wmfTmp, bg)
+                    Call plotAPI(wmf, New GraphicsRegion With {
+                        .Size = size,
+                        .Padding = padding
+                    })
+
+                    image = New WmfData(wmf.FilePath, size)
+                End Using
             Else
                 ' using gdi+ graphics driver
                 ' 在这里使用透明色进行填充，防止当bg参数为透明参数的时候被CreateGDIDevice默认填充为白色
