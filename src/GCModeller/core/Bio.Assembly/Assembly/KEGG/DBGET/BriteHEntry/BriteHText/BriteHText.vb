@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e7db2aeee9db64d95245add1ae7b118, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHText.vb"
+﻿#Region "Microsoft.VisualBasic::7e7db2aeee9db64d95245add1ae7b118, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHText.vb"
 
     ' Author:
     ' 
@@ -246,6 +246,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' KEGG Orthology
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Load_ko00001() As BriteHText
             Return BriteHTextParser.Load(text:=My.Resources.ko00001)
         End Function

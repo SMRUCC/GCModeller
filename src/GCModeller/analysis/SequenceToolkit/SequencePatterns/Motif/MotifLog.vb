@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2c5d5a26b32b9eef07b1c4bd7682deb, analysis\SequenceToolkit\SequencePatterns\Motif\MotifLog.vb"
+﻿#Region "Microsoft.VisualBasic::73ec7529fbc0089d9833687b0c2dd250, analysis\SequenceToolkit\SequencePatterns\Motif\MotifLog.vb"
 
     ' Author:
     ' 

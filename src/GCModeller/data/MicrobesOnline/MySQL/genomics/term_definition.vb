@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::167adf5e37e79b4857c929945e24bd98, MicrobesOnline\MySQL\genomics\term_definition.vb"
+﻿#Region "Microsoft.VisualBasic::167adf5e37e79b4857c929945e24bd98, data\MicrobesOnline\MySQL\genomics\term_definition.vb"
 
     ' Author:
     ' 

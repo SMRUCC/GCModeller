@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::615345bbcd63ce8ebca04e27c10189d5, ExternalDBSource\MetaCyc\bio_warehouse\crossreference.vb"
+﻿#Region "Microsoft.VisualBasic::615345bbcd63ce8ebca04e27c10189d5, data\ExternalDBSource\MetaCyc\bio_warehouse\crossreference.vb"
 
     ' Author:
     ' 

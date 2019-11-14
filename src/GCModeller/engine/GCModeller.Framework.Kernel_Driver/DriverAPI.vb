@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51974bc59a5ab7b4c359f1f4f8ec1ed4, engine\GCModeller.Framework.Kernel_Driver\DriverAPI.vb"
+﻿#Region "Microsoft.VisualBasic::d3c326857eac4222f26fbbf1ad395a21, engine\GCModeller.Framework.Kernel_Driver\DriverAPI.vb"
 
     ' Author:
     ' 

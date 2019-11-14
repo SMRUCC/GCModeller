@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7ca8546f67bdf939623664cddaeae13, ExternalDBSource\MetaCyc\MySQL\termrelationship.vb"
+﻿#Region "Microsoft.VisualBasic::a7ca8546f67bdf939623664cddaeae13, data\ExternalDBSource\MetaCyc\MySQL\termrelationship.vb"
 
     ' Author:
     ' 

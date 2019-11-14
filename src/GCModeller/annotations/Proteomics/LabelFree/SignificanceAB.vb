@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f2545c974cf29b672bd3ca05b0d6414, Proteomics\LabelFree\SignificanceAB.vb"
+﻿#Region "Microsoft.VisualBasic::3340a08b3d5a84f483a0b744dd6d5349, annotations\Proteomics\LabelFree\SignificanceAB.vb"
 
     ' Author:
     ' 

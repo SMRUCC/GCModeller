@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3741fbb50871fc37c14859c38767ff72, ExternalDBSource\DEG\Models.vb"
+﻿#Region "Microsoft.VisualBasic::309bd0ec6458c3b7faeb6d371c2904f8, data\ExternalDBSource\DEG\Models.vb"
 
     ' Author:
     ' 

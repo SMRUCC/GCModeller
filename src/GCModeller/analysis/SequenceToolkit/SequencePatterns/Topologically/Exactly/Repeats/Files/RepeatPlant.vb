@@ -1,63 +1,63 @@
-﻿#Region "Microsoft.VisualBasic::f2398abb1fbad52fde0a2bc490c19e01, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatPlant.vb"
+﻿#Region "Microsoft.VisualBasic::6a88b0f5a83464b98f9155613a7c36f9, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Files\RepeatPlant.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class RepeatsLoci
-' 
-'         Properties: LociLeft, RepeatLoci
-' 
-'         Function: __hash
-' 
-'     Class RevRepeatsLoci
-' 
-'         Properties: RevLociLeft, RevRepeats
-' 
-'         Function: __hash
-' 
-'     Class RepeatsView
-' 
-'         Properties: Data, Hot, IntervalAverages, Left, Length
-'                     Locis, RepeatsNumber, SequenceData
-' 
-'         Function: LociProvider, ToLoci, ToString, ToVector, TrimView
-' 
-'     Class RevRepeatsView
-' 
-'         Properties: Hot, IntervalAverages, RepeatsNumber, RevLocis, RevSegment
-' 
-'         Function: LociProvider, TrimView
-' 
-' 
-' /********************************************************************************/
+    '     Class RepeatsLoci
+    ' 
+    '         Properties: LociLeft, RepeatLoci
+    ' 
+    '         Function: __hash
+    ' 
+    '     Class RevRepeatsLoci
+    ' 
+    '         Properties: RevLociLeft, RevRepeats
+    ' 
+    '         Function: __hash
+    ' 
+    '     Class RepeatsView
+    ' 
+    '         Properties: averageIntervals, Data, Hot, left, Length
+    '                     locis, repeatsNumber, SequenceData
+    ' 
+    '         Function: LociProvider, ToLoci, ToString, ToVector, TrimView
+    ' 
+    '     Class ReverseRepeatsView
+    ' 
+    '         Properties: Hot, reversed, reversedLoci
+    ' 
+    '         Function: LociProvider, TrimView
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

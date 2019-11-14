@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59deeaa0e44778c8dc7ff5977e8f73c3, ExternalDBSource\MetaCyc\MySQL\element.vb"
+﻿#Region "Microsoft.VisualBasic::59deeaa0e44778c8dc7ff5977e8f73c3, data\ExternalDBSource\MetaCyc\MySQL\element.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe26a703d85818651b5c870eae1fe9e9, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\EnzymeWebQuery.vb"
+﻿#Region "Microsoft.VisualBasic::fe26a703d85818651b5c870eae1fe9e9, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\EnzymeWebQuery.vb"
 
     ' Author:
     ' 

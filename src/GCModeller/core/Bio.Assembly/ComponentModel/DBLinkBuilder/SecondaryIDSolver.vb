@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::768e07f72c21ae623f03883c4f311196, Bio.Assembly\ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb"
+﻿#Region "Microsoft.VisualBasic::768e07f72c21ae623f03883c4f311196, core\Bio.Assembly\ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb"
 
     ' Author:
     ' 

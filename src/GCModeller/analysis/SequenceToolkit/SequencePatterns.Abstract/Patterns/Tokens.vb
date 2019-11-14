@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0888283fe0e178b83c93a3e26d715726, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Tokens.vb"
+﻿#Region "Microsoft.VisualBasic::f1366bc6ba642e02300c5cf64dffe6f7, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Tokens.vb"
 
     ' Author:
     ' 

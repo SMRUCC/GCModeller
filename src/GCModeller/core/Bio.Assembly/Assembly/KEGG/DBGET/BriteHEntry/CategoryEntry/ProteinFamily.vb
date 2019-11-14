@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dee020152c34c1e1136bce7a776f7ea8, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ProteinFamily.vb"
+﻿#Region "Microsoft.VisualBasic::dee020152c34c1e1136bce7a776f7ea8, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ProteinFamily.vb"
 
     ' Author:
     ' 

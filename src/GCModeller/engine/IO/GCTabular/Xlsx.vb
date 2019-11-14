@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c76ae31ba4a2709dfdf1d4f0f83fa3d9, engine\IO\GCTabular\Xlsx.vb"
+﻿#Region "Microsoft.VisualBasic::96d85ca4faeae932aaf91b06467d5f8e, engine\IO\GCTabular\Xlsx.vb"
 
     ' Author:
     ' 

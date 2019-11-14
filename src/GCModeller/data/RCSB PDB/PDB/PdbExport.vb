@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8373db96b0e5a9c5635c5c1261c716f, RCSB PDB\PDB\PdbExport.vb"
+﻿#Region "Microsoft.VisualBasic::53ca133a3017def80a7b8268f2f45f2c, data\RCSB PDB\PDB\PdbExport.vb"
 
     ' Author:
     ' 

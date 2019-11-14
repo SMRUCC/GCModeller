@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb67fdc27d8f5e9ad02186879fcc7de9, engine\Dynamics\MassTable.vb"
+﻿#Region "Microsoft.VisualBasic::85d22da18367cb8d53a55a5a4398d965, engine\Dynamics\Engine\MassTable.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Class MassTable
     ' 
-    '     Function: AddNew, Exists, GetAll, GetByKey, GetEnumerator
+    '     Function: AddNew, Exists, GetAll, (+2 Overloads) GetByKey, GetEnumerator
     '               GetWhere, IEnumerable_GetEnumerator, template, variable, (+3 Overloads) variables
     ' 
     '     Sub: AddOrUpdate, Delete

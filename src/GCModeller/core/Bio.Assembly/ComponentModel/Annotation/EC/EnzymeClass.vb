@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d94cfae77a4dcaddb8acf1a79d5b5e35, Bio.Assembly\ComponentModel\Annotation\EC\EnzymeClass.vb"
+﻿#Region "Microsoft.VisualBasic::d94cfae77a4dcaddb8acf1a79d5b5e35, core\Bio.Assembly\ComponentModel\Annotation\EC\EnzymeClass.vb"
 
     ' Author:
     ' 

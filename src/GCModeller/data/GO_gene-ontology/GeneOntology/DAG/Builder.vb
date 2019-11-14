@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9f483645425345ba116ed8039adec75, GO_gene-ontology\GeneOntology\DAG\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::ee652e746c508318b8be0cdda2b00660, data\GO_gene-ontology\GeneOntology\DAG\Builder.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Builder
     ' 
-    '         Function: (+2 Overloads) BuildTree, ConstructNode, xrefParser
+    '         Function: (+2 Overloads) BuildTree, ConstructNode, CreateClusterMembers, xrefParser
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,6 +49,28 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Namespace DAG
 
     Public Module Builder
+
+        <Extension>
+        Public Function CreateClusterMembers(tree As Graph) As Dictionary(Of String, List(Of TermNode))
+            Dim clusters As New Dictionary(Of String, List(Of TermNode))
+            Dim family As Graph.InheritsChain()
+
+            For Each term As TermNode In tree.DAG.Values
+                family = tree.Family(term.id).ToArray
+
+                For Each node As Graph.InheritsChain In family
+                    For Each parent In node.Route
+                        If Not clusters.ContainsKey(parent.id) Then
+                            clusters.Add(parent.id, New List(Of TermNode))
+                        End If
+
+                        clusters(parent.id).Add(term)
+                    Next
+                Next
+            Next
+
+            Return clusters
+        End Function
 
         <Extension>
         Public Function BuildTree(file As IEnumerable(Of Term)) As Dictionary(Of TermNode)
@@ -108,7 +130,7 @@ Namespace DAG
             }
         End Function
 
-        Private Function xrefParser(s$) As NamedValue(Of String)
+        Private Function xrefParser(s As String) As NamedValue(Of String)
             Dim tokens$() = CommandLine.GetTokens(s$)
             Dim id$() = tokens(Scan0).Split(":"c)
 
@@ -120,7 +142,7 @@ Namespace DAG
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function BuildTree(path$) As Dictionary(Of TermNode)
+        Public Function BuildTree(path As String) As Dictionary(Of TermNode)
             Return GO_OBO.Open(path).BuildTree
         End Function
     End Module

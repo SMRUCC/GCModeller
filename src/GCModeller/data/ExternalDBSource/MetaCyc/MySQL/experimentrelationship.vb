@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff508881939c5666a3d9b5a9bf99d462, ExternalDBSource\MetaCyc\MySQL\experimentrelationship.vb"
+﻿#Region "Microsoft.VisualBasic::ff508881939c5666a3d9b5a9bf99d462, data\ExternalDBSource\MetaCyc\MySQL\experimentrelationship.vb"
 
     ' Author:
     ' 

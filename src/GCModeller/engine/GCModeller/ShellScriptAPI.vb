@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92e9fe122e9e4f6b2ecec897284a7f93, engine\GCModeller\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::c79e6a54d3a2dcfcb4793c54e18ae810, engine\GCModeller\ShellScriptAPI.vb"
 
     ' Author:
     ' 

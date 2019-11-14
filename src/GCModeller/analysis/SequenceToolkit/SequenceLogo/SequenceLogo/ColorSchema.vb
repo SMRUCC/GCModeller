@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbf1ca428ee4ef0bb6a044f257483e7b, analysis\SequenceToolkit\SequencePatterns\SequenceLogo\ColorSchema.vb"
+﻿#Region "Microsoft.VisualBasic::2569dfec63a7793c9142e4bac5632001, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\ColorSchema.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module ColorSchema
     ' 
-    '         Properties: AA, DNAcolors, NT, NucleotideSchema, ProteinSchema
+    '         Properties: DNAcolors, NucleotideSchema, ProteinSchema
     ' 
     '         Function: __getTexture
     ' 

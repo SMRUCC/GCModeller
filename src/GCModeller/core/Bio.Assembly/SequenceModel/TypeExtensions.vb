@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d2f17d78e347dffd281f283f1924da0, Bio.Assembly\SequenceModel\TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::b060967f0a2b4c92a027d1aabeb71951, core\Bio.Assembly\SequenceModel\TypeExtensions.vb"
 
     ' Author:
     ' 
@@ -32,6 +32,8 @@
     ' Summaries:
 
     '     Module TypeExtensions
+    ' 
+    '         Properties: AA, NT
     ' 
     '         Function: GetSeqType, IsProteinSource
     ' 

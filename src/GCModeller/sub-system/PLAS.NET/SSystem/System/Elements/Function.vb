@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7fdb7337ef966b4f0b445336ed308dbe, sub-system\PLAS.NET\SSystem\System\Elements\Function.vb"
+﻿#Region "Microsoft.VisualBasic::35dd620611872da44adb783a7316bcfa, sub-system\PLAS.NET\SSystem\System\Elements\Function.vb"
 
     ' Author:
     ' 

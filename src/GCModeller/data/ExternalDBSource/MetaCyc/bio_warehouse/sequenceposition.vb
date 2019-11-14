@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbb6a5cdcce34e5a9eda5dc584326538, ExternalDBSource\MetaCyc\bio_warehouse\sequenceposition.vb"
+﻿#Region "Microsoft.VisualBasic::fbb6a5cdcce34e5a9eda5dc584326538, data\ExternalDBSource\MetaCyc\bio_warehouse\sequenceposition.vb"
 
     ' Author:
     ' 

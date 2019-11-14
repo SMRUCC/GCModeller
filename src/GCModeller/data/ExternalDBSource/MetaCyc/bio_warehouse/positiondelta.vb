@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd83d1c89b1932a541485310d8fe8f80, ExternalDBSource\MetaCyc\bio_warehouse\positiondelta.vb"
+﻿#Region "Microsoft.VisualBasic::bd83d1c89b1932a541485310d8fe8f80, data\ExternalDBSource\MetaCyc\bio_warehouse\positiondelta.vb"
 
     ' Author:
     ' 

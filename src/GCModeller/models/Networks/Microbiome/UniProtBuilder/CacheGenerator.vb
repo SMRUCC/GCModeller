@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e971a23ba696d003e4642273ee350ebf, Networks\Microbiome\UniProtBuilder\CacheGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::e971a23ba696d003e4642273ee350ebf, models\Networks\Microbiome\UniProtBuilder\CacheGenerator.vb"
 
     ' Author:
     ' 

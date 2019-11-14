@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc93b7a175a72d31e14fa23579cd542a, ExternalDBSource\ChEBI\Tables\autogen_structures.vb"
+﻿#Region "Microsoft.VisualBasic::dc93b7a175a72d31e14fa23579cd542a, data\ExternalDBSource\ChEBI\Tables\autogen_structures.vb"
 
     ' Author:
     ' 

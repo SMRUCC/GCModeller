@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fb2d77fae7f66a53cee30ecdcafb377, Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\WebParser.vb"
+﻿#Region "Microsoft.VisualBasic::2fb2d77fae7f66a53cee30ecdcafb377, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\WebParser.vb"
 
     ' Author:
     ' 

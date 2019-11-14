@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7dc5b8a7e9fc811ebebd573baaa54e1e, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\DataModels.vb"
+﻿#Region "Microsoft.VisualBasic::b7af023e46f4823dff0dcafc7e16af88, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\DataModels.vb"
 
     ' Author:
     ' 

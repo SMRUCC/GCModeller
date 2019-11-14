@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9f3132b14aa5ada2378f00824a81b0d, STRING\SimpleCsv.vb"
+﻿#Region "Microsoft.VisualBasic::4117649a05288a33f3af9eabf7f5f228, data\STRING\SimpleCsv.vb"
 
     ' Author:
     ' 

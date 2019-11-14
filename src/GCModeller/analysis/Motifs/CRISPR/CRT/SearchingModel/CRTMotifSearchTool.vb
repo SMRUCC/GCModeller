@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff4d3281981419e40fe759644ab1db69, analysis\Motifs\CRISPR\CRT\SearchingModel\CRTMotifSearchTool.vb"
+﻿#Region "Microsoft.VisualBasic::854c4ce3de45981af8137095eb1e4bcd, analysis\Motifs\CRISPR\CRT\SearchingModel\CRTMotifSearchTool.vb"
 
     ' Author:
     ' 

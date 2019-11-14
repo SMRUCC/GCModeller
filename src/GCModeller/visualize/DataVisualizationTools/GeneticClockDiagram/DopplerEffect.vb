@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b86b4058171a1d6f5e4918bdffe99ba2, visualize\DataVisualizationTools\GeneticClockDiagram\DopplerEffect.vb"
+﻿#Region "Microsoft.VisualBasic::98300d7c81454a920e105c5cc4172d67, visualize\DataVisualizationTools\GeneticClockDiagram\DopplerEffect.vb"
 
     ' Author:
     ' 

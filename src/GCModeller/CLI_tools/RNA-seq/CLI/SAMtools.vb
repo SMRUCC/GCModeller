@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9dd280733ee6d6ada88cd3cff6888abc, CLI_tools\RNA-seq\CLI\SAMtools.vb"
+﻿#Region "Microsoft.VisualBasic::0155086fbde1fc0569d78d9f6c64013c, CLI_tools\RNA-seq\CLI\SAMtools.vb"
 
     ' Author:
     ' 

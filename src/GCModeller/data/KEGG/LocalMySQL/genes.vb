@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e16e613b596dedfe243326d453c8ec9a, KEGG\LocalMySQL\genes.vb"
+﻿#Region "Microsoft.VisualBasic::e16e613b596dedfe243326d453c8ec9a, data\KEGG\LocalMySQL\genes.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36ef116272ada32e8a046fcbd97d4830, visualize\ChromosomeMap\DrawingModels\Multation.vb"
+﻿#Region "Microsoft.VisualBasic::4e611eaa947f1c8061fa447087455b55, visualize\ChromosomeMap\DrawingModels\Multation.vb"
 
     ' Author:
     ' 

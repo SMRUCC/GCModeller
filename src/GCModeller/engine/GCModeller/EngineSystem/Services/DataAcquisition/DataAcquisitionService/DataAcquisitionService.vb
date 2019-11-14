@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea4d38ea998273b344cabb86e3fc942f, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAcquisitionService\DataAcquisitionService.vb"
+﻿#Region "Microsoft.VisualBasic::d6838e67556f218ddc6f4bf2aeade2b3, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAcquisitionService\DataAcquisitionService.vb"
 
     ' Author:
     ' 

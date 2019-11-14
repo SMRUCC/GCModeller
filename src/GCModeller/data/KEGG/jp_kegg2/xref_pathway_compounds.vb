@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::533cf2a47c96ebd60a1ba8092bbb13ad, KEGG\jp_kegg2\xref_pathway_compounds.vb"
+﻿#Region "Microsoft.VisualBasic::533cf2a47c96ebd60a1ba8092bbb13ad, data\KEGG\jp_kegg2\xref_pathway_compounds.vb"
 
     ' Author:
     ' 

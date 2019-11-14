@@ -53,10 +53,13 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
@@ -353,12 +356,16 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/top.priority <map.name.list> /category.level2 /reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /out <result_network.directory>]")>
     <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
     <Argument("/repository", False, CLITypes.File,
               AcceptTypes:={GetType(Map), GetType(Pathway)},
               Extensions:="*.Xml",
               Description:="This parameter accept two kind of parameters: The kegg reference map data or organism specific pathway map model data.")>
+    <Argument("/top.priority", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The map names in the argument value will be forced populate in top priority and ignores of their map coverage value is top or not. 
+              Use comma symbol as the map id terms' delimiter.")>
     <Argument("/reactions", False, CLITypes.File,
               AcceptTypes:={GetType(Reaction)},
               Extensions:="*.Xml",
@@ -390,6 +397,8 @@ Partial Module CLI
         Dim coverageCutoff As Double = args("/coverage.cutoff") Or 0.0
         Dim splitNetwork As Boolean = args("/split")
         Dim deleteTupleEdges As Boolean = args("/delete.tupleEdges")
+        Dim categoryLevel2 As Boolean = args("/category.level2")
+        Dim topMaps As String() = args("/top.priority").Split(",")
 
         If ReactionClassifier.IsNullOrEmpty(reactionClass) Then
             reactionClass = Nothing
@@ -416,7 +425,9 @@ Partial Module CLI
                 classFilter:=False,
                 reactionClass:=reactionClass,
                 doRemoveUnmmaped:=doRemoveUnmapped,
-                coverageCutoff:=coverageCutoff
+                coverageCutoff:=coverageCutoff,
+                categoryLevel2:=categoryLevel2,
+                topMaps:=topMaps
             )
         Else
             out = args("/out") Or $"{[in].TrimDIR}.{organismName}.referenceMap/"
@@ -425,7 +436,9 @@ Partial Module CLI
                 reactions:=reactions,
                 reactionClass:=reactionClass,
                 doRemoveUnmmaped:=doRemoveUnmapped,
-                coverageCutoff:=coverageCutoff
+                coverageCutoff:=coverageCutoff,
+                categoryLevel2:=categoryLevel2,
+                topMaps:=topMaps
             )
         End If
 
@@ -437,17 +450,24 @@ Partial Module CLI
 
         If splitNetwork Then
             Dim bridgeEdges As New List(Of NetworkEdge)
+            Dim topMapName = topMaps.DefaultFirst("")
 
             For Each group In groupSelects
                 Dim nodeIndex = group.Select(Function(n) n.ID).Indexing
                 Dim edges = model.edges _
                     .Where(Function(e)
-                               Return e.fromNode Like nodeIndex AndAlso e.toNode Like nodeIndex
+                               ' The first top map will not be trimmed!
+                               If topMapName = group.Key Then
+                                   Return True
+                               Else
+                                   Return e.fromNode Like nodeIndex AndAlso e.toNode Like nodeIndex
+                               End If
                            End Function) _
                     .ToArray
                 Dim subNetwork As New NetworkTables(group, edges)
 
-                If deleteTupleEdges Then
+                ' The first top map will not be trimmed!
+                If deleteTupleEdges AndAlso topMapName <> group.Key Then
                     Dim index = New GraphIndex(Of FileStream.Node, NetworkEdge)().nodes(subNetwork.nodes).edges(subNetwork.edges)
                     Dim nonTuples = subNetwork.edges.Where(Function(e) Not e.isTupleEdge(index)).ToArray
 
@@ -478,9 +498,15 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.render")>
-    <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/compounds <repository> /convexHull <category.txt> /size <10(A0)> /out <viz.png>]")>
+    <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/edge.bends /compounds <names.json> /KO <reactionKOMapping.json> /convexHull <category.txt> /style2 /size <10(A0)> /out <viz.png>]")>
     <Description("Render pathway map as image after cytoscape layout progress.")>
     <Group(CLIGrouping.KEGGPathwayMapTools)>
+    <Argument("/compounds", True, CLITypes.File,
+              AcceptTypes:={GetType(Dictionary(Of String, String))},
+              Extensions:="*.json",
+              Description:="The kegg compound id to its command names mapping table file. 
+              Content in this table file should be ``Cid -> name``, which could be created 
+              by using ``/compound.names`` command from ``kegg_tools``.")>
     Public Function RenderReferenceMapNetwork(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim out$
@@ -488,23 +514,34 @@ Partial Module CLI
         Dim result As GraphicsData
         Dim convexHull As String() = args("/convexHull").ReadAllLines
         Dim compounds$ = args <= "/compounds"
+        Dim edgeBends As Boolean = args("/edge.bends")
+        Dim altStyle As Boolean = args("/style2")
+        Dim reactionKOMappingJson$ = args("/KO")
 
         If [in].FileExists AndAlso [in].ExtensionSuffix.TextEquals("xgmml") Then
-            out = args("/out") Or ([in].TrimSuffix & ".render.png")
+            out = args("/out") Or ([in].TrimSuffix & $".render.{g.DriverExtensionName}")
             result = ReferenceMapRender.Render(
                 model:=XGMML.RDFXml.Load([in]),
                 canvasSize:=size,
                 convexHull:=convexHull,
-                compoundRepository:=compounds
+                compoundNamesJson:=compounds,
+                edgeBends:=edgeBends,
+                altStyle:=altStyle,
+                reactionKOMappingJson:=reactionKOMappingJson
             )
         Else
             Dim table As NetworkTables = NetworkFileIO.Load([in])
             Dim graph As NetworkGraph = table.CreateGraph
+            Dim compoundNames = compounds _
+                .ReadAllText _
+                .LoadJSON(Of Dictionary(Of String, String))
 
-            out = args("/out") Or ([in] & "/render.png")
+            out = args("/out") Or ([in] & $"/render.{g.DriverExtensionName}")
             result = ReferenceMapRender.Render(
                 graph:=graph,
-                canvasSize:=size
+                canvasSize:=size,
+                edgeBends:=edgeBends,
+                compoundNames:=compoundNames
             )
         End If
 

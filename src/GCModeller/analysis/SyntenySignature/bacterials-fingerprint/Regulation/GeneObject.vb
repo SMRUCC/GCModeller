@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c556e1119d45b494feb62cfde6b90c5e, analysis\SyntenySignature\bacterials-fingerprint\Regulation\GeneObject.vb"
+﻿#Region "Microsoft.VisualBasic::a10a59aca90c083ec29c0c01e966ca3a, analysis\SyntenySignature\bacterials-fingerprint\Regulation\GeneObject.vb"
 
     ' Author:
     ' 

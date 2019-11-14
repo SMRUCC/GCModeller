@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::96e76d0c7fbb876c7a97038addd12962, analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\Experiment.vb"
+﻿#Region "Microsoft.VisualBasic::3fc63b1c580f89df4337867d5e9acbfb, analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\Experiment.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::249e466aa1b6cadb21cdd681c6072b2b, Networks\Microbiome\UniProtExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::a216edef62e1cd448883081509d12a4c, models\Networks\Microbiome\UniProtExtensions.vb"
 
     ' Author:
     ' 

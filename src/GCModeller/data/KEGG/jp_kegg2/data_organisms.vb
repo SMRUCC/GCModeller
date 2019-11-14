@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd220be6d20295ae865eebeff34bdc73, KEGG\jp_kegg2\data_organisms.vb"
+﻿#Region "Microsoft.VisualBasic::cd220be6d20295ae865eebeff34bdc73, data\KEGG\jp_kegg2\data_organisms.vb"
 
     ' Author:
     ' 

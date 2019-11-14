@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43970cd1aa1d2b9ec91882760bffd8fd, analysis\SyntenySignature\bacterials-fingerprint\Regulation\SignatureBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::18ec3d031eba9dd51111a8d4dc6f33fc, analysis\SyntenySignature\bacterials-fingerprint\Regulation\SignatureBuilder.vb"
 
     ' Author:
     ' 

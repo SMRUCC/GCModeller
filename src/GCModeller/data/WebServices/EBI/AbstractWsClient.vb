@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1259c1422d247d52debb8ad8dff8c4ba, WebServices\EBI\AbstractWsClient.vb"
+﻿#Region "Microsoft.VisualBasic::be1062c5d7d6a8fd84717b73f78349a2, data\WebServices\EBI\AbstractWsClient.vb"
 
     ' Author:
     ' 

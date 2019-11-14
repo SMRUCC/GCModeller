@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64c9b18631749f94a0d81457cf5e30fb, KEGG\jp_kegg2\data_references.vb"
+﻿#Region "Microsoft.VisualBasic::64c9b18631749f94a0d81457cf5e30fb, data\KEGG\jp_kegg2\data_references.vb"
 
     ' Author:
     ' 

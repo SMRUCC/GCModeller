@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e69f46728d125314d176d738fdbad507, Bio.Assembly\ComponentModel\Locus\Position.vb"
+﻿#Region "Microsoft.VisualBasic::b0f7841ae50fc580f03390d182a5c1c1, core\Bio.Assembly\ComponentModel\Locus\Position.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Structure Position
     ' 
-    '         Properties: Left, Right
+    '         Properties: left, right
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString

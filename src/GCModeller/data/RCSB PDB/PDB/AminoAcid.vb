@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74567618fd24bb7c867e332206e7e732, RCSB PDB\PDB\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::0cc1fb652a5fb43544df946fbed61097, data\RCSB PDB\PDB\AminoAcid.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64c024520906eef93327a4e46abb89d2, ExternalDBSource\MetaCyc\MySQL\division.vb"
+﻿#Region "Microsoft.VisualBasic::64c024520906eef93327a4e46abb89d2, data\ExternalDBSource\MetaCyc\MySQL\division.vb"
 
     ' Author:
     ' 

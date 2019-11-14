@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::96de7bee177dd15ab3afe133673a7368, Networks\Network.BLAST\BBHAPI.vb"
+﻿#Region "Microsoft.VisualBasic::96de7bee177dd15ab3afe133673a7368, models\Networks\Network.BLAST\BBHAPI.vb"
 
     ' Author:
     ' 

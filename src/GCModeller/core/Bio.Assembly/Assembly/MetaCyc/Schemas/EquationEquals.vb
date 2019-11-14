@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34f01dfa8a44ec00cbdd0919ae0dfc40, Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
+﻿#Region "Microsoft.VisualBasic::34f01dfa8a44ec00cbdd0919ae0dfc40, core\Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f620d13e91e8cc2fd3f4b51b2104f154, KEGG\LocalMySQL\xref_pathway_compounds.vb"
+﻿#Region "Microsoft.VisualBasic::f620d13e91e8cc2fd3f4b51b2104f154, data\KEGG\LocalMySQL\xref_pathway_compounds.vb"
 
     ' Author:
     ' 

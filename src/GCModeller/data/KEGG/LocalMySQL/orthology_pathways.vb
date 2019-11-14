@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e60850528e418a81ba51f181ef65b23, KEGG\LocalMySQL\orthology_pathways.vb"
+﻿#Region "Microsoft.VisualBasic::7e60850528e418a81ba51f181ef65b23, data\KEGG\LocalMySQL\orthology_pathways.vb"
 
     ' Author:
     ' 

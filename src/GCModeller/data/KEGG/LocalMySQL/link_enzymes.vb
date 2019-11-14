@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e70fe7899ccf99068f995417776ab84f, KEGG\LocalMySQL\link_enzymes.vb"
+﻿#Region "Microsoft.VisualBasic::e70fe7899ccf99068f995417776ab84f, data\KEGG\LocalMySQL\link_enzymes.vb"
 
     ' Author:
     ' 

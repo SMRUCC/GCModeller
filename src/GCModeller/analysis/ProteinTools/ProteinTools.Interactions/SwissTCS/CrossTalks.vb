@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7795a6587d22628f17236813ea5eeee8, analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\CrossTalks.vb"
+﻿#Region "Microsoft.VisualBasic::3a44a1e6820d9fcb2c58abe0dd89954c, analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\CrossTalks.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c0536d853ddd0d4d0adf9855da63af3, Bio.Assembly\ComponentModel\IMolecule.vb"
+﻿#Region "Microsoft.VisualBasic::8c0536d853ddd0d4d0adf9855da63af3, core\Bio.Assembly\ComponentModel\IMolecule.vb"
 
     ' Author:
     ' 

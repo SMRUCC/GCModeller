@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("GCModeller Cell Compiler")>
-<Assembly: AssemblyDescription("GCModeller Cell Compiler")>
+<Assembly: AssemblyDescription("GCModeller Cell Compiler for GCModeller sandbox VirtualCell simulator")>
 <Assembly: AssemblyCompany("SMRUCC")>
 <Assembly: AssemblyProduct("GCModeller")>
 <Assembly: AssemblyCopyright("Copyright © SMRUCC 2018")>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2.0.11.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> 
+<Assembly: AssemblyVersion("2.238.*")> 
+<Assembly: AssemblyFileVersion("1.990.*")> 

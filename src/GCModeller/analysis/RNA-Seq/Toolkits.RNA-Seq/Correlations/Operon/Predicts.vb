@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5668c67984fdbf4e780d8b7d3974be5, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\Operon\Predicts.vb"
+﻿#Region "Microsoft.VisualBasic::1d970a744fdd9c312258c8d0a963c146, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\Operon\Predicts.vb"
 
     ' Author:
     ' 

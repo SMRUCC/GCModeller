@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d7b51dc92d7015af0bd1423c74bd5ba, engine\AutoCAD\GeneticComponents\UniProtExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::fa65318de212320d007ba27336f21080, engine\AutoCAD\GeneticComponents\UniProtExtensions.vb"
 
     ' Author:
     ' 
@@ -80,4 +80,3 @@ Public Module UniProtExtensions
         Next
     End Function
 End Module
-

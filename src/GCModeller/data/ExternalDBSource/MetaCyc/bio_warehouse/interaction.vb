@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39718a2fd87e36bd2ea6844277b02717, ExternalDBSource\MetaCyc\bio_warehouse\interaction.vb"
+﻿#Region "Microsoft.VisualBasic::39718a2fd87e36bd2ea6844277b02717, data\ExternalDBSource\MetaCyc\bio_warehouse\interaction.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99fe2a01cd3b616c2f8e0146c754b0eb, WebServices\EBI\EBeyeCliClient.vb"
+﻿#Region "Microsoft.VisualBasic::a778e2c245f87728be61e40836ae8cec, data\WebServices\EBI\EBeyeCliClient.vb"
 
     ' Author:
     ' 

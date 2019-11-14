@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0299cda358f4df3209d5b90f20a5ca6, ExternalDBSource\SABIORK KineticLaws\LocalParameterParser.vb"
+﻿#Region "Microsoft.VisualBasic::09df17824c6cb9b423e6126a51eae213, data\ExternalDBSource\SABIORK KineticLaws\LocalParameterParser.vb"
 
     ' Author:
     ' 

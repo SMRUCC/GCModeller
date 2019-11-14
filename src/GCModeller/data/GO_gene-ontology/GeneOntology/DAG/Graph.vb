@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::718545a3c33732b880861952d47a9b3e, GO_gene-ontology\GeneOntology\DAG\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::7032b992cc5b887e4da7a613ef7e7e93, data\GO_gene-ontology\GeneOntology\DAG\Graph.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: header
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Family, ToString
+    '         Function: Family, GetClusterMembers, ToString
     '         Structure InheritsChain
     ' 
     '             Properties: [Namespace], Family, Top
@@ -65,8 +65,10 @@ Namespace DAG
     ''' </summary>
     Public Class Graph
 
-        ReadOnly __DAG As Dictionary(Of TermNode)
-        ReadOnly _file$
+        Friend ReadOnly DAG As Dictionary(Of TermNode)
+
+        ReadOnly clusters As Dictionary(Of String, TermNode())
+        ReadOnly file$
 
         Public ReadOnly Property header As header
 
@@ -83,12 +85,22 @@ Namespace DAG
         ''' </summary>
         ''' <param name="terms"></param>
         Sub New(terms As IEnumerable(Of Term), <CallerMemberName> Optional trace$ = Nothing)
-            __DAG = terms.BuildTree
-            _file = trace
+            DAG = terms.BuildTree
+            clusters = CreateClusterMembers _
+                .ToDictionary(Function(cluster) cluster.Key,
+                              Function(cluster)
+                                  Return cluster.Value _
+                                      .GroupBy(Function(t) t.id) _
+                                      .Select(Function(c)
+                                                  Return c.First
+                                              End Function) _
+                                      .ToArray
+                              End Function)
+            file = trace
         End Sub
 
         Public Overrides Function ToString() As String
-            Return _file.ToFileURL
+            Return file.ToFileURL
         End Function
 
         ''' <summary>
@@ -122,8 +134,11 @@ Namespace DAG
         ''' </summary>
         ''' <param name="id"><see cref="Term.id"/></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 这个函数是往顶层查找直到查找到三大namespace为止
+        ''' </remarks>
         Public Function Family(id As String) As IEnumerable(Of InheritsChain)
-            Dim term As TermNode = __DAG(id)
+            Dim term As TermNode = DAG(id)
 
             If term Is Nothing Then
                 Return {}
@@ -150,6 +165,19 @@ Namespace DAG
                 Next
 
                 Return routes
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 这个函数是往下查找，找出当前的term的所有的通过is_a关系继承得到的子类型
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <returns></returns>
+        Public Function GetClusterMembers(id As String) As IEnumerable(Of TermNode)
+            If clusters.ContainsKey(id) Then
+                Return clusters(id)
+            Else
+                Return {}
             End If
         End Function
 
