@@ -275,7 +275,7 @@ Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double
     ''' <returns></returns>
     Public Property O As Integer
 
-    Shared ReadOnly aa As PropertyInfo()
+    Friend Shared ReadOnly aa As PropertyInfo()
 
     Shared Sub New()
         aa = DataFramework.Schema(Of ProteinComposition)(PropertyAccess.Readable, True, True) _
