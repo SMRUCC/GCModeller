@@ -103,7 +103,7 @@ Partial Module CLI
         Call $"Model file save at location: {out}!".__DEBUG_ECHO
 
         If out.IsGCMarkup Then
-            Return model.ToMarkup(genome, kegg, regulations) _
+            Return model.ToMarkup(genome, kegg, regulations, locationAsLocus_tag) _
                         .GetXml _
                         .SaveTo(out) _
                         .CLICode

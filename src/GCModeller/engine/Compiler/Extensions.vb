@@ -66,15 +66,15 @@ Public Module Extensions
     ''' <param name="genomes">染色体基因组+质粒基因组</param>
     ''' <returns></returns>
     <Extension>
-    Friend Iterator Function populateReplicons(model As CellularModule, genomes As Dictionary(Of String, GBFF.File)) As IEnumerable(Of replicon)
+    Friend Iterator Function populateReplicons(model As CellularModule, genomes As Dictionary(Of String, GBFF.File), locationAsLocustag As Boolean) As IEnumerable(Of replicon)
         For Each genome In genomes
             Yield New replicon With {
                 .genomeName = genome.Value.Locus.AccessionID,
                 .genes = genome.Value _
-                    .getGenes _
+                    .getGenes(locationAsLocustag) _
                     .ToArray,
                 .RNAs = model _
-                    .getRNAs(.genomeName, genomes) _
+                    .getRNAs(.genomeName, genomes, locationAsLocustag) _
                     .ToArray,
                 .isPlasmid = genome.Value.IsPlasmidSource
             }
@@ -82,14 +82,22 @@ Public Module Extensions
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Private Function getRNAs(model As CellularModule, repliconName$, genomes As Dictionary(Of String, GBFF.File)) As IEnumerable(Of RNA)
+    <Extension> Private Function getRNAs(model As CellularModule,
+                                         repliconName$,
+                                         genomes As Dictionary(Of String, GBFF.File),
+                                         locationAsLocustag As Boolean) As IEnumerable(Of RNA)
+
         Dim geneKeys As Index(Of String) = {"CDS", "tRNA", "rRNA"}
         Dim genes = genomes.Values _
             .Select(Function(gb) gb.Features) _
             .IteratesALL _
             .Where(Function(gene) gene.KeyName Like geneKeys) _
             .ToDictionary(Function(g)
-                              Return g.Location.ToString
+                              If locationAsLocustag Then
+                                  Return g.Location.ToString
+                              Else
+                                  Return g.Query("locus_tag")
+                              End If
                           End Function)
 
         Return model.Genotype _
@@ -121,7 +129,8 @@ Public Module Extensions
     Public Function ToMarkup(model As CellularModule,
                              genomes As Dictionary(Of String, GBFF.File),
                              KEGG As RepositoryArguments,
-                             regulations As RegulationFootprint()) As VirtualCell
+                             regulations As RegulationFootprint(),
+                             locationAsLocus_tag As Boolean) As VirtualCell
 
         Dim KOgenes As Dictionary(Of String, CentralDogma) = model _
             .Genotype _
@@ -147,7 +156,7 @@ Public Module Extensions
             .taxonomy = model.Taxonomy,
             .genome = New Genome With {
                 .replicons = model _
-                    .populateReplicons(genomes) _
+                    .populateReplicons(genomes, locationAsLocus_tag) _
                     .ToArray,
                  .regulations = model _
                     .getTFregulations(regulations) _
@@ -228,13 +237,21 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Iterator Function getGenes(genome As GBFF.File) As IEnumerable(Of gene)
+    Private Iterator Function getGenes(genome As GBFF.File, locationAsLocus_tag As Boolean) As IEnumerable(Of gene)
         Dim proteinSequnce As Dictionary(Of String, ProteinComposition) = genome.Features _
             .Where(Function(feature)
                        Return feature.KeyName = "CDS"
                    End Function) _
             .Select(Function(feature)
-                        Return ProteinComposition.FromRefSeq(feature.Query("translation"), feature.Location.ToString)
+                        Dim id As String
+
+                        If locationAsLocus_tag Then
+                            id = feature.Location.ToString
+                        Else
+                            id = feature.Query("locus_tag")
+                        End If
+
+                        Return ProteinComposition.FromRefSeq(feature.Query("translation"), id)
                     End Function) _
             .ToDictionary(Function(prot)
                               Return prot.proteinID

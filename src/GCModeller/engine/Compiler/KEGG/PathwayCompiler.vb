@@ -67,11 +67,15 @@ Public Module PathwayCompiler
             .Genotype = genotype
         }
 
-        Return cell.ToMarkup(replicons, keggModel)
+        Return cell.ToMarkup(replicons, keggModel, locationAsLocustag)
     End Function
 
     <Extension>
-    Private Function ToMarkup(cell As CellularModule, genomes As Dictionary(Of String, GBFF.File), kegg As OrganismModel) As VirtualCell
+    Private Function ToMarkup(cell As CellularModule,
+                              genomes As Dictionary(Of String, GBFF.File),
+                              kegg As OrganismModel,
+                              locationAsLocustag As Boolean) As VirtualCell
+
         Dim KOgenes As Dictionary(Of String, CentralDogma) = cell _
             .Genotype _
             .centralDogmas _
@@ -116,7 +120,7 @@ Public Module PathwayCompiler
             .taxonomy = cell.Taxonomy,
             .genome = New Genome With {
                 .replicons = cell _
-                    .populateReplicons(genomes) _
+                    .populateReplicons(genomes, locationAsLocustag) _
                     .ToArray
             },
             .MetabolismStructure = New MetabolismStructure With {
