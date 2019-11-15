@@ -263,7 +263,7 @@ Namespace PathwayMaps
                 labelerIterations:=-1000,
                 drawNodeShape:=AddressOf renderStyle.drawNode,
                 hullPolygonGroups:=renderStyle.getHullPolygonGroups,
-                minLinkWidth:=20,
+                minLinkWidth:=10,
                 nodeRadius:=300,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=renderStyle.edgeDashType,

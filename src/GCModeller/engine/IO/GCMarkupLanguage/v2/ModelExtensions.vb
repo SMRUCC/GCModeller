@@ -86,6 +86,7 @@ Namespace v2
                 genomeName = replicon.genomeName
                 rnaTable = replicon _
                     .RNAs _
+                    .AsEnumerable _
                     .ToDictionary(Function(r) r.gene,
                                   Function(r)
                                       Return New NamedValue(Of RNATypes) With {

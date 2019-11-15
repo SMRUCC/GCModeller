@@ -80,9 +80,61 @@ Public Class Definition
 
     ''' <summary>
     ''' 对细胞的初始状态的定义
+    ''' 初始物质浓度
     ''' </summary>
     ''' <returns></returns>
     Public Property status As Dictionary(Of String, Double)
+
+    ''' <summary>
+    ''' Get the KEGG compound <see cref="Definition"/>
+    ''' </summary>
+    ''' <returns></returns>
+    Public Shared Function KEGG(allCompounds As IEnumerable(Of String), Optional initMass# = 100) As Definition
+        Dim initStatus = allCompounds _
+            .ToDictionary(Function(cid) cid,
+                            Function(cid)
+                                Return initMass
+                            End Function)
+        Dim ntBase As New NucleicAcid With {
+            .A = "C00212",
+            .C = "C00475",
+            .G = "C00387",
+            .U = "C00299"
+        }
+        Dim aaResidue As New AminoAcid With {
+            .A = "C00041",
+            .U = "C05688",
+            .G = "C00037",
+            .C = "C00097",
+            .D = "C00049",
+            .E = "C00025",
+            .F = "C00079",
+            .H = "C00135",
+            .I = "C00407",
+            .K = "C00047",
+            .L = "C00123",
+            .M = "C00073",
+            .N = "C00152",
+            .O = "C16138",
+            .P = "C00148",
+            .Q = "C00064",
+            .R = "C00062",
+            .S = "C00065",
+            .T = "C00188",
+            .V = "C00183",
+            .W = "C00078",
+            .Y = "C00082"
+        }
+
+        Return New Definition With {
+            .ADP = "C00008",
+            .ATP = "C00002",
+            .Water = "C00001",
+            .NucleicAcid = ntBase,
+            .AminoAcid = aaResidue,
+            .status = initStatus
+        }
+    End Function
 
 End Class
 

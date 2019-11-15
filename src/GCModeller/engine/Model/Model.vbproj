@@ -199,9 +199,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Vector\ProteinComposition.vb" />
+    <Compile Include="Models\Vector\RNAComposition.vb" />
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="Models\CentralDogma.vb" />
-    <Compile Include="Models\Extensions.vb" />
+    <Compile Include="Extensions.vb" />
     <Compile Include="Models\Metabolism.vb" />
     <Compile Include="Models\CellularModule.vb" />
     <Compile Include="Models\Regulation.vb" />
