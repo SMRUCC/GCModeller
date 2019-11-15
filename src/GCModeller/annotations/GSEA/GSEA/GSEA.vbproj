@@ -176,7 +176,6 @@
     <Compile Include="EnrichmentResult.vb" />
     <Compile Include="KnowledgeBase\Cluster.vb" />
     <Compile Include="Enrichment.vb" />
-    <Compile Include="KOBAS\Database.vb" />
     <Compile Include="KOBAS\phenotype.vb" />
     <Compile Include="KOBAS\GSEA.vb" />
     <Compile Include="Extensions.vb" />
@@ -216,10 +215,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\BinaryData.vbproj">
-      <Project>{487D7C92-D05A-4908-BF81-E6BABA0BF592}</Project>
-      <Name>BinaryData</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
