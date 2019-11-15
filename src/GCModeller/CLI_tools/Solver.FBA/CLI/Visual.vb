@@ -137,7 +137,9 @@ Partial Module CLI
         Dim chromosomeGenes As Index(Of String) = model.genome _
             .replicons _
             .Where(Function(chr) Not chr.isPlasmid) _
-            .Select(Function(chr) chr.genes) _
+            .Select(Function(chr)
+                        Return chr.genes.AsEnumerable
+                    End Function) _
             .IteratesALL _
             .Select(Function(gene) gene.locus_tag) _
             .Indexing

@@ -103,7 +103,7 @@ Namespace v2
 
             For Each replicon In model.genome.replicons
                 type = If(replicon.isPlasmid, "plasmid", "chromosome")
-                sb.AppendLine($" [{replicon.genomeName}, {type}] {replicon.genes.Length} genes")
+                sb.AppendLine($" [{replicon.genomeName}, {type}] {replicon.genes.size} genes")
             Next
 
             Call sb.AppendLine()
