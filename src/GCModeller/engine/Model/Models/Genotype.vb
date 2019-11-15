@@ -281,6 +281,7 @@ Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double
         aa = DataFramework.Schema(Of ProteinComposition)(PropertyAccess.Readable, True, True) _
             .Values _
             .Where(Function(p) p.Name.Length = 1) _
+            .OrderBy(Function(p) p.Name) _
             .ToArray
     End Sub
 

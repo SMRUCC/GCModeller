@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
 Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Reaction
 
+<HideModuleName>
 Public Module Extensions
 
     <Extension>
@@ -207,15 +208,27 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Iterator Function getGenes(genome As GBFF.File) As IEnumerable(Of Gene)
+    Private Iterator Function getGenes(genome As GBFF.File) As IEnumerable(Of gene)
+        Dim proteinSequnce As Dictionary(Of String, ProteinComposition) = genome.Features _
+            .Where(Function(feature)
+                       Return feature.KeyName = "CDS"
+                   End Function) _
+            .Select(Function(feature)
+                        Return ProteinComposition.FromRefSeq(feature.Query("translation"), feature.Location.ToString)
+                    End Function) _
+            .ToDictionary(Function(prot)
+                              Return prot.proteinID
+                          End Function)
+
         For Each gene As GeneBrief In genome.GbffToPTT(ORF:=False).GeneObjects
-            Yield New Gene With {
-                .left = gene.Location.Left,
-                .right = gene.Location.Right,
+            Yield New gene With {
+                .left = gene.Location.left,
+                .right = gene.Location.right,
                 .locus_tag = gene.Synonym,
                 .product = gene.Product,
                 .protein_id = gene.PID,
-                .strand = gene.Location.Strand.GetBriefCode
+                .strand = gene.Location.Strand.GetBriefCode,
+                .amino_acid = proteinSequnce(.locus_tag).CreateVector
             }
         Next
     End Function

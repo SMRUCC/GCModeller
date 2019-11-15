@@ -68,7 +68,7 @@ Public Module Visualizer
                                 .mass = m.Value,
                                 .origID = m.ID,
                                 .label = m.ID,
-                                .radius = m.Value,
+                                .size = {m.Value},
                                 .Properties = New Dictionary(Of String, String) From {
                                     {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"}
                                 }
@@ -96,7 +96,7 @@ Public Module Visualizer
                     .label = reaction.ID,
                     .origID = reaction.ID,
                     .mass = reactionMass,
-                    .radius = reactionMass,
+                    .size = {reactionMass},
                     .Properties = New Dictionary(Of String, String) From {
                         {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"}
                     }
