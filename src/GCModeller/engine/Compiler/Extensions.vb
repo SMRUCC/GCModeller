@@ -256,8 +256,16 @@ Public Module Extensions
             .ToDictionary(Function(prot)
                               Return prot.proteinID
                           End Function)
+        Dim aa As NumericVector
 
+        ' RNA基因是没有蛋白序列的
         For Each gene As GeneBrief In genome.GbffToPTT(ORF:=False).GeneObjects
+            If proteinSequnce.ContainsKey(gene.Synonym) Then
+                aa = proteinSequnce(gene.Synonym).CreateVector
+            Else
+                aa = Nothing
+            End If
+
             Yield New gene With {
                 .left = gene.Location.left,
                 .right = gene.Location.right,
@@ -265,7 +273,7 @@ Public Module Extensions
                 .product = gene.Product,
                 .protein_id = gene.PID,
                 .strand = gene.Location.Strand.GetBriefCode,
-                .amino_acid = proteinSequnce(.locus_tag).CreateVector
+                .amino_acid = aa
             }
         Next
     End Function
