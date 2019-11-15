@@ -65,6 +65,21 @@ Namespace v2
                     .centralDogmas = model _
                         .createGenotype _
                         .OrderByDescending(Function(gene) gene.RNA.Value) _
+                        .ToArray,
+                    .ProteinMatrix = model.genome.replicons _
+                        .Select(Function(rep) rep.genes.AsEnumerable) _
+                        .IteratesALL _
+                        .Where(Function(gene) Not gene.amino_acid Is Nothing) _
+                        .Select(Function(gene)
+                                    Return gene.amino_acid.DoCall(AddressOf ProteinFromVector)
+                                End Function) _
+                        .ToArray,
+                    .RNAMatrix = model.genome.replicons _
+                        .Select(Function(rep) rep.RNAs.AsEnumerable) _
+                        .IteratesALL _
+                        .Select(Function(rna)
+                                    Return rna.nucleotide_base.DoCall(AddressOf RNAFromVector)
+                                End Function) _
                         .ToArray
                 },
                 .Phenotype = model.createPhenotype,
@@ -96,7 +111,7 @@ Namespace v2
                                       }
                                   End Function)
 
-                For Each gene As gene In replicon.genes
+                For Each gene As gene In replicon.genes.AsEnumerable
                     If rnaTable.ContainsKey(gene.locus_tag) Then
                         RNA = rnaTable(gene.locus_tag)
                         proteinId = Nothing
