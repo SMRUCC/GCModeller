@@ -96,7 +96,11 @@ Namespace PathwayMaps.RenderStyles
         End Sub
 
         Public Overrides Function getFontSize(node As Node) As Single
-            Return 32
+            If node.label.IsPattern("C\d+") Then
+                Return 20
+            Else
+                Return 15
+            End If
         End Function
 
         Public Overrides Function drawNode(id As String, g As IGraphics, br As Brush, radius As Single, center As PointF) As RectangleF
@@ -104,12 +108,16 @@ Namespace PathwayMaps.RenderStyles
         End Function
 
         Public Overrides Function getLabelColor(node As Node) As Color
-            Dim category = node.data("group.category")
-
-            If category.StringEmpty OrElse Not convexHullCategoryStyle.ContainsKey(category) Then
+            If node.label.IsPattern("R\d+") Then
                 Return Color.Black
             Else
-                Return convexHullCategoryStyle(category).TranslateColor
+                Dim category = node.data("group.category")
+
+                If category.StringEmpty OrElse Not convexHullCategoryStyle.ContainsKey(category) Then
+                    Return Color.Black
+                Else
+                    Return convexHullCategoryStyle(category).TranslateColor
+                End If
             End If
         End Function
 

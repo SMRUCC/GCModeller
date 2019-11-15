@@ -126,8 +126,8 @@ Namespace v2
         ''' 基因列表，在这个属性之中定义了该基因组之中的所有基因的数据
         ''' </summary>
         ''' <returns></returns>
-        Public Property genes As gene()
-        Public Property RNAs As RNA()
+        Public Property genes As XmlList(Of gene)
+        Public Property RNAs As XmlList(Of RNA)
 
         Public Overrides Function ToString() As String
             Dim type$ = "Genome" Or "Plasmid genome".When(isPlasmid)

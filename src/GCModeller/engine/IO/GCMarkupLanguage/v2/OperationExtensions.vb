@@ -60,6 +60,7 @@ Namespace v2
             ' 删除目标基因组之中所有发生缺失突变的基因
             For Each replicon As replicon In model.genome.replicons
                 replicon.genes = replicon.genes _
+                    .AsEnumerable _
                     .Where(Function(g)
                                Return Not g.locus_tag Like deleted
                            End Function) _

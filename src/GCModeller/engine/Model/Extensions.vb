@@ -39,7 +39,9 @@
 
 #End Region
 
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 <HideModuleName>
@@ -61,19 +63,42 @@ Public Module Extensions
 
     <Extension>
     Public Function CreateVector(protein As ProteinComposition) As NumericVector
-
+        Return New NumericVector With {
+            .name = protein.proteinID,
+            .vector = ProteinComposition.aa _
+                .Select(Function(p) CDbl(p.GetValue(protein))) _
+                .ToArray
+        }
     End Function
 
     Public Function ProteinFromVector(vector As NumericVector) As ProteinComposition
+        Dim protein As New ProteinComposition With {
+            .proteinID = vector.name
+        }
+        Dim i As i32 = Scan0
 
+        For Each aa As PropertyInfo In ProteinComposition.aa
+            Call aa.SetValue(protein, vector(++i))
+        Next
+
+        Return protein
     End Function
 
     <Extension>
     Public Function CreateVector(rna As RNAComposition) As NumericVector
-
+        Return New NumericVector With {
+            .name = rna.geneID,
+            .vector = {rna.A, rna.C, rna.G, rna.U}
+        }
     End Function
 
     Public Function RNAFromVector(vector As NumericVector) As RNAComposition
-
+        Return New RNAComposition With {
+            .geneID = vector.name,
+            .A = vector(0),
+            .C = vector(1),
+            .G = vector(2),
+            .U = vector(3)
+        }
     End Function
 End Module
