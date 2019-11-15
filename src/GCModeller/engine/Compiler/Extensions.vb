@@ -58,6 +58,12 @@ Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Re
 <HideModuleName>
 Public Module Extensions
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="genomes">染色体基因组+质粒基因组</param>
+    ''' <returns></returns>
     <Extension>
     Friend Iterator Function populateReplicons(model As CellularModule, genomes As Dictionary(Of String, GBFF.File)) As IEnumerable(Of replicon)
         For Each genome In genomes
@@ -75,7 +81,8 @@ Public Module Extensions
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Private Function getRNAs(model As CellularModule, repliconName$) As IEnumerable(Of RNA)
+    <Extension>
+    Private Function getRNAs(model As CellularModule, repliconName$) As IEnumerable(Of RNA)
         Return model.Genotype _
             .centralDogmas _
             .Where(Function(proc)
@@ -98,10 +105,11 @@ Public Module Extensions
     ''' <param name="KEGG"></param>
     ''' <param name="regulations">所有的复制子的调控网络应该都是合并在一起通过这个参数传递进来了</param>
     ''' <returns></returns>
-    <Extension> Public Function ToMarkup(model As CellularModule,
-                                         genomes As Dictionary(Of String, GBFF.File),
-                                         KEGG As RepositoryArguments,
-                                         regulations As RegulationFootprint()) As VirtualCell
+    <Extension>
+    Public Function ToMarkup(model As CellularModule,
+                             genomes As Dictionary(Of String, GBFF.File),
+                             KEGG As RepositoryArguments,
+                             regulations As RegulationFootprint()) As VirtualCell
 
         Dim KOgenes As Dictionary(Of String, CentralDogma) = model _
             .Genotype _
@@ -311,7 +319,8 @@ Public Module Extensions
         Next
     End Function
 
-    <Extension> Public Function ToTabular(model As CellularModule) As Excel
+    <Extension>
+    Public Function ToTabular(model As CellularModule) As Excel
 
     End Function
 End Module
