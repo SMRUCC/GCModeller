@@ -75,7 +75,7 @@ Namespace v2
                                 End Function) _
                         .ToArray,
                     .RNAMatrix = model.genome.replicons _
-                        .Select(Function(rep) rep.RNAs.AsEnumerable) _
+                        .Select(Function(rep) rep.genes.AsEnumerable) _
                         .IteratesALL _
                         .Select(Function(rna)
                                     Return rna.nucleotide_base.DoCall(AddressOf RNAFromVector)

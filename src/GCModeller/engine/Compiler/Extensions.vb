@@ -74,7 +74,7 @@ Public Module Extensions
                     .getGenes(locationAsLocustag) _
                     .ToArray,
                 .RNAs = model _
-                    .getRNAs(.genomeName, genomes, locationAsLocustag) _
+                    .getRNAs(.genomeName) _
                     .ToArray,
                 .isPlasmid = genome.Value.IsPlasmidSource
             }
@@ -82,24 +82,7 @@ Public Module Extensions
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Private Function getRNAs(model As CellularModule,
-                                         repliconName$,
-                                         genomes As Dictionary(Of String, GBFF.File),
-                                         locationAsLocustag As Boolean) As IEnumerable(Of RNA)
-
-        Dim geneKeys As Index(Of String) = {"CDS", "tRNA", "rRNA"}
-        Dim genes = genomes.Values _
-            .Select(Function(gb) gb.Features) _
-            .IteratesALL _
-            .Where(Function(gene) gene.KeyName Like geneKeys) _
-            .ToDictionary(Function(g)
-                              If locationAsLocustag Then
-                                  Return g.Location.ToString
-                              Else
-                                  Return g.Query("locus_tag")
-                              End If
-                          End Function)
-
+    <Extension> Private Function getRNAs(model As CellularModule, repliconName$) As IEnumerable(Of RNA)
         Return model.Genotype _
             .centralDogmas _
             .Where(Function(proc)
@@ -109,10 +92,7 @@ Public Module Extensions
                         Return New RNA With {
                             .type = proc.RNA.Value,
                             .val = proc.RNA.Description,
-                            .gene = proc.geneID,
-                            .nucleotide_base = RNAComposition _
-                                .FromNtSequence(genes(proc.geneID).SequenceData, proc.geneID) _
-                                .CreateVector
+                            .gene = proc.geneID
                         }
                     End Function)
     End Function
@@ -256,6 +236,17 @@ Public Module Extensions
             .ToDictionary(Function(prot)
                               Return prot.proteinID
                           End Function)
+        Dim geneKeys As Index(Of String) = {"CDS", "tRNA", "rRNA"}
+        Dim genes = genome _
+            .Features _
+            .Where(Function(gene) gene.KeyName Like geneKeys) _
+            .ToDictionary(Function(g)
+                              If locationAsLocus_tag Then
+                                  Return g.Location.ToString
+                              Else
+                                  Return g.Query("locus_tag")
+                              End If
+                          End Function)
         Dim aa As NumericVector
 
         ' RNA基因是没有蛋白序列的
@@ -273,7 +264,10 @@ Public Module Extensions
                 .product = gene.Product,
                 .protein_id = gene.PID,
                 .strand = gene.Location.Strand.GetBriefCode,
-                .amino_acid = aa
+                .amino_acid = aa,
+                .nucleotide_base = RNAComposition _
+                    .FromNtSequence(genes(.locus_tag).SequenceData, .locus_tag) _
+                    .CreateVector
             }
         Next
     End Function
