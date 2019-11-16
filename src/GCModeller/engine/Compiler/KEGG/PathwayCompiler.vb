@@ -123,7 +123,7 @@ Public Module PathwayCompiler
                     .populateReplicons(genomes, locationAsLocustag) _
                     .ToArray
             },
-            .MetabolismStructure = New MetabolismStructure With {
+            .metabolismStructure = New MetabolismStructure With {
                 .maps = maps
             }
         }

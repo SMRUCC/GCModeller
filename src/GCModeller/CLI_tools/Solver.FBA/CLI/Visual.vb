@@ -146,7 +146,7 @@ Partial Module CLI
         Dim genes As NamedValue(Of String)()
         Dim png$
 
-        For Each category As FunctionalCategory In model.MetabolismStructure.maps
+        For Each category As FunctionalCategory In model.metabolismStructure.maps
             For Each pathway In category.pathways
                 png = $"{out}/{category.category}/{pathway.ID}.png"
                 genes = pathway _

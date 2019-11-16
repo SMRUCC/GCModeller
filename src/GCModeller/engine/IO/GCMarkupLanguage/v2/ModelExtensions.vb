@@ -90,7 +90,7 @@ Namespace v2
         <Extension>
         Private Iterator Function createGenotype(model As VirtualCell) As IEnumerable(Of CentralDogma)
             Dim genomeName$
-            Dim enzymes As Dictionary(Of String, Enzyme) = model.MetabolismStructure _
+            Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure _
                 .Enzymes _
                 .ToDictionary(Function(enzyme) enzyme.geneID)
             Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
@@ -148,7 +148,7 @@ Namespace v2
         Private Iterator Function createFluxes(model As VirtualCell) As IEnumerable(Of FluxModel)
             Dim equation As Equation
             ' {reactionID => KO()}
-            Dim enzymes = model.MetabolismStructure _
+            Dim enzymes = model.metabolismStructure _
                 .Enzymes _
                 .Select(Function(enz)
                             Return enz _
@@ -168,7 +168,7 @@ Namespace v2
             Dim KO$()
             Dim bounds As DoubleRange
 
-            For Each reaction In model.MetabolismStructure.Reactions
+            For Each reaction In model.metabolismStructure.Reactions
                 equation = Equation.TryParse(reaction.Equation)
 
                 If reaction.is_enzymatic Then

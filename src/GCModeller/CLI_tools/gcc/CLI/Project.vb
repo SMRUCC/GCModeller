@@ -199,7 +199,7 @@ Partial Module CLI
         Dim degree% = args("/degree") Or 1
         Dim out$ = args("/out") Or $"{model.TrimSuffix}.pathways/"
 
-        For Each [module] As FunctionalCategory In model.LoadXml(Of VirtualCell).MetabolismStructure.maps
+        For Each [module] As FunctionalCategory In model.LoadXml(Of VirtualCell).metabolismStructure.maps
             Dim mapName = [module].category.NormalizePathString
 
             For Each pathway As Pathway In [module].pathways

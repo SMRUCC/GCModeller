@@ -75,12 +75,12 @@ Namespace v2
                        End Function) _
                 .ToArray
             ' 将对应的酶促过程也删除掉
-            model.MetabolismStructure.Enzymes = model.MetabolismStructure _
+            model.metabolismStructure.Enzymes = model.metabolismStructure _
                 .Enzymes _
                 .Where(Function(enz) Not enz.geneID Like deleted) _
                 .ToArray
             ' 讲代谢途径之中的酶分子的定义也删除掉
-            For Each [module] As FunctionalCategory In model.MetabolismStructure.maps
+            For Each [module] As FunctionalCategory In model.metabolismStructure.maps
                 For Each pathway As Pathway In [module].pathways
                     pathway.enzymes = pathway _
                         .enzymes _
@@ -101,7 +101,7 @@ Namespace v2
         Public Function Trim(model As VirtualCell) As VirtualCell
             ' 得到在当前的虚拟细胞模型之中所有的可以被酶催化的酶促反应过程
             ' 的编号列表
-            Dim allEnzymatics = model.MetabolismStructure _
+            Dim allEnzymatics = model.metabolismStructure _
                 .Enzymes _
                 .Select(Function(enz)
                             Return enz.catalysis.Select(Function(c) c.reaction)
@@ -110,8 +110,8 @@ Namespace v2
                 .Distinct _
                 .Indexing
 
-            model.MetabolismStructure.Reactions = model _
-                .MetabolismStructure _
+            model.metabolismStructure.Reactions = model _
+                .metabolismStructure _
                 .Reactions _
                 .Where(Function(r) Not r.isDisconnectedNode(allEnzymatics)) _
                 .ToArray

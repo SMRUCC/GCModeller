@@ -141,7 +141,7 @@ Namespace v2
         <XmlAttribute> Public Property locus_tag As String
         <XmlAttribute> Public Property protein_id As String
 
-        <XmlText>
+        <XmlElement>
         Public Property product As String
 
         <XmlAttribute> Public Property left As Integer
@@ -157,7 +157,16 @@ Namespace v2
         ''' </remarks>
         <XmlAttribute> Public Property strand As String
 
+        ''' <summary>
+        ''' 对于rRNA和tRNA不存在
+        ''' </summary>
+        ''' <returns></returns>
         Public Property amino_acid As NumericVector
+        ''' <summary>
+        ''' mRNA, tRNA, rRNA, etc
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property nucleotide_base As NumericVector
 
     End Class
 
@@ -173,8 +182,6 @@ Namespace v2
         <XmlAttribute> Public Property gene As String
         <XmlAttribute> Public Property type As RNATypes
         <XmlAttribute> Public Property val As String
-
-        Public Property nucleotide_base As NumericVector
 
     End Class
 

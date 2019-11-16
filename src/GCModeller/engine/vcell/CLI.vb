@@ -16,7 +16,7 @@ Module CLI
         Dim in$ = args <= "/model"
         Dim out$ = args("/out") Or $"{in$.TrimSuffix}.vcell_simulation/"
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
-        Dim def As Definition = model.MetabolismStructure _
+        Dim def As Definition = model.metabolismStructure _
             .Compounds _
             .Select(Function(c) c.ID) _
             .DoCall(Function(compounds)

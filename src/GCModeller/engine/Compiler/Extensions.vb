@@ -162,7 +162,7 @@ Public Module Extensions
                     .getTFregulations(regulations) _
                     .ToArray
             },
-            .MetabolismStructure = New MetabolismStructure With {
+            .metabolismStructure = New MetabolismStructure With {
                 .Reactions = model _
                     .Phenotype _
                     .fluxes _
