@@ -239,7 +239,6 @@ Public Module Extensions
         Dim geneKeys As Index(Of String) = {"CDS", "tRNA", "rRNA"}
         Dim genes = genome _
             .Features _
-            .Where(Function(gene) gene.KeyName Like geneKeys) _
             .ToDictionary(Function(g)
                               If locationAsLocus_tag Then
                                   Return g.Location.ToString
@@ -248,14 +247,22 @@ Public Module Extensions
                               End If
                           End Function)
         Dim aa As NumericVector
+        Dim rna As NumericVector
+        Dim locus_tag As String
 
         ' RNA基因是没有蛋白序列的
         For Each gene As GeneBrief In genome.GbffToPTT(ORF:=False).GeneObjects
+            locus_tag = gene.Synonym
+
             If proteinSequnce.ContainsKey(gene.Synonym) Then
                 aa = proteinSequnce(gene.Synonym).CreateVector
             Else
                 aa = Nothing
             End If
+
+            rna = RNAComposition _
+                .FromNtSequence(genes(locus_tag).SequenceData, locus_tag) _
+                .CreateVector
 
             Yield New gene With {
                 .left = gene.Location.left,
@@ -265,9 +272,7 @@ Public Module Extensions
                 .protein_id = gene.PID,
                 .strand = gene.Location.Strand.GetBriefCode,
                 .amino_acid = aa,
-                .nucleotide_base = RNAComposition _
-                    .FromNtSequence(genes(.locus_tag).SequenceData, .locus_tag) _
-                    .CreateVector
+                .nucleotide_base = rna
             }
         Next
     End Function
