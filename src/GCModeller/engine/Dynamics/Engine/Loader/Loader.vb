@@ -40,7 +40,6 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
@@ -71,28 +70,21 @@ Public Class Loader
         Return $"{protein.ProteinID}::mature.process"
     End Function
 
-    Public Function CreateEnvironment(cell As CellularModule) As Vessel
-        Dim channels As New List(Of Channel)
-        Dim rnaMatrix = cell.Genotype.RNAMatrix.ToDictionary(Function(r) r.geneID)
-        Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
+    ''' <summary>
+    ''' 先构建一般性的中心法则过程
+    ''' 在这里面包含所有类型的RNA转录
+    ''' 以及蛋白序列的翻译
+    ''' </summary>
+    ''' <param name="cell"></param>
+    ''' <returns></returns>
+    Private Iterator Function centralDogmaFlux(cell As CellularModule) As IEnumerable(Of Channel)
         Dim templateDNA As Variable()
         Dim productsRNA As Variable()
         Dim templateRNA As Variable()
         Dim productsPro As Variable()
+        Dim rnaMatrix = cell.Genotype.RNAMatrix.ToDictionary(Function(r) r.geneID)
+        Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
 
-        ' 在这里需要首选构建物质列表
-        ' 否则下面的转录和翻译过程的构建会出现找不到物质因子对象的问题
-        For Each reaction As Reaction In cell.Phenotype.fluxes
-            For Each compound In reaction.AllCompounds
-                If Not massTable.Exists(compound) Then
-                    Call massTable.AddNew(compound)
-                End If
-            Next
-        Next
-
-        ' 先构建一般性的中心法则过程
-        ' 在这里面包含所有类型的RNA转录
-        ' 以及蛋白序列的翻译
         For Each cd As CentralDogma In cell.Genotype.centralDogmas
             Call massTable.AddNew(cd.geneID)
             Call massTable.AddNew(cd.RNA.Name)
@@ -114,7 +106,8 @@ Public Class Loader
                 productsPro = {
                     massTable.variable(cd.polypeptide)
                 }
-                channels += New Channel(templateRNA, productsPro) With {
+
+                Yield New Channel(templateRNA, productsPro) With {
                     .ID = cd.DoCall(AddressOf GetTranslationId),
                     .forward = New Controls With {.baseline = 5},
                     .reverse = New Controls With {.baseline = 0},
@@ -122,15 +115,21 @@ Public Class Loader
                 }
             End If
 
-            channels += New Channel(templateDNA, productsRNA) With {
+            Yield New Channel(templateDNA, productsRNA) With {
                 .ID = cd.DoCall(AddressOf GetTranscriptionId),
                 .forward = New Controls With {.baseline = 5},
                 .reverse = New Controls With {.baseline = 0},
                 .bounds = New Boundary With {.forward = 100, .reverse = 0}
             }
         Next
+    End Function
 
-        ' 构建酶成熟的过程
+    ''' <summary>
+    ''' 构建酶成熟的过程
+    ''' </summary>
+    ''' <param name="cell"></param>
+    ''' <returns></returns>
+    Private Iterator Function proteinMature(cell As CellularModule) As IEnumerable(Of Channel)
         For Each complex As Protein In cell.Phenotype.proteins
             For Each compound In complex.compounds
                 If Not massTable.Exists(compound) Then
@@ -147,20 +146,30 @@ Public Class Loader
             Dim mature = {massTable.variable(complex.ProteinID)}
 
             ' 酶的成熟过程也是一个不可逆的过程
-            channels += New Channel(unformed, mature) With {
+            Yield New Channel(unformed, mature) With {
                 .ID = complex.DoCall(AddressOf GetProteinMatureId),
                 .bounds = New Boundary With {.forward = 100, .reverse = 0},
                 .reverse = New Controls With {.baseline = 0},
                 .forward = New Controls With {.baseline = 5}
             }
         Next
+    End Function
 
-        ' 构建代谢网络
+    ''' <summary>
+    ''' 构建代谢网络
+    ''' </summary>
+    ''' <param name="cell"></param>
+    ''' <returns></returns>
+    Private Iterator Function metabolismNetwork(cell As CellularModule) As IEnumerable(Of Channel)
         For Each reaction As Reaction In cell.Phenotype.fluxes
             Dim left = massTable.variables(reaction.substrates)
             Dim right = massTable.variables(reaction.products)
+            Dim bounds As New Boundary With {
+                .forward = reaction.bounds.Max,
+                .reverse = reaction.bounds.Min
+            }
             Dim metabolismFlux As New Channel(left, right) With {
-                .bounds = New Boundary With {.forward = reaction.bounds.Max, .reverse = reaction.bounds.Min},
+                .bounds = bounds,
                 .ID = reaction.ID,
                 .forward = New Controls With {
                     .activation = massTable _
@@ -171,11 +180,27 @@ Public Class Loader
                 .reverse = New Controls With {.baseline = 1}
             }
 
-            channels += metabolismFlux
+            Yield metabolismFlux
+        Next
+    End Function
+
+    Public Function CreateEnvironment(cell As CellularModule) As Vessel
+        ' 在这里需要首选构建物质列表
+        ' 否则下面的转录和翻译过程的构建会出现找不到物质因子对象的问题
+        For Each reaction As Reaction In cell.Phenotype.fluxes
+            For Each compound In reaction.AllCompounds
+                If Not massTable.Exists(compound) Then
+                    Call massTable.AddNew(compound)
+                End If
+            Next
         Next
 
+        Dim centralDogmas = cell.DoCall(AddressOf centralDogmaFlux).AsList
+        Dim proteinMatrues = cell.DoCall(AddressOf proteinMature).ToArray
+        Dim metabolism = cell.DoCall(AddressOf metabolismNetwork).ToArray
+
         Return New Vessel With {
-            .Channels = channels,
+            .Channels = centralDogmas + proteinMatrues + metabolism,
             .MassEnvironment = massTable.ToArray
         }
     End Function
