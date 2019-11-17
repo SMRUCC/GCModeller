@@ -68,7 +68,7 @@ Public Class Loader
     End Function
 
     Public Shared Function GetProteinMatureId(protein As Protein) As String
-
+        Return $"{protein.ProteinID}::mature.process"
     End Function
 
     Public Function CreateEnvironment(cell As CellularModule) As Vessel

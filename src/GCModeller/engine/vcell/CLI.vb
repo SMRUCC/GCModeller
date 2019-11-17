@@ -31,7 +31,7 @@ Module CLI
               metabolomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/metabolome.xls", metaKeys:=massIndex.metabolome, metaBlank:=0, tsv:=True),
               transcriptomeFlux As New WriteStream(Of DataSet)($"{out}/flux/transcriptome.xls", metaKeys:=fluxIndex.transcriptome, metaBlank:=0, tsv:=True),
               proteomeFlux As New WriteStream(Of DataSet)($"{out}/flux/proteome.xls", metaKeys:=fluxIndex.proteome, metaBlank:=0, tsv:=True),
-              metabolomeFlux As New WriteStream(Of DataSet)($"{out}/flux/transcriptome.xls", metaKeys:=fluxIndex.metabolome, metaBlank:=0, tsv:=True)
+              metabolomeFlux As New WriteStream(Of DataSet)($"{out}/flux/metabolome.xls", metaKeys:=fluxIndex.metabolome, metaBlank:=0, tsv:=True)
 
             Dim massSnapshots As New OmicsTuple(Of DataStorageDriver)(
                 transcriptome:=transcriptomeSnapshots.createDriver,
