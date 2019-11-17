@@ -154,7 +154,7 @@ Namespace Engine
                             CLITools.AppSummary(assm, "Welcome to use SMRUCC/GCModeller virtual cell simulator!", Nothing, App.StdOut)
                         End Sub)
 
-            Using process As New ProgressBar("Running simulator...", 1, CLS:=False)
+            Using process As New ProgressBar("Running simulator...")
                 Dim progress As New ProgressProvider(iterations)
                 Dim flux As Dictionary(Of String, Double)
 
