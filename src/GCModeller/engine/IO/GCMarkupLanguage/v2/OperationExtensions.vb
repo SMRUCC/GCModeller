@@ -126,10 +126,11 @@ Namespace v2
                 ' 则不是断开的节点
                 Return False
             Else
-                ' 是酶促反应过程，但是在模型之中找不到对应的酶
                 If r.ID Like allEnzymatics Then
                     Return False
                 Else
+                    ' 是酶促反应过程，但是在模型之中找不到对应的酶
+                    ' 则是一个断开的节点
                     Return True
                 End If
             End If

@@ -58,30 +58,33 @@ Namespace v2
         ''' </summary>
         ''' <param name="model"></param>
         ''' <returns></returns>
-        <Extension> Public Function CreateModel(model As VirtualCell) As CellularModule
+        <Extension>
+        Public Function CreateModel(model As VirtualCell) As CellularModule
+            Dim genotype As New Genotype With {
+                .centralDogmas = model _
+                    .createGenotype _
+                    .OrderByDescending(Function(gene) gene.RNA.Value) _
+                    .ToArray,
+                .ProteinMatrix = model.genome.replicons _
+                    .Select(Function(rep) rep.genes.AsEnumerable) _
+                    .IteratesALL _
+                    .Where(Function(gene) Not gene.amino_acid Is Nothing) _
+                    .Select(Function(gene)
+                                Return gene.amino_acid.DoCall(AddressOf ProteinFromVector)
+                            End Function) _
+                    .ToArray,
+                .RNAMatrix = model.genome.replicons _
+                    .Select(Function(rep) rep.genes.AsEnumerable) _
+                    .IteratesALL _
+                    .Select(Function(rna)
+                                Return rna.nucleotide_base.DoCall(AddressOf RNAFromVector)
+                            End Function) _
+                    .ToArray
+            }
+
             Return New CellularModule With {
                 .Taxonomy = model.taxonomy,
-                .Genotype = New Genotype With {
-                    .centralDogmas = model _
-                        .createGenotype _
-                        .OrderByDescending(Function(gene) gene.RNA.Value) _
-                        .ToArray,
-                    .ProteinMatrix = model.genome.replicons _
-                        .Select(Function(rep) rep.genes.AsEnumerable) _
-                        .IteratesALL _
-                        .Where(Function(gene) Not gene.amino_acid Is Nothing) _
-                        .Select(Function(gene)
-                                    Return gene.amino_acid.DoCall(AddressOf ProteinFromVector)
-                                End Function) _
-                        .ToArray,
-                    .RNAMatrix = model.genome.replicons _
-                        .Select(Function(rep) rep.genes.AsEnumerable) _
-                        .IteratesALL _
-                        .Select(Function(rna)
-                                    Return rna.nucleotide_base.DoCall(AddressOf RNAFromVector)
-                                End Function) _
-                        .ToArray
-                },
+                .Genotype = genotype,
                 .Phenotype = model.createPhenotype,
                 .Regulations = model.exportRegulations.ToArray
             }
@@ -137,27 +140,31 @@ Namespace v2
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function createPhenotype(model As VirtualCell) As Phenotype
+            Dim fluxChannels = model.createFluxes _
+                .OrderByDescending(Function(r) r.enzyme.SafeQuery.Count) _
+                .ToArray
+            Dim enzymes = model.metabolismStructure.Enzymes _
+                .Select(Function(enz) enz.geneID) _
+                .ToArray
+            Dim proteins = model.genome.replicons _
+                .Select(Function(genome)
+                            Return genome.genes.AsEnumerable
+                        End Function) _
+                .IteratesALL _
+                .Where(Function(gene) Not gene.amino_acid Is Nothing) _
+                .Select(Function(orf)
+                            Return New Protein With {
+                                .compounds = {},
+                                .polypeptides = {orf.protein_id},
+                                .ProteinID = orf.protein_id
+                            }
+                        End Function) _
+                .ToArray
+
             Return New Phenotype With {
-                .fluxes = model.createFluxes _
-                    .OrderByDescending(Function(r) r.enzyme.SafeQuery.Count) _
-                    .ToArray,
-                .enzymes = model.metabolismStructure.Enzymes _
-                    .Select(Function(enz) enz.geneID) _
-                    .ToArray,
-                .proteins = model.genome.replicons _
-                    .Select(Function(genome)
-                                Return genome.genes.AsEnumerable
-                            End Function) _
-                    .IteratesALL _
-                    .Where(Function(gene) Not gene.amino_acid Is Nothing) _
-                    .Select(Function(orf)
-                                Return New Protein With {
-                                    .compounds = {},
-                                    .polypeptides = {orf.protein_id},
-                                    .ProteinID = orf.protein_id
-                                }
-                            End Function) _
-                    .ToArray
+                .fluxes = fluxChannels,
+                .enzymes = enzymes,
+                .proteins = proteins
             }
         End Function
 
@@ -194,13 +201,13 @@ Namespace v2
                     If KO.IsNullOrEmpty Then
                         ' 当前的基因组内没有对应的酶来催化这个反应过程
                         ' 则限制一个很小的range
-                        bounds = {0, 0.1}
+                        bounds = {1, 1}
                     Else
-                        bounds = {0, 1000.0}
+                        bounds = {500, 1000.0}
                     End If
                 Else
                     KO = {}
-                    bounds = {0, 100.0}
+                    bounds = {100, 100.0}
                 End If
 
                 Yield New FluxModel With {

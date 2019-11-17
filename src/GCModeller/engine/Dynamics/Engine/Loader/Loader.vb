@@ -159,8 +159,7 @@ Public Class Loader
         For Each reaction As Reaction In cell.Phenotype.fluxes
             Dim left = massTable.variables(reaction.substrates)
             Dim right = massTable.variables(reaction.products)
-
-            channels += New Channel(left, right) With {
+            Dim metabolismFlux As New Channel(left, right) With {
                 .bounds = New Boundary With {.forward = reaction.bounds.Max, .reverse = reaction.bounds.Min},
                 .ID = reaction.ID,
                 .forward = New Controls With {
@@ -171,6 +170,8 @@ Public Class Loader
                 },
                 .reverse = New Controls With {.baseline = 1}
             }
+
+            channels += metabolismFlux
         Next
 
         Return New Vessel With {

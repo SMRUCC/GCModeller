@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Module CLI
 
@@ -22,7 +23,7 @@ Module CLI
             .DoCall(Function(compounds)
                         Return Definition.KEGG(compounds)
                     End Function)
-        Dim cell = model.Trim.CreateModel
+        Dim cell As CellularModule = model.Trim.CreateModel
         Dim massIndex = OmicsDataAdapter.GetMassTuples(cell)
         Dim fluxIndex = OmicsDataAdapter.GetFluxTuples(cell)
 
