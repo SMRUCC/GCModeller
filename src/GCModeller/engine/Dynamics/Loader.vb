@@ -50,8 +50,9 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 ''' </summary>
 Public Class Loader
 
-    Dim define As Definition
-    Dim massTable As New MassTable
+    ReadOnly define As Definition
+
+    Public ReadOnly Property massTable As New MassTable
 
     Sub New(define As Definition)
         Me.define = define

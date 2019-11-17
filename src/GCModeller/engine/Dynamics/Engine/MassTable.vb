@@ -55,6 +55,13 @@ Namespace Engine
 
         Dim massTable As New Dictionary(Of String, Factor)
 
+        Public ReadOnly Property GetMassValues As Dictionary(Of String, Double)
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Me.ToDictionary(Function(m) m.ID, Function(m) m.Value)
+            End Get
+        End Property
+
         Public Sub Delete(key As String) Implements IRepositoryWrite(Of String, Factor).Delete
             If massTable.ContainsKey(key) Then
                 Call massTable.Remove(key)

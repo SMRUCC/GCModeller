@@ -40,16 +40,79 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace Engine
 
-    Public Class Engine
+    Public Delegate Sub DataStorageDriver(iteration%, data As Dictionary(Of String, Double))
 
-        ReadOnly massTable As MassTable
+    Public Class Engine : Implements ITaskDriver
 
+        Dim mass As MassTable
+
+        ''' <summary>
+        ''' The biological flux simulator engine core module
+        ''' </summary>
+        Dim core As Vessel
+        Dim def As Definition
+        Dim model As CellularModule
+        Dim iterations As Integer = 5000
+
+        Dim snapshots As DataStorageDriver
+        Dim flux As DataStorageDriver
+
+        Sub New(def As Definition, Optional iterations% = 5000)
+            Me.def = def
+            Me.iterations = iterations
+        End Sub
+
+        Public Function HookBiologicalMassStorage(driver As DataStorageDriver) As Engine
+            Me.snapshots = driver
+            Return Me
+        End Function
+
+        Public Function HookBiologicalFluxStorage(driver As DataStorageDriver) As Engine
+            Me.flux = driver
+            Return Me
+        End Function
+
+        Public Function LoadModel(virtualCell As CellularModule, Optional timeResolution# = 1000) As Engine
+            Dim loader As New Loader(def)
+            Dim cell As Core.Vessel = loader _
+                .CreateEnvironment(virtualCell) _
+                .Initialize(timeResolution)
+
+            core = cell
+            mass = loader.massTable
+            model = virtualCell
+
+            Call Reset()
+
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' Reset the reactor engine. (Do reset of the biological mass contents)
+        ''' </summary>
+        Public Sub Reset()
+
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetMass(names As IEnumerable(Of String)) As IEnumerable(Of Factor)
-            Return massTable.GetByKey(names)
+            Return mass.GetByKey(names)
+        End Function
+
+        Public Function Run() As Integer Implements ITaskDriver.Run
+            For i As Integer = 0 To iterations
+                Call flux(i, core.ContainerIterator().ToDictionary.FlatTable)
+                Call snapshots(i, mass.GetMassValues)
+            Next
+
+            Return 0
         End Function
     End Class
 End Namespace

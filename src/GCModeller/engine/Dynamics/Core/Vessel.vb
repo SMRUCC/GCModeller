@@ -90,7 +90,7 @@ Namespace Core
         ''' 
         ''' </summary>
         ''' <param name="timeResolution">反应变换的时间分辨率</param>
-        Public Sub Initialize(Optional timeResolution# = 1000)
+        Public Function Initialize(Optional timeResolution# = 1000) As Vessel
             Dim sharedLeft = factorsByCount(True)
             Dim sharedRight = factorsByCount(False)
 
@@ -100,7 +100,9 @@ Namespace Core
 
             resolution = timeResolution
             shareFactors = (sharedLeft, sharedRight)
-        End Sub
+
+            Return Me
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function factorsByCount(isLeft As Boolean) As Dictionary(Of String, Double)
