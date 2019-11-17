@@ -48,12 +48,13 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 
 Namespace Core
 
     ''' <summary>
-    ''' 反应过程通道
+    ''' Biological flux object model, the reaction channel.
+    ''' 
+    ''' (反应过程通道)
     ''' </summary>
     Public Class Channel : Implements INamedValue
 
