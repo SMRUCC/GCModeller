@@ -16,10 +16,12 @@ Namespace Engine
         End Sub
     End Class
 
+    Public Delegate Sub DataStorageDriver(iteration%, data As Dictionary(Of String, Double))
+
     Public Class OmicsDataAdapter
 
-        Dim mass As OmicsTuple(Of String())
-        Dim flux As OmicsTuple(Of String())
+        Friend mass As OmicsTuple(Of String())
+        Friend flux As OmicsTuple(Of String())
 
         Dim saveMass As OmicsTuple(Of DataStorageDriver)
         Dim saveFlux As OmicsTuple(Of DataStorageDriver)

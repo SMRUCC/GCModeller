@@ -47,8 +47,6 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace Engine
 
-    Public Delegate Sub DataStorageDriver(iteration%, data As Dictionary(Of String, Double))
-
     Public Class Engine : Implements ITaskDriver
 
         Dim mass As MassTable
@@ -61,6 +59,45 @@ Namespace Engine
         Dim model As CellularModule
         Dim iterations As Integer = 5000
         Dim dataStorageDriver As OmicsDataAdapter
+
+#Region "Debug views"
+
+        Public ReadOnly Property viewTranscriptome As Dictionary(Of String, Double)
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return mass _
+                    .GetByKey(dataStorageDriver.mass.transcriptome) _
+                    .ToDictionary(Function(mass) mass.ID,
+                                  Function(mass)
+                                      Return mass.Value
+                                  End Function)
+            End Get
+        End Property
+
+        Public ReadOnly Property viewProteome As Dictionary(Of String, Double)
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return mass _
+                    .GetByKey(dataStorageDriver.mass.proteome) _
+                    .ToDictionary(Function(mass) mass.ID,
+                                  Function(mass)
+                                      Return mass.Value
+                                  End Function)
+            End Get
+        End Property
+
+        Public ReadOnly Property viewMetabolome As Dictionary(Of String, Double)
+            Get
+                Return mass _
+                    .GetByKey(dataStorageDriver.mass.metabolome) _
+                    .ToDictionary(Function(mass) mass.ID,
+                                  Function(mass)
+                                      Return mass.Value
+                                  End Function)
+            End Get
+        End Property
+
+#End Region
 
         Sub New(def As Definition, Optional iterations% = 5000)
             Me.def = def
