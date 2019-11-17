@@ -92,20 +92,35 @@ Public Module Workflow
     End Function
 
     ''' <summary>
-    ''' 输出Model，然后再从Model写出模型文件
+    ''' 
     ''' </summary>
     ''' <param name="replicons"></param>
-    ''' <param name="KOfunction">``[geneID => KO]`` maps</param>
-    ''' <param name="repo"></param>
+    ''' <param name="locationAsLocustag"></param>
     ''' <returns></returns>
+    ''' 
     <Extension>
-    Public Function AssemblingMetabolicNetwork(replicons As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), repo As RepositoryArguments, locationAsLocustag As Boolean) As CellularModule
+    Public Function AssemblingGenomeInformation(replicons As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), locationAsLocustag As Boolean) As CellularModule
         Dim taxonomy As Taxonomy = replicons.getTaxonomy
         Dim genotype As New Genotype With {
             .centralDogmas = replicons _
                 .GetCentralDogmas(KOfunction, locationAsLocustag) _
                 .ToArray
         }
+
+        Return New CellularModule With {
+            .Taxonomy = taxonomy,
+            .Genotype = genotype
+        }
+    End Function
+
+    ''' <summary>
+    ''' 输出Model，然后再从Model写出模型文件
+    ''' </summary>
+    ''' <param name="KOfunction">``[geneID => KO]`` maps</param>
+    ''' <param name="repo"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function AssemblingMetabolicNetwork(cell As CellularModule, KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
         Dim phenotype As New Phenotype With {
             .fluxes = repo _
                 .GetReactions _
@@ -113,14 +128,12 @@ Public Module Workflow
                 .ToArray
         }
 
-        Return New CellularModule With {
-            .Taxonomy = taxonomy,
-            .Genotype = genotype,
-            .Phenotype = phenotype,
-            .Regulations = KOfunction _
-                .createMetabolicProcess(repo.GetReactions) _
-                .ToArray
-        }
+        cell.Phenotype = phenotype
+        cell.Regulations = KOfunction _
+            .createMetabolicProcess(repo.GetReactions) _
+            .ToArray
+
+        Return cell
     End Function
 
     <Extension>
@@ -288,6 +301,9 @@ Public Module Workflow
                 If proteinId.StringEmpty Then
                     proteinId = $"{locus_tag}::peptide"
                 End If
+
+                ' 蛋白功能描述
+                rnaData = CDS.Query("product").Trim
             Else
                 ' 既没有RNA也没有CDS，这个可能是其他的类型的feature
                 ' 例如移动原件之类的
