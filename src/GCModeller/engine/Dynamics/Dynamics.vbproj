@@ -113,6 +113,7 @@
     <Compile Include="Core\Flux\Extensions.vb" />
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
+    <Compile Include="Engine\NamespaceDoc.vb" />
     <Compile Include="Engine\Engine.vb" />
     <Compile Include="Engine\MassTable.vb" />
     <Compile Include="Definition.vb" />
