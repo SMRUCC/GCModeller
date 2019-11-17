@@ -27,6 +27,8 @@ Module CLI
         Dim massIndex = OmicsDataAdapter.GetMassTuples(cell)
         Dim fluxIndex = OmicsDataAdapter.GetFluxTuples(cell)
 
+        Call "Open data stream output device..".__DEBUG_ECHO
+
         Using transcriptomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/transcriptome.xls", metaKeys:=massIndex.transcriptome, metaBlank:=0, tsv:=True),
               proteomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/proteome.xls", metaKeys:=massIndex.proteome, metaBlank:=0, tsv:=True),
               metabolomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/metabolome.xls", metaKeys:=massIndex.metabolome, metaBlank:=0, tsv:=True),

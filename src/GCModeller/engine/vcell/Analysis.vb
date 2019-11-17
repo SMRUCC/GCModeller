@@ -16,5 +16,11 @@ Partial Module CLI
         Dim time$ = args <= "/time"
         Dim out$ = args("/out") Or $"{raw.TrimDIR},time={time}.matrix.csv"
         Dim matrix As New DataFrame
+
+
+
+        Return matrix _
+            .SaveTable(out) _
+            .CLICode
     End Function
 End Module

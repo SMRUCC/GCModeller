@@ -41,6 +41,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
@@ -145,7 +147,14 @@ Namespace Engine
         End Function
 
         Public Function Run() As Integer Implements ITaskDriver.Run
-            Using process As New ProgressBar("Running simulator...", 1, True)
+            Call VBDebugger.WaitOutput()
+            Call GetType(Engine).Assembly _
+                .FromAssembly _
+                .DoCall(Sub(assm)
+                            CLITools.AppSummary(assm, "Welcome to use SMRUCC/GCModeller virtual cell simulator!", Nothing, App.StdOut)
+                        End Sub)
+
+            Using process As New ProgressBar("Running simulator...", 1, CLS:=False)
                 Dim progress As New ProgressProvider(iterations)
                 Dim flux As Dictionary(Of String, Double)
 
