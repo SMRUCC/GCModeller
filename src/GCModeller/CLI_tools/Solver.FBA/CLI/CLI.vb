@@ -101,7 +101,7 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.disruptions/"
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
         Dim genes$() = model.metabolismStructure _
-            .Enzymes _
+            .enzymes _
             .Select(Function(enz) enz.geneID) _
             .ToArray
         Dim raw$ = out & "/raw/"

@@ -143,7 +143,7 @@ Public Module Extensions
                     .ToArray
             },
             .metabolismStructure = New MetabolismStructure With {
-                .Reactions = model _
+                .reactions = model _
                     .Phenotype _
                     .fluxes _
                     .Select(Function(r)
@@ -155,8 +155,8 @@ Public Module Extensions
                                 }
                             End Function) _
                     .ToArray,
-                .Enzymes = enzymes,
-                .Compounds = .Reactions _
+                .enzymes = enzymes,
+                .compounds = .reactions _
                              .getCompounds(KEGG.GetCompounds) _
                              .ToArray,
                 .maps = KEGG.GetPathways _
