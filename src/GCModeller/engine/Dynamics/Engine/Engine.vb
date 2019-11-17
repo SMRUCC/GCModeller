@@ -113,7 +113,7 @@ Namespace Engine
             Return Me
         End Function
 
-        Public Function LoadModel(virtualCell As CellularModule, Optional timeResolution# = 1000) As Engine
+        Public Function LoadModel(virtualCell As CellularModule, deletions As IEnumerable(Of String), Optional timeResolution# = 1000) As Engine
             Dim loader As New Loader(def)
             Dim cell As Core.Vessel = loader _
                 .CreateEnvironment(virtualCell) _
@@ -124,6 +124,13 @@ Namespace Engine
             model = virtualCell
 
             Call Reset()
+
+            ' 在这里完成初始化后
+            ' 再将对应的基因模板的数量设置为0
+            ' 达到无法执行转录过程反应的缺失突变的效果
+            For Each geneTemplateId As String In deletions
+                mass.GetByKey(geneTemplateId).Value = 0
+            Next
 
             Return Me
         End Function
@@ -153,6 +160,7 @@ Namespace Engine
                 .DoCall(Sub(assm)
                             CLITools.AppSummary(assm, "Welcome to use SMRUCC/GCModeller virtual cell simulator!", Nothing, App.StdOut)
                         End Sub)
+            Call Console.WriteLine()
 
             Using process As New ProgressBar("Running simulator...")
                 Dim progress As New ProgressProvider(iterations)

@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
@@ -12,9 +13,13 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Module CLI
 
     <ExportAPI("/run")>
-    <Usage("/run /model <model.gcmarkup> [/out <result_directory>]")>
+    <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /out <result_directory>]")>
+    <Argument("/deletes", True, CLITypes.String,
+              AcceptTypes:={GetType(String())},
+              Description:="The ``locus_tag`` id list that will removes from the genome, use the comma symbol as delimiter.")>
     Public Function Run(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
+        Dim deletes As String() = args("/deletes").Split(",")
         Dim out$ = args("/out") Or $"{in$.TrimSuffix}.vcell_simulation/"
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
         Dim def As Definition = model.metabolismStructure _
@@ -48,7 +53,7 @@ Module CLI
             )
             Dim dataStorage As New OmicsDataAdapter(cell, massSnapshots, fluxSnapshots)
             Dim engine As Engine = New Engine(def) _
-                .LoadModel(cell) _
+                .LoadModel(cell, deletes) _
                 .AttachBiologicalStorage(dataStorage)
 
             Return engine.Run
