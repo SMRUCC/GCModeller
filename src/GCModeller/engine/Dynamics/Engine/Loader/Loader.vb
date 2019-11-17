@@ -183,6 +183,7 @@ Public Class Loader
 
             ' KO
             Dim enzymeProteinComplexes As String() = reaction.enzyme _
+                .SafeQuery _
                 .Distinct _
                 .OrderBy(Function(KO) KO) _
                 .ToArray
