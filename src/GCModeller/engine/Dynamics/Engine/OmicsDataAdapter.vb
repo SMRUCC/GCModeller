@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+﻿Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace Engine
 
@@ -43,7 +44,23 @@ Namespace Engine
         End Sub
 
         Public Shared Function GetMassTuples(model As CellularModule) As OmicsTuple(Of String())
+            Dim RNA = model.Genotype.centralDogmas _
+                .Select(Function(gene) gene.RNA.Name) _
+                .ToArray
+            Dim protein = model.Genotype.centralDogmas _
+                .Where(Function(gene) Not gene.IsRNAGene) _
+                .Select(Function(gene) gene.polypeptide) _
+                .ToArray
+            Dim metabolites = model.Phenotype.fluxes _
+                .Select(Function(flux)
+                            Return flux.products.AsList + flux.substrates
+                        End Function) _
+                .IteratesALL _
+                .Select(Function(mass) mass.text) _
+                .Distinct _
+                .ToArray
 
+            Return New OmicsTuple(Of String())(RNA, protein, metabolites)
         End Function
 
         Public Shared Function GetFluxTuples(model As CellularModule) As OmicsTuple(Of String())
