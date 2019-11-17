@@ -26,12 +26,12 @@ Module CLI
         Using snapshots As New WriteStream(Of DataSet)($"{out}/mass.xls", metaBlank:=0, tsv:=True),
             flux As New WriteStream(Of DataSet)($"{out}/flux.xls", metaBlank:=0, tsv:=True)
 
-            Dim dataStorage As OmicsDataStorage = OmicsDataStorage.InitializeDriver(cell)
+            Dim dataStorage As New OmicsDataAdapter(cell, )
             Dim engine As Engine = New Engine(def) _
                 .LoadModel(cell) _
                 .AttachBiologicalStorage(dataStorage)
-        End Using
 
-        Return 0
+            Return engine.Run
+        End Using
     End Function
 End Module

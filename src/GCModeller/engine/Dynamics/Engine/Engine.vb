@@ -69,7 +69,6 @@ Namespace Engine
 
         Public Function AttachBiologicalStorage(driver As OmicsDataAdapter) As Engine
             dataStorageDriver = driver
-
             Return Me
         End Function
 
@@ -93,7 +92,11 @@ Namespace Engine
         ''' </summary>
         Public Sub Reset()
             For Each mass As Factor In Me.mass
-
+                If def.status.ContainsKey(mass.ID) Then
+                    mass.Value = def.status(mass.ID)
+                Else
+                    mass.Value = 1
+                End If
             Next
         End Sub
 

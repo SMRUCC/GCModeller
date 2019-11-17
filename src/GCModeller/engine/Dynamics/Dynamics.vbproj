@@ -119,7 +119,7 @@
     <Compile Include="Engine\MassTable.vb" />
     <Compile Include="Engine\Loader\Definition.vb" />
     <Compile Include="EnvirClone.vb" />
-    <Compile Include="Engine\Status.vb" />
+    <Compile Include="Engine\Loader\Status.vb" />
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="Core\Flux\Channel.vb" />
     <Compile Include="Core\Flux\Directions.vb" />
