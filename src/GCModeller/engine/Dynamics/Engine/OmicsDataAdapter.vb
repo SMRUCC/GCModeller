@@ -64,7 +64,25 @@ Namespace Engine
         End Function
 
         Public Shared Function GetFluxTuples(model As CellularModule) As OmicsTuple(Of String())
+            Dim transcription As String() = model.Genotype.centralDogmas _
+                .Select(AddressOf Loader.GetTranscriptionId) _
+                .ToArray
+            Dim translation As String() = model.Genotype.centralDogmas _
+                .Where(Function(cd) Not cd.IsRNAGene) _
+                .Select(AddressOf Loader.GetTranslationId) _
+                .ToArray
+            Dim proteinComplex = model.Phenotype.proteins _
+                .Select(AddressOf Loader.GetProteinMatureId) _
+                .AsList
+            Dim metabolism = model.Phenotype.fluxes _
+                .Select(Function(r) r.ID) _
+                .ToArray
 
+            Return New OmicsTuple(Of String())(
+                transcriptome:=transcription,
+                proteome:=translation,
+                metabolome:=proteinComplex + metabolism
+            )
         End Function
     End Class
 End Namespace

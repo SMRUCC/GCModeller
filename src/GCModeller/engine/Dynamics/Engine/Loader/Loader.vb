@@ -41,6 +41,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
@@ -57,6 +58,18 @@ Public Class Loader
     Sub New(define As Definition)
         Me.define = define
     End Sub
+
+    Public Shared Function GetTranscriptionId(cd As CentralDogma) As String
+        Return $"{cd.geneID}::transcript.process"
+    End Function
+
+    Public Shared Function GetTranslationId(cd As CentralDogma) As String
+        Return $"{cd.geneID}::translate.process"
+    End Function
+
+    Public Shared Function GetProteinMatureId(protein As Protein) As String
+
+    End Function
 
     Public Function CreateEnvironment(cell As CellularModule) As Vessel
         Dim channels As New List(Of Channel)
@@ -99,10 +112,14 @@ Public Class Loader
                 productsPro = {
                     massTable.variable(cd.polypeptide)
                 }
-                channels += New Channel(templateRNA, productsPro)
+                channels += New Channel(templateRNA, productsPro) With {
+                    .ID = cd.DoCall(AddressOf GetTranslationId)
+                }
             End If
 
-            channels += New Channel(templateDNA, productsRNA)
+            channels += New Channel(templateDNA, productsRNA) With {
+                .ID = cd.DoCall(AddressOf GetTranscriptionId)
+            }
         Next
 
         ' 构建酶成熟的过程
@@ -121,7 +138,9 @@ Public Class Loader
             Dim unformed = massTable.variables(complex)
             Dim mature = {massTable.variable(complex.ProteinID)}
 
-            channels += New Channel(unformed, mature)
+            channels += New Channel(unformed, mature) With {
+                .ID = complex.DoCall(AddressOf GetProteinMatureId)
+            }
         Next
 
         ' 构建代谢网络
@@ -147,6 +166,12 @@ Public Class Loader
         }
     End Function
 
+    ''' <summary>
+    ''' DNA模板加上碱基消耗
+    ''' </summary>
+    ''' <param name="geneID$"></param>
+    ''' <param name="matrix"></param>
+    ''' <returns></returns>
     Private Function transcriptionTemplate(geneID$, matrix As Dictionary(Of String, RNAComposition)) As Variable()
         Return matrix(geneID) _
             .Where(Function(i) i.Value > 0) _
@@ -157,6 +182,12 @@ Public Class Loader
             .AsList + massTable.template(geneID)
     End Function
 
+    ''' <summary>
+    ''' mRNA模板加上氨基酸消耗
+    ''' </summary>
+    ''' <param name="mRNA$"></param>
+    ''' <param name="matrix"></param>
+    ''' <returns></returns>
     Private Function translationTemplate(mRNA$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
         Return matrix(mRNA) _
             .Where(Function(i) i.Value > 0) _
