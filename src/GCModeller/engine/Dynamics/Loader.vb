@@ -131,7 +131,9 @@ Public Class Loader
                 .bounds = New Boundary With {.forward = reaction.bounds.Max, .reverse = reaction.bounds.Min},
                 .ID = reaction.ID,
                 .forward = New Controls With {
-                    .activation = massTable.variables(reaction.enzyme, 1)
+                    .activation = massTable _
+                        .variables(reaction.enzyme, 1) _
+                        .ToArray
                 },
                 .reverse = New Controls With {.baseline = 10}
             }
