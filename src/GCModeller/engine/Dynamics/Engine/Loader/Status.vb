@@ -77,7 +77,10 @@ Namespace Engine
         End Sub
 
         Public Function IsCurrentStatus(engine As Engine, cutoff#) As Boolean
-            Dim current As Vector = engine.GetMass(masslist).Select(Function(mass) mass.Value).AsVector
+            Dim current As Vector = engine _
+                .GetMass(masslist) _
+                .Select(Function(mass) mass.Value) _
+                .AsVector
             Dim diff As Vector
 
             current = current / current.Max

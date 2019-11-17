@@ -147,9 +147,15 @@ Namespace Engine
         Public Function Run() As Integer Implements ITaskDriver.Run
             Using process As New ProgressBar("Running simulator...", 1, True)
                 Dim progress As New ProgressProvider(iterations)
+                Dim flux As Dictionary(Of String, Double)
 
                 For i As Integer = 0 To iterations
-                    Call dataStorageDriver.FluxSnapshot(i, core.ContainerIterator().ToDictionary.FlatTable)
+                    flux = core _
+                        .ContainerIterator() _
+                        .ToDictionary _
+                        .FlatTable
+
+                    Call dataStorageDriver.FluxSnapshot(i, flux)
                     Call dataStorageDriver.MassSnapshot(i, mass.GetMassValues)
                     Call ($"iteration: {i + 1}; ETA: {progress.ETA(process.ElapsedMilliseconds).FormatTime}") _
                         .DoCall(Sub(msg)
