@@ -142,15 +142,16 @@ Public Class Loader
                 End If
             Next
 
-            Dim unformed = massTable.variables(complex)
-            Dim mature = {massTable.variable(complex.ProteinID)}
+            Dim unformed = massTable.variables(complex).ToArray
+            Dim complexID As String = massTable.AddNew(complex.ProteinID & ".complex")
+            Dim mature As Variable = massTable.variable(complexID)
 
             ' 酶的成熟过程也是一个不可逆的过程
-            Yield New Channel(unformed, mature) With {
+            Yield New Channel(unformed, {mature}) With {
                 .ID = complex.DoCall(AddressOf GetProteinMatureId),
-                .bounds = New Boundary With {.forward = 100, .reverse = 0},
+                .bounds = New Boundary With {.forward = 1000, .reverse = 0},
                 .reverse = New Controls With {.baseline = 0},
-                .forward = New Controls With {.baseline = 5}
+                .forward = New Controls With {.baseline = 10}
             }
         Next
     End Function
@@ -161,6 +162,17 @@ Public Class Loader
     ''' <param name="cell"></param>
     ''' <returns></returns>
     Private Iterator Function metabolismNetwork(cell As CellularModule) As IEnumerable(Of Channel)
+        Dim KOfunctions = cell.Genotype.centralDogmas _
+            .Where(Function(cd) Not cd.orthology.StringEmpty) _
+            .Select(Function(cd) (cd.orthology, cd.polypeptide)) _
+            .GroupBy(Function(pro) pro.Item1) _
+            .ToDictionary(Function(KO) KO.Key,
+                          Function(ortholog)
+                              Return ortholog _
+                                  .Select(Function(map) map.Item2) _
+                                  .ToArray
+                          End Function)
+
         For Each reaction As Reaction In cell.Phenotype.fluxes
             Dim left = massTable.variables(reaction.substrates)
             Dim right = massTable.variables(reaction.products)
@@ -168,12 +180,30 @@ Public Class Loader
                 .forward = reaction.bounds.Max,
                 .reverse = reaction.bounds.Min
             }
+
+            ' KO
+            Dim enzymeProteinComplexes As String() = reaction.enzyme _
+                .Distinct _
+                .OrderBy(Function(KO) KO) _
+                .ToArray
+            ' protein id
+            enzymeProteinComplexes = enzymeProteinComplexes _
+                .Where(AddressOf KOfunctions.ContainsKey) _
+                .Select(Function(ko) KOfunctions(ko)) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+            ' mature protein complex
+            enzymeProteinComplexes = enzymeProteinComplexes _
+                .Select(Function(id) id & ".complex") _
+                .ToArray
+
             Dim metabolismFlux As New Channel(left, right) With {
                 .bounds = bounds,
                 .ID = reaction.ID,
                 .forward = New Controls With {
                     .activation = massTable _
-                        .variables(reaction.enzyme, 1) _
+                        .variables(enzymeProteinComplexes, 1) _
                         .ToArray,
                     .baseline = 1
                 },
