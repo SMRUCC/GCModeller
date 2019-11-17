@@ -140,6 +140,23 @@ Namespace v2
             Return New Phenotype With {
                 .fluxes = model.createFluxes _
                     .OrderByDescending(Function(r) r.enzyme.SafeQuery.Count) _
+                    .ToArray,
+                .enzymes = model.metabolismStructure.Enzymes _
+                    .Select(Function(enz) enz.geneID) _
+                    .ToArray,
+                .proteins = model.genome.replicons _
+                    .Select(Function(genome)
+                                Return genome.genes.AsEnumerable
+                            End Function) _
+                    .IteratesALL _
+                    .Where(Function(gene) Not gene.amino_acid Is Nothing) _
+                    .Select(Function(orf)
+                                Return New Protein With {
+                                    .compounds = {},
+                                    .polypeptides = {orf.protein_id},
+                                    .ProteinID = orf.protein_id
+                                }
+                            End Function) _
                     .ToArray
             }
         End Function
