@@ -24,8 +24,10 @@ Namespace Engine
         Dim saveFlux As OmicsTuple(Of DataStorageDriver)
 
         Sub New(model As CellularModule, mass As OmicsTuple(Of DataStorageDriver), flux As OmicsTuple(Of DataStorageDriver))
-            saveMass = mass
-            saveFlux = flux
+            Me.saveMass = mass
+            Me.saveFlux = flux
+            Me.mass = GetMassTuples(model)
+            Me.flux = GetFluxTuples(model)
         End Sub
 
         Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
@@ -39,5 +41,13 @@ Namespace Engine
             Call saveFlux.proteome(iteration, data.Subset(flux.proteome))
             Call saveFlux.metabolome(iteration, data.Subset(flux.metabolome))
         End Sub
+
+        Public Shared Function GetMassTuples(model As CellularModule) As OmicsTuple(Of String())
+
+        End Function
+
+        Public Shared Function GetFluxTuples(model As CellularModule) As OmicsTuple(Of String())
+
+        End Function
     End Class
 End Namespace

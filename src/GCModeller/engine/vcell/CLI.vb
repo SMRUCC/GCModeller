@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
@@ -22,16 +23,44 @@ Module CLI
                         Return Definition.KEGG(compounds)
                     End Function)
         Dim cell = model.Trim.CreateModel
+        Dim massIndex = OmicsDataAdapter.GetMassTuples(cell)
+        Dim fluxIndex = OmicsDataAdapter.GetFluxTuples(cell)
 
-        Using snapshots As New WriteStream(Of DataSet)($"{out}/mass.xls", metaBlank:=0, tsv:=True),
-            flux As New WriteStream(Of DataSet)($"{out}/flux.xls", metaBlank:=0, tsv:=True)
+        Using transcriptomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/transcriptome.xls", metaKeys:=massIndex.transcriptome, metaBlank:=0, tsv:=True),
+              proteomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/proteome.xls", metaKeys:=massIndex.proteome, metaBlank:=0, tsv:=True),
+              metabolomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/metabolome.xls", metaKeys:=massIndex.metabolome, metaBlank:=0, tsv:=True),
+              transcriptomeFlux As New WriteStream(Of DataSet)($"{out}/flux/transcriptome.xls", metaKeys:=fluxIndex.transcriptome, metaBlank:=0, tsv:=True),
+              proteomeFlux As New WriteStream(Of DataSet)($"{out}/flux/proteome.xls", metaKeys:=fluxIndex.proteome, metaBlank:=0, tsv:=True),
+              metabolomeFlux As New WriteStream(Of DataSet)($"{out}/flux/transcriptome.xls", metaKeys:=fluxIndex.metabolome, metaBlank:=0, tsv:=True)
 
-            Dim dataStorage As New OmicsDataAdapter(cell, )
+            Dim massSnapshots As New OmicsTuple(Of DataStorageDriver)(
+                transcriptome:=transcriptomeSnapshots.createDriver,
+                proteome:=proteomeSnapshots.createDriver,
+                metabolome:=metabolomeSnapshots.createDriver
+            )
+            Dim fluxSnapshots As New OmicsTuple(Of DataStorageDriver)(
+                transcriptome:=transcriptomeFlux.createDriver,
+                proteome:=proteomeFlux.createDriver,
+                metabolome:=metabolomeFlux.createDriver
+            )
+            Dim dataStorage As New OmicsDataAdapter(cell, massSnapshots, fluxSnapshots)
             Dim engine As Engine = New Engine(def) _
                 .LoadModel(cell) _
                 .AttachBiologicalStorage(dataStorage)
 
             Return engine.Run
         End Using
+    End Function
+
+    <Extension>
+    Private Function createDriver(save As WriteStream(Of DataSet)) As DataStorageDriver
+        Return Sub(i, data)
+                   Dim snapshot As New DataSet With {
+                      .ID = "#" & (i + 1),
+                      .Properties = data
+                   }
+
+                   Call save.Flush(snapshot)
+               End Sub
     End Function
 End Module
