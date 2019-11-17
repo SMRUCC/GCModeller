@@ -1,11 +1,11 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 
 Module CLI
 
@@ -21,10 +21,16 @@ Module CLI
             .DoCall(Function(compounds)
                         Return Definition.KEGG(compounds)
                     End Function)
-        Dim engine = New Engine.Engine(def).LoadModel(model.Trim.CreateModel)
+        Dim cell = model.Trim.CreateModel
 
-        Call snapshots.SaveTo($"{out}/mass.xls", tsv:=True)
-        Call flux.SaveTo($"{out}/flux.xls", tsv:=True)
+        Using snapshots As New WriteStream(Of DataSet)($"{out}/mass.xls", metaBlank:=0, tsv:=True),
+            flux As New WriteStream(Of DataSet)($"{out}/flux.xls", metaBlank:=0, tsv:=True)
+
+            Dim dataStorage As DataStorageEngine = DataStorageEngine.InitializeDriver(cell)
+            Dim engine As Engine = New Engine(def) _
+                .LoadModel(cell) _
+                .AttachBiologicalStorage(dataStorage)
+        End Using
 
         Return 0
     End Function

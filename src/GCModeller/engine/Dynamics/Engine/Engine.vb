@@ -69,13 +69,8 @@ Namespace Engine
             Me.iterations = iterations
         End Sub
 
-        Public Function HookBiologicalMassStorage(driver As DataStorageDriver) As Engine
+        Public Function AttachBiologicalStorage(driver As DataStorageEngine) As Engine
             Me.snapshots = driver
-            Return Me
-        End Function
-
-        Public Function HookBiologicalFluxStorage(driver As DataStorageDriver) As Engine
-            Me.flux = driver
             Return Me
         End Function
 
