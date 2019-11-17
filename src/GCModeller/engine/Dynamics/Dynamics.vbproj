@@ -109,8 +109,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Boundary.vb" />
-    <Compile Include="Core\Extensions.vb" />
+    <Compile Include="Core\Flux\Boundary.vb" />
+    <Compile Include="Core\Flux\Extensions.vb" />
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
     <Compile Include="Engine\Engine.vb" />
@@ -119,9 +119,9 @@
     <Compile Include="EnvirClone.vb" />
     <Compile Include="Engine\Status.vb" />
     <Compile Include="NamespaceDoc.vb" />
-    <Compile Include="Core\Channel.vb" />
-    <Compile Include="Core\Directions.vb" />
-    <Compile Include="Core\Controls.vb" />
+    <Compile Include="Core\Flux\Channel.vb" />
+    <Compile Include="Core\Flux\Directions.vb" />
+    <Compile Include="Core\Flux\Controls.vb" />
     <Compile Include="Core\Mass\Factor.vb" />
     <Compile Include="Core\Vessel.vb" />
     <Compile Include="Loader.vb" />
