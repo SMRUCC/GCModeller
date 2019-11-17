@@ -47,6 +47,11 @@ Namespace Core
     Public Class Boundary
 
         Public Property forward As Double
+
+        ''' <summary>
+        ''' 反向的上限为零的售后表示不可逆反应
+        ''' </summary>
+        ''' <returns></returns>
         Public Property reverse As Double
 
         Public Overrides Function ToString() As String

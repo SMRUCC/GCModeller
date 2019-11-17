@@ -106,6 +106,8 @@ Public Class Loader
                 massTable.variable(cd.RNA.Name)
             }
 
+            ' 转录和翻译的反应过程都是不可逆的
+
             ' 翻译模板过程只针对CDS基因
             If Not cd.polypeptide Is Nothing Then
                 templateRNA = translationTemplate(cd.RNA.Name, proteinMatrix)
@@ -113,12 +115,18 @@ Public Class Loader
                     massTable.variable(cd.polypeptide)
                 }
                 channels += New Channel(templateRNA, productsPro) With {
-                    .ID = cd.DoCall(AddressOf GetTranslationId)
+                    .ID = cd.DoCall(AddressOf GetTranslationId),
+                    .forward = New Controls With {.baseline = 5},
+                    .reverse = New Controls With {.baseline = 0},
+                    .bounds = New Boundary With {.forward = 100, .reverse = 0}
                 }
             End If
 
             channels += New Channel(templateDNA, productsRNA) With {
-                .ID = cd.DoCall(AddressOf GetTranscriptionId)
+                .ID = cd.DoCall(AddressOf GetTranscriptionId),
+                .forward = New Controls With {.baseline = 5},
+                .reverse = New Controls With {.baseline = 0},
+                .bounds = New Boundary With {.forward = 100, .reverse = 0}
             }
         Next
 
@@ -138,8 +146,12 @@ Public Class Loader
             Dim unformed = massTable.variables(complex)
             Dim mature = {massTable.variable(complex.ProteinID)}
 
+            ' 酶的成熟过程也是一个不可逆的过程
             channels += New Channel(unformed, mature) With {
-                .ID = complex.DoCall(AddressOf GetProteinMatureId)
+                .ID = complex.DoCall(AddressOf GetProteinMatureId),
+                .bounds = New Boundary With {.forward = 100, .reverse = 0},
+                .reverse = New Controls With {.baseline = 0},
+                .forward = New Controls With {.baseline = 5}
             }
         Next
 
@@ -154,9 +166,10 @@ Public Class Loader
                 .forward = New Controls With {
                     .activation = massTable _
                         .variables(reaction.enzyme, 1) _
-                        .ToArray
+                        .ToArray,
+                    .baseline = 1
                 },
-                .reverse = New Controls With {.baseline = 10}
+                .reverse = New Controls With {.baseline = 1}
             }
         Next
 
