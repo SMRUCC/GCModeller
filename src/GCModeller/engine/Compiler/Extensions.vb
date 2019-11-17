@@ -273,7 +273,7 @@ Public Module Extensions
                 .right = gene.Location.right,
                 .locus_tag = locus_tag,
                 .product = gene.Product,
-                .protein_id = proteinId(locus_tag).polypeptide,
+                .protein_id = If(aa Is Nothing, "", proteinId(locus_tag).polypeptide),
                 .strand = gene.Location.Strand.GetBriefCode,
                 .amino_acid = aa,
                 .nucleotide_base = rna
