@@ -113,11 +113,11 @@
     <Compile Include="Core\Flux\Extensions.vb" />
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
-    <Compile Include="Engine\DataStorageEngine.vb" />
+    <Compile Include="Engine\OmicsDataAdapter.vb" />
     <Compile Include="Engine\NamespaceDoc.vb" />
     <Compile Include="Engine\Engine.vb" />
     <Compile Include="Engine\MassTable.vb" />
-    <Compile Include="Definition.vb" />
+    <Compile Include="Engine\Loader\Definition.vb" />
     <Compile Include="EnvirClone.vb" />
     <Compile Include="Engine\Status.vb" />
     <Compile Include="NamespaceDoc.vb" />
@@ -126,7 +126,7 @@
     <Compile Include="Core\Flux\Controls.vb" />
     <Compile Include="Core\Mass\Factor.vb" />
     <Compile Include="Core\Vessel.vb" />
-    <Compile Include="Loader.vb" />
+    <Compile Include="Engine\Loader\Loader.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

@@ -60,17 +60,16 @@ Namespace Engine
         Dim def As Definition
         Dim model As CellularModule
         Dim iterations As Integer = 5000
-
-        Dim snapshots As DataStorageDriver
-        Dim flux As DataStorageDriver
+        Dim dataStorageDriver As OmicsDataAdapter
 
         Sub New(def As Definition, Optional iterations% = 5000)
             Me.def = def
             Me.iterations = iterations
         End Sub
 
-        Public Function AttachBiologicalStorage(driver As DataStorageEngine) As Engine
-            Me.snapshots = driver
+        Public Function AttachBiologicalStorage(driver As OmicsDataAdapter) As Engine
+            dataStorageDriver = driver
+
             Return Me
         End Function
 
@@ -93,7 +92,9 @@ Namespace Engine
         ''' Reset the reactor engine. (Do reset of the biological mass contents)
         ''' </summary>
         Public Sub Reset()
+            For Each mass As Factor In Me.mass
 
+            Next
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -103,8 +104,8 @@ Namespace Engine
 
         Public Function Run() As Integer Implements ITaskDriver.Run
             For i As Integer = 0 To iterations
-                Call flux(i, core.ContainerIterator().ToDictionary.FlatTable)
-                Call snapshots(i, mass.GetMassValues)
+                Call dataStorageDriver.FluxSnapshot(i, core.ContainerIterator().ToDictionary.FlatTable)
+                Call dataStorageDriver.MassSnapshot(i, mass.GetMassValues)
             Next
 
             Return 0
