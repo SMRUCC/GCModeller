@@ -207,7 +207,7 @@ Namespace v2
                     End If
                 Else
                     KO = {}
-                    bounds = {100, 100.0}
+                    bounds = {200, 200.0}
                 End If
 
                 Yield New FluxModel With {

@@ -109,7 +109,7 @@ Public Class Loader
 
                 Yield New Channel(templateRNA, productsPro) With {
                     .ID = cd.DoCall(AddressOf GetTranslationId),
-                    .forward = New Controls With {.baseline = 5},
+                    .forward = New Controls With {.baseline = 10},
                     .reverse = New Controls With {.baseline = 0},
                     .bounds = New Boundary With {.forward = 100, .reverse = 0}
                 }
@@ -117,7 +117,7 @@ Public Class Loader
 
             Yield New Channel(templateDNA, productsRNA) With {
                 .ID = cd.DoCall(AddressOf GetTranscriptionId),
-                .forward = New Controls With {.baseline = 5},
+                .forward = New Controls With {.baseline = 10},
                 .reverse = New Controls With {.baseline = 0},
                 .bounds = New Boundary With {.forward = 100, .reverse = 0}
             }
@@ -198,16 +198,20 @@ Public Class Loader
                 .Select(Function(id) id & ".complex") _
                 .ToArray
 
+            If reaction.is_enzymatic AndAlso enzymeProteinComplexes.Length = 0 Then
+                bounds = {0, 10}
+            End If
+
             Dim metabolismFlux As New Channel(left, right) With {
                 .bounds = bounds,
                 .ID = reaction.ID,
                 .forward = New Controls With {
                     .activation = massTable _
-                        .variables(enzymeProteinComplexes, 1) _
+                        .variables(enzymeProteinComplexes, 2) _
                         .ToArray,
-                    .baseline = 1
+                    .baseline = 15
                 },
-                .reverse = New Controls With {.baseline = 1}
+                .reverse = New Controls With {.baseline = 15}
             }
 
             Yield metabolismFlux

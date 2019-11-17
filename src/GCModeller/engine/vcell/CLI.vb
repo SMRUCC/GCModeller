@@ -21,9 +21,9 @@ Module CLI
             .compounds _
             .Select(Function(c) c.ID) _
             .DoCall(Function(compounds)
-                        Return Definition.KEGG(compounds)
+                        Return Definition.KEGG(compounds, 5000)
                     End Function)
-        Dim cell As CellularModule = model.Trim.CreateModel
+        Dim cell As CellularModule = model.CreateModel
         Dim massIndex = OmicsDataAdapter.GetMassTuples(cell)
         Dim fluxIndex = OmicsDataAdapter.GetFluxTuples(cell)
 
