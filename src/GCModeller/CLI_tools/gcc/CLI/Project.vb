@@ -103,7 +103,7 @@ Partial Module CLI
         Call $"Model file save at location: {out}!".__DEBUG_ECHO
 
         If out.IsGCMarkup Then
-            Return model.ToMarkup(genome, kegg, regulations) _
+            Return model.ToMarkup(genome, kegg, regulations, locationAsLocus_tag) _
                         .GetXml _
                         .SaveTo(out) _
                         .CLICode
@@ -199,7 +199,7 @@ Partial Module CLI
         Dim degree% = args("/degree") Or 1
         Dim out$ = args("/out") Or $"{model.TrimSuffix}.pathways/"
 
-        For Each [module] As FunctionalCategory In model.LoadXml(Of VirtualCell).MetabolismStructure.maps
+        For Each [module] As FunctionalCategory In model.LoadXml(Of VirtualCell).metabolismStructure.maps
             Dim mapName = [module].category.NormalizePathString
 
             For Each pathway As Pathway In [module].pathways

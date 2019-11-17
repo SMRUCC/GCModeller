@@ -65,6 +65,21 @@ Namespace v2
                     .centralDogmas = model _
                         .createGenotype _
                         .OrderByDescending(Function(gene) gene.RNA.Value) _
+                        .ToArray,
+                    .ProteinMatrix = model.genome.replicons _
+                        .Select(Function(rep) rep.genes.AsEnumerable) _
+                        .IteratesALL _
+                        .Where(Function(gene) Not gene.amino_acid Is Nothing) _
+                        .Select(Function(gene)
+                                    Return gene.amino_acid.DoCall(AddressOf ProteinFromVector)
+                                End Function) _
+                        .ToArray,
+                    .RNAMatrix = model.genome.replicons _
+                        .Select(Function(rep) rep.genes.AsEnumerable) _
+                        .IteratesALL _
+                        .Select(Function(rna)
+                                    Return rna.nucleotide_base.DoCall(AddressOf RNAFromVector)
+                                End Function) _
                         .ToArray
                 },
                 .Phenotype = model.createPhenotype,
@@ -75,7 +90,7 @@ Namespace v2
         <Extension>
         Private Iterator Function createGenotype(model As VirtualCell) As IEnumerable(Of CentralDogma)
             Dim genomeName$
-            Dim enzymes As Dictionary(Of String, Enzyme) = model.MetabolismStructure _
+            Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure _
                 .Enzymes _
                 .ToDictionary(Function(enzyme) enzyme.geneID)
             Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
@@ -96,7 +111,7 @@ Namespace v2
                                       }
                                   End Function)
 
-                For Each gene As gene In replicon.genes
+                For Each gene As gene In replicon.genes.AsEnumerable
                     If rnaTable.ContainsKey(gene.locus_tag) Then
                         RNA = rnaTable(gene.locus_tag)
                         proteinId = Nothing
@@ -133,7 +148,7 @@ Namespace v2
         Private Iterator Function createFluxes(model As VirtualCell) As IEnumerable(Of FluxModel)
             Dim equation As Equation
             ' {reactionID => KO()}
-            Dim enzymes = model.MetabolismStructure _
+            Dim enzymes = model.metabolismStructure _
                 .Enzymes _
                 .Select(Function(enz)
                             Return enz _
@@ -153,7 +168,7 @@ Namespace v2
             Dim KO$()
             Dim bounds As DoubleRange
 
-            For Each reaction In model.MetabolismStructure.Reactions
+            For Each reaction In model.metabolismStructure.Reactions
                 equation = Equation.TryParse(reaction.Equation)
 
                 If reaction.is_enzymatic Then

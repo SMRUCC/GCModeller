@@ -78,7 +78,7 @@ Public Module Extensions
         Dim i As i32 = Scan0
 
         For Each aa As PropertyInfo In ProteinComposition.aa
-            Call aa.SetValue(protein, vector(++i))
+            Call aa.SetValue(protein, CInt(vector(++i)))
         Next
 
         Return protein

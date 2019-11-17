@@ -65,23 +65,42 @@ Public Class Loader
         Dim templateRNA As Variable()
         Dim productsPro As Variable()
 
+        ' 在这里需要首选构建物质列表
+        ' 否则下面的转录和翻译过程的构建会出现找不到物质因子对象的问题
+        For Each reaction As Reaction In cell.Phenotype.fluxes
+            For Each compound In reaction.AllCompounds
+                If Not massTable.Exists(compound) Then
+                    Call massTable.AddNew(compound)
+                End If
+            Next
+        Next
+
         ' 先构建一般性的中心法则过程
+        ' 在这里面包含所有类型的RNA转录
+        ' 以及蛋白序列的翻译
         For Each cd As CentralDogma In cell.Genotype.centralDogmas
             Call massTable.AddNew(cd.geneID)
             Call massTable.AddNew(cd.RNA.Name)
-            Call massTable.AddNew(cd.polypeptide)
+
+            If Not cd.polypeptide Is Nothing Then
+                Call massTable.AddNew(cd.polypeptide)
+            End If
 
             templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
             productsRNA = {
                 massTable.variable(cd.RNA.Name)
             }
-            templateRNA = translationTemplate(cd.RNA.Name, proteinMatrix)
-            productsPro = {
-                massTable.variable(cd.polypeptide)
-            }
+
+            ' 翻译模板过程只针对CDS基因
+            If Not cd.polypeptide Is Nothing Then
+                templateRNA = translationTemplate(cd.RNA.Name, proteinMatrix)
+                productsPro = {
+                    massTable.variable(cd.polypeptide)
+                }
+                channels += New Channel(templateRNA, productsPro)
+            End If
 
             channels += New Channel(templateDNA, productsRNA)
-            channels += New Channel(templateRNA, productsPro)
         Next
 
         ' 构建酶成熟的过程
@@ -105,12 +124,6 @@ Public Class Loader
 
         ' 构建代谢网络
         For Each reaction As Reaction In cell.Phenotype.fluxes
-            For Each compound In reaction.AllCompounds
-                If Not massTable.Exists(compound) Then
-                    Call massTable.AddNew(compound)
-                End If
-            Next
-
             Dim left = massTable.variables(reaction.substrates)
             Dim right = massTable.variables(reaction.products)
 
