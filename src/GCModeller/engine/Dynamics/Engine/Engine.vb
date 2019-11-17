@@ -42,6 +42,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
@@ -143,10 +145,18 @@ Namespace Engine
         End Function
 
         Public Function Run() As Integer Implements ITaskDriver.Run
-            For i As Integer = 0 To iterations
-                Call dataStorageDriver.FluxSnapshot(i, core.ContainerIterator().ToDictionary.FlatTable)
-                Call dataStorageDriver.MassSnapshot(i, mass.GetMassValues)
-            Next
+            Using process As New ProgressBar("Running simulator...", 1, True)
+                Dim progress As New ProgressProvider(iterations)
+
+                For i As Integer = 0 To iterations
+                    Call dataStorageDriver.FluxSnapshot(i, core.ContainerIterator().ToDictionary.FlatTable)
+                    Call dataStorageDriver.MassSnapshot(i, mass.GetMassValues)
+                    Call ($"iteration: {i + 1}; ETA: {progress.ETA(process.ElapsedMilliseconds).FormatTime}") _
+                        .DoCall(Sub(msg)
+                                    Call process.SetProgress(progress.StepProgress, msg)
+                                End Sub)
+                Next
+            End Using
 
             Return 0
         End Function
