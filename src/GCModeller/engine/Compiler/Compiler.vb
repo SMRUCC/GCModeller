@@ -197,7 +197,7 @@ Public Module Workflow
             .ToArray
     End Function
 
-    ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA"}
+    ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA", "RNA"}
 
     ''' <summary>
     ''' 
@@ -242,7 +242,9 @@ Public Module Workflow
 
             Dim RNA As Feature = feature _
                 .FirstOrDefault(Function(component)
-                                    Return component.KeyName = "tRNA" OrElse component.KeyName = "rRNA"
+                                    Return component.KeyName = "tRNA" OrElse
+                                           component.KeyName = "rRNA" OrElse
+                                           component.KeyName = "RNA"
                                 End Function)
             Dim CDS As Feature = feature _
                 .FirstOrDefault(Function(component)
