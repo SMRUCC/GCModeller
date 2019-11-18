@@ -75,8 +75,8 @@ Namespace v2
                        End Function) _
                 .ToArray
             ' 将对应的酶促过程也删除掉
-            model.metabolismStructure.Enzymes = model.metabolismStructure _
-                .Enzymes _
+            model.metabolismStructure.enzymes = model.metabolismStructure _
+                .enzymes _
                 .Where(Function(enz) Not enz.geneID Like deleted) _
                 .ToArray
             ' 讲代谢途径之中的酶分子的定义也删除掉
@@ -84,7 +84,7 @@ Namespace v2
                 For Each pathway As Pathway In [module].pathways
                     pathway.enzymes = pathway _
                         .enzymes _
-                        .Where(Function(enz) Not enz.Comment Like deleted) _
+                        .Where(Function(enz) Not enz.comment Like deleted) _
                         .ToArray
                 Next
             Next
@@ -94,6 +94,7 @@ Namespace v2
 
         ''' <summary>
         ''' 删除所有没有在当前的模型之中找到对应的酶的酶促反应过程
+        ''' (不推荐使用这个操作，因为可以假设缺少酶的情况下，反应过程可以以非常低的效率进行，但是删除之后反应链将会完全断裂了)
         ''' </summary>
         ''' <param name="model"></param>
         ''' <returns></returns>
@@ -102,7 +103,7 @@ Namespace v2
             ' 得到在当前的虚拟细胞模型之中所有的可以被酶催化的酶促反应过程
             ' 的编号列表
             Dim allEnzymatics = model.metabolismStructure _
-                .Enzymes _
+                .enzymes _
                 .Select(Function(enz)
                             Return enz.catalysis.Select(Function(c) c.reaction)
                         End Function) _
@@ -110,9 +111,9 @@ Namespace v2
                 .Distinct _
                 .Indexing
 
-            model.metabolismStructure.Reactions = model _
+            model.metabolismStructure.reactions = model _
                 .metabolismStructure _
-                .Reactions _
+                .reactions _
                 .Where(Function(r) Not r.isDisconnectedNode(allEnzymatics)) _
                 .ToArray
 
@@ -126,10 +127,11 @@ Namespace v2
                 ' 则不是断开的节点
                 Return False
             Else
-                ' 是酶促反应过程，但是在模型之中找不到对应的酶
                 If r.ID Like allEnzymatics Then
                     Return False
                 Else
+                    ' 是酶促反应过程，但是在模型之中找不到对应的酶
+                    ' 则是一个断开的节点
                     Return True
                 End If
             End If

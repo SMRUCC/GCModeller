@@ -142,6 +142,10 @@ Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double
         Return protein
     End Function
 
+    Public Overrides Function ToString() As String
+        Return proteinID
+    End Function
+
     Public Iterator Function GetEnumerator() As IEnumerator(Of NamedValue(Of Double)) Implements IEnumerable(Of NamedValue(Of Double)).GetEnumerator
         For Each aminoAcid As PropertyInfo In aa
             Yield New NamedValue(Of Double)(aminoAcid.Name, aminoAcid.GetValue(Me))

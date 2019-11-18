@@ -1,58 +1,74 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Module CLI
 
     <ExportAPI("/run")>
-    <Usage("/run /model <model.gcmarkup> [/out <result_directory>]")>
+    <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /out <result_directory>]")>
+    <Argument("/deletes", True, CLITypes.String,
+              AcceptTypes:={GetType(String())},
+              Description:="The ``locus_tag`` id list that will removes from the genome, use the comma symbol as delimiter.")>
     Public Function Run(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
+        Dim deletes As String() = args("/deletes").Split(",")
         Dim out$ = args("/out") Or $"{in$.TrimSuffix}.vcell_simulation/"
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
         Dim def As Definition = model.metabolismStructure _
-            .Compounds _
+            .compounds _
             .Select(Function(c) c.ID) _
             .DoCall(Function(compounds)
-                        Return Definition.KEGG(compounds)
+                        Return Definition.KEGG(compounds, 5000)
                     End Function)
-        Dim loader As New Loader(def)
-        Dim cell As Core.Vessel = model _
-            .Trim _
-            .CreateModel _
-            .DoCall(AddressOf loader.CreateEnvironment)
-        Dim mass As Dictionary(Of String, Factor) = cell.MassEnvironment.ToDictionary(Function(factor) factor.ID)
+        Dim cell As CellularModule = model.CreateModel
+        Dim massIndex = OmicsDataAdapter.GetMassTuples(cell)
+        Dim fluxIndex = OmicsDataAdapter.GetFluxTuples(cell)
 
-        Call cell.Initialize()
+        Call "Open data stream output device..".__DEBUG_ECHO
 
-        Dim snapshots As New List(Of DataSet)
-        Dim flux As New List(Of DataSet)
+        Using transcriptomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/transcriptome.xls", metaKeys:=massIndex.transcriptome, metaBlank:=0, tsv:=True),
+              proteomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/proteome.xls", metaKeys:=massIndex.proteome, metaBlank:=0, tsv:=True),
+              metabolomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/metabolome.xls", metaKeys:=massIndex.metabolome, metaBlank:=0, tsv:=True),
+              transcriptomeFlux As New WriteStream(Of DataSet)($"{out}/flux/transcriptome.xls", metaKeys:=fluxIndex.transcriptome, metaBlank:=0, tsv:=True),
+              proteomeFlux As New WriteStream(Of DataSet)($"{out}/flux/proteome.xls", metaKeys:=fluxIndex.proteome, metaBlank:=0, tsv:=True),
+              metabolomeFlux As New WriteStream(Of DataSet)($"{out}/flux/metabolome.xls", metaKeys:=fluxIndex.metabolome, metaBlank:=0, tsv:=True)
 
-        For i As Integer = 0 To 5000
-            flux += New DataSet With {
-                .ID = i,
-                .Properties = cell _
-                    .ContainerIterator() _
-                    .ToDictionary _
-                    .FlatTable
-            }
-            snapshots += New DataSet With {
-                .ID = i,
-                .Properties = mass.ToDictionary(Function(m) m.Key, Function(m) m.Value.Value)
-            }
+            Dim massSnapshots As New OmicsTuple(Of DataStorageDriver)(
+                transcriptome:=transcriptomeSnapshots.createDriver,
+                proteome:=proteomeSnapshots.createDriver,
+                metabolome:=metabolomeSnapshots.createDriver
+            )
+            Dim fluxSnapshots As New OmicsTuple(Of DataStorageDriver)(
+                transcriptome:=transcriptomeFlux.createDriver,
+                proteome:=proteomeFlux.createDriver,
+                metabolome:=metabolomeFlux.createDriver
+            )
+            Dim dataStorage As New OmicsDataAdapter(cell, massSnapshots, fluxSnapshots)
+            Dim engine As Engine = New Engine(def) _
+                .LoadModel(cell, deletes) _
+                .AttachBiologicalStorage(dataStorage)
 
-            Call i.__DEBUG_ECHO
-        Next
+            Return engine.Run
+        End Using
+    End Function
 
-        Call snapshots.SaveTo($"{out}/mass.xls", tsv:=True)
-        Call flux.SaveTo($"{out}/flux.xls", tsv:=True)
+    <Extension>
+    Private Function createDriver(save As WriteStream(Of DataSet)) As DataStorageDriver
+        Return Sub(i, data)
+                   Dim snapshot As New DataSet With {
+                      .ID = "#" & (i + 1),
+                      .Properties = data
+                   }
 
-        Return 0
+                   Call save.Flush(snapshot)
+               End Sub
     End Function
 End Module

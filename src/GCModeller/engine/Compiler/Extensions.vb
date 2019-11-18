@@ -71,7 +71,7 @@ Public Module Extensions
             Yield New replicon With {
                 .genomeName = genome.Value.Locus.AccessionID,
                 .genes = genome.Value _
-                    .getGenes(locationAsLocustag) _
+                    .getGenes(model, locationAsLocustag) _
                     .ToArray,
                 .RNAs = model _
                     .getRNAs(.genomeName) _
@@ -143,7 +143,7 @@ Public Module Extensions
                     .ToArray
             },
             .metabolismStructure = New MetabolismStructure With {
-                .Reactions = model _
+                .reactions = model _
                     .Phenotype _
                     .fluxes _
                     .Select(Function(r)
@@ -155,8 +155,8 @@ Public Module Extensions
                                 }
                             End Function) _
                     .ToArray,
-                .Enzymes = enzymes,
-                .Compounds = .Reactions _
+                .enzymes = enzymes,
+                .compounds = .reactions _
                              .getCompounds(KEGG.GetCompounds) _
                              .ToArray,
                 .maps = KEGG.GetPathways _
@@ -217,7 +217,7 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Iterator Function getGenes(genome As GBFF.File, locationAsLocus_tag As Boolean) As IEnumerable(Of gene)
+    Private Iterator Function getGenes(genome As GBFF.File, model As CellularModule, locationAsLocus_tag As Boolean) As IEnumerable(Of gene)
         Dim proteinSequnce As Dictionary(Of String, ProteinComposition) = genome.Features _
             .Where(Function(feature)
                        Return feature.KeyName = "CDS"
@@ -236,7 +236,6 @@ Public Module Extensions
             .ToDictionary(Function(prot)
                               Return prot.proteinID
                           End Function)
-        Dim geneKeys As Index(Of String) = {"CDS", "tRNA", "rRNA"}
         Dim genes = genome _
             .Features _
             .ToDictionary(Function(g)
@@ -249,6 +248,11 @@ Public Module Extensions
         Dim aa As NumericVector
         Dim rna As NumericVector
         Dim locus_tag As String
+        Dim proteinId = model.Genotype.centralDogmas _
+            .Where(Function(proc) Not proc.IsRNAGene) _
+            .ToDictionary(Function(gene)
+                              Return gene.geneID
+                          End Function)
 
         ' RNA基因是没有蛋白序列的
         For Each gene As GeneBrief In genome.GbffToPTT(ORF:=False).GeneObjects
@@ -267,9 +271,9 @@ Public Module Extensions
             Yield New gene With {
                 .left = gene.Location.left,
                 .right = gene.Location.right,
-                .locus_tag = gene.Synonym,
+                .locus_tag = locus_tag,
                 .product = gene.Product,
-                .protein_id = gene.PID,
+                .protein_id = If(aa Is Nothing, "", proteinId(locus_tag).polypeptide),
                 .strand = gene.Location.Strand.GetBriefCode,
                 .amino_acid = aa,
                 .nucleotide_base = rna

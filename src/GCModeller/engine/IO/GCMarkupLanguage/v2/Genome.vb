@@ -127,6 +127,10 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         Public Property genes As XmlList(Of gene)
+        ''' <summary>
+        ''' 除了mRNA的其他的一切非蛋白编码RNA
+        ''' </summary>
+        ''' <returns></returns>
         Public Property RNAs As XmlList(Of RNA)
 
         Public Overrides Function ToString() As String

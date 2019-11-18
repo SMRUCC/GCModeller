@@ -97,7 +97,8 @@ Partial Module CLI
                           Function(protein) protein!KO)
         Dim regulations = (args <= "/regulations").LoadCsv(Of RegulationFootprint)
         Dim model As CellularModule = genome _
-            .AssemblingMetabolicNetwork(geneKO, kegg, locationAsLocus_tag) _
+            .AssemblingGenomeInformation(KOfunction:=geneKO, locationAsLocustag:=locationAsLocus_tag) _
+            .AssemblingMetabolicNetwork(geneKO, kegg) _
             .AssemblingRegulationNetwork(regulations)
 
         Call $"Model file save at location: {out}!".__DEBUG_ECHO

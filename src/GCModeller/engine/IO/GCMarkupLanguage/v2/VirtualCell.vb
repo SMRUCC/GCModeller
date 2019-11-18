@@ -120,11 +120,11 @@ Namespace v2
 
             Call sb.AppendLine()
             Call sb.AppendLine("metabolism structure:")
-            Call sb.AppendLine($"  enzymes: {model.metabolismStructure.Enzymes.Length}")
+            Call sb.AppendLine($"  enzymes: {model.metabolismStructure.enzymes.Length}")
             Call sb.AppendLine($"  reactions:")
             Call sb.AppendLine()
-            Call sb.AppendLine($"    {model.metabolismStructure.Reactions.Count(Function(r) r.is_enzymatic)} is enzymatic.")
-            Call sb.AppendLine($"    {model.metabolismStructure.Reactions.Count(Function(r) Not r.is_enzymatic)} is non-enzymatic.")
+            Call sb.AppendLine($"    {model.metabolismStructure.reactions.Count(Function(r) r.is_enzymatic)} is enzymatic.")
+            Call sb.AppendLine($"    {model.metabolismStructure.reactions.Count(Function(r) Not r.is_enzymatic)} is non-enzymatic.")
 
             Return sb.ToString
         End Function

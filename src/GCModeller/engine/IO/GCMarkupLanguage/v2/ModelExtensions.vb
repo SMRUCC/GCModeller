@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::2672484539c97a167409db2c73a83cba, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ModelExtensions
-    ' 
-    '         Function: createFluxes, createGenotype, CreateModel, createPhenotype, exportRegulations
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ModelExtensions
+' 
+'         Function: createFluxes, createGenotype, CreateModel, createPhenotype, exportRegulations
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,30 +58,33 @@ Namespace v2
         ''' </summary>
         ''' <param name="model"></param>
         ''' <returns></returns>
-        <Extension> Public Function CreateModel(model As VirtualCell) As CellularModule
+        <Extension>
+        Public Function CreateModel(model As VirtualCell) As CellularModule
+            Dim genotype As New Genotype With {
+                .centralDogmas = model _
+                    .createGenotype _
+                    .OrderByDescending(Function(gene) gene.RNA.Value) _
+                    .ToArray,
+                .ProteinMatrix = model.genome.replicons _
+                    .Select(Function(rep) rep.genes.AsEnumerable) _
+                    .IteratesALL _
+                    .Where(Function(gene) Not gene.amino_acid Is Nothing) _
+                    .Select(Function(gene)
+                                Return gene.amino_acid.DoCall(AddressOf ProteinFromVector)
+                            End Function) _
+                    .ToArray,
+                .RNAMatrix = model.genome.replicons _
+                    .Select(Function(rep) rep.genes.AsEnumerable) _
+                    .IteratesALL _
+                    .Select(Function(rna)
+                                Return rna.nucleotide_base.DoCall(AddressOf RNAFromVector)
+                            End Function) _
+                    .ToArray
+            }
+
             Return New CellularModule With {
                 .Taxonomy = model.taxonomy,
-                .Genotype = New Genotype With {
-                    .centralDogmas = model _
-                        .createGenotype _
-                        .OrderByDescending(Function(gene) gene.RNA.Value) _
-                        .ToArray,
-                    .ProteinMatrix = model.genome.replicons _
-                        .Select(Function(rep) rep.genes.AsEnumerable) _
-                        .IteratesALL _
-                        .Where(Function(gene) Not gene.amino_acid Is Nothing) _
-                        .Select(Function(gene)
-                                    Return gene.amino_acid.DoCall(AddressOf ProteinFromVector)
-                                End Function) _
-                        .ToArray,
-                    .RNAMatrix = model.genome.replicons _
-                        .Select(Function(rep) rep.genes.AsEnumerable) _
-                        .IteratesALL _
-                        .Select(Function(rna)
-                                    Return rna.nucleotide_base.DoCall(AddressOf RNAFromVector)
-                                End Function) _
-                        .ToArray
-                },
+                .Genotype = genotype,
                 .Phenotype = model.createPhenotype,
                 .Regulations = model.exportRegulations.ToArray
             }
@@ -91,7 +94,7 @@ Namespace v2
         Private Iterator Function createGenotype(model As VirtualCell) As IEnumerable(Of CentralDogma)
             Dim genomeName$
             Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure _
-                .Enzymes _
+                .enzymes _
                 .ToDictionary(Function(enzyme) enzyme.geneID)
             Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
             Dim RNA As NamedValue(Of RNATypes)
@@ -137,10 +140,31 @@ Namespace v2
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function createPhenotype(model As VirtualCell) As Phenotype
+            Dim fluxChannels = model.createFluxes _
+                .OrderByDescending(Function(r) r.enzyme.SafeQuery.Count) _
+                .ToArray
+            Dim enzymes = model.metabolismStructure.enzymes _
+                .Select(Function(enz) enz.geneID) _
+                .ToArray
+            Dim proteins = model.genome.replicons _
+                .Select(Function(genome)
+                            Return genome.genes.AsEnumerable
+                        End Function) _
+                .IteratesALL _
+                .Where(Function(gene) Not gene.amino_acid Is Nothing) _
+                .Select(Function(orf)
+                            Return New Protein With {
+                                .compounds = {},
+                                .polypeptides = {orf.protein_id},
+                                .ProteinID = orf.protein_id
+                            }
+                        End Function) _
+                .ToArray
+
             Return New Phenotype With {
-                .fluxes = model.createFluxes _
-                    .OrderByDescending(Function(r) r.enzyme.SafeQuery.Count) _
-                    .ToArray
+                .fluxes = fluxChannels,
+                .enzymes = enzymes,
+                .proteins = proteins
             }
         End Function
 
@@ -149,7 +173,7 @@ Namespace v2
             Dim equation As Equation
             ' {reactionID => KO()}
             Dim enzymes = model.metabolismStructure _
-                .Enzymes _
+                .enzymes _
                 .Select(Function(enz)
                             Return enz _
                                 .catalysis _
@@ -168,7 +192,7 @@ Namespace v2
             Dim KO$()
             Dim bounds As DoubleRange
 
-            For Each reaction In model.metabolismStructure.Reactions
+            For Each reaction In model.metabolismStructure.reactions
                 equation = Equation.TryParse(reaction.Equation)
 
                 If reaction.is_enzymatic Then
@@ -177,13 +201,13 @@ Namespace v2
                     If KO.IsNullOrEmpty Then
                         ' 当前的基因组内没有对应的酶来催化这个反应过程
                         ' 则限制一个很小的range
-                        bounds = {0, 0.1}
+                        bounds = {1, 1}
                     Else
-                        bounds = {0, 1000.0}
+                        bounds = {500, 1000.0}
                     End If
                 Else
                     KO = {}
-                    bounds = {0, 100.0}
+                    bounds = {200, 200.0}
                 End If
 
                 Yield New FluxModel With {
