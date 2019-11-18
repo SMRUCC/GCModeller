@@ -143,7 +143,8 @@ Namespace CommandLine
 #End If
                 Return i
             Else
-                Return __executeEmpty() ' 命令行是空的
+                ' 命令行是空的
+                Return doExecuteNonCLIInput()
             End If
         End Function
 
@@ -152,7 +153,7 @@ Namespace CommandLine
         ''' 否则打印出所有的命令名称信息
         ''' </summary>
         ''' <returns></returns>
-        Private Function __executeEmpty() As Integer
+        Private Function doExecuteNonCLIInput() As Integer
             If Not ExecuteEmptyCli Is Nothing Then
 #If DEBUG Then
                 Return _ExecuteEmptyCli()
