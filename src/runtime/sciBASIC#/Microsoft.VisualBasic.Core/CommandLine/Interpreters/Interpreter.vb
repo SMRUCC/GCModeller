@@ -421,37 +421,49 @@ Namespace CommandLine
         ''' <returns></returns>
         Private Shared Function getAPI(methodInfo As MethodInfo, commandAttribute As Type, [throw] As Boolean) As APIEntryPoint
             Dim cmdAttr As ExportAPIAttribute = Nothing
-            Dim commandInfo As APIEntryPoint
 
             Try
                 Dim attrs As Object() = methodInfo.GetCustomAttributes(commandAttribute, False)
+
                 If attrs.IsNullOrEmpty Then
                     Return Nothing
+                Else
+                    cmdAttr = DirectCast(attrs(0), ExportAPIAttribute)
                 End If
 
-                cmdAttr = DirectCast(attrs(0), ExportAPIAttribute)
-                commandInfo = New APIEntryPoint(cmdAttr, methodInfo, [throw]) ' 在这里将外部的属性标记和所属的函数的入口点进行连接
-                If cmdAttr.Info.StringEmpty Then
-                    cmdAttr.Info = methodInfo.Description ' 帮助信息的获取兼容系统的Description方法
-                End If
-                If cmdAttr.Usage.StringEmpty Then
-                    cmdAttr.Usage = methodInfo.Usage
-                End If
-                If cmdAttr.Example.StringEmpty Then
-                    cmdAttr.Example = methodInfo.ExampleInfo
-                End If
-
-                Return commandInfo
+                Return doLoadApiInternal(cmdAttr, methodInfo, [throw])
             Catch ex As Exception
                 If Not cmdAttr Is Nothing Then
                     ex = New Exception("This command API can not be imports: " & cmdAttr.GetJson, ex)
                     ex = New Exception(CheckNotice, ex)
                 End If
+
                 Call App.LogException(New Exception(methodInfo.FullName(True), ex))
                 Call ex.PrintException
 
                 Return Nothing
             End Try
+        End Function
+
+        ''' <summary>
+        ''' 在这里将外部的属性标记和所属的函数的入口点进行连接
+        ''' </summary>
+        ''' <returns></returns>
+        Private Shared Function doLoadApiInternal(cmdAttr As ExportAPIAttribute, methodInfo As MethodInfo, [throw] As Boolean) As APIEntryPoint
+            Dim commandInfo As New APIEntryPoint(cmdAttr, methodInfo, [throw])
+
+            If cmdAttr.Info.StringEmpty Then
+                ' 帮助信息的获取兼容系统的Description方法
+                cmdAttr.Info = methodInfo.Description
+            End If
+            If cmdAttr.Usage.StringEmpty Then
+                cmdAttr.Usage = methodInfo.Usage
+            End If
+            If cmdAttr.Example.StringEmpty Then
+                cmdAttr.Example = methodInfo.ExampleInfo
+            End If
+
+            Return commandInfo
         End Function
 
         Const CheckNotice As String = "Please checks for the export api definition on your CLI interface function."
