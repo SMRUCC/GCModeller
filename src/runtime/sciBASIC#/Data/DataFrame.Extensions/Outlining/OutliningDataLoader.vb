@@ -9,7 +9,7 @@ Namespace Outlining
     Public Module OutliningDataLoader
 
         <Extension>
-        Private Function createBuilderByHeaders(type As Type, headers As IEnumerable(Of String), strict As Boolean) As RowBuilder
+        Friend Function createBuilderByHeaders(type As Type, headers As IEnumerable(Of String), strict As Boolean) As RowBuilder
             Dim schema As TableSchema = TableSchema.CreateObject(type, strict).CopyWriteDataToObject
             Dim rowBuilder As New RowBuilder(schema)
 
@@ -38,8 +38,7 @@ Namespace Outlining
             Dim indent As Integer
             Dim currentIndent As Integer = -1
             Dim buffer As New List(Of RowObject)
-            Dim subTables As New List(Of RowBuilder)
-            Dim rowBuilder As RowBuilder = GetType(T).createBuilderByHeaders(file.Headers, strict)
+            Dim builder As Builder
             Dim obj As T
 
             For Each row As RowObject In file.Skip(1)
@@ -60,7 +59,7 @@ Namespace Outlining
                             obj = rowBuilder.FillData(row, obj, metaBlank)
                         Else
                             If currentIndent >= subTables.Count Then
-
+                                subTables.Add()
                             End If
                         End If
                     Else
