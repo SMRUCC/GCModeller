@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Dynamics")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("Dynamics")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTitle("GCModeller VirtualCell Dynamics")>
+<Assembly: AssemblyDescription("GCModeller VirtualCell Dynamics")>
+<Assembly: AssemblyCompany("SMRUCC")>
+<Assembly: AssemblyProduct("GCModeller")>
+<Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2019")>
+<Assembly: AssemblyTrademark("Dynamics")>
 
 <Assembly: ComVisible(False)>
 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyVersion("2.711.*")>
+<Assembly: AssemblyFileVersion("1.234.*")>

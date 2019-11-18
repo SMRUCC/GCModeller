@@ -178,7 +178,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                            Return Not a.val.StringEmpty
                        End Function) _
                 .ToDictionary(Function(t) t.key,
-                              Function(t) t.val)
+                              Function(t)
+                                  Return t.val
+                              End Function)
         End Function
 
         ''' <summary>
@@ -193,6 +195,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 In innerList
                 Where String.Equals(pairedObj.Name, key)
                 Select pairedObj.Value '
+
             Return LQuery
         End Function
 
@@ -226,11 +229,11 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Protected Shared Iterator Function ReadingQualifiers(Data As String()) As IEnumerable(Of NamedValue(Of String))
             For Each str As String In Data
-                Yield __parser(Mid(str, 2))
+                Yield doParser(Mid(str, 2))
             Next
         End Function
 
-        Private Shared Function __parser(s As String) As NamedValue(Of String)
+        Private Shared Function doParser(s As String) As NamedValue(Of String)
             Dim value = s.GetTagValue("=")
             Dim str$ = value.Value
 

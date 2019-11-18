@@ -73,7 +73,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlElement("metabolome", [Namespace]:=GCMarkupLanguage)>
-        Public Property MetabolismStructure As MetabolismStructure
+        Public Property metabolismStructure As MetabolismStructure
 
         Public Const GCMarkupLanguage$ = "http://CAD_software.gcmodeller.org/XML/schema_revision/GCMarkup_1.0"
 
@@ -120,11 +120,11 @@ Namespace v2
 
             Call sb.AppendLine()
             Call sb.AppendLine("metabolism structure:")
-            Call sb.AppendLine($"  enzymes: {model.MetabolismStructure.Enzymes.Length}")
+            Call sb.AppendLine($"  enzymes: {model.metabolismStructure.enzymes.Length}")
             Call sb.AppendLine($"  reactions:")
             Call sb.AppendLine()
-            Call sb.AppendLine($"    {model.MetabolismStructure.Reactions.Count(Function(r) r.is_enzymatic)} is enzymatic.")
-            Call sb.AppendLine($"    {model.MetabolismStructure.Reactions.Count(Function(r) Not r.is_enzymatic)} is non-enzymatic.")
+            Call sb.AppendLine($"    {model.metabolismStructure.reactions.Count(Function(r) r.is_enzymatic)} is enzymatic.")
+            Call sb.AppendLine($"    {model.metabolismStructure.reactions.Count(Function(r) Not r.is_enzymatic)} is non-enzymatic.")
 
             Return sb.ToString
         End Function

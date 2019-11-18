@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a89094ed09354c036789ca7b5b0aa1a1, engine\Dynamics\Core\Boundary.vb"
+﻿#Region "Microsoft.VisualBasic::296809b53c92ffad28c67cacbdfa817c, engine\Dynamics\Core\Factor.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,16 @@
 
     ' Summaries:
 
-    '     Class Boundary
+    '     Class Variable
     ' 
-    '         Properties: forward, reverse
+    '         Properties: Coefficient, IsTemplate, Mass
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    '     Class Factor
+    ' 
+    '         Properties: ID
     ' 
     '         Function: ToString
     ' 
@@ -42,24 +49,26 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Language
+
 Namespace Core
 
-    Public Class Boundary
+    ''' <summary>
+    ''' 一个变量因子，这个对象主要是用于存储值
+    ''' </summary>
+    Public Class Factor : Inherits Value(Of Double)
+        Implements INamedValue
 
-        Public Property forward As Double
-        Public Property reverse As Double
+        Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         Public Overrides Function ToString() As String
-            Return $"[reactant <- {reverse} | {forward} -> product]"
+            Return $"{ID} ({Value} unit)"
         End Function
 
-        Public Shared Widening Operator CType(range As Double()) As Boundary
-            Return New Boundary With {.forward = range(0), .reverse = range(1)}
+        Public Overloads Shared Widening Operator CType(name As String) As Factor
+            Return New Factor With {.ID = name}
         End Operator
-
-        Public Shared Widening Operator CType(range As Integer()) As Boundary
-            Return New Boundary With {.forward = range(0), .reverse = range(1)}
-        End Operator
-
     End Class
 End Namespace

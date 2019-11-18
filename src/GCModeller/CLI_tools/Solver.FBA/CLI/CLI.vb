@@ -100,8 +100,8 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
         Dim parallel% = args("/parallel") Or 1
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.disruptions/"
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
-        Dim genes$() = model.MetabolismStructure _
-            .Enzymes _
+        Dim genes$() = model.metabolismStructure _
+            .enzymes _
             .Select(Function(enz) enz.geneID) _
             .ToArray
         Dim raw$ = out & "/raw/"
@@ -177,7 +177,7 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
                   VirtualCell.Summary(model)).__INFO_ECHO
         End If
 
-        Dim targets$() = args("/objective").ReadAllLines Or model.MetabolismStructure.GetAllFluxID.AsDefault
+        Dim targets$() = args("/objective").ReadAllLines Or model.metabolismStructure.GetAllFluxID.AsDefault
         Dim dataModel As CellularModule = model.CreateModel
         Dim result As LPPSolution = New LinearProgrammingEngine() _
             .CreateMatrix(dataModel, targets) _

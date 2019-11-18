@@ -80,7 +80,7 @@ Public Class Reaction
     Public ReadOnly Property is_enzymatic As Boolean
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return enzyme.IsNullOrEmpty
+            Return Not enzyme.IsNullOrEmpty
         End Get
     End Property
 
