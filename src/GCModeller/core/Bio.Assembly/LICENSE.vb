@@ -138,12 +138,16 @@ Public Module LICENSE
             .Assembly _
             .Location _
             .FileName
+        Dim target As String = GetType(LICENSE).FullName
+
+        ' load satellite resource assembly by
+        ' directory/Resources/SMRUCC.genomics.Core.dll
 
         For Each directory As String In pathEnvir
             If directory.DirectoryExists AndAlso $"{directory}/{dllFile}".FileExists Then
                 Try
                     Dim assembly As AssemblyModule = AssemblyModule.UnsafeLoadFrom($"{directory}/{dllFile}")
-                    Dim [module] As Type = assembly.GetType(NameOf(LICENSE))
+                    Dim [module] As Type = assembly.GetType(target)
 
                     If Not [module] Is Nothing Then
                         Return directory
