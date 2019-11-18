@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("vcellkit")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("vcellkit")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTitle("VirtualCell toolkit: R# package for GCModeller VirtualCell analysis")>
+<Assembly: AssemblyDescription("VirtualCell toolkit: R# package for GCModeller VirtualCell analysis")>
+<Assembly: AssemblyCompany("SMRUCC")>
+<Assembly: AssemblyProduct("GCModeller")>
+<Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2019")>
+<Assembly: AssemblyTrademark("vcellkit")>
 
 <Assembly: ComVisible(False)>
 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyVersion("1.50.*")>
+<Assembly: AssemblyFileVersion("2.3421.*")>
