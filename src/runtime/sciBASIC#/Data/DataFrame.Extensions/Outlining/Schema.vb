@@ -7,6 +7,9 @@ Imports Microsoft.VisualBasic.Scripting
 
 Namespace Outlining
 
+    ''' <summary>
+    ''' The row object builder, convert csv data row to .NET object in given <see cref="Type"/>
+    ''' </summary>
     Public Class Builder
 
         ''' <summary>
@@ -55,12 +58,12 @@ Namespace Outlining
 
         Public Function Flush(parent As Object) As Object
             If Not SubTableSchema.writer Is Nothing Then
-                Dim array As Object = cache _
+                Dim array As Object = SubTableSchema.row.cache _
                     .ToArray _
-                    .DirectCast(SubTableSchema.writer.PropertyType)
+                    .DirectCast(SubTableSchema.row.Type)
 
                 Call SubTableSchema.writer.SetValue(parent, array)
-                Call cache.Clear()
+                Call SubTableSchema.row.cache.Clear()
             End If
 
             Return parent
@@ -95,6 +98,11 @@ Namespace Outlining
             End If
         End Function
 
+        ''' <summary>
+        ''' Get element object builder by indent level
+        ''' </summary>
+        ''' <param name="indentLevel"></param>
+        ''' <returns></returns>
         Public Function GetBuilder(indentLevel As Integer) As Builder
             If indentLevel = 0 Then
                 Return Me
