@@ -94,7 +94,9 @@ Partial Module CLI
         Dim geneKO As Dictionary(Of String, String) = EntityObject _
             .LoadDataSet(KO) _
             .ToDictionary(Function(protein) protein.ID,
-                          Function(protein) protein!KO)
+                          Function(protein)
+                              Return protein!KO
+                          End Function)
         Dim regulations = (args <= "/regulations").LoadCsv(Of RegulationFootprint)
         Dim model As CellularModule = genome _
             .AssemblingGenomeInformation(KOfunction:=geneKO, locationAsLocustag:=locationAsLocus_tag) _

@@ -1,3 +1,0 @@
-﻿Module LibraryHtmlDoc
-
-End Module
