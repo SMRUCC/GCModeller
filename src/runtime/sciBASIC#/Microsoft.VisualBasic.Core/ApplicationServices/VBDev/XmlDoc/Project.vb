@@ -95,7 +95,11 @@ Namespace ApplicationServices.Development.XmlDoc.Assembly
             Return Nothing
         End Function
 
-        Public Function EnsureNamespace(namespacePath As String) As ProjectNamespace
+        Public Overloads Function [GetType](fullName As String) As ProjectType
+
+        End Function
+
+        Friend Function EnsureNamespace(namespacePath As String) As ProjectNamespace
             Dim pn As ProjectNamespace = GetNamespace(namespacePath)
 
             If pn Is Nothing Then
