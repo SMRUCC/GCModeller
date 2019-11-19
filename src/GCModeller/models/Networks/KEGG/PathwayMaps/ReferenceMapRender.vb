@@ -62,6 +62,11 @@ Namespace PathwayMaps
 
     Public Module ReferenceMapRender
 
+        ''' <summary>
+        ''' geneName -> EC number -> reactionId
+        ''' </summary>
+        ''' <param name="reactionKOMapping"></param>
+        ''' <returns></returns>
         Private Function getReactionNames(reactionKOMapping As Dictionary(Of String, String())) As Dictionary(Of String, String)
             Dim KOnames = PathwayMapping.DefaultKOTable
 
