@@ -1,48 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::cd005651cbaba7035b01aff6f8636384, core\Bio.Assembly\LICENSE.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module LICENSE
-    ' 
-    '     Properties: GPL3, WebRequestUserAgent
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Sub: GithubRepository
-    ' 
-    ' /********************************************************************************/
+' Module LICENSE
+' 
+'     Properties: GPL3, WebRequestUserAgent
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Sub: GithubRepository
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports AssemblyModule = System.Reflection.Assembly
 
 ''' <summary>
 ''' ᶘ ᵒᴥᵒᶅ？？？？
@@ -120,4 +122,42 @@ Public Module LICENSE
         End If
     End Sub
 
+    ''' <summary>
+    ''' Find directory of GCModeller using environment path variable.
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 会需要依赖于这个路径来加载Bio.Resources资源卫星程序集文件
+    ''' </remarks>
+    Public Function FindGCModeller() As String
+        Dim pathEnvir = Environment.GetEnvironmentVariable("PATH") _
+            .Split(Path.PathSeparator) _
+            .Select(Function(dir) dir.GetStackValue("""", """")) _
+            .ToArray
+        Dim dllFile As String = GetType(LICENSE) _
+            .Assembly _
+            .Location _
+            .FileName
+        Dim target As String = GetType(LICENSE).FullName
+
+        ' load satellite resource assembly by
+        ' directory/Resources/SMRUCC.genomics.Core.dll
+
+        For Each directory As String In pathEnvir
+            If directory.DirectoryExists AndAlso $"{directory}/{dllFile}".FileExists Then
+                Try
+                    Dim assembly As AssemblyModule = AssemblyModule.UnsafeLoadFrom($"{directory}/{dllFile}")
+                    Dim [module] As Type = assembly.GetType(target)
+
+                    If Not [module] Is Nothing Then
+                        Return directory
+                    End If
+                Catch ex As Exception
+                    ' ignores exception
+                End Try
+            End If
+        Next
+
+        Return Nothing
+    End Function
 End Module

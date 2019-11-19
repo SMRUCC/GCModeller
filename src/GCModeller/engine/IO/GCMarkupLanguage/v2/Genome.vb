@@ -126,8 +126,12 @@ Namespace v2
         ''' 基因列表，在这个属性之中定义了该基因组之中的所有基因的数据
         ''' </summary>
         ''' <returns></returns>
-        Public Property genes As gene()
-        Public Property RNAs As RNA()
+        Public Property genes As XmlList(Of gene)
+        ''' <summary>
+        ''' 除了mRNA的其他的一切非蛋白编码RNA
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property RNAs As XmlList(Of RNA)
 
         Public Overrides Function ToString() As String
             Dim type$ = "Genome" Or "Plasmid genome".When(isPlasmid)
@@ -141,7 +145,7 @@ Namespace v2
         <XmlAttribute> Public Property locus_tag As String
         <XmlAttribute> Public Property protein_id As String
 
-        <XmlText>
+        <XmlElement>
         Public Property product As String
 
         <XmlAttribute> Public Property left As Integer
@@ -157,7 +161,16 @@ Namespace v2
         ''' </remarks>
         <XmlAttribute> Public Property strand As String
 
+        ''' <summary>
+        ''' 对于rRNA和tRNA不存在
+        ''' </summary>
+        ''' <returns></returns>
         Public Property amino_acid As NumericVector
+        ''' <summary>
+        ''' mRNA, tRNA, rRNA, etc
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property nucleotide_base As NumericVector
 
     End Class
 
@@ -173,8 +186,6 @@ Namespace v2
         <XmlAttribute> Public Property gene As String
         <XmlAttribute> Public Property type As RNATypes
         <XmlAttribute> Public Property val As String
-
-        Public Property nucleotide_base As NumericVector
 
     End Class
 

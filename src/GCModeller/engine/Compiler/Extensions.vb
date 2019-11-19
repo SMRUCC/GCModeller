@@ -59,16 +59,22 @@ Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Re
 <HideModuleName>
 Public Module Extensions
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="genomes">染色体基因组+质粒基因组</param>
+    ''' <returns></returns>
     <Extension>
-    Friend Iterator Function populateReplicons(model As CellularModule, genomes As Dictionary(Of String, GBFF.File)) As IEnumerable(Of replicon)
+    Friend Iterator Function populateReplicons(model As CellularModule, genomes As Dictionary(Of String, GBFF.File), locationAsLocustag As Boolean) As IEnumerable(Of replicon)
         For Each genome In genomes
             Yield New replicon With {
                 .genomeName = genome.Value.Locus.AccessionID,
                 .genes = genome.Value _
-                    .getGenes _
+                    .getGenes(model, locationAsLocustag) _
                     .ToArray,
                 .RNAs = model _
-                    .getRNAs(.genomeName, genomes) _
+                    .getRNAs(.genomeName) _
                     .ToArray,
                 .isPlasmid = genome.Value.IsPlasmidSource
             }
@@ -76,16 +82,7 @@ Public Module Extensions
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Private Function getRNAs(model As CellularModule, repliconName$, genomes As Dictionary(Of String, GBFF.File)) As IEnumerable(Of RNA)
-        Dim geneKeys As Index(Of String) = {"CDS", "tRNA", "rRNA"}
-        Dim genes = genomes.Values _
-            .Select(Function(gb) gb.Features) _
-            .IteratesALL _
-            .Where(Function(gene) gene.KeyName Like geneKeys) _
-            .ToDictionary(Function(g)
-                              Return g.Location.ToString
-                          End Function)
-
+    <Extension> Private Function getRNAs(model As CellularModule, repliconName$) As IEnumerable(Of RNA)
         Return model.Genotype _
             .centralDogmas _
             .Where(Function(proc)
@@ -95,10 +92,7 @@ Public Module Extensions
                         Return New RNA With {
                             .type = proc.RNA.Value,
                             .val = proc.RNA.Description,
-                            .gene = proc.geneID,
-                            .nucleotide_base = RNAComposition _
-                                .FromNtSequence(genes(proc.geneID).SequenceData, proc.geneID) _
-                                .CreateVector
+                            .gene = proc.geneID
                         }
                     End Function)
     End Function
@@ -111,10 +105,12 @@ Public Module Extensions
     ''' <param name="KEGG"></param>
     ''' <param name="regulations">所有的复制子的调控网络应该都是合并在一起通过这个参数传递进来了</param>
     ''' <returns></returns>
-    <Extension> Public Function ToMarkup(model As CellularModule,
-                                         genomes As Dictionary(Of String, GBFF.File),
-                                         KEGG As RepositoryArguments,
-                                         regulations As RegulationFootprint()) As VirtualCell
+    <Extension>
+    Public Function ToMarkup(model As CellularModule,
+                             genomes As Dictionary(Of String, GBFF.File),
+                             KEGG As RepositoryArguments,
+                             regulations As RegulationFootprint(),
+                             locationAsLocus_tag As Boolean) As VirtualCell
 
         Dim KOgenes As Dictionary(Of String, CentralDogma) = model _
             .Genotype _
@@ -140,14 +136,14 @@ Public Module Extensions
             .taxonomy = model.Taxonomy,
             .genome = New Genome With {
                 .replicons = model _
-                    .populateReplicons(genomes) _
+                    .populateReplicons(genomes, locationAsLocus_tag) _
                     .ToArray,
                  .regulations = model _
                     .getTFregulations(regulations) _
                     .ToArray
             },
-            .MetabolismStructure = New MetabolismStructure With {
-                .Reactions = model _
+            .metabolismStructure = New MetabolismStructure With {
+                .reactions = model _
                     .Phenotype _
                     .fluxes _
                     .Select(Function(r)
@@ -159,8 +155,8 @@ Public Module Extensions
                                 }
                             End Function) _
                     .ToArray,
-                .Enzymes = enzymes,
-                .Compounds = .Reactions _
+                .enzymes = enzymes,
+                .compounds = .reactions _
                              .getCompounds(KEGG.GetCompounds) _
                              .ToArray,
                 .maps = KEGG.GetPathways _
@@ -221,27 +217,66 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Iterator Function getGenes(genome As GBFF.File) As IEnumerable(Of gene)
+    Private Iterator Function getGenes(genome As GBFF.File, model As CellularModule, locationAsLocus_tag As Boolean) As IEnumerable(Of gene)
         Dim proteinSequnce As Dictionary(Of String, ProteinComposition) = genome.Features _
             .Where(Function(feature)
                        Return feature.KeyName = "CDS"
                    End Function) _
             .Select(Function(feature)
-                        Return ProteinComposition.FromRefSeq(feature.Query("translation"), feature.Location.ToString)
+                        Dim id As String
+
+                        If locationAsLocus_tag Then
+                            id = feature.Location.ToString
+                        Else
+                            id = feature.Query("locus_tag")
+                        End If
+
+                        Return ProteinComposition.FromRefSeq(feature.Query("translation"), id)
                     End Function) _
             .ToDictionary(Function(prot)
                               Return prot.proteinID
                           End Function)
+        Dim genes = genome _
+            .Features _
+            .ToDictionary(Function(g)
+                              If locationAsLocus_tag Then
+                                  Return g.Location.ToString
+                              Else
+                                  Return g.Query("locus_tag")
+                              End If
+                          End Function)
+        Dim aa As NumericVector
+        Dim rna As NumericVector
+        Dim locus_tag As String
+        Dim proteinId = model.Genotype.centralDogmas _
+            .Where(Function(proc) Not proc.IsRNAGene) _
+            .ToDictionary(Function(gene)
+                              Return gene.geneID
+                          End Function)
 
+        ' RNA基因是没有蛋白序列的
         For Each gene As GeneBrief In genome.GbffToPTT(ORF:=False).GeneObjects
+            locus_tag = gene.Synonym
+
+            If proteinSequnce.ContainsKey(gene.Synonym) Then
+                aa = proteinSequnce(gene.Synonym).CreateVector
+            Else
+                aa = Nothing
+            End If
+
+            rna = RNAComposition _
+                .FromNtSequence(genes(locus_tag).SequenceData, locus_tag) _
+                .CreateVector
+
             Yield New gene With {
                 .left = gene.Location.left,
                 .right = gene.Location.right,
-                .locus_tag = gene.Synonym,
+                .locus_tag = locus_tag,
                 .product = gene.Product,
-                .protein_id = gene.PID,
+                .protein_id = If(aa Is Nothing, "", proteinId(locus_tag).polypeptide),
                 .strand = gene.Location.Strand.GetBriefCode,
-                .amino_acid = proteinSequnce(.locus_tag).CreateVector
+                .amino_acid = aa,
+                .nucleotide_base = rna
             }
         Next
     End Function
@@ -324,7 +359,8 @@ Public Module Extensions
         Next
     End Function
 
-    <Extension> Public Function ToTabular(model As CellularModule) As Excel
+    <Extension>
+    Public Function ToTabular(model As CellularModule) As Excel
 
     End Function
 End Module

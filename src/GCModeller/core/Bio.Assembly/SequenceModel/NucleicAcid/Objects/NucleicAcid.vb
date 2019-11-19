@@ -360,7 +360,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function Complement(DNAseq As String) As String
-            Dim sb As New StringBuilder(DNAseq)
+            Dim sb As New StringBuilder(DNAseq.ToUpper)
 
             Call sb.Replace("A"c, "1"c)
             Call sb.Replace("T"c, "2"c)
