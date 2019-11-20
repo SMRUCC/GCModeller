@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49469831fd643c138dac9f5c329b9eee, engine\Dynamics\Core\Vessel.vb"
+﻿#Region "Microsoft.VisualBasic::f183dd47b44276329b2a0d5520354895, engine\Dynamics\Core\Vessel.vb"
 
     ' Author:
     ' 
@@ -33,9 +33,10 @@
 
     '     Class Vessel
     ' 
-    '         Properties: Channels, Mass
+    '         Properties: Channels, MassEnvironment
     ' 
-    '         Function: ContainerIterator, factorsByCount, iterateFlux, Reset
+    '         Function: ContainerIterator, doForwardTransition, doReverseTransition, factorsByCount, iterateFlux
+    '                   Reset
     ' 
     '         Sub: Initialize
     ' 
@@ -52,6 +53,8 @@ Namespace Core
 
     ''' <summary>
     ''' 一个反应容器，也是一个微环境，这在这个反应容器之中包含有所有的反应过程
+    ''' 
+    ''' (这是一个通用的生物化学反应过程模拟器，是整个虚拟细胞计算引擎的核心部件)
     ''' </summary>
     Public Class Vessel
 
@@ -87,7 +90,7 @@ Namespace Core
         ''' 
         ''' </summary>
         ''' <param name="timeResolution">反应变换的时间分辨率</param>
-        Public Sub Initialize(Optional timeResolution# = 1000)
+        Public Function Initialize(Optional timeResolution# = 1000) As Vessel
             Dim sharedLeft = factorsByCount(True)
             Dim sharedRight = factorsByCount(False)
 
@@ -97,7 +100,9 @@ Namespace Core
 
             resolution = timeResolution
             shareFactors = (sharedLeft, sharedRight)
-        End Sub
+
+            Return Me
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function factorsByCount(isLeft As Boolean) As Dictionary(Of String, Double)

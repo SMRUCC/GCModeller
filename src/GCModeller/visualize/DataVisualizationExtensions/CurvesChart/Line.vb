@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aacfe0aadb5c3e839993898c1fb6e16b, visualize\DataVisualizationExtensions\CurvesChart\Line.vb"
+﻿#Region "Microsoft.VisualBasic::35748b80e2f421ccaddbfc2022f097fe, visualize\DataVisualizationExtensions\CurvesChart\Line.vb"
 
     ' Author:
     ' 

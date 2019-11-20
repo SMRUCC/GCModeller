@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::265bc8b24b1d48958593c178c341ed7a, MicrobesOnline\MySQL\genomics\locustype.vb"
+﻿#Region "Microsoft.VisualBasic::265bc8b24b1d48958593c178c341ed7a, data\MicrobesOnline\MySQL\genomics\locustype.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de254863de39a2854250e7b3a35d82ec, engine\GCModeller\EngineSystem\ObjectModels\Feature\Template.vb"
+﻿#Region "Microsoft.VisualBasic::1220b8fe5b975b46303188aef9c38a0d, engine\GCModeller\EngineSystem\ObjectModels\Feature\Template.vb"
 
     ' Author:
     ' 

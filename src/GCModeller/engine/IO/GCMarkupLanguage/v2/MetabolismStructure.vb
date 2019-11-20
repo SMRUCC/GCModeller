@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecb4010087394e103f6fb4640b82273f, engine\IO\GCMarkupLanguage\v2\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::d0b2fcd960f75f79b16d5dac3cd3fd74, engine\IO\GCMarkupLanguage\v2\MetabolismStructure.vb"
 
     ' Author:
     ' 
@@ -86,26 +86,26 @@ Namespace v2
     <XmlType("metabolome", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class MetabolismStructure
 
-        <XmlArray("compounds")> Public Property Compounds As Compound()
+        <XmlArray("compounds")> Public Property compounds As Compound()
         ''' <summary>
         ''' 在这个属性之中包含有所有的代谢反应过程的定义
         ''' </summary>
         ''' <returns></returns>
-        <XmlArray("reactions")> Public Property Reactions As Reaction()
+        <XmlArray("reactions")> Public Property reactions As Reaction()
 
         ''' <summary>
         ''' 在这个属性里面只会出现具有KO分类编号的蛋白序列，如果需要找所有基因的数据，可以
         ''' 读取<see cref="Genome.replicons"/>里面的基因的数据
         ''' </summary>
         ''' <returns></returns>
-        <XmlArray("enzymes")> Public Property Enzymes As Enzyme()
+        <XmlArray("enzymes")> Public Property enzymes As Enzyme()
 
         <XmlArray("pathwayMaps")>
         Public Property maps As FunctionalCategory()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetAllFluxID() As String()
-            Return Reactions _
+            Return reactions _
                 .SafeQuery _
                 .Select(Function(r) r.ID) _
                 .ToArray

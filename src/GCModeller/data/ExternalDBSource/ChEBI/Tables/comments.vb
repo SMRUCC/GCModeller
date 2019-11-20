@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a22d0f2439eff957b12d8dcf66b6ecc, ExternalDBSource\ChEBI\Tables\comments.vb"
+﻿#Region "Microsoft.VisualBasic::1a22d0f2439eff957b12d8dcf66b6ecc, data\ExternalDBSource\ChEBI\Tables\comments.vb"
 
     ' Author:
     ' 

@@ -54,6 +54,7 @@ Namespace CytoscapeGraphView
     ''' </summary>
     Public Module VizModel
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function createProperties(element As AttributeDictionary, propertyNames$()) As Dictionary(Of String, String)
             Return propertyNames _
@@ -82,7 +83,10 @@ Namespace CytoscapeGraphView
                     .data = New NodeData With {
                         .label = xgmmlNode.label,
                         .origID = xgmmlNode.label,
-                        .initialPostion = New FDGVector2 With {.x = xgmmlNode.graphics.x, .y = xgmmlNode.graphics.y},
+                        .initialPostion = New FDGVector2 With {
+                            .x = xgmmlNode.graphics.x,
+                            .y = xgmmlNode.graphics.y
+                        },
                         .Properties = xgmmlNode.createProperties(propertyNames),
                         .size = {xgmmlNode.graphics.w, xgmmlNode.graphics.h}
                     }

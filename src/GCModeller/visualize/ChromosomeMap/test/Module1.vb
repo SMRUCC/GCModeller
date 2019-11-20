@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e26f862bf1e95af9d0e73498e17f4d4, visualize\ChromosomeMap\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::6807cf3061bca7d401ac8d26eabed665, visualize\ChromosomeMap\test\Module1.vb"
 
     ' Author:
     ' 
@@ -79,4 +79,3 @@ Module Module1
         Return True
     End Function
 End Module
-

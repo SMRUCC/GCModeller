@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::843d5a99ee80258f8f8e8d13e9fab561, Bio.Assembly\ComponentModel\Annotation\EC\ECNumber.vb"
+﻿#Region "Microsoft.VisualBasic::03cbced94aea4ca926207f299607c7da, core\Bio.Assembly\ComponentModel\Annotation\EC\ECNumber.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class ECNumber
     ' 
-    '         Properties: SerialNumber, SubCategory, SubType, Type
+    '         Properties: serialNumber, subCategory, subType, type
     ' 
     '         Function: (+2 Overloads) Contains, ToString, ValidateValue, ValueParser
     ' 

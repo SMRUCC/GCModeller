@@ -1,41 +1,41 @@
-﻿#Region "Microsoft.VisualBasic::c9ee9db85018175e6ae1910ab36c58d6, GO\CatalogPlots.vb"
+﻿#Region "Microsoft.VisualBasic::6a75dc6b3e827a9c1b46e27b0d3810a8, annotations\GO\CatalogPlots.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module CatalogPlots
-' 
-'     Function: (+2 Overloads) EnrichmentPlot, (+4 Overloads) Plot
-' 
-' /********************************************************************************/
+    ' Module CatalogPlots
+    ' 
+    '     Function: CreateEnrichmentProfiles, (+2 Overloads) EnrichmentPlot, (+4 Overloads) Plot
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -413,7 +413,8 @@ Public Module CatalogPlots
                                                                            Optional usingCorrected As Boolean = False,
                                                                            Optional top% = -1,
                                                                            Optional colorSchema$ = "Set1:c6",
-                                                                           Optional disableLabelColor As Boolean = False) As GraphicsData
+                                                                           Optional disableLabelColor As Boolean = False,
+                                                                           Optional labelMaxLen% = 64) As GraphicsData
         Return data _
             .CreateEnrichmentProfiles(GO_terms, usingCorrected, top, pvalue) _
             .ProfilesPlot(
@@ -424,7 +425,8 @@ Public Module CatalogPlots
                 gray:=gray,
                 labelRightAlignment:=labelRightAlignment,
                 colorSchema:=colorSchema,
-                disableLabelColor:=disableLabelColor
+                disableLabelColor:=disableLabelColor,
+                labelTrimLength:=labelMaxLen
             )
     End Function
 End Module

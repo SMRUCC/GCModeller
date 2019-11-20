@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62f985b52a87c1e3bd454a898ff7affe, sub-system\FBA\FBA.Core\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::6327b36b50953bd03734e97c35aba983, sub-system\FBA\FBA.Core\Matrix.vb"
 
     ' Author:
     ' 
@@ -110,4 +110,3 @@ Public Class Matrix
     End Function
 
 End Class
-

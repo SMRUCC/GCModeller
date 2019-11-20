@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcf1fdffe0f383166888c489f493e1eb, Networks\STRING\TCS\Assembler.vb"
+﻿#Region "Microsoft.VisualBasic::284b0fb5487ccbb31315f6376217b12b, models\Networks\STRING\TCS\Assembler.vb"
 
     ' Author:
     ' 

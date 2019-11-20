@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b35f66c59e9dd4f0bab153c0a5ed840b, ExternalDBSource\MetaCyc\MySQL\desnelmappingwiddesnelmapwid.vb"
+﻿#Region "Microsoft.VisualBasic::b35f66c59e9dd4f0bab153c0a5ed840b, data\ExternalDBSource\MetaCyc\MySQL\desnelmappingwiddesnelmapwid.vb"
 
     ' Author:
     ' 

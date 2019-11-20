@@ -1462,7 +1462,7 @@ D      C09314  Trioxsalen
 D      C00841  Xanthotoxol
 D      C01864  Xanthotoxin
 #
-A<b>Skimate / acetate-malonate pathway derived compounds</b>
+A<b>Shikimate / acetate-malonate pathway derived compounds</b>
 B  Stilbenoids
 C    Stilbenes
 D      C10245  Astringin

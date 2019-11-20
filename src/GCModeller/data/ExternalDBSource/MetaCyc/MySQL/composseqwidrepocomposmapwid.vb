@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7d9b5f3b8a6e79c815a9bb1eec28c5d, ExternalDBSource\MetaCyc\MySQL\composseqwidrepocomposmapwid.vb"
+﻿#Region "Microsoft.VisualBasic::f7d9b5f3b8a6e79c815a9bb1eec28c5d, data\ExternalDBSource\MetaCyc\MySQL\composseqwidrepocomposmapwid.vb"
 
     ' Author:
     ' 

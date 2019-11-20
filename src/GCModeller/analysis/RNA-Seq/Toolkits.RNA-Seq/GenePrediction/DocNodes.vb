@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::951fc3ce18a51b1262e7e555bd7809e6, analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\DocNodes.vb"
+﻿#Region "Microsoft.VisualBasic::fd906faf6124f34f2409dc87ad8dcd5c, analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\DocNodes.vb"
 
     ' Author:
     ' 

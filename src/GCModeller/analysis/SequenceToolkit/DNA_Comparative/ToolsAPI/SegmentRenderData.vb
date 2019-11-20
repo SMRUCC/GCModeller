@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b43e035517faac73c053d4f613c0687, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\SegmentRenderData.vb"
+﻿#Region "Microsoft.VisualBasic::f8a922e792b3f362c7793dec32bc3a65, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\SegmentRenderData.vb"
 
     ' Author:
     ' 

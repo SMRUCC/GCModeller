@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97cab35dd3d237193a21a9430c8c2900, RCSB PDB\PDB\Keywords\AtomUnit.vb"
+﻿#Region "Microsoft.VisualBasic::b28a425f7f194e6795f4e63f828c5423, data\RCSB PDB\PDB\Keywords\AtomUnit.vb"
 
     ' Author:
     ' 

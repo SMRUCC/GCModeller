@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92faff59d4725ce2bb4bd381a5b8c11e, ExternalDBSource\MetaCyc\MySQL\biosourcewidbiosubtypewid.vb"
+﻿#Region "Microsoft.VisualBasic::92faff59d4725ce2bb4bd381a5b8c11e, data\ExternalDBSource\MetaCyc\MySQL\biosourcewidbiosubtypewid.vb"
 
     ' Author:
     ' 

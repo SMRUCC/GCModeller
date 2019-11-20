@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a3e4503b8e4f47417f0623fd94588c4, RegulonDatabase\Regtransbase\StructureObjects\ExpPackage.vb"
+﻿#Region "Microsoft.VisualBasic::0cd33aedef16973ea98062adaba4b35c, data\RegulonDatabase\Regtransbase\StructureObjects\ExpPackage.vb"
 
     ' Author:
     ' 

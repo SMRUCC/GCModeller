@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9f0cafe38298618520601e1d4b5591f, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTerm.vb"
+﻿#Region "Microsoft.VisualBasic::b9f0cafe38298618520601e1d4b5591f, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTerm.vb"
 
     ' Author:
     ' 
@@ -83,17 +83,20 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return entry.ToString
         End Function
 
-        Friend Shared Function GetInformation(resourceName$, entryIDPattern$) As BriteTerm()
+        Private Shared Function getResourceCache() As ResourcesSatellite
             Static satellite As New ResourcesSatellite(GetType(LICENSE))
+            Return satellite
+        End Function
 
+        Friend Shared Function GetInformation(resourceName$, entryIDPattern$) As BriteTerm()
             Dim resource$ = Nothing
 
             If resourceName.IsPattern(Patterns.Identifer, RegexICSng) Then
-                resource = satellite.GetString(resourceName)
+                resource = getResourceCache.GetString(resourceName)
             ElseIf resourceName.IsURLPattern Then
                 With resourceName.Split("?"c).Last.Match("[0-9a-zA-Z_]+\.keg")
                     If Not .StringEmpty Then
-                        resource = satellite.GetString(.Replace(".keg", ""))
+                        resource = getResourceCache.GetString(.Replace(".keg", ""))
                     End If
                 End With
 

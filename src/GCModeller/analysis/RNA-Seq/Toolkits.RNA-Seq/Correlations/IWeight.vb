@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bec452f37cec1ad361945efc7dd5231f, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\IWeight.vb"
+﻿#Region "Microsoft.VisualBasic::51c5ead9828463d649ed3eeba8946b3e, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\IWeight.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e5923f51a495bd6d85665b2fd26c3ea, engine\Compiler\NetworkViz.vb"
+﻿#Region "Microsoft.VisualBasic::f4f6f576223dc702f5a0dffec0ce4dc2, engine\Compiler\NetworkViz.vb"
 
     ' Author:
     ' 
@@ -65,12 +65,12 @@ Public Module NetworkViz
             ' 因为有些enzyme可能会没有被归类到某一个代谢途径中
             ' 所以不做pathway筛选的时候就直接从所有的酶分子列表
             ' 之中导出来吧
-            Return cell.MetabolismStructure _
-                .Enzymes _
+            Return cell.metabolismStructure _
+                .enzymes _
                 .Select(Function(enzyme) enzyme.geneID)
         Else
             With pathways.Indexing
-                Return cell.MetabolismStructure _
+                Return cell.metabolismStructure _
                     .maps _
                     .Select(Function(map) map.pathways) _
                     .IteratesALL _
@@ -102,6 +102,7 @@ Public Module NetworkViz
             .replicons _
             .Select(Function(genome)
                         Return genome.genes _
+                            .AsEnumerable _
                             .Select(Function(gene)
                                         ' 因为还会包含有转录调控因子，所以不在这里进行基因的pathway筛选
                                         Return New Node With {
@@ -117,8 +118,8 @@ Public Module NetworkViz
             .ToDictionary()
         ' 为了简化模型，在这里仅将存在酶的代谢过程取出来
         Dim pathwayEnzymes = cell.GetPathwayEnzymes(pathways).Indexing
-        Dim reactionNodes = cell.MetabolismStructure _
-            .Enzymes _
+        Dim reactionNodes = cell.metabolismStructure _
+            .enzymes _
             .Where(Function(enzyme)
                        ' 在这里做代谢途径的酶列表的筛选
                        Return enzyme.geneID Like pathwayEnzymes
@@ -138,8 +139,8 @@ Public Module NetworkViz
                     End Function) _
             .ToArray
         ' 产生酶分子的网络节点
-        Call cell.MetabolismStructure _
-            .Enzymes _
+        Call cell.metabolismStructure _
+            .enzymes _
             .ForEach(Sub(enzyme, i)
                          ' enzyme的基因肯定存在于所有的基因节点之中
                          ' 在这里只需要做属性的替换就行了
@@ -155,8 +156,8 @@ Public Module NetworkViz
                          geneNodes(reg.Key).Properties.Add("family", reg.First.motif.family)
                      End Sub)
 
-        Dim enzymeCatalysisEdges = cell.MetabolismStructure _
-            .Enzymes _
+        Dim enzymeCatalysisEdges = cell.metabolismStructure _
+            .enzymes _
             .Where(Function(enzyme)
                        ' 在这里做代谢途径的酶列表的筛选
                        Return enzyme.geneID Like pathwayEnzymes
@@ -197,8 +198,8 @@ Public Module NetworkViz
             .ToArray
 
         ' 生成代谢网络的上下游链接关系
-        Dim reactionLinks = cell.MetabolismStructure _
-            .Reactions _
+        Dim reactionLinks = cell.metabolismStructure _
+            .reactions _
             .ToDictionary(Function(r) r.ID,
                           Function(r)
                               Return Equation.TryParse(r.Equation)
@@ -259,4 +260,3 @@ Public Module NetworkViz
         Next
     End Function
 End Module
-

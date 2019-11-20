@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84d57873ed317ad171f86197076bab97, analysis\SequenceToolkit\SequencePatterns\SequenceLogo\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::8853f9fa41986a52908d1f70fbe921c8, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Residue.vb"
 
     ' Author:
     ' 

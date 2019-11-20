@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e785b93d572aacb8b3b53896e557bdc, engine\GCModeller\EngineSystem\Engine\ShellScript.vb"
+﻿#Region "Microsoft.VisualBasic::c4bfa2735d22a3bd4100560c78b4b334, engine\GCModeller\EngineSystem\Engine\ShellScript.vb"
 
     ' Author:
     ' 
@@ -55,17 +55,17 @@ Namespace EngineSystem.Engine
     Public Class ShellScript : Inherits EngineSystem.ObjectModels.SubSystem.SystemObjectModel
         Implements IDrivenable
 
-        Dim _Internal_EmbeddedScriptEngine As ScriptEngine
+        '  Dim _Internal_EmbeddedScriptEngine As ScriptEngine
         Dim ScriptSourceList As KeyValuePair(Of String, String)()
 
         Sub New(RuntimeContainer As IContainerSystemRuntimeEnvironment)
             I_RuntimeContainer = RuntimeContainer
             Call EngineSystem.ObjectModels.ExperimentSystem.ShellScriptAPI.set_EngineKernel(obj:=DirectCast(I_RuntimeContainer, EngineSystem.Engine.GCModeller))
-            _Internal_EmbeddedScriptEngine = New Microsoft.VisualBasic.Scripting.ShoalShell.Runtime.ScriptEngine()
-            For Each assembly As System.Reflection.Module In GetType(ShellScript).Assembly.GetLoadedModules
-                Call _Internal_EmbeddedScriptEngine.Interpreter.SPMDevice.Imports(assembly.Assembly.Location)
-            Next
-            Call _Internal_EmbeddedScriptEngine.Interpreter.SPMDevice.UpdateDb()
+            '  _Internal_EmbeddedScriptEngine = New Microsoft.VisualBasic.Scripting.ShoalShell.Runtime.ScriptEngine()
+            'For Each assembly As System.Reflection.Module In GetType(ShellScript).Assembly.GetLoadedModules
+            '    Call _Internal_EmbeddedScriptEngine.Interpreter.SPMDevice.Imports(assembly.Assembly.Location)
+            'Next
+            'Call _Internal_EmbeddedScriptEngine.Interpreter.SPMDevice.UpdateDb()
         End Sub
 
         Public Overrides Function Initialize() As Integer
@@ -112,13 +112,13 @@ Namespace EngineSystem.Engine
         End Sub
 
         Public Function Tick(KernelCycle As Integer) As Integer Implements IDrivenable.__innerTicks
-            For Each strLine In ScriptSourceList
-                Dim f As Boolean = _Internal_EmbeddedScriptEngine.Exec(strLine.Value) = 0
-                If Not f Then '出错了
-                    Call LoggingClient.WriteLine(String.Format("Error occur while execute the external mount shellscript ""{0}"", try ignore this error!", strLine.Key),
-                                                 "ShellScript -> Tick(KernelCycle As Integer)", Type:=MSG_TYPES.ERR)
-                End If
-            Next
+            'For Each strLine In ScriptSourceList
+            '    Dim f As Boolean = _Internal_EmbeddedScriptEngine.Exec(strLine.Value) = 0
+            '    If Not f Then '出错了
+            '        Call LoggingClient.WriteLine(String.Format("Error occur while execute the external mount shellscript ""{0}"", try ignore this error!", strLine.Key),
+            '                                     "ShellScript -> Tick(KernelCycle As Integer)", Type:=MSG_TYPES.ERR)
+            '    End If
+            'Next
 
             Return 0
         End Function

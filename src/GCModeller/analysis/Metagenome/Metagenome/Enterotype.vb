@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0128cebd73edddd8f356ad5d0f8f379a, analysis\Metagenome\Metagenome\Enterotype.vb"
+﻿#Region "Microsoft.VisualBasic::041679fbd8f78f984bed8ebee61c87af, analysis\Metagenome\Metagenome\Enterotype.vb"
 
     ' Author:
     ' 
@@ -98,4 +98,3 @@ Public Module Enterotype
         Return result
     End Function
 End Module
-

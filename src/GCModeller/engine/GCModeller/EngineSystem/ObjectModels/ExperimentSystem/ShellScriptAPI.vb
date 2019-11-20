@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af2b9f34cca067b4e789c5738adacb12, engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::815aa810e841f25722d5cb0a36eb0767, engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -46,7 +46,6 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Scripting.ShoalShell
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.DataVisualization.DynamicMap
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.DataVisualization.DynamicMap.IMapBuilder
 
@@ -76,7 +75,6 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
             Return New DataVisualization.DynamicMap.DynamicMapBuilder(EngineKernel.KernelModule).ExportDynamicsCellNetwork
         End Function
 
-        <Runtime.DeviceDriver.DriverHandles.IO_DeviceHandle(GetType(KeyValuePairObject(Of Component(), ComponentInteraction())))>
         <ExportAPI("write.network")>
         Public Function SaveNetwork(network As KeyValuePairObject(Of Component(), ComponentInteraction()), saveto As String) As Boolean
             Dim NetworkCsv As String = String.Format("{0}/Network.csv", saveto)

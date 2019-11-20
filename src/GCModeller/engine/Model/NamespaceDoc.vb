@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::033a11d58e6f05bcf23abb43b8e7a224, engine\Model\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::ac0b06e9696c8ec2eac1b27e943345bb, engine\Model\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -47,4 +47,3 @@ Friend NotInheritable Class NamespaceDoc
     Private Sub New()
     End Sub
 End Class
-

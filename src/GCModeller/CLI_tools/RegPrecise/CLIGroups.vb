@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8801b8aade304afa3fc8245a5162fcd, CLI_tools\RegPrecise\CLIGroups.vb"
+﻿#Region "Microsoft.VisualBasic::d199dd9aab2065eece22fa456e68007a, CLI_tools\RegPrecise\CLIGroups.vb"
 
     ' Author:
     ' 

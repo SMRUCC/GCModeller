@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::02975213aeba94a89439f9df4a098e3c, KEGG\jp_kegg2\xref_pathway_genes.vb"
+﻿#Region "Microsoft.VisualBasic::02975213aeba94a89439f9df4a098e3c, data\KEGG\jp_kegg2\xref_pathway_genes.vb"
 
     ' Author:
     ' 

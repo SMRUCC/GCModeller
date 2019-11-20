@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2e96d2a00c340b3539c3c84eb794025, ExternalDBSource\MetaCyc\MySQL\synonymtable.vb"
+﻿#Region "Microsoft.VisualBasic::b2e96d2a00c340b3539c3c84eb794025, data\ExternalDBSource\MetaCyc\MySQL\synonymtable.vb"
 
     ' Author:
     ' 

@@ -1,42 +1,42 @@
-﻿#Region "Microsoft.VisualBasic::11c0837de7317db2401adff87be7c496, CLI_tools\eggHTS\CLI\Enrichment\KOBAS.vb"
+﻿#Region "Microsoft.VisualBasic::1241d776e2aab7963c05611f4e6f5b15, CLI_tools\eggHTS\CLI\Enrichment\KOBAS.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module CLI
-' 
-'     Function: GO_cellularLocationPlot, GO_enrichmentPlot, KEGG_enrichment, KEGGEnrichmentPathwayMap, KOBASaddORFsource
-'               KOBASSplit, RetriveEnrichmentGeneInfo
-' 
-' /********************************************************************************/
+    ' Module CLI
+    ' 
+    '     Function: GO_cellularLocationPlot, GO_enrichmentPlot, KEGG_enrichment, KEGGEnrichmentPathwayMap, KOBASaddORFsource
+    '               KOBASSplit, RetriveEnrichmentGeneInfo
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -153,7 +153,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Go.enrichment.plot")>
-    <Usage("/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays <default=10> /PlantRegMap /label.right /label.color.disable /colors <default=Set1:c6> /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
+    <Usage("/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays <default=10> /PlantRegMap /label.right /label.color.disable /label.maxlen <char_count, default=64> /colors <default=Set1:c6> /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
     <Description("Go enrichment plot base on the KOBAS enrichment analysis result.")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv",
@@ -213,6 +213,7 @@ Partial Module CLI
         Dim labelRight As Boolean = args.GetBoolean("/label.right")
         Dim usingCorrected As Boolean = args.GetBoolean("/Corrected")
         Dim labelColorDisable As Boolean = args("/label.color.disable")
+        Dim labelMaxlen As Integer = args("/label.maxlen") Or 64
 
         If PlantRegMap Then
             Dim enrichments As IEnumerable(Of PlantRegMap_GoTermEnrichment) =
@@ -240,7 +241,8 @@ Partial Module CLI
                     gray, labelRight,
                     top:=displays,
                     colorSchema:=args("/colors") Or DefaultColorSchema,
-                    disableLabelColor:=labelColorDisable
+                    disableLabelColor:=labelColorDisable,
+                    labelMaxLen:=labelMaxlen
                 )
             End If
         End If

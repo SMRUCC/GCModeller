@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1e7bf0dd898b99dd29f16eb8013fe5d, CLI_tools\S.M.A.R.T\CLI\UniProt.vb"
+﻿#Region "Microsoft.VisualBasic::33003fdca740e8144ac5c6f6fd3edce2, CLI_tools\S.M.A.R.T\CLI\UniProt.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b8fa8c2ef5d58a8ba5453a5da47125f, RCSB PDB\PDB\Keywords\Header.vb"
+﻿#Region "Microsoft.VisualBasic::4152fc0d72667c992837985db6ac8f6e, data\RCSB PDB\PDB\Keywords\Header.vb"
 
     ' Author:
     ' 

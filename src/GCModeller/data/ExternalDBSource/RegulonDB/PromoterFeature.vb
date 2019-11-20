@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b96a642cb2fa6d062a8b2dd37d4989a, ExternalDBSource\RegulonDB\PromoterFeature.vb"
+﻿#Region "Microsoft.VisualBasic::59a5e12b4bc01549dcca8d2581980d7d, data\ExternalDBSource\RegulonDB\PromoterFeature.vb"
 
     ' Author:
     ' 

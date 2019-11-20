@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a79a08875fd0a7fac81dccbc04555278, engine\GCModeller\EngineSystem\ObjectModels\Feature\MetabolismEnzyme.vb"
+﻿#Region "Microsoft.VisualBasic::ab6542e03c54b078de54aad956974c07, engine\GCModeller\EngineSystem\ObjectModels\Feature\MetabolismEnzyme.vb"
 
     ' Author:
     ' 

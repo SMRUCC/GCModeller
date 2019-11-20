@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::426c69a98758ab2fb980480094dd14d2, RegulonDatabase\Regtransbase\MySQL\dict_genomes.vb"
+﻿#Region "Microsoft.VisualBasic::426c69a98758ab2fb980480094dd14d2, data\RegulonDatabase\Regtransbase\MySQL\dict_genomes.vb"
 
     ' Author:
     ' 

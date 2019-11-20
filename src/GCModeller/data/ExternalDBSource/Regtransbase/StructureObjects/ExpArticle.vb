@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb2835fd5d1881c9790940d3456eedd6, ExternalDBSource\Regtransbase\StructureObjects\ExpArticle.vb"
+﻿#Region "Microsoft.VisualBasic::34d32264bdeea690d7539fdd93e387dc, data\ExternalDBSource\Regtransbase\StructureObjects\ExpArticle.vb"
 
     ' Author:
     ' 

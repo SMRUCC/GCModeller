@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7df47df8747a087ca6e8cecd9f75db2, analysis\ProteinTools\ProteinTools.Family\FileSystem\TblModel.vb"
+﻿#Region "Microsoft.VisualBasic::baa5da6357638499827728946529929d, analysis\ProteinTools\ProteinTools.Family\FileSystem\TblModel.vb"
 
     ' Author:
     ' 

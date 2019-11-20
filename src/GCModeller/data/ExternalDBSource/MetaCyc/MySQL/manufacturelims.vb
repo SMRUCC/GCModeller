@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91728fb4baba436cc2af83471231b241, ExternalDBSource\MetaCyc\MySQL\manufacturelims.vb"
+﻿#Region "Microsoft.VisualBasic::91728fb4baba436cc2af83471231b241, data\ExternalDBSource\MetaCyc\MySQL\manufacturelims.vb"
 
     ' Author:
     ' 

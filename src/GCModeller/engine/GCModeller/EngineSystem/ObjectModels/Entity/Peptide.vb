@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::02afc3522fac123879fb381e0b08952c, engine\GCModeller\EngineSystem\ObjectModels\Entity\Peptide.vb"
+﻿#Region "Microsoft.VisualBasic::8ec257f15524ae609164de213e2b8ff0, engine\GCModeller\EngineSystem\ObjectModels\Entity\Peptide.vb"
 
     ' Author:
     ' 

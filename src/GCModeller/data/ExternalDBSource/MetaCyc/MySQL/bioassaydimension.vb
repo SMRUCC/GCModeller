@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9266a789989f143ddd9067bd571203b5, ExternalDBSource\MetaCyc\MySQL\bioassaydimension.vb"
+﻿#Region "Microsoft.VisualBasic::9266a789989f143ddd9067bd571203b5, data\ExternalDBSource\MetaCyc\MySQL\bioassaydimension.vb"
 
     ' Author:
     ' 

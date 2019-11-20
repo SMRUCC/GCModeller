@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a0b976e3a5f1a15d2572dd0d5628e57, CLI_tools\c2\Reconstruction\KineticLaws\EquationEquals.vb"
+﻿#Region "Microsoft.VisualBasic::26be6bfa46102a60962c1db86288f11a, CLI_tools\c2\Reconstruction\KineticLaws\EquationEquals.vb"
 
     ' Author:
     ' 

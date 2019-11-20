@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47c7b9bad891f4e3ac3eb65afc2506eb, Xfam\Pfam\MPAlignment\MotifParallelAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::97ead1b23fdb5e0ea2a8b56b0a235557, data\Xfam\Pfam\MPAlignment\MotifParallelAlignment.vb"
 
     ' Author:
     ' 

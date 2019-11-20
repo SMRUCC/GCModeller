@@ -92,20 +92,35 @@ Public Module Workflow
     End Function
 
     ''' <summary>
-    ''' 输出Model，然后再从Model写出模型文件
+    ''' 
     ''' </summary>
     ''' <param name="replicons"></param>
+    ''' <param name="locationAsLocustag"></param>
+    ''' <returns></returns>
+    ''' 
+    <Extension>
+    Public Function AssemblingGenomeInformation(replicons As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), locationAsLocustag As Boolean) As CellularModule
+        Dim taxonomy As Taxonomy = replicons.getTaxonomy
+        Dim genotype As New Genotype With {
+            .centralDogmas = replicons _
+                .GetCentralDogmas(KOfunction, locationAsLocustag) _
+                .ToArray
+        }
+
+        Return New CellularModule With {
+            .Taxonomy = taxonomy,
+            .Genotype = genotype
+        }
+    End Function
+
+    ''' <summary>
+    ''' 输出Model，然后再从Model写出模型文件
+    ''' </summary>
     ''' <param name="KOfunction">``[geneID => KO]`` maps</param>
     ''' <param name="repo"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function AssemblingMetabolicNetwork(replicons As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
-        Dim taxonomy As Taxonomy = replicons.getTaxonomy
-        Dim genotype As New Genotype With {
-            .centralDogmas = replicons _
-                .GetCentralDogmas(KOfunction) _
-                .ToArray
-        }
+    Public Function AssemblingMetabolicNetwork(cell As CellularModule, KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
         Dim phenotype As New Phenotype With {
             .fluxes = repo _
                 .GetReactions _
@@ -113,14 +128,12 @@ Public Module Workflow
                 .ToArray
         }
 
-        Return New CellularModule With {
-            .Taxonomy = taxonomy,
-            .Genotype = genotype,
-            .Phenotype = phenotype,
-            .Regulations = KOfunction _
-                .createMetabolicProcess(repo.GetReactions) _
-                .ToArray
-        }
+        cell.Phenotype = phenotype
+        cell.Regulations = KOfunction _
+            .createMetabolicProcess(repo.GetReactions) _
+            .ToArray
+
+        Return cell
     End Function
 
     <Extension>
@@ -197,10 +210,21 @@ Public Module Workflow
             .ToArray
     End Function
 
-    ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA"}
+    ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA", "RNA"}
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="genomes"></param>
+    ''' <param name="KOfunction"></param>
+    ''' <param name="locationAsLocustag">
+    ''' 对于刚注释完的基因组，由于还没有提交至NCBI服务器，所以一般都没有基因编号
+    ''' 则使用GCModeller进行KEGG代谢途径注释的时候，一般是使用location来唯一标记基因的
+    ''' 则可以设置这个参数为true，使用localtion作为基因的locus_tag
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
-    Friend Iterator Function GetCentralDogmas(genomes As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String)) As IEnumerable(Of CentralDogma)
+    Friend Iterator Function GetCentralDogmas(genomes As Dictionary(Of String, GBFF.File), KOfunction As Dictionary(Of String, String), locationAsLocustag As Boolean) As IEnumerable(Of CentralDogma)
         Dim centralDogmaFeatures = genomes.Values _
             .Select(Function(genome)
                         Dim repliconId$ = genome.Locus.AccessionID
@@ -210,7 +234,11 @@ Public Module Workflow
                                        Return feature.KeyName Like centralDogmaComponents
                                    End Function) _
                             .GroupBy(Function(feature)
-                                         Return feature.Query("locus_tag")
+                                         If locationAsLocustag Then
+                                             Return feature.Location.ToString
+                                         Else
+                                             Return feature.Query("locus_tag")
+                                         End If
                                      End Function) _
                             .Select(Function(feature)
                                         Return New NamedCollection(Of Feature)(feature.Key, feature.ToArray, repliconId)
@@ -219,16 +247,31 @@ Public Module Workflow
             .IteratesALL
 
         For Each feature As NamedCollection(Of Feature) In centralDogmaFeatures
-            Dim gene As Feature = feature.First(Function(component) component.KeyName = "gene")
+            Dim gene As Feature = feature.FirstOrDefault(Function(component) component.KeyName = "gene")
+
+            If gene Is Nothing Then
+                gene = feature.FirstOrDefault(Function(component) component.KeyName = "CDS")
+            End If
+
             Dim RNA As Feature = feature _
                 .FirstOrDefault(Function(component)
-                                    Return component.KeyName = "tRNA" OrElse component.KeyName = "rRNA"
+                                    Return component.KeyName = "tRNA" OrElse
+                                           component.KeyName = "rRNA" OrElse
+                                           component.KeyName = "RNA"
                                 End Function)
             Dim CDS As Feature = feature _
                 .FirstOrDefault(Function(component)
                                     Return component.KeyName = "CDS"
                                 End Function)
-            Dim locus_tag$ = feature.Name
+
+            ' 在注释不规范的原始数据文件中
+            ' 是可能不存在gene feature的
+            ' 在这里使用RNA feature来进行替代
+            If gene Is Nothing Then
+                gene = RNA
+            End If
+
+            Dim locus_tag$ = feature.name Or gene.Location.ToString.When(locationAsLocustag)
             Dim rnaType As RNATypes = RNATypes.mRNA
             Dim rnaData As String = ""
             Dim proteinId As String = Nothing
@@ -258,11 +301,14 @@ Public Module Workflow
                 If proteinId.StringEmpty Then
                     proteinId = $"{locus_tag}::peptide"
                 End If
+
+                ' 蛋白功能描述
+                rnaData = CDS.Query("product").Trim
             Else
                 ' 既没有RNA也没有CDS，这个可能是其他的类型的feature
                 ' 例如移动原件之类的
                 ' 跳过这些
-                Call $"Skip invalid locus_tag: {feature.Name}".Warning
+                Call $"Skip invalid locus_tag: {feature.name}".Warning
 
                 Continue For
             End If
@@ -276,7 +322,7 @@ Public Module Workflow
                 },
                 .polypeptide = proteinId,
                 .orthology = KOfunction.TryGetValue(.geneID),
-                .replicon = feature.Description
+                .replicon = feature.description
             }
         Next
     End Function

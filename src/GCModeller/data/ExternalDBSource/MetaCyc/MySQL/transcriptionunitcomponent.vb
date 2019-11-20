@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b7eb176e4d47ae1daa5e0e64d856059, ExternalDBSource\MetaCyc\MySQL\transcriptionunitcomponent.vb"
+﻿#Region "Microsoft.VisualBasic::9b7eb176e4d47ae1daa5e0e64d856059, data\ExternalDBSource\MetaCyc\MySQL\transcriptionunitcomponent.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a08112d2f641fe995a9ba28a475504e, CLI_tools\S.M.A.R.T\CLI\MPAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::e865674f66ea08e782da44e028fd8d8f, CLI_tools\S.M.A.R.T\CLI\MPAlignment.vb"
 
     ' Author:
     ' 

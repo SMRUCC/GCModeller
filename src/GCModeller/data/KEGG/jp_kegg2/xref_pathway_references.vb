@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d67edaea0e9d91cde24634fda5add553, KEGG\jp_kegg2\xref_pathway_references.vb"
+﻿#Region "Microsoft.VisualBasic::d67edaea0e9d91cde24634fda5add553, data\KEGG\jp_kegg2\xref_pathway_references.vb"
 
     ' Author:
     ' 

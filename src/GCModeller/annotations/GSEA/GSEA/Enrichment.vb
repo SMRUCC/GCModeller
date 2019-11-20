@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd7f7ad41316496f7047ae4dd300a5a4, GSEA\GSEA\Enrichment.vb"
+﻿#Region "Microsoft.VisualBasic::8f177eb864725b13ba0e1e03055ca867, annotations\GSEA\GSEA\Enrichment.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module Enrichment
     ' 
-    '     Function: calcResult, Enrichment, FDRCorrection
+    '     Function: calcResult, (+2 Overloads) Enrichment, FDRCorrection
     ' 
     ' /********************************************************************************/
 
@@ -44,12 +44,99 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
+Imports SMRUCC.genomics.Data.GeneOntology
+Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.FishersExactTest
 
 ''' <summary>
 ''' 基于Fisher Extract test算法的富集分析
 ''' </summary>
 Public Module Enrichment
+
+    <Extension>
+    Public Iterator Function Enrichment(genome As Background,
+                                        list As IEnumerable(Of String),
+                                        go As GO_OBO,
+                                        Optional outputAll As Boolean = False,
+                                        Optional isLocustag As Boolean = False,
+                                        Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
+
+        Dim doProgress As Action(Of String)
+        Dim progress As ProgressBar = Nothing
+        Dim tick As New ProgressProvider(genome.clusters.Length)
+        Dim ETA$
+        Dim termResult As New Value(Of EnrichmentResult)
+        Dim genes As Integer
+        Dim goClusters As New DAG.Graph(go.AsEnumerable)
+
+        If showProgress Then
+            progress = New ProgressBar("Do enrichment...")
+            doProgress = Sub(id)
+                             ETA = $"{id}.... ETA: {tick.ETA(progress.ElapsedMilliseconds)}"
+                             progress.SetProgress(tick.StepProgress, ETA)
+                         End Sub
+        Else
+            doProgress = Sub()
+                             ' Do Nothing
+                         End Sub
+        End If
+
+        If genome.size <= 0 Then
+            genes = genome.clusters _
+                .Select(Function(c) c.members) _
+                .IteratesALL _
+                .Distinct _
+                .Count
+        Else
+            genes = genome.size
+        End If
+
+        With list.ToArray
+            Dim backgroundClusterTable = genome.clusters.ToDictionary()
+
+            ' 一个cluster就是一个Go term
+            For Each cluster As Cluster In genome.clusters
+                ' 除了当前的这个GO term之外
+                ' 还要找出当前的这个GO term之下的所有继承当前的这个Go term的子条目
+                Dim members = goClusters.GetClusterMembers(cluster.ID) _
+                    .Where(Function(c)
+                               ' 因为有些Go term是在目标基因组中不存在的
+                               ' 所以会在这里判断一下是否包含有当前cluster中的目标go term成员
+                               Return backgroundClusterTable.ContainsKey(c.id)
+                           End Function) _
+                    .Select(Function(c) backgroundClusterTable(c.id).members) _
+                    .IteratesALL _
+                    .JoinIterates(cluster.members) _
+                    .GroupBy(Function(g) g.accessionID) _
+                    .Select(Function(g)
+                                Return g.First
+                            End Function) _
+                    .ToArray
+                ' 构建出一个完整的cluster集合
+                ' 然后再在这个完整的cluster集合的基础之上进行富集计算分析
+                Dim newCluster As New Cluster With {
+                    .ID = cluster.ID,
+                    .description = cluster.description,
+                    .names = cluster.names,
+                    .members = members,
+                    .size = members.Length
+                }
+                Dim enriched$() = newCluster _
+                    .Intersect(.ByRef, isLocustag) _
+                    .ToArray
+
+                Call doProgress(cluster.ID)
+
+                If Not (termResult = newCluster.calcResult(enriched, .Length, genes, outputAll)) Is Nothing Then
+                    Yield termResult
+                End If
+            Next
+        End With
+
+        If Not progress Is Nothing Then
+            progress.Dispose()
+        End If
+    End Function
 
     ''' <summary>
     ''' 

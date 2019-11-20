@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1d20c63f17d360aff140ce49851ee12, analysis\SequenceToolkit\DNA_Comparative\gwANI\Const.vb"
+﻿#Region "Microsoft.VisualBasic::33a5dcbd17f2c843b392fb49eea8b691, analysis\SequenceToolkit\DNA_Comparative\gwANI\Const.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::475f8440efbec96bbefca43c49edf5a7, engine\IO\GCMarkupLanguage\v2\VirtualCell.vb"
+﻿#Region "Microsoft.VisualBasic::9b92129869c4826e3a9099bf9272fb5a, engine\IO\GCMarkupLanguage\v2\VirtualCell.vb"
 
     ' Author:
     ' 
@@ -73,7 +73,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlElement("metabolome", [Namespace]:=GCMarkupLanguage)>
-        Public Property MetabolismStructure As MetabolismStructure
+        Public Property metabolismStructure As MetabolismStructure
 
         Public Const GCMarkupLanguage$ = "http://CAD_software.gcmodeller.org/XML/schema_revision/GCMarkup_1.0"
 
@@ -103,7 +103,7 @@ Namespace v2
 
             For Each replicon In model.genome.replicons
                 type = If(replicon.isPlasmid, "plasmid", "chromosome")
-                sb.AppendLine($" [{replicon.genomeName}, {type}] {replicon.genes.Length} genes")
+                sb.AppendLine($" [{replicon.genomeName}, {type}] {replicon.genes.size} genes")
             Next
 
             Call sb.AppendLine()
@@ -120,11 +120,11 @@ Namespace v2
 
             Call sb.AppendLine()
             Call sb.AppendLine("metabolism structure:")
-            Call sb.AppendLine($"  enzymes: {model.MetabolismStructure.Enzymes.Length}")
+            Call sb.AppendLine($"  enzymes: {model.metabolismStructure.enzymes.Length}")
             Call sb.AppendLine($"  reactions:")
             Call sb.AppendLine()
-            Call sb.AppendLine($"    {model.MetabolismStructure.Reactions.Count(Function(r) r.is_enzymatic)} is enzymatic.")
-            Call sb.AppendLine($"    {model.MetabolismStructure.Reactions.Count(Function(r) Not r.is_enzymatic)} is non-enzymatic.")
+            Call sb.AppendLine($"    {model.metabolismStructure.reactions.Count(Function(r) r.is_enzymatic)} is enzymatic.")
+            Call sb.AppendLine($"    {model.metabolismStructure.reactions.Count(Function(r) Not r.is_enzymatic)} is non-enzymatic.")
 
             Return sb.ToString
         End Function

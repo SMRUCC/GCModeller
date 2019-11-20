@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58dca8acc7349f9d2ac742f3f6d9d905, Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
+﻿#Region "Microsoft.VisualBasic::58dca8acc7349f9d2ac742f3f6d9d905, core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97568352e7c5052a719001ba5d3e01f1, Bio.Assembly\SequenceModel\Polypeptides\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::97568352e7c5052a719001ba5d3e01f1, core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcid.vb"
 
     ' Author:
     ' 

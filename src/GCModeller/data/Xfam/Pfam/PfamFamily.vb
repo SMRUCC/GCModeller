@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecc03c395bb6a038e7a99c5688b51ec5, Xfam\Pfam\PfamFamily.vb"
+﻿#Region "Microsoft.VisualBasic::cdc6ffaa2a967edaa0d599f2e4ccdb3e, data\Xfam\Pfam\PfamFamily.vb"
 
     ' Author:
     ' 

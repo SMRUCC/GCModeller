@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::780f5603eb0679d23f0ab6a3c196b1bb, ExternalDBSource\MetaCyc\MySQL\commenttable.vb"
+﻿#Region "Microsoft.VisualBasic::780f5603eb0679d23f0ab6a3c196b1bb, data\ExternalDBSource\MetaCyc\MySQL\commenttable.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::620128ca561d4dfe4a6318c80869d706, analysis\Microarray\DEGDesigner.vb"
+﻿#Region "Microsoft.VisualBasic::fe956a4d2860de7df73c46c19376caab, analysis\Microarray\DEGDesigner.vb"
 
     ' Author:
     ' 

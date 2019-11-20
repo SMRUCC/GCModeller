@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33832c747be61121c20f4b9cf32f260f, Networks\STRING\Models\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::6b9d237fe87a59e934409008420292bc, models\Networks\STRING\Models\Pathway.vb"
 
     ' Author:
     ' 

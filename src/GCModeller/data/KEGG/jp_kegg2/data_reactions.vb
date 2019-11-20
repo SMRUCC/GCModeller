@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::208bfb2e00d96fbc760495e81a1e2a8f, KEGG\jp_kegg2\data_reactions.vb"
+﻿#Region "Microsoft.VisualBasic::208bfb2e00d96fbc760495e81a1e2a8f, data\KEGG\jp_kegg2\data_reactions.vb"
 
     ' Author:
     ' 

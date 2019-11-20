@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b70ea160354626df7a8a5296f9ca3afc, visualize\ChromosomeMap\FootPrintMap\ColorProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::8aed57f1f49b1c75e77d5e3152ab80ce, visualize\ChromosomeMap\FootPrintMap\ColorProfiles.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba8302d59bf6c8fd356e571eb6a0bce0, ExternalDBSource\MetaCyc\MySQL\superpathway.vb"
+﻿#Region "Microsoft.VisualBasic::ba8302d59bf6c8fd356e571eb6a0bce0, data\ExternalDBSource\MetaCyc\MySQL\superpathway.vb"
 
     ' Author:
     ' 

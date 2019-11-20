@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::374daf1487c715004e51cfa298aa91f0, GO_gene-ontology\GeneOntology\DAG\TermNode.vb"
+﻿#Region "Microsoft.VisualBasic::ebb44c932e84e259bd34aed71b37b3d8, data\GO_gene-ontology\GeneOntology\DAG\TermNode.vb"
 
     ' Author:
     ' 
@@ -63,6 +63,11 @@ Namespace DAG
         Public Property is_a As is_a()
         Public Property synonym As synonym()
         Public Property relationship As Relationship()
+
+        ''' <summary>
+        ''' <see cref="Term.id"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public Property id As String Implements INamedValue.Key
         Public Property [namespace] As String
         Public Property GO_term As Term

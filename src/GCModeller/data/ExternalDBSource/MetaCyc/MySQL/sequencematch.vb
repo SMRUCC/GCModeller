@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6674247ba9c3ce2c75034b1bddb415bb, ExternalDBSource\MetaCyc\MySQL\sequencematch.vb"
+﻿#Region "Microsoft.VisualBasic::6674247ba9c3ce2c75034b1bddb415bb, data\ExternalDBSource\MetaCyc\MySQL\sequencematch.vb"
 
     ' Author:
     ' 

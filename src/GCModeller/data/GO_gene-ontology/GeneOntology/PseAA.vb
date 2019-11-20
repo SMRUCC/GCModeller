@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::579c04560644203a9426dd75227263ee, GO_gene-ontology\GeneOntology\PseAA.vb"
+﻿#Region "Microsoft.VisualBasic::2118b4e4961debb86834f75a1a6e4974, data\GO_gene-ontology\GeneOntology\PseAA.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,8 @@ Public Module PseAA
     ''' </summary>
     ''' <param name="ALL">``{proteinID, GO-list}``</param>
     ''' <param name="threshold">``[0, 1]`` percentage</param>
-    <Extension> Public Function Construct(ALL As IEnumerable(Of NamedValue(Of String())), Optional threshold# = 0.1) As NamedValue(Of Vector)()
+    <Extension>
+    Public Function Construct(ALL As IEnumerable(Of NamedValue(Of String())), Optional threshold# = 0.1) As NamedValue(Of Vector)()
         Dim data = ALL.ToArray
         Dim n As Dictionary(Of String, Double) = data _
             .Values _

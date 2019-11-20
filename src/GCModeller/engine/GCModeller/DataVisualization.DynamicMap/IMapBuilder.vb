@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8057d1ce9547f60680a84c294b32758, engine\GCModeller\DataVisualization.DynamicMap\IMapBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::0fdcc7899c46304e27ab027a25b91746, engine\GCModeller\DataVisualization.DynamicMap\IMapBuilder.vb"
 
     ' Author:
     ' 

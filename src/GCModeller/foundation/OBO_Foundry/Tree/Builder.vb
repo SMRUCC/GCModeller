@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80352ffc2aa27d1edf7249bb97d5fdcb, foundation\OBO_Foundry\Tree\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::adf99b789e18b78119a04b1b038a2966, foundation\OBO_Foundry\Tree\Builder.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel

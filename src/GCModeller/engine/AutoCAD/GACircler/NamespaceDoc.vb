@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a4fc87a506ace4c4d40f31c7f54c4bb, engine\AutoCAD\GACircler\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::1fd40393992cc209faba19e8e3581b86, engine\AutoCAD\GACircler\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
 
 #End Region
 
-
 ''' <summary>
 ''' Create genetic circles with GA algorithm
 ''' </summary>
@@ -53,4 +52,3 @@ Friend NotInheritable Class NamespaceDoc
     Private Sub New()
     End Sub
 End Class
-

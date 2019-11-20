@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba639c93c01f7dfbe0c5eb64fc342bd2, ExternalDBSource\MetaCyc\MySQL\gellocation.vb"
+﻿#Region "Microsoft.VisualBasic::ba639c93c01f7dfbe0c5eb64fc342bd2, data\ExternalDBSource\MetaCyc\MySQL\gellocation.vb"
 
     ' Author:
     ' 

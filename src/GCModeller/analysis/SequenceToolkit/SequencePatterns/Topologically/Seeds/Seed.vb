@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28e0ac95d9922e666700cc55fa68bda2, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\Seed.vb"
+﻿#Region "Microsoft.VisualBasic::eca150caf8182c8c033edede3c5ef6eb, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\Seed.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Structure Seed
     ' 
-    '         Properties: Parent, Sequence
+    '         Properties: parent
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: IsMyParent, ToString

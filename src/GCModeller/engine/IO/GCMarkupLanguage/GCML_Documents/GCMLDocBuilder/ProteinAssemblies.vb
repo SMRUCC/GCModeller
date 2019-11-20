@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1181bfee69ec96eccaf05510bb26042f, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ProteinAssemblies.vb"
+﻿#Region "Microsoft.VisualBasic::7faab725828b3436176f74670cd489c0, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ProteinAssemblies.vb"
 
     ' Author:
     ' 

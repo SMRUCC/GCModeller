@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea686cb898d70c4996d5baaf3317fad9, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DATA.vb"
+﻿#Region "Microsoft.VisualBasic::ea686cb898d70c4996d5baaf3317fad9, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DATA.vb"
 
     ' Author:
     ' 

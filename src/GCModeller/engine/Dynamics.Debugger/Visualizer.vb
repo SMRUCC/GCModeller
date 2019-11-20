@@ -1,4 +1,47 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::2ef905d589c4fd58d2f2c1db67db7723, engine\Dynamics.Debugger\Visualizer.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Visualizer
+    ' 
+    '     Function: CreateTabularFormat, ToGraph
+    ' 
+    '     Sub: addRegulations
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -25,7 +68,7 @@ Public Module Visualizer
                                 .mass = m.Value,
                                 .origID = m.ID,
                                 .label = m.ID,
-                                .radius = m.Value,
+                                .size = {m.Value},
                                 .Properties = New Dictionary(Of String, String) From {
                                     {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"}
                                 }
@@ -53,7 +96,7 @@ Public Module Visualizer
                     .label = reaction.ID,
                     .origID = reaction.ID,
                     .mass = reactionMass,
-                    .radius = reactionMass,
+                    .size = {reactionMass},
                     .Properties = New Dictionary(Of String, String) From {
                         {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"}
                     }
@@ -123,3 +166,4 @@ Public Module Visualizer
         Next
     End Sub
 End Module
+

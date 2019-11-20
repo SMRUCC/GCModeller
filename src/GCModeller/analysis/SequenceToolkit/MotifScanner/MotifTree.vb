@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::539449f23cae9204c18674b502b7df21, analysis\SequenceToolkit\MotifScanner\MotifTree.vb"
+﻿#Region "Microsoft.VisualBasic::698be716fdb1407a6a34bce994e20459, analysis\SequenceToolkit\MotifScanner\MotifTree.vb"
 
     ' Author:
     ' 
@@ -244,4 +244,3 @@ NOT_EQUALS:
         Return New NucleotideLocation(left, right, topStrain)
     End Function
 End Module
-

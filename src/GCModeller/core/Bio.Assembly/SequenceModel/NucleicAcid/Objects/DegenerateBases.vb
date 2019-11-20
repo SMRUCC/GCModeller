@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00d833ff34f7f1cc2acd8e2a8d648af5, Bio.Assembly\SequenceModel\NucleicAcid\Objects\DegenerateBases.vb"
+﻿#Region "Microsoft.VisualBasic::00d833ff34f7f1cc2acd8e2a8d648af5, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\DegenerateBases.vb"
 
     ' Author:
     ' 

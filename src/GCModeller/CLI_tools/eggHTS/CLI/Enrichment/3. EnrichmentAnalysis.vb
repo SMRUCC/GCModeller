@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1aa25fbd2f053adde42d470677c1dd6, CLI_tools\eggHTS\CLI\Enrichment\3. EnrichmentAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::7daa877fcc55af7f781eb825d3057f91, CLI_tools\eggHTS\CLI\Enrichment\3. EnrichmentAnalysis.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,7 @@
 
     ' Module CLI
     ' 
-    '     Function: Backgrounds, Converts, EnrichmentTermFilter, GoEnrichment, KEGGEnrichmentPathwayMapLocal
-    '               Term2Genes
+    '     Function: Backgrounds, Converts, EnrichmentTermFilter, KEGGEnrichmentPathwayMapLocal, Term2Genes
     ' 
     ' /********************************************************************************/
 

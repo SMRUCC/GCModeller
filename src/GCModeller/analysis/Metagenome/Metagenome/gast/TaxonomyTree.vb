@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5023317eeb843b66d04626cdf6054292, analysis\Metagenome\Metagenome\gast\TaxonomyTree.vb"
+﻿#Region "Microsoft.VisualBasic::3684f18c05c3ae6152d4cc5d3cde0a2d, analysis\Metagenome\Metagenome\gast\TaxonomyTree.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d22c30067a2f356b41c9d543cdbd666f, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb"
+﻿#Region "Microsoft.VisualBasic::00134a099d0f187784bccdd4cd3d34c9, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb"
 
     ' Author:
     ' 

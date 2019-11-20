@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9594debb80738cd972f1f251bcf64ef1, analysis\ProteinTools\ProteinTools.Interactions\Bayesian\SequenceAssembler.vb"
+﻿#Region "Microsoft.VisualBasic::f085c2eb90aeb87a92a638440dd69696, analysis\ProteinTools\ProteinTools.Interactions\Bayesian\SequenceAssembler.vb"
 
     ' Author:
     ' 

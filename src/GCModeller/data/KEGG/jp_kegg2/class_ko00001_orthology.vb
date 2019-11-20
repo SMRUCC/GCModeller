@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64c23c4c9d8a424131530f68139ab8b7, KEGG\jp_kegg2\class_ko00001_orthology.vb"
+﻿#Region "Microsoft.VisualBasic::64c23c4c9d8a424131530f68139ab8b7, data\KEGG\jp_kegg2\class_ko00001_orthology.vb"
 
     ' Author:
     ' 
