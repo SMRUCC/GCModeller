@@ -14,7 +14,7 @@ Module Fasta
     Sub New()
         Call printer.AttachConsoleFormatter(Of FastaSeq)(Function(seq)
                                                              With DirectCast(seq, FastaSeq)
-                                                                 Return "> " & .Title & ASCII.CR & .SequenceData
+                                                                 Return "> " & .Title & ASCII.LF & .SequenceData
                                                              End With
                                                          End Function)
     End Sub
