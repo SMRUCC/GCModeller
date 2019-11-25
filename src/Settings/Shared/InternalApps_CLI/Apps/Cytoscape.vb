@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7251.18537
-'  // ASSEMBLY:  Settings, Version=3.3277.7251.18537, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7268.38152
+'  // ASSEMBLY:  Settings, Version=3.3277.7268.38152, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/8/2019 10:17:54 AM
+'  // BUILT:     11/24/2019 8:47:12 AM
 '  // 
 ' 
 ' 
@@ -635,20 +635,23 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /KEGG.referenceMap.Model /repository &lt;[reference/organism]kegg_maps.directory&gt; /reactions &lt;kegg_reactions.directory&gt; [/reaction_class &lt;repository&gt; /organism &lt;name&gt; /coverage.cutoff &lt;[0,1], default=0&gt; /delete.unmapped /out &lt;result_network.directory&gt;]
+''' /KEGG.referenceMap.Model /repository &lt;[reference/organism]kegg_maps.directory&gt; /reactions &lt;kegg_reactions.directory&gt; [/top.priority &lt;map.name.list&gt; /category.level2 /reaction_class &lt;repository&gt; /organism &lt;name&gt; /coverage.cutoff &lt;[0,1], default=0&gt; /delete.unmapped /delete.tupleEdges /split /out &lt;result_network.directory&gt;]
 ''' ```
 ''' Create network model of KEGG reference pathway map for cytoscape data visualization.
 ''' </summary>
 '''
-Public Function KEGGReferenceMapModel(repository As String, Optional reactions As String = "", Optional __reaction_class As String = "", Optional organism As String = "", Optional coverage_cutoff As String = "0", Optional out As String = "", Optional delete_unmapped As Boolean = False) As Integer
+Public Function KEGGReferenceMapModel(repository As String, Optional reactions As String = "", Optional __top_priority As String = "", Optional reaction_class As String = "", Optional organism As String = "", Optional coverage_cutoff As String = "0", Optional out As String = "", Optional category_level2 As Boolean = False, Optional delete_unmapped As Boolean = False, Optional delete_tupleedges As Boolean = False, Optional split As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.referenceMap.Model")
     Call CLI.Append(" ")
     Call CLI.Append("/repository " & """" & repository & """ ")
     If Not reactions.StringEmpty Then
             Call CLI.Append("/reactions " & """" & reactions & """ ")
     End If
-    If Not __reaction_class.StringEmpty Then
-            Call CLI.Append("[/reaction_class " & """" & __reaction_class & """ ")
+    If Not __top_priority.StringEmpty Then
+            Call CLI.Append("[/top.priority " & """" & __top_priority & """ ")
+    End If
+    If Not reaction_class.StringEmpty Then
+            Call CLI.Append("/reaction_class " & """" & reaction_class & """ ")
     End If
     If Not organism.StringEmpty Then
             Call CLI.Append("/organism " & """" & organism & """ ")
@@ -659,8 +662,17 @@ Public Function KEGGReferenceMapModel(repository As String, Optional reactions A
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+    If category_level2 Then
+        Call CLI.Append("/category.level2 ")
+    End If
     If delete_unmapped Then
         Call CLI.Append("/delete.unmapped ")
+    End If
+    If delete_tupleedges Then
+        Call CLI.Append("/delete.tupleedges ")
+    End If
+    If split Then
+        Call CLI.Append("/split ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -671,20 +683,35 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /KEGG.referenceMap.render /model &lt;network.xgmml/directory&gt; [/size &lt;10(A0)&gt; /out &lt;viz.png&gt;]
+''' /KEGG.referenceMap.render /model &lt;network.xgmml/directory&gt; [/edge.bends /compounds &lt;names.json&gt; /KO &lt;reactionKOMapping.json&gt; /convexHull &lt;category.txt&gt; /style2 /size &lt;10(A0)&gt; /out &lt;viz.png&gt;]
 ''' ```
 ''' Render pathway map as image after cytoscape layout progress.
 ''' </summary>
 '''
-Public Function RenderReferenceMapNetwork(model As String, Optional size As String = "", Optional out As String = "") As Integer
+Public Function RenderReferenceMapNetwork(model As String, Optional compounds As String = "", Optional ko As String = "", Optional convexhull As String = "", Optional size As String = "", Optional out As String = "", Optional edge_bends As Boolean = False, Optional style2 As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.referenceMap.render")
     Call CLI.Append(" ")
     Call CLI.Append("/model " & """" & model & """ ")
+    If Not compounds.StringEmpty Then
+            Call CLI.Append("/compounds " & """" & compounds & """ ")
+    End If
+    If Not ko.StringEmpty Then
+            Call CLI.Append("/ko " & """" & ko & """ ")
+    End If
+    If Not convexhull.StringEmpty Then
+            Call CLI.Append("/convexhull " & """" & convexhull & """ ")
+    End If
     If Not size.StringEmpty Then
             Call CLI.Append("/size " & """" & size & """ ")
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If edge_bends Then
+        Call CLI.Append("/edge.bends ")
+    End If
+    If style2 Then
+        Call CLI.Append("/style2 ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
