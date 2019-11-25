@@ -52,17 +52,25 @@ Namespace Engine.ModelLoader
     ''' </summary>
     Public Class Loader
 
+        Friend ReadOnly define As Definition
+
+        Dim centralDogmaFluxLoader As CentralDogmaFluxLoader
+        Dim proteinMatureFluxLoader As ProteinMatureFluxLoader
+        Dim metabolismNetworkLoader As MetabolismNetworkLoader
+
         ''' <summary>
         ''' This mass table object is generated automatically 
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property massTable As New MassTable
 
-        Friend ReadOnly define As Definition
-
-        Dim centralDogmaFluxLoader As CentralDogmaFluxLoader
-        Dim proteinMatureFluxLoader As ProteinMatureFluxLoader
-        Dim metabolismNetworkLoader As MetabolismNetworkLoader
+        Public ReadOnly Property isLoadded As Boolean
+            Get
+                Return Not centralDogmaFluxLoader Is Nothing AndAlso
+                       Not proteinMatureFluxLoader Is Nothing AndAlso
+                       Not metabolismNetworkLoader Is Nothing
+            End Get
+        End Property
 
         Sub New(define As Definition)
             Me.define = define
