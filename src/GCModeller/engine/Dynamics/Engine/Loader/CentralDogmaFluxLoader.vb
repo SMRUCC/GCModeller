@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
@@ -11,6 +12,13 @@ Namespace Engine.ModelLoader
     ''' </summary>
     Public Class CentralDogmaFluxLoader : Inherits FluxLoader
 
+        Public ReadOnly Property mRNA As String()
+        ''' <summary>
+        ''' tRNA+rRNA+mics RNA
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property componentRNA As String()
+
         Public Sub New(loader As Loader)
             Call MyBase.New(loader)
         End Sub
@@ -22,6 +30,8 @@ Namespace Engine.ModelLoader
             Dim productsPro As Variable()
             Dim rnaMatrix = cell.Genotype.RNAMatrix.ToDictionary(Function(r) r.geneID)
             Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
+            Dim mRNA As New List(Of String)
+            Dim componentRNA As New List(Of String)
 
             For Each cd As CentralDogma In cell.Genotype.centralDogmas
                 ' if the gene template mass value is set to ZERO
@@ -32,6 +42,9 @@ Namespace Engine.ModelLoader
 
                 If Not cd.polypeptide Is Nothing Then
                     Call MassTable.AddNew(cd.polypeptide)
+                    Call mRNA.Add(cd.geneID)
+                Else
+                    Call componentRNA.Add(cd.geneID)
                 End If
 
                 templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
@@ -63,6 +76,9 @@ Namespace Engine.ModelLoader
                     .bounds = New Boundary With {.forward = 100, .reverse = 0}
                 }
             Next
+
+            _mRNA = mRNA
+            _componentRNA = componentRNA
         End Function
 
         ''' <summary>
