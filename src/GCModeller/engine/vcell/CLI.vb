@@ -120,10 +120,23 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
                 )
                 Dim dataStorage As New OmicsDataAdapter(cell, massSnapshots, fluxSnapshots)
                 Dim engine As Engine = New Engine(def, iterations) _
-                    .LoadModel(cell, deletes) _
-                    .AttachBiologicalStorage(dataStorage)
+                    .LoadModel(cell, deletes)
+                ' .AttachBiologicalStorage(dataStorage)
 
-                Return engine.Run
+                Call engine.Run()
+
+                Dim massSnapshot = engine.snapshot.mass
+                Dim fluxSnapshot = engine.snapshot.flux
+
+                Call massSnapshot.Subset(dataStorage.mass.transcriptome).GetJson.SaveTo($"{out}/mass/transcriptome.json")
+                Call massSnapshot.Subset(dataStorage.mass.proteome).GetJson.SaveTo($"{out}/mass/proteome.json")
+                Call massSnapshot.Subset(dataStorage.mass.metabolome).GetJson.SaveTo($"{out}/mass/metabolome.json")
+
+                Call fluxSnapshot.Subset(dataStorage.flux.transcriptome).GetJson.SaveTo($"{out}/flux/transcriptome.json")
+                Call fluxSnapshot.Subset(dataStorage.flux.proteome).GetJson.SaveTo($"{out}/flux/proteome.json")
+                Call fluxSnapshot.Subset(dataStorage.flux.metabolome).GetJson.SaveTo($"{out}/flux/metabolome.json")
+
+                Return 0
             End Using
         Else
             Dim loader As Loader = Nothing
@@ -132,7 +145,8 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
             Call engine.LoadModel(cell, deletes,, getLoader:=loader)
 
             Using rawStorage As New Raw.StorageDriver(out, loader, cell)
-                Call engine.AttachBiologicalStorage(rawStorage).Run()
+                Call engine.Run()
+                ' Call engine.AttachBiologicalStorage(rawStorage).Run()
             End Using
 
             Call engine.snapshot.flux.GetJson.SaveTo($"{out.TrimSuffix}.flux.json")
