@@ -156,6 +156,8 @@ Namespace Engine
 
             If dataStorageDriver Is Nothing Then
                 Call "Data storage driver not found! The simulation result can only be get from snapshot property...".Warning
+                Call VBDebugger.WaitOutput()
+                Call Console.WriteLine()
             End If
 
             Using process As New ProgressBar("Running simulator...")
