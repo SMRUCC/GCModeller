@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
@@ -131,8 +132,13 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
             Call engine.LoadModel(cell, deletes,, getLoader:=loader)
 
             Using rawStorage As New Raw.StorageDriver(out, loader, cell)
-                Return engine.AttachBiologicalStorage(rawStorage).Run
+                Call engine.AttachBiologicalStorage(rawStorage).Run()
             End Using
+
+            Call engine.snapshot.flux.GetJson.SaveTo($"{out.TrimSuffix}.flux.json")
+            Call engine.snapshot.mass.GetJson.SaveTo($"{out.TrimSuffix}.mass.json")
+
+            Return 0
         End If
     End Function
 
