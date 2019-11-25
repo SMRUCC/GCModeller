@@ -154,6 +154,10 @@ Namespace Engine
                         End Sub)
             Call Console.WriteLine()
 
+            If dataStorageDriver Is Nothing Then
+                Call "Data storage driver not found! The simulation result can only be get from snapshot property...".Warning
+            End If
+
             Using process As New ProgressBar("Running simulator...")
                 Dim progress As New ProgressProvider(iterations)
                 Dim flux As Dictionary(Of String, Double)
@@ -166,8 +170,11 @@ Namespace Engine
 
                     _snapshot = (mass.GetMassValues, flux)
 
-                    Call dataStorageDriver.FluxSnapshot(i, _snapshot.flux)
-                    Call dataStorageDriver.MassSnapshot(i, _snapshot.mass)
+                    If Not dataStorageDriver Is Nothing Then
+                        Call dataStorageDriver.FluxSnapshot(i, _snapshot.flux)
+                        Call dataStorageDriver.MassSnapshot(i, _snapshot.mass)
+                    End If
+
                     Call ($"iteration: {i + 1}; ETA: {progress.ETA(process.ElapsedMilliseconds).FormatTime}") _
                         .DoCall(Sub(msg)
                                     Call process.SetProgress(progress.StepProgress, msg)

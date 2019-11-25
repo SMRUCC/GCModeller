@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::fb9721781e031defda6a20ef21e7b398, annotations\GSEA\GSEA.KnowledgeBase.Extensions\KEGGCompounds.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module KEGGCompounds
-    ' 
-    '     Function: CreateBackground
-    ' 
-    ' /********************************************************************************/
+' Module KEGGCompounds
+' 
+'     Function: CreateBackground
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -44,11 +44,63 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 ''' <summary>
 ''' Create background model for KEGG pathway enrichment based on the kegg metabolites, used for LC-MS metabolism data analysis.
 ''' </summary>
 Public Module KEGGCompounds
+
+    ''' <summary>
+    ''' Create general reference GSEA background model from LC-MS metabolism analysis result.
+    ''' </summary>
+    ''' <param name="maps"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CreateGeneralBackground(maps As IEnumerable(Of Map)) As Background
+        ' The total number of metabolites in background genome. 
+        Dim backgroundSize% = 0
+        Dim clusters As New List(Of Cluster)
+
+        For Each map As Map In maps
+            clusters += New Cluster With {
+                .description = map.Name,
+                .ID = map.id,
+                .names = map.Name,
+                .members = map.shapes _
+                    .Select(Function(a) a.Names) _
+                    .IteratesALL _
+                    .Where(Function(a) a.Name.IsPattern("C\d+")) _
+                    .Select(Function(c)
+                                Return New BackgroundGene With {
+                                    .name = c.Value,
+                                    .accessionID = c.Name,
+                                    .[alias] = {c.Name},
+                                    .locus_tag = New NamedValue(c),
+                                    .term_id = {c.Name}
+                                }
+                            End Function) _
+                    .ToArray
+            }
+        Next
+
+        backgroundSize = clusters _
+            .Select(Function(c) c.members) _
+            .IteratesALL _
+            .Select(Function(c) c.accessionID) _
+            .Distinct _
+            .Count
+
+        Return New Background With {
+            .build = Now,
+            .clusters = clusters,
+            .comments = "Background model apply for GSEA of LC-MS metabolism analysis, created by GCModeller.",
+            .name = "KEGG reference maps",
+            .size = backgroundSize,
+            .id = "reference"
+        }
+    End Function
 
     ''' <summary>
     ''' Create GSEA background model from LC-MS metabolism analysis result.
