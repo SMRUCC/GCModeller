@@ -61,7 +61,8 @@ Public Module Extensions
     ''' </summary>
     ''' <param name="cdf"></param>
     ''' <returns></returns>
-    <Extension> Public Function LoadCDF(cdf As netCDFReader)
+    <Extension>
+    Public Function LoadCDF(cdf As netCDFReader)
 
     End Function
 End Module
