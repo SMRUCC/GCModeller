@@ -70,7 +70,7 @@ Namespace Engine
         Dim def As Definition
         Dim model As CellularModule
         Dim iterations As Integer = 5000
-        Dim dataStorageDriver As OmicsDataAdapter
+        Dim dataStorageDriver As IOmicsDataAdapter
 
 #Region "Debug views"
 
@@ -121,7 +121,7 @@ Namespace Engine
         ''' </summary>
         ''' <param name="driver"></param>
         ''' <returns></returns>
-        Public Function AttachBiologicalStorage(driver As OmicsDataAdapter) As Engine
+        Public Function AttachBiologicalStorage(driver As IOmicsDataAdapter) As Engine
             dataStorageDriver = driver
             Return Me
         End Function
