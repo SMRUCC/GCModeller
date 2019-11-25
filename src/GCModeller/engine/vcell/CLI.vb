@@ -8,6 +8,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Module CLI

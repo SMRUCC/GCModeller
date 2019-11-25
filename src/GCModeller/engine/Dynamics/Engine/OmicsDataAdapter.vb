@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace Engine
