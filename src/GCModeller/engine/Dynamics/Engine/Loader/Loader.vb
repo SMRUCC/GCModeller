@@ -47,14 +47,36 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace Engine.ModelLoader
 
+    Public MustInherit Class FluxLoader
+
+        Public ReadOnly Property MassTable As MassTable
+            Get
+                Return loader.massTable
+            End Get
+        End Property
+
+        Protected ReadOnly loader As Loader
+
+        Protected Sub New(loader As Loader)
+            Me.loader = loader
+        End Sub
+
+        Public MustOverride Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
+
+    End Class
+
     ''' <summary>
     ''' Module loader
     ''' </summary>
     Public Class Loader
 
-        ReadOnly define As Definition
-
+        ''' <summary>
+        ''' This mass table object is generated automatically 
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property massTable As New MassTable
+
+        Friend ReadOnly define As Definition
 
         Sub New(define As Definition)
             Me.define = define
@@ -70,63 +92,6 @@ Namespace Engine.ModelLoader
 
         Public Shared Function GetProteinMatureId(protein As Protein) As String
             Return $"{protein.ProteinID}::mature.process"
-        End Function
-
-        ''' <summary>
-        ''' 先构建一般性的中心法则过程
-        ''' 在这里面包含所有类型的RNA转录
-        ''' 以及蛋白序列的翻译
-        ''' </summary>
-        ''' <param name="cell"></param>
-        ''' <returns></returns>
-        Private Iterator Function centralDogmaFlux(cell As CellularModule) As IEnumerable(Of Channel)
-            Dim templateDNA As Variable()
-            Dim productsRNA As Variable()
-            Dim templateRNA As Variable()
-            Dim productsPro As Variable()
-            Dim rnaMatrix = cell.Genotype.RNAMatrix.ToDictionary(Function(r) r.geneID)
-            Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
-
-            For Each cd As CentralDogma In cell.Genotype.centralDogmas
-                ' if the gene template mass value is set to ZERO
-                ' that means no transcription activity that it will be
-                ' A deletion mutation was created
-                Call massTable.AddNew(cd.geneID)
-                Call massTable.AddNew(cd.RNA.Name)
-
-                If Not cd.polypeptide Is Nothing Then
-                    Call massTable.AddNew(cd.polypeptide)
-                End If
-
-                templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
-                productsRNA = {
-                    massTable.variable(cd.RNA.Name)
-                }
-
-                ' 转录和翻译的反应过程都是不可逆的
-
-                ' 翻译模板过程只针对CDS基因
-                If Not cd.polypeptide Is Nothing Then
-                    templateRNA = translationTemplate(cd.RNA.Name, proteinMatrix)
-                    productsPro = {
-                        massTable.variable(cd.polypeptide)
-                    }
-
-                    Yield New Channel(templateRNA, productsPro) With {
-                        .ID = cd.DoCall(AddressOf GetTranslationId),
-                        .forward = New Controls With {.baseline = 10},
-                        .reverse = New Controls With {.baseline = 0},
-                        .bounds = New Boundary With {.forward = 100, .reverse = 0}
-                    }
-                End If
-
-                Yield New Channel(templateDNA, productsRNA) With {
-                    .ID = cd.DoCall(AddressOf GetTranscriptionId),
-                    .forward = New Controls With {.baseline = 10},
-                    .reverse = New Controls With {.baseline = 0},
-                    .bounds = New Boundary With {.forward = 100, .reverse = 0}
-                }
-            Next
         End Function
 
         ''' <summary>
@@ -235,7 +200,7 @@ Namespace Engine.ModelLoader
                 Next
             Next
 
-            Dim centralDogmas = cell.DoCall(AddressOf centralDogmaFlux).AsList
+            Dim centralDogmas = cell.DoCall(AddressOf New CentralDogmaFluxLoader(Me).CreateFlux).AsList
             Dim proteinMatrues = cell.DoCall(AddressOf proteinMature).ToArray
             Dim metabolism = cell.DoCall(AddressOf metabolismNetwork).ToArray
 
@@ -243,38 +208,6 @@ Namespace Engine.ModelLoader
                 .Channels = centralDogmas + proteinMatrues + metabolism,
                 .MassEnvironment = massTable.ToArray
             }
-        End Function
-
-        ''' <summary>
-        ''' DNA模板加上碱基消耗
-        ''' </summary>
-        ''' <param name="geneID$"></param>
-        ''' <param name="matrix"></param>
-        ''' <returns></returns>
-        Private Function transcriptionTemplate(geneID$, matrix As Dictionary(Of String, RNAComposition)) As Variable()
-            Return matrix(geneID) _
-                .Where(Function(i) i.Value > 0) _
-                .Select(Function(base)
-                            Dim baseName = define.NucleicAcid(base.Name)
-                            Return massTable.variable(baseName, base.Value)
-                        End Function) _
-                .AsList + massTable.template(geneID)
-        End Function
-
-        ''' <summary>
-        ''' mRNA模板加上氨基酸消耗
-        ''' </summary>
-        ''' <param name="mRNA$"></param>
-        ''' <param name="matrix"></param>
-        ''' <returns></returns>
-        Private Function translationTemplate(mRNA$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
-            Return matrix(mRNA) _
-                .Where(Function(i) i.Value > 0) _
-                .Select(Function(aa)
-                            Dim aaName = define.AminoAcid(aa.Name)
-                            Return massTable.variable(aaName, aa.Value)
-                        End Function) _
-                .AsList + massTable.template(mRNA)
         End Function
     End Class
 End Namespace
