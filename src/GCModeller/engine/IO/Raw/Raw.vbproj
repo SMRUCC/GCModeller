@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{07CC0292-9EDA-4E02-BF0D-043391C99F07}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.GCModeller.ModellingEngine.IO</RootNamespace>
     <AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
@@ -167,10 +167,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.vb" />
+    <Compile Include="GCModellerRaw\StorageDriver.vb" />
+    <Compile Include="GCModellerRaw\NamespaceDoc.vb" />
     <Compile Include="netCDF\Attributes.vb" />
-    <Compile Include="Reader.vb" />
-    <Compile Include="Writer.vb" />
-    <Compile Include="Raw.vb" />
+    <Compile Include="GCModellerRaw\Reader.vb" />
+    <Compile Include="GCModellerRaw\Writer.vb" />
+    <Compile Include="GCModellerRaw\Raw.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -222,6 +224,14 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Dynamics\Dynamics.vbproj">
+      <Project>{df077c8b-9b53-41c3-81f3-2ba4f3d7fc9f}</Project>
+      <Name>Dynamics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Model\Model.vbproj">
+      <Project>{7BB5E78B-37BB-43DF-BAF4-4ECD4B5748D6}</Project>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

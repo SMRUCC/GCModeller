@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f183dd47b44276329b2a0d5520354895, engine\Dynamics\Core\Vessel.vb"
+﻿#Region "Microsoft.VisualBasic::0af697fc9459fb2cea3719e1629a3925, Dynamics\Core\Vessel.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,8 @@
     ' 
     '         Properties: Channels, MassEnvironment
     ' 
-    '         Function: ContainerIterator, doForwardTransition, doReverseTransition, factorsByCount, iterateFlux
-    '                   Reset
-    ' 
-    '         Sub: Initialize
+    '         Function: ContainerIterator, doForwardTransition, doReverseTransition, factorsByCount, Initialize
+    '                   iterateFlux, Reset
     ' 
     ' 
     ' /********************************************************************************/

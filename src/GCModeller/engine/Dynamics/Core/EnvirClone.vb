@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::612d337a4a75138142e10e679b2530ea, engine\Dynamics\EnvirClone.vb"
+﻿#Region "Microsoft.VisualBasic::fd83b5ce6122cca1837658d238bc8dc6, Dynamics\Core\EnvirClone.vb"
 
     ' Author:
     ' 
@@ -31,23 +31,27 @@
 
     ' Summaries:
 
-    ' Module EnvirClone
+    '     Module EnvirClone
     ' 
-    '     Function: Clone
+    '         Function: Clone
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
-''' <summary>
-''' Clone helper for <see cref="Vessel"/>
-''' </summary>
-Public Module EnvirClone
+Namespace Core
 
-    <Extension> Public Function Clone(envir As Vessel) As Vessel
+    ''' <summary>
+    ''' Clone helper for <see cref="Vessel"/>
+    ''' </summary>
+    Public Module EnvirClone
 
-    End Function
-End Module
+        <Extension>
+        Public Function Clone(envir As Vessel) As Vessel
+
+        End Function
+    End Module
+End Namespace
