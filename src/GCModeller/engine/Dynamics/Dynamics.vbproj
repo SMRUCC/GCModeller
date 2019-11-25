@@ -133,6 +133,8 @@
     <Compile Include="Core\Flux\Extensions.vb" />
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
+    <Compile Include="Engine\Loader\AminoAcid.vb" />
+    <Compile Include="Engine\Loader\NucleicAcid.vb" />
     <Compile Include="Engine\OmicsTuple.vb" />
     <Compile Include="Engine\OmicsDataAdapter.vb" />
     <Compile Include="Engine\NamespaceDoc.vb" />

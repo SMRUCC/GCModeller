@@ -86,6 +86,9 @@ Public Class Loader
         Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
 
         For Each cd As CentralDogma In cell.Genotype.centralDogmas
+            ' if the gene template mass value is set to ZERO
+            ' that means no transcription activity that it will be
+            ' A deletion mutation was created
             Call massTable.AddNew(cd.geneID)
             Call massTable.AddNew(cd.RNA.Name)
 
