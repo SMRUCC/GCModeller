@@ -330,6 +330,9 @@ Namespace Scripting
         ''' 2. 对于<see cref="Byte"/>数组则是被编码为base64字符串
         ''' </summary>
         ''' <param name="obj"></param>
+        ''' <param name="originToStringAsNothing">
+        ''' Result of <see cref="Object.ToString"/> as nothing
+        ''' </param>
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
