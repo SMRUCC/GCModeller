@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c84c800db4023cc963c9fa016f4af905, engine\Dynamics\Core\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c84c800db4023cc963c9fa016f4af905, Dynamics\Core\Flux\Extensions.vb"
 
     ' Author:
     ' 

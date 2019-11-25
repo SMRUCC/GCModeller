@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0b2fcd960f75f79b16d5dac3cd3fd74, engine\IO\GCMarkupLanguage\v2\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::8719379f6d1332b64fa428c4e9422b95, IO\GCMarkupLanguage\v2\MetabolismStructure.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class MetabolismStructure
     ' 
-    '         Properties: Compounds, Enzymes, maps, Reactions
+    '         Properties: compounds, enzymes, maps, reactions
     ' 
     '         Function: GetAllFluxID
     ' 

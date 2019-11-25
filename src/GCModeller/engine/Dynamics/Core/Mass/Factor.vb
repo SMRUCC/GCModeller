@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::296809b53c92ffad28c67cacbdfa817c, engine\Dynamics\Core\Factor.vb"
+﻿#Region "Microsoft.VisualBasic::53a7de3bb7e3d07a8bc83024df262026, Dynamics\Core\Mass\Factor.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,6 @@
 
     ' Summaries:
 
-    '     Class Variable
-    ' 
-    '         Properties: Coefficient, IsTemplate, Mass
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
-    ' 
     '     Class Factor
     ' 
     '         Properties: ID

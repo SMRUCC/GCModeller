@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc8f50cd4deb0e56d9a053c2733c7ba0, engine\IO\Raw\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::f7b4971fb523a0c0741ccd5a142b9347, IO\Raw\Extensions.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,9 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.IO.netCDF
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
 
+<HideModuleName>
 Public Module Extensions
 
     <Extension>
@@ -60,7 +62,8 @@ Public Module Extensions
     ''' </summary>
     ''' <param name="cdf"></param>
     ''' <returns></returns>
-    <Extension> Public Function LoadCDF(cdf As netCDFReader)
+    <Extension>
+    Public Function LoadCDF(cdf As netCDFReader)
 
     End Function
 End Module
