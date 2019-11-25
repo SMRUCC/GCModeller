@@ -126,14 +126,16 @@ Namespace Engine
             Return Me
         End Function
 
-        Public Function LoadModel(virtualCell As CellularModule, deletions As IEnumerable(Of String), Optional timeResolution# = 1000) As Engine
-            Dim loader As New Loader(def)
-            Dim cell As Core.Vessel = loader _
+        Public Function LoadModel(virtualCell As CellularModule,
+                                  Optional deletions As IEnumerable(Of String) = Nothing,
+                                  Optional timeResolution# = 1000,
+                                  Optional ByRef getLoader As Loader = Nothing) As Engine
+
+            getLoader = New Loader(def)
+            core = getLoader _
                 .CreateEnvironment(virtualCell) _
                 .Initialize(timeResolution)
-
-            core = cell
-            mass = loader.massTable
+            mass = getLoader.massTable
             model = virtualCell
 
             Call Reset()
@@ -141,7 +143,7 @@ Namespace Engine
             ' 在这里完成初始化后
             ' 再将对应的基因模板的数量设置为0
             ' 达到无法执行转录过程反应的缺失突变的效果
-            For Each geneTemplateId As String In deletions
+            For Each geneTemplateId As String In deletions.SafeQuery
                 mass.GetByKey(geneTemplateId).Value = 0
 
                 Call $"Deletes '{geneTemplateId}'...".__INFO_ECHO
