@@ -65,12 +65,12 @@ Module CLI
                   proteomeFlux As New WriteStream(Of DataSet)($"{out}/flux/proteome.xls", metaKeys:=fluxIndex.proteome, metaBlank:=0, tsv:=True),
                   metabolomeFlux As New WriteStream(Of DataSet)($"{out}/flux/metabolome.xls", metaKeys:=fluxIndex.metabolome, metaBlank:=0, tsv:=True)
 
-                Dim massSnapshots As New OmicsTuple(Of DataStorageDriver)(
+                Dim massSnapshots As New OmicsTuple(Of SnapshotDriver)(
                     transcriptome:=transcriptomeSnapshots.createDriver,
                     proteome:=proteomeSnapshots.createDriver,
                     metabolome:=metabolomeSnapshots.createDriver
                 )
-                Dim fluxSnapshots As New OmicsTuple(Of DataStorageDriver)(
+                Dim fluxSnapshots As New OmicsTuple(Of SnapshotDriver)(
                     transcriptome:=transcriptomeFlux.createDriver,
                     proteome:=proteomeFlux.createDriver,
                     metabolome:=metabolomeFlux.createDriver
@@ -95,7 +95,7 @@ Module CLI
     End Function
 
     <Extension>
-    Private Function createDriver(save As WriteStream(Of DataSet)) As DataStorageDriver
+    Private Function createDriver(save As WriteStream(Of DataSet)) As SnapshotDriver
         Return Sub(i, data)
                    Dim snapshot As New DataSet With {
                       .ID = "#" & (i + 1),

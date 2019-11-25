@@ -10,10 +10,10 @@ Namespace Engine
 
         Friend flux As OmicsTuple(Of String())
 
-        Dim saveMass As OmicsTuple(Of DataStorageDriver)
-        Dim saveFlux As OmicsTuple(Of DataStorageDriver)
+        Dim saveMass As OmicsTuple(Of SnapshotDriver)
+        Dim saveFlux As OmicsTuple(Of SnapshotDriver)
 
-        Sub New(model As CellularModule, mass As OmicsTuple(Of DataStorageDriver), flux As OmicsTuple(Of DataStorageDriver))
+        Sub New(model As CellularModule, mass As OmicsTuple(Of SnapshotDriver), flux As OmicsTuple(Of SnapshotDriver))
             Me.saveMass = mass
             Me.saveFlux = flux
             Me.mass = GetMassTuples(model)

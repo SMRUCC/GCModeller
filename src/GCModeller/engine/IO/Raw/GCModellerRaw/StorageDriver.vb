@@ -7,6 +7,9 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace Raw
 
+    ''' <summary>
+    ''' Data storage adapter driver
+    ''' </summary>
     Public Class StorageDriver : Implements IDisposable, IOmicsDataAdapter
 
         ReadOnly output As Writer

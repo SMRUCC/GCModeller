@@ -1,7 +1,17 @@
 ﻿Namespace Engine
 
-    Public Delegate Sub DataStorageDriver(iteration%, data As Dictionary(Of String, Double))
+    ''' <summary>
+    ''' Data storage snapshot driver
+    ''' </summary>
+    ''' <param name="iteration">Iteration number</param>
+    ''' <param name="data">
+    ''' Read snapshot data from the simulator engine
+    ''' </param>
+    Public Delegate Sub SnapshotDriver(iteration%, data As Dictionary(Of String, Double))
 
+    ''' <summary>
+    ''' Data storage adapter driver
+    ''' </summary>
     Public Interface IOmicsDataAdapter
 
         ''' <summary>

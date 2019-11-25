@@ -164,7 +164,8 @@ Namespace Raw
             ' - long() 按照modules顺序排序的offset值的集合
             ' - long 当前数据块的起始的offset偏移
             '
-            Dim times = offsets.GroupBy(Function(d) d.time) _
+            Dim times = offsets _
+                .GroupBy(Function(d) d.time) _
                 .OrderByDescending(Function(time) time.Key) _
                 .Select(Function(time)
                             Dim moduleOffsets = time.ToDictionary(Function(m) m.moduleName)
