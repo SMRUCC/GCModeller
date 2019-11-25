@@ -13,14 +13,24 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Module CLI
 
+    <Extension>
+    Private Function getDeletionList(res As DefaultString) As String()
+        If res.FileExists Then
+            Return res.ReadAllLines.Select(Function(l) l.Split.First).ToArray
+        Else
+            Return res.Split(","c)
+        End If
+    End Function
+
     <ExportAPI("/run")>
     <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /out <result_directory>]")>
     <Argument("/deletes", True, CLITypes.String,
               AcceptTypes:={GetType(String())},
-              Description:="The ``locus_tag`` id list that will removes from the genome, use the comma symbol as delimiter.")>
+              Description:="The ``locus_tag`` id list that will removes from the genome, 
+              use the comma symbol as delimiter. Or a txt file path for the gene id list.")>
     Public Function Run(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
-        Dim deletes As String() = args("/deletes").Split(",")
+        Dim deletes As String() = args("/deletes").getDeletionList
         Dim out$ = args("/out") Or $"{in$.TrimSuffix}.vcell_simulation/"
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
         Dim def As Definition = model.metabolismStructure _
