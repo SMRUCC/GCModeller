@@ -78,6 +78,10 @@ Namespace Engine.ModelLoader
 
         Friend ReadOnly define As Definition
 
+        Dim centralDogmaFluxLoader As CentralDogmaFluxLoader
+        Dim proteinMatureFluxLoader As ProteinMatureFluxLoader
+        Dim metabolismNetworkLoader As MetabolismNetworkLoader
+
         Sub New(define As Definition)
             Me.define = define
         End Sub
@@ -94,6 +98,30 @@ Namespace Engine.ModelLoader
             Return $"{protein.ProteinID}::mature.process"
         End Function
 
+        Public Function GetCentralDogmaFluxLoader() As CentralDogmaFluxLoader
+            If CentralDogmaFluxLoader Is Nothing Then
+                CentralDogmaFluxLoader = New CentralDogmaFluxLoader(Me)
+            End If
+
+            Return CentralDogmaFluxLoader
+        End Function
+
+        Public Function GetProteinMatureFluxLoader() As ProteinMatureFluxLoader
+            If proteinMatureFluxLoader Is Nothing Then
+                proteinMatureFluxLoader = New ProteinMatureFluxLoader(Me)
+            End If
+
+            Return proteinMatureFluxLoader
+        End Function
+
+        Public Function GetMetabolismNetworkLoader() As MetabolismNetworkLoader
+            If metabolismNetworkLoader Is Nothing Then
+                metabolismNetworkLoader = New MetabolismNetworkLoader(Me)
+            End If
+
+            Return metabolismNetworkLoader
+        End Function
+
         Public Function CreateEnvironment(cell As CellularModule) As Vessel
             ' 在这里需要首选构建物质列表
             ' 否则下面的转录和翻译过程的构建会出现找不到物质因子对象的问题
@@ -105,9 +133,9 @@ Namespace Engine.ModelLoader
                 Next
             Next
 
-            Dim centralDogmas = cell.DoCall(AddressOf New CentralDogmaFluxLoader(Me).CreateFlux).AsList
-            Dim proteinMatrues = cell.DoCall(AddressOf New ProteinMatureFluxLoader(Me).CreateFlux).ToArray
-            Dim metabolism = cell.DoCall(AddressOf New MetabolismNetworkLoader(Me).CreateFlux).ToArray
+            Dim centralDogmas = cell.DoCall(AddressOf GetCentralDogmaFluxLoader().CreateFlux).AsList
+            Dim proteinMatrues = cell.DoCall(AddressOf GetProteinMatureFluxLoader().CreateFlux).ToArray
+            Dim metabolism = cell.DoCall(AddressOf GetMetabolismNetworkLoader().CreateFlux).ToArray
 
             Return New Vessel With {
                 .Channels = centralDogmas + proteinMatrues + metabolism,
