@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f3fb263c284854efc6034618629f807, engine\IO\Raw\Raw.vb"
+﻿#Region "Microsoft.VisualBasic::1f45b03eb0c73a8755aa1c5aecac9cf4, IO\Raw\GCModellerRaw\Raw.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,15 @@
 
     ' Summaries:
 
-    ' Class CellularModules
+    '     Class CellularModules
     ' 
-    '     Properties: Metabolites, mRNAId, Polypeptide, Proteins, Reactions
-    '                 RNAId
+    '         Properties: Metabolites, mRNAId, Polypeptide, Proteins, Reactions
+    '                     RNAId
     ' 
-    '     Function: GetModuleReader, GetModules
+    '         Function: GetModuleReader, GetModules
     ' 
-    '     Sub: (+2 Overloads) Dispose
+    '         Sub: (+2 Overloads) Dispose
+    ' 
     ' 
     ' /********************************************************************************/
 

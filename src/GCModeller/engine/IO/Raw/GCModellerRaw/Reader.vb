@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::790853a51f6530622bebccc388459994, engine\IO\Raw\Reader.vb"
+﻿#Region "Microsoft.VisualBasic::bc5c43abef65a72bcfa0dc687855cc79, IO\Raw\GCModellerRaw\Reader.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,14 @@
 
     ' Summaries:
 
-    ' Class Reader
+    '     Class Reader
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: AllTimePoints, LoadIndex, PopulateFrames, Read, ReadModule
+    '         Function: AllTimePoints, LoadIndex, PopulateFrames, Read, ReadModule
     ' 
-    '     Sub: readIndex
+    '         Sub: readIndex
+    ' 
     ' 
     ' /********************************************************************************/
 

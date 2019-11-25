@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::612d337a4a75138142e10e679b2530ea, engine\Dynamics\EnvirClone.vb"
+﻿#Region "Microsoft.VisualBasic::fd83b5ce6122cca1837658d238bc8dc6, Dynamics\Core\EnvirClone.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,10 @@
 
     ' Summaries:
 
-    ' Module EnvirClone
+    '     Module EnvirClone
     ' 
-    '     Function: Clone
+    '         Function: Clone
+    ' 
     ' 
     ' /********************************************************************************/
 

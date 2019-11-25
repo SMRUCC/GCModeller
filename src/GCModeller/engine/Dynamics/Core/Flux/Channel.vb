@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::785c92ce1fe0628f44f33c44248a0431, engine\Dynamics\Core\Channel.vb"
+﻿#Region "Microsoft.VisualBasic::2a1723b50fb95a8f90ad1d197c243adb, Dynamics\Core\Flux\Channel.vb"
 
     ' Author:
     ' 

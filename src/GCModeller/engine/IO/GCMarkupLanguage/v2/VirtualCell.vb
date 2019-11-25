@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b92129869c4826e3a9099bf9272fb5a, engine\IO\GCMarkupLanguage\v2\VirtualCell.vb"
+﻿#Region "Microsoft.VisualBasic::f5c1a5467ecc85b4fd1d56a4e79ad355, IO\GCMarkupLanguage\v2\VirtualCell.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class VirtualCell
     ' 
-    '         Properties: genome, MetabolismStructure, taxonomy
+    '         Properties: genome, metabolismStructure, taxonomy
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: Summary, ToString
