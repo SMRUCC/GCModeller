@@ -58,7 +58,8 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Namespace Raw
 
     ''' <summary>
-    ''' 写数据模块
+    ''' The GCModeller raw data writer
+    ''' (写数据模块)
     ''' </summary>
     Public Class Writer : Inherits CellularModules
 
@@ -81,7 +82,9 @@ Namespace Raw
                 .IteratesALL _
                 .Distinct _
                 .ToArray
-            MyBase.Reactions = model.Phenotype.fluxes.Select(Function(r) r.ID).ToArray
+            MyBase.Reactions = model.Phenotype.fluxes _
+                .Select(Function(r) r.ID) _
+                .ToArray
         End Sub
 
         ''' <summary>
