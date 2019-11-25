@@ -118,7 +118,7 @@ Namespace Scripting.Runtime
         ''' <returns>
         ''' 如果目标是字节数组，则会被转换为base64字符串
         ''' </returns>
-        Public Function CStrSafe(obj As Object, Optional default$ = "") As String
+        Public Function CStrSafe(obj As Object, Optional default$ = "", Optional originToStringAsNothing As Boolean = False) As String
             If obj Is Nothing Then
                 Return String.Empty
             ElseIf Convert.IsDBNull(obj) Then
@@ -126,7 +126,14 @@ Namespace Scripting.Runtime
             Else
 
                 Try
-                    Return CStrInternal(obj, [default])
+                    Dim str$ = CStrInternal(obj, [default])
+                    Dim typeFullName$ = obj.GetType.FullName
+
+                    If originToStringAsNothing AndAlso str = typeFullName Then
+                        Return Nothing
+                    Else
+                        Return str
+                    End If
                 Catch ex As Exception
                     Try
                         ' 调用ToString函数来返回字符串值

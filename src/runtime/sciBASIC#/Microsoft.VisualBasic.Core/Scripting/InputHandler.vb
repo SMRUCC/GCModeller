@@ -333,8 +333,8 @@ Namespace Scripting
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function ToString(obj As Object, Optional null$ = "") As String
-            Return CStrSafe(obj, null)
+        Public Function ToString(obj As Object, Optional null$ = "", Optional originToStringAsNothing As Boolean = False) As String
+            Return CStrSafe(obj, null, originToStringAsNothing)
         End Function
 
         ''' <summary>
