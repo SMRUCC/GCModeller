@@ -94,69 +94,6 @@ Namespace Engine.ModelLoader
             Return $"{protein.ProteinID}::mature.process"
         End Function
 
-        ''' <summary>
-        ''' 构建代谢网络
-        ''' </summary>
-        ''' <param name="cell"></param>
-        ''' <returns></returns>
-        Private Iterator Function metabolismNetwork(cell As CellularModule) As IEnumerable(Of Channel)
-            Dim KOfunctions = cell.Genotype.centralDogmas _
-                .Where(Function(cd) Not cd.orthology.StringEmpty) _
-                .Select(Function(cd) (cd.orthology, cd.polypeptide)) _
-                .GroupBy(Function(pro) pro.Item1) _
-                .ToDictionary(Function(KO) KO.Key,
-                              Function(ortholog)
-                                  Return ortholog _
-                                      .Select(Function(map) map.Item2) _
-                                      .ToArray
-                              End Function)
-
-            For Each reaction As Reaction In cell.Phenotype.fluxes
-                Dim left = massTable.variables(reaction.substrates)
-                Dim right = massTable.variables(reaction.products)
-                Dim bounds As New Boundary With {
-                    .forward = reaction.bounds.Max,
-                    .reverse = reaction.bounds.Min
-                }
-
-                ' KO
-                Dim enzymeProteinComplexes As String() = reaction.enzyme _
-                    .SafeQuery _
-                    .Distinct _
-                    .OrderBy(Function(KO) KO) _
-                    .ToArray
-                ' protein id
-                enzymeProteinComplexes = enzymeProteinComplexes _
-                    .Where(AddressOf KOfunctions.ContainsKey) _
-                    .Select(Function(ko) KOfunctions(ko)) _
-                    .IteratesALL _
-                    .Distinct _
-                    .ToArray
-                ' mature protein complex
-                enzymeProteinComplexes = enzymeProteinComplexes _
-                    .Select(Function(id) id & ".complex") _
-                    .ToArray
-
-                If reaction.is_enzymatic AndAlso enzymeProteinComplexes.Length = 0 Then
-                    bounds = {0, 10}
-                End If
-
-                Dim metabolismFlux As New Channel(left, right) With {
-                    .bounds = bounds,
-                    .ID = reaction.ID,
-                    .forward = New Controls With {
-                        .activation = massTable _
-                            .variables(enzymeProteinComplexes, 2) _
-                            .ToArray,
-                        .baseline = 15
-                    },
-                    .reverse = New Controls With {.baseline = 15}
-                }
-
-                Yield metabolismFlux
-            Next
-        End Function
-
         Public Function CreateEnvironment(cell As CellularModule) As Vessel
             ' 在这里需要首选构建物质列表
             ' 否则下面的转录和翻译过程的构建会出现找不到物质因子对象的问题
@@ -170,7 +107,7 @@ Namespace Engine.ModelLoader
 
             Dim centralDogmas = cell.DoCall(AddressOf New CentralDogmaFluxLoader(Me).CreateFlux).AsList
             Dim proteinMatrues = cell.DoCall(AddressOf New ProteinMatureFluxLoader(Me).CreateFlux).ToArray
-            Dim metabolism = cell.DoCall(AddressOf metabolismNetwork).ToArray
+            Dim metabolism = cell.DoCall(AddressOf New MetabolismNetworkLoader(Me).CreateFlux).ToArray
 
             Return New Vessel With {
                 .Channels = centralDogmas + proteinMatrues + metabolism,
