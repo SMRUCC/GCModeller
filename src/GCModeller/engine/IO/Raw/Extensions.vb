@@ -43,6 +43,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.IO.netCDF
 
+<HideModuleName>
 Public Module Extensions
 
     <Extension>

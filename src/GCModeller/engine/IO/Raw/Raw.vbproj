@@ -168,9 +168,9 @@
   <ItemGroup>
     <Compile Include="Extensions.vb" />
     <Compile Include="netCDF\Attributes.vb" />
-    <Compile Include="Reader.vb" />
-    <Compile Include="Writer.vb" />
-    <Compile Include="Raw.vb" />
+    <Compile Include="GCModellerRaw\Reader.vb" />
+    <Compile Include="GCModellerRaw\Writer.vb" />
+    <Compile Include="GCModellerRaw\Raw.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
