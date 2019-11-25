@@ -69,41 +69,46 @@ Namespace Raw
         ''' 由基因转录出来的mRNA的编号列表
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>ORF gene id</remarks>
         <[Module]("Message-RNA")>
         Public Property mRNAId As Index(Of String)
         ''' <summary>
         ''' 由基因转录出来的其他的RNA分子的编号列表
         ''' </summary>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>RNA gene id</remarks>
         <[Module]("Component-RNA")>
         Public Property RNAId As Index(Of String)
         ''' <summary>
         ''' 由mRNA翻译出来的多肽链的Id列表
         ''' </summary>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>Usually is the Uniprot protein id</remarks>
         <[Module]("Polypeptide")>
         Public Property Polypeptide As Index(Of String)
         ''' <summary>
         ''' 由一条或者多条多肽链修饰之后得到的最终的蛋白质的编号列表
         ''' </summary>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>Protein complexe</remarks>
         <[Module]("Protein")>
         Public Property Proteins As Index(Of String)
         ''' <summary>
         ''' 代谢物列表
         ''' </summary>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>
+        ''' Usually is the KEGG compounds
+        ''' </remarks>
         <[Module]("Metabolite")>
         Public Property Metabolites As Index(Of String)
         ''' <summary>
         ''' 反应过程编号列表
         ''' </summary>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>
+        ''' Usually is the KEGG reactions
+        ''' </remarks>
         <[Module]("Reaction-Flux")>
         Public Property Reactions As Index(Of String)
 
