@@ -133,6 +133,7 @@
     <Compile Include="Core\Flux\Extensions.vb" />
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
+    <Compile Include="Engine\DebuggerView.vb" />
     <Compile Include="Engine\Loader\CentralDogmaFluxLoader.vb" />
     <Compile Include="Engine\Loader\FluxLoader.vb" />
     <Compile Include="Engine\Loader\MetabolismNetworkLoader.vb" />
