@@ -1,4 +1,5 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.ComponentModel
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -16,7 +17,9 @@ Module CLI
     <Extension>
     Private Function getDeletionList(res As DefaultString) As String()
         If res.FileExists Then
-            Return res.ReadAllLines.Select(Function(l) l.Split.First).ToArray
+            Return res.ReadAllLines _
+                .Select(Function(l) l.Split.First) _
+                .ToArray
         Else
             Return res.Split(","c)
         End If
@@ -24,6 +27,7 @@ Module CLI
 
     <ExportAPI("/run")>
     <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /out <result_directory>]")>
+    <Description("Run GCModeller VirtualCell.")>
     <Argument("/deletes", True, CLITypes.String,
               AcceptTypes:={GetType(String())},
               Description:="The ``locus_tag`` id list that will removes from the genome, 
