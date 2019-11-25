@@ -6,7 +6,12 @@ Namespace Engine
 
     Public Delegate Sub DataStorageDriver(iteration%, data As Dictionary(Of String, Double))
 
-    Public Class OmicsDataAdapter
+    Public Interface IOmicsDataAdapter
+        Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
+        Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
+    End Interface
+
+    Public Class OmicsDataAdapter : Implements IOmicsDataAdapter
 
         Friend mass As OmicsTuple(Of String())
         Friend flux As OmicsTuple(Of String())
@@ -21,13 +26,13 @@ Namespace Engine
             Me.flux = GetFluxTuples(model)
         End Sub
 
-        Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
+        Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot
             Call saveMass.transcriptome(iteration, data.Subset(mass.transcriptome))
             Call saveMass.proteome(iteration, data.Subset(mass.proteome))
             Call saveMass.metabolome(iteration, data.Subset(mass.metabolome))
         End Sub
 
-        Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
+        Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.FluxSnapshot
             Call saveFlux.transcriptome(iteration, data.Subset(flux.transcriptome))
             Call saveFlux.proteome(iteration, data.Subset(flux.proteome))
             Call saveFlux.metabolome(iteration, data.Subset(flux.metabolome))

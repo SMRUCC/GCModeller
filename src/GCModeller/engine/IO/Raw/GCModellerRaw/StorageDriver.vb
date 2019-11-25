@@ -1,11 +1,12 @@
 ﻿
 Imports System.IO
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace Raw
 
-    Public Class StorageDriver : Implements IDisposable
+    Public Class StorageDriver : Implements IDisposable, IOmicsDataAdapter
 
         ReadOnly output As Writer
 
@@ -13,7 +14,13 @@ Namespace Raw
             Me.output = New Writer(loader, model, output.Open(FileMode.OpenOrCreate, doClear:=True))
         End Sub
 
+        Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot
+            Throw New NotImplementedException()
+        End Sub
 
+        Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.FluxSnapshot
+            Throw New NotImplementedException()
+        End Sub
 
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' To detect redundant calls
@@ -46,6 +53,7 @@ Namespace Raw
             ' TODO: uncomment the following line if Finalize() is overridden above.
             ' GC.SuppressFinalize(Me)
         End Sub
+
 #End Region
 
     End Class
