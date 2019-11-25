@@ -139,6 +139,7 @@
     <Compile Include="Engine\Loader\ProteinMatureFluxLoader.vb" />
     <Compile Include="Engine\Loader\Definition\AminoAcid.vb" />
     <Compile Include="Engine\Loader\Definition\NucleicAcid.vb" />
+    <Compile Include="Engine\Driver.vb" />
     <Compile Include="Engine\OmicsTuple.vb" />
     <Compile Include="Engine\OmicsDataAdapter.vb" />
     <Compile Include="Engine\NamespaceDoc.vb" />

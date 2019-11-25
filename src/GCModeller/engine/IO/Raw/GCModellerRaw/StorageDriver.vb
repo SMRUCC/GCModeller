@@ -11,9 +11,24 @@ Namespace Raw
 
         ReadOnly output As Writer
 
+        Public ReadOnly Property mass As OmicsTuple(Of String()) Implements IOmicsDataAdapter.mass
+
         Sub New(output$, loader As Loader, model As CellularModule)
             Me.output = New Writer(loader, model, output.Open(FileMode.OpenOrCreate, doClear:=True)).Init
+            Me.mass = New OmicsTuple(Of String())(transcriptome, proteome, metabolome)
         End Sub
+
+        Private Function transcriptome() As String()
+            Return output.mRNAId.Objects.AsList + output.RNAId.Objects
+        End Function
+
+        Private Function proteome() As String()
+            Return output.Polypeptide.Objects
+        End Function
+
+        Private Function metabolome() As String()
+            Return output.Metabolites.Objects
+        End Function
 
         Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot
             Call output.Write(NameOf(Writer.Metabolites), iteration, snapshot:=data)

@@ -4,16 +4,10 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace Engine
 
-    Public Delegate Sub DataStorageDriver(iteration%, data As Dictionary(Of String, Double))
-
-    Public Interface IOmicsDataAdapter
-        Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
-        Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
-    End Interface
-
     Public Class OmicsDataAdapter : Implements IOmicsDataAdapter
 
-        Friend mass As OmicsTuple(Of String())
+        Public ReadOnly Property mass As OmicsTuple(Of String()) Implements IOmicsDataAdapter.mass
+
         Friend flux As OmicsTuple(Of String())
 
         Dim saveMass As OmicsTuple(Of DataStorageDriver)
