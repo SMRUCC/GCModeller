@@ -53,8 +53,14 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace Engine
 
+    ''' <summary>
+    ''' The GCModeller VirtualCell dynamics engine module
+    ''' </summary>
     Public Class Engine : Implements ITaskDriver
 
+        ''' <summary>
+        ''' A snapshot of the compounds mass
+        ''' </summary>
         Dim mass As MassTable
 
         ''' <summary>
@@ -110,6 +116,11 @@ Namespace Engine
             Me.iterations = iterations
         End Sub
 
+        ''' <summary>
+        ''' Attach the biological data storage driver
+        ''' </summary>
+        ''' <param name="driver"></param>
+        ''' <returns></returns>
         Public Function AttachBiologicalStorage(driver As OmicsDataAdapter) As Engine
             dataStorageDriver = driver
             Return Me

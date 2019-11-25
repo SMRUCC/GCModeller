@@ -26,7 +26,7 @@ Module CLI
     End Function
 
     <ExportAPI("/run")>
-    <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /out <result_directory>]")>
+    <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /iterations <default=5000> /out <result_directory>]")>
     <Description("Run GCModeller VirtualCell.")>
     <Argument("/deletes", True, CLITypes.String,
               AcceptTypes:={GetType(String())},
@@ -36,6 +36,7 @@ Module CLI
         Dim in$ = args <= "/model"
         Dim deletes As String() = args("/deletes").getDeletionList
         Dim out$ = args("/out") Or $"{in$.TrimSuffix}.vcell_simulation/"
+        Dim iterations% = args("/iterations") Or 5000
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
         Dim def As Definition = model.metabolismStructure _
             .compounds _
@@ -67,7 +68,7 @@ Module CLI
                 metabolome:=metabolomeFlux.createDriver
             )
             Dim dataStorage As New OmicsDataAdapter(cell, massSnapshots, fluxSnapshots)
-            Dim engine As Engine = New Engine(def) _
+            Dim engine As Engine = New Engine(def, iterations) _
                 .LoadModel(cell, deletes) _
                 .AttachBiologicalStorage(dataStorage)
 

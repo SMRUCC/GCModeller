@@ -124,7 +124,9 @@ Public Class Reader : Inherits CellularModules
                 .tag = time,
                 .value = moduleIndex _
                     .ToDictionary(Function(m) m.value,
-                                  Function(i) offsets(i))
+                                  Function(i)
+                                      Return offsets(i)
+                                  End Function)
             }
             offset = offset - 8
 
@@ -155,7 +157,11 @@ Public Class Reader : Inherits CellularModules
         Dim moduleIndex As Integer = stream.ReadByte
         Dim list As Index(Of String) = modules(Me.moduleIndex(index:=moduleIndex))
         Dim data#() = stream.ReadDoubles(list.Count)
-        Dim values = list.ToDictionary(Function(id) id.value, Function(i) data(i))
+        Dim values As Dictionary(Of String, Double) = list _
+            .ToDictionary(Function(id) id.value,
+                          Function(i)
+                              Return data(i)
+                          End Function)
 
         Return (time, values)
     End Function

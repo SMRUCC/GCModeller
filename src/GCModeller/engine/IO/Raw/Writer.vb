@@ -106,9 +106,16 @@ Public Class Writer : Inherits CellularModules
         Return Me
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="module$"></param>
+    ''' <param name="time#"></param>
+    ''' <param name="snapshot">The snapshot value after the loop cycle in <paramref name="time"/> point</param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function Write(module$, time#, cycle As Dictionary(Of String, Double)) As Writer
-        Return Write([module], time, cycle.Takes(modules([module]).Objects))
+    Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
+        Return Write([module], time, snapshot.Takes(modules([module]).Objects))
     End Function
 
     Public Function Write(module$, time#, data#()) As Writer
