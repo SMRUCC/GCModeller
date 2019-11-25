@@ -1,5 +1,6 @@
 ﻿
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
@@ -11,15 +12,20 @@ Namespace Raw
         ReadOnly output As Writer
 
         Sub New(output$, loader As Loader, model As CellularModule)
-            Me.output = New Writer(loader, model, output.Open(FileMode.OpenOrCreate, doClear:=True))
+            Me.output = New Writer(loader, model, output.Open(FileMode.OpenOrCreate, doClear:=True)).Init
         End Sub
 
         Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot
-            Throw New NotImplementedException()
+            Call output.Write(NameOf(Writer.Metabolites), iteration, snapshot:=data)
+            Call output.Write(NameOf(Writer.mRNAId), iteration, snapshot:=data)
+            Call output.Write(NameOf(Writer.Polypeptide), iteration, snapshot:=data)
+            Call output.Write(NameOf(Writer.Proteins), iteration, snapshot:=data)
+            Call output.Write(NameOf(Writer.RNAId), iteration, snapshot:=data)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.FluxSnapshot
-            Throw New NotImplementedException()
+            Call output.Write(NameOf(Writer.Reactions), iteration, snapshot:=data)
         End Sub
 
 #Region "IDisposable Support"
