@@ -95,38 +95,6 @@ Namespace Engine.ModelLoader
         End Function
 
         ''' <summary>
-        ''' 构建酶成熟的过程
-        ''' </summary>
-        ''' <param name="cell"></param>
-        ''' <returns></returns>
-        Private Iterator Function proteinMature(cell As CellularModule) As IEnumerable(Of Channel)
-            For Each complex As Protein In cell.Phenotype.proteins
-                For Each compound In complex.compounds
-                    If Not massTable.Exists(compound) Then
-                        Call massTable.AddNew(compound)
-                    End If
-                Next
-                For Each peptide In complex.polypeptides
-                    If Not massTable.Exists(peptide) Then
-                        Throw New MissingMemberException(peptide)
-                    End If
-                Next
-
-                Dim unformed = massTable.variables(complex).ToArray
-                Dim complexID As String = massTable.AddNew(complex.ProteinID & ".complex")
-                Dim mature As Variable = massTable.variable(complexID)
-
-                ' 酶的成熟过程也是一个不可逆的过程
-                Yield New Channel(unformed, {mature}) With {
-                    .ID = complex.DoCall(AddressOf GetProteinMatureId),
-                    .bounds = New Boundary With {.forward = 1000, .reverse = 0},
-                    .reverse = New Controls With {.baseline = 0},
-                    .forward = New Controls With {.baseline = 10}
-                }
-            Next
-        End Function
-
-        ''' <summary>
         ''' 构建代谢网络
         ''' </summary>
         ''' <param name="cell"></param>
@@ -201,7 +169,7 @@ Namespace Engine.ModelLoader
             Next
 
             Dim centralDogmas = cell.DoCall(AddressOf New CentralDogmaFluxLoader(Me).CreateFlux).AsList
-            Dim proteinMatrues = cell.DoCall(AddressOf proteinMature).ToArray
+            Dim proteinMatrues = cell.DoCall(AddressOf New ProteinMatureFluxLoader(Me).CreateFlux).ToArray
             Dim metabolism = cell.DoCall(AddressOf metabolismNetwork).ToArray
 
             Return New Vessel With {

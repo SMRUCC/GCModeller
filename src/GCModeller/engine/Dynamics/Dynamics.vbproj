@@ -134,6 +134,7 @@
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
     <Compile Include="Engine\Loader\CentralDogmaFluxLoader.vb" />
+    <Compile Include="Engine\Loader\ProteinMatureFluxLoader.vb" />
     <Compile Include="Engine\Loader\Definition\AminoAcid.vb" />
     <Compile Include="Engine\Loader\Definition\NucleicAcid.vb" />
     <Compile Include="Engine\OmicsTuple.vb" />
