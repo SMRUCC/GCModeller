@@ -53,7 +53,7 @@ Partial Module CLI
     Public Function DiffExpression(args As CommandLine) As Integer
         Dim normal$ = args("/normal")
         Dim exp$ = args("/exp")
-        Dim out$ = args("/out") Or $"{normal.TrimSuffix}.vs.{exp.BaseName}/"
+        Dim out$ = args("/result") Or $"{normal.TrimSuffix}.vs.{exp.BaseName}/"
         Dim normalData = normal.ReadAllText.LoadJSON(Of Dictionary(Of String, Double))
         Dim expData = exp.ReadAllText.LoadJSON(Of Dictionary(Of String, Double))
         Dim diff = normalData.Keys _
@@ -63,13 +63,20 @@ Partial Module CLI
                             .Value = Math.Log(expData(id) / normalData(id), 2)
                         }
                     End Function) _
+            .OrderBy(Function(a) a.Value) _
             .ToDictionary() _
             .FlatTable
         Dim threshold = Math.Log(1.5, 2)
 
         Call diff.GetJson.SaveTo($"{out}/all.json")
-        Call diff.Where(Function(a) Math.Abs(a.Value) >= threshold).ToDictionary.GetJson.SaveTo($"{out}/up.json")
-        Call diff.Where(Function(a) Math.Abs(a.Value) <= threshold).ToDictionary.GetJson.SaveTo($"{out}/down.json")
+
+        Dim up = diff.Where(Function(a) Math.Abs(a.Value) >= threshold).ToDictionary
+        Dim down = diff.Where(Function(a) Math.Abs(a.Value) <= threshold).ToDictionary
+
+        Call up.GetJson.SaveTo($"{out}/up.json")
+        Call down.GetJson.SaveTo($"{out}/down.json")
+        Call up.Keys.SaveTo($"{out}/up.txt")
+        Call down.Keys.SaveTo($"{out}/down.txt")
 
         Return 0
     End Function

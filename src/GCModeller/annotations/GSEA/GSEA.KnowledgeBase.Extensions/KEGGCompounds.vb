@@ -40,12 +40,14 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports Microsoft.VisualBasic.Text.Xml.Models
 
 ''' <summary>
 ''' Create background model for KEGG pathway enrichment based on the kegg metabolites, used for LC-MS metabolism data analysis.
@@ -58,19 +60,27 @@ Public Module KEGGCompounds
     ''' <param name="maps"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CreateGeneralBackground(maps As IEnumerable(Of Map)) As Background
+    Public Function CreateGeneralBackground(maps As IEnumerable(Of Map), KO As Index(Of String)) As Background
         ' The total number of metabolites in background genome. 
         Dim backgroundSize% = 0
         Dim clusters As New List(Of Cluster)
+        Dim names As NamedValue(Of String)()
 
         For Each map As Map In maps
+            names = map.shapes _
+                .Select(Function(a) a.Names) _
+                .IteratesALL _
+                .ToArray
+
+            If Not names.Any(Function(id) id.Name Like KO) Then
+                Continue For
+            End If
+
             clusters += New Cluster With {
                 .description = map.Name,
                 .ID = map.id,
                 .names = map.Name,
-                .members = map.shapes _
-                    .Select(Function(a) a.Names) _
-                    .IteratesALL _
+                .members = names _
                     .Where(Function(a) a.Name.IsPattern("C\d+")) _
                     .Select(Function(c)
                                 Return New BackgroundGene With {
