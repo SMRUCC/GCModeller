@@ -73,6 +73,7 @@ Public Module KEGGCompounds
                 .ToArray
 
             If Not names.Any(Function(id) id.Name Like KO) Then
+                Call $"Skip {map.Name}".__INFO_ECHO
                 Continue For
             End If
 
