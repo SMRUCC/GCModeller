@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb690ffba5b25621730cb22452e823a6, engine\vcsm\CLI\EnviromentVariable.vb"
+﻿#Region "Microsoft.VisualBasic::fb690ffba5b25621730cb22452e823a6, vcsm\CLI\EnviromentVariable.vb"
 
     ' Author:
     ' 

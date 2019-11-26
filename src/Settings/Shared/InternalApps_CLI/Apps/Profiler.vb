@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7251.18537
-'  // ASSEMBLY:  Settings, Version=3.3277.7251.18537, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7268.38152
+'  // ASSEMBLY:  Settings, Version=3.3277.7268.38152, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/8/2019 10:17:54 AM
+'  // BUILT:     11/24/2019 8:47:12 AM
 '  // 
 ' 
 ' 
@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /GO.clusters:                     Create GO enrichment background model from uniprot database.
 '  /GO.enrichment.barplot:           
 '  /GSEA:                            Do gene set enrichment analysis.
+'  /GSEA.GO:                         
 '  /id.converts:                     
 '  /kegg.metabolites.background:     Create background model for KEGG pathway enrichment based on the
 '                                    kegg metabolites, used for LC-MS metabolism data analysis.
@@ -87,11 +88,11 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /GO.enrichment.barplot /in &lt;result.csv&gt; [/go &lt;go.obo&gt; /top &lt;default=35&gt; /colors &lt;schemaName, default=YlGnBu:c8&gt; /tiff /out &lt;output_directory&gt;]
+''' /GO.enrichment.barplot /in &lt;result.csv&gt; [/go &lt;go.obo&gt; /disable.label_trim /top &lt;default=35&gt; /colors &lt;schemaName, default=YlGnBu:c8&gt; /tiff /out &lt;output_directory&gt;]
 ''' ```
 ''' </summary>
 '''
-Public Function GOEnrichmentBarPlot([in] As String, Optional go As String = "", Optional top As String = "35", Optional colors As String = "YlGnBu:c8", Optional out As String = "", Optional tiff As Boolean = False) As Integer
+Public Function GOEnrichmentBarPlot([in] As String, Optional go As String = "", Optional top As String = "35", Optional colors As String = "YlGnBu:c8", Optional out As String = "", Optional disable_label_trim As Boolean = False, Optional tiff As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GO.enrichment.barplot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -106,6 +107,9 @@ Public Function GOEnrichmentBarPlot([in] As String, Optional go As String = "", 
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If disable_label_trim Then
+        Call CLI.Append("/disable.label_trim ")
     End If
     If tiff Then
         Call CLI.Append("/tiff ")
@@ -129,6 +133,40 @@ Public Function EnrichmentTest(background As String, geneSet As String, Optional
     Call CLI.Append(" ")
     Call CLI.Append("/background " & """" & background & """ ")
     Call CLI.Append("/geneSet " & """" & geneSet & """ ")
+    If Not cluster_id.StringEmpty Then
+            Call CLI.Append("/cluster_id " & """" & cluster_id & """ ")
+    End If
+    If Not format.StringEmpty Then
+            Call CLI.Append("/format " & """" & format & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If hide_progress Then
+        Call CLI.Append("/hide.progress ")
+    End If
+    If locus_tag Then
+        Call CLI.Append("/locus_tag ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /GSEA.GO /background &lt;clusters.XML&gt; /geneSet &lt;geneSet.txt&gt; /go &lt;go.obo&gt; [/hide.progress /locus_tag /cluster_id &lt;null, debug_used&gt; /format &lt;default=GCModeller&gt; /out &lt;out.csv&gt;]
+''' ```
+''' </summary>
+'''
+Public Function GSEA_GO(background As String, geneSet As String, go As String, Optional cluster_id As String = "", Optional format As String = "GCModeller", Optional out As String = "", Optional hide_progress As Boolean = False, Optional locus_tag As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/GSEA.GO")
+    Call CLI.Append(" ")
+    Call CLI.Append("/background " & """" & background & """ ")
+    Call CLI.Append("/geneSet " & """" & geneSet & """ ")
+    Call CLI.Append("/go " & """" & go & """ ")
     If Not cluster_id.StringEmpty Then
             Call CLI.Append("/cluster_id " & """" & cluster_id & """ ")
     End If

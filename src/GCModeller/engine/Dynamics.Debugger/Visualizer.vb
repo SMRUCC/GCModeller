@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ef905d589c4fd58d2f2c1db67db7723, engine\Dynamics.Debugger\Visualizer.vb"
+﻿#Region "Microsoft.VisualBasic::c54c7512ffefc8802b38e624da90fbba, Dynamics.Debugger\Visualizer.vb"
 
     ' Author:
     ' 
@@ -166,4 +166,3 @@ Public Module Visualizer
         Next
     End Sub
 End Module
-

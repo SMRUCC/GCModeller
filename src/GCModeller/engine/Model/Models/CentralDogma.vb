@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a438ff8163b90db120bc7ce3710c51a4, engine\Model\Models\CentralDogma.vb"
+﻿#Region "Microsoft.VisualBasic::a438ff8163b90db120bc7ce3710c51a4, Model\Models\CentralDogma.vb"
 
     ' Author:
     ' 
