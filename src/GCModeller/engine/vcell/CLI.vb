@@ -91,14 +91,14 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
             .compounds _
             .Select(Function(c) c.ID) _
             .DoCall(Function(compounds)
-                        Return Definition.KEGG(compounds, 5000)
+                        Return Definition.KEGG(compounds, 500000)
                     End Function)
         Dim cell As CellularModule = model.CreateModel
 
         If jsonFormat Then
             Dim massIndex = OmicsDataAdapter.GetMassTuples(cell)
             Dim fluxIndex = OmicsDataAdapter.GetFluxTuples(cell)
-            Dim engine As Engine = New Engine(def, iterations).LoadModel(cell, deletes)
+            Dim engine As Engine = New Engine(def, iterations).LoadModel(cell, deletes, 10)
 
             Call engine.Run()
 
