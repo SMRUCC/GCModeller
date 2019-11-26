@@ -43,9 +43,30 @@ Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Data.csv
 
 Partial Module CLI
+
+    <ExportAPI("/union")>
+    <Usage("/union /in <json.dataset_folder> [/out <result.folder>]")>
+    Public Function Union(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{in$.TrimDIR}.union/"
+        Dim metabolites As New List(Of DataSet)
+
+        For Each dir As String In ls - l - lsDIR <= [in]
+            Dim name = dir.BaseName
+            Dim data = $"{dir}/mass/metabolome.json".LoadJsonFile(Of Dictionary(Of String, Double))
+
+            metabolites += New DataSet With {.ID = name, .Properties = data}
+        Next
+
+        Return metabolites.Transpose.SaveTo(out & "/mass/metabolome.csv").CLICode
+    End Function
 
     <ExportAPI("/diff")>
     <Usage("/diff /normal <result.json> /exp <experiment.json> [/result <output_folder>]")>
