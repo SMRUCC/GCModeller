@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7251.18537
-'  // ASSEMBLY:  Settings, Version=3.3277.7251.18537, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7268.38152
+'  // ASSEMBLY:  Settings, Version=3.3277.7268.38152, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/8/2019 10:17:54 AM
+'  // BUILT:     11/24/2019 8:47:12 AM
 '  // 
 ' 
 ' 
@@ -78,12 +78,12 @@ Public Class GCC : Inherits InteropService
 
 ''' <summary>
 ''' ```bash
-''' /compile.KEGG /in &lt;genome.gb&gt; /KO &lt;ko.assign.csv&gt; /maps &lt;kegg.pathways.repository&gt; /compounds &lt;kegg.compounds.repository&gt; /reactions &lt;kegg.reaction.repository&gt; [/regulations &lt;transcription.regulates.csv&gt; /out &lt;out.model.Xml/xlsx&gt;]
+''' /compile.KEGG /in &lt;genome.gb&gt; /KO &lt;ko.assign.csv&gt; /maps &lt;kegg.pathways.repository&gt; /compounds &lt;kegg.compounds.repository&gt; /reactions &lt;kegg.reaction.repository&gt; [/location.as.locus_tag /regulations &lt;transcription.regulates.csv&gt; /out &lt;out.model.Xml/xlsx&gt;]
 ''' ```
 ''' Create GCModeller virtual cell data model file from KEGG reference data.
 ''' </summary>
 '''
-Public Function CompileKEGG([in] As String, KO As String, maps As String, compounds As String, reactions As String, Optional regulations As String = "", Optional out As String = "") As Integer
+Public Function CompileKEGG([in] As String, KO As String, maps As String, compounds As String, reactions As String, Optional regulations As String = "", Optional out As String = "", Optional location_as_locus_tag As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/compile.KEGG")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -97,6 +97,9 @@ Public Function CompileKEGG([in] As String, KO As String, maps As String, compou
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
+    If location_as_locus_tag Then
+        Call CLI.Append("/location.as.locus_tag ")
+    End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
@@ -106,12 +109,12 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /compile.organism /in &lt;genome.gb&gt; /kegg &lt;kegg.organism_pathways.repository/model.xml&gt; [/regulations &lt;transcription.regulates.csv&gt; /out &lt;out.model.Xml&gt;]
+''' /compile.organism /in &lt;genome.gb&gt; /kegg &lt;kegg.organism_pathways.repository/model.xml&gt; [/location.as.locus_tag /regulations &lt;transcription.regulates.csv&gt; /out &lt;out.model.Xml&gt;]
 ''' ```
 ''' Create GCModeller virtual cell data model from KEGG organism pathway data
 ''' </summary>
 '''
-Public Function CompileKEGGOrganism([in] As String, kegg As String, Optional regulations As String = "", Optional out As String = "") As Integer
+Public Function CompileKEGGOrganism([in] As String, kegg As String, Optional regulations As String = "", Optional out As String = "", Optional location_as_locus_tag As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/compile.organism")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -121,6 +124,9 @@ Public Function CompileKEGGOrganism([in] As String, kegg As String, Optional reg
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If location_as_locus_tag Then
+        Call CLI.Append("/location.as.locus_tag ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 

@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7251.18537
-'  // ASSEMBLY:  Settings, Version=3.3277.7251.18537, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7268.38152
+'  // ASSEMBLY:  Settings, Version=3.3277.7268.38152, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/8/2019 10:17:54 AM
+'  // BUILT:     11/24/2019 8:47:12 AM
 '  // 
 ' 
 ' 
@@ -39,7 +39,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /hits.ID.list:                     
 '  /Identities.Matrix:                
 '  /MAT.evalue:                       
-'  /Paralog:                          
 '  /SBH.tophits:                      Filtering the sbh result with top SBH Score
 '  /to.kobas:                         
 '  /UniProt.GO.faa:                   Export all of the protein sequence from the Uniprot database which
@@ -1261,32 +1260,6 @@ Public Function MergeFaa([in] As String, out As String) As Integer
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     Call CLI.Append("/out " & """" & out & """ ")
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```bash
-''' /Paralog /blastp &lt;blastp.txt&gt; [/coverage 0.5 /identities 0.3 /out &lt;out.csv&gt;]
-''' ```
-''' </summary>
-'''
-Public Function ExportParalog(blastp As String, Optional coverage As String = "", Optional identities As String = "", Optional out As String = "") As Integer
-    Dim CLI As New StringBuilder("/Paralog")
-    Call CLI.Append(" ")
-    Call CLI.Append("/blastp " & """" & blastp & """ ")
-    If Not coverage.StringEmpty Then
-            Call CLI.Append("/coverage " & """" & coverage & """ ")
-    End If
-    If Not identities.StringEmpty Then
-            Call CLI.Append("/identities " & """" & identities & """ ")
-    End If
-    If Not out.StringEmpty Then
-            Call CLI.Append("/out " & """" & out & """ ")
-    End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
