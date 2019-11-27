@@ -77,7 +77,7 @@ Namespace v2
         <XmlElement("metabolome", [Namespace]:=GCMarkupLanguage)>
         Public Property metabolismStructure As MetabolismStructure
 
-        Public Const GCMarkupLanguage$ = "http://CAD_software.gcmodeller.org/XML/schema_revision/GCMarkup_1.0"
+        Public Const GCMarkupLanguage$ = "https://bioCAD.gcmodeller.org/XML/schema_revision/GCMarkup_2.0"
 
         <XmlNamespaceDeclarations()>
         Public xmlns As New XmlSerializerNamespaces
