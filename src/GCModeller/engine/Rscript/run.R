@@ -8,6 +8,10 @@ imports "vcellkit.simulator" from "vcellkit.dll";
 let model                <- read.vcell(path = ?"--in");
 let output.dir as string <- ?"--out";
 let deletions  as string <- ?"--deletions";
+let tag.name   as string <- ?"--tag";
+
+print("Run virtual cell model:");
+print(model);
 
 # create virtual cell object model and initialize the test data
 # from the virtual cell data model.
@@ -17,6 +21,15 @@ let mass  <- vcell :> vcell.mass.index;
 let flux  <- vcell :> vcell.flux.index;
 
 deletions <- file.exists(deletions) ? readLines(deletions) : NULL;
+tag.name  <- is.empty(tag.name) ? "replicate=" : tag.name;
+
+if (is.empty(deletions)) {
+    print("No gene deletions for current VirtualCell simulation analysis.");
+} else {
+    print(`Apply ${length(deletions)} deletions of genes for run simulation analysis!`);
+}
+
+print(`The biological replication of the analysis will be tagged as '${replicate}'`);
 
 # Run virtual cell simulation
 let run as function(i) {
@@ -38,7 +51,7 @@ let run as function(i) {
     # save the result snapshot data files into 
     # target data directory
     engine$Run();
-    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/replicate=${i}/`);
+    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${tag.name}${i}/`);
 }
 
 # run 5 biological replicate for the 
