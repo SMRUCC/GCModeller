@@ -28,6 +28,10 @@ dynamics$transcriptionCapacity = 500;
 print("Using dynamics parameter configuration:");
 print(dynamics);
 
+print("Experiment tags as:");
+print(typeof tag.name);
+print(tag.name);
+
 deletions <- file.exists(deletions) ? readLines(deletions) : NULL;
 tag.name  <- is.empty(tag.name) ? "replicate=" : tag.name;
 
