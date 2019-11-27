@@ -190,7 +190,7 @@ Namespace v2
                                           .ToArray
                               End Function)
             Dim KO$()
-            Dim bounds As DoubleRange
+            Dim bounds As Double()
 
             For Each reaction In model.metabolismStructure.reactions
                 equation = Equation.TryParse(reaction.Equation)
@@ -211,7 +211,8 @@ Namespace v2
                 End If
 
                 If Not equation.reversible Then
-
+                    ' only forward flux direction
+                    bounds(1) = 0
                 End If
 
                 Yield New FluxModel With {
