@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7251.18537
-'  // ASSEMBLY:  Settings, Version=3.3277.7251.18537, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7268.38152
+'  // ASSEMBLY:  Settings, Version=3.3277.7268.38152, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/8/2019 10:17:54 AM
+'  // BUILT:     11/24/2019 8:47:12 AM
 '  // 
 ' 
 ' 
@@ -1088,12 +1088,12 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /Go.enrichment.plot /in &lt;enrichmentTerm.csv&gt; [/bubble /r &quot;log(x,1.5)&quot; /Corrected /displays &lt;default=10&gt; /PlantRegMap /label.right /colors &lt;default=Set1:c6&gt; /gray /pvalue &lt;0.05&gt; /size &lt;2000,1600&gt; /tick 1 /go &lt;go.obo&gt; /out &lt;out.png&gt;]
+''' /Go.enrichment.plot /in &lt;enrichmentTerm.csv&gt; [/bubble /r &quot;log(x,1.5)&quot; /Corrected /displays &lt;default=10&gt; /PlantRegMap /label.right /label.color.disable /label.maxlen &lt;char_count, default=64&gt; /colors &lt;default=Set1:c6&gt; /gray /pvalue &lt;0.05&gt; /size &lt;2000,1600&gt; /tick 1 /go &lt;go.obo&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' Go enrichment plot base on the KOBAS enrichment analysis result.
 ''' </summary>
 '''
-Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,1.5)", Optional displays As String = "10", Optional colors As String = "Set1:c6", Optional pvalue As String = "", Optional size As String = "", Optional tick As String = "", Optional go As String = "", Optional out As String = "", Optional bubble As Boolean = False, Optional corrected As Boolean = False, Optional plantregmap As Boolean = False, Optional label_right As Boolean = False, Optional gray As Boolean = False) As Integer
+Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,1.5)", Optional displays As String = "10", Optional label_maxlen As String = "64", Optional colors As String = "Set1:c6", Optional pvalue As String = "", Optional size As String = "", Optional tick As String = "", Optional go As String = "", Optional out As String = "", Optional bubble As Boolean = False, Optional corrected As Boolean = False, Optional plantregmap As Boolean = False, Optional label_right As Boolean = False, Optional label_color_disable As Boolean = False, Optional gray As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Go.enrichment.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1102,6 +1102,9 @@ Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,
     End If
     If Not displays.StringEmpty Then
             Call CLI.Append("/displays " & """" & displays & """ ")
+    End If
+    If Not label_maxlen.StringEmpty Then
+            Call CLI.Append("/label.maxlen " & """" & label_maxlen & """ ")
     End If
     If Not colors.StringEmpty Then
             Call CLI.Append("/colors " & """" & colors & """ ")
@@ -1132,6 +1135,9 @@ Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,
     End If
     If label_right Then
         Call CLI.Append("/label.right ")
+    End If
+    If label_color_disable Then
+        Call CLI.Append("/label.color.disable ")
     End If
     If gray Then
         Call CLI.Append("/gray ")

@@ -1,45 +1,79 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿#Region "Microsoft.VisualBasic::2a7f37bb5e22a474cb986a93b7f5f7ba, Dynamics\Engine\OmicsDataAdapter.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class OmicsDataAdapter
+    ' 
+    '         Properties: mass
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: GetFluxTuples, GetMassTuples
+    ' 
+    '         Sub: FluxSnapshot, MassSnapshot
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace Engine
 
-    Public Class OmicsTuple(Of T)
+    Public Class OmicsDataAdapter : Implements IOmicsDataAdapter
 
-        Public ReadOnly transcriptome As T
-        Public ReadOnly proteome As T
-        Public ReadOnly metabolome As T
+        Public ReadOnly Property mass As OmicsTuple(Of String()) Implements IOmicsDataAdapter.mass
+        Public ReadOnly Property flux As OmicsTuple(Of String())
 
-        Sub New(transcriptome As T, proteome As T, metabolome As T)
-            Me.transcriptome = transcriptome
-            Me.proteome = proteome
-            Me.metabolome = metabolome
-        End Sub
-    End Class
+        Dim saveMass As OmicsTuple(Of SnapshotDriver)
+        Dim saveFlux As OmicsTuple(Of SnapshotDriver)
 
-    Public Delegate Sub DataStorageDriver(iteration%, data As Dictionary(Of String, Double))
-
-    Public Class OmicsDataAdapter
-
-        Friend mass As OmicsTuple(Of String())
-        Friend flux As OmicsTuple(Of String())
-
-        Dim saveMass As OmicsTuple(Of DataStorageDriver)
-        Dim saveFlux As OmicsTuple(Of DataStorageDriver)
-
-        Sub New(model As CellularModule, mass As OmicsTuple(Of DataStorageDriver), flux As OmicsTuple(Of DataStorageDriver))
+        Sub New(model As CellularModule, mass As OmicsTuple(Of SnapshotDriver), flux As OmicsTuple(Of SnapshotDriver))
             Me.saveMass = mass
             Me.saveFlux = flux
             Me.mass = GetMassTuples(model)
             Me.flux = GetFluxTuples(model)
         End Sub
 
-        Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
+        Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot
             Call saveMass.transcriptome(iteration, data.Subset(mass.transcriptome))
             Call saveMass.proteome(iteration, data.Subset(mass.proteome))
             Call saveMass.metabolome(iteration, data.Subset(mass.metabolome))
         End Sub
 
-        Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
+        Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.FluxSnapshot
             Call saveFlux.transcriptome(iteration, data.Subset(flux.transcriptome))
             Call saveFlux.proteome(iteration, data.Subset(flux.proteome))
             Call saveFlux.metabolome(iteration, data.Subset(flux.metabolome))

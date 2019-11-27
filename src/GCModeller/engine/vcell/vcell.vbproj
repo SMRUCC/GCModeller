@@ -177,9 +177,17 @@
       <Project>{1EE7910D-9171-426F-B874-B935E633C419}</Project>
       <Name>GCMarkupLanguage</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IO\Raw\Raw.vbproj">
+      <Project>{07cc0292-9eda-4e02-bf0d-043391c99f07}</Project>
+      <Name>Raw</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.vbproj">
       <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
       <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vcellkit\vcellkit.vbproj">
+      <Project>{49564ade-a553-45c5-92c0-4df83f7a56f3}</Project>
+      <Name>vcellkit</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

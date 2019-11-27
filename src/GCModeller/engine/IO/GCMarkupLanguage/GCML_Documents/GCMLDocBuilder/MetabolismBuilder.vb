@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d67c8face727147ed9f4ac4a86ca176d, engine\IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MetabolismBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::d67c8face727147ed9f4ac4a86ca176d, IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MetabolismBuilder.vb"
 
     ' Author:
     ' 

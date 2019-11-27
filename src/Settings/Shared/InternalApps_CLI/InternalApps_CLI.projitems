@@ -29,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Apps\RegPrecise.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\seqtools.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\Synteny.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\vcell.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\venn.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\Xfam.vb" />
   </ItemGroup>

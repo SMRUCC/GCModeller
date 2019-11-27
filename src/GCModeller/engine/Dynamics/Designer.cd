@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Channel" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="4" Y="0.5" Width="1.5" />
+    <Position X="12.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEgAAAAIAgAAEAAAAABAAAABIAAIAAAACAAAAggA=</HashCode>
       <FileName>Core\Flux\Channel.vb</FileName>
@@ -9,62 +9,34 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Variable" Collapsed="true">
-    <Position X="0.5" Y="3.5" Width="1.5" />
+    <Position X="9.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEBAAAAAAAAEAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Core\Mass\Variable.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Vessel" Collapsed="true">
-    <Position X="2.25" Y="3.5" Width="1.5" />
+    <Position X="11" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAIABQAAAAAAAiCQAAAACAAACAAAAgAAEAA=</HashCode>
       <FileName>Core\Vessel.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.NamespaceDoc" Collapsed="true">
-    <Position X="0.5" Y="2.5" Width="1.5" />
+    <Position X="9.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NamespaceDoc.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.My.MySettings" Collapsed="true">
-    <Position X="7.5" Y="1.5" Width="1.5" />
+    <Position X="16.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Definition" Collapsed="true">
-    <Position X="7.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>gAQAAAAAAAAAAoAAAAAAAAAAAAAgAAAACAAAAAAAAgA=</HashCode>
-      <FileName>Engine\Loader\Definition.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.NucleicAcid" Collapsed="true">
-    <Position X="2.25" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqAACQAA=</HashCode>
-      <FileName>Engine\Loader\Definition.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.AminoAcid" Collapsed="true">
-    <Position X="0.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAvv7+IQA=</HashCode>
-      <FileName>Engine\Loader\Definition.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Loader" Collapsed="true">
-    <Position X="4" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAIAAEAAAAAAAAABAACAAAAIAAgAAAAAgAAEAAAAgYA=</HashCode>
-      <FileName>Engine\Loader\Loader.vb</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.MassTable" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="5.75" Y="1.5" Width="1.5" />
+    <Position X="14.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAxBAACAAAAAAAAkAAAAEAgAACAEEAAA=</HashCode>
       <FileName>Engine\MassTable.vb</FileName>
@@ -72,105 +44,161 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Controls" Collapsed="true">
-    <Position X="5.75" Y="0.5" Width="1.5" />
+    <Position X="14.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>Core\Flux\Controls.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Factor" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="2.25" Y="1.5" Width="1.5" />
+    <Position X="11" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>Core\Mass\Factor.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Boundary" Collapsed="true">
-    <Position X="2.25" Y="0.5" Width="1.5" />
+    <Position X="11" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>Core\Flux\Boundary.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Engine" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="1.5" Width="1.5" />
+    <Position X="9.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAgAAIQABAAAAgAIgAAAIAAAAAAYAAAAAAIIAAI=</HashCode>
       <FileName>Engine\Engine.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Status" Collapsed="true">
-    <Position X="7.5" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AEQAAAAIAAAAAAAAAAAAAAAAAAAEABAAAAAAAAAAAAA=</HashCode>
-      <FileName>Engine\Loader\Status.vb</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.OmicsTuple(Of T)" Collapsed="true">
-    <Position X="5.75" Y="2.5" Width="1.5" />
+    <Position X="14.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAAAAAAAAABAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
-      <FileName>Engine\OmicsDataAdapter.vb</FileName>
+      <HashCode>AAAAAAAAAIAAAAAEAAAABAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Engine\OmicsTuple.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.OmicsDataAdapter" Collapsed="true">
-    <Position X="4" Y="2.5" Width="1.5" />
+    <Position X="12.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAAAAABBAAgAAAgAAAAQAAAAAAAABAAAAAE=</HashCode>
       <FileName>Engine\OmicsDataAdapter.vb</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader.CentralDogmaFluxLoader">
+    <Position X="0.5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAACAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Engine\Loader\CentralDogmaFluxLoader.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader.FluxLoader">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAARAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Loader\Loader.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader.Loader" Collapsed="true">
+    <Position X="12.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAABAAAAAAAAAAgAAAAAgAAEAAAAgAA=</HashCode>
+      <FileName>Engine\Loader\Loader.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader.MetabolismNetworkLoader">
+    <Position X="3.25" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Engine\Loader\MetabolismNetworkLoader.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader.ProteinMatureFluxLoader">
+    <Position X="6.25" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Loader\ProteinMatureFluxLoader.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions.AminoAcid" Collapsed="true">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAEAAAAAAAAAAAAAAAAAIAAvv7+IQA=</HashCode>
+      <FileName>Engine\Loader\Definition\AminoAcid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions.Definition" Collapsed="true">
+    <Position X="16.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAAAAAAAAAAoAAAAAAAAAAAAAgAAAACAAAAAAAAgA=</HashCode>
+      <FileName>Engine\Loader\Definition\Definition.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions.NucleicAcid" Collapsed="true">
+    <Position X="11" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAqAACQAA=</HashCode>
+      <FileName>Engine\Loader\Definition\NucleicAcid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions.Status" Collapsed="true">
+    <Position X="16.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAAIAAAAAAAAAAAAAAAAAAAEABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Loader\Definition\Status.vb</FileName>
+    </TypeIdentifier>
+  </Class>
   <Enum Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Directions" Collapsed="true">
-    <Position X="0.5" Y="7" Width="1.5" />
+    <Position X="9.25" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAAAAAAAACAAAAAAAIAAAAAAAAAAAA=</HashCode>
       <FileName>Core\Flux\Directions.vb</FileName>
     </TypeIdentifier>
   </Enum>
   <Delegate Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.DataStorageDriver" Collapsed="true">
-    <Position X="0.5" Y="8" Width="1.5" />
+    <Position X="9.25" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAAAA=</HashCode>
       <FileName>Engine\OmicsDataAdapter.vb</FileName>
     </TypeIdentifier>
   </Delegate>
   <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.My.Resources.Resources" Collapsed="true">
-    <Position X="0.5" Y="5.75" Width="1.5" />
+    <Position X="9.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.My.MySettingsProperty" Collapsed="true">
-    <Position X="4" Y="4.75" Width="1.5" />
+    <Position X="12.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.EnvirClone" Collapsed="true">
-    <Position X="0.5" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
-      <FileName>EnvirClone.vb</FileName>
-    </TypeIdentifier>
-  </Module>
   <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Extensions" Collapsed="true">
-    <Position X="2.25" Y="4.75" Width="1.5" />
+    <Position X="11" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAEAAQCAAAAAAAAA=</HashCode>
       <FileName>Core\Flux\Extensions.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.NamespaceDoc" Collapsed="true">
-    <Position X="5.75" Y="4.75" Width="1.5" />
+    <Position X="14.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Core\NamespaceDoc.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.NamespaceDoc" Collapsed="true">
-    <Position X="7.5" Y="4.75" Width="1.5" />
+    <Position X="16.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Engine\NamespaceDoc.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.EnvirClone" Collapsed="true">
+    <Position X="9.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Core\EnvirClone.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Font Name="Segoe UI" Size="9" />
