@@ -23,7 +23,7 @@ let flux  <- vcell :> vcell.flux.index;
 let dynamics = dynamics.default() :> as.object;
 
 dynamics$transcriptionBaseline = 200;
-dynamics$transcriptionCapacity = 500
+dynamics$transcriptionCapacity = 500;
 
 print("Using dynamics parameter configuration:");
 print(dynamics);
@@ -47,7 +47,7 @@ let run as function(i) {
     let engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 10000, 
+            iterations       = 100, 
             time_resolutions = 1, 
             deletions        = deletions
         ) 
