@@ -45,7 +45,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 <Package("vcellkit.analysis")>
 Module Analysis
 
-    Public Function UnionSnapshot() As IEnumerable(Of DataSet)
+    Public Function UnionSnapshot() As DataSet()
 
     End Function
 End Module
