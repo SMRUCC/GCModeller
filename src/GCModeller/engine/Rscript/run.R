@@ -5,7 +5,7 @@
 imports "vcellkit.simulator" from "vcellkit.dll";
 
 # config input model and result save directory from commandline arguments
-let model                <- read.vcell(path = ?"--in");
+let model                <- read.vcell(path = ?"--in") :> as.object;
 let output.dir as string <- ?"--out";
 let deletions  as string <- ?"--deletions";
 let tag.name   as string <- ?"--tag";
