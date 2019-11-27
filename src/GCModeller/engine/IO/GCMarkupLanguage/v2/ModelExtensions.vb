@@ -192,7 +192,7 @@ Namespace v2
             Dim KO$()
             Dim bounds As Double()
 
-            For Each reaction In model.metabolismStructure.reactions
+            For Each reaction As Reaction In model.metabolismStructure.reactions.AsEnumerable
                 equation = Equation.TryParse(reaction.Equation)
 
                 If reaction.is_enzymatic Then
