@@ -88,12 +88,7 @@ Imports vcellkit
         Dim out$ = args("/out") Or If(jsonFormat, $"{in$.TrimSuffix}.vcell_simulation/", $"{in$.TrimSuffix}.vcell_simulation.raw")
         Dim iterations% = args("/iterations") Or 5000
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
-        Dim def As Definition = model.metabolismStructure _
-            .compounds _
-            .Select(Function(c) c.ID) _
-            .DoCall(Function(compounds)
-                        Return Definition.KEGG(compounds, 500000)
-                    End Function)
+        Dim def As Definition = model.CreateUnifyDefinition
         Dim cell As CellularModule = model.CreateModel
 
         If jsonFormat Then
