@@ -139,6 +139,20 @@ Namespace v2
         Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Reaction).GetEnumerator
             Yield GenericEnumerator()
         End Function
+
+        Public Shared Widening Operator CType(reactions As Reaction()) As ReactionGroup
+            Dim twoGroup = reactions _
+                .GroupBy(Function(r) r.is_enzymatic) _
+                .ToDictionary(Function(g) g.Key.ToString,
+                              Function(g)
+                                  Return g.ToArray
+                              End Function)
+
+            Return New ReactionGroup With {
+                .enzymatic = twoGroup.TryGetValue(True.ToString, [default]:={}),
+                .etc = twoGroup.TryGetValue(False.ToString, [default]:={})
+            }
+        End Operator
     End Class
 
     <XmlType("compound", [Namespace]:=VirtualCell.GCMarkupLanguage)>
