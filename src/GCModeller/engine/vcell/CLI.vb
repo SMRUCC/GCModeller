@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
@@ -71,7 +72,7 @@ Imports vcellkit
     End Function
 
     <ExportAPI("/run")>
-    <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /iterations <default=5000> /csv /out <raw/result_directory>]")>
+    <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /iterations <default=5000> /json /out <raw/result_directory>]")>
     <Description("Run GCModeller VirtualCell.")>
     <Argument("/deletes", True, CLITypes.String,
               AcceptTypes:={GetType(String())},
@@ -83,43 +84,37 @@ Imports vcellkit
     Public Function Run(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim deletes As String() = args("/deletes").getDeletionList
-        Dim inCsvFormat As Boolean = args("/csv")
-        Dim out$ = args("/out") Or If(inCsvFormat, $"{in$.TrimSuffix}.vcell_simulation/", $"{in$.TrimSuffix}.vcell_simulation.raw")
+        Dim jsonFormat As Boolean = args("/json")
+        Dim out$ = args("/out") Or If(jsonFormat, $"{in$.TrimSuffix}.vcell_simulation/", $"{in$.TrimSuffix}.vcell_simulation.raw")
         Dim iterations% = args("/iterations") Or 5000
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
-        Dim def As Definition = model.CreateUnifyDefinition
+        Dim def As Definition = model.metabolismStructure _
+            .compounds _
+            .Select(Function(c) c.ID) _
+            .DoCall(Function(compounds)
+                        Return Definition.KEGG(compounds, 500000)
+                    End Function)
         Dim cell As CellularModule = model.CreateModel
 
-        If inCsvFormat Then
-            Dim massIndex As OmicsTuple(Of String()) = OmicsDataAdapter.GetMassTuples(cell)
-            Dim fluxIndex As OmicsTuple(Of String()) = OmicsDataAdapter.GetFluxTuples(cell)
+        If jsonFormat Then
+            Dim massIndex = OmicsDataAdapter.GetMassTuples(cell)
+            Dim fluxIndex = OmicsDataAdapter.GetFluxTuples(cell)
+            Dim engine As Engine = New Engine(def, iterations).LoadModel(cell, deletes, 10)
 
-            Call "Open data stream output device..".__DEBUG_ECHO
+            Call engine.Run()
 
-            Using transcriptomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/transcriptome.xls", metaKeys:=massIndex.transcriptome, metaBlank:=0, tsv:=True),
-                  proteomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/proteome.xls", metaKeys:=massIndex.proteome, metaBlank:=0, tsv:=True),
-                  metabolomeSnapshots As New WriteStream(Of DataSet)($"{out}/mass/metabolome.xls", metaKeys:=massIndex.metabolome, metaBlank:=0, tsv:=True),
-                  transcriptomeFlux As New WriteStream(Of DataSet)($"{out}/flux/transcriptome.xls", metaKeys:=fluxIndex.transcriptome, metaBlank:=0, tsv:=True),
-                  proteomeFlux As New WriteStream(Of DataSet)($"{out}/flux/proteome.xls", metaKeys:=fluxIndex.proteome, metaBlank:=0, tsv:=True),
-                  metabolomeFlux As New WriteStream(Of DataSet)($"{out}/flux/metabolome.xls", metaKeys:=fluxIndex.metabolome, metaBlank:=0, tsv:=True)
+            Dim massSnapshot = engine.snapshot.mass
+            Dim fluxSnapshot = engine.snapshot.flux
 
-                Dim massSnapshots As New OmicsTuple(Of SnapshotDriver)(
-                    transcriptome:=transcriptomeSnapshots.createDriver,
-                    proteome:=proteomeSnapshots.createDriver,
-                    metabolome:=metabolomeSnapshots.createDriver
-                )
-                Dim fluxSnapshots As New OmicsTuple(Of SnapshotDriver)(
-                    transcriptome:=transcriptomeFlux.createDriver,
-                    proteome:=proteomeFlux.createDriver,
-                    metabolome:=metabolomeFlux.createDriver
-                )
-                Dim dataStorage As New OmicsDataAdapter(cell, massSnapshots, fluxSnapshots)
-                Dim engine As Engine = New Engine(def, iterations) _
-                    .LoadModel(cell, deletes) _
-                    .AttachBiologicalStorage(dataStorage)
+            Call massSnapshot.Subset(massIndex.transcriptome).GetJson.SaveTo($"{out}/mass/transcriptome.json")
+            Call massSnapshot.Subset(massIndex.proteome).GetJson.SaveTo($"{out}/mass/proteome.json")
+            Call massSnapshot.Subset(massIndex.metabolome).GetJson.SaveTo($"{out}/mass/metabolome.json")
 
-                Return engine.Run
-            End Using
+            Call fluxSnapshot.Subset(fluxIndex.transcriptome).GetJson.SaveTo($"{out}/flux/transcriptome.json")
+            Call fluxSnapshot.Subset(fluxIndex.proteome).GetJson.SaveTo($"{out}/flux/proteome.json")
+            Call fluxSnapshot.Subset(fluxIndex.metabolome).GetJson.SaveTo($"{out}/flux/metabolome.json")
+
+            Return 0
         Else
             Dim loader As Loader = Nothing
             Dim engine As New Engine(def, iterations)
@@ -127,8 +122,14 @@ Imports vcellkit
             Call engine.LoadModel(cell, deletes,, getLoader:=loader)
 
             Using rawStorage As New Raw.StorageDriver(out, loader, cell)
-                Return engine.AttachBiologicalStorage(rawStorage).Run
+                Call engine.Run()
+                ' Call engine.AttachBiologicalStorage(rawStorage).Run()
             End Using
+
+            Call engine.snapshot.flux.GetJson.SaveTo($"{out.TrimSuffix}.flux.json")
+            Call engine.snapshot.mass.GetJson.SaveTo($"{out.TrimSuffix}.mass.json")
+
+            Return 0
         End If
     End Function
 
