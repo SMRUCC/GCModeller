@@ -17,7 +17,14 @@ let flux  <- vcell :> vcell.flux.index;
 
 # Run virtual cell simulation
 let run as function(i) {
-    let engine = [vcell = vcell] :> engine.load(inits, iterations = 100, time_resolutions = 1);
+    # The VB.NET object should be convert to R# object then 
+    # we can reference its member function 
+    # directly in script.
+    let engine = [vcell = vcell] 
+        :> engine.load(inits, iterations = 10, time_resolutions = 1) 
+        # apply as.object function for the initialzie pipeline code
+        # to construct a R# object
+        :> as.object;
 
     engine$Run();
     engine :> vcell.snapshot(mass, flux, save = `${output.dir}/replicate=${i}/`);

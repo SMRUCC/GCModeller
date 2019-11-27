@@ -61,8 +61,7 @@ Public Module Simulator
     <ExportAPI("vcell.mass.kegg")>
     <Extension>
     Public Function CreateUnifyDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
-        Return vcell.metabolismStructure _
-            .compounds _
+        Return vcell.metabolismStructure.compounds _
             .Select(Function(c) c.ID) _
             .DoCall(Function(compounds)
                         Return Definition.KEGG(compounds, initMass:=mass)
@@ -85,12 +84,12 @@ Public Module Simulator
     End Function
 
     <ExportAPI("engine.load")>
-    Public Function CreateVCellEngine(def As Definition, vcell As CellularModule,
+    Public Function CreateVCellEngine(inits As Definition, vcell As CellularModule,
                                       Optional iterations% = 5000,
                                       Optional time_resolutions% = 1000,
                                       Optional deletions$() = Nothing) As Engine
 
-        Return New Engine(def, iterations).LoadModel(vcell, deletions, time_resolutions)
+        Return New Engine(inits, iterations).LoadModel(vcell, deletions, time_resolutions)
     End Function
 
     <ExportAPI("vcell.snapshot")>
