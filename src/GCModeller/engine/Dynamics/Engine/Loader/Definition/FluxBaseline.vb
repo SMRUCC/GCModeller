@@ -1,4 +1,6 @@
-﻿Namespace Engine.Definitions
+﻿Imports Microsoft.VisualBasic.Serialization.JSON
+
+Namespace Engine.Definitions
 
     ''' <summary>
     ''' The baseline value of the flux controls and dynamics
@@ -11,6 +13,10 @@
         Public Property translationCapacity As Double = 1000
         Public Property proteinMatureBaseline As Double = 1000
         Public Property proteinMatureCapacity As Double = 10000
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
 
     End Class
 End Namespace
