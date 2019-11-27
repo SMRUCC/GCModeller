@@ -32,6 +32,9 @@ print("Experiment tags as:");
 # print(typeof tag.name);
 print(tag.name);
 
+print("Gene list file for apply the deletion operation:");
+print(deletions);
+
 deletions <- file.exists(deletions) ? readLines(deletions) : NULL;
 tag.name  <- is.empty(tag.name) ? "replicate=" : tag.name;
 
@@ -51,8 +54,8 @@ let run as function(i) {
     let engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 100, 
-            time_resolutions = 1, 
+            iterations       = 1000, 
+            time_resolutions = 0.1, 
             deletions        = deletions
         ) 
         # apply as.object function for the initialzie pipeline code
