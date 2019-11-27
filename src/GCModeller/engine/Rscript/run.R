@@ -37,7 +37,7 @@ if (is.empty(deletions)) {
     print(`Apply ${length(deletions)} deletions of genes for run simulation analysis!`);
 }
 
-print(`The biological replication of the analysis will be tagged as '${replicate}'`);
+print(`The biological replication of the analysis will be tagged as '${tag.name}'`);
 
 # Run virtual cell simulation
 let run as function(i) {
