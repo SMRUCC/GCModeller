@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports vcellkit
 
 <CLI> Module CLI
 
@@ -86,17 +87,12 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
         Dim out$ = args("/out") Or If(inCsvFormat, $"{in$.TrimSuffix}.vcell_simulation/", $"{in$.TrimSuffix}.vcell_simulation.raw")
         Dim iterations% = args("/iterations") Or 5000
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
-        Dim def As Definition = model.metabolismStructure _
-            .compounds _
-            .Select(Function(c) c.ID) _
-            .DoCall(Function(compounds)
-                        Return Definition.KEGG(compounds, 5000)
-                    End Function)
+        Dim def As Definition = model.CreateUnifyDefinition
         Dim cell As CellularModule = model.CreateModel
 
         If inCsvFormat Then
-            Dim massIndex = OmicsDataAdapter.GetMassTuples(cell)
-            Dim fluxIndex = OmicsDataAdapter.GetFluxTuples(cell)
+            Dim massIndex As OmicsTuple(Of String()) = OmicsDataAdapter.GetMassTuples(cell)
+            Dim fluxIndex As OmicsTuple(Of String()) = OmicsDataAdapter.GetFluxTuples(cell)
 
             Call "Open data stream output device..".__DEBUG_ECHO
 
