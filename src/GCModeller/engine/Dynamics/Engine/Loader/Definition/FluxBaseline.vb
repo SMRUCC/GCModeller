@@ -5,12 +5,12 @@
     ''' </summary>
     Public Class FluxBaseline
 
-        Public Property transcriptionBaseline As Double
-        Public Property translationBaseline As Double
-        Public Property transcriptionCapacity As Double
-        Public Property translationCapacity As Double
-        Public Property proteinMatureBaseline As Double
-        Public Property proteinMatureCapacity As Double
+        Public Property transcriptionBaseline As Double = 100
+        Public Property translationBaseline As Double = 10
+        Public Property transcriptionCapacity As Double = 1000
+        Public Property translationCapacity As Double = 1000
+        Public Property proteinMatureBaseline As Double = 1000
+        Public Property proteinMatureCapacity As Double = 10000
 
     End Class
 End Namespace

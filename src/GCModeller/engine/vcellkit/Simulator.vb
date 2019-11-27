@@ -43,6 +43,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -99,9 +100,24 @@ Public Module Simulator
     Public Function CreateVCellEngine(inits As Definition, vcell As CellularModule,
                                       Optional iterations% = 5000,
                                       Optional time_resolutions% = 1000,
-                                      Optional deletions$() = Nothing) As Engine
+                                      Optional deletions$() = Nothing,
+                                      Optional dynamics As FluxBaseline = Nothing) As Engine
 
-        Return New Engine(inits, iterations).LoadModel(vcell, deletions, time_resolutions)
+        Static defaultDynamics As [Default](Of FluxBaseline) = New FluxBaseline
+        ' do initialize of the virtual cell engine
+        ' and then load virtual cell model into 
+        ' engine kernel
+        Return New Engine(
+                def:=inits,
+                dynamics:=dynamics Or defaultDynamics,
+                iterations:=iterations
+            ) _
+            .LoadModel(vcell, deletions, time_resolutions)
+    End Function
+
+    <ExportAPI("dynamics.default")>
+    Public Function GetDefaultDynamics() As FluxBaseline
+        Return New FluxBaseline
     End Function
 
     <ExportAPI("vcell.snapshot")>
