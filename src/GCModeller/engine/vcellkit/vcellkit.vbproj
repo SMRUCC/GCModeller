@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\GCModeller%28Release_X64%29\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>vcellkit.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -154,6 +154,14 @@
     <ProjectReference Include="..\Dynamics\Dynamics.vbproj">
       <Project>{df077c8b-9b53-41c3-81f3-2ba4f3d7fc9f}</Project>
       <Name>Dynamics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IO\GCMarkupLanguage\GCMarkupLanguage.vbproj">
+      <Project>{1EE7910D-9171-426F-B874-B935E633C419}</Project>
+      <Name>GCMarkupLanguage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.vbproj">
+      <Project>{7BB5E78B-37BB-43DF-BAF4-4ECD4B5748D6}</Project>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

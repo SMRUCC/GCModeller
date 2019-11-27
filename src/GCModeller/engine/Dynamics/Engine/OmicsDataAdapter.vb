@@ -55,8 +55,7 @@ Namespace Engine
     Public Class OmicsDataAdapter : Implements IOmicsDataAdapter
 
         Public ReadOnly Property mass As OmicsTuple(Of String()) Implements IOmicsDataAdapter.mass
-
-        Friend flux As OmicsTuple(Of String())
+        Public ReadOnly Property flux As OmicsTuple(Of String())
 
         Dim saveMass As OmicsTuple(Of SnapshotDriver)
         Dim saveFlux As OmicsTuple(Of SnapshotDriver)
