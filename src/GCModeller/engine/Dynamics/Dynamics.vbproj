@@ -135,6 +135,7 @@
     <Compile Include="Core\NamespaceDoc.vb" />
     <Compile Include="Engine\DebuggerView.vb" />
     <Compile Include="Engine\Loader\CentralDogmaFluxLoader.vb" />
+    <Compile Include="Engine\Loader\Definition\FluxBaseline.vb" />
     <Compile Include="Engine\Loader\FluxLoader.vb" />
     <Compile Include="Engine\Loader\MetabolismNetworkLoader.vb" />
     <Compile Include="Engine\Loader\ProteinMatureFluxLoader.vb" />

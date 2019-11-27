@@ -122,7 +122,9 @@ Namespace Engine
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetWhere(clause As Func(Of Factor, Boolean)) As IReadOnlyDictionary(Of String, Factor) Implements IRepositoryRead(Of String, Factor).GetWhere
-            Return massTable.Values.Where(clause).ToDictionary
+            Return massTable.Values _
+                .Where(clause) _
+                .ToDictionary
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

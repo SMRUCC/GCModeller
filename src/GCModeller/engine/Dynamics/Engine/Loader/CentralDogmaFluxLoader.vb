@@ -108,17 +108,23 @@ Namespace Engine.ModelLoader
 
                     Yield New Channel(templateRNA, productsPro) With {
                         .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
-                        .forward = New Controls With {.baseline = 10},
+                        .forward = New Controls With {.baseline = loader.dynamics.transcriptionBaseline},
                         .reverse = New Controls With {.baseline = 0},
-                        .bounds = New Boundary With {.forward = 100, .reverse = 0}
+                        .bounds = New Boundary With {
+                            .forward = loader.dynamics.transcriptionCapacity,
+                            .reverse = 0
+                        }
                     }
                 End If
 
                 Yield New Channel(templateDNA, productsRNA) With {
                     .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
-                    .forward = New Controls With {.baseline = 10},
+                    .forward = New Controls With {.baseline = loader.dynamics.translationBaseline},
                     .reverse = New Controls With {.baseline = 0},
-                    .bounds = New Boundary With {.forward = 100, .reverse = 0}
+                    .bounds = New Boundary With {
+                        .forward = loader.dynamics.translationCapacity,
+                        .reverse = 0
+                    }
                 }
             Next
 

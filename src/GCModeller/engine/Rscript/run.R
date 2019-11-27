@@ -5,9 +5,13 @@
 imports "vcellkit.simulator" from "vcellkit.dll";
 
 # config input model and result save directory from commandline arguments
-let model                <- read.vcell(path = ?"--in");
+let model                <- read.vcell(path = ?"--in") :> as.object;
 let output.dir as string <- ?"--out";
 let deletions  as string <- ?"--deletions";
+let tag.name   as string <- ?"--tag";
+
+print("Run virtual cell model:");
+print(model);
 
 # create virtual cell object model and initialize the test data
 # from the virtual cell data model.
@@ -16,7 +20,31 @@ let vcell <- model :> vcell.model;
 let mass  <- vcell :> vcell.mass.index;
 let flux  <- vcell :> vcell.flux.index;
 
+let dynamics = dynamics.default() :> as.object;
+
+dynamics$transcriptionBaseline = 200;
+dynamics$transcriptionCapacity = 500;
+
+print("Using dynamics parameter configuration:");
+print(dynamics);
+
+print("Experiment tags as:");
+# print(typeof tag.name);
+print(tag.name);
+
+print("Gene list file for apply the deletion operation:");
+print(deletions);
+
 deletions <- file.exists(deletions) ? readLines(deletions) : NULL;
+tag.name  <- is.empty(tag.name) ? "replicate=" : tag.name;
+
+if (is.empty(deletions)) {
+    print("No gene deletions for current VirtualCell simulation analysis.");
+} else {
+    print(`Apply ${length(deletions)} deletions of genes for run simulation analysis!`);
+}
+
+print(`The biological replication of the analysis will be tagged as '${tag.name}'`);
 
 # Run virtual cell simulation
 let run as function(i) {
@@ -26,8 +54,8 @@ let run as function(i) {
     let engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 10000, 
-            time_resolutions = 1, 
+            iterations       = 1000, 
+            time_resolutions = 0.1, 
             deletions        = deletions
         ) 
         # apply as.object function for the initialzie pipeline code
@@ -38,7 +66,7 @@ let run as function(i) {
     # save the result snapshot data files into 
     # target data directory
     engine$Run();
-    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/replicate=${i}/`);
+    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${tag.name}${i}/`);
 }
 
 # run 5 biological replicate for the 
