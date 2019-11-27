@@ -20,6 +20,14 @@ let vcell <- model :> vcell.model;
 let mass  <- vcell :> vcell.mass.index;
 let flux  <- vcell :> vcell.flux.index;
 
+let dynamics = dynamics.default() :> as.object;
+
+dynamics$transcriptionBaseline = 200;
+dynamics$transcriptionCapacity = 500
+
+print("Using dynamics parameter configuration:");
+print(dynamics);
+
 deletions <- file.exists(deletions) ? readLines(deletions) : NULL;
 tag.name  <- is.empty(tag.name) ? "replicate=" : tag.name;
 
