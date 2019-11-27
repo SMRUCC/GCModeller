@@ -17,7 +17,7 @@ let flux  <- vcell :> vcell.flux.index;
 
 # Run virtual cell simulation
 let run as function(i) {
-    let engine <- [vcell = vcell] :> engine.load(inits, iterations = 100, time_resolutions = 1);
+    let engine = [vcell = vcell] :> engine.load(inits, iterations = 100, time_resolutions = 1);
 
     engine$Run();
     engine :> vcell.snapshot(mass, flux, save = `${output.dir}/replicate=${i}/`);
