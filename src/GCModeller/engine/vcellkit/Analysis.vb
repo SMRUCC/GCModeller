@@ -90,7 +90,8 @@ Public Module Analysis
                 .Transpose _
                 .Where(Function(r)
                            Dim first As Double = r.Properties.Values.First
-                           Dim testAllEquals = r.Properties _
+                           Dim testAllEquals As Boolean = r _
+                              .Properties _
                               .Values _
                               .Any(Function(x) x <> first)
 
