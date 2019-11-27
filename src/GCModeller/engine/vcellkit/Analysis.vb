@@ -49,8 +49,17 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 <Package("vcellkit.analysis")>
 Public Module Analysis
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="result"></param>
+    ''' <param name="setName"></param>
+    ''' <param name="trim">
+    ''' Will delete all of the metabolites row that have no changes
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("union.matrix")>
-    Public Function UnionSnapshot(result$, Optional setName$ = "mass\metabolome.json") As DataSet()
+    Public Function UnionSnapshot(result$, Optional setName$ = "mass\metabolome.json", Optional trim As Boolean = True) As DataSet()
         Dim metabolites As New List(Of DataSet)
         Dim data As Dictionary(Of String, Double)
 
@@ -76,7 +85,21 @@ Public Module Analysis
             End If
         Next
 
-        Return metabolites.Transpose
+        If trim Then
+            Return metabolites _
+                .Transpose _
+                .Where(Function(r)
+                           Dim first As Double = r.Properties.Values.First
+                           Dim testAllEquals = r.Properties _
+                              .Values _
+                              .Any(Function(x) x <> first)
+
+                           Return testAllEquals
+                       End Function) _
+                .ToArray
+        Else
+            Return metabolites.Transpose
+        End If
     End Function
 End Module
 
