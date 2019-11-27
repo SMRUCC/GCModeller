@@ -52,15 +52,28 @@ Public Module Analysis
     <ExportAPI("union.matrix")>
     Public Function UnionSnapshot(result$, Optional setName$ = "mass\metabolome.json") As DataSet()
         Dim metabolites As New List(Of DataSet)
+        Dim data As Dictionary(Of String, Double)
 
         For Each dir As String In ls - l - lsDIR <= result
             Dim name = dir.BaseName
-            Dim data = $"{dir}/{setName}".LoadJsonFile(Of Dictionary(Of String, Double))
+            Dim file$ = $"{dir}/{setName}"
 
-            metabolites += New DataSet With {
-                .ID = name,
-                .Properties = data
-            }
+            If Not file.FileExists() Then
+                For Each folder As String In ls - l - lsDIR <= dir
+                    name = folder.BaseName
+                    data = $"{folder}/{setName}".LoadJsonFile(Of Dictionary(Of String, Double))
+                    metabolites += New DataSet With {
+                        .ID = name,
+                        .Properties = data
+                    }
+                Next
+            Else
+                data = file.LoadJsonFile(Of Dictionary(Of String, Double))
+                metabolites += New DataSet With {
+                    .ID = name,
+                    .Properties = data
+                }
+            End If
         Next
 
         Return metabolites.Transpose
