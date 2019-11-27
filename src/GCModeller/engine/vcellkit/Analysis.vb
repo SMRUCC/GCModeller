@@ -39,14 +39,31 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 <Package("vcellkit.analysis")>
-Module Analysis
+Public Module Analysis
 
-    Public Function UnionSnapshot() As DataSet()
+    <ExportAPI("union.matrix")>
+    Public Function UnionSnapshot(result$, Optional setName$ = "mass\metabolome.json") As DataSet()
+        Dim metabolites As New List(Of DataSet)
 
+        For Each dir As String In ls - l - lsDIR <= result
+            Dim name = dir.BaseName
+            Dim data = $"{dir}/{setName}".LoadJsonFile(Of Dictionary(Of String, Double))
+
+            metabolites += New DataSet With {
+                .ID = name,
+                .Properties = data
+            }
+        Next
+
+        Return metabolites.Transpose
     End Function
 End Module
 
