@@ -16,6 +16,6 @@ if (is.empty(setName)) {
 # Create result data matrix and 
 # then save to the generate file path.
 data 
-  :> union.matrix(setName) 
-  :> write.csv(file = `${data}/${setName}.csv`);
+:> union.matrix(setName) 
+:> write.csv(file = `${data}/${setName}.csv`);
 
