@@ -47,8 +47,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ApplicationServices.Development
-Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
@@ -146,14 +144,6 @@ Namespace Engine
         End Function
 
         Public Function Run() As Integer Implements ITaskDriver.Run
-            Call VBDebugger.WaitOutput()
-            Call GetType(Engine).Assembly _
-                .FromAssembly _
-                .DoCall(Sub(assm)
-                            CLITools.AppSummary(assm, "Welcome to use SMRUCC/GCModeller virtual cell simulator!", Nothing, App.StdOut)
-                        End Sub)
-            Call Console.WriteLine()
-
             If dataStorageDriver Is Nothing Then
                 Call "Data storage driver not found! The simulation result can only be get from snapshot property...".Warning
                 Call VBDebugger.WaitOutput()

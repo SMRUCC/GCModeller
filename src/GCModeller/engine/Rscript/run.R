@@ -21,7 +21,7 @@ let run as function(i) {
     # we can reference its member function 
     # directly in script.
     let engine = [vcell = vcell] 
-        :> engine.load(inits, iterations = 10, time_resolutions = 1) 
+        :> engine.load(inits, iterations = 10000, time_resolutions = 1) 
         # apply as.object function for the initialzie pipeline code
         # to construct a R# object
         :> as.object;
