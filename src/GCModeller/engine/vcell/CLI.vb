@@ -97,17 +97,7 @@ Imports vcellkit
             Dim engine As Engine = New Engine(def, iterations).LoadModel(cell, deletes, 10)
 
             Call engine.Run()
-
-            Dim massSnapshot = engine.snapshot.mass
-            Dim fluxSnapshot = engine.snapshot.flux
-
-            Call massSnapshot.Subset(massIndex.transcriptome).GetJson.SaveTo($"{out}/mass/transcriptome.json")
-            Call massSnapshot.Subset(massIndex.proteome).GetJson.SaveTo($"{out}/mass/proteome.json")
-            Call massSnapshot.Subset(massIndex.metabolome).GetJson.SaveTo($"{out}/mass/metabolome.json")
-
-            Call fluxSnapshot.Subset(fluxIndex.transcriptome).GetJson.SaveTo($"{out}/flux/transcriptome.json")
-            Call fluxSnapshot.Subset(fluxIndex.proteome).GetJson.SaveTo($"{out}/flux/proteome.json")
-            Call fluxSnapshot.Subset(fluxIndex.metabolome).GetJson.SaveTo($"{out}/flux/metabolome.json")
+            Call engine.TakeStatusSnapshot(massIndex, fluxIndex, save:=out)
 
             Return 0
         Else

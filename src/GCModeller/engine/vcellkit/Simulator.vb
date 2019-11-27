@@ -43,12 +43,14 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
-<Package("vcellkit.simulator")>
+<Package("vcellkit.simulator", Category:=APICategories.ResearchTools)>
 Public Module Simulator
 
     <ExportAPI("read.vcell")>
@@ -90,5 +92,20 @@ Public Module Simulator
 
         Return New Engine(def, iterations).LoadModel(vcell, deletions, time_resolutions)
     End Function
+
+    <ExportAPI("vcell.snapshot")>
+    <Extension>
+    Public Sub TakeStatusSnapshot(engine As Engine, massIndex As OmicsTuple(Of String()), fluxIndex As OmicsTuple(Of String()), save$)
+        Dim massSnapshot = engine.snapshot.mass
+        Dim fluxSnapshot = engine.snapshot.flux
+
+        Call massSnapshot.Subset(massIndex.transcriptome).GetJson.SaveTo($"{save}/mass/transcriptome.json")
+        Call massSnapshot.Subset(massIndex.proteome).GetJson.SaveTo($"{save}/mass/proteome.json")
+        Call massSnapshot.Subset(massIndex.metabolome).GetJson.SaveTo($"{save}/mass/metabolome.json")
+
+        Call fluxSnapshot.Subset(fluxIndex.transcriptome).GetJson.SaveTo($"{save}/flux/transcriptome.json")
+        Call fluxSnapshot.Subset(fluxIndex.proteome).GetJson.SaveTo($"{save}/flux/proteome.json")
+        Call fluxSnapshot.Subset(fluxIndex.metabolome).GetJson.SaveTo($"{save}/flux/metabolome.json")
+    End Sub
 End Module
 
