@@ -60,12 +60,12 @@ Public Module Simulator
 
     <ExportAPI("vcell.mass.kegg")>
     <Extension>
-    Public Function CreateUnifyDefinition(vcell As VirtualCell) As Definition
+    Public Function CreateUnifyDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
         Return vcell.metabolismStructure _
             .compounds _
             .Select(Function(c) c.ID) _
             .DoCall(Function(compounds)
-                        Return Definition.KEGG(compounds, 5000)
+                        Return Definition.KEGG(compounds, initMass:=mass)
                     End Function)
     End Function
 
