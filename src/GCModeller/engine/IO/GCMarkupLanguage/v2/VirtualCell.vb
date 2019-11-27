@@ -88,12 +88,13 @@ Namespace v2
 
         Public Overrides Function ToString() As String
             Dim sb As New StringBuilder
+            Dim lv As i32 = Scan0
 
             Call (taxonomy.scientificName Or taxonomy.species.AsDefault) _
                 .DoCall(AddressOf sb.AppendLine)
 
             For Each level As String In taxonomy.Select(TaxonomyRanks.Genus)
-                Call sb.AppendLine("  " & level)
+                Call sb.AppendLine("  " & New String(" "c, ++lv) & level)
             Next
 
             Return sb.ToString
@@ -108,7 +109,7 @@ Namespace v2
             Dim sb As New StringBuilder
             Dim type$
 
-            Call sb.AppendLine(model.taxonomy.ToString)
+            Call sb.AppendLine(model.ToString)
             Call sb.AppendLine()
             Call sb.AppendLine("genomes:")
 
