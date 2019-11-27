@@ -91,7 +91,7 @@ Namespace v2
         ''' 在这个属性之中包含有所有的代谢反应过程的定义
         ''' </summary>
         ''' <returns></returns>
-        <XmlArray("reactions")> Public Property reactions As ReactionGroup
+        <XmlElement("reactions")> Public Property reactions As ReactionGroup
 
         ''' <summary>
         ''' 在这个属性里面只会出现具有KO分类编号的蛋白序列，如果需要找所有基因的数据，可以
