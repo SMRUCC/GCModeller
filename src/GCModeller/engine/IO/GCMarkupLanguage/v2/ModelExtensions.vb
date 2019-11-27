@@ -212,7 +212,7 @@ Namespace v2
 
                 If Not equation.reversible Then
                     ' only forward flux direction
-                    bounds(1) = 0
+                    bounds(Scan0) = 0
                 End If
 
                 Yield New FluxModel With {

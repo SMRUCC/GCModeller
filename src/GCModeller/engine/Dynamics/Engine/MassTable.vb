@@ -82,6 +82,11 @@ Namespace Engine
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function variables(compounds As IEnumerable(Of Variable), factor As Double) As IEnumerable(Of Variable)
+            Return compounds.Select(Function(cpd) Me.variable(cpd.Mass.ID, factor))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function variables(compounds As IEnumerable(Of FactorString(Of Double))) As IEnumerable(Of Variable)
             Return compounds.Select(Function(cpd) Me.variable(cpd.text, cpd.factor))
         End Function
