@@ -201,13 +201,17 @@ Namespace v2
                     If KO.IsNullOrEmpty Then
                         ' 当前的基因组内没有对应的酶来催化这个反应过程
                         ' 则限制一个很小的range
-                        bounds = {1, 1}
+                        bounds = {10, 10}
                     Else
                         bounds = {500, 1000.0}
                     End If
                 Else
                     KO = {}
                     bounds = {200, 200.0}
+                End If
+
+                If Not equation.reversible Then
+
                 End If
 
                 Yield New FluxModel With {
