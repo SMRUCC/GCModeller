@@ -47,8 +47,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ApplicationServices.Development
-Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
@@ -75,6 +73,7 @@ Namespace Engine
         ''' </summary>
         Dim core As Vessel
         Dim def As Definition
+        Dim dynamics As FluxBaseline
         Dim model As CellularModule
         Dim iterations As Integer = 5000
 
@@ -85,9 +84,10 @@ Namespace Engine
         Public ReadOnly Property snapshot As (mass As Dictionary(Of String, Double), flux As Dictionary(Of String, Double))
         Public ReadOnly Property debugView As DebuggerView
 
-        Sub New(def As Definition, Optional iterations% = 5000)
+        Sub New(def As Definition, dynamics As FluxBaseline, Optional iterations% = 5000)
             Me.def = def
             Me.iterations = iterations
+            Me.dynamics = dynamics
             Me.debugView = New DebuggerView(Me)
         End Sub
 
@@ -106,7 +106,7 @@ Namespace Engine
                                   Optional timeResolution# = 1000,
                                   Optional ByRef getLoader As Loader = Nothing) As Engine
 
-            getLoader = New Loader(def)
+            getLoader = New Loader(def, dynamics)
             core = getLoader _
                 .CreateEnvironment(virtualCell) _
                 .Initialize(timeResolution)
@@ -146,14 +146,6 @@ Namespace Engine
         End Function
 
         Public Function Run() As Integer Implements ITaskDriver.Run
-            Call VBDebugger.WaitOutput()
-            Call GetType(Engine).Assembly _
-                .FromAssembly _
-                .DoCall(Sub(assm)
-                            CLITools.AppSummary(assm, "Welcome to use SMRUCC/GCModeller virtual cell simulator!", Nothing, App.StdOut)
-                        End Sub)
-            Call Console.WriteLine()
-
             If dataStorageDriver Is Nothing Then
                 Call "Data storage driver not found! The simulation result can only be get from snapshot property...".Warning
                 Call VBDebugger.WaitOutput()

@@ -57,6 +57,7 @@ Namespace Engine.ModelLoader
     Public Class Loader
 
         Friend ReadOnly define As Definition
+        Friend ReadOnly dynamics As FluxBaseline
 
         Dim centralDogmaFluxLoader As CentralDogmaFluxLoader
         Dim proteinMatureFluxLoader As ProteinMatureFluxLoader
@@ -76,8 +77,9 @@ Namespace Engine.ModelLoader
             End Get
         End Property
 
-        Sub New(define As Definition)
+        Sub New(define As Definition, dynamics As FluxBaseline)
             Me.define = define
+            Me.dynamics = dynamics
         End Sub
 
         Public Shared Function GetTranscriptionId(cd As CentralDogma) As String

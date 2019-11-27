@@ -56,6 +56,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports vcellkit
 
 <CLI> Module CLI
 
@@ -87,36 +88,21 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
         Dim out$ = args("/out") Or If(jsonFormat, $"{in$.TrimSuffix}.vcell_simulation/", $"{in$.TrimSuffix}.vcell_simulation.raw")
         Dim iterations% = args("/iterations") Or 5000
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
-        Dim def As Definition = model.metabolismStructure _
-            .compounds _
-            .Select(Function(c) c.ID) _
-            .DoCall(Function(compounds)
-                        Return Definition.KEGG(compounds, 500000)
-                    End Function)
+        Dim def As Definition = model.CreateUnifyDefinition
         Dim cell As CellularModule = model.CreateModel
 
         If jsonFormat Then
             Dim massIndex = OmicsDataAdapter.GetMassTuples(cell)
             Dim fluxIndex = OmicsDataAdapter.GetFluxTuples(cell)
-            Dim engine As Engine = New Engine(def, iterations).LoadModel(cell, deletes, 10)
+            Dim engine As Engine = New Engine(def, New FluxBaseline, iterations).LoadModel(cell, deletes, 10)
 
             Call engine.Run()
-
-            Dim massSnapshot = engine.snapshot.mass
-            Dim fluxSnapshot = engine.snapshot.flux
-
-            Call massSnapshot.Subset(massIndex.transcriptome).GetJson.SaveTo($"{out}/mass/transcriptome.json")
-            Call massSnapshot.Subset(massIndex.proteome).GetJson.SaveTo($"{out}/mass/proteome.json")
-            Call massSnapshot.Subset(massIndex.metabolome).GetJson.SaveTo($"{out}/mass/metabolome.json")
-
-            Call fluxSnapshot.Subset(fluxIndex.transcriptome).GetJson.SaveTo($"{out}/flux/transcriptome.json")
-            Call fluxSnapshot.Subset(fluxIndex.proteome).GetJson.SaveTo($"{out}/flux/proteome.json")
-            Call fluxSnapshot.Subset(fluxIndex.metabolome).GetJson.SaveTo($"{out}/flux/metabolome.json")
+            Call engine.TakeStatusSnapshot(massIndex, fluxIndex, save:=out)
 
             Return 0
         Else
             Dim loader As Loader = Nothing
-            Dim engine As New Engine(def, iterations)
+            Dim engine As New Engine(def, New FluxBaseline, iterations)
 
             Call engine.LoadModel(cell, deletes,, getLoader:=loader)
 
