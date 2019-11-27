@@ -2,7 +2,7 @@
 # Run a virtual cell model in R# 
 
 # first load GCModeller virtualcell toolkit R# package into R# environment
-imports "vcellkit.simulator" from "vcellkit.dll"
+imports "vcellkit.simulator" from "vcellkit.dll";
 
 # config input model and result save directory from commandline arguments
 let model                <- read.vcell(path = ?"--in");
