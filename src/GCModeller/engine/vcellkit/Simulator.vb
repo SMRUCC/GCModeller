@@ -40,6 +40,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -52,6 +54,16 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 <Package("vcellkit.simulator", Category:=APICategories.ResearchTools)>
 Public Module Simulator
+
+    Sub New()
+        Call VBDebugger.WaitOutput()
+        Call GetType(Engine).Assembly _
+            .FromAssembly _
+            .DoCall(Sub(assm)
+                        CLITools.AppSummary(assm, "Welcome to use SMRUCC/GCModeller virtual cell simulator!", Nothing, App.StdOut)
+                    End Sub)
+        Call Console.WriteLine()
+    End Sub
 
     <ExportAPI("read.vcell")>
     Public Function LoadVirtualCell(path As String) As VirtualCell
