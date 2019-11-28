@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::0e88f3f737dd5745b04d4103c7cee656, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Glycan
-    ' 
-    '         Properties: Composition, CompoundId, Mass, Orthology
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: Download, DownloadFrom, GetLinkDbRDF, ToCompound
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Glycan
+' 
+'         Properties: Composition, CompoundId, Mass, Orthology
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: Download, DownloadFrom, GetLinkDbRDF, ToCompound
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -116,10 +116,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function GetLinkDbRDF(glycan As Glycan) As IEnumerable(Of LinkDB.Relationship)
-            If InStr(glycan.Entry, ":") > 0 Then
-                Return LinkDB.Relationship.GetLinkDb(glycan.Entry)
+            If InStr(glycan.entry, ":") > 0 Then
+                Return LinkDB.Relationship.GetLinkDb(glycan.entry)
             Else
-                Return LinkDB.Relationship.GetLinkDb($"gl:{glycan.Entry}")
+                Return LinkDB.Relationship.GetLinkDb($"gl:{glycan.entry}")
             End If
         End Function
 
@@ -131,17 +131,17 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToCompound() As Compound
             Return New Compound With {
-                .Entry = Entry,
-                .CommonNames = CommonNames,
+                .entry = entry,
+                .commonNames = commonNames,
                 .DbLinks = DbLinks,
-                .Formula = Me.Composition,
+                .formula = Me.Composition,
                 .reactionId = reactionId,
                 .Module = Me.Module,
-                .MolWeight = Val(Mass),
-                .Pathway = Pathway,
-                .Enzyme = Enzyme,
-                .ExactMass = .MolWeight,
-                .Remarks = .Remarks
+                .molWeight = Val(Mass),
+                .pathway = pathway,
+                .enzyme = enzyme,
+                .exactMass = .molWeight,
+                .remarks = remarks
             }
         End Function
     End Class
