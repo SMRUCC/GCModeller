@@ -155,7 +155,7 @@ Partial Module CLI
     <Usage("/Glycan.compoundId /repo <kegg_compounds.directory> [/out <id_mapping.json>]")>
     Public Function Glycan2CompoundId(args As CommandLine) As Integer
         Dim repo$ = args <= "/repo"
-        Dim out$ = args("/out") Or $"{repo.TrimDIR}.commandNames.json"
+        Dim out$ = args("/out") Or $"{repo.TrimDIR}.glycan.compoundIds.json"
         Dim names = CompoundRepository.ScanRepository(repo, False).Glycan2CompoundId
 
         Return names _
