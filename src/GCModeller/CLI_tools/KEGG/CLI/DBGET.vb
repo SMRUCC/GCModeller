@@ -111,7 +111,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Download.Compounds")>
     <Description("Downloads the KEGG compounds data from KEGG web server using dbget API. Apply this downloaded KEGG compounds data used for metabolism annotation in LC-MS data analysis.")>
-    <Usage("/Download.Compounds [/chebi <accessions.tsv> /reactions <kegg.reactions.repository> /flat /updates /save <DIR>]")>
+    <Usage("/Download.Compounds [/chebi <accessions.tsv> /reactions <kegg.reactions.repository> /flat /skip.compoundbrite /updates /save <DIR>]")>
     <Argument("/chebi", True, CLITypes.File,
               AcceptTypes:={GetType(Accession)},
               Description:="Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, 
@@ -122,11 +122,13 @@ Partial Module CLI
         Dim flat As Boolean = args("/flat")
         Dim updates As Boolean = args("/updates")
 
-        Call CompoundBrite.DownloadFromResource(
-            EXPORT:=save,
-            directoryOrganized:=Not flat,
-            structInfo:=True
-        )
+        If Not args("/skip.compoundbrite") Then
+            Call CompoundBrite.DownloadFromResource(
+                EXPORT:=save,
+                directoryOrganized:=Not flat,
+                structInfo:=True
+            )
+        End If
 
         ' 下载补充数据
         Dim accs As String = args <= "/chebi"
