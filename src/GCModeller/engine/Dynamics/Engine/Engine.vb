@@ -1,54 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::26aff35b06373d352dbec9b26e9063ee, Dynamics\Engine\Engine.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Engine
-    ' 
-    '         Properties: viewMetabolome, viewProteome, viewTranscriptome
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: AttachBiologicalStorage, GetMass, LoadModel, Run
-    ' 
-    '         Sub: Reset
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Engine
+' 
+'         Properties: viewMetabolome, viewProteome, viewTranscriptome
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: AttachBiologicalStorage, GetMass, LoadModel, Run
+' 
+'         Sub: Reset
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ApplicationServices.Development
-Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
@@ -67,59 +65,30 @@ Namespace Engine
         ''' <summary>
         ''' A snapshot of the compounds mass
         ''' </summary>
-        Dim mass As MassTable
+        Friend mass As MassTable
+        Friend dataStorageDriver As IOmicsDataAdapter
 
         ''' <summary>
         ''' The biological flux simulator engine core module
         ''' </summary>
         Dim core As Vessel
         Dim def As Definition
+        Dim dynamics As FluxBaseline
         Dim model As CellularModule
         Dim iterations As Integer = 5000
-        Dim dataStorageDriver As IOmicsDataAdapter
 
-#Region "Debug views"
+        ''' <summary>
+        ''' Data snapshot of current iteration.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property snapshot As (mass As Dictionary(Of String, Double), flux As Dictionary(Of String, Double))
+        Public ReadOnly Property debugView As DebuggerView
 
-        Public ReadOnly Property viewTranscriptome As Dictionary(Of String, Double)
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return mass _
-                    .GetByKey(dataStorageDriver.mass.transcriptome) _
-                    .ToDictionary(Function(mass) mass.ID,
-                                  Function(mass)
-                                      Return mass.Value
-                                  End Function)
-            End Get
-        End Property
-
-        Public ReadOnly Property viewProteome As Dictionary(Of String, Double)
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return mass _
-                    .GetByKey(dataStorageDriver.mass.proteome) _
-                    .ToDictionary(Function(mass) mass.ID,
-                                  Function(mass)
-                                      Return mass.Value
-                                  End Function)
-            End Get
-        End Property
-
-        Public ReadOnly Property viewMetabolome As Dictionary(Of String, Double)
-            Get
-                Return mass _
-                    .GetByKey(dataStorageDriver.mass.metabolome) _
-                    .ToDictionary(Function(mass) mass.ID,
-                                  Function(mass)
-                                      Return mass.Value
-                                  End Function)
-            End Get
-        End Property
-
-#End Region
-
-        Sub New(def As Definition, Optional iterations% = 5000)
+        Sub New(def As Definition, dynamics As FluxBaseline, Optional iterations% = 5000)
             Me.def = def
             Me.iterations = iterations
+            Me.dynamics = dynamics
+            Me.debugView = New DebuggerView(Me)
         End Sub
 
         ''' <summary>
@@ -137,7 +106,7 @@ Namespace Engine
                                   Optional timeResolution# = 1000,
                                   Optional ByRef getLoader As Loader = Nothing) As Engine
 
-            getLoader = New Loader(def)
+            getLoader = New Loader(def, dynamics)
             core = getLoader _
                 .CreateEnvironment(virtualCell) _
                 .Initialize(timeResolution)
@@ -177,13 +146,11 @@ Namespace Engine
         End Function
 
         Public Function Run() As Integer Implements ITaskDriver.Run
-            Call VBDebugger.WaitOutput()
-            Call GetType(Engine).Assembly _
-                .FromAssembly _
-                .DoCall(Sub(assm)
-                            CLITools.AppSummary(assm, "Welcome to use SMRUCC/GCModeller virtual cell simulator!", Nothing, App.StdOut)
-                        End Sub)
-            Call Console.WriteLine()
+            If dataStorageDriver Is Nothing Then
+                Call "Data storage driver not found! The simulation result can only be get from snapshot property...".Warning
+                Call VBDebugger.WaitOutput()
+                Call Console.WriteLine()
+            End If
 
             Using process As New ProgressBar("Running simulator...")
                 Dim progress As New ProgressProvider(iterations)
@@ -195,8 +162,13 @@ Namespace Engine
                         .ToDictionary _
                         .FlatTable
 
-                    Call dataStorageDriver.FluxSnapshot(i, flux)
-                    Call dataStorageDriver.MassSnapshot(i, mass.GetMassValues)
+                    _snapshot = (mass.GetMassValues, flux)
+
+                    If Not dataStorageDriver Is Nothing Then
+                        Call dataStorageDriver.FluxSnapshot(i, _snapshot.flux)
+                        Call dataStorageDriver.MassSnapshot(i, _snapshot.mass)
+                    End If
+
                     Call ($"iteration: {i + 1}; ETA: {progress.ETA(process.ElapsedMilliseconds).FormatTime}") _
                         .DoCall(Sub(msg)
                                     Call process.SetProgress(progress.StepProgress, msg)

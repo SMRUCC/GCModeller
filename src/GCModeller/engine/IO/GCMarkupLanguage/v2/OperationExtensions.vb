@@ -114,6 +114,7 @@ Namespace v2
             model.metabolismStructure.reactions = model _
                 .metabolismStructure _
                 .reactions _
+                .AsEnumerable _
                 .Where(Function(r) Not r.isDisconnectedNode(allEnzymatics)) _
                 .ToArray
 

@@ -59,6 +59,10 @@ Namespace Engine.Definitions
         ''' </summary>
         ''' <returns></returns>
         Public Property ATP As String
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Water As String
         Public Property ADP As String
 

@@ -82,6 +82,11 @@ Namespace Engine
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function variables(compounds As IEnumerable(Of Variable), factor As Double) As IEnumerable(Of Variable)
+            Return compounds.Select(Function(cpd) Me.variable(cpd.Mass.ID, factor))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function variables(compounds As IEnumerable(Of FactorString(Of Double))) As IEnumerable(Of Variable)
             Return compounds.Select(Function(cpd) Me.variable(cpd.text, cpd.factor))
         End Function
@@ -122,7 +127,9 @@ Namespace Engine
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetWhere(clause As Func(Of Factor, Boolean)) As IReadOnlyDictionary(Of String, Factor) Implements IRepositoryRead(Of String, Factor).GetWhere
-            Return massTable.Values.Where(clause).ToDictionary
+            Return massTable.Values _
+                .Where(clause) _
+                .ToDictionary
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

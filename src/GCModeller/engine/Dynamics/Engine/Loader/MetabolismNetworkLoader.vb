@@ -78,8 +78,8 @@ Namespace Engine.ModelLoader
             Dim left = MassTable.variables(reaction.substrates)
             Dim right = MassTable.variables(reaction.products)
             Dim bounds As New Boundary With {
-                .forward = reaction.bounds.Max,
-                .reverse = reaction.bounds.Min
+                .forward = reaction.bounds(1),
+                .reverse = reaction.bounds(0)
             }
 
             ' KO
@@ -101,7 +101,7 @@ Namespace Engine.ModelLoader
                 .ToArray
 
             If reaction.is_enzymatic AndAlso enzymeProteinComplexes.Length = 0 Then
-                bounds = {0, 10}
+                bounds = {10, 10}
             End If
 
             Dim metabolismFlux As New Channel(left, right) With {
@@ -109,12 +109,16 @@ Namespace Engine.ModelLoader
                 .ID = reaction.ID,
                 .forward = New Controls With {
                     .activation = MassTable _
-                        .variables(enzymeProteinComplexes, 2) _
+                        .variables(enzymeProteinComplexes, 10) _
                         .ToArray,
                     .baseline = 15
                 },
                 .reverse = New Controls With {.baseline = 15}
             }
+
+            ' 假设所有的反应过程化都存在产物抑制效应
+            metabolismFlux.forward.inhibition = MassTable.variables(metabolismFlux.right, loader.dynamics.productInhibitionFactor).ToArray
+            metabolismFlux.reverse.inhibition = MassTable.variables(metabolismFlux.left, loader.dynamics.productInhibitionFactor).ToArray
 
             Return metabolismFlux
         End Function

@@ -200,6 +200,7 @@ Public Module NetworkViz
         ' 生成代谢网络的上下游链接关系
         Dim reactionLinks = cell.metabolismStructure _
             .reactions _
+            .AsEnumerable _
             .ToDictionary(Function(r) r.ID,
                           Function(r)
                               Return Equation.TryParse(r.Equation)
