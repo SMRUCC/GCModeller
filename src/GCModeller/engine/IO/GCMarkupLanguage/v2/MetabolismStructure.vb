@@ -91,7 +91,7 @@ Namespace v2
         ''' 在这个属性之中包含有所有的代谢反应过程的定义
         ''' </summary>
         ''' <returns></returns>
-        <XmlArray("reactions")> Public Property reactions As Reaction()
+        <XmlElement("reactions")> Public Property reactions As ReactionGroup
 
         ''' <summary>
         ''' 在这个属性里面只会出现具有KO分类编号的蛋白序列，如果需要找所有基因的数据，可以
@@ -110,7 +110,49 @@ Namespace v2
                 .Select(Function(r) r.ID) _
                 .ToArray
         End Function
+    End Class
 
+    Public Class ReactionGroup : Implements IList(Of Reaction)
+
+        <XmlAttribute>
+        Public Property size As Integer Implements IList(Of Reaction).size
+            Get
+                Return enzymatic.Length + etc.Length
+            End Get
+            Set(value As Integer)
+                ' do nothing
+            End Set
+        End Property
+
+        Public Property enzymatic As Reaction()
+        Public Property etc As Reaction()
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of Reaction) Implements Enumeration(Of Reaction).GenericEnumerator
+            For Each reaction In enzymatic
+                Yield reaction
+            Next
+            For Each reaction In etc
+                Yield reaction
+            Next
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Reaction).GetEnumerator
+            Yield GenericEnumerator()
+        End Function
+
+        Public Shared Widening Operator CType(reactions As Reaction()) As ReactionGroup
+            Dim twoGroup = reactions _
+                .GroupBy(Function(r) r.is_enzymatic) _
+                .ToDictionary(Function(g) g.Key.ToString,
+                              Function(g)
+                                  Return g.ToArray
+                              End Function)
+
+            Return New ReactionGroup With {
+                .enzymatic = twoGroup.TryGetValue(True.ToString, [default]:={}),
+                .etc = twoGroup.TryGetValue(False.ToString, [default]:={})
+            }
+        End Operator
     End Class
 
     <XmlType("compound", [Namespace]:=VirtualCell.GCMarkupLanguage)>
@@ -134,6 +176,11 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property is_enzymatic As Boolean
+        ''' <summary>
+        ''' [forward, reverse]
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property bounds As Double()
 
         <XmlText>
         Public Property Equation As String

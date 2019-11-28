@@ -3,10 +3,14 @@
 
 # first load GCModeller virtualcell toolkit R# package into R# environment
 imports "vcellkit.simulator" from "vcellkit.dll";
+imports "gseakit.background" from "gseakit.dll";
 
 # config input model and result save directory from commandline arguments
 let model                <- read.vcell(path = ?"--in") :> as.object;
 let output.dir as string <- ?"--out";
+let deletions  as string <- ?"--deletions";
+let tag.name   as string <- ?"--tag";
+let background as string <- ?"--background";
 
 # config experiment analysis from command line arguments
 let [deletions, tag.name] as string <- [?"--deletions", ?"--tag"];
@@ -47,7 +51,7 @@ if (is.empty(deletions)) {
 print(`The biological replication of the analysis will be tagged as '${tag.name}'`);
 
 # Run virtual cell simulation
-let run as function(i) {
+let run as function(i, deletions = NULL, exp.tag = tag.name) {
     # The VB.NET object should be convert to R# object then 
     # we can reference its member function 
     # directly in script.
@@ -66,11 +70,51 @@ let run as function(i) {
     # save the result snapshot data files into 
     # target data directory
     engine$Run();
-    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${tag.name}${i}/`);
+    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${exp.tag}${i}/`);
 }
 
-# run 5 biological replicate for the 
-# current virtual cell simulation analysis
-for(i in 1:5) {
-    i :> run;
+let biological.replicates as integer = 6;
+
+if (background :> file.exists) {
+    let geneSet as string;
+    let pathwayName as string;
+
+    background <- read.background(background) :> as.object;  
+
+    print("gene deletion mutation by pathway clusters:");
+    print("pathway clusters' GSEA background:");
+    print(background);
+
+    for(cluster in background$clusters) {
+        geneSet <- cluster :> geneSet.intersects(deletions);
+        pathwayName <- (cluster :> as.object)$names 
+            :> normalize.filename
+            :> string.replace("\\s+", "_");
+
+        if (length(geneSet) == 0) {
+            next;
+        } else {
+            print(`do pathway cluster deletion mutation for: ${pathwayName}!`);
+            print(`intersect ${length(geneSet)} with the given geneSet.`);
+
+            for(i in 1:biological.replicates) {
+                # run for mutation genome model
+                i :> run(deletions = geneSet, exp.tag = pathwayName);
+            }
+        }
+    }
+
+} else {
+    # run 6 biological replicate for the 
+    # current virtual cell simulation analysis
+    for(i in 1:biological.replicates) {
+        # run for wildtype
+        i :> run;
+    }
 }
+
+
+
+
+
+
