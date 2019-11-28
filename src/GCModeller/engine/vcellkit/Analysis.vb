@@ -102,5 +102,16 @@ Public Module Analysis
             Return metabolites.Transpose
         End If
     End Function
+
+    <ExportAPI("compound.names")>
+    Public Function CompoundNames(metabolites As DataSet(), names As Dictionary(Of String, String)) As DataSet()
+        For Each compound As DataSet In metabolites
+            If names.ContainsKey(compound.ID) Then
+                compound.ID = names(compound.ID)
+            End If
+        Next
+
+        Return metabolites
+    End Function
 End Module
 

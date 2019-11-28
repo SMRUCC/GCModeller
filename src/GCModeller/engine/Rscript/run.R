@@ -8,9 +8,9 @@ imports "gseakit.background" from "gseakit.dll";
 # config input model and result save directory from commandline arguments
 let model                <- read.vcell(path = ?"--in") :> as.object;
 let output.dir as string <- ?"--out";
-let deletions  as string <- ?"--deletions";
-let tag.name   as string <- ?"--tag";
-let background as string <- ?"--background";
+
+# config experiment analysis from command line arguments
+let [deletions, tag.name, background] as string = [?"--deletions", ?"--tag", ?"--background"];
 
 print("Run virtual cell model:");
 print(model);
@@ -19,13 +19,13 @@ print(model);
 # from the virtual cell data model.
 let inits <- vcell.mass.kegg(vcell = model, mass = 500000);
 let vcell <- model :> vcell.model;
-let mass  <- vcell :> vcell.mass.index;
-let flux  <- vcell :> vcell.flux.index;
+let [mass, flux] = vcell :> [vcell.mass.index, vcell.flux.index];
 
 let dynamics = dynamics.default() :> as.object;
 
-dynamics$transcriptionBaseline = 200;
-dynamics$transcriptionCapacity = 500;
+dynamics$transcriptionBaseline   = 200;
+dynamics$transcriptionCapacity   = 500;
+dynamics$productInhibitionFactor = 0.0125;
 
 print("Using dynamics parameter configuration:");
 print(dynamics);
@@ -48,15 +48,19 @@ if (is.empty(deletions)) {
 
 print(`The biological replication of the analysis will be tagged as '${tag.name}'`);
 
+let sample.names as string = [];
+let sampleName as string;
+let engine;
+
 # Run virtual cell simulation
 let run as function(i, deletions = NULL, exp.tag = tag.name) {
     # The VB.NET object should be convert to R# object then 
     # we can reference its member function 
-    # directly in script.
-    let engine = [vcell = vcell] 
+    # directly in script.    
+    engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 1000, 
+            iterations       = 3, 
             time_resolutions = 0.1, 
             deletions        = deletions
         ) 
@@ -64,11 +68,23 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
         # to construct a R# object
         :> as.object;
 
+    # vector used for generate sampleInfo file
+    sampleName = `${exp.tag}${i}`;
+    sample.names = sample.names << sampleName;
+
     # run virtual cell simulation and then 
     # save the result snapshot data files into 
     # target data directory
     engine$Run();
-    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${exp.tag}${i}/`);
+    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${sampleName}/`);
+}
+
+let save.sampleName as function(fileName) {
+    print("sample names of current sample group:");
+    print(sample.names);
+
+    sample.names :> writeLines(`${output.dir}/${fileName}.txt`);
+    sample.names = [];
 }
 
 let biological.replicates as integer = 6;
@@ -83,11 +99,15 @@ if (background :> file.exists) {
     print("pathway clusters' GSEA background:");
     print(background);
 
+    console::progressbar.pin.top();
+
     for(cluster in background$clusters) {
         geneSet <- cluster :> geneSet.intersects(deletions);
         pathwayName <- (cluster :> as.object)$names 
             :> normalize.filename
-            :> string.replace("\\s+", "_");
+            :> string.replace(" - Reference pathway", "")
+            :> string.replace("\s+", "_", true)
+            ;
 
         if (length(geneSet) == 0) {
             next;
@@ -99,6 +119,8 @@ if (background :> file.exists) {
                 # run for mutation genome model
                 i :> run(deletions = geneSet, exp.tag = pathwayName);
             }
+
+            pathwayName :> save.sampleName;
         }
     }
 
@@ -109,6 +131,8 @@ if (background :> file.exists) {
         # run for wildtype
         i :> run;
     }
+
+    tag.name :> save.sampleName;
 }
 
 

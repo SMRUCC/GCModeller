@@ -13,6 +13,7 @@ Namespace Engine.Definitions
         Public Property translationCapacity As Double = 1000
         Public Property proteinMatureBaseline As Double = 1000
         Public Property proteinMatureCapacity As Double = 10000
+        Public Property productInhibitionFactor As Double = 0.125
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

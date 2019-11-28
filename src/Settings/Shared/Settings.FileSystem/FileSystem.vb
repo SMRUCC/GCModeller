@@ -51,6 +51,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
@@ -381,7 +382,7 @@ NO_DIR:
                 Dim EXEList = ProgramPathSearchTool.SearchProgram(R, "R")
 
                 If EXEList.Count > 1 Then
-                    R = PathExtensions.GetMostAppreancePath(EXEList)
+                    R = RepositoryFileSystem.GetMostAppreancePath(EXEList)
                     Return R
                 End If
             Next

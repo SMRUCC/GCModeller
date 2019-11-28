@@ -226,20 +226,23 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 End With
             Next
 
+            Call DownloadOthers(EXPORT, GetAllPubchemMapCompound(), structInfo)
+        End Sub
+
+        Public Sub DownloadOthers(EXPORT$, compoundIds$(), Optional structInfo As Boolean = False)
             Dim success As Index(Of String) = (ls - l - r - "*.xml" <= EXPORT) _
                 .Select(AddressOf BaseName) _
                 .Indexing
-            Dim allPubchemMaps = GetAllPubchemMapCompound()
             Dim saveDIR = EXPORT & "/OtherUnknowns/"
             Dim query As New DbGetWebQuery($"{saveDIR}/.cache")
             Dim details$
 
             Using progress As New ProgressBar($"Downloads others, {success.Count} success was indexed!", 1, CLS:=True)
-                Dim tick As New ProgressProvider(allPubchemMaps.Length)
+                Dim tick As New ProgressProvider(compoundIds.Length)
 
-                For Each id As String In allPubchemMaps
+                For Each id As String In compoundIds
                     If Not id Like success Then
-                        Call query.Download(id, $"{saveDIR}/{id}.xml", structInfo, Nothing)
+                        Call query.Download(id, $"{saveDIR}/{id.Last}/{id}.xml", structInfo, Nothing)
                     End If
 
                     details = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
