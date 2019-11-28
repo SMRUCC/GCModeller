@@ -21,8 +21,43 @@ Namespace Engine.ModelLoader
         Private Iterator Function proteinDegradation(cell As CellularModule) As IEnumerable(Of Channel)
             ' protein complex -> polypeptide + compounds
             ' polypeptide -> aminoacid
-            For Each complex As Channel In proteinMatures
+            Dim proteinComplex$
+            Dim peptideId$
+            Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
+            Dim composition As ProteinComposition
+            Dim aaResidue As Variable()
 
+            For Each complex As Channel In proteinMatures
+                proteinComplex = complex.right.First(Function(c) c.Mass.ID.EndsWith(".complex")).Mass.ID
+                peptideId = proteinComplex.Replace(".complex", "")
+                composition = proteinMatrix(peptideId)
+                aaResidue = composition _
+                    .Where(Function(i) i.Value > 0) _
+                    .Select(Function(aa)
+                                Dim aaName = loader.define.AminoAcid(aa.Name)
+                                Return MassTable.variable(aaName, aa.Value)
+                            End Function) _
+                    .ToArray
+
+                Yield New Channel(MassTable.variables({proteinComplex}, 1), MassTable.variables({peptideId}, 1)) With {
+                    .ID = $"proteinComplexDegradationOf{proteinComplex}",
+                    .forward = New Controls With {.baseline = 10},
+                    .reverse = New Controls With {.baseline = 0},
+                    .bounds = New Boundary With {
+                        .forward = 1000,
+                        .reverse = 0
+                    }
+                }
+
+                Yield New Channel(MassTable.variables({peptideId}, 1), aaResidue) With {
+                    .ID = $"polypeptideDegradationOf{peptideId}",
+                    .forward = New Controls With {.baseline = 10},
+                    .reverse = New Controls With {.baseline = 0},
+                    .bounds = New Boundary With {
+                        .forward = 1000,
+                        .reverse = 0
+                    }
+                }
             Next
         End Function
 
