@@ -23662,8 +23662,8 @@ Global
 		{D6A4413D-93D4-4419-806E-FCF7CD910167}.docs|x86.Build.0 = Debug|Any CPU
 		{D6A4413D-93D4-4419-806E-FCF7CD910167}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{D6A4413D-93D4-4419-806E-FCF7CD910167}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{D6A4413D-93D4-4419-806E-FCF7CD910167}.GCModeller(Release_X64)|x64.ActiveCfg = Release|Any CPU
-		{D6A4413D-93D4-4419-806E-FCF7CD910167}.GCModeller(Release_X64)|x64.Build.0 = Release|Any CPU
+		{D6A4413D-93D4-4419-806E-FCF7CD910167}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
+		{D6A4413D-93D4-4419-806E-FCF7CD910167}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
 		{D6A4413D-93D4-4419-806E-FCF7CD910167}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{D6A4413D-93D4-4419-806E-FCF7CD910167}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
 		{D6A4413D-93D4-4419-806E-FCF7CD910167}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
