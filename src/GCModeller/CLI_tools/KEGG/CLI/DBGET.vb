@@ -58,8 +58,8 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Metagenomics
 Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.MapDownloader
-Imports OrganismHText = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
 Imports Organism = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism.Organism
+Imports OrganismHText = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
 
 Partial Module CLI
 
@@ -70,7 +70,8 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/try_all /compounds <compounds.directory> /save <DIR> /@set sleep=2000]")>
+    <ExportAPI("/Download.Reaction")>
+    <Usage("/Download.Reaction [/try_all /compounds <compounds.directory> /save <DIR> /@set sleep=2000]")>
     <Description("Downloads the KEGG enzyme reaction reference model data. Usually use these reference reaction data applied for metabolism network analysis.")>
     <Group(CLIGroups.DBGET_tools)>
     <Argument("/compounds", True, CLITypes.File,
@@ -159,7 +160,8 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("-ref.map.download", Usage:="-ref.map.download -o <out_dir>")>
+    <ExportAPI("-ref.map.download")>
+    <Usage("-ref.map.download -o <out_dir>")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadReferenceMapDatabase(argvs As CommandLine) As Integer
         Dim EXPORT As String = argvs("-o")
