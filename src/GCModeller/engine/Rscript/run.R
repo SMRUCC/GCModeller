@@ -8,12 +8,9 @@ imports "gseakit.background" from "gseakit.dll";
 # config input model and result save directory from commandline arguments
 let model                <- read.vcell(path = ?"--in") :> as.object;
 let output.dir as string <- ?"--out";
-let deletions  as string <- ?"--deletions";
-let tag.name   as string <- ?"--tag";
-let background as string <- ?"--background";
 
 # config experiment analysis from command line arguments
-let [deletions, tag.name] as string <- [?"--deletions", ?"--tag"];
+let [deletions, tag.name, background] as string = [?"--deletions", ?"--tag", ?"--background"];
 
 print("Run virtual cell model:");
 print(model);
