@@ -121,7 +121,6 @@ Partial Module CLI
         Dim save$ = args("/save") Or "./KEGG_cpd/"
         Dim flat As Boolean = args("/flat")
         Dim updates As Boolean = args("/updates")
-        Dim reactions As Reaction() = ReactionRepository.ScanModel(args <= "/reactions").metabolicNetwork
 
         Call CompoundBrite.DownloadFromResource(
             EXPORT:=save,
@@ -136,6 +135,25 @@ Partial Module CLI
             Call MetaboliteWebApi.CompleteUsingChEBI(save, accs, updates)
         End If
 
+        Dim repo$ = args <= "/reactions"
+
+        If repo.DirectoryExists Then
+            Dim reactions As Reaction() = ReactionRepository.ScanModel(repo).metabolicNetwork
+            Dim compoundsId As String() = reactions _
+                .Select(Function(r)
+                            Return r.GetSubstrateCompounds()
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+
+            Call CompoundBrite.DownloadOthers(
+                EXPORT:=save,
+                compoundIds:=compoundsId,
+                structInfo:=True
+            )
+        End If
+
         Return 0
     End Function
 
@@ -146,12 +164,12 @@ Partial Module CLI
         Dim IDList = BriteHEntry.Pathway.LoadFromResource
         Dim Downloads = LinqAPI.Exec(Of Boolean) <=
  _
-            From ID As BriteHEntry.Pathway
+            From id As BriteHEntry.Pathway
             In IDList
-            Let MapID As String = "map" & ID.EntryId
-            Let Map = ReferenceMapData.Download(MapID)
-            Let save As String = EXPORT & "/" & MapID & ".xml"
-            Select Map.GetXml.SaveTo(save)
+            Let mapId As String = "map" & id.EntryId
+            Let map = ReferenceMapData.Download(mapId)
+            Let save As String = EXPORT & "/" & mapId & ".xml"
+            Select map.GetXml.SaveTo(save)
 
         Return 0
     End Function
