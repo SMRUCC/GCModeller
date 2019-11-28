@@ -66,25 +66,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Public ReadOnly Property CompoundId As String()
             Get
-                If Remarks.IsNullOrEmpty Then
-                    Return {}
-                End If
-
-                Dim sameAs$ = Remarks.Select(Function(s)
-                                                 Return s.GetTagValue(":"c, trim:=True)
-                                             End Function) _
-                                     .Where(Function(t) t.Name = "Same as") _
-                                     .FirstOrDefault _
-                                     .Value
-
-                If sameAs.StringEmpty Then
-                    Return {}
-                Else
-                    Return sameAs.Split _
-                        .Select(AddressOf Trim) _
-                        .Where(Function(id) id.First = "C"c) _
-                        .ToArray
-                End If
+                Return GetCompoundId(Me)
             End Get
         End Property
 
@@ -95,6 +77,29 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Sub New(links As DBLinks)
             MyBase._DBLinks = links
         End Sub
+
+        Public Shared Function GetCompoundId(compound As Compound) As String()
+            If compound.remarks.IsNullOrEmpty Then
+                Return {}
+            End If
+
+            Dim sameAs$ = compound.remarks _
+                .Select(Function(s)
+                            Return s.GetTagValue(":"c, trim:=True)
+                        End Function) _
+                .Where(Function(t) t.Name = "Same as") _
+                .FirstOrDefault _
+                .Value
+
+            If sameAs.StringEmpty Then
+                Return {}
+            Else
+                Return sameAs.Split _
+                    .Select(AddressOf Trim) _
+                    .Where(Function(id) id.First = "C"c) _
+                    .ToArray
+            End If
+        End Function
 
         Const URL = "http://www.kegg.jp/dbget-bin/www_bget?gl:{0}"
 

@@ -67,9 +67,10 @@ Namespace Assembly.KEGG
                 .Select(Function(glycan)
                             Return New NamedValue(Of String()) With {
                                 .Name = glycan.entry,
-                                .Value = DirectCast(glycan, bGetObject.Glycan).CompoundId
+                                .Value = bGetObject.Glycan.GetCompoundId(glycan)
                             }
                         End Function) _
+                .Where(Function(glycan) Not glycan.Value.IsNullOrEmpty) _
                 .GroupBy(Function(glycan) glycan.Name) _
                 .ToDictionary(Function(glycan) glycan.Key,
                               Function(group)
