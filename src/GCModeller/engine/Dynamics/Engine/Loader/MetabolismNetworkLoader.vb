@@ -117,8 +117,8 @@ Namespace Engine.ModelLoader
             }
 
             ' 假设所有的反应过程化都存在产物抑制效应
-            metabolismFlux.forward.inhibition = MassTable.variables(metabolismFlux.right, 1).ToArray
-            metabolismFlux.reverse.inhibition = MassTable.variables(metabolismFlux.left, 1).ToArray
+            metabolismFlux.forward.inhibition = MassTable.variables(metabolismFlux.right, loader.dynamics.productInhibitionFactor).ToArray
+            metabolismFlux.reverse.inhibition = MassTable.variables(metabolismFlux.left, loader.dynamics.productInhibitionFactor).ToArray
 
             Return metabolismFlux
         End Function

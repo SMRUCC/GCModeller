@@ -23,8 +23,9 @@ let [mass, flux] = vcell :> [vcell.mass.index, vcell.flux.index];
 
 let dynamics = dynamics.default() :> as.object;
 
-dynamics$transcriptionBaseline = 200;
-dynamics$transcriptionCapacity = 500;
+dynamics$transcriptionBaseline   = 200;
+dynamics$transcriptionCapacity   = 500;
+dynamics$productInhibitionFactor = 0.0125;
 
 print("Using dynamics parameter configuration:");
 print(dynamics);
