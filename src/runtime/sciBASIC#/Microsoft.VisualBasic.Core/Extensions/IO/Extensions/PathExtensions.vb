@@ -333,7 +333,7 @@ Public Module PathExtensions
     ''' <returns></returns>
     ''' <remarks></remarks>
     '''
-    <ExportAPI("Path2Url", Info:="Gets the URL type file path.")>
+    <ExportAPI("Path2Url")>
     <Extension> Public Function ToFileURL(path As String) As String
         If String.IsNullOrEmpty(path) Then
             Return ""
@@ -553,7 +553,7 @@ Public Module PathExtensions
     ''' <returns></returns>
     ''' <remarks></remarks>
 #If FRAMEWORD_CORE Then
-    <ExportAPI("File.Exists", Info:="Check if the target file object is exists on your file system or not.")>
+    <ExportAPI("File.Exists")>
     <Extension> Public Function FileExists(path$, Optional ZERO_Nonexists As Boolean = False) As Boolean
 #Else
     <Extension> Public Function FileExists(path As String) As Boolean
@@ -590,7 +590,7 @@ Public Module PathExtensions
     ''' </summary>
     ''' <param name="DIR"></param>
     ''' <returns></returns>
-    <ExportAPI("DIR.Exists", Info:="Determine that the target directory is exists on the file system or not?")>
+    <ExportAPI("DIR.Exists")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function DirectoryExists(DIR As String) As Boolean
@@ -618,7 +618,7 @@ Public Module PathExtensions
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <ExportAPI("File.IsOpened", Info:="Detect while the target file is opened by someone process.")>
+    <ExportAPI("File.IsOpened")>
     <Extension> Public Function FileOpened(FileName As String) As Boolean
         Try
             Using FileOpenDetect As New FileStream(
@@ -649,7 +649,7 @@ Public Module PathExtensions
     ''' 所以在这里为了更加方便的兼容文件夹或者文件路径，在这使用字符串的方法来
     ''' 进行截取
     ''' </remarks>
-    <ExportAPI(NameOf(BaseName), Info:="Gets the name of the target directory/file object.")>
+    <ExportAPI(NameOf(BaseName))>
     <Extension> Public Function BaseName(fsObj$, Optional allowEmpty As Boolean = False) As String
         If fsObj.StringEmpty Then
             If allowEmpty Then
@@ -779,6 +779,8 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
+    ''' Load the file from a specific directory from the source parameter as the resource entry list.
+    ''' 
     ''' [<see cref="FileIO.SearchOption.SearchAllSubDirectories"/>，这个函数会扫描目标文件夹下面的所有文件。]
     ''' 请注意，本方法是不能够产生具有相同的主文件名的数据的。假若目标GBK是使用本模块之中的方法保存或者导出来的，
     ''' 则可以使用本方法生成Entry列表；（在返回的结果之中，KEY为文件名，没有拓展名，VALUE为文件的路径）
@@ -787,8 +789,7 @@ Public Module PathExtensions
     ''' <returns></returns>
     ''' <remarks></remarks>
     '''
-    <ExportAPI("Load.ResourceEntry",
-               Info:="Load the file from a specific directory from the source parameter as the resource entry list.")>
+    <ExportAPI("Load.ResourceEntry")>
     <Extension>
     Public Function LoadSourceEntryList(<Parameter("Dir.Source", "The source directory which will be searchs for file.")> source As String,
                                         <Parameter("List.Ext", "The list of the file extension.")> ext As String(),
@@ -882,7 +883,12 @@ Public Module PathExtensions
 
     End Function
 
-    <ExportAPI("Load.ResourceEntry", Info:="Load the file from a specific directory from the source parameter as the resource entry list.")>
+    ''' <summary>
+    ''' Load the file from a specific directory from the source parameter as the resource entry list.
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <returns></returns>
+    <ExportAPI("Load.ResourceEntry")>
     <Extension>
     Public Function LoadSourceEntryList(source As IEnumerable(Of String)) As Dictionary(Of String, String)
         Dim LQuery = From path As String
@@ -897,14 +903,14 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
-    ''' 将不同来源<paramref name="source"></paramref>的文件复制到目标文件夹<paramref name="copyto"></paramref>之中
+    ''' Copy the file in the source list into the copyto directory, function returns the failed operation list.
+    ''' (将不同来源<paramref name="source"></paramref>的文件复制到目标文件夹<paramref name="copyto"></paramref>之中)
     ''' </summary>
     ''' <param name="source"></param>
     ''' <param name="copyto"></param>
     ''' <returns>返回失败的文件列表</returns>
     ''' <remarks></remarks>
-    <ExportAPI("Source.Copy",
-               Info:="Copy the file in the source list into the copyto directory, function returns the failed operation list.")>
+    <ExportAPI("Source.Copy")>
     Public Function SourceCopy(source As IEnumerable(Of String), CopyTo As String, Optional [Overrides] As Boolean = False) As String()
         Dim failedList As New List(Of String)
 
@@ -920,8 +926,12 @@ Public Module PathExtensions
         Return failedList.ToArray
     End Function
 
-    <ExportAPI("Get.FrequentPath",
-               Info:="Gets a directory path which is most frequent appeared in the file list.")>
+    ''' <summary>
+    ''' Gets a directory path which is most frequent appeared in the file list.
+    ''' </summary>
+    ''' <param name="files"></param>
+    ''' <returns></returns>
+    <ExportAPI("Get.FrequentPath")>
     Public Function GetMostAppreancePath(files As IEnumerable(Of String)) As String
         If files Is Nothing Then
             Return ""
@@ -938,13 +948,14 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
-    ''' 获取相对于本应用程序的目标文件的相对路径(请注意，所生成的相对路径之中的字符串最后是没有文件夹的分隔符\或者/的)
+    ''' Get the specific file system object its relative path to the application base directory.
+    ''' 
+    ''' (获取相对于本应用程序的目标文件的相对路径(请注意，所生成的相对路径之中的字符串最后是没有文件夹的分隔符\或者/的))
     ''' </summary>
     ''' <param name="path"></param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <ExportAPI(NameOf(RelativePath),
-               Info:="Get the specific file system object its relative path to the application base directory.")>
+    <ExportAPI(NameOf(RelativePath))>
     Public Function RelativePath(path As String) As String
         Return RelativePath(App.HOME, path)
     End Function
@@ -957,8 +968,7 @@ Public Module PathExtensions
     ''' <param name="pcTo">所需要生成相对路径的目标文件系统对象的绝对路径或者相对路径</param>
     ''' <param name="appendParent">是否将父目录的路径也添加进入相对路径之中？默认是</param>
     ''' <returns></returns>
-    <ExportAPI(NameOf(RelativePath),
-               Info:="Gets the relative path value of pcTo file system object relative to a reference directory pcFrom")>
+    <ExportAPI(NameOf(RelativePath))>
     Public Function RelativePath(pcFrom$, pcTo$,
                                  Optional appendParent As Boolean = True,
                                  Optional fixZipPath As Boolean = False) As <FunctionReturns("The relative path string of pcTo file object reference to directory pcFrom")> String
@@ -1042,7 +1052,7 @@ Public Module PathExtensions
     ''' <param name="file"></param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <ExportAPI("File.FullPath", Info:="Gets the full path of the file.")>
+    <ExportAPI("File.FullPath")>
     <Extension> Public Function GetFullPath(file As String) As String
         Return FileIO.FileSystem.GetFileInfo(file).FullName.Replace("\", "/")
     End Function
@@ -1054,7 +1064,7 @@ Public Module PathExtensions
     ''' <param name="dir"></param>
     ''' <param name="stack">当程序出错误的时候记录进入日志的一个追踪目标参数，调试用</param>
     ''' <returns></returns>
-    <ExportAPI("Dir.FullPath", Info:="Gets the full path of the directory.")>
+    <ExportAPI("Dir.FullPath")>
     <Extension> Public Function GetDirectoryFullPath(dir$, <CallerMemberName> Optional stack$ = Nothing) As String
         Try
             Return FileIO.FileSystem _
