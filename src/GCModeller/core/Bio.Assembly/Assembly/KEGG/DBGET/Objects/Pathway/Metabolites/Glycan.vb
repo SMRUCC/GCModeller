@@ -60,6 +60,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Mass As String
         Public Property Orthology As KeyValuePair()
 
+        ''' <summary>
+        ''' Glycan id to kegg compound id
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property CompoundId As String()
             Get
                 If Remarks.IsNullOrEmpty Then
@@ -77,9 +81,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     Return {}
                 Else
                     Return sameAs.Split _
-                                 .Select(AddressOf Trim) _
-                                 .Where(Function(id) id.First = "C"c) _
-                                 .ToArray
+                        .Select(AddressOf Trim) _
+                        .Where(Function(id) id.First = "C"c) _
+                        .ToArray
                 End If
             End Get
         End Property
@@ -101,7 +105,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Shared Function Download(ID$) As Glycan
+        Public Overloads Shared Function Download(ID As String) As Glycan
             Return DownloadFrom(url:=String.Format(URL, ID))
         End Function
 
