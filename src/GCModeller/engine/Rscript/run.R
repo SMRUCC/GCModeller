@@ -87,7 +87,9 @@ if (background :> file.exists) {
         geneSet <- cluster :> geneSet.intersects(deletions);
         pathwayName <- (cluster :> as.object)$names 
             :> normalize.filename
-            :> string.replace("\\s+", "_");
+            :> string.replace(" - Reference pathway", "")
+            :> string.replace("\s+", "_", true)
+            ;
 
         if (length(geneSet) == 0) {
             next;
