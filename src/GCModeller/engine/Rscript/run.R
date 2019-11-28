@@ -7,8 +7,9 @@ imports "vcellkit.simulator" from "vcellkit.dll";
 # config input model and result save directory from commandline arguments
 let model                <- read.vcell(path = ?"--in") :> as.object;
 let output.dir as string <- ?"--out";
-let deletions  as string <- ?"--deletions";
-let tag.name   as string <- ?"--tag";
+
+# config experiment analysis from command line arguments
+let [deletions, tag.name] as string <- [?"--deletions", ?"--tag"];
 
 print("Run virtual cell model:");
 print(model);
@@ -17,8 +18,7 @@ print(model);
 # from the virtual cell data model.
 let inits <- vcell.mass.kegg(vcell = model, mass = 500000);
 let vcell <- model :> vcell.model;
-let mass  <- vcell :> vcell.mass.index;
-let flux  <- vcell :> vcell.flux.index;
+let [mass, flux] = vcell :> [vcell.mass.index, vcell.flux.index];
 
 let dynamics = dynamics.default() :> as.object;
 
