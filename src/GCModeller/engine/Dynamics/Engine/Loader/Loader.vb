@@ -132,9 +132,10 @@ Namespace Engine.ModelLoader
             Dim centralDogmas = cell.DoCall(AddressOf GetCentralDogmaFluxLoader().CreateFlux).AsList
             Dim proteinMatrues = cell.DoCall(AddressOf GetProteinMatureFluxLoader().CreateFlux).ToArray
             Dim metabolism = cell.DoCall(AddressOf GetMetabolismNetworkLoader().CreateFlux).ToArray
+            Dim degradation = cell.DoCall(AddressOf New BioMoleculeDegradation(Me).CreateFlux).ToArray
 
             Return New Vessel With {
-                .Channels = centralDogmas + proteinMatrues + metabolism,
+                .Channels = centralDogmas + proteinMatrues + metabolism + degradation,
                 .MassEnvironment = massTable.ToArray
             }
         End Function
