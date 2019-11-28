@@ -5,17 +5,17 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: ..\bin\GCC.exe
+' assembly: ..\bin\gcc.exe
 
 ' 
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7268.38152
-'  // ASSEMBLY:  Settings, Version=3.3277.7268.38152, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7271.30051
+'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/24/2019 8:47:12 AM
+'  // BUILT:     11/28/2019 4:41:42 PM
 '  // 
 ' 
 ' 
@@ -28,7 +28,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' All of the command that available in this program has been list below:
 ' 
 '  /compile.KEGG:                   Create GCModeller virtual cell data model file from KEGG reference
-'                                   data.
+'                                   data. Which the model genome have no reference genome data in KEGG
+'                                   database.
 '  /compile.organism:               Create GCModeller virtual cell data model from KEGG organism pathway
 '                                   data
 '  /export.model.graph:             Export cellular module network from virtual cell model file for
@@ -63,24 +64,24 @@ Namespace GCModellerApps
 ''' gcc=GCModeller Compiler; Compiler program for the GCModeller virtual cell system model
 ''' </summary>
 '''
-Public Class GCC : Inherits InteropService
+Public Class gcc : Inherits InteropService
 
-    Public Const App$ = "GCC.exe"
+    Public Const App$ = "gcc.exe"
 
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
 
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function FromEnvironment(directory As String) As GCC
-          Return New GCC(App:=directory & "/" & GCC.App)
+    Public Shared Function FromEnvironment(directory As String) As gcc
+          Return New gcc(App:=directory & "/" & gcc.App)
      End Function
 
 ''' <summary>
 ''' ```bash
 ''' /compile.KEGG /in &lt;genome.gb&gt; /KO &lt;ko.assign.csv&gt; /maps &lt;kegg.pathways.repository&gt; /compounds &lt;kegg.compounds.repository&gt; /reactions &lt;kegg.reaction.repository&gt; [/location.as.locus_tag /regulations &lt;transcription.regulates.csv&gt; /out &lt;out.model.Xml/xlsx&gt;]
 ''' ```
-''' Create GCModeller virtual cell data model file from KEGG reference data.
+''' Create GCModeller virtual cell data model file from KEGG reference data. Which the model genome have no reference genome data in KEGG database.
 ''' </summary>
 '''
 Public Function CompileKEGG([in] As String, KO As String, maps As String, compounds As String, reactions As String, Optional regulations As String = "", Optional out As String = "", Optional location_as_locus_tag As Boolean = False) As Integer

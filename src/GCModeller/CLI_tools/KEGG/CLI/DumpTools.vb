@@ -128,8 +128,8 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Download.human.genes",
-               Usage:="/Download.human.genes /in <geneID.list/DIR> [/batch /out <save.DIR>]")>
+    <ExportAPI("/Download.human.genes")>
+    <Usage("/Download.human.genes /in <geneID.list/DIR> [/batch /out <save.DIR>]")>
     Public Function DownloadHumanGenes(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim batch As Boolean = args.GetBoolean("/batch")
@@ -157,7 +157,8 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("--Dump.Db", Info:="", Usage:="--Dump.Db /KEGG.Pathways <DIR> /KEGG.Modules <DIR> /KEGG.Reactions <DIR> /sp <sp.Code> /out <out.Xml>")>
+    <ExportAPI("--Dump.Db")>
+    <Usage("--Dump.Db /KEGG.Pathways <DIR> /KEGG.Modules <DIR> /KEGG.Reactions <DIR> /sp <sp.Code> /out <out.Xml>")>
     Public Function DumpDb(args As CommandLine) As Integer
         Dim Pathways As String = args("/KEGG.Pathways")
         Dim Modules As String = args("/KEGG.Modules")
@@ -168,7 +169,8 @@ Partial Module CLI
         Return Modle.GetXml.SaveTo(outXml).CLICode
     End Function
 
-    <ExportAPI("--Get.KO", Usage:="--Get.KO /in <KASS-query.txt>")>
+    <ExportAPI("--Get.KO")>
+    <Usage("--Get.KO /in <KASS-query.txt>")>
     Public Function GetKOAnnotation(args As CommandLine) As Integer
         Dim input As String = args("/in")
         Dim buffer = input.ReadAllLines.Select(Function(x) Strings.Split(x, vbTab))
@@ -178,7 +180,8 @@ Partial Module CLI
         Return LQuery.SaveTo(input.TrimSuffix & ".KO.csv")
     End Function
 
-    <ExportAPI("/Query.KO", Usage:="/Query.KO /in <blastnhits.csv> [/out <out.csv> /evalue 1e-5 /batch]")>
+    <ExportAPI("/Query.KO")>
+    <Usage("/Query.KO /in <blastnhits.csv> [/out <out.csv> /evalue 1e-5 /batch]")>
     Public Function QueryKOAnno(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim batch As Boolean = args.GetBoolean("/batch")
@@ -316,7 +319,8 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     ''' <remarks>
     ''' 这个工具一般没有太多用途，主要是用于测试html文档解析器是否正确工作
     ''' </remarks>
-    <ExportAPI("/Dump.sp", Usage:="/Dump.sp [/res <sp.html, default=weburl.html> /out <out.csv>]")>
+    <ExportAPI("/Dump.sp")>
+    <Usage("/Dump.sp [/res <sp.html, default=weburl.html> /out <out.csv>]")>
     <Description("/Dumping KEGG organism table in csv file format.")>
     <Argument("/res", True, CLITypes.File,
               AcceptTypes:={GetType(String)},

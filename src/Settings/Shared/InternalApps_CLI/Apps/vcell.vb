@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7268.38152
-'  // ASSEMBLY:  Settings, Version=3.3277.7268.38152, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7271.30051
+'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/24/2019 8:47:12 AM
+'  // BUILT:     11/28/2019 4:41:42 PM
 '  // 
 ' 
 ' 
@@ -27,6 +27,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
+'  /diff:      Different expression of ``exp vs normal``.
 '  /run:       Run GCModeller VirtualCell.
 '  /union:     
 ' 
@@ -59,12 +60,34 @@ Public Class vcell : Inherits InteropService
 
 ''' <summary>
 ''' ```bash
-''' /run /model &lt;model.gcmarkup&gt; [/deletes &lt;genelist&gt; /iterations &lt;default=5000&gt; /csv /out &lt;raw/result_directory&gt;]
+''' /diff /normal &lt;result.json&gt; /exp &lt;experiment.json&gt; [/result &lt;output_folder&gt;]
+''' ```
+''' Different expression of ``exp vs normal``.
+''' </summary>
+'''
+Public Function DiffExpression(normal As String, exp As String, Optional result As String = "") As Integer
+    Dim CLI As New StringBuilder("/diff")
+    Call CLI.Append(" ")
+    Call CLI.Append("/normal " & """" & normal & """ ")
+    Call CLI.Append("/exp " & """" & exp & """ ")
+    If Not result.StringEmpty Then
+            Call CLI.Append("/result " & """" & result & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /run /model &lt;model.gcmarkup&gt; [/deletes &lt;genelist&gt; /iterations &lt;default=5000&gt; /json /out &lt;raw/result_directory&gt;]
 ''' ```
 ''' Run GCModeller VirtualCell.
 ''' </summary>
 '''
-Public Function Run(model As String, Optional deletes As String = "", Optional iterations As String = "5000", Optional out As String = "", Optional csv As Boolean = False) As Integer
+Public Function Run(model As String, Optional deletes As String = "", Optional iterations As String = "5000", Optional out As String = "", Optional json As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/run")
     Call CLI.Append(" ")
     Call CLI.Append("/model " & """" & model & """ ")
@@ -77,8 +100,8 @@ Public Function Run(model As String, Optional deletes As String = "", Optional i
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
-    If csv Then
-        Call CLI.Append("/csv ")
+    If json Then
+        Call CLI.Append("/json ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -89,15 +112,14 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /union /raw &lt;*.csv data_directory&gt; /time &lt;timepoint&gt; [/out &lt;union_matrix.csv&gt;]
+''' /union /in &lt;json.dataset_folder&gt; [/out &lt;result.folder&gt;]
 ''' ```
 ''' </summary>
 '''
-Public Function UnionCompareMatrix(raw As String, time As String, Optional out As String = "") As Integer
+Public Function [Union]([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/union")
     Call CLI.Append(" ")
-    Call CLI.Append("/raw " & """" & raw & """ ")
-    Call CLI.Append("/time " & """" & time & """ ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If

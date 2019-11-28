@@ -8,4 +8,4 @@ REM wildtype test
 REM R# ./run.R --in "%model%" --out "%output%/normals/" --tag normal
 
 REM mutation test
-R# ./run.R --in "%model%" --out "%output%/delete_all_DEG/" --tag delete_all_DEG --deletions "%work%/1025_EG.txt"
+R# ./run.R --in "%model%" --out "%output%/delete_all_DEG/" --tag delete_all_DEG --deletions "%work%/1025_EG.txt" --background "%work%/KOclusters.Xml"

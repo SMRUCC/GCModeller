@@ -77,7 +77,7 @@ Namespace v2
         <XmlElement("metabolome", [Namespace]:=GCMarkupLanguage)>
         Public Property metabolismStructure As MetabolismStructure
 
-        Public Const GCMarkupLanguage$ = "http://CAD_software.gcmodeller.org/XML/schema_revision/GCMarkup_1.0"
+        Public Const GCMarkupLanguage$ = "https://bioCAD.gcmodeller.org/XML/schema_revision/GCMarkup_2.0"
 
         <XmlNamespaceDeclarations()>
         Public xmlns As New XmlSerializerNamespaces
@@ -88,12 +88,13 @@ Namespace v2
 
         Public Overrides Function ToString() As String
             Dim sb As New StringBuilder
+            Dim lv As i32 = Scan0
 
             Call (taxonomy.scientificName Or taxonomy.species.AsDefault) _
                 .DoCall(AddressOf sb.AppendLine)
 
             For Each level As String In taxonomy.Select(TaxonomyRanks.Genus)
-                Call sb.AppendLine("  " & level)
+                Call sb.AppendLine("  " & New String(" "c, ++lv) & level)
             Next
 
             Return sb.ToString
@@ -108,7 +109,7 @@ Namespace v2
             Dim sb As New StringBuilder
             Dim type$
 
-            Call sb.AppendLine(model.taxonomy.ToString)
+            Call sb.AppendLine(model.ToString)
             Call sb.AppendLine()
             Call sb.AppendLine("genomes:")
 
@@ -134,8 +135,8 @@ Namespace v2
             Call sb.AppendLine($"  enzymes: {model.metabolismStructure.enzymes.Length}")
             Call sb.AppendLine($"  reactions:")
             Call sb.AppendLine()
-            Call sb.AppendLine($"    {model.metabolismStructure.reactions.Count(Function(r) r.is_enzymatic)} is enzymatic.")
-            Call sb.AppendLine($"    {model.metabolismStructure.reactions.Count(Function(r) Not r.is_enzymatic)} is non-enzymatic.")
+            Call sb.AppendLine($"    {model.metabolismStructure.reactions.AsEnumerable.Count(Function(r) r.is_enzymatic)} is enzymatic.")
+            Call sb.AppendLine($"    {model.metabolismStructure.reactions.AsEnumerable.Count(Function(r) Not r.is_enzymatic)} is non-enzymatic.")
 
             Return sb.ToString
         End Function
