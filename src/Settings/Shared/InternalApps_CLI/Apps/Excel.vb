@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7268.38152
-'  // ASSEMBLY:  Settings, Version=3.3277.7268.38152, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7271.23775
+'  // ASSEMBLY:  Settings, Version=3.3277.7271.23775, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/24/2019 8:47:12 AM
+'  // BUILT:     11/28/2019 1:12:30 PM
 '  // 
 ' 
 ' 
@@ -27,7 +27,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  /association:     
+'  /association:     Append part of data of table ``b`` to table ``a``
 '  /fill.zero:       
 '  /name.values:     Subset of the input table file by columns, produce a <name,value,description> dataset.
 '  /Print:           Print the csv/xlsx file content onto the console screen or text file in table layout.
@@ -86,11 +86,12 @@ Public Class Excel : Inherits InteropService
 
 ''' <summary>
 ''' ```bash
-''' /association /a &lt;a.csv&gt; /b &lt;dataset.csv&gt; [/column.A &lt;scan0&gt; /out &lt;out.csv&gt;]
+''' /association /a &lt;a.csv&gt; /b &lt;dataset.csv&gt; [/column.A &lt;scan0&gt; /column.B &lt;scan0&gt; /ignore.blank.index /out &lt;out.csv&gt;]
 ''' ```
+''' Append part of data of table ``b`` to table ``a``
 ''' </summary>
 '''
-Public Function Association(a As String, b As String, Optional column_a As String = "", Optional out As String = "") As Integer
+Public Function Association(a As String, b As String, Optional column_a As String = "", Optional column_b As String = "", Optional out As String = "", Optional ignore_blank_index As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/association")
     Call CLI.Append(" ")
     Call CLI.Append("/a " & """" & a & """ ")
@@ -98,8 +99,14 @@ Public Function Association(a As String, b As String, Optional column_a As Strin
     If Not column_a.StringEmpty Then
             Call CLI.Append("/column.a " & """" & column_a & """ ")
     End If
+    If Not column_b.StringEmpty Then
+            Call CLI.Append("/column.b " & """" & column_b & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If ignore_blank_index Then
+        Call CLI.Append("/ignore.blank.index ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
