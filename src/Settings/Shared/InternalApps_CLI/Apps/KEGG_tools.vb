@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.23775
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.23775, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7271.30051
+'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 1:12:30 PM
+'  // BUILT:     11/28/2019 4:41:42 PM
 '  // 
 ' 
 ' 
@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '                                           by a given species list.
 '  /Get.prot_motif:                         
 '  /Gets.prot_motif:                        
+'  /Glycan.compoundId:                      
 '  /Imports.KO:                             Imports the KEGG reference pathway map and KEGG orthology
 '                                           data as mysql dumps.
 '  /Imports.SSDB:                           
@@ -700,6 +701,26 @@ Public Function GetsProteinMotifs(query As String, Optional sp As String = "", O
     End If
     If update Then
         Call CLI.Append("/update ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /Glycan.compoundId /repo &lt;kegg_compounds.directory&gt; [/out &lt;id_mapping.json&gt;]
+''' ```
+''' </summary>
+'''
+Public Function Glycan2CompoundId(repo As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/Glycan.compoundId")
+    Call CLI.Append(" ")
+    Call CLI.Append("/repo " & """" & repo & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
