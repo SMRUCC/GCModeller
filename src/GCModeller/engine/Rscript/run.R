@@ -48,15 +48,18 @@ if (is.empty(deletions)) {
 
 print(`The biological replication of the analysis will be tagged as '${tag.name}'`);
 
+let sample.names as string = [];
+
 # Run virtual cell simulation
 let run as function(i, deletions = NULL, exp.tag = tag.name) {
     # The VB.NET object should be convert to R# object then 
     # we can reference its member function 
     # directly in script.
+    let sampleName = `${exp.tag}${i}`;
     let engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 1000, 
+            iterations       = 100, 
             time_resolutions = 0.1, 
             deletions        = deletions
         ) 
@@ -64,11 +67,19 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
         # to construct a R# object
         :> as.object;
 
+    # vector used for generate sampleInfo file
+    sample.names = sample.names << sampleName;
+
     # run virtual cell simulation and then 
     # save the result snapshot data files into 
     # target data directory
     engine$Run();
-    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${exp.tag}${i}/`);
+    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${sampleName}/`);
+}
+
+let save.sampleName as function(fileName) {
+    sample.names :> writeLines(`${output.dir}/${fileName}.txt`);
+    sample.names = [];
 }
 
 let biological.replicates as integer = 6;
@@ -101,6 +112,8 @@ if (background :> file.exists) {
                 # run for mutation genome model
                 i :> run(deletions = geneSet, exp.tag = pathwayName);
             }
+
+            [fileName = pathwayName] :> save.sampleName;
         }
     }
 
@@ -111,6 +124,8 @@ if (background :> file.exists) {
         # run for wildtype
         i :> run;
     }
+
+    [fileName = tag.name] :> save.sampleName;
 }
 
 
