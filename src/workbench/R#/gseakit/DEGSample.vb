@@ -14,6 +14,11 @@ Module DEGSample
         Return file.LoadCsv(Of SampleInfo)
     End Function
 
+    <ExportAPI("write.sampleinfo")>
+    Public Function WriteSampleInfo(sampleinfo As SampleInfo(), file$) As Boolean
+        Return sampleinfo.SaveTo(file)
+    End Function
+
     ''' <summary>
     ''' Create sampleInfo table from text files
     ''' </summary>
