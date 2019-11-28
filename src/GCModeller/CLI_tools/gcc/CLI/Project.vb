@@ -84,11 +84,17 @@ Partial Module CLI
     Public Function CompileKEGG(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim KO$ = args <= "/KO"
-        Dim glycan2Cpd As Dictionary(Of String, String()) = (args <= "/glycan.cpd").LoadJsonFile(Of Dictionary(Of String, String()))
+        Dim glycan2Cpd As Dictionary(Of String, String) = (args <= "/glycan.cpd") _
+            .LoadJsonFile(Of Dictionary(Of String, String())) _
+            .ToDictionary(Function(t) t.Key,
+                          Function(t)
+                              Return t.Value(Scan0)
+                          End Function)
         Dim kegg As New RepositoryArguments With {
             .KEGGCompounds = args <= "/compounds",
             .KEGGPathway = args <= "/maps",
-            .KEGGReactions = args <= "/reactions"
+            .KEGGReactions = args <= "/reactions",
+            .Glycan2Cpd = glycan2Cpd
         }
         Dim locationAsLocus_tag As Boolean = args("/location.as.locus_tag")
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GCMarkup"
