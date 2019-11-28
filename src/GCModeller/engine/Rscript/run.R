@@ -49,14 +49,15 @@ if (is.empty(deletions)) {
 print(`The biological replication of the analysis will be tagged as '${tag.name}'`);
 
 let sample.names as string = [];
+let sampleName as string;
+let engine;
 
 # Run virtual cell simulation
 let run as function(i, deletions = NULL, exp.tag = tag.name) {
     # The VB.NET object should be convert to R# object then 
     # we can reference its member function 
-    # directly in script.
-    let sampleName = `${exp.tag}${i}`;
-    let engine = [vcell = vcell] 
+    # directly in script.    
+    engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
             iterations       = 3, 
@@ -68,6 +69,7 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
         :> as.object;
 
     # vector used for generate sampleInfo file
+    sampleName = `${exp.tag}${i}`;
     sample.names = sample.names << sampleName;
 
     # run virtual cell simulation and then 
