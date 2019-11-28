@@ -97,7 +97,7 @@ Namespace Engine.ModelLoader
             ' protein id
             enzymeProteinComplexes = enzymeProteinComplexes _
                 .Where(AddressOf KOfunctions.ContainsKey) _
-                .Select(Function(ko) KOfunctions(ko)) _
+                .Select(Function(KO) KOfunctions(KO)) _
                 .IteratesALL _
                 .Distinct _
                 .ToArray
@@ -123,10 +123,19 @@ Namespace Engine.ModelLoader
             }
 
             ' 假设所有的反应过程化都存在产物抑制效应
-            metabolismFlux.forward.inhibition = MassTable.variables(metabolismFlux.right, loader.dynamics.productInhibitionFactor).ToArray
-            metabolismFlux.reverse.inhibition = MassTable.variables(metabolismFlux.left, loader.dynamics.productInhibitionFactor).ToArray
+            metabolismFlux.forward.inhibition = metabolismFlux.right.DoCall(AddressOf productInhibitionFactor)
+            metabolismFlux.reverse.inhibition = metabolismFlux.left.DoCall(AddressOf productInhibitionFactor)
 
             Return metabolismFlux
+        End Function
+
+        Private Function productInhibitionFactor(factors As IEnumerable(Of Variable)) As Variable()
+            Return factors _
+                .Where(Function(fac) Not fac.Mass.ID Like infinitySource) _
+                .DoCall(Function(objects)
+                            Return MassTable.variables(objects, loader.dynamics.productInhibitionFactor)
+                        End Function) _
+                .ToArray
         End Function
     End Class
 End Namespace
