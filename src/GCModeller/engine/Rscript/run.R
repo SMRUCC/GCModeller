@@ -99,6 +99,8 @@ if (background :> file.exists) {
     print("pathway clusters' GSEA background:");
     print(background);
 
+    console::progressbar.pin.top();
+
     for(cluster in background$clusters) {
         geneSet <- cluster :> geneSet.intersects(deletions);
         pathwayName <- (cluster :> as.object)$names 
