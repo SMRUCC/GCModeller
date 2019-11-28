@@ -78,7 +78,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/compile.KEGG")>
     <Description("Create GCModeller virtual cell data model file from KEGG reference data. Which the model genome have no reference genome data in KEGG database.")>
-    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/location.as.locus_tag /regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
+    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/location.as.locus_tag /glycan.cpd <id.maps.json> /regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
     <Argument("/regulations", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.gb, *.gbk, *.gbff",
