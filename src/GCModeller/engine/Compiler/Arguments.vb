@@ -52,6 +52,8 @@ Public Class RepositoryArguments
     Dim reactionsRepository As ReactionRepository
     Dim pathwayRepository As PathwayRepository
 
+    Public Property Glycan2Cpd As Dictionary(Of String, String())
+
     Public Function GetCompounds() As CompoundRepository
         If compoundsRepository Is Nothing Then
             compoundsRepository = KEGGCompounds.FetchCompoundRepository

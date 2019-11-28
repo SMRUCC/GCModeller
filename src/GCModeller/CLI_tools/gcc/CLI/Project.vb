@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
@@ -83,6 +84,7 @@ Partial Module CLI
     Public Function CompileKEGG(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim KO$ = args <= "/KO"
+        Dim glycan2Cpd As Dictionary(Of String, String()) = (args <= "/glycan.cpd").LoadJsonFile(Of Dictionary(Of String, String()))
         Dim kegg As New RepositoryArguments With {
             .KEGGCompounds = args <= "/compounds",
             .KEGGPathway = args <= "/maps",
