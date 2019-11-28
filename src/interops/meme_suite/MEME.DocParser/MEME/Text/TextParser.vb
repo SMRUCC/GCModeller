@@ -47,6 +47,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
