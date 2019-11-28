@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
 
@@ -143,6 +144,19 @@ Partial Module CLI
         Dim repo$ = args <= "/repo"
         Dim out$ = args("/out") Or $"{repo.TrimDIR}.commandNames.json"
         Dim names = GetCompoundNames(repo)
+
+        Return names _
+            .GetJson _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/Glycan.compoundId")>
+    <Usage("/Glycan.compoundId /repo <kegg_compounds.directory> [/out <id_mapping.json>]")>
+    Public Function Glycan2CompoundId(args As CommandLine) As Integer
+        Dim repo$ = args <= "/repo"
+        Dim out$ = args("/out") Or $"{repo.TrimDIR}.commandNames.json"
+        Dim names = CompoundRepository.ScanRepository(repo, False).Glycan2CompoundId
 
         Return names _
             .GetJson _
