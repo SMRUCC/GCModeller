@@ -102,5 +102,10 @@ Public Module Analysis
             Return metabolites.Transpose
         End If
     End Function
+
+    <ExportAPI("compound.names")>
+    Public Function CompoundNames(metabolites As DataSet(), names As Dictionary(Of String, String)) As DataSet()
+
+    End Function
 End Module
 
