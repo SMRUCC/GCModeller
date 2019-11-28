@@ -23,14 +23,22 @@ Namespace Engine.ModelLoader
             ' polypeptide -> aminoacid
             Dim proteinComplex$
             Dim peptideId$
+            Dim geneIDindex = cell.Genotype.centralDogmas _
+                .Where(Function(cd) Not cd.polypeptide.StringEmpty) _
+                .ToDictionary(Function(cd) cd.polypeptide,
+                              Function(cd)
+                                  Return cd.geneID
+                              End Function)
             Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
             Dim composition As ProteinComposition
             Dim aaResidue As Variable()
+            Dim geneID$
 
             For Each complex As Channel In proteinMatures
                 proteinComplex = complex.right.First(Function(c) c.Mass.ID.EndsWith(".complex")).Mass.ID
                 peptideId = proteinComplex.Replace(".complex", "")
-                composition = proteinMatrix(peptideId)
+                geneID = geneIDindex(peptideId)
+                composition = proteinMatrix(geneID)
                 aaResidue = composition _
                     .Where(Function(i) i.Value > 0) _
                     .Select(Function(aa)
