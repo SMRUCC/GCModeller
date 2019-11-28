@@ -60,7 +60,7 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 10, 
+            iterations       = 1000, 
             time_resolutions = 0.1, 
             deletions        = deletions
         ) 
