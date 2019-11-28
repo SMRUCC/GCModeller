@@ -59,7 +59,7 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     let engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 100, 
+            iterations       = 3, 
             time_resolutions = 0.1, 
             deletions        = deletions
         ) 
@@ -78,6 +78,9 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
 }
 
 let save.sampleName as function(fileName) {
+    print("sample names of current sample group:");
+    print(sample.names);
+
     sample.names :> writeLines(`${output.dir}/${fileName}.txt`);
     sample.names = [];
 }
