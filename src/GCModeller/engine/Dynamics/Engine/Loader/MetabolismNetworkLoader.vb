@@ -129,6 +129,10 @@ Namespace Engine.ModelLoader
             Return metabolismFlux
         End Function
 
+        Private Iterator Function generalFluxExpansion(template As Reaction, KOfunctions As Dictionary(Of String, String())) As IEnumerable(Of Channel)
+
+        End Function
+
         Private Function productInhibitionFactor(factors As IEnumerable(Of Variable)) As Variable()
             Return factors _
                 .Where(Function(fac) Not fac.Mass.ID Like infinitySource) _

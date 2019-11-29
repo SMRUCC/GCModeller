@@ -17,15 +17,15 @@ print(model);
 
 # create virtual cell object model and initialize the test data
 # from the virtual cell data model.
-let inits <- vcell.mass.kegg(vcell = model, mass = 50000);
+let inits <- vcell.mass.kegg(vcell = model, mass = 500000);
 let vcell <- model :> vcell.model;
 let [mass, flux] = vcell :> [vcell.mass.index, vcell.flux.index];
 
 let dynamics = dynamics.default() :> as.object;
 
-dynamics$transcriptionBaseline   = 200;
+dynamics$transcriptionBaseline   = 300;
 dynamics$transcriptionCapacity   = 500;
-dynamics$productInhibitionFactor = 0.00000125;
+dynamics$productInhibitionFactor = 0.0000125 / 100000000;
 
 print("Using dynamics parameter configuration:");
 print(dynamics);
@@ -60,7 +60,7 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 1000, 
+            iterations       = 3000, 
             time_resolutions = 0.1, 
             deletions        = deletions
         ) 
