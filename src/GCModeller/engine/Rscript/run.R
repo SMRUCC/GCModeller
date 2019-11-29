@@ -120,7 +120,7 @@ if (background :> file.exists) {
                 i :> run(deletions = geneSet, exp.tag = pathwayName);
             }
 
-            pathwayName :> save.sampleName;
+            [fileName = pathwayName] :> save.sampleName;
         }
     }
 
@@ -132,7 +132,7 @@ if (background :> file.exists) {
         i :> run;
     }
 
-    tag.name :> save.sampleName;
+    [fileName = tag.name] :> save.sampleName;
 }
 
 
