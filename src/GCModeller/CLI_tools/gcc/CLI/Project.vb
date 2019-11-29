@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
@@ -77,7 +78,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/compile.KEGG")>
     <Description("Create GCModeller virtual cell data model file from KEGG reference data. Which the model genome have no reference genome data in KEGG database.")>
-    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/location.as.locus_tag /regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
+    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/location.as.locus_tag /glycan.cpd <id.maps.json> /regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
     <Argument("/regulations", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.gb, *.gbk, *.gbff",
@@ -94,10 +95,17 @@ Partial Module CLI
     Public Function CompileKEGG(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim KO$ = args <= "/KO"
+        Dim glycan2Cpd As Dictionary(Of String, String) = (args <= "/glycan.cpd") _
+            .LoadJsonFile(Of Dictionary(Of String, String())) _
+            .ToDictionary(Function(t) t.Key,
+                          Function(t)
+                              Return t.Value(Scan0)
+                          End Function)
         Dim kegg As New RepositoryArguments With {
             .KEGGCompounds = args <= "/compounds",
             .KEGGPathway = args <= "/maps",
-            .KEGGReactions = args <= "/reactions"
+            .KEGGReactions = args <= "/reactions",
+            .Glycan2Cpd = glycan2Cpd
         }
         Dim locationAsLocus_tag As Boolean = args("/location.as.locus_tag")
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GCMarkup"
