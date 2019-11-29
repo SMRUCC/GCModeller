@@ -124,7 +124,7 @@ Public Module Workflow
         Dim phenotype As New Phenotype With {
             .fluxes = repo _
                 .GetReactions _
-                .BuildReactions _
+                .BuildReactions（repo.Glycan2Cpd） _
                 .ToArray
         }
 
@@ -176,7 +176,7 @@ Public Module Workflow
     End Function
 
     <Extension>
-    Private Iterator Function BuildReactions(repo As ReactionRepository) As IEnumerable(Of Reaction)
+    Private Iterator Function BuildReactions(repo As ReactionRepository, glycan2Cpd As Dictionary(Of String, String)) As IEnumerable(Of Reaction)
         For Each reaction In repo.metabolicNetwork
             Dim model As Equation = reaction.ReactionModel
             Dim enzymes$() = {}
@@ -193,8 +193,8 @@ Public Module Workflow
             Yield New Reaction With {
                 .enzyme = enzymes,
                 .ID = reaction.ID,
-                .substrates = model.Reactants.converts,
-                .products = model.Products.converts,
+                .substrates = model.Reactants.converts.glycan2Cpd(glycan2Cpd),
+                .products = model.Products.converts.glycan2Cpd(glycan2Cpd),
                 .name = reaction _
                     .CommonNames _
                     .ElementAtOrDefault(0, reaction.Definition)
@@ -202,12 +202,26 @@ Public Module Workflow
         Next
     End Function
 
+    <Extension>
+    Private Function glycan2Cpd(factors As IEnumerable(Of FactorString(Of Double)), glycan2CpdMaps As Dictionary(Of String, String)) As FactorString(Of Double)()
+        Return factors _
+            .Select(Function(factor)
+                        If glycan2CpdMaps.ContainsKey(factor.text) Then
+                            Return New FactorString(Of Double) With {
+                                .factor = factor.factor,
+                                .text = glycan2CpdMaps(factor.text)
+                            }
+                        Else
+                            Return factor
+                        End If
+                    End Function) _
+            .ToArray
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Private Function converts(compounds As CompoundSpecieReference()) As FactorString(Of Double)()
-        Return compounds _
-            .Select(Function(r) r.AsFactor) _
-            .ToArray
+    Private Function converts(compounds As CompoundSpecieReference()) As IEnumerable(Of FactorString(Of Double))
+        Return compounds.Select(Function(r) r.AsFactor)
     End Function
 
     ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA", "RNA"}

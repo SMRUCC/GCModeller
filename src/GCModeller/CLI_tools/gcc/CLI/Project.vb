@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
@@ -76,17 +77,35 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/compile.KEGG")>
-    <Description("Create GCModeller virtual cell data model file from KEGG reference data.")>
-    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/location.as.locus_tag /regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
+    <Description("Create GCModeller virtual cell data model file from KEGG reference data. Which the model genome have no reference genome data in KEGG database.")>
+    <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/location.as.locus_tag /glycan.cpd <id.maps.json> /regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
     <Argument("/regulations", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in)>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.gb, *.gbk, *.gbff",
+              Description:="The genome annotation data in genbank format, apply for the genome data modelling which target genome is not yet published to public.")>
+    <Argument("/maps", False, CLITypes.File,
+              Extensions:="*.xml",
+              Description:="The KEGG reference pathway data repository, not the data repository for Map render data.")>
+    <Argument("/location.as.locus_tag", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If the target genome for create the VirtualCell model is not yet publish on NCBI, 
+              then it have no formal locus_tag id assigned for the genes yet, so you can enable this option 
+              for telling the model compiler use the genes' genome coordinate value as its unique locus_tag 
+              id value.")>
     Public Function CompileKEGG(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim KO$ = args <= "/KO"
+        Dim glycan2Cpd As Dictionary(Of String, String) = (args <= "/glycan.cpd") _
+            .LoadJsonFile(Of Dictionary(Of String, String())) _
+            .ToDictionary(Function(t) t.Key,
+                          Function(t)
+                              Return t.Value(Scan0)
+                          End Function)
         Dim kegg As New RepositoryArguments With {
             .KEGGCompounds = args <= "/compounds",
             .KEGGPathway = args <= "/maps",
-            .KEGGReactions = args <= "/reactions"
+            .KEGGReactions = args <= "/reactions",
+            .Glycan2Cpd = glycan2Cpd
         }
         Dim locationAsLocus_tag As Boolean = args("/location.as.locus_tag")
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GCMarkup"
@@ -126,6 +145,11 @@ Partial Module CLI
                          End Function)
     End Function
 
+    ''' <summary>
+    ''' This cli tools is apply for the reference genome model
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/compile.organism")>
     <Usage("/compile.organism /in <genome.gb> /kegg <kegg.organism_pathways.repository/model.xml> [/location.as.locus_tag /regulations <transcription.regulates.csv> /out <out.model.Xml>]")>
     <Description("Create GCModeller virtual cell data model from KEGG organism pathway data")>

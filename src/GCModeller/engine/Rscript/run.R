@@ -17,7 +17,7 @@ print(model);
 
 # create virtual cell object model and initialize the test data
 # from the virtual cell data model.
-let inits <- vcell.mass.kegg(vcell = model, mass = 500000);
+let inits <- vcell.mass.kegg(vcell = model, mass = 50000);
 let vcell <- model :> vcell.model;
 let [mass, flux] = vcell :> [vcell.mass.index, vcell.flux.index];
 
@@ -25,7 +25,7 @@ let dynamics = dynamics.default() :> as.object;
 
 dynamics$transcriptionBaseline   = 200;
 dynamics$transcriptionCapacity   = 500;
-dynamics$productInhibitionFactor = 0.0125;
+dynamics$productInhibitionFactor = 0.00000125;
 
 print("Using dynamics parameter configuration:");
 print(dynamics);
@@ -48,12 +48,16 @@ if (is.empty(deletions)) {
 
 print(`The biological replication of the analysis will be tagged as '${tag.name}'`);
 
+let sample.names as string = [];
+let sampleName as string;
+let engine;
+
 # Run virtual cell simulation
 let run as function(i, deletions = NULL, exp.tag = tag.name) {
     # The VB.NET object should be convert to R# object then 
     # we can reference its member function 
-    # directly in script.
-    let engine = [vcell = vcell] 
+    # directly in script.    
+    engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
             iterations       = 1000, 
@@ -64,11 +68,23 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
         # to construct a R# object
         :> as.object;
 
+    # vector used for generate sampleInfo file
+    sampleName = `${exp.tag}${i}`;
+    sample.names = sample.names << sampleName;
+
     # run virtual cell simulation and then 
     # save the result snapshot data files into 
     # target data directory
     engine$Run();
-    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${exp.tag}${i}/`);
+    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${sampleName}/`);
+}
+
+let save.sampleName as function(fileName) {
+    print("sample names of current sample group:");
+    print(sample.names);
+
+    sample.names :> writeLines(`${output.dir}/${fileName}.txt`);
+    sample.names = [];
 }
 
 let biological.replicates as integer = 6;
@@ -82,6 +98,8 @@ if (background :> file.exists) {
     print("gene deletion mutation by pathway clusters:");
     print("pathway clusters' GSEA background:");
     print(background);
+
+    console::progressbar.pin.top();
 
     for(cluster in background$clusters) {
         geneSet <- cluster :> geneSet.intersects(deletions);
@@ -101,6 +119,8 @@ if (background :> file.exists) {
                 # run for mutation genome model
                 i :> run(deletions = geneSet, exp.tag = pathwayName);
             }
+
+            pathwayName :> save.sampleName;
         }
     }
 
@@ -111,6 +131,8 @@ if (background :> file.exists) {
         # run for wildtype
         i :> run;
     }
+
+    tag.name :> save.sampleName;
 }
 
 

@@ -54,6 +54,9 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.Rsharp.Runtime
 
+''' <summary>
+''' 
+''' </summary>
 <Package("vcellkit.simulator", Category:=APICategories.ResearchTools)>
 Public Module Simulator
 
