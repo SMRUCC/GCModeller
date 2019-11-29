@@ -52,7 +52,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
-Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 
 ''' <summary>
 ''' 
@@ -68,7 +68,7 @@ Public Module Simulator
                         CLITools.AppSummary(assm, "Welcome to use SMRUCC/GCModeller virtual cell simulator!", Nothing, App.StdOut)
                     End Sub)
         Call Console.WriteLine()
-        Call Internal.printer.AttachConsoleFormatter(Of VirtualCell)(AddressOf VirtualCell.Summary)
+        Call printer.AttachConsoleFormatter(Of VirtualCell)(AddressOf VirtualCell.Summary)
     End Sub
 
     <ExportAPI("read.vcell")>
