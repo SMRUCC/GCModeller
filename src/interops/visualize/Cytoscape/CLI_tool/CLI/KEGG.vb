@@ -506,8 +506,26 @@ Partial Module CLI
         Dim KOnames = args("/KO").LoadJson(Of Dictionary(Of String, String()))
         Dim network As NetworkTables = NetworkFileIO.Load([in])
         Dim out$ = args("/out") Or [in]
+        Dim nodeIndex As Dictionary(Of String, FileStream.Node) = network.nodes.ToDictionary(Function(n) n.ID)
+        Dim getLabel = ReferenceMapRender.GetNodeLabel(compounds, KOnames)
 
+        For Each node As FileStream.Node In nodeIndex.Values
+            node!label_text = getLabel(node)
+        Next
 
+        Dim getNodeLabel As Func(Of String, String) =
+            Function(nodeId As String) As String
+                If nodeIndex.ContainsKey(nodeId) Then
+                    Return nodeIndex(nodeId)!label_text
+                Else
+                    Return nodeId
+                End If
+            End Function
+
+        For Each edge As NetworkEdge In network.edges
+            edge.Add("from.label_text", getNodeLabel(edge.fromNode))
+            edge.Add("connTo.label_text", getNodeLabel(edge.toNode))
+        Next
 
         Return network.Save(out).CLICode
     End Function
