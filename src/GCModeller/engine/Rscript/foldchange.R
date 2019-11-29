@@ -5,4 +5,6 @@ let sampleInfo <- [file = ?"--sampleInfo"]
   :> as.object 
   :> groupBy(sample => sample$sample_group);
 
-print(sampleInfo);
+for(sample in sampleInfo) {
+    print(sample);
+}
