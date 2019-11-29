@@ -32,5 +32,6 @@ print(normal);
 cat("\n\n");
 
 for(group in sampleInfo :> which(x -> x$key != control.label)) {
-   print(`   ${group$key}`);
+    print(group);
+    print(`   ${group$key}`);
 }
