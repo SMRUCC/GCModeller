@@ -60,7 +60,7 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 1000, 
+            iterations       = 10, 
             time_resolutions = 0.1, 
             deletions        = deletions
         ) 
@@ -120,7 +120,7 @@ if (background :> file.exists) {
                 i :> run(deletions = geneSet, exp.tag = pathwayName);
             }
 
-            pathwayName :> save.sampleName;
+            [fileName = pathwayName] :> save.sampleName;
         }
     }
 
@@ -132,7 +132,7 @@ if (background :> file.exists) {
         i :> run;
     }
 
-    tag.name :> save.sampleName;
+    [fileName = tag.name] :> save.sampleName;
 }
 
 
