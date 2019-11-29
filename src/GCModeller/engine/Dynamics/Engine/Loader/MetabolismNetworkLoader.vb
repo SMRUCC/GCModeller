@@ -74,9 +74,14 @@ Namespace Engine.ModelLoader
                                       .Select(Function(map) map.Item2) _
                                       .ToArray
                               End Function)
+            Dim generals = loader.define.GenericCompounds
 
             For Each reaction As Reaction In cell.Phenotype.fluxes
-                Yield fluxByReaction(reaction, KOfunctions)
+                If reaction.AllCompounds.Any(AddressOf generals.ContainsKey) Then
+                    Yield generalFluxExpansion(reaction, KOfunctions)
+                Else
+                    Yield fluxByReaction(reaction, KOfunctions)
+                End If
             Next
         End Function
 
