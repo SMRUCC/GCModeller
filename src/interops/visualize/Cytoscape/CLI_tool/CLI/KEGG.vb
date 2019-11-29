@@ -497,6 +497,39 @@ Partial Module CLI
         Return model.Save(out).CLICode
     End Function
 
+    <ExportAPI("/renames.kegg.node")>
+    <Description("Update the KEGG compound id and KEGG reaction id as the metabolite common name and enzyme gene name.")>
+    <Usage("/renames.kegg.node /network <tables.csv.directory> /compounds <names.json> /KO <reactionKOMapping.json> [/out <output_renames.directory>]")>
+    Public Function RenamesKEGGNode(args As CommandLine) As Integer
+        Dim in$ = args <= "/network"
+        Dim compounds = args("/compounds").LoadJson(Of Dictionary(Of String, String))
+        Dim KOnames = args("/KO").LoadJson(Of Dictionary(Of String, String()))
+        Dim network As NetworkTables = NetworkFileIO.Load([in])
+        Dim out$ = args("/out") Or [in]
+        Dim nodeIndex As Dictionary(Of String, FileStream.Node) = network.nodes.ToDictionary(Function(n) n.ID)
+        Dim getLabel = ReferenceMapRender.GetNodeLabel(compounds, KOnames)
+
+        For Each node As FileStream.Node In nodeIndex.Values
+            node!label_text = getLabel(node)
+        Next
+
+        Dim getNodeLabel As Func(Of String, String) =
+            Function(nodeId As String) As String
+                If nodeIndex.ContainsKey(nodeId) Then
+                    Return nodeIndex(nodeId)!label_text
+                Else
+                    Return nodeId
+                End If
+            End Function
+
+        For Each edge As NetworkEdge In network.edges
+            edge.Add("from.label_text", getNodeLabel(edge.fromNode))
+            edge.Add("connTo.label_text", getNodeLabel(edge.toNode))
+        Next
+
+        Return network.Save(out).CLICode
+    End Function
+
     <ExportAPI("/KEGG.referenceMap.render")>
     <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/edge.bends /compounds <names.json> /KO <reactionKOMapping.json> /convexHull <category.txt> /style2 /size <10(A0)> /out <viz.png>]")>
     <Description("Render pathway map as image after cytoscape layout progress.")>
