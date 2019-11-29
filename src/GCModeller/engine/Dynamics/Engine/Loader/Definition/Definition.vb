@@ -47,6 +47,12 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace Engine.Definitions
 
+    Public Enum GeneralCompound
+        DNA
+        RNA
+        Protein
+    End Enum
+
     ''' <summary>
     ''' 因为物质编号可能会来自于不同的数据库，所以会需要使用这个对象将一些关键的物质映射为计算引擎所能够被识别的对象
     ''' </summary>
@@ -76,6 +82,8 @@ Namespace Engine.Definitions
 
         Public Property NucleicAcid As NucleicAcid
         Public Property AminoAcid As AminoAcid
+
+        Public Property GenericCompounds As Dictionary(Of String, GeneralCompound)
 #End Region
 
         ''' <summary>
@@ -137,7 +145,12 @@ Namespace Engine.Definitions
                 .Oxygen = "C00007",
                 .NucleicAcid = ntBase,
                 .AminoAcid = aaResidue,
-                .status = initStatus
+                .status = initStatus,
+                .GenericCompounds = New Dictionary(Of String, GeneralCompound) From {
+                    {"C00017", GeneralCompound.Protein},
+                    {"C00039", GeneralCompound.DNA},
+                    {"C00046", GeneralCompound.RNA}
+                }
             }
         End Function
 

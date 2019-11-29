@@ -5,9 +5,18 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 
 <Package("gseakit.DEG_sample")>
 Module DEGSample
+
+    Sub New()
+        Call printer.AttachConsoleFormatter(Of SampleInfo)(AddressOf print)
+    End Sub
+
+    Private Function print(sample As SampleInfo) As String
+        Return $" ({sample.sample_group}) {sample.sample_name}"
+    End Function
 
     <ExportAPI("read.sampleinfo")>
     Public Function ReadSampleInfo(file As String) As SampleInfo()
