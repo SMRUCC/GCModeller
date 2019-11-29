@@ -78,7 +78,9 @@ Namespace Engine.ModelLoader
 
             For Each reaction As Reaction In cell.Phenotype.fluxes
                 If reaction.AllCompounds.Any(AddressOf generals.ContainsKey) Then
-                    Yield generalFluxExpansion(reaction, KOfunctions)
+                    For Each instance In generalFluxExpansion(reaction, KOfunctions)
+                        Yield instance
+                    Next
                 Else
                     Yield fluxByReaction(reaction, KOfunctions)
                 End If
@@ -135,7 +137,7 @@ Namespace Engine.ModelLoader
         End Function
 
         Private Iterator Function generalFluxExpansion(template As Reaction, KOfunctions As Dictionary(Of String, String())) As IEnumerable(Of Channel)
-
+            Call $"Generic {template.ID} = {template.name}".__INFO_ECHO
         End Function
 
         Private Function productInhibitionFactor(factors As IEnumerable(Of Variable)) As Variable()
