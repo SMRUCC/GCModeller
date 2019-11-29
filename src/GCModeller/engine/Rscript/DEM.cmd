@@ -2,4 +2,4 @@
 
 SET result=S:\synthetic_biology\test_model\wildtype\model\test20191127
 
-R# ./foldchange.R --sampleInfo "%result%/sampleInfo.csv"
+R# ./foldchange.R --sampleInfo "%result%/sampleInfo.csv" --debug --data "%result%/mass/metabolome.json.csv
