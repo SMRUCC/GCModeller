@@ -79,31 +79,39 @@ Namespace PathwayMaps
                 .Where(Function(g) Not g.Key.StringEmpty) _
                 .ToDictionary(Function(r) r.Key,
                               Function(rxn)
-                                  Dim reaction As EnzymaticReaction = rxn.First
-
-                                  If reactionKOMapping.ContainsKey(rxn.Key) Then
-                                      Dim KO = reactionKOMapping(rxn.Key)
-                                      Dim names As String = KO _
-                                          .Select(Function(id) KOnames(id).description.Split(";"c).First) _
-                                          .Distinct _
-                                          .OrderBy(Function(name) name.Length) _
-                                          .First
-
-                                      If Not names.StringEmpty Then
-                                          names = r.Replace(names, "E\s*\d(\.\d+)+[,]?", "").Trim
-
-                                          If Not names.StringEmpty Then
-                                              Return names
-                                          End If
-                                      End If
-                                  End If
-
-                                  If reaction.EC.StringEmpty Then
-                                      Return rxn.Key
-                                  Else
-                                      Return "EC " & reaction.EC
-                                  End If
+                                  Return rxn.getReactionName(reactionKOMapping, KOnames)
                               End Function)
+        End Function
+
+        <Extension>
+        Private Function getReactionName(rxn As IGrouping(Of String, EnzymaticReaction),
+                                         reactionKOMapping As Dictionary(Of String, String()),
+                                         KOnames As Dictionary(Of String, BriteHText)) As String
+
+            Dim reaction As EnzymaticReaction = rxn.First
+
+            If reactionKOMapping.ContainsKey(rxn.Key) Then
+                Dim KO = reactionKOMapping(rxn.Key)
+                Dim names As String = KO _
+                    .Select(Function(id) KOnames(id).description.Split(";"c).First) _
+                    .Distinct _
+                    .OrderBy(Function(name) name.Length) _
+                    .First
+
+                If Not names.StringEmpty Then
+                    names = r.Replace(names, "E\s*\d(\.\d+)+[,]?", "").Trim
+
+                    If Not names.StringEmpty Then
+                        Return names
+                    End If
+                End If
+            End If
+
+            If reaction.EC.StringEmpty Then
+                Return rxn.Key
+            Else
+                Return "EC " & reaction.EC
+            End If
         End Function
 
         ''' <summary>
@@ -273,7 +281,7 @@ Namespace PathwayMaps
                 edgeShadowDistance:=0,
                 edgeDashTypes:=renderStyle.edgeDashType,
                 defaultEdgeColor:="brown",
-                getNodeLabel:=getNodeLabel(compoundNames, reactionNames),
+                getNodeLabel:=GetNodeLabel(compoundNames, reactionNames),
                 getLabelPosition:=getLabelPositoon，
                 labelTextStroke:=Nothing,
                 labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
@@ -292,7 +300,36 @@ Namespace PathwayMaps
             )
         End Function
 
-        Private Function getNodeLabel(compoundNames As Dictionary(Of String, String), reactionNames As Dictionary(Of String, String)) As Func(Of Node, String)
+        ''' <summary>
+        ''' Converts the KEGG compound id and reaction id as metabolite name or enzyme gene name
+        ''' </summary>
+        ''' <param name="compoundNames"></param>
+        ''' <param name="reactionKOMapping"></param>
+        ''' <returns></returns>
+        Public Function GetNodeLabel(compoundNames As Dictionary(Of String, String), reactionKOMapping As Dictionary(Of String, String())) As Func(Of FileStream.Node, String)
+            Dim reactionNames As Dictionary(Of String, String) = getReactionNames(reactionKOMapping)
+            Dim getNodeName As Func(Of Node, String) = GetNodeLabel(compoundNames, reactionNames)
+
+            Return Function(node) As String
+                       Return New Node With {
+                           .label = node.ID,
+                           .data = New NodeData With {
+                               .label = node.ID,
+                               .Properties = New Dictionary(Of String, String) From {
+                                   {"label", node.ID}
+                               }
+                           }
+                       }.DoCall(getNodeName)
+                   End Function
+        End Function
+
+        ''' <summary>
+        ''' Converts the KEGG compound id and reaction id as metabolite name or enzyme gene name
+        ''' </summary>
+        ''' <param name="compoundNames"></param>
+        ''' <param name="reactionNames"></param>
+        ''' <returns></returns>
+        Public Function GetNodeLabel(compoundNames As Dictionary(Of String, String), reactionNames As Dictionary(Of String, String)) As Func(Of Node, String)
             Return Function(node As Node) As String
                        If node.label.IsPattern("C\d+") Then
                            Return compoundNames _

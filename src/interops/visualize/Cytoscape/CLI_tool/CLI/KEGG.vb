@@ -497,6 +497,21 @@ Partial Module CLI
         Return model.Save(out).CLICode
     End Function
 
+    <ExportAPI("/renames.kegg.node")>
+    <Description("Update the KEGG compound id and KEGG reaction id as the metabolite common name and enzyme gene name.")>
+    <Usage("/renames.kegg.node /network <tables.csv.directory> /compounds <names.json> /KO <reactionKOMapping.json> [/out <output_renames.directory>]")>
+    Public Function RenamesKEGGNode(args As CommandLine) As Integer
+        Dim in$ = args <= "/network"
+        Dim compounds = args("/compounds").LoadJson(Of Dictionary(Of String, String))
+        Dim KOnames = args("/KO").LoadJson(Of Dictionary(Of String, String()))
+        Dim network As NetworkTables = NetworkFileIO.Load([in])
+        Dim out$ = args("/out") Or [in]
+
+
+
+        Return network.Save(out).CLICode
+    End Function
+
     <ExportAPI("/KEGG.referenceMap.render")>
     <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/edge.bends /compounds <names.json> /KO <reactionKOMapping.json> /convexHull <category.txt> /style2 /size <10(A0)> /out <viz.png>]")>
     <Description("Render pathway map as image after cytoscape layout progress.")>
