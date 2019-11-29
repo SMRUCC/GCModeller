@@ -5,6 +5,10 @@ let sampleInfo <- [file = ?"--sampleInfo"]
   :> as.object 
   :> groupBy(sample => sample$sample_group);
 
-for(sample in sampleInfo) {
-    print(sample);
-}
+# for(sample in sampleInfo) {
+#     print(sample);
+# }
+
+let normal = sampleInfo :> first(x -> x$key == "normal");
+
+print(normal);
