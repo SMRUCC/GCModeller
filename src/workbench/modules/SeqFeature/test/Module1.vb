@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5899ccb482da61d1c05a309b1e151a1, SeqFeature\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::9977360ec56af771260d4b2c6e5a749f, modules\SeqFeature\test\Module1.vb"
 
     ' Author:
     ' 
@@ -110,4 +110,3 @@ Module Module1
         Pause()
     End Sub
 End Module
-
