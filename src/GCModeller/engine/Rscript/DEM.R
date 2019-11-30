@@ -36,13 +36,14 @@ DEM <- function(data.csv, sampleInfo.csv) {
 				
 			if (all((exp == exp[1]) | (exp <= 1E-10)) && all((ctl == ctl[1]) | (ctl <= 1E-10))) {	
 				p.value <- 0;
-			} else {			
+			} else {	
+				p.value <- 0;			
 				tryCatch({
 					p.value <- t.test(exp, ctl, var.equal = TRUE)$p.value;
 				}, error=  function(e) {
 					print(exp);
 					print(ctl);
-					stop(e)
+					print(cid);
 				})
 			}
 						
