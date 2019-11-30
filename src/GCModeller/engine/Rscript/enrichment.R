@@ -43,6 +43,8 @@ for(i in 1:length(cols) step 3) {
       :> dataset.project(cols = partition) 
       :> as.object;
     
+	print(`Do dem projection for '${fileName}'.`);
+	
     up   <- data 
       :> which(x -> x$GetItemValue(partition) >= 0.1) 
       :> projectAs(x -> x$ID);
