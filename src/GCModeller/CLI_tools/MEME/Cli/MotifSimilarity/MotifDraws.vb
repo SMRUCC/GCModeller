@@ -155,7 +155,7 @@ Public Module MotifDraws
             Next
         Next
 
-        Call SequenceLogoAPI.DrawLogo(query).SaveAs(queryMotif, ImageFormats.Png)
+        Call SequenceLogoAPI.DrawLogo(query).Save(queryMotif)
 
         Return list.ToArray
     End Function

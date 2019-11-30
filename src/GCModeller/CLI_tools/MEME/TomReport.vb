@@ -63,8 +63,8 @@ Public Module TomReport
     <ExportAPI("Write.HTML")>
     Public Function WriteHTML(query As Output, outDIR As String) As Boolean
         Dim innerHTML As StringBuilder = New StringBuilder(1024)
-        Dim queryLogo As Image = SequenceLogoAPI.DrawLogo(query.Query)
-        Dim subjectLogo As Image = SequenceLogoAPI.DrawLogo(query.Subject)
+        Dim queryLogo As Image = SequenceLogoAPI.DrawLogo(query.Query).AsGDIImage
+        Dim subjectLogo As Image = SequenceLogoAPI.DrawLogo(query.Subject).AsGDIImage
 
         Call query.SaveAsXml(outDIR & "/TomQuery.Xml")
         Call queryLogo.CorpBlank(20).SaveAs(outDIR & "/Query.png", ImageFormats.Png)
