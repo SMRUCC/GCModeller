@@ -25,17 +25,17 @@ let [GSEA.save, geneSet] as string;
 
 let doEnrichment as function(id, file) {
     geneSet   <- `${out}/${fileName}/${file}.txt`;
-    GSEA.save <- `${out}/${fileName}/${file}.GSEA.txt`;
+    GSEA.save <- `${out}/${fileName}/${file}.GSEA.csv`;
     id :> writeLines(file = geneSet);
     
     # do enrichment of the kegg metabolites
     # /GSEA /background <clusters.XML> /geneSet <geneSet.txt> [/hide.progress /locus_tag /cluster_id <null, debug_used> /format <default=GCModeller> /out <out.csv>]
-    kit$profiler$EnrichmentTest(background, geneSet = geneSet, format = "KOBAS", hide_progress = TRUE, out = GSEA.save);
+    kit$profiler$EnrichmentTest(background, geneSet = geneSet, cluster_id="", format = "KOBAS", hide_progress = TRUE, out = GSEA.save);
     # /KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /colors <default=Set1:c6> /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]
-    kit$eggHTS$KEGG_enrichment(GSEA.save, pvalue = "0.05", tick = "-1", size = "2300,2000" ); 
+    kit$eggHTS$KEGG_enrichment(GSEA.save, pvalue = "0.05", colors = "Set1:c6", tick = "0.5", size = "2500,1400" ); 
 }
 
-for(i in 1:length(cols) step 3) {
+for(i in 0:(length(cols)-1) step 3) {
     # get foldchange value
     partition <- cols[i+1];
     fileName  <- cols[i];
