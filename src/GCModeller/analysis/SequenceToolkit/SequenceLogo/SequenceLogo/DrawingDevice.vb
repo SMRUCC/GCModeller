@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::423eb32950d6d5fe31dff662991c12c5, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module DrawingDevice
-    ' 
-    '         Properties: WordSize
-    ' 
-    '         Function: __getColors, DrawFrequency, E, InvokeDrawing
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module DrawingDevice
+' 
+'         Properties: WordSize
+' 
+'         Function: __getColors, DrawFrequency, E, InvokeDrawing
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,8 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -101,7 +103,6 @@ For example, we identified a new domain, likely to have a role downstream of the
         ''' The width of the character in the sequence logo.(字符的宽度)
         ''' </summary>
         Public Property WordSize As Integer = 80
-        Dim Height As Integer = 75
 
         ''' <summary>
         ''' Drawing the sequence logo just simply modelling this motif site from the clustal multiple sequence alignment.
@@ -112,7 +113,11 @@ For example, we identified a new domain, likely to have a role downstream of the
         ''' <returns></returns>
         <ExportAPI("Drawing.Frequency")>
         <Extension>
-        Public Function DrawFrequency(fasta As FastaFile, Optional title$ = "", Optional ByRef getModel As MotifPWM = Nothing) As Image
+        Public Function DrawFrequency(fasta As FastaFile,
+                                      Optional title$ = "",
+                                      Optional ByRef getModel As MotifPWM = Nothing,
+                                      Optional height As Integer = 75) As GraphicsData
+
             Dim PWM As MotifPWM = Motif.PWM.FromMla(fasta)
             Dim model As New DrawingModel
 
@@ -134,17 +139,19 @@ For example, we identified a new domain, likely to have a role downstream of the
             getModel = PWM
             model.Residues =
                 LinqAPI.Exec(Of ResidueSite, Residue)(PWM.PWM) <=
-                    Function(rsd As ResidueSite) New Residue With {
-                        .Bits = rsd.Bits,
-                        .Position = rsd.Site,
-                        .Alphabets = LinqAPI.Exec(Of Alphabet) <= From x As SeqValue(Of Double)
-                                                                  In rsd.PWM.SeqIterator
-                                                                  Select New Alphabet With {
-                                                                      .Alphabet = PWM.Alphabets(x.i),
-                                                                      .RelativeFrequency = x.value
-                                                                  }  ' alphabets
-            }  ' residues
-            Return InvokeDrawing(model, True)
+                    Function(rsd As ResidueSite)
+                        Return New Residue With {
+                            .Bits = rsd.Bits,
+                            .Position = rsd.Site,
+                            .Alphabets = LinqAPI.Exec(Of Alphabet) <= From x As SeqValue(Of Double)
+                                                                      In rsd.PWM.SeqIterator
+                                                                      Select New Alphabet With {
+                                                                          .Alphabet = PWM.Alphabets(x.i),
+                                                                          .RelativeFrequency = x.value
+                                                                      }  ' alphabets
+                        }  ' residues
+                    End Function
+            Return InvokeDrawing(model, True, height:=height)
         End Function
 
         ''' <summary>
@@ -175,134 +182,137 @@ For example, we identified a new domain, likely to have a role downstream of the
         ''' <param name="frequencyOrder">Reorder the alphabets in each residue site in the order of frequency values. default is yes!</param>
         ''' <param name="reverse">Reverse the residue sequence order in the drawing model?</param>
         ''' <returns></returns>
-        <ExportAPI("Invoke.Drawing", Info:="Drawing a sequence logo from a generated sequence motif model.")>
         <Extension>
         Public Function InvokeDrawing(model As DrawingModel,
                                       Optional frequencyOrder As Boolean = True,
                                       Optional margin As Integer = 100,
-                                      Optional reverse As Boolean = False) As Image
+                                      Optional reverse As Boolean = False,
+                                      Optional height As Integer = 75) As GraphicsData
 
             Dim n As Integer = model.Alphabets
-            Dim gSize As New Size(model.Residues.Length * WordSize + 2 * margin, 2 * margin + n * Height)
-            Dim gdi As Graphics2D = gSize.CreateGDIDevice(Color.Transparent)
-            Dim X, Y As Integer
-            Dim font As New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.6), FontStyle.Bold)
-            Dim size As SizeF
+            Dim gSize As New Size(model.Residues.Length * WordSize + 2 * margin, 2 * margin + n * height)
+            Dim plotInternal = Sub(ByRef g As IGraphics, plotRegion As GraphicsRegion)
+                                   Dim X, Y As Integer
+                                   Dim font As New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.6), FontStyle.Bold)
+                                   Dim size As SizeF
+                                   Dim region As Rectangle = plotRegion.PlotRegion
 
-            size = gdi.MeasureString(model.ModelsId, font)
-            gdi.DrawString(
+                                   size = g.MeasureString(model.ModelsId, font)
+                                   g.DrawString(
                 model.ModelsId, font,
                 Brushes.Black,
-                New Point((gdi.Width - size.Width) / 2, y:=margin / 2.5))
+                New Point((region.Width - size.Width) / 2, y:=margin / 2.5))
 
-            font = New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.4))
+                                   font = New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.4))
 
 #Region "画坐标轴"
 
-            X = margin
-            Y = gdi.Height - margin  '坐标轴原点
+                                   X = margin
+                                   Y = region.Height - margin  ' 坐标轴原点
 
-            Dim maxBits As Double = Math.Log(n, newBase:=2)
-            Dim yHeight As Integer = n * DrawingDevice.Height
+                                   Dim maxBits As Double = Math.Log(n, newBase:=2)
+                                   Dim yHeight As Integer = n * height
 
-            Call gdi.DrawLine(Pens.Black,
+                                   Call g.DrawLine(Pens.Black,
                                         New Point(X, Y - yHeight),
                                         New Point(X, Y))
-            Call gdi.DrawLine(Pens.Black,
+                                   Call g.DrawLine(Pens.Black,
                                         New Point(X, Y),
                                         New Point(X + model.Residues.Length * DrawingDevice.WordSize, y:=Y))
 
-            Dim departs As Integer = If(maxBits = 2, 2, 5)  ' nt 2 steps,  aa 5 steps
-            Dim d As Double = maxBits / departs
+                                   Dim departs As Integer = If(maxBits = 2, 2, 5)  ' nt 2 steps,  aa 5 steps
+                                   Dim d As Double = maxBits / departs
 
-            yHeight = d / maxBits * (DrawingDevice.Height * n) '步进
-            d = Math.Round(d, 1)
+                                   yHeight = d / maxBits * (height * n) '步进
+                                   d = Math.Round(d, 1)
 
-            Dim yBits As Double = 0
+                                   Dim yBits As Double = 0
 
-            For j As Integer = 0 To departs
-                size = gdi.MeasureString(yBits, font:=font)
+                                   For j As Integer = 0 To departs
+                                       size = g.MeasureString(yBits, font:=font)
 
-                Dim y1 = Y - size.Height / 2
+                                       Dim y1 = Y - size.Height / 2
 
-                gdi.DrawString(
+                                       g.DrawString(
                     CStr(yBits),
                     font,
                     Brushes.Black,
                     New Point(x:=X - size.Width, y:=y1))
 
-                y1 = Y '- sz.Height / 8
-                gdi.DrawLine(
+                                       y1 = Y '- sz.Height / 8
+                                       g.DrawLine(
                     Pens.Black,
                     New Point(x:=X, y:=y1),
                     New Point(x:=X + 10, y:=y1))
 
-                yBits += d
-                Y -= yHeight
-            Next
+                                       yBits += d
+                                       Y -= yHeight
+                                   Next
 
-            Dim source As IEnumerable(Of Residue) = If(reverse, model.Residues.Reverse, model.Residues)
-            Dim colorSchema As Dictionary(Of Char, Image) = model.__getColors
+                                   Dim source As IEnumerable(Of Residue) = If(reverse, model.Residues.Reverse, model.Residues)
+                                   Dim colorSchema As Dictionary(Of Char, Image) = model.__getColors
 
-            Call VBDebugger.WriteLine(New String("-"c, model.Residues.Length), ConsoleColor.Green)
+                                   Call VBDebugger.WriteLine(New String("-"c, model.Residues.Length), ConsoleColor.Green)
 
-            For Each residue As Residue In source
+                                   For Each residue As Residue In source
 
-                Dim order As Alphabet() =
+                                       Dim order As Alphabet() =
                     If(Not frequencyOrder, residue.Alphabets,
                       (From rsd As Alphabet
                        In residue.Alphabets
                        Select rsd
                        Order By rsd.RelativeFrequency Ascending).ToArray)
 
-                Y = gdi.Height - margin
+                                       Y = region.Height - margin
 
-                ' YHeight is the max height of current residue, and its value is calculate from its Bits value
-                yHeight = (n * DrawingDevice.Height) * (If(residue.Bits > maxBits, maxBits, residue.Bits) / maxBits)
+                                       ' YHeight is the max height of current residue, and its value is calculate from its Bits value
+                                       yHeight = (n * height) * (If(residue.Bits > maxBits, maxBits, residue.Bits) / maxBits)
 
-                Dim idx As String = CStr(residue.Position)
-                Dim loci As New Point(X + size.Width / If(Math.Abs(residue.Position) < 10, 2, 5), Y)
+                                       Dim idx As String = CStr(residue.Position)
+                                       Dim loci As New Point(X + size.Width / If(Math.Abs(residue.Position) < 10, 2, 5), Y)
 
-                size = gdi.MeasureString(idx, font)
-                gdi.DrawString(idx, font, Brushes.Black, loci)
+                                       size = g.MeasureString(idx, font)
+                                       g.DrawString(idx, font, Brushes.Black, loci)
 
-                For Each Alphabet As Alphabet In order
+                                       For Each Alphabet As Alphabet In order
 
-                    ' H is the drawing height of the current drawing alphabet, 
-                    ' this height value can be calculate from the formula that show above. 
-                    ' As the YHeight variable is transform from the current residue Bits value, so that from this statement
-                    ' The drawing height of the alphabet can be calculated out. 
+                                           ' H is the drawing height of the current drawing alphabet, 
+                                           ' this height value can be calculate from the formula that show above. 
+                                           ' As the YHeight variable is transform from the current residue Bits value, so that from this statement
+                                           ' The drawing height of the alphabet can be calculated out. 
 
-                    Dim H As Single = Alphabet.RelativeFrequency * yHeight
+                                           Dim H As Single = Alphabet.RelativeFrequency * yHeight
 
-                    ' Due to the reason of the Y Axis in gdi+ is up side down, so that we needs Subtraction operation, 
-                    ' and then this makes the next alphabet move up direction 
-                    Y -= H
+                                           ' Due to the reason of the Y Axis in gdi+ is up side down, so that we needs Subtraction operation, 
+                                           ' and then this makes the next alphabet move up direction 
+                                           Y -= H
 
-                    gdi.DrawImage(
+                                           g.DrawImage(
                         colorSchema(Alphabet.Alphabet),   ' Drawing alphabet
                         CSng(X), CSng(Y),                 ' position
                         CSng(DrawingDevice.WordSize), H)  ' Size and relative height
-                Next
+                                       Next
 
-                X += DrawingDevice.WordSize
-                Call residue.AsChar.Echo
-            Next
+                                       X += DrawingDevice.WordSize
+                                       Call residue.AsChar.Echo
+                                   Next
 
-            Call Console.WriteLine()
+                                   Call Console.WriteLine()
 
-            '绘制bits字符串
-            font = New Font(font.Name, font.Size / 2)
-            size = gdi.MeasureString("Bits", font)
+                                   '绘制bits字符串
+                                   font = New Font(font.Name, font.Size / 2)
+                                   size = g.MeasureString("Bits", font)
 
-            Call gdi.RotateTransform(-90)
-            Call gdi.DrawString("Bits",
+                                   Call g.RotateTransform(-90)
+                                   Call g.DrawString("Bits",
                                           font,
                                           Brushes.Black,
-                                          New Point((Height - size.Width) / 2, margin / 3))
+                                          New Point((height - size.Width) / 2, margin / 3))
 
 #End Region
-            Return gdi.ImageResource
+                               End Sub
+
+            Return g.GraphicsPlots(gSize, DefaultPadding, "transparent", plotInternal)
         End Function
     End Module
 End Namespace
