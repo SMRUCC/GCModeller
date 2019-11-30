@@ -189,9 +189,8 @@ For example, we identified a new domain, likely to have a role downstream of the
             Dim font As New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.6), FontStyle.Bold)
             Dim size As SizeF
 
-            size =
-            gdi.Graphics.MeasureString(model.ModelsId, font)
-            gdi.Graphics.DrawString(
+            size = gdi.MeasureString(model.ModelsId, font)
+            gdi.DrawString(
                 model.ModelsId, font,
                 Brushes.Black,
                 New Point((gdi.Width - size.Width) / 2, y:=margin / 2.5))
@@ -206,10 +205,10 @@ For example, we identified a new domain, likely to have a role downstream of the
             Dim maxBits As Double = Math.Log(n, newBase:=2)
             Dim yHeight As Integer = n * DrawingDevice.Height
 
-            Call gdi.Graphics.DrawLine(Pens.Black,
+            Call gdi.DrawLine(Pens.Black,
                                         New Point(X, Y - yHeight),
                                         New Point(X, Y))
-            Call gdi.Graphics.DrawLine(Pens.Black,
+            Call gdi.DrawLine(Pens.Black,
                                         New Point(X, Y),
                                         New Point(X + model.Residues.Length * DrawingDevice.WordSize, y:=Y))
 
@@ -222,18 +221,18 @@ For example, we identified a new domain, likely to have a role downstream of the
             Dim yBits As Double = 0
 
             For j As Integer = 0 To departs
-                size = gdi.Graphics.MeasureString(yBits, font:=font)
+                size = gdi.MeasureString(yBits, font:=font)
 
                 Dim y1 = Y - size.Height / 2
 
-                gdi.Graphics.DrawString(
+                gdi.DrawString(
                     CStr(yBits),
                     font,
                     Brushes.Black,
                     New Point(x:=X - size.Width, y:=y1))
 
                 y1 = Y '- sz.Height / 8
-                gdi.Graphics.DrawLine(
+                gdi.DrawLine(
                     Pens.Black,
                     New Point(x:=X, y:=y1),
                     New Point(x:=X + 10, y:=y1))
@@ -264,9 +263,8 @@ For example, we identified a new domain, likely to have a role downstream of the
                 Dim idx As String = CStr(residue.Position)
                 Dim loci As New Point(X + size.Width / If(Math.Abs(residue.Position) < 10, 2, 5), Y)
 
-                size =
-                gdi.Graphics.MeasureString(idx, font)
-                gdi.Graphics.DrawString(idx, font, Brushes.Black, loci)
+                size = gdi.MeasureString(idx, font)
+                gdi.DrawString(idx, font, Brushes.Black, loci)
 
                 For Each Alphabet As Alphabet In order
 
@@ -281,7 +279,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                     ' and then this makes the next alphabet move up direction 
                     Y -= H
 
-                    gdi.Graphics.DrawImage(
+                    gdi.DrawImage(
                         colorSchema(Alphabet.Alphabet),   ' Drawing alphabet
                         CSng(X), CSng(Y),                 ' position
                         CSng(DrawingDevice.WordSize), H)  ' Size and relative height
@@ -295,10 +293,10 @@ For example, we identified a new domain, likely to have a role downstream of the
 
             '绘制bits字符串
             font = New Font(font.Name, font.Size / 2)
-            size = gdi.Graphics.MeasureString("Bits", font)
+            size = gdi.MeasureString("Bits", font)
 
-            Call gdi.Graphics.RotateTransform(-90)
-            Call gdi.Graphics.DrawString("Bits",
+            Call gdi.RotateTransform(-90)
+            Call gdi.DrawString("Bits",
                                           font,
                                           Brushes.Black,
                                           New Point((Height - size.Width) / 2, margin / 3))
