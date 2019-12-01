@@ -153,7 +153,7 @@ Run the R# script from commandline:
 R# ./sequenceLogo.R --seq LexA.fasta --save LexA.png --title "LexA"
 ```
 
-![](./src/workbench/R#/demo/LexA.png)
+![](images/LexA.png)
 
 ### Publications
 
