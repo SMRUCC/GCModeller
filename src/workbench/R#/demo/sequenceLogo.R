@@ -9,25 +9,19 @@ imports "bioseq.fasta" from "seqtoolkit.dll";
 # R# sequenceLogo.R --seq input.fasta [--title <logo.title> --save output.png] 
 #
 
-# get input data from commandline arguments
-let seq.fasta as string = ?"--seq";
-let logo.png as string  = ?"--save";
-let title as string     = ?"--title";
-
+# get input data from commandline arguments and
 # fix for the optional arguments default value
-if (is.empty(logo.png)) {
-	logo.png <- `${seq.fasta}.logo.png`;
-}
-if (is.empty(title)) {
-	title <- basename(seq.fasta);
-}
+# by apply or default syntax for non-logical values
+let seq.fasta as string = ?"--seq";
+let logo.png as string  = ?"--save"  || `${seq.fasta}.logo.png`;
+let title as string     = ?"--title" || basename(seq.fasta);
 
 # read sequence and then do MSA alignment
 # finally count the nucleotide base frequency
 # and then draw the sequence logo
 # by invoke sequence logo drawer api
 seq.fasta
-  :> read.fasta
-  :> MSA.of
-  :> plot.seqLogo(title)
-  :> save.graphics( file = logo.png );
+:> read.fasta
+:> MSA.of
+:> plot.seqLogo(title)
+:> save.graphics( file = logo.png );
