@@ -6,7 +6,7 @@ imports "bioseq.fasta" from "seqtoolkit.dll";
 
 # script cli usage
 #
-# R# sequenceLogo.R --seq input.fasta --save output.png 
+# R# sequenceLogo.R --seq input.fasta [--save output.png] 
 #
 
 let seq.fasta as string = ?"--seq";
