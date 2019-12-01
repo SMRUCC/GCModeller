@@ -13,8 +13,21 @@
         */
         mode: Modes;
 
-        <T extends HTMLElement>(nodes: NodeListOf<T>): DOMEnumerator<T>;
+        //#region "function overloads"
+
+        /**
+         * 将一个通过类名称或者标签名称进行选择的节点列表转换为一个节点枚举器
+         * 
+         * ##### 20191030 在这里为了重载的兼容性，nodes参数就从原来的T泛型变更为现在Element基本类型
+        */
+        <T extends HTMLElement>(nodes: NodeListOf<Element>): DOMEnumerator<T>;
         <T extends HTMLElement & Node & ChildNode>(nodes: NodeListOf<T>): DOMEnumerator<T>;
+        /**
+         * Extends the properties and methods of the given original html element node.
+         * 
+         * @param element A given html element object.
+        */
+        <T extends HTMLElement>(element: T): IHTMLElement;
 
         /**
          * Create a new node or query a node by its id.
@@ -25,28 +38,6 @@
          *              + ``<svg:xx>`` create a svg node.
         */
         <T extends HTMLElement>(query: string, args?: TypeScriptArgument): IHTMLElement;
-
-        /**
-         * Query by class name or tag name
-         * 
-         * @param query A selector expression
-        */
-        select: IquerySelector;
-
-        /**
-         * @param div 应该是带有``#``的id查询表达式
-        */
-        appendTable<T extends {}>(
-            rows: T[] | IEnumerator<T>,
-            div: string,
-            headers?: string[] | IEnumerator<string> | IEnumerator<MapTuple<string, string>> | MapTuple<string, string>[],
-            attrs?: Internal.TypeScriptArgument
-        ): void;
-
-        /**
-         * 将目标序列转换为一个HTML节点元素
-        */
-        evalHTML: HtmlDocumentDeserializer;
 
         <T>(array: T[]): IEnumerator<T>;
 
@@ -63,6 +54,33 @@
          * @param ready The handler of the target event.
         */
         (ready: () => void): void;
+
+        //#endregion
+
+        /**
+         * Query by class name or tag name
+         * 
+         * @param query A selector expression
+        */
+        select: IquerySelector;
+        hook(trigger: Delegate.Func<boolean> | DOM.Events.StatusChanged, handler: Delegate.Sub, tag?: string);
+
+        /**
+         * 向目标html标签中添加一个表格对象
+         * 
+         * @param div 应该是带有``#``的id查询表达式
+        */
+        appendTable<T extends {}>(
+            rows: T[] | IEnumerator<T>,
+            div: string,
+            headers?: string[] | IEnumerator<string> | IEnumerator<MapTuple<string, string>> | MapTuple<string, string>[],
+            attrs?: Internal.TypeScriptArgument
+        ): void;
+
+        /**
+         * 将目标序列转换为一个HTML节点元素
+        */
+        evalHTML: HtmlDocumentDeserializer;
 
         /**
          * 动态的导入脚本
@@ -104,9 +122,21 @@
          * 这个函数主要是应用于``<input>``, ``<textarea>``以及``<select>``标签对象
          * 的value属性值的读取操作
          * 
+         * 但是如果set_value参数不是空的，则会设置参数到目标控件之上
+         * 
          * @param id 目标``<input>``标签对象的``id``编号
+         * 
+         * @returns 对于checkbox类型的input而言，逻辑值是以字符串的形式返回
         */
-        value(id: string): any;
+        value(id: string, set_value?: string, strict?: boolean): any;
+
+        typeof<T extends object>(any: T): TypeScript.Reflection.TypeInfo;
+        clone<T>(obj: T): T;
+
+        /**
+         * Get unix timestamp of current time
+        */
+        unixtimestamp(): number;
 
         /**
          * isNullOrUndefined
@@ -123,6 +153,8 @@
 
         /**
          * 请注意：这个函数只会接受来自后端的json返回，如果不是json格式，则可能会解析出错
+         * 
+         * 请尽量使用upload方法进行文件的上传
          * 
          * @param url 目标数据源，这个参数也支持meta标签的查询语法
         */
@@ -178,6 +210,10 @@
         */
         csv: IcsvHelperApi;
 
+        /**
+         * 将目标字符串解释为一个逻辑值
+        */
+        parseBool(text: string): boolean;
         /**
          * 解析的结果为``filename.ext``的完整文件名格式
          * 

@@ -133,6 +133,36 @@
     }
 
     /**
+     * @param a 如果这个是一个无参数的函数, 则会求值之后再进行序列化
+    */
+    export function serialize<T extends {}>(a: T | Delegate.Func<T>, nullAsStringFactor: boolean = false): string {
+        let sb: string[] = [];
+        let value: any;
+
+        if (typeof a == "function") {
+            a = (<Delegate.Func<T>>a)();
+        }
+
+        for (let key of Object.keys(a)) {
+            value = a[key];
+
+            if (isNullOrUndefined(value)) {
+                if (nullAsStringFactor && TypeScript.logging.outputEverything) {
+                    console.warn(`${key} value is nothing!`);
+                    value = "null";
+                } else {
+                    // skip
+                    continue;
+                }
+            }
+
+            sb.push(`${key}=${encodeURIComponent(value)}`);
+        }
+
+        return sb.join("&");
+    }
+
+    /**
      * 在这个数据包对象之中应该包含有
      * 
      * + ``type``属性，用来设置``Content-type``

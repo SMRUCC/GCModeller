@@ -11,11 +11,15 @@
         export const handler: Delegate.Func<any> = getHandler();
 
         function getHandler() {
-            if (typeof require === "function") {
+            if (typeof (<any>window).require === "function") {
+                let require = (<any>window).require;
+
                 try {
                     require("v8").setFlagsFromString('--expose_gc');
 
-                    if (global != null) {
+                    if ((<any>window).global != null) {
+                        let global = (<any>window).global;
+
                         if (typeof global.gc == "function") {
                             return global.gc
                         }
@@ -56,7 +60,9 @@
             //        return ProfilerAgent.collectGarbage;
             //    }
             //}
-            if (typeof global !== 'undefined') {
+            if (typeof (<any>window).global !== 'undefined') {
+                let global = (<any>window).global;
+
                 if (global.gc) {
                     return global.gc;
                 }

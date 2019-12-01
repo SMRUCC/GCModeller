@@ -5,19 +5,12 @@
 class MapTuple<K, V> {
 
     /**
-     * 键名称，一般是字符串
-    */
-    public key: K;
-    /**
-     * 目标键名所映射的值
-    */
-    public value: V;
-
-    /**
      * 创建一个新的键值对集合
      * 
+     * @param key 键名称，一般是字符串
+     * @param value 目标键名所映射的值
     */
-    public constructor(key: K = null, value: V = null) {
+    public constructor(public key: K = null, public value: V = null) {
         this.key = key;
         this.value = value;
     }
@@ -41,24 +34,10 @@ class MapTuple<K, V> {
 class NamedValue<T> {
 
     /**
-     * 变量值的名字属性
-    */
-    public name: string;
-    /**
-     * 这个变量值
-    */
-    public value: T;
-
-    public constructor(name: string = null, val: T = null) {
-        this.name = name;
-        this.value = val;
-    }
-
-    /**
      * 获取得到变量值的类型定义信息
     */
-    public get TypeOfValue(): TypeInfo {
-        return TypeInfo.typeof(this.value);
+    public get TypeOfValue(): TypeScript.Reflection.TypeInfo {
+        return $ts.typeof(<any>this.value);
     }
 
     /**
@@ -67,6 +46,12 @@ class NamedValue<T> {
     public get IsEmpty(): boolean {
         return Strings.Empty(this.name) && (!this.value || this.value == undefined);
     }
+
+    /**
+     * @param name 变量值的名字属性
+     * @param value 这个变量值
+    */
+    public constructor(public name: string = null, public value: T = null) {}
 
     public valueOf(): T {
         return this.value;

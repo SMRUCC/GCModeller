@@ -7,6 +7,6 @@
     "name": "xieguigang"
   },
   "devDependencies": {
-    "@types/node": "^6.14.4"
+    "@types/node": "^6.14.7"
   }
 }

@@ -1,10 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\TsBuild",
-    "\\TsBuild\\Wasm",
-    "\\TsBuild\\Wasm\\Compiler"
+    "\\qrcode"
   ],
-  "SelectedNode": "\\TsBuild\\Wasm\\Compiler\\Wabt.vb",
+  "SelectedNode": "\\qrcode\\app.ts",
   "PreviewInSolutionExplorer": false
 }

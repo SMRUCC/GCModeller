@@ -13,7 +13,6 @@
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -71,6 +70,30 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Yilia-Release_x64|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Yilia-Release_x64\</OutputPath>
+    <DocumentationFile>TsBuild.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Yilia-Release_x64|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\Apps\</OutputPath>
+    <DocumentationFile>TsBuild.xml</DocumentationFile>
+    <Optimize>false</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -93,10 +116,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrap\ModuleSplitter.vb" />
+    <Compile Include="Bootstrap\NamespaceDoc.vb" />
     <Compile Include="ModuleBuilder\ModuleBuilder.vb" />
-    <Compile Include="ModuleBuilder\Symbols.vb" />
-    <Compile Include="Symbols.vb" />
-    <Compile Include="ModuleBuilder\ModuleParser.vb" />
+    <Compile Include="Syntax\TypeScriptDefinition\Symbols.vb" />
+    <Compile Include="Syntax\TypeScriptDefinition\TypeScriptSymbols.vb" />
+    <Compile Include="Syntax\TypeScriptDefinition\ModuleParser.vb" />
+    <Compile Include="Syntax\JavaScriptSyntax.vb" />
     <Compile Include="tsconfig.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

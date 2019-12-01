@@ -21,7 +21,7 @@
         return url && url.lastIndexOf('http', 0) == 0 && url.lastIndexOf(window.location.host) == -1;
     }
 
-    export function inlineImages(el: SVGSVGElement, callback: Delegate.Sub) {
+    export function inlineImages(el: SVGSVGElement, callback: Delegate.Action) {
         requireDomNode(el);
 
         var images: NodeListOf<SVGImageElement> = el.querySelectorAll('image');

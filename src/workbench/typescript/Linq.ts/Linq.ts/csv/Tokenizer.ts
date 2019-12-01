@@ -11,7 +11,7 @@ namespace csv {
         var tokens: string[] = [];
         var temp: string[] = [];
         var openStack: boolean = false;
-        var buffer: Pointer<string> = From(<string[]>Strings.ToCharArray(s)).ToPointer();
+        var buffer: Pointer<string> = $from(<string[]>Strings.ToCharArray(s)).ToPointer();
         var dblQuot: RegExp = new RegExp(`[${quot}]{2}`, 'g');
         var cellStr = function () {
             // https://stackoverflow.com/questions/1144783/how-to-replace-all-occurrences-of-a-string-in-javascript
@@ -91,7 +91,7 @@ namespace csv {
      * 是否是转义符<paramref name="escape"/>?
     */
     function StartEscaping(buffer: string[], escape: string = "\\"): boolean {
-        if (IsNullOrEmpty(buffer)) {
+        if (isNullOrEmpty(buffer)) {
             return false;
         } else {
             return buffer[buffer.length - 1] == escape;

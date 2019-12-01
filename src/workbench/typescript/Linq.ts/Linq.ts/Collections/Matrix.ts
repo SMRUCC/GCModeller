@@ -25,6 +25,9 @@
         return matrix;
     }
 
+    /**
+     * Get or set matrix element value
+    */
     public M(i: number, j: number, val: T = null): T {
         if (isNullOrUndefined(val)) {
             // get

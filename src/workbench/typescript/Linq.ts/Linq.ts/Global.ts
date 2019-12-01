@@ -3,7 +3,7 @@
 /// <reference path="Framework/Define/Handlers/Handlers.ts" />
 /// <reference path="Helpers/Extensions.ts" />
 /// <reference path="Helpers/Strings.ts" />
-/// <reference path="Type.ts" />
+/// <reference path="Framework/Reflection/Type.ts" />
 /// <reference path="Data/Encoder/MD5.ts" />
 /// <reference path="Framework/Define/Internal.ts" />
 
@@ -66,9 +66,11 @@ function md5(string: string, key: string = null, raw: string = null): string {
 /**
  * Linq数据流程管线的起始函数
  * 
+ * ``$ts``函数也可以达到与这个函数相同的效果，但是这个函数更快一些
+ * 
  * @param source 需要进行数据加工的集合对象
 */
-function From<T>(source: T[] | IEnumerator<T>): IEnumerator<T> {
+function $from<T>(source: T[] | IEnumerator<T>): IEnumerator<T> {
     return new IEnumerator<T>(source);
 }
 
@@ -86,7 +88,7 @@ function CharEnumerator(str: string): IEnumerator<string> {
  * 
  * @param array 如果这个数组对象是空值或者未定义，都会被判定为空，如果长度为零，则同样也会被判定为空值
 */
-function IsNullOrEmpty<T>(array: T[] | IEnumerator<T>): boolean {
+function isNullOrEmpty<T>(array: T[] | IEnumerator<T>): boolean {
     if (array == null || array == undefined) {
         return true;
     } else if (Array.isArray(array) && array.length == 0) {
@@ -133,7 +135,8 @@ function getAllUrlParams(url: string = window.location.href): Dictionary<string>
     if (url.indexOf("?") > -1) {
         // if query string exists
         var queryString: string = Strings.GetTagValue(url, '?').value;
-        var args = DataExtensions.parseQueryString(queryString)
+        var args = TypeScript.URLPatterns.parseQueryString(queryString);
+
         return new Dictionary<string>(args);
     } else {
         return new Dictionary<string>({});
@@ -148,7 +151,7 @@ function getAllUrlParams(url: string = window.location.href): Dictionary<string>
  * @param url 这个参数支持对meta标签数据的查询操作
  * @param currentFrame 如果这个参数为true，则不会进行父页面的跳转操作
 */
-function Goto(url: string, currentFrame: boolean = false): void {
+function $goto(url: string, currentFrame: boolean = false): void {
     var win: Window = window;
 
     if (!currentFrame) {
@@ -165,7 +168,7 @@ function Goto(url: string, currentFrame: boolean = false): void {
 */
 function base64_decode(stream: string): string {
     var data: string[] = Strings.lineTokens(stream);
-    var base64Str: string = From(data)
+    var base64Str: string = $from(data)
         .Where(s => s && s.length > 0)
         .Select(s => s.trim())
         .JoinBy("");

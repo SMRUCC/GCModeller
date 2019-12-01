@@ -28,13 +28,7 @@ namespace Canvas {
     */
     export class Point {
 
-        public x: number;
-        public y: number;
-
-        public constructor(x: number, y: number) {
-            this.x = x;
-            this.y = y;
-        }
+        public constructor(public x: number, public y: number) {}
 
         public toString(): string {
             return `[${this.x}, ${this.y}]`;
@@ -65,18 +59,10 @@ namespace Canvas {
     export class Size {
 
         /**
-         * 宽度
+         * @param width 宽度
+         * @param height 高度
         */
-        public width: number;
-        /**
-         * 高度
-        */
-        public height: number;
-
-        public constructor(width: number, height: number) {
-            this.width = width;
-            this.height = height;
-        }
+        public constructor(public width: number, public height: number) {}
 
         public toString(): string {
             return `[${this.width}, ${this.height}]`;
@@ -113,11 +99,6 @@ namespace Canvas {
 
     export class Margin {
 
-        public top: number;
-        public right: number;
-        public bottom: number;
-        public left: number;
-
         public get horizontal(): number {
             return this.left + this.right;
         }
@@ -126,11 +107,7 @@ namespace Canvas {
             return this.top + this.bottom;
         }
 
-        public constructor(top: number, right: number, bottom: number, left: number) {
-            this.top = top;
-            this.right = right;
-            this.bottom = bottom;
-            this.left = left;
+        public constructor(public top: number, public right: number, public bottom: number, public left: number) {
         }
 
         public static Object(obj: { top: number, right: number, bottom: number, left: number } | number[]): Margin {

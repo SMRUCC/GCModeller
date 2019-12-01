@@ -10,28 +10,28 @@ Module ModuleBuilder
         Dim moduleKey$ = ""
 
         For Each t As Token In tokens
-            Select Case t.Type
+            Select Case t.type
                 Case TypeScriptTokens.closeStack
                     Call vb.AppendLine($"End {stack.Pop}")
                 Case TypeScriptTokens.openStack
                     Call vb.AppendLine()
                     Call stack.Push(moduleKey)
                 Case TypeScriptTokens.typeName
-                    Call vb.Append("As " & t.Text)
+                    Call vb.Append("As " & t.text)
                 Case TypeScriptTokens.funcType
-                    Call vb.Append("As " & t.Text)
+                    Call vb.Append("As " & t.text)
                     Call vb.AppendLine()
                 Case TypeScriptTokens.identifier, TypeScriptTokens.functionName
-                    Call vb.Append(t.Text)
+                    Call vb.Append(t.text)
                 Case TypeScriptTokens.comment
-                    Dim comment$ = t.Text _
+                    Dim comment$ = t.text _
                         .LineTokens _
                         .Select(Function(s) "' " & s.Trim("/"c, "*"c)) _
                         .JoinBy(vbCrLf)
 
                     Call vb.AppendLine(comment)
                 Case TypeScriptTokens.keyword
-                    Select Case t.Text
+                    Select Case t.text
                         Case "function"
                             moduleKey = "Function"
                         Case "namespace"
