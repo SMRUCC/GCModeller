@@ -53,6 +53,7 @@ Currently the ``R`` language hybrids programming environment just provides some 
 	+ [/src/GCModeller](./src/GCModeller) : GCModeller basic library and analysis protocols
 	+ [/src/interops](./src/interops) : GCModeller tools that dependent on the external programs
 	+ [/src/R.Bioconductor](./src/R.Bioconductor) : R language hybrids environment
+	+ [/src/R-sharp](./src/R-sharp) : The GCModeller R# language scripting engine
 	+ [/src/repository](./src/repository) : GCModeller data repository system
 	+ [/src/runtime](./src/runtime) : Third part library and VisualBasic runtime source code
 + [/tools](./tools)
@@ -95,6 +96,7 @@ GCModeller provides a set of .NET libraries and CLI tools for processing biologi
 
 + Includes basically R language API wrapper for VisualBasic, like Api in ``base``, ``utils``, ``stats`` namespace from R base.
 + and some R package wrapper API from CRAN and Bioconductor is also included.
++ GCModeller ``R#`` language scripting
 
 ###### 5.WebAPI wrapper for KEGG database and RegPrecise Database
 
@@ -102,6 +104,56 @@ GCModeller provides a set of .NET libraries and CLI tools for processing biologi
 
 + Cellular module simulator, and virtual cell model generator protocol.
 + Proteomics data analysis toolkit
+
+### GCModeller R# scripting
+
+Here is a code snapshot of R# scripting for drawing sequence logo, input data is accepted from the commandline input:  
+
+```R
+# Demo script for create sequence logo based on the MSA alignment analysis
+# nt base frequency is created based on the MSA alignment operation.
+
+imports "bioseq.sequenceLogo" from "seqtoolkit.dll";
+imports "bioseq.fasta" from "seqtoolkit.dll";
+
+# script cli usage
+#
+# R# sequenceLogo.R --seq input.fasta [--title <logo.title> --save output.png] 
+#
+
+# get input data from commandline arguments
+let seq.fasta as string = ?"--seq";
+let logo.png as string  = ?"--save";
+let title as string     = ?"--title";
+
+# fix for the optional arguments default value
+if (is.empty(logo.png)) {
+	logo.png <- `${seq.fasta}.logo.png`;
+}
+if (is.empty(title)) {
+	title <- basename(seq.fasta);
+}
+
+# read sequence and then do MSA alignment
+# finally count the nucleotide base frequency
+# and then draw the sequence logo
+# by invoke sequence logo drawer api
+seq.fasta
+:> read.fasta
+:> MSA.of
+:> plot.seqLogo(title)
+:> save.graphics( file = logo.png );
+```
+
+Run the R# script from commandline:
+
+```cmd
+@echo off
+
+R# ./sequenceLogo.R --seq LexA.fasta --save LexA.png --title "LexA"
+```
+
+![](./src/workbench/R#/demo/LexA.png)
 
 ### Publications
 
