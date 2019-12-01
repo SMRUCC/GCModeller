@@ -305,7 +305,7 @@ For example, we identified a new domain, likely to have a role downstream of the
 #End Region
                 End Sub
 
-            Return g.GraphicsPlots(New Size(width, n * height + margin.Vertical), margin, "transparent", plotInternal)
+            Return g.GraphicsPlots(New Size(width, (n + 1) * height + margin.Vertical), margin, "transparent", plotInternal)
         End Function
     End Module
 End Namespace

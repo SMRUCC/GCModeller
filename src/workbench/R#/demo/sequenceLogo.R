@@ -11,13 +11,17 @@ imports "bioseq.fasta" from "seqtoolkit.dll";
 
 let seq.fasta as string = ?"--seq";
 let logo.png as string  = ?"--save";
+let title as string     = ?"--title";
 
 if (is.empty(logo.png)) {
 	logo.png <- `${seq.fasta}.logo.png`;
+}
+if (is.empty(title)) {
+	title <- 
 }
 
 seq.fasta
   :> read.fasta
   :> MSA.of
-  :> plot.seqLogo
+  :> plot.seqLogo()
   :> save.graphics( file = logo.png );
