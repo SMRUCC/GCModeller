@@ -17,11 +17,11 @@ if (is.empty(logo.png)) {
 	logo.png <- `${seq.fasta}.logo.png`;
 }
 if (is.empty(title)) {
-	title <- 
+	title <- basename(seq.fasta);
 }
 
 seq.fasta
   :> read.fasta
   :> MSA.of
-  :> plot.seqLogo()
+  :> plot.seqLogo(title)
   :> save.graphics( file = logo.png );
