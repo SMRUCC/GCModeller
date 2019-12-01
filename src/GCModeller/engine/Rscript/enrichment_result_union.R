@@ -15,9 +15,9 @@ let readData as function(file, tag) {
 for(dir in list.dirs(data.dir)) {
 	name <- basename(dir);
 	
-	readData(`${dir}/up.GSEA.csv`, `${name}_up`);
-	readData(`${dir}/down.GSEA.csv`, `${name}_down`);
-	readData(`${dir}/all_DEM.GSEA.csv`, `${name}_all`);
+	readData(`${dir}/up.GSEA.csv`, `${name} | up`);
+	readData(`${dir}/down.GSEA.csv`, `${name} | down`);
+	readData(`${dir}/all_DEM.GSEA.csv`, `${name} | all`);
 	
 	print(name);
 }
