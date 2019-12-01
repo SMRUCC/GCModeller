@@ -4,7 +4,9 @@
 /// <reference path="../Modes.ts" />
 /// <reference path="../../DOM/Document.ts" />
 /// <reference path="../../DOM/InputValueGetter.ts" />
+/// <reference path="../../DOM/Events/CustomEvents.ts" />
 /// <reference path="../../Data/Range.ts" />
+/// <reference path="../Reflection/Reflector.ts" />
 
 /**
  * The internal implementation of the ``$ts`` object.
@@ -17,19 +19,19 @@ namespace Internal {
      * 对``$ts``对象的内部实现过程在这里
     */
     export function Static<T>(): TypeScript {
-        var handle = Internal.Handlers.Shared;
-        var ins: any = (any: ((() => void) | T | T[]), args: object) => queryFunction(handle, any, args);
+        let handle = Internal.Handlers.Shared;
+        let symbolInstance: any = (any: ((() => void) | T | T[]), args: object) => queryFunction(handle, any, args);
 
         const stringEval = handle.string();
 
-        ins.mode = Modes.production;
+        symbolInstance.mode = Modes.production;
 
-        ins = extendsUtils(ins, stringEval);
-        ins = extendsLINQ(ins);
-        ins = extendsHttpHelpers(ins);
-        ins = extendsSelector(ins);
+        symbolInstance = extendsUtils(symbolInstance, stringEval);
+        symbolInstance = extendsLINQ(symbolInstance);
+        symbolInstance = extendsHttpHelpers(symbolInstance);
+        symbolInstance = extendsSelector(symbolInstance);
 
-        return <TypeScript>ins;
+        return <TypeScript>symbolInstance;
     }
 
     function extendsHttpHelpers(ts: any): any {
@@ -46,9 +48,18 @@ namespace Internal {
                 sendContentType: (options || {}).sendContentType || true
             };
 
-            HttpHelpers.POST(urlSolver(url), post, function (response) {
+            HttpHelpers.POST(urlSolver(url), post, function (response, code) {
                 if (callback) {
-                    callback(handleJSON(response));
+                    if (code == 200) {
+                        callback(handleJSON(response));
+                    } else {
+                        // handle page not found and internal server error
+                        callback(<IMsg<{}>>{
+                            code: code,
+                            info: response,
+                            url: url
+                        });
+                    }
                 }
             });
         };
@@ -68,9 +79,18 @@ namespace Internal {
             });
         }
         ts.get = function (url: string, callback?: ((response: IMsg<{}>) => void)) {
-            HttpHelpers.GetAsyn(urlSolver(url), function (response) {
+            HttpHelpers.GetAsyn(urlSolver(url), function (response, code: number) {
                 if (callback) {
-                    callback(handleJSON(response));
+                    if (code == 200) {
+                        callback(handleJSON(response));
+                    } else {
+                        // handle page not found and internal server error
+                        callback(<IMsg<{}>>{
+                            code: code,
+                            info: response,
+                            url: url
+                        });
+                    }
                 }
             });
         };
@@ -82,7 +102,11 @@ namespace Internal {
             });
         };
 
-        ts.location = buildURLHelper();
+        if (typeof window != "undefined") {
+            // 这个是运行在web前段，不是services worker中的
+            ts.location = buildURLHelper();
+        }
+
         ts.parseURL = (url => new TypeScript.URL(url));
         ts.goto = function (url: string, opt: GotoOptions = { currentFrame: false, lambda: false }) {
             if (url.charAt(0) == "#") {
@@ -90,10 +114,10 @@ namespace Internal {
                 TypeScript.URL.JumpToHash(url);
             } else if (opt.lambda) {
                 return function () {
-                    Goto(url, opt.currentFrame);
+                    $goto(url, opt.currentFrame);
                 }
             } else {
-                Goto(url, opt.currentFrame);
+                $goto(url, opt.currentFrame);
             }
         }
 
@@ -110,6 +134,8 @@ namespace Internal {
             return url.getArgument(arg, caseSensitive, Default);
         }
 
+        location.url = url;
+        location.hasQueryArguments = (!isNullOrUndefined(url.query)) && (url.query.length > 0);
         location.path = url.path || "/";
         location.fileName = url.fileName;
         location.hash = function (arg: hashArgument | boolean = { trimprefix: true, doJump: false }, urlhash: string = null) {
@@ -167,12 +193,12 @@ namespace Internal {
             // 去除第一个@标记符号之后进行查询
             // 因为url可能会带有@，所以可能会出现误查询的情况，所以在这里默认值设置为url
             // 当误查询的时候就会查询不到结果的时候，就可以返回当前的url值了
-            var tag: string[] = [];
-            var c: string;
-            var metaQuery: string;
+            let tag: string[] = [];
+            let c: string;
+            let metaQuery: string;
 
             // 第一个符号是@符号，跳过
-            for (var i: number = 1; i < url.length; i++) {
+            for (let i: number = 1; i < url.length; i++) {
                 if (isValidSymbol(c = url.charAt(i))) {
                     tag.push(c);
                 } else {
@@ -225,7 +251,13 @@ namespace Internal {
             }
             HttpHelpers.Imports.doEval(script, callback);
         }
-        ts.value = DOM.InputValueGetter.getValue;
+        ts.value = function (resource: string, value: string = null, strict: boolean = false) {
+            if (isNullOrUndefined(value)) {
+                return DOM.InputValueGetter.getValue(resource, strict);
+            } else {
+                DOM.InputValueSetter.setValue(resource, value, strict);
+            }
+        }
         ts.inject = function (iframe: string, fun: (Delegate.Func<any> | string)[] | string | Delegate.Func<any>) {
             var frame: HTMLIFrameElement = <any>$ts(iframe);
             var envir: {
@@ -247,30 +279,73 @@ namespace Internal {
             }
         };
         ts.text = function (id: string, htmlText: boolean = false) {
-            var nodeID: string = Handlers.EnsureNodeId(id);
-            var node: IHTMLElement = stringEval.doEval(nodeID, null, null);
+            let nodeID: string = Handlers.makesureElementIdSelector(id);
+            let node: IHTMLElement = stringEval.doEval(nodeID, null, null);
+            let text: string = htmlText ? node.innerHTML : node.innerText;
 
-            return htmlText ? node.innerHTML : node.innerText;
+            TypeScript.logging.log(text, TypeScript.ConsoleColors.DarkGreen);
+
+            return text;
         };
         ts.loadJSON = function (id: string) {
             return JSON.parse(ts.text(id));
         };
 
+        let TRUE = {
+            "✔": true,
+            "T": true,
+            "true": true,
+            "True": true,
+            "TRUE": true,
+            "yes": true,
+            "success": true,
+            "pass": true
+        };
+        let FALSE = {
+            "✘": false,
+            "F": false,
+            "false": false,
+            "FALSE": false,
+            "False": false,
+            "wrong": false,
+            "failure": false
+        }
+
         // file path helpers
-        ts.parseFileName = TsLinq.PathHelper.fileName;
+        ts.parseFileName = TypeScript.PathHelper.fileName;
+        ts.parseBool = function (text: string | number): boolean {
+            if (isNullOrUndefined(text)) {
+                return false;
+            } else if (typeof text == "number") {
+                return text !== 0;
+            } else if (text in TRUE) {
+                return true;
+            } else if (text in FALSE) {
+                return false;
+            } else {
+                // all of the none null value will be interpret as boolean true
+                return true;
+            }
+        };
+        ts.unixtimestamp = function () {
+            var d: Date = new Date();
+            var timestamp = Math.round(d.getTime());
+
+            return timestamp;
+        };
 
         /**
          * 得到不带有拓展名的文件名部分的字符串
          * 
          * @param path Full name
         */
-        ts.baseName = TsLinq.PathHelper.basename;
+        ts.baseName = TypeScript.PathHelper.basename;
         /**
          * 得到不带小数点的文件拓展名字符串
          * 
          * @param path Full name
         */
-        ts.extensionName = TsLinq.PathHelper.extensionName;
+        ts.extensionName = TypeScript.PathHelper.extensionName;
         ts.withExtensionName = function (path: string, ext: string) {
             var fileExt: string = $ts.extensionName(path);
             var equals: boolean = fileExt.toLowerCase() == ext.toLowerCase();
@@ -279,19 +354,39 @@ namespace Internal {
         };
 
         ts.doubleRange = data.NumericRange.Create;
+        ts.hook = DOM.Events.Add;
+        ts.typeof = TypeScript.Reflection.$typeof;
+        ts.clone = function (obj: {}) {
+            return DataExtensions.merge(obj, {});
+        };
 
         return ts;
     }
 
     function extendsLINQ(ts: any): any {
         ts.isNullOrEmpty = function (obj: any) {
-            return IsNullOrEmpty(obj);
+            return isNullOrEmpty(obj);
         }
-        ts.from = From;
-        ts.csv = {
-            toObjects: (data: string) => csv.dataframe.Parse(data).Objects(),
-            toText: data => csv.toDataFrame(data).buildDoc()
+        ts.from = $from;
+        ts.csv = function (data: string, isTsv?: boolean | Delegate.Func<boolean>) {
+            if (typeof isTsv != "boolean") {
+                isTsv = <boolean>isTsv(data);
+            }
+
+            return csv.dataframe.Parse(data, isTsv);
         };
+        ts.csv.toObjects = (data: string) => csv.dataframe.Parse(data, csv.isTsvFile(data)).Objects();
+        ts.csv.toText = (data, tsvOut: boolean = false) => csv.toDataFrame(data).buildDoc(tsvOut);
+        ts.csv.toUri = function (data: IEnumerator<{}> | {}[], outTsv?: boolean): DataURI {
+            let text: string = $ts.csv.toText(data, outTsv);
+            let url = <DataURI>{
+                mime_type: csv.contentType,
+                data: Base64.encode(text)
+            }
+
+            return url;
+        };
+
         ts.evalHTML = {
             table: DOM.CreateHTMLTableNode,
             selectOptions: DOM.AddSelectOptions
@@ -302,14 +397,17 @@ namespace Internal {
     }
 
     function extendsSelector(ts: any): any {
+        let DOMquery = Internal.Handlers.Shared.string();
+
         ts.select = function (query: string, context: Window = window) {
             return Handlers.stringEval.select(query, context);
         }
+        ts.select.getSelects = (id => DOMquery.doEval(id, null, null));
         ts.select.getSelectedOptions = function (query: string, context: Window = window) {
             var sel: HTMLElement = $ts(query, {
                 context: context
             });
-            var options = DOM.InputValueGetter.getSelectedOptions(<any>sel);
+            var options = <HTMLOptionElement[]>DOM.InputValueGetter.getSelectedOptions(<any>sel);
 
             return new DOMEnumerator<HTMLOptionElement>(options);
         };
@@ -319,10 +417,16 @@ namespace Internal {
             });
             var options = DOM.InputValueGetter.getSelectedOptions(<any>sel);
 
-            if (options.length == 0) {
+            if (typeof options == "boolean") {
+                return options;
+            } else if (options.length == 0) {
                 return null;
             } else {
-                return options[0].value;
+                if (typeof options[0] == "string") {
+                    return options[0];
+                } else {
+                    return (<HTMLOptionElement>options[0]).value;
+                }
             }
         };
 
@@ -330,7 +434,7 @@ namespace Internal {
     }
 
     export function queryFunction<T>(handle: object, any: ((() => void) | T | T[]), args: object): any {
-        var type: TypeInfo = TypeInfo.typeof(any);
+        var type: TypeScript.Reflection.TypeInfo = TypeScript.Reflection.$typeof(any);
         var typeOf: string = type.typeOf;
         // symbol renames due to problem in js compress tool
         //
@@ -341,13 +445,20 @@ namespace Internal {
 
         if (isHtmlCollection) {
             return Internal.Handlers.Shared.HTMLCollection().doEval(<any>any, type, args);
-        } else if (type.IsArray) {
+        } else if (type.isArray) {
             // 转化为序列集合对象，相当于from函数                
             return (<Handlers.arrayEval<T>>queryEval).doEval(<T[]>any, type, args);
         } else if (type.typeOf == "function") {
             // 当html文档加载完毕之后就会执行传递进来的这个
             // 函数进行初始化
-            DOM.Events.ready(<() => void>any);
+            if (TypeScript.logging.outputEverything && !isNullOrUndefined(args) && TypeScript.Reflection.getClass(args) == "HTMLIFrameElement") {
+                console.log("Apply a new ready event on iframe:");
+                console.log(args);
+            }
+
+            DOM.Events.ready(<() => void>any, ["interactive", "complete"], <any>args);
+        } else if (TypeExtensions.isElement(any)) {
+            return TypeExtensions.Extends(<any>any);
         } else if (!isNullOrUndefined(eval)) {
             // 对html文档之中的节点元素进行查询操作
             // 或者创建新的节点

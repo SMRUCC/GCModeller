@@ -1,13 +1,21 @@
 /// <reference path="../DOM/DOMEnumerator.ts" />
+/// <reference path="../DOM/InputValueGetter.ts" />
 
 /**
- * 路由器模块
+ * Web应用程序路由器模块
+ * 
+ * 通过这个路由器模块管理制定的Web应用程序模块的运行或者休眠
 */
 module Router {
 
     var hashLinks: Dictionary<string>;
     var webApp: Dictionary<Bootstrap>[];
     var caseSensitive: boolean = true;
+
+    /**
+     * meta标签中的app值
+    */
+    export const appName: string = <any>DOM.InputValueGetter.metaValue("app");
 
     export function isCaseSensitive(): boolean {
         return caseSensitive;
@@ -65,7 +73,7 @@ module Router {
     }
 
     export function getAppSummary(app: Bootstrap, module: string = "/"): IAppInfo {
-        var type = TypeInfo.typeof(app);
+        var type = $ts.typeof(app);
         var info = <IAppInfo>{
             module: module,
             appName: app.appName,
@@ -77,7 +85,12 @@ module Router {
         return info;
     }
 
+    /**
+     * 从这个函数开始执行整个Web应用程序
+    */
     export function RunApp(module = "/") {
+        TypeScript.logging.log(TypeScript.URL.WindowLocation());
+
         if (module in webApp) {
             doModule(module, apps => apps.Select(app => app.value.Init()));
         } else if (module == "index" || module in indexModule) {

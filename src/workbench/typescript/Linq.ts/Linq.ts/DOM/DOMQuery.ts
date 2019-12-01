@@ -12,7 +12,8 @@ namespace DOM {
 
         /**
          * + ``#`` by id
-         * + ``.`` by claSS
+         * + ``.`` by class
+         * + ``!`` by name
          * + ``&`` SINGLE NODE
          * + ``@`` read meta tag
          * + ``&lt;>`` create new tag
@@ -49,6 +50,17 @@ namespace DOM {
                 type: QueryTypes.class,
                 singleNode: isSingle,
                 expression: className
+            };
+        }
+
+        /**
+         * by name attribute
+        */
+        private static getByName(nameVal: string, isSingle: boolean): Query {
+            return <Query>{
+                type: QueryTypes.name,
+                singleNode: isSingle,
+                expression: `[name='${nameVal}']`
             };
         }
 
@@ -104,8 +116,10 @@ namespace DOM {
             switch (prefix) {
                 case "#": return this.getById(expr.substr(1));
                 case ".": return this.getByClass(expr, isSingle);
+                case "!": return this.getByName(expr.substr(1), isSingle);
                 case "<": return this.createElement(expr);
                 case "@": return this.queryMeta(expr.substr(1));
+
                 default: return this.getByTag(expr, isSingle);
             }
         }

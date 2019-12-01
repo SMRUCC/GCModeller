@@ -1,4 +1,6 @@
-﻿namespace DOM {
+﻿/// <reference path="../Framework/Log4TypeScript.ts" />
+
+namespace DOM {
 
     export module InputValueGetter {
 
@@ -35,10 +37,15 @@
             return getContent();
         }
 
-        export function getValue(id: string, strict: boolean = true): any {
-            let input = $ts(Internal.Handlers.EnsureNodeId(id));
+        /**
+         * @param strict 这个参数主要是针对非输入类型的控件的值获取而言的。
+         * 如果目标id标记的控件不是输入类型的，则如果处于非严格模式下，
+         * 即这个参数为``false``的时候会直接强制读取value属性值
+        */
+        export function getValue(resource: string, strict: boolean = true): any {
+            let input: IHTMLElement = $ts(resource);
 
-            switch (input.tagName) {
+            switch (input.tagName.toLowerCase()) {
                 case "input": return inputValue(<any>input);
                 case "select": return selectOptionValues(<any>input);
                 case "textarea": return largeText(<any>input);
@@ -54,8 +61,21 @@
         }
 
         export function inputValue(input: HTMLInputElement): any {
-            if (input.type == "checkbox") {
-                return checkboxInput(input);
+            let inputType: string = input.type.toLowerCase();
+
+            if (inputType == "checkbox") {
+                return checkboxInput(input, true);
+            } else if (inputType == "radio") {
+
+                if (input instanceof DOMEnumerator) {
+                    return (<DOMEnumerator<HTMLInputElement>>input)
+                        .Where(radio => radio.checked)
+                        .FirstOrDefault()
+                        .value;
+                } else {
+                    return input.value;
+                }
+
             } else {
                 return input.value;
             }
@@ -66,20 +86,33 @@
          * 1. 如果有多个checkbox，则会返回一个数组
          * 2. 反之如果只有一个checkbox，则只会返回一个逻辑值，用来表示是否选中该选项
         */
-        export function checkboxInput(input: HTMLInputElement) {
-            var inputs = document.getElementsByName(input.name);
-            var values = [];
+        export function checkboxInput(input: HTMLInputElement | DOMEnumerator<HTMLInputElement>, singleAsLogical: boolean = false) {
+            let inputs: DOMEnumerator<HTMLInputElement>;
 
-            if (inputs.length == 1) {
-                return input.checked;
+            if (input instanceof DOMEnumerator) {
+                inputs = <any>input
             } else {
-                inputs.forEach(function (box: HTMLInputElement) {
-                    var value = box.value;
+                inputs = <any>new DOMEnumerator<HTMLInputElement>(<any>document.getElementsByName(input.name));
+            }
 
-                    if (box.checked) {
-                        values.push(value);
-                    }
-                });
+            if (inputs.Count == 1) {
+                let single = inputs.ElementAt(0);
+
+                // check or unchecked
+                // true or false
+                if (singleAsLogical) {
+                    return single.checked;
+                } else if (single.checked) {
+                    return single.value;
+                } else {
+                    return null;
+                }
+
+            } else {
+                let values: string[] = inputs
+                    .Where(c => c.checked)
+                    .Select(box => box.value)
+                    .ToArray(false);
 
                 return values;
             }
@@ -89,14 +122,14 @@
          * 获取被选中的选项的值的列表
         */
         export function selectOptionValues(input: HTMLSelectElement): any {
-            let selects = getSelectedOptions(input);
+            let selects: HTMLOptionElement[] = <any>getSelectedOptions(input);
             let values = [];
 
             for (let sel of selects) {
-                var value = sel.value;
+                var value = (<HTMLOptionElement>sel).value;
 
                 if (!value) {
-                    value = sel.innerText;
+                    value = (<HTMLOptionElement>sel).innerText;
                 }
 
                 values.push(value);
@@ -108,26 +141,39 @@
         /**
          * return array containing references to selected option elements
         */
-        export function getSelectedOptions(sel: HTMLSelectElement) {
+        export function getSelectedOptions(sel: HTMLSelectElement | DOMEnumerator<HTMLInputElement>) {
             var opts: HTMLOptionElement[] = []
             var opt: HTMLOptionElement;
 
-            // loop through options in select list
-            for (var i = 0, len = sel.options.length; i < len; i++) {
-                opt = sel.options[i];
+            if (sel instanceof HTMLSelectElement) {
+                // loop through options in select list
+                for (var i = 0, len = sel.options.length; i < len; i++) {
+                    opt = sel.options[i];
 
-                // check if selected
-                if (opt.selected) {
-                    // add to array of option elements to return from this function
-                    opts.push(opt);
+                    // check if selected
+                    if (opt.selected) {
+                        // add to array of option elements to return from this function
+                        opts.push(opt);
+                    }
                 }
+            } else if (sel instanceof HTMLInputElement) {
+                if (sel.checked) {
+                    return sel.value;
+                } else {
+                    return false;
+                }
+            } else {
+                return sel
+                    .Where(i => i.checked)
+                    .Select(i => i.value)
+                    .ToArray(false);
             }
 
             return opts;
         }
 
         export function largeText(text: HTMLTextAreaElement): any {
-
+            return text.value;
         }
     }
 }

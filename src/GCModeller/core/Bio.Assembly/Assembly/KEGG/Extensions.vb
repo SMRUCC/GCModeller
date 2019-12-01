@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::8f558fbaa2e42aeab5a0f8f0fb587967, core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Extensions
-    ' 
-    '         Function: DirectGetChEBI, GetIDpairedList, GetPathwayBrite, IDlistStrings, LevelAKOStatics
-    '                   RemarksTable, SingleID, (+2 Overloads) TheSameAs, ValidateEntryFormat
-    '         Interface IKEGGRemarks
-    ' 
-    '             Properties: Remarks
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Extensions
+' 
+'         Function: DirectGetChEBI, GetIDpairedList, GetPathwayBrite, IDlistStrings, LevelAKOStatics
+'                   RemarksTable, SingleID, (+2 Overloads) TheSameAs, ValidateEntryFormat
+'         Interface IKEGGRemarks
+' 
+'             Properties: Remarks
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,11 +51,36 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Namespace Assembly.KEGG
 
+    <HideModuleName>
     Public Module Extensions
+
+        <Extension>
+        Public Function Glycan2CompoundId(compounds As IEnumerable(Of bGetObject.Compound)) As Dictionary(Of String, String())
+            Return compounds _
+                .Where(Function(c) c.entry.StartsWith("G")) _
+                .Select(Function(glycan)
+                            Return New NamedValue(Of String()) With {
+                                .Name = glycan.entry,
+                                .Value = bGetObject.Glycan.GetCompoundId(glycan)
+                            }
+                        End Function) _
+                .Where(Function(glycan) Not glycan.Value.IsNullOrEmpty) _
+                .GroupBy(Function(glycan) glycan.Name) _
+                .ToDictionary(Function(glycan) glycan.Key,
+                              Function(group)
+                                  Return group _
+                                      .Select(Function(name) name.Value) _
+                                      .IteratesALL _
+                                      .Distinct _
+                                      .ToArray
+                              End Function)
+        End Function
 
         ''' <summary>
         ''' 这个主要是应用于ID mapping操作的拓展函数
@@ -261,17 +286,17 @@ Namespace Assembly.KEGG
                         End Function) _
                 .ToArray
 
-            For Each [class] As BriteHText In brites.Hierarchical.CategoryItems
+            For Each [class] As BriteHText In brites.Hierarchical.categoryItems
                 Dim profile As New List(Of NamedValue(Of Integer))
 
-                For Each levelACatalog As BriteHText In [class].CategoryItems
+                For Each levelACatalog As BriteHText In [class].categoryItems
                     ' 在这里统计levelA的分布情况
                     Dim KO As Index(Of String) = levelACatalog _
                         .GetEntries _
                         .Where(Function(s) Not s.StringEmpty) _
                         .Indexing
                     profile += New NamedValue(Of Integer) With {
-                        .Name = levelACatalog.ClassLabel,
+                        .Name = levelACatalog.classLabel,
                         .Description = levelACatalog.description,
                         .Value = KO_counts _
                             .Where(Function(tag) KO(tag.Catalog) > -1) _
@@ -280,9 +305,9 @@ Namespace Assembly.KEGG
                 Next
 
                 If keepsZERO Then
-                    out([class].ClassLabel) = profile
+                    out([class].classLabel) = profile
                 Else
-                    out([class].ClassLabel) = profile _
+                    out([class].classLabel) = profile _
                         .Where(Function(x) x.Value > 0) _
                         .ToArray
                 End If

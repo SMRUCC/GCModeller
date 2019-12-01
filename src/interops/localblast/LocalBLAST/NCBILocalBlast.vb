@@ -48,6 +48,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Threads
@@ -304,7 +305,7 @@ Public Module NCBILocalBlast
         Dim EXEList As String() = ProgramPathSearchTool.SearchProgram(BLAST, "blast")
 
         If EXEList.Length > 1 Then
-            BLAST = PathExtensions.GetMostAppreancePath(EXEList)
+            BLAST = RepositoryFileSystem.GetMostAppreancePath(EXEList)
             Return NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(BLAST, LocalBLAST.InteropService.Program.BlastPlus)
         Else
             Return Nothing

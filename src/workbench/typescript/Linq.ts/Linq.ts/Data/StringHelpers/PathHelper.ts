@@ -1,4 +1,4 @@
-﻿namespace TsLinq {
+﻿namespace TypeScript {
 
     /**
      * String helpers for the file path string.
@@ -9,7 +9,7 @@
          * 只保留文件名（已经去除了文件夹路径以及文件名最后的拓展名部分）
         */
         export function basename(fileName: string): string {
-            var nameTokens: string[] = From(Strings.RTrim(fileName, "/").split("/")).Last.split(".");
+            var nameTokens: string[] = $from(Strings.RTrim(fileName, "/").split("/")).Last.split(".");
 
             if (nameTokens.length == 1) {
                 return nameTokens[0];
@@ -23,7 +23,7 @@
         }
 
         export function extensionName(fileName: string): string {
-            var nameTokens: string[] = From(Strings.RTrim(fileName, "/").split("/")).Last.split(".");
+            var nameTokens: string[] = $from(Strings.RTrim(fileName, "/").split("/")).Last.split(".");
 
             if (nameTokens.length == 1) {
                 // 没有拓展名
@@ -37,7 +37,7 @@
          * 函数返回文件名或者文件夹的名称
         */
         export function fileName(path: string): string {
-            return From(Strings.RTrim(path, "/").split("/")).Last;
+            return $from(Strings.RTrim(path, "/").split("/")).Last;
         }
     }
 }

@@ -1,49 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::683c19bfd1b7ee04d1046c65544ff3d7, Dynamics\Engine\Loader\Definition\Definition.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Definition
-    ' 
-    '         Properties: ADP, AminoAcid, ATP, NucleicAcid, status
-    '                     Water
-    ' 
-    '         Function: KEGG
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Definition
+' 
+'         Properties: ADP, AminoAcid, ATP, NucleicAcid, status
+'                     Water
+' 
+'         Function: KEGG
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+
 Namespace Engine.Definitions
+
+    Public Enum GeneralCompound
+        DNA
+        RNA
+        Protein
+    End Enum
 
     ''' <summary>
     ''' 因为物质编号可能会来自于不同的数据库，所以会需要使用这个对象将一些关键的物质映射为计算引擎所能够被识别的对象
@@ -54,16 +62,28 @@ Namespace Engine.Definitions
 
         ' 当初主要是使用这种固定的映射来处理一些特定的模板事件
 
+#Region "转录和翻译"
         ''' <summary>
         ''' 
         ''' </summary>
         ''' <returns></returns>
         Public Property ATP As String
-        Public Property Water As String
         Public Property ADP As String
+#End Region
+
+#Region "模板或者说无限来源的物质"
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Water As String
+        Public Property Oxygen As String
+#End Region
 
         Public Property NucleicAcid As NucleicAcid
         Public Property AminoAcid As AminoAcid
+
+        Public Property GenericCompounds As Dictionary(Of String, GeneralCompound)
 #End Region
 
         ''' <summary>
@@ -72,6 +92,10 @@ Namespace Engine.Definitions
         ''' </summary>
         ''' <returns></returns>
         Public Property status As Dictionary(Of String, Double)
+
+        Public Function GetInfinitySource() As Index(Of String)
+            Return {Water, Oxygen}
+        End Function
 
         ''' <summary>
         ''' Get the KEGG compound <see cref="Definition"/>
@@ -118,9 +142,15 @@ Namespace Engine.Definitions
                 .ADP = "C00008",
                 .ATP = "C00002",
                 .Water = "C00001",
+                .Oxygen = "C00007",
                 .NucleicAcid = ntBase,
                 .AminoAcid = aaResidue,
-                .status = initStatus
+                .status = initStatus,
+                .GenericCompounds = New Dictionary(Of String, GeneralCompound) From {
+                    {"C00017", GeneralCompound.Protein},
+                    {"C00039", GeneralCompound.DNA},
+                    {"C00046", GeneralCompound.RNA}
+                }
             }
         End Function
 

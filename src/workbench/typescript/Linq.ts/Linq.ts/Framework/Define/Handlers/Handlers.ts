@@ -22,7 +22,7 @@ namespace Internal.Handlers {
     };
 
     export interface IEval<T> {
-        doEval(expr: T, type: TypeInfo, args: object): any;
+        doEval(expr: T, type: TypeScript.Reflection.TypeInfo, args: object): any;
     }
 
     /**
@@ -30,14 +30,14 @@ namespace Internal.Handlers {
     */
     export class arrayEval<V> implements IEval<V[]> {
 
-        doEval(expr: V[], type: TypeInfo, args: object): any {
-            return From(expr);
+        doEval(expr: V[], type: TypeScript.Reflection.TypeInfo, args: object): any {
+            return $from(expr);
         }
     }
 
     export class DOMCollection<V extends HTMLElement> implements IEval<V[]> {
 
-        doEval(expr: V[], type: TypeInfo, args: object) {
+        doEval(expr: V[], type: TypeScript.Reflection.TypeInfo, args: object) {
             return new DOMEnumerator(expr);
         }
     }

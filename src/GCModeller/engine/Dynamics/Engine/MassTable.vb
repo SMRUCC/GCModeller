@@ -1,51 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::0fb270040e52bbd1ba1c770565e590d3, Dynamics\Engine\MassTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class MassTable
-    ' 
-    '         Properties: GetMassValues
-    ' 
-    '         Function: AddNew, Exists, GetAll, (+2 Overloads) GetByKey, GetEnumerator
-    '                   GetWhere, IEnumerable_GetEnumerator, template, variable, (+3 Overloads) variables
-    ' 
-    '         Sub: AddOrUpdate, Delete
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class MassTable
+' 
+'         Properties: GetMassValues
+' 
+'         Function: AddNew, Exists, GetAll, (+2 Overloads) GetByKey, GetEnumerator
+'                   GetWhere, IEnumerable_GetEnumerator, template, variable, (+3 Overloads) variables
+' 
+'         Sub: AddOrUpdate, Delete
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -82,8 +83,20 @@ Namespace Engine
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function variables(compounds As IEnumerable(Of FactorString(Of Double))) As IEnumerable(Of Variable)
-            Return compounds.Select(Function(cpd) Me.variable(cpd.text, cpd.factor))
+        Public Function variables(compounds As IEnumerable(Of Variable), factor As Double) As IEnumerable(Of Variable)
+            Return compounds.Select(Function(cpd) Me.variable(cpd.Mass.ID, factor))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function variables(compounds As IEnumerable(Of FactorString(Of Double)), templates As Index(Of String)) As IEnumerable(Of Variable)
+            Return compounds _
+                .Select(Function(cpd)
+                            If cpd.text Like templates Then
+                                Return Me.template(cpd.text)
+                            Else
+                                Return Me.variable(cpd.text, cpd.factor)
+                            End If
+                        End Function)
         End Function
 
         Public Iterator Function variables(complex As Protein) As IEnumerable(Of Variable)
@@ -122,7 +135,9 @@ Namespace Engine
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetWhere(clause As Func(Of Factor, Boolean)) As IReadOnlyDictionary(Of String, Factor) Implements IRepositoryRead(Of String, Factor).GetWhere
-            Return massTable.Values.Where(clause).ToDictionary
+            Return massTable.Values _
+                .Where(clause) _
+                .ToDictionary
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

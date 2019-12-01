@@ -1,5 +1,18 @@
 ﻿module Cookies {
 
+    // username=Bill Gates; expires=Sun, 31 Dec 2017 12:00:00 UTC; path=/
+
+    export function setCookie(name: string, value: string, exdays: number = 0) {
+        var d = new Date();
+        var expires: string;
+
+        throw "not implements";
+
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        expires = "expires=" + d.toUTCString();
+        document.cookie = `${name}=${value}; ${expires}; path=/`;
+    }
+
     /**
      * Cookie 不存在，函数会返回空字符串
     */

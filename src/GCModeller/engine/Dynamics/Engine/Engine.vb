@@ -73,6 +73,7 @@ Namespace Engine
         ''' </summary>
         Dim core As Vessel
         Dim def As Definition
+        Dim dynamics As FluxBaseline
         Dim model As CellularModule
         Dim iterations As Integer = 5000
 
@@ -83,9 +84,10 @@ Namespace Engine
         Public ReadOnly Property snapshot As (mass As Dictionary(Of String, Double), flux As Dictionary(Of String, Double))
         Public ReadOnly Property debugView As DebuggerView
 
-        Sub New(def As Definition, Optional iterations% = 5000)
+        Sub New(def As Definition, dynamics As FluxBaseline, Optional iterations% = 5000)
             Me.def = def
             Me.iterations = iterations
+            Me.dynamics = dynamics
             Me.debugView = New DebuggerView(Me)
         End Sub
 
@@ -104,7 +106,7 @@ Namespace Engine
                                   Optional timeResolution# = 1000,
                                   Optional ByRef getLoader As Loader = Nothing) As Engine
 
-            getLoader = New Loader(def)
+            getLoader = New Loader(def, dynamics)
             core = getLoader _
                 .CreateEnvironment(virtualCell) _
                 .Initialize(timeResolution)

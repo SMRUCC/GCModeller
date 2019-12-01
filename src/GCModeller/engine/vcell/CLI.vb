@@ -94,7 +94,7 @@ Imports vcellkit
         If jsonFormat Then
             Dim massIndex = OmicsDataAdapter.GetMassTuples(cell)
             Dim fluxIndex = OmicsDataAdapter.GetFluxTuples(cell)
-            Dim engine As Engine = New Engine(def, iterations).LoadModel(cell, deletes, 10)
+            Dim engine As Engine = New Engine(def, New FluxBaseline, iterations).LoadModel(cell, deletes, 10)
 
             Call engine.Run()
             Call engine.TakeStatusSnapshot(massIndex, fluxIndex, save:=out)
@@ -102,7 +102,7 @@ Imports vcellkit
             Return 0
         Else
             Dim loader As Loader = Nothing
-            Dim engine As New Engine(def, iterations)
+            Dim engine As New Engine(def, New FluxBaseline, iterations)
 
             Call engine.LoadModel(cell, deletes,, getLoader:=loader)
 

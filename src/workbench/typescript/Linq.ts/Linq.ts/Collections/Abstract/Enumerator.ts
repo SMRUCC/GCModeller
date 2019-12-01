@@ -14,8 +14,8 @@ class IEnumerator<T> extends LINQIterator<T> {
     /**
      * 获取序列的元素类型
     */
-    public get ElementType(): TypeInfo {
-        return TypeInfo.typeof(this.First);
+    public get ElementType(): TypeScript.Reflection.TypeInfo {
+        return $ts.typeof(<any>this.First);
     };
 
     /**
@@ -44,6 +44,13 @@ class IEnumerator<T> extends LINQIterator<T> {
     */
     constructor(source: T[] | IEnumerator<T>) {
         super(IEnumerator.getArray(source));
+    }
+
+    /**
+     * 在明确类型信息的情况下进行强制类型转换
+    */
+    public ctype<U>(): IEnumerator<U> {
+        return new IEnumerator<U>(<any>[...this.sequence]);
     }
 
     private static getArray<T>(source: T[] | IEnumerator<T>): T[] {
@@ -229,7 +236,7 @@ class IEnumerator<T> extends LINQIterator<T> {
      * Get the min value in current sequence.
      * (求取这个序列集合的最小元素，使用这个函数要求序列之中的元素都必须能够被转换为数值)
     */
-    public Min(project: (e: T) => number = (e) => DataExtensions.as_numeric(e)): T {
+    public Min(project: (e: T) => number = (e) => Strings.as_numeric(e)): T {
         return Enumerable.OrderBy(this.sequence, project).First;
     }
 
@@ -237,7 +244,7 @@ class IEnumerator<T> extends LINQIterator<T> {
      * Get the max value in current sequence.
      * (求取这个序列集合的最大元素，使用这个函数要求序列之中的元素都必须能够被转换为数值)
     */
-    public Max(project: (e: T) => number = (e) => DataExtensions.as_numeric(e)): T {
+    public Max(project: (e: T) => number = (e) => Strings.as_numeric(e)): T {
         return Enumerable.OrderByDescending(this.sequence, project).First;
     }
 
@@ -262,8 +269,8 @@ class IEnumerator<T> extends LINQIterator<T> {
             return Number(e);
         }
 
-        for (var i = 0; i < this.sequence.length; i++) {
-            x += project(this.sequence[i]);
+        for (let val of this.sequence) {
+            x += project(val);
         }
 
         return x;
@@ -294,6 +301,29 @@ class IEnumerator<T> extends LINQIterator<T> {
     }
 
     /**
+     * Split a sequence by elements count
+    */
+    public Split(size: number): IEnumerator<T[]> {
+        let seq: T[][] = [];
+        let row: T[] = [];
+
+        for (let element of this.sequence) {
+            if (row.length < size) {
+                row.push(element);
+            } else {
+                seq.push(row);
+                row = [];
+            }
+        }
+
+        if (row.length > 0) {
+            seq.push(row);
+        }
+
+        return new IEnumerator<T[]>(seq);
+    }
+
+    /**
      * 取出序列之中的前n个元素
     */
     public Take(n: number): IEnumerator<T> {
@@ -312,7 +342,9 @@ class IEnumerator<T> extends LINQIterator<T> {
     */
     public Reverse(): IEnumerator<T> {
         var rseq = this.ToArray().reverse();
-        return new IEnumerator<T>(rseq);
+        var seq = new IEnumerator<T>(rseq);
+
+        return seq;
     }
 
     /**
@@ -372,7 +404,7 @@ class IEnumerator<T> extends LINQIterator<T> {
         var chunks: List<T[]> = new List<T[]>();
         var buffer: T[] = [];
 
-        this.sequence.forEach(x => {
+        for (let x of this.sequence) {
             if (isDelimiter(x)) {
                 chunks.Add(buffer);
 
@@ -384,7 +416,7 @@ class IEnumerator<T> extends LINQIterator<T> {
             } else {
                 buffer.push(x);
             }
-        });
+        }
 
         if (buffer.length > 0) {
             chunks.Add(buffer);
@@ -437,9 +469,11 @@ class IEnumerator<T> extends LINQIterator<T> {
     public Unlist<U>(project: (obj: T) => U[] = (obj: T) => <U[]><any>obj): IEnumerator<U> {
         var list: U[] = [];
 
-        this.ForEach(a => {
-            project(a).forEach(x => list.push(x));
-        })
+        for (let block of this.sequence) {
+            for (let x of project(block)) {
+                list.push(x);
+            }
+        }
 
         return new IEnumerator<U>(list);
     }
@@ -476,15 +510,17 @@ class IEnumerator<T> extends LINQIterator<T> {
             return <V>(<any>X);
         }): Dictionary<V> {
 
-        var maps = {};
+        let maps = {};
+        let key: string;
+        let value: V;
 
-        this.sequence.forEach(x => {
+        for (let x of this.sequence) {
             // 2018-08-11 键名只能够是字符串类型的
-            var key: string = keySelector(x);
-            var value: V = elementSelector(x);
+            key = keySelector(x);
+            value = elementSelector(x);
 
             maps[key] = value;
-        })
+        }
 
         return new Dictionary<V>(maps);
     }

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c94affdca7909ad3c51749ca74c9230e, Knowledge_base\Knowledge_base\PubMed\PubmedData\Data.vb"
+﻿#Region "Microsoft.VisualBasic::c4c71d7a70174d45d598dca8bad70956, modules\Knowledge_base\Knowledge_base\PubMed\PubmedData\Data.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,16 @@
 
     ' Summaries:
 
-    ' Class History
+    '     Class History
     ' 
-    '     Properties: PubMedPubDate
+    '         Properties: PubMedPubDate
     ' 
-    ' Class ArticleId
+    '     Class ArticleId
     ' 
-    '     Properties: ID, IdType
+    '         Properties: ID, IdType
     ' 
-    '     Function: ToString
+    '         Function: ToString
+    ' 
     ' 
     ' /********************************************************************************/
 

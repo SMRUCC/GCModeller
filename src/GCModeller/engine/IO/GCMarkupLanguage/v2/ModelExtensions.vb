@@ -190,9 +190,9 @@ Namespace v2
                                           .ToArray
                               End Function)
             Dim KO$()
-            Dim bounds As DoubleRange
+            Dim bounds As Double()
 
-            For Each reaction In model.metabolismStructure.reactions
+            For Each reaction As Reaction In model.metabolismStructure.reactions.AsEnumerable
                 equation = Equation.TryParse(reaction.Equation)
 
                 If reaction.is_enzymatic Then
@@ -201,13 +201,18 @@ Namespace v2
                     If KO.IsNullOrEmpty Then
                         ' 当前的基因组内没有对应的酶来催化这个反应过程
                         ' 则限制一个很小的range
-                        bounds = {1, 1}
+                        bounds = {10, 10}
                     Else
                         bounds = {500, 1000.0}
                     End If
                 Else
                     KO = {}
                     bounds = {200, 200.0}
+                End If
+
+                If Not equation.reversible Then
+                    ' only forward flux direction
+                    bounds(Scan0) = 0
                 End If
 
                 Yield New FluxModel With {

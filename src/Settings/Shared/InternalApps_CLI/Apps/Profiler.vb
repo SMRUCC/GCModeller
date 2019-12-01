@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7268.38152
-'  // ASSEMBLY:  Settings, Version=3.3277.7268.38152, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7271.30051
+'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/24/2019 8:47:12 AM
+'  // BUILT:     11/28/2019 4:41:42 PM
 '  // 
 ' 
 ' 
@@ -212,15 +212,18 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /kegg.metabolites.background /in &lt;organism.repository_directory&gt; [/out &lt;background_model.Xml&gt;]
+''' /kegg.metabolites.background /in &lt;organism.repository_directory&gt; [/ref &lt;KO.assign.csv&gt; /out &lt;background_model.Xml&gt;]
 ''' ```
 ''' Create background model for KEGG pathway enrichment based on the kegg metabolites, used for LC-MS metabolism data analysis.
 ''' </summary>
 '''
-Public Function MetaboliteBackground([in] As String, Optional out As String = "") As Integer
+Public Function MetaboliteBackground([in] As String, Optional ref As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/kegg.metabolites.background")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not ref.StringEmpty Then
+            Call CLI.Append("/ref " & """" & ref & """ ")
+    End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If

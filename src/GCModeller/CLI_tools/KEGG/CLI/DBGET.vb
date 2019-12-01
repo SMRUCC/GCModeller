@@ -58,8 +58,8 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Metagenomics
 Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.MapDownloader
-Imports OrganismHText = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
 Imports Organism = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism.Organism
+Imports OrganismHText = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
 
 Partial Module CLI
 
@@ -70,7 +70,8 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/try_all /compounds <compounds.directory> /save <DIR> /@set sleep=2000]")>
+    <ExportAPI("/Download.Reaction")>
+    <Usage("/Download.Reaction [/try_all /compounds <compounds.directory> /save <DIR> /@set sleep=2000]")>
     <Description("Downloads the KEGG enzyme reaction reference model data. Usually use these reference reaction data applied for metabolism network analysis.")>
     <Group(CLIGroups.DBGET_tools)>
     <Argument("/compounds", True, CLITypes.File,
@@ -111,7 +112,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Download.Compounds")>
     <Description("Downloads the KEGG compounds data from KEGG web server using dbget API. Apply this downloaded KEGG compounds data used for metabolism annotation in LC-MS data analysis.")>
-    <Usage("/Download.Compounds [/chebi <accessions.tsv> /flat /updates /save <DIR>]")>
+    <Usage("/Download.Compounds [/chebi <accessions.tsv> /reactions <kegg.reactions.repository> /flat /skip.compoundbrite /updates /save <DIR>]")>
     <Argument("/chebi", True, CLITypes.File,
               AcceptTypes:={GetType(Accession)},
               Description:="Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, 
@@ -122,11 +123,13 @@ Partial Module CLI
         Dim flat As Boolean = args("/flat")
         Dim updates As Boolean = args("/updates")
 
-        Call CompoundBrite.DownloadFromResource(
-            EXPORT:=save,
-            directoryOrganized:=Not flat,
-            structInfo:=True
-        )
+        If Not args("/skip.compoundbrite") Then
+            Call CompoundBrite.DownloadFromResource(
+                EXPORT:=save,
+                directoryOrganized:=Not flat,
+                structInfo:=True
+            )
+        End If
 
         ' 下载补充数据
         Dim accs As String = args <= "/chebi"
@@ -135,22 +138,42 @@ Partial Module CLI
             Call MetaboliteWebApi.CompleteUsingChEBI(save, accs, updates)
         End If
 
+        Dim repo$ = args <= "/reactions"
+
+        If repo.DirectoryExists Then
+            Dim reactions As Reaction() = ReactionRepository.ScanModel(repo).metabolicNetwork
+            Dim compoundsId As String() = reactions _
+                .Select(Function(r)
+                            Return r.GetSubstrateCompounds()
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+
+            Call CompoundBrite.DownloadOthers(
+                EXPORT:=save,
+                compoundIds:=compoundsId,
+                structInfo:=True
+            )
+        End If
+
         Return 0
     End Function
 
-    <ExportAPI("-ref.map.download", Usage:="-ref.map.download -o <out_dir>")>
+    <ExportAPI("-ref.map.download")>
+    <Usage("-ref.map.download -o <out_dir>")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadReferenceMapDatabase(argvs As CommandLine) As Integer
         Dim EXPORT As String = argvs("-o")
         Dim IDList = BriteHEntry.Pathway.LoadFromResource
         Dim Downloads = LinqAPI.Exec(Of Boolean) <=
  _
-            From ID As BriteHEntry.Pathway
+            From id As BriteHEntry.Pathway
             In IDList
-            Let MapID As String = "map" & ID.EntryId
-            Let Map = ReferenceMapData.Download(MapID)
-            Let save As String = EXPORT & "/" & MapID & ".xml"
-            Select Map.GetXml.SaveTo(save)
+            Let mapId As String = "map" & id.EntryId
+            Let map = ReferenceMapData.Download(mapId)
+            Let save As String = EXPORT & "/" & mapId & ".xml"
+            Select map.GetXml.SaveTo(save)
 
         Return 0
     End Function

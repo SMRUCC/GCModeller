@@ -31,7 +31,7 @@
 
             var position: IEnumerator<string> = $ts(file.match(/([:]\d+){2}$/m)[0].split(":"));
             var posStrLen: number = (position.Select(s => s.length).Sum() + 2);
-            var location = From(position)
+            var location = $from(position)
                 .Where(s => s.length > 0)
                 .Select(x => Strings.Val(x))
                 .ToArray();

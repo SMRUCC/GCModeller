@@ -57,12 +57,16 @@ Namespace Engine.ModelLoader
     ''' </summary>
     Public Class CentralDogmaFluxLoader : Inherits FluxLoader
 
+#Region "降解的对象列表"
+
         Public ReadOnly Property mRNA As String()
         ''' <summary>
         ''' tRNA+rRNA+mics RNA
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property componentRNA As String()
+        Public ReadOnly Property polypeptides As String()
+#End Region
 
         Public Sub New(loader As Loader)
             Call MyBase.New(loader)
@@ -77,6 +81,7 @@ Namespace Engine.ModelLoader
             Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
             Dim mRNA As New List(Of String)
             Dim componentRNA As New List(Of String)
+            Dim polypeptides As New List(Of String)
 
             For Each cd As CentralDogma In cell.Genotype.centralDogmas
                 ' if the gene template mass value is set to ZERO
@@ -94,7 +99,8 @@ Namespace Engine.ModelLoader
 
                 templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
                 productsRNA = {
-                    MassTable.variable(cd.RNA.Name)
+                    MassTable.variable(cd.RNA.Name),
+                    MassTable.variable(loader.define.ADP)
                 }
 
                 ' 转录和翻译的反应过程都是不可逆的
@@ -103,27 +109,36 @@ Namespace Engine.ModelLoader
                 If Not cd.polypeptide Is Nothing Then
                     templateRNA = translationTemplate(cd.RNA.Name, proteinMatrix)
                     productsPro = {
-                        MassTable.variable(cd.polypeptide)
+                        MassTable.variable(cd.polypeptide),
+                        MassTable.variable(loader.define.ADP)
                     }
+                    polypeptides += cd.polypeptide
 
                     Yield New Channel(templateRNA, productsPro) With {
                         .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
-                        .forward = New Controls With {.baseline = 10},
+                        .forward = New Controls With {.baseline = loader.dynamics.transcriptionBaseline},
                         .reverse = New Controls With {.baseline = 0},
-                        .bounds = New Boundary With {.forward = 100, .reverse = 0}
+                        .bounds = New Boundary With {
+                            .forward = loader.dynamics.transcriptionCapacity,
+                            .reverse = 0
+                        }
                     }
                 End If
 
                 Yield New Channel(templateDNA, productsRNA) With {
                     .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
-                    .forward = New Controls With {.baseline = 10},
+                    .forward = New Controls With {.baseline = loader.dynamics.translationBaseline},
                     .reverse = New Controls With {.baseline = 0},
-                    .bounds = New Boundary With {.forward = 100, .reverse = 0}
+                    .bounds = New Boundary With {
+                        .forward = loader.dynamics.translationCapacity,
+                        .reverse = 0
+                    }
                 }
             Next
 
             _mRNA = mRNA
             _componentRNA = componentRNA
+            _polypeptides = polypeptides
         End Function
 
         ''' <summary>
@@ -139,7 +154,7 @@ Namespace Engine.ModelLoader
                             Dim baseName = loader.define.NucleicAcid(base.Name)
                             Return MassTable.variable(baseName, base.Value)
                         End Function) _
-                .AsList + MassTable.template(geneID)
+                .AsList + MassTable.template(geneID) + MassTable.variable(loader.define.ATP)
         End Function
 
         ''' <summary>
@@ -155,7 +170,7 @@ Namespace Engine.ModelLoader
                             Dim aaName = loader.define.AminoAcid(aa.Name)
                             Return MassTable.variable(aaName, aa.Value)
                         End Function) _
-                .AsList + MassTable.template(mRNA)
+                .AsList + MassTable.template(mRNA) + MassTable.variable(loader.define.ATP)
         End Function
     End Class
 End Namespace

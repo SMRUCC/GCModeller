@@ -30,7 +30,7 @@ namespace csv.HTML {
             </table>`;
     }
 
-    export function createHTMLTable<T>(data: IEnumerator<T>, tblClass: string[] = bootstrap): string {
+    export function createHTMLTable<T extends object>(data: IEnumerator<T>, tblClass: string[] = bootstrap): string {
         return toHTMLTable(csv.toDataFrame(data), tblClass);
     }
 }

@@ -43,11 +43,8 @@ Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Partial Module CLI
 
@@ -56,16 +53,11 @@ Partial Module CLI
     Public Function Union(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{in$.TrimDIR}.union/"
-        Dim metabolites As New List(Of DataSet)
 
-        For Each dir As String In ls - l - lsDIR <= [in]
-            Dim name = dir.BaseName
-            Dim data = $"{dir}/mass/metabolome.json".LoadJsonFile(Of Dictionary(Of String, Double))
-
-            metabolites += New DataSet With {.ID = name, .Properties = data}
-        Next
-
-        Return metabolites.Transpose.SaveTo(out & "/mass/metabolome.csv").CLICode
+        Return vcellkit.Analysis _
+            .UnionSnapshot([in]) _
+            .SaveTo(out & "/mass/metabolome.csv") _
+            .CLICode
     End Function
 
     <ExportAPI("/diff")>
