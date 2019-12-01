@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -185,134 +186,126 @@ For example, we identified a new domain, likely to have a role downstream of the
         <Extension>
         Public Function InvokeDrawing(model As DrawingModel,
                                       Optional frequencyOrder As Boolean = True,
-                                      Optional margin As Integer = 100,
+                                      Optional logoPadding$ = g.DefaultPadding,
                                       Optional reverse As Boolean = False,
                                       Optional height As Integer = 75) As GraphicsData
 
             Dim n As Integer = model.Alphabets
-            Dim gSize As New Size(model.Residues.Length * WordSize + 2 * margin, 2 * margin + n * height)
-            Dim plotInternal = Sub(ByRef g As IGraphics, plotRegion As GraphicsRegion)
-                                   Dim X, Y As Integer
-                                   Dim font As New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.6), FontStyle.Bold)
-                                   Dim size As SizeF
-                                   Dim region As Rectangle = plotRegion.PlotRegion
+            Dim margin As Padding = Padding.TryParse(logoPadding)
+            Dim width! = model.Residues.Length * WordSize + margin.Horizontal
+            Dim X, Y As Integer
+            Dim font As New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.6), FontStyle.Bold)
+            Dim location As PointF
+            Dim plotInternal =
+                Sub(ByRef g As IGraphics, plotRegion As GraphicsRegion)
+                    Dim size As SizeF
+                    Dim region As Rectangle = plotRegion.PlotRegion
 
-                                   size = g.MeasureString(model.ModelsId, font)
-                                   g.DrawString(
-                model.ModelsId, font,
-                Brushes.Black,
-                New Point((region.Width - size.Width) / 2, y:=margin / 2.5))
+                    size = g.MeasureString(model.ModelsId, font)
+                    location = New PointF(region.Left + (region.Width - size.Width) / 2, y:=margin.Top / 2.5)
+                    g.DrawString(model.ModelsId, font, Brushes.Black, location)
 
-                                   font = New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.4))
+                    font = New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.4))
 
 #Region "画坐标轴"
+                    ' 坐标轴原点
+                    X = margin.Left
+                    Y = region.Height + margin.Top
 
-                                   X = margin
-                                   Y = region.Height - margin  ' 坐标轴原点
+                    Dim maxBits As Double = Math.Log(n, newBase:=2)
+                    Dim yHeight As Integer = n * height
 
-                                   Dim maxBits As Double = Math.Log(n, newBase:=2)
-                                   Dim yHeight As Integer = n * height
+                    Call g.DrawLine(Pens.Black, New Point(X, Y - yHeight), New Point(X, Y))
+                    Call g.DrawLine(Pens.Black, New Point(X, Y), New Point(X + model.Residues.Length * DrawingDevice.WordSize, y:=Y))
 
-                                   Call g.DrawLine(Pens.Black,
-                                        New Point(X, Y - yHeight),
-                                        New Point(X, Y))
-                                   Call g.DrawLine(Pens.Black,
-                                        New Point(X, Y),
-                                        New Point(X + model.Residues.Length * DrawingDevice.WordSize, y:=Y))
+                    ' nt 2 steps,  aa 5 steps
+                    Dim departs As Integer = If(maxBits = 2, 2, 5)
+                    Dim d As Double = maxBits / departs
 
-                                   Dim departs As Integer = If(maxBits = 2, 2, 5)  ' nt 2 steps,  aa 5 steps
-                                   Dim d As Double = maxBits / departs
+                    ' 步进
+                    yHeight = d / maxBits * (height * n)
+                    d = Math.Round(d, 1)
 
-                                   yHeight = d / maxBits * (height * n) '步进
-                                   d = Math.Round(d, 1)
+                    Dim yBits As Double = 0
+                    Dim y1!
 
-                                   Dim yBits As Double = 0
+                    For j As Integer = 0 To departs
+                        size = g.MeasureString(yBits, font:=font)
 
-                                   For j As Integer = 0 To departs
-                                       size = g.MeasureString(yBits, font:=font)
+                        y1 = Y - size.Height / 2
+                        g.DrawString(CStr(yBits), font, Brushes.Black, New Point(x:=X - size.Width, y:=y1))
 
-                                       Dim y1 = Y - size.Height / 2
+                        y1 = Y '- sz.Height / 8
+                        g.DrawLine(Pens.Black, New Point(x:=X, y:=y1), New Point(x:=X + 10, y:=y1))
 
-                                       g.DrawString(
-                    CStr(yBits),
-                    font,
-                    Brushes.Black,
-                    New Point(x:=X - size.Width, y:=y1))
+                        yBits += d
+                        Y -= yHeight
+                    Next
 
-                                       y1 = Y '- sz.Height / 8
-                                       g.DrawLine(
-                    Pens.Black,
-                    New Point(x:=X, y:=y1),
-                    New Point(x:=X + 10, y:=y1))
+                    Dim source As IEnumerable(Of Residue) = If(reverse, model.Residues.Reverse, model.Residues)
+                    Dim colorSchema As Dictionary(Of Char, Image) = model.__getColors
+                    Dim order As Alphabet()
 
-                                       yBits += d
-                                       Y -= yHeight
-                                   Next
+                    Call VBDebugger.WriteLine(New String("-"c, model.Residues.Length), ConsoleColor.Green)
 
-                                   Dim source As IEnumerable(Of Residue) = If(reverse, model.Residues.Reverse, model.Residues)
-                                   Dim colorSchema As Dictionary(Of Char, Image) = model.__getColors
+                    For Each residue As Residue In source
 
-                                   Call VBDebugger.WriteLine(New String("-"c, model.Residues.Length), ConsoleColor.Green)
 
-                                   For Each residue As Residue In source
+                        If Not frequencyOrder Then
+                            order = residue.Alphabets
+                        Else
+                            order = (From rsd As Alphabet
+                             In residue.Alphabets
+                                     Select rsd
+                                     Order By rsd.RelativeFrequency Ascending).ToArray
+                        End If
 
-                                       Dim order As Alphabet() =
-                    If(Not frequencyOrder, residue.Alphabets,
-                      (From rsd As Alphabet
-                       In residue.Alphabets
-                       Select rsd
-                       Order By rsd.RelativeFrequency Ascending).ToArray)
+                        Y = region.Height + margin.Top
 
-                                       Y = region.Height - margin
+                        ' YHeight is the max height of current residue, and its value is calculate from its Bits value
+                        yHeight = (n * height) * (If(residue.Bits > maxBits, maxBits, residue.Bits) / maxBits)
 
-                                       ' YHeight is the max height of current residue, and its value is calculate from its Bits value
-                                       yHeight = (n * height) * (If(residue.Bits > maxBits, maxBits, residue.Bits) / maxBits)
+                        Dim idx As String = CStr(residue.Position)
+                        Dim loci As New Point(X + size.Width / If(Math.Abs(residue.Position) < 10, 2, 5), Y)
 
-                                       Dim idx As String = CStr(residue.Position)
-                                       Dim loci As New Point(X + size.Width / If(Math.Abs(residue.Position) < 10, 2, 5), Y)
+                        size = g.MeasureString(idx, font)
+                        g.DrawString(idx, font, Brushes.Black, loci)
 
-                                       size = g.MeasureString(idx, font)
-                                       g.DrawString(idx, font, Brushes.Black, loci)
+                        For Each Alphabet As Alphabet In order
 
-                                       For Each Alphabet As Alphabet In order
+                            ' H is the drawing height of the current drawing alphabet, 
+                            ' this height value can be calculate from the formula that show above. 
+                            ' As the YHeight variable is transform from the current residue Bits value, so that from this statement
+                            ' The drawing height of the alphabet can be calculated out. 
 
-                                           ' H is the drawing height of the current drawing alphabet, 
-                                           ' this height value can be calculate from the formula that show above. 
-                                           ' As the YHeight variable is transform from the current residue Bits value, so that from this statement
-                                           ' The drawing height of the alphabet can be calculated out. 
+                            Dim H As Single = Alphabet.RelativeFrequency * yHeight
 
-                                           Dim H As Single = Alphabet.RelativeFrequency * yHeight
+                            ' Due to the reason of the Y Axis in gdi+ is up side down, so that we needs Subtraction operation, 
+                            ' and then this makes the next alphabet move up direction 
+                            Y -= H
 
-                                           ' Due to the reason of the Y Axis in gdi+ is up side down, so that we needs Subtraction operation, 
-                                           ' and then this makes the next alphabet move up direction 
-                                           Y -= H
-
-                                           g.DrawImage(
+                            g.DrawImage(
                         colorSchema(Alphabet.Alphabet),   ' Drawing alphabet
                         CSng(X), CSng(Y),                 ' position
                         CSng(DrawingDevice.WordSize), H)  ' Size and relative height
-                                       Next
+                        Next
 
-                                       X += DrawingDevice.WordSize
-                                       Call residue.AsChar.Echo
-                                   Next
+                        X += DrawingDevice.WordSize
+                        Call residue.AsChar.Echo
+                    Next
 
-                                   Call Console.WriteLine()
+                    Call Console.WriteLine()
 
-                                   '绘制bits字符串
-                                   font = New Font(font.Name, font.Size / 2)
-                                   size = g.MeasureString("Bits", font)
+                    '绘制bits字符串
+                    font = New Font(font.Name, font.Size / 2)
+                    size = g.MeasureString("Bits", font)
 
-                                   Call g.RotateTransform(-90)
-                                   Call g.DrawString("Bits",
-                                          font,
-                                          Brushes.Black,
-                                          New Point((height - size.Width) / 2, margin / 3))
-
+                    Call g.RotateTransform(-90)
+                    Call g.DrawString("Bits", font, Brushes.Black, New Point((height - size.Width) / 2, margin.Left / 3))
 #End Region
-                               End Sub
+                End Sub
 
-            Return g.GraphicsPlots(gSize, DefaultPadding, "transparent", plotInternal)
+            Return g.GraphicsPlots(New Size(width, n * height + margin.Vertical), margin, "transparent", plotInternal)
         End Function
     End Module
 End Namespace
