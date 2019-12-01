@@ -10,23 +10,38 @@
      * @param fn A function that without any parameters
      * @param loadComplete + ``interactive``: The document has finished loading. We can now access the DOM elements.
      *                     + ``complete``: The page is fully loaded.
+     * @param iframe Event execute on document from target iframe.
+     *                     
     */
-    export function ready(fn: () => void, loadComplete: string[] = ["interactive", "complete"]) {
+    export function ready(fn: () => void, loadComplete: string[] = ["interactive", "complete"], iframe: HTMLIFrameElement = null) {
+        let docObj: Document = isNullOrUndefined(iframe) ? document :
+            (isNullOrUndefined(iframe.contentDocument) ? iframe.contentWindow.document : iframe.contentDocument);
+
         if (typeof fn !== 'function') {
             // Sanity check
             return;
+        } else if (isNullOrUndefined(docObj)) {
+            if ($ts.mode == Modes.production) {
+                console.warn("Target document object is nothing! Current event will not be handled....");
+                return;
+            } else if ($ts.mode == Modes.debug) {
+                console.warn("Target document object is nothing! Current event will not be handled....");
+                console.log("target iframe:");
+                console.warn(iframe.contentWindow);
+                return;
+            }
         } else if (TypeScript.logging.outputEverything) {
             console.log("Add Document.ready event handler.");
-            console.log(`document.readyState = ${document.readyState}`)
+            console.log(`document.readyState = ${docObj.readyState}`)
         }
 
         // 2018-12-25 "interactive", "complete" 这两种状态都可以算作是DOM已经准备好了
-        if (loadComplete.indexOf(document.readyState) > -1) {
+        if (loadComplete.indexOf(docObj.readyState) > -1) {
             // If document is already loaded, run method
             return fn();
         } else {
             // Otherwise, wait until document is loaded
-            document.addEventListener('DOMContentLoaded', fn, false);
+            docObj.addEventListener('DOMContentLoaded', fn, false);
         }
     }
 

@@ -26,7 +26,7 @@ class Group<TKey, T> extends IEnumerator<T> {
      * 创建一个键值对映射序列，这些映射都具有相同的键名
     */
     public ToMaps(): MapTuple<TKey, T>[] {
-        return From(this.sequence)
+        return $from(this.sequence)
             .Select(x => new MapTuple<TKey, T>(this.Key, x))
             .ToArray();
     }

@@ -5,36 +5,36 @@
 namespace Delegate {
 
     /**
-     * 不带任何参数的子程序
-    */
-    export interface Sub {
-        (): void;
-    }
-
-    /**
      * 带有一个参数的子程序
     */
     export interface Sub {
-        <T>(arg: T): void;
+        (arg: any): void;
     }
 
     /**
      * 带有两个参数的子程序
     */
     export interface Sub {
-        <T1, T2>(arg1: T1, arg2: T2): void;
+        (arg1: any, arg2: any): void;
     }
 
     export interface Sub {
-        <T1, T2, T3>(arg1: T1, arg2: T2, arg3: T3): void;
+        (arg1: any, arg2: any, arg3: any): void;
     }
 
     export interface Sub {
-        <T1, T2, T3, T4>(arg1: T1, arg2: T2, arg3: T3, arg4: T4): void;
+        (arg1: any, arg2: any, arg3: any, arg4: any): void;
     }
 
     export interface Sub {
-        <T1, T2, T3, T4, T5>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5): void;
+        (arg1: any, arg2: any, arg3: any, arg4: any, arg5: any): void;
+    }
+
+    /**
+     * 不带任何参数的子程序
+    */
+    export interface Action {
+        (): void;
     }
 
     /**

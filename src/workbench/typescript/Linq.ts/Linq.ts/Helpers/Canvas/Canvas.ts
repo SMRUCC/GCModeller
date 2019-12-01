@@ -26,9 +26,7 @@ namespace CanvasHelper {
     /**
      * found this trick at http://talideon.com/weblog/2005/02/detecting-broken-images-js.cfm
     */
-    export function imageOk(img: HTMLImageElement): boolean {
-        "use strict";
-
+    export function imageOk(img: HTMLImageElement): boolean {       
         // During the onload event, IE correctly identifies any images that
         // weren't downloaded as not complete. Others should too. Gecko-based
         // browsers act like NS4 in that they report this incorrectly.
@@ -50,9 +48,7 @@ namespace CanvasHelper {
     /**
      * @param size [width, height]
     */
-    export function createCanvas(size: [number, number], id: string, title: string, display: string = "block") {
-        "use strict";
-
+    export function createCanvas(size: [number, number], id: string, title: string, display: string = "block") {      
         // size the canvas
         var canvas: HTMLCanvasElement = <any>$ts("<canvas>", {
             width: size[0],

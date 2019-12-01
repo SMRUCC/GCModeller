@@ -8,7 +8,7 @@ namespace csv {
     /**
      * Common Format and MIME Type for Comma-Separated Values (CSV) Files
     */
-    const contentType: string = "text/csv";
+    export const contentType: string = "text/csv";
 
     /**
      * ``csv``文件模型
@@ -77,8 +77,12 @@ namespace csv {
         /**
          * 将当前的这个数据框对象转换为csv文本内容
         */
-        public buildDoc(): string {
-            return this.Select(r => r.rowLine).JoinBy("\n");
+        public buildDoc(tsvFormat: boolean = false): string {
+            if (!tsvFormat) {
+                return this.Select(r => r.rowLine).JoinBy("\n");
+            } else {
+                return this.Select(r => r.JoinBy("\t")).JoinBy("\n");
+            }
         }
 
         /**
@@ -210,8 +214,20 @@ namespace csv {
         */
         public static Parse(text: string, tsv: boolean = false): dataframe {
             var parse: (line: string) => row = tsv ? row.ParseTsv : row.Parse;
-            var allTextLines: IEnumerator<string> = $ts.from(text.split(/\n/));
             var rows: IEnumerator<row>;
+            var allTextLines: IEnumerator<string> = $from(text.split(/\n/))
+                .Select(function (l) {
+                    return l
+                        .replace("\r", "")
+                        .replace("\n", "")
+                });
+
+            TypeScript.logging.log(`Document data is a ${tsv ? "tsv" : "csv"} file.`, TypeScript.ConsoleColors.Blue);
+
+            if ($ts.mode == Modes.debug) {
+                console.log("Peeks of your input table data:");
+                console.table(this.head(allTextLines, parse));
+            }
 
             if (Strings.Empty(allTextLines.Last)) {
                 // 2019-1-2 因为文本文件很有可能是以空行结尾的
@@ -227,6 +243,14 @@ namespace csv {
             }
 
             return new dataframe(rows);
+        }
+
+        public static head(allTextLines: IEnumerator<string>, parse: (line: string) => row) {
+            return allTextLines
+                .Take(6)
+                .Select(parse)
+                .Select(r => r.ToArray(false))
+                .ToArray();
         }
     }
 

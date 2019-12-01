@@ -25,8 +25,8 @@ Public Class ModuleParser
         Do While (c = ++code) <> ASCII.NUL
             If (type = walkChar(c)) <> TypeScriptTokens.undefined AndAlso buffer > 0 Then
                 Yield New Token With {
-                    .Text = buffer.CharString,
-                    .Type = type
+                    .text = buffer.CharString,
+                    .type = type
                 }
 
                 ' clear buffer
@@ -70,14 +70,23 @@ Public Class ModuleParser
                     Return TypeScriptTokens.identifier
                 ElseIf bufferEndWith("(") Then
                     Return TypeScriptTokens.functionName
-                ElseIf buffer.CharString Like Symbols.Keywords Then
+                ElseIf buffer.CharString Like TypeScriptSymbols.Keywords Then
                     Return TypeScriptTokens.keyword
                 ElseIf bufferEquals("{") Then
                     Return TypeScriptTokens.openStack
                 ElseIf bufferEquals("}") Then
                     Return TypeScriptTokens.closeStack
                 Else
-                    Return TypeScriptTokens.identifier
+                    Dim tokenText$ = buffer.CharString
+
+                    Select Case tokenText
+                        Case "var", "let", "this"
+                            Return TypeScriptTokens.keyword
+                        Case "=", ">", "<", "+", "-", "*", "/", "&&", "||", "|", "&", "%"
+                            Return TypeScriptTokens.operator
+                        Case Else
+                            Return TypeScriptTokens.identifier
+                    End Select
                 End If
             ElseIf c = "("c Then
                 Return TypeScriptTokens.functionName

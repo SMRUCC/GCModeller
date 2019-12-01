@@ -21,6 +21,16 @@ namespace TypeExtensions {
 
         var extendsNode: HTMLTsElement = new HTMLTsElement(node);
 
+        obj.css = function (stylesheet: string, reset: boolean = false) {
+            if (reset) {
+                node.setAttribute("style", stylesheet);
+            } else {
+                DOM.CSS.Setter.css(node, stylesheet);
+            }
+
+            return node;
+        };
+
         /**
          * 这个拓展函数总是会将节点中的原来的内容清空，然后显示html函数参数
          * 所给定的内容
@@ -29,6 +39,14 @@ namespace TypeExtensions {
             extendsNode.display(html);
             return node;
         };
+        obj.append = function (html: string | HTMLElement) {
+            if (typeof html == "string") {
+                html = $ts("<span>").display(html);
+            }
+
+            extendsNode.append(html);
+            return node;
+        }
         obj.show = function () {
             extendsNode.show();
             return node;
@@ -45,6 +63,13 @@ namespace TypeExtensions {
             extendsNode.removeClass(name);
             return node;
         }
+        obj.onClassChanged = function (className: string, action: Delegate.Sub, includesRemoves?: boolean) {
+            let predicate = new DOM.Events.StatusChanged(function () {
+                return node.classList.contains(className);
+            }, includesRemoves);
+
+            $ts.hook(predicate, action);
+        };
 
         obj.CType = function () {
             return node;
@@ -54,11 +79,35 @@ namespace TypeExtensions {
             return node;
         }
         obj.selects = cssSelector => Internal.Handlers.stringEval.select(cssSelector, node);
+        obj.attr = function (name: string, value: string) {
+            if ((name = name.toLowerCase()) == "src" || name == "href") {
+                value = Internal.urlSolver(value, true);
+                TypeScript.logging.log(`set_attr ${name}='${value}'`);
+            }
 
+            if (isNullOrUndefined(value)) {
+                node.removeAttribute(name);
+            } else {
+                node.setAttribute(name, value);
+            }
+
+            return node;
+        }
+
+        obj.interactive = function (enable: boolean) {
+            if (enable) {
+                node.style.pointerEvents = "auto";
+                node.style.opacity = "1";
+            } else {
+                node.style.pointerEvents = "none";
+                node.style.opacity = "0.4";
+            }
+        };
 
         // 用这个方法可以很方便的从现有的节点进行转换
         // 也可以直接使用new进行构造
         obj.asExtends = extendsNode;
+        obj.any = node;
         obj.asImage = node;
         obj.asInput = node;
 

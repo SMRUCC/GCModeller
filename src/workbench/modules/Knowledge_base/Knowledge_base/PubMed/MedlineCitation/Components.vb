@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e5571c1226308a0d2300ffdae47b5ec, Knowledge_base\Knowledge_base\PubMed\MedlineCitation\Components.vb"
+﻿#Region "Microsoft.VisualBasic::63e22542fa9a135caf39a5000b909bef, modules\Knowledge_base\Knowledge_base\PubMed\MedlineCitation\Components.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,18 @@
 
     ' Summaries:
 
-    ' Class MedlineJournalInfo
+    '     Class MedlineJournalInfo
     ' 
-    '     Properties: Country, ISSNLinking, MedlineTA, NlmUniqueID
+    '         Properties: Country, ISSNLinking, MedlineTA, NlmUniqueID
     ' 
-    ' Class Chemical
+    '     Class Chemical
     ' 
-    '     Properties: NameOfSubstance, RegistryNumber
+    '         Properties: NameOfSubstance, RegistryNumber
     ' 
-    ' Class RegisterObject
+    '     Class RegisterObject
     ' 
-    '     Properties: MajorTopicYN, UI, Value
+    '         Properties: MajorTopicYN, UI, Value
+    ' 
     ' 
     ' /********************************************************************************/
 

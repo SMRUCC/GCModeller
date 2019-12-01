@@ -33,10 +33,10 @@ namespace Which {
 
         public compares(a: T, b: T): number {
             if (!this.as_numeric) {
-                this.as_numeric = DataExtensions.AsNumeric(a);
+                this.as_numeric = Strings.AsNumeric(a);
 
                 if (!this.as_numeric) {
-                    this.as_numeric = DataExtensions.AsNumeric(b);
+                    this.as_numeric = Strings.AsNumeric(b);
                 }
             }
 

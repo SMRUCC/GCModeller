@@ -19,7 +19,7 @@
          * 这个只读属性仅用于生成csv文件
         */
         public get rowLine(): string {
-            return From(this.columns)
+            return $from(this.columns)
                 .Select(row.autoEscape)
                 .JoinBy(",");
         }
