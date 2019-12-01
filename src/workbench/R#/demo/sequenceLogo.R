@@ -20,4 +20,4 @@ seq.fasta
   :> read.fasta
   :> MSA.of
   :> plot.seqLogo
-  :> save.image( logo.png );
+  :> save.graphics( file = logo.png );
