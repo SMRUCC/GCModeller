@@ -26,12 +26,13 @@ let readData as function(file, tag) {
 	dataset.vector(data, "Input", dataset.vector(data, "ORF"));
 
 	for(map in data :> projectAs(as.object)) {
+		# map is row in csv file
 		map.id <- map$ID;
 		KO.cluster <- KO.background[[map.id]];
 
 		if (!is.empty(KO.cluster)) {
 			ORF <- geneSet.intersects(KO.cluster, geneSet);
-			dataset.vector(data, "ORF", ORF);
+			dataset.vector(data, "ORF", paste(ORF, "|"));
 		}
 	}
 
